@@ -1,89 +1,81 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.array.find");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _ramda = require("ramda");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _ramda = require('ramda');
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _react = require('react');
+var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _react2 = _interopRequireDefault(_react);
+var _Panel = _interopRequireDefault(require("../Panel"));
 
-var _propTypes = require('prop-types');
+var _InputField = _interopRequireDefault(require("../InputField"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
-var _classnames = require('classnames');
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _SaveButton = _interopRequireDefault(require("../SaveButton"));
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _BackHeader = require('../BackHeader');
-
-var _BackHeader2 = _interopRequireDefault(_BackHeader);
-
-var _Panel = require('../Panel');
-
-var _Panel2 = _interopRequireDefault(_Panel);
-
-var _InputField = require('../InputField');
-
-var _InputField2 = _interopRequireDefault(_InputField);
-
-var _DropdownSelect = require('../DropdownSelect');
-
-var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _SaveButton = require('../SaveButton');
-
-var _SaveButton2 = _interopRequireDefault(_SaveButton);
-
-var _IconLine = require('../IconLine');
-
-var _IconLine2 = _interopRequireDefault(_IconLine);
+var _IconLine = _interopRequireDefault(require("../IconLine"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var AudioSettingsPanel = function (_Component) {
-  (0, _inherits3.default)(AudioSettingsPanel, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var AudioSettingsPanel =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(AudioSettingsPanel, _Component);
 
   function AudioSettingsPanel(props) {
-    (0, _classCallCheck3.default)(this, AudioSettingsPanel);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AudioSettingsPanel.__proto__ || (0, _getPrototypeOf2.default)(AudioSettingsPanel)).call(this, props));
+    _classCallCheck(this, AudioSettingsPanel);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AudioSettingsPanel).call(this, props));
 
     _this.onSave = function () {
       if (typeof _this.props.onSave === 'function') {
@@ -197,8 +189,8 @@ var AudioSettingsPanel = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(AudioSettingsPanel, [{
-    key: 'componentWillReceiveProps',
+  _createClass(AudioSettingsPanel, [{
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(newProps) {
       var _this2 = this;
 
@@ -207,26 +199,31 @@ var AudioSettingsPanel = function (_Component) {
           dialButtonVolume: newProps.dialButtonVolume
         });
       }
+
       if (newProps.dialButtonMuted !== this.props.dialButtonMuted) {
         this.setState({
           dialButtonMuted: newProps.dialButtonMuted
         });
       }
+
       if (newProps.ringtoneVolume !== this.props.ringtoneVolume) {
         this.setState({
           ringtoneVolume: newProps.ringtoneVolume
         });
       }
+
       if (newProps.ringtoneMuted !== this.props.ringtoneMuted) {
         this.setState({
           ringtoneMuted: newProps.ringtoneMuted
         });
       }
+
       if (newProps.callVolume !== this.props.callVolume) {
         this.setState({
           callVolume: newProps.callVolume
         });
       }
+
       if (newProps.inputDeviceId !== this.props.inputDeviceId || (0, _ramda.all)(function (device) {
         return device.deviceId !== _this2.state.inputDeviceId;
       }, newProps.availableInputDevices)) {
@@ -234,6 +231,7 @@ var AudioSettingsPanel = function (_Component) {
           inputDeviceId: newProps.inputDeviceId
         });
       }
+
       if (newProps.outputDeviceId !== this.props.outputDeviceId || (0, _ramda.all)(function (device) {
         return device.deviceId !== _this2.state.outputDeviceId;
       }, newProps.availableOutputDevices)) {
@@ -243,55 +241,46 @@ var AudioSettingsPanel = function (_Component) {
       }
     }
   }, {
-    key: 'renderDeviceOption',
+    key: "renderDeviceOption",
     value: function renderDeviceOption(device) {
       return device.label;
     }
   }, {
-    key: 'renderDeviceValue',
+    key: "renderDeviceValue",
     value: function renderDeviceValue(device) {
       return device.deviceId;
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _props = this.props,
-          currentLocale = _props.currentLocale,
-          onBackButtonClick = _props.onBackButtonClick,
-          className = _props.className,
-          availableOutputDevices = _props.availableOutputDevices,
-          availableInputDevices = _props.availableInputDevices,
-          supportDevices = _props.supportDevices,
-          userMedia = _props.userMedia,
-          isWebRTC = _props.isWebRTC,
-          checkUserMedia = _props.checkUserMedia,
-          outputDeviceDisabled = _props.outputDeviceDisabled,
-          inputDeviceDisabled = _props.inputDeviceDisabled;
-      var _state = this.state,
-          dialButtonVolume = _state.dialButtonVolume,
-          dialButtonMuted = _state.dialButtonMuted,
-          ringtoneVolume = _state.ringtoneVolume,
-          ringtoneMuted = _state.ringtoneMuted,
-          callVolume = _state.callVolume,
-          outputDeviceId = _state.outputDeviceId,
-          inputDeviceId = _state.inputDeviceId;
+      var _this$props2 = this.props,
+          currentLocale = _this$props2.currentLocale,
+          onBackButtonClick = _this$props2.onBackButtonClick,
+          className = _this$props2.className,
+          availableOutputDevices = _this$props2.availableOutputDevices,
+          availableInputDevices = _this$props2.availableInputDevices,
+          supportDevices = _this$props2.supportDevices,
+          userMedia = _this$props2.userMedia,
+          isWebRTC = _this$props2.isWebRTC,
+          checkUserMedia = _this$props2.checkUserMedia,
+          outputDeviceDisabled = _this$props2.outputDeviceDisabled,
+          inputDeviceDisabled = _this$props2.inputDeviceDisabled;
+      var _this$state2 = this.state,
+          dialButtonVolume = _this$state2.dialButtonVolume,
+          dialButtonMuted = _this$state2.dialButtonMuted,
+          ringtoneVolume = _this$state2.ringtoneVolume,
+          ringtoneMuted = _this$state2.ringtoneMuted,
+          callVolume = _this$state2.callVolume,
+          outputDeviceId = _this$state2.outputDeviceId,
+          inputDeviceId = _this$state2.inputDeviceId;
+      var hasChanges = this.props.dialButtonVolume !== dialButtonVolume || this.props.dialButtonMuted !== dialButtonMuted || this.props.ringtoneVolume !== ringtoneVolume || this.props.ringtoneMuted !== ringtoneMuted || this.props.callVolume !== callVolume || this.props.inputDeviceId !== inputDeviceId || this.props.outputDeviceId !== outputDeviceId; // TODO: improve UI
 
-      var hasChanges = this.props.dialButtonVolume !== dialButtonVolume || this.props.dialButtonMuted !== dialButtonMuted || this.props.ringtoneVolume !== ringtoneVolume || this.props.ringtoneMuted !== ringtoneMuted || this.props.callVolume !== callVolume || this.props.inputDeviceId !== inputDeviceId || this.props.outputDeviceId !== outputDeviceId;
-
-      // TODO: improve UI
-      var permission = !userMedia ? _react2.default.createElement(
-        _IconLine2.default,
-        {
-          noBorder: true,
-          icon: _react2.default.createElement(
-            _Button2.default,
-            { onClick: checkUserMedia },
-            _i18n2.default.getString('checkMicPermission')
-          ) },
-        _i18n2.default.getString('micNoPermissionMessage')
-      ) : null;
-
-      // const webphoneVolume = isWebRTC ?
+      var permission = !userMedia ? _react.default.createElement(_IconLine.default, {
+        noBorder: true,
+        icon: _react.default.createElement(_Button.default, {
+          onClick: checkUserMedia
+        }, _i18n.default.getString('checkMicPermission'))
+      }, _i18n.default.getString('micNoPermissionMessage')) : null; // const webphoneVolume = isWebRTC ?
       //   (
       //     <div>
       //       <InputField
@@ -307,100 +296,79 @@ var AudioSettingsPanel = function (_Component) {
       //     </div>
       //   ) : null;
 
-      var outputDevice = supportDevices ? _react2.default.createElement(
-        _InputField2.default,
-        {
-          label: _i18n2.default.getString('outputDevice', currentLocale),
-          noBorder: true },
-        _react2.default.createElement(_DropdownSelect2.default, {
-          className: _styles2.default.select,
-          disabled: outputDeviceDisabled,
-          value: availableOutputDevices.length ? outputDeviceId : _i18n2.default.getString('noDevice', currentLocale),
-          onChange: this.onOutputDeviceIdChange,
-          options: availableOutputDevices,
-          dropdownAlign: 'left',
-          renderFunction: this.renderDeviceOption,
-          valueFunction: this.renderDeviceValue,
-          renderValue: this.renderOutputDevice,
-          titleEnabled: true
-        })
-      ) : null;
-
-      var inputDevice = supportDevices ? _react2.default.createElement(
-        _InputField2.default,
-        {
-          label: _i18n2.default.getString('inputDevice', currentLocale),
-          noBorder: true },
-        _react2.default.createElement(_DropdownSelect2.default, {
-          className: _styles2.default.select,
-          disabled: inputDeviceDisabled,
-          value: availableInputDevices.length ? inputDeviceId : _i18n2.default.getString('noDevice', currentLocale),
-          onChange: this.onInputDeviceIdChange,
-          options: availableInputDevices,
-          dropdownAlign: 'left',
-          renderFunction: this.renderDeviceOption,
-          valueFunction: this.renderDeviceValue,
-          renderValue: this.renderInputDevice,
-          titleEnabled: true
-        })
-      ) : null;
-
-      return _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, className) },
-        _react2.default.createElement(
-          _BackHeader2.default,
-          { onBackClick: onBackButtonClick },
-          _i18n2.default.getString('title', currentLocale)
-        ),
-        _react2.default.createElement(
-          _Panel2.default,
-          { className: _styles2.default.content },
-          outputDevice,
-          inputDevice,
-          permission,
-          _react2.default.createElement(_SaveButton2.default, {
-            currentLocale: currentLocale,
-            onClick: this.onSave,
-            disabled: !hasChanges
-          })
-        )
-      );
+      var outputDevice = supportDevices ? _react.default.createElement(_InputField.default, {
+        label: _i18n.default.getString('outputDevice', currentLocale),
+        noBorder: true
+      }, _react.default.createElement(_DropdownSelect.default, {
+        className: _styles.default.select,
+        disabled: outputDeviceDisabled,
+        value: availableOutputDevices.length ? outputDeviceId : _i18n.default.getString('noDevice', currentLocale),
+        onChange: this.onOutputDeviceIdChange,
+        options: availableOutputDevices,
+        dropdownAlign: "left",
+        renderFunction: this.renderDeviceOption,
+        valueFunction: this.renderDeviceValue,
+        renderValue: this.renderOutputDevice,
+        titleEnabled: true
+      })) : null;
+      var inputDevice = supportDevices ? _react.default.createElement(_InputField.default, {
+        label: _i18n.default.getString('inputDevice', currentLocale),
+        noBorder: true
+      }, _react.default.createElement(_DropdownSelect.default, {
+        className: _styles.default.select,
+        disabled: inputDeviceDisabled,
+        value: availableInputDevices.length ? inputDeviceId : _i18n.default.getString('noDevice', currentLocale),
+        onChange: this.onInputDeviceIdChange,
+        options: availableInputDevices,
+        dropdownAlign: "left",
+        renderFunction: this.renderDeviceOption,
+        valueFunction: this.renderDeviceValue,
+        renderValue: this.renderInputDevice,
+        titleEnabled: true
+      })) : null;
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.root, className)
+      }, _react.default.createElement(_BackHeader.default, {
+        onBackClick: onBackButtonClick
+      }, _i18n.default.getString('title', currentLocale)), _react.default.createElement(_Panel.default, {
+        className: _styles.default.content
+      }, outputDevice, inputDevice, permission, _react.default.createElement(_SaveButton.default, {
+        currentLocale: currentLocale,
+        onClick: this.onSave,
+        disabled: !hasChanges
+      })));
     }
   }]);
+
   return AudioSettingsPanel;
 }(_react.Component);
 
 exports.default = AudioSettingsPanel;
-
-
 var devicePropType = {
-  deviceId: _propTypes2.default.string.isRequired,
-  label: _propTypes2.default.string.isRequired
+  deviceId: _propTypes.default.string.isRequired,
+  label: _propTypes.default.string.isRequired
 };
-
 AudioSettingsPanel.propTypes = {
-  className: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
-  dialButtonVolume: _propTypes2.default.number.isRequired,
-  ringtoneVolume: _propTypes2.default.number.isRequired,
-  ringtoneMuted: _propTypes2.default.bool.isRequired,
-  callVolume: _propTypes2.default.number.isRequired,
-  dialButtonMuted: _propTypes2.default.bool.isRequired,
-  onBackButtonClick: _propTypes2.default.func.isRequired,
-  availableInputDevices: _propTypes2.default.arrayOf(_propTypes2.default.shape(devicePropType)).isRequired,
-  inputDeviceId: _propTypes2.default.string.isRequired,
-  availableOutputDevices: _propTypes2.default.arrayOf(_propTypes2.default.shape(devicePropType)).isRequired,
-  outputDeviceId: _propTypes2.default.string.isRequired,
-  supportDevices: _propTypes2.default.bool.isRequired,
-  onSave: _propTypes2.default.func.isRequired,
-  userMedia: _propTypes2.default.bool.isRequired,
-  isWebRTC: _propTypes2.default.bool.isRequired,
-  checkUserMedia: _propTypes2.default.func.isRequired,
-  outputDeviceDisabled: _propTypes2.default.bool,
-  inputDeviceDisabled: _propTypes2.default.bool
+  className: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired,
+  dialButtonVolume: _propTypes.default.number.isRequired,
+  ringtoneVolume: _propTypes.default.number.isRequired,
+  ringtoneMuted: _propTypes.default.bool.isRequired,
+  callVolume: _propTypes.default.number.isRequired,
+  dialButtonMuted: _propTypes.default.bool.isRequired,
+  onBackButtonClick: _propTypes.default.func.isRequired,
+  availableInputDevices: _propTypes.default.arrayOf(_propTypes.default.shape(devicePropType)).isRequired,
+  inputDeviceId: _propTypes.default.string.isRequired,
+  availableOutputDevices: _propTypes.default.arrayOf(_propTypes.default.shape(devicePropType)).isRequired,
+  outputDeviceId: _propTypes.default.string.isRequired,
+  supportDevices: _propTypes.default.bool.isRequired,
+  onSave: _propTypes.default.func.isRequired,
+  userMedia: _propTypes.default.bool.isRequired,
+  isWebRTC: _propTypes.default.bool.isRequired,
+  checkUserMedia: _propTypes.default.func.isRequired,
+  outputDeviceDisabled: _propTypes.default.bool,
+  inputDeviceDisabled: _propTypes.default.bool
 };
-
 AudioSettingsPanel.defaultProps = {
   className: null,
   outputDeviceDisabled: false,

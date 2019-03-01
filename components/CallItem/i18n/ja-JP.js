@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   logging: "ログ記録中...",
   logCall: "通話のログ記録",
   editLog: "ログの編集",
@@ -22,9 +25,7 @@ exports.default = {
   missedCall: "不在",
   inboundCall: "着信",
   outboundCall: "発信"
-};
-
-// @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
+}; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"select"@#@ @source: @#@"Select a matching record"@#@
@@ -42,4 +43,6 @@ exports.default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

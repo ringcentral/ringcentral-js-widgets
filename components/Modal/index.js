@@ -1,50 +1,52 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
 exports.default = Modal;
 
-var _react = require('react');
+require("core-js/modules/es6.object.assign");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.array.index-of");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/web.dom.iterable");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+require("core-js/modules/es6.array.iterator");
 
-var _createModal = require('../../lib/createModal');
+require("core-js/modules/es6.object.keys");
 
-var _createModal2 = _interopRequireDefault(_createModal);
+var _react = _interopRequireDefault(require("react"));
 
-var _Dialog = require('../Dialog');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _Dialog2 = _interopRequireDefault(_Dialog);
+var _createModal = _interopRequireDefault(require("../../lib/createModal"));
+
+var _Dialog = _interopRequireDefault(require("../Dialog"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ModalDialog = (0, _createModal2.default)(_Dialog2.default);
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-// remap onCancel to onClose for backward compatibility
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+var ModalDialog = (0, _createModal.default)(_Dialog.default); // remap onCancel to onClose for backward compatibility
+
 function Modal(_ref) {
   var onCancel = _ref.onCancel,
-      props = (0, _objectWithoutProperties3.default)(_ref, ['onCancel']);
+      props = _objectWithoutProperties(_ref, ["onCancel"]);
 
-  return _react2.default.createElement(ModalDialog, (0, _extends3.default)({}, props, {
+  return _react.default.createElement(ModalDialog, _extends({}, props, {
     onCancel: onCancel,
-    onClose: onCancel }));
+    onClose: onCancel
+  }));
 }
+
 Modal.propTypes = {
-  onCancel: _propTypes2.default.func
+  onCancel: _propTypes.default.func
 };
 Modal.defaultProps = {
   onCancel: undefined

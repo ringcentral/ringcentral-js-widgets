@@ -1,34 +1,43 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.for-each");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.array.filter");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.define-property");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.index-of");
 
-var _react = require('react');
+require("core-js/modules/web.dom.iterable");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.array.iterator");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es6.object.keys");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+require("core-js/modules/es6.array.map");
 
-var _classnames = require('classnames');
+var _react = _interopRequireDefault(require("react"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _styles = require('./styles.scss');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function CheckBox(_ref) {
   var data = _ref.data,
@@ -37,54 +46,46 @@ function CheckBox(_ref) {
       valueField = _ref.valueField,
       textField = _ref.textField,
       className = _ref.className,
-      props = (0, _objectWithoutProperties3.default)(_ref, ['data', 'selected', 'onSelect', 'valueField', 'textField', 'className']);
+      props = _objectWithoutProperties(_ref, ["data", "selected", "onSelect", "valueField", "textField", "className"]);
 
   var isListObject = !!(textField && valueField);
-  return _react2.default.createElement(
-    'div',
-    { className: className },
-    data.map(function (item, key) {
-      var isSelected = selected === (isListObject ? item[valueField] : item);
-      var checkStyle = isSelected ? _styles2.default.selectedCheckButton : null;
-      var onClick = function onClick() {
-        return onSelect(item);
-      };
-      var extraInfo = typeof item.renderExtraInfo === 'function' && isSelected ? item.renderExtraInfo((0, _extends3.default)({}, props)) : null;
-      return _react2.default.createElement(
-        'div',
-        { key: key },
-        _react2.default.createElement(
-          'div',
-          {
-            onClick: onClick,
-            className: (0, _classnames2.default)(_styles2.default.item, item && item.disabled ? _styles2.default.disabled : null) },
-          _react2.default.createElement('div', { className: (0, _classnames2.default)(_styles2.default.checkButton, checkStyle) }),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.text },
-            isListObject ? item[textField] : item
-          )
-        ),
-        extraInfo
-      );
-    })
-  );
+  return _react.default.createElement("div", {
+    className: className
+  }, data.map(function (item, key) {
+    var isSelected = selected === (isListObject ? item[valueField] : item);
+    var checkStyle = isSelected ? _styles.default.selectedCheckButton : null;
+
+    var onClick = function onClick() {
+      return onSelect(item);
+    };
+
+    var extraInfo = typeof item.renderExtraInfo === 'function' && isSelected ? item.renderExtraInfo(_objectSpread({}, props)) : null;
+    return _react.default.createElement("div", {
+      key: key
+    }, _react.default.createElement("div", {
+      onClick: onClick,
+      className: (0, _classnames.default)(_styles.default.item, item && item.disabled ? _styles.default.disabled : null)
+    }, _react.default.createElement("div", {
+      className: (0, _classnames.default)(_styles.default.checkButton, checkStyle)
+    }), _react.default.createElement("div", {
+      className: _styles.default.text
+    }, isListObject ? item[textField] : item)), extraInfo);
+  }));
 }
 
 CheckBox.propTypes = {
-  valueField: _propTypes2.default.string,
-  textField: _propTypes2.default.string,
-  selected: _propTypes2.default.any.isRequired,
-  data: _propTypes2.default.array.isRequired,
-  onSelect: _propTypes2.default.func.isRequired,
-  className: _propTypes2.default.string
+  valueField: _propTypes.default.string,
+  textField: _propTypes.default.string,
+  selected: _propTypes.default.any.isRequired,
+  data: _propTypes.default.array.isRequired,
+  onSelect: _propTypes.default.func.isRequired,
+  className: _propTypes.default.string
 };
-
 CheckBox.defaultProps = {
   textField: null,
   valueField: null,
   className: null
 };
-
-exports.default = CheckBox;
+var _default = CheckBox;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

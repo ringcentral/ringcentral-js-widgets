@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/RateExceededAlert/i18n/en-US.js"],"names":["rateExceeded"],"mappings":";;;;;kBAAe;AACbA,gBAAc;AADD,C","file":"en-US.js","sourcesContent":["export default {\n  rateExceeded: 'Request limit exceeded. App will resume in {ttl} seconds.',\n};\n"]}
+{"version":3,"sources":["components/RateExceededAlert/i18n/en-US.js"],"names":["rateExceeded"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,YAAY,EAAE;AADD,C","sourcesContent":["export default {\n  rateExceeded: 'Request limit exceeded. App will resume in {ttl} seconds.',\n};\n"],"file":"en-US.js"}

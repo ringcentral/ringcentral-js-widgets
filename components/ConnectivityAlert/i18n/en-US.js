@@ -1,18 +1,19 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-var _connectivityMonitorMessages = require('ringcentral-integration/modules/ConnectivityMonitor/connectivityMonitorMessages');
-
-var _connectivityMonitorMessages2 = _interopRequireDefault(_connectivityMonitorMessages);
+var _connectivityMonitorMessages = _interopRequireDefault(require("ringcentral-integration/modules/ConnectivityMonitor/connectivityMonitorMessages"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _defineProperty3.default)({}, _connectivityMonitorMessages2.default.disconnected, 'Network connection is lost.');
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _default = _defineProperty({}, _connectivityMonitorMessages.default.disconnected, 'Network connection is lost.');
+
+exports.default = _default;
 //# sourceMappingURL=en-US.js.map

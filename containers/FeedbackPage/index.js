@@ -1,17 +1,21 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
+exports.mapToFunctions = mapToFunctions;
+exports.mapToProps = mapToProps;
+exports.default = void 0;
 
-var _reactRedux = require('react-redux');
+require("core-js/modules/es6.function.name");
 
-var _FeedbackPanel = require('../../components/FeedbackPanel');
+var _reactRedux = require("react-redux");
 
-var _FeedbackPanel2 = _interopRequireDefault(_FeedbackPanel);
+var _FeedbackPanel = _interopRequireDefault(require("../../components/FeedbackPanel"));
 
-var _phoneContext = require('../../lib/phoneContext');
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,7 +24,6 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       feedback = _ref$phone.feedback,
       brand = _ref$phone.brand;
-
   return {
     brandName: brand.name,
     currentLocale: locale.currentLocale,
@@ -36,7 +39,6 @@ function mapToFunctions(_, _ref2) {
       feedback = _ref2$phone.feedback,
       routerInteraction = _ref2$phone.routerInteraction,
       _sendFeedback = _ref2.sendFeedback;
-
   return {
     onBackClick: function onBackClick() {
       routerInteraction.goBack();
@@ -59,16 +61,15 @@ function mapToFunctions(_, _ref2) {
     sendFeedback: function sendFeedback(mailToUrl) {
       if (_sendFeedback) {
         _sendFeedback(mailToUrl);
+
         return;
       }
+
       feedback.sendFeedback(mailToUrl);
     }
   };
 }
 
-var FeedbackPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_FeedbackPanel2.default));
-
-exports.mapToFunctions = mapToFunctions;
-exports.mapToProps = mapToProps;
+var FeedbackPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_FeedbackPanel.default));
 exports.default = FeedbackPage;
 //# sourceMappingURL=index.js.map

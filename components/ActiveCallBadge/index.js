@@ -1,70 +1,50 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = ActiveCallBadge;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _Badge = _interopRequireDefault(require("../Badge"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Draggable = _interopRequireDefault(require("../Draggable"));
 
-var _Badge = require('../Badge');
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _Badge2 = _interopRequireDefault(_Badge);
-
-var _Draggable = require('../Draggable');
-
-var _Draggable2 = _interopRequireDefault(_Draggable);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ActiveCallBadge(props) {
-  return _react2.default.createElement(
-    _Draggable2.default,
-    {
-      className: _styles2.default.root,
-      onClick: props.onClick,
-      positionOffsetX: props.offsetX,
-      positionOffsetY: props.offsetY,
-      updatePositionOffset: props.updatePositionOffset
-    },
-    _react2.default.createElement(
-      _Badge2.default,
-      {
-        className: _styles2.default.badge,
-        name: props.title
-      },
-      _react2.default.createElement(
-        'span',
-        { className: _styles2.default.activeIcon },
-        _react2.default.createElement('i', { className: _DynamicsFont2.default.callHover })
-      ),
-      props.title
-    )
-  );
+  return _react.default.createElement(_Draggable.default, {
+    className: _styles.default.root,
+    onClick: props.onClick,
+    positionOffsetX: props.offsetX,
+    positionOffsetY: props.offsetY,
+    updatePositionOffset: props.updatePositionOffset
+  }, _react.default.createElement(_Badge.default, {
+    className: _styles.default.badge,
+    name: props.title
+  }, _react.default.createElement("span", {
+    className: _styles.default.activeIcon
+  }, _react.default.createElement("i", {
+    className: _DynamicsFont.default.callHover
+  })), props.title));
 }
 
 ActiveCallBadge.propTypes = {
-  onClick: _propTypes2.default.func.isRequired,
-  offsetX: _propTypes2.default.number.isRequired,
-  offsetY: _propTypes2.default.number.isRequired,
-  updatePositionOffset: _propTypes2.default.func.isRequired,
-  title: _propTypes2.default.string
+  onClick: _propTypes.default.func.isRequired,
+  offsetX: _propTypes.default.number.isRequired,
+  offsetY: _propTypes.default.number.isRequired,
+  updatePositionOffset: _propTypes.default.func.isRequired,
+  title: _propTypes.default.string
 };
-
 ActiveCallBadge.defaultProps = {
   title: 'Active Call'
 };

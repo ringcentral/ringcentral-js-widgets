@@ -1,85 +1,63 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = LogBasicInfo;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _ramda = require("ramda");
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
+
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+
+var _callResults = _interopRequireDefault(require("ringcentral-integration/enums/callResults"));
+
+var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
+
+var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+
+var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _callIconMap;
 
-exports.default = LogBasicInfo;
-
-var _ramda = require('ramda');
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _callDirections = require('ringcentral-integration/enums/callDirections');
-
-var _callDirections2 = _interopRequireDefault(_callDirections);
-
-var _callResults = require('ringcentral-integration/enums/callResults');
-
-var _callResults2 = _interopRequireDefault(_callResults);
-
-var _telephonyStatus = require('ringcentral-integration/enums/telephonyStatus');
-
-var _telephonyStatus2 = _interopRequireDefault(_telephonyStatus);
-
-var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var CallIcon = function CallIcon(_ref) {
   var title = _ref.title,
       iconClassName = _ref.iconClassName;
-  return _react2.default.createElement(
-    'div',
-    {
-      className: _styles2.default.callIcon,
-      title: title },
-    _react2.default.createElement('span', { className: iconClassName })
-  );
+  return _react.default.createElement("div", {
+    className: _styles.default.callIcon,
+    title: title
+  }, _react.default.createElement("span", {
+    className: iconClassName
+  }));
 };
 
 CallIcon.propTypes = {
-  title: _propTypes2.default.string,
-  iconClassName: _propTypes2.default.string.isRequired
+  title: _propTypes.default.string,
+  iconClassName: _propTypes.default.string.isRequired
 };
-
 CallIcon.defaultProps = {
   title: ''
 };
-
-var callIconMap = (_callIconMap = {}, (0, _defineProperty3.default)(_callIconMap, _callResults2.default.missed, _DynamicsFont2.default.missed), (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.inbound, _DynamicsFont2.default.inbound), (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.outbound, _DynamicsFont2.default.outbound), (0, _defineProperty3.default)(_callIconMap, _telephonyStatus2.default.ringing, _DynamicsFont2.default.callHover), _callIconMap);
+var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callResults.default.missed, _DynamicsFont.default.missed), _defineProperty(_callIconMap, _callDirections.default.inbound, _DynamicsFont.default.inbound), _defineProperty(_callIconMap, _callDirections.default.outbound, _DynamicsFont.default.outbound), _defineProperty(_callIconMap, _telephonyStatus.default.ringing, _DynamicsFont.default.callHover), _callIconMap);
 var colorStatusMap = {
-  green: [_telephonyStatus2.default.callConnected, _telephonyStatus2.default.ringing, _callResults2.default.callAccepted, _callResults2.default.accepted],
-  red: [_callResults2.default.missed, _callResults2.default.voicemail, _callResults2.default.rejected, _callResults2.default.blocked, _callResults2.default.noAnswer, _callResults2.default.busy, _callResults2.default.hangUp, _callResults2.default.HangUp, _callResults2.default.declined],
-  orange: [_telephonyStatus2.default.onHold, _telephonyStatus2.default.parkedCall]
+  green: [_telephonyStatus.default.callConnected, _telephonyStatus.default.ringing, _callResults.default.callAccepted, _callResults.default.accepted],
+  red: [_callResults.default.missed, _callResults.default.voicemail, _callResults.default.rejected, _callResults.default.blocked, _callResults.default.noAnswer, _callResults.default.busy, _callResults.default.hangUp, _callResults.default.HangUp, _callResults.default.declined],
+  orange: [_telephonyStatus.default.onHold, _telephonyStatus.default.parkedCall]
 };
 
 function LogBasicInfo(props) {
@@ -91,7 +69,6 @@ function LogBasicInfo(props) {
       clickable = props.clickable,
       onClick = props.onClick,
       dataSign = props.dataSign;
-
   if (!call) return null;
   var direction = call.direction,
       to = call.to,
@@ -99,8 +76,7 @@ function LogBasicInfo(props) {
       duration = call.duration,
       result = call.result,
       telephonyStatus = call.telephonyStatus;
-
-  var number = direction === _callDirections2.default.outbound ? to && (to.phoneNumber || to.extensionNumber) : from && (from.phoneNumber || from.extensionNumber);
+  var number = direction === _callDirections.default.outbound ? to && (to.phoneNumber || to.extensionNumber) : from && (from.phoneNumber || from.extensionNumber);
   var formatNumber = formatPhone(number);
   var status = result || telephonyStatus;
   var active = !duration && duration !== 0;
@@ -108,76 +84,53 @@ function LogBasicInfo(props) {
   var green = (0, _ramda.contains)(status, colorStatusMap.green);
   var red = (0, _ramda.contains)(status, colorStatusMap.red);
   var orange = (0, _ramda.contains)(status, colorStatusMap.orange);
-  var isRinging = status === _telephonyStatus2.default.ringing;
-  var title = missed ? _i18n2.default.getString(_callResults2.default.missed, currentLocale) : _i18n2.default.getString(direction, currentLocale);
-  var statusI18n = _i18n2.default.getString(status, currentLocale);
-  var iconClassName = (0, _classnames2.default)(_styles2.default.icon, isRinging && _styles2.default.ringing, isRinging && _DynamicsFont2.default.callHover, !isRinging && !missed && callIconMap[direction], missed && _styles2.default.missed, missed && callIconMap[_callResults2.default.missed], !isRinging && active && _styles2.default.active);
-  var statusClassName = (0, _classnames2.default)(_styles2.default.status, green && _styles2.default.green, red && _styles2.default.red, orange && _styles2.default.orange);
-  return _react2.default.createElement(
-    'div',
-    { 'data-sign': 'logSection', className: _styles2.default.root },
-    _react2.default.createElement(
-      'div',
-      {
-        'data-sign': dataSign,
-        className: (0, _classnames2.default)(_styles2.default.callInfo, clickable && _styles2.default.pointer),
-        onClick: clickable ? onClick : function () {}
-      },
-      _react2.default.createElement(CallIcon, { title: title, iconClassName: iconClassName }),
-      _react2.default.createElement(
-        'ul',
-        { className: _styles2.default.callDisplay },
-        _react2.default.createElement(
-          'li',
-          {
-            className: _styles2.default.contact,
-            title: logName },
-          logName
-        ),
-        _react2.default.createElement(
-          'li',
-          { className: _styles2.default.callDetail },
-          _react2.default.createElement(
-            'span',
-            {
-              className: _styles2.default.number,
-              title: formatNumber },
-            formatNumber
-          ),
-          formatNumber ? _react2.default.createElement(
-            'span',
-            { className: _styles2.default.separator },
-            '\xA0'
-          ) : null,
-          _react2.default.createElement(
-            'span',
-            {
-              'data-sign': 'callStatus',
-              className: statusClassName,
-              title: statusI18n },
-            statusI18n
-          )
-        )
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.extra },
-      props.extraButton
-    )
-  );
+  var isRinging = status === _telephonyStatus.default.ringing;
+  var title = missed ? _i18n.default.getString(_callResults.default.missed, currentLocale) : _i18n.default.getString(direction, currentLocale);
+
+  var statusI18n = _i18n.default.getString(status, currentLocale);
+
+  var iconClassName = (0, _classnames.default)(_styles.default.icon, isRinging && _styles.default.ringing, isRinging && _DynamicsFont.default.callHover, !isRinging && !missed && callIconMap[direction], missed && _styles.default.missed, missed && callIconMap[_callResults.default.missed], !isRinging && active && _styles.default.active);
+  var statusClassName = (0, _classnames.default)(_styles.default.status, green && _styles.default.green, red && _styles.default.red, orange && _styles.default.orange);
+  return _react.default.createElement("div", {
+    "data-sign": "logSection",
+    className: _styles.default.root
+  }, _react.default.createElement("div", {
+    "data-sign": dataSign,
+    className: (0, _classnames.default)(_styles.default.callInfo, clickable && _styles.default.pointer),
+    onClick: clickable ? onClick : function () {}
+  }, _react.default.createElement(CallIcon, {
+    title: title,
+    iconClassName: iconClassName
+  }), _react.default.createElement("ul", {
+    className: _styles.default.callDisplay
+  }, _react.default.createElement("li", {
+    className: _styles.default.contact,
+    title: logName
+  }, logName), _react.default.createElement("li", {
+    className: _styles.default.callDetail
+  }, _react.default.createElement("span", {
+    className: _styles.default.number,
+    title: formatNumber
+  }, formatNumber), formatNumber ? _react.default.createElement("span", {
+    className: _styles.default.separator
+  }, "\xA0") : null, _react.default.createElement("span", {
+    "data-sign": "callStatus",
+    className: statusClassName,
+    title: statusI18n
+  }, statusI18n)))), _react.default.createElement("div", {
+    className: _styles.default.extra
+  }, props.extraButton));
 }
 
 LogBasicInfo.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  formatPhone: _propTypes2.default.func,
-  currentLog: _propTypes2.default.object,
-  extraButton: _propTypes2.default.object,
-  clickable: _propTypes2.default.bool,
-  onClick: _propTypes2.default.func,
-  dataSign: _propTypes2.default.string
+  currentLocale: _propTypes.default.string.isRequired,
+  formatPhone: _propTypes.default.func,
+  currentLog: _propTypes.default.object,
+  extraButton: _propTypes.default.object,
+  clickable: _propTypes.default.bool,
+  onClick: _propTypes.default.func,
+  dataSign: _propTypes.default.string
 };
-
 LogBasicInfo.defaultProps = {
   formatPhone: function formatPhone(value) {
     return value;
@@ -186,7 +139,6 @@ LogBasicInfo.defaultProps = {
   extraButton: undefined,
   clickable: false,
   onClick: function onClick() {},
-
   dataSign: undefined
 };
 //# sourceMappingURL=index.js.map

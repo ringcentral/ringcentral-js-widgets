@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   noActiveCalls: "Sem chamadas ativas",
   currentCall: "Chamada atual",
   ringCall: "Chamada sonora",
@@ -13,9 +16,7 @@ exports.default = {
   confirmMergeToConference: "Adicionar à chamada em conferência?",
   mergeToConference: "Mesclar",
   conferenceCall: "Chamada em conferência"
-};
-
-// @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
+}; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
@@ -24,4 +25,6 @@ exports.default = {
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+
+exports.default = _default;
 //# sourceMappingURL=pt-BR.js.map

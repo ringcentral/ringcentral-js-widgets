@@ -1,31 +1,25 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = InsideModal;
 
-var _react = require('react');
+var _react = _interopRequireWildcard(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Modal = _interopRequireDefault(require("../Modal"));
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _Modal = require('../Modal');
-
-var _Modal2 = _interopRequireDefault(_Modal);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function InsideModal(_ref) {
   var show = _ref.show,
@@ -39,40 +33,34 @@ function InsideModal(_ref) {
       maskStyle = _ref.maskStyle,
       modalStyles = _ref.modalStyles,
       contentStyle = _ref.contentStyle;
-
-  return _react2.default.createElement(
-    _Modal2.default,
-    {
-      title: title,
-      headerClassName: _styles2.default.title,
-      className: (0, _classnames2.default)(_styles2.default.container, containerStyles),
-      maskClassName: (0, _classnames2.default)(_styles2.default.mask, maskStyle),
-      modalClassName: (0, _classnames2.default)(_styles2.default.modal, modalStyles),
-      contentClassName: (0, _classnames2.default)(_styles2.default.content, contentStyle),
-      show: show,
-      showTitle: showTitle,
-      showCloseBtn: showCloseBtn,
-      clickOutToClose: clickOutToClose,
-      onCancel: onClose
-    },
-    children
-  );
+  return _react.default.createElement(_Modal.default, {
+    title: title,
+    headerClassName: _styles.default.title,
+    className: (0, _classnames.default)(_styles.default.container, containerStyles),
+    maskClassName: (0, _classnames.default)(_styles.default.mask, maskStyle),
+    modalClassName: (0, _classnames.default)(_styles.default.modal, modalStyles),
+    contentClassName: (0, _classnames.default)(_styles.default.content, contentStyle),
+    show: show,
+    showTitle: showTitle,
+    showCloseBtn: showCloseBtn,
+    clickOutToClose: clickOutToClose,
+    onCancel: onClose
+  }, children);
 }
 
 InsideModal.propTypes = {
-  show: _propTypes2.default.bool,
-  onClose: _propTypes2.default.func,
-  children: _propTypes2.default.node,
-  title: _propTypes2.default.string,
-  showTitle: _propTypes2.default.bool,
-  showCloseBtn: _propTypes2.default.bool,
-  clickOutToClose: _propTypes2.default.bool,
-  containerStyles: _propTypes2.default.string,
-  maskStyle: _propTypes2.default.string,
-  modalStyles: _propTypes2.default.string,
-  contentStyle: _propTypes2.default.string
+  show: _propTypes.default.bool,
+  onClose: _propTypes.default.func,
+  children: _propTypes.default.node,
+  title: _propTypes.default.string,
+  showTitle: _propTypes.default.bool,
+  showCloseBtn: _propTypes.default.bool,
+  clickOutToClose: _propTypes.default.bool,
+  containerStyles: _propTypes.default.string,
+  maskStyle: _propTypes.default.string,
+  modalStyles: _propTypes.default.string,
+  contentStyle: _propTypes.default.string
 };
-
 InsideModal.defaultProps = {
   title: '',
   showTitle: true,

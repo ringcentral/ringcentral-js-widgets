@@ -1,37 +1,30 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = CallAlert;
 
-var _react = require('react');
+require("core-js/modules/es6.string.link");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
 
-var _callErrors = require('ringcentral-integration/modules/Call/callErrors');
+var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 
-var _callErrors2 = _interopRequireDefault(_callErrors);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _FormattedMessage = require('../FormattedMessage');
-
-var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TELUS_ID = '7310';
+
 function CallAlert(_ref) {
   var _ref$message = _ref.message,
       id = _ref$message.id,
@@ -43,48 +36,49 @@ function CallAlert(_ref) {
 
   // If brand is Telus and special number is 911,
   // show messages of its own version.
-  if (brand && brand.id === TELUS_ID && message === _callErrors2.default.specialNumber && payload && payload.phoneNumber === '911') {
-    return _react2.default.createElement(
-      'span',
-      null,
-      _i18n2.default.getString('telus911', currentLocale)
-    );
+  if (brand && brand.id === TELUS_ID && message === _callErrors.default.specialNumber && payload && payload.phoneNumber === '911') {
+    return _react.default.createElement("span", null, _i18n.default.getString('telus911', currentLocale));
   }
-  if (message === _callErrors2.default.noAreaCode) {
-    var areaCode = _i18n2.default.getString('areaCode', currentLocale);
-    var areaCodeLink = onAreaCodeLinkClick ? _react2.default.createElement(
-      'a',
-      {
-        className: _styles2.default.link,
-        onClick: function onClick(e) {
-          e.preventDefault();
-          onAreaCodeLinkClick({ alertId: id });
-        } },
-      areaCode
-    ) : areaCode;
-    return _react2.default.createElement(_FormattedMessage2.default, {
-      message: _i18n2.default.getString(message, currentLocale),
-      values: { areaCodeLink: areaCodeLink } });
+
+  if (message === _callErrors.default.noAreaCode) {
+    var areaCode = _i18n.default.getString('areaCode', currentLocale);
+
+    var areaCodeLink = onAreaCodeLinkClick ? _react.default.createElement("a", {
+      className: _styles.default.link,
+      onClick: function onClick(e) {
+        e.preventDefault();
+        onAreaCodeLinkClick({
+          alertId: id
+        });
+      }
+    }, areaCode) : areaCode;
+    return _react.default.createElement(_FormattedMessage.default, {
+      message: _i18n.default.getString(message, currentLocale),
+      values: {
+        areaCodeLink: areaCodeLink
+      }
+    });
   }
-  if (message === _callErrors2.default.noInternational) {
-    return _react2.default.createElement(_FormattedMessage2.default, {
-      message: _i18n2.default.getString(message, currentLocale),
-      values: { brand: brand.fullName } });
+
+  if (message === _callErrors.default.noInternational) {
+    return _react.default.createElement(_FormattedMessage.default, {
+      message: _i18n.default.getString(message, currentLocale),
+      values: {
+        brand: brand.fullName
+      }
+    });
   }
-  return _react2.default.createElement(
-    'span',
-    null,
-    _i18n2.default.getString(message, currentLocale)
-  );
+
+  return _react.default.createElement("span", null, _i18n.default.getString(message, currentLocale));
 }
 
 CallAlert.propTypes = {
-  onAreaCodeLinkClick: _propTypes2.default.func,
-  message: _propTypes2.default.shape({
-    message: _propTypes2.default.string.isRequired
+  onAreaCodeLinkClick: _propTypes.default.func,
+  message: _propTypes.default.shape({
+    message: _propTypes.default.string.isRequired
   }).isRequired,
-  brand: _propTypes2.default.object.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired
+  brand: _propTypes.default.object.isRequired,
+  currentLocale: _propTypes.default.string.isRequired
 };
 CallAlert.defaultProps = {
   onAreaCodeLinkClick: undefined
@@ -92,6 +86,6 @@ CallAlert.defaultProps = {
 
 CallAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _callErrors2.default.noToNumber || message === _callErrors2.default.noAreaCode || message === _callErrors2.default.specialNumber || message === _callErrors2.default.connectFailed || message === _callErrors2.default.internalError || message === _callErrors2.default.notAnExtension || message === _callErrors2.default.networkError || message === _callErrors2.default.noInternational || message === _callErrors2.default.noRingoutEnable;
+  return message === _callErrors.default.noToNumber || message === _callErrors.default.noAreaCode || message === _callErrors.default.specialNumber || message === _callErrors.default.connectFailed || message === _callErrors.default.internalError || message === _callErrors.default.notAnExtension || message === _callErrors.default.networkError || message === _callErrors.default.noInternational || message === _callErrors.default.noRingoutEnable;
 };
 //# sourceMappingURL=index.js.map

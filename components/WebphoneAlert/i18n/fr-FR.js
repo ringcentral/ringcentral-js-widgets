@@ -3,22 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _webphoneErrors = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/webphoneErrors"));
 
 var _webphoneErrors$conne;
 
-var _webphoneErrors = require("ringcentral-integration/modules/Webphone/webphoneErrors");
-
-var _webphoneErrors2 = _interopRequireDefault(_webphoneErrors);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_webphoneErrors$conne = {}, (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.connectFailed, "Échec de la connexion avec le serveur du téléphone Web."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.connected, "Web phone enregistré."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.browserNotSupported, "Appeler avec un navigateur est pris en charge uniquement sur Chrome."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.webphoneCountOverLimit, "Il est possible d'enregistrer jusqu'à 5 appels."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.notOutboundCallWithoutDL, "Votre extension n'est actuellement pas autorisée à passer des appels sortants via un navigateur, veuillez contacter votre représentant de compte pour une mise à niveau."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.getSipProvisionError, "Vous n'êtes pas autorisé à envoyer des messages."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.toVoiceMailError, "Impossible de joindre la messagerie vocale à cause d'une erreur interne"), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.muteError, "Le son de l'appel ne peut pas être désactivé pour le moment."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.holdError, "L'appel ne peut pas être mis en attente pour le moment."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.flipError, "Renvoi de l'appel impossible. Veuillez réessayer plus tard."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.recordError, "Vous ne pouvez pas enregistrer l'appel pour le moment. Code d'erreur : {errorCode}"), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.recordDisabled, "Désolé, votre compte ne comprend pas la fonction permettant d'enregistrer un appel. Veuillez contacter votre administrateur de compte."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.transferError, "Impossible de transférer l'appel. Veuillez réessayer plus tard."), (0, _defineProperty3.default)(_webphoneErrors$conne, "webphoneUnavailable", "{error}. Nous nous reconnectons au serveur. Si le problème persiste, veuillez le signaler à l'assistance de {brandName}."), (0, _defineProperty3.default)(_webphoneErrors$conne, "errorCode", "Code d'erreur interne : {errorCode}"), (0, _defineProperty3.default)(_webphoneErrors$conne, "occurs", "Une erreur interne se produit"), _webphoneErrors$conne);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
+var _default = (_webphoneErrors$conne = {}, _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.connectFailed, "Échec de la connexion avec le serveur du téléphone Web."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.connected, "Web phone enregistré."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.browserNotSupported, "Appeler avec un navigateur est pris en charge uniquement sur Chrome."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.webphoneCountOverLimit, "Il est possible d'enregistrer jusqu'à 5 appels."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.notOutboundCallWithoutDL, "Votre extension n'est actuellement pas autorisée à passer des appels sortants via un navigateur, veuillez contacter votre représentant de compte pour une mise à niveau."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.getSipProvisionError, "Vous n'êtes pas autorisé à envoyer des messages."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.toVoiceMailError, "Impossible de joindre la messagerie vocale à cause d'une erreur interne"), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.muteError, "Le son de l'appel ne peut pas être désactivé pour le moment."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.holdError, "L'appel ne peut pas être mis en attente pour le moment."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.flipError, "Renvoi de l'appel impossible. Veuillez réessayer plus tard."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.recordError, "Vous ne pouvez pas enregistrer l'appel pour le moment. Code d'erreur : {errorCode}"), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.recordDisabled, "Désolé, votre compte ne comprend pas la fonction permettant d'enregistrer un appel. Veuillez contacter votre administrateur de compte."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.transferError, "Impossible de transférer l'appel. Veuillez réessayer plus tard."), _defineProperty(_webphoneErrors$conne, "webphoneUnavailable", "{error}. Nous nous reconnectons au serveur. Si le problème persiste, veuillez le signaler à l'assistance de {brandName}."), _defineProperty(_webphoneErrors$conne, "errorCode", "Code d'erreur interne : {errorCode}"), _defineProperty(_webphoneErrors$conne, "occurs", "Une erreur interne se produit"), _webphoneErrors$conne); // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@
 // @key: @#@"[webphoneErrors.browserNotSupported]"@#@ @source: @#@"Calling with browser is only supported on Chrome."@#@
 // @key: @#@"[webphoneErrors.webphoneCountOverLimit]"@#@ @source: @#@"A maximum of 5 web phones could be registered."@#@
@@ -34,4 +31,7 @@ exports.default = (_webphoneErrors$conne = {}, (0, _defineProperty3.default)(_we
 // @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
 // @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
 // @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=fr-FR.js.map

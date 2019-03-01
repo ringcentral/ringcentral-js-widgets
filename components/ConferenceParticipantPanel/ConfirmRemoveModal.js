@@ -1,33 +1,23 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = ConfirmRemoveModal;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _calleeTypes = _interopRequireDefault(require("ringcentral-integration/enums/calleeTypes"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _calleeTypes = require('ringcentral-integration/enums/calleeTypes');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _calleeTypes2 = _interopRequireDefault(_calleeTypes);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _Modal = require('../Modal');
-
-var _Modal2 = _interopRequireDefault(_Modal);
+var _Modal = _interopRequireDefault(require("../Modal"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41,53 +31,39 @@ function ConfirmRemoveModal(_ref) {
   if (!detail) {
     return null;
   }
-  if (detail.calleeType === _calleeTypes2.default.contacts) {
+
+  if (detail.calleeType === _calleeTypes.default.contacts) {
     detail = detail.toUserName;
   } else {
     detail = detail.partyNumber;
   }
-  return _react2.default.createElement(
-    _Modal2.default,
-    {
-      show: show,
-      headerClassName: _styles2.default.header,
-      currentLocale: currentLocale,
-      className: _styles2.default.ConfirmRemoveModal,
-      modalClassName: _styles2.default.ConfirmRemoveModal,
-      maskClassName: _styles2.default.confirmRemoveModalMask,
-      title: _i18n2.default.getString('removeParticipant', currentLocale),
-      onConfirm: onRemove,
-      onCancel: onCancel,
-      clickOutToClose: true,
-      contentClassName: _styles2.default.contentText,
-      textConfirm: _i18n2.default.getString('remove', currentLocale)
-    },
-    _react2.default.createElement(
-      'p',
-      null,
-      _i18n2.default.getString('confirmStr1', currentLocale),
-      _react2.default.createElement(
-        'span',
-        null,
-        ' ' + detail + ' '
-      ),
-      _i18n2.default.getString('confirmStr2', currentLocale)
-    )
-  );
+
+  return _react.default.createElement(_Modal.default, {
+    show: show,
+    headerClassName: _styles.default.header,
+    currentLocale: currentLocale,
+    className: _styles.default.ConfirmRemoveModal,
+    modalClassName: _styles.default.ConfirmRemoveModal,
+    maskClassName: _styles.default.confirmRemoveModalMask,
+    title: _i18n.default.getString('removeParticipant', currentLocale),
+    onConfirm: onRemove,
+    onCancel: onCancel,
+    clickOutToClose: true,
+    contentClassName: _styles.default.contentText,
+    textConfirm: _i18n.default.getString('remove', currentLocale)
+  }, _react.default.createElement("p", null, _i18n.default.getString('confirmStr1', currentLocale), _react.default.createElement("span", null, " ".concat(detail, " ")), _i18n.default.getString('confirmStr2', currentLocale)));
 }
 
 ConfirmRemoveModal.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  show: _propTypes2.default.bool.isRequired,
-  onCancel: _propTypes2.default.func,
-  onRemove: _propTypes2.default.func,
-  detail: _propTypes2.default.object
+  currentLocale: _propTypes.default.string.isRequired,
+  show: _propTypes.default.bool.isRequired,
+  onCancel: _propTypes.default.func,
+  onRemove: _propTypes.default.func,
+  detail: _propTypes.default.object
 };
-
 ConfirmRemoveModal.defaultProps = {
   onRemove: function onRemove() {},
   onCancel: function onCancel() {},
-
   detail: null
 };
 //# sourceMappingURL=ConfirmRemoveModal.js.map

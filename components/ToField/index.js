@@ -1,83 +1,79 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.regexp.replace");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.array.map");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.function.name");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react = require('react');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _react2 = _interopRequireDefault(_react);
+var _RemoveButton = _interopRequireDefault(require("../RemoveButton"));
 
-var _propTypes = require('prop-types');
+var _ContactDropdownList = _interopRequireDefault(require("../ContactDropdownList"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _RemoveButton = require('../RemoveButton');
-
-var _RemoveButton2 = _interopRequireDefault(_RemoveButton);
-
-var _ContactDropdownList = require('../ContactDropdownList');
-
-var _ContactDropdownList2 = _interopRequireDefault(_ContactDropdownList);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function SelectedRecipientItem(_ref) {
   var phoneNumber = _ref.phoneNumber,
       _ref$name = _ref.name,
-      name = _ref$name === undefined ? phoneNumber : _ref$name,
+      name = _ref$name === void 0 ? phoneNumber : _ref$name,
       onRemove = _ref.onRemove;
-
-  var className = phoneNumber.length > 5 ? _styles2.default.phoneNumber : _styles2.default.extension;
-  return _react2.default.createElement(
-    'li',
-    { className: className },
-    _react2.default.createElement(
-      'span',
-      null,
-      name
-    ),
-    _react2.default.createElement(_RemoveButton2.default, {
-      className: _styles2.default.removeReceiver,
-      onClick: onRemove,
-      visibility: true
-    })
-  );
+  var className = phoneNumber.length > 5 ? _styles.default.phoneNumber : _styles.default.extension;
+  return _react.default.createElement("li", {
+    className: className
+  }, _react.default.createElement("span", null, name), _react.default.createElement(_RemoveButton.default, {
+    className: _styles.default.removeReceiver,
+    onClick: onRemove,
+    visibility: true
+  }));
 }
 
 SelectedRecipientItem.propTypes = {
-  name: _propTypes2.default.string,
-  phoneNumber: _propTypes2.default.string.isRequired,
-  onRemove: _propTypes2.default.func.isRequired
+  name: _propTypes.default.string,
+  phoneNumber: _propTypes.default.string.isRequired,
+  onRemove: _propTypes.default.func.isRequired
 };
 SelectedRecipientItem.defaultProps = {
   name: undefined
@@ -90,37 +86,40 @@ function SelectedRecipients(_ref2) {
   if (items.length < 1) {
     return null;
   }
-  return _react2.default.createElement(
-    'ul',
-    { className: _styles2.default.selectReceivers },
-    items.map(function (item) {
-      return _react2.default.createElement(SelectedRecipientItem, {
-        key: item.phoneNumber,
-        name: item.name,
-        phoneNumber: item.phoneNumber,
-        onRemove: function onRemove() {
-          return removeFromRecipients(item.phoneNumber);
-        }
-      });
-    })
-  );
+
+  return _react.default.createElement("ul", {
+    className: _styles.default.selectReceivers
+  }, items.map(function (item) {
+    return _react.default.createElement(SelectedRecipientItem, {
+      key: item.phoneNumber,
+      name: item.name,
+      phoneNumber: item.phoneNumber,
+      onRemove: function onRemove() {
+        return removeFromRecipients(item.phoneNumber);
+      }
+    });
+  }));
 }
 
 SelectedRecipients.propTypes = {
-  removeFromRecipients: _propTypes2.default.func.isRequired,
-  items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    phoneNumber: _propTypes2.default.string.isRequired,
-    name: _propTypes2.default.string
+  removeFromRecipients: _propTypes.default.func.isRequired,
+  items: _propTypes.default.arrayOf(_propTypes.default.shape({
+    phoneNumber: _propTypes.default.string.isRequired,
+    name: _propTypes.default.string
   })).isRequired
 };
 
-var ToField = function (_Component) {
-  (0, _inherits3.default)(ToField, _Component);
+var ToField =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ToField, _Component);
 
   function ToField(props) {
-    (0, _classCallCheck3.default)(this, ToField);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ToField.__proto__ || (0, _getPrototypeOf2.default)(ToField)).call(this, props));
+    _classCallCheck(this, ToField);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ToField).call(this, props));
 
     _this.onReceiversInputFocus = function () {
       _this.setState({
@@ -135,7 +134,9 @@ var ToField = function (_Component) {
     };
 
     _this.onReceiversInputKeyUp = function (e) {
-      _this.props.searchContact({ searchString: e.currentTarget.value });
+      _this.props.searchContact({
+        searchString: e.currentTarget.value
+      });
     };
 
     _this.setSelectedIndex = function (index) {
@@ -155,6 +156,7 @@ var ToField = function (_Component) {
 
     _this.addSelectedContactIndex = function () {
       var length = _this.props.searchResults.length;
+
       if (_this.state.selectedContactIndex >= length - 1) {
         _this.setState({
           selectedContactIndex: length - 1
@@ -190,6 +192,7 @@ var ToField = function (_Component) {
       ) {
           return true;
         }
+
       return false;
     };
 
@@ -197,9 +200,11 @@ var ToField = function (_Component) {
       if (_this.state.isFocusOnInput && _this.props.value.length >= 3) {
         if (e.key === 'ArrowUp') {
           _this.reduceSelectedContactIndex();
+
           _this.scrollOperation(e.key);
         } else if (e.key === 'ArrowDown') {
           _this.addSelectedContactIndex();
+
           _this.scrollOperation(e.key);
         }
       } else {
@@ -207,13 +212,17 @@ var ToField = function (_Component) {
           selectedContactIndex: 0
         });
       }
+
       if (_this.isSplitter(e)) {
         e.preventDefault();
+
         if (_this.props.value.length === 0) {
           return;
         }
+
         var relatedContactList = _this.props.value.length >= 3 ? _this.props.searchResults : [];
         var currentSelected = relatedContactList[_this.state.selectedContactIndex];
+
         if (currentSelected && e.key === 'Enter') {
           _this.props.addToRecipients({
             name: currentSelected.name,
@@ -224,8 +233,10 @@ var ToField = function (_Component) {
             name: _this.props.value.replace(',', ''),
             phoneNumber: _this.props.value.replace(',', '')
           });
+
           _this.props.onClean();
         }
+
         _this.props.onClean();
       }
     };
@@ -238,15 +249,14 @@ var ToField = function (_Component) {
     };
     return _this;
   }
-  // using React SyntheticEvent to deal with cross browser issue
 
-
-  (0, _createClass3.default)(ToField, [{
-    key: 'componentWillReceiveProps',
+  _createClass(ToField, [{
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(newProps) {
       this.setState({
         currentValue: newProps.value.replace(',', '')
       });
+
       if (newProps.value && newProps.value !== this.props.value && this.props.value[this.props.value.length - 1] === ',') {
         this.setState({
           isFocusOnInput: true
@@ -258,98 +268,88 @@ var ToField = function (_Component) {
       }
     }
   }, {
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.searchContact({ searchString: this.props.value });
+      this.props.searchContact({
+        searchString: this.props.value
+      });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var relatedContactList = this.props.value.length >= 3 ? this.props.searchResults : [];
-      var label = _react2.default.createElement(
-        'label',
-        null,
-        this.props.label || _i18n2.default.getString('to', this.props.currentLocale)
-      );
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.container, onKeyDown: this.handleHotKey },
-        label,
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.rightPanel },
-          _react2.default.createElement(SelectedRecipients, {
-            items: this.props.recipients,
-            removeFromRecipients: this.props.removeFromRecipients
-          }),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.inputField },
-            _react2.default.createElement('input', {
-              name: 'receiver',
-              value: this.state.currentValue,
-              onChange: this.props.onChange,
-              onKeyUp: this.onInputKeyUp,
-              className: _styles2.default.numberInput,
-              maxLength: 30,
-              onFocus: this.onReceiversInputFocus,
-              onBlur: this.onReceiversInputBlur,
-              placeholder: this.props.placeholder || _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
-              autoComplete: 'off',
-              autoFocus: this.props.autoFocus // eslint-disable-line
-            })
-          ),
-          _react2.default.createElement(_RemoveButton2.default, {
-            className: _styles2.default.removeButton,
-            onClick: this.props.onClean,
-            visibility: this.props.value.length > 0 && this.state.isFocusOnInput
-          })
-        ),
-        _react2.default.createElement(_ContactDropdownList2.default, {
-          currentLocale: this.props.currentLocale,
-          scrollDirection: this.state.scrollDirection,
-          selectedIndex: this.state.selectedContactIndex,
-          setSelectedIndex: this.setSelectedIndex,
-          addToRecipients: this.props.addToRecipients,
-          items: relatedContactList,
-          formatContactPhone: this.props.formatPhone,
-          visibility: this.state.isFocusOnInput,
-          titleEnabled: this.props.titleEnabled
-        })
-      );
+
+      var label = _react.default.createElement("label", null, this.props.label || _i18n.default.getString('to', this.props.currentLocale));
+
+      return _react.default.createElement("div", {
+        className: _styles.default.container,
+        onKeyDown: this.handleHotKey
+      }, label, _react.default.createElement("div", {
+        className: _styles.default.rightPanel
+      }, _react.default.createElement(SelectedRecipients, {
+        items: this.props.recipients,
+        removeFromRecipients: this.props.removeFromRecipients
+      }), _react.default.createElement("div", {
+        className: _styles.default.inputField
+      }, _react.default.createElement("input", {
+        name: "receiver",
+        value: this.state.currentValue,
+        onChange: this.props.onChange,
+        onKeyUp: this.onInputKeyUp,
+        className: _styles.default.numberInput,
+        maxLength: 30,
+        onFocus: this.onReceiversInputFocus,
+        onBlur: this.onReceiversInputBlur,
+        placeholder: this.props.placeholder || _i18n.default.getString('enterNameOrNumber', this.props.currentLocale),
+        autoComplete: "off",
+        autoFocus: this.props.autoFocus // eslint-disable-line
+
+      })), _react.default.createElement(_RemoveButton.default, {
+        className: _styles.default.removeButton,
+        onClick: this.props.onClean,
+        visibility: this.props.value.length > 0 && this.state.isFocusOnInput
+      })), _react.default.createElement(_ContactDropdownList.default, {
+        currentLocale: this.props.currentLocale,
+        scrollDirection: this.state.scrollDirection,
+        selectedIndex: this.state.selectedContactIndex,
+        setSelectedIndex: this.setSelectedIndex,
+        addToRecipients: this.props.addToRecipients,
+        items: relatedContactList,
+        formatContactPhone: this.props.formatPhone,
+        visibility: this.state.isFocusOnInput,
+        titleEnabled: this.props.titleEnabled
+      }));
     }
   }]);
+
   return ToField;
 }(_react.Component);
 
 exports.default = ToField;
-
-
 ToField.propTypes = {
-  label: _propTypes2.default.string,
-  placeholder: _propTypes2.default.string,
-  searchContact: _propTypes2.default.func,
-  searchResults: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    name: _propTypes2.default.string.isRequired,
-    entityType: _propTypes2.default.string.isRequired,
-    phoneType: _propTypes2.default.string.isRequired,
-    phoneNumber: _propTypes2.default.string.isRequired
+  label: _propTypes.default.string,
+  placeholder: _propTypes.default.string,
+  searchContact: _propTypes.default.func,
+  searchResults: _propTypes.default.arrayOf(_propTypes.default.shape({
+    name: _propTypes.default.string.isRequired,
+    entityType: _propTypes.default.string.isRequired,
+    phoneType: _propTypes.default.string.isRequired,
+    phoneNumber: _propTypes.default.string.isRequired
   })),
-  recipients: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    phoneNumber: _propTypes2.default.string.isRequired,
-    name: _propTypes2.default.string
+  recipients: _propTypes.default.arrayOf(_propTypes.default.shape({
+    phoneNumber: _propTypes.default.string.isRequired,
+    name: _propTypes.default.string
   })).isRequired,
-  value: _propTypes2.default.string.isRequired,
-  onChange: _propTypes2.default.func.isRequired,
-  onClean: _propTypes2.default.func.isRequired,
-  addToRecipients: _propTypes2.default.func.isRequired,
-  removeFromRecipients: _propTypes2.default.func.isRequired,
-  formatPhone: _propTypes2.default.func,
-  titleEnabled: _propTypes2.default.bool,
-  autoFocus: _propTypes2.default.bool,
-  currentLocale: _propTypes2.default.string.isRequired
+  value: _propTypes.default.string.isRequired,
+  onChange: _propTypes.default.func.isRequired,
+  onClean: _propTypes.default.func.isRequired,
+  addToRecipients: _propTypes.default.func.isRequired,
+  removeFromRecipients: _propTypes.default.func.isRequired,
+  formatPhone: _propTypes.default.func,
+  titleEnabled: _propTypes.default.bool,
+  autoFocus: _propTypes.default.bool,
+  currentLocale: _propTypes.default.string.isRequired
 };
-
 ToField.defaultProps = {
   label: null,
   placeholder: null,

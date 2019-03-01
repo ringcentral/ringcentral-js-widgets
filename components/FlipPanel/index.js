@@ -1,175 +1,154 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _BackButton = _interopRequireDefault(require("../BackButton"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _react = require('react');
+var _RadioBtnGroup = _interopRequireDefault(require("../RadioBtnGroup"));
 
-var _react2 = _interopRequireDefault(_react);
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
-var _classnames = require('classnames');
+var _Flip = _interopRequireDefault(require("../../assets/images/Flip.svg"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 
-var _propTypes = require('prop-types');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _BackButton = require('../BackButton');
-
-var _BackButton2 = _interopRequireDefault(_BackButton);
-
-var _BackHeader = require('../BackHeader');
-
-var _BackHeader2 = _interopRequireDefault(_BackHeader);
-
-var _RadioBtnGroup = require('../RadioBtnGroup');
-
-var _RadioBtnGroup2 = _interopRequireDefault(_RadioBtnGroup);
-
-var _CircleButton = require('../CircleButton');
-
-var _CircleButton2 = _interopRequireDefault(_CircleButton);
-
-var _Flip = require('../../assets/images/Flip.svg');
-
-var _Flip2 = _interopRequireDefault(_Flip);
-
-var _End = require('../../assets/images/End.svg');
-
-var _End2 = _interopRequireDefault(_End);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var FlipPanel = function (_Component) {
-  (0, _inherits3.default)(FlipPanel, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var FlipPanel =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(FlipPanel, _Component);
 
   function FlipPanel(props) {
-    (0, _classCallCheck3.default)(this, FlipPanel);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (FlipPanel.__proto__ || (0, _getPrototypeOf2.default)(FlipPanel)).call(this, props));
+    _classCallCheck(this, FlipPanel);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(FlipPanel).call(this, props));
     _this.state = {
       flipValue: _this.props.flipNumbers.length === 0 ? '' : _this.props.flipNumbers[0].phoneNumber,
       flipEnabled: !_this.props.isOnFlip
     };
+
     _this.onRadioSelect = function (value) {
       _this.setState({
         flipValue: value
       });
     };
+
     _this.onFlip = function () {
       _this.props.onFlip(_this.state.flipValue);
+
       _this.setState({
         flipEnabled: false
       });
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(FlipPanel, [{
-    key: 'render',
+  _createClass(FlipPanel, [{
+    key: "render",
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.root },
-        _react2.default.createElement(
-          _BackHeader2.default,
-          {
-            onBackClick: this.props.isOnFlip ? null : this.props.hideFlipPanel,
-            backButton: _react2.default.createElement(_BackButton2.default, { showIcon: !this.props.isOnFlip })
-          },
-          _react2.default.createElement(
-            'span',
-            { className: _styles2.default.headerTitle },
-            _i18n2.default.getString('flipHeader', this.props.currentLocale)
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.flipContainer },
-          _react2.default.createElement(_RadioBtnGroup2.default, {
-            className: _styles2.default.radioGroup,
-            radioOptions: this.props.flipNumbers,
-            disabled: !this.state.flipEnabled,
-            formatPhone: this.props.formatPhone,
-            onRadioSelect: this.onRadioSelect,
-            currentLocale: this.props.currentLocale
-          }),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.buttonGroup },
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.button, title: _i18n2.default.getString('flip', this.props.currentLocale) },
-              _react2.default.createElement(_CircleButton2.default, {
-                disabled: !this.state.flipEnabled,
-                className: (0, _classnames2.default)(_styles2.default.flipButton, this.state.flipEnabled ? '' : _styles2.default.disabled),
-                iconClassName: _styles2.default.flipIcon,
-                onClick: this.onFlip,
-                icon: _Flip2.default,
-                showBorder: true
-              })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.button, title: _i18n2.default.getString('complete', this.props.currentLocale) },
-              _react2.default.createElement(_CircleButton2.default, {
-                disabled: !this.props.isOnFlip,
-                className: (0, _classnames2.default)(_styles2.default.completeButton, this.props.isOnFlip ? '' : _styles2.default.disabled),
-                onClick: this.props.complete,
-                icon: _End2.default,
-                showBorder: true
-              })
-            )
-          )
-        )
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.root
+      }, _react.default.createElement(_BackHeader.default, {
+        onBackClick: this.props.isOnFlip ? null : this.props.hideFlipPanel,
+        backButton: _react.default.createElement(_BackButton.default, {
+          showIcon: !this.props.isOnFlip
+        })
+      }, _react.default.createElement("span", {
+        className: _styles.default.headerTitle
+      }, _i18n.default.getString('flipHeader', this.props.currentLocale))), _react.default.createElement("div", {
+        className: _styles.default.flipContainer
+      }, _react.default.createElement(_RadioBtnGroup.default, {
+        className: _styles.default.radioGroup,
+        radioOptions: this.props.flipNumbers,
+        disabled: !this.state.flipEnabled,
+        formatPhone: this.props.formatPhone,
+        onRadioSelect: this.onRadioSelect,
+        currentLocale: this.props.currentLocale
+      }), _react.default.createElement("div", {
+        className: _styles.default.buttonGroup
+      }, _react.default.createElement("div", {
+        className: _styles.default.button,
+        title: _i18n.default.getString('flip', this.props.currentLocale)
+      }, _react.default.createElement(_CircleButton.default, {
+        disabled: !this.state.flipEnabled,
+        className: (0, _classnames.default)(_styles.default.flipButton, this.state.flipEnabled ? '' : _styles.default.disabled),
+        iconClassName: _styles.default.flipIcon,
+        onClick: this.onFlip,
+        icon: _Flip.default,
+        showBorder: true
+      })), _react.default.createElement("div", {
+        className: _styles.default.button,
+        title: _i18n.default.getString('complete', this.props.currentLocale)
+      }, _react.default.createElement(_CircleButton.default, {
+        disabled: !this.props.isOnFlip,
+        className: (0, _classnames.default)(_styles.default.completeButton, this.props.isOnFlip ? '' : _styles.default.disabled),
+        onClick: this.props.complete,
+        icon: _End.default,
+        showBorder: true
+      })))));
     }
   }]);
+
   return FlipPanel;
 }(_react.Component);
 
 exports.default = FlipPanel;
-
-
 FlipPanel.propTypes = {
-  isOnFlip: _propTypes2.default.bool.isRequired,
-  flipNumbers: _propTypes2.default.array.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  formatPhone: _propTypes2.default.func.isRequired,
-  hideFlipPanel: _propTypes2.default.func.isRequired,
-  onFlip: _propTypes2.default.func.isRequired,
-  complete: _propTypes2.default.func.isRequired
+  isOnFlip: _propTypes.default.bool.isRequired,
+  flipNumbers: _propTypes.default.array.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  formatPhone: _propTypes.default.func.isRequired,
+  hideFlipPanel: _propTypes.default.func.isRequired,
+  onFlip: _propTypes.default.func.isRequired,
+  complete: _propTypes.default.func.isRequired
 };
 //# sourceMappingURL=index.js.map

@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: "Áudio",
   dialButtonVolume: "Volume do botão de discagem",
   ringtoneVolume: "Volume do toque",
@@ -15,9 +18,7 @@ exports.default = {
   noDevice: "Nenhum dispositivo",
   checkMicPermission: "Verificar permissão",
   micNoPermissionMessage: "O aplicativo não tem permissão para usar o microfone"
-};
-
-// @key: @#@"title"@#@ @source: @#@"Audio"@#@
+}; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@
 // @key: @#@"callVolume"@#@ @source: @#@"Call Volume"@#@
@@ -28,4 +29,6 @@ exports.default = {
 // @key: @#@"noDevice"@#@ @source: @#@"No device"@#@
 // @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
 // @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@
+
+exports.default = _default;
 //# sourceMappingURL=pt-BR.js.map

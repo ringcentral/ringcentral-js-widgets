@@ -3,22 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
 
 var _callErrors$noToNumbe;
 
-var _callErrors = require("ringcentral-integration/modules/Call/callErrors");
-
-var _callErrors2 = _interopRequireDefault(_callErrors);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_callErrors$noToNumbe = {}, (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noToNumber, "Immetti un numero di telefono valido."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noAreaCode, "Imposta {areaCodeLink} per utilizzare i numeri di telefono locali a 7 cifre."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.specialNumber, "Le chiamate di emergenza o a servizi speciali non sono supportate."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.connectFailed, "Connessione non riuscita. Riprova più tardi."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.internalError, "Impossibile connettersi a causa di errori interni. Riprova più tardi."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.notAnExtension, "Il numero interno non esiste."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.networkError, "Impossibile connettersi a causa di problemi di rete. Riprova più tardi."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noInternational, "Non disponi delle autorizzazioni per effettuare chiamate internazionali. Contatta l'amministratore dell'account {brand} per effettuare un upgrade."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noRingoutEnable, "Dal tuo interno è possibile effettuare chiamate con l'app per il desktop.\n    Per passare ad altre opzioni di chiamata\n    contatta l'amministratore dell'account per un aggiornamento."), (0, _defineProperty3.default)(_callErrors$noToNumbe, "areaCode", "prefisso"), (0, _defineProperty3.default)(_callErrors$noToNumbe, "telus911", "Chiamate di emergenza non supportate."), _callErrors$noToNumbe);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@
+var _default = (_callErrors$noToNumbe = {}, _defineProperty(_callErrors$noToNumbe, _callErrors.default.noToNumber, "Immetti un numero di telefono valido."), _defineProperty(_callErrors$noToNumbe, _callErrors.default.noAreaCode, "Imposta {areaCodeLink} per utilizzare i numeri di telefono locali a 7 cifre."), _defineProperty(_callErrors$noToNumbe, _callErrors.default.specialNumber, "Le chiamate di emergenza o a servizi speciali non sono supportate."), _defineProperty(_callErrors$noToNumbe, _callErrors.default.connectFailed, "Connessione non riuscita. Riprova più tardi."), _defineProperty(_callErrors$noToNumbe, _callErrors.default.internalError, "Impossibile connettersi a causa di errori interni. Riprova più tardi."), _defineProperty(_callErrors$noToNumbe, _callErrors.default.notAnExtension, "Il numero interno non esiste."), _defineProperty(_callErrors$noToNumbe, _callErrors.default.networkError, "Impossibile connettersi a causa di problemi di rete. Riprova più tardi."), _defineProperty(_callErrors$noToNumbe, _callErrors.default.noInternational, "Non disponi delle autorizzazioni per effettuare chiamate internazionali. Contatta l'amministratore dell'account {brand} per effettuare un upgrade."), _defineProperty(_callErrors$noToNumbe, _callErrors.default.noRingoutEnable, "Dal tuo interno è possibile effettuare chiamate con l'app per il desktop.\n    Per passare ad altre opzioni di chiamata\n    contatta l'amministratore dell'account per un aggiornamento."), _defineProperty(_callErrors$noToNumbe, "areaCode", "prefisso"), _defineProperty(_callErrors$noToNumbe, "telus911", "Chiamate di emergenza non supportate."), _callErrors$noToNumbe); // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[callErrors.noAreaCode]"@#@ @source: @#@"Please set {areaCodeLink} to use 7-digit local phone numbers."@#@
 // @key: @#@"[callErrors.specialNumber]"@#@ @source: @#@"Dialing emergency or special service numbers is not supported."@#@
 // @key: @#@"[callErrors.connectFailed]"@#@ @source: @#@"Connection failed. Please try again later."@#@
@@ -29,4 +26,7 @@ exports.default = (_callErrors$noToNumbe = {}, (0, _defineProperty3.default)(_ca
 // @key: @#@"[callErrors.noRingoutEnable]"@#@ @source: @#@"Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options\n    please contact your account administrator for an upgrade."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"telus911"@#@ @source: @#@"Emergency dialing is not supported."@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=it-IT.js.map

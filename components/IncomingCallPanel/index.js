@@ -1,116 +1,89 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = IncomingCallPanel;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _IncomingCallPad = _interopRequireDefault(require("../IncomingCallPad"));
 
-var _classnames = require('classnames');
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
-var _IncomingCallPad = require('../IncomingCallPad');
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _IncomingCallPad2 = _interopRequireDefault(_IncomingCallPad);
-
-var _ContactDisplay = require('../ContactDisplay');
-
-var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
-
-var _CallAvatar = require('../CallAvatar');
-
-var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function UserInfo(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.userInfo },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.avatarContainer },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.avatarHolder },
-        _react2.default.createElement('div', { className: (0, _classnames2.default)(_styles2.default.ringOutside, _styles2.default.ringing) }),
-        _react2.default.createElement('div', { className: (0, _classnames2.default)(_styles2.default.ringInner, _styles2.default.ringing) }),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.avatar },
-          _react2.default.createElement(_CallAvatar2.default, {
-            avatarUrl: props.avatarUrl
-          })
-        )
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.userNameContainer },
-      _react2.default.createElement(_ContactDisplay2.default, {
-        className: _styles2.default.userName,
-        selectClassName: _styles2.default.dropdown,
-        contactMatches: props.nameMatches,
-        phoneNumber: props.phoneNumber,
-        fallBackName: props.fallBackName,
-        currentLocale: props.currentLocale,
-        areaCode: props.areaCode,
-        countryCode: props.countryCode,
-        showType: false,
-        disabled: false,
-        selected: props.selectedMatcherIndex,
-        onSelectContact: props.onSelectMatcherName,
-        isLogging: false,
-        enableContactFallback: true,
-        brand: props.brand,
-        showPlaceholder: props.showContactDisplayPlaceholder,
-        sourceIcons: props.sourceIcons,
-        phoneTypeRenderer: props.phoneTypeRenderer,
-        phoneSourceNameRenderer: props.phoneSourceNameRenderer
-      })
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.userPhoneNumber },
-      props.formatPhone(props.phoneNumber)
-    )
-  );
+  return _react.default.createElement("div", {
+    className: _styles.default.userInfo
+  }, _react.default.createElement("div", {
+    className: _styles.default.avatarContainer
+  }, _react.default.createElement("div", {
+    className: _styles.default.avatarHolder
+  }, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.ringOutside, _styles.default.ringing)
+  }), _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.ringInner, _styles.default.ringing)
+  }), _react.default.createElement("div", {
+    className: _styles.default.avatar
+  }, _react.default.createElement(_CallAvatar.default, {
+    avatarUrl: props.avatarUrl
+  })))), _react.default.createElement("div", {
+    className: _styles.default.userNameContainer
+  }, _react.default.createElement(_ContactDisplay.default, {
+    className: _styles.default.userName,
+    selectClassName: _styles.default.dropdown,
+    contactMatches: props.nameMatches,
+    phoneNumber: props.phoneNumber,
+    fallBackName: props.fallBackName,
+    currentLocale: props.currentLocale,
+    areaCode: props.areaCode,
+    countryCode: props.countryCode,
+    showType: false,
+    disabled: false,
+    selected: props.selectedMatcherIndex,
+    onSelectContact: props.onSelectMatcherName,
+    isLogging: false,
+    enableContactFallback: true,
+    brand: props.brand,
+    showPlaceholder: props.showContactDisplayPlaceholder,
+    sourceIcons: props.sourceIcons,
+    phoneTypeRenderer: props.phoneTypeRenderer,
+    phoneSourceNameRenderer: props.phoneSourceNameRenderer
+  })), _react.default.createElement("div", {
+    className: _styles.default.userPhoneNumber
+  }, props.formatPhone(props.phoneNumber)));
 }
 
 UserInfo.propTypes = {
-  phoneNumber: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
-  formatPhone: _propTypes2.default.func.isRequired,
-  nameMatches: _propTypes2.default.array.isRequired,
-  fallBackName: _propTypes2.default.string.isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  selectedMatcherIndex: _propTypes2.default.number.isRequired,
-  onSelectMatcherName: _propTypes2.default.func.isRequired,
-  avatarUrl: _propTypes2.default.string,
-  brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func
+  phoneNumber: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired,
+  formatPhone: _propTypes.default.func.isRequired,
+  nameMatches: _propTypes.default.array.isRequired,
+  fallBackName: _propTypes.default.string.isRequired,
+  areaCode: _propTypes.default.string.isRequired,
+  countryCode: _propTypes.default.string.isRequired,
+  selectedMatcherIndex: _propTypes.default.number.isRequired,
+  onSelectMatcherName: _propTypes.default.func.isRequired,
+  avatarUrl: _propTypes.default.string,
+  brand: _propTypes.default.string,
+  showContactDisplayPlaceholder: _propTypes.default.bool,
+  sourceIcons: _propTypes.default.object,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func
 };
-
 UserInfo.defaultProps = {
   phoneNumber: null,
   avatarUrl: null,
@@ -122,88 +95,83 @@ UserInfo.defaultProps = {
 };
 
 function IncomingCallPanel(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.root, props.className) },
-    _react2.default.createElement(
-      'span',
-      { className: _styles2.default.backButton, onClick: props.onBackButtonClick },
-      _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.backIcon) })
-    ),
-    _react2.default.createElement(UserInfo, {
-      phoneNumber: props.phoneNumber,
-      currentLocale: props.currentLocale,
-      className: _styles2.default.userInfo,
-      formatPhone: props.formatPhone,
-      nameMatches: props.nameMatches,
-      fallBackName: props.fallBackName,
-      areaCode: props.areaCode,
-      countryCode: props.countryCode,
-      selectedMatcherIndex: props.selectedMatcherIndex,
-      onSelectMatcherName: props.onSelectMatcherName,
-      avatarUrl: props.avatarUrl,
-      brand: props.brand,
-      showContactDisplayPlaceholder: props.showContactDisplayPlaceholder,
-      sourceIcons: props.sourceIcons,
-      phoneTypeRenderer: props.phoneTypeRenderer,
-      phoneSourceNameRenderer: props.phoneSourceNameRenderer
-    }),
-    _react2.default.createElement(_IncomingCallPad2.default, {
-      className: _styles2.default.callPad,
-      forwardingNumbers: props.forwardingNumbers,
-      formatPhone: props.formatPhone,
-      answer: props.answer,
-      reject: props.reject,
-      toVoiceMail: props.toVoiceMail,
-      replyWithMessage: props.replyWithMessage,
-      onForward: props.onForward,
-      currentLocale: props.currentLocale,
-      hasOtherActiveCall: props.hasOtherActiveCall,
-      answerAndEnd: props.answerAndEnd,
-      answerAndHold: props.answerAndHold,
-      sessionId: props.sessionId,
-      searchContact: props.searchContact,
-      searchContactList: props.searchContactList,
-      phoneTypeRenderer: props.phoneTypeRenderer,
-      phoneSourceNameRenderer: props.phoneSourceNameRenderer
-    }),
-    props.children
-  );
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.root, props.className)
+  }, _react.default.createElement("span", {
+    className: _styles.default.backButton,
+    onClick: props.onBackButtonClick
+  }, _react.default.createElement("i", {
+    className: (0, _classnames.default)(_DynamicsFont.default.arrow, _styles.default.backIcon)
+  })), _react.default.createElement(UserInfo, {
+    phoneNumber: props.phoneNumber,
+    currentLocale: props.currentLocale,
+    className: _styles.default.userInfo,
+    formatPhone: props.formatPhone,
+    nameMatches: props.nameMatches,
+    fallBackName: props.fallBackName,
+    areaCode: props.areaCode,
+    countryCode: props.countryCode,
+    selectedMatcherIndex: props.selectedMatcherIndex,
+    onSelectMatcherName: props.onSelectMatcherName,
+    avatarUrl: props.avatarUrl,
+    brand: props.brand,
+    showContactDisplayPlaceholder: props.showContactDisplayPlaceholder,
+    sourceIcons: props.sourceIcons,
+    phoneTypeRenderer: props.phoneTypeRenderer,
+    phoneSourceNameRenderer: props.phoneSourceNameRenderer
+  }), _react.default.createElement(_IncomingCallPad.default, {
+    className: _styles.default.callPad,
+    forwardingNumbers: props.forwardingNumbers,
+    formatPhone: props.formatPhone,
+    answer: props.answer,
+    reject: props.reject,
+    toVoiceMail: props.toVoiceMail,
+    replyWithMessage: props.replyWithMessage,
+    onForward: props.onForward,
+    currentLocale: props.currentLocale,
+    hasOtherActiveCall: props.hasOtherActiveCall,
+    answerAndEnd: props.answerAndEnd,
+    answerAndHold: props.answerAndHold,
+    sessionId: props.sessionId,
+    searchContact: props.searchContact,
+    searchContactList: props.searchContactList,
+    phoneTypeRenderer: props.phoneTypeRenderer,
+    phoneSourceNameRenderer: props.phoneSourceNameRenderer
+  }), props.children);
 }
 
 IncomingCallPanel.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  phoneNumber: _propTypes2.default.string,
-  className: _propTypes2.default.string,
-  answer: _propTypes2.default.func.isRequired,
-  reject: _propTypes2.default.func.isRequired,
-  toVoiceMail: _propTypes2.default.func.isRequired,
-  replyWithMessage: _propTypes2.default.func.isRequired,
-  children: _propTypes2.default.node,
-  formatPhone: _propTypes2.default.func.isRequired,
-  nameMatches: _propTypes2.default.array.isRequired,
-  fallBackName: _propTypes2.default.string.isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  selectedMatcherIndex: _propTypes2.default.number.isRequired,
-  onSelectMatcherName: _propTypes2.default.func.isRequired,
-  avatarUrl: _propTypes2.default.string,
-  onBackButtonClick: _propTypes2.default.func.isRequired,
-  forwardingNumbers: _propTypes2.default.array.isRequired,
-  onForward: _propTypes2.default.func.isRequired,
-  brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  answerAndEnd: _propTypes2.default.func,
-  answerAndHold: _propTypes2.default.func,
-  hasOtherActiveCall: _propTypes2.default.bool,
-  sessionId: _propTypes2.default.string.isRequired,
-  sourceIcons: _propTypes2.default.object,
-  searchContactList: _propTypes2.default.array.isRequired,
-  searchContact: _propTypes2.default.func.isRequired,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func
+  currentLocale: _propTypes.default.string.isRequired,
+  phoneNumber: _propTypes.default.string,
+  className: _propTypes.default.string,
+  answer: _propTypes.default.func.isRequired,
+  reject: _propTypes.default.func.isRequired,
+  toVoiceMail: _propTypes.default.func.isRequired,
+  replyWithMessage: _propTypes.default.func.isRequired,
+  children: _propTypes.default.node,
+  formatPhone: _propTypes.default.func.isRequired,
+  nameMatches: _propTypes.default.array.isRequired,
+  fallBackName: _propTypes.default.string.isRequired,
+  areaCode: _propTypes.default.string.isRequired,
+  countryCode: _propTypes.default.string.isRequired,
+  selectedMatcherIndex: _propTypes.default.number.isRequired,
+  onSelectMatcherName: _propTypes.default.func.isRequired,
+  avatarUrl: _propTypes.default.string,
+  onBackButtonClick: _propTypes.default.func.isRequired,
+  forwardingNumbers: _propTypes.default.array.isRequired,
+  onForward: _propTypes.default.func.isRequired,
+  brand: _propTypes.default.string,
+  showContactDisplayPlaceholder: _propTypes.default.bool,
+  answerAndEnd: _propTypes.default.func,
+  answerAndHold: _propTypes.default.func,
+  hasOtherActiveCall: _propTypes.default.bool,
+  sessionId: _propTypes.default.string.isRequired,
+  sourceIcons: _propTypes.default.object,
+  searchContactList: _propTypes.default.array.isRequired,
+  searchContact: _propTypes.default.func.isRequired,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func
 };
-
 IncomingCallPanel.defaultProps = {
   className: null,
   phoneNumber: null,

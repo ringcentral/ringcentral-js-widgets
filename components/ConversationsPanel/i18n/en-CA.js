@@ -3,28 +3,25 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
 
 var _title$search$compose;
 
-var _messageTypes = require("ringcentral-integration/enums/messageTypes");
-
-var _messageTypes2 = _interopRequireDefault(_messageTypes);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_title$search$compose = {
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _default = (_title$search$compose = {
   title: "Messages",
   search: "Search...",
   composeText: "Compose Text",
   noMessages: "No Messages",
   noSearchResults: "No matching records found"
-}, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "All"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "Voice"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "Text"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "Fax"), _title$search$compose);
-
-// @key: @#@"title"@#@ @source: @#@"Messages"@#@
+}, _defineProperty(_title$search$compose, _messageTypes.default.all, "All"), _defineProperty(_title$search$compose, _messageTypes.default.voiceMail, "Voice"), _defineProperty(_title$search$compose, _messageTypes.default.text, "Text"), _defineProperty(_title$search$compose, _messageTypes.default.fax, "Fax"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@
 // @key: @#@"composeText"@#@ @source: @#@"Compose Text"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@
@@ -33,4 +30,7 @@ exports.default = (_title$search$compose = {
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice"@#@
 // @key: @#@"[messageTypes.text]"@#@ @source: @#@"Text"@#@
 // @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=en-CA.js.map

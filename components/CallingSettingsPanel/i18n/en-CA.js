@@ -3,24 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _callingOptions = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingOptions"));
 
 var _title$callingOptions;
 
-var _callingOptions = require("ringcentral-integration/modules/CallingSettings/callingOptions");
-
-var _callingOptions2 = _interopRequireDefault(_callingOptions);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_title$callingOptions = {
-  title: "Calling"
-}, (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.softphone, "{brand} for Desktop"), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.myphone, "My {brand} Phone"), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.otherphone, "Other Phone"), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.customphone, "Custom Phone"), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.browser, "Browser"), (0, _defineProperty3.default)(_title$callingOptions, "makeCallsWith", "Make my calls with"), (0, _defineProperty3.default)(_title$callingOptions, "ringoutHint", "Ring me at my location first, then connect the called party"), (0, _defineProperty3.default)(_title$callingOptions, "myLocationLabel", "My Location"), (0, _defineProperty3.default)(_title$callingOptions, "press1ToStartCallLabel", "Prompt me to dial 1 before connecting the call"), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.browser + "Tooltip", "Use this option to make and receive calls using your computer’s microphone and speaker."), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.softphone + "Tooltip", "Use this option to make and receive calls using your {brand} for Desktop app."), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.myphone + "Tooltip", "Use this option to make calls using your {brand} phone."), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.myphone + "Tooltip1", "For the call you make, your {brand} phone will ring first then the party you called."), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.otherphone + "Tooltip", "Use this option to make calls using your other phones such as home or cell phones that you have added in your {brand} Extension."), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.otherphone + "Tooltip1", "For the call you make, this phone will ring first then the party you called."), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.customphone + "Tooltip", "Use this option to make calls using any phone of your choice by entering a valid phone number in the field below."), (0, _defineProperty3.default)(_title$callingOptions, _callingOptions2.default.customphone + "Tooltip1", "For the call you make, this phone will ring first then the party you called."), _title$callingOptions);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"title"@#@ @source: @#@"Calling"@#@
+var _default = (_title$callingOptions = {
+  title: "Calling"
+}, _defineProperty(_title$callingOptions, _callingOptions.default.softphone, "{brand} for Desktop"), _defineProperty(_title$callingOptions, _callingOptions.default.myphone, "My {brand} Phone"), _defineProperty(_title$callingOptions, _callingOptions.default.otherphone, "Other Phone"), _defineProperty(_title$callingOptions, _callingOptions.default.customphone, "Custom Phone"), _defineProperty(_title$callingOptions, _callingOptions.default.browser, "Browser"), _defineProperty(_title$callingOptions, "makeCallsWith", "Make my calls with"), _defineProperty(_title$callingOptions, "ringoutHint", "Ring me at my location first, then connect the called party"), _defineProperty(_title$callingOptions, "myLocationLabel", "My Location"), _defineProperty(_title$callingOptions, "press1ToStartCallLabel", "Prompt me to dial 1 before connecting the call"), _defineProperty(_title$callingOptions, "".concat(_callingOptions.default.browser, "Tooltip"), "Use this option to make and receive calls using your computer’s microphone and speaker."), _defineProperty(_title$callingOptions, "".concat(_callingOptions.default.softphone, "Tooltip"), "Use this option to make and receive calls using your {brand} for Desktop app."), _defineProperty(_title$callingOptions, "".concat(_callingOptions.default.myphone, "Tooltip"), "Use this option to make calls using your {brand} phone."), _defineProperty(_title$callingOptions, "".concat(_callingOptions.default.myphone, "Tooltip1"), "For the call you make, your {brand} phone will ring first then the party you called."), _defineProperty(_title$callingOptions, "".concat(_callingOptions.default.otherphone, "Tooltip"), "Use this option to make calls using your other phones such as home or cell phones that you have added in your {brand} Extension."), _defineProperty(_title$callingOptions, "".concat(_callingOptions.default.otherphone, "Tooltip1"), "For the call you make, this phone will ring first then the party you called."), _defineProperty(_title$callingOptions, "".concat(_callingOptions.default.customphone, "Tooltip"), "Use this option to make calls using any phone of your choice by entering a valid phone number in the field below."), _defineProperty(_title$callingOptions, "".concat(_callingOptions.default.customphone, "Tooltip1"), "For the call you make, this phone will ring first then the party you called."), _title$callingOptions); // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@
 // @key: @#@"[callingOptions.myphone]"@#@ @source: @#@"My {brand} Phone"@#@
 // @key: @#@"[callingOptions.otherphone]"@#@ @source: @#@"Other Phone"@#@
@@ -38,4 +35,7 @@ exports.default = (_title$callingOptions = {
 // @key: @#@"[`${callingOptions.otherphone}Tooltip1`]"@#@ @source: @#@"For the call you make, this phone will ring first then the party you called."@#@
 // @key: @#@"[`${callingOptions.customphone}Tooltip`]"@#@ @source: @#@"Use this option to make calls using any phone of your choice by entering a valid phone number in the field below."@#@
 // @key: @#@"[`${callingOptions.customphone}Tooltip1`]"@#@ @source: @#@"For the call you make, this phone will ring first then the party you called."@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=en-CA.js.map

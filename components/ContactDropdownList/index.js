@@ -1,54 +1,57 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.map");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.function.name");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _react = require('react');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _react2 = _interopRequireDefault(_react);
+var _phoneTypeNames = _interopRequireDefault(require("../../lib/phoneTypeNames"));
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _phoneTypeNames = require('../../lib/phoneTypeNames');
-
-var _phoneTypeNames2 = _interopRequireDefault(_phoneTypeNames);
-
-var _phoneSourceNames = require('../../lib/phoneSourceNames');
-
-var _phoneSourceNames2 = _interopRequireDefault(_phoneSourceNames);
+var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var spliter = '|';
 
@@ -57,34 +60,25 @@ function ContactInfo(_ref) {
       entityType = _ref.entityType,
       titleEnabled = _ref.titleEnabled,
       phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
-
-  var phoneSourceName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : _phoneSourceNames2.default.getString(entityType);
-  var nameTitle = name + ' ' + spliter + ' ' + phoneSourceName;
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.nameSection, title: titleEnabled && nameTitle },
-    _react2.default.createElement(
-      'span',
-      { className: _styles2.default.name },
-      name
-    ),
-    _react2.default.createElement(
-      'span',
-      { className: _styles2.default.spliter },
-      spliter
-    ),
-    _react2.default.createElement(
-      'span',
-      { className: _styles2.default.label },
-      phoneSourceName
-    )
-  );
+  var phoneSourceName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : _phoneSourceNames.default.getString(entityType);
+  var nameTitle = "".concat(name, " ").concat(spliter, " ").concat(phoneSourceName);
+  return _react.default.createElement("div", {
+    className: _styles.default.nameSection,
+    title: titleEnabled && nameTitle
+  }, _react.default.createElement("span", {
+    className: _styles.default.name
+  }, name), _react.default.createElement("span", {
+    className: _styles.default.spliter
+  }, spliter), _react.default.createElement("span", {
+    className: _styles.default.label
+  }, phoneSourceName));
 }
+
 ContactInfo.propTypes = {
-  name: _propTypes2.default.string.isRequired,
-  entityType: _propTypes2.default.string.isRequired,
-  titleEnabled: _propTypes2.default.bool,
-  phoneSourceNameRenderer: _propTypes2.default.func
+  name: _propTypes.default.string.isRequired,
+  entityType: _propTypes.default.string.isRequired,
+  titleEnabled: _propTypes.default.bool,
+  phoneSourceNameRenderer: _propTypes.default.func
 };
 ContactInfo.defaultProps = {
   titleEnabled: undefined,
@@ -97,35 +91,24 @@ function ContactPhone(_ref2) {
       formatContactPhone = _ref2.formatContactPhone,
       titleEnabled = _ref2.titleEnabled,
       phoneTypeRenderer = _ref2.phoneTypeRenderer;
-
-  var phoneTypeName = phoneTypeRenderer ? phoneTypeRenderer(phoneType) : _phoneTypeNames2.default.getString(phoneType);
-  var phoneNumberTitle = formatContactPhone(phoneNumber) + ' ' + spliter + ' ' + phoneTypeName;
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.phoneNumberSection, title: titleEnabled && phoneNumberTitle },
-    _react2.default.createElement(
-      'span',
-      null,
-      formatContactPhone(phoneNumber)
-    ),
-    _react2.default.createElement(
-      'span',
-      { className: _styles2.default.spliter },
-      spliter
-    ),
-    _react2.default.createElement(
-      'span',
-      { className: _styles2.default.label },
-      phoneTypeName
-    )
-  );
+  var phoneTypeName = phoneTypeRenderer ? phoneTypeRenderer(phoneType) : _phoneTypeNames.default.getString(phoneType);
+  var phoneNumberTitle = "".concat(formatContactPhone(phoneNumber), " ").concat(spliter, " ").concat(phoneTypeName);
+  return _react.default.createElement("div", {
+    className: _styles.default.phoneNumberSection,
+    title: titleEnabled && phoneNumberTitle
+  }, _react.default.createElement("span", null, formatContactPhone(phoneNumber)), _react.default.createElement("span", {
+    className: _styles.default.spliter
+  }, spliter), _react.default.createElement("span", {
+    className: _styles.default.label
+  }, phoneTypeName));
 }
+
 ContactPhone.propTypes = {
-  phoneType: _propTypes2.default.string.isRequired,
-  phoneNumber: _propTypes2.default.string.isRequired,
-  formatContactPhone: _propTypes2.default.func.isRequired,
-  titleEnabled: _propTypes2.default.bool,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneType: _propTypes.default.string.isRequired,
+  phoneNumber: _propTypes.default.string.isRequired,
+  formatContactPhone: _propTypes.default.func.isRequired,
+  titleEnabled: _propTypes.default.bool,
+  phoneTypeRenderer: _propTypes.default.func
 };
 ContactPhone.defaultProps = {
   titleEnabled: undefined,
@@ -147,60 +130,60 @@ function ContactItem(_ref3) {
       phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
       ContactInfoRenderer = _ref3.contactInfoRenderer,
       ContactPhoneRenderer = _ref3.contactPhoneRenderer;
+  var className = (0, _classnames.default)(_styles.default.contactItem, active ? _styles.default.active : null);
 
-  var className = (0, _classnames2.default)(_styles2.default.contactItem, active ? _styles2.default.active : null);
   if (!ContactInfoRenderer) {
     ContactInfoRenderer = ContactInfo;
   }
+
   if (!ContactPhoneRenderer) {
     ContactPhoneRenderer = ContactPhone;
   }
-  return _react2.default.createElement(
-    'li',
-    { className: className, onMouseOver: onHover },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.clickable, onClick: onClick },
-      _react2.default.createElement(ContactInfoRenderer, {
-        currentLocale: currentLocale,
-        name: name,
-        entityType: entityType,
-        phoneType: phoneType,
-        phoneNumber: phoneNumber,
-        formatContactPhone: formatContactPhone,
-        phoneTypeRenderer: phoneTypeRenderer,
-        phoneSourceNameRenderer: phoneSourceNameRenderer,
-        titleEnabled: titleEnabled
-      }),
-      _react2.default.createElement(ContactPhoneRenderer, {
-        currentLocale: currentLocale,
-        name: name,
-        entityType: entityType,
-        phoneType: phoneType,
-        phoneNumber: phoneNumber,
-        formatContactPhone: formatContactPhone,
-        phoneTypeRenderer: phoneTypeRenderer,
-        phoneSourceNameRenderer: phoneSourceNameRenderer,
-        titleEnabled: titleEnabled
-      })
-    )
-  );
+
+  return _react.default.createElement("li", {
+    className: className,
+    onMouseOver: onHover
+  }, _react.default.createElement("div", {
+    className: _styles.default.clickable,
+    onClick: onClick
+  }, _react.default.createElement(ContactInfoRenderer, {
+    currentLocale: currentLocale,
+    name: name,
+    entityType: entityType,
+    phoneType: phoneType,
+    phoneNumber: phoneNumber,
+    formatContactPhone: formatContactPhone,
+    phoneTypeRenderer: phoneTypeRenderer,
+    phoneSourceNameRenderer: phoneSourceNameRenderer,
+    titleEnabled: titleEnabled
+  }), _react.default.createElement(ContactPhoneRenderer, {
+    currentLocale: currentLocale,
+    name: name,
+    entityType: entityType,
+    phoneType: phoneType,
+    phoneNumber: phoneNumber,
+    formatContactPhone: formatContactPhone,
+    phoneTypeRenderer: phoneTypeRenderer,
+    phoneSourceNameRenderer: phoneSourceNameRenderer,
+    titleEnabled: titleEnabled
+  })));
 }
+
 ContactItem.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  onClick: _propTypes2.default.func.isRequired,
-  formatContactPhone: _propTypes2.default.func.isRequired,
-  name: _propTypes2.default.string.isRequired,
-  entityType: _propTypes2.default.string.isRequired,
-  phoneType: _propTypes2.default.string.isRequired,
-  phoneNumber: _propTypes2.default.string.isRequired,
-  active: _propTypes2.default.bool.isRequired,
-  onHover: _propTypes2.default.func.isRequired,
-  titleEnabled: _propTypes2.default.bool,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  contactInfoRenderer: _propTypes2.default.func,
-  contactPhoneRenderer: _propTypes2.default.func
+  currentLocale: _propTypes.default.string.isRequired,
+  onClick: _propTypes.default.func.isRequired,
+  formatContactPhone: _propTypes.default.func.isRequired,
+  name: _propTypes.default.string.isRequired,
+  entityType: _propTypes.default.string.isRequired,
+  phoneType: _propTypes.default.string.isRequired,
+  phoneNumber: _propTypes.default.string.isRequired,
+  active: _propTypes.default.bool.isRequired,
+  onHover: _propTypes.default.func.isRequired,
+  titleEnabled: _propTypes.default.bool,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  contactInfoRenderer: _propTypes.default.func,
+  contactPhoneRenderer: _propTypes.default.func
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
@@ -210,20 +193,24 @@ ContactItem.defaultProps = {
   contactPhoneRenderer: undefined
 };
 
-var ContactDropdownList = function (_Component) {
-  (0, _inherits3.default)(ContactDropdownList, _Component);
+var ContactDropdownList =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ContactDropdownList, _Component);
 
   function ContactDropdownList() {
-    (0, _classCallCheck3.default)(this, ContactDropdownList);
-    return (0, _possibleConstructorReturn3.default)(this, (ContactDropdownList.__proto__ || (0, _getPrototypeOf2.default)(ContactDropdownList)).apply(this, arguments));
+    _classCallCheck(this, ContactDropdownList);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ContactDropdownList).apply(this, arguments));
   }
 
-  (0, _createClass3.default)(ContactDropdownList, [{
-    key: 'componentWillReceiveProps',
+  _createClass(ContactDropdownList, [{
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       if (!nextProps.visibility || nextProps.items.length === 0) {
         return;
       }
+
       if (nextProps.scrollDirection === 'ArrowDown') {
         if (nextProps.selectedIndex < nextProps.items.length) {
           if (nextProps.selectedIndex > 4 && this.node) {
@@ -232,6 +219,7 @@ var ContactDropdownList = function (_Component) {
           }
         }
       }
+
       if (nextProps.scrollDirection === 'ArrowUp') {
         if (nextProps.selectedIndex > -1) {
           if (nextProps.selectedIndex < nextProps.items.length - 4 && this.node) {
@@ -242,92 +230,90 @@ var ContactDropdownList = function (_Component) {
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
-      var _props = this.props,
-          currentLocale = _props.currentLocale,
-          className = _props.className,
-          listRef = _props.listRef,
-          items = _props.items,
-          selectedIndex = _props.selectedIndex,
-          formatContactPhone = _props.formatContactPhone,
-          setSelectedIndex = _props.setSelectedIndex,
-          addToRecipients = _props.addToRecipients,
-          titleEnabled = _props.titleEnabled,
-          visibility = _props.visibility,
-          phoneTypeRenderer = _props.phoneTypeRenderer,
-          phoneSourceNameRenderer = _props.phoneSourceNameRenderer,
-          contactInfoRenderer = _props.contactInfoRenderer,
-          contactPhoneRenderer = _props.contactPhoneRenderer;
+      var _this$props = this.props,
+          currentLocale = _this$props.currentLocale,
+          className = _this$props.className,
+          listRef = _this$props.listRef,
+          items = _this$props.items,
+          selectedIndex = _this$props.selectedIndex,
+          formatContactPhone = _this$props.formatContactPhone,
+          setSelectedIndex = _this$props.setSelectedIndex,
+          addToRecipients = _this$props.addToRecipients,
+          titleEnabled = _this$props.titleEnabled,
+          visibility = _this$props.visibility,
+          phoneTypeRenderer = _this$props.phoneTypeRenderer,
+          phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
+          contactInfoRenderer = _this$props.contactInfoRenderer,
+          contactPhoneRenderer = _this$props.contactPhoneRenderer;
 
       if (!visibility || items.length === 0) {
         return null;
       }
-      return _react2.default.createElement(
-        'ul',
-        {
-          className: (0, _classnames2.default)(_styles2.default.dropdownList, className),
-          ref: function ref(c) {
-            _this2.node = c;
-            if (typeof listRef === 'function') {
-              listRef(c);
-            }
+
+      return _react.default.createElement("ul", {
+        className: (0, _classnames.default)(_styles.default.dropdownList, className),
+        ref: function ref(c) {
+          _this.node = c;
+
+          if (typeof listRef === 'function') {
+            listRef(c);
           }
-        },
-        items.map(function (item, index) {
-          return _react2.default.createElement(ContactItem, {
-            currentLocale: currentLocale,
-            active: selectedIndex === index,
-            name: item.name,
-            entityType: item.entityType,
-            phoneType: item.phoneType,
-            phoneNumber: item.phoneNumber,
-            phoneTypeRenderer: phoneTypeRenderer,
-            phoneSourceNameRenderer: phoneSourceNameRenderer,
-            formatContactPhone: formatContactPhone,
-            onHover: function onHover() {
-              return setSelectedIndex(index);
-            },
-            onClick: function onClick() {
-              return addToRecipients(item);
-            },
-            key: '' + index + item.phoneNumber + item.name + item.phoneType,
-            titleEnabled: titleEnabled,
-            contactInfoRenderer: contactInfoRenderer,
-            contactPhoneRenderer: contactPhoneRenderer
-          });
-        })
-      );
+        }
+      }, items.map(function (item, index) {
+        return _react.default.createElement(ContactItem, {
+          currentLocale: currentLocale,
+          active: selectedIndex === index,
+          name: item.name,
+          entityType: item.entityType,
+          phoneType: item.phoneType,
+          phoneNumber: item.phoneNumber,
+          phoneTypeRenderer: phoneTypeRenderer,
+          phoneSourceNameRenderer: phoneSourceNameRenderer,
+          formatContactPhone: formatContactPhone,
+          onHover: function onHover() {
+            return setSelectedIndex(index);
+          },
+          onClick: function onClick() {
+            return addToRecipients(item);
+          },
+          key: "".concat(index).concat(item.phoneNumber).concat(item.name).concat(item.phoneType),
+          titleEnabled: titleEnabled,
+          contactInfoRenderer: contactInfoRenderer,
+          contactPhoneRenderer: contactPhoneRenderer
+        });
+      }));
     }
   }]);
+
   return ContactDropdownList;
 }(_react.Component);
 
 ContactDropdownList.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  scrollDirection: _propTypes2.default.string,
-  visibility: _propTypes2.default.bool.isRequired,
-  className: _propTypes2.default.string,
-  items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    name: _propTypes2.default.string.isRequired,
-    entityType: _propTypes2.default.string.isRequired,
-    phoneType: _propTypes2.default.string.isRequired,
-    phoneNumber: _propTypes2.default.string.isRequired
+  currentLocale: _propTypes.default.string.isRequired,
+  scrollDirection: _propTypes.default.string,
+  visibility: _propTypes.default.bool.isRequired,
+  className: _propTypes.default.string,
+  items: _propTypes.default.arrayOf(_propTypes.default.shape({
+    name: _propTypes.default.string.isRequired,
+    entityType: _propTypes.default.string.isRequired,
+    phoneType: _propTypes.default.string.isRequired,
+    phoneNumber: _propTypes.default.string.isRequired
   })).isRequired,
-  formatContactPhone: _propTypes2.default.func.isRequired,
-  addToRecipients: _propTypes2.default.func.isRequired,
-  setSelectedIndex: _propTypes2.default.func.isRequired,
-  selectedIndex: _propTypes2.default.number.isRequired,
-  titleEnabled: _propTypes2.default.bool,
-  listRef: _propTypes2.default.func,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  contactInfoRenderer: _propTypes2.default.func,
-  contactPhoneRenderer: _propTypes2.default.func
+  formatContactPhone: _propTypes.default.func.isRequired,
+  addToRecipients: _propTypes.default.func.isRequired,
+  setSelectedIndex: _propTypes.default.func.isRequired,
+  selectedIndex: _propTypes.default.number.isRequired,
+  titleEnabled: _propTypes.default.bool,
+  listRef: _propTypes.default.func,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  contactInfoRenderer: _propTypes.default.func,
+  contactPhoneRenderer: _propTypes.default.func
 };
-
 ContactDropdownList.defaultProps = {
   className: null,
   scrollDirection: null,
@@ -338,6 +324,6 @@ ContactDropdownList.defaultProps = {
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined
 };
-
-exports.default = ContactDropdownList;
+var _default = ContactDropdownList;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

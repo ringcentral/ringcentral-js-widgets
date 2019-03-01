@@ -1,77 +1,45 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = SettingsPanel;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _classnames = require('classnames');
+var _Header = _interopRequireDefault(require("../Header"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _Panel = _interopRequireDefault(require("../Panel"));
 
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+var _Line = _interopRequireDefault(require("../Line"));
 
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+var _LinkLine = _interopRequireDefault(require("../LinkLine"));
 
-var _Header = require('../Header');
+var _IconLine = _interopRequireDefault(require("../IconLine"));
 
-var _Header2 = _interopRequireDefault(_Header);
+var _Eula = _interopRequireDefault(require("../Eula"));
 
-var _Panel = require('../Panel');
+var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-var _Panel2 = _interopRequireDefault(_Panel);
+var _PresenceSettingSection = _interopRequireDefault(require("../PresenceSettingSection"));
 
-var _Line = require('../Line');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _Line2 = _interopRequireDefault(_Line);
+var _Switch = _interopRequireDefault(require("../Switch"));
 
-var _LinkLine = require('../LinkLine');
+var _InputLine = _interopRequireDefault(require("../InputLine"));
 
-var _LinkLine2 = _interopRequireDefault(_LinkLine);
+var _LocalePicker = _interopRequireDefault(require("../LocalePicker"));
 
-var _IconLine = require('../IconLine');
-
-var _IconLine2 = _interopRequireDefault(_IconLine);
-
-var _Eula = require('../Eula');
-
-var _Eula2 = _interopRequireDefault(_Eula);
-
-var _SpinnerOverlay = require('../SpinnerOverlay');
-
-var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
-
-var _PresenceSettingSection = require('../PresenceSettingSection');
-
-var _PresenceSettingSection2 = _interopRequireDefault(_PresenceSettingSection);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _Switch = require('../Switch');
-
-var _Switch2 = _interopRequireDefault(_Switch);
-
-var _InputLine = require('../InputLine');
-
-var _InputLine2 = _interopRequireDefault(_InputLine);
-
-var _LocalePicker = require('../LocalePicker');
-
-var _LocalePicker2 = _interopRequireDefault(_LocalePicker);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -128,56 +96,37 @@ function SettingsPanel(_ref) {
       supportedLocales = _ref.supportedLocales,
       savedLocale = _ref.savedLocale,
       saveLocale = _ref.saveLocale,
-      clickToDialTitle = _ref.clickToDialTitle;
+      clickToDialTitle = _ref.clickToDialTitle,
+      versionContainer = _ref.versionContainer;
 
   if (showSpinner) {
-    return _react2.default.createElement(_SpinnerOverlay2.default, null);
+    return _react.default.createElement(_SpinnerOverlay.default, null);
   }
 
-  var locale = supportedLocales && supportedLocales.length > 1 && _react2.default.createElement(
-    _InputLine2.default,
-    {
-      label: _i18n2.default.getString('language', currentLocale)
-    },
-    _react2.default.createElement(_LocalePicker2.default, {
-      value: savedLocale,
-      onChange: saveLocale,
-      options: supportedLocales
-    })
-  );
+  var locale = supportedLocales && supportedLocales.length > 1 && _react.default.createElement(_InputLine.default, {
+    label: _i18n.default.getString('language', currentLocale)
+  }, _react.default.createElement(_LocalePicker.default, {
+    value: savedLocale,
+    onChange: saveLocale,
+    options: supportedLocales
+  }));
 
-  var region = showRegion ? _react2.default.createElement(
-    _LinkLine2.default,
-    {
-      onClick: onRegionSettingsLinkClick },
-    _i18n2.default.getString('region', currentLocale)
-  ) : null;
-
-  var calling = showCalling ? _react2.default.createElement(
-    _LinkLine2.default,
-    {
-      onClick: onCallingSettingsLinkClick },
-    _i18n2.default.getString('calling', currentLocale)
-  ) : null;
-  var audio = showAudio ? _react2.default.createElement(
-    _LinkLine2.default,
-    {
-      onClick: onAudioSettingsLinkClick },
-    _i18n2.default.getString('audio', currentLocale)
-  ) : null;
-  var feedback = showFeedback ? _react2.default.createElement(
-    _LinkLine2.default,
-    {
-      onClick: onFeedbackSettingsLinkClick },
-    _i18n2.default.getString('feedback', currentLocale)
-  ) : null;
-  var quickAccess = showQuickAccess ? _react2.default.createElement(
-    _LinkLine2.default,
-    {
-      onClick: onQuickAccessLinkClick },
-    _i18n2.default.getString('quickAccess', currentLocale)
-  ) : null;
-  var presenceSetting = showPresenceSettings && dndStatus && userStatus ? _react2.default.createElement(_PresenceSettingSection2.default, {
+  var region = showRegion ? _react.default.createElement(_LinkLine.default, {
+    onClick: onRegionSettingsLinkClick
+  }, _i18n.default.getString('region', currentLocale)) : null;
+  var calling = showCalling ? _react.default.createElement(_LinkLine.default, {
+    onClick: onCallingSettingsLinkClick
+  }, _i18n.default.getString('calling', currentLocale)) : null;
+  var audio = showAudio ? _react.default.createElement(_LinkLine.default, {
+    onClick: onAudioSettingsLinkClick
+  }, _i18n.default.getString('audio', currentLocale)) : null;
+  var feedback = showFeedback ? _react.default.createElement(_LinkLine.default, {
+    onClick: onFeedbackSettingsLinkClick
+  }, _i18n.default.getString('feedback', currentLocale)) : null;
+  var quickAccess = showQuickAccess ? _react.default.createElement(_LinkLine.default, {
+    onClick: onQuickAccessLinkClick
+  }, _i18n.default.getString('quickAccess', currentLocale)) : null;
+  var presenceSetting = showPresenceSettings && dndStatus && userStatus ? _react.default.createElement(_PresenceSettingSection.default, {
     currentLocale: currentLocale,
     dndStatus: dndStatus,
     userStatus: userStatus,
@@ -189,200 +138,144 @@ function SettingsPanel(_ref) {
     toggleAcceptCallQueueCalls: toggleAcceptCallQueueCalls,
     showPresenceSettings: openPresenceSettings
   }) : null;
-  var clickToDialText = void 0;
+  var clickToDialText;
+
   if (outboundSMS && clickToDialPermissions) {
-    clickToDialText = _i18n2.default.getString('clickToDialSMS', currentLocale);
+    clickToDialText = _i18n.default.getString('clickToDialSMS', currentLocale);
   } else if (!outboundSMS && clickToDialPermissions) {
-    clickToDialText = _i18n2.default.getString('clickToDial', currentLocale);
+    clickToDialText = _i18n.default.getString('clickToDial', currentLocale);
   } else if (outboundSMS && !clickToDialPermissions) {
-    clickToDialText = _i18n2.default.getString('clickToSMS', currentLocale);
+    clickToDialText = _i18n.default.getString('clickToSMS', currentLocale);
   } else {
     clickToDialText = '';
   }
-  var clickToDial = showClickToDial && (outboundSMS || clickToDialPermissions) ? _react2.default.createElement(
-    _IconLine2.default,
-    {
-      icon: _react2.default.createElement(_Switch2.default, {
-        checked: clickToDialEnabled,
-        onChange: onClickToDialChange
-      }),
-      title: clickToDialTitle
-    },
-    clickToDialText
-  ) : null;
-  // if the Switch component is disabled then the text to describe it will be a disabled color.
-  var autoLog = showAutoLog ? _react2.default.createElement(
-    _IconLine2.default,
-    {
-      icon: _react2.default.createElement(_Switch2.default, {
-        disable: disableAutoLogEnabled,
-        checked: autoLogEnabled,
-        onChange: onAutoLogChange
-      })
-    },
-    _react2.default.createElement(
-      'span',
-      { className: (0, _classnames2.default)(disableAutoLogEnabled && _styles2.default.disableText) },
-      _i18n2.default.getString('autoLogCalls', currentLocale)
-    )
-  ) : null;
-  var autoLogNotes = showAutoLogNotes ? _react2.default.createElement(
-    _IconLine2.default,
-    {
-      icon: _react2.default.createElement(_Switch2.default, {
-        disable: disableAutoLogNotesEnabled,
-        checked: autoLogNotesEnabled,
-        onChange: onAutoLogNotesChange
-      })
-    },
-    _react2.default.createElement(
-      'span',
-      { className: (0, _classnames2.default)(disableAutoLogNotesEnabled && _styles2.default.disableText) },
-      _i18n2.default.getString('autoLogNotes', currentLocale)
-    )
-  ) : null;
-  var autoLogSMS = showAutoLogSMS ? _react2.default.createElement(
-    _IconLine2.default,
-    {
-      icon: _react2.default.createElement(_Switch2.default, {
-        checked: autoLogSMSEnabled,
-        onChange: onAutoLogSMSChange
-      })
-    },
-    _i18n2.default.getString('autoLogSMS', currentLocale)
-  ) : null;
-  var header = showHeader ? _react2.default.createElement(
-    _Header2.default,
-    null,
-    _i18n2.default.getString('settings', currentLocale)
-  ) : null;
-  var userGuide = showUserGuide ? _react2.default.createElement(
-    _LinkLine2.default,
-    {
-      onClick: onUserGuideClick },
-    _i18n2.default.getString('userGuide', currentLocale)
-  ) : null;
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.root, className) },
-    header,
-    _react2.default.createElement(
-      _Panel2.default,
-      {
-        className: (0, _classnames2.default)(_styles2.default.content, showHeader && _styles2.default.contentWithHeader) },
-      locale,
-      calling,
-      region,
-      audio,
-      presenceSetting,
-      children,
-      autoLog,
-      autoLogNotes,
-      autoLogSMS,
-      clickToDial,
-      additional,
-      feedback,
-      quickAccess,
-      userGuide,
-      _react2.default.createElement(
-        'section',
-        { className: _styles2.default.section },
-        _react2.default.createElement(
-          _Line2.default,
-          { noBorder: true },
-          _react2.default.createElement(EulaRenderer, {
-            className: _styles2.default.eula,
-            currentLocale: currentLocale,
-            brandId: brandId })
-        )
-      ),
-      _react2.default.createElement(
-        'section',
-        { className: _styles2.default.section },
-        _react2.default.createElement(
-          _IconLine2.default,
-          {
-            noBorder: true,
-            dataSign: 'logoutButton',
-            onClick: onLogoutButtonClick,
-            icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_styles2.default.logoutIcon, _DynamicsFont2.default.logout) }) },
-          _i18n2.default.getString('logout', currentLocale),
-          _react2.default.createElement(
-            'span',
-            { className: _styles2.default.loginNumber },
-            ' ' + loginNumber
-          )
-        )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.versionContainer },
-        _i18n2.default.getString('version', currentLocale),
-        ' ',
-        version
-      )
-    )
-  );
+
+  var clickToDial = showClickToDial && (outboundSMS || clickToDialPermissions) ? _react.default.createElement(_IconLine.default, {
+    icon: _react.default.createElement(_Switch.default, {
+      checked: clickToDialEnabled,
+      onChange: onClickToDialChange
+    }),
+    title: clickToDialTitle
+  }, clickToDialText) : null; // if the Switch component is disabled then the text to describe it will be a disabled color.
+
+  var autoLog = showAutoLog ? _react.default.createElement(_IconLine.default, {
+    icon: _react.default.createElement(_Switch.default, {
+      disable: disableAutoLogEnabled,
+      checked: autoLogEnabled,
+      onChange: onAutoLogChange
+    })
+  }, _react.default.createElement("span", {
+    className: (0, _classnames.default)(disableAutoLogEnabled && _styles.default.disableText)
+  }, _i18n.default.getString('autoLogCalls', currentLocale))) : null;
+  var autoLogNotes = showAutoLogNotes ? _react.default.createElement(_IconLine.default, {
+    icon: _react.default.createElement(_Switch.default, {
+      disable: disableAutoLogNotesEnabled,
+      checked: autoLogNotesEnabled,
+      onChange: onAutoLogNotesChange
+    })
+  }, _react.default.createElement("span", {
+    className: (0, _classnames.default)(disableAutoLogNotesEnabled && _styles.default.disableText)
+  }, _i18n.default.getString('autoLogNotes', currentLocale))) : null;
+  var autoLogSMS = showAutoLogSMS ? _react.default.createElement(_IconLine.default, {
+    icon: _react.default.createElement(_Switch.default, {
+      checked: autoLogSMSEnabled,
+      onChange: onAutoLogSMSChange
+    })
+  }, _i18n.default.getString('autoLogSMS', currentLocale)) : null;
+  var header = showHeader ? _react.default.createElement(_Header.default, null, _i18n.default.getString('settings', currentLocale)) : null;
+  var userGuide = showUserGuide ? _react.default.createElement(_LinkLine.default, {
+    onClick: onUserGuideClick
+  }, _i18n.default.getString('userGuide', currentLocale)) : null;
+
+  var versionArea = versionContainer || _react.default.createElement("div", {
+    className: _styles.default.versionContainer
+  }, _i18n.default.getString('version', currentLocale), ' ', version);
+
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.root, className)
+  }, header, _react.default.createElement(_Panel.default, {
+    className: (0, _classnames.default)(_styles.default.content, showHeader && _styles.default.contentWithHeader)
+  }, locale, calling, region, audio, presenceSetting, children, autoLog, autoLogNotes, autoLogSMS, clickToDial, additional, feedback, quickAccess, userGuide, _react.default.createElement("section", {
+    className: _styles.default.section
+  }, _react.default.createElement(_Line.default, {
+    noBorder: true
+  }, _react.default.createElement(EulaRenderer, {
+    className: _styles.default.eula,
+    currentLocale: currentLocale,
+    brandId: brandId
+  }))), _react.default.createElement("section", {
+    className: _styles.default.section
+  }, _react.default.createElement(_IconLine.default, {
+    noBorder: true,
+    dataSign: "logoutButton",
+    onClick: onLogoutButtonClick,
+    icon: _react.default.createElement("span", {
+      className: (0, _classnames.default)(_styles.default.logoutIcon, _DynamicsFont.default.logout)
+    })
+  }, _i18n.default.getString('logout', currentLocale), _react.default.createElement("span", {
+    className: _styles.default.loginNumber
+  }, " ".concat(loginNumber)))), versionArea));
 }
 
 SettingsPanel.propTypes = {
-  brandId: _propTypes2.default.string.isRequired,
-  onCallingSettingsLinkClick: _propTypes2.default.func.isRequired,
-  onAudioSettingsLinkClick: _propTypes2.default.func.isRequired,
-  children: _propTypes2.default.node,
-  className: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
-  EulaRenderer: _propTypes2.default.func,
-  loginNumber: _propTypes2.default.string.isRequired,
-  onLogoutButtonClick: _propTypes2.default.func.isRequired,
-  onRegionSettingsLinkClick: _propTypes2.default.func.isRequired,
-  showCalling: _propTypes2.default.bool,
-  showRegion: _propTypes2.default.bool,
-  showAudio: _propTypes2.default.bool,
-  showAutoLog: _propTypes2.default.bool,
-  showAutoLogNotes: _propTypes2.default.bool,
-  autoLogEnabled: _propTypes2.default.bool,
-  autoLogNotesEnabled: _propTypes2.default.bool,
-  disableAutoLogEnabled: _propTypes2.default.bool,
-  disableAutoLogNotesEnabled: _propTypes2.default.bool,
-  onAutoLogChange: _propTypes2.default.func,
-  onAutoLogNotesChange: _propTypes2.default.func,
-  showAutoLogSMS: _propTypes2.default.bool,
-  autoLogSMSEnabled: _propTypes2.default.bool,
-  onAutoLogSMSChange: _propTypes2.default.func,
-  showClickToDial: _propTypes2.default.bool,
-  clickToDialEnabled: _propTypes2.default.bool,
-  clickToDialPermissions: _propTypes2.default.bool,
-  onClickToDialChange: _propTypes2.default.func,
-  version: _propTypes2.default.string.isRequired,
-  showHeader: _propTypes2.default.bool,
-  outboundSMS: _propTypes2.default.bool,
-  showSpinner: _propTypes2.default.bool,
-  dndStatus: _propTypes2.default.string,
-  userStatus: _propTypes2.default.string,
-  isCallQueueMember: _propTypes2.default.bool,
-  setAvailable: _propTypes2.default.func,
-  setBusy: _propTypes2.default.func,
-  setDoNotDisturb: _propTypes2.default.func,
-  setInvisible: _propTypes2.default.func,
-  toggleAcceptCallQueueCalls: _propTypes2.default.func,
-  openPresenceSettings: _propTypes2.default.bool,
-  showPresenceSettings: _propTypes2.default.bool,
-  showFeedback: _propTypes2.default.bool,
-  showQuickAccess: _propTypes2.default.bool,
-  additional: _propTypes2.default.node,
-  supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
-  savedLocale: _propTypes2.default.string,
-  saveLocale: _propTypes2.default.func,
-  onFeedbackSettingsLinkClick: _propTypes2.default.func.isRequired,
-  onQuickAccessLinkClick: _propTypes2.default.func,
-  onUserGuideClick: _propTypes2.default.func.isRequired,
-  showUserGuide: _propTypes2.default.bool,
-  clickToDialTitle: _propTypes2.default.string
+  brandId: _propTypes.default.string.isRequired,
+  onCallingSettingsLinkClick: _propTypes.default.func.isRequired,
+  onAudioSettingsLinkClick: _propTypes.default.func.isRequired,
+  children: _propTypes.default.node,
+  className: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired,
+  EulaRenderer: _propTypes.default.func,
+  loginNumber: _propTypes.default.string.isRequired,
+  onLogoutButtonClick: _propTypes.default.func.isRequired,
+  onRegionSettingsLinkClick: _propTypes.default.func.isRequired,
+  showCalling: _propTypes.default.bool,
+  showRegion: _propTypes.default.bool,
+  showAudio: _propTypes.default.bool,
+  showAutoLog: _propTypes.default.bool,
+  showAutoLogNotes: _propTypes.default.bool,
+  autoLogEnabled: _propTypes.default.bool,
+  autoLogNotesEnabled: _propTypes.default.bool,
+  disableAutoLogEnabled: _propTypes.default.bool,
+  disableAutoLogNotesEnabled: _propTypes.default.bool,
+  onAutoLogChange: _propTypes.default.func,
+  onAutoLogNotesChange: _propTypes.default.func,
+  showAutoLogSMS: _propTypes.default.bool,
+  autoLogSMSEnabled: _propTypes.default.bool,
+  onAutoLogSMSChange: _propTypes.default.func,
+  showClickToDial: _propTypes.default.bool,
+  clickToDialEnabled: _propTypes.default.bool,
+  clickToDialPermissions: _propTypes.default.bool,
+  onClickToDialChange: _propTypes.default.func,
+  version: _propTypes.default.string.isRequired,
+  showHeader: _propTypes.default.bool,
+  outboundSMS: _propTypes.default.bool,
+  showSpinner: _propTypes.default.bool,
+  dndStatus: _propTypes.default.string,
+  userStatus: _propTypes.default.string,
+  isCallQueueMember: _propTypes.default.bool,
+  setAvailable: _propTypes.default.func,
+  setBusy: _propTypes.default.func,
+  setDoNotDisturb: _propTypes.default.func,
+  setInvisible: _propTypes.default.func,
+  toggleAcceptCallQueueCalls: _propTypes.default.func,
+  openPresenceSettings: _propTypes.default.bool,
+  showPresenceSettings: _propTypes.default.bool,
+  showFeedback: _propTypes.default.bool,
+  showQuickAccess: _propTypes.default.bool,
+  additional: _propTypes.default.node,
+  supportedLocales: _propTypes.default.arrayOf(_propTypes.default.string),
+  savedLocale: _propTypes.default.string,
+  saveLocale: _propTypes.default.func,
+  onFeedbackSettingsLinkClick: _propTypes.default.func.isRequired,
+  onQuickAccessLinkClick: _propTypes.default.func,
+  onUserGuideClick: _propTypes.default.func.isRequired,
+  showUserGuide: _propTypes.default.bool,
+  clickToDialTitle: _propTypes.default.string,
+  versionContainer: _propTypes.default.node
 };
 SettingsPanel.defaultProps = {
   className: null,
-  EulaRenderer: _Eula2.default,
+  EulaRenderer: _Eula.default,
   children: null,
   showClickToDial: false,
   clickToDialEnabled: false,
@@ -439,6 +332,7 @@ SettingsPanel.defaultProps = {
   onQuickAccessLinkClick: function onQuickAccessLinkClick() {
     return null;
   },
-  clickToDialTitle: null
+  clickToDialTitle: null,
+  versionContainer: null
 };
 //# sourceMappingURL=index.js.map

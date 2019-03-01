@@ -1,33 +1,34 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
+exports.mapToFunctions = mapToFunctions;
+exports.mapToProps = mapToProps;
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("regenerator-runtime/runtime");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _reactRedux = require("react-redux");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _RegionSettingsPanel = _interopRequireDefault(require("../../components/RegionSettingsPanel"));
 
-var _reactRedux = require('react-redux');
-
-var _RegionSettingsPanel = require('../../components/RegionSettingsPanel');
-
-var _RegionSettingsPanel2 = _interopRequireDefault(_RegionSettingsPanel);
-
-var _phoneContext = require('../../lib/phoneContext');
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
       regionSettings = _ref$phone.regionSettings;
-
   return {
     availableCountries: regionSettings.availableCountries,
     countryCode: regionSettings.countryCode,
@@ -37,17 +38,16 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
-  var _this = this;
-
   var _ref2$phone = _ref2.phone,
       auth = _ref2$phone.auth,
       regionSettings = _ref2$phone.regionSettings,
       routerInteraction = _ref2$phone.routerInteraction;
-
   return {
     onLogoutButtonClick: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _onLogoutButtonClick = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -55,15 +55,15 @@ function mapToFunctions(_, _ref2) {
                 return auth.logout();
 
               case 2:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this);
+        }, _callee);
       }));
 
       function onLogoutButtonClick() {
-        return _ref3.apply(this, arguments);
+        return _onLogoutButtonClick.apply(this, arguments);
       }
 
       return onLogoutButtonClick;
@@ -71,10 +71,9 @@ function mapToFunctions(_, _ref2) {
     onBackButtonClick: function onBackButtonClick() {
       routerInteraction.goBack();
     },
-    onSave: function onSave(_ref4) {
-      var areaCode = _ref4.areaCode,
-          countryCode = _ref4.countryCode;
-
+    onSave: function onSave(_ref3) {
+      var areaCode = _ref3.areaCode,
+          countryCode = _ref3.countryCode;
       regionSettings.setData({
         areaCode: areaCode,
         countryCode: countryCode
@@ -83,9 +82,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var RegionSettingsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_RegionSettingsPanel2.default));
-
-exports.mapToFunctions = mapToFunctions;
-exports.mapToProps = mapToProps;
+var RegionSettingsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_RegionSettingsPanel.default));
 exports.default = RegionSettingsPage;
 //# sourceMappingURL=index.js.map

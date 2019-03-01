@@ -1,9 +1,12 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   region: 'Region',
   calling: 'Calling',
   logout: 'Logout',
@@ -23,4 +26,5 @@ exports.default = {
   userGuide: "What\'s New",
   quickAccess: "Quick Access Setting"
 };
+exports.default = _default;
 //# sourceMappingURL=en-US.js.map

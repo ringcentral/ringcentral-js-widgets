@@ -1,21 +1,21 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
+exports.mapToFunctions = mapToFunctions;
+exports.mapToProps = mapToProps;
+exports.default = void 0;
 
-var _reactRedux = require('react-redux');
+var _reactRedux = require("react-redux");
 
-var _loginStatus = require('ringcentral-integration/modules/Auth/loginStatus');
+var _loginStatus = _interopRequireDefault(require("ringcentral-integration/modules/Auth/loginStatus"));
 
-var _loginStatus2 = _interopRequireDefault(_loginStatus);
+var _LoginPanel = _interopRequireDefault(require("../../components/LoginPanel"));
 
-var _LoginPanel = require('../../components/LoginPanel');
-
-var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
-
-var _phoneContext = require('../../lib/phoneContext');
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,14 +28,13 @@ function mapToProps(_, _ref) {
       oAuth = _ref$phone.oAuth,
       version = _ref.version,
       _ref$showSignUp = _ref.showSignUp,
-      showSignUp = _ref$showSignUp === undefined ? false : _ref$showSignUp,
+      showSignUp = _ref$showSignUp === void 0 ? false : _ref$showSignUp,
       onSignUpButtonClick = _ref.onSignUpButtonClick;
-
   return {
     currentLocale: locale.currentLocale,
     disabled: !oAuth.oAuthReady || rateLimiter.throttling || !connectivityMonitor.connectivity,
     version: version,
-    showSpinner: !auth.ready || auth.loginStatus === _loginStatus2.default.loggingIn || auth.loginStatus === _loginStatus2.default.loggingOut || auth.loginStatus === _loginStatus2.default.beforeLogout || auth.loginStatus === _loginStatus2.default.loggedIn,
+    showSpinner: !auth.ready || auth.loginStatus === _loginStatus.default.loggingIn || auth.loginStatus === _loginStatus.default.loggingOut || auth.loginStatus === _loginStatus.default.beforeLogout || auth.loginStatus === _loginStatus.default.loggedIn,
     showSignUp: showSignUp,
     onSignUpButtonClick: onSignUpButtonClick
   };
@@ -43,7 +42,6 @@ function mapToProps(_, _ref) {
 
 function mapToFunctions(_, _ref2) {
   var oAuth = _ref2.phone.oAuth;
-
   return {
     setupOAuth: function setupOAuth() {
       oAuth.setupOAuth();
@@ -57,9 +55,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var WelcomePage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_LoginPanel2.default));
-
-exports.mapToFunctions = mapToFunctions;
-exports.mapToProps = mapToProps;
+var WelcomePage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_LoginPanel.default));
 exports.default = WelcomePage;
 //# sourceMappingURL=index.js.map

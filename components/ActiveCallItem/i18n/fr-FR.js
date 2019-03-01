@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   logging: "Connexion en cours...",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
@@ -15,7 +18,7 @@ exports.default = {
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",
   viewDetails: "Afficher les détails",
-  addEntity: "Créer",
+  addEntity: "Créer nouveau",
   addLog: "Journal",
   text: "SMS",
   call: "Appeler",
@@ -34,9 +37,7 @@ exports.default = {
   unhold: "Reprendre l'appel",
   transfer: "Transférer",
   reject: "Rejeter"
-};
-
-// @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
+}; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"select"@#@ @source: @#@"Select a matching record"@#@
@@ -66,4 +67,6 @@ exports.default = {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+
+exports.default = _default;
 //# sourceMappingURL=fr-FR.js.map

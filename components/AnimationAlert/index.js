@@ -1,82 +1,111 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.array.for-each");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.index-of");
 
-var _set = require('babel-runtime/core-js/set');
+require("core-js/modules/es6.object.keys");
 
-var _set2 = _interopRequireDefault(_set);
+require("core-js/modules/es6.object.assign");
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+require("core-js/modules/es6.array.from");
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+require("core-js/modules/es6.regexp.to-string");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.date.to-string");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.is-array");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.promise");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.define-property");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.create");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/web.dom.iterable");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.array.iterator");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("core-js/modules/es6.string.iterator");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+require("core-js/modules/es6.set");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.filter");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.array.map");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("regenerator-runtime/runtime");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+var _ramda = require("ramda");
 
-var _ramda = require('ramda');
+var _react = _interopRequireWildcard(require("react"));
 
-var _react = require('react');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react2 = _interopRequireDefault(_react);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes = require('prop-types');
+require("animate.css/animate.min.css");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
 
-var _classnames = require('classnames');
+var _Message = _interopRequireDefault(require("../Message"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
-
-require('animate.css/animate.min.css');
-
-var _sleep = require('ringcentral-integration/lib/sleep');
-
-var _sleep2 = _interopRequireDefault(_sleep);
-
-var _Message = require('../Message');
-
-var _Message2 = _interopRequireDefault(_Message);
-
-var _AlertDisplay = require('../AlertDisplay');
-
-var _AlertDisplay2 = _interopRequireDefault(_AlertDisplay);
+var _AlertDisplay = _interopRequireDefault(require("../AlertDisplay"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 var ANIMATION_DURATION = 500;
 var ENTRANCE_ANIMATION = 'fadeInDown';
@@ -85,67 +114,70 @@ var EXIT_ANIMATION = 'fadeOutUp';
 function AnimationMessage(_ref) {
   var animation = _ref.animation,
       duration = _ref.duration,
-      props = (0, _objectWithoutProperties3.default)(_ref, ['animation', 'duration']);
+      props = _objectWithoutProperties(_ref, ["animation", "duration"]);
 
   var second = duration / 1000;
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)([animation, 'animated']),
-      style: {
-        animationDuration: second + 's'
-      } },
-    _react2.default.createElement(_Message2.default, props)
-  );
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)([animation, 'animated']),
+    style: {
+      animationDuration: "".concat(second, "s")
+    }
+  }, _react.default.createElement(_Message.default, props));
 }
 
-AnimationMessage.propTypes = (0, _extends3.default)({}, _Message2.default.propTypes, {
-  animation: _propTypes2.default.string,
-  duration: _propTypes2.default.number
+AnimationMessage.propTypes = _objectSpread({}, _Message.default.propTypes, {
+  animation: _propTypes.default.string,
+  duration: _propTypes.default.number
 });
 AnimationMessage.defaultProps = {
   animation: undefined,
   duration: ANIMATION_DURATION
 };
 
-var AnimationAlert = function (_Component) {
-  (0, _inherits3.default)(AnimationAlert, _Component);
+var AnimationAlert =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(AnimationAlert, _Component);
 
   function AnimationAlert(props) {
-    (0, _classCallCheck3.default)(this, AnimationAlert);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AnimationAlert.__proto__ || (0, _getPrototypeOf2.default)(AnimationAlert)).call(this, props));
+    _classCallCheck(this, AnimationAlert);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AnimationAlert).call(this, props));
     _this.state = {
       messages: _this.props.messages
     };
     return _this;
   }
 
-  (0, _createClass3.default)(AnimationAlert, [{
-    key: 'componentDidMount',
+  _createClass(AnimationAlert, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       this.mounted = true;
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this.mounted = false;
     }
   }, {
-    key: 'componentWillReceiveProps',
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       var _this2 = this;
 
       if (this.props.messages === nextProps.messages) return;
-      (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var _props, duration, entranceAnimation, exitAnimation, currentMessagesIDs, nextMessagesIDs, addedMessagesIDs, removedMessagesIDs, allMessagesIDs, allMessages, messages, stateWithAnimation, isCurrentEmpty;
 
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var _this2$props, duration, entranceAnimation, exitAnimation, currentMessagesIDs, nextMessagesIDs, addedMessagesIDs, removedMessagesIDs, allMessagesIDs, allMessages, messages, stateWithAnimation, isCurrentEmpty;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _props = _this2.props, duration = _props.duration, entranceAnimation = _props.entranceAnimation, exitAnimation = _props.exitAnimation;
+                _this2$props = _this2.props, duration = _this2$props.duration, entranceAnimation = _this2$props.entranceAnimation, exitAnimation = _this2$props.exitAnimation;
                 currentMessagesIDs = _this2.props.messages.map(function (message) {
                   return message.id;
                 });
@@ -158,24 +190,29 @@ var AnimationAlert = function (_Component) {
                 removedMessagesIDs = currentMessagesIDs.filter(function (id) {
                   return !(0, _ramda.contains)(id, nextMessagesIDs);
                 });
-                allMessagesIDs = [].concat((0, _toConsumableArray3.default)(new _set2.default(currentMessagesIDs.concat(nextMessagesIDs))));
+                allMessagesIDs = _toConsumableArray(new Set(currentMessagesIDs.concat(nextMessagesIDs)));
                 allMessages = {};
 
                 _this2.props.messages.concat(nextProps.messages).map(function (message) {
                   allMessages[message.id] = message;
                   return message;
                 });
+
                 messages = allMessagesIDs.map(function (id) {
                   var message = allMessages[id];
                   var isAddedMessage = (0, _ramda.contains)(id, addedMessagesIDs);
                   var isRemovedMessage = (0, _ramda.contains)(id, removedMessagesIDs);
-                  var animation = void 0;
+                  var animation;
+
                   if (isAddedMessage) {
                     animation = entranceAnimation;
                   } else if (isRemovedMessage) {
                     animation = exitAnimation;
                   }
-                  return (0, _extends3.default)({}, message, animation ? { animation: animation } : {}, {
+
+                  return _objectSpread({}, message, animation ? {
+                    animation: animation
+                  } : {}, {
                     duration: duration
                   });
                 });
@@ -186,8 +223,9 @@ var AnimationAlert = function (_Component) {
                 if (messages.length > 0) {
                   _this2.setState(stateWithAnimation);
                 }
+
                 _context.next = 13;
-                return (0, _sleep2.default)(duration);
+                return (0, _sleep.default)(duration);
 
               case 13:
                 if (_this2.mounted) {
@@ -195,7 +233,7 @@ var AnimationAlert = function (_Component) {
                   break;
                 }
 
-                return _context.abrupt('return');
+                return _context.abrupt("return");
 
               case 15:
                 isCurrentEmpty = currentMessagesIDs.length === 0;
@@ -205,38 +243,41 @@ var AnimationAlert = function (_Component) {
                 });
 
               case 17:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2);
+        }, _callee);
       }))();
     }
   }, {
-    key: 'shouldComponentUpdate',
+    key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps, nextState) {
       return !(nextState.messages === this.state.messages || nextProps.messages === this.state.props);
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      return _react2.default.createElement(_AlertDisplay2.default, (0, _extends3.default)({}, this.props, { component: AnimationMessage, messages: this.state.messages }));
+      return _react.default.createElement(_AlertDisplay.default, _extends({}, this.props, {
+        component: AnimationMessage,
+        messages: this.state.messages
+      }));
     }
   }]);
+
   return AnimationAlert;
 }(_react.Component);
 
-AnimationAlert.propTypes = (0, _extends3.default)({}, _AlertDisplay2.default.propTypes, {
-  entranceAnimation: _propTypes2.default.string,
-  exitAnimation: _propTypes2.default.string,
-  duration: _propTypes2.default.number
+AnimationAlert.propTypes = _objectSpread({}, _AlertDisplay.default.propTypes, {
+  entranceAnimation: _propTypes.default.string,
+  exitAnimation: _propTypes.default.string,
+  duration: _propTypes.default.number
 });
-
-AnimationAlert.defaultProps = (0, _extends3.default)({}, _AlertDisplay2.default.defaultProps, {
+AnimationAlert.defaultProps = _objectSpread({}, _AlertDisplay.default.defaultProps, {
   entranceAnimation: ENTRANCE_ANIMATION,
   exitAnimation: EXIT_ANIMATION,
   duration: ANIMATION_DURATION
 });
-
-exports.default = AnimationAlert;
+var _default = AnimationAlert;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

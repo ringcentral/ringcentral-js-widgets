@@ -1,104 +1,89 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = ActiveCallButton;
 
-var _react = require('react');
+require("core-js/modules/es6.regexp.split");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.array.map");
 
-var _propTypes = require('prop-types');
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _classnames = require('classnames');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
-var _CircleButton = require('../CircleButton');
-
-var _CircleButton2 = _interopRequireDefault(_CircleButton);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ActiveCallButton(props) {
-  var className = (0, _classnames2.default)(_styles2.default.btnSvg, props.className);
-  var buttonClassName = (0, _classnames2.default)(_styles2.default.button, props.buttonClassName, props.active ? _styles2.default.buttonActive : null, props.disabled ? _styles2.default.buttonDisabled : null);
+  var className = (0, _classnames.default)(_styles.default.btnSvg, props.className);
+  var buttonClassName = (0, _classnames.default)(_styles.default.button, props.buttonClassName, props.active ? _styles.default.buttonActive : null, props.disabled ? _styles.default.buttonDisabled : null);
   var text = props.title.split('\n').map(function (line, index) {
-    return _react2.default.createElement(
-      'tspan',
-      { dy: index ? '1.1em' : 0, x: '250', key: line },
-      line
-    );
+    return _react.default.createElement("tspan", {
+      dy: index ? '1.1em' : 0,
+      x: "250",
+      key: line
+    }, line);
   });
   var buttonSize = 383.8;
-
-  return _react2.default.createElement(
-    'svg',
-    {
-      className: className,
-      viewBox: '0 0 500 600',
-      width: props.width,
-      height: props.height,
-      x: props.x,
-      y: props.y
-    },
-    _react2.default.createElement(_CircleButton2.default, {
-      width: buttonSize.toString(),
-      height: buttonSize.toString(),
-      x: 500 / 2 - buttonSize / 2,
-      y: 0,
-      className: buttonClassName,
-      onClick: props.onClick,
-      icon: props.icon,
-      disabled: props.disabled,
-      showBorder: props.showBorder,
-      iconClassName: props.buttonClassName,
-      iconWidth: props.iconWidth,
-      iconHeight: props.iconHeight,
-      iconX: props.iconX,
-      iconY: props.iconY,
-      showRipple: props.showRipple
-    }),
-    _react2.default.createElement(
-      'text',
-      {
-        className: _styles2.default.buttonTitle,
-        x: '250',
-        y: '500',
-        textAnchor: 'middle'
-      },
-      text
-    )
-  );
+  return _react.default.createElement("svg", {
+    className: className,
+    viewBox: "0 0 500 600",
+    width: props.width,
+    height: props.height,
+    x: props.x,
+    y: props.y
+  }, _react.default.createElement(_CircleButton.default, {
+    width: buttonSize.toString(),
+    height: buttonSize.toString(),
+    x: 500 / 2 - buttonSize / 2,
+    y: 0,
+    className: buttonClassName,
+    onClick: props.onClick,
+    icon: props.icon,
+    disabled: props.disabled,
+    showBorder: props.showBorder,
+    iconClassName: props.buttonClassName,
+    iconWidth: props.iconWidth,
+    iconHeight: props.iconHeight,
+    iconX: props.iconX,
+    iconY: props.iconY,
+    showRipple: props.showRipple
+  }), _react.default.createElement("text", {
+    className: _styles.default.buttonTitle,
+    x: "250",
+    y: "500",
+    textAnchor: "middle"
+  }, text));
 }
 
 ActiveCallButton.propTypes = {
-  className: _propTypes2.default.string,
-  buttonClassName: _propTypes2.default.string,
-  onClick: _propTypes2.default.func,
-  disabled: _propTypes2.default.bool,
-  active: _propTypes2.default.bool,
-  title: _propTypes2.default.string.isRequired,
-  icon: _propTypes2.default.func,
-  showBorder: _propTypes2.default.bool,
-  width: _propTypes2.default.string,
-  height: _propTypes2.default.string,
-  x: _propTypes2.default.number,
-  y: _propTypes2.default.number,
-  iconWidth: _propTypes2.default.number,
-  iconHeight: _propTypes2.default.number,
-  iconX: _propTypes2.default.number,
-  iconY: _propTypes2.default.number,
-  showRipple: _propTypes2.default.bool
+  className: _propTypes.default.string,
+  buttonClassName: _propTypes.default.string,
+  onClick: _propTypes.default.func,
+  disabled: _propTypes.default.bool,
+  active: _propTypes.default.bool,
+  title: _propTypes.default.string.isRequired,
+  icon: _propTypes.default.func,
+  showBorder: _propTypes.default.bool,
+  width: _propTypes.default.string,
+  height: _propTypes.default.string,
+  x: _propTypes.default.number,
+  y: _propTypes.default.number,
+  iconWidth: _propTypes.default.number,
+  iconHeight: _propTypes.default.number,
+  iconX: _propTypes.default.number,
+  iconY: _propTypes.default.number,
+  showRipple: _propTypes.default.bool
 };
-
 ActiveCallButton.defaultProps = {
   className: undefined,
   buttonClassName: undefined,

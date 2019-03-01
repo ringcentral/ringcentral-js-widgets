@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   topic: "トピック",
   when: "日時",
   duration: "時間",
@@ -20,10 +23,10 @@ exports.default = {
   requirePassword: "会議のパスワードを要求する",
   password: "パスワード",
   enableJoinBeforeHost: "ホストより前の参加を可能にする",
-  telephonyOnly: "電話通信のみ"
-};
-
-// @key: @#@"topic"@#@ @source: @#@"Topic"@#@
+  telephonyOnly: "電話通信のみ",
+  hostVideoOn: "ホストビデオオン",
+  participantVideoOn: "参加者ビデオオン"
+}; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"recurringMeeting"@#@ @source: @#@"Recurring Meeting"@#@
@@ -40,4 +43,8 @@ exports.default = {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -1,77 +1,81 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.assign");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.define-property");
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+require("core-js/modules/es6.object.create");
 
-var _getIterator3 = _interopRequireDefault(_getIterator2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.find");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/web.dom.iterable");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _react = _interopRequireWildcard(require("react"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _NavigationBar = _interopRequireDefault(require("../NavigationBar"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _NavigationBar = require('../NavigationBar');
-
-var _NavigationBar2 = _interopRequireDefault(_NavigationBar);
-
-var _SpinnerOverlay = require('../SpinnerOverlay');
-
-var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
-
-var _RecentActivityNavigationButton = require('../RecentActivityNavigationButton');
-
-var _RecentActivityNavigationButton2 = _interopRequireDefault(_RecentActivityNavigationButton);
+var _RecentActivityNavigationButton = _interopRequireDefault(require("../RecentActivityNavigationButton"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var RecentActivityView = function (_PureComponent) {
-  (0, _inherits3.default)(RecentActivityView, _PureComponent);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var RecentActivityView =
+/*#__PURE__*/
+function (_PureComponent) {
+  _inherits(RecentActivityView, _PureComponent);
 
   function RecentActivityView(props) {
-    (0, _classCallCheck3.default)(this, RecentActivityView);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (RecentActivityView.__proto__ || (0, _getPrototypeOf2.default)(RecentActivityView)).call(this, props));
+    _classCallCheck(this, RecentActivityView);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RecentActivityView).call(this, props));
 
     _this.onTabChanged = function () {
       var tabName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.props.defaultTab;
 
       var currentTab = _this.getCurrentTab(tabName);
+
       if (currentTab) currentTab.getData();
+
       _this.setState({
         currentTab: tabName
       });
@@ -83,30 +87,29 @@ var RecentActivityView = function (_PureComponent) {
     return _this;
   }
 
-  (0, _createClass3.default)(RecentActivityView, [{
-    key: 'componentDidMount',
+  _createClass(RecentActivityView, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       // Switch to default tab and load all data
       this.onTabChanged();
     }
   }, {
-    key: 'componentDidUpdate',
+    key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       if (prevProps.currentContact.id !== this.props.currentContact.id) {
         this.onTabChanged(this.state.currentTab);
       }
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = (0, _getIterator3.default)(this.props.tabs), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (var _iterator = this.props.tabs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var tab = _step.value;
-
           tab.cleanUp();
         }
       } catch (err) {
@@ -114,7 +117,7 @@ var RecentActivityView = function (_PureComponent) {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
             _iterator.return();
           }
         } finally {
@@ -125,14 +128,14 @@ var RecentActivityView = function (_PureComponent) {
       }
     }
   }, {
-    key: 'getCurrentTabPanel',
+    key: "getCurrentTabPanel",
     value: function getCurrentTabPanel() {
       var currentTabPath = this.state.currentTab;
       var currentTab = this.getCurrentTab(currentTabPath);
       return currentTab ? currentTab.view : null;
     }
   }, {
-    key: 'getCurrentTab',
+    key: "getCurrentTab",
     value: function getCurrentTab(currentTabPath) {
       var tabs = this.props.tabs;
       return tabs.find(function (tab) {
@@ -140,41 +143,34 @@ var RecentActivityView = function (_PureComponent) {
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var showSpinner = this.props.showSpinner;
-
-      if (showSpinner) return _react2.default.createElement(_SpinnerOverlay2.default, null);
+      if (showSpinner) return _react.default.createElement(_SpinnerOverlay.default, null);
       var props = {
         currentPath: this.state.currentTab,
         goTo: this.onTabChanged,
         tabs: this.props.tabs
       };
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.recentActivityView },
-        _react2.default.createElement(_NavigationBar2.default, (0, _extends3.default)({
-          button: _RecentActivityNavigationButton2.default,
-          className: _styles2.default.navigationBar
-        }, props)),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.listView },
-          this.getCurrentTabPanel()
-        )
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.recentActivityView
+      }, _react.default.createElement(_NavigationBar.default, _extends({
+        button: _RecentActivityNavigationButton.default,
+        className: _styles.default.navigationBar
+      }, props)), _react.default.createElement("div", {
+        className: _styles.default.listView
+      }, this.getCurrentTabPanel()));
     }
   }]);
+
   return RecentActivityView;
 }(_react.PureComponent);
 
 exports.default = RecentActivityView;
-
-
 RecentActivityView.propTypes = {
-  showSpinner: _propTypes2.default.bool.isRequired,
-  currentContact: _propTypes2.default.object.isRequired,
-  tabs: _propTypes2.default.array.isRequired,
-  defaultTab: _propTypes2.default.string.isRequired
+  showSpinner: _propTypes.default.bool.isRequired,
+  currentContact: _propTypes.default.object.isRequired,
+  tabs: _propTypes.default.array.isRequired,
+  defaultTab: _propTypes.default.string.isRequired
 };
 //# sourceMappingURL=index.js.map

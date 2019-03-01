@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   logging: "ログ記録中...",
   logCall: "通話のログ記録",
   editLog: "ログの編集",
@@ -16,9 +19,7 @@ exports.default = {
   unavailable: "利用不可",
   viewDetails: "詳細の表示",
   conferenceCall: "電話会議"
-};
-
-// @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
+}; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"select"@#@ @source: @#@"Select matching"@#@
@@ -30,4 +31,6 @@ exports.default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

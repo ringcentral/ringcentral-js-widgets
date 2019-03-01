@@ -1,25 +1,19 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = DropdownNavigationItem;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,57 +27,43 @@ function DropdownNavigationItem(_ref) {
       noticeCounts = _ref.noticeCounts,
       onClick = _ref.onClick,
       keepStyle = _ref.keepStyle;
-
   var notice = null;
+
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
-      notice = _react2.default.createElement(
-        'div',
-        { className: _styles2.default.notice },
-        '99+'
-      );
+      notice = _react.default.createElement("div", {
+        className: _styles.default.notice
+      }, "99+");
     } else {
-      notice = _react2.default.createElement(
-        'div',
-        { className: _styles2.default.notice },
-        noticeCounts
-      );
+      notice = _react.default.createElement("div", {
+        className: _styles.default.notice
+      }, noticeCounts);
     }
   }
-  var styleClass = !keepStyle ? _styles2.default.iconStyles : null;
-  return _react2.default.createElement(
-    'div',
-    {
-      title: title || label,
-      onClick: onClick,
-      className: (0, _classnames2.default)(_styles2.default.root, active && _styles2.default.active, isReverseFillIcon && _styles2.default.reverseFillIcon)
-    },
-    _react2.default.createElement(
-      'div',
-      { className: (0, _classnames2.default)(_styles2.default.iconHolder, styleClass) },
-      active ? activeIcon : icon
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.labelHolder },
-      label
-    ),
-    notice
-  );
+
+  var styleClass = !keepStyle ? _styles.default.iconStyles : null;
+  return _react.default.createElement("div", {
+    title: title || label,
+    onClick: onClick,
+    className: (0, _classnames.default)(_styles.default.root, active && _styles.default.active, isReverseFillIcon && _styles.default.reverseFillIcon)
+  }, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.iconHolder, styleClass)
+  }, active ? activeIcon : icon), _react.default.createElement("div", {
+    className: _styles.default.labelHolder
+  }, label), notice);
 }
 
 DropdownNavigationItem.propTypes = {
-  icon: _propTypes2.default.node.isRequired,
-  activeIcon: _propTypes2.default.node.isRequired,
-  active: _propTypes2.default.bool,
-  isReverseFillIcon: _propTypes2.default.bool,
-  label: _propTypes2.default.string,
-  title: _propTypes2.default.string,
-  noticeCounts: _propTypes2.default.number,
-  onClick: _propTypes2.default.func,
-  keepStyle: _propTypes2.default.bool
+  icon: _propTypes.default.node.isRequired,
+  activeIcon: _propTypes.default.node.isRequired,
+  active: _propTypes.default.bool,
+  isReverseFillIcon: _propTypes.default.bool,
+  label: _propTypes.default.string,
+  title: _propTypes.default.string,
+  noticeCounts: _propTypes.default.number,
+  onClick: _propTypes.default.func,
+  keepStyle: _propTypes.default.bool
 };
-
 DropdownNavigationItem.defaultProps = {
   active: false,
   isReverseFillIcon: false,

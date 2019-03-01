@@ -1,89 +1,93 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.symbol");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.promise");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.create");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("regenerator-runtime/runtime");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _class, _temp;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Button = (_temp = _class = function (_Component) {
-  (0, _inherits3.default)(Button, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Button =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Button, _Component);
 
   function Button(props) {
-    (0, _classCallCheck3.default)(this, Button);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Button.__proto__ || (0, _getPrototypeOf2.default)(Button)).call(this, props));
+    _classCallCheck(this, Button);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Button).call(this, props));
     _this._mounted = false;
-
     _this.state = {
       disabled: false
     };
     return _this;
   }
 
-  (0, _createClass3.default)(Button, [{
-    key: 'componentDidMount',
+  _createClass(Button, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       this._mounted = true;
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this._mounted = false;
     }
   }, {
-    key: 'onClick',
+    key: "onClick",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _onClick = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -92,18 +96,16 @@ var Button = (_temp = _class = function (_Component) {
                   break;
                 }
 
-                return _context.abrupt('return');
+                return _context.abrupt("return");
 
               case 2:
                 this.setState({
                   disabled: true
                 });
-
                 _context.next = 5;
                 return this.props.onClick();
 
               case 5:
-
                 if (this._mounted) {
                   this.setState({
                     disabled: false
@@ -111,7 +113,7 @@ var Button = (_temp = _class = function (_Component) {
                 }
 
               case 6:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -119,54 +121,52 @@ var Button = (_temp = _class = function (_Component) {
       }));
 
       function onClick() {
-        return _ref.apply(this, arguments);
+        return _onClick.apply(this, arguments);
       }
 
       return onClick;
     }()
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          className = _props.className,
-          disabled = _props.disabled,
-          children = _props.children,
-          tooltip = _props.tooltip,
-          dataSign = _props.dataSign;
-
-
+      var _this$props = this.props,
+          className = _this$props.className,
+          disabled = _this$props.disabled,
+          children = _this$props.children,
+          tooltip = _this$props.tooltip,
+          dataSign = _this$props.dataSign;
       var realDisabled = disabled || this.state.disabled;
-
-      return _react2.default.createElement(
-        'div',
-        {
-          'data-sign': dataSign,
-          className: (0, _classnames2.default)(className, _styles2.default.root, realDisabled && _styles2.default.disabled),
-          onClick: realDisabled ? null : function () {
-            return _this2.onClick();
-          },
-          title: tooltip },
-        children
-      );
+      return _react.default.createElement("div", {
+        "data-sign": dataSign,
+        className: (0, _classnames.default)(className, _styles.default.root, realDisabled && _styles.default.disabled),
+        onClick: realDisabled ? null : function () {
+          return _this2.onClick();
+        },
+        title: tooltip
+      }, children);
     }
   }]);
+
   return Button;
-}(_react.Component), _class.propTypes = {
-  className: _propTypes2.default.string,
-  tooltip: _propTypes2.default.string,
-  disabled: _propTypes2.default.bool,
-  onClick: _propTypes2.default.func,
-  children: _propTypes2.default.node,
-  dataSign: _propTypes2.default.string
-}, _class.defaultProps = {
+}(_react.Component);
+
+exports.default = Button;
+Button.propTypes = {
+  className: _propTypes.default.string,
+  tooltip: _propTypes.default.string,
+  disabled: _propTypes.default.bool,
+  onClick: _propTypes.default.func,
+  children: _propTypes.default.node,
+  dataSign: _propTypes.default.string
+};
+Button.defaultProps = {
   className: undefined,
   tooltip: '',
   disabled: false,
   onClick: undefined,
   children: undefined,
   dataSign: undefined
-}, _temp);
-exports.default = Button;
+};
 //# sourceMappingURL=index.js.map

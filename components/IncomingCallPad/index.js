@@ -1,104 +1,87 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _rcTooltip = _interopRequireDefault(require("rc-tooltip"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+require("rc-tooltip/assets/bootstrap_white.css");
 
-var _react = require('react');
+var _ForwardForm = _interopRequireDefault(require("../ForwardForm"));
 
-var _react2 = _interopRequireDefault(_react);
+var _ReplyWithMessage = _interopRequireDefault(require("../ReplyWithMessage"));
 
-var _propTypes = require('prop-types');
+var _ActiveCallButton = _interopRequireDefault(require("../ActiveCallButton"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _MultiCallAnswerButton = _interopRequireDefault(require("../MultiCallAnswerButton"));
 
-var _classnames = require('classnames');
+var _MessageFill = _interopRequireDefault(require("../../assets/images/MessageFill.svg"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _Forward = _interopRequireDefault(require("../../assets/images/Forward.svg"));
 
-var _rcTooltip = require('rc-tooltip');
+var _Ignore = _interopRequireDefault(require("../../assets/images/Ignore.svg"));
 
-var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+var _Voicemail = _interopRequireDefault(require("../../assets/images/Voicemail.svg"));
 
-require('rc-tooltip/assets/bootstrap_white.css');
+var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
-var _ForwardForm = require('../ForwardForm');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _ForwardForm2 = _interopRequireDefault(_ForwardForm);
-
-var _ReplyWithMessage = require('../ReplyWithMessage');
-
-var _ReplyWithMessage2 = _interopRequireDefault(_ReplyWithMessage);
-
-var _ActiveCallButton = require('../ActiveCallButton');
-
-var _ActiveCallButton2 = _interopRequireDefault(_ActiveCallButton);
-
-var _MultiCallAnswerButton = require('../MultiCallAnswerButton');
-
-var _MultiCallAnswerButton2 = _interopRequireDefault(_MultiCallAnswerButton);
-
-var _MessageFill = require('../../assets/images/MessageFill.svg');
-
-var _MessageFill2 = _interopRequireDefault(_MessageFill);
-
-var _Forward = require('../../assets/images/Forward.svg');
-
-var _Forward2 = _interopRequireDefault(_Forward);
-
-var _Ignore = require('../../assets/images/Ignore.svg');
-
-var _Ignore2 = _interopRequireDefault(_Ignore);
-
-var _Voicemail = require('../../assets/images/Voicemail.svg');
-
-var _Voicemail2 = _interopRequireDefault(_Voicemail);
-
-var _Answer = require('../../assets/images/Answer.svg');
-
-var _Answer2 = _interopRequireDefault(_Answer);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TooltipCom = typeof _rcTooltip2.default === 'function' ? _rcTooltip2.default : _rcTooltip2.default.default;
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-var IncomingCallPad = function (_Component) {
-  (0, _inherits3.default)(IncomingCallPad, _Component);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var TooltipCom = typeof _rcTooltip.default === 'function' ? _rcTooltip.default : _rcTooltip.default.default;
+
+var IncomingCallPad =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(IncomingCallPad, _Component);
 
   function IncomingCallPad(props) {
-    (0, _classCallCheck3.default)(this, IncomingCallPad);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (IncomingCallPad.__proto__ || (0, _getPrototypeOf2.default)(IncomingCallPad)).call(this, props));
+    _classCallCheck(this, IncomingCallPad);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(IncomingCallPad).call(this, props));
     _this.state = {
       showForward: false,
       replyMessage: null,
@@ -106,58 +89,73 @@ var IncomingCallPad = function (_Component) {
       toVoiceMailEnabled: true,
       replyMessageEnabled: true
     };
+
     _this.onShowForwardChange = function (visible) {
       _this.setState({
         showForward: visible
       });
     };
+
     _this.closeForwardForm = function () {
       _this.onShowForwardChange(false);
     };
+
     _this.onShowReplyWithMessageChange = function (visible) {
       _this.setState({
         showReplyWithMessage: visible
       });
     };
+
     _this.onReplyMessageChange = function (message) {
-      _this.setState({ replyMessage: message });
+      _this.setState({
+        replyMessage: message
+      });
     };
+
     _this.closeReplyWithMessage = function () {
       _this.onShowReplyWithMessageChange(false);
     };
+
     _this.toVoiceMail = function () {
       _this.props.toVoiceMail();
+
       if (_this.props.toVoiceMail) {
         _this.setState({
           toVoiceMailEnabled: false
         });
+
         _this.voicemailTimeout = setTimeout(function () {
           _this.props.reject();
         }, 3000);
       }
     };
+
     _this.replyWithMessage = function (value) {
       _this.props.replyWithMessage(value);
+
       if (_this.props.replyWithMessage) {
         _this.setState({
           replyMessageEnabled: false
         });
+
         _this.replyTimeout = setTimeout(function () {
           _this.props.reject();
         }, 3000);
       }
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(IncomingCallPad, [{
-    key: 'componentWillReceiveProps',
+  _createClass(IncomingCallPad, [{
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(newProps) {
       if (this.props.sessionId !== newProps.sessionId) {
         if (this.replyTimeout) {
           clearTimeout(this.replyTimeout);
           this.replyTimeout = null;
         }
+
         if (this.voicemailTimeout) {
           clearTimeout(this.voicemailTimeout);
           this.voicemailTimeout = null;
@@ -165,204 +163,184 @@ var IncomingCallPad = function (_Component) {
       }
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       if (this.replyTimeout) {
         clearTimeout(this.replyTimeout);
         this.replyTimeout = null;
       }
+
       if (this.voicemailTimeout) {
         clearTimeout(this.voicemailTimeout);
         this.voicemailTimeout = null;
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          currentLocale = _props.currentLocale,
-          reject = _props.reject,
-          answer = _props.answer,
-          forwardingNumbers = _props.forwardingNumbers,
-          formatPhone = _props.formatPhone,
-          className = _props.className,
-          hasOtherActiveCall = _props.hasOtherActiveCall,
-          answerAndEnd = _props.answerAndEnd,
-          answerAndHold = _props.answerAndHold;
-      // const isMultiCall = true;
+      var _this$props = this.props,
+          currentLocale = _this$props.currentLocale,
+          reject = _this$props.reject,
+          answer = _this$props.answer,
+          forwardingNumbers = _this$props.forwardingNumbers,
+          formatPhone = _this$props.formatPhone,
+          className = _this$props.className,
+          hasOtherActiveCall = _this$props.hasOtherActiveCall,
+          answerAndEnd = _this$props.answerAndEnd,
+          answerAndHold = _this$props.answerAndHold; // const isMultiCall = true;
 
-      var multiCallButtons = _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.buttonRow, _styles2.default.multiCallsButtonGroup) },
-        _react2.default.createElement(_MultiCallAnswerButton2.default, {
-          onClick: answerAndEnd,
-          title: _i18n2.default.getString('answerAndEnd', currentLocale),
-          className: _styles2.default.callButton,
-          isEndOtherCall: true
+      var multiCallButtons = _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.buttonRow, _styles.default.multiCallsButtonGroup)
+      }, _react.default.createElement(_MultiCallAnswerButton.default, {
+        onClick: answerAndEnd,
+        title: _i18n.default.getString('answerAndEnd', currentLocale),
+        className: _styles.default.callButton,
+        isEndOtherCall: true
+      }), _react.default.createElement(_ActiveCallButton.default, {
+        onClick: this.toVoiceMail,
+        title: _i18n.default.getString('toVoicemail', currentLocale),
+        buttonClassName: this.state.toVoiceMailEnabled ? _styles.default.voiceMailButton : '',
+        icon: _Voicemail.default,
+        iconWidth: 274,
+        iconX: 116,
+        showBorder: !this.state.toVoiceMailEnabled,
+        className: _styles.default.callButton,
+        disabled: !this.state.toVoiceMailEnabled
+      }), _react.default.createElement(_MultiCallAnswerButton.default, {
+        onClick: answerAndHold,
+        title: _i18n.default.getString('answerAndHold', currentLocale),
+        className: _styles.default.callButton,
+        isEndOtherCall: false
+      }));
+
+      var singleCallButtons = _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.buttonRow, _styles.default.answerButtonGroup)
+      }, _react.default.createElement(_ActiveCallButton.default, {
+        onClick: this.toVoiceMail,
+        title: _i18n.default.getString('toVoicemail', currentLocale),
+        buttonClassName: this.state.toVoiceMailEnabled ? _styles.default.voiceMailButton : '',
+        icon: _Voicemail.default,
+        iconWidth: 274,
+        iconX: 116,
+        showBorder: !this.state.toVoiceMailEnabled,
+        className: _styles.default.bigCallButton,
+        disabled: !this.state.toVoiceMailEnabled
+      }), _react.default.createElement(_ActiveCallButton.default, {
+        onClick: answer,
+        title: _i18n.default.getString('answer', currentLocale),
+        buttonClassName: _styles.default.answerButton,
+        icon: _Answer.default,
+        showBorder: false,
+        className: _styles.default.bigCallButton
+      }));
+
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.root, className)
+      }, _react.default.createElement("div", {
+        className: _styles.default.forwardContainner,
+        ref: function ref(containner) {
+          _this2.forwardContainner = containner;
+        }
+      }), _react.default.createElement("div", {
+        className: _styles.default.replyWithMessageContainner,
+        ref: function ref(containner) {
+          _this2.replyWithMessageContainner = containner;
+        }
+      }), _react.default.createElement("div", {
+        className: _styles.default.buttonRow
+      }, _react.default.createElement(TooltipCom, {
+        defaultVisible: false,
+        visible: this.state.showForward,
+        onVisibleChange: this.onShowForwardChange,
+        placement: "topRight",
+        trigger: "click",
+        arrowContent: _react.default.createElement("div", {
+          className: "rc-tooltip-arrow-inner"
         }),
-        _react2.default.createElement(_ActiveCallButton2.default, {
-          onClick: this.toVoiceMail,
-          title: _i18n2.default.getString('toVoicemail', currentLocale),
-          buttonClassName: this.state.toVoiceMailEnabled ? _styles2.default.voiceMailButton : '',
-          icon: _Voicemail2.default,
-          iconWidth: 274,
-          iconX: 116,
-          showBorder: !this.state.toVoiceMailEnabled,
-          className: _styles2.default.callButton,
-          disabled: !this.state.toVoiceMailEnabled
-        }),
-        _react2.default.createElement(_MultiCallAnswerButton2.default, {
-          onClick: answerAndHold,
-          title: _i18n2.default.getString('answerAndHold', currentLocale),
-          className: _styles2.default.callButton,
-          isEndOtherCall: false
+        getTooltipContainer: function getTooltipContainer() {
+          return _this2.forwardContainner;
+        },
+        overlay: _react.default.createElement(_ForwardForm.default, {
+          forwardingNumbers: forwardingNumbers,
+          currentLocale: currentLocale,
+          onCancel: this.closeForwardForm,
+          formatPhone: formatPhone,
+          onForward: this.props.onForward,
+          searchContact: this.props.searchContact,
+          searchContactList: this.props.searchContactList,
+          phoneTypeRenderer: this.props.phoneTypeRenderer,
+          phoneSourceNameRenderer: this.props.phoneSourceNameRenderer
         })
-      );
-      var singleCallButtons = _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.buttonRow, _styles2.default.answerButtonGroup) },
-        _react2.default.createElement(_ActiveCallButton2.default, {
-          onClick: this.toVoiceMail,
-          title: _i18n2.default.getString('toVoicemail', currentLocale),
-          buttonClassName: this.state.toVoiceMailEnabled ? _styles2.default.voiceMailButton : '',
-          icon: _Voicemail2.default,
-          iconWidth: 274,
-          iconX: 116,
-          showBorder: !this.state.toVoiceMailEnabled,
-          className: _styles2.default.bigCallButton,
-          disabled: !this.state.toVoiceMailEnabled
+      }, _react.default.createElement(_ActiveCallButton.default, {
+        icon: _Forward.default,
+        iconWidth: 250,
+        iconX: 125,
+        onClick: function onClick() {
+          return null;
+        },
+        title: _i18n.default.getString('forward', currentLocale),
+        className: _styles.default.callButton
+      })), _react.default.createElement(TooltipCom, {
+        defaultVisible: false,
+        visible: this.state.showReplyWithMessage,
+        onVisibleChange: this.onShowReplyWithMessageChange,
+        placement: "top",
+        trigger: "click",
+        arrowContent: _react.default.createElement("div", {
+          className: "rc-tooltip-arrow-inner"
         }),
-        _react2.default.createElement(_ActiveCallButton2.default, {
-          onClick: answer,
-          title: _i18n2.default.getString('answer', currentLocale),
-          buttonClassName: _styles2.default.answerButton,
-          icon: _Answer2.default,
-          showBorder: false,
-          className: _styles2.default.bigCallButton
+        getTooltipContainer: function getTooltipContainer() {
+          return _this2.replyWithMessageContainner;
+        },
+        overlay: _react.default.createElement(_ReplyWithMessage.default, {
+          currentLocale: currentLocale,
+          onCancel: this.closeReplyWithMessage,
+          value: this.state.replyMessage,
+          onChange: this.onReplyMessageChange,
+          onReply: this.replyWithMessage,
+          disabled: !this.state.replyMessageEnabled
         })
-      );
-      return _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, className) },
-        _react2.default.createElement('div', {
-          className: _styles2.default.forwardContainner,
-          ref: function ref(containner) {
-            _this2.forwardContainner = containner;
-          }
-        }),
-        _react2.default.createElement('div', {
-          className: _styles2.default.replyWithMessageContainner,
-          ref: function ref(containner) {
-            _this2.replyWithMessageContainner = containner;
-          }
-        }),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.buttonRow },
-          _react2.default.createElement(
-            TooltipCom,
-            {
-              defaultVisible: false,
-              visible: this.state.showForward,
-              onVisibleChange: this.onShowForwardChange,
-              placement: 'topRight',
-              trigger: 'click',
-              arrowContent: _react2.default.createElement('div', { className: 'rc-tooltip-arrow-inner' }),
-              getTooltipContainer: function getTooltipContainer() {
-                return _this2.forwardContainner;
-              },
-              overlay: _react2.default.createElement(_ForwardForm2.default, {
-                forwardingNumbers: forwardingNumbers,
-                currentLocale: currentLocale,
-                onCancel: this.closeForwardForm,
-                formatPhone: formatPhone,
-                onForward: this.props.onForward,
-                searchContact: this.props.searchContact,
-                searchContactList: this.props.searchContactList,
-                phoneTypeRenderer: this.props.phoneTypeRenderer,
-                phoneSourceNameRenderer: this.props.phoneSourceNameRenderer
-              })
-            },
-            _react2.default.createElement(_ActiveCallButton2.default, {
-              icon: _Forward2.default,
-              iconWidth: 250,
-              iconX: 125,
-              onClick: function onClick() {
-                return null;
-              },
-              title: _i18n2.default.getString('forward', currentLocale),
-              className: _styles2.default.callButton
-            })
-          ),
-          _react2.default.createElement(
-            TooltipCom,
-            {
-              defaultVisible: false,
-              visible: this.state.showReplyWithMessage,
-              onVisibleChange: this.onShowReplyWithMessageChange,
-              placement: 'top',
-              trigger: 'click',
-              arrowContent: _react2.default.createElement('div', { className: 'rc-tooltip-arrow-inner' }),
-              getTooltipContainer: function getTooltipContainer() {
-                return _this2.replyWithMessageContainner;
-              },
-              overlay: _react2.default.createElement(_ReplyWithMessage2.default, {
-                currentLocale: currentLocale,
-                onCancel: this.closeReplyWithMessage,
-                value: this.state.replyMessage,
-                onChange: this.onReplyMessageChange,
-                onReply: this.replyWithMessage,
-                disabled: !this.state.replyMessageEnabled
-              })
-            },
-            _react2.default.createElement(_ActiveCallButton2.default, {
-              onClick: function onClick() {
-                return null;
-              },
-              icon: _MessageFill2.default,
-              title: _i18n2.default.getString('reply', currentLocale),
-              className: _styles2.default.callButton
-            })
-          ),
-          _react2.default.createElement(_ActiveCallButton2.default, {
-            onClick: reject,
-            icon: _Ignore2.default,
-            title: _i18n2.default.getString('ignore', currentLocale),
-            className: _styles2.default.callButton
-          })
-        ),
-        hasOtherActiveCall ? multiCallButtons : singleCallButtons
-      );
+      }, _react.default.createElement(_ActiveCallButton.default, {
+        onClick: function onClick() {
+          return null;
+        },
+        icon: _MessageFill.default,
+        title: _i18n.default.getString('reply', currentLocale),
+        className: _styles.default.callButton
+      })), _react.default.createElement(_ActiveCallButton.default, {
+        onClick: reject,
+        icon: _Ignore.default,
+        title: _i18n.default.getString('ignore', currentLocale),
+        className: _styles.default.callButton
+      })), hasOtherActiveCall ? multiCallButtons : singleCallButtons);
     }
   }]);
+
   return IncomingCallPad;
 }(_react.Component);
 
 exports.default = IncomingCallPad;
-
-
 IncomingCallPad.propTypes = {
-  answer: _propTypes2.default.func.isRequired,
-  reject: _propTypes2.default.func.isRequired,
-  toVoiceMail: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  forwardingNumbers: _propTypes2.default.array.isRequired,
-  formatPhone: _propTypes2.default.func,
-  onForward: _propTypes2.default.func.isRequired,
-  replyWithMessage: _propTypes2.default.func.isRequired,
-  className: _propTypes2.default.string,
-  answerAndEnd: _propTypes2.default.func,
-  answerAndHold: _propTypes2.default.func,
-  hasOtherActiveCall: _propTypes2.default.bool,
-  sessionId: _propTypes2.default.string.isRequired,
-  searchContactList: _propTypes2.default.array.isRequired,
-  searchContact: _propTypes2.default.func.isRequired,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func
+  answer: _propTypes.default.func.isRequired,
+  reject: _propTypes.default.func.isRequired,
+  toVoiceMail: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  forwardingNumbers: _propTypes.default.array.isRequired,
+  formatPhone: _propTypes.default.func,
+  onForward: _propTypes.default.func.isRequired,
+  replyWithMessage: _propTypes.default.func.isRequired,
+  className: _propTypes.default.string,
+  answerAndEnd: _propTypes.default.func,
+  answerAndHold: _propTypes.default.func,
+  hasOtherActiveCall: _propTypes.default.bool,
+  sessionId: _propTypes.default.string.isRequired,
+  searchContactList: _propTypes.default.array.isRequired,
+  searchContact: _propTypes.default.func.isRequired,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func
 };
-
 IncomingCallPad.defaultProps = {
   formatPhone: function formatPhone(phone) {
     return phone;

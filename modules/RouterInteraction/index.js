@@ -1,125 +1,120 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.index-of");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.create");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.reduce");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.iterator");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.regexp.replace");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("regenerator-runtime/runtime");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _RcModule2 = _interopRequireDefault(require("ringcentral-integration/lib/RcModule"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _di = require("ringcentral-integration/lib/di");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _reactRouter = require("react-router");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _reactRouterRedux = require("react-router-redux");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
 
-var _dec, _class, _desc, _value, _class2;
+var _moduleStatuses = _interopRequireDefault(require("ringcentral-integration/enums/moduleStatuses"));
 
-var _RcModule2 = require('ringcentral-integration/lib/RcModule');
-
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _di = require('ringcentral-integration/lib/di');
-
-var _reactRouter = require('react-router');
-
-var _reactRouterRedux = require('react-router-redux');
-
-var _proxify = require('ringcentral-integration/lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _moduleStatuses = require('ringcentral-integration/enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 function getDefaultHistory() {
   return (0, _reactRouter.useRouterHistory)(_reactRouter.createMemoryHistory)();
 }
 
 var RouterInteraction = (_dec = (0, _di.Module)({
-  deps: [{ dep: 'RouterInteractionOptions', optional: true, spread: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(RouterInteraction, _RcModule);
+  deps: [{
+    dep: 'RouterInteractionOptions',
+    optional: true,
+    spread: true
+  }]
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(RouterInteraction, _RcModule);
 
   function RouterInteraction(_ref) {
+    var _this;
+
     var _ref$history = _ref.history,
-        history = _ref$history === undefined ? getDefaultHistory() : _ref$history,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['history']);
-    (0, _classCallCheck3.default)(this, RouterInteraction);
+        history = _ref$history === void 0 ? getDefaultHistory() : _ref$history,
+        options = _objectWithoutProperties(_ref, ["history"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (RouterInteraction.__proto__ || (0, _getPrototypeOf2.default)(RouterInteraction)).call(this, (0, _extends3.default)({}, options)));
+    _classCallCheck(this, RouterInteraction);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RouterInteraction).call(this, _objectSpread({}, options)));
     _this._reducer = _reactRouterRedux.routerReducer;
     _this._history = history;
     return _this;
   }
 
-  (0, _createClass3.default)(RouterInteraction, [{
-    key: 'initialize',
+  _createClass(RouterInteraction, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -130,7 +125,7 @@ var RouterInteraction = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'initializeProxy',
+    key: "initializeProxy",
     value: function initializeProxy() {
       var _this3 = this;
 
@@ -141,25 +136,27 @@ var RouterInteraction = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function _onStateChange() {
       /* do nothing */
     }
   }, {
-    key: 'push',
+    key: "push",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var _history;
+      var _push = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var _this$_history;
 
         var _args = arguments;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                (_history = this._history).push.apply(_history, _args);
+                (_this$_history = this._history).push.apply(_this$_history, _args);
 
               case 1:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -167,26 +164,28 @@ var RouterInteraction = (_dec = (0, _di.Module)({
       }));
 
       function push() {
-        return _ref2.apply(this, arguments);
+        return _push.apply(this, arguments);
       }
 
       return push;
     }()
   }, {
-    key: 'replace',
+    key: "replace",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        var _history2;
+      var _replace = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        var _this$_history2;
 
         var _args2 = arguments;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                (_history2 = this._history).replace.apply(_history2, _args2);
+                (_this$_history2 = this._history).replace.apply(_this$_history2, _args2);
 
               case 1:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -194,26 +193,28 @@ var RouterInteraction = (_dec = (0, _di.Module)({
       }));
 
       function replace() {
-        return _ref3.apply(this, arguments);
+        return _replace.apply(this, arguments);
       }
 
       return replace;
     }()
   }, {
-    key: 'goBack',
+    key: "goBack",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        var _history3;
+      var _goBack = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
+        var _this$_history3;
 
         var _args3 = arguments;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                (_history3 = this._history).goBack.apply(_history3, _args3);
+                (_this$_history3 = this._history).goBack.apply(_this$_history3, _args3);
 
               case 1:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -221,26 +222,28 @@ var RouterInteraction = (_dec = (0, _di.Module)({
       }));
 
       function goBack() {
-        return _ref4.apply(this, arguments);
+        return _goBack.apply(this, arguments);
       }
 
       return goBack;
     }()
   }, {
-    key: 'go',
+    key: "go",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-        var _history4;
+      var _go = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4() {
+        var _this$_history4;
 
         var _args4 = arguments;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                (_history4 = this._history).go.apply(_history4, _args4);
+                (_this$_history4 = this._history).go.apply(_this$_history4, _args4);
 
               case 1:
-              case 'end':
+              case "end":
                 return _context4.stop();
             }
           }
@@ -248,41 +251,42 @@ var RouterInteraction = (_dec = (0, _di.Module)({
       }));
 
       function go() {
-        return _ref5.apply(this, arguments);
+        return _go.apply(this, arguments);
       }
 
       return go;
     }()
   }, {
-    key: '_actionTypes',
+    key: "_actionTypes",
     get: function get() {
       /* no action types */
       return null;
     }
   }, {
-    key: 'history',
+    key: "history",
     get: function get() {
       return this._history;
     }
   }, {
-    key: 'currentPath',
+    key: "currentPath",
     get: function get() {
       return this.state.locationBeforeTransitions.pathname;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
-      return _moduleStatuses2.default.ready;
+      return _moduleStatuses.default.ready;
     }
   }, {
-    key: 'actionTypes',
+    key: "actionTypes",
     get: function get() {
       return {
         locationChange: _reactRouterRedux.LOCATION_CHANGE
       };
     }
   }]);
+
   return RouterInteraction;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'push', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'push'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replace', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replace'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goBack', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'goBack'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'go', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'go'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "push", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "push"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replace", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "replace"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "goBack", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "goBack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "go", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "go"), _class2.prototype)), _class2)) || _class);
 exports.default = RouterInteraction;
 //# sourceMappingURL=index.js.map

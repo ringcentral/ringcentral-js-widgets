@@ -1,56 +1,63 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 exports.default = ContactDisplay;
 
-var _react = require('react');
+require("core-js/modules/es6.string.iterator");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.array.from");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es6.regexp.to-string");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+require("core-js/modules/es6.date.to-string");
 
-var _classnames = require('classnames');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _classnames2 = _interopRequireDefault(_classnames);
+require("core-js/modules/es6.symbol");
 
-var _formatNumber = require('ringcentral-integration/lib/formatNumber');
+require("core-js/modules/web.dom.iterable");
 
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
+require("core-js/modules/es6.array.is-array");
 
-var _formatMessage = require('format-message');
+require("core-js/modules/es6.function.name");
 
-var _formatMessage2 = _interopRequireDefault(_formatMessage);
+require("core-js/modules/es6.array.find");
 
-var _DropdownSelect = require('../DropdownSelect');
+require("core-js/modules/es6.array.map");
 
-var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
+var _react = _interopRequireDefault(require("react"));
 
-var _i18n = require('./i18n');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles = require('./styles.scss');
+var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
-var _styles2 = _interopRequireDefault(_styles);
+var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _phoneSourceNames = require('../../lib/phoneSourceNames');
+var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
-var _phoneSourceNames2 = _interopRequireDefault(_phoneSourceNames);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _phoneSources = require('../../enums/phoneSources');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _phoneSources2 = _interopRequireDefault(_phoneSources);
+var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
+
+var _phoneSources = _interopRequireDefault(require("../../enums/phoneSources"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 var displayFormatter = function displayFormatter(_ref) {
   var entityName = _ref.entityName,
@@ -61,20 +68,24 @@ var displayFormatter = function displayFormatter(_ref) {
       brand = _ref.brand,
       phoneTypeRenderer = _ref.phoneTypeRenderer,
       phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
+  var typeName;
 
-  var typeName = void 0;
   if (entityType) {
-    typeName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : (0, _formatMessage2.default)(_phoneSourceNames2.default.getString(entityType, currentLocale), { brand: brand });
+    typeName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : (0, _formatMessage.default)(_phoneSourceNames.default.getString(entityType, currentLocale), {
+      brand: brand
+    });
   }
+
   if (phoneNumber && entityName && entityType) {
-    return entityName + ' | ' + typeName + ' ' + phoneNumber;
+    return "".concat(entityName, " | ").concat(typeName, " ").concat(phoneNumber);
   } else if (entityName && entityType) {
-    return entityName + ' | ' + typeName;
+    return "".concat(entityName, " | ").concat(typeName);
   } else if (entityName) {
     return entityName;
   } else if (phoneNumber) {
-    return '' + phoneNumber;
+    return "".concat(phoneNumber);
   }
+
   return '';
 };
 
@@ -83,58 +94,46 @@ function ContactDisplayItem(_ref2) {
       entityType = _ref2.entityType,
       phoneNumber = _ref2.phoneNumber,
       sourceIcons = _ref2.sourceIcons;
-
   var SourceIcon = null;
+
   if (entityType) {
-    if (entityType === _phoneSources2.default.rcContact) {
+    if (entityType === _phoneSources.default.rcContact) {
       SourceIcon = sourceIcons.brandIcon;
     } else {
       SourceIcon = sourceIcons[entityType];
     }
   }
+
   if (phoneNumber && entityName !== undefined && SourceIcon) {
-    return _react2.default.createElement(
-      'span',
-      null,
-      _react2.default.createElement(SourceIcon, { className: _styles2.default.typeIcon, width: 10, height: 10 }),
-      _react2.default.createElement(
-        'span',
-        { className: _styles2.default.typeName },
-        entityName
-      )
-    );
+    return _react.default.createElement("span", null, _react.default.createElement(SourceIcon, {
+      className: _styles.default.typeIcon,
+      width: 10,
+      height: 10
+    }), _react.default.createElement("span", {
+      className: _styles.default.typeName
+    }, entityName));
   } else if (entityName !== undefined && SourceIcon) {
-    return _react2.default.createElement(
-      'span',
-      null,
-      _react2.default.createElement(SourceIcon, { className: _styles2.default.typeIcon, width: 10, height: 10 }),
-      _react2.default.createElement(
-        'span',
-        { className: _styles2.default.typeName },
-        entityName
-      )
-    );
+    return _react.default.createElement("span", null, _react.default.createElement(SourceIcon, {
+      className: _styles.default.typeIcon,
+      width: 10,
+      height: 10
+    }), _react.default.createElement("span", {
+      className: _styles.default.typeName
+    }, entityName));
   } else if (entityName !== undefined) {
-    return _react2.default.createElement(
-      'span',
-      null,
-      entityName
-    );
+    return _react.default.createElement("span", null, entityName);
   } else if (phoneNumber) {
-    return _react2.default.createElement(
-      'span',
-      null,
-      phoneNumber
-    );
+    return _react.default.createElement("span", null, phoneNumber);
   }
+
   return null;
 }
 
 ContactDisplayItem.propTypes = {
-  entityName: _propTypes2.default.string.isRequired,
-  entityType: _propTypes2.default.string.isRequired,
-  phoneNumber: _propTypes2.default.string.isRequired,
-  sourceIcons: _propTypes2.default.object.isRequired
+  entityName: _propTypes.default.string.isRequired,
+  entityType: _propTypes.default.string.isRequired,
+  phoneNumber: _propTypes.default.string.isRequired,
+  sourceIcons: _propTypes.default.object.isRequired
 };
 
 function ContactDisplay(_ref3) {
@@ -159,28 +158,29 @@ function ContactDisplay(_ref3) {
       brand = _ref3.brand,
       stopPropagation = _ref3.stopPropagation,
       _ref3$sourceIcons = _ref3.sourceIcons,
-      sourceIcons = _ref3$sourceIcons === undefined ? {} : _ref3$sourceIcons,
+      sourceIcons = _ref3$sourceIcons === void 0 ? {} : _ref3$sourceIcons,
       phoneTypeRenderer = _ref3.phoneTypeRenderer,
       phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
       showGroupNumberName = _ref3.showGroupNumberName,
       contactName = _ref3.contactName,
       isOnConferenceCall = _ref3.isOnConferenceCall,
       iconClassName = _ref3.iconClassName;
+  var contentEl;
 
-  var contentEl = void 0;
   if (isOnConferenceCall) {
-    var confStr = _i18n2.default.getString('conferenceCall', currentLocale);
-    contentEl = _react2.default.createElement(
-      'div',
-      { title: confStr, className: _styles2.default.currentName },
-      confStr
-    );
+    var confStr = _i18n.default.getString('conferenceCall', currentLocale);
+
+    contentEl = _react.default.createElement("div", {
+      title: confStr,
+      "data-sign": "currentName",
+      className: _styles.default.currentName
+    }, confStr);
   } else if (contactName) {
-    contentEl = _react2.default.createElement(
-      'div',
-      { title: contactName, className: _styles2.default.currentName },
-      contactName
-    );
+    contentEl = _react.default.createElement("div", {
+      title: contactName,
+      "data-sign": "currentName",
+      className: _styles.default.currentName
+    }, contactName);
   } else if (groupNumbers && showGroupNumberName) {
     var groupNames = groupNumbers.map(function (groupNumber) {
       var groupContact = contactMatches.find(function (match) {
@@ -189,32 +189,35 @@ function ContactDisplay(_ref3) {
       return groupContact && groupContact.name || groupNumber;
     });
     var display = groupNames.join(', ');
-    contentEl = _react2.default.createElement(
-      'div',
-      { title: display, className: _styles2.default.currentName },
-      display
-    );
+    contentEl = _react.default.createElement("div", {
+      title: display,
+      "data-sign": "currentName",
+      className: _styles.default.currentName
+    }, display);
   } else if (groupNumbers) {
     var _display = groupNumbers.join(', ');
-    contentEl = _react2.default.createElement(
-      'div',
-      { title: _display, className: _styles2.default.currentName },
-      _display
-    );
+
+    contentEl = _react.default.createElement("div", {
+      title: _display,
+      "data-sign": "currentName",
+      className: _styles.default.currentName
+    }, _display);
   } else if (contactMatches.length === 0) {
-    var _display2 = enableContactFallback && fallBackName || phoneNumber && (0, _formatNumber2.default)({
+    var _display2 = enableContactFallback && fallBackName || phoneNumber && (0, _formatNumber.default)({
       phoneNumber: phoneNumber,
       countryCode: countryCode,
       areaCode: areaCode
-    }) || _i18n2.default.getString('unknownNumber', currentLocale);
+    }) || _i18n.default.getString('unknownNumber', currentLocale);
+
     var title = enableContactFallback && fallBackName || phoneNumber || '';
-    contentEl = _react2.default.createElement(
-      'div',
-      { title: title, className: _styles2.default.currentName },
-      _display2
-    );
+    contentEl = _react.default.createElement("div", {
+      title: title,
+      "data-sign": "currentName",
+      className: _styles.default.currentName
+    }, _display2);
   } else if (contactMatches.length === 1) {
     var _display3 = contactMatches[0].name;
+
     var _title = displayFormatter({
       entityName: _display3,
       entityType: contactMatches[0].entityType,
@@ -224,26 +227,30 @@ function ContactDisplay(_ref3) {
       phoneTypeRenderer: phoneTypeRenderer,
       phoneSourceNameRenderer: phoneSourceNameRenderer
     });
-    contentEl = _react2.default.createElement(
-      'div',
-      { title: _title, className: _styles2.default.currentName },
-      _display3
-    );
+
+    contentEl = _react.default.createElement("div", {
+      title: _title,
+      "data-sign": "currentName",
+      className: _styles.default.currentName
+    }, _display3);
   } else if (contactMatches.length > 1) {
-    var options = [].concat((0, _toConsumableArray3.default)(contactMatches));
-    var placeholder = void 0;
+    var options = _toConsumableArray(contactMatches);
+
+    var placeholder;
     var _selected = selected;
+
     if (showPlaceholder) {
-      placeholder = _i18n2.default.getString('select', currentLocale);
+      placeholder = _i18n.default.getString('select', currentLocale);
     } else {
       _selected = _selected < 0 ? 0 : _selected;
     }
-    contentEl = _react2.default.createElement(_DropdownSelect2.default, {
+
+    contentEl = _react.default.createElement(_DropdownSelect.default, {
       reference: reference,
-      className: (0, _classnames2.default)(_styles2.default.select, selectClassName),
-      selectedClassName: (0, _classnames2.default)(_styles2.default.selectedValue, selectedClassName),
-      buttonStyle: _styles2.default.button,
-      iconClassName: (0, _classnames2.default)(_styles2.default.icon, iconClassName),
+      className: (0, _classnames.default)(_styles.default.select, selectClassName),
+      selectedClassName: (0, _classnames.default)(_styles.default.selectedValue, selectedClassName),
+      buttonStyle: _styles.default.button,
+      iconClassName: (0, _classnames.default)(_styles.default.icon, iconClassName),
       value: _selected,
       onChange: onSelectContact,
       disabled: disabled || isLogging,
@@ -279,47 +286,46 @@ function ContactDisplay(_ref3) {
           phoneSourceNameRenderer: phoneSourceNameRenderer
         }) : phoneNumber;
       },
-      dropdownAlign: 'left',
+      dropdownAlign: "left",
       titleEnabled: true,
       noPadding: true,
       stopPropagation: stopPropagation
     });
   }
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(_styles2.default.root, className) },
-    contentEl
-  );
+
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.root, className)
+  }, contentEl);
 }
+
 ContactDisplay.propTypes = {
-  isOnConferenceCall: _propTypes2.default.bool,
-  reference: _propTypes2.default.func,
-  className: _propTypes2.default.string,
-  contactMatches: _propTypes2.default.arrayOf(_propTypes2.default.any).isRequired,
-  selected: _propTypes2.default.number.isRequired,
-  onSelectContact: _propTypes2.default.func,
-  disabled: _propTypes2.default.bool.isRequired,
-  isLogging: _propTypes2.default.bool.isRequired,
-  fallBackName: _propTypes2.default.string,
-  enableContactFallback: _propTypes2.default.bool,
-  areaCode: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  phoneNumber: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
-  groupNumbers: _propTypes2.default.arrayOf(_propTypes2.default.string),
-  showType: _propTypes2.default.bool,
-  selectClassName: _propTypes2.default.string,
-  selectedClassName: _propTypes2.default.string,
-  showPlaceholder: _propTypes2.default.bool,
-  brand: _propTypes2.default.string,
-  stopPropagation: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  showGroupNumberName: _propTypes2.default.bool,
-  contactName: _propTypes2.default.any,
-  iconClassName: _propTypes2.default.string
+  isOnConferenceCall: _propTypes.default.bool,
+  reference: _propTypes.default.func,
+  className: _propTypes.default.string,
+  contactMatches: _propTypes.default.arrayOf(_propTypes.default.any).isRequired,
+  selected: _propTypes.default.number.isRequired,
+  onSelectContact: _propTypes.default.func,
+  disabled: _propTypes.default.bool.isRequired,
+  isLogging: _propTypes.default.bool.isRequired,
+  fallBackName: _propTypes.default.string,
+  enableContactFallback: _propTypes.default.bool,
+  areaCode: _propTypes.default.string.isRequired,
+  countryCode: _propTypes.default.string.isRequired,
+  phoneNumber: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired,
+  groupNumbers: _propTypes.default.arrayOf(_propTypes.default.string),
+  showType: _propTypes.default.bool,
+  selectClassName: _propTypes.default.string,
+  selectedClassName: _propTypes.default.string,
+  showPlaceholder: _propTypes.default.bool,
+  brand: _propTypes.default.string,
+  stopPropagation: _propTypes.default.bool,
+  sourceIcons: _propTypes.default.object,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  showGroupNumberName: _propTypes.default.bool,
+  contactName: _propTypes.default.any,
+  iconClassName: _propTypes.default.string
 };
 ContactDisplay.defaultProps = {
   isOnConferenceCall: false,

@@ -1,45 +1,31 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = CallsOnholdContainer;
 
-var _react = require('react');
+require("core-js/modules/es6.array.map");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _ActiveCallItemV = _interopRequireDefault(require("../ActiveCallItemV2"));
 
-var _ActiveCallItemV = require('../ActiveCallItemV2');
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
-var _ActiveCallItemV2 = _interopRequireDefault(_ActiveCallItemV);
+var _BackButton = _interopRequireDefault(require("../BackButton"));
 
-var _CircleButton = require('../CircleButton');
+var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _CircleButton2 = _interopRequireDefault(_CircleButton);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _BackButton = require('../BackButton');
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _BackButton2 = _interopRequireDefault(_BackButton);
-
-var _BackHeader = require('../BackHeader');
-
-var _BackHeader2 = _interopRequireDefault(_BackHeader);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _Combine = require('../../assets/images/Combine.svg');
-
-var _Combine2 = _interopRequireDefault(_Combine);
+var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66,97 +52,85 @@ function CallsOnholdContainer(_ref) {
       onAdd = _ref.onAdd,
       getAvatarUrl = _ref.getAvatarUrl;
 
-  var backHeader = _react2.default.createElement(_BackHeader2.default, {
-    className: _styles2.default.header,
+  var backHeader = _react.default.createElement(_BackHeader.default, {
+    className: _styles.default.header,
     onBackClick: onBackButtonClick,
-    backButton: _react2.default.createElement(_BackButton2.default, { label: _i18n2.default.getString('activeCall', currentLocale) })
+    backButton: _react.default.createElement(_BackButton.default, {
+      label: _i18n.default.getString('activeCall', currentLocale)
+    })
   });
 
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.root },
-    backHeader,
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.callList },
-      calls.length ? calls.map(function (call) {
-        return _react2.default.createElement(_ActiveCallItemV2.default, {
-          call: call,
-          key: call.id,
-          showMergeCall: true,
-          currentLocale: currentLocale,
-          areaCode: areaCode,
-          countryCode: countryCode,
-          brand: brand,
-          showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-          onMergeCall: onMerge,
-          webphoneAnswer: webphoneAnswer,
-          webphoneReject: webphoneReject,
-          webphoneHangup: webphoneHangup,
-          webphoneResume: webphoneResume,
-          webphoneToVoicemail: webphoneToVoicemail,
-          enableContactFallback: enableContactFallback,
-          autoLog: autoLog,
-          sourceIcons: sourceIcons,
-          phoneTypeRenderer: phoneTypeRenderer,
-          phoneSourceNameRenderer: phoneSourceNameRenderer,
-          disableMerge: disableMerge,
-          hasActionMenu: false,
-          showAnswer: false,
-          getAvatarUrl: getAvatarUrl,
-          showHold: false
-        });
-      }) : _react2.default.createElement(
-        'div',
-        { className: _styles2.default.noCalls },
-        _i18n2.default.getString('noCalls', currentLocale)
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.addBtnContainer },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.addBtn },
-        _react2.default.createElement(
-          'span',
-          { title: _i18n2.default.getString('add', currentLocale), className: _styles2.default.webphoneButton },
-          _react2.default.createElement(_CircleButton2.default, {
-            className: _styles2.default.addBtnIcon,
-            icon: _Combine2.default,
-            showBorder: false,
-            onClick: onAdd
-          })
-        )
-      )
-    )
-  );
+  return _react.default.createElement("div", {
+    className: _styles.default.root
+  }, backHeader, _react.default.createElement("div", {
+    className: _styles.default.callList
+  }, calls.length ? calls.map(function (call) {
+    return _react.default.createElement(_ActiveCallItemV.default, {
+      call: call,
+      key: call.id,
+      showMergeCall: true,
+      currentLocale: currentLocale,
+      areaCode: areaCode,
+      countryCode: countryCode,
+      brand: brand,
+      showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+      onMergeCall: onMerge,
+      webphoneAnswer: webphoneAnswer,
+      webphoneReject: webphoneReject,
+      webphoneHangup: webphoneHangup,
+      webphoneResume: webphoneResume,
+      webphoneToVoicemail: webphoneToVoicemail,
+      enableContactFallback: enableContactFallback,
+      autoLog: autoLog,
+      sourceIcons: sourceIcons,
+      phoneTypeRenderer: phoneTypeRenderer,
+      phoneSourceNameRenderer: phoneSourceNameRenderer,
+      disableMerge: disableMerge,
+      hasActionMenu: false,
+      showAnswer: false,
+      getAvatarUrl: getAvatarUrl,
+      showHold: false
+    });
+  }) : _react.default.createElement("div", {
+    className: _styles.default.noCalls
+  }, _i18n.default.getString('noCalls', currentLocale))), _react.default.createElement("div", {
+    className: _styles.default.addBtnContainer
+  }, _react.default.createElement("div", {
+    className: _styles.default.addBtn
+  }, _react.default.createElement("span", {
+    title: _i18n.default.getString('add', currentLocale),
+    className: _styles.default.webphoneButton
+  }, _react.default.createElement(_CircleButton.default, {
+    className: _styles.default.addBtnIcon,
+    icon: _Combine.default,
+    showBorder: false,
+    onClick: onAdd
+  })))));
 }
 
 CallsOnholdContainer.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  onMerge: _propTypes2.default.func,
-  calls: _propTypes2.default.array.isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  webphoneAnswer: _propTypes2.default.func,
-  webphoneReject: _propTypes2.default.func,
-  webphoneHangup: _propTypes2.default.func,
-  webphoneResume: _propTypes2.default.func,
-  webphoneToVoicemail: _propTypes2.default.func,
-  enableContactFallback: _propTypes2.default.bool,
-  autoLog: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  onBackButtonClick: _propTypes2.default.func,
-  disableMerge: _propTypes2.default.bool,
-  onAdd: _propTypes2.default.func,
-  getAvatarUrl: _propTypes2.default.func
+  currentLocale: _propTypes.default.string.isRequired,
+  onMerge: _propTypes.default.func,
+  calls: _propTypes.default.array.isRequired,
+  areaCode: _propTypes.default.string.isRequired,
+  countryCode: _propTypes.default.string.isRequired,
+  brand: _propTypes.default.string,
+  showContactDisplayPlaceholder: _propTypes.default.bool,
+  webphoneAnswer: _propTypes.default.func,
+  webphoneReject: _propTypes.default.func,
+  webphoneHangup: _propTypes.default.func,
+  webphoneResume: _propTypes.default.func,
+  webphoneToVoicemail: _propTypes.default.func,
+  enableContactFallback: _propTypes.default.bool,
+  autoLog: _propTypes.default.bool,
+  sourceIcons: _propTypes.default.object,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  onBackButtonClick: _propTypes.default.func,
+  disableMerge: _propTypes.default.bool,
+  onAdd: _propTypes.default.func,
+  getAvatarUrl: _propTypes.default.func
 };
-
 CallsOnholdContainer.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

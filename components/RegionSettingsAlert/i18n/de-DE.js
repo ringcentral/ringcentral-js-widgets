@@ -3,26 +3,26 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _regionSettingsMessages = _interopRequireDefault(require("ringcentral-integration/modules/RegionSettings/regionSettingsMessages"));
 
 var _region$regionSetting;
 
-var _regionSettingsMessages = require("ringcentral-integration/modules/RegionSettings/regionSettingsMessages");
-
-var _regionSettingsMessages2 = _interopRequireDefault(_regionSettingsMessages);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_region$regionSetting = {
-  region: "Region"
-}, (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.saveSuccess, "Einstellungen wurden erfolgreich gespeichert."), (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.dialingPlansChanged, "Die vorherige Region wird für Ihr Konto nicht mehr unterstützt.\n    Prüfen Sie Ihre neuen {regionSettingsLink}."), (0, _defineProperty3.default)(_region$regionSetting, "regionSettings", "Regionseinstellungen"), (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.areaCodeInvalid, "Geben Sie eine gültige Vorwahl ein."), _region$regionSetting);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"region"@#@ @source: @#@"Region"@#@
+var _default = (_region$regionSetting = {
+  region: "Region"
+}, _defineProperty(_region$regionSetting, _regionSettingsMessages.default.saveSuccess, "Einstellungen wurden erfolgreich gespeichert."), _defineProperty(_region$regionSetting, _regionSettingsMessages.default.dialingPlansChanged, "Die vorherige Region wird für Ihr Konto nicht mehr unterstützt.\n    Prüfen Sie Ihre neuen {regionSettingsLink}."), _defineProperty(_region$regionSetting, "regionSettings", "Regionseinstellungen"), _defineProperty(_region$regionSetting, _regionSettingsMessages.default.areaCodeInvalid, "Geben Sie eine gültige Vorwahl ein."), _region$regionSetting); // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"[regionSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
 // @key: @#@"[regionSettingsMessages.dialingPlansChanged]"@#@ @source: @#@"The previous region is no longer supported for your account.\n    Please verify your new {regionSettingsLink}."@#@
 // @key: @#@"regionSettings"@#@ @source: @#@"region settings"@#@
 // @key: @#@"[regionSettingsMessages.areaCodeInvalid]"@#@ @source: @#@"Please enter a valid area code."@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=de-DE.js.map

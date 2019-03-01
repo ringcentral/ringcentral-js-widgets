@@ -1,75 +1,73 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.create");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.function.name");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _react = _interopRequireWildcard(require("react"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _classnames2 = _interopRequireDefault(require("classnames"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _calleeTypes = _interopRequireDefault(require("ringcentral-integration/enums/calleeTypes"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _react = require('react');
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames2 = require('classnames');
-
-var _classnames3 = _interopRequireDefault(_classnames2);
-
-var _sessionStatus = require('ringcentral-integration/modules/Webphone/sessionStatus');
-
-var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
-
-var _calleeTypes = require('ringcentral-integration/enums/calleeTypes');
-
-var _calleeTypes2 = _interopRequireDefault(_calleeTypes);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _CallAvatar = require('../CallAvatar');
-
-var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
+var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MergeInfo = function (_Component) {
-  (0, _inherits3.default)(MergeInfo, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var MergeInfo =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(MergeInfo, _Component);
 
   function MergeInfo(props) {
-    (0, _classCallCheck3.default)(this, MergeInfo);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (MergeInfo.__proto__ || (0, _getPrototypeOf2.default)(MergeInfo)).call(this, props));
+    _classCallCheck(this, MergeInfo);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MergeInfo).call(this, props));
     _this.state = {
       lastCallAvatar: null,
       lastCallInfoTimeout: false
@@ -78,23 +76,24 @@ var MergeInfo = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(MergeInfo, [{
-    key: 'componentWillUnmount',
+  _createClass(MergeInfo, [{
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this.mounted = false;
+
       if (this.timeout_clock) {
         clearTimeout(this.timeout_clock);
       }
     }
   }, {
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
       this.mounted = true;
-      var _props = this.props,
-          lastCallInfo = _props.lastCallInfo,
-          getAvatarUrl = _props.getAvatarUrl;
+      var _this$props = this.props,
+          lastCallInfo = _this$props.lastCallInfo,
+          getAvatarUrl = _this$props.getAvatarUrl;
 
       if (lastCallInfo && !lastCallInfo.avatarUrl && lastCallInfo.lastCallContact) {
         getAvatarUrl(lastCallInfo.lastCallContact).then(function (lastCallAvatar) {
@@ -105,7 +104,8 @@ var MergeInfo = function (_Component) {
           }
         });
       }
-      if (lastCallInfo && lastCallInfo.calleeType !== _calleeTypes2.default.conference) {
+
+      if (lastCallInfo && lastCallInfo.calleeType !== _calleeTypes.default.conference) {
         var isSimplifiedCallAndLastCallInfoNotReady = !lastCallInfo.name || !lastCallInfo.phoneNumber;
 
         if (isSimplifiedCallAndLastCallInfoNotReady) {
@@ -122,129 +122,101 @@ var MergeInfo = function (_Component) {
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _classnames;
 
-      var _props2 = this.props,
-          currentLocale = _props2.currentLocale,
-          timeCounter = _props2.timeCounter,
-          lastCallInfo = _props2.lastCallInfo,
-          currentCallTitle = _props2.currentCallTitle,
-          currentCallAvatarUrl = _props2.currentCallAvatarUrl,
-          formatPhone = _props2.formatPhone;
+      var _this$props2 = this.props,
+          currentLocale = _this$props2.currentLocale,
+          timeCounter = _this$props2.timeCounter,
+          lastCallInfo = _this$props2.lastCallInfo,
+          currentCallTitle = _this$props2.currentCallTitle,
+          currentCallAvatarUrl = _this$props2.currentCallAvatarUrl,
+          formatPhone = _this$props2.formatPhone;
 
       if (!lastCallInfo) {
-        return null;
+        return _react.default.createElement("div", {
+          className: _styles.default.userInfo
+        });
       }
-      var _state = this.state,
-          lastCallAvatar = _state.lastCallAvatar,
-          lastCallInfoTimeout = _state.lastCallInfoTimeout;
 
+      var _this$state = this.state,
+          lastCallAvatar = _this$state.lastCallAvatar,
+          lastCallInfoTimeout = _this$state.lastCallInfoTimeout;
       var isLastCallInfoReady = !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber);
-      var isLastCallEnded = lastCallInfo && lastCallInfo.status === _sessionStatus2.default.finished;
-      var statusClasses = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status, true), (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status_disconnected, !!isLastCallEnded), _classnames));
-
-      var isOnConferenceCall = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.conference);
-      var isContacts = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.contacts);
+      var isLastCallEnded = lastCallInfo && lastCallInfo.status === _sessionStatus.default.finished;
+      var statusClasses = (0, _classnames2.default)((_classnames = {}, _defineProperty(_classnames, _styles.default.callee_status, true), _defineProperty(_classnames, _styles.default.callee_status_disconnected, !!isLastCallEnded), _classnames));
+      var isOnConferenceCall = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes.default.conference);
+      var isContacts = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes.default.contacts);
       var calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
-      var loadingText = _i18n2.default.getString('loading');
-      var loadingTimeoutText = _i18n2.default.getString('loadingTimeout');
+
+      var loadingText = _i18n.default.getString('loading');
+
+      var loadingTimeoutText = _i18n.default.getString('loadingTimeout');
+
       var showSpinner = !lastCallInfoTimeout && !isLastCallInfoReady && !isOnConferenceCall;
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.mergeInfo },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.merge_item },
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.callee_avatar },
-            _react2.default.createElement(_CallAvatar2.default, {
-              avatarUrl: isContacts && !lastCallInfo.avatarUrl ? lastCallAvatar : lastCallInfo.avatarUrl,
-              extraNum: isOnConferenceCall ? lastCallInfo.extraNum : 0,
-              isOnConferenceCall: isOnConferenceCall,
-              spinnerMode: showSpinner
-            })
-          ),
-          (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react2.default.createElement(
-            'div',
-            { className: _styles2.default.callee_name },
-            isOnConferenceCall ? _react2.default.createElement(
-              'span',
-              { title: _i18n2.default.getString('conferenceCall', currentLocale) },
-              _i18n2.default.getString('conferenceCall', currentLocale)
-            ) : _react2.default.createElement(
-              'span',
-              { title: calleeName },
-              calleeName
-            )
-          ),
-          !isLastCallInfoReady && !isOnConferenceCall && (lastCallInfoTimeout ? _react2.default.createElement(
-            'div',
-            { className: _styles2.default.last_call_info_load_timeout },
-            _react2.default.createElement(
-              'span',
-              { title: loadingTimeoutText },
-              loadingTimeoutText
-            )
-          ) : _react2.default.createElement(
-            'div',
-            { className: _styles2.default.callee_name },
-            _react2.default.createElement(
-              'span',
-              { title: loadingText },
-              loadingText
-            )
-          )),
-          (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react2.default.createElement(
-            'div',
-            { className: statusClasses },
-            lastCallInfo.status === _sessionStatus2.default.finished ? _i18n2.default.getString('disconnected', currentLocale) : _i18n2.default.getString('onHold', currentLocale)
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.merge_item_active },
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.callee_avatar_active },
-            currentCallAvatarUrl ? _react2.default.createElement(_CallAvatar2.default, { avatarUrl: currentCallAvatarUrl }) : _react2.default.createElement(_CallAvatar2.default, { avatarUrl: null })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.callee_name_active },
-            _react2.default.createElement(
-              'span',
-              { title: currentCallTitle },
-              currentCallTitle
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.callee_status_active },
-            timeCounter
-          )
-        )
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.mergeInfo
+      }, _react.default.createElement("div", {
+        className: _styles.default.merge_item
+      }, _react.default.createElement("div", {
+        className: _styles.default.callee_avatar
+      }, _react.default.createElement(_CallAvatar.default, {
+        avatarUrl: isContacts && !lastCallInfo.avatarUrl ? lastCallAvatar : lastCallInfo.avatarUrl,
+        extraNum: isOnConferenceCall ? lastCallInfo.extraNum : 0,
+        isOnConferenceCall: isOnConferenceCall,
+        spinnerMode: showSpinner
+      })), (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react.default.createElement("div", {
+        className: _styles.default.callee_name
+      }, isOnConferenceCall ? _react.default.createElement("span", {
+        title: _i18n.default.getString('conferenceCall', currentLocale)
+      }, _i18n.default.getString('conferenceCall', currentLocale)) : _react.default.createElement("span", {
+        title: calleeName
+      }, calleeName)), !isLastCallInfoReady && !isOnConferenceCall && (lastCallInfoTimeout ? _react.default.createElement("div", {
+        className: _styles.default.last_call_info_load_timeout
+      }, _react.default.createElement("span", {
+        title: loadingTimeoutText
+      }, loadingTimeoutText)) : _react.default.createElement("div", {
+        className: _styles.default.callee_name
+      }, _react.default.createElement("span", {
+        title: loadingText
+      }, loadingText))), (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react.default.createElement("div", {
+        className: statusClasses
+      }, lastCallInfo.status === _sessionStatus.default.finished ? _i18n.default.getString('disconnected', currentLocale) : _i18n.default.getString('onHold', currentLocale))), _react.default.createElement("div", {
+        className: _styles.default.merge_item_active
+      }, _react.default.createElement("div", {
+        className: _styles.default.callee_avatar_active
+      }, currentCallAvatarUrl ? _react.default.createElement(_CallAvatar.default, {
+        avatarUrl: currentCallAvatarUrl
+      }) : _react.default.createElement(_CallAvatar.default, {
+        avatarUrl: null
+      })), _react.default.createElement("div", {
+        className: _styles.default.callee_name_active
+      }, _react.default.createElement("span", {
+        title: currentCallTitle
+      }, currentCallTitle)), _react.default.createElement("div", {
+        className: _styles.default.callee_status_active
+      }, timeCounter)));
     }
   }]);
+
   return MergeInfo;
 }(_react.Component);
 
 MergeInfo.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  timeCounter: _propTypes2.default.element.isRequired,
-  lastCallInfo: _propTypes2.default.object,
-  currentCallTitle: _propTypes2.default.string,
-  currentCallAvatarUrl: _propTypes2.default.string,
-  formatPhone: _propTypes2.default.func,
-  getAvatarUrl: _propTypes2.default.func,
-  checkLastCallInfoTimeout: _propTypes2.default.number
+  currentLocale: _propTypes.default.string.isRequired,
+  timeCounter: _propTypes.default.element.isRequired,
+  lastCallInfo: _propTypes.default.object,
+  currentCallTitle: _propTypes.default.string,
+  currentCallAvatarUrl: _propTypes.default.string,
+  formatPhone: _propTypes.default.func,
+  getAvatarUrl: _propTypes.default.func,
+  checkLastCallInfoTimeout: _propTypes.default.number
 };
-
 MergeInfo.defaultProps = {
-  lastCallInfo: { calleeType: _calleeTypes2.default.unknow },
+  lastCallInfo: {
+    calleeType: _calleeTypes.default.unknow
+  },
   currentCallTitle: undefined,
   currentCallAvatarUrl: undefined,
   formatPhone: function formatPhone() {
@@ -259,6 +231,6 @@ MergeInfo.defaultProps = {
    */
   checkLastCallInfoTimeout: 30 * 1000
 };
-
-exports.default = MergeInfo;
+var _default = MergeInfo;
+exports.default = _default;
 //# sourceMappingURL=MergeInfo.js.map

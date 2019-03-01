@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   feedbackHeader: "フィードバックを送信",
   back: "戻る",
   revert: "元に戻す",
@@ -23,9 +26,7 @@ exports.default = {
   description: "詳細",
   descriptionPlaceHolder: "できるだけ詳しくご記入ください",
   send: "フィードバックを送信"
-};
-
-// @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
+}; // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@
 // @key: @#@"revert"@#@ @source: @#@"Revert"@#@
 // @key: @#@"instruction"@#@ @source: @#@"Your feedback is valuable for us. If you have problems using the app, want to request a feature, or report a bug, we’re more than happy to help."@#@
@@ -44,4 +45,6 @@ exports.default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

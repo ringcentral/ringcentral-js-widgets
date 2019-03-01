@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/OfflineModeBadge/i18n/en-US.js"],"names":["offlineMode"],"mappings":";;;;;kBAAe;AACbA,eAAa;AADA,C","file":"en-US.js","sourcesContent":["export default {\n  offlineMode: 'Offline Mode',\n};\n"]}
+{"version":3,"sources":["components/OfflineModeBadge/i18n/en-US.js"],"names":["offlineMode"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,WAAW,EAAE;AADA,C","sourcesContent":["export default {\n  offlineMode: 'Offline Mode',\n};\n"],"file":"en-US.js"}

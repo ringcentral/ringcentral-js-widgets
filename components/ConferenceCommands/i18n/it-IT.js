@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: "Comandi conferenza",
   starSharp2Title: "Numero chiamanti",
   starSharp2Body: "Tieni il conto di quante persone partecipano alla chiamata",
@@ -21,9 +24,7 @@ exports.default = {
   starSharp8Body: "1 pressione: Disattiva l'audio\r\n2 pressioni: Tono entrata attivo, tono uscita inattivo\r\n3 pressioni: Tono entrata inattivo, tono uscita attivo\r\n4 pressioni: Attiva l'audio",
   star9Title: "Registra la conferenza",
   star9Body: "Premi una volta per AVVIARE la registrazione\r\nPremi nuovamente per INTERROMPERE la registrazione"
-};
-
-// @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
+}; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@
 // @key: @#@"starSharp3Title"@#@ @source: @#@"Leave Conference"@#@
@@ -40,4 +41,6 @@ exports.default = {
 // @key: @#@"starSharp8Body"@#@ @source: @#@"Press 1x: Turns OFF sound\nPress 2x: Enter tone is ON Exit tone is OFF\nPress 3x: Enter tone is OFF Exit tone is ON\nPress 4x: Turns ON sound"@#@
 // @key: @#@"star9Title"@#@ @source: @#@"Record your conference"@#@
 // @key: @#@"star9Body"@#@ @source: @#@"Press once to START recording\nPress again to STOP recording"@#@
+
+exports.default = _default;
 //# sourceMappingURL=it-IT.js.map

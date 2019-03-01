@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: "オーディオ",
   dialButtonVolume: "ダイヤルボタンの音量",
   ringtoneVolume: "着信音の音量",
@@ -15,9 +18,7 @@ exports.default = {
   noDevice: "デバイスがありません",
   checkMicPermission: "アクセス許可の確認",
   micNoPermissionMessage: "このアプリには、マイクロフォンを使用するためのアクセス許可がありません"
-};
-
-// @key: @#@"title"@#@ @source: @#@"Audio"@#@
+}; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@
 // @key: @#@"callVolume"@#@ @source: @#@"Call Volume"@#@
@@ -28,4 +29,6 @@ exports.default = {
 // @key: @#@"noDevice"@#@ @source: @#@"No device"@#@
 // @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
 // @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

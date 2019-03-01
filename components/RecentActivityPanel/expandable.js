@@ -1,65 +1,74 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 exports.default = expandable;
 
-var _react = require('react');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.symbol");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.assign");
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function expandable(_ref) {
   var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
+      styles = _ref$styles === void 0 ? {} : _ref$styles,
       _ref$className = _ref.className,
-      className = _ref$className === undefined ? null : _ref$className;
-
+      className = _ref$className === void 0 ? null : _ref$className;
   return function (WrappedComponent) {
-    return function (_PureComponent) {
-      (0, _inherits3.default)(Expandable, _PureComponent);
+    var _temp;
+
+    return _temp =
+    /*#__PURE__*/
+    function (_PureComponent) {
+      _inherits(Expandable, _PureComponent);
 
       function Expandable(props) {
-        (0, _classCallCheck3.default)(this, Expandable);
+        var _this;
 
-        var _this = (0, _possibleConstructorReturn3.default)(this, (Expandable.__proto__ || (0, _getPrototypeOf2.default)(Expandable)).call(this, props));
+        _classCallCheck(this, Expandable);
+
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(Expandable).call(this, props));
 
         _this.togglePanel = function (event) {
           // In case it's fired twice
           event.stopPropagation();
+
           _this.setState(function (prevState) {
-            return { expanded: !prevState.expanded };
+            return {
+              expanded: !prevState.expanded
+            };
           });
         };
 
@@ -69,29 +78,27 @@ function expandable(_ref) {
         return _this;
       }
 
-      (0, _createClass3.default)(Expandable, [{
-        key: 'render',
+      _createClass(Expandable, [{
+        key: "render",
         value: function render() {
           var expanded = this.state.expanded;
 
-          var _styles = (0, _assign2.default)({}, styles, {
+          var _styles = Object.assign({}, styles, {
             height: expanded ? styles.height : styles.offset
           });
-          return _react2.default.createElement(
-            'div',
-            {
-              style: _styles,
-              className: className
-            },
-            _react2.default.createElement(WrappedComponent, (0, _extends3.default)({
-              onPanelToggle: this.togglePanel,
-              expanded: expanded
-            }, this.props))
-          );
+
+          return _react.default.createElement("div", {
+            style: _styles,
+            className: className
+          }, _react.default.createElement(WrappedComponent, _extends({
+            onPanelToggle: this.togglePanel,
+            expanded: expanded
+          }, this.props)));
         }
       }]);
+
       return Expandable;
-    }(_react.PureComponent);
+    }(_react.PureComponent), _temp;
   };
 }
 //# sourceMappingURL=expandable.js.map

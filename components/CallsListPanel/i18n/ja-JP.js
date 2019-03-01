@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   noActiveCalls: "アクティブな通話はありません",
   noCalls: "結果が見つかりません。",
   currentCall: "現在の通話",
@@ -12,9 +15,7 @@ exports.default = {
   historyCalls: "過去の通話",
   otherDeviceCall: "他のデバイスで進行中の通話",
   searchPlaceholder: "検索..."
-};
-
-// @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
+}; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
@@ -22,4 +23,6 @@ exports.default = {
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

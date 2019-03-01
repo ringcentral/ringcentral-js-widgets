@@ -1,28 +1,21 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _callingSettingsMessages = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingSettingsMessages"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 
-var _callingSettingsMessages = require('ringcentral-integration/modules/CallingSettings/callingSettingsMessages');
-
-var _callingSettingsMessages2 = _interopRequireDefault(_callingSettingsMessages);
-
-var _FormattedMessage = require('../FormattedMessage');
-
-var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,51 +26,56 @@ function CallingSettingsAlert(_ref) {
       onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick;
 
   switch (message) {
-    case _callingSettingsMessages2.default.saveSuccess:
-    case _callingSettingsMessages2.default.saveSuccessWithSoftphone:
-    case _callingSettingsMessages2.default.webphonePermissionRemoved:
-    case _callingSettingsMessages2.default.emergencyCallingNotAvailable:
-      return _react2.default.createElement(_FormattedMessage2.default, {
-        message: _i18n2.default.getString(message),
-        values: { brand: brand }
+    case _callingSettingsMessages.default.saveSuccess:
+    case _callingSettingsMessages.default.saveSuccessWithSoftphone:
+    case _callingSettingsMessages.default.webphonePermissionRemoved:
+    case _callingSettingsMessages.default.emergencyCallingNotAvailable:
+      return _react.default.createElement(_FormattedMessage.default, {
+        message: _i18n.default.getString(message),
+        values: {
+          brand: brand
+        }
       });
 
-    case _callingSettingsMessages2.default.permissionChanged:
-    case _callingSettingsMessages2.default.phoneNumberChanged:
+    case _callingSettingsMessages.default.permissionChanged:
+    case _callingSettingsMessages.default.phoneNumberChanged:
       {
-        var link = onCallingSettingsLinkClick ? _react2.default.createElement(
-          'a',
-          {
-            onClick: function onClick(e) {
-              e.preventDefault();
-              onCallingSettingsLinkClick();
-            } },
-          _i18n2.default.getString('link', currentLocale)
-        ) : _i18n2.default.getString('link', currentLocale);
-        return _react2.default.createElement(_FormattedMessage2.default, {
-          message: _i18n2.default.getString(message, currentLocale),
-          values: { link: link }
+        var link = onCallingSettingsLinkClick ? _react.default.createElement("a", {
+          onClick: function onClick(e) {
+            e.preventDefault();
+            onCallingSettingsLinkClick();
+          }
+        }, _i18n.default.getString('link', currentLocale)) : _i18n.default.getString('link', currentLocale);
+        return _react.default.createElement(_FormattedMessage.default, {
+          message: _i18n.default.getString(message, currentLocale),
+          values: {
+            link: link
+          }
         });
       }
+
     default:
       return null;
   }
 }
+
 CallingSettingsAlert.propTypes = {
-  message: _propTypes2.default.shape({
-    message: _propTypes2.default.string.isRequired
+  message: _propTypes.default.shape({
+    message: _propTypes.default.string.isRequired
   }).isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  brand: _propTypes2.default.string.isRequired,
-  onCallingSettingsLinkClick: _propTypes2.default.func
+  currentLocale: _propTypes.default.string.isRequired,
+  brand: _propTypes.default.string.isRequired,
+  onCallingSettingsLinkClick: _propTypes.default.func
 };
 CallingSettingsAlert.defaultProps = {
   onCallingSettingsLinkClick: undefined
 };
+
 CallingSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _callingSettingsMessages2.default.saveSuccess || message === _callingSettingsMessages2.default.saveSuccessWithSoftphone || message === _callingSettingsMessages2.default.permissionChanged || message === _callingSettingsMessages2.default.webphonePermissionRemoved || message === _callingSettingsMessages2.default.phoneNumberChanged || message === _callingSettingsMessages2.default.emergencyCallingNotAvailable;
+  return message === _callingSettingsMessages.default.saveSuccess || message === _callingSettingsMessages.default.saveSuccessWithSoftphone || message === _callingSettingsMessages.default.permissionChanged || message === _callingSettingsMessages.default.webphonePermissionRemoved || message === _callingSettingsMessages.default.phoneNumberChanged || message === _callingSettingsMessages.default.emergencyCallingNotAvailable;
 };
 
-exports.default = CallingSettingsAlert;
+var _default = CallingSettingsAlert;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-widgets",
-  "version": "0.10.1",
+  "version": "0.10.0",
   "description": "RingCentral Integration Widget Library",
   "main": "index.js",
   "repository": {
@@ -16,7 +16,6 @@
   "peerDependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
-    "babel-runtime": "^6.26.0",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.22.2",
@@ -30,17 +29,18 @@
     "ringcentral-integration": "^0.10.0"
   },
   "devDependencies": {
+    "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^9.3.1",
     "babel-istanbul": "^0.12.1",
-    "babel-loader": "^7.0.0",
+    "babel-loader": "^8.0.4",
     "execa": "^1.0.0",
     "format-message": "^5.0.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.0",
-    "gulp-babel": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",
     "identity-obj-proxy": "^3.0.0",

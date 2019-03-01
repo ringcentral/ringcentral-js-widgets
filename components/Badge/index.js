@@ -1,24 +1,21 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es6.function.name");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27,24 +24,19 @@ function Badge(_ref) {
       name = _ref.name,
       children = _ref.children,
       onClick = _ref.onClick;
-
-  return _react2.default.createElement(
-    'div',
-    {
-      title: name,
-      className: (0, _classnames2.default)(_styles2.default.root, className),
-      onClick: onClick },
-    children
-  );
+  return _react.default.createElement("div", {
+    title: name,
+    className: (0, _classnames.default)(_styles.default.root, className),
+    onClick: onClick
+  }, children);
 }
 
 Badge.propTypes = {
-  onClick: _propTypes2.default.func,
-  className: _propTypes2.default.string,
-  name: _propTypes2.default.string.isRequired,
-  children: _propTypes2.default.node.isRequired
+  onClick: _propTypes.default.func,
+  className: _propTypes.default.string,
+  name: _propTypes.default.string.isRequired,
+  children: _propTypes.default.node.isRequired
 };
-
 Badge.defaultProps = {
   className: null,
   name: null,
@@ -52,6 +44,6 @@ Badge.defaultProps = {
     return null;
   }
 };
-
-exports.default = Badge;
+var _default = Badge;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

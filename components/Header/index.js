@@ -1,52 +1,45 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 exports.HeaderButton = HeaderButton;
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es6.object.assign");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.array.filter");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es6.array.map");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _react = _interopRequireDefault(require("react"));
 
-var _classnames = require('classnames');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 function HeaderButton(props) {
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(_styles2.default.button, props.disabled && _styles2.default.disabled),
-      onClick: props.disabled ? undefined : props.onClick,
-      title: props.title
-    },
-    props.label
-  );
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.button, props.disabled && _styles.default.disabled),
+    onClick: props.disabled ? undefined : props.onClick,
+    title: props.title
+  }, props.label);
 }
 
 HeaderButton.propTypes = {
-  onClick: _propTypes2.default.func,
-  label: _propTypes2.default.node,
-  disabled: _propTypes2.default.bool,
-  title: _propTypes2.default.string
+  onClick: _propTypes.default.func,
+  label: _propTypes.default.node,
+  disabled: _propTypes.default.bool,
+  title: _propTypes.default.string
 };
-
 HeaderButton.defaultProps = {
   onClick: undefined,
   label: undefined,
@@ -56,58 +49,50 @@ HeaderButton.defaultProps = {
 
 function Header(props) {
   var label = null;
+
   if (props.children) {
-    label = _react2.default.createElement(
-      'div',
-      { className: _styles2.default.label },
-      props.children
-    );
+    label = _react.default.createElement("div", {
+      className: _styles.default.label
+    }, props.children);
   }
 
   var leftButtons = props.buttons.filter(function (b) {
     return b.placement !== 'right' && !b.hidden;
   }).map(function (b, idx) {
-    return _react2.default.createElement(HeaderButton, (0, _extends3.default)({ key: idx }, b));
+    return _react.default.createElement(HeaderButton, _extends({
+      key: idx
+    }, b));
   });
-
   var rightButtons = props.buttons.filter(function (b) {
     return b.placement === 'right' && !b.hidden;
   }).map(function (b, idx) {
-    return _react2.default.createElement(HeaderButton, (0, _extends3.default)({ key: idx }, b));
+    return _react.default.createElement(HeaderButton, _extends({
+      key: idx
+    }, b));
   });
-
-  return _react2.default.createElement(
-    'header',
-    { className: (0, _classnames2.default)(_styles2.default.root, props.className) },
-    label,
-    leftButtons.length ? _react2.default.createElement(
-      'div',
-      { className: _styles2.default.leftButtons },
-      leftButtons
-    ) : null,
-    rightButtons.length ? _react2.default.createElement(
-      'div',
-      { className: _styles2.default.rightButtons },
-      rightButtons
-    ) : null
-  );
+  return _react.default.createElement("header", {
+    className: (0, _classnames.default)(_styles.default.root, props.className)
+  }, label, leftButtons.length ? _react.default.createElement("div", {
+    className: _styles.default.leftButtons
+  }, leftButtons) : null, rightButtons.length ? _react.default.createElement("div", {
+    className: _styles.default.rightButtons
+  }, rightButtons) : null);
 }
 
 Header.propTypes = {
-  className: _propTypes2.default.string,
-  children: _propTypes2.default.node,
-  buttons: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    label: _propTypes2.default.node.isRequired,
-    onClick: _propTypes2.default.funcs,
-    placement: _propTypes2.default.oneOf(['left', 'right'])
+  className: _propTypes.default.string,
+  children: _propTypes.default.node,
+  buttons: _propTypes.default.arrayOf(_propTypes.default.shape({
+    label: _propTypes.default.node.isRequired,
+    onClick: _propTypes.default.funcs,
+    placement: _propTypes.default.oneOf(['left', 'right'])
   }))
 };
-
 Header.defaultProps = {
   className: '',
   children: undefined,
   buttons: []
 };
-
-exports.default = Header;
+var _default = Header;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

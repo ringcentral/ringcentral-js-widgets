@@ -1,32 +1,25 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _callResults = _interopRequireDefault(require("ringcentral-integration/enums/callResults"));
+
+var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
+
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
 var _callDirections$inbou;
 
-var _callResults = require('ringcentral-integration/enums/callResults');
-
-var _callResults2 = _interopRequireDefault(_callResults);
-
-var _telephonyStatus = require('ringcentral-integration/enums/telephonyStatus');
-
-var _telephonyStatus2 = _interopRequireDefault(_telephonyStatus);
-
-var _callDirections = require('ringcentral-integration/enums/callDirections');
-
-var _callDirections2 = _interopRequireDefault(_callDirections);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_callDirections$inbou = {}, (0, _defineProperty3.default)(_callDirections$inbou, _callDirections2.default.inbound, "着信"), (0, _defineProperty3.default)(_callDirections$inbou, _callDirections2.default.outbound, "発信"), (0, _defineProperty3.default)(_callDirections$inbou, 'status', "ステータス："), (0, _defineProperty3.default)(_callDirections$inbou, 'InboundNumber', "発信者番号："), (0, _defineProperty3.default)(_callDirections$inbou, 'OutboundNumber', "通話先："), (0, _defineProperty3.default)(_callDirections$inbou, 'InboundDirection', "発信元："), (0, _defineProperty3.default)(_callDirections$inbou, 'OutboundDirection', "発信先："), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.noCall, "切断済み"), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.callConnected, "接続済み"), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.ringing, "呼び出し中"), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.onHold, "保留中"), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.parkedCall, "パーク済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.unknown, "不明"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.missed, "不在"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.callAccepted, "応答済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.accepted, "応答済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.voicemail, "ボイスメール"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.rejected, "拒否済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.reply, "返信"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.received, "受信済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.faxReceiptError, "FAX受信エラー"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.faxOnDemand, "オンデマンドFAX"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.partialReceive, "部分受信"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.blocked, "ブロック済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.callConnected, "切断済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.noAnswer, "応答なし"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.internationalDisabled, "国際電話無効"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.busy, "取り込み中"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.faxSendError, "FAX送信エラー"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.sent, "送信済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.callFailed, "通話失敗"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.internalError, "内部エラー"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.IPPhoneOffline, "IP電話オフライン"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.restrictedNumber, "制限された番号"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.wrongNumber, "番号が間違っています"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.stopped, "停止済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.suspendedAccount, "利用が停止されたアカウント"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.hangUp, "通話終了"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.HangUp, "通話終了"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.abandoned, "放棄済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.declined, "拒否済み"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.faxReceipt, "FAX受信"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.disconnected, "切断済み"), _callDirections$inbou);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
+var _default = (_callDirections$inbou = {}, _defineProperty(_callDirections$inbou, _callDirections.default.inbound, "着信"), _defineProperty(_callDirections$inbou, _callDirections.default.outbound, "発信"), _defineProperty(_callDirections$inbou, "status", "ステータス："), _defineProperty(_callDirections$inbou, "InboundNumber", "発信者番号："), _defineProperty(_callDirections$inbou, "OutboundNumber", "通話先："), _defineProperty(_callDirections$inbou, "InboundDirection", "発信元："), _defineProperty(_callDirections$inbou, "OutboundDirection", "発信先："), _defineProperty(_callDirections$inbou, _telephonyStatus.default.noCall, "切断済み"), _defineProperty(_callDirections$inbou, _telephonyStatus.default.callConnected, "接続済み"), _defineProperty(_callDirections$inbou, _telephonyStatus.default.ringing, "呼び出し中"), _defineProperty(_callDirections$inbou, _telephonyStatus.default.onHold, "保留中"), _defineProperty(_callDirections$inbou, _telephonyStatus.default.parkedCall, "パーク済み"), _defineProperty(_callDirections$inbou, _callResults.default.unknown, "不明"), _defineProperty(_callDirections$inbou, _callResults.default.missed, "不在"), _defineProperty(_callDirections$inbou, _callResults.default.callAccepted, "応答済み"), _defineProperty(_callDirections$inbou, _callResults.default.accepted, "応答済み"), _defineProperty(_callDirections$inbou, _callResults.default.voicemail, "ボイスメール"), _defineProperty(_callDirections$inbou, _callResults.default.rejected, "拒否済み"), _defineProperty(_callDirections$inbou, _callResults.default.reply, "返信"), _defineProperty(_callDirections$inbou, _callResults.default.received, "受信済み"), _defineProperty(_callDirections$inbou, _callResults.default.faxReceiptError, "FAX受信エラー"), _defineProperty(_callDirections$inbou, _callResults.default.faxOnDemand, "オンデマンドFAX"), _defineProperty(_callDirections$inbou, _callResults.default.partialReceive, "部分受信"), _defineProperty(_callDirections$inbou, _callResults.default.blocked, "ブロック済み"), _defineProperty(_callDirections$inbou, _callResults.default.callConnected, "切断済み"), _defineProperty(_callDirections$inbou, _callResults.default.noAnswer, "応答なし"), _defineProperty(_callDirections$inbou, _callResults.default.internationalDisabled, "国際電話無効"), _defineProperty(_callDirections$inbou, _callResults.default.busy, "取り込み中"), _defineProperty(_callDirections$inbou, _callResults.default.faxSendError, "FAX送信エラー"), _defineProperty(_callDirections$inbou, _callResults.default.sent, "送信済み"), _defineProperty(_callDirections$inbou, _callResults.default.callFailed, "通話失敗"), _defineProperty(_callDirections$inbou, _callResults.default.internalError, "内部エラー"), _defineProperty(_callDirections$inbou, _callResults.default.IPPhoneOffline, "IP電話オフライン"), _defineProperty(_callDirections$inbou, _callResults.default.restrictedNumber, "制限された番号"), _defineProperty(_callDirections$inbou, _callResults.default.wrongNumber, "番号が間違っています"), _defineProperty(_callDirections$inbou, _callResults.default.stopped, "停止済み"), _defineProperty(_callDirections$inbou, _callResults.default.suspendedAccount, "利用が停止されたアカウント"), _defineProperty(_callDirections$inbou, _callResults.default.hangUp, "通話終了"), _defineProperty(_callDirections$inbou, _callResults.default.HangUp, "通話終了"), _defineProperty(_callDirections$inbou, _callResults.default.abandoned, "放棄済み"), _defineProperty(_callDirections$inbou, _callResults.default.declined, "拒否済み"), _defineProperty(_callDirections$inbou, _callResults.default.faxReceipt, "FAX受信"), _defineProperty(_callDirections$inbou, _callResults.default.disconnected, "切断済み"), _callDirections$inbou); // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"[callDirections.outbound]"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"status"@#@ @source: @#@"Status:"@#@
 // @key: @#@"InboundNumber"@#@ @source: @#@"Caller Id:"@#@
@@ -69,4 +62,7 @@ exports.default = (_callDirections$inbou = {}, (0, _defineProperty3.default)(_ca
 // @key: @#@"[callResults.declined]"@#@ @source: @#@"Declined"@#@
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

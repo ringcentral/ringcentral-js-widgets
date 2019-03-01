@@ -1,45 +1,29 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = Search;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
 
-var _classnames = require('classnames');
+var _SearchInput = _interopRequireDefault(require("../../../SearchInput"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _NewComposeText = _interopRequireDefault(require("../../../../assets/images/NewComposeText.svg"));
 
-var _messageTypes = require('ringcentral-integration/enums/messageTypes');
+var _NewComposeTextHover = _interopRequireDefault(require("../../../../assets/images/NewComposeTextHover.svg"));
 
-var _messageTypes2 = _interopRequireDefault(_messageTypes);
+var _i18n = _interopRequireDefault(require("../../i18n"));
 
-var _SearchInput = require('../../../SearchInput');
-
-var _SearchInput2 = _interopRequireDefault(_SearchInput);
-
-var _NewComposeText = require('../../../../assets/images/NewComposeText.svg');
-
-var _NewComposeText2 = _interopRequireDefault(_NewComposeText);
-
-var _NewComposeTextHover = require('../../../../assets/images/NewComposeTextHover.svg');
-
-var _NewComposeTextHover2 = _interopRequireDefault(_NewComposeTextHover);
-
-var _i18n = require('../../i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -56,47 +40,44 @@ function Search(_ref) {
   if (!onSearchInputChange) {
     return null;
   }
-  var showTextIcon = composeTextPermission && (typeFilter === _messageTypes2.default.all || typeFilter === _messageTypes2.default.text);
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(_styles2.default.searchContainer, showTextIcon ? null : _styles2.default.withoutTextIcon)
-    },
-    _react2.default.createElement(_SearchInput2.default, {
-      className: _styles2.default.searchInput,
-      value: searchInput,
-      onChange: onSearchInputChange,
-      placeholder: _i18n2.default.getString('search', currentLocale),
-      disabled: disableLinks
-    }),
-    _react2.default.createElement(
-      'span',
-      {
-        title: _i18n2.default.getString('composeText', currentLocale),
-        className: _styles2.default.textIcon,
-        onClick: goToComposeText
-      },
-      _react2.default.createElement(_NewComposeTextHover2.default, { className: _styles2.default.hoverTextSVGIcon, width: 20, height: 21 }),
-      _react2.default.createElement(_NewComposeText2.default, { className: _styles2.default.textSVGIcon, width: 20, height: 21 })
-    ),
-    renderSearchTip && renderSearchTip()
-  );
+
+  var showTextIcon = composeTextPermission && (typeFilter === _messageTypes.default.all || typeFilter === _messageTypes.default.text);
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.searchContainer, showTextIcon ? null : _styles.default.withoutTextIcon)
+  }, _react.default.createElement(_SearchInput.default, {
+    className: _styles.default.searchInput,
+    value: searchInput,
+    onChange: onSearchInputChange,
+    placeholder: _i18n.default.getString('search', currentLocale),
+    disabled: disableLinks
+  }), _react.default.createElement("span", {
+    title: _i18n.default.getString('composeText', currentLocale),
+    className: _styles.default.textIcon,
+    onClick: goToComposeText
+  }, _react.default.createElement(_NewComposeTextHover.default, {
+    className: _styles.default.hoverTextSVGIcon,
+    width: 20,
+    height: 21
+  }), _react.default.createElement(_NewComposeText.default, {
+    className: _styles.default.textSVGIcon,
+    width: 20,
+    height: 21
+  })), renderSearchTip && renderSearchTip());
 }
 
 Search.propTypes = {
-  composeTextPermission: _propTypes2.default.bool,
-  typeFilter: _propTypes2.default.string,
-  onSearchInputChange: _propTypes2.default.func,
-  searchInput: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
-  disableLinks: _propTypes2.default.bool,
-  goToComposeText: _propTypes2.default.func.isRequired,
-  renderSearchTip: _propTypes2.default.func
+  composeTextPermission: _propTypes.default.bool,
+  typeFilter: _propTypes.default.string,
+  onSearchInputChange: _propTypes.default.func,
+  searchInput: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired,
+  disableLinks: _propTypes.default.bool,
+  goToComposeText: _propTypes.default.func.isRequired,
+  renderSearchTip: _propTypes.default.func
 };
-
 Search.defaultProps = {
   composeTextPermission: true,
-  typeFilter: _messageTypes2.default.all,
+  typeFilter: _messageTypes.default.all,
   onSearchInputChange: undefined,
   searchInput: '',
   disableLinks: false,

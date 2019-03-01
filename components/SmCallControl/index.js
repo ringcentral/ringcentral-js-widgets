@@ -1,53 +1,33 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = SmCallControl;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
 
-var _classnames = require('classnames');
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
-var _telephonyStatus = require('ringcentral-integration/enums/telephonyStatus');
+var _Mute = _interopRequireDefault(require("../../assets/images/Mute.svg"));
 
-var _telephonyStatus2 = _interopRequireDefault(_telephonyStatus);
+var _Unmute = _interopRequireDefault(require("../../assets/images/Unmute.svg"));
 
-var _callDirections = require('ringcentral-integration/enums/callDirections');
+var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 
-var _callDirections2 = _interopRequireDefault(_callDirections);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _CircleButton = require('../CircleButton');
-
-var _CircleButton2 = _interopRequireDefault(_CircleButton);
-
-var _Mute = require('../../assets/images/Mute.svg');
-
-var _Mute2 = _interopRequireDefault(_Mute);
-
-var _Unmute = require('../../assets/images/Unmute.svg');
-
-var _Unmute2 = _interopRequireDefault(_Unmute);
-
-var _End = require('../../assets/images/End.svg');
-
-var _End2 = _interopRequireDefault(_End);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -59,64 +39,54 @@ function SmCallControl(props) {
       isOnMute = props.isOnMute,
       callStatus = props.callStatus,
       currentLocale = props.currentLocale,
-      callDirection = props.callDirection;
-
-  // reject conditions: call direction is inbound & call status is ringing
+      callDirection = props.callDirection; // reject conditions: call direction is inbound & call status is ringing
 
   function canRejectCall() {
-    return _callDirections2.default.inbound === callDirection && _telephonyStatus2.default.ringing === callStatus;
+    return _callDirections.default.inbound === callDirection && _telephonyStatus.default.ringing === callStatus;
   }
 
-  var muteIcon = isOnMute ? _Mute2.default : _Unmute2.default;
+  var muteIcon = isOnMute ? _Mute.default : _Unmute.default;
   var muteAction = isOnMute ? onUnmute : onMute;
   var muteTitle = isOnMute ? 'unmute' : 'mute';
   var endTitle = canRejectCall() ? 'reject' : 'hangup';
   var endAction = canRejectCall() ? onReject : onHangup;
-  var disabledCtrl = callStatus === _telephonyStatus2.default.ringing;
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.smWraper },
-    _react2.default.createElement(
-      'span',
-      { title: _i18n2.default.getString(muteTitle, currentLocale) },
-      _react2.default.createElement(_CircleButton2.default, {
-        dataSign: muteTitle,
-        icon: muteIcon,
-        onClick: muteAction,
-        className: (0, _classnames2.default)(_styles2.default.button, disabledCtrl ? _styles2.default.buttonDisabled : null),
-        disabled: disabledCtrl
-      })
-    ),
-    _react2.default.createElement(
-      'span',
-      { title: _i18n2.default.getString(endTitle, currentLocale) },
-      _react2.default.createElement(_CircleButton2.default, {
-        dataSign: endTitle,
-        showBorder: false,
-        icon: _End2.default,
-        onClick: endAction,
-        className: (0, _classnames2.default)(_styles2.default.hangup, _styles2.default.button)
-      })
-    )
-  );
+  var disabledCtrl = callStatus === _telephonyStatus.default.ringing;
+  return _react.default.createElement("div", {
+    className: _styles.default.smWraper
+  }, _react.default.createElement("span", {
+    title: _i18n.default.getString(muteTitle, currentLocale)
+  }, _react.default.createElement(_CircleButton.default, {
+    dataSign: muteTitle,
+    icon: muteIcon,
+    onClick: muteAction,
+    className: (0, _classnames.default)(_styles.default.button, disabledCtrl ? _styles.default.buttonDisabled : null),
+    disabled: disabledCtrl
+  })), _react.default.createElement("span", {
+    title: _i18n.default.getString(endTitle, currentLocale)
+  }, _react.default.createElement(_CircleButton.default, {
+    dataSign: endTitle,
+    showBorder: false,
+    icon: _End.default,
+    onClick: endAction,
+    className: (0, _classnames.default)(_styles.default.hangup, _styles.default.button)
+  })));
 }
 
 SmCallControl.propTypes = {
-  onMute: _propTypes2.default.func,
-  onUnmute: _propTypes2.default.func,
-  onHangup: _propTypes2.default.func,
-  onReject: _propTypes2.default.func,
-  isOnMute: _propTypes2.default.bool,
-  callStatus: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string,
-  callDirection: _propTypes2.default.string.isRequired
+  onMute: _propTypes.default.func,
+  onUnmute: _propTypes.default.func,
+  onHangup: _propTypes.default.func,
+  onReject: _propTypes.default.func,
+  isOnMute: _propTypes.default.bool,
+  callStatus: _propTypes.default.string,
+  currentLocale: _propTypes.default.string,
+  callDirection: _propTypes.default.string.isRequired
 };
 SmCallControl.defaultProps = {
   onMute: function onMute() {},
   onUnmute: function onUnmute() {},
   onHangup: function onHangup() {},
   onReject: function onReject() {},
-
   isOnMute: false,
   callStatus: 'CallConnected',
   currentLocale: 'en-US'

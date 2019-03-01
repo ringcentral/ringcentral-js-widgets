@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   logging: "正在记录...",
   logCall: "记录通话",
   editLog: "编辑记录",
@@ -34,9 +37,7 @@ exports.default = {
   unhold: "取消保持",
   transfer: "转移",
   reject: "拒绝"
-};
-
-// @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
+}; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"select"@#@ @source: @#@"Select a matching record"@#@
@@ -66,4 +67,6 @@ exports.default = {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+
+exports.default = _default;
 //# sourceMappingURL=zh-CN.js.map

@@ -1,24 +1,19 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26,79 +21,65 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Circle Button with SVG
  */
 function CircleButton(props) {
-  var icon = void 0;
+  var icon;
+
   if (props.icon) {
     var Icon = props.icon;
-    icon = _react2.default.createElement(Icon, {
-      className: (0, _classnames2.default)(_styles2.default.icon, props.iconClassName),
+    icon = _react.default.createElement(Icon, {
+      className: (0, _classnames.default)(_styles.default.icon, props.iconClassName),
       width: props.iconWidth,
       height: props.iconHeight,
       x: props.iconX,
       y: props.iconY
     });
   }
-  var circleClass = (0, _classnames2.default)(_styles2.default.circle, props.showBorder ? null : _styles2.default.noBorder);
+
+  var circleClass = (0, _classnames.default)(_styles.default.circle, props.showBorder ? null : _styles.default.noBorder);
   var onClick = props.disabled ? null : props.onClick;
-  return _react2.default.createElement(
-    'svg',
-    {
-      'data-sign': props.dataSign,
-      xmlns: 'http://www.w3.org/2000/svg',
-      className: (0, _classnames2.default)(_styles2.default.btnSvg, props.className),
-      viewBox: '0 0 500 500',
-      onClick: onClick,
-      width: props.width,
-      height: props.height,
-      x: props.x,
-      y: props.y
-    },
-    props.title ? _react2.default.createElement(
-      'title',
-      null,
-      props.title
-    ) : null,
-    _react2.default.createElement(
-      'g',
-      {
-        className: _styles2.default.btnSvgGroup
-      },
-      _react2.default.createElement('circle', {
-        className: circleClass,
-        cx: '250',
-        cy: '250',
-        r: '245'
-      }),
-      icon,
-      props.showRipple ? _react2.default.createElement('circle', {
-        className: _styles2.default.ripple,
-        cx: '250',
-        cy: '250',
-        r: '245'
-      }) : null
-    )
-  );
+  return _react.default.createElement("svg", {
+    "data-sign": props.dataSign,
+    xmlns: "http://www.w3.org/2000/svg",
+    className: (0, _classnames.default)(_styles.default.btnSvg, props.className),
+    viewBox: "0 0 500 500",
+    onClick: onClick,
+    width: props.width,
+    height: props.height,
+    x: props.x,
+    y: props.y
+  }, props.title ? _react.default.createElement("title", null, props.title) : null, _react.default.createElement("g", {
+    className: _styles.default.btnSvgGroup
+  }, _react.default.createElement("circle", {
+    className: circleClass,
+    cx: "250",
+    cy: "250",
+    r: "245"
+  }), icon, props.showRipple ? _react.default.createElement("circle", {
+    className: _styles.default.ripple,
+    cx: "250",
+    cy: "250",
+    r: "245"
+  }) : null));
 }
 
 CircleButton.propTypes = {
-  icon: _propTypes2.default.func,
-  className: _propTypes2.default.string,
-  dataSign: _propTypes2.default.string,
-  showBorder: _propTypes2.default.bool,
-  iconClassName: _propTypes2.default.string,
-  onClick: _propTypes2.default.func,
-  width: _propTypes2.default.string,
-  height: _propTypes2.default.string,
-  x: _propTypes2.default.number,
-  y: _propTypes2.default.number,
-  disabled: _propTypes2.default.bool,
-  iconWidth: _propTypes2.default.number,
-  iconHeight: _propTypes2.default.number,
-  iconX: _propTypes2.default.number,
-  iconY: _propTypes2.default.number,
-  title: _propTypes2.default.string,
-  showRipple: _propTypes2.default.bool
+  icon: _propTypes.default.func,
+  className: _propTypes.default.string,
+  dataSign: _propTypes.default.string,
+  showBorder: _propTypes.default.bool,
+  iconClassName: _propTypes.default.string,
+  onClick: _propTypes.default.func,
+  width: _propTypes.default.string,
+  height: _propTypes.default.string,
+  x: _propTypes.default.number,
+  y: _propTypes.default.number,
+  disabled: _propTypes.default.bool,
+  iconWidth: _propTypes.default.number,
+  iconHeight: _propTypes.default.number,
+  iconX: _propTypes.default.number,
+  iconY: _propTypes.default.number,
+  title: _propTypes.default.string,
+  showRipple: _propTypes.default.bool
 };
-
 CircleButton.defaultProps = {
   icon: undefined,
   className: undefined,
@@ -118,6 +99,6 @@ CircleButton.defaultProps = {
   title: null,
   showRipple: false
 };
-
-exports.default = CircleButton;
+var _default = CircleButton;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

@@ -1,51 +1,39 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = SpinnerOverlay;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Spinner = _interopRequireDefault(require("../Spinner"));
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _Spinner = require('../Spinner');
-
-var _Spinner2 = _interopRequireDefault(_Spinner);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function SpinnerOverlay(_ref) {
   var className = _ref.className;
-
-  return _react2.default.createElement(
-    'div',
-    { 'data-sign': 'spinnerOverlay', className: (0, _classnames2.default)(_styles2.default.root, className) },
-    _react2.default.createElement('div', { className: _styles2.default.mask }),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.container },
-      _react2.default.createElement(_Spinner2.default, null)
-    )
-  );
+  return _react.default.createElement("div", {
+    "data-sign": "spinnerOverlay",
+    className: (0, _classnames.default)(_styles.default.root, className)
+  }, _react.default.createElement("div", {
+    className: _styles.default.mask
+  }), _react.default.createElement("div", {
+    className: _styles.default.container
+  }, _react.default.createElement(_Spinner.default, null)));
 }
 
 SpinnerOverlay.propTypes = {
-  className: _propTypes2.default.string
+  className: _propTypes.default.string
 };
-
 SpinnerOverlay.defaultProps = {
   className: undefined
 };

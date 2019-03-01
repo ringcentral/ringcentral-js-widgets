@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   logging: "Protokollierung ...",
   logCall: "Anruf protokollieren",
   editLog: "Protokoll bearbeiten",
@@ -16,9 +19,7 @@ exports.default = {
   unavailable: "Nicht verfügbar",
   viewDetails: "Details anzeigen",
   conferenceCall: "Telefonkonferenz"
-};
-
-// @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
+}; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"select"@#@ @source: @#@"Select matching"@#@
@@ -30,4 +31,6 @@ exports.default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+
+exports.default = _default;
 //# sourceMappingURL=de-DE.js.map

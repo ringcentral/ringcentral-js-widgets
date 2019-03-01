@@ -1,100 +1,95 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.assign");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.index-of");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.iterator");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.keys");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.symbol");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.object.define-property");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("core-js/modules/es6.object.create");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _react = _interopRequireWildcard(require("react"));
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
 
-var _react = require('react');
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _react2 = _interopRequireDefault(_react);
+var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
 
-var _propTypes = require('prop-types');
+var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _classnames = require('classnames');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _LogBasicInfo = _interopRequireDefault(require("../LogBasicInfo"));
 
-var _telephonyStatus = require('ringcentral-integration/enums/telephonyStatus');
-
-var _telephonyStatus2 = _interopRequireDefault(_telephonyStatus);
-
-var _callDirections = require('ringcentral-integration/enums/callDirections');
-
-var _callDirections2 = _interopRequireDefault(_callDirections);
-
-var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
-
-var _SpinnerOverlay = require('../SpinnerOverlay');
-
-var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _LogBasicInfo = require('../LogBasicInfo');
-
-var _LogBasicInfo2 = _interopRequireDefault(_LogBasicInfo);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 var EditSection = function EditSection(_ref) {
   var children = _ref.children,
       scrollerRef = _ref.scrollerRef,
-      rest = (0, _objectWithoutProperties3.default)(_ref, ['children', 'scrollerRef']);
-  return _react2.default.createElement(
-    'div',
-    (0, _extends3.default)({}, rest, {
-      ref: scrollerRef,
-      className: (0, _classnames2.default)(_styles2.default.editSection) }),
-    children
-  );
+      rest = _objectWithoutProperties(_ref, ["children", "scrollerRef"]);
+
+  return _react.default.createElement("div", _extends({}, rest, {
+    ref: scrollerRef,
+    className: (0, _classnames.default)(_styles.default.editSection)
+  }), children);
 };
 
 EditSection.propTypes = {
-  children: _propTypes2.default.object,
-  scrollerRef: _propTypes2.default.func
+  children: _propTypes.default.object,
+  scrollerRef: _propTypes.default.func
 };
-
 EditSection.defaultProps = {
   children: null,
   scrollerRef: undefined
@@ -105,87 +100,85 @@ var SaveButton = function SaveButton(_ref2) {
       onClick = _ref2.onClick,
       overlapped = _ref2.overlapped,
       children = _ref2.children;
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.buttonPanel, overlapped && _styles2.default.overlapped) },
-    _react2.default.createElement(
-      _Button2.default,
-      {
-        className: (0, _classnames2.default)(_styles2.default.primaryButton, isSaving && _styles2.default.disabled),
-        disabled: isSaving,
-        onClick: onClick },
-      children
-    )
-  );
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.buttonPanel, overlapped && _styles.default.overlapped)
+  }, _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.primaryButton, isSaving && _styles.default.disabled),
+    disabled: isSaving,
+    onClick: onClick
+  }, children));
 };
 
 SaveButton.propTypes = {
-  isSaving: _propTypes2.default.bool,
-  onClick: _propTypes2.default.func,
-  overlapped: _propTypes2.default.bool,
-  children: _propTypes2.default.string
+  isSaving: _propTypes.default.bool,
+  onClick: _propTypes.default.func,
+  overlapped: _propTypes.default.bool,
+  children: _propTypes.default.string
 };
-
 SaveButton.defaultProps = {
   isSaving: false,
   onClick: function onClick() {},
-
   overlapped: false,
   children: null
 };
 
-var LogSection = function (_Component) {
-  (0, _inherits3.default)(LogSection, _Component);
+var LogSection =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(LogSection, _Component);
 
   function LogSection(props) {
-    (0, _classCallCheck3.default)(this, LogSection);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LogSection.__proto__ || (0, _getPrototypeOf2.default)(LogSection)).call(this, props));
+    _classCallCheck(this, LogSection);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(LogSection).call(this, props));
     _this.state = {
       mainCtrlOverlapped: false
     };
     return _this;
   }
 
-  (0, _createClass3.default)(LogSection, [{
-    key: 'componentDidMount',
+  _createClass(LogSection, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       window.addEventListener('resize', this.checkOverlap, false);
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       window.removeEventListener('resize', this.checkOverlap, false);
     }
   }, {
-    key: 'checkOverlap',
+    key: "checkOverlap",
     value: function checkOverlap() {
       if (!this.mainCtrl) {
         return;
       }
-      var _mainCtrl = this.mainCtrl,
-          scrollHeight = _mainCtrl.scrollHeight,
-          clientHeight = _mainCtrl.clientHeight,
-          scrollTop = _mainCtrl.scrollTop;
 
+      var _this$mainCtrl = this.mainCtrl,
+          scrollHeight = _this$mainCtrl.scrollHeight,
+          clientHeight = _this$mainCtrl.clientHeight,
+          scrollTop = _this$mainCtrl.scrollTop;
       var overlappedHeight = scrollHeight - clientHeight - scrollTop;
       var mainCtrlOverlapped = overlappedHeight > 1;
+
       if (mainCtrlOverlapped !== this.state.mainCtrlOverlapped) {
-        this.setState({ mainCtrlOverlapped: mainCtrlOverlapped });
+        this.setState({
+          mainCtrlOverlapped: mainCtrlOverlapped
+        });
       }
     }
   }, {
-    key: 'getEditLogSection',
+    key: "getEditLogSection",
     value: function getEditLogSection() {
-      var _props = this.props,
-          renderEditLogSection = _props.renderEditLogSection,
-          currentLocale = _props.currentLocale,
-          onSaveCallLog = _props.onSaveCallLog,
-          onUpdateCallLog = _props.onUpdateCallLog,
-          currentLog = _props.currentLog,
-          additionalInfo = _props.additionalInfo;
-
+      var _this$props = this.props,
+          renderEditLogSection = _this$props.renderEditLogSection,
+          currentLocale = _this$props.currentLocale,
+          onSaveCallLog = _this$props.onSaveCallLog,
+          onUpdateCallLog = _this$props.onUpdateCallLog,
+          currentLog = _this$props.currentLog,
+          additionalInfo = _this$props.additionalInfo;
       return renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
@@ -195,20 +188,21 @@ var LogSection = function (_Component) {
       });
     }
   }, {
-    key: 'genSaveLogButton',
+    key: "genSaveLogButton",
     value: function genSaveLogButton() {
-      var _props2 = this.props,
-          showSaveLogBtn = _props2.showSaveLogBtn,
-          renderSaveLogButton = _props2.renderSaveLogButton,
-          currentLocale = _props2.currentLocale,
-          onSaveCallLog = _props2.onSaveCallLog,
-          currentLog = _props2.currentLog;
+      var _this$props2 = this.props,
+          showSaveLogBtn = _this$props2.showSaveLogBtn,
+          renderSaveLogButton = _this$props2.renderSaveLogButton,
+          currentLocale = _this$props2.currentLocale,
+          onSaveCallLog = _this$props2.onSaveCallLog,
+          currentLog = _this$props2.currentLog;
       var call = currentLog.call,
           currentLogCall = currentLog.currentLogCall;
 
       if (!showSaveLogBtn) {
         return null;
       }
+
       if (renderSaveLogButton) {
         return renderSaveLogButton({
           currentLocale: currentLocale,
@@ -217,39 +211,37 @@ var LogSection = function (_Component) {
           overlapped: this.state.mainCtrlOverlapped
         });
       }
-      return _react2.default.createElement(
-        SaveButton,
-        {
-          isSaving: currentLogCall.isSaving,
-          onClick: function onClick() {
-            return onSaveCallLog(call);
-          },
-          overlapped: this.state.mainCtrlOverlapped
+
+      return _react.default.createElement(SaveButton, {
+        isSaving: currentLogCall.isSaving,
+        onClick: function onClick() {
+          return onSaveCallLog(call);
         },
-        _i18n2.default.getString('saveLog', currentLocale)
-      );
+        overlapped: this.state.mainCtrlOverlapped
+      }, _i18n.default.getString('saveLog', currentLocale));
     }
   }, {
-    key: 'renderLogBasicInfo',
+    key: "renderLogBasicInfo",
     value: function renderLogBasicInfo() {
-      var _props3 = this.props,
-          currentLog = _props3.currentLog,
-          showSmallCallControl = _props3.showSmallCallControl;
+      var _this$props3 = this.props,
+          currentLog = _this$props3.currentLog,
+          showSmallCallControl = _this$props3.showSmallCallControl;
       var currentSessionId = currentLog.currentSessionId,
           call = currentLog.call;
       var telephonyStatus = call.telephonyStatus,
           result = call.result;
+      var status = telephonyStatus || result; // if `result` is exist, call has been disconnect
 
-      var status = telephonyStatus || result;
-      // if `result` is exist, call has been disconnect
       var isActive = !result;
       var clickable = isActive && !(0, _callLogHelpers.isRingingInboundCall)(call);
-      var extraButton = void 0;
+      var extraButton;
+
       if (showSmallCallControl && isActive) {
         extraButton = this.props.renderSmallCallContrl(status, currentSessionId);
       }
-      return _react2.default.createElement(_LogBasicInfo2.default, {
-        dataSign: 'leftSectionInfo',
+
+      return _react.default.createElement(_LogBasicInfo.default, {
+        dataSign: "leftSectionInfo",
         currentLog: this.props.currentLog,
         currentLocale: this.props.currentLocale,
         formatPhone: this.props.formatPhone,
@@ -261,61 +253,55 @@ var LogSection = function (_Component) {
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _props4 = this.props,
-          currentLog = _props4.currentLog,
-          isInnerMask = _props4.isInnerMask;
+      var _this$props4 = this.props,
+          currentLog = _this$props4.currentLog,
+          isInnerMask = _this$props4.isInnerMask;
       var showSpinner = currentLog.showSpinner;
 
       if (showSpinner) {
-        return _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner });
+        return _react.default.createElement(_SpinnerOverlay.default, {
+          className: _styles.default.spinner
+        });
       }
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.root },
-        this.renderLogBasicInfo(),
-        _react2.default.createElement(
-          EditSection,
-          {
-            scrollerRef: function scrollerRef(el) {
-              _this2.mainCtrl = el;
-            },
-            onScroll: function onScroll() {
-              return _this2.checkOverlap();
-            }
-          },
-          this.getEditLogSection()
-        ),
-        this.genSaveLogButton(),
-        isInnerMask ? _react2.default.createElement('div', { className: _styles2.default.innerMask }) : null
-      );
+
+      return _react.default.createElement("div", {
+        className: _styles.default.root
+      }, this.renderLogBasicInfo(), _react.default.createElement(EditSection, {
+        scrollerRef: function scrollerRef(el) {
+          _this2.mainCtrl = el;
+        },
+        onScroll: function onScroll() {
+          return _this2.checkOverlap();
+        }
+      }, this.getEditLogSection()), this.genSaveLogButton(), isInnerMask ? _react.default.createElement("div", {
+        className: _styles.default.innerMask
+      }) : null);
     }
   }]);
+
   return LogSection;
 }(_react.Component);
 
 exports.default = LogSection;
-
-
 LogSection.propTypes = {
-  currentLog: _propTypes2.default.object,
-  additionalInfo: _propTypes2.default.object,
-  currentLocale: _propTypes2.default.string.isRequired,
-  formatPhone: _propTypes2.default.func,
-  onUpdateCallLog: _propTypes2.default.func,
-  onSaveCallLog: _propTypes2.default.func,
-  renderEditLogSection: _propTypes2.default.func,
-  renderSaveLogButton: _propTypes2.default.func,
-  isInnerMask: _propTypes2.default.bool,
-  onLogBasicInfoClick: _propTypes2.default.func,
-  showSaveLogBtn: _propTypes2.default.bool,
-  showSmallCallControl: _propTypes2.default.bool,
-  renderSmallCallContrl: _propTypes2.default.func
+  currentLog: _propTypes.default.object,
+  additionalInfo: _propTypes.default.object,
+  currentLocale: _propTypes.default.string.isRequired,
+  formatPhone: _propTypes.default.func,
+  onUpdateCallLog: _propTypes.default.func,
+  onSaveCallLog: _propTypes.default.func,
+  renderEditLogSection: _propTypes.default.func,
+  renderSaveLogButton: _propTypes.default.func,
+  isInnerMask: _propTypes.default.bool,
+  onLogBasicInfoClick: _propTypes.default.func,
+  showSaveLogBtn: _propTypes.default.bool,
+  showSmallCallControl: _propTypes.default.bool,
+  renderSmallCallContrl: _propTypes.default.func
 };
-
 LogSection.defaultProps = {
   currentLog: {},
   additionalInfo: undefined,
@@ -327,7 +313,6 @@ LogSection.defaultProps = {
   isInnerMask: undefined,
   onLogBasicInfoClick: function onLogBasicInfoClick() {},
   renderSmallCallContrl: function renderSmallCallContrl() {},
-
   showSaveLogBtn: true,
   showSmallCallControl: true
 };

@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   feedbackHeader: "提交意見回饋",
   back: "上一步",
   revert: "回復",
@@ -23,9 +26,7 @@ exports.default = {
   description: "完整描述",
   descriptionPlaceHolder: "請盡可能列出最多資訊",
   send: "傳送您的意見回饋"
-};
-
-// @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
+}; // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@
 // @key: @#@"revert"@#@ @source: @#@"Revert"@#@
 // @key: @#@"instruction"@#@ @source: @#@"Your feedback is valuable for us. If you have problems using the app, want to request a feature, or report a bug, we’re more than happy to help."@#@
@@ -44,4 +45,6 @@ exports.default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
+
+exports.default = _default;
 //# sourceMappingURL=zh-HK.js.map

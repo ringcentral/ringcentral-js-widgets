@@ -1,83 +1,101 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/es6.array.find-index");
+
+require("core-js/modules/es6.array.find");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.for-each");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.filter");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.iterator");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.keys");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.object.define-property");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.object.create");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react = require('react');
+var _reactVirtualized = require("react-virtualized");
 
-var _react2 = _interopRequireDefault(_react);
+var _ramda = require("ramda");
 
-var _propTypes = require('prop-types');
+var _ContactItem = _interopRequireDefault(require("../ContactItem"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _reactVirtualized = require('react-virtualized');
-
-var _ramda = require('ramda');
-
-var _ContactItem = require('../ContactItem');
-
-var _ContactItem2 = _interopRequireDefault(_ContactItem);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var CAPTION_HEIGHT = 20;
 var ROW_HEIGHT = 50;
 
 function NoContacts(_ref) {
   var currentLocale = _ref.currentLocale;
-
-  return _react2.default.createElement(
-    'p',
-    { className: _styles2.default.noContacts },
-    _i18n2.default.getString('noContacts', currentLocale)
-  );
+  return _react.default.createElement("p", {
+    className: _styles.default.noContacts
+  }, _i18n.default.getString('noContacts', currentLocale));
 }
+
 NoContacts.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired
+  currentLocale: _propTypes.default.string.isRequired
 };
 
-var ContactList = function (_Component) {
-  (0, _inherits3.default)(ContactList, _Component);
+var ContactList =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ContactList, _Component);
 
   function ContactList(props) {
-    (0, _classCallCheck3.default)(this, ContactList);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ContactList.__proto__ || (0, _getPrototypeOf2.default)(ContactList)).call(this, props));
+    _classCallCheck(this, ContactList);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ContactList).call(this, props));
 
     _this.calculateRowHeight = function (_ref2) {
       var index = _ref2.index;
@@ -85,6 +103,7 @@ var ContactList = function (_Component) {
       if (_this.state.captionRows[index]) {
         return CAPTION_HEIGHT;
       }
+
       return ROW_HEIGHT;
     };
 
@@ -103,7 +122,11 @@ var ContactList = function (_Component) {
           caption: _this.state.captionRows[index]
         };
       }
-      var group = _this.findGroup({ index: index });
+
+      var group = _this.findGroup({
+        index: index
+      });
+
       return group.contacts[index - group.startIndex];
     };
 
@@ -121,35 +144,27 @@ var ContactList = function (_Component) {
       var rowData = _ref6.rowData;
 
       if (rowData.caption) {
-        return _react2.default.createElement(
-          'div',
-          {
-            className: _styles2.default.groupCaption
-          },
-          rowData.caption
-        );
+        return _react.default.createElement("div", {
+          className: _styles.default.groupCaption
+        }, rowData.caption);
       }
+
       var _this$props = _this.props,
           currentLocale = _this$props.currentLocale,
           getAvatarUrl = _this$props.getAvatarUrl,
           getPresence = _this$props.getPresence,
           onItemSelect = _this$props.onItemSelect,
           sourceNodeRenderer = _this$props.sourceNodeRenderer;
-
-      return _react2.default.createElement(
-        'div',
-        {
-          key: rowData.type + '-' + rowData.id
-        },
-        _react2.default.createElement(_ContactItem2.default, {
-          currentLocale: currentLocale,
-          contact: rowData,
-          getAvatarUrl: getAvatarUrl,
-          getPresence: getPresence,
-          onSelect: onItemSelect,
-          sourceNodeRenderer: sourceNodeRenderer
-        })
-      );
+      return _react.default.createElement("div", {
+        key: "".concat(rowData.type, "-").concat(rowData.id)
+      }, _react.default.createElement(_ContactItem.default, {
+        currentLocale: currentLocale,
+        contact: rowData,
+        getAvatarUrl: getAvatarUrl,
+        getPresence: getPresence,
+        onSelect: onItemSelect,
+        sourceNodeRenderer: sourceNodeRenderer
+      }));
     };
 
     _this.onRowsRendered = function (_ref7) {
@@ -161,13 +176,17 @@ var ContactList = function (_Component) {
           return item === _this.state.captionRows[startIndex];
         }, _this.state.captions);
         var previousCaption = _this.state.captions[groupIndex - 1];
+
         if (previousCaption !== _this.state.currentCaption) {
           _this.setState({
             currentCaption: previousCaption
           });
         }
       } else {
-        var group = _this.findGroup({ index: startIndex });
+        var group = _this.findGroup({
+          index: startIndex
+        });
+
         if (group.caption !== _this.state.currentCaption) {
           _this.setState({
             currentCaption: group.caption
@@ -177,22 +196,18 @@ var ContactList = function (_Component) {
     };
 
     _this.headerRenderer = function () {
-      return _react2.default.createElement(
-        'div',
-        {
-          className: _styles2.default.groupCaption
-        },
-        _this.state.currentCaption
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.groupCaption
+      }, _this.state.currentCaption);
     };
 
     _this.state = ContactList.getDerivedStateFromProps(props);
-    _this.list = _react2.default.createRef();
+    _this.list = _react.default.createRef();
     return _this;
   }
 
-  (0, _createClass3.default)(ContactList, [{
-    key: 'componentDidUpdate',
+  _createClass(ContactList, [{
+    key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       if (this.state.lastContactGroups !== prevProps.contactGroups) {
         if (this.list && this.list.current && this.list.current.recomputeRowHeights) {
@@ -201,83 +216,81 @@ var ContactList = function (_Component) {
       }
     }
   }, {
-    key: 'resetScrollTop',
+    key: "resetScrollTop",
     value: function resetScrollTop() {
       this.setState({
         scrollTop: 0
       });
     }
   }, {
-    key: 'renderList',
+    key: "renderList",
     value: function renderList() {
       // use table instead of list to allow caption header
-      return _react2.default.createElement(
-        _reactVirtualized.Table,
-        {
-          ref: this.list,
-          headerHeight: CAPTION_HEIGHT,
-          width: this.props.width,
-          height: this.props.height,
-          rowCount: this.state.count,
-          rowHeight: this.calculateRowHeight,
-          rowGetter: this.rowGetter,
-          onRowsRendered: this.onRowsRendered,
-          onScroll: this.onScroll,
-          scrollTop: this.state.scrollTop
-        },
-        _react2.default.createElement(_reactVirtualized.Column, {
-          dataKey: 'caption',
-          disableSort: true,
-          flexGrow: 1,
-          width: this.props.width,
-          cellRenderer: this.cellRenderer,
-          headerRenderer: this.headerRenderer
-        })
-      );
+      return _react.default.createElement(_reactVirtualized.Table, {
+        ref: this.list,
+        headerHeight: CAPTION_HEIGHT,
+        width: this.props.width,
+        height: this.props.height,
+        rowCount: this.state.count,
+        rowHeight: this.calculateRowHeight,
+        rowGetter: this.rowGetter,
+        onRowsRendered: this.onRowsRendered,
+        onScroll: this.onScroll,
+        scrollTop: this.state.scrollTop
+      }, _react.default.createElement(_reactVirtualized.Column, {
+        dataKey: "caption",
+        disableSort: true,
+        flexGrow: 1,
+        width: this.props.width,
+        cellRenderer: this.cellRenderer,
+        headerRenderer: this.headerRenderer
+      }));
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _props = this.props,
-          currentLocale = _props.currentLocale,
-          contactGroups = _props.contactGroups,
-          width = _props.width,
-          height = _props.height;
-
+      var _this$props2 = this.props,
+          currentLocale = _this$props2.currentLocale,
+          contactGroups = _this$props2.contactGroups,
+          width = _this$props2.width,
+          height = _this$props2.height;
       var content = null;
+
       if (width !== 0 && height !== 0) {
-        content = contactGroups.length ? this.renderList() : _react2.default.createElement(NoContacts, {
+        content = contactGroups.length ? this.renderList() : _react.default.createElement(NoContacts, {
           currentLocale: currentLocale
         });
       }
-      return _react2.default.createElement(
-        'div',
-        {
-          className: _styles2.default.root
-        },
-        content
-      );
+
+      return _react.default.createElement("div", {
+        className: _styles.default.root
+      }, content);
     }
   }], [{
-    key: 'getDerivedStateFromProps',
+    key: "getDerivedStateFromProps",
     value: function getDerivedStateFromProps(props) {
-      var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { scrollTop: 0, currentCaption: '' };
+      var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+        scrollTop: 0,
+        currentCaption: ''
+      };
 
       if (props.contactGroups !== state.lastContactGroups) {
-        return (0, _extends3.default)({}, (0, _ramda.reduce)(function (nextState, group) {
-          nextState.captions.push(group.caption);
+        return _objectSpread({}, (0, _ramda.reduce)(function (nextState, group) {
+          nextState.captions.push(group.caption); // skip the caption row for the first group
 
-          // skip the caption row for the first group
           var rowOffset = nextState.groups.length !== 0 ? 1 : 0;
+
           if (rowOffset) {
             nextState.captionRows[nextState.count] = group.caption;
           }
-          nextState.groups.push((0, _extends3.default)({}, group, {
+
+          nextState.groups.push(_objectSpread({}, group, {
             startIndex: nextState.count + rowOffset
           }));
           nextState.count += group.contacts.length + rowOffset; // with caption row
+
           return nextState;
-        }, (0, _extends3.default)({}, state, {
+        }, _objectSpread({}, state, {
           groups: [],
           captions: [],
           captionRows: {},
@@ -286,30 +299,29 @@ var ContactList = function (_Component) {
           lastContactGroups: props.contactGroups
         });
       }
+
       return state;
     }
   }]);
+
   return ContactList;
 }(_react.Component);
 
 exports.default = ContactList;
-
-
 ContactList.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  contactGroups: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    id: _propTypes2.default.string.isRequired,
-    caption: _propTypes2.default.string.isRequired,
-    contacts: _propTypes2.default.arrayOf(_ContactItem2.default.propTypes.contact).isRequired
+  currentLocale: _propTypes.default.string.isRequired,
+  contactGroups: _propTypes.default.arrayOf(_propTypes.default.shape({
+    id: _propTypes.default.string.isRequired,
+    caption: _propTypes.default.string.isRequired,
+    contacts: _propTypes.default.arrayOf(_ContactItem.default.propTypes.contact).isRequired
   })).isRequired,
-  getAvatarUrl: _propTypes2.default.func.isRequired,
-  getPresence: _propTypes2.default.func.isRequired,
-  onItemSelect: _propTypes2.default.func,
-  sourceNodeRenderer: _propTypes2.default.func,
-  width: _propTypes2.default.number.isRequired,
-  height: _propTypes2.default.number.isRequired
+  getAvatarUrl: _propTypes.default.func.isRequired,
+  getPresence: _propTypes.default.func.isRequired,
+  onItemSelect: _propTypes.default.func,
+  sourceNodeRenderer: _propTypes.default.func,
+  width: _propTypes.default.number.isRequired,
+  height: _propTypes.default.number.isRequired
 };
-
 ContactList.defaultProps = {
   onItemSelect: undefined,
   sourceNodeRenderer: undefined

@@ -1,105 +1,119 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.contactItemPropTypes = exports.default = undefined;
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 exports.getPresenceStatusName = getPresenceStatusName;
+exports.contactItemPropTypes = exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.symbol");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es6.object.assign");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+require("core-js/modules/es6.array.for-each");
 
-var _classnames = require('classnames');
+require("core-js/modules/es6.array.filter");
 
-var _classnames2 = _interopRequireDefault(_classnames);
+require("core-js/modules/web.dom.iterable");
 
-var _dndStatus = require('ringcentral-integration/modules/Presence/dndStatus');
+require("core-js/modules/es6.array.iterator");
 
-var _dndStatus2 = _interopRequireDefault(_dndStatus);
+require("core-js/modules/es6.object.keys");
 
-var _ramda = require('ramda');
+require("core-js/modules/es6.object.define-property");
 
-var _PresenceStatusIcon = require('../PresenceStatusIcon');
+require("core-js/modules/es6.object.create");
 
-var _PresenceStatusIcon2 = _interopRequireDefault(_PresenceStatusIcon);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+require("core-js/modules/es6.array.map");
 
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+require("core-js/modules/es6.function.name");
 
-var _DefaultAvatar = require('../../assets/images/DefaultAvatar.svg');
+var _react = _interopRequireWildcard(require("react"));
 
-var _DefaultAvatar2 = _interopRequireDefault(_DefaultAvatar);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _phoneTypes = require('../../enums/phoneTypes');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
+var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
 
-var _i18n = require('./i18n');
+var _ramda = require("ramda");
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _PresenceStatusIcon = _interopRequireDefault(require("../PresenceStatusIcon"));
 
-var _styles = require('./styles.scss');
+var _PlaceholderImage = _interopRequireDefault(require("../PlaceholderImage"));
 
-var _styles2 = _interopRequireDefault(_styles);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+
+var _DefaultAvatar = _interopRequireDefault(require("../../assets/images/DefaultAvatar.svg"));
+
+var _phoneTypes = _interopRequireDefault(require("../../enums/phoneTypes"));
+
+var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import phoneTypeNames from '../../lib/phoneTypeNames';
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-// import FaxIcon from '../../assets/images/Fax.svg';
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 function getPresenceStatusName(presence, currentLocale) {
   var presenceStatus = presence.presenceStatus,
       dndStatus = presence.dndStatus;
 
-  if (dndStatus === _dndStatus2.default.doNotAcceptAnyCalls) {
-    return _i18n2.default.getString(dndStatus, currentLocale);
+  if (dndStatus === _dndStatus.default.doNotAcceptAnyCalls) {
+    return _i18n.default.getString(dndStatus, currentLocale);
   }
-  return _i18n2.default.getString(presenceStatus, currentLocale);
+
+  return _i18n.default.getString(presenceStatus, currentLocale);
 }
 
 function AvatarNode(_ref) {
   var name = _ref.name,
       avatarUrl = _ref.avatarUrl,
       isInactive = _ref.isInactive;
-
-  var avatarStyle = isInactive ? _styles2.default.inactiveAvatarNode : _styles2.default.avatarNode;
-  return avatarUrl ? _react2.default.createElement('img', { className: avatarStyle, alt: name, src: avatarUrl }) : _react2.default.createElement(_DefaultAvatar2.default, { className: avatarStyle });
+  var avatarStyle = isInactive ? _styles.default.inactiveAvatarNode : _styles.default.avatarNode;
+  return _react.default.createElement(_PlaceholderImage.default, {
+    className: avatarStyle,
+    alt: name,
+    src: avatarUrl,
+    placeholder: _react.default.createElement(_DefaultAvatar.default, {
+      className: avatarStyle
+    })
+  });
 }
+
 AvatarNode.propTypes = {
-  name: _propTypes2.default.string,
-  avatarUrl: _propTypes2.default.string,
-  isInactive: _propTypes2.default.bool
+  name: _propTypes.default.string,
+  avatarUrl: _propTypes.default.string,
+  isInactive: _propTypes.default.bool
 };
 AvatarNode.defaultProps = {
   name: undefined,
@@ -107,208 +121,171 @@ AvatarNode.defaultProps = {
   isInactive: false
 };
 
-var ContactDetails = function (_PureComponent) {
-  (0, _inherits3.default)(ContactDetails, _PureComponent);
+var ContactDetails =
+/*#__PURE__*/
+function (_PureComponent) {
+  _inherits(ContactDetails, _PureComponent);
 
   function ContactDetails() {
-    var _ref2;
+    var _getPrototypeOf2;
 
-    var _temp, _this, _ret;
+    var _this;
 
-    (0, _classCallCheck3.default)(this, ContactDetails);
+    _classCallCheck(this, ContactDetails);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = ContactDetails.__proto__ || (0, _getPrototypeOf2.default)(ContactDetails)).call.apply(_ref2, [this].concat(args))), _this), _this.onClickToDial = function (contact, phoneNumber) {
-      _this.props.onClickToDial((0, _extends3.default)({}, contact, {
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ContactDetails)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _this.onClickToDial = function (contact, phoneNumber) {
+      _this.props.onClickToDial(_objectSpread({}, contact, {
         phoneNumber: phoneNumber
       }));
-    }, _this.onClickToSMS = function (contact, phoneNumber) {
-      _this.props.onClickToSMS((0, _extends3.default)({}, contact, {
+    };
+
+    _this.onClickToSMS = function (contact, phoneNumber) {
+      _this.props.onClickToSMS(_objectSpread({}, contact, {
         phoneNumber: phoneNumber
       }));
-    }, _this.onClickMailTo = function (email, contactType) {
+    };
+
+    _this.onClickMailTo = function (email, contactType) {
       if (typeof _this.props.onClickMailTo === 'function') {
         _this.props.onClickMailTo(email, contactType);
       }
-    }, _this.renderPresence = function (contactStatus, presence, presenceName, currentLocale) {
+    };
+
+    _this.renderPresence = function (contactStatus, presence, presenceName, currentLocale) {
       if (contactStatus === 'NotActivated') {
-        return _react2.default.createElement(
-          'div',
-          { className: _styles2.default.presence },
-          _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-              'span',
-              { className: _styles2.default.inactiveText },
-              _i18n2.default.getString('notActivated', currentLocale)
-            )
-          )
-        );
+        return _react.default.createElement("div", {
+          className: _styles.default.presence
+        }, _react.default.createElement("div", null, _react.default.createElement("span", {
+          className: _styles.default.inactiveText
+        }, _i18n.default.getString('notActivated', currentLocale))));
       }
 
-      return presence ? _react2.default.createElement(
-        'div',
-        { className: _styles2.default.presence },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.presenceNodeContainer },
-          _react2.default.createElement(_PresenceStatusIcon2.default, (0, _extends3.default)({ className: _styles2.default.presenceNode }, presence))
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.presenceStatus },
-          presenceName
-        )
-      ) : null;
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+      return presence ? _react.default.createElement("div", {
+        className: _styles.default.presence
+      }, _react.default.createElement("div", {
+        className: _styles.default.presenceNodeContainer
+      }, _react.default.createElement(_PresenceStatusIcon.default, _extends({
+        className: _styles.default.presenceNode
+      }, presence))), _react.default.createElement("span", {
+        className: _styles.default.presenceStatus
+      }, presenceName)) : null;
+    };
+
+    return _this;
   }
 
-  (0, _createClass3.default)(ContactDetails, [{
-    key: 'renderProfile',
+  _createClass(ContactDetails, [{
+    key: "renderProfile",
     value: function renderProfile() {
-      var _props = this.props,
-          contactItem = _props.contactItem,
-          sourceNodeRenderer = _props.sourceNodeRenderer,
-          currentLocale = _props.currentLocale;
+      var _this$props = this.props,
+          contactItem = _this$props.contactItem,
+          sourceNodeRenderer = _this$props.sourceNodeRenderer,
+          currentLocale = _this$props.currentLocale;
       var name = contactItem.name,
           presence = contactItem.presence,
           profileImageUrl = contactItem.profileImageUrl,
           type = contactItem.type,
           contactStatus = contactItem.contactStatus;
-
-      var sourceNode = sourceNodeRenderer({ sourceType: type });
+      var sourceNode = sourceNodeRenderer({
+        sourceType: type
+      });
       var presenceName = presence ? getPresenceStatusName(presence, currentLocale) : null;
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.contactProfile },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.avatar },
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.avatarNodeContainer },
-            _react2.default.createElement(AvatarNode, { name: name, avatarUrl: profileImageUrl, isInactive: contactStatus === 'NotActivated' }),
-            sourceNode ? _react2.default.createElement(
-              'div',
-              { className: _styles2.default.sourceNodeContainer },
-              sourceNode
-            ) : null
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.info },
-          _react2.default.createElement(
-            'div',
-            {
-              className: (0, _classnames2.default)(_styles2.default.name, !presence ? _styles2.default.nameWithoutPresence : null)
-            },
-            _react2.default.createElement(
-              'span',
-              { style: contactStatus === 'NotActivated' ? { color: '#999999', fontSize: '12px' } : null, title: name },
-              name
-            )
-          ),
-          this.renderPresence(contactStatus, presence, presenceName, currentLocale)
-        )
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.contactProfile
+      }, _react.default.createElement("div", {
+        className: _styles.default.avatar
+      }, _react.default.createElement("div", {
+        className: _styles.default.avatarNodeContainer
+      }, _react.default.createElement(AvatarNode, {
+        name: name,
+        avatarUrl: profileImageUrl,
+        isInactive: contactStatus === 'NotActivated'
+      }), sourceNode ? _react.default.createElement("div", {
+        className: _styles.default.sourceNodeContainer
+      }, sourceNode) : null)), _react.default.createElement("div", {
+        className: _styles.default.info
+      }, _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.name, !presence ? _styles.default.nameWithoutPresence : null)
+      }, _react.default.createElement("span", {
+        style: contactStatus === 'NotActivated' ? {
+          color: '#999999',
+          fontSize: '12px'
+        } : null,
+        title: name
+      }, name)), this.renderPresence(contactStatus, presence, presenceName, currentLocale)));
     }
   }, {
-    key: 'getListContainerBuilder',
+    key: "getListContainerBuilder",
     value: function getListContainerBuilder(label, listComp) {
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.item, key: label },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.label },
-          _react2.default.createElement(
-            'span',
-            null,
-            label
-          )
-        ),
-        _react2.default.createElement(
-          'ul',
-          null,
-          listComp
-        )
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.item,
+        key: label
+      }, _react.default.createElement("div", {
+        className: _styles.default.label
+      }, _react.default.createElement("span", null, label)), _react.default.createElement("ul", null, listComp));
     }
   }, {
-    key: 'getListItem',
-    value: function getListItem(_ref3) {
+    key: "getListItem",
+    value: function getListItem(_ref2) {
       var _this2 = this;
 
-      var showCallBtn = _ref3.showCallBtn,
-          showTextBtn = _ref3.showTextBtn,
-          key = _ref3.key,
-          number = _ref3.number,
-          currentLocale = _ref3.currentLocale,
-          contactItem = _ref3.contactItem,
-          _ref3$needFormat = _ref3.needFormat,
-          needFormat = _ref3$needFormat === undefined ? true : _ref3$needFormat;
+      var showCallBtn = _ref2.showCallBtn,
+          showTextBtn = _ref2.showTextBtn,
+          key = _ref2.key,
+          number = _ref2.number,
+          currentLocale = _ref2.currentLocale,
+          contactItem = _ref2.contactItem,
+          _ref2$needFormat = _ref2.needFormat,
+          needFormat = _ref2$needFormat === void 0 ? true : _ref2$needFormat;
+      var displayedPhoneNumber;
 
-      var displayedPhoneNumber = void 0;
       if (needFormat) {
-        var _props$formatNumber = this.props.formatNumber(number),
-            phoneNumber = _props$formatNumber.phoneNumber;
+        var _this$props$formatNum = this.props.formatNumber(number),
+            phoneNumber = _this$props$formatNum.phoneNumber;
 
         displayedPhoneNumber = phoneNumber;
       } else {
         displayedPhoneNumber = number;
       }
 
-      return _react2.default.createElement(
-        'li',
-        { key: key },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.number },
-          _react2.default.createElement(
-            'span',
-            { title: displayedPhoneNumber },
-            displayedPhoneNumber
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.menu },
-          showCallBtn ? _react2.default.createElement(
-            'button',
-            {
-              title: _i18n2.default.getString('call', currentLocale),
-              onClick: function onClick() {
-                return _this2.onClickToDial(contactItem, number);
-              }
-            },
-            _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
-          ) : null,
-          showTextBtn ? _react2.default.createElement(
-            'button',
-            {
-              title: _i18n2.default.getString('text', currentLocale),
-              onClick: function onClick() {
-                return _this2.onClickToSMS(contactItem, number);
-              }
-            },
-            _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
-          ) : null
-        )
-      );
+      return _react.default.createElement("li", {
+        key: key
+      }, _react.default.createElement("div", {
+        className: _styles.default.number
+      }, _react.default.createElement("span", {
+        title: displayedPhoneNumber
+      }, displayedPhoneNumber)), _react.default.createElement("div", {
+        className: _styles.default.menu
+      }, showCallBtn ? _react.default.createElement("button", {
+        title: _i18n.default.getString('call', currentLocale),
+        onClick: function onClick() {
+          return _this2.onClickToDial(contactItem, number);
+        }
+      }, _react.default.createElement("i", {
+        className: _DynamicsFont.default.call
+      })) : null, showTextBtn ? _react.default.createElement("button", {
+        title: _i18n.default.getString('text', currentLocale),
+        onClick: function onClick() {
+          return _this2.onClickToSMS(contactItem, number);
+        }
+      }, _react.default.createElement("i", {
+        className: _DynamicsFont.default.composeText
+      })) : null));
     }
   }, {
-    key: 'getPhoneSections',
+    key: "getPhoneSections",
     value: function getPhoneSections() {
       var _this3 = this;
 
-      var _props2 = this.props,
-          contactItem = _props2.contactItem,
-          currentLocale = _props2.currentLocale;
+      var _this$props2 = this.props,
+          contactItem = _this$props2.contactItem,
+          currentLocale = _this$props2.currentLocale;
       var phoneNumbers = contactItem.phoneNumbers,
           phoneMaps = contactItem.phoneMaps,
           schema = contactItem.schema;
@@ -317,152 +294,122 @@ var ContactDetails = function (_PureComponent) {
         return null;
       }
 
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.contacts },
-        (0, _ramda.map)(function (key) {
-          switch (key) {
-            case _phoneTypes2.default.extension:
-              {
-                return _this3.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default.extension, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
-                  return _this3.getListItem({
-                    showCallBtn: _this3.props.internalSmsPermission,
-                    showTextBtn: _this3.props.onClickToDial,
-                    key: phoneNumberElm.phoneNumber,
-                    number: phoneNumberElm.phoneNumber,
-                    currentLocale: currentLocale,
-                    contactItem: contactItem
-                  });
-                }, phoneMaps[key]));
-              }
-            case _phoneTypes2.default.fax:
-              {
-                return _this3.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default.fax, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
-                  return _this3.getListItem({
-                    showCallBtn: false,
-                    showTextBtn: false,
-                    key: phoneNumberElm.phoneNumber,
-                    number: phoneNumberElm.phoneNumber,
-                    currentLocale: currentLocale,
-                    contactItem: contactItem
-                  });
-                }, phoneMaps[key]));
-              }
-            default:
-              {
-                return _this3.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default[key], currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
-                  return _this3.getListItem({
-                    showCallBtn: _this3.props.onClickToDial,
-                    showTextBtn: _this3.props.outboundSmsPermission,
-                    key: phoneNumberElm.phoneNumber,
-                    number: phoneNumberElm.phoneNumber,
-                    currentLocale: currentLocale,
-                    contactItem: contactItem
-                  });
-                }, phoneMaps[key]));
-              }
-          }
-        }, schema)
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.contacts
+      }, (0, _ramda.map)(function (key) {
+        switch (key) {
+          case _phoneTypes.default.extension:
+            {
+              return _this3.getListContainerBuilder(_i18n.default.getString(_phoneTypes.default.extension, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                return _this3.getListItem({
+                  showCallBtn: _this3.props.internalSmsPermission,
+                  showTextBtn: _this3.props.onClickToDial,
+                  key: phoneNumberElm.phoneNumber,
+                  number: phoneNumberElm.phoneNumber,
+                  currentLocale: currentLocale,
+                  contactItem: contactItem
+                });
+              }, phoneMaps[key]));
+            }
+
+          case _phoneTypes.default.fax:
+            {
+              return _this3.getListContainerBuilder(_i18n.default.getString(_phoneTypes.default.fax, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                return _this3.getListItem({
+                  showCallBtn: false,
+                  showTextBtn: false,
+                  key: phoneNumberElm.phoneNumber,
+                  number: phoneNumberElm.phoneNumber,
+                  currentLocale: currentLocale,
+                  contactItem: contactItem
+                });
+              }, phoneMaps[key]));
+            }
+
+          default:
+            {
+              return _this3.getListContainerBuilder(_i18n.default.getString(_phoneTypes.default[key], currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                return _this3.getListItem({
+                  showCallBtn: _this3.props.onClickToDial,
+                  showTextBtn: _this3.props.outboundSmsPermission,
+                  key: phoneNumberElm.phoneNumber,
+                  number: phoneNumberElm.phoneNumber,
+                  currentLocale: currentLocale,
+                  contactItem: contactItem
+                });
+              }, phoneMaps[key]));
+            }
+        }
+      }, schema));
     }
   }, {
-    key: 'renderEmailCell',
+    key: "renderEmailCell",
     value: function renderEmailCell() {
       var _this4 = this;
 
       var onClickMailTo = this.props.onClickMailTo;
-      var _props$contactItem = this.props.contactItem,
-          emails = _props$contactItem.emails,
-          type = _props$contactItem.type;
-
+      var _this$props$contactIt = this.props.contactItem,
+          emails = _this$props$contactIt.emails,
+          type = _this$props$contactIt.type;
       if (!emails || emails.length <= 0) return null;
       var hasMailToHandler = typeof onClickMailTo === 'function';
       var emailListView = emails.map(function (email, index) {
-        return _react2.default.createElement(
-          'li',
-          { key: index },
-          _react2.default.createElement(
-            'a',
-            {
-              title: email,
-              className: hasMailToHandler ? _styles2.default.underline : null,
-              onClick: function onClick() {
-                return _this4.onClickMailTo(email, type);
-              }
-            },
-            email
-          )
-        );
+        return _react.default.createElement("li", {
+          key: index
+        }, _react.default.createElement("a", {
+          title: email,
+          className: hasMailToHandler ? _styles.default.underline : null,
+          onClick: function onClick() {
+            return _this4.onClickMailTo(email, type);
+          }
+        }, email));
       });
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.label },
-          _react2.default.createElement(
-            'span',
-            null,
-            _i18n2.default.getString('emailLabel', this.props.currentLocale)
-          )
-        ),
-        _react2.default.createElement(
-          'ul',
-          null,
-          emailListView
-        )
-      );
+      return _react.default.createElement("div", null, _react.default.createElement("div", {
+        className: _styles.default.label
+      }, _react.default.createElement("span", null, _i18n.default.getString('emailLabel', this.props.currentLocale))), _react.default.createElement("ul", null, emailListView));
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.root },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.profile },
-          this.renderProfile()
-        ),
-        this.getPhoneSections(),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.email },
-          this.renderEmailCell()
-        )
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.root
+      }, _react.default.createElement("div", {
+        className: _styles.default.profile
+      }, this.renderProfile()), this.getPhoneSections(), _react.default.createElement("div", {
+        className: _styles.default.email
+      }, this.renderEmailCell()));
     }
   }]);
+
   return ContactDetails;
 }(_react.PureComponent);
 
 exports.default = ContactDetails;
-var contactItemPropTypes = exports.contactItemPropTypes = {
-  id: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]).isRequired,
-  type: _propTypes2.default.string.isRequired,
-  firstName: _propTypes2.default.string,
-  lastName: _propTypes2.default.string,
-  email: _propTypes2.default.string,
-  profileImageUrl: _propTypes2.default.string,
-  phoneNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    phoneNumber: _propTypes2.default.string,
-    phoneType: _propTypes2.default.string
+var contactItemPropTypes = {
+  id: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]).isRequired,
+  type: _propTypes.default.string.isRequired,
+  firstName: _propTypes.default.string,
+  lastName: _propTypes.default.string,
+  email: _propTypes.default.string,
+  profileImageUrl: _propTypes.default.string,
+  phoneNumbers: _propTypes.default.arrayOf(_propTypes.default.shape({
+    phoneNumber: _propTypes.default.string,
+    phoneType: _propTypes.default.string
   })),
-  contactStatus: _propTypes2.default.string
+  contactStatus: _propTypes.default.string
 };
-
+exports.contactItemPropTypes = contactItemPropTypes;
 ContactDetails.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  contactItem: _propTypes2.default.shape(contactItemPropTypes).isRequired,
-  sourceNodeRenderer: _propTypes2.default.func,
-  onClickToSMS: _propTypes2.default.func,
-  onClickToDial: _propTypes2.default.func,
-  onClickMailTo: _propTypes2.default.func,
-  formatNumber: _propTypes2.default.func.isRequired,
-  outboundSmsPermission: _propTypes2.default.bool,
-  internalSmsPermission: _propTypes2.default.bool
+  currentLocale: _propTypes.default.string.isRequired,
+  contactItem: _propTypes.default.shape(contactItemPropTypes).isRequired,
+  sourceNodeRenderer: _propTypes.default.func,
+  onClickToSMS: _propTypes.default.func,
+  onClickToDial: _propTypes.default.func,
+  onClickMailTo: _propTypes.default.func,
+  formatNumber: _propTypes.default.func.isRequired,
+  outboundSmsPermission: _propTypes.default.bool,
+  internalSmsPermission: _propTypes.default.bool
 };
-
 ContactDetails.defaultProps = {
   onClickToSMS: undefined,
   onClickToDial: undefined,

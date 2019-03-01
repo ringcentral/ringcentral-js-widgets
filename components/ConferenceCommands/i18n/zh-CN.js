@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: "会议命令",
   starSharp2Title: "主叫者数量",
   starSharp2Body: "跟踪正在通话的人数",
@@ -21,9 +24,7 @@ exports.default = {
   starSharp8Body: "按 1 次：关闭声音\n按 2 次：进入音开启，退出音关闭\n按 3 次：进入音关闭，退出音开启\n按 4 次：打开声音",
   star9Title: "录制您的会议",
   star9Body: "按一次开始录音\n再按一次结束录音"
-};
-
-// @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
+}; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@
 // @key: @#@"starSharp3Title"@#@ @source: @#@"Leave Conference"@#@
@@ -40,4 +41,6 @@ exports.default = {
 // @key: @#@"starSharp8Body"@#@ @source: @#@"Press 1x: Turns OFF sound\nPress 2x: Enter tone is ON Exit tone is OFF\nPress 3x: Enter tone is OFF Exit tone is ON\nPress 4x: Turns ON sound"@#@
 // @key: @#@"star9Title"@#@ @source: @#@"Record your conference"@#@
 // @key: @#@"star9Body"@#@ @source: @#@"Press once to START recording\nPress again to STOP recording"@#@
+
+exports.default = _default;
 //# sourceMappingURL=zh-CN.js.map

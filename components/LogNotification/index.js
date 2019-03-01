@@ -1,37 +1,25 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = LogNotification;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _classnames = require('classnames');
+var _LogBasicInfo = _interopRequireDefault(require("../LogBasicInfo"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _LogBasicInfo = require('../LogBasicInfo');
-
-var _LogBasicInfo2 = _interopRequireDefault(_LogBasicInfo);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45,84 +33,55 @@ function LogNotification(_ref) {
       onDiscard = _ref.onDiscard,
       onSave = _ref.onSave,
       onExpand = _ref.onExpand;
-
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.container },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.basicInfo },
-      _react2.default.createElement(_LogBasicInfo2.default, {
-        currentLog: currentLog,
-        currentLocale: currentLocale,
-        formatPhone: formatPhone
-      }),
-      showLogButton ? _react2.default.createElement(
-        _Button2.default,
-        {
-          disabled: isExpand,
-          className: (0, _classnames2.default)(_styles2.default.expandButton, isExpand && _styles2.default.expandDisableButton),
-          onClick: function onClick() {
-            return onExpand();
-          } },
-        _i18n2.default.getString('log', currentLocale)
-      ) : null
-    ),
-    isExpand ? _react2.default.createElement(
-      'div',
-      { className: _styles2.default.confirmationContainer },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.confirmationInfo },
-        _i18n2.default.getString('confirmationInfo', currentLocale)
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.confirmationButtons },
-        onSave ? _react2.default.createElement(
-          _Button2.default,
-          {
-            className: (0, _classnames2.default)(_styles2.default.saveButton, _styles2.default.selected),
-            onClick: function onClick() {
-              return onSave();
-            } },
-          _i18n2.default.getString('save', currentLocale)
-        ) : null,
-        onDiscard ? _react2.default.createElement(
-          _Button2.default,
-          {
-            className: _styles2.default.discardButton,
-            onClick: function onClick() {
-              return onDiscard();
-            } },
-          _i18n2.default.getString('discard', currentLocale)
-        ) : null,
-        onStay ? _react2.default.createElement(
-          _Button2.default,
-          {
-            className: _styles2.default.stayButton,
-            onClick: function onClick() {
-              return onStay();
-            } },
-          _i18n2.default.getString('stay', currentLocale)
-        ) : null
-      )
-    ) : null
-  );
+  return _react.default.createElement("div", {
+    className: _styles.default.container
+  }, _react.default.createElement("div", {
+    className: _styles.default.basicInfo
+  }, _react.default.createElement(_LogBasicInfo.default, {
+    currentLog: currentLog,
+    currentLocale: currentLocale,
+    formatPhone: formatPhone
+  }), showLogButton ? _react.default.createElement(_Button.default, {
+    disabled: isExpand,
+    className: (0, _classnames.default)(_styles.default.expandButton, isExpand && _styles.default.expandDisableButton),
+    onClick: function onClick() {
+      return onExpand();
+    }
+  }, _i18n.default.getString('log', currentLocale)) : null), isExpand ? _react.default.createElement("div", {
+    className: _styles.default.confirmationContainer
+  }, _react.default.createElement("div", {
+    className: _styles.default.confirmationInfo
+  }, _i18n.default.getString('confirmationInfo', currentLocale)), _react.default.createElement("div", {
+    className: _styles.default.confirmationButtons
+  }, onSave ? _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.saveButton, _styles.default.selected),
+    onClick: function onClick() {
+      return onSave();
+    }
+  }, _i18n.default.getString('save', currentLocale)) : null, onDiscard ? _react.default.createElement(_Button.default, {
+    className: _styles.default.discardButton,
+    onClick: function onClick() {
+      return onDiscard();
+    }
+  }, _i18n.default.getString('discard', currentLocale)) : null, onStay ? _react.default.createElement(_Button.default, {
+    className: _styles.default.stayButton,
+    onClick: function onClick() {
+      return onStay();
+    }
+  }, _i18n.default.getString('stay', currentLocale)) : null)) : null);
 }
 
 LogNotification.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  showLogButton: _propTypes2.default.bool,
-  currentLog: _propTypes2.default.object,
-  formatPhone: _propTypes2.default.func,
-  isExpand: _propTypes2.default.bool,
-  onStay: _propTypes2.default.func,
-  onDiscard: _propTypes2.default.func,
-  onSave: _propTypes2.default.func,
-  onExpand: _propTypes2.default.func
+  currentLocale: _propTypes.default.string.isRequired,
+  showLogButton: _propTypes.default.bool,
+  currentLog: _propTypes.default.object,
+  formatPhone: _propTypes.default.func,
+  isExpand: _propTypes.default.bool,
+  onStay: _propTypes.default.func,
+  onDiscard: _propTypes.default.func,
+  onSave: _propTypes.default.func,
+  onExpand: _propTypes.default.func
 };
-
 LogNotification.defaultProps = {
   showLogButton: true,
   currentLog: {},

@@ -1,40 +1,32 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = NoCalls;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function NoCalls(_ref) {
   var currentLocale = _ref.currentLocale,
       active = _ref.active;
-
-  return _react2.default.createElement(
-    'p',
-    { className: _styles2.default.noCalls },
-    _i18n2.default.getString(active ? 'noActiveCalls' : 'noRecords', currentLocale)
-  );
+  return _react.default.createElement("p", {
+    className: _styles.default.noCalls
+  }, _i18n.default.getString(active ? 'noActiveCalls' : 'noRecords', currentLocale));
 }
+
 NoCalls.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  active: _propTypes2.default.bool.isRequired
+  currentLocale: _propTypes.default.string.isRequired,
+  active: _propTypes.default.bool.isRequired
 };
 //# sourceMappingURL=index.js.map

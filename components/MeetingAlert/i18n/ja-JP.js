@@ -3,23 +3,23 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _meetingStatus = _interopRequireDefault(require("ringcentral-integration/modules/Meeting/meetingStatus"));
 
 var _meetingStatus$emptyT;
 
-var _meetingStatus = require("ringcentral-integration/modules/Meeting/meetingStatus");
-
-var _meetingStatus2 = _interopRequireDefault(_meetingStatus);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_meetingStatus$emptyT = {}, (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.emptyTopic, "会議のトピックを入力してください。"), (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.noPassword, "会議のパスワードを入力してください。"), (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.insufficientPermissions, "{application}には{permissionName}のアクセス許可がありません。"), (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.scheduledSuccess, "会議の日時が設定されました。"), _meetingStatus$emptyT);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
+var _default = (_meetingStatus$emptyT = {}, _defineProperty(_meetingStatus$emptyT, _meetingStatus.default.emptyTopic, "会議のトピックを入力してください。"), _defineProperty(_meetingStatus$emptyT, _meetingStatus.default.noPassword, "会議のパスワードを入力してください。"), _defineProperty(_meetingStatus$emptyT, _meetingStatus.default.insufficientPermissions, "{application}には{permissionName}のアクセス許可がありません。"), _defineProperty(_meetingStatus$emptyT, _meetingStatus.default.scheduledSuccess, "会議の日時が設定されました。"), _meetingStatus$emptyT); // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@
 // @key: @#@"[meetingStatus.insufficientPermissions]"@#@ @source: @#@"{application} do not have {permissionName} permission."@#@
 // @key: @#@"[meetingStatus.scheduledSuccess]"@#@ @source: @#@"Meeting is scheduled."@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

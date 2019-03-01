@@ -1,22 +1,23 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _regionSettingsMessages = _interopRequireDefault(require("ringcentral-integration/modules/RegionSettings/regionSettingsMessages"));
 
 var _region$regionSetting;
 
-var _regionSettingsMessages = require('ringcentral-integration/modules/RegionSettings/regionSettingsMessages');
-
-var _regionSettingsMessages2 = _interopRequireDefault(_regionSettingsMessages);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_region$regionSetting = {
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _default = (_region$regionSetting = {
   region: 'Region'
-}, (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.saveSuccess, 'Settings saved successfully.'), (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.dialingPlansChanged, 'The previous region is no longer supported for your account.\n    Please verify your new {regionSettingsLink}.'), (0, _defineProperty3.default)(_region$regionSetting, 'regionSettings', 'region settings'), (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.areaCodeInvalid, 'Please enter a valid area code.'), _region$regionSetting);
+}, _defineProperty(_region$regionSetting, _regionSettingsMessages.default.saveSuccess, 'Settings saved successfully.'), _defineProperty(_region$regionSetting, _regionSettingsMessages.default.dialingPlansChanged, 'The previous region is no longer supported for your account.\n    Please verify your new {regionSettingsLink}.'), _defineProperty(_region$regionSetting, "regionSettings", 'region settings'), _defineProperty(_region$regionSetting, _regionSettingsMessages.default.areaCodeInvalid, 'Please enter a valid area code.'), _region$regionSetting);
+
+exports.default = _default;
 //# sourceMappingURL=en-US.js.map

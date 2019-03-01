@@ -1,109 +1,105 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.symbol");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.promise");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.for-each");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.filter");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/web.dom.iterable");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.keys");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.regexp.split");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.function.name");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.function.bind");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("regenerator-runtime/runtime");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+require("core-js/modules/es6.array.find-index");
 
-var _react = require('react');
+var _react = _interopRequireWildcard(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
 
-var _classnames = require('classnames');
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
 
-var _sessionStatus = require('ringcentral-integration/modules/Webphone/sessionStatus');
+var _parseNumber = _interopRequireDefault(require("ringcentral-integration/lib/parseNumber"));
 
-var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
+var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
 
-var _callDirections = require('ringcentral-integration/enums/callDirections');
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
 
-var _callDirections2 = _interopRequireDefault(_callDirections);
+var _ActionMenu = _interopRequireDefault(require("../ActionMenu"));
 
-var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
-var _parseNumber = require('ringcentral-integration/lib/parseNumber');
+var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 
-var _parseNumber2 = _interopRequireDefault(_parseNumber);
+var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
-var _DurationCounter = require('../DurationCounter');
+var _Voicemail = _interopRequireDefault(require("../../assets/images/Voicemail.svg"));
 
-var _DurationCounter2 = _interopRequireDefault(_DurationCounter);
+var _CallIcon = _interopRequireDefault(require("../CallIcon"));
 
-var _ContactDisplay = require('../ContactDisplay');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
-
-var _ActionMenu = require('../ActionMenu');
-
-var _ActionMenu2 = _interopRequireDefault(_ActionMenu);
-
-var _CircleButton = require('../CircleButton');
-
-var _CircleButton2 = _interopRequireDefault(_CircleButton);
-
-var _End = require('../../assets/images/End.svg');
-
-var _End2 = _interopRequireDefault(_End);
-
-var _Answer = require('../../assets/images/Answer.svg');
-
-var _Answer2 = _interopRequireDefault(_Answer);
-
-var _Voicemail = require('../../assets/images/Voicemail.svg');
-
-var _Voicemail2 = _interopRequireDefault(_Voicemail);
-
-var _CallIcon = require('../CallIcon');
-
-var _CallIcon2 = _interopRequireDefault(_CallIcon);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function WebphoneButtons(_ref) {
   var currentLocale = _ref.currentLocale,
@@ -117,61 +113,60 @@ function WebphoneButtons(_ref) {
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
   }
+
   var hangupFunc = webphoneHangup;
   var resumeFunc = webphoneResume;
-  var endIcon = _End2.default;
-  var rejectTitle = _i18n2.default.getString('hangup', currentLocale);
-  var acceptTitle = _i18n2.default.getString('accept', currentLocale);
-  if (session.direction === _callDirections2.default.inbound && session.callStatus === _sessionStatus2.default.connecting) {
+  var endIcon = _End.default;
+
+  var rejectTitle = _i18n.default.getString('hangup', currentLocale);
+
+  var acceptTitle = _i18n.default.getString('accept', currentLocale);
+
+  if (session.direction === _callDirections.default.inbound && session.callStatus === _sessionStatus.default.connecting) {
     hangupFunc = webphoneReject;
     resumeFunc = webphoneAnswer;
-    endIcon = _Voicemail2.default;
-    rejectTitle = _i18n2.default.getString('toVoicemail', currentLocale);
+    endIcon = _Voicemail.default;
+    rejectTitle = _i18n.default.getString('toVoicemail', currentLocale);
   }
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.webphoneButtons },
-    _react2.default.createElement(
-      'span',
-      { title: rejectTitle, className: _styles2.default.webphoneButton },
-      _react2.default.createElement(_CircleButton2.default, {
-        className: _styles2.default.rejectButton,
-        onClick: function onClick(e) {
-          e.stopPropagation();
-          hangupFunc(session.id);
-        },
-        iconWidth: 260,
-        iconX: 120,
-        icon: endIcon,
-        showBorder: false
-      })
-    ),
-    showAnswer ? _react2.default.createElement(
-      'span',
-      { title: acceptTitle, className: _styles2.default.webphoneButton },
-      _react2.default.createElement(_CircleButton2.default, {
-        className: _styles2.default.answerButton,
-        onClick: function onClick(e) {
-          e.stopPropagation();
-          resumeFunc(session.id);
-        },
-        icon: _Answer2.default,
-        showBorder: false
-      })
-    ) : null
-  );
+
+  return _react.default.createElement("div", {
+    className: _styles.default.webphoneButtons
+  }, _react.default.createElement("span", {
+    title: rejectTitle,
+    className: _styles.default.webphoneButton
+  }, _react.default.createElement(_CircleButton.default, {
+    className: _styles.default.rejectButton,
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      hangupFunc(session.id);
+    },
+    iconWidth: 260,
+    iconX: 120,
+    icon: endIcon,
+    showBorder: false
+  })), showAnswer ? _react.default.createElement("span", {
+    title: acceptTitle,
+    className: _styles.default.webphoneButton
+  }, _react.default.createElement(_CircleButton.default, {
+    className: _styles.default.answerButton,
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      resumeFunc(session.id);
+    },
+    icon: _Answer.default,
+    showBorder: false
+  })) : null);
 }
 
 WebphoneButtons.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  session: _propTypes2.default.object,
-  webphoneAnswer: _propTypes2.default.func,
-  webphoneReject: _propTypes2.default.func,
-  webphoneHangup: _propTypes2.default.func,
-  webphoneResume: _propTypes2.default.func,
-  showAnswer: _propTypes2.default.bool
+  currentLocale: _propTypes.default.string.isRequired,
+  session: _propTypes.default.object,
+  webphoneAnswer: _propTypes.default.func,
+  webphoneReject: _propTypes.default.func,
+  webphoneHangup: _propTypes.default.func,
+  webphoneResume: _propTypes.default.func,
+  showAnswer: _propTypes.default.bool
 };
-
 WebphoneButtons.defaultProps = {
   session: undefined,
   webphoneAnswer: undefined,
@@ -181,27 +176,35 @@ WebphoneButtons.defaultProps = {
   showAnswer: true
 };
 
-var ActiveCallItem = function (_Component) {
-  (0, _inherits3.default)(ActiveCallItem, _Component);
+var ActiveCallItem =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ActiveCallItem, _Component);
 
   function ActiveCallItem(props) {
-    var _this2 = this;
+    var _this;
 
-    (0, _classCallCheck3.default)(this, ActiveCallItem);
+    _classCallCheck(this, ActiveCallItem);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallItem.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallItem)).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ActiveCallItem).call(this, props));
 
     _this.onSelectContact = function (value) {
       var nameMatches = _this.getContactMatches();
+
       var selected = nameMatches.findIndex(function (match) {
         return match.id === value.id;
       });
       _this._userSelection = true;
+
       _this.setState({
         selected: selected
       });
+
       if (_this.props.call.activityMatches.length > 0 && _this.props.autoLog) {
-        _this.logCall({ redirect: false, selected: selected });
+        _this.logCall({
+          redirect: false,
+          selected: selected
+        });
       }
     };
 
@@ -209,19 +212,23 @@ var ActiveCallItem = function (_Component) {
       var selected = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.selected;
 
       var contactMatches = _this.getContactMatches();
+
       return selected > -1 && contactMatches[selected] || contactMatches.length === 1 && contactMatches[0] || null;
     };
 
     _this.clickToSms = function () {
       if (_this.props.onClickToSms) {
         var phoneNumber = _this.getPhoneNumber();
+
         var contact = _this.getSelectedContact();
+
         if (contact) {
-          _this.props.onClickToSms((0, _extends3.default)({}, contact, {
+          _this.props.onClickToSms(_objectSpread({}, contact, {
             phoneNumber: phoneNumber
           }));
         } else {
           var formatted = _this.props.formatPhone(phoneNumber);
+
           _this.props.onClickToSms({
             name: _this.props.enableContactFallback ? _this.getFallbackContactName() : formatted,
             phoneNumber: phoneNumber
@@ -230,10 +237,14 @@ var ActiveCallItem = function (_Component) {
       }
     };
 
-    _this.createSelectedContact = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(entityType) {
+    _this.createSelectedContact =
+    /*#__PURE__*/
+    function () {
+      var _ref2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(entityType) {
         var phoneNumber;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -244,8 +255,9 @@ var ActiveCallItem = function (_Component) {
 
                 _this.setState({
                   isCreating: true
-                });
-                // console.log('start to create: isCreating...', this.state.isCreating);
+                }); // console.log('start to create: isCreating...', this.state.isCreating);
+
+
                 phoneNumber = _this.getPhoneNumber();
                 _context.next = 5;
                 return _this.props.onCreateContact({
@@ -255,23 +267,22 @@ var ActiveCallItem = function (_Component) {
                 });
 
               case 5:
-
                 if (_this._mounted) {
                   _this.setState({
                     isCreating: false
-                  });
-                  // console.log('created: isCreating...', this.state.isCreating);
+                  }); // console.log('created: isCreating...', this.state.isCreating);
+
                 }
 
               case 6:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2);
+        }, _callee);
       }));
 
-      return function (_x2) {
+      return function (_x) {
         return _ref2.apply(this, arguments);
       };
     }();
@@ -284,7 +295,7 @@ var ActiveCallItem = function (_Component) {
       }
     };
 
-    _this.logCall = _this.logCall.bind(_this);
+    _this.logCall = _this.logCall.bind(_assertThisInitialized(_assertThisInitialized(_this)));
 
     _this.externalViewEntity = function () {
       return _this.props.externalViewEntity(_this.props.call);
@@ -303,9 +314,11 @@ var ActiveCallItem = function (_Component) {
       if (_this.props.isOnConferenceCall) {
         return;
       }
+
       if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
         return;
       }
+
       _this.setState(function (preState) {
         return {
           extended: !preState.extended
@@ -317,192 +330,188 @@ var ActiveCallItem = function (_Component) {
       if (typeof _this.props.webphoneToVoicemail !== 'function') {
         return;
       }
+
       _this.props.webphoneToVoicemail(sessionId);
+
       _this.toVoicemailTimeout = setTimeout(function () {
         _this.props.webphoneReject(sessionId);
       }, 3000);
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(ActiveCallItem, [{
-    key: 'componentDidMount',
+  _createClass(ActiveCallItem, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       this._mounted = true;
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this._mounted = false;
+
       if (this.toVoicemailTimeout) {
         clearTimeout(this.toVoicemailTimeout);
         this.toVoicemailTimeout = null;
       }
     }
   }, {
-    key: 'getFallbackContactName',
+    key: "getFallbackContactName",
     value: function getFallbackContactName() {
       return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.name : this.props.call.to.name;
     }
   }, {
-    key: 'getContactMatches',
+    key: "getContactMatches",
     value: function getContactMatches() {
       var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
-
       return (0, _callLogHelpers.isInbound)(nextProps.call) ? nextProps.call.fromMatches : nextProps.call.toMatches;
     }
   }, {
-    key: 'getPhoneNumber',
+    key: "getPhoneNumber",
     value: function getPhoneNumber() {
       return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.phoneNumber || this.props.call.from.extensionNumber : this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
     }
   }, {
-    key: 'getMyPhoneNumber',
+    key: "getMyPhoneNumber",
     value: function getMyPhoneNumber() {
       return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.to.phoneNumber || this.props.call.to.extensionNumber : this.props.call.from.phoneNumber || this.props.call.from.extensionNumber;
     }
   }, {
-    key: 'getCallInfo',
+    key: "getCallInfo",
     value: function getCallInfo() {
-      var _props = this.props,
-          _props$call = _props.call,
-          telephonyStatus = _props$call.telephonyStatus,
-          startTime = _props$call.startTime,
-          webphoneSession = _props$call.webphoneSession,
-          offset = _props$call.offset,
-          disableLinks = _props.disableLinks,
-          currentLocale = _props.currentLocale,
-          formatPhone = _props.formatPhone,
-          showCallDetail = _props.showCallDetail;
-
+      var _this$props = this.props,
+          _this$props$call = _this$props.call,
+          telephonyStatus = _this$props$call.telephonyStatus,
+          startTime = _this$props$call.startTime,
+          webphoneSession = _this$props$call.webphoneSession,
+          offset = _this$props$call.offset,
+          disableLinks = _this$props.disableLinks,
+          currentLocale = _this$props.currentLocale,
+          formatPhone = _this$props.formatPhone,
+          showCallDetail = _this$props.showCallDetail;
 
       if (!showCallDetail) {
         return null;
       }
+
       var myPhoneNumber = this.getMyPhoneNumber();
 
       if (webphoneSession) {
-        return _react2.default.createElement(
-          'div',
-          { className: _styles2.default.callDetail },
-          _react2.default.createElement(
-            'span',
-            { className: _styles2.default.label },
-            (0, _callLogHelpers.isInbound)(this.props.call) ? _i18n2.default.getString('to', currentLocale) : _i18n2.default.getString('from', currentLocale),
-            ':'
-          ),
-          myPhoneNumber ? formatPhone(myPhoneNumber) : _i18n2.default.getString('anonymous', currentLocale)
-        );
+        return _react.default.createElement("div", {
+          className: _styles.default.callDetail
+        }, _react.default.createElement("span", {
+          className: _styles.default.label
+        }, (0, _callLogHelpers.isInbound)(this.props.call) ? _i18n.default.getString('to', currentLocale) : _i18n.default.getString('from', currentLocale), ":"), myPhoneNumber ? formatPhone(myPhoneNumber) : _i18n.default.getString('anonymous', currentLocale));
       }
-      var telephonyStatusInfo = _i18n2.default.getString(telephonyStatus, currentLocale);
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.callDetail },
-        disableLinks ? _i18n2.default.getString('unavailable', currentLocale) : _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: offset }),
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.split },
-          '|'
-        ),
-        _react2.default.createElement(
-          'span',
-          { title: telephonyStatusInfo },
-          telephonyStatusInfo
-        )
-      );
+
+      var telephonyStatusInfo = _i18n.default.getString(telephonyStatus, currentLocale);
+
+      return _react.default.createElement("div", {
+        className: _styles.default.callDetail
+      }, disableLinks ? _i18n.default.getString('unavailable', currentLocale) : _react.default.createElement(_DurationCounter.default, {
+        startTime: startTime,
+        offset: offset
+      }), _react.default.createElement("span", {
+        className: _styles.default.split
+      }, "|"), _react.default.createElement("span", {
+        title: telephonyStatusInfo
+      }, telephonyStatusInfo));
     }
   }, {
-    key: 'logCall',
+    key: "logCall",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref3) {
-        var _ref3$redirect = _ref3.redirect,
-            redirect = _ref3$redirect === undefined ? true : _ref3$redirect,
-            selected = _ref3.selected;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _logCall = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(_ref3) {
+        var _ref3$redirect, redirect, selected;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                _ref3$redirect = _ref3.redirect, redirect = _ref3$redirect === void 0 ? true : _ref3$redirect, selected = _ref3.selected;
+
                 if (!(typeof this.props.onLogCall === 'function' && this._mounted && !this.state.isLogging)) {
-                  _context2.next = 5;
+                  _context2.next = 6;
                   break;
                 }
 
                 this.setState({
                   isLogging: true
                 });
-                _context2.next = 4;
+                _context2.next = 5;
                 return this.props.onLogCall({
                   contact: this.getSelectedContact(selected),
                   call: this.props.call,
                   redirect: redirect
                 });
 
-              case 4:
+              case 5:
                 if (this._mounted) {
                   this.setState({
                     isLogging: false
                   });
                 }
 
-              case 5:
-              case 'end':
+              case 6:
+              case "end":
                 return _context2.stop();
             }
           }
         }, _callee2, this);
       }));
 
-      function logCall(_x4) {
-        return _ref4.apply(this, arguments);
+      function logCall(_x2) {
+        return _logCall.apply(this, arguments);
       }
 
       return logCall;
     }()
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
-      var _props2 = this.props,
-          _props2$call = _props2.call,
-          direction = _props2$call.direction,
-          activityMatches = _props2$call.activityMatches,
-          webphoneSession = _props2$call.webphoneSession,
-          disableLinks = _props2.disableLinks,
-          currentLocale = _props2.currentLocale,
-          areaCode = _props2.areaCode,
-          countryCode = _props2.countryCode,
-          outboundSmsPermission = _props2.outboundSmsPermission,
-          internalSmsPermission = _props2.internalSmsPermission,
-          enableContactFallback = _props2.enableContactFallback,
-          isLogging = _props2.isLogging,
-          brand = _props2.brand,
-          showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
-          onClickToSms = _props2.onClickToSms,
-          onViewContact = _props2.onViewContact,
-          onCreateContact = _props2.onCreateContact,
-          createEntityTypes = _props2.createEntityTypes,
-          onLogCall = _props2.onLogCall,
-          webphoneAnswer = _props2.webphoneAnswer,
-          webphoneHangup = _props2.webphoneHangup,
-          webphoneResume = _props2.webphoneResume,
-          sourceIcons = _props2.sourceIcons,
-          phoneTypeRenderer = _props2.phoneTypeRenderer,
-          phoneSourceNameRenderer = _props2.phoneSourceNameRenderer,
-          renderContactName = _props2.renderContactName,
-          renderExtraButton = _props2.renderExtraButton,
-          contactDisplayStyle = _props2.contactDisplayStyle,
-          externalViewEntity = _props2.externalViewEntity,
-          externalHasEntity = _props2.externalHasEntity,
-          readTextPermission = _props2.readTextPermission,
-          isOnConferenceCall = _props2.isOnConferenceCall,
-          hasActionMenu = _props2.hasActionMenu,
-          showAnswer = _props2.showAnswer,
-          avatarUrl = _props2.avatarUrl,
-          showAvatar = _props2.showAvatar;
-
+      var _this$props2 = this.props,
+          _this$props2$call = _this$props2.call,
+          direction = _this$props2$call.direction,
+          activityMatches = _this$props2$call.activityMatches,
+          webphoneSession = _this$props2$call.webphoneSession,
+          disableLinks = _this$props2.disableLinks,
+          currentLocale = _this$props2.currentLocale,
+          areaCode = _this$props2.areaCode,
+          countryCode = _this$props2.countryCode,
+          outboundSmsPermission = _this$props2.outboundSmsPermission,
+          internalSmsPermission = _this$props2.internalSmsPermission,
+          enableContactFallback = _this$props2.enableContactFallback,
+          isLogging = _this$props2.isLogging,
+          brand = _this$props2.brand,
+          showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
+          onClickToSms = _this$props2.onClickToSms,
+          onViewContact = _this$props2.onViewContact,
+          onCreateContact = _this$props2.onCreateContact,
+          createEntityTypes = _this$props2.createEntityTypes,
+          onLogCall = _this$props2.onLogCall,
+          webphoneAnswer = _this$props2.webphoneAnswer,
+          webphoneHangup = _this$props2.webphoneHangup,
+          webphoneResume = _this$props2.webphoneResume,
+          sourceIcons = _this$props2.sourceIcons,
+          phoneTypeRenderer = _this$props2.phoneTypeRenderer,
+          phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
+          renderContactName = _this$props2.renderContactName,
+          renderExtraButton = _this$props2.renderExtraButton,
+          contactDisplayStyle = _this$props2.contactDisplayStyle,
+          externalViewEntity = _this$props2.externalViewEntity,
+          externalHasEntity = _this$props2.externalHasEntity,
+          readTextPermission = _this$props2.readTextPermission,
+          isOnConferenceCall = _this$props2.isOnConferenceCall,
+          hasActionMenu = _this$props2.hasActionMenu,
+          showAnswer = _this$props2.showAnswer,
+          avatarUrl = _this$props2.avatarUrl,
+          showAvatar = _this$props2.showAvatar;
       var phoneNumber = this.getPhoneNumber();
-      var parsedInfo = (0, _parseNumber2.default)({
+      var parsedInfo = (0, _parseNumber.default)({
         phoneNumber: phoneNumber,
         countryCode: countryCode,
         areaCode: areaCode
@@ -515,158 +524,148 @@ var ActiveCallItem = function (_Component) {
       var callDetail = this.getCallInfo();
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
       var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
-
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.root, onClick: this.toggleExtended },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.wrapper },
-          _react2.default.createElement(_CallIcon2.default, {
-            direction: direction,
-            ringing: ringing,
-            active: true,
-            missed: false,
-            inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
-            outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
-            missedTitle: _i18n2.default.getString('missedCall', currentLocale),
-            isOnConferenceCall: isOnConferenceCall,
-            showAvatar: showAvatar,
-            avatarUrl: avatarUrl
-          }),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.infoWrapper },
-            _react2.default.createElement(_ContactDisplay2.default, {
-              isOnConferenceCall: isOnConferenceCall,
-              contactName: contactName,
-              className: isOnConferenceCall ? (0, _classnames2.default)(_styles2.default.conferenceContactDisplay) : (0, _classnames2.default)(_styles2.default.contactDisplay, contactDisplayStyle),
-              contactMatches: contactMatches,
-              selected: this.state.selected,
-              onSelectContact: this.onSelectContact,
-              disabled: disableLinks,
-              isLogging: isLogging || this.state.isLogging,
-              fallBackName: fallbackContactName,
-              enableContactFallback: enableContactFallback,
-              areaCode: areaCode,
-              countryCode: countryCode,
-              phoneNumber: phoneNumber,
-              currentLocale: currentLocale,
-              brand: brand,
-              showPlaceholder: showContactDisplayPlaceholder,
-              showType: false,
-              sourceIcons: sourceIcons,
-              phoneTypeRenderer: phoneTypeRenderer,
-              phoneSourceNameRenderer: phoneSourceNameRenderer,
-              stopPropagation: true
-            }),
-            isOnConferenceCall ? null : callDetail
-          ),
-          _react2.default.createElement(WebphoneButtons, {
-            session: webphoneSession,
-            webphoneAnswer: webphoneAnswer,
-            webphoneReject: this.webphoneToVoicemail,
-            webphoneHangup: webphoneHangup,
-            webphoneResume: webphoneResume,
-            currentLocale: currentLocale,
-            showAnswer: showAnswer
-          }),
-          extraButton
-        ),
-        hasActionMenu ? _react2.default.createElement(_ActionMenu2.default, {
-          extended: this.state.extended,
-          onToggle: this.toggleExtended,
-          currentLocale: currentLocale,
-          disableLinks: disableLinks,
-          phoneNumber: phoneNumber,
-          onClickToSms: readTextPermission ? function () {
-            return _this3.clickToSms({ countryCode: countryCode, areaCode: areaCode });
-          } : undefined,
-          hasEntity: !!contactMatches.length,
-          onViewEntity: onViewContact && this.viewSelectedContact,
-          onCreateEntity: onCreateContact && this.createSelectedContact,
-          createEntityTypes: createEntityTypes,
-          textTitle: _i18n2.default.getString('text', currentLocale),
-          onLog: onLogCall,
-          isLogging: isLogging || this.state.isLogging,
-          isLogged: activityMatches.length > 0,
-          isCreating: this.state.isCreating,
-          addLogTitle: _i18n2.default.getString('addLog', currentLocale),
-          editLogTitle: _i18n2.default.getString('editLog', currentLocale),
-          createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
-          viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
-          externalViewEntity: externalViewEntity && this.externalViewEntity,
-          externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
-          disableClickToSms: disableClickToSms
-        }) : null
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.root,
+        onClick: this.toggleExtended
+      }, _react.default.createElement("div", {
+        className: _styles.default.wrapper
+      }, _react.default.createElement(_CallIcon.default, {
+        direction: direction,
+        ringing: ringing,
+        active: true,
+        missed: false,
+        inboundTitle: _i18n.default.getString('inboundCall', currentLocale),
+        outboundTitle: _i18n.default.getString('outboundCall', currentLocale),
+        missedTitle: _i18n.default.getString('missedCall', currentLocale),
+        isOnConferenceCall: isOnConferenceCall,
+        showAvatar: showAvatar,
+        avatarUrl: avatarUrl
+      }), _react.default.createElement("div", {
+        className: _styles.default.infoWrapper
+      }, _react.default.createElement(_ContactDisplay.default, {
+        isOnConferenceCall: isOnConferenceCall,
+        contactName: contactName,
+        className: isOnConferenceCall ? (0, _classnames.default)(_styles.default.conferenceContactDisplay) : (0, _classnames.default)(_styles.default.contactDisplay, contactDisplayStyle),
+        contactMatches: contactMatches,
+        selected: this.state.selected,
+        onSelectContact: this.onSelectContact,
+        disabled: disableLinks,
+        isLogging: isLogging || this.state.isLogging,
+        fallBackName: fallbackContactName,
+        enableContactFallback: enableContactFallback,
+        areaCode: areaCode,
+        countryCode: countryCode,
+        phoneNumber: phoneNumber,
+        currentLocale: currentLocale,
+        brand: brand,
+        showPlaceholder: showContactDisplayPlaceholder,
+        showType: false,
+        sourceIcons: sourceIcons,
+        phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
+        stopPropagation: true
+      }), isOnConferenceCall ? null : callDetail), _react.default.createElement(WebphoneButtons, {
+        session: webphoneSession,
+        webphoneAnswer: webphoneAnswer,
+        webphoneReject: this.webphoneToVoicemail,
+        webphoneHangup: webphoneHangup,
+        webphoneResume: webphoneResume,
+        currentLocale: currentLocale,
+        showAnswer: showAnswer
+      }), extraButton), hasActionMenu ? _react.default.createElement(_ActionMenu.default, {
+        extended: this.state.extended,
+        onToggle: this.toggleExtended,
+        currentLocale: currentLocale,
+        disableLinks: disableLinks,
+        phoneNumber: phoneNumber,
+        onClickToSms: readTextPermission ? function () {
+          return _this2.clickToSms({
+            countryCode: countryCode,
+            areaCode: areaCode
+          });
+        } : undefined,
+        hasEntity: !!contactMatches.length,
+        onViewEntity: onViewContact && this.viewSelectedContact,
+        onCreateEntity: onCreateContact && this.createSelectedContact,
+        createEntityTypes: createEntityTypes,
+        textTitle: _i18n.default.getString('text', currentLocale),
+        onLog: onLogCall,
+        isLogging: isLogging || this.state.isLogging,
+        isLogged: activityMatches.length > 0,
+        isCreating: this.state.isCreating,
+        addLogTitle: _i18n.default.getString('addLog', currentLocale),
+        editLogTitle: _i18n.default.getString('editLog', currentLocale),
+        createEntityTitle: _i18n.default.getString('addEntity', currentLocale),
+        viewEntityTitle: _i18n.default.getString('viewDetails', currentLocale),
+        externalViewEntity: externalViewEntity && this.externalViewEntity,
+        externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
+        disableClickToSms: disableClickToSms
+      }) : null);
     }
   }]);
+
   return ActiveCallItem;
 }(_react.Component);
 
 exports.default = ActiveCallItem;
-
-
 ActiveCallItem.propTypes = {
-  call: _propTypes2.default.shape({
-    direction: _propTypes2.default.string.isRequired,
-    telephonyStatus: _propTypes2.default.string,
-    startTime: _propTypes2.default.number.isRequired,
-    activityMatches: _propTypes2.default.array.isRequired,
-    fromMatches: _propTypes2.default.array.isRequired,
-    toMatches: _propTypes2.default.array.isRequired,
-    from: _propTypes2.default.shape({
-      phoneNumber: _propTypes2.default.string,
-      extensionNumber: _propTypes2.default.string,
-      name: _propTypes2.default.string
+  call: _propTypes.default.shape({
+    direction: _propTypes.default.string.isRequired,
+    telephonyStatus: _propTypes.default.string,
+    startTime: _propTypes.default.number.isRequired,
+    activityMatches: _propTypes.default.array.isRequired,
+    fromMatches: _propTypes.default.array.isRequired,
+    toMatches: _propTypes.default.array.isRequired,
+    from: _propTypes.default.shape({
+      phoneNumber: _propTypes.default.string,
+      extensionNumber: _propTypes.default.string,
+      name: _propTypes.default.string
     }).isRequired,
-    to: _propTypes2.default.shape({
-      phoneNumber: _propTypes2.default.string,
-      extensionNumber: _propTypes2.default.string,
-      name: _propTypes2.default.string
+    to: _propTypes.default.shape({
+      phoneNumber: _propTypes.default.string,
+      extensionNumber: _propTypes.default.string,
+      name: _propTypes.default.string
     }),
-    webphoneSession: _propTypes2.default.object
+    webphoneSession: _propTypes.default.object
   }).isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  disableLinks: _propTypes2.default.bool,
-  outboundSmsPermission: _propTypes2.default.bool,
-  internalSmsPermission: _propTypes2.default.bool,
-  isLogging: _propTypes2.default.bool,
-  webphoneAnswer: _propTypes2.default.func,
-  webphoneReject: _propTypes2.default.func,
-  webphoneHangup: _propTypes2.default.func,
-  webphoneResume: _propTypes2.default.func,
-  webphoneToVoicemail: _propTypes2.default.func,
-  enableContactFallback: _propTypes2.default.bool,
-  autoLog: _propTypes2.default.bool,
-  brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  formatPhone: _propTypes2.default.func.isRequired,
-  onClickToSms: _propTypes2.default.func,
-  onCreateContact: _propTypes2.default.func,
-  createEntityTypes: _propTypes2.default.array,
-  onLogCall: _propTypes2.default.func,
-  onViewContact: _propTypes2.default.func,
-  sourceIcons: _propTypes2.default.object,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  renderContactName: _propTypes2.default.func,
-  renderExtraButton: _propTypes2.default.func,
-  contactDisplayStyle: _propTypes2.default.string,
-  externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.func,
-  readTextPermission: _propTypes2.default.bool,
-  isOnConferenceCall: _propTypes2.default.bool,
-  hasActionMenu: _propTypes2.default.bool,
-  showAnswer: _propTypes2.default.bool,
-  avatarUrl: _propTypes2.default.string,
-  showAvatar: _propTypes2.default.bool,
-  showCallDetail: _propTypes2.default.bool
+  areaCode: _propTypes.default.string.isRequired,
+  countryCode: _propTypes.default.string.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  disableLinks: _propTypes.default.bool,
+  outboundSmsPermission: _propTypes.default.bool,
+  internalSmsPermission: _propTypes.default.bool,
+  isLogging: _propTypes.default.bool,
+  webphoneAnswer: _propTypes.default.func,
+  webphoneReject: _propTypes.default.func,
+  webphoneHangup: _propTypes.default.func,
+  webphoneResume: _propTypes.default.func,
+  webphoneToVoicemail: _propTypes.default.func,
+  enableContactFallback: _propTypes.default.bool,
+  autoLog: _propTypes.default.bool,
+  brand: _propTypes.default.string,
+  showContactDisplayPlaceholder: _propTypes.default.bool,
+  formatPhone: _propTypes.default.func.isRequired,
+  onClickToSms: _propTypes.default.func,
+  onCreateContact: _propTypes.default.func,
+  createEntityTypes: _propTypes.default.array,
+  onLogCall: _propTypes.default.func,
+  onViewContact: _propTypes.default.func,
+  sourceIcons: _propTypes.default.object,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  renderContactName: _propTypes.default.func,
+  renderExtraButton: _propTypes.default.func,
+  contactDisplayStyle: _propTypes.default.string,
+  externalViewEntity: _propTypes.default.func,
+  externalHasEntity: _propTypes.default.func,
+  readTextPermission: _propTypes.default.bool,
+  isOnConferenceCall: _propTypes.default.bool,
+  hasActionMenu: _propTypes.default.bool,
+  showAnswer: _propTypes.default.bool,
+  avatarUrl: _propTypes.default.string,
+  showAvatar: _propTypes.default.bool,
+  showCallDetail: _propTypes.default.bool
 };
-
 ActiveCallItem.defaultProps = {
   onLogCall: undefined,
   onClickToSms: undefined,

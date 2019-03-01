@@ -1,131 +1,111 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _typeof2 = require('babel-runtime/helpers/typeof');
+require("core-js/modules/es6.array.for-each");
 
-var _typeof3 = _interopRequireDefault(_typeof2);
+require("core-js/modules/es6.array.filter");
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+require("core-js/modules/es6.array.iterator");
 
-var _getIterator3 = _interopRequireDefault(_getIterator2);
+require("core-js/modules/es6.object.keys");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.promise");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.define-property");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.object.create");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.function.name");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.find-index");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("regenerator-runtime/runtime");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.function.bind");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("core-js/fn/array/find");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _messageDirection = _interopRequireDefault(require("ringcentral-integration/enums/messageDirection"));
+
+var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+
+var _parseNumber = _interopRequireDefault(require("ringcentral-integration/lib/parseNumber"));
+
+var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+
+var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
+
+var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
+
+var _ActionMenu = _interopRequireDefault(require("../ActionMenu"));
+
+var _FaxInbound = _interopRequireDefault(require("../../assets/images/FaxInbound.svg"));
+
+var _FaxOutbound = _interopRequireDefault(require("../../assets/images/FaxOutbound.svg"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
+
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _callIconMap;
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-require('core-js/fn/array/find');
-
-var _callDirections = require('ringcentral-integration/enums/callDirections');
-
-var _callDirections2 = _interopRequireDefault(_callDirections);
-
-var _messageTypes = require('ringcentral-integration/enums/messageTypes');
-
-var _messageTypes2 = _interopRequireDefault(_messageTypes);
-
-var _messageDirection = require('ringcentral-integration/enums/messageDirection');
-
-var _messageDirection2 = _interopRequireDefault(_messageDirection);
-
-var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
-
-var _parseNumber = require('ringcentral-integration/lib/parseNumber');
-
-var _parseNumber2 = _interopRequireDefault(_parseNumber);
-
-var _formatNumber = require('ringcentral-integration/lib/formatNumber');
-
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _DurationCounter = require('../DurationCounter');
-
-var _DurationCounter2 = _interopRequireDefault(_DurationCounter);
-
-var _ContactDisplay = require('../ContactDisplay');
-
-var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
-
-var _formatDuration = require('../../lib/formatDuration');
-
-var _formatDuration2 = _interopRequireDefault(_formatDuration);
-
-var _ActionMenu = require('../ActionMenu');
-
-var _ActionMenu2 = _interopRequireDefault(_ActionMenu);
-
-var _FaxInbound = require('../../assets/images/FaxInbound.svg');
-
-var _FaxInbound2 = _interopRequireDefault(_FaxInbound);
-
-var _FaxOutbound = require('../../assets/images/FaxOutbound.svg');
-
-var _FaxOutbound2 = _interopRequireDefault(_FaxOutbound);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var callIconMap = (_callIconMap = {}, (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.inbound, _DynamicsFont2.default.inbound), (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.outbound, _DynamicsFont2.default.outbound), (0, _defineProperty3.default)(_callIconMap, 'missed', _DynamicsFont2.default.missed), _callIconMap);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callDirections.default.inbound, _DynamicsFont.default.inbound), _defineProperty(_callIconMap, _callDirections.default.outbound, _DynamicsFont.default.outbound), _defineProperty(_callIconMap, "missed", _DynamicsFont.default.missed), _callIconMap);
 
 function CallIcon(_ref) {
   var direction = _ref.direction,
@@ -136,53 +116,56 @@ function CallIcon(_ref) {
       outboundTitle = _ref.outboundTitle,
       missedTitle = _ref.missedTitle,
       type = _ref.type;
-
   var icon = null;
+
   switch (type) {
-    case _messageTypes2.default.fax:
+    case _messageTypes.default.fax:
       {
-        icon = direction === _messageDirection2.default.inbound ? _react2.default.createElement(
-          'span',
-          { title: inboundTitle },
-          _react2.default.createElement(_FaxInbound2.default, { width: 21 })
-        ) : _react2.default.createElement(
-          'span',
-          { title: outboundTitle },
-          _react2.default.createElement(_FaxOutbound2.default, { width: 21 })
-        );
+        icon = direction === _messageDirection.default.inbound ? _react.default.createElement("span", {
+          title: inboundTitle
+        }, _react.default.createElement(_FaxInbound.default, {
+          width: 21
+        })) : _react.default.createElement("span", {
+          title: outboundTitle
+        }, _react.default.createElement(_FaxOutbound.default, {
+          width: 21
+        }));
         break;
       }
+
     default:
       {
         var title = null;
+
         if (missed) {
           title = missedTitle;
-        } else if (direction === _callDirections2.default.inbound) {
+        } else if (direction === _callDirections.default.inbound) {
           title = inboundTitle;
         } else {
           title = outboundTitle;
         }
-        icon = _react2.default.createElement('span', {
-          className: (0, _classnames2.default)(missed ? callIconMap.missed : callIconMap[direction], active && _styles2.default.activeCall, ringing && _styles2.default.ringing, missed && _styles2.default.missed),
+
+        icon = _react.default.createElement("span", {
+          className: (0, _classnames.default)(missed ? callIconMap.missed : callIconMap[direction], active && _styles.default.activeCall, ringing && _styles.default.ringing, missed && _styles.default.missed),
           title: title
         });
       }
   }
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.callIcon },
-    icon
-  );
+
+  return _react.default.createElement("div", {
+    className: _styles.default.callIcon
+  }, icon);
 }
+
 CallIcon.propTypes = {
-  direction: _propTypes2.default.string.isRequired,
-  missed: _propTypes2.default.bool,
-  active: _propTypes2.default.bool,
-  ringing: _propTypes2.default.bool,
-  inboundTitle: _propTypes2.default.string,
-  outboundTitle: _propTypes2.default.string,
-  missedTitle: _propTypes2.default.string,
-  type: _propTypes2.default.string
+  direction: _propTypes.default.string.isRequired,
+  missed: _propTypes.default.bool,
+  active: _propTypes.default.bool,
+  ringing: _propTypes.default.bool,
+  inboundTitle: _propTypes.default.string,
+  outboundTitle: _propTypes.default.string,
+  missedTitle: _propTypes.default.string,
+  type: _propTypes.default.string
 };
 CallIcon.defaultProps = {
   missed: false,
@@ -194,24 +177,31 @@ CallIcon.defaultProps = {
   type: ''
 };
 
-var CallItem = function (_Component) {
-  (0, _inherits3.default)(CallItem, _Component);
+var CallItem =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(CallItem, _Component);
 
   function CallItem(props) {
-    var _this2 = this;
+    var _this;
 
-    (0, _classCallCheck3.default)(this, CallItem);
+    _classCallCheck(this, CallItem);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallItem.__proto__ || (0, _getPrototypeOf2.default)(CallItem)).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallItem).call(this, props));
 
     _this.onSelectContact = function (value, idx) {
       var selected = _this.props.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
       _this._userSelection = true;
+
       _this.setState({
         selected: selected
       });
+
       if (_this.props.autoLog) {
-        _this.logCall({ redirect: false, selected: selected });
+        _this.logCall({
+          redirect: false,
+          selected: selected
+        });
       }
     };
 
@@ -219,6 +209,7 @@ var CallItem = function (_Component) {
       if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
         return;
       }
+
       var _this$props = _this.props,
           onSizeChanged = _this$props.onSizeChanged,
           renderIndex = _this$props.renderIndex;
@@ -238,10 +229,11 @@ var CallItem = function (_Component) {
       var selected = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.selected;
 
       var contactMatches = _this.getContactMatches();
+
       return selected > -1 && contactMatches[selected] || contactMatches.length === 1 && contactMatches[0] || null;
     };
 
-    _this.logCall = _this.logCall.bind(_this);
+    _this.logCall = _this.logCall.bind(_assertThisInitialized(_assertThisInitialized(_this)));
 
     _this.viewSelectedContact = function () {
       if (typeof _this.props.onViewContact === 'function') {
@@ -251,10 +243,14 @@ var CallItem = function (_Component) {
       }
     };
 
-    _this.createSelectedContact = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(entityType) {
+    _this.createSelectedContact =
+    /*#__PURE__*/
+    function () {
+      var _ref2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(entityType) {
         var phoneNumber;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -265,8 +261,9 @@ var CallItem = function (_Component) {
 
                 _this.setState({
                   isCreating: true
-                });
-                // console.log('start to create: isCreating...', this.state.isCreating);
+                }); // console.log('start to create: isCreating...', this.state.isCreating);
+
+
                 phoneNumber = _this.getPhoneNumber();
                 _context.next = 5;
                 return _this.props.onCreateContact({
@@ -276,23 +273,22 @@ var CallItem = function (_Component) {
                 });
 
               case 5:
-
                 if (_this._mounted) {
                   _this.setState({
                     isCreating: false
-                  });
-                  // console.log('created: isCreating...', this.state.isCreating);
+                  }); // console.log('created: isCreating...', this.state.isCreating);
+
                 }
 
               case 6:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2);
+        }, _callee);
       }));
 
-      return function (_x2) {
+      return function (_x) {
         return _ref2.apply(this, arguments);
       };
     }();
@@ -303,17 +299,20 @@ var CallItem = function (_Component) {
 
       if (_this.props.onClickToSms) {
         var phoneNumber = _this.getPhoneNumber();
+
         var contact = _this.getSelectedContact();
+
         if (contact) {
-          _this.props.onClickToSms((0, _extends3.default)({}, contact, {
+          _this.props.onClickToSms(_objectSpread({}, contact, {
             phoneNumber: phoneNumber
           }));
         } else {
-          var formatted = (0, _formatNumber2.default)({
+          var formatted = (0, _formatNumber.default)({
             phoneNumber: phoneNumber,
             countryCode: countryCode,
             areaCode: areaCode
           });
+
           _this.props.onClickToSms({
             name: _this.props.enableContactFallback ? _this.getFallbackContactName() : formatted,
             phoneNumber: phoneNumber
@@ -325,10 +324,11 @@ var CallItem = function (_Component) {
     _this.clickToDial = function () {
       if (_this.props.onClickToDial) {
         var contact = _this.getSelectedContact() || {};
+
         var phoneNumber = _this.getPhoneNumber();
 
         if (phoneNumber) {
-          _this.props.onClickToDial((0, _extends3.default)({}, contact, {
+          _this.props.onClickToDial(_objectSpread({}, contact, {
             phoneNumber: phoneNumber
           }));
         }
@@ -350,29 +350,30 @@ var CallItem = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(CallItem, [{
-    key: 'componentDidMount',
+  _createClass(CallItem, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
-      var _this3 = this;
+      var _this2 = this;
 
       this._mounted = true;
       this._loadingTimeout = setTimeout(function () {
         // clear timeout is probably not necessary
-        if (_this3._mounted) {
-          _this3.setState({
+        if (_this2._mounted) {
+          _this2.setState({
             loading: false
           });
         }
       }, 10);
     }
   }, {
-    key: 'componentWillReceiveProps',
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       if (!this._userSelection && (nextProps.call.activityMatches !== this.props.call.activityMatches || nextProps.call.fromMatches !== this.props.call.fromMatches || nextProps.call.toMatches !== this.props.call.toMatches)) {
         this.setState({
           selected: this.getInitialContactIndex(nextProps)
         });
       }
+
       if (this.props.extended !== nextProps.extended && this.state.extended !== nextProps.extended) {
         this.setState({
           extended: nextProps.extended
@@ -380,55 +381,52 @@ var CallItem = function (_Component) {
       }
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this._mounted = false;
+
       if (this._loadingTimeout) {
         clearTimeout(this._loadingTimeout);
         this._loadingTimeout = null;
       }
     }
   }, {
-    key: 'getInitialContactIndex',
+    key: "getInitialContactIndex",
     value: function getInitialContactIndex() {
-      var _this4 = this;
+      var _this3 = this;
 
       var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
-
       var contactMatches = this.getContactMatches(nextProps);
-      var activityMatches = nextProps.call.activityMatches;
-      // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
-
-      var _loop = function _loop(activity) {
-        var index = contactMatches.findIndex(function (contact) {
-          return (
-            // TODO find a better name or mechanism...
-            _this4.props.isLoggedContact(nextProps.call, activity, contact)
-          );
-        });
-        if (index > -1) return {
-            v: index
-          };
-      };
+      var activityMatches = nextProps.call.activityMatches; // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
 
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = (0, _getIterator3.default)(activityMatches), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var _loop = function _loop() {
           var activity = _step.value;
+          var index = contactMatches.findIndex(function (contact) {
+            return (// TODO find a better name or mechanism...
+              _this3.props.isLoggedContact(nextProps.call, activity, contact)
+            );
+          });
+          if (index > -1) return {
+            v: index
+          };
+        };
 
-          var _ret = _loop(activity);
+        for (var _iterator = activityMatches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var _ret = _loop();
 
-          if ((typeof _ret === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret)) === "object") return _ret.v;
+          if (_typeof(_ret) === "object") return _ret.v;
         }
       } catch (err) {
         _didIteratorError = true;
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
             _iterator.return();
           }
         } finally {
@@ -444,302 +442,305 @@ var CallItem = function (_Component) {
         });
         return index;
       }
+
       return this.props.showContactDisplayPlaceholder ? -1 : 0;
     }
   }, {
-    key: 'getPhoneNumber',
+    key: "getPhoneNumber",
     value: function getPhoneNumber() {
       return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.phoneNumber || this.props.call.from.extensionNumber : this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
     }
   }, {
-    key: 'getContactMatches',
+    key: "getContactMatches",
     value: function getContactMatches() {
       var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
-
       return (0, _callLogHelpers.isInbound)(nextProps.call) ? nextProps.call.fromMatches : nextProps.call.toMatches;
     }
   }, {
-    key: 'getFallbackContactName',
+    key: "getFallbackContactName",
     value: function getFallbackContactName() {
       return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.name : this.props.call.to.name;
     }
   }, {
-    key: 'logCall',
+    key: "logCall",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
-        var _ref4$redirect = _ref4.redirect,
-            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
-            selected = _ref4.selected;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _logCall = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(_ref4) {
+        var _ref4$redirect, redirect, selected;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                _ref4$redirect = _ref4.redirect, redirect = _ref4$redirect === void 0 ? true : _ref4$redirect, selected = _ref4.selected;
+
                 if (!(typeof this.props.onLogCall === 'function' && this._mounted && !this.state.isLogging)) {
-                  _context2.next = 5;
+                  _context2.next = 6;
                   break;
                 }
 
                 this.setState({
                   isLogging: true
                 });
-                _context2.next = 4;
+                _context2.next = 5;
                 return this.props.onLogCall({
                   contact: this.getSelectedContact(selected),
                   call: this.props.call,
                   redirect: redirect
                 });
 
-              case 4:
+              case 5:
                 if (this._mounted) {
                   this.setState({
                     isLogging: false
                   });
                 }
 
-              case 5:
-              case 'end':
+              case 6:
+              case "end":
                 return _context2.stop();
             }
           }
         }, _callee2, this);
       }));
 
-      function logCall(_x5) {
-        return _ref5.apply(this, arguments);
+      function logCall(_x2) {
+        return _logCall.apply(this, arguments);
       }
 
       return logCall;
     }()
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this4 = this;
 
       if (this.state.loading) {
-        return _react2.default.createElement('div', { className: _styles2.default.root });
+        return _react.default.createElement("div", {
+          className: _styles.default.root
+        });
       }
-      var _props = this.props,
-          _props$call = _props.call,
-          direction = _props$call.direction,
-          telephonyStatus = _props$call.telephonyStatus,
-          result = _props$call.result,
-          startTime = _props$call.startTime,
-          duration = _props$call.duration,
-          activityMatches = _props$call.activityMatches,
-          offset = _props$call.offset,
-          type = _props$call.type,
-          toName = _props$call.toName,
-          brand = _props.brand,
-          currentLocale = _props.currentLocale,
-          areaCode = _props.areaCode,
-          countryCode = _props.countryCode,
-          disableLinks = _props.disableLinks,
-          disableClickToDial = _props.disableClickToDial,
-          outboundSmsPermission = _props.outboundSmsPermission,
-          internalSmsPermission = _props.internalSmsPermission,
-          active = _props.active,
-          onViewContact = _props.onViewContact,
-          onCreateContact = _props.onCreateContact,
-          createEntityTypes = _props.createEntityTypes,
-          onLogCall = _props.onLogCall,
-          onClickToDial = _props.onClickToDial,
-          onClickToSms = _props.onClickToSms,
-          dateTimeFormatter = _props.dateTimeFormatter,
-          isLogging = _props.isLogging,
-          enableContactFallback = _props.enableContactFallback,
-          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
-          sourceIcons = _props.sourceIcons,
-          phoneTypeRenderer = _props.phoneTypeRenderer,
-          phoneSourceNameRenderer = _props.phoneSourceNameRenderer,
-          renderContactName = _props.renderContactName,
-          renderExtraButton = _props.renderExtraButton,
-          contactDisplayStyle = _props.contactDisplayStyle,
-          externalViewEntity = _props.externalViewEntity,
-          externalHasEntity = _props.externalHasEntity,
-          readTextPermission = _props.readTextPermission,
-          withAnimation = _props.withAnimation;
 
+      var _this$props2 = this.props,
+          _this$props2$call = _this$props2.call,
+          direction = _this$props2$call.direction,
+          telephonyStatus = _this$props2$call.telephonyStatus,
+          result = _this$props2$call.result,
+          startTime = _this$props2$call.startTime,
+          duration = _this$props2$call.duration,
+          activityMatches = _this$props2$call.activityMatches,
+          offset = _this$props2$call.offset,
+          type = _this$props2$call.type,
+          toName = _this$props2$call.toName,
+          brand = _this$props2.brand,
+          currentLocale = _this$props2.currentLocale,
+          areaCode = _this$props2.areaCode,
+          countryCode = _this$props2.countryCode,
+          disableLinks = _this$props2.disableLinks,
+          disableClickToDial = _this$props2.disableClickToDial,
+          outboundSmsPermission = _this$props2.outboundSmsPermission,
+          internalSmsPermission = _this$props2.internalSmsPermission,
+          active = _this$props2.active,
+          onViewContact = _this$props2.onViewContact,
+          onCreateContact = _this$props2.onCreateContact,
+          createEntityTypes = _this$props2.createEntityTypes,
+          onLogCall = _this$props2.onLogCall,
+          onClickToDial = _this$props2.onClickToDial,
+          onClickToSms = _this$props2.onClickToSms,
+          dateTimeFormatter = _this$props2.dateTimeFormatter,
+          isLogging = _this$props2.isLogging,
+          enableContactFallback = _this$props2.enableContactFallback,
+          showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
+          sourceIcons = _this$props2.sourceIcons,
+          phoneTypeRenderer = _this$props2.phoneTypeRenderer,
+          phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
+          renderContactName = _this$props2.renderContactName,
+          renderExtraButton = _this$props2.renderExtraButton,
+          contactDisplayStyle = _this$props2.contactDisplayStyle,
+          externalViewEntity = _this$props2.externalViewEntity,
+          externalHasEntity = _this$props2.externalHasEntity,
+          readTextPermission = _this$props2.readTextPermission,
+          withAnimation = _this$props2.withAnimation;
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
       var fallbackContactName = this.getFallbackContactName();
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var missed = (0, _callLogHelpers.isInbound)(this.props.call) && (0, _callLogHelpers.isMissed)(this.props.call);
-      var parsedInfo = (0, _parseNumber2.default)({
+      var parsedInfo = (0, _parseNumber.default)({
         phoneNumber: phoneNumber,
         countryCode: countryCode,
         areaCode: areaCode
       });
       var isExtension = !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
       var disableClickToSms = !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
-
       var durationEl = null;
+
       if (typeof duration === 'undefined') {
-        durationEl = disableLinks ? _i18n2.default.getString('unavailable', currentLocale) : _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: offset });
+        durationEl = disableLinks ? _i18n.default.getString('unavailable', currentLocale) : _react.default.createElement(_DurationCounter.default, {
+          startTime: startTime,
+          offset: offset
+        });
       } else {
-        durationEl = (0, _formatDuration2.default)(duration);
+        durationEl = (0, _formatDuration.default)(duration);
       }
+
       var dateEl = '';
+
       if (!active) {
-        dateEl = dateTimeFormatter({ utcTimestamp: startTime });
+        dateEl = dateTimeFormatter({
+          utcTimestamp: startTime
+        });
       }
+
       var statusEl = '';
+
       if (active) {
-        statusEl = _i18n2.default.getString(result || telephonyStatus, currentLocale);
+        statusEl = _i18n.default.getString(result || telephonyStatus, currentLocale);
       }
+
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
       var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
       var menuExtended = this.props.extended || this.state.extended;
-
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.root, onClick: this.toggleExtended },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.wrapper },
-          _react2.default.createElement(CallIcon, {
-            direction: direction,
-            ringing: ringing,
-            active: active,
-            missed: missed,
-            inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
-            outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
-            missedTitle: _i18n2.default.getString('missedCall', currentLocale),
-            type: type
-          }),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.infoWrapper },
-            _react2.default.createElement(_ContactDisplay2.default, {
-              isOnConferenceCall: direction === _callDirections2.default.outbound && toName === 'Conference',
-              contactName: contactName,
-              reference: function reference(ref) {
-                _this5.contactDisplay = ref;
-              },
-              className: (0, _classnames2.default)(_styles2.default.contactDisplay, contactDisplayStyle, missed && _styles2.default.missed, active && _styles2.default.active),
-              selectClassName: _styles2.default.dropdownSelect,
-              brand: brand,
-              sourceIcons: sourceIcons,
-              phoneTypeRenderer: phoneTypeRenderer,
-              phoneSourceNameRenderer: phoneSourceNameRenderer,
-              contactMatches: contactMatches,
-              selected: this.state.selected,
-              onSelectContact: this.onSelectContact,
-              disabled: disableLinks,
-              isLogging: isLogging || this.state.isLogging,
-              fallBackName: fallbackContactName,
-              enableContactFallback: enableContactFallback,
-              areaCode: areaCode,
-              countryCode: countryCode,
-              phoneNumber: phoneNumber,
-              currentLocale: currentLocale,
-              stopPropagation: false,
-              showType: false,
-              showPlaceholder: showContactDisplayPlaceholder
-            }),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.details },
-              durationEl,
-              ' | ' + dateEl + statusEl
-            )
-          ),
-          extraButton
-        ),
-        _react2.default.createElement(_ActionMenu2.default, {
-          extended: menuExtended,
-          onToggle: this.toggleExtended,
-          currentLocale: currentLocale,
-          onLog: onLogCall && this.logCall,
-          onViewEntity: onViewContact && this.viewSelectedContact,
-          onCreateEntity: onCreateContact && this.createSelectedContact,
-          createEntityTypes: createEntityTypes,
-          hasEntity: !!contactMatches.length,
-          onClickToDial: onClickToDial && this.clickToDial,
-          onClickToSms: readTextPermission ? function () {
-            return _this5.clickToSms({ countryCode: countryCode, areaCode: areaCode });
-          } : undefined,
-          phoneNumber: phoneNumber,
-          disableLinks: disableLinks,
-          disableClickToDial: disableClickToDial,
-          isLogging: isLogging || this.state.isLogging,
-          isLogged: activityMatches.length > 0,
-          isCreating: this.state.isCreating,
-          addLogTitle: _i18n2.default.getString('addLog', currentLocale),
-          editLogTitle: _i18n2.default.getString('editLog', currentLocale),
-          textTitle: _i18n2.default.getString('text', currentLocale),
-          callTitle: _i18n2.default.getString('call', currentLocale),
-          createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
-          viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
-          externalViewEntity: externalViewEntity && this.externalViewEntity,
-          externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
-          disableClickToSms: disableClickToSms,
-          withAnimation: withAnimation
-        })
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.root,
+        onClick: this.toggleExtended
+      }, _react.default.createElement("div", {
+        className: _styles.default.wrapper
+      }, _react.default.createElement(CallIcon, {
+        direction: direction,
+        ringing: ringing,
+        active: active,
+        missed: missed,
+        inboundTitle: _i18n.default.getString('inboundCall', currentLocale),
+        outboundTitle: _i18n.default.getString('outboundCall', currentLocale),
+        missedTitle: _i18n.default.getString('missedCall', currentLocale),
+        type: type
+      }), _react.default.createElement("div", {
+        className: _styles.default.infoWrapper
+      }, _react.default.createElement(_ContactDisplay.default, {
+        isOnConferenceCall: direction === _callDirections.default.outbound && toName === 'Conference',
+        contactName: contactName,
+        reference: function reference(ref) {
+          _this4.contactDisplay = ref;
+        },
+        className: (0, _classnames.default)(_styles.default.contactDisplay, contactDisplayStyle, missed && _styles.default.missed, active && _styles.default.active),
+        selectClassName: _styles.default.dropdownSelect,
+        brand: brand,
+        sourceIcons: sourceIcons,
+        phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
+        contactMatches: contactMatches,
+        selected: this.state.selected,
+        onSelectContact: this.onSelectContact,
+        disabled: disableLinks,
+        isLogging: isLogging || this.state.isLogging,
+        fallBackName: fallbackContactName,
+        enableContactFallback: enableContactFallback,
+        areaCode: areaCode,
+        countryCode: countryCode,
+        phoneNumber: phoneNumber,
+        currentLocale: currentLocale,
+        stopPropagation: false,
+        showType: false,
+        showPlaceholder: showContactDisplayPlaceholder
+      }), _react.default.createElement("div", {
+        className: _styles.default.details
+      }, durationEl, " | ".concat(dateEl).concat(statusEl))), extraButton), _react.default.createElement(_ActionMenu.default, {
+        extended: menuExtended,
+        onToggle: this.toggleExtended,
+        currentLocale: currentLocale,
+        onLog: onLogCall && this.logCall,
+        onViewEntity: onViewContact && this.viewSelectedContact,
+        onCreateEntity: onCreateContact && this.createSelectedContact,
+        createEntityTypes: createEntityTypes,
+        hasEntity: !!contactMatches.length,
+        onClickToDial: onClickToDial && this.clickToDial,
+        onClickToSms: readTextPermission ? function () {
+          return _this4.clickToSms({
+            countryCode: countryCode,
+            areaCode: areaCode
+          });
+        } : undefined,
+        phoneNumber: phoneNumber,
+        disableLinks: disableLinks,
+        disableClickToDial: disableClickToDial,
+        isLogging: isLogging || this.state.isLogging,
+        isLogged: activityMatches.length > 0,
+        isCreating: this.state.isCreating,
+        addLogTitle: _i18n.default.getString('addLog', currentLocale),
+        editLogTitle: _i18n.default.getString('editLog', currentLocale),
+        textTitle: _i18n.default.getString('text', currentLocale),
+        callTitle: _i18n.default.getString('call', currentLocale),
+        createEntityTitle: _i18n.default.getString('addEntity', currentLocale),
+        viewEntityTitle: _i18n.default.getString('viewDetails', currentLocale),
+        externalViewEntity: externalViewEntity && this.externalViewEntity,
+        externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
+        disableClickToSms: disableClickToSms,
+        withAnimation: withAnimation
+      }));
     }
   }]);
+
   return CallItem;
 }(_react.Component);
 
 exports.default = CallItem;
-
-
 CallItem.propTypes = {
-  renderIndex: _propTypes2.default.number,
-  extended: _propTypes2.default.bool,
-  call: _propTypes2.default.shape({
-    direction: _propTypes2.default.string.isRequired,
-    telephonyStatus: _propTypes2.default.string,
-    startTime: _propTypes2.default.number.isRequired,
-    activityMatches: _propTypes2.default.array.isRequired,
-    fromMatches: _propTypes2.default.array.isRequired,
-    toMatches: _propTypes2.default.array.isRequired,
-    from: _propTypes2.default.shape({
-      phoneNumber: _propTypes2.default.string,
-      extensionNumber: _propTypes2.default.string,
-      name: _propTypes2.default.string
+  renderIndex: _propTypes.default.number,
+  extended: _propTypes.default.bool,
+  call: _propTypes.default.shape({
+    direction: _propTypes.default.string.isRequired,
+    telephonyStatus: _propTypes.default.string,
+    startTime: _propTypes.default.number.isRequired,
+    activityMatches: _propTypes.default.array.isRequired,
+    fromMatches: _propTypes.default.array.isRequired,
+    toMatches: _propTypes.default.array.isRequired,
+    from: _propTypes.default.shape({
+      phoneNumber: _propTypes.default.string,
+      extensionNumber: _propTypes.default.string,
+      name: _propTypes.default.string
     }).isRequired,
-    to: _propTypes2.default.shape({
-      phoneNumber: _propTypes2.default.string,
-      extensionNumber: _propTypes2.default.string,
-      name: _propTypes2.default.string
+    to: _propTypes.default.shape({
+      phoneNumber: _propTypes.default.string,
+      extensionNumber: _propTypes.default.string,
+      name: _propTypes.default.string
     }),
-    webphoneSession: _propTypes2.default.object
+    webphoneSession: _propTypes.default.object
   }).isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  brand: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  onLogCall: _propTypes2.default.func,
-  onViewContact: _propTypes2.default.func,
-  onCreateContact: _propTypes2.default.func,
-  createEntityTypes: _propTypes2.default.array,
-  onClickToDial: _propTypes2.default.func,
-  onClickToSms: _propTypes2.default.func,
-  isLoggedContact: _propTypes2.default.func,
-  disableLinks: _propTypes2.default.bool,
-  disableClickToDial: _propTypes2.default.bool,
-  outboundSmsPermission: _propTypes2.default.bool,
-  internalSmsPermission: _propTypes2.default.bool,
-  active: _propTypes2.default.bool.isRequired,
-  dateTimeFormatter: _propTypes2.default.func.isRequired,
-  isLogging: _propTypes2.default.bool,
-  enableContactFallback: _propTypes2.default.bool,
-  autoLog: _propTypes2.default.bool,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  renderContactName: _propTypes2.default.func,
-  renderExtraButton: _propTypes2.default.func,
-  contactDisplayStyle: _propTypes2.default.string,
-  externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.func,
-  readTextPermission: _propTypes2.default.bool,
-  onSizeChanged: _propTypes2.default.func,
-  withAnimation: _propTypes2.default.bool
+  areaCode: _propTypes.default.string.isRequired,
+  brand: _propTypes.default.string.isRequired,
+  countryCode: _propTypes.default.string.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  onLogCall: _propTypes.default.func,
+  onViewContact: _propTypes.default.func,
+  onCreateContact: _propTypes.default.func,
+  createEntityTypes: _propTypes.default.array,
+  onClickToDial: _propTypes.default.func,
+  onClickToSms: _propTypes.default.func,
+  isLoggedContact: _propTypes.default.func,
+  disableLinks: _propTypes.default.bool,
+  disableClickToDial: _propTypes.default.bool,
+  outboundSmsPermission: _propTypes.default.bool,
+  internalSmsPermission: _propTypes.default.bool,
+  active: _propTypes.default.bool.isRequired,
+  dateTimeFormatter: _propTypes.default.func.isRequired,
+  isLogging: _propTypes.default.bool,
+  enableContactFallback: _propTypes.default.bool,
+  autoLog: _propTypes.default.bool,
+  showContactDisplayPlaceholder: _propTypes.default.bool,
+  sourceIcons: _propTypes.default.object,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  renderContactName: _propTypes.default.func,
+  renderExtraButton: _propTypes.default.func,
+  contactDisplayStyle: _propTypes.default.string,
+  externalViewEntity: _propTypes.default.func,
+  externalHasEntity: _propTypes.default.func,
+  readTextPermission: _propTypes.default.bool,
+  onSizeChanged: _propTypes.default.func,
+  withAnimation: _propTypes.default.bool
 };
-
 CallItem.defaultProps = {
   renderIndex: undefined,
   extended: false,

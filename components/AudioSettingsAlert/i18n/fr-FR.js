@@ -3,18 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-var _audioSettingsErrors = require("ringcentral-integration/modules/AudioSettings/audioSettingsErrors");
-
-var _audioSettingsErrors2 = _interopRequireDefault(_audioSettingsErrors);
+var _audioSettingsErrors = _interopRequireDefault(require("ringcentral-integration/modules/AudioSettings/audioSettingsErrors"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _defineProperty3.default)({}, _audioSettingsErrors2.default.userMediaPermission, "Veuillez autoriser {application} à accéder à votre audio.");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[audioSettingsErrors.userMediaPermission]"@#@ @source: @#@"Please grant {application} to access your audio."@#@
+var _default = _defineProperty({}, _audioSettingsErrors.default.userMediaPermission, "Veuillez autoriser {application} à accéder à votre audio."); // @key: @#@"[audioSettingsErrors.userMediaPermission]"@#@ @source: @#@"Please grant {application} to access your audio."@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=fr-FR.js.map

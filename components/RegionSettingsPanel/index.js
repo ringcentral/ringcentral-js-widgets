@@ -1,92 +1,87 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.find");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.regexp.replace");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _ramda = require("ramda");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _ramda = require('ramda');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _react = require('react');
+var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _react2 = _interopRequireDefault(_react);
+var _Panel = _interopRequireDefault(require("../Panel"));
 
-var _propTypes = require('prop-types');
+var _InputField = _interopRequireDefault(require("../InputField"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _TextInput = _interopRequireDefault(require("../TextInput"));
 
-var _classnames = require('classnames');
+var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _SaveButton = _interopRequireDefault(require("../SaveButton"));
 
-var _BackHeader = require('../BackHeader');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _BackHeader2 = _interopRequireDefault(_BackHeader);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _Panel = require('../Panel');
-
-var _Panel2 = _interopRequireDefault(_Panel);
-
-var _InputField = require('../InputField');
-
-var _InputField2 = _interopRequireDefault(_InputField);
-
-var _TextInput = require('../TextInput');
-
-var _TextInput2 = _interopRequireDefault(_TextInput);
-
-var _DropdownSelect = require('../DropdownSelect');
-
-var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
-
-var _SaveButton = require('../SaveButton');
-
-var _SaveButton2 = _interopRequireDefault(_SaveButton);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _countryNames = require('../../lib/countryNames');
-
-var _countryNames2 = _interopRequireDefault(_countryNames);
+var _countryNames = _interopRequireDefault(require("../../lib/countryNames"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var RegionSettings = function (_Component) {
-  (0, _inherits3.default)(RegionSettings, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var RegionSettings =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(RegionSettings, _Component);
 
   function RegionSettings(props) {
-    (0, _classCallCheck3.default)(this, RegionSettings);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (RegionSettings.__proto__ || (0, _getPrototypeOf2.default)(RegionSettings)).call(this, props));
+    _classCallCheck(this, RegionSettings);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RegionSettings).call(this, props));
 
     _this.onAreaCodeChange = function (e) {
       var value = e.currentTarget.value;
+
       _this.setState({
         areaCodeValue: _this.areaCodeInputFilter(value)
       });
@@ -94,6 +89,7 @@ var RegionSettings = function (_Component) {
 
     _this.onCountryCodeChange = function (option) {
       var value = option.isoCode;
+
       if (value !== _this.state.countryCodeValue) {
         _this.setState({
           countryCodeValue: value
@@ -111,6 +107,7 @@ var RegionSettings = function (_Component) {
     _this.onSaveClick = function () {
       if (typeof _this.props.onSave === 'function') {
         var showAreaCode = (0, _ramda.contains)(_this.state.countryCodeValue, ['CA', 'US']);
+
         _this.props.onSave({
           areaCode: showAreaCode ? _this.state.areaCodeValue : undefined,
           countryCode: _this.state.countryCodeValue
@@ -129,17 +126,19 @@ var RegionSettings = function (_Component) {
     };
 
     _this.renderHandler = function (option) {
-      return '(+' + option.callingCode + ') ' + _countryNames2.default.getString(option.isoCode, _this.props.currentLocale);
+      return "(+".concat(option.callingCode, ") ").concat(_countryNames.default.getString(option.isoCode, _this.props.currentLocale));
     };
 
     _this.renderValue = function (value) {
       var selectedOption = _this.props.availableCountries.find(function (country) {
         return country.isoCode === value;
       });
+
       if (!selectedOption) {
         return '';
       }
-      return '(+' + selectedOption.callingCode + ') ' + _countryNames2.default.getString(selectedOption.isoCode, _this.props.currentLocale);
+
+      return "(+".concat(selectedOption.callingCode, ") ").concat(_countryNames.default.getString(selectedOption.isoCode, _this.props.currentLocale));
     };
 
     _this.state = {
@@ -149,14 +148,15 @@ var RegionSettings = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(RegionSettings, [{
-    key: 'componentWillReceiveProps',
+  _createClass(RegionSettings, [{
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.areaCode !== this.props.areaCode) {
         this.setState({
           areaCodeValue: nextProps.areaCode
         });
       }
+
       if (nextProps.countryCode !== this.props.countryCode) {
         this.setState({
           countryCodeValue: nextProps.countryCode
@@ -164,7 +164,7 @@ var RegionSettings = function (_Component) {
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var hasChanges = this.state.areaCodeValue !== this.props.areaCode || this.state.countryCodeValue !== this.props.countryCode;
       var hasNA = !!this.props.availableCountries.find(function (c) {
@@ -172,7 +172,8 @@ var RegionSettings = function (_Component) {
       }) || !!this.props.availableCountries.find(function (c) {
         return c.isoCode === 'CA';
       });
-      var messageId = void 0;
+      var messageId;
+
       if (this.props.availableCountries.length > 1) {
         if (hasNA) {
           messageId = 'MultiWithNAMessage';
@@ -182,86 +183,64 @@ var RegionSettings = function (_Component) {
       } else if (hasNA) {
         messageId = 'NAOnlyMessage';
       }
-      var showAreaCode = this.state.countryCodeValue === 'US' || this.state.countryCodeValue === 'CA';
 
-      return _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
-        _react2.default.createElement(
-          _BackHeader2.default,
-          {
-            buttons: [],
-            onBackClick: this.onBackClick
-          },
-          _i18n2.default.getString('title', this.props.currentLocale)
-        ),
-        _react2.default.createElement(
-          _Panel2.default,
-          { className: _styles2.default.content },
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.hint },
-            _i18n2.default.getString(messageId, this.props.currentLocale)
-          ),
-          _react2.default.createElement(
-            _InputField2.default,
-            {
-              label: _i18n2.default.getString('country', this.props.currentLocale) },
-            _react2.default.createElement(_DropdownSelect2.default, {
-              className: _styles2.default.select,
-              value: this.state.countryCodeValue,
-              onChange: this.onCountryCodeChange,
-              options: this.props.availableCountries,
-              dropdownAlign: 'left',
-              valueFunction: function valueFunction(option) {
-                return option.isoCode;
-              },
-              renderFunction: this.renderHandler,
-              renderValue: this.renderValue,
-              titleEnabled: true
-            })
-          ),
-          showAreaCode && _react2.default.createElement(
-            _InputField2.default,
-            {
-              label: _i18n2.default.getString('areaCode', this.props.currentLocale) },
-            _react2.default.createElement(_TextInput2.default, {
-              placeholder: _i18n2.default.getString('areaCodePlaceholder', this.props.currentLocale),
-              maxLength: 3,
-              filter: this.areaCodeInputFilter,
-              value: this.state.areaCodeValue,
-              onChange: this.onAreaCodeChange })
-          ),
-          _react2.default.createElement(_SaveButton2.default, {
-            currentLocale: this.props.currentLocale,
-            onClick: this.onSaveClick,
-            disabled: !hasChanges
-          }),
-          this.props.children
-        )
-      );
+      var showAreaCode = this.state.countryCodeValue === 'US' || this.state.countryCodeValue === 'CA';
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.root, this.props.className)
+      }, _react.default.createElement(_BackHeader.default, {
+        buttons: [],
+        onBackClick: this.onBackClick
+      }, _i18n.default.getString('title', this.props.currentLocale)), _react.default.createElement(_Panel.default, {
+        className: _styles.default.content
+      }, _react.default.createElement("div", {
+        className: _styles.default.hint
+      }, _i18n.default.getString(messageId, this.props.currentLocale)), _react.default.createElement(_InputField.default, {
+        label: _i18n.default.getString('country', this.props.currentLocale)
+      }, _react.default.createElement(_DropdownSelect.default, {
+        className: _styles.default.select,
+        value: this.state.countryCodeValue,
+        onChange: this.onCountryCodeChange,
+        options: this.props.availableCountries,
+        dropdownAlign: "left",
+        valueFunction: function valueFunction(option) {
+          return option.isoCode;
+        },
+        renderFunction: this.renderHandler,
+        renderValue: this.renderValue,
+        titleEnabled: true
+      })), showAreaCode && _react.default.createElement(_InputField.default, {
+        label: _i18n.default.getString('areaCode', this.props.currentLocale)
+      }, _react.default.createElement(_TextInput.default, {
+        placeholder: _i18n.default.getString('areaCodePlaceholder', this.props.currentLocale),
+        maxLength: 3,
+        filter: this.areaCodeInputFilter,
+        value: this.state.areaCodeValue,
+        onChange: this.onAreaCodeChange
+      })), _react.default.createElement(_SaveButton.default, {
+        currentLocale: this.props.currentLocale,
+        onClick: this.onSaveClick,
+        disabled: !hasChanges
+      }), this.props.children));
     }
   }]);
+
   return RegionSettings;
 }(_react.Component);
 
 exports.default = RegionSettings;
-
-
 RegionSettings.propTypes = {
-  className: _propTypes2.default.string,
-  children: _propTypes2.default.node,
-  onBackButtonClick: _propTypes2.default.func,
-  currentLocale: _propTypes2.default.string.isRequired,
-  availableCountries: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    isoCode: _propTypes2.default.string,
-    callingCode: _propTypes2.default.string
+  className: _propTypes.default.string,
+  children: _propTypes.default.node,
+  onBackButtonClick: _propTypes.default.func,
+  currentLocale: _propTypes.default.string.isRequired,
+  availableCountries: _propTypes.default.arrayOf(_propTypes.default.shape({
+    isoCode: _propTypes.default.string,
+    callingCode: _propTypes.default.string
   })).isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  onSave: _propTypes2.default.func
+  countryCode: _propTypes.default.string.isRequired,
+  areaCode: _propTypes.default.string.isRequired,
+  onSave: _propTypes.default.func
 };
-
 RegionSettings.defaultProps = {
   className: undefined,
   children: undefined,

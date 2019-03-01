@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: "Region",
   NAOnlyMessage: "Please set your area code. This will be used for local dialing.",
   MultiWithNAMessage: "Please set the country and area code for your region. This will be used for local dialing and phone number formatting.",
@@ -11,13 +14,13 @@ exports.default = {
   country: "Country",
   areaCode: "Area Code",
   areaCodePlaceholder: "Enter Area Code"
-};
-
-// @key: @#@"title"@#@ @source: @#@"Region"@#@
+}; // @key: @#@"title"@#@ @source: @#@"Region"@#@
 // @key: @#@"NAOnlyMessage"@#@ @source: @#@"Please set your area code. This will be used for local dialing."@#@
 // @key: @#@"MultiWithNAMessage"@#@ @source: @#@"Please set the country and area code for your region. This will be used for local dialing and phone number formatting."@#@
 // @key: @#@"MultiWithoutNAMessage"@#@ @source: @#@"Please select the country you locate in. This will be used for local dialing and phone number formatting."@#@
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
+
+exports.default = _default;
 //# sourceMappingURL=en-CA.js.map

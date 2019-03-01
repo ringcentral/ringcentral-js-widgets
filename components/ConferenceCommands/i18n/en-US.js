@@ -1,9 +1,12 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: 'Conference Commands',
   starSharp2Title: 'Caller Count',
   starSharp2Body: 'Keep track of how many people are on the call',
@@ -22,4 +25,5 @@ exports.default = {
   star9Title: 'Record your conference',
   star9Body: 'Press once to START recording\nPress again to STOP recording'
 };
+exports.default = _default;
 //# sourceMappingURL=en-US.js.map

@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/Dialog/i18n/en-US.js"],"names":["cancel","confirm"],"mappings":";;;;;kBAAe;AACbA,UAAQ,QADK;AAEbC,WAAS;AAFI,C","file":"en-US.js","sourcesContent":["export default {\n  cancel: 'Cancel',\n  confirm: 'Confirm',\n};\n"]}
+{"version":3,"sources":["components/Dialog/i18n/en-US.js"],"names":["cancel","confirm"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,MAAM,EAAE,QADK;AAEbC,EAAAA,OAAO,EAAE;AAFI,C","sourcesContent":["export default {\n  cancel: 'Cancel',\n  confirm: 'Confirm',\n};\n"],"file":"en-US.js"}

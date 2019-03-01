@@ -1,127 +1,144 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.for-each");
 
-var _keys = require('babel-runtime/core-js/object/keys');
+require("core-js/modules/es6.array.filter");
 
-var _keys2 = _interopRequireDefault(_keys);
+require("core-js/modules/es6.array.index-of");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/web.dom.iterable");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.iterator");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("regenerator-runtime/runtime");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.assign");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.create");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _react = _interopRequireWildcard(require("react"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _reactRedux = require("react-redux");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _reselect = require("reselect");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _ramda = require("ramda");
 
-var _class, _temp;
+var _withPhone = _interopRequireDefault(require("../../lib/withPhone"));
 
-var _react = require('react');
+var _CallsOnholdPanel = _interopRequireDefault(require("../../components/CallsOnholdPanel"));
 
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactRedux = require('react-redux');
-
-var _callDirections = require('ringcentral-integration/enums/callDirections');
-
-var _callDirections2 = _interopRequireDefault(_callDirections);
-
-var _reselect = require('reselect');
-
-var _ramda = require('ramda');
-
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
-
-var _CallsOnholdPanel = require('../../components/CallsOnholdPanel');
-
-var _CallsOnholdPanel2 = _interopRequireDefault(_CallsOnholdPanel);
-
-var _ActiveCallsPage = require('../ActiveCallsPage');
+var _ActiveCallsPage = require("../ActiveCallsPage");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CallsOnholdContainer = (_temp = _class = function (_Component) {
-  (0, _inherits3.default)(CallsOnholdContainer, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var CallsOnholdContainer =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(CallsOnholdContainer, _Component);
 
   function CallsOnholdContainer(props) {
-    (0, _classCallCheck3.default)(this, CallsOnholdContainer);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallsOnholdContainer.__proto__ || (0, _getPrototypeOf2.default)(CallsOnholdContainer)).call(this, props));
+    _classCallCheck(this, CallsOnholdContainer);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallsOnholdContainer).call(this, props));
     _this.getCalls = (0, _reselect.createSelector)(function () {
       return _this.props.calls;
     }, function () {
       return _this.props.fromSessionId;
     }, function (calls, fromSessionId) {
       return (0, _ramda.filter)(function (call) {
-        return call.webphoneSession && call.direction !== _callDirections2.default.inbound && !_this.props.isConferenceSession(call.webphoneSession) && call.webphoneSession.id !== fromSessionId;
+        return call.webphoneSession && call.direction !== _callDirections.default.inbound && !_this.props.isConferenceSession(call.webphoneSession) && call.webphoneSession.id !== fromSessionId;
       }, calls);
     });
     return _this;
   }
 
-  (0, _createClass3.default)(CallsOnholdContainer, [{
-    key: 'render',
+  _createClass(CallsOnholdContainer, [{
+    key: "render",
     value: function render() {
-      return _react2.default.createElement(_CallsOnholdPanel2.default, (0, _extends3.default)({}, this.props, { calls: this.getCalls() }));
+      return _react.default.createElement(_CallsOnholdPanel.default, _extends({}, this.props, {
+        calls: this.getCalls()
+      }));
     }
   }]);
-  return CallsOnholdContainer;
-}(_react.Component), _class.propTypes = {
-  calls: _propTypes2.default.arrayOf(_propTypes2.default.object).isRequired,
-  fromSessionId: _propTypes2.default.string.isRequired,
-  isConferenceSession: _propTypes2.default.func.isRequired
-}, _temp);
 
+  return CallsOnholdContainer;
+}(_react.Component);
+
+CallsOnholdContainer.propTypes = {
+  calls: _propTypes.default.arrayOf(_propTypes.default.object).isRequired,
+  fromSessionId: _propTypes.default.string.isRequired,
+  isConferenceSession: _propTypes.default.func.isRequired
+};
 
 function mapToProps(_, _ref) {
   var phone = _ref.phone,
       callMonitor = _ref.phone.callMonitor,
       params = _ref.params,
-      props = (0, _objectWithoutProperties3.default)(_ref, ['phone', 'phone', 'params']);
-  var fromSessionId = params.fromSessionId;
+      props = _objectWithoutProperties(_ref, ["phone", "phone", "params"]);
 
-  var baseProps = (0, _ActiveCallsPage.mapToProps)(_, (0, _extends3.default)({
+  var fromSessionId = params.fromSessionId;
+  var baseProps = (0, _ActiveCallsPage.mapToProps)(_, _objectSpread({
     phone: phone
   }, props));
-
-  return (0, _extends3.default)({}, baseProps, {
+  return _objectSpread({}, baseProps, {
     calls: callMonitor.calls,
     fromSessionId: fromSessionId
   });
@@ -136,25 +153,25 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       callMonitor = _ref2$phone.callMonitor,
       getAvatarUrl = _ref2.getAvatarUrl,
-      props = (0, _objectWithoutProperties3.default)(_ref2, ['params', 'phone', 'phone', 'getAvatarUrl']);
+      props = _objectWithoutProperties(_ref2, ["params", "phone", "phone", "getAvatarUrl"]);
+
   var fromSessionId = params.fromSessionId;
-
-
-  var baseProps = (0, _ActiveCallsPage.mapToFunctions)(_, (0, _extends3.default)({
+  var baseProps = (0, _ActiveCallsPage.mapToFunctions)(_, _objectSpread({
     params: params,
     phone: phone
   }, props));
-  return (0, _extends3.default)({}, baseProps, {
+  return _objectSpread({}, baseProps, {
     onMerge: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
+      var _onMerge = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(sessionId) {
         var sessions, confId, confSessionId;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 // to track user click merge
                 callMonitor.callsOnHoldClickMergeTrack();
-
                 _context.next = 3;
                 return conferenceCall.parseMergingSessions({
                   sessionId: sessionId,
@@ -169,28 +186,28 @@ function mapToFunctions(_, _ref2) {
                   break;
                 }
 
-                confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
+                confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
 
                 if (confId) {
                   confSessionId = conferenceCall.conferences[confId].sessionId;
-
-                  routerInteraction.push('/calls/active/' + confSessionId);
+                  routerInteraction.push("/calls/active/".concat(confSessionId));
                 } else {
                   routerInteraction.goBack();
                 }
+
                 _context.next = 9;
                 return conferenceCall.mergeSessions(sessions);
 
               case 9:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee);
       }));
 
       function onMerge(_x) {
-        return _ref3.apply(this, arguments);
+        return _onMerge.apply(this, arguments);
       }
 
       return onMerge;
@@ -200,39 +217,41 @@ function mapToFunctions(_, _ref2) {
         routerInteraction.goBack();
         return;
       }
+
       phone.routerInteraction.go(-2);
     },
     onAdd: function onAdd() {
       // to track use click add button
       callMonitor.callsOnHoldClickAddTrack();
-      routerInteraction.push('/conferenceCall/dialer/' + params.fromNumber + '/' + params.fromSessionId);
+      routerInteraction.push("/conferenceCall/dialer/".concat(params.fromNumber, "/").concat(params.fromSessionId));
     },
-
     getAvatarUrl: getAvatarUrl,
     isConferenceSession: function isConferenceSession() {
       return conferenceCall.isConferenceSession.apply(conferenceCall, arguments);
     },
     webphoneHangup: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+      var _webphoneHangup = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
         var _args2 = arguments;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 // track user click hangup on calls onhold page
                 callMonitor.callsOnHoldClickHangupTrack();
-                return _context2.abrupt('return', webphone && webphone.hangup.apply(webphone, _args2));
+                return _context2.abrupt("return", webphone && webphone.hangup.apply(webphone, _args2));
 
               case 2:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2);
       }));
 
       function webphoneHangup() {
-        return _ref4.apply(this, arguments);
+        return _webphoneHangup.apply(this, arguments);
       }
 
       return webphoneHangup;
@@ -240,7 +259,7 @@ function mapToFunctions(_, _ref2) {
   });
 }
 
-var CallsOnholdPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallsOnholdContainer));
-
-exports.default = CallsOnholdPage;
+var CallsOnholdPage = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallsOnholdContainer));
+var _default = CallsOnholdPage;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

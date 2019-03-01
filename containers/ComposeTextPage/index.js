@@ -1,25 +1,23 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.mapToFunctions = exports.mapToProps = undefined;
+exports.mapToProps = mapToProps;
+exports.mapToFunctions = mapToFunctions;
+exports.default = void 0;
 
-var _reactRedux = require('react-redux');
+var _reactRedux = require("react-redux");
 
-var _formatNumber = require('ringcentral-integration/lib/formatNumber');
+var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
+var _messageSenderMessages = _interopRequireDefault(require("ringcentral-integration/modules/MessageSender/messageSenderMessages"));
 
-var _messageSenderMessages = require('ringcentral-integration/modules/MessageSender/messageSenderMessages');
+var _ComposeTextPanel = _interopRequireDefault(require("../../components/ComposeTextPanel"));
 
-var _messageSenderMessages2 = _interopRequireDefault(_messageSenderMessages);
-
-var _ComposeTextPanel = require('../../components/ComposeTextPanel');
-
-var _ComposeTextPanel2 = _interopRequireDefault(_ComposeTextPanel);
-
-var _phoneContext = require('../../lib/phoneContext');
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,7 +32,6 @@ function mapToProps(_, _ref) {
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
       brand = _ref$phone.brand,
       inputExpandable = _ref.inputExpandable;
-
   return {
     brand: brand.fullName,
     currentLocale: locale.currentLocale,
@@ -60,8 +57,8 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       conversations = _ref2$phone.conversations,
       _ref2$formatContactPh = _ref2.formatContactPhone,
-      formatContactPhone = _ref2$formatContactPh === undefined ? function (phoneNumber) {
-    return (0, _formatNumber2.default)({
+      formatContactPhone = _ref2$formatContactPh === void 0 ? function (phoneNumber) {
+    return (0, _formatNumber.default)({
       phoneNumber: phoneNumber,
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode
@@ -71,13 +68,13 @@ function mapToFunctions(_, _ref2) {
       phoneSourceNameRenderer = _ref2.phoneSourceNameRenderer,
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
-
   return {
     send: function send() {
       var timeout = setTimeout(function () {
         if (routerInteraction.currentPath === '/composeText') {
           composeText.alertMessageSending();
         }
+
         if (timeout) {
           clearTimeout(timeout);
           timeout = null;
@@ -88,20 +85,27 @@ function mapToFunctions(_, _ref2) {
           clearTimeout(timeout);
           timeout = null;
         }
+
         composeText.dismissMessageSending();
+
         if (!responses || responses.length === 0) {
           return null;
         }
+
         messageStore.pushMessages(responses);
+
         if (responses.length === 1) {
           var conversationId = responses[0] && responses[0].conversation && responses[0].conversation.id;
+
           if (!conversationId) {
             return null;
           }
-          routerInteraction.push('/conversations/' + conversationId);
+
+          routerInteraction.push("/conversations/".concat(conversationId));
         } else {
           routerInteraction.push('/messages');
         }
+
         conversations.relateCorrespondentEntity(responses);
         composeText.clean();
         return null;
@@ -112,11 +116,12 @@ function mapToFunctions(_, _ref2) {
         }
       });
     },
-
     formatPhone: formatContactPhone,
     formatContactPhone: formatContactPhone,
     searchContact: function searchContact(searchString) {
-      return contactSearch.debouncedSearch({ searchString: searchString });
+      return contactSearch.debouncedSearch({
+        searchString: searchString
+      });
     },
     updateSenderNumber: function updateSenderNumber(_ref3) {
       var phoneNumber = _ref3.phoneNumber;
@@ -144,9 +149,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ComposeTextPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel2.default));
-
-exports.mapToProps = mapToProps;
-exports.mapToFunctions = mapToFunctions;
+var ComposeTextPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel.default));
 exports.default = ComposeTextPage;
 //# sourceMappingURL=index.js.map

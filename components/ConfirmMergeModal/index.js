@@ -1,41 +1,29 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = ConfirmMergeModal;
 
-var _react = require('react');
+require("core-js/modules/es6.array.map");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _i18n = require('./i18n');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _Modal = _interopRequireDefault(require("../Modal"));
 
-var _styles = require('./styles.scss');
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
-var _styles2 = _interopRequireDefault(_styles);
+var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
-var _Modal = require('../Modal');
-
-var _Modal2 = _interopRequireDefault(_Modal);
-
-var _CircleButton = require('../CircleButton');
-
-var _CircleButton2 = _interopRequireDefault(_CircleButton);
-
-var _CallAvatar = require('../CallAvatar');
-
-var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
-
-var _MergeIntoConferenceIcon = require('../../assets/images/MergeIntoConferenceIcon.svg');
-
-var _MergeIntoConferenceIcon2 = _interopRequireDefault(_MergeIntoConferenceIcon);
+var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45,80 +33,58 @@ function ConfirmMergeModal(_ref) {
       onMerge = _ref.onMerge,
       onCancel = _ref.onCancel,
       partyProfiles = _ref.partyProfiles;
-
   var avatarUrls = partyProfiles.map(function (profile) {
     return profile.avatarUrl;
   });
-  return _react2.default.createElement(
-    _Modal2.default,
-    {
-      show: show,
-      headerClassName: _styles2.default.header,
-      currentLocale: currentLocale,
-      className: _styles2.default.confirmMergeModal,
-      modalClassName: _styles2.default.confirmMergeModal,
-      cancelBtnClassName: _styles2.default.cancelBtn,
-      confirmBtnClassName: _styles2.default.confirmBtn,
-      title: _i18n2.default.getString('confirmation', currentLocale),
-      onCancel: onCancel,
-      footerClassName: _styles2.default.footer
+  return _react.default.createElement(_Modal.default, {
+    show: show,
+    headerClassName: _styles.default.header,
+    currentLocale: currentLocale,
+    className: _styles.default.confirmMergeModal,
+    modalClassName: _styles.default.confirmMergeModal,
+    cancelBtnClassName: _styles.default.cancelBtn,
+    confirmBtnClassName: _styles.default.confirmBtn,
+    title: _i18n.default.getString('confirmation', currentLocale),
+    onCancel: onCancel,
+    footerClassName: _styles.default.footer
+  }, _react.default.createElement("div", {
+    className: _styles.default.contentText
+  }, _i18n.default.getString('confirmMergeToConference', currentLocale)), _react.default.createElement("div", {
+    className: _styles.default.content
+  }, _react.default.createElement("div", {
+    className: _styles.default.contentText
+  }, _react.default.createElement("div", {
+    className: _styles.default.avatar
+  }, _react.default.createElement(_CallAvatar.default, {
+    avatarUrl: avatarUrls[0],
+    isOnConferenceCall: true,
+    extraNum: avatarUrls.length - 1
+  })), _react.default.createElement("span", null, _i18n.default.getString('conferenceCall', currentLocale))), _react.default.createElement("span", {
+    title: _i18n.default.getString('mergeToConference', currentLocale),
+    className: _styles.default.webphoneButton
+  }, _react.default.createElement(_CircleButton.default, {
+    className: _styles.default.mergeButton,
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      onMerge();
     },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.contentText },
-      _i18n2.default.getString('confirmMergeToConference', currentLocale)
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.content },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.contentText },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.avatar },
-          _react2.default.createElement(_CallAvatar2.default, {
-            avatarUrl: avatarUrls[0],
-            isOnConferenceCall: true,
-            extraNum: avatarUrls.length - 1
-          })
-        ),
-        _react2.default.createElement(
-          'span',
-          null,
-          _i18n2.default.getString('conferenceCall', currentLocale)
-        )
-      ),
-      _react2.default.createElement(
-        'span',
-        { title: _i18n2.default.getString('mergeToConference', currentLocale), className: _styles2.default.webphoneButton },
-        _react2.default.createElement(_CircleButton2.default, {
-          className: _styles2.default.mergeButton,
-          onClick: function onClick(e) {
-            e.stopPropagation();
-            onMerge();
-          },
-          iconWidth: 260,
-          iconX: 120,
-          icon: _MergeIntoConferenceIcon2.default,
-          showBorder: false
-        })
-      )
-    )
-  );
+    iconWidth: 260,
+    iconX: 120,
+    icon: _MergeIntoConferenceIcon.default,
+    showBorder: false
+  }))));
 }
-ConfirmMergeModal.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  show: _propTypes2.default.bool.isRequired,
-  onMerge: _propTypes2.default.func,
-  onCancel: _propTypes2.default.func,
-  partyProfiles: _propTypes2.default.arrayOf(_propTypes2.default.object)
-};
 
+ConfirmMergeModal.propTypes = {
+  currentLocale: _propTypes.default.string.isRequired,
+  show: _propTypes.default.bool.isRequired,
+  onMerge: _propTypes.default.func,
+  onCancel: _propTypes.default.func,
+  partyProfiles: _propTypes.default.arrayOf(_propTypes.default.object)
+};
 ConfirmMergeModal.defaultProps = {
   onMerge: function onMerge() {},
   onCancel: function onCancel() {},
-
   partyProfiles: []
 };
 //# sourceMappingURL=index.js.map

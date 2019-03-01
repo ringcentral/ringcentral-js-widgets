@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   unmute: "Riattiva audio",
   mute: "Disattiva audio",
   keypad: "Tastierino",
@@ -17,9 +20,7 @@ exports.default = {
   flip: "Commuta",
   more: "Azioni chiamata",
   mergeToConference: "Unisci"
-};
-
-// @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
+}; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -32,4 +33,6 @@ exports.default = {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+
+exports.default = _default;
 //# sourceMappingURL=it-IT.js.map

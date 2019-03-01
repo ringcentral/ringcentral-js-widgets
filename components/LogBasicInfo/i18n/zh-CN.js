@@ -1,32 +1,25 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _callResults = _interopRequireDefault(require("ringcentral-integration/enums/callResults"));
+
+var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
+
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
 var _callDirections$inbou;
 
-var _callResults = require('ringcentral-integration/enums/callResults');
-
-var _callResults2 = _interopRequireDefault(_callResults);
-
-var _telephonyStatus = require('ringcentral-integration/enums/telephonyStatus');
-
-var _telephonyStatus2 = _interopRequireDefault(_telephonyStatus);
-
-var _callDirections = require('ringcentral-integration/enums/callDirections');
-
-var _callDirections2 = _interopRequireDefault(_callDirections);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_callDirections$inbou = {}, (0, _defineProperty3.default)(_callDirections$inbou, _callDirections2.default.inbound, "呼入"), (0, _defineProperty3.default)(_callDirections$inbou, _callDirections2.default.outbound, "呼出"), (0, _defineProperty3.default)(_callDirections$inbou, 'status', "状态："), (0, _defineProperty3.default)(_callDirections$inbou, 'InboundNumber', "主叫显示号码："), (0, _defineProperty3.default)(_callDirections$inbou, 'OutboundNumber', "被叫："), (0, _defineProperty3.default)(_callDirections$inbou, 'InboundDirection', "呼入自："), (0, _defineProperty3.default)(_callDirections$inbou, 'OutboundDirection', "呼出至："), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.noCall, "已断开连接"), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.callConnected, "已连接"), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.ringing, "正在振铃"), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.onHold, "等候接听"), (0, _defineProperty3.default)(_callDirections$inbou, _telephonyStatus2.default.parkedCall, "已寄存"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.unknown, "未知"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.missed, "未接"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.callAccepted, "已接"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.accepted, "已接"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.voicemail, "语音邮件"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.rejected, "已拒绝"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.reply, "回复"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.received, "已接收"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.faxReceiptError, "传真接收错误"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.faxOnDemand, "按需传真"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.partialReceive, "部分接收"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.blocked, "已阻止"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.callConnected, "已断开连接"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.noAnswer, "无人接听"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.internationalDisabled, "国际功能已停用"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.busy, "忙碌"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.faxSendError, "传真发送错误"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.sent, "已发送"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.callFailed, "呼叫失败"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.internalError, "内部错误"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.IPPhoneOffline, "网络电话离线"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.restrictedNumber, "限制号码"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.wrongNumber, "错误号码"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.stopped, "已停止"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.suspendedAccount, "已暂停账户"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.hangUp, "已挂断"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.HangUp, "已挂断"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.abandoned, "已放弃"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.declined, "已拒绝"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.faxReceipt, "传真接收"), (0, _defineProperty3.default)(_callDirections$inbou, _callResults2.default.disconnected, "已断开连接"), _callDirections$inbou);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
+var _default = (_callDirections$inbou = {}, _defineProperty(_callDirections$inbou, _callDirections.default.inbound, "呼入"), _defineProperty(_callDirections$inbou, _callDirections.default.outbound, "呼出"), _defineProperty(_callDirections$inbou, "status", "状态："), _defineProperty(_callDirections$inbou, "InboundNumber", "主叫显示号码："), _defineProperty(_callDirections$inbou, "OutboundNumber", "被叫："), _defineProperty(_callDirections$inbou, "InboundDirection", "呼入自："), _defineProperty(_callDirections$inbou, "OutboundDirection", "呼出至："), _defineProperty(_callDirections$inbou, _telephonyStatus.default.noCall, "已断开连接"), _defineProperty(_callDirections$inbou, _telephonyStatus.default.callConnected, "已连接"), _defineProperty(_callDirections$inbou, _telephonyStatus.default.ringing, "正在振铃"), _defineProperty(_callDirections$inbou, _telephonyStatus.default.onHold, "等候接听"), _defineProperty(_callDirections$inbou, _telephonyStatus.default.parkedCall, "已寄存"), _defineProperty(_callDirections$inbou, _callResults.default.unknown, "未知"), _defineProperty(_callDirections$inbou, _callResults.default.missed, "未接"), _defineProperty(_callDirections$inbou, _callResults.default.callAccepted, "已接"), _defineProperty(_callDirections$inbou, _callResults.default.accepted, "已接"), _defineProperty(_callDirections$inbou, _callResults.default.voicemail, "语音邮件"), _defineProperty(_callDirections$inbou, _callResults.default.rejected, "已拒绝"), _defineProperty(_callDirections$inbou, _callResults.default.reply, "回复"), _defineProperty(_callDirections$inbou, _callResults.default.received, "已接收"), _defineProperty(_callDirections$inbou, _callResults.default.faxReceiptError, "传真接收错误"), _defineProperty(_callDirections$inbou, _callResults.default.faxOnDemand, "按需传真"), _defineProperty(_callDirections$inbou, _callResults.default.partialReceive, "部分接收"), _defineProperty(_callDirections$inbou, _callResults.default.blocked, "已阻止"), _defineProperty(_callDirections$inbou, _callResults.default.callConnected, "已断开连接"), _defineProperty(_callDirections$inbou, _callResults.default.noAnswer, "无人接听"), _defineProperty(_callDirections$inbou, _callResults.default.internationalDisabled, "国际功能已停用"), _defineProperty(_callDirections$inbou, _callResults.default.busy, "忙碌"), _defineProperty(_callDirections$inbou, _callResults.default.faxSendError, "传真发送错误"), _defineProperty(_callDirections$inbou, _callResults.default.sent, "已发送"), _defineProperty(_callDirections$inbou, _callResults.default.callFailed, "呼叫失败"), _defineProperty(_callDirections$inbou, _callResults.default.internalError, "内部错误"), _defineProperty(_callDirections$inbou, _callResults.default.IPPhoneOffline, "网络电话离线"), _defineProperty(_callDirections$inbou, _callResults.default.restrictedNumber, "限制号码"), _defineProperty(_callDirections$inbou, _callResults.default.wrongNumber, "错误号码"), _defineProperty(_callDirections$inbou, _callResults.default.stopped, "已停止"), _defineProperty(_callDirections$inbou, _callResults.default.suspendedAccount, "已暂停账户"), _defineProperty(_callDirections$inbou, _callResults.default.hangUp, "已挂断"), _defineProperty(_callDirections$inbou, _callResults.default.HangUp, "已挂断"), _defineProperty(_callDirections$inbou, _callResults.default.abandoned, "已放弃"), _defineProperty(_callDirections$inbou, _callResults.default.declined, "已拒绝"), _defineProperty(_callDirections$inbou, _callResults.default.faxReceipt, "传真接收"), _defineProperty(_callDirections$inbou, _callResults.default.disconnected, "已断开连接"), _callDirections$inbou); // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"[callDirections.outbound]"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"status"@#@ @source: @#@"Status:"@#@
 // @key: @#@"InboundNumber"@#@ @source: @#@"Caller Id:"@#@
@@ -69,4 +62,7 @@ exports.default = (_callDirections$inbou = {}, (0, _defineProperty3.default)(_ca
 // @key: @#@"[callResults.declined]"@#@ @source: @#@"Declined"@#@
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=zh-CN.js.map

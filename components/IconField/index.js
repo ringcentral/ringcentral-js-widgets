@@ -1,52 +1,39 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = IconField;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function IconField(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: props.className },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.content, title: props.title },
-      props.children
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.iconHolder },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.icon },
-        props.icon
-      )
-    )
-  );
+  return _react.default.createElement("div", {
+    className: props.className
+  }, _react.default.createElement("div", {
+    className: _styles.default.content,
+    title: props.title
+  }, props.children), _react.default.createElement("div", {
+    className: _styles.default.iconHolder
+  }, _react.default.createElement("div", {
+    className: _styles.default.icon
+  }, props.icon)));
 }
 
 IconField.propTypes = {
-  children: _propTypes2.default.node,
-  icon: _propTypes2.default.node,
-  className: _propTypes2.default.string,
-  title: _propTypes2.default.string
+  children: _propTypes.default.node,
+  icon: _propTypes.default.node,
+  className: _propTypes.default.string,
+  title: _propTypes.default.string
 };
-
 IconField.defaultProps = {
   title: null
 };

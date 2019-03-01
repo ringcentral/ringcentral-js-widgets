@@ -1,53 +1,57 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.filter");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.CallCtrlContainer = exports.mapToFunctions = exports.mapToProps = undefined;
+exports.mapToProps = mapToProps;
+exports.mapToFunctions = mapToFunctions;
+Object.defineProperty(exports, "CallCtrlContainer", {
+  enumerable: true,
+  get: function get() {
+    return _CallCtrlContainer.default;
+  }
+});
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("regenerator-runtime/runtime");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/web.dom.iterable");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.iterator");
 
-var _values = require('babel-runtime/core-js/object/values');
+require("core-js/modules/es7.object.values");
 
-var _values2 = _interopRequireDefault(_values);
+require("core-js/modules/es6.array.find");
 
-var _ramda = require('ramda');
+var _ramda = require("ramda");
 
-var _reactRedux = require('react-redux');
+var _reactRedux = require("react-redux");
 
-var _formatNumber = require('ringcentral-integration/lib/formatNumber');
+var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _callDirections = require('ringcentral-integration/enums/callDirections');
+var _callingModes = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingModes"));
 
-var _callDirections2 = _interopRequireDefault(_callDirections);
+var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
 
-var _callingModes = require('ringcentral-integration/modules/CallingSettings/callingModes');
+var _phoneContext = require("../../lib/phoneContext");
 
-var _callingModes2 = _interopRequireDefault(_callingModes);
+var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
 
-var _sessionStatus = require('ringcentral-integration/modules/Webphone/sessionStatus');
-
-var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
-
-var _phoneContext = require('../../lib/phoneContext');
-
-var _callCtrlLayouts = require('../../enums/callCtrlLayouts');
-
-var _callCtrlLayouts2 = _interopRequireDefault(_callCtrlLayouts);
-
-var _CallCtrlContainer = require('./CallCtrlContainer');
-
-var _CallCtrlContainer2 = _interopRequireDefault(_CallCtrlContainer);
+var _CallCtrlContainer = _interopRequireDefault(require("./CallCtrlContainer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -63,9 +67,8 @@ function mapToProps(_, _ref) {
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
       params = _ref.params,
       children = _ref.children;
-
   var sessionId = params && params.sessionId;
-  var currentSession = void 0;
+  var currentSession;
 
   if (sessionId) {
     currentSession = webphone.sessions.find(function (session) {
@@ -78,23 +81,21 @@ function mapToProps(_, _ref) {
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
   var fromMatches = contactMapping && contactMapping[currentSession.from] || [];
   var toMatches = contactMapping && contactMapping[currentSession.to] || [];
-  var nameMatches = currentSession.direction === _callDirections2.default.outbound ? toMatches : fromMatches;
-
-  var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
-  var isInboundCall = currentSession.direction === _callDirections2.default.inbound;
-
+  var nameMatches = currentSession.direction === _callDirections.default.outbound ? toMatches : fromMatches;
+  var isWebRTC = callingSettings.callingMode === _callingModes.default.webphone;
+  var isInboundCall = currentSession.direction === _callDirections.default.inbound;
   var isOnConference = false;
   var hasConferenceCall = false;
   var isMerging = false;
-  var conferenceCallParties = void 0;
+  var conferenceCallParties;
   var conferenceCallId = null;
   var lastCallInfo = conferenceCall && conferenceCall.lastCallInfo;
   var isConferenceCallOverload = false;
   var conferenceCallEquipped = !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
+
   if (conferenceCallEquipped) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
-    var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
-
+    var conferenceData = Object.values(conferenceCall.conferences)[0];
     isMerging = conferenceCall.isMerging;
 
     if (conferenceData && isWebRTC) {
@@ -104,10 +105,9 @@ function mapToProps(_, _ref) {
 
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
-
     var fromSessionId = conferenceCall.mergingPair.fromSessionId;
 
-    if (!isInboundCall && fromSessionId && fromSessionId !== currentSession.id && lastCallInfo && lastCallInfo.status && lastCallInfo.status !== _sessionStatus2.default.finished) {
+    if (!isInboundCall && fromSessionId && fromSessionId !== currentSession.id && lastCallInfo && lastCallInfo.status && lastCallInfo.status !== _sessionStatus.default.finished) {
       // for mergeCtrl page, we don't show any children (container) component.
       children = null;
     }
@@ -121,7 +121,8 @@ function mapToProps(_, _ref) {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     flipNumbers: forwardingNumber.flipNumbers,
-    showBackButton: true, // callMonitor.calls.length > 0,
+    showBackButton: true,
+    // callMonitor.calls.length > 0,
     searchContactList: contactSearch.sortedResult,
     showSpinner: isMerging,
     conferenceCallEquipped: conferenceCallEquipped,
@@ -148,43 +149,38 @@ function mapToFunctions(_, _ref2) {
       onBackButtonClick = _ref2.onBackButtonClick,
       phoneTypeRenderer = _ref2.phoneTypeRenderer,
       phoneSourceNameRenderer = _ref2.phoneSourceNameRenderer;
-
   return {
     getInitialLayout: function getInitialLayout(_ref3) {
       var conferenceCallEquipped = _ref3.conferenceCallEquipped,
           isOnConference = _ref3.isOnConference,
           lastCallInfo = _ref3.lastCallInfo,
           session = _ref3.session;
-
-      var layout = _callCtrlLayouts2.default.normalCtrl;
+      var layout = _callCtrlLayouts.default.normalCtrl;
 
       if (!conferenceCallEquipped) {
         return layout;
       }
 
       if (isOnConference) {
-        return _callCtrlLayouts2.default.conferenceCtrl;
+        return _callCtrlLayouts.default.conferenceCtrl;
       }
-      var isInboundCall = session.direction === _callDirections2.default.inbound;
 
+      var isInboundCall = session.direction === _callDirections.default.inbound;
       var fromSessionId = conferenceCall.mergingPair.fromSessionId;
-
       var fromSession = (0, _ramda.find)(function (x) {
         return x.id === fromSessionId;
       }, webphone.sessions);
-
       var activeSessionId = webphone && webphone.activeSession && webphone.activeSession.id;
 
-      if (!isOnConference && !isInboundCall && fromSession && fromSessionId !== session.id && lastCallInfo && (session.callStatus !== _sessionStatus2.default.onHold || session.callStatus === _sessionStatus2.default.onHold && session.id === activeSessionId)) {
+      if (!isOnConference && !isInboundCall && fromSession && fromSessionId !== session.id && lastCallInfo && (session.callStatus !== _sessionStatus.default.onHold || session.callStatus === _sessionStatus.default.onHold && session.id === activeSessionId)) {
         // enter merge ctrl page.
-        layout = _callCtrlLayouts2.default.mergeCtrl;
+        layout = _callCtrlLayouts.default.mergeCtrl;
       }
 
       return layout;
     },
-
     formatPhone: function formatPhone(phoneNumber) {
-      return (0, _formatNumber2.default)({
+      return (0, _formatNumber.default)({
         phoneNumber: phoneNumber,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode
@@ -192,11 +188,11 @@ function mapToFunctions(_, _ref2) {
     },
     onHangup: function onHangup(sessionId, layout) {
       webphone.hangup(sessionId);
-      if (layout && layout === _callCtrlLayouts2.default.mergeCtrl) {
+
+      if (layout && layout === _callCtrlLayouts.default.mergeCtrl) {
         callMonitor.mergeControlClickHangupTrack();
       }
     },
-
     onMute: function onMute(sessionId) {
       return webphone.mute(sessionId);
     },
@@ -209,7 +205,6 @@ function mapToFunctions(_, _ref2) {
     onUnhold: function onUnhold(sessionId) {
       webphone.unhold(sessionId);
     },
-
     onRecord: function onRecord(sessionId) {
       return webphone.startRecord(sessionId);
     },
@@ -228,14 +223,15 @@ function mapToFunctions(_, _ref2) {
       return webphone.flip(flipNumber, sessionId);
     },
     onTransfer: function onTransfer(sessionId) {
-      routerInteraction.push('/transfer/' + sessionId + '/webphone');
+      routerInteraction.push("/transfer/".concat(sessionId, "/webphone"));
     },
-
     onPark: function onPark(sessionId) {
       return webphone.park(sessionId);
     },
     searchContact: function searchContact(searchString) {
-      return contactSearch.debouncedSearch({ searchString: searchString });
+      return contactSearch.debouncedSearch({
+        searchString: searchString
+      });
     },
     phoneTypeRenderer: phoneTypeRenderer,
     phoneSourceNameRenderer: phoneSourceNameRenderer,
@@ -245,52 +241,67 @@ function mapToFunctions(_, _ref2) {
       var session = (0, _ramda.find)(function (x) {
         return x.id === sessionId;
       }, webphone.sessions);
+
       if (!session || !conferenceCall.validateCallRecording(session)) {
         return;
       }
+
       var otherOutboundCalls = (0, _ramda.filter)(function (call) {
-        return call.direction === _callDirections2.default.outbound && call.webphoneSession && call.webphoneSession.id !== session.id;
+        return call.direction === _callDirections.default.outbound && call.webphoneSession && call.webphoneSession.id !== session.id;
       }, callMonitor.allCalls);
+
       if (otherOutboundCalls.length) {
         // goto 'calls on hold' page
-        routerInteraction.push('/conferenceCall/callsOnhold/' + session.fromNumber + '/' + session.id);
+        routerInteraction.push("/conferenceCall/callsOnhold/".concat(session.fromNumber, "/").concat(session.id));
       } else {
         if (conferenceCall) {
-          conferenceCall.setMergeParty({ fromSessionId: sessionId });
-        }
-        // goto dialer directly
-        routerInteraction.push('/conferenceCall/dialer/' + session.fromNumber + '/' + sessionId);
+          conferenceCall.setMergeParty({
+            fromSessionId: sessionId
+          });
+        } // goto dialer directly
+
+
+        routerInteraction.push("/conferenceCall/dialer/".concat(session.fromNumber, "/").concat(sessionId));
       }
     },
     onBeforeMerge: function onBeforeMerge(sessionId) {
       var session = (0, _ramda.find)(function (x) {
         return x.id === sessionId;
       }, webphone.sessions);
+
       if (!session || !conferenceCall.validateCallRecording(session)) {
         return false;
       }
+
       if (conferenceCall) {
-        var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
+        var conferenceData = Object.values(conferenceCall.conferences)[0];
+
         if (conferenceData) {
           var conferenceSession = (0, _ramda.find)(function (x) {
             return x.id === conferenceData.sessionId;
           }, webphone.sessions);
+
           if (conferenceSession && !conferenceCall.validateCallRecording(conferenceSession)) {
             return false;
           }
         }
       }
+
       return true;
     },
     onMerge: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
+      var _onMerge = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(sessionId) {
         var sessions;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return conferenceCall.parseMergingSessions({ sessionId: sessionId });
+                return conferenceCall.parseMergingSessions({
+                  sessionId: sessionId
+                });
 
               case 2:
                 sessions = _context.sent;
@@ -304,22 +315,22 @@ function mapToFunctions(_, _ref2) {
                 return conferenceCall.mergeSessions(sessions);
 
               case 6:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee);
       }));
 
       function onMerge(_x) {
-        return _ref4.apply(this, arguments);
+        return _onMerge.apply(this, arguments);
       }
 
       return onMerge;
     }(),
     gotoParticipantsCtrl: function gotoParticipantsCtrl() {
-      routerInteraction.push('/conferenceCall/participants');
-      // track user click participant area on call control
+      routerInteraction.push('/conferenceCall/participants'); // track user click participant area on call control
+
       callMonitor.callControlClickParticipantAreaTrack();
     },
     loadConference: function loadConference(confId) {
@@ -333,7 +344,6 @@ function mapToFunctions(_, _ref2) {
     setMergeParty: function setMergeParty() {
       return conferenceCall && conferenceCall.setMergeParty.apply(conferenceCall, arguments);
     },
-
     // user action track functions
     afterHideMergeConfirm: function afterHideMergeConfirm() {
       return callMonitor.confirmMergeClickCloseTrack();
@@ -347,10 +357,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallCtrlPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallCtrlContainer2.default));
-
-exports.mapToProps = mapToProps;
-exports.mapToFunctions = mapToFunctions;
-exports.CallCtrlContainer = _CallCtrlContainer2.default;
+var CallCtrlPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallCtrlContainer.default));
 exports.default = CallCtrlPage;
 //# sourceMappingURL=index.js.map

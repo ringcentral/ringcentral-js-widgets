@@ -1,61 +1,84 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.for-each");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.filter");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.iterator");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.keys");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.object.define-property");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.object.create");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _di = require("ringcentral-integration/lib/di");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
 var _dec, _class;
 
-var _di = require('ringcentral-integration/lib/di');
-
-var _RcUIModule2 = require('../../lib/RcUIModule');
-
-var _RcUIModule3 = _interopRequireDefault(_RcUIModule2);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var CallingSettingsUI = (_dec = (0, _di.Module)({
   name: 'CallingSettingsUI',
-  deps: ['CallingSettings', 'Brand', 'Locale', { dep: 'Webphone', optional: true }, 'RouterInteraction']
-}), _dec(_class = function (_RcUIModule) {
-  (0, _inherits3.default)(CallingSettingsUI, _RcUIModule);
+  deps: ['CallingSettings', 'Brand', 'Locale', {
+    dep: 'Webphone',
+    optional: true
+  }, 'RouterInteraction']
+}), _dec(_class =
+/*#__PURE__*/
+function (_RcUIModule) {
+  _inherits(CallingSettingsUI, _RcUIModule);
 
   function CallingSettingsUI(_ref) {
+    var _this;
+
     var callingSettings = _ref.callingSettings,
         brand = _ref.brand,
         locale = _ref.locale,
         webphone = _ref.webphone,
         routerInteraction = _ref.routerInteraction,
         options = _ref.options;
-    (0, _classCallCheck3.default)(this, CallingSettingsUI);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallingSettingsUI.__proto__ || (0, _getPrototypeOf2.default)(CallingSettingsUI)).call(this, (0, _extends3.default)({}, options)));
+    _classCallCheck(this, CallingSettingsUI);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallingSettingsUI).call(this, _objectSpread({}, options)));
     _this._callingSettings = callingSettings;
     _this._brand = brand;
     _this._locale = locale;
@@ -64,8 +87,8 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
     return _this;
   }
 
-  (0, _createClass3.default)(CallingSettingsUI, [{
-    key: 'getUIProps',
+  _createClass(CallingSettingsUI, [{
+    key: "getUIProps",
     value: function getUIProps() {
       return {
         brand: this._brand.fullName,
@@ -80,7 +103,7 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
       };
     }
   }, {
-    key: 'getUIFunctions',
+    key: "getUIFunctions",
     value: function getUIFunctions() {
       var _this2 = this;
 
@@ -101,12 +124,13 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
       };
     }
   }, {
-    key: 'showSpinner',
+    key: "showSpinner",
     get: function get() {
       return !(this._callingSettings.ready && this._brand.ready && this._locale.ready && (!this._webphone || this._webphone.ready) && this._routerInteraction.ready);
     }
   }]);
+
   return CallingSettingsUI;
-}(_RcUIModule3.default)) || _class);
+}(_RcUIModule2.default)) || _class);
 exports.default = CallingSettingsUI;
 //# sourceMappingURL=index.js.map

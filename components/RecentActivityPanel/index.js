@@ -1,105 +1,99 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es6.function.bind");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _classnames = require('classnames');
+var _bind = _interopRequireDefault(require("classnames/bind"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _Header = _interopRequireDefault(require("../Header"));
 
-var _bind = require('classnames/bind');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _bind2 = _interopRequireDefault(_bind);
+var _expandable = _interopRequireDefault(require("./expandable"));
 
-var _Header = require('../Header');
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _Header2 = _interopRequireDefault(_Header);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _expandable = require('./expandable');
-
-var _expandable2 = _interopRequireDefault(_expandable);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _RecentActivityView = require('../RecentActivityView');
-
-var _RecentActivityView2 = _interopRequireDefault(_RecentActivityView);
+var _RecentActivityView = _interopRequireDefault(require("../RecentActivityView"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var cx = _bind2.default.bind(_styles2.default);
+var cx = _bind.default.bind(_styles.default);
+
 var ToggleIcon = function ToggleIcon(_ref) {
   var expanded = _ref.expanded;
-  return _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, cx('arrowIcon', { foldArrowIcon: !expanded })) });
+  return _react.default.createElement("i", {
+    className: (0, _classnames.default)(_DynamicsFont.default.arrow, cx('arrowIcon', {
+      foldArrowIcon: !expanded
+    }))
+  });
 };
 
 ToggleIcon.propTypes = {
-  expanded: _propTypes2.default.bool.isRequired
+  expanded: _propTypes.default.bool.isRequired
 };
-
 /**
  * RecentActivityPanel component provides a animated slide-out panel.
  */
+
 function RecentActivityPanel(props) {
   var title = props.title,
       expanded = props.expanded,
       onPanelToggle = props.onPanelToggle;
-
   var toggleButton = {
-    label: _react2.default.createElement(ToggleIcon, { expanded: expanded }),
+    label: _react.default.createElement(ToggleIcon, {
+      expanded: expanded
+    }),
     onClick: onPanelToggle,
     placement: 'right'
   };
+
   if (!props.currentContact) {
     return null;
   }
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.container },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.header, onClick: onPanelToggle },
-      _react2.default.createElement(
-        _Header2.default,
-        { buttons: [toggleButton], className: _styles2.default.header },
-        title
-      )
-    ),
-    _react2.default.createElement(_RecentActivityView2.default, props)
-  );
+
+  var containerClass = (0, _classnames.default)(_styles.default.container, props.className);
+  return _react.default.createElement("div", {
+    className: containerClass
+  }, _react.default.createElement("div", {
+    className: _styles.default.header,
+    onClick: onPanelToggle
+  }, _react.default.createElement(_Header.default, {
+    buttons: [toggleButton],
+    className: _styles.default.header
+  }, title)), _react.default.createElement(_RecentActivityView.default, props));
 }
 
 RecentActivityPanel.propTypes = {
-  title: _propTypes2.default.string.isRequired,
-  currentContact: _propTypes2.default.object,
-  onPanelToggle: _propTypes2.default.func.isRequired,
-  expanded: _propTypes2.default.bool.isRequired
+  title: _propTypes.default.string.isRequired,
+  currentContact: _propTypes.default.object,
+  onPanelToggle: _propTypes.default.func.isRequired,
+  expanded: _propTypes.default.bool.isRequired,
+  className: _propTypes.default.string
 };
-
 RecentActivityPanel.defaultProps = {
-  currentContact: null
+  currentContact: null,
+  className: null
 };
 
-exports.default = (0, _expandable2.default)({
+var _default = (0, _expandable.default)({
   styles: {
     height: '200px',
     offset: '27px'
   },
-  className: _styles2.default.expandable
+  className: _styles.default.expandable
 })(RecentActivityPanel);
+
+exports.default = _default;
 //# sourceMappingURL=index.js.map

@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   topic: "主題",
   when: "時間",
   duration: "持續時間",
@@ -19,11 +22,11 @@ exports.default = {
   meetingOptions: "會議選項",
   requirePassword: "會議密碼為必填",
   password: "密碼",
-  enableJoinBeforeHost: "允許在主持人之前加入",
-  telephonyOnly: "僅電話"
-};
-
-// @key: @#@"topic"@#@ @source: @#@"Topic"@#@
+  enableJoinBeforeHost: "允許在主持人進入會議前加入",
+  telephonyOnly: "僅電話",
+  hostVideoOn: "主持人視訊開啟",
+  participantVideoOn: "參與者視訊開啟"
+}; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"recurringMeeting"@#@ @source: @#@"Recurring Meeting"@#@
@@ -40,4 +43,8 @@ exports.default = {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+
+exports.default = _default;
 //# sourceMappingURL=zh-TW.js.map

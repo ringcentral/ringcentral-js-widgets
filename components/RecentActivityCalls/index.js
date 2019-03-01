@@ -1,63 +1,59 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.map");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _react = require('react');
+var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
 
-var _react2 = _interopRequireDefault(_react);
+var _Spinner = _interopRequireDefault(require("../Spinner"));
 
-var _propTypes = require('prop-types');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _formatDuration = require('../../lib/formatDuration');
-
-var _formatDuration2 = _interopRequireDefault(_formatDuration);
-
-var _Spinner = require('../Spinner');
-
-var _Spinner2 = _interopRequireDefault(_Spinner);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function getCurrentStatus(_ref, currentLocale) {
   var direction = _ref.direction,
@@ -66,19 +62,21 @@ function getCurrentStatus(_ref, currentLocale) {
   if (direction === 'Inbound') {
     if (result === 'Missed') {
       return {
-        status: _i18n2.default.getString('missed', currentLocale),
-        icon: _DynamicsFont2.default.missed,
+        status: _i18n.default.getString('missed', currentLocale),
+        icon: _DynamicsFont.default.missed,
         isMissedCall: true
       };
     }
+
     return {
-      status: _i18n2.default.getString('inBound', currentLocale),
-      icon: _DynamicsFont2.default.inbound
+      status: _i18n.default.getString('inBound', currentLocale),
+      icon: _DynamicsFont.default.inbound
     };
   }
+
   return {
-    status: _i18n2.default.getString('outBound', currentLocale),
-    icon: _DynamicsFont2.default.outbound
+    status: _i18n.default.getString('outBound', currentLocale),
+    icon: _DynamicsFont.default.outbound
   };
 }
 
@@ -94,76 +92,73 @@ function CallItem(_ref2) {
       icon = _getCurrentStatus.icon,
       isMissedCall = _getCurrentStatus.isMissedCall;
 
-  startTime = dateTimeFormatter({ utcTimestamp: new Date(startTime).getTime() });
-  duration = (0, _formatDuration2.default)(duration);
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.callItem },
-    _react2.default.createElement(
-      'dl',
-      { className: (0, _classnames2.default)(_styles2.default.dl, isMissedCall ? _styles2.default.missedCall : '') },
-      _react2.default.createElement(
-        'dt',
-        { className: _styles2.default.status, title: status },
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.iconWrapper },
-          _react2.default.createElement('i', { className: (0, _classnames2.default)(icon, _styles2.default.callIcon), title: status })
-        ),
-        _react2.default.createElement(
-          'span',
-          { title: status },
-          status
-        ),
-        _react2.default.createElement(
-          'small',
-          { className: _styles2.default.duration, title: duration },
-          duration
-        )
-      ),
-      _react2.default.createElement(
-        'dd',
-        { className: _styles2.default.time, title: startTime },
-        startTime
-      )
-    )
-  );
+  startTime = dateTimeFormatter({
+    utcTimestamp: new Date(startTime).getTime()
+  });
+  duration = (0, _formatDuration.default)(duration);
+  return _react.default.createElement("div", {
+    className: _styles.default.callItem
+  }, _react.default.createElement("dl", {
+    className: (0, _classnames.default)(_styles.default.dl, isMissedCall ? _styles.default.missedCall : '')
+  }, _react.default.createElement("dt", {
+    className: _styles.default.status,
+    title: status
+  }, _react.default.createElement("span", {
+    className: _styles.default.iconWrapper
+  }, _react.default.createElement("i", {
+    className: (0, _classnames.default)(icon, _styles.default.callIcon),
+    title: status
+  })), _react.default.createElement("span", {
+    title: status
+  }, status), _react.default.createElement("small", {
+    className: _styles.default.duration,
+    title: duration
+  }, duration)), _react.default.createElement("dd", {
+    className: _styles.default.time,
+    title: startTime
+  }, startTime)));
 }
 
 CallItem.propTypes = {
-  call: _propTypes2.default.object.isRequired,
-  dateTimeFormatter: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired
+  call: _propTypes.default.object.isRequired,
+  dateTimeFormatter: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired
 };
 
-var RecentActivityCalls = function (_Component) {
-  (0, _inherits3.default)(RecentActivityCalls, _Component);
+var RecentActivityCalls =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(RecentActivityCalls, _Component);
 
   function RecentActivityCalls() {
-    (0, _classCallCheck3.default)(this, RecentActivityCalls);
-    return (0, _possibleConstructorReturn3.default)(this, (RecentActivityCalls.__proto__ || (0, _getPrototypeOf2.default)(RecentActivityCalls)).apply(this, arguments));
+    _classCallCheck(this, RecentActivityCalls);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(RecentActivityCalls).apply(this, arguments));
   }
 
-  (0, _createClass3.default)(RecentActivityCalls, [{
-    key: 'shouldComponentUpdate',
+  _createClass(RecentActivityCalls, [{
+    key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps) {
       return nextProps.currentLocale !== this.props.currentLocale || nextProps.calls !== this.props.calls || nextProps.isCallsLoaded !== this.props.isCallsLoaded;
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _props = this.props,
-          currentLocale = _props.currentLocale,
-          calls = _props.calls,
-          isCallsLoaded = _props.isCallsLoaded,
-          dateTimeFormatter = _props.dateTimeFormatter;
-
+      var _this$props = this.props,
+          currentLocale = _this$props.currentLocale,
+          calls = _this$props.calls,
+          isCallsLoaded = _this$props.isCallsLoaded,
+          dateTimeFormatter = _this$props.dateTimeFormatter;
       var callListView = null;
+
       if (!isCallsLoaded) {
-        callListView = _react2.default.createElement(_Spinner2.default, { className: _styles2.default.spinner, ringWidth: 4 });
+        callListView = _react.default.createElement(_Spinner.default, {
+          className: _styles.default.spinner,
+          ringWidth: 4
+        });
       } else if (calls.length > 0) {
         callListView = calls.map(function (call) {
-          return _react2.default.createElement(CallItem, {
+          return _react.default.createElement(CallItem, {
             key: call.id,
             call: call,
             currentLocale: currentLocale,
@@ -171,29 +166,25 @@ var RecentActivityCalls = function (_Component) {
           });
         });
       } else {
-        callListView = _react2.default.createElement(
-          'p',
-          { className: _styles2.default.noRecords },
-          _i18n2.default.getString('noRecords', currentLocale)
-        );
+        callListView = _react.default.createElement("p", {
+          className: _styles.default.noRecords
+        }, _i18n.default.getString('noRecords', currentLocale));
       }
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.calls },
-        callListView
-      );
+
+      return _react.default.createElement("div", {
+        className: _styles.default.calls
+      }, callListView);
     }
   }]);
+
   return RecentActivityCalls;
 }(_react.Component);
 
 exports.default = RecentActivityCalls;
-
-
 RecentActivityCalls.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  calls: _propTypes2.default.array.isRequired,
-  isCallsLoaded: _propTypes2.default.bool.isRequired,
-  dateTimeFormatter: _propTypes2.default.func.isRequired
+  currentLocale: _propTypes.default.string.isRequired,
+  calls: _propTypes.default.array.isRequired,
+  isCallsLoaded: _propTypes.default.bool.isRequired,
+  dateTimeFormatter: _propTypes.default.func.isRequired
 };
 //# sourceMappingURL=index.js.map

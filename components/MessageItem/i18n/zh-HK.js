@@ -3,20 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
 
 var _addLog$editLog$viewD;
 
-var _messageTypes = require("ringcentral-integration/enums/messageTypes");
-
-var _messageTypes2 = _interopRequireDefault(_messageTypes);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_addLog$editLog$viewD = {
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _default = (_addLog$editLog$viewD = {
   addLog: "記錄",
   editLog: "編輯記錄",
   viewDetails: "檢視詳細資訊",
@@ -26,9 +25,7 @@ exports.default = (_addLog$editLog$viewD = {
   conversation: "對話",
   groupConversation: "群組對話",
   voiceMessage: "語音訊息"
-}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "語音信箱"), (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.fax, "傳真"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "標示為未讀"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "標示為已讀"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "刪除"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "傳真已傳送"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "傳真已接收"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "頁"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "檢視"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "下載"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "附件：1 張圖片"), _addLog$editLog$viewD);
-
-// @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes.default.voiceMail, "語音信箱"), _defineProperty(_addLog$editLog$viewD, _messageTypes.default.fax, "傳真"), _defineProperty(_addLog$editLog$viewD, "mark", "標示為未讀"), _defineProperty(_addLog$editLog$viewD, "unmark", "標示為已讀"), _defineProperty(_addLog$editLog$viewD, "delete", "刪除"), _defineProperty(_addLog$editLog$viewD, "faxSent", "傳真已傳送"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "傳真已接收"), _defineProperty(_addLog$editLog$viewD, "pages", "頁"), _defineProperty(_addLog$editLog$viewD, "preview", "檢視"), _defineProperty(_addLog$editLog$viewD, "download", "下載"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "附件：1 張圖片"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -48,4 +45,7 @@ exports.default = (_addLog$editLog$viewD = {
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=zh-HK.js.map

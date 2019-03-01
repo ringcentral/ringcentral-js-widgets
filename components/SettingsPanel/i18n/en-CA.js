@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   region: "Region",
   calling: "Calling",
   logout: "Logout",
@@ -22,9 +25,7 @@ exports.default = {
   feedback: "Feedback",
   userGuide: "What's New",
   quickAccess: "Quick Access Setting"
-};
-
-// @key: @#@"region"@#@ @source: @#@"Region"@#@
+}; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
 // @key: @#@"version"@#@ @source: @#@"Version"@#@
@@ -42,4 +43,6 @@ exports.default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+
+exports.default = _default;
 //# sourceMappingURL=en-CA.js.map

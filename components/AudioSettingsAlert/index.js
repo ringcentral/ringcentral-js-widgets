@@ -1,29 +1,21 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = AudioSettingsAlert;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _audioSettingsErrors = _interopRequireDefault(require("ringcentral-integration/modules/AudioSettings/audioSettingsErrors"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 
-var _audioSettingsErrors = require('ringcentral-integration/modules/AudioSettings/audioSettingsErrors');
-
-var _audioSettingsErrors2 = _interopRequireDefault(_audioSettingsErrors);
-
-var _FormattedMessage = require('../FormattedMessage');
-
-var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,27 +24,26 @@ function AudioSettingsAlert(_ref) {
       currentLocale = _ref.currentLocale,
       message = _ref.message;
 
-  var view = _react2.default.createElement(_FormattedMessage2.default, {
-    message: _i18n2.default.getString(message.message, currentLocale),
-    values: { application: application }
+  var view = _react.default.createElement(_FormattedMessage.default, {
+    message: _i18n.default.getString(message.message, currentLocale),
+    values: {
+      application: application
+    }
   });
-  return _react2.default.createElement(
-    'span',
-    null,
-    view
-  );
+
+  return _react.default.createElement("span", null, view);
 }
 
 AudioSettingsAlert.propTypes = {
-  application: _propTypes2.default.string.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  message: _propTypes2.default.shape({
-    message: _propTypes2.default.string.isRequired
+  application: _propTypes.default.string.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  message: _propTypes.default.shape({
+    message: _propTypes.default.string.isRequired
   }).isRequired
 };
 
 AudioSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _audioSettingsErrors2.default.userMediaPermission;
+  return message === _audioSettingsErrors.default.userMediaPermission;
 };
 //# sourceMappingURL=index.js.map

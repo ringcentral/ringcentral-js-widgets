@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   topic: "Topic",
   when: "When",
   duration: "Duration",
@@ -21,9 +24,7 @@ exports.default = {
   password: "Password",
   enableJoinBeforeHost: "Enable join before host",
   telephonyOnly: "Telephony Only"
-};
-
-// @key: @#@"topic"@#@ @source: @#@"Topic"@#@
+}; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"recurringMeeting"@#@ @source: @#@"Recurring Meeting"@#@
@@ -40,4 +41,6 @@ exports.default = {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+
+exports.default = _default;
 //# sourceMappingURL=en-CA.js.map

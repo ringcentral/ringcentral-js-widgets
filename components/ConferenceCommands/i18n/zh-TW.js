@@ -1,15 +1,18 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: "會議指令",
   starSharp2Title: "來電者人數",
   starSharp2Body: "隨時瞭解來電者人數",
   starSharp3Title: "離開會議",
   starSharp3Body: "讓主持人掛斷並結束通話",
-  starSharp4Title: "選單",
+  starSharp4Title: "功能表",
   starSharp4Body: "收聽按鍵音指令清單",
   starSharp5Title: "設定聆聽模式",
   starSharp5Body: "按 1 次：將來電者靜音 - 來電者可以按 *、#、6 來取消靜音\n按 2 次：將來電者靜音 - 僅聆聽。沒有取消靜音選項\n按 3 次：將來電者取消靜音 - 再次開啟線路",
@@ -21,9 +24,7 @@ exports.default = {
   starSharp8Body: "按 1 次：「關閉」聲音\n按 2 次：進入聲「開啟」離開聲「關閉」\n按 3 次：進入聲「關閉」離開聲「開啟」\n按 4 次：開啟聲音",
   star9Title: "記錄您的會議",
   star9Body: "按一次以「開始」錄音\n再按一次以「停止」錄音"
-};
-
-// @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
+}; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@
 // @key: @#@"starSharp3Title"@#@ @source: @#@"Leave Conference"@#@
@@ -40,4 +41,6 @@ exports.default = {
 // @key: @#@"starSharp8Body"@#@ @source: @#@"Press 1x: Turns OFF sound\nPress 2x: Enter tone is ON Exit tone is OFF\nPress 3x: Enter tone is OFF Exit tone is ON\nPress 4x: Turns ON sound"@#@
 // @key: @#@"star9Title"@#@ @source: @#@"Record your conference"@#@
 // @key: @#@"star9Body"@#@ @source: @#@"Press once to START recording\nPress again to STOP recording"@#@
+
+exports.default = _default;
 //# sourceMappingURL=zh-TW.js.map

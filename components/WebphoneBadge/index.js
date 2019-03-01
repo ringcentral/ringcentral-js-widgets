@@ -1,37 +1,25 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = WebphoneBadge;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _classnames = require('classnames');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _Badge = _interopRequireDefault(require("../Badge"));
 
-var _propTypes = require('prop-types');
+var _Draggable = _interopRequireDefault(require("../Draggable"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _Badge = require('../Badge');
-
-var _Badge2 = _interopRequireDefault(_Badge);
-
-var _Draggable = require('../Draggable');
-
-var _Draggable2 = _interopRequireDefault(_Draggable);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,27 +27,20 @@ function WebphoneBadge(_ref) {
   var onClick = _ref.onClick,
       className = _ref.className,
       currentLocale = _ref.currentLocale;
-
-  return _react2.default.createElement(
-    _Draggable2.default,
-    { className: _styles2.default.root, onClick: onClick },
-    _react2.default.createElement(
-      _Badge2.default,
-      {
-        className: (0, _classnames2.default)(className, _styles2.default.badge),
-        name: _i18n2.default.getString('webphoneUnavailable', currentLocale)
-      },
-      _i18n2.default.getString('webphoneUnavailable', currentLocale)
-    )
-  );
+  return _react.default.createElement(_Draggable.default, {
+    className: _styles.default.root,
+    onClick: onClick
+  }, _react.default.createElement(_Badge.default, {
+    className: (0, _classnames.default)(className, _styles.default.badge),
+    name: _i18n.default.getString('webphoneUnavailable', currentLocale)
+  }, _i18n.default.getString('webphoneUnavailable', currentLocale)));
 }
 
 WebphoneBadge.propTypes = {
-  className: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
-  onClick: _propTypes2.default.func
+  className: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired,
+  onClick: _propTypes.default.func
 };
-
 WebphoneBadge.defaultProps = {
   className: null,
   onClick: function onClick() {}

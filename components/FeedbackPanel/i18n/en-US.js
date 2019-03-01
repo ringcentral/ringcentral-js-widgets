@@ -1,9 +1,12 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   feedbackHeader: 'Submit Feedback',
   back: 'Back',
   revert: 'Revert',
@@ -24,4 +27,5 @@ exports.default = {
   descriptionPlaceHolder: 'Please include as much information as possible',
   send: 'Send Your Feedback'
 };
+exports.default = _default;
 //# sourceMappingURL=en-US.js.map

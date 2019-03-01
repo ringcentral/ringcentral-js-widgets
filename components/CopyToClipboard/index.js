@@ -1,70 +1,74 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CopyToClipboard = function (_Component) {
-  (0, _inherits3.default)(CopyToClipboard, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var CopyToClipboard =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(CopyToClipboard, _Component);
 
   function CopyToClipboard() {
-    (0, _classCallCheck3.default)(this, CopyToClipboard);
-    return (0, _possibleConstructorReturn3.default)(this, (CopyToClipboard.__proto__ || (0, _getPrototypeOf2.default)(CopyToClipboard)).apply(this, arguments));
+    _classCallCheck(this, CopyToClipboard);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CopyToClipboard).apply(this, arguments));
   }
 
-  (0, _createClass3.default)(CopyToClipboard, [{
-    key: 'executeCopy',
+  _createClass(CopyToClipboard, [{
+    key: "executeCopy",
     value: function executeCopy() {
       this.copyTextArea.focus();
       this.copyTextArea.select();
+
       try {
         var result = document.execCommand('copy');
+
         if (result) {
           this.copyTextArea.blur();
           if (typeof this.props.handleSuccess === 'function') this.props.handleSuccess();
@@ -73,60 +77,55 @@ var CopyToClipboard = function (_Component) {
         }
       } catch (e) {
         console.error(e);
+
         if (typeof this.props.handleFailure === 'function') {
           this.props.handleFailure();
         }
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
-      var _props = this.props,
-          currentLocale = _props.currentLocale,
-          buttonClassName = _props.buttonClassName,
-          disabled = _props.disabled,
-          copiedText = _props.copiedText,
-          buttonText = _props.buttonText,
-          CustomButton = _props.button;
-
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.container },
-        _react2.default.createElement('textarea', {
-          className: _styles2.default.copyTextArea,
-          ref: function ref(_ref) {
-            _this2.copyTextArea = _ref;
-          },
-          defaultValue: copiedText }),
-        CustomButton ? _react2.default.createElement(CustomButton, this.props) : _react2.default.createElement(
-          _Button2.default,
-          {
-            disabled: disabled,
-            className: (0, _classnames2.default)(_styles2.default.primaryButton, buttonClassName),
-            onClick: function onClick() {
-              return _this2.executeCopy();
-            } },
-          buttonText || _i18n2.default.getString('copyToClipboard', currentLocale)
-        )
-      );
+      var _this$props = this.props,
+          currentLocale = _this$props.currentLocale,
+          buttonClassName = _this$props.buttonClassName,
+          disabled = _this$props.disabled,
+          copiedText = _this$props.copiedText,
+          buttonText = _this$props.buttonText,
+          CustomButton = _this$props.button;
+      return _react.default.createElement("div", {
+        className: _styles.default.container
+      }, _react.default.createElement("textarea", {
+        className: _styles.default.copyTextArea,
+        ref: function ref(_ref) {
+          _this.copyTextArea = _ref;
+        },
+        defaultValue: copiedText
+      }), CustomButton ? _react.default.createElement(CustomButton, this.props) : _react.default.createElement(_Button.default, {
+        disabled: disabled,
+        className: (0, _classnames.default)(_styles.default.primaryButton, buttonClassName),
+        onClick: function onClick() {
+          return _this.executeCopy();
+        }
+      }, buttonText || _i18n.default.getString('copyToClipboard', currentLocale)));
     }
   }]);
+
   return CopyToClipboard;
 }(_react.Component);
 
 CopyToClipboard.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  handleSuccess: _propTypes2.default.func,
-  handleFailure: _propTypes2.default.func,
-  buttonClassName: _propTypes2.default.string,
-  disabled: _propTypes2.default.bool,
-  copiedText: _propTypes2.default.string,
-  buttonText: _propTypes2.default.string,
-  button: _propTypes2.default.node
+  currentLocale: _propTypes.default.string.isRequired,
+  handleSuccess: _propTypes.default.func,
+  handleFailure: _propTypes.default.func,
+  buttonClassName: _propTypes.default.string,
+  disabled: _propTypes.default.bool,
+  copiedText: _propTypes.default.string,
+  buttonText: _propTypes.default.string,
+  button: _propTypes.default.node
 };
-
 CopyToClipboard.defaultProps = {
   handleSuccess: undefined,
   handleFailure: undefined,
@@ -136,6 +135,6 @@ CopyToClipboard.defaultProps = {
   buttonText: undefined,
   button: undefined
 };
-
-exports.default = CopyToClipboard;
+var _default = CopyToClipboard;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

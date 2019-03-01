@@ -1,32 +1,25 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _presenceStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/presenceStatus"));
+
+var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
+
+var _phoneTypes = _interopRequireDefault(require("../../../enums/phoneTypes"));
 
 var _phoneTypes$extension;
 
-var _presenceStatus = require('ringcentral-integration/modules/Presence/presenceStatus');
-
-var _presenceStatus2 = _interopRequireDefault(_presenceStatus);
-
-var _dndStatus = require('ringcentral-integration/modules/Presence/dndStatus');
-
-var _dndStatus2 = _interopRequireDefault(_dndStatus);
-
-var _phoneTypes = require('../../../enums/phoneTypes');
-
-var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_phoneTypes$extension = {}, (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.extension, "内線"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.direct, "ダイレクト"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.mobile, "モバイル"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.home, "自宅"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.business, "ビジネス"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.fax, "FAX"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.other, "その他"), (0, _defineProperty3.default)(_phoneTypes$extension, 'emailLabel', "Eメール"), (0, _defineProperty3.default)(_phoneTypes$extension, 'call', "通話"), (0, _defineProperty3.default)(_phoneTypes$extension, 'text', "テキスト"), (0, _defineProperty3.default)(_phoneTypes$extension, _presenceStatus2.default.available, "応答可能"), (0, _defineProperty3.default)(_phoneTypes$extension, _presenceStatus2.default.offline, "非表示"), (0, _defineProperty3.default)(_phoneTypes$extension, _presenceStatus2.default.busy, "取り込み中"), (0, _defineProperty3.default)(_phoneTypes$extension, _dndStatus2.default.doNotAcceptAnyCalls, "応答不可"), (0, _defineProperty3.default)(_phoneTypes$extension, 'notActivated', "非アクティブ"), _phoneTypes$extension);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
+var _default = (_phoneTypes$extension = {}, _defineProperty(_phoneTypes$extension, _phoneTypes.default.extension, "内線"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.direct, "ダイレクト"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.mobile, "モバイル"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.home, "自宅"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.business, "ビジネス"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.fax, "FAX"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.other, "その他"), _defineProperty(_phoneTypes$extension, "emailLabel", "Eメール"), _defineProperty(_phoneTypes$extension, "call", "通話"), _defineProperty(_phoneTypes$extension, "text", "テキスト"), _defineProperty(_phoneTypes$extension, _presenceStatus.default.available, "応答可能"), _defineProperty(_phoneTypes$extension, _presenceStatus.default.offline, "非表示"), _defineProperty(_phoneTypes$extension, _presenceStatus.default.busy, "取り込み中"), _defineProperty(_phoneTypes$extension, _dndStatus.default.doNotAcceptAnyCalls, "応答不可"), _defineProperty(_phoneTypes$extension, "notActivated", "非アクティブ"), _phoneTypes$extension); // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
 // @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile"@#@
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
@@ -41,4 +34,7 @@ exports.default = (_phoneTypes$extension = {}, (0, _defineProperty3.default)(_ph
 // @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

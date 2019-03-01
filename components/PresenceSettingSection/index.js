@@ -1,92 +1,79 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _presenceStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/presenceStatus"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
 
-var _react = require('react');
+var _IconLine = _interopRequireDefault(require("../IconLine"));
 
-var _react2 = _interopRequireDefault(_react);
+var _Line = _interopRequireDefault(require("../Line"));
 
-var _propTypes = require('prop-types');
+var _Switch = _interopRequireDefault(require("../Switch"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _PresenceStatusIcon = _interopRequireDefault(require("../PresenceStatusIcon"));
 
-var _classnames = require('classnames');
+var _PresenceItem = _interopRequireWildcard(require("../PresenceItem"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _presenceStatus = require('ringcentral-integration/modules/Presence/presenceStatus');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _presenceStatus2 = _interopRequireDefault(_presenceStatus);
-
-var _dndStatus = require('ringcentral-integration/modules/Presence/dndStatus');
-
-var _dndStatus2 = _interopRequireDefault(_dndStatus);
-
-var _IconLine = require('../IconLine');
-
-var _IconLine2 = _interopRequireDefault(_IconLine);
-
-var _Line = require('../Line');
-
-var _Line2 = _interopRequireDefault(_Line);
-
-var _Switch = require('../Switch');
-
-var _Switch2 = _interopRequireDefault(_Switch);
-
-var _PresenceStatusIcon = require('../PresenceStatusIcon');
-
-var _PresenceStatusIcon2 = _interopRequireDefault(_PresenceStatusIcon);
-
-var _PresenceItem = require('../PresenceItem');
-
-var _PresenceItem2 = _interopRequireDefault(_PresenceItem);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PresenceSettingSection = function (_Component) {
-  (0, _inherits3.default)(PresenceSettingSection, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var PresenceSettingSection =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(PresenceSettingSection, _Component);
 
   function PresenceSettingSection(props) {
-    (0, _classCallCheck3.default)(this, PresenceSettingSection);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (PresenceSettingSection.__proto__ || (0, _getPrototypeOf2.default)(PresenceSettingSection)).call(this, props));
+    _classCallCheck(this, PresenceSettingSection);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PresenceSettingSection).call(this, props));
     _this.state = {
       showSelects: props.showPresenceSettings
     };
@@ -100,120 +87,95 @@ var PresenceSettingSection = function (_Component) {
     };
 
     _this.onCallQueueChange = function () {
-      if (_this.state.dndStatus === _dndStatus2.default.doNotAcceptAnyCalls) {
+      if (_this.state.dndStatus === _dndStatus.default.doNotAcceptAnyCalls) {
         return;
       }
+
       _this.setState(function (preState) {
         return {
-          dndStatus: preState.dndStatus === _dndStatus2.default.takeAllCalls ? _dndStatus2.default.doNotAcceptDepartmentCalls : _dndStatus2.default.takeAllCalls
+          dndStatus: preState.dndStatus === _dndStatus.default.takeAllCalls ? _dndStatus.default.doNotAcceptDepartmentCalls : _dndStatus.default.takeAllCalls
         };
       });
+
       _this.props.toggleAcceptCallQueueCalls();
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(PresenceSettingSection, [{
-    key: 'render',
+  _createClass(PresenceSettingSection, [{
+    key: "render",
     value: function render() {
-      var sectionClass = (0, _classnames2.default)(_styles2.default.section, this.state.showSelects ? _styles2.default.showDropdown : null);
-      var acceptQueueCalls = this.props.isCallQueueMember ? _react2.default.createElement(
-        _IconLine2.default,
-        {
-          icon: _react2.default.createElement(_Switch2.default, {
-            checked: this.props.dndStatus === _dndStatus2.default.takeAllCalls,
-            onChange: this.onCallQueueChange
-          })
-        },
-        _i18n2.default.getString('acceptQueueCalls', this.props.currentLocale)
-      ) : null;
+      var sectionClass = (0, _classnames.default)(_styles.default.section, this.state.showSelects ? _styles.default.showDropdown : null);
+      var acceptQueueCalls = this.props.isCallQueueMember ? _react.default.createElement(_IconLine.default, {
+        icon: _react.default.createElement(_Switch.default, {
+          checked: this.props.dndStatus === _dndStatus.default.takeAllCalls,
+          onChange: this.onCallQueueChange
+        })
+      }, _i18n.default.getString('acceptQueueCalls', this.props.currentLocale)) : null;
       var currentStatus = (0, _PresenceItem.getPresenceStatusName)(this.props.userStatus, this.props.dndStatus, this.props.currentLocale);
-      return _react2.default.createElement(
-        'section',
-        { className: sectionClass },
-        _react2.default.createElement(
-          _IconLine2.default,
-          {
-            icon: _react2.default.createElement(
-              'span',
-              { className: _styles2.default.dropdownIcon },
-              _react2.default.createElement('i', { className: _DynamicsFont2.default.arrow })
-            ),
-            onClick: this.toggleShow,
-            className: _styles2.default.iconLine
-          },
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.title },
-            _i18n2.default.getString('status', this.props.currentLocale)
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.subTitle },
-            _react2.default.createElement(_PresenceStatusIcon2.default, {
-              className: _styles2.default.statusIcon,
-              userStatus: this.props.userStatus,
-              dndStatus: this.props.dndStatus
-            }),
-            _react2.default.createElement(
-              'span',
-              null,
-              currentStatus
-            )
-          )
-        ),
-        _react2.default.createElement(
-          _Line2.default,
-          { className: _styles2.default.presenceList },
-          _react2.default.createElement(_PresenceItem2.default, {
-            userStatus: _presenceStatus2.default.available,
-            dndStatus: _dndStatus2.default.takeAllCalls,
-            currentLocale: this.props.currentLocale,
-            onClick: this.props.setAvailable,
-            selected: this.props.userStatus === _presenceStatus2.default.available && this.props.dndStatus !== _dndStatus2.default.doNotAcceptAnyCalls
-          }),
-          _react2.default.createElement(_PresenceItem2.default, {
-            userStatus: _presenceStatus2.default.busy,
-            dndStatus: _dndStatus2.default.takeAllCalls,
-            currentLocale: this.props.currentLocale,
-            onClick: this.props.setBusy,
-            selected: this.props.userStatus === _presenceStatus2.default.busy && this.props.dndStatus !== _dndStatus2.default.doNotAcceptAnyCalls
-          }),
-          _react2.default.createElement(_PresenceItem2.default, {
-            userStatus: _presenceStatus2.default.busy,
-            dndStatus: _dndStatus2.default.doNotAcceptAnyCalls,
-            currentLocale: this.props.currentLocale,
-            onClick: this.props.setDoNotDisturb,
-            selected: this.props.dndStatus === _dndStatus2.default.doNotAcceptAnyCalls
-          }),
-          _react2.default.createElement(_PresenceItem2.default, {
-            userStatus: _presenceStatus2.default.offline,
-            dndStatus: _dndStatus2.default.takeAllCalls,
-            currentLocale: this.props.currentLocale,
-            onClick: this.props.setInvisible,
-            selected: this.props.userStatus === _presenceStatus2.default.offline && this.props.dndStatus !== _dndStatus2.default.doNotAcceptAnyCalls
-          })
-        ),
-        acceptQueueCalls
-      );
+      return _react.default.createElement("section", {
+        className: sectionClass
+      }, _react.default.createElement(_IconLine.default, {
+        icon: _react.default.createElement("span", {
+          className: _styles.default.dropdownIcon
+        }, _react.default.createElement("i", {
+          className: _DynamicsFont.default.arrow
+        })),
+        onClick: this.toggleShow,
+        className: _styles.default.iconLine
+      }, _react.default.createElement("div", {
+        className: _styles.default.title
+      }, _i18n.default.getString('status', this.props.currentLocale)), _react.default.createElement("div", {
+        className: _styles.default.subTitle
+      }, _react.default.createElement(_PresenceStatusIcon.default, {
+        className: _styles.default.statusIcon,
+        userStatus: this.props.userStatus,
+        dndStatus: this.props.dndStatus
+      }), _react.default.createElement("span", null, currentStatus))), _react.default.createElement(_Line.default, {
+        className: _styles.default.presenceList
+      }, _react.default.createElement(_PresenceItem.default, {
+        userStatus: _presenceStatus.default.available,
+        dndStatus: _dndStatus.default.takeAllCalls,
+        currentLocale: this.props.currentLocale,
+        onClick: this.props.setAvailable,
+        selected: this.props.userStatus === _presenceStatus.default.available && this.props.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
+      }), _react.default.createElement(_PresenceItem.default, {
+        userStatus: _presenceStatus.default.busy,
+        dndStatus: _dndStatus.default.takeAllCalls,
+        currentLocale: this.props.currentLocale,
+        onClick: this.props.setBusy,
+        selected: this.props.userStatus === _presenceStatus.default.busy && this.props.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
+      }), _react.default.createElement(_PresenceItem.default, {
+        userStatus: _presenceStatus.default.busy,
+        dndStatus: _dndStatus.default.doNotAcceptAnyCalls,
+        currentLocale: this.props.currentLocale,
+        onClick: this.props.setDoNotDisturb,
+        selected: this.props.dndStatus === _dndStatus.default.doNotAcceptAnyCalls
+      }), _react.default.createElement(_PresenceItem.default, {
+        userStatus: _presenceStatus.default.offline,
+        dndStatus: _dndStatus.default.takeAllCalls,
+        currentLocale: this.props.currentLocale,
+        onClick: this.props.setInvisible,
+        selected: this.props.userStatus === _presenceStatus.default.offline && this.props.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
+      })), acceptQueueCalls);
     }
   }]);
+
   return PresenceSettingSection;
 }(_react.Component);
 
 exports.default = PresenceSettingSection;
-
-
 PresenceSettingSection.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  dndStatus: _propTypes2.default.string.isRequired,
-  userStatus: _propTypes2.default.string.isRequired,
-  isCallQueueMember: _propTypes2.default.bool.isRequired,
-  setAvailable: _propTypes2.default.func.isRequired,
-  setBusy: _propTypes2.default.func.isRequired,
-  setDoNotDisturb: _propTypes2.default.func.isRequired,
-  setInvisible: _propTypes2.default.func.isRequired,
-  toggleAcceptCallQueueCalls: _propTypes2.default.func.isRequired,
-  showPresenceSettings: _propTypes2.default.bool.isRequired
+  currentLocale: _propTypes.default.string.isRequired,
+  dndStatus: _propTypes.default.string.isRequired,
+  userStatus: _propTypes.default.string.isRequired,
+  isCallQueueMember: _propTypes.default.bool.isRequired,
+  setAvailable: _propTypes.default.func.isRequired,
+  setBusy: _propTypes.default.func.isRequired,
+  setDoNotDisturb: _propTypes.default.func.isRequired,
+  setInvisible: _propTypes.default.func.isRequired,
+  toggleAcceptCallQueueCalls: _propTypes.default.func.isRequired,
+  showPresenceSettings: _propTypes.default.bool.isRequired
 };
 //# sourceMappingURL=index.js.map

@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: "音訊",
   dialButtonVolume: "撥號鍵音量",
   ringtoneVolume: "鈴聲音量",
@@ -15,9 +18,7 @@ exports.default = {
   noDevice: "無裝置",
   checkMicPermission: "檢查權限",
   micNoPermissionMessage: "應用程式沒有使用麥克風的權限"
-};
-
-// @key: @#@"title"@#@ @source: @#@"Audio"@#@
+}; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@
 // @key: @#@"callVolume"@#@ @source: @#@"Call Volume"@#@
@@ -28,4 +29,6 @@ exports.default = {
 // @key: @#@"noDevice"@#@ @source: @#@"No device"@#@
 // @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
 // @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@
+
+exports.default = _default;
 //# sourceMappingURL=zh-TW.js.map

@@ -1,79 +1,77 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = WebphoneAlert;
 
-var _react = require('react');
+require("core-js/modules/es6.function.name");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _webphoneErrors = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/webphoneErrors"));
 
-var _webphoneErrors = require('ringcentral-integration/modules/Webphone/webphoneErrors');
+var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 
-var _webphoneErrors2 = _interopRequireDefault(_webphoneErrors);
-
-var _FormattedMessage = require('../FormattedMessage');
-
-var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function WebphoneAlert(props) {
   var message = props.message.message;
 
-  var view = _react2.default.createElement(
-    'span',
-    null,
-    _i18n2.default.getString(message, props.currentLocale)
-  );
-  // Handle call record error
-  if (message === _webphoneErrors2.default.recordError) {
+  var view = _react.default.createElement("span", null, _i18n.default.getString(message, props.currentLocale)); // Handle call record error
+
+
+  if (message === _webphoneErrors.default.recordError) {
     var _props$message$payloa = props.message.payload;
-    _props$message$payloa = _props$message$payloa === undefined ? {} : _props$message$payloa;
+    _props$message$payloa = _props$message$payloa === void 0 ? {} : _props$message$payloa;
     var errorCode = _props$message$payloa.errorCode;
-
-    view = _react2.default.createElement(_FormattedMessage2.default, {
-      message: _i18n2.default.getString(message, props.currentLocale),
-      values: { errorCode: errorCode }
+    view = _react.default.createElement(_FormattedMessage.default, {
+      message: _i18n.default.getString(message, props.currentLocale),
+      values: {
+        errorCode: errorCode
+      }
     });
   }
-  if (message === _webphoneErrors2.default.requestTimeout || message === _webphoneErrors2.default.serverTimeout || message === _webphoneErrors2.default.internalServerError || message === _webphoneErrors2.default.sipProvisionError || message === _webphoneErrors2.default.webphoneForbidden || message === _webphoneErrors2.default.unknownError) {
+
+  if (message === _webphoneErrors.default.requestTimeout || message === _webphoneErrors.default.serverTimeout || message === _webphoneErrors.default.internalServerError || message === _webphoneErrors.default.sipProvisionError || message === _webphoneErrors.default.webphoneForbidden || message === _webphoneErrors.default.unknownError) {
     var _props$message$payloa2 = props.message.payload;
-    _props$message$payloa2 = _props$message$payloa2 === undefined ? {} : _props$message$payloa2;
-    var statusCode = _props$message$payloa2.statusCode;
-    // sipProvisionError does not have statusCode
+    _props$message$payloa2 = _props$message$payloa2 === void 0 ? {} : _props$message$payloa2;
+    var statusCode = _props$message$payloa2.statusCode; // sipProvisionError does not have statusCode
 
-    var stub = statusCode ? _react2.default.createElement(_FormattedMessage2.default, {
-      message: _i18n2.default.getString('errorCode', props.currentLocale),
-      values: { errorCode: statusCode }
-    }) : _i18n2.default.getString('occurs', props.currentLocale);
-    view = _react2.default.createElement(_FormattedMessage2.default, {
-      message: _i18n2.default.getString('webphoneUnavailable', props.currentLocale),
-      values: { error: stub, brandName: props.brand.name }
+    var stub = statusCode ? _react.default.createElement(_FormattedMessage.default, {
+      message: _i18n.default.getString('errorCode', props.currentLocale),
+      values: {
+        errorCode: statusCode
+      }
+    }) : _i18n.default.getString('occurs', props.currentLocale);
+    view = _react.default.createElement(_FormattedMessage.default, {
+      message: _i18n.default.getString('webphoneUnavailable', props.currentLocale),
+      values: {
+        error: stub,
+        brandName: props.brand.name
+      }
     });
   }
+
   return view;
 }
 
 WebphoneAlert.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  brand: _propTypes2.default.object.isRequired,
-  message: _propTypes2.default.shape({
-    message: _propTypes2.default.string.isRequired
+  currentLocale: _propTypes.default.string.isRequired,
+  brand: _propTypes.default.object.isRequired,
+  message: _propTypes.default.shape({
+    message: _propTypes.default.string.isRequired
   }).isRequired
 };
 
 WebphoneAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return message === _webphoneErrors2.default.browserNotSupported || message === _webphoneErrors2.default.webphoneCountOverLimit || message === _webphoneErrors2.default.webphoneForbidden || message === _webphoneErrors2.default.notOutboundCallWithoutDL || message === _webphoneErrors2.default.toVoiceMailError || message === _webphoneErrors2.default.connected || message === _webphoneErrors2.default.muteError || message === _webphoneErrors2.default.holdError || message === _webphoneErrors2.default.flipError || message === _webphoneErrors2.default.recordError || message === _webphoneErrors2.default.recordDisabled || message === _webphoneErrors2.default.transferError || message === _webphoneErrors2.default.requestTimeout || message === _webphoneErrors2.default.serverTimeout || message === _webphoneErrors2.default.internalServerError || message === _webphoneErrors2.default.sipProvisionError || message === _webphoneErrors2.default.unknownError;
+  return message === _webphoneErrors.default.browserNotSupported || message === _webphoneErrors.default.webphoneCountOverLimit || message === _webphoneErrors.default.webphoneForbidden || message === _webphoneErrors.default.notOutboundCallWithoutDL || message === _webphoneErrors.default.toVoiceMailError || message === _webphoneErrors.default.connected || message === _webphoneErrors.default.muteError || message === _webphoneErrors.default.holdError || message === _webphoneErrors.default.flipError || message === _webphoneErrors.default.recordError || message === _webphoneErrors.default.recordDisabled || message === _webphoneErrors.default.transferError || message === _webphoneErrors.default.requestTimeout || message === _webphoneErrors.default.serverTimeout || message === _webphoneErrors.default.internalServerError || message === _webphoneErrors.default.sipProvisionError || message === _webphoneErrors.default.unknownError;
 };
 //# sourceMappingURL=index.js.map

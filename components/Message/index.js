@@ -1,56 +1,42 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Message(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.alertHolder },
-    _react2.default.createElement(
-      'div',
-      {
-        className: (0, _classnames2.default)(_styles2.default[props.level]) },
-      props.message,
-      _react2.default.createElement(
-        'div',
-        {
-          className: _styles2.default.dismiss,
-          onClick: props.onDismiss },
-        _react2.default.createElement('i', { className: _DynamicsFont2.default.close })
-      )
-    )
-  );
+  return _react.default.createElement("div", {
+    className: _styles.default.alertHolder
+  }, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default[props.level])
+  }, props.message, _react.default.createElement("div", {
+    className: _styles.default.dismiss,
+    onClick: props.onDismiss
+  }, _react.default.createElement("i", {
+    className: _DynamicsFont.default.close
+  }))));
 }
 
 Message.propTypes = {
-  level: _propTypes2.default.string.isRequired,
-  message: _propTypes2.default.node.isRequired,
-  onDismiss: _propTypes2.default.func.isRequired
+  level: _propTypes.default.string.isRequired,
+  message: _propTypes.default.node.isRequired,
+  onDismiss: _propTypes.default.func.isRequired
 };
-
-exports.default = Message;
+var _default = Message;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

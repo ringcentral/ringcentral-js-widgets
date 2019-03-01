@@ -1,104 +1,105 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _keys = require('babel-runtime/core-js/object/keys');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _keys2 = _interopRequireDefault(_keys);
+require("core-js/modules/es6.symbol");
 
-var _isNan = require('babel-runtime/core-js/number/is-nan');
+require("core-js/modules/es6.object.define-property");
 
-var _isNan2 = _interopRequireDefault(_isNan);
+require("core-js/modules/es6.object.create");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.keys");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/web.dom.iterable");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.array.for-each");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.number.constructor");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.number.is-nan");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.regexp.split");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react = require('react');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _react2 = _interopRequireDefault(_react);
+var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
 
-var _propTypes = require('prop-types');
+var _Download = _interopRequireDefault(require("../../assets/images/Download.svg"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Play = _interopRequireDefault(require("../../assets/images/Play.svg"));
 
-var _classnames = require('classnames');
+var _Pause = _interopRequireDefault(require("../../assets/images/Pause.svg"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _formatDuration = require('../../lib/formatDuration');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _formatDuration2 = _interopRequireDefault(_formatDuration);
-
-var _Download = require('../../assets/images/Download.svg');
-
-var _Download2 = _interopRequireDefault(_Download);
-
-var _Play = require('../../assets/images/Play.svg');
-
-var _Play2 = _interopRequireDefault(_Play);
-
-var _Pause = require('../../assets/images/Pause.svg');
-
-var _Pause2 = _interopRequireDefault(_Pause);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 var audiosMap = {};
 
-var VoicemailPlayer = function (_Component) {
-  (0, _inherits3.default)(VoicemailPlayer, _Component);
+var VoicemailPlayer =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(VoicemailPlayer, _Component);
 
   function VoicemailPlayer(props) {
-    (0, _classCallCheck3.default)(this, VoicemailPlayer);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (VoicemailPlayer.__proto__ || (0, _getPrototypeOf2.default)(VoicemailPlayer)).call(this, props));
+    _classCallCheck(this, VoicemailPlayer);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(VoicemailPlayer).call(this, props));
     _this.state = {
       playing: false,
       paused: false,
       progress: 0
     };
-
-    _this._id = (props.uri && props.uri.split('?')[0].split('/').pop()) + '/' + new Date().getTime();
+    _this._id = "".concat(props.uri && props.uri.split('?')[0].split('/').pop(), "/").concat(new Date().getTime());
     _this._audio = new Audio();
     _this._audio.preload = false;
     _this._audio.volume = 1;
     audiosMap[_this._id] = _this._audio;
+
     _this._audio.addEventListener('timeupdate', function () {
       if (!_this._mounted) {
         return;
       }
+
       _this.setState({
         progress: _this._audio.currentTime / _this._audio.duration
       });
@@ -108,9 +109,11 @@ var VoicemailPlayer = function (_Component) {
       if (!_this._mounted) {
         return;
       }
+
       _this.setState({
         playing: false
       });
+
       _this._audio.isPlaying = false;
     });
 
@@ -118,10 +121,12 @@ var VoicemailPlayer = function (_Component) {
       if (!_this._mounted) {
         return;
       }
+
       _this.setState({
         paused: true,
         playing: false
       });
+
       _this._audio.isPlaying = false;
     });
 
@@ -129,10 +134,12 @@ var VoicemailPlayer = function (_Component) {
       if (!_this._mounted) {
         return;
       }
+
       _this.setState({
         playing: true,
         paused: false
       });
+
       _this._audio.isPlaying = true;
     });
 
@@ -144,15 +151,21 @@ var VoicemailPlayer = function (_Component) {
       if (_this.state.playing) {
         return;
       }
+
       if (!_this.state.paused) {
         _this._audio.src = _this.props.uri;
+
         _this._audio.load(_this.props.uri);
-        if (!(0, _isNan2.default)(_this._audio.duration)) {
+
+        if (!Number.isNaN(_this._audio.duration)) {
           _this._audio.currentTime = 0;
         }
       }
+
       _this._pauseOtherAudios();
+
       _this._audio._playPromise = _this._audio.play();
+
       if (typeof _this.props.onPlay === 'function') {
         _this.props.onPlay();
       }
@@ -162,6 +175,7 @@ var VoicemailPlayer = function (_Component) {
       if (_this.state.paused) {
         return;
       }
+
       if (_this._audio._playPromise !== undefined) {
         _this._audio._playPromise.then(function () {
           _this._audio.pause();
@@ -174,19 +188,22 @@ var VoicemailPlayer = function (_Component) {
         e.preventDefault();
       }
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(VoicemailPlayer, [{
-    key: '_pauseOtherAudios',
+  _createClass(VoicemailPlayer, [{
+    key: "_pauseOtherAudios",
     value: function _pauseOtherAudios() {
       var _this2 = this;
 
-      (0, _keys2.default)(audiosMap).forEach(function (id) {
+      Object.keys(audiosMap).forEach(function (id) {
         if (id === _this2._id) {
           return;
         }
+
         var otherAudio = audiosMap[id];
+
         if (otherAudio.isPlaying && otherAudio._playPromise) {
           otherAudio._playPromise.then(function () {
             otherAudio.pause();
@@ -195,116 +212,111 @@ var VoicemailPlayer = function (_Component) {
       });
     }
   }, {
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
       this._mounted = true;
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this._mounted = false;
-      if (!(0, _isNan2.default)(this._audio.duration)) {
+
+      if (!Number.isNaN(this._audio.duration)) {
         this._audio.currentTime = 0;
       }
+
       this._audio.pause();
+
       delete audiosMap[this._id];
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _props = this.props,
-          className = _props.className,
-          duration = _props.duration,
-          uri = _props.uri,
-          disabled = _props.disabled,
-          currentLocale = _props.currentLocale;
+      var _this$props = this.props,
+          className = _this$props.className,
+          duration = _this$props.duration,
+          uri = _this$props.uri,
+          disabled = _this$props.disabled,
+          currentLocale = _this$props.currentLocale;
+      var icon;
 
-      var icon = void 0;
       if (this.state.playing) {
-        icon = _react2.default.createElement(
-          _Button2.default,
-          {
-            className: (0, _classnames2.default)(_styles2.default.play, disabled ? _styles2.default.disabled : null),
-            onClick: this._pauseAudio,
-            disabled: disabled
-          },
-          _react2.default.createElement(
-            'span',
-            { title: _i18n2.default.getString('pause', currentLocale) },
-            _react2.default.createElement(_Pause2.default, { width: 18, height: 18 })
-          )
-        );
+        icon = _react.default.createElement(_Button.default, {
+          className: (0, _classnames.default)(_styles.default.play, disabled ? _styles.default.disabled : null),
+          onClick: this._pauseAudio,
+          disabled: disabled
+        }, _react.default.createElement("span", {
+          title: _i18n.default.getString('pause', currentLocale)
+        }, _react.default.createElement(_Pause.default, {
+          width: 18,
+          height: 18
+        })));
       } else {
-        icon = _react2.default.createElement(
-          _Button2.default,
-          {
-            className: (0, _classnames2.default)(_styles2.default.play, disabled ? _styles2.default.disabled : null),
-            onClick: this._playAudio,
-            disabled: disabled
-          },
-          _react2.default.createElement(
-            'span',
-            { title: _i18n2.default.getString('play', currentLocale) },
-            _react2.default.createElement(_Play2.default, { width: 18, height: 18 })
-          )
-        );
+        icon = _react.default.createElement(_Button.default, {
+          className: (0, _classnames.default)(_styles.default.play, disabled ? _styles.default.disabled : null),
+          onClick: this._playAudio,
+          disabled: disabled
+        }, _react.default.createElement("span", {
+          title: _i18n.default.getString('play', currentLocale)
+        }, _react.default.createElement(_Play.default, {
+          width: 18,
+          height: 18
+        })));
       }
+
       var currentTime = this._audio.currentTime < duration ? this._audio.currentTime : duration;
-      var downloadUri = uri + '&contentDisposition=Attachment';
-      return _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, className) },
-        icon,
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.startTime },
-          (0, _formatDuration2.default)(currentTime)
-        ),
-        _react2.default.createElement(
-          'a',
-          {
-            className: (0, _classnames2.default)(_styles2.default.download, disabled ? _styles2.default.disabled : null),
-            target: '_blank',
-            download: true,
-            title: _i18n2.default.getString('download', currentLocale),
-            href: downloadUri,
-            onClick: this._onDownloadClick
-          },
-          _react2.default.createElement(_Download2.default, { width: 18, height: 18 })
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.endTime },
-          (0, _formatDuration2.default)(duration)
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.progress },
-          _react2.default.createElement('div', { className: _styles2.default.all }),
-          _react2.default.createElement('div', { className: _styles2.default.done, style: { width: this.state.progress * 100 + '%' } }),
-          _react2.default.createElement('div', { className: _styles2.default.current, style: { left: this.state.progress * 100 + '%' } })
-        )
-      );
+      var downloadUri = "".concat(uri, "&contentDisposition=Attachment");
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.root, className)
+      }, icon, _react.default.createElement("span", {
+        className: _styles.default.startTime
+      }, (0, _formatDuration.default)(currentTime)), _react.default.createElement("a", {
+        className: (0, _classnames.default)(_styles.default.download, disabled ? _styles.default.disabled : null),
+        target: "_blank",
+        download: true,
+        title: _i18n.default.getString('download', currentLocale),
+        href: downloadUri,
+        onClick: this._onDownloadClick
+      }, _react.default.createElement(_Download.default, {
+        width: 18,
+        height: 18
+      })), _react.default.createElement("span", {
+        className: _styles.default.endTime
+      }, (0, _formatDuration.default)(duration)), _react.default.createElement("div", {
+        className: _styles.default.progress
+      }, _react.default.createElement("div", {
+        className: _styles.default.all
+      }), _react.default.createElement("div", {
+        className: _styles.default.done,
+        style: {
+          width: "".concat(this.state.progress * 100, "%")
+        }
+      }), _react.default.createElement("div", {
+        className: _styles.default.current,
+        style: {
+          left: "".concat(this.state.progress * 100, "%")
+        }
+      })));
     }
   }]);
+
   return VoicemailPlayer;
 }(_react.Component);
 
 VoicemailPlayer.propTypes = {
-  duration: _propTypes2.default.number,
-  uri: _propTypes2.default.string.isRequired,
-  className: _propTypes2.default.string,
-  onPlay: _propTypes2.default.func,
-  disabled: _propTypes2.default.bool,
-  currentLocale: _propTypes2.default.string.isRequired
+  duration: _propTypes.default.number,
+  uri: _propTypes.default.string.isRequired,
+  className: _propTypes.default.string,
+  onPlay: _propTypes.default.func,
+  disabled: _propTypes.default.bool,
+  currentLocale: _propTypes.default.string.isRequired
 };
-
 VoicemailPlayer.defaultProps = {
   duration: 0,
   className: undefined,
   onPlay: undefined,
   disabled: false
 };
-
-exports.default = VoicemailPlayer;
+var _default = VoicemailPlayer;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

@@ -1,37 +1,25 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = EntityButton;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Spinner = _interopRequireDefault(require("../Spinner"));
 
-var _classnames = require('classnames');
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _Spinner = require('../Spinner');
-
-var _Spinner2 = _interopRequireDefault(_Spinner);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44,41 +32,35 @@ function EntityButton(_ref) {
       disableLinks = _ref.disableLinks,
       viewEntityTitle = _ref.viewEntityTitle,
       createEntityTitle = _ref.createEntityTitle;
-
   // console.debug('isCreating', isCreating);
-  var spinner = isCreating ? _react2.default.createElement(
-    'div',
-    { className: _styles2.default.spinnerContainer },
-    _react2.default.createElement(_Spinner2.default, { ringWidth: 2 })
-  ) : null;
-  var icon = hasEntity ? _DynamicsFont2.default.record : _DynamicsFont2.default.addEntity;
+  var spinner = isCreating ? _react.default.createElement("div", {
+    className: _styles.default.spinnerContainer
+  }, _react.default.createElement(_Spinner.default, {
+    ringWidth: 2
+  })) : null;
+  var icon = hasEntity ? _DynamicsFont.default.record : _DynamicsFont.default.addEntity;
   var onClick = hasEntity ? onViewEntity : onCreateEntity;
   var title = hasEntity ? viewEntityTitle : createEntityTitle;
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.entity, className),
-      onClick: onClick,
-      disabled: disableLinks },
-    _react2.default.createElement('span', {
-      className: icon,
-      title: title
-    }),
-    spinner
-  );
+  return _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.entity, className),
+    onClick: onClick,
+    disabled: disableLinks
+  }, _react.default.createElement("span", {
+    className: icon,
+    title: title
+  }), spinner);
 }
 
 EntityButton.propTypes = {
-  className: _propTypes2.default.string,
-  onViewEntity: _propTypes2.default.func,
-  onCreateEntity: _propTypes2.default.func,
-  hasEntity: _propTypes2.default.bool,
-  isCreating: _propTypes2.default.bool,
-  disableLinks: _propTypes2.default.bool,
-  viewEntityTitle: _propTypes2.default.string,
-  createEntityTitle: _propTypes2.default.string
+  className: _propTypes.default.string,
+  onViewEntity: _propTypes.default.func,
+  onCreateEntity: _propTypes.default.func,
+  hasEntity: _propTypes.default.bool,
+  isCreating: _propTypes.default.bool,
+  disableLinks: _propTypes.default.bool,
+  viewEntityTitle: _propTypes.default.string,
+  createEntityTitle: _propTypes.default.string
 };
-
 EntityButton.defaultProps = {
   className: undefined,
   onViewEntity: undefined,

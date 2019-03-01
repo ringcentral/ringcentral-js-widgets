@@ -1,30 +1,31 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   region: "地区",
   calling: "呼叫",
   logout: "注销",
   version: "版本",
   settings: "设置",
-  clickToDial: "点击拨号",
+  clickToDial: "点击打电话",
   autoCreateLog: "自动创建通话记录",
   autoCreateSMSLog: "自动创建短信记录",
   autoLogCalls: "自动记录通话",
   autoLogNotes: "自动记录备注",
   autoLogSMS: "自动记录短信",
   clickToSMS: "点击发短信",
-  clickToDialSMS: "点击拨号/发短信",
+  clickToDialSMS: "点击打电话/发短信",
   audio: "音频",
   language: "语言",
   feedback: "反馈",
   userGuide: "新功能",
   quickAccess: "快速访问设置"
-};
-
-// @key: @#@"region"@#@ @source: @#@"Region"@#@
+}; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
 // @key: @#@"version"@#@ @source: @#@"Version"@#@
@@ -42,4 +43,6 @@ exports.default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+
+exports.default = _default;
 //# sourceMappingURL=zh-CN.js.map

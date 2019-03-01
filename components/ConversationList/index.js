@@ -1,83 +1,95 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.symbol");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.assign");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.index-of");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/web.dom.iterable");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.keys");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.define-property");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.create");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.array.map");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _react = require('react');
+var _MessageItem = _interopRequireDefault(require("../MessageItem"));
 
-var _react2 = _interopRequireDefault(_react);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _MessageItem = require('../MessageItem');
-
-var _MessageItem2 = _interopRequireDefault(_MessageItem);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ConversationList = function (_Component) {
-  (0, _inherits3.default)(ConversationList, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var ConversationList =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ConversationList, _Component);
 
   function ConversationList(props) {
-    (0, _classCallCheck3.default)(this, ConversationList);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationList.__proto__ || (0, _getPrototypeOf2.default)(ConversationList)).call(this, props));
+    _classCallCheck(this, ConversationList);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ConversationList).call(this, props));
 
     _this.onScroll = function () {
       var totalScrollHeight = _this.messagesListBody.scrollHeight;
       var clientHeight = _this.messagesListBody.clientHeight;
+      var currentScrollTop = _this.messagesListBody.scrollTop; // load next page if scroll near buttom
 
-      var currentScrollTop = _this.messagesListBody.scrollTop;
-      // load next page if scroll near buttom
       if (totalScrollHeight - _this._scrollTop > clientHeight + 10 && totalScrollHeight - currentScrollTop <= clientHeight + 10) {
         if (typeof _this.props.loadNextPage === 'function') {
           _this.props.loadNextPage();
         }
       }
+
       _this._scrollTop = currentScrollTop;
     };
 
@@ -85,35 +97,37 @@ var ConversationList = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(ConversationList, [{
-    key: 'componentDidUpdate',
+  _createClass(ConversationList, [{
+    key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       if (this.props.typeFilter === prevProps.typeFilter) {
         return;
       }
+
       if (this.messagesListBody) {
         this.messagesListBody.scrollTop = 0;
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          className = _props.className,
-          currentLocale = _props.currentLocale,
-          conversations = _props.conversations,
-          perPage = _props.perPage,
-          disableLinks = _props.disableLinks,
-          placeholder = _props.placeholder,
-          loadingNextPage = _props.loadingNextPage,
-          childProps = (0, _objectWithoutProperties3.default)(_props, ['className', 'currentLocale', 'conversations', 'perPage', 'disableLinks', 'placeholder', 'loadingNextPage']);
+      var _this$props = this.props,
+          className = _this$props.className,
+          currentLocale = _this$props.currentLocale,
+          conversations = _this$props.conversations,
+          perPage = _this$props.perPage,
+          disableLinks = _this$props.disableLinks,
+          placeholder = _this$props.placeholder,
+          loadingNextPage = _this$props.loadingNextPage,
+          childProps = _objectWithoutProperties(_this$props, ["className", "currentLocale", "conversations", "perPage", "disableLinks", "placeholder", "loadingNextPage"]);
 
-      var content = void 0;
+      var content;
+
       if (conversations && conversations.length) {
         content = conversations.map(function (item) {
-          return _react2.default.createElement(_MessageItem2.default, (0, _extends3.default)({}, childProps, {
+          return _react.default.createElement(_MessageItem.default, _extends({}, childProps, {
             conversation: item,
             currentLocale: currentLocale,
             key: item.id,
@@ -121,57 +135,50 @@ var ConversationList = function (_Component) {
           }));
         });
       }
-      var loading = loadingNextPage ? _react2.default.createElement(
-        'div',
-        { className: _styles2.default.loading },
-        _i18n2.default.getString('loading', currentLocale)
-      ) : null;
-      return _react2.default.createElement(
-        'div',
-        {
-          className: (0, _classnames2.default)(_styles2.default.root, className),
-          onScroll: this.onScroll,
-          ref: function ref(list) {
-            _this2.messagesListBody = list;
-          }
-        },
-        content,
-        loading
-      );
+
+      var loading = loadingNextPage ? _react.default.createElement("div", {
+        className: _styles.default.loading
+      }, _i18n.default.getString('loading', currentLocale)) : null;
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.root, className),
+        onScroll: this.onScroll,
+        ref: function ref(list) {
+          _this2.messagesListBody = list;
+        }
+      }, content, loading);
     }
   }]);
+
   return ConversationList;
 }(_react.Component);
 
 exports.default = ConversationList;
-
-
 ConversationList.propTypes = {
-  brand: _propTypes2.default.string.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  conversations: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    id: _propTypes2.default.number,
-    conversationId: _propTypes2.default.string.isRequired,
-    subject: _propTypes2.default.string
+  brand: _propTypes.default.string.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  conversations: _propTypes.default.arrayOf(_propTypes.default.shape({
+    id: _propTypes.default.number,
+    conversationId: _propTypes.default.string.isRequired,
+    subject: _propTypes.default.string
   })).isRequired,
-  disableLinks: _propTypes2.default.bool,
-  perPage: _propTypes2.default.number,
-  className: _propTypes2.default.string,
-  showConversationDetail: _propTypes2.default.func.isRequired,
-  readMessage: _propTypes2.default.func.isRequired,
-  markMessage: _propTypes2.default.func.isRequired,
-  unmarkMessage: _propTypes2.default.func.isRequired,
-  dateTimeFormatter: _propTypes2.default.func,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  showGroupNumberName: _propTypes2.default.bool,
-  placeholder: _propTypes2.default.string,
-  typeFilter: _propTypes2.default.string,
-  loadNextPage: _propTypes2.default.func,
-  loadingNextPage: _propTypes2.default.bool,
-  renderExtraButton: _propTypes2.default.func
+  disableLinks: _propTypes.default.bool,
+  perPage: _propTypes.default.number,
+  className: _propTypes.default.string,
+  showConversationDetail: _propTypes.default.func.isRequired,
+  readMessage: _propTypes.default.func.isRequired,
+  markMessage: _propTypes.default.func.isRequired,
+  unmarkMessage: _propTypes.default.func.isRequired,
+  dateTimeFormatter: _propTypes.default.func,
+  showContactDisplayPlaceholder: _propTypes.default.bool,
+  sourceIcons: _propTypes.default.object,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  showGroupNumberName: _propTypes.default.bool,
+  placeholder: _propTypes.default.string,
+  typeFilter: _propTypes.default.string,
+  loadNextPage: _propTypes.default.func,
+  loadingNextPage: _propTypes.default.bool,
+  renderExtraButton: _propTypes.default.func
 };
 ConversationList.defaultProps = {
   perPage: 20,

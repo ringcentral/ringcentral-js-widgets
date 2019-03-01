@@ -1,35 +1,33 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
+exports.mapToFunctions = mapToFunctions;
+exports.mapToProps = mapToProps;
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("regenerator-runtime/runtime");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _reactRedux = require("react-redux");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _loginStatus = _interopRequireDefault(require("ringcentral-integration/modules/Auth/loginStatus"));
 
-var _reactRedux = require('react-redux');
+var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
-var _loginStatus = require('ringcentral-integration/modules/Auth/loginStatus');
+var _SettingsPanel = _interopRequireDefault(require("../../components/SettingsPanel"));
 
-var _loginStatus2 = _interopRequireDefault(_loginStatus);
-
-var _formatNumber = require('ringcentral-integration/lib/formatNumber');
-
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
-
-var _SettingsPanel = require('../../components/SettingsPanel');
-
-var _SettingsPanel2 = _interopRequireDefault(_SettingsPanel);
-
-var _phoneContext = require('../../lib/phoneContext');
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -45,33 +43,34 @@ function mapToProps(_, _ref) {
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
       detailedPresence = _ref$phone.detailedPresence,
       _ref$showRegion = _ref.showRegion,
-      showRegion = _ref$showRegion === undefined ? true : _ref$showRegion,
+      showRegion = _ref$showRegion === void 0 ? true : _ref$showRegion,
       _ref$showCalling = _ref.showCalling,
-      showCalling = _ref$showCalling === undefined ? true : _ref$showCalling,
+      showCalling = _ref$showCalling === void 0 ? true : _ref$showCalling,
       _ref$showAudio = _ref.showAudio,
-      showAudio = _ref$showAudio === undefined ? true : _ref$showAudio,
+      showAudio = _ref$showAudio === void 0 ? true : _ref$showAudio,
       _ref$showFeedback = _ref.showFeedback,
-      showFeedback = _ref$showFeedback === undefined ? true : _ref$showFeedback,
+      showFeedback = _ref$showFeedback === void 0 ? true : _ref$showFeedback,
       _ref$showUserGuide = _ref.showUserGuide,
-      showUserGuide = _ref$showUserGuide === undefined ? true : _ref$showUserGuide,
+      showUserGuide = _ref$showUserGuide === void 0 ? true : _ref$showUserGuide,
       _ref$showPresenceSett = _ref.showPresenceSettings,
-      showPresenceSettings = _ref$showPresenceSett === undefined ? true : _ref$showPresenceSett,
+      showPresenceSettings = _ref$showPresenceSett === void 0 ? true : _ref$showPresenceSett,
       _ref$showQuickAccess = _ref.showQuickAccess,
-      showQuickAccess = _ref$showQuickAccess === undefined ? false : _ref$showQuickAccess,
+      showQuickAccess = _ref$showQuickAccess === void 0 ? false : _ref$showQuickAccess,
       params = _ref.params;
-
   var loginNumber = '';
-  var loggedIn = auth.loginStatus === _loginStatus2.default.loggedIn;
+  var loggedIn = auth.loginStatus === _loginStatus.default.loggedIn;
+
   if (loggedIn && accountInfo.ready && extensionInfo.ready) {
     // If no extensionNumber, extensionNumber field needs to be omitted
     var extensionNumber = extensionInfo.extensionNumber && extensionInfo.extensionNumber !== '0' ? extensionInfo.extensionNumber : null;
     var phoneNumber = [accountInfo.mainCompanyNumber, extensionNumber].join('*');
-    loginNumber = (0, _formatNumber2.default)({
+    loginNumber = (0, _formatNumber.default)({
       phoneNumber: phoneNumber,
       countryCode: regionSettings.countryCode,
       areaCode: regionSettings.areaCode
     });
   }
+
   return {
     showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready) && (!localeSettings || localeSettings.ready)),
     showFeedback: showFeedback,
@@ -105,18 +104,19 @@ function mapToFunctions(_, _ref2) {
       userGuide = _ref2$phone.userGuide,
       quickAccess = _ref2$phone.quickAccess,
       _ref2$regionSettingsU = _ref2.regionSettingsUrl,
-      regionSettingsUrl = _ref2$regionSettingsU === undefined ? '/settings/region' : _ref2$regionSettingsU,
+      regionSettingsUrl = _ref2$regionSettingsU === void 0 ? '/settings/region' : _ref2$regionSettingsU,
       _ref2$callingSettings = _ref2.callingSettingsUrl,
-      callingSettingsUrl = _ref2$callingSettings === undefined ? '/settings/calling' : _ref2$callingSettings,
+      callingSettingsUrl = _ref2$callingSettings === void 0 ? '/settings/calling' : _ref2$callingSettings,
       _ref2$audioSettingsUr = _ref2.audioSettingsUrl,
-      audioSettingsUrl = _ref2$audioSettingsUr === undefined ? '/settings/audio' : _ref2$audioSettingsUr,
+      audioSettingsUrl = _ref2$audioSettingsUr === void 0 ? '/settings/audio' : _ref2$audioSettingsUr,
       _ref2$feedbackSetting = _ref2.feedbackSettingsUrl,
-      feedbackSettingsUrl = _ref2$feedbackSetting === undefined ? '/settings/feedback' : _ref2$feedbackSetting;
-
+      feedbackSettingsUrl = _ref2$feedbackSetting === void 0 ? '/settings/feedback' : _ref2$feedbackSetting;
   return {
     onLogoutButtonClick: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _onLogoutButtonClick = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -124,15 +124,15 @@ function mapToFunctions(_, _ref2) {
                 return auth.logout();
 
               case 2:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee);
       }));
 
       function onLogoutButtonClick() {
-        return _ref3.apply(this, arguments);
+        return _onLogoutButtonClick.apply(this, arguments);
       }
 
       return onLogoutButtonClick;
@@ -155,8 +155,6 @@ function mapToFunctions(_, _ref2) {
     onQuickAccessLinkClick: function onQuickAccessLinkClick() {
       quickAccess.enter();
     },
-
-
     setAvailable: function setAvailable() {
       return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);
     },
@@ -177,9 +175,7 @@ function mapToFunctions(_, _ref2) {
     }
   };
 }
-var SettingsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_SettingsPanel2.default));
 
-exports.mapToFunctions = mapToFunctions;
-exports.mapToProps = mapToProps;
+var SettingsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_SettingsPanel.default));
 exports.default = SettingsPage;
 //# sourceMappingURL=index.js.map

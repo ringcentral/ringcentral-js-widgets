@@ -1,32 +1,25 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es6.string.link");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _classnames = require('classnames');
+var _IconLine = _interopRequireDefault(require("../IconLine"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _IconLine = require('../IconLine');
-
-var _IconLine2 = _interopRequireDefault(_IconLine);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37,35 +30,29 @@ function LinkLine(_ref) {
       hrefClassName = _ref.hrefClassName,
       iconClassName = _ref.iconClassName,
       tooltip = _ref.tooltip;
+  return _react.default.createElement("a", {
+    onClick: function onClick(e) {
+      e.preventDefault();
 
-  return _react2.default.createElement(
-    'a',
-    {
-      onClick: function onClick(e) {
-        e.preventDefault();
-        _onClick();
-      },
-      title: tooltip,
-      className: (0, _classnames2.default)(_styles2.default.link, hrefClassName)
+      _onClick();
     },
-    _react2.default.createElement(
-      _IconLine2.default,
-      {
-        className: className,
-        icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.icon, iconClassName) })
-      },
-      children
-    )
-  );
+    title: tooltip,
+    className: (0, _classnames.default)(_styles.default.link, hrefClassName)
+  }, _react.default.createElement(_IconLine.default, {
+    className: className,
+    icon: _react.default.createElement("span", {
+      className: (0, _classnames.default)(_DynamicsFont.default.arrow, _styles.default.icon, iconClassName)
+    })
+  }, children));
 }
 
 LinkLine.propTypes = {
-  children: _propTypes2.default.node,
-  className: _propTypes2.default.string,
-  hrefClassName: _propTypes2.default.string,
-  iconClassName: _propTypes2.default.string,
-  onClick: _propTypes2.default.func.isRequired,
-  tooltip: _propTypes2.default.string
+  children: _propTypes.default.node,
+  className: _propTypes.default.string,
+  hrefClassName: _propTypes.default.string,
+  iconClassName: _propTypes.default.string,
+  onClick: _propTypes.default.func.isRequired,
+  tooltip: _propTypes.default.string
 };
 LinkLine.defaultProps = {
   children: undefined,
@@ -74,5 +61,6 @@ LinkLine.defaultProps = {
   iconClassName: undefined,
   tooltip: undefined
 };
-exports.default = LinkLine;
+var _default = LinkLine;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

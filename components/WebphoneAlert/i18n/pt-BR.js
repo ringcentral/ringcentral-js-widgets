@@ -3,22 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _webphoneErrors = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/webphoneErrors"));
 
 var _webphoneErrors$conne;
 
-var _webphoneErrors = require("ringcentral-integration/modules/Webphone/webphoneErrors");
-
-var _webphoneErrors2 = _interopRequireDefault(_webphoneErrors);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_webphoneErrors$conne = {}, (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.connectFailed, "Falha ao conectar ao servidor de telefone da Web."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.connected, "Telefone da Web registrado."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.browserNotSupported, "Há suporte para ligação com o navegador somente no Chrome."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.webphoneCountOverLimit, "É possível registrar no máximo cinco telefones Web."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.notOutboundCallWithoutDL, "No momento, o ramal não pode fazer chamadas de saída com o navegador. Entre em contato com o representante da conta para fazer um upgrade."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.getSipProvisionError, "Você não tem permissão para enviar mensagens."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.toVoiceMailError, "Não é possível enviar chamadas para caixa postal devido a um erro interno"), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.muteError, "Não é possível deixar a chamada sem som no momento."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.holdError, "Não é possível colocar a chamada em espera no momento."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.flipError, "Não é possível transferir a chamada. Tente novamente mais tarde."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.recordError, "Não é possível gravar a chamada no momento. Código de erro: {errorCode}"), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.recordDisabled, "Sua conta não tem o recurso de gravação de chamadas. Entre em contato com o administrador da conta."), (0, _defineProperty3.default)(_webphoneErrors$conne, _webphoneErrors2.default.transferError, "Não é possível transferir a chamada. Tente novamente mais tarde."), (0, _defineProperty3.default)(_webphoneErrors$conne, "webphoneUnavailable", "{error}. Estamos nos reconectando ao servidor. Se o erro continuar, reporte esse erro ao Suporte de {brandName}."), (0, _defineProperty3.default)(_webphoneErrors$conne, "errorCode", "Código de erro interno: {errorCode}"), (0, _defineProperty3.default)(_webphoneErrors$conne, "occurs", "Há um erro interno"), _webphoneErrors$conne);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
+var _default = (_webphoneErrors$conne = {}, _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.connectFailed, "Falha ao conectar ao servidor de telefone da Web."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.connected, "Telefone da Web registrado."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.browserNotSupported, "Há suporte para ligação com o navegador somente no Chrome."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.webphoneCountOverLimit, "É possível registrar no máximo cinco telefones Web."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.notOutboundCallWithoutDL, "No momento, o ramal não pode fazer chamadas de saída com o navegador. Entre em contato com o representante da conta para fazer um upgrade."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.getSipProvisionError, "Você não tem permissão para enviar mensagens."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.toVoiceMailError, "Não é possível enviar chamadas para caixa postal devido a um erro interno"), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.muteError, "Não é possível deixar a chamada sem som no momento."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.holdError, "Não é possível colocar a chamada em espera no momento."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.flipError, "Não é possível transferir a chamada. Tente novamente mais tarde."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.recordError, "Não é possível gravar a chamada no momento. Código de erro: {errorCode}"), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.recordDisabled, "Sua conta não tem o recurso de gravação de chamadas. Entre em contato com o administrador da conta."), _defineProperty(_webphoneErrors$conne, _webphoneErrors.default.transferError, "Não é possível transferir a chamada. Tente novamente mais tarde."), _defineProperty(_webphoneErrors$conne, "webphoneUnavailable", "{error}. Estamos nos reconectando ao servidor. Se o erro continuar, reporte esse erro ao Suporte de {brandName}."), _defineProperty(_webphoneErrors$conne, "errorCode", "Código de erro interno: {errorCode}"), _defineProperty(_webphoneErrors$conne, "occurs", "Há um erro interno"), _webphoneErrors$conne); // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@
 // @key: @#@"[webphoneErrors.browserNotSupported]"@#@ @source: @#@"Calling with browser is only supported on Chrome."@#@
 // @key: @#@"[webphoneErrors.webphoneCountOverLimit]"@#@ @source: @#@"A maximum of 5 web phones could be registered."@#@
@@ -34,4 +31,7 @@ exports.default = (_webphoneErrors$conne = {}, (0, _defineProperty3.default)(_we
 // @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
 // @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
 // @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=pt-BR.js.map

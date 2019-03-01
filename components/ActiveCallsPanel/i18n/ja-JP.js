@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   noActiveCalls: "アクティブな通話はありません",
   currentCall: "現在の通話",
   ringCall: "呼び出し中の通話",
@@ -13,9 +16,7 @@ exports.default = {
   confirmMergeToConference: "電話会議に追加しますか?",
   mergeToConference: "マージ",
   conferenceCall: "電話会議"
-};
-
-// @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
+}; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
@@ -24,4 +25,6 @@ exports.default = {
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+
+exports.default = _default;
 //# sourceMappingURL=ja-JP.js.map

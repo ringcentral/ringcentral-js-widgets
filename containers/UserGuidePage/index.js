@@ -1,16 +1,17 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _reactRedux = require('react-redux');
+var _reactRedux = require("react-redux");
 
-var _phoneContext = require('../../lib/phoneContext');
+var _phoneContext = require("../../lib/phoneContext");
 
-var _UserGuide = require('../../components/UserGuide');
-
-var _UserGuide2 = _interopRequireDefault(_UserGuide);
+var _UserGuide = _interopRequireDefault(require("../../components/UserGuide"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22,7 +23,6 @@ function mapToProps(_, _ref) {
       curIdx = _userGuide$carouselSt.curIdx,
       entered = _userGuide$carouselSt.entered,
       playing = _userGuide$carouselSt.playing;
-
   return {
     showSpinner: !(userGuide.ready && userGuide.preLoadImageStatus && locale.ready),
     currentLocale: locale.currentLocale,
@@ -38,7 +38,6 @@ function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
       userGuide = _ref2$phone.userGuide,
       quickAccess = _ref2$phone.quickAccess;
-
   return {
     updateCarousel: function updateCarousel() {
       return userGuide.updateCarousel.apply(userGuide, arguments);
@@ -49,5 +48,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-exports.default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_UserGuide2.default));
+var _default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_UserGuide.default));
+
+exports.default = _default;
 //# sourceMappingURL=index.js.map

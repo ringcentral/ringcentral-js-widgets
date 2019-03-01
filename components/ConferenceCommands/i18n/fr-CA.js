@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   title: "Commandes de téléconférence",
   starSharp2Title: "Nombre d'appelants",
   starSharp2Body: "Effectuer le suivi du nombre de participants à l'appel",
@@ -21,9 +24,7 @@ exports.default = {
   starSharp8Body: "Faire la commande une fois pour : DÉSACTIVER le son\r\nFaire la commande deux fois pour : ACTIVER le son d'entrée et DÉSACTIVER le son de sortie\r\nFaire la commande trois fois pour : DÉSACTIVER le son d'entrée et ACTIVER le son de sortie\r\nFaire la commande quatre fois pour : ACTIVER le son",
   star9Title: "Enregistrer la conférence",
   star9Body: "Faire la commande une fois pour DÉMARRER l'enregistrement\r\nFaire la commande de nouveau pour ARRÊTER l'enregistrement"
-};
-
-// @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
+}; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@
 // @key: @#@"starSharp3Title"@#@ @source: @#@"Leave Conference"@#@
@@ -40,4 +41,6 @@ exports.default = {
 // @key: @#@"starSharp8Body"@#@ @source: @#@"Press 1x: Turns OFF sound\nPress 2x: Enter tone is ON Exit tone is OFF\nPress 3x: Enter tone is OFF Exit tone is ON\nPress 4x: Turns ON sound"@#@
 // @key: @#@"star9Title"@#@ @source: @#@"Record your conference"@#@
 // @key: @#@"star9Body"@#@ @source: @#@"Press once to START recording\nPress again to STOP recording"@#@
+
+exports.default = _default;
 //# sourceMappingURL=fr-CA.js.map

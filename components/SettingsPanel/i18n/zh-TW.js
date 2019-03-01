@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   region: "地區",
   calling: "正在撥號",
   logout: "登出",
@@ -22,9 +25,7 @@ exports.default = {
   feedback: "意見回饋",
   userGuide: "新功能",
   quickAccess: "快速存取設定"
-};
-
-// @key: @#@"region"@#@ @source: @#@"Region"@#@
+}; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
 // @key: @#@"version"@#@ @source: @#@"Version"@#@
@@ -42,4 +43,6 @@ exports.default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+
+exports.default = _default;
 //# sourceMappingURL=zh-TW.js.map

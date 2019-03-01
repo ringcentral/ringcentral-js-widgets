@@ -1,58 +1,61 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.regexp.replace");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.array.map");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.function.name");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react = require('react');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _react2 = _interopRequireDefault(_react);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _propTypes = require('prop-types');
+var _RemoveButton = _interopRequireDefault(require("../RemoveButton"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _ContactDropdownList = _interopRequireDefault(require("../ContactDropdownList"));
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _RemoveButton = require('../RemoveButton');
-
-var _RemoveButton2 = _interopRequireDefault(_RemoveButton);
-
-var _ContactDropdownList = require('../ContactDropdownList');
-
-var _ContactDropdownList2 = _interopRequireDefault(_ContactDropdownList);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 /**
  * Set mouse focus and move cursor to end of input
@@ -60,6 +63,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 var focusCampo = function focusCampo(inputField) {
   inputField.blur();
+
   if (inputField && inputField.value.length !== 0) {
     if (inputField.createTextRange) {
       var FieldRange = inputField.createTextRange();
@@ -72,42 +76,35 @@ var focusCampo = function focusCampo(inputField) {
       inputField.selectionEnd = elemLen;
     }
   }
-  inputField.focus();
+
+  setTimeout(function () {
+    inputField.focus();
+  }, 0);
 };
 
 function SelectedRecipientItem(_ref) {
   var phoneNumber = _ref.phoneNumber,
       _ref$name = _ref.name,
-      name = _ref$name === undefined ? phoneNumber : _ref$name,
+      name = _ref$name === void 0 ? phoneNumber : _ref$name,
       _ref$title = _ref.title,
-      title = _ref$title === undefined ? name : _ref$title,
+      title = _ref$title === void 0 ? name : _ref$title,
       onRemove = _ref.onRemove;
-
-  var className = phoneNumber.length > 5 ? _styles2.default.phoneNumber : _styles2.default.extension;
-  return _react2.default.createElement(
-    'li',
-    {
-      className: className,
-      title: title
-    },
-    _react2.default.createElement(
-      'span',
-      null,
-      name
-    ),
-    _react2.default.createElement(_RemoveButton2.default, {
-      className: _styles2.default.removeReceiver,
-      onClick: onRemove,
-      visibility: true
-    })
-  );
+  var className = phoneNumber.length > 5 ? _styles.default.phoneNumber : _styles.default.extension;
+  return _react.default.createElement("li", {
+    className: className,
+    title: title
+  }, _react.default.createElement("span", null, name), _react.default.createElement(_RemoveButton.default, {
+    className: _styles.default.removeReceiver,
+    onClick: onRemove,
+    visibility: true
+  }));
 }
 
 SelectedRecipientItem.propTypes = {
-  phoneNumber: _propTypes2.default.string.isRequired,
-  name: _propTypes2.default.string,
-  title: _propTypes2.default.string,
-  onRemove: _propTypes2.default.func.isRequired
+  phoneNumber: _propTypes.default.string.isRequired,
+  name: _propTypes.default.string,
+  title: _propTypes.default.string,
+  onRemove: _propTypes.default.func.isRequired
 };
 SelectedRecipientItem.defaultProps = {
   name: undefined,
@@ -122,65 +119,67 @@ function SelectedRecipients(_ref2) {
       className = _ref2.className;
 
   if (multiple && recipients.length) {
-    return _react2.default.createElement(
-      'ul',
-      { className: (0, _classnames2.default)(className, _styles2.default.selectReceivers) },
-      recipients.map(function (item) {
-        return _react2.default.createElement(SelectedRecipientItem, {
-          key: item.phoneNumber,
-          name: item.name,
-          phoneNumber: item.phoneNumber,
-          onRemove: function onRemove() {
-            return _onRemove(item.phoneNumber);
-          }
-        });
-      })
-    );
-  } else if (!multiple && recipient) {
-    return _react2.default.createElement(
-      'ul',
-      { className: (0, _classnames2.default)(className, _styles2.default.selectReceivers) },
-      _react2.default.createElement(SelectedRecipientItem, {
-        key: recipient.phoneNumber,
-        name: recipient.name,
-        phoneNumber: recipient.phoneNumber,
+    return _react.default.createElement("ul", {
+      className: (0, _classnames.default)(className, _styles.default.selectReceivers)
+    }, recipients.map(function (item) {
+      return _react.default.createElement(SelectedRecipientItem, {
+        key: item.phoneNumber,
+        name: item.name,
+        phoneNumber: item.phoneNumber,
         onRemove: function onRemove() {
-          return _onRemove(recipient.phoneNumber);
+          return _onRemove(item.phoneNumber);
         }
-      })
-    );
+      });
+    }));
+  } else if (!multiple && recipient) {
+    return _react.default.createElement("ul", {
+      className: (0, _classnames.default)(className, _styles.default.selectReceivers)
+    }, _react.default.createElement(SelectedRecipientItem, {
+      key: recipient.phoneNumber,
+      name: recipient.name,
+      phoneNumber: recipient.phoneNumber,
+      onRemove: function onRemove() {
+        return _onRemove(recipient.phoneNumber);
+      }
+    }));
   }
+
   return null;
 }
 
 SelectedRecipients.propTypes = {
-  onRemove: _propTypes2.default.func.isRequired,
-  recipient: _propTypes2.default.shape({
-    phoneNumber: _propTypes2.default.string.isRequired,
-    name: _propTypes2.default.string
+  onRemove: _propTypes.default.func.isRequired,
+  recipient: _propTypes.default.shape({
+    phoneNumber: _propTypes.default.string.isRequired,
+    name: _propTypes.default.string
   }),
-  recipients: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    phoneNumber: _propTypes2.default.string.isRequired,
-    name: _propTypes2.default.string
+  recipients: _propTypes.default.arrayOf(_propTypes.default.shape({
+    phoneNumber: _propTypes.default.string.isRequired,
+    name: _propTypes.default.string
   })).isRequired,
-  multiple: _propTypes2.default.bool.isRequired,
-  className: _propTypes2.default.string
+  multiple: _propTypes.default.bool.isRequired,
+  className: _propTypes.default.string
 };
 SelectedRecipients.defaultProps = {
   recipient: null,
   className: undefined
 };
 
-var RecipientsInput = function (_Component) {
-  (0, _inherits3.default)(RecipientsInput, _Component);
+var RecipientsInput =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(RecipientsInput, _Component);
 
   function RecipientsInput(props) {
-    (0, _classCallCheck3.default)(this, RecipientsInput);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (RecipientsInput.__proto__ || (0, _getPrototypeOf2.default)(RecipientsInput)).call(this, props));
+    _classCallCheck(this, RecipientsInput);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RecipientsInput).call(this, props));
 
     _this.onInputKeyUp = function (e) {
       _this.props.searchContact(e.currentTarget.value);
+
       _this.setState({
         isFocusOnInput: true
       });
@@ -195,39 +194,53 @@ var RecipientsInput = function (_Component) {
     _this.onInputChange = function (e) {
       var value = e.currentTarget.value;
 
-      _this.setState({ value: value }, function () {
+      _this.setState({
+        value: value
+      }, function () {
         _this.props.onChange(value);
       });
+
       if (_this.listRef) {
         _this.listRef.scrollTop = 0;
       }
     };
 
     _this.onClean = function () {
-      _this.setState({ value: '' });
+      _this.setState({
+        value: ''
+      });
+
       _this.props.onClean();
     };
 
     _this.clickHandler = function (evt) {
       if (_this.listRef && _this.listRef.contains(evt.target)) return;
+
       if (_this.inputRef && _this.inputRef.contains(evt.target)) {
         _this.setState({
           isFocusOnInput: true
         });
+
         return;
       }
+
       _this.setState({
         isFocusOnInput: false
       });
     };
 
     _this._addToRecipients = function (item) {
-      _this.setState({ value: '', isFocusOnInput: false });
+      _this.setState({
+        value: '',
+        isFocusOnInput: false
+      });
+
       _this.props.addToRecipients(item);
     };
 
     _this.setInputRef = function (ref) {
       _this.inputRef = ref;
+
       if (typeof _this.props.inputRef === 'function') {
         _this.props.inputRef(ref);
       }
@@ -246,6 +259,7 @@ var RecipientsInput = function (_Component) {
         scrollDirection: null
       });
     };
+
     _this.scrollOperation = function (direction) {
       if (direction === 'ArrowDown' || direction === 'ArrowUp') {
         _this.setState({
@@ -253,6 +267,7 @@ var RecipientsInput = function (_Component) {
         });
       }
     };
+
     _this.addSelectedContactIndex = function () {
       var length = _this.props.searchContactList.length;
 
@@ -291,16 +306,20 @@ var RecipientsInput = function (_Component) {
       ) {
           return true;
         }
+
       return false;
-    };
-    // using React SyntheticEvent to deal with cross browser issue
+    }; // using React SyntheticEvent to deal with cross browser issue
+
+
     _this.handleHotKey = function (e) {
       if (_this.state.isFocusOnInput && _this.state.value.length >= 3) {
         if (e.key === 'ArrowUp') {
           _this.reduceSelectedContactIndex();
+
           _this.scrollOperation(e.key);
         } else if (e.key === 'ArrowDown') {
           _this.addSelectedContactIndex();
+
           _this.scrollOperation(e.key);
         }
       } else {
@@ -308,13 +327,17 @@ var RecipientsInput = function (_Component) {
           selectedContactIndex: 0
         });
       }
+
       if (_this.isSplitter(e)) {
         e.preventDefault();
+
         if (_this.state.value.length === 0) {
           return;
         }
+
         var relatedContactList = _this.state.value.length >= 3 ? _this.props.searchContactList : [];
         var currentSelected = relatedContactList[_this.state.selectedContactIndex];
+
         if (currentSelected && e.key === 'Enter') {
           _this.props.addToRecipients({
             name: currentSelected.name,
@@ -328,16 +351,19 @@ var RecipientsInput = function (_Component) {
         }
       }
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(RecipientsInput, [{
-    key: 'componentWillReceiveProps',
+  _createClass(RecipientsInput, [{
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       var _this2 = this;
 
       if (nextProps.value !== undefined && nextProps.value !== this.props.value && nextProps.value !== this.state.value) {
-        this.setState({ value: nextProps.value }, function () {
+        this.setState({
+          value: nextProps.value
+        }, function () {
           if (_this2.inputRef) {
             focusCampo(_this2.inputRef);
           }
@@ -346,12 +372,13 @@ var RecipientsInput = function (_Component) {
       }
     }
   }, {
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
       var _this3 = this;
 
       this.props.searchContact(this.props.value);
       window.addEventListener('click', this.clickHandler);
+
       if (this.props.autoFocus) {
         this._focusTimeout = setTimeout(function () {
           if (_this3.inputRef) {
@@ -361,129 +388,114 @@ var RecipientsInput = function (_Component) {
       }
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       window.removeEventListener('click', this.clickHandler);
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this4 = this;
 
       // TODO a temporary fix for rendering slower search result.
       var relatedContactList = this.state.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
-      var label = _react2.default.createElement(
-        'label',
-        { className: _styles2.default.label },
-        this.props.label === undefined ? _i18n2.default.getString('to', this.props.currentLocale) + ':' : this.props.label
-      );
-      var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react2.default.createElement(
-        'div',
-        { className: _styles2.default.inputWrapper },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.inputField },
-          _react2.default.createElement('input', {
-            'data-sign': 'recipientsInput',
-            ref: this.setInputRef,
-            name: 'receiver',
-            value: this.state.value,
-            onChange: this.onInputChange,
-            className: _styles2.default.numberInput,
-            maxLength: 30,
-            onFocus: this.onInputFocus,
-            onKeyUp: this.onInputKeyUp,
-            placeholder: this.props.placeholder === undefined ? _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale) : this.props.placeholder,
-            autoComplete: 'off'
-          })
-        ),
-        _react2.default.createElement(_RemoveButton2.default, {
-          className: _styles2.default.removeButton,
-          onClick: this.onClean,
-          visibility: this.state.value.length > 0
-        })
-      );
 
-      return _react2.default.createElement(
-        'div',
-        {
-          className: (0, _classnames2.default)(_styles2.default.container, this.props.className),
-          onKeyDown: this.handleHotKey
+      var label = _react.default.createElement("label", {
+        className: _styles.default.label
+      }, this.props.label === undefined ? "".concat(_i18n.default.getString('to', this.props.currentLocale), ":") : this.props.label);
+
+      var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react.default.createElement("div", {
+        className: _styles.default.inputWrapper
+      }, _react.default.createElement("div", {
+        className: _styles.default.inputField
+      }, _react.default.createElement("input", {
+        "data-sign": "recipientsInput",
+        ref: this.setInputRef,
+        name: "receiver",
+        value: this.state.value,
+        onChange: this.onInputChange,
+        className: _styles.default.numberInput,
+        maxLength: 30,
+        onFocus: this.onInputFocus,
+        onKeyUp: this.onInputKeyUp,
+        placeholder: this.props.placeholder === undefined ? _i18n.default.getString('enterNameOrNumber', this.props.currentLocale) : this.props.placeholder,
+        autoComplete: "off"
+      })), _react.default.createElement(_RemoveButton.default, {
+        className: _styles.default.removeButton,
+        onClick: this.onClean,
+        visibility: this.state.value.length > 0
+      }));
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.container, this.props.className),
+        onKeyDown: this.handleHotKey
+      }, label, _react.default.createElement("div", {
+        className: this.props.label === undefined ? _styles.default.rightPanel : ''
+      }, _react.default.createElement(SelectedRecipients, {
+        recipient: this.props.recipient,
+        recipients: this.props.recipients,
+        multiple: this.props.multiple,
+        onRemove: this.props.removeFromRecipients,
+        className: this.props.recipientsClassName
+      }), toNumberInput), _react.default.createElement(_ContactDropdownList.default, {
+        currentLocale: this.props.currentLocale,
+        listRef: function listRef(ref) {
+          _this4.listRef = ref;
         },
-        label,
-        _react2.default.createElement(
-          'div',
-          { className: this.props.label === undefined ? _styles2.default.rightPanel : '' },
-          _react2.default.createElement(SelectedRecipients, {
-            recipient: this.props.recipient,
-            recipients: this.props.recipients,
-            multiple: this.props.multiple,
-            onRemove: this.props.removeFromRecipients,
-            className: this.props.recipientsClassName
-          }),
-          toNumberInput
-        ),
-        _react2.default.createElement(_ContactDropdownList2.default, {
-          currentLocale: this.props.currentLocale,
-          listRef: function listRef(ref) {
-            _this4.listRef = ref;
-          },
-          scrollDirection: this.state.scrollDirection,
-          selectedIndex: this.state.selectedContactIndex,
-          setSelectedIndex: this.setSelectedIndex,
-          addToRecipients: this._addToRecipients,
-          items: relatedContactList,
-          formatContactPhone: this.props.formatContactPhone,
-          visibility: this.state.isFocusOnInput,
-          titleEnabled: this.props.titleEnabled,
-          phoneTypeRenderer: this.props.phoneTypeRenderer,
-          phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
-          contactInfoRenderer: this.props.contactInfoRenderer,
-          contactPhoneRenderer: this.props.contactPhoneRenderer
-        })
-      );
+        scrollDirection: this.state.scrollDirection,
+        selectedIndex: this.state.selectedContactIndex,
+        setSelectedIndex: this.setSelectedIndex,
+        addToRecipients: this._addToRecipients,
+        items: relatedContactList,
+        formatContactPhone: this.props.formatContactPhone,
+        visibility: this.state.isFocusOnInput,
+        titleEnabled: this.props.titleEnabled,
+        phoneTypeRenderer: this.props.phoneTypeRenderer,
+        phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
+        contactInfoRenderer: this.props.contactInfoRenderer,
+        contactPhoneRenderer: this.props.contactPhoneRenderer
+      }));
     }
   }]);
+
   return RecipientsInput;
 }(_react.Component);
 
 RecipientsInput.propTypes = {
-  className: _propTypes2.default.string,
-  recipientsClassName: _propTypes2.default.string,
-  label: _propTypes2.default.string,
-  placeholder: _propTypes2.default.string,
-  searchContactList: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    name: _propTypes2.default.string.isRequired,
-    entityType: _propTypes2.default.string.isRequired,
-    phoneType: _propTypes2.default.string.isRequired,
-    phoneNumber: _propTypes2.default.string.isRequired
+  className: _propTypes.default.string,
+  recipientsClassName: _propTypes.default.string,
+  label: _propTypes.default.string,
+  placeholder: _propTypes.default.string,
+  searchContactList: _propTypes.default.arrayOf(_propTypes.default.shape({
+    name: _propTypes.default.string.isRequired,
+    entityType: _propTypes.default.string.isRequired,
+    phoneType: _propTypes.default.string.isRequired,
+    phoneNumber: _propTypes.default.string.isRequired
   })).isRequired,
-  recipient: _propTypes2.default.shape({
-    phoneNumber: _propTypes2.default.string.isRequired,
-    name: _propTypes2.default.string
+  recipient: _propTypes.default.shape({
+    phoneNumber: _propTypes.default.string.isRequired,
+    name: _propTypes.default.string
   }),
-  recipients: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    phoneNumber: _propTypes2.default.string.isRequired,
-    name: _propTypes2.default.string
+  recipients: _propTypes.default.arrayOf(_propTypes.default.shape({
+    phoneNumber: _propTypes.default.string.isRequired,
+    name: _propTypes.default.string
   })),
-  value: _propTypes2.default.string.isRequired,
-  onChange: _propTypes2.default.func.isRequired,
-  onClean: _propTypes2.default.func.isRequired,
-  addToRecipients: _propTypes2.default.func.isRequired,
-  removeFromRecipients: _propTypes2.default.func.isRequired,
-  formatContactPhone: _propTypes2.default.func.isRequired,
-  searchContact: _propTypes2.default.func,
-  titleEnabled: _propTypes2.default.bool,
-  autoFocus: _propTypes2.default.bool,
-  currentLocale: _propTypes2.default.string.isRequired,
-  multiple: _propTypes2.default.bool,
-  inputRef: _propTypes2.default.func,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  contactInfoRenderer: _propTypes2.default.func,
-  contactPhoneRenderer: _propTypes2.default.func
+  value: _propTypes.default.string.isRequired,
+  onChange: _propTypes.default.func.isRequired,
+  onClean: _propTypes.default.func.isRequired,
+  addToRecipients: _propTypes.default.func.isRequired,
+  removeFromRecipients: _propTypes.default.func.isRequired,
+  formatContactPhone: _propTypes.default.func.isRequired,
+  searchContact: _propTypes.default.func,
+  titleEnabled: _propTypes.default.bool,
+  autoFocus: _propTypes.default.bool,
+  currentLocale: _propTypes.default.string.isRequired,
+  multiple: _propTypes.default.bool,
+  inputRef: _propTypes.default.func,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  contactInfoRenderer: _propTypes.default.func,
+  contactPhoneRenderer: _propTypes.default.func
 };
-
 RecipientsInput.defaultProps = {
   className: undefined,
   recipientsClassName: undefined,
@@ -503,6 +515,6 @@ RecipientsInput.defaultProps = {
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined
 };
-
-exports.default = RecipientsInput;
+var _default = RecipientsInput;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

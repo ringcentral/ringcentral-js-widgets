@@ -1,86 +1,101 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.for-each");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.filter");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.iterator");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.keys");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.object.define-property");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.object.create");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("core-js/modules/es6.array.map");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _react = _interopRequireDefault(require("react"));
 
-var _react = require('react');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react2 = _interopRequireDefault(_react);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes = require('prop-types');
+var _reactTransitionGroup = require("react-transition-group");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-var _classnames = require('classnames');
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _reactTransitionGroup = require('react-transition-group');
-
-var _SpinnerOverlay = require('../SpinnerOverlay');
-
-var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 var controlStyles = {
-  entered: { transform: 'translateY(0)' }
+  entered: {
+    transform: 'translateY(0)'
+  }
 };
 
-var UserGuide = function (_React$Component) {
-  (0, _inherits3.default)(UserGuide, _React$Component);
+var UserGuide =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(UserGuide, _React$Component);
 
   function UserGuide(props) {
-    (0, _classCallCheck3.default)(this, UserGuide);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (UserGuide.__proto__ || (0, _getPrototypeOf2.default)(UserGuide)).call(this, props));
+    _classCallCheck(this, UserGuide);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(UserGuide).call(this, props));
 
     _this.slideTo = function (idx) {
       if (idx > _this.props.guides.length - 1) {
         _this.exit();
+
         return;
       }
+
       _this.setState({
         curIdx: idx
       });
+
       _this.props.updateCarousel({
         curIdx: idx,
         entered: _this.state.entered,
@@ -93,16 +108,19 @@ var UserGuide = function (_React$Component) {
         _this.setState({
           playing: false
         });
+
         _this.props.updateCarousel({
           curIdx: _this.state.curIdx,
           entered: _this.state.entered,
           playing: false
         });
+
         _this.props.quickAccessEnter();
       } else {
         _this.setState({
           playing: false
         });
+
         _this.onExited();
       }
     };
@@ -111,6 +129,7 @@ var UserGuide = function (_React$Component) {
       _this.setState({
         entered: false
       });
+
       _this.props.updateCarousel({
         curIdx: 0,
         entered: false,
@@ -127,192 +146,163 @@ var UserGuide = function (_React$Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(UserGuide, [{
-    key: 'componentWillReceiveProps',
+  _createClass(UserGuide, [{
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       var curIdx = nextProps.curIdx,
           entered = nextProps.entered,
           playing = nextProps.playing;
 
       if (this.state.curIdx !== curIdx) {
-        this.setState({ curIdx: curIdx });
+        this.setState({
+          curIdx: curIdx
+        });
       }
+
       if (this.state.entered !== entered) {
-        this.setState({ entered: entered });
+        this.setState({
+          entered: entered
+        });
       }
+
       if (this.state.playing !== playing) {
-        this.setState({ playing: playing });
+        this.setState({
+          playing: playing
+        });
       }
     }
   }, {
-    key: 'getIntroView',
+    key: "getIntroView",
     value: function getIntroView() {
       var _this2 = this;
 
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.intro },
-        _react2.default.createElement('div', {
-          className: _styles2.default.introBg,
-          style: { backgroundImage: 'url(' + this.props.guides[0] + ')' }
-        }),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.buttonGroup },
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              className: _styles2.default.primaryButton,
-              onClick: function onClick() {
-                _this2.slideTo(1);
-              }
-            },
-            _i18n2.default.getString('start', this.props.currentLocale)
-          ),
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              onClick: function onClick() {
-                _this2.exit();
-              },
-              className: _styles2.default.secondaryButton
-            },
-            _i18n2.default.getString('skip', this.props.currentLocale)
-          )
-        )
-      );
+      return _react.default.createElement("div", {
+        className: _styles.default.intro
+      }, _react.default.createElement("div", {
+        className: _styles.default.introBg,
+        style: {
+          backgroundImage: "url(".concat(this.props.guides[0], ")")
+        }
+      }), _react.default.createElement("div", {
+        className: _styles.default.buttonGroup
+      }, _react.default.createElement(_Button.default, {
+        className: _styles.default.primaryButton,
+        onClick: function onClick() {
+          _this2.slideTo(1);
+        }
+      }, _i18n.default.getString('start', this.props.currentLocale)), _react.default.createElement(_Button.default, {
+        onClick: function onClick() {
+          _this2.exit();
+        },
+        className: _styles.default.secondaryButton
+      }, _i18n.default.getString('skip', this.props.currentLocale))));
     }
   }, {
-    key: 'getCarouselView',
+    key: "getCarouselView",
     value: function getCarouselView() {
       var _this3 = this;
 
       var guides = this.props.guides.slice(1, this.props.guides.length);
       var imageView = guides.map(function (guide, i) {
-        return _react2.default.createElement('div', {
+        return _react.default.createElement("div", {
           key: i,
-          className: _styles2.default.view,
+          className: _styles.default.view,
           style: {
-            backgroundImage: 'url(' + guide + ')',
-            transform: 'translateX(' + (i + 1) * 100 + 'vw)'
+            backgroundImage: "url(".concat(guide, ")"),
+            transform: "translateX(".concat((i + 1) * 100, "vw)")
           }
         });
       });
       var indicatorView = guides.map(function (_, i) {
-        var highlight = i + 1 === _this3.state.curIdx ? _styles2.default.highlight : null;
-        return _react2.default.createElement('li', {
+        var highlight = i + 1 === _this3.state.curIdx ? _styles.default.highlight : null;
+        return _react.default.createElement("li", {
           key: i,
-          className: (0, _classnames2.default)(_styles2.default.dot, highlight),
+          className: (0, _classnames.default)(_styles.default.dot, highlight),
           onClick: function onClick() {
             _this3.slideTo(i + 1);
           }
         });
       });
       var onLastPage = this.state.curIdx === this.props.guides.length - 1;
-      var skipButton = onLastPage ? _react2.default.createElement('div', { className: _styles2.default.secondaryButton }) : _react2.default.createElement(
-        _Button2.default,
-        {
-          onClick: function onClick() {
-            _this3.exit();
-          },
-          className: (0, _classnames2.default)(_styles2.default.secondaryButton)
+      var skipButton = onLastPage ? _react.default.createElement("div", {
+        className: _styles.default.secondaryButton
+      }) : _react.default.createElement(_Button.default, {
+        onClick: function onClick() {
+          _this3.exit();
         },
-        _i18n2.default.getString('skip', this.props.currentLocale)
-      );
-      var nextButton = _react2.default.createElement(
-        _Button2.default,
-        {
-          onClick: function onClick() {
-            _this3.slideTo(_this3.state.curIdx + 1);
-          },
-          className: (0, _classnames2.default)(_styles2.default.primaryButton)
+        className: (0, _classnames.default)(_styles.default.secondaryButton)
+      }, _i18n.default.getString('skip', this.props.currentLocale));
+
+      var nextButton = _react.default.createElement(_Button.default, {
+        onClick: function onClick() {
+          _this3.slideTo(_this3.state.curIdx + 1);
         },
-        onLastPage ? _i18n2.default.getString('finish', this.props.currentLocale) : _i18n2.default.getString('next', this.props.currentLocale)
-      );
-      var controlView = _react2.default.createElement(
-        _reactTransitionGroup.Transition,
-        {
-          'in': this.state.curIdx > 0,
-          timeout: 300
-        },
-        function (state) {
-          return _react2.default.createElement(
-            'div',
-            { className: _styles2.default.control, style: (0, _extends3.default)({}, controlStyles[state]) },
-            skipButton,
-            _react2.default.createElement(
-              'ul',
-              { className: _styles2.default.indicator },
-              indicatorView
-            ),
-            nextButton
-          );
+        className: (0, _classnames.default)(_styles.default.primaryButton)
+      }, onLastPage ? _i18n.default.getString('finish', this.props.currentLocale) : _i18n.default.getString('next', this.props.currentLocale));
+
+      var controlView = _react.default.createElement(_reactTransitionGroup.Transition, {
+        in: this.state.curIdx > 0,
+        timeout: 300
+      }, function (state) {
+        return _react.default.createElement("div", {
+          className: _styles.default.control,
+          style: _objectSpread({}, controlStyles[state])
+        }, skipButton, _react.default.createElement("ul", {
+          className: _styles.default.indicator
+        }, indicatorView), nextButton);
+      });
+
+      return _react.default.createElement("div", {
+        className: _styles.default.carousel
+      }, _react.default.createElement("div", {
+        className: _styles.default.carouselBox,
+        style: {
+          transform: "translateX(-".concat(this.state.curIdx * 100, "vw)")
         }
-      );
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.carousel },
-        _react2.default.createElement(
-          'div',
-          {
-            className: _styles2.default.carouselBox,
-            style: { transform: 'translateX(-' + this.state.curIdx * 100 + 'vw)' }
-          },
-          this.getIntroView(),
-          imageView
-        ),
-        controlView
-      );
+      }, this.getIntroView(), imageView), controlView);
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       if (!this.props.guides || this.props.guides.length === 0 || !this.state.entered) return null;
 
       if (this.props.showSpinner) {
-        return _react2.default.createElement(_SpinnerOverlay2.default, null);
+        return _react.default.createElement(_SpinnerOverlay.default, null);
       }
+
       var view = this.getCarouselView();
-      return _react2.default.createElement(
-        _reactTransitionGroup.CSSTransition,
-        {
-          'in': this.state.playing,
-          timeout: 400,
-          classNames: {
-            appear: _styles2.default.enter,
-            appearActive: _styles2.default.enterActive,
-            exit: _styles2.default.exit,
-            exitActive: _styles2.default.exitActive
-          },
-          onExited: this.onExited,
-          appear: true
+      return _react.default.createElement(_reactTransitionGroup.CSSTransition, {
+        in: this.state.playing,
+        timeout: 400,
+        classNames: {
+          appear: _styles.default.enter,
+          appearActive: _styles.default.enterActive,
+          exit: _styles.default.exit,
+          exitActive: _styles.default.exitActive
         },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.root },
-          view
-        )
-      );
+        onExited: this.onExited,
+        appear: true
+      }, _react.default.createElement("div", {
+        className: _styles.default.root
+      }, view));
     }
   }]);
+
   return UserGuide;
-}(_react2.default.Component);
+}(_react.default.Component);
 
 exports.default = UserGuide;
-
-
 UserGuide.propTypes = {
-  curIdx: _propTypes2.default.number,
-  entered: _propTypes2.default.bool,
-  playing: _propTypes2.default.bool,
-  firstLogin: _propTypes2.default.bool,
-  updateCarousel: _propTypes2.default.func,
-  quickAccessEnter: _propTypes2.default.func,
-  guides: _propTypes2.default.array.isRequired,
-  showSpinner: _propTypes2.default.bool.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired
+  curIdx: _propTypes.default.number,
+  entered: _propTypes.default.bool,
+  playing: _propTypes.default.bool,
+  firstLogin: _propTypes.default.bool,
+  updateCarousel: _propTypes.default.func,
+  quickAccessEnter: _propTypes.default.func,
+  guides: _propTypes.default.array.isRequired,
+  showSpinner: _propTypes.default.bool.isRequired,
+  currentLocale: _propTypes.default.string.isRequired
 };
-
 UserGuide.defaultProps = {
   curIdx: 0,
   entered: false,

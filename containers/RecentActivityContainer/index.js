@@ -1,49 +1,37 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.mapToProps = exports.getTabs = undefined;
+exports.getTabs = getTabs;
+exports.mapToProps = mapToProps;
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es6.array.filter");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _reactRedux = require('react-redux');
+var _reactRedux = require("react-redux");
 
-var _callDirections = require('ringcentral-integration/enums/callDirections');
+var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _callDirections2 = _interopRequireDefault(_callDirections);
+var _RecentActivityPanel = _interopRequireDefault(require("../../components/RecentActivityPanel"));
 
-var _RecentActivityPanel = require('../../components/RecentActivityPanel');
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _RecentActivityPanel2 = _interopRequireDefault(_RecentActivityPanel);
+var _RecentActivityMessages = _interopRequireDefault(require("../../components/RecentActivityMessages"));
 
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+var _RecentActivityCalls = _interopRequireDefault(require("../../components/RecentActivityCalls"));
 
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/VoicemailIcon.svg"));
 
-var _RecentActivityMessages = require('../../components/RecentActivityMessages');
+var _Fax = _interopRequireDefault(require("../../assets/images/Fax.svg"));
 
-var _RecentActivityMessages2 = _interopRequireDefault(_RecentActivityMessages);
+var _phoneContext = require("../../lib/phoneContext");
 
-var _RecentActivityCalls = require('../../components/RecentActivityCalls');
-
-var _RecentActivityCalls2 = _interopRequireDefault(_RecentActivityCalls);
-
-var _VoicemailIcon = require('../../assets/images/VoicemailIcon.svg');
-
-var _VoicemailIcon2 = _interopRequireDefault(_VoicemailIcon);
-
-var _Fax = require('../../assets/images/Fax.svg');
-
-var _Fax2 = _interopRequireDefault(_Fax);
-
-var _phoneContext = require('../../lib/phoneContext');
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55,24 +43,34 @@ function getTabs(_ref) {
       recentMessages = _ref.recentMessages,
       recentCalls = _ref.recentCalls,
       currentContact = _ref.currentContact,
-      sessionId = _ref.sessionId;
-
+      sessionId = _ref.sessionId,
+      showRecentCalls = _ref.showRecentCalls,
+      showRecentMessage = _ref.showRecentMessage,
+      showFax = _ref.showFax,
+      showVoiceMails = _ref.showVoiceMails;
   if (!ready) return [];
   var messages = [];
   var calls = [];
+
   if (currentContact && currentContact.id) {
     var contactId = currentContact.id;
-    var activityCardId = sessionId ? contactId + '-' + sessionId : contactId;
+    var activityCardId = sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId;
+
     if (recentMessages.messages[activityCardId]) {
       messages = recentMessages.messages[activityCardId];
     }
+
     if (recentCalls.calls[activityCardId]) {
       calls = recentCalls.calls[activityCardId];
     }
   }
-  return [{
-    icon: _react2.default.createElement(_VoicemailIcon2.default, { width: 21, height: 21 }),
-    label: _i18n2.default.getString('voicemail', currentLocale),
+
+  return [showVoiceMails ? {
+    icon: _react.default.createElement(_VoicemailIcon.default, {
+      width: 21,
+      height: 21
+    }),
+    label: _i18n.default.getString('voicemail', currentLocale),
     path: 'voicemails',
     isActive: function isActive(path) {
       return path === 'voicemails';
@@ -80,14 +78,16 @@ function getTabs(_ref) {
     view: null,
     getData: function getData() {},
     cleanUp: function cleanUp() {}
-  }, {
-    icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.composeText }),
-    label: _i18n2.default.getString('text', currentLocale),
+  } : null, showRecentMessage ? {
+    icon: _react.default.createElement("span", {
+      className: _DynamicsFont.default.composeText
+    }),
+    label: _i18n.default.getString('text', currentLocale),
     path: 'recentMessages',
     isActive: function isActive(path) {
       return path === 'recentMessages';
     },
-    view: _react2.default.createElement(_RecentActivityMessages2.default, {
+    view: _react.default.createElement(_RecentActivityMessages.default, {
       messages: messages,
       navigateTo: navigateTo,
       dateTimeFormatter: dateTimeFormatter,
@@ -95,14 +95,23 @@ function getTabs(_ref) {
       isMessagesLoaded: recentMessages.isMessagesLoaded
     }),
     getData: function getData() {
-      recentMessages.getMessages({ currentContact: currentContact, sessionId: sessionId });
+      recentMessages.getMessages({
+        currentContact: currentContact,
+        sessionId: sessionId
+      });
     },
     cleanUp: function cleanUp() {
-      return recentMessages.cleanUpMessages({ contact: currentContact, sessionId: sessionId });
+      return recentMessages.cleanUpMessages({
+        contact: currentContact,
+        sessionId: sessionId
+      });
     }
-  }, {
-    icon: _react2.default.createElement(_Fax2.default, { width: 21, height: 21 }),
-    label: _i18n2.default.getString('fax', currentLocale),
+  } : null, showFax ? {
+    icon: _react.default.createElement(_Fax.default, {
+      width: 21,
+      height: 21
+    }),
+    label: _i18n.default.getString('fax', currentLocale),
     path: 'faxes',
     isActive: function isActive(path) {
       return path === 'faxes';
@@ -110,26 +119,36 @@ function getTabs(_ref) {
     view: null,
     getData: function getData() {},
     cleanUp: function cleanUp() {}
-  }, {
-    icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.active }),
-    label: _i18n2.default.getString('call', currentLocale),
+  } : null, showRecentCalls ? {
+    icon: _react.default.createElement("span", {
+      className: _DynamicsFont.default.active
+    }),
+    label: _i18n.default.getString('call', currentLocale),
     path: 'recentCalls',
     isActive: function isActive(path) {
       return path === 'recentCalls';
     },
-    view: _react2.default.createElement(_RecentActivityCalls2.default, {
+    view: _react.default.createElement(_RecentActivityCalls.default, {
       calls: calls,
       dateTimeFormatter: dateTimeFormatter,
       currentLocale: currentLocale,
       isCallsLoaded: recentCalls.isCallsLoaded
     }),
     getData: function getData() {
-      recentCalls.getCalls({ currentContact: currentContact, sessionId: sessionId });
+      recentCalls.getCalls({
+        currentContact: currentContact,
+        sessionId: sessionId
+      });
     },
     cleanUp: function cleanUp() {
-      return recentCalls.cleanUpCalls({ contact: currentContact, sessionId: sessionId });
+      return recentCalls.cleanUpCalls({
+        contact: currentContact,
+        sessionId: sessionId
+      });
     }
-  }];
+  } : null].filter(function (x) {
+    return x !== null;
+  });
 }
 
 function mapToProps(_, _ref2) {
@@ -140,36 +159,48 @@ function mapToProps(_, _ref2) {
       recentCalls = _ref2$phone.recentCalls,
       contactMatcher = _ref2$phone.contactMatcher,
       _ref2$currentLocale = _ref2.currentLocale,
-      currentLocale = _ref2$currentLocale === undefined ? locale.currentLocale : _ref2$currentLocale,
+      currentLocale = _ref2$currentLocale === void 0 ? locale.currentLocale : _ref2$currentLocale,
       navigateTo = _ref2.navigateTo,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
-      dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function () {
+      dateTimeFormatter = _ref2$dateTimeFormatt === void 0 ? function () {
     return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
   } : _ref2$dateTimeFormatt,
       getSession = _ref2.getSession,
       useContact = _ref2.useContact,
-      contact = _ref2.contact;
-
+      contact = _ref2.contact,
+      _ref2$showRecentCalls = _ref2.showRecentCalls,
+      showRecentCalls = _ref2$showRecentCalls === void 0 ? true : _ref2$showRecentCalls,
+      _ref2$showRecentMessa = _ref2.showRecentMessage,
+      showRecentMessage = _ref2$showRecentMessa === void 0 ? true : _ref2$showRecentMessa,
+      _ref2$showFax = _ref2.showFax,
+      showFax = _ref2$showFax === void 0 ? true : _ref2$showFax,
+      _ref2$showVoiceMails = _ref2.showVoiceMails,
+      showVoiceMails = _ref2$showVoiceMails === void 0 ? true : _ref2$showVoiceMails;
   var sessionId = null;
   var currentContact = contact;
   var ready = dateTimeFormat.ready && locale.ready && recentMessages.ready && recentCalls.ready;
+
   if (!useContact) {
     var session = getSession();
     sessionId = session.id;
     currentContact = session.contactMatch;
     var contactMapping = contactMatcher && contactMatcher.dataMapping;
-    var phoneNumber = session.direction === _callDirections2.default.outbound ? session.to : session.from;
+    var phoneNumber = session.direction === _callDirections.default.outbound ? session.to : session.from;
+
     if (!currentContact) {
       currentContact = contactMapping && contactMapping[phoneNumber];
+
       if (currentContact && currentContact.length >= 1) {
         currentContact = currentContact[0];
       }
     }
+
     ready = ready && contactMatcher.ready;
   }
+
   return {
     currentLocale: currentLocale,
-    title: _i18n2.default.getString('recentActivities', locale.currentLocale),
+    title: _i18n.default.getString('recentActivities', locale.currentLocale),
     showSpinner: !ready,
     currentContact: currentContact,
     calls: recentCalls.calls || [],
@@ -181,15 +212,16 @@ function mapToProps(_, _ref2) {
       currentContact: currentContact,
       recentMessages: recentMessages,
       recentCalls: recentCalls,
-      sessionId: sessionId
+      sessionId: sessionId,
+      showFax: showFax,
+      showRecentCalls: showRecentCalls,
+      showVoiceMails: showVoiceMails,
+      showRecentMessage: showRecentMessage
     }),
     defaultTab: 'recentCalls'
   };
 }
 
-var RecentActivityContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel2.default));
-
-exports.getTabs = getTabs;
-exports.mapToProps = mapToProps;
+var RecentActivityContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel.default));
 exports.default = RecentActivityContainer;
 //# sourceMappingURL=index.js.map

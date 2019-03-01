@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports.default = void 0;
+var _default = {
   topic: "Tema",
   when: "Cuándo",
   duration: "Duración",
@@ -19,11 +22,11 @@ exports.default = {
   meetingOptions: "Opciones de reunión",
   requirePassword: "Requerir contraseña de reunión",
   password: "Contraseña",
-  enableJoinBeforeHost: "Permitir unirse antes que el host",
-  telephonyOnly: "Solo telefonía"
-};
-
-// @key: @#@"topic"@#@ @source: @#@"Topic"@#@
+  enableJoinBeforeHost: "Permitir unirse antes que el anfitrión",
+  telephonyOnly: "Solo telefonía",
+  hostVideoOn: "Video de anfitrión activado",
+  participantVideoOn: "Video del participante activado"
+}; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"recurringMeeting"@#@ @source: @#@"Recurring Meeting"@#@
@@ -40,4 +43,8 @@ exports.default = {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+
+exports.default = _default;
 //# sourceMappingURL=es-419.js.map

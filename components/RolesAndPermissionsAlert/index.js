@@ -1,29 +1,21 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = RolesAndPermissionsAlert;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _permissionsMessages = _interopRequireDefault(require("ringcentral-integration/modules/RolesAndPermissions/permissionsMessages"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 
-var _permissionsMessages = require('ringcentral-integration/modules/RolesAndPermissions/permissionsMessages');
-
-var _permissionsMessages2 = _interopRequireDefault(_permissionsMessages);
-
-var _FormattedMessage = require('../FormattedMessage');
-
-var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,39 +24,41 @@ function RolesAndPermissionsAlert(_ref) {
       currentLocale = _ref.currentLocale,
       brand = _ref.brand,
       application = _ref.application;
+  var msg;
 
-  var msg = void 0;
   switch (message) {
-    case _permissionsMessages2.default.invalidTier:
-      msg = _react2.default.createElement(_FormattedMessage2.default, {
-        message: _i18n2.default.getString(message, currentLocale),
-        values: { brand: brand, application: application } });
+    case _permissionsMessages.default.invalidTier:
+      msg = _react.default.createElement(_FormattedMessage.default, {
+        message: _i18n.default.getString(message, currentLocale),
+        values: {
+          brand: brand,
+          application: application
+        }
+      });
       break;
+
     default:
-      msg = _i18n2.default.getString(message, currentLocale);
+      msg = _i18n.default.getString(message, currentLocale);
       break;
   }
-  return _react2.default.createElement(
-    'div',
-    null,
-    msg
-  );
-}
-RolesAndPermissionsAlert.propTypes = {
-  message: _propTypes2.default.shape({
-    message: _propTypes2.default.string.isRequired
-  }).isRequired,
-  brand: _propTypes2.default.string.isRequired,
-  application: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired
-};
 
+  return _react.default.createElement("div", null, msg);
+}
+
+RolesAndPermissionsAlert.propTypes = {
+  message: _propTypes.default.shape({
+    message: _propTypes.default.string.isRequired
+  }).isRequired,
+  brand: _propTypes.default.string.isRequired,
+  application: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired
+};
 RolesAndPermissionsAlert.defaultProps = {
   application: undefined
 };
 
 RolesAndPermissionsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _permissionsMessages2.default.invalidTier || message === _permissionsMessages2.default.insufficientPrivilege;
+  return message === _permissionsMessages.default.invalidTier || message === _permissionsMessages.default.insufficientPrivilege;
 };
 //# sourceMappingURL=index.js.map

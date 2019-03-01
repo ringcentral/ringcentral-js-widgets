@@ -1,41 +1,55 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;
+exports.default = void 0;
 
-var _reactRedux = require('react-redux');
+require("core-js/modules/es6.array.for-each");
 
-var _formatNumber = require('ringcentral-integration/lib/formatNumber');
+require("core-js/modules/es6.array.filter");
 
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
+require("core-js/modules/es6.object.define-property");
 
-var _ConversationPanel = require('../../components/ConversationPanel');
+require("core-js/modules/es6.array.index-of");
 
-var _ConversationPanel2 = _interopRequireDefault(_ConversationPanel);
+require("core-js/modules/web.dom.iterable");
 
-var _phoneContext = require('../../lib/phoneContext');
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.promise");
+
+require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.array.map");
+
+var _reactRedux = require("react-redux");
+
+var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+
+var _ConversationPanel = _interopRequireDefault(require("../../components/ConversationPanel"));
+
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -50,13 +64,12 @@ function mapToProps(_, _ref) {
       connectivityMonitor = _ref$phone.connectivityMonitor,
       params = _ref.params,
       _ref$enableContactFal = _ref.enableContactFallback,
-      enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal,
+      enableContactFallback = _ref$enableContactFal === void 0 ? false : _ref$enableContactFal,
       _ref$showGroupNumberN = _ref.showGroupNumberName,
-      showGroupNumberName = _ref$showGroupNumberN === undefined ? false : _ref$showGroupNumberN,
+      showGroupNumberName = _ref$showGroupNumberN === void 0 ? false : _ref$showGroupNumberN,
       _ref$perPage = _ref.perPage,
-      perPage = _ref$perPage === undefined ? 20 : _ref$perPage,
+      perPage = _ref$perPage === void 0 ? 20 : _ref$perPage,
       inputExpandable = _ref.inputExpandable;
-
   var disableLinks = rateLimiter.isThrottling || !connectivityMonitor.connectivity;
   var showSpinner = !(dateTimeFormat.ready && (!contactMatcher || contactMatcher.ready) && regionSettings.ready && conversations.ready && rateLimiter.ready && connectivityMonitor.ready && (!conversationLogger || conversationLogger.ready));
   var currentConversation = conversations.currentConversation;
@@ -83,8 +96,6 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
-  var _this = this;
-
   var _ref2$phone = _ref2.phone,
       contactMatcher = _ref2$phone.contactMatcher,
       dateTimeFormat = _ref2$phone.dateTimeFormat,
@@ -94,41 +105,49 @@ function mapToFunctions(_, _ref2) {
       conversations = _ref2$phone.conversations,
       messageStore = _ref2$phone.messageStore,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
-      dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function () {
+      dateTimeFormatter = _ref2$dateTimeFormatt === void 0 ? function () {
     return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
   } : _ref2$dateTimeFormatt,
       isLoggedContact = _ref2.isLoggedContact,
       onLogConversation = _ref2.onLogConversation,
       _ref2$conversationsPa = _ref2.conversationsPath,
-      conversationsPath = _ref2$conversationsPa === undefined ? '/messages' : _ref2$conversationsPa;
+      conversationsPath = _ref2$conversationsPa === void 0 ? '/messages' : _ref2$conversationsPa;
+  var getMatcherContactName;
+  var getMatcherContactList;
+  var getMatcherContactNameList;
 
-  var getMatcherContactName = void 0;
-  var getMatcherContactList = void 0;
-  var getMatcherContactNameList = void 0;
   if (contactMatcher && contactMatcher.ready) {
     getMatcherContactList = function getMatcherContactList(phoneNumber) {
       var matcherNames = contactMatcher.dataMapping[phoneNumber];
+
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(function (matcher) {
-          return matcher.name + ' | ' + matcher.phoneNumbers[0].phoneType;
+          return "".concat(matcher.name, " | ").concat(matcher.phoneNumbers[0].phoneType);
         });
       }
+
       return [];
     };
+
     getMatcherContactNameList = function getMatcherContactNameList(phoneNumber) {
       var matcherNames = contactMatcher.dataMapping[phoneNumber];
+
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(function (matcher) {
           return matcher.name;
         });
       }
+
       return [];
     };
+
     getMatcherContactName = function getMatcherContactName(phoneNumber) {
       var matcherNames = getMatcherContactNameList(phoneNumber);
+
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.join('&');
       }
+
       return null;
     };
   }
@@ -148,7 +167,7 @@ function mapToFunctions(_, _ref2) {
     },
     dateTimeFormatter: dateTimeFormatter,
     formatPhone: function formatPhone(phoneNumber) {
-      return (0, _formatNumber2.default)({
+      return (0, _formatNumber.default)({
         phoneNumber: phoneNumber,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode
@@ -158,26 +177,30 @@ function mapToFunctions(_, _ref2) {
     getMatcherContactList: getMatcherContactList,
     getMatcherContactNameList: getMatcherContactNameList,
     isLoggedContact: isLoggedContact,
-    onLogConversation: onLogConversation || conversationLogger && function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var _ref3$redirect = _ref3.redirect,
-            redirect = _ref3$redirect === undefined ? true : _ref3$redirect,
-            options = (0, _objectWithoutProperties3.default)(_ref3, ['redirect']);
-        return _regenerator2.default.wrap(function _callee$(_context) {
+    onLogConversation: onLogConversation || conversationLogger &&
+    /*#__PURE__*/
+    function () {
+      var _ref4 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(_ref3) {
+        var _ref3$redirect, redirect, options;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return conversationLogger.logConversation((0, _extends3.default)({}, options, {
+                _ref3$redirect = _ref3.redirect, redirect = _ref3$redirect === void 0 ? true : _ref3$redirect, options = _objectWithoutProperties(_ref3, ["redirect"]);
+                _context.next = 3;
+                return conversationLogger.logConversation(_objectSpread({}, options, {
                   redirect: redirect
                 }));
 
-              case 2:
-              case 'end':
+              case 3:
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this);
+        }, _callee);
       }));
 
       return function (_x) {
@@ -196,5 +219,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-exports.default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConversationPanel2.default));
+var _default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConversationPanel.default));
+
+exports.default = _default;
 //# sourceMappingURL=index.js.map

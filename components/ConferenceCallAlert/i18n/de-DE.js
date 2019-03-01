@@ -3,24 +3,24 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _conferenceCallErrors2 = _interopRequireDefault(require("ringcentral-integration/modules/ConferenceCall/conferenceCallErrors"));
 
 var _conferenceCallErrors;
 
-var _conferenceCallErrors2 = require("ringcentral-integration/modules/ConferenceCall/conferenceCallErrors");
-
-var _conferenceCallErrors3 = _interopRequireDefault(_conferenceCallErrors2);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_conferenceCallErrors = {}, (0, _defineProperty3.default)(_conferenceCallErrors, _conferenceCallErrors3.default.bringInFailed, "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut."), (0, _defineProperty3.default)(_conferenceCallErrors, _conferenceCallErrors3.default.makeConferenceFailed, "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut."), (0, _defineProperty3.default)(_conferenceCallErrors, _conferenceCallErrors3.default.terminateConferenceFailed, "Das Beenden der Konferenz ist aufgrund unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut."), (0, _defineProperty3.default)(_conferenceCallErrors, _conferenceCallErrors3.default.removeFromConferenceFailed, "Das Entfernen des Teilnehmers ist aufgrund unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut."), (0, _defineProperty3.default)(_conferenceCallErrors, _conferenceCallErrors3.default.callIsRecording, "Anrufaufzeichnung in Verarbeitung. Bitte stoppen Sie die Aufzeichnung und versuchen Sie es erneut."), _conferenceCallErrors);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[conferenceCallErrors.bringInFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
+var _default = (_conferenceCallErrors = {}, _defineProperty(_conferenceCallErrors, _conferenceCallErrors2.default.bringInFailed, "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut."), _defineProperty(_conferenceCallErrors, _conferenceCallErrors2.default.makeConferenceFailed, "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut."), _defineProperty(_conferenceCallErrors, _conferenceCallErrors2.default.terminateConferenceFailed, "Das Beenden der Konferenz ist aufgrund unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut."), _defineProperty(_conferenceCallErrors, _conferenceCallErrors2.default.removeFromConferenceFailed, "Das Entfernen des Teilnehmers ist aufgrund unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut."), _defineProperty(_conferenceCallErrors, _conferenceCallErrors2.default.callIsRecording, "Anrufaufzeichnung in Verarbeitung. Bitte stoppen Sie die Aufzeichnung und versuchen Sie es erneut."), _conferenceCallErrors); // @key: @#@"[conferenceCallErrors.bringInFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.makeConferenceFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.terminateConferenceFailed]"@#@ @source: @#@"Failed to hangup the conference due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.removeFromConferenceFailed]"@#@ @source: @#@"Failed to remove the participant due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.callIsRecording]"@#@ @source: @#@"Call recording in progress. Please stop recording and try again."@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=de-DE.js.map

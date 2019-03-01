@@ -3,18 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _messages = _interopRequireDefault(require("ringcentral-integration/modules/Conference/messages"));
 
-var _messages = require("ringcentral-integration/modules/Conference/messages");
-
-var _messages2 = _interopRequireDefault(_messages);
+var _messages$requireAdit;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _defineProperty3.default)({}, _messages2.default.requireAditionalNumbers, "請選擇其他撥入號碼。");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// @key: @#@"[messages.requireAditionalNumbers]"@#@ @source: @#@"Please select the additional dial-in numbers."@#@
+var _default = (_messages$requireAdit = {}, _defineProperty(_messages$requireAdit, _messages.default.requireAditionalNumbers, "請選擇其他撥入號碼。"), _defineProperty(_messages$requireAdit, _messages.default.scheduledSuccess, "會議已排定。"), _messages$requireAdit); // @key: @#@"[messages.requireAditionalNumbers]"@#@ @source: @#@"Please select the additional dial-in numbers."@#@
+// @key: @#@"[messages.scheduledSuccess]"@#@ @source: @#@"Conference is scheduled."@#@
+
+
+exports.default = _default;
 //# sourceMappingURL=zh-HK.js.map

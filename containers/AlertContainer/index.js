@@ -1,109 +1,71 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.assign");
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _react = _interopRequireDefault(require("react"));
 
-var _react = require('react');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react2 = _interopRequireDefault(_react);
+var _reactRedux = require("react-redux");
 
-var _propTypes = require('prop-types');
+var _Alert = _interopRequireDefault(require("ringcentral-integration/modules/Alert"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Locale = _interopRequireDefault(require("ringcentral-integration/modules/Locale"));
 
-var _reactRedux = require('react-redux');
+var _AnimationAlert = _interopRequireDefault(require("../../components/AnimationAlert"));
 
-var _Alert = require('ringcentral-integration/modules/Alert');
+var _AuthAlert = _interopRequireDefault(require("../../components/AuthAlert"));
 
-var _Alert2 = _interopRequireDefault(_Alert);
+var _CallAlert = _interopRequireDefault(require("../../components/CallAlert"));
 
-var _Locale = require('ringcentral-integration/modules/Locale');
+var _CallLogAlert = _interopRequireDefault(require("../../components/CallLogAlert"));
 
-var _Locale2 = _interopRequireDefault(_Locale);
+var _CallingSettingsAlert = _interopRequireDefault(require("../../components/CallingSettingsAlert"));
 
-var _AnimationAlert = require('../../components/AnimationAlert');
+var _RegionSettingsAlert = _interopRequireDefault(require("../../components/RegionSettingsAlert"));
 
-var _AnimationAlert2 = _interopRequireDefault(_AnimationAlert);
+var _MessageSenderAlert = _interopRequireDefault(require("../../components/MessageSenderAlert"));
 
-var _AuthAlert = require('../../components/AuthAlert');
+var _RateExceededAlert = _interopRequireDefault(require("../../components/RateExceededAlert"));
 
-var _AuthAlert2 = _interopRequireDefault(_AuthAlert);
+var _ConnectivityAlert = _interopRequireDefault(require("../../components/ConnectivityAlert"));
 
-var _CallAlert = require('../../components/CallAlert');
+var _WebphoneAlert = _interopRequireDefault(require("../../components/WebphoneAlert"));
 
-var _CallAlert2 = _interopRequireDefault(_CallAlert);
+var _MessageStoreAlert = _interopRequireDefault(require("../../components/MessageStoreAlert"));
 
-var _CallLogAlert = require('../../components/CallLogAlert');
+var _MeetingAlert = _interopRequireDefault(require("../../components/MeetingAlert"));
 
-var _CallLogAlert2 = _interopRequireDefault(_CallLogAlert);
+var _AudioSettingsAlert = _interopRequireDefault(require("../../components/AudioSettingsAlert"));
 
-var _CallingSettingsAlert = require('../../components/CallingSettingsAlert');
+var _RolesAndPermissionsAlert = _interopRequireDefault(require("../../components/RolesAndPermissionsAlert"));
 
-var _CallingSettingsAlert2 = _interopRequireDefault(_CallingSettingsAlert);
+var _phoneContext = require("../../lib/phoneContext");
 
-var _RegionSettingsAlert = require('../../components/RegionSettingsAlert');
+var _ConferenceAlert = _interopRequireDefault(require("../../components/ConferenceAlert"));
 
-var _RegionSettingsAlert2 = _interopRequireDefault(_RegionSettingsAlert);
+var _ConferenceCallAlert = _interopRequireDefault(require("../../components/ConferenceCallAlert"));
 
-var _MessageSenderAlert = require('../../components/MessageSenderAlert');
+var _CallControlAlert = _interopRequireDefault(require("../../components/CallControlAlert"));
 
-var _MessageSenderAlert2 = _interopRequireDefault(_MessageSenderAlert);
-
-var _RateExceededAlert = require('../../components/RateExceededAlert');
-
-var _RateExceededAlert2 = _interopRequireDefault(_RateExceededAlert);
-
-var _ConnectivityAlert = require('../../components/ConnectivityAlert');
-
-var _ConnectivityAlert2 = _interopRequireDefault(_ConnectivityAlert);
-
-var _WebphoneAlert = require('../../components/WebphoneAlert');
-
-var _WebphoneAlert2 = _interopRequireDefault(_WebphoneAlert);
-
-var _MessageStoreAlert = require('../../components/MessageStoreAlert');
-
-var _MessageStoreAlert2 = _interopRequireDefault(_MessageStoreAlert);
-
-var _MeetingAlert = require('../../components/MeetingAlert');
-
-var _MeetingAlert2 = _interopRequireDefault(_MeetingAlert);
-
-var _AudioSettingsAlert = require('../../components/AudioSettingsAlert');
-
-var _AudioSettingsAlert2 = _interopRequireDefault(_AudioSettingsAlert);
-
-var _RolesAndPermissionsAlert = require('../../components/RolesAndPermissionsAlert');
-
-var _RolesAndPermissionsAlert2 = _interopRequireDefault(_RolesAndPermissionsAlert);
-
-var _phoneContext = require('../../lib/phoneContext');
-
-var _ConferenceAlert = require('../../components/ConferenceAlert');
-
-var _ConferenceAlert2 = _interopRequireDefault(_ConferenceAlert);
-
-var _ConferenceCallAlert = require('../../components/ConferenceCallAlert');
-
-var _ConferenceCallAlert2 = _interopRequireDefault(_ConferenceCallAlert);
-
-var _CallControlAlert = require('../../components/CallControlAlert');
-
-var _CallControlAlert2 = _interopRequireDefault(_CallControlAlert);
+var _AppInitialAlert = _interopRequireDefault(require("../../components/AppInitialAlert"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
       alert = _ref$phone.alert,
       brand = _ref$phone.brand;
-
   return {
     currentLocale: locale.currentLocale,
     messages: alert.messages,
@@ -124,113 +86,129 @@ function getDefaultRenderer(_ref2) {
         alertId = _ref3.alertId;
 
     routerInteraction.push(regionSettingsUrl);
+
     if (alertId) {
       alert.dismiss(alertId);
     }
   };
+
   var onCallingSettingsLinkClick = function onCallingSettingsLinkClick() {
     routerInteraction.push(callingSettingsUrl);
   };
+
   return function (message) {
-    if (_AuthAlert2.default.handleMessage(message)) {
-      return _AuthAlert2.default;
+    if (_AuthAlert.default.handleMessage(message)) {
+      return _AuthAlert.default;
     }
-    if (_CallAlert2.default.handleMessage(message)) {
+
+    if (_CallAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_CallAlert2.default, (0, _extends3.default)({}, props, {
+        return _react.default.createElement(_CallAlert.default, _extends({}, props, {
           brand: brand,
           onAreaCodeLinkClick: onRegionSettingsLinkClick
         }));
       };
     }
-    if (_CallingSettingsAlert2.default.handleMessage(message)) {
+
+    if (_CallingSettingsAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_CallingSettingsAlert2.default, (0, _extends3.default)({}, props, {
+        return _react.default.createElement(_CallingSettingsAlert.default, _extends({}, props, {
           brand: brand.fullName,
           onCallingSettingsLinkClick: onCallingSettingsLinkClick
         }));
       };
     }
 
-    if (_RegionSettingsAlert2.default.handleMessage(message)) {
+    if (_RegionSettingsAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_RegionSettingsAlert2.default, (0, _extends3.default)({}, props, {
+        return _react.default.createElement(_RegionSettingsAlert.default, _extends({}, props, {
           onRegionSettingsLinkClick: onRegionSettingsLinkClick
         }));
       };
     }
 
-    if (_MessageSenderAlert2.default.handleMessage(message)) {
+    if (_MessageSenderAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_MessageSenderAlert2.default, (0, _extends3.default)({}, props, {
+        return _react.default.createElement(_MessageSenderAlert.default, _extends({}, props, {
           brand: brand.fullName,
           onAreaCodeLink: onRegionSettingsLinkClick
         }));
       };
     }
 
-    if (_MessageStoreAlert2.default.handleMessage(message)) {
-      return _MessageStoreAlert2.default;
+    if (_MessageStoreAlert.default.handleMessage(message)) {
+      return _MessageStoreAlert.default;
     }
 
-    if (_RateExceededAlert2.default.handleMessage(message)) {
+    if (_RateExceededAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_RateExceededAlert2.default, (0, _extends3.default)({}, props, {
+        return _react.default.createElement(_RateExceededAlert.default, _extends({}, props, {
           timestamp: rateLimiter.timestamp,
-          duration: rateLimiter._throttleDuration }));
+          duration: rateLimiter._throttleDuration
+        }));
       };
     }
 
-    if (_ConnectivityAlert2.default.handleMessage(message)) {
-      return _ConnectivityAlert2.default;
+    if (_ConnectivityAlert.default.handleMessage(message)) {
+      return _ConnectivityAlert.default;
     }
 
-    if (_WebphoneAlert2.default.handleMessage(message)) {
+    if (_WebphoneAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_WebphoneAlert2.default, (0, _extends3.default)({}, props, {
+        return _react.default.createElement(_WebphoneAlert.default, _extends({}, props, {
           brand: brand
         }));
       };
     }
-    if (_MeetingAlert2.default.handleMessage(message)) {
+
+    if (_MeetingAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_MeetingAlert2.default, (0, _extends3.default)({}, props, {
+        return _react.default.createElement(_MeetingAlert.default, _extends({}, props, {
           application: brand.appName
         }));
       };
     }
-    if (_RolesAndPermissionsAlert2.default.handleMessage(message)) {
+
+    if (_RolesAndPermissionsAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_RolesAndPermissionsAlert2.default, (0, _extends3.default)({}, props, {
+        return _react.default.createElement(_RolesAndPermissionsAlert.default, _extends({}, props, {
           brand: brand.fullName,
-          application: brand.appName }));
-      };
-    }
-
-    if (_ConferenceAlert2.default.handleMessage(message)) {
-      return _ConferenceAlert2.default;
-    }
-
-    if (_ConferenceCallAlert2.default.handleMessage(message)) {
-      return _ConferenceCallAlert2.default;
-    }
-
-    if (_AudioSettingsAlert2.default.handleMessage(message)) {
-      return function (props) {
-        return _react2.default.createElement(_AudioSettingsAlert2.default, (0, _extends3.default)({}, props, {
           application: brand.appName
         }));
       };
     }
 
-    if (_CallLogAlert2.default.handleMessage(message)) {
+    if (_ConferenceAlert.default.handleMessage(message)) {
+      return _ConferenceAlert.default;
+    }
+
+    if (_ConferenceCallAlert.default.handleMessage(message)) {
+      return _ConferenceCallAlert.default;
+    }
+
+    if (_AudioSettingsAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_CallLogAlert2.default, props);
+        return _react.default.createElement(_AudioSettingsAlert.default, _extends({}, props, {
+          application: brand.appName
+        }));
       };
     }
-    if (_CallControlAlert2.default.handleMessage(message)) {
+
+    if (_CallLogAlert.default.handleMessage(message)) {
       return function (props) {
-        return _react2.default.createElement(_CallControlAlert2.default, props);
+        return _react.default.createElement(_CallLogAlert.default, props);
+      };
+    }
+
+    if (_CallControlAlert.default.handleMessage(message)) {
+      return function (props) {
+        return _react.default.createElement(_CallControlAlert.default, props);
+      };
+    }
+
+    if (_AppInitialAlert.default.handleMessage(message)) {
+      return function (props) {
+        return _react.default.createElement(_AppInitialAlert.default, props);
       };
     }
 
@@ -247,7 +225,7 @@ function mapToFunctions(_, _ref4) {
       regionSettingsUrl = _ref4.regionSettingsUrl,
       callingSettingsUrl = _ref4.callingSettingsUrl,
       _ref4$getRenderer = _ref4.getRenderer,
-      _getRenderer = _ref4$getRenderer === undefined ? getDefaultRenderer({
+      _getRenderer = _ref4$getRenderer === void 0 ? getDefaultRenderer({
     rateLimiter: rateLimiter,
     brand: brand,
     alert: alert,
@@ -264,6 +242,7 @@ function mapToFunctions(_, _ref4) {
         var renderer = additionalRenderer(message);
         if (renderer) return renderer;
       }
+
       return _getRenderer(message);
     },
     dismiss: function dismiss(id) {
@@ -272,7 +251,7 @@ function mapToFunctions(_, _ref4) {
   };
 }
 
-var AlertContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AnimationAlert2.default));
-
-exports.default = AlertContainer;
+var AlertContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AnimationAlert.default));
+var _default = AlertContainer;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

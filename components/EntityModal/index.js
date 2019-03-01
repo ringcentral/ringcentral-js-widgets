@@ -1,60 +1,65 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.map");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _Modal = _interopRequireDefault(require("../Modal"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _Modal = require('../Modal');
-
-var _Modal2 = _interopRequireDefault(_Modal);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var EntityModal = function (_Component) {
-  (0, _inherits3.default)(EntityModal, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var EntityModal =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(EntityModal, _Component);
 
   function EntityModal(props) {
-    (0, _classCallCheck3.default)(this, EntityModal);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (EntityModal.__proto__ || (0, _getPrototypeOf2.default)(EntityModal)).call(this, props));
+    _classCallCheck(this, EntityModal);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EntityModal).call(this, props));
     _this.state = {
       selected: props.entities[0]
     };
@@ -64,70 +69,63 @@ var EntityModal = function (_Component) {
         _this.props.onCancel();
       }
     };
+
     _this.onCreate = function () {
       if (typeof _this.props.onCreate === 'function') {
         _this.props.onCreate(_this.state.selected);
       }
     };
+
     _this.onRadioChange = function (e) {
       _this.setState({
         selected: e.target.value
       });
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(EntityModal, [{
-    key: 'render',
+  _createClass(EntityModal, [{
+    key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          entities = _props.entities,
-          show = _props.show,
-          currentLocale = _props.currentLocale;
-
-      return _react2.default.createElement(
-        _Modal2.default,
-        {
-          show: show,
-          title: _i18n2.default.getString('chooseEntity', currentLocale),
-          onConfirm: this.onCreate,
-          onCancel: this.onCancel,
-          textConfirm: _i18n2.default.getString('create', currentLocale),
-          currentLocale: currentLocale,
-          clickOutToClose: true },
-        entities.map(function (entityType, idx) {
-          return _react2.default.createElement(
-            'div',
-            { className: _styles2.default.radio, key: idx },
-            _react2.default.createElement(
-              'label',
-              null,
-              _react2.default.createElement('input', {
-                type: 'radio',
-                value: entityType,
-                checked: entityType === _this2.state.selected,
-                onChange: _this2.onRadioChange
-              }),
-              _i18n2.default.getString('' + entityType, currentLocale)
-            )
-          );
-        })
-      );
+      var _this$props = this.props,
+          entities = _this$props.entities,
+          show = _this$props.show,
+          currentLocale = _this$props.currentLocale;
+      return _react.default.createElement(_Modal.default, {
+        show: show,
+        title: _i18n.default.getString('chooseEntity', currentLocale),
+        onConfirm: this.onCreate,
+        onCancel: this.onCancel,
+        textConfirm: _i18n.default.getString('create', currentLocale),
+        currentLocale: currentLocale,
+        clickOutToClose: true
+      }, entities.map(function (entityType, idx) {
+        return _react.default.createElement("div", {
+          className: _styles.default.radio,
+          key: idx
+        }, _react.default.createElement("label", null, _react.default.createElement("input", {
+          type: "radio",
+          value: entityType,
+          checked: entityType === _this2.state.selected,
+          onChange: _this2.onRadioChange
+        }), _i18n.default.getString("".concat(entityType), currentLocale)));
+      }));
     }
   }]);
+
   return EntityModal;
 }(_react.Component);
 
 exports.default = EntityModal;
-
 EntityModal.propTypes = {
-  show: _propTypes2.default.bool,
-  onCreate: _propTypes2.default.func.isRequired,
-  onCancel: _propTypes2.default.func.isRequired,
-  entities: _propTypes2.default.array,
-  currentLocale: _propTypes2.default.string.isRequired
+  show: _propTypes.default.bool,
+  onCreate: _propTypes.default.func.isRequired,
+  onCancel: _propTypes.default.func.isRequired,
+  entities: _propTypes.default.array,
+  currentLocale: _propTypes.default.string.isRequired
 };
 EntityModal.defaultProps = {
   show: false,

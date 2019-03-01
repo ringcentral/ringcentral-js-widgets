@@ -1,130 +1,133 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MeetingSection = function (_Component) {
-  (0, _inherits3.default)(MeetingSection, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var MeetingSection =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(MeetingSection, _Component);
 
   function MeetingSection() {
-    var _ref;
+    var _getPrototypeOf2;
 
-    (0, _classCallCheck3.default)(this, MeetingSection);
+    var _this;
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    _classCallCheck(this, MeetingSection);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref = MeetingSection.__proto__ || (0, _getPrototypeOf2.default)(MeetingSection)).call.apply(_ref, [this].concat(args)));
-
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(MeetingSection)).call.apply(_getPrototypeOf2, [this].concat(args)));
     _this.state = {
       toggle: _this.props.toggle
     };
     return _this;
   }
 
-  (0, _createClass3.default)(MeetingSection, [{
-    key: 'render',
+  _createClass(MeetingSection, [{
+    key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          children = _props.children,
-          title = _props.title,
-          withSwitch = _props.withSwitch,
-          className = _props.className,
-          hideTopBorderLine = _props.hideTopBorderLine;
+      var _this$props = this.props,
+          children = _this$props.children,
+          title = _this$props.title,
+          withSwitch = _this$props.withSwitch,
+          className = _this$props.className,
+          hideTopBorderLine = _this$props.hideTopBorderLine;
 
       var toggle = function toggle() {
-        _this2.setState({ toggle: !_this2.state.toggle });
+        _this2.setState({
+          toggle: !_this2.state.toggle
+        });
       };
+
       var Title = function Title() {
-        return title ? _react2.default.createElement(
-          'span',
-          { className: _styles2.default.title },
-          title
-        ) : null;
+        return title ? _react.default.createElement("span", {
+          className: _styles.default.title
+        }, title) : null;
       };
-      var DropDown = function DropDown(_ref2) {
-        var isDropDown = _ref2.isDropDown,
-            onClick = _ref2.onClick;
-        return withSwitch ? _react2.default.createElement(
-          'span',
-          {
-            className: (0, _classnames2.default)(isDropDown ? _styles2.default.dropDown : null),
-            onClick: onClick },
-          _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.arrow) })
-        ) : null;
+
+      var DropDown = function DropDown(_ref) {
+        var isDropDown = _ref.isDropDown,
+            onClick = _ref.onClick;
+        return withSwitch ? _react.default.createElement("span", {
+          className: (0, _classnames.default)(isDropDown ? _styles.default.dropDown : null),
+          onClick: onClick
+        }, _react.default.createElement("i", {
+          className: (0, _classnames.default)(_DynamicsFont.default.arrow, _styles.default.arrow)
+        })) : null;
       };
-      var topBorderLine = hideTopBorderLine ? _styles2.default.hiddenTopBorder : null;
-      return _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.section, topBorderLine, className) },
-        title ? _react2.default.createElement(
-          'div',
-          { className: _styles2.default.spaceBetween },
-          _react2.default.createElement(Title, null),
-          _react2.default.createElement(DropDown, { isDropDown: this.state.toggle, onClick: toggle })
-        ) : null,
-        this.state.toggle ? children : null
-      );
+
+      var topBorderLine = hideTopBorderLine ? _styles.default.hiddenTopBorder : null;
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.section, topBorderLine, className)
+      }, title ? _react.default.createElement("div", {
+        className: _styles.default.spaceBetween
+      }, _react.default.createElement(Title, null), _react.default.createElement(DropDown, {
+        isDropDown: this.state.toggle,
+        onClick: toggle
+      })) : null, this.state.toggle ? children : null);
     }
   }]);
+
   return MeetingSection;
 }(_react.Component);
 
 MeetingSection.propTypes = {
-  children: _propTypes2.default.element.isRequired,
-  title: _propTypes2.default.string,
-  className: _propTypes2.default.string,
-  withSwitch: _propTypes2.default.bool,
-  toggle: _propTypes2.default.bool,
-  hideTopBorderLine: _propTypes2.default.bool
+  children: _propTypes.default.element.isRequired,
+  title: _propTypes.default.string,
+  className: _propTypes.default.string,
+  withSwitch: _propTypes.default.bool,
+  toggle: _propTypes.default.bool,
+  hideTopBorderLine: _propTypes.default.bool
 };
-
 MeetingSection.defaultProps = {
   className: null,
   title: null,
@@ -132,6 +135,6 @@ MeetingSection.defaultProps = {
   toggle: true,
   hideTopBorderLine: false
 };
-
-exports.default = MeetingSection;
+var _default = MeetingSection;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

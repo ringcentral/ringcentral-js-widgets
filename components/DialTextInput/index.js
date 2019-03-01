@@ -1,38 +1,29 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+var _react = _interopRequireWildcard(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _classnames = require('classnames');
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _TextInput = _interopRequireDefault(require("../TextInput"));
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _TextInput = require('../TextInput');
-
-var _TextInput2 = _interopRequireDefault(_TextInput);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function DialTextInput(_ref) {
   var className = _ref.className,
@@ -41,44 +32,40 @@ function DialTextInput(_ref) {
       onChangeEvent = _ref.onChangeEvent,
       onDelete = _ref.onDelete,
       autoFocus = _ref.autoFocus;
-
-  var deleteDisplay = value === '' ? { display: 'none' } : { display: 'block' };
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(_styles2.default.dialInput, className, invalid && _styles2.default.invalid) },
-    _react2.default.createElement(
-      'span',
-      { className: (0, _classnames2.default)(_styles2.default.to) },
-      _i18n2.default.getString('to')
-    ),
-    _react2.default.createElement(_TextInput2.default, {
-      placeholder: _i18n2.default.getString('enterNameOrPhoneNumber'),
-      className: _styles2.default.dial_Input,
-      value: value,
-      onChange: onChangeEvent,
-      autoFocus: autoFocus
-    }),
-    _react2.default.createElement('span', {
-      style: deleteDisplay,
-      className: (0, _classnames2.default)(_styles2.default.delete, _DynamicsFont2.default.clear),
-      onClick: onDelete
-    })
-  );
+  var deleteDisplay = value === '' ? {
+    display: 'none'
+  } : {
+    display: 'block'
+  };
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.dialInput, className, invalid && _styles.default.invalid)
+  }, _react.default.createElement("span", {
+    className: (0, _classnames.default)(_styles.default.to)
+  }, _i18n.default.getString('to')), _react.default.createElement(_TextInput.default, {
+    placeholder: _i18n.default.getString('enterNameOrPhoneNumber'),
+    className: _styles.default.dial_Input,
+    value: value,
+    onChange: onChangeEvent,
+    autoFocus: autoFocus
+  }), _react.default.createElement("span", {
+    style: deleteDisplay,
+    className: (0, _classnames.default)(_styles.default.delete, _DynamicsFont.default.clear),
+    onClick: onDelete
+  }));
 }
 
 DialTextInput.propTypes = {
-  className: _propTypes2.default.string,
-  invalid: _propTypes2.default.bool,
-  value: _propTypes2.default.string,
-  onChangeEvent: _propTypes2.default.func,
-  onDelete: _propTypes2.default.func,
-  autoFocus: _propTypes2.default.bool
+  className: _propTypes.default.string,
+  invalid: _propTypes.default.bool,
+  value: _propTypes.default.string,
+  onChangeEvent: _propTypes.default.func,
+  onDelete: _propTypes.default.func,
+  autoFocus: _propTypes.default.bool
 };
 DialTextInput.defaultValue = {
-  className: _styles2.default.input,
+  className: _styles.default.input,
   autoFocus: false
 };
-
-exports.default = DialTextInput;
+var _default = DialTextInput;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

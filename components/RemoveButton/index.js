@@ -1,55 +1,50 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _RcFont = _interopRequireDefault(require("../../assets/RcFont/RcFont.scss"));
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _RcFont = require('../../assets/RcFont/RcFont.scss');
-
-var _RcFont2 = _interopRequireDefault(_RcFont);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function RemoveButton(props) {
   var className = null;
+
   if (props.visibility) {
-    className = (0, _classnames2.default)(_styles2.default.containner, props.className);
+    className = (0, _classnames.default)(_styles.default.containner, props.className);
   } else {
-    className = (0, _classnames2.default)(_styles2.default.containner, props.className, _styles2.default.hiddenRemoveButton);
+    className = (0, _classnames.default)(_styles.default.containner, props.className, _styles.default.hiddenRemoveButton);
   }
-  return _react2.default.createElement(
-    'span',
-    { className: className, onClick: props.visibility ? props.onClick : null },
-    _react2.default.createElement('i', { className: _RcFont2.default.uni2471 })
-  );
+
+  return _react.default.createElement("span", {
+    className: className,
+    onClick: props.visibility ? props.onClick : null
+  }, _react.default.createElement("i", {
+    className: _RcFont.default.uni2471
+  }));
 }
 
 RemoveButton.propTypes = {
-  className: _propTypes2.default.string,
-  onClick: _propTypes2.default.func.isRequired,
-  visibility: _propTypes2.default.bool
+  className: _propTypes.default.string,
+  onClick: _propTypes.default.func.isRequired,
+  visibility: _propTypes.default.bool
 };
-
 RemoveButton.defaultProps = {
   className: null,
   visibility: true
 };
-
-exports.default = RemoveButton;
+var _default = RemoveButton;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

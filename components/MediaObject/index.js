@@ -1,37 +1,30 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es6.object.define-property");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _react = _interopRequireDefault(require("react"));
 
-var _react = require('react');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react2 = _interopRequireDefault(_react);
+var _classnames2 = _interopRequireDefault(require("classnames"));
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _classnames2 = require('classnames');
-
-var _classnames3 = _interopRequireDefault(_classnames2);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
 function getMeidaCls(str) {
-  return _styles2.default['media' + capitalize(str)];
+  return _styles.default["media".concat(capitalize(str))];
 }
 
 function MediaObject(_ref) {
@@ -50,61 +43,41 @@ function MediaObject(_ref) {
       bodyAlignment = _ref.bodyAlignment,
       rightAlignment = _ref.rightAlignment,
       flexible = _ref.flexible;
-
   var leftAlignmentClassName = getMeidaCls(leftAlignment);
   var rightAlignmentClassName = getMeidaCls(rightAlignment);
   var bodyAlignmentClassName = getMeidaCls(bodyAlignment);
-
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default.media, true), (0, _defineProperty3.default)(_classnames, _styles2.default.flex, !!flexible), (0, _defineProperty3.default)(_classnames, containerCls, !!containerCls), _classnames)) },
-    mediaLeft ? _react2.default.createElement(
-      'div',
-      { className: (0, _classnames3.default)(_styles2.default.mediaLeft, leftAlignmentClassName, leftCls) },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.mediaObject },
-        mediaLeft
-      )
-    ) : null,
-    _react2.default.createElement(
-      'div',
-      { className: (0, _classnames3.default)(_styles2.default.mediaBody, bodyAlignmentClassName, bodyCls) },
-      mediaHeading ? _react2.default.createElement(
-        'h4',
-        { className: (0, _classnames3.default)(_styles2.default.mediaHeading, headingCls) },
-        mediaHeading
-      ) : null,
-      mediaBody
-    ),
-    mediaRight ? _react2.default.createElement(
-      'div',
-      { className: (0, _classnames3.default)(_styles2.default.mediaRight, rightAlignmentClassName, rightCls) },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.mediaObject },
-        mediaRight
-      )
-    ) : null
-  );
+  return _react.default.createElement("div", {
+    className: (0, _classnames2.default)((_classnames = {}, _defineProperty(_classnames, _styles.default.media, true), _defineProperty(_classnames, _styles.default.flex, !!flexible), _defineProperty(_classnames, containerCls, !!containerCls), _classnames))
+  }, mediaLeft ? _react.default.createElement("div", {
+    className: (0, _classnames2.default)(_styles.default.mediaLeft, leftAlignmentClassName, leftCls)
+  }, _react.default.createElement("div", {
+    className: _styles.default.mediaObject
+  }, mediaLeft)) : null, _react.default.createElement("div", {
+    className: (0, _classnames2.default)(_styles.default.mediaBody, bodyAlignmentClassName, bodyCls)
+  }, mediaHeading ? _react.default.createElement("h4", {
+    className: (0, _classnames2.default)(_styles.default.mediaHeading, headingCls)
+  }, mediaHeading) : null, mediaBody), mediaRight ? _react.default.createElement("div", {
+    className: (0, _classnames2.default)(_styles.default.mediaRight, rightAlignmentClassName, rightCls)
+  }, _react.default.createElement("div", {
+    className: _styles.default.mediaObject
+  }, mediaRight)) : null);
 }
 
 MediaObject.propTypes = {
-  containerCls: _propTypes2.default.string,
-  mediaLeft: _propTypes2.default.element,
-  mediaBody: _propTypes2.default.oneOfType([_propTypes2.default.element, _propTypes2.default.string]),
-  mediaRight: _propTypes2.default.element,
-  mediaHeading: _propTypes2.default.string,
-  leftCls: _propTypes2.default.string,
-  bodyCls: _propTypes2.default.string,
-  rightCls: _propTypes2.default.string,
-  headingCls: _propTypes2.default.string,
-  leftAlignment: _propTypes2.default.oneOf(['top', 'middle', 'bottom']),
-  bodyAlignment: _propTypes2.default.oneOf(['top', 'middle', 'bottom']),
-  rightAlignment: _propTypes2.default.oneOf(['top', 'middle', 'bottom']),
-  flexible: _propTypes2.default.bool
+  containerCls: _propTypes.default.string,
+  mediaLeft: _propTypes.default.element,
+  mediaBody: _propTypes.default.oneOfType([_propTypes.default.element, _propTypes.default.string]),
+  mediaRight: _propTypes.default.element,
+  mediaHeading: _propTypes.default.string,
+  leftCls: _propTypes.default.string,
+  bodyCls: _propTypes.default.string,
+  rightCls: _propTypes.default.string,
+  headingCls: _propTypes.default.string,
+  leftAlignment: _propTypes.default.oneOf(['top', 'middle', 'bottom']),
+  bodyAlignment: _propTypes.default.oneOf(['top', 'middle', 'bottom']),
+  rightAlignment: _propTypes.default.oneOf(['top', 'middle', 'bottom']),
+  flexible: _propTypes.default.bool
 };
-
 MediaObject.defaultProps = {
   containerCls: null,
   mediaLeft: null,
@@ -120,6 +93,6 @@ MediaObject.defaultProps = {
   rightAlignment: 'middle',
   flexible: true
 };
-
-exports.default = MediaObject;
+var _default = MediaObject;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

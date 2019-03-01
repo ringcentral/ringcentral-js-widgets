@@ -1,37 +1,25 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = Dialog;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _classnames = require('classnames');
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _CloseIcon = require('../../assets/images/CloseIcon.svg');
-
-var _CloseIcon2 = _interopRequireDefault(_CloseIcon);
+var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,23 +28,18 @@ function FlatButton(_ref) {
       disabled = _ref.disabled,
       onClick = _ref.onClick,
       children = _ref.children;
-
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(className, _styles2.default.flatBtn, _styles2.default.text, disabled && _styles2.default.disabled),
-      onClick: !disabled && onClick
-    },
-    children
-  );
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(className, _styles.default.flatBtn, _styles.default.text, disabled && _styles.default.disabled),
+    onClick: !disabled && onClick
+  }, children);
 }
-FlatButton.propTypes = {
-  className: _propTypes2.default.string,
-  disabled: _propTypes2.default.bool,
-  onClick: _propTypes2.default.func,
-  children: _propTypes2.default.node
-};
 
+FlatButton.propTypes = {
+  className: _propTypes.default.string,
+  disabled: _propTypes.default.bool,
+  onClick: _propTypes.default.func,
+  children: _propTypes.default.node
+};
 FlatButton.defaultProps = {
   className: undefined,
   disabled: false,
@@ -80,67 +63,44 @@ function Dialog(_ref2) {
       headerClassName = _ref2.headerClassName,
       contentClassName = _ref2.contentClassName,
       footerClassName = _ref2.footerClassName;
-
-  var footer = !currentLocale || !onCancel && !onConfirm ? null : _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.footer, footerClassName) },
-    onCancel ? _react2.default.createElement(
-      FlatButton,
-      {
-        className: (0, _classnames2.default)(_styles2.default.btn, _styles2.default.cancelBtn, cancelBtnClassName),
-        onClick: onCancel
-      },
-      textCancel || _i18n2.default.getString('cancel', currentLocale)
-    ) : null,
-    onConfirm ? _react2.default.createElement(
-      FlatButton,
-      {
-        className: (0, _classnames2.default)(_styles2.default.btn, _styles2.default.confirmBtn, confirmBtnClassName),
-        onClick: onConfirm
-      },
-      textConfirm || _i18n2.default.getString('confirm', currentLocale)
-    ) : null
-  );
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(_styles2.default.dialog, className)
-    },
-    showTitle ? _react2.default.createElement(
-      'div',
-      { className: (0, _classnames2.default)(_styles2.default.header, headerClassName) },
-      '' + title || null
-    ) : null,
-    showCloseBtn ? _react2.default.createElement(
-      _Button2.default,
-      { dataSign: 'closeButton', className: _styles2.default.closeBtn, onClick: onCancel },
-      _react2.default.createElement(_CloseIcon2.default, null)
-    ) : null,
-    _react2.default.createElement(
-      'div',
-      { className: (0, _classnames2.default)(_styles2.default.content, contentClassName) },
-      children
-    ),
-    footer
-  );
+  var footer = !currentLocale || !onCancel && !onConfirm ? null : _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.footer, footerClassName)
+  }, onCancel ? _react.default.createElement(FlatButton, {
+    className: (0, _classnames.default)(_styles.default.btn, _styles.default.cancelBtn, cancelBtnClassName),
+    onClick: onCancel
+  }, textCancel || _i18n.default.getString('cancel', currentLocale)) : null, onConfirm ? _react.default.createElement(FlatButton, {
+    className: (0, _classnames.default)(_styles.default.btn, _styles.default.confirmBtn, confirmBtnClassName),
+    onClick: onConfirm
+  }, textConfirm || _i18n.default.getString('confirm', currentLocale)) : null);
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.dialog, className)
+  }, showTitle ? _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.header, headerClassName)
+  }, "".concat(title) || null) : null, showCloseBtn ? _react.default.createElement(_Button.default, {
+    dataSign: "closeButton",
+    className: _styles.default.closeBtn,
+    onClick: onCancel
+  }, _react.default.createElement(_CloseIcon.default, null)) : null, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.content, contentClassName)
+  }, children), footer);
 }
 
 Dialog.propTypes = {
-  className: _propTypes2.default.string,
-  cancelBtnClassName: _propTypes2.default.string,
-  confirmBtnClassName: _propTypes2.default.string,
-  children: _propTypes2.default.node,
-  onConfirm: _propTypes2.default.func,
-  onCancel: _propTypes2.default.func,
-  title: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string,
-  textConfirm: _propTypes2.default.string,
-  textCancel: _propTypes2.default.string,
-  showCloseBtn: _propTypes2.default.bool,
-  showTitle: _propTypes2.default.bool,
-  headerClassName: _propTypes2.default.string,
-  contentClassName: _propTypes2.default.string,
-  footerClassName: _propTypes2.default.string
+  className: _propTypes.default.string,
+  cancelBtnClassName: _propTypes.default.string,
+  confirmBtnClassName: _propTypes.default.string,
+  children: _propTypes.default.node,
+  onConfirm: _propTypes.default.func,
+  onCancel: _propTypes.default.func,
+  title: _propTypes.default.string,
+  currentLocale: _propTypes.default.string,
+  textConfirm: _propTypes.default.string,
+  textCancel: _propTypes.default.string,
+  showCloseBtn: _propTypes.default.bool,
+  showTitle: _propTypes.default.bool,
+  headerClassName: _propTypes.default.string,
+  contentClassName: _propTypes.default.string,
+  footerClassName: _propTypes.default.string
 };
 Dialog.defaultProps = {
   currentLocale: '',

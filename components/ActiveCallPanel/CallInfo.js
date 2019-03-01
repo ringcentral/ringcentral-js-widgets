@@ -1,102 +1,88 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = CallInfo;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _ContactDisplay = require('../ContactDisplay');
-
-var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _CallAvatar = require('../CallAvatar');
-
-var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
+var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function CallInfo(props) {
-  var avatar = void 0;
+  var avatar;
+
   if (props.avatarUrl) {
-    avatar = _react2.default.createElement(_CallAvatar2.default, { avatarUrl: props.avatarUrl });
+    avatar = _react.default.createElement(_CallAvatar.default, {
+      avatarUrl: props.avatarUrl
+    });
   } else {
-    avatar = _react2.default.createElement(_CallAvatar2.default, { avatarUrl: null });
+    avatar = _react.default.createElement(_CallAvatar.default, {
+      avatarUrl: null
+    });
   }
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.userInfo },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.avatarContainer },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.avatar },
-        avatar
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.userName },
-      _react2.default.createElement(_ContactDisplay2.default, {
-        className: _styles2.default.contactDisplay,
-        selectClassName: _styles2.default.dropdown,
-        contactMatches: props.nameMatches,
-        phoneNumber: props.phoneNumber,
-        fallBackName: props.fallBackName,
-        currentLocale: props.currentLocale,
-        areaCode: props.areaCode,
-        countryCode: props.countryCode,
-        showType: false,
-        disabled: false,
-        selected: props.selectedMatcherIndex,
-        onSelectContact: props.onSelectMatcherName,
-        isLogging: false,
-        enableContactFallback: true,
-        brand: props.brand,
-        showPlaceholder: props.showContactDisplayPlaceholder,
-        sourceIcons: props.sourceIcons,
-        phoneTypeRenderer: props.phoneTypeRenderer,
-        phoneSourceNameRenderer: props.phoneSourceNameRenderer
-      })
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.userPhoneNumber, 'data-sign': 'userPhoneNumber' },
-      props.formatPhone(props.phoneNumber)
-    )
-  );
+
+  return _react.default.createElement("div", {
+    className: _styles.default.userInfo
+  }, _react.default.createElement("div", {
+    className: _styles.default.avatarContainer
+  }, _react.default.createElement("div", {
+    className: _styles.default.avatar
+  }, avatar)), _react.default.createElement("div", {
+    className: _styles.default.userName
+  }, _react.default.createElement(_ContactDisplay.default, {
+    className: _styles.default.contactDisplay,
+    selectClassName: _styles.default.dropdown,
+    contactMatches: props.nameMatches,
+    phoneNumber: props.phoneNumber,
+    fallBackName: props.fallBackName,
+    currentLocale: props.currentLocale,
+    areaCode: props.areaCode,
+    countryCode: props.countryCode,
+    showType: false,
+    disabled: false,
+    selected: props.selectedMatcherIndex,
+    onSelectContact: props.onSelectMatcherName,
+    isLogging: false,
+    enableContactFallback: true,
+    brand: props.brand,
+    showPlaceholder: props.showContactDisplayPlaceholder,
+    sourceIcons: props.sourceIcons,
+    phoneTypeRenderer: props.phoneTypeRenderer,
+    phoneSourceNameRenderer: props.phoneSourceNameRenderer
+  })), _react.default.createElement("div", {
+    className: _styles.default.userPhoneNumber,
+    "data-sign": "userPhoneNumber"
+  }, props.formatPhone(props.phoneNumber)));
 }
 
 CallInfo.propTypes = {
-  phoneNumber: _propTypes2.default.string,
-  formatPhone: _propTypes2.default.func.isRequired,
-  nameMatches: _propTypes2.default.array.isRequired,
-  fallBackName: _propTypes2.default.string.isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  selectedMatcherIndex: _propTypes2.default.number.isRequired,
-  onSelectMatcherName: _propTypes2.default.func.isRequired,
-  avatarUrl: _propTypes2.default.string,
-  brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func
+  phoneNumber: _propTypes.default.string,
+  formatPhone: _propTypes.default.func.isRequired,
+  nameMatches: _propTypes.default.array.isRequired,
+  fallBackName: _propTypes.default.string.isRequired,
+  areaCode: _propTypes.default.string.isRequired,
+  countryCode: _propTypes.default.string.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  selectedMatcherIndex: _propTypes.default.number.isRequired,
+  onSelectMatcherName: _propTypes.default.func.isRequired,
+  avatarUrl: _propTypes.default.string,
+  brand: _propTypes.default.string,
+  showContactDisplayPlaceholder: _propTypes.default.bool,
+  sourceIcons: _propTypes.default.object,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func
 };
-
 CallInfo.defaultProps = {
   phoneNumber: null,
   avatarUrl: null,

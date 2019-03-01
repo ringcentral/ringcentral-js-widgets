@@ -1,82 +1,79 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.mapToFunctions = exports.mapToProps = undefined;
+exports.mapToProps = mapToProps;
+exports.mapToFunctions = mapToFunctions;
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.assign");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.create");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _react = _interopRequireWildcard(require("react"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _reactRedux = require("react-redux");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _reselect = require("reselect");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _withPhone = _interopRequireDefault(require("../../lib/withPhone"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _hasActiveCalls = _interopRequireDefault(require("../../lib/hasActiveCalls"));
 
-var _class, _temp;
+var _TabContentPanel = _interopRequireDefault(require("../../components/TabContentPanel"));
 
-var _react = require('react');
+var _SpinnerOverlay = _interopRequireDefault(require("../../components/SpinnerOverlay"));
 
-var _react2 = _interopRequireDefault(_react);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactRedux = require('react-redux');
-
-var _reselect = require('reselect');
-
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
-
-var _hasActiveCalls = require('../../lib/hasActiveCalls');
-
-var _hasActiveCalls2 = _interopRequireDefault(_hasActiveCalls);
-
-var _TabContentPanel = require('../../components/TabContentPanel');
-
-var _TabContentPanel2 = _interopRequireDefault(_TabContentPanel);
-
-var _SpinnerOverlay = require('../../components/SpinnerOverlay');
-
-var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TabContentView = (_temp = _class = function (_Component) {
-  (0, _inherits3.default)(TabContentView, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var TabContentView =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(TabContentView, _Component);
 
   function TabContentView(props) {
-    (0, _classCallCheck3.default)(this, TabContentView);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (TabContentView.__proto__ || (0, _getPrototypeOf2.default)(TabContentView)).call(this, props));
+    _classCallCheck(this, TabContentView);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TabContentView).call(this, props));
     _this.getTabs = (0, _reselect.createSelector)(function () {
       return _this.props.currentLocale;
     }, function () {
@@ -84,13 +81,13 @@ var TabContentView = (_temp = _class = function (_Component) {
     }, function (currentLocale, currentPath) {
       return [{
         path: '/dialer',
-        label: _i18n2.default.getString('dialer', currentLocale),
+        label: _i18n.default.getString('dialer', currentLocale),
         isActive: function isActive() {
           return currentPath === '/dialer';
         }
       }, {
         path: '/calls',
-        label: _i18n2.default.getString('allCalls', currentLocale),
+        label: _i18n.default.getString('allCalls', currentLocale),
         isActive: function isActive() {
           return currentPath === '/calls';
         }
@@ -99,37 +96,39 @@ var TabContentView = (_temp = _class = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(TabContentView, [{
-    key: 'render',
+  _createClass(TabContentView, [{
+    key: "render",
     value: function render() {
       if (this.props.showSpinner) {
-        return _react2.default.createElement(_SpinnerOverlay2.default, null);
+        return _react.default.createElement(_SpinnerOverlay.default, null);
       }
-      return _react2.default.createElement(_TabContentPanel2.default, (0, _extends3.default)({}, this.props, {
+
+      return _react.default.createElement(_TabContentPanel.default, _extends({}, this.props, {
         tabs: this.getTabs(),
-        navClassName: _styles2.default.nav,
-        tabContentClassName: _styles2.default.content
+        navClassName: _styles.default.nav,
+        tabContentClassName: _styles.default.content
       }));
     }
   }]);
-  return TabContentView;
-}(_react.Component), _class.propTypes = {
-  showTabs: _propTypes2.default.bool.isRequired,
-  showSpinner: _propTypes2.default.bool.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  currentPath: _propTypes2.default.string.isRequired,
-  goTo: _propTypes2.default.func.isRequired
-}, _temp);
 
+  return TabContentView;
+}(_react.Component);
+
+TabContentView.propTypes = {
+  showTabs: _propTypes.default.bool.isRequired,
+  showSpinner: _propTypes.default.bool.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  currentPath: _propTypes.default.string.isRequired,
+  goTo: _propTypes.default.func.isRequired
+};
 
 function mapToProps(_, _ref) {
   var phone = _ref.phone,
       _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
       routerInteraction = _ref$phone.routerInteraction;
-
   return {
-    showTabs: (0, _hasActiveCalls2.default)(phone),
+    showTabs: (0, _hasActiveCalls.default)(phone),
     currentLocale: locale.currentLocale,
     showSpinner: !locale.ready,
     currentPath: routerInteraction.currentPath
@@ -138,7 +137,6 @@ function mapToProps(_, _ref) {
 
 function mapToFunctions(_, _ref2) {
   var routerInteraction = _ref2.phone.routerInteraction;
-
   return {
     goTo: function goTo(path) {
       routerInteraction.push(path);
@@ -146,9 +144,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var DialerAndCallsTabContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(TabContentView));
-
-exports.mapToProps = mapToProps;
-exports.mapToFunctions = mapToFunctions;
+var DialerAndCallsTabContainer = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(TabContentView));
 exports.default = DialerAndCallsTabContainer;
 //# sourceMappingURL=index.js.map

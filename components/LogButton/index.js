@@ -1,37 +1,25 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = LogButton;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Spinner = _interopRequireDefault(require("../Spinner"));
 
-var _classnames = require('classnames');
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _Spinner = require('../Spinner');
-
-var _Spinner2 = _interopRequireDefault(_Spinner);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43,29 +31,28 @@ function LogButton(_ref) {
       isLogging = _ref.isLogging,
       addTitle = _ref.addTitle,
       editTitle = _ref.editTitle;
-
-  var spinner = isLogging ? _react2.default.createElement(_Spinner2.default, { ringWidth: 2, className: _styles2.default.spinner }) : null;
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.log, className),
-      onClick: onLog,
-      disabled: disableLinks || isLogging
-    },
-    _react2.default.createElement('span', {
-      className: isLogged ? _DynamicsFont2.default.edit : _DynamicsFont2.default.callLog,
-      title: isLogged ? editTitle : addTitle }),
-    spinner
-  );
+  var spinner = isLogging ? _react.default.createElement(_Spinner.default, {
+    ringWidth: 2,
+    className: _styles.default.spinner
+  }) : null;
+  return _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.log, className),
+    onClick: onLog,
+    disabled: disableLinks || isLogging
+  }, _react.default.createElement("span", {
+    className: isLogged ? _DynamicsFont.default.edit : _DynamicsFont.default.callLog,
+    title: isLogged ? editTitle : addTitle
+  }), spinner);
 }
+
 LogButton.propTypes = {
-  className: _propTypes2.default.string,
-  onLog: _propTypes2.default.func,
-  isLogged: _propTypes2.default.bool,
-  disableLinks: _propTypes2.default.bool,
-  isLogging: _propTypes2.default.bool,
-  addTitle: _propTypes2.default.string,
-  editTitle: _propTypes2.default.string
+  className: _propTypes.default.string,
+  onLog: _propTypes.default.func,
+  isLogged: _propTypes.default.bool,
+  disableLinks: _propTypes.default.bool,
+  isLogging: _propTypes.default.bool,
+  addTitle: _propTypes.default.string,
+  editTitle: _propTypes.default.string
 };
 LogButton.defaultProps = {
   className: undefined,

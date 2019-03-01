@@ -1,32 +1,27 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = Select;
 
-var _react = require('react');
+require("core-js/modules/es6.array.map");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _classnames = require('classnames');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-require('../../assets/DynamicsFont/DynamicsFont.scss');
+require("../../assets/DynamicsFont/DynamicsFont.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import font face
-
 function Select(_ref) {
   var className = _ref.className,
       value = _ref.value,
@@ -36,46 +31,36 @@ function Select(_ref) {
       valueFunction = _ref.valueFunction,
       renderFunction = _ref.renderFunction,
       paddingLeft = _ref.paddingLeft;
-
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(_styles2.default.root, className) },
-    _react2.default.createElement(
-      'select',
-      {
-        className: _styles2.default.select,
-        disabled: disabled,
-        value: value,
-        style: {
-          paddingLeft: paddingLeft
-        },
-        onChange: onChange },
-      options.map(function (option, idx) {
-        return (
-          // eslint-disable-next-line react/no-array-index-key
-          _react2.default.createElement(
-            'option',
-            { key: idx, value: valueFunction(option, idx) },
-            renderFunction(option, idx)
-          )
-        );
-      })
-    )
-  );
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.root, className)
+  }, _react.default.createElement("select", {
+    className: _styles.default.select,
+    disabled: disabled,
+    value: value,
+    style: {
+      paddingLeft: paddingLeft
+    },
+    onChange: onChange
+  }, options.map(function (option, idx) {
+    return (// eslint-disable-next-line react/no-array-index-key
+      _react.default.createElement("option", {
+        key: idx,
+        value: valueFunction(option, idx)
+      }, renderFunction(option, idx))
+    );
+  })));
 }
 
 Select.propTypes = {
-  className: _propTypes2.default.string,
-  value: _propTypes2.default.string,
-  onChange: _propTypes2.default.func,
-  disabled: _propTypes2.default.bool,
-  options: _propTypes2.default.arrayOf(_propTypes2.default.any).isRequired,
-  paddingLeft: _propTypes2.default.number,
-  valueFunction: _propTypes2.default.func,
-  renderFunction: _propTypes2.default.func
+  className: _propTypes.default.string,
+  value: _propTypes.default.string,
+  onChange: _propTypes.default.func,
+  disabled: _propTypes.default.bool,
+  options: _propTypes.default.arrayOf(_propTypes.default.any).isRequired,
+  paddingLeft: _propTypes.default.number,
+  valueFunction: _propTypes.default.func,
+  renderFunction: _propTypes.default.func
 };
-
 Select.defaultProps = {
   className: undefined,
   value: undefined,

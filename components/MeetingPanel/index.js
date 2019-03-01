@@ -1,128 +1,115 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.array.reduce");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PASSWORD_REGEX = undefined;
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.object.assign");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.for-each");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _keys = require('babel-runtime/core-js/object/keys');
+require("core-js/modules/es6.symbol");
 
-var _keys2 = _interopRequireDefault(_keys);
+require("core-js/modules/es6.promise");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.create");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("regenerator-runtime/runtime");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/web.dom.iterable");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.iterator");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.object.keys");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.regexp.replace");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("core-js/modules/es6.regexp.split");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _react = require('react');
+var _ramda = require("ramda");
 
-var _react2 = _interopRequireDefault(_react);
+var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
 
-var _propTypes = require('prop-types');
+var _DateTimePicker = _interopRequireDefault(require("react-widgets/lib/DateTimePicker"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _DropdownList = _interopRequireDefault(require("react-widgets/lib/DropdownList"));
 
-var _classnames = require('classnames');
+var _moment = _interopRequireDefault(require("moment"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _reactWidgetsMoment = _interopRequireDefault(require("react-widgets-moment"));
 
-var _ramda = require('ramda');
+require("react-widgets/dist/css/react-widgets.css");
 
-var _sleep = require('ringcentral-integration/lib/sleep');
+var _Date = _interopRequireDefault(require("../../assets/images/Date.svg"));
 
-var _sleep2 = _interopRequireDefault(_sleep);
+var _Time = _interopRequireDefault(require("../../assets/images/Time.svg"));
 
-var _DateTimePicker = require('react-widgets/lib/DateTimePicker');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _DateTimePicker2 = _interopRequireDefault(_DateTimePicker);
+var _Switch = _interopRequireDefault(require("../Switch"));
 
-var _DropdownList = require('react-widgets/lib/DropdownList');
+var _CheckBox = _interopRequireDefault(require("../CheckBox"));
 
-var _DropdownList2 = _interopRequireDefault(_DropdownList);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _moment = require('moment');
+var _MeetingSection = _interopRequireDefault(require("../MeetingSection"));
 
-var _moment2 = _interopRequireDefault(_moment);
-
-var _reactWidgetsMoment = require('react-widgets-moment');
-
-var _reactWidgetsMoment2 = _interopRequireDefault(_reactWidgetsMoment);
-
-require('react-widgets/dist/css/react-widgets.css');
-
-var _Date = require('../../assets/images/Date.svg');
-
-var _Date2 = _interopRequireDefault(_Date);
-
-var _Time = require('../../assets/images/Time.svg');
-
-var _Time2 = _interopRequireDefault(_Time);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _Switch = require('../Switch');
-
-var _Switch2 = _interopRequireDefault(_Switch);
-
-var _CheckBox = require('../CheckBox');
-
-var _CheckBox2 = _interopRequireDefault(_CheckBox);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _MeetingSection = require('../MeetingSection');
-
-var _MeetingSection2 = _interopRequireDefault(_MeetingSection);
+var _constants = require("./constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MINUTE_SCALE = 4;
-var HOUR_SCALE = 13;
-var MAX_TOPIC_LENGTH = 128;
-var PASSWORD_REGEX = exports.PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
-var NO_NUMBER_REGEX = /[^\d]/g;
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-var isSafari = function isSafari() {
-  return (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-  );
-};
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getMinutesList(MINUTE_SCALE) {
   return (0, _ramda.reduce)(function (result) {
     var index = result.length;
     var value = 60 / MINUTE_SCALE * index;
-    var text = (value + '0').slice(0, 2) + ' m.';
+    var text = "".concat("".concat(value, "0").slice(0, 2), " m.");
     return result.concat({
       value: value,
       text: text
@@ -134,9 +121,10 @@ function getHoursList(HOUR_SCALE) {
   if (HOUR_SCALE > 23) {
     throw new Error('HOUR_SCALE must be less than 23.');
   }
+
   return (0, _ramda.reduce)(function (result) {
     var value = result.length;
-    var text = ('0' + value + '0').slice(-3, -1) + ' h.';
+    var text = "".concat("0".concat(value, "0").slice(-3, -1), " h.");
     return result.concat({
       value: value,
       text: text
@@ -144,82 +132,78 @@ function getHoursList(HOUR_SCALE) {
   }, [], new Array(HOUR_SCALE));
 }
 
-var minutesList = getMinutesList(MINUTE_SCALE);
-var hoursList = getHoursList(HOUR_SCALE);
+var minutesList = getMinutesList(_constants.MINUTE_SCALE);
+var hoursList = getHoursList(_constants.HOUR_SCALE);
 
 var Topic = function Topic(_ref) {
   var update = _ref.update,
       currentLocale = _ref.currentLocale,
       meeting = _ref.meeting,
       that = _ref.that;
-  return _react2.default.createElement(
-    _MeetingSection2.default,
-    { hideTopBorderLine: true },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.inline },
-      _react2.default.createElement(
-        'span',
-        { className: _styles2.default.label },
-        _i18n2.default.getString('topic', currentLocale)
-      ),
-      _react2.default.createElement('input', {
-        ref: function ref(_ref3) {
-          that.topic = _ref3;
-        },
-        onPaste: function onPaste(event) {
-          var topic = event.target.value;
-          event.preventDefault();
-          event.clipboardData.items[0].getAsString(function (data) {
-            var isOverLength = topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH;
-            var positionStart = that.topic.selectionStart;
-            var positionEnd = that.topic.selectionEnd;
-            var select = positionEnd - positionStart;
-            var restLength = MAX_TOPIC_LENGTH - topic.length + select;
-            var isOver = isOverLength && restLength > 0;
-            if (isOver) {
-              var _isOverLength = restLength >= data.length;
-              var insertText = _isOverLength ? data : data.slice(0, !isOver ? select : restLength);
-              var value = topic.split('');
-              value.splice(positionStart, select, insertText);
-              that.topic.value = value.join('');
-              var newPosition = positionStart + insertText.length;
-              that.topic.setSelectionRange(newPosition, newPosition);
-            }
-            update((0, _extends3.default)({}, meeting, {
-              topic: that.topic.value
-            }));
-          });
-        },
-        type: 'text',
-        className: _styles2.default.input,
-        defaultValue: meeting.topic || '',
-        onChange: function onChange(_ref2) {
-          var target = _ref2.target;
+  return _react.default.createElement(_MeetingSection.default, {
+    hideTopBorderLine: true
+  }, _react.default.createElement("div", {
+    className: _styles.default.inline
+  }, _react.default.createElement("span", {
+    className: _styles.default.label
+  }, _i18n.default.getString('topic', currentLocale)), _react.default.createElement("input", {
+    ref: function ref(_ref3) {
+      that.topic = _ref3;
+    },
+    onPaste: function onPaste(event) {
+      var topic = event.target.value;
+      event.preventDefault();
+      event.clipboardData.items[0].getAsString(function (data) {
+        var isOverLength = topic.length >= 0 && topic.length <= _constants.MAX_TOPIC_LENGTH;
+        var positionStart = that.topic.selectionStart;
+        var positionEnd = that.topic.selectionEnd;
+        var select = positionEnd - positionStart;
+        var restLength = _constants.MAX_TOPIC_LENGTH - topic.length + select;
+        var isOver = isOverLength && restLength > 0;
 
-          var topic = target.value;
-          if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
-            clearTimeout(that.topicSetTimeoutId);
-            that.topicSetTimeoutId = setTimeout(function () {
-              update((0, _extends3.default)({}, meeting, {
-                topic: topic
-              }));
-            }, 10);
-          } else {
-            target.value = meeting.topic || '';
-          }
-        },
-        'data-sign': 'scheduleMeetingTopic'
-      })
-    )
-  );
+        if (isOver) {
+          var _isOverLength = restLength >= data.length;
+
+          var insertText = _isOverLength ? data : data.slice(0, !isOver ? select : restLength);
+          var value = topic.split('');
+          value.splice(positionStart, select, insertText);
+          that.topic.value = value.join('');
+          var newPosition = positionStart + insertText.length;
+          that.topic.setSelectionRange(newPosition, newPosition);
+        }
+
+        update(_objectSpread({}, meeting, {
+          topic: that.topic.value
+        }));
+      });
+    },
+    type: "text",
+    className: _styles.default.input,
+    defaultValue: meeting.topic || '',
+    onChange: function onChange(_ref2) {
+      var target = _ref2.target;
+      var topic = target.value;
+
+      if (topic.length >= 0 && topic.length <= _constants.MAX_TOPIC_LENGTH) {
+        clearTimeout(that.topicSetTimeoutId);
+        that.topicSetTimeoutId = setTimeout(function () {
+          update(_objectSpread({}, meeting, {
+            topic: topic
+          }));
+        }, 10);
+      } else {
+        target.value = meeting.topic || '';
+      }
+    },
+    "data-sign": "scheduleMeetingTopic"
+  })));
 };
 
 Topic.propTypes = {
-  update: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  meeting: _propTypes2.default.object.isRequired,
-  that: _propTypes2.default.object.isRequired
+  update: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  that: _propTypes.default.object.isRequired
 };
 
 var When = function When(_ref4) {
@@ -234,6 +218,7 @@ var When = function When(_ref4) {
   var changeTime = function changeTime() {
     setTimeout(function () {
       var allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
+
       if (!allInputBlur && that.hours) {
         var startTime = new Date(meeting.schedule.startTime);
         var hours = parseInt(that.hours.value, 10);
@@ -241,224 +226,214 @@ var When = function When(_ref4) {
         startTime.setHours(hours);
         startTime.setMinutes(minutes);
         var time = startTime;
+
         if (startTime.getTime() > new Date().getTime()) {
-          update((0, _extends3.default)({}, meeting, {
-            schedule: (0, _extends3.default)({}, meeting.schedule, {
+          update(_objectSpread({}, meeting, {
+            schedule: _objectSpread({}, meeting.schedule, {
               startTime: startTime.getTime()
             })
           }));
         } else {
           time = new Date(meeting.schedule.startTime);
         }
+
         var Minutes = time.getMinutes();
         var Hours = time.getHours();
-        that.minutes.value = ('0' + Minutes + '0').slice(-3, -1);
-        that.hours.value = ('0' + Hours + '0').slice(-3, -1);
+        that.minutes.value = "0".concat(Minutes, "0").slice(-3, -1);
+        that.hours.value = "0".concat(Hours, "0").slice(-3, -1);
       }
     }, 100);
   };
+
   var accumulator = function accumulator(event, max) {
     var currentValue = parseInt(event.target.value, 10);
+
     var isValid = function isValid(value) {
       return currentValue > 0 - value && currentValue < max - value;
     };
+
     var isUpKey = event.keyCode === 38;
+
     if (isUpKey) {
       var value = isValid(1) ? currentValue + 1 : 0;
-      event.target.value = ('0' + value + '0').slice(-3, -1);
+      event.target.value = "0".concat(value, "0").slice(-3, -1);
     }
+
     var isDownKey = event.keyCode === 40;
+
     if (isDownKey) {
       var _value = isValid(0) ? currentValue - 1 : max - 1;
-      event.target.value = ('0' + _value + '0').slice(-3, -1);
+
+      event.target.value = "0".concat(_value, "0").slice(-3, -1);
     }
   };
+
   var preventReplay = function preventReplay(isFocus) {
     that.dateBlur = true;
     setTimeout(function () {
       if (!isFocus) {
         that.topic.focus();
       }
+
       that.dateBlur = false;
     }, 200);
   };
-  return !isRecurring ? _react2.default.createElement(
-    _MeetingSection2.default,
-    { title: _i18n2.default.getString('when', currentLocale) },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.dateTimeBox },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.list },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.datePicker },
-          _react2.default.createElement(_DateTimePicker2.default, {
-            culture: currentLocale,
-            time: false,
-            value: new Date(meeting.schedule.startTime),
-            onChange: function onChange(currentStartTime) {
-              preventReplay(false);
-              if (currentStartTime) {
-                var date = new Date(meeting.schedule.startTime);
-                date.setFullYear(currentStartTime.getFullYear(), currentStartTime.getMonth(), currentStartTime.getDate());
-                var startTime = date.getTime();
-                var now = new Date().getTime();
-                if (startTime < now) {
-                  startTime = now;
-                  var Minutes = new Date().getMinutes();
-                  var Hours = new Date().getHours();
-                  that.minutes.value = ('0' + Minutes + '0').slice(-3, -1);
-                  that.hours.value = ('0' + Hours + '0').slice(-3, -1);
-                }
-                update((0, _extends3.default)({}, meeting, {
-                  schedule: (0, _extends3.default)({}, meeting.schedule, {
-                    startTime: startTime
-                  })
-                }));
-              }
-            },
-            onBlur: function onBlur() {
-              preventReplay(false);
-            },
-            onToggle: preventReplay,
-            ref: function ref(_ref5) {
-              that.date = _ref5;
-            },
-            format: 'MM/DD/YY',
-            min: new Date()
-          }),
-          _react2.default.createElement(
-            'div',
-            {
-              onClick: function onClick() {
-                return onToggle('date');
-              },
-              className: (0, _classnames2.default)(_styles2.default.dateTimeText, _styles2.default.dateText) },
-            (0, _moment2.default)(meeting.schedule.startTime).format('MM/DD/YY')
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          {
-            ref: function ref(_ref6) {
-              that.dateIcon = _ref6;
-            },
-            className: _styles2.default.dateIcon },
-          _react2.default.createElement(_Date2.default, {
-            onClick: function onClick() {
-              return onToggle('date');
-            },
-            className: _styles2.default.icon })
-        )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.list },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.timePicker },
-          _react2.default.createElement(_DateTimePicker2.default, (0, _extends3.default)({
-            culture: 'en',
-            date: false,
-            ref: function ref(_ref7) {
-              that.time = _ref7;
-            },
-            value: new Date(meeting.schedule.startTime),
-            onChange: function onChange(startTime) {
-              if (startTime) {
-                update((0, _extends3.default)({}, meeting, {
-                  schedule: (0, _extends3.default)({}, meeting.schedule, {
-                    startTime: startTime.getTime()
-                  })
-                }));
-              }
-            },
-            format: 'hh:mm A'
-          }, minTime)),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.timeText },
-            _react2.default.createElement('input', {
-              flag: 'timeInput',
-              ref: function ref(_ref9) {
-                that.hours = _ref9;
-              },
-              className: _styles2.default.timeInput,
-              defaultValue: (0, _moment2.default)(meeting.schedule.startTime).format('HH'),
-              onChange: function onChange(_ref8) {
-                var target = _ref8.target;
 
-                that.hours.value = target.value.replace(NO_NUMBER_REGEX, '');
-                var isSelectionEnd = target.selectionEnd === 2;
-                if (isSelectionEnd) {
-                  that.minutes.value = '';
-                  that.minutes.focus();
-                }
-              },
-              onKeyDown: function onKeyDown(event) {
-                accumulator(event, 24);
-                var isRightKey = event.keyCode === 39;
-                var isSelectionEnd = event.target.selectionEnd === 2;
-                if (isRightKey && isSelectionEnd) {
-                  that.minutes.focus();
-                }
-              },
-              onBlur: changeTime,
-              maxLength: 2,
-              type: 'text' }),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.colon },
-              ':'
-            ),
-            _react2.default.createElement('input', {
-              flag: 'timeInput',
-              ref: function ref(_ref11) {
-                that.minutes = _ref11;
-              },
-              className: _styles2.default.timeInput,
-              defaultValue: (0, _moment2.default)(meeting.schedule.startTime).format('mm'),
-              onKeyDown: function onKeyDown(event) {
-                var isDelKey = event.keyCode === 8;
-                var isLeftKey = event.keyCode === 37;
-                var isSelectionHead = event.target.selectionEnd === 0;
-                if (isSelectionHead && (isDelKey || isLeftKey)) {
-                  that.hours.focus();
-                  that.hours.setSelectionRange(2, 2);
-                }
-                accumulator(event, 60);
-              },
-              onChange: function onChange(_ref10) {
-                var target = _ref10.target;
+  return !isRecurring ? _react.default.createElement(_MeetingSection.default, {
+    title: _i18n.default.getString('when', currentLocale)
+  }, _react.default.createElement("div", {
+    className: _styles.default.dateTimeBox
+  }, _react.default.createElement("div", {
+    className: _styles.default.list
+  }, _react.default.createElement("div", {
+    className: _styles.default.datePicker
+  }, _react.default.createElement(_DateTimePicker.default, {
+    culture: currentLocale,
+    time: false,
+    value: new Date(meeting.schedule.startTime),
+    onChange: function onChange(currentStartTime) {
+      preventReplay(false);
 
-                that.minutes.value = target.value.replace(NO_NUMBER_REGEX, '');
-              },
-              onBlur: changeTime,
-              maxLength: 2,
-              type: 'text' })
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.timeIcon },
-          _react2.default.createElement(_Time2.default, {
-            className: _styles2.default.icon })
-        )
-      )
-    )
-  ) : null;
+      if (currentStartTime) {
+        var date = new Date(meeting.schedule.startTime);
+        date.setFullYear(currentStartTime.getFullYear(), currentStartTime.getMonth(), currentStartTime.getDate());
+        var startTime = date.getTime();
+        var now = new Date().getTime();
+
+        if (startTime < now) {
+          startTime = now;
+          var Minutes = new Date().getMinutes();
+          var Hours = new Date().getHours();
+          that.minutes.value = "0".concat(Minutes, "0").slice(-3, -1);
+          that.hours.value = "0".concat(Hours, "0").slice(-3, -1);
+        }
+
+        update(_objectSpread({}, meeting, {
+          schedule: _objectSpread({}, meeting.schedule, {
+            startTime: startTime
+          })
+        }));
+      }
+    },
+    onBlur: function onBlur() {
+      preventReplay(false);
+    },
+    onToggle: preventReplay,
+    ref: function ref(_ref5) {
+      that.date = _ref5;
+    },
+    format: "MM/DD/YY",
+    min: new Date()
+  }), _react.default.createElement("div", {
+    onClick: function onClick() {
+      return onToggle('date');
+    },
+    className: (0, _classnames.default)(_styles.default.dateTimeText, _styles.default.dateText)
+  }, (0, _moment.default)(meeting.schedule.startTime).format('MM/DD/YY'))), _react.default.createElement("div", {
+    ref: function ref(_ref6) {
+      that.dateIcon = _ref6;
+    },
+    className: _styles.default.dateIcon
+  }, _react.default.createElement(_Date.default, {
+    onClick: function onClick() {
+      return onToggle('date');
+    },
+    className: _styles.default.icon
+  }))), _react.default.createElement("div", {
+    className: _styles.default.list
+  }, _react.default.createElement("div", {
+    className: _styles.default.timePicker
+  }, _react.default.createElement(_DateTimePicker.default, _extends({
+    culture: "en",
+    date: false,
+    ref: function ref(_ref7) {
+      that.time = _ref7;
+    },
+    value: new Date(meeting.schedule.startTime),
+    onChange: function onChange(startTime) {
+      if (startTime) {
+        update(_objectSpread({}, meeting, {
+          schedule: _objectSpread({}, meeting.schedule, {
+            startTime: startTime.getTime()
+          })
+        }));
+      }
+    },
+    format: "hh:mm A"
+  }, minTime)), _react.default.createElement("div", {
+    className: _styles.default.timeText
+  }, _react.default.createElement("input", {
+    flag: "timeInput",
+    ref: function ref(_ref9) {
+      that.hours = _ref9;
+    },
+    className: _styles.default.timeInput,
+    defaultValue: (0, _moment.default)(meeting.schedule.startTime).format('HH'),
+    onChange: function onChange(_ref8) {
+      var target = _ref8.target;
+      that.hours.value = target.value.replace(_constants.NO_NUMBER_REGEX, '');
+      var isSelectionEnd = target.selectionEnd === 2;
+
+      if (isSelectionEnd) {
+        that.minutes.value = '';
+        that.minutes.focus();
+      }
+    },
+    onKeyDown: function onKeyDown(event) {
+      accumulator(event, 24);
+      var isRightKey = event.keyCode === 39;
+      var isSelectionEnd = event.target.selectionEnd === 2;
+
+      if (isRightKey && isSelectionEnd) {
+        that.minutes.focus();
+      }
+    },
+    onBlur: changeTime,
+    maxLength: 2,
+    type: "text"
+  }), _react.default.createElement("div", {
+    className: _styles.default.colon
+  }, ":"), _react.default.createElement("input", {
+    flag: "timeInput",
+    ref: function ref(_ref11) {
+      that.minutes = _ref11;
+    },
+    className: _styles.default.timeInput,
+    defaultValue: (0, _moment.default)(meeting.schedule.startTime).format('mm'),
+    onKeyDown: function onKeyDown(event) {
+      var isDelKey = event.keyCode === 8;
+      var isLeftKey = event.keyCode === 37;
+      var isSelectionHead = event.target.selectionEnd === 0;
+
+      if (isSelectionHead && (isDelKey || isLeftKey)) {
+        that.hours.focus();
+        that.hours.setSelectionRange(2, 2);
+      }
+
+      accumulator(event, 60);
+    },
+    onChange: function onChange(_ref10) {
+      var target = _ref10.target;
+      that.minutes.value = target.value.replace(_constants.NO_NUMBER_REGEX, '');
+    },
+    onBlur: changeTime,
+    maxLength: 2,
+    type: "text"
+  }))), _react.default.createElement("div", {
+    className: _styles.default.timeIcon
+  }, _react.default.createElement(_Time.default, {
+    className: _styles.default.icon
+  }))))) : null;
 };
 
 When.propTypes = {
-  update: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  meeting: _propTypes2.default.object.isRequired,
-  isRecurring: _propTypes2.default.bool.isRequired,
-  that: _propTypes2.default.object.isRequired,
-  onToggle: _propTypes2.default.func.isRequired,
-  minTime: _propTypes2.default.object.isRequired
+  update: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  isRecurring: _propTypes.default.bool.isRequired,
+  that: _propTypes.default.object.isRequired,
+  onToggle: _propTypes.default.func.isRequired,
+  minTime: _propTypes.default.object.isRequired
 };
 
 var Duration = function Duration(_ref12) {
@@ -466,73 +441,60 @@ var Duration = function Duration(_ref12) {
       currentLocale = _ref12.currentLocale,
       meeting = _ref12.meeting,
       update = _ref12.update;
-  return !isRecurring ? _react2.default.createElement(
-    _MeetingSection2.default,
-    { title: _i18n2.default.getString('duration', currentLocale) },
-    _react2.default.createElement(
-      'div',
-      { className: (0, _classnames2.default)(_styles2.default.spaceBetween, _styles2.default.duration) },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.list },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.hoursList },
-          _react2.default.createElement(_DropdownList2.default, {
-            data: hoursList,
-            valueField: 'value',
-            textField: 'text',
-            value: parseInt(meeting.schedule.durationInMinutes / 60, 10),
-            onChange: function onChange(_ref13) {
-              var value = _ref13.value;
-
-              var restMinutes = meeting.schedule.durationInMinutes % 60;
-              var isMax = value === hoursList.slice(-1)[0].value;
-              restMinutes = isMax ? 0 : restMinutes;
-              var durationInMinutes = value * 60 + restMinutes;
-              update((0, _extends3.default)({}, meeting, {
-                schedule: (0, _extends3.default)({}, meeting.schedule, {
-                  durationInMinutes: durationInMinutes
-                })
-              }));
-            } })
-        )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.list },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.minutesList },
-          _react2.default.createElement(_DropdownList2.default, {
-            data: minutesList,
-            valueField: 'value',
-            textField: 'text',
-            value: meeting.schedule.durationInMinutes % 60 || 0,
-            onChange: function onChange(_ref14) {
-              var value = _ref14.value;
-
-              var restHours = parseInt(meeting.schedule.durationInMinutes / 60, 10);
-              var isMax = restHours === hoursList.slice(-1)[0].value;
-              var minutes = isMax ? 0 : value;
-              var durationInMinutes = restHours * 60 + minutes;
-              update((0, _extends3.default)({}, meeting, {
-                schedule: (0, _extends3.default)({}, meeting.schedule, {
-                  durationInMinutes: durationInMinutes
-                })
-              }));
-            } })
-        )
-      )
-    )
-  ) : null;
+  return !isRecurring ? _react.default.createElement(_MeetingSection.default, {
+    title: _i18n.default.getString('duration', currentLocale)
+  }, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.duration)
+  }, _react.default.createElement("div", {
+    className: _styles.default.list
+  }, _react.default.createElement("div", {
+    className: _styles.default.hoursList
+  }, _react.default.createElement(_DropdownList.default, {
+    data: hoursList,
+    valueField: "value",
+    textField: "text",
+    value: parseInt(meeting.schedule.durationInMinutes / 60, 10),
+    onChange: function onChange(_ref13) {
+      var value = _ref13.value;
+      var restMinutes = meeting.schedule.durationInMinutes % 60;
+      var isMax = value === hoursList.slice(-1)[0].value;
+      restMinutes = isMax ? 0 : restMinutes;
+      var durationInMinutes = value * 60 + restMinutes;
+      update(_objectSpread({}, meeting, {
+        schedule: _objectSpread({}, meeting.schedule, {
+          durationInMinutes: durationInMinutes
+        })
+      }));
+    }
+  }))), _react.default.createElement("div", {
+    className: _styles.default.list
+  }, _react.default.createElement("div", {
+    className: _styles.default.minutesList
+  }, _react.default.createElement(_DropdownList.default, {
+    data: minutesList,
+    valueField: "value",
+    textField: "text",
+    value: meeting.schedule.durationInMinutes % 60 || 0,
+    onChange: function onChange(_ref14) {
+      var value = _ref14.value;
+      var restHours = parseInt(meeting.schedule.durationInMinutes / 60, 10);
+      var isMax = restHours === hoursList.slice(-1)[0].value;
+      var minutes = isMax ? 0 : value;
+      var durationInMinutes = restHours * 60 + minutes;
+      update(_objectSpread({}, meeting, {
+        schedule: _objectSpread({}, meeting.schedule, {
+          durationInMinutes: durationInMinutes
+        })
+      }));
+    }
+  }))))) : null;
 };
 
 Duration.propTypes = {
-  update: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  meeting: _propTypes2.default.object.isRequired,
-  isRecurring: _propTypes2.default.bool.isRequired
+  update: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  isRecurring: _propTypes.default.bool.isRequired
 };
 
 var RecurringMeeting = function RecurringMeeting(_ref15) {
@@ -540,106 +502,73 @@ var RecurringMeeting = function RecurringMeeting(_ref15) {
       currentLocale = _ref15.currentLocale,
       update = _ref15.update,
       meeting = _ref15.meeting;
-  return _react2.default.createElement(
-    _MeetingSection2.default,
-    { className: _styles2.default.section },
-    _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.spaceBetween },
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.label },
-          _i18n2.default.getString('recurringMeeting', currentLocale)
-        ),
-        _react2.default.createElement(_Switch2.default, {
-          checked: isRecurring,
-          onChange: function onChange(isCheckRecurring) {
-            var meetingType = isCheckRecurring ? 'Recurring' : 'Scheduled';
-            update((0, _extends3.default)({}, meeting, {
-              meetingType: meetingType
-            }));
-          },
-          dataSign: 'recuttingMeeting'
-        })
-      ),
-      isRecurring ? _react2.default.createElement(
-        'div',
-        { className: _styles2.default.recurringDescribe },
-        _i18n2.default.getString('recurringDescribe', currentLocale)
-      ) : null
-    )
-  );
+  return _react.default.createElement(_MeetingSection.default, {
+    className: _styles.default.section
+  }, _react.default.createElement("div", null, _react.default.createElement("div", {
+    className: _styles.default.spaceBetween
+  }, _react.default.createElement("span", {
+    className: _styles.default.label
+  }, _i18n.default.getString('recurringMeeting', currentLocale)), _react.default.createElement(_Switch.default, {
+    checked: isRecurring,
+    onChange: function onChange(isCheckRecurring) {
+      var meetingType = isCheckRecurring ? 'Recurring' : 'Scheduled';
+      update(_objectSpread({}, meeting, {
+        meetingType: meetingType
+      }));
+    },
+    dataSign: "recuttingMeeting"
+  })), isRecurring ? _react.default.createElement("div", {
+    className: _styles.default.recurringDescribe
+  }, _i18n.default.getString('recurringDescribe', currentLocale)) : null));
 };
 
 RecurringMeeting.propTypes = {
-  update: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  meeting: _propTypes2.default.object.isRequired,
-  isRecurring: _propTypes2.default.bool.isRequired
+  update: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  isRecurring: _propTypes.default.bool.isRequired
 };
 
 var Video = function Video(_ref16) {
   var currentLocale = _ref16.currentLocale,
       meeting = _ref16.meeting,
       update = _ref16.update;
-  return _react2.default.createElement(
-    _MeetingSection2.default,
-    { title: _i18n2.default.getString('video', currentLocale), withSwitch: true },
-    _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.labelLight, _styles2.default.fixTopMargin) },
-        _i18n2.default.getString('videoDescribe', currentLocale)
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.spaceBetween, _styles2.default.fixTopMargin) },
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.labelLight },
-          _i18n2.default.getString('host', currentLocale)
-        ),
-        _react2.default.createElement(_Switch2.default, {
-          checked: meeting.startHostVideo,
-          onChange: function onChange(startHostVideo) {
-            update((0, _extends3.default)({}, meeting, {
-              startHostVideo: startHostVideo
-            }));
-          },
-          dataSign: 'videoHostToggle'
-        })
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.spaceBetween, _styles2.default.fixTopMargin) },
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.labelLight },
-          _i18n2.default.getString('participants', currentLocale)
-        ),
-        _react2.default.createElement(_Switch2.default, {
-          checked: meeting.startParticipantsVideo,
-          onChange: function onChange(startParticipantsVideo) {
-            update((0, _extends3.default)({}, meeting, {
-              startParticipantsVideo: startParticipantsVideo
-            }));
-          },
-          dataSign: 'videoParticipantToggle'
-        })
-      )
-    )
-  );
+  return _react.default.createElement(_MeetingSection.default, {
+    title: _i18n.default.getString('video', currentLocale),
+    withSwitch: true
+  }, _react.default.createElement("div", null, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.labelLight, _styles.default.fixTopMargin)
+  }, _i18n.default.getString('videoDescribe', currentLocale)), _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.fixTopMargin)
+  }, _react.default.createElement("span", {
+    className: _styles.default.labelLight
+  }, _i18n.default.getString('host', currentLocale)), _react.default.createElement(_Switch.default, {
+    checked: meeting.startHostVideo,
+    onChange: function onChange(startHostVideo) {
+      update(_objectSpread({}, meeting, {
+        startHostVideo: startHostVideo
+      }));
+    },
+    dataSign: "videoHostToggle"
+  })), _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.fixTopMargin)
+  }, _react.default.createElement("span", {
+    className: _styles.default.labelLight
+  }, _i18n.default.getString('participants', currentLocale)), _react.default.createElement(_Switch.default, {
+    checked: meeting.startParticipantsVideo,
+    onChange: function onChange(startParticipantsVideo) {
+      update(_objectSpread({}, meeting, {
+        startParticipantsVideo: startParticipantsVideo
+      }));
+    },
+    dataSign: "videoParticipantToggle"
+  }))));
 };
 
 Video.propTypes = {
-  update: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  meeting: _propTypes2.default.object.isRequired
+  update: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  meeting: _propTypes.default.object.isRequired
 };
 
 var AudioOptions = function AudioOptions(_ref17) {
@@ -647,30 +576,29 @@ var AudioOptions = function AudioOptions(_ref17) {
       update = _ref17.update,
       meeting = _ref17.meeting,
       data = _ref17.data;
-  return _react2.default.createElement(
-    _MeetingSection2.default,
-    { title: _i18n2.default.getString('audioOptions', currentLocale), withSwitch: true },
-    _react2.default.createElement(_CheckBox2.default, {
-      onSelect: function onSelect(_ref18) {
-        var key = _ref18.key;
-
-        var audioOptions = key.split('_');
-        update((0, _extends3.default)({}, meeting, {
-          audioOptions: audioOptions
-        }));
-      },
-      valueField: 'key',
-      textField: 'text',
-      selected: meeting.audioOptions.join('_'),
-      data: data })
-  );
+  return _react.default.createElement(_MeetingSection.default, {
+    title: _i18n.default.getString('audioOptions', currentLocale),
+    withSwitch: true
+  }, _react.default.createElement(_CheckBox.default, {
+    onSelect: function onSelect(_ref18) {
+      var key = _ref18.key;
+      var audioOptions = key.split('_');
+      update(_objectSpread({}, meeting, {
+        audioOptions: audioOptions
+      }));
+    },
+    valueField: "key",
+    textField: "text",
+    selected: meeting.audioOptions.join('_'),
+    data: data
+  }));
 };
 
 AudioOptions.propTypes = {
-  update: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  meeting: _propTypes2.default.object.isRequired,
-  data: _propTypes2.default.array.isRequired
+  update: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  data: _propTypes.default.array.isRequired
 };
 
 var MeetingOptions = function MeetingOptions(_ref19) {
@@ -678,129 +606,113 @@ var MeetingOptions = function MeetingOptions(_ref19) {
       meeting = _ref19.meeting,
       update = _ref19.update,
       that = _ref19.that;
-  return _react2.default.createElement(
-    _MeetingSection2.default,
-    {
-      title: _i18n2.default.getString('meetingOptions', currentLocale),
-      toggle: false,
-      withSwitch: true },
-    _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.spaceBetween, _styles2.default.fixTopMargin) },
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.labelLight },
-          _i18n2.default.getString('requirePassword', currentLocale)
-        ),
-        _react2.default.createElement(_Switch2.default, {
-          checked: meeting._requireMeetingPassword,
-          onChange: function onChange(_requireMeetingPassword) {
-            if (_requireMeetingPassword) {
-              setTimeout(function () {
-                that.password.focus();
-              }, 100);
-            }
-            var password = _requireMeetingPassword ? null : meeting.password;
-            update((0, _extends3.default)({}, meeting, {
-              _requireMeetingPassword: _requireMeetingPassword,
-              password: password
-            }));
-          },
-          dataSign: 'requirePasswordToggle'
-        })
-      ),
-      meeting._requireMeetingPassword ? _react2.default.createElement(
-        'div',
-        { className: _styles2.default.passwordBox },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.labelLight },
-          _i18n2.default.getString('password', currentLocale)
-        ),
-        _react2.default.createElement('input', {
-          type: 'text',
-          className: _styles2.default.password,
-          ref: function ref(_ref21) {
-            that.password = _ref21;
-          },
-          value: meeting.password || '',
-          onChange: function onChange(_ref20) {
-            var target = _ref20.target;
+  return _react.default.createElement(_MeetingSection.default, {
+    title: _i18n.default.getString('meetingOptions', currentLocale),
+    className: _styles.default.meetingOptions,
+    toggle: false,
+    withSwitch: true
+  }, _react.default.createElement("div", null, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.fixTopMargin)
+  }, _react.default.createElement("span", {
+    className: _styles.default.labelLight
+  }, _i18n.default.getString('requirePassword', currentLocale)), _react.default.createElement(_Switch.default, {
+    checked: meeting._requireMeetingPassword,
+    onChange: function onChange(_requireMeetingPassword) {
+      if (_requireMeetingPassword) {
+        setTimeout(function () {
+          that.password.focus();
+        }, 100);
+      }
 
-            if (PASSWORD_REGEX.test(target.value)) {
-              update((0, _extends3.default)({}, meeting, {
-                password: target.value
-              }));
-            }
-          },
-          'data-sign': 'requirePasswordInput'
-        })
-      ) : null,
-      _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.spaceBetween, _styles2.default.fixTopMargin) },
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.labelLight },
-          _i18n2.default.getString('enableJoinBeforeHost', currentLocale)
-        ),
-        _react2.default.createElement(_Switch2.default, {
-          checked: meeting.allowJoinBeforeHost,
-          onChange: function onChange(allowJoinBeforeHost) {
-            update((0, _extends3.default)({}, meeting, {
-              allowJoinBeforeHost: allowJoinBeforeHost
-            }));
-          },
-          dataSign: 'enableJoinToggle'
-        })
-      )
-    )
-  );
+      update(_objectSpread({}, meeting, {
+        _requireMeetingPassword: _requireMeetingPassword,
+        password: null
+      }));
+    },
+    dataSign: "requirePasswordToggle"
+  })), meeting._requireMeetingPassword ? _react.default.createElement("div", {
+    className: _styles.default.passwordBox
+  }, _react.default.createElement("div", {
+    className: _styles.default.labelLight
+  }, _i18n.default.getString('password', currentLocale)), _react.default.createElement("input", {
+    type: "text",
+    className: _styles.default.password,
+    ref: function ref(_ref21) {
+      that.password = _ref21;
+    },
+    value: meeting.password || '',
+    onChange: function onChange(_ref20) {
+      var target = _ref20.target;
+
+      if (_constants.PASSWORD_REGEX.test(target.value)) {
+        update(_objectSpread({}, meeting, {
+          password: target.value
+        }));
+      }
+    },
+    "data-sign": "requirePasswordInput"
+  })) : null, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.fixTopMargin)
+  }, _react.default.createElement("span", {
+    className: _styles.default.labelLight
+  }, _i18n.default.getString('enableJoinBeforeHost', currentLocale)), _react.default.createElement(_Switch.default, {
+    checked: meeting.allowJoinBeforeHost,
+    onChange: function onChange(allowJoinBeforeHost) {
+      update(_objectSpread({}, meeting, {
+        allowJoinBeforeHost: allowJoinBeforeHost
+      }));
+    },
+    dataSign: "enableJoinToggle"
+  }))));
 };
 
 MeetingOptions.propTypes = {
-  update: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  meeting: _propTypes2.default.object.isRequired,
-  that: _propTypes2.default.object.isRequired
+  update: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  that: _propTypes.default.object.isRequired
 };
 
-var MeetingPanel = function (_Component) {
-  (0, _inherits3.default)(MeetingPanel, _Component);
+var MeetingPanel =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(MeetingPanel, _Component);
 
   function MeetingPanel() {
-    var _ref22;
+    var _getPrototypeOf2;
 
-    (0, _classCallCheck3.default)(this, MeetingPanel);
+    var _this;
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    _classCallCheck(this, MeetingPanel);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref22 = MeetingPanel.__proto__ || (0, _getPrototypeOf2.default)(MeetingPanel)).call.apply(_ref22, [this].concat(args)));
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(MeetingPanel)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _this.props.init();
+
     _this.state = {};
-    _moment2.default.locale(_this.props.currentLocale);
-    (0, _reactWidgetsMoment2.default)();
+
+    _moment.default.locale(_this.props.currentLocale);
+
+    (0, _reactWidgetsMoment.default)();
     return _this;
   }
 
-  (0, _createClass3.default)(MeetingPanel, [{
-    key: 'componentDidMount',
+  _createClass(MeetingPanel, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
       setTimeout(function () {
-        if (_this2.hours) _this2.hours.value = (0, _moment2.default)(_this2.props.meeting.schedule.startTime).format('HH');
-        if (_this2.minutes) _this2.minutes.value = (0, _moment2.default)(_this2.props.meeting.schedule.startTime).format('mm');
+        if (_this2.hours) _this2.hours.value = (0, _moment.default)(_this2.props.meeting.schedule.startTime).format('HH');
+        if (_this2.minutes) _this2.minutes.value = (0, _moment.default)(_this2.props.meeting.schedule.startTime).format('mm');
       });
     }
   }, {
-    key: 'componentWillReceiveProps',
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       var _this3 = this;
 
@@ -810,182 +722,172 @@ var MeetingPanel = function (_Component) {
           var selectionStart = _this3.topic.selectionStart;
           var selectionEnd = _this3.topic.selectionEnd;
           _this3.topic.value = nextProps.meeting.topic;
+
           _this3.topic.setSelectionRange(selectionStart, selectionEnd);
         });
       }
+
       if (this.props.meeting.schedule && this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime) {
-        if (this.hours) this.hours.value = (0, _moment2.default)(nextProps.meeting.schedule.startTime).format('HH');
-        if (this.minutes) this.minutes.value = (0, _moment2.default)(nextProps.meeting.schedule.startTime).format('mm');
+        if (this.hours) this.hours.value = (0, _moment.default)(nextProps.meeting.schedule.startTime).format('HH');
+        if (this.minutes) this.minutes.value = (0, _moment.default)(nextProps.meeting.schedule.startTime).format('mm');
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this4 = this;
 
-      var _props = this.props,
-          update = _props.update,
-          meeting = _props.meeting,
-          hidden = _props.hidden,
-          disabled = _props.disabled,
-          invite = _props.invite,
-          currentLocale = _props.currentLocale,
-          ScheduleButton = _props.scheduleButton,
-          recipientsSection = _props.recipientsSection,
-          showWhen = _props.showWhen,
-          showDuration = _props.showDuration,
-          showRecurringMeeting = _props.showRecurringMeeting,
-          showLaunchMeeting = _props.showLaunchMeeting,
-          launchMeeting = _props.launchMeeting;
+      var _this$props = this.props,
+          update = _this$props.update,
+          meeting = _this$props.meeting,
+          hidden = _this$props.hidden,
+          disabled = _this$props.disabled,
+          invite = _this$props.invite,
+          currentLocale = _this$props.currentLocale,
+          ScheduleButton = _this$props.scheduleButton,
+          recipientsSection = _this$props.recipientsSection,
+          showWhen = _this$props.showWhen,
+          showDuration = _this$props.showDuration,
+          showRecurringMeeting = _this$props.showRecurringMeeting,
+          openNewWindow = _this$props.openNewWindow;
 
-      if (!(0, _keys2.default)(meeting).length) {
+      if (!Object.keys(meeting).length) {
         return null;
       }
+
       var onToggle = function onToggle(type) {
-        var isToggle = !_this4[type + 'Blur'];
+        var isToggle = !_this4["".concat(type, "Blur")];
+
         if (isToggle) {
           if (_this4[type]._values.open) {
             _this4[type].inner.close();
           } else {
             _this4[type].focus();
+
             _this4[type].inner.toggle();
           }
         }
       };
+
       var isRecurring = meeting.meetingType === 'Recurring';
-      var telephonyOnly = _i18n2.default.getString('telephonyOnly', currentLocale);
-      var voIPOnly = _i18n2.default.getString('voIPOnly', currentLocale);
-      var both = _i18n2.default.getString('both', currentLocale);
+
+      var telephonyOnly = _i18n.default.getString('telephonyOnly', currentLocale);
+
+      var voIPOnly = _i18n.default.getString('voIPOnly', currentLocale);
+
+      var both = _i18n.default.getString('both', currentLocale);
+
       var AUDIO_OPTIONS = [{
         key: 'Phone',
         text: telephonyOnly
       }, {
         key: 'ComputerAudio',
         text: voIPOnly
-
       }, {
         key: 'Phone_ComputerAudio',
         text: both
       }];
-      var minTime = new Date(meeting.schedule.startTime) < +new Date() ? { min: new Date() } : {};
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.meetingPanel },
-        !hidden ? _react2.default.createElement(
-          'div',
-          { className: _styles2.default.scroll },
-          _react2.default.createElement(Topic, {
-            that: this,
-            meeting: meeting,
-            update: update,
-            currentLocale: currentLocale }),
-          recipientsSection,
-          showWhen ? _react2.default.createElement(When, {
-            isRecurring: isRecurring,
-            currentLocale: currentLocale,
-            meeting: meeting,
-            update: update,
-            that: this,
-            onToggle: onToggle,
-            minTime: minTime
-          }) : null,
-          showDuration ? _react2.default.createElement(Duration, {
-            isRecurring: isRecurring,
-            currentLocale: currentLocale,
-            meeting: meeting,
-            update: update
-          }) : null,
-          showRecurringMeeting ? _react2.default.createElement(RecurringMeeting, {
-            isRecurring: isRecurring,
-            currentLocale: currentLocale,
-            meeting: meeting,
-            update: update
-          }) : null,
-          _react2.default.createElement(Video, {
-            currentLocale: currentLocale,
-            meeting: meeting,
-            update: update }),
-          _react2.default.createElement(AudioOptions, {
-            data: AUDIO_OPTIONS,
-            currentLocale: currentLocale,
-            meeting: meeting,
-            update: update }),
-          _react2.default.createElement(MeetingOptions, {
-            currentLocale: currentLocale,
-            meeting: meeting,
-            that: this,
-            update: update })
-        ) : null,
-        _react2.default.createElement(ScheduleButton, {
-          currentLocale: currentLocale,
-          hidden: hidden,
-          disabled: disabled,
-          meeting: meeting,
-          onClick: (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-            var opener;
-            return _regenerator2.default.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    if (disabled) {
-                      _context.next = 6;
-                      break;
-                    }
-
-                    _context.next = 3;
-                    return (0, _sleep2.default)(100);
-
-                  case 3:
-                    opener = isSafari() ? window.open() : null;
+      var minTime = new Date(meeting.schedule.startTime) < +new Date() ? {
+        min: new Date()
+      } : {};
+      return _react.default.createElement("div", {
+        className: _styles.default.meetingPanel
+      }, !hidden ? _react.default.createElement("div", {
+        className: _styles.default.scroll
+      }, _react.default.createElement(Topic, {
+        that: this,
+        meeting: meeting,
+        update: update,
+        currentLocale: currentLocale
+      }), recipientsSection, showWhen ? _react.default.createElement(When, {
+        isRecurring: isRecurring,
+        currentLocale: currentLocale,
+        meeting: meeting,
+        update: update,
+        that: this,
+        onToggle: onToggle,
+        minTime: minTime
+      }) : null, showDuration ? _react.default.createElement(Duration, {
+        isRecurring: isRecurring,
+        currentLocale: currentLocale,
+        meeting: meeting,
+        update: update
+      }) : null, showRecurringMeeting ? _react.default.createElement(RecurringMeeting, {
+        isRecurring: isRecurring,
+        currentLocale: currentLocale,
+        meeting: meeting,
+        update: update
+      }) : null, _react.default.createElement(Video, {
+        currentLocale: currentLocale,
+        meeting: meeting,
+        update: update
+      }), _react.default.createElement(AudioOptions, {
+        data: AUDIO_OPTIONS,
+        currentLocale: currentLocale,
+        meeting: meeting,
+        update: update
+      }), _react.default.createElement(MeetingOptions, {
+        currentLocale: currentLocale,
+        meeting: meeting,
+        that: this,
+        update: update
+      })) : null, _react.default.createElement(ScheduleButton, {
+        currentLocale: currentLocale,
+        hidden: hidden,
+        disabled: disabled,
+        meeting: meeting,
+        onClick:
+        /*#__PURE__*/
+        _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee() {
+          var opener;
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (disabled) {
                     _context.next = 6;
-                    return invite(_this4.props.meeting, opener);
+                    break;
+                  }
 
-                  case 6:
-                  case 'end':
-                    return _context.stop();
-                }
-              }
-            }, _callee, _this4);
-          })),
-          showLaunchMeeting: showLaunchMeeting,
-          launchMeeting: (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-            return _regenerator2.default.wrap(function _callee2$(_context2) {
-              while (1) {
-                switch (_context2.prev = _context2.next) {
-                  case 0:
-                    _context2.next = 2;
-                    return launchMeeting(_this4.props.meeting);
+                  _context.next = 3;
+                  return (0, _sleep.default)(100);
 
-                  case 2:
-                  case 'end':
-                    return _context2.stop();
-                }
+                case 3:
+                  opener = openNewWindow && (0, _constants.isSafari)() ? window.open() : null;
+                  _context.next = 6;
+                  return invite(_this4.props.meeting, opener);
+
+                case 6:
+                case "end":
+                  return _context.stop();
               }
-            }, _callee2, _this4);
-          })) })
-      );
+            }
+          }, _callee);
+        }))
+      }));
     }
   }]);
+
   return MeetingPanel;
 }(_react.Component);
 
 MeetingPanel.propTypes = {
-  update: _propTypes2.default.func.isRequired,
-  invite: _propTypes2.default.func.isRequired,
-  init: _propTypes2.default.func.isRequired,
-  meeting: _propTypes2.default.object.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  scheduleButton: _propTypes2.default.func.isRequired,
-  recipientsSection: _propTypes2.default.node,
-  disabled: _propTypes2.default.bool,
-  hidden: _propTypes2.default.bool,
-  showWhen: _propTypes2.default.bool,
-  showDuration: _propTypes2.default.bool,
-  showRecurringMeeting: _propTypes2.default.bool,
-  showLaunchMeeting: _propTypes2.default.bool,
-  launchMeeting: _propTypes2.default.func
+  update: _propTypes.default.func.isRequired,
+  invite: _propTypes.default.func.isRequired,
+  init: _propTypes.default.func.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  scheduleButton: _propTypes.default.func.isRequired,
+  recipientsSection: _propTypes.default.node,
+  disabled: _propTypes.default.bool,
+  hidden: _propTypes.default.bool,
+  showWhen: _propTypes.default.bool,
+  showDuration: _propTypes.default.bool,
+  showRecurringMeeting: _propTypes.default.bool,
+  openNewWindow: _propTypes.default.bool
 };
-
 MeetingPanel.defaultProps = {
   recipientsSection: undefined,
   disabled: false,
@@ -993,9 +895,8 @@ MeetingPanel.defaultProps = {
   showWhen: true,
   showDuration: true,
   showRecurringMeeting: true,
-  showLaunchMeeting: false,
-  launchMeeting: function launchMeeting() {}
+  openNewWindow: true
 };
-
-exports.default = MeetingPanel;
+var _default = MeetingPanel;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

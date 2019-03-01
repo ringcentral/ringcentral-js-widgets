@@ -1,103 +1,102 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
-
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 exports.ContactSourceItem = ContactSourceItem;
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.symbol");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es6.object.define-property");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+require("core-js/modules/es6.object.create");
 
-var _classnames = require('classnames');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _classnames2 = _interopRequireDefault(_classnames);
+require("core-js/modules/es6.array.map");
 
-var _i18n = require('./i18n');
+var _react = _interopRequireWildcard(require("react"));
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _styles = require('./styles.scss');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles2 = _interopRequireDefault(_styles);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _ContactFilter = require('../../assets/images/ContactFilter.svg');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _ContactFilter2 = _interopRequireDefault(_ContactFilter);
+var _ContactFilter = _interopRequireDefault(require("../../assets/images/ContactFilter.svg"));
 
-var _ContactFilterSolid = require('../../assets/images/ContactFilterSolid.svg');
-
-var _ContactFilterSolid2 = _interopRequireDefault(_ContactFilterSolid);
+var _ContactFilterSolid = _interopRequireDefault(require("../../assets/images/ContactFilterSolid.svg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function ContactSourceItem(_ref) {
   var sourceName = _ref.sourceName,
       sourceLabel = _ref.sourceLabel,
       isSelected = _ref.isSelected,
       onSelect = _ref.onSelect;
-
-  return _react2.default.createElement(
-    'div',
-    {
-      onClick: function onClick() {
-        return onSelect(sourceName);
-      },
-      className: (0, _classnames2.default)(_styles2.default.contactSourceItem, isSelected ? _styles2.default.selected : '')
+  return _react.default.createElement("div", {
+    onClick: function onClick() {
+      return onSelect(sourceName);
     },
-    sourceLabel
-  );
+    className: (0, _classnames.default)(_styles.default.contactSourceItem, isSelected ? _styles.default.selected : '')
+  }, sourceLabel);
 }
+
 ContactSourceItem.propTypes = {
-  sourceName: _propTypes2.default.string.isRequired,
-  sourceLabel: _propTypes2.default.string.isRequired,
-  isSelected: _propTypes2.default.bool.isRequired,
-  onSelect: _propTypes2.default.func.isRequired
+  sourceName: _propTypes.default.string.isRequired,
+  sourceLabel: _propTypes.default.string.isRequired,
+  isSelected: _propTypes.default.bool.isRequired,
+  onSelect: _propTypes.default.func.isRequired
 };
 
-var ContactSourceFilter = function (_Component) {
-  (0, _inherits3.default)(ContactSourceFilter, _Component);
+var ContactSourceFilter =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ContactSourceFilter, _Component);
 
   function ContactSourceFilter(props) {
-    (0, _classCallCheck3.default)(this, ContactSourceFilter);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ContactSourceFilter.__proto__ || (0, _getPrototypeOf2.default)(ContactSourceFilter)).call(this, props));
+    _classCallCheck(this, ContactSourceFilter);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ContactSourceFilter).call(this, props));
 
     _this.hideList = function () {
       if (_this._mounted) {
         _this.setState({
           unfold: false
         });
+
         if (typeof _this.props.onUnfoldChange === 'function') {
           _this.props.onUnfoldChange(false);
         }
       }
+
       window.removeEventListener('click', _this.hideList);
     };
 
@@ -105,7 +104,9 @@ var ContactSourceFilter = function (_Component) {
       _this.setState({
         unfold: true
       });
+
       window.addEventListener('click', _this.hideList);
+
       if (typeof _this.props.onUnfoldChange === 'function') {
         _this.props.onUnfoldChange(true);
       }
@@ -113,10 +114,13 @@ var ContactSourceFilter = function (_Component) {
 
     _this.togglePanel = function (evt) {
       evt.stopPropagation();
+
       if (!_this.state.unfold) {
         _this.showList();
+
         return;
       }
+
       _this.hideList();
     };
 
@@ -126,6 +130,7 @@ var ContactSourceFilter = function (_Component) {
       if (onSourceSelect) {
         onSourceSelect(sourceName);
       }
+
       _this.hideList();
     };
 
@@ -136,92 +141,79 @@ var ContactSourceFilter = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(ContactSourceFilter, [{
-    key: 'componentDidMount',
+  _createClass(ContactSourceFilter, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       this._mounted = true;
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this._mounted = false;
+
       if (!this.state.unfold) {
         window.removeEventListener('click', this.hideList);
       }
     }
   }, {
-    key: 'getString',
+    key: "getString",
     value: function getString(key, locale) {
-      return _i18n2.default.getString(key, locale);
+      return _i18n.default.getString(key, locale);
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          className = _props.className,
-          currentLocale = _props.currentLocale,
-          contactSourceNames = _props.contactSourceNames,
-          selectedSourceName = _props.selectedSourceName;
-
-
+      var _this$props = this.props,
+          className = _this$props.className,
+          currentLocale = _this$props.currentLocale,
+          contactSourceNames = _this$props.contactSourceNames,
+          selectedSourceName = _this$props.selectedSourceName;
       var isAllSource = selectedSourceName === contactSourceNames[0];
-      return _react2.default.createElement(
-        'div',
-        {
-          className: (0, _classnames2.default)(_styles2.default.contactSourceFilter, className),
-          'data-sign': 'contactSourceFilterButton',
-          onClick: this.togglePanel
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.contactSourceFilter, className),
+        "data-sign": "contactSourceFilterButton",
+        onClick: this.togglePanel
+      }, _react.default.createElement("div", {
+        "data-sign": "filterIconContainer",
+        className: _styles.default.filterIconContainer,
+        title: this.getString(selectedSourceName, currentLocale)
+      }, isAllSource ? _react.default.createElement(_ContactFilter.default, {
+        className: (0, _classnames.default)(_styles.default.filterIconNode, _styles.default.iconNoneFill)
+      }) : _react.default.createElement(_ContactFilterSolid.default, {
+        className: _styles.default.filterIconNode
+      })), !this.state.unfold ? null : _react.default.createElement("div", {
+        className: _styles.default.contactSourceList,
+        onClick: function onClick(e) {
+          return e.stopPropagation();
         },
-        _react2.default.createElement(
-          'div',
-          {
-            'data-sign': 'filterIconContainer',
-            className: _styles2.default.filterIconContainer,
-            title: this.getString(selectedSourceName, currentLocale)
-          },
-          isAllSource ? _react2.default.createElement(_ContactFilter2.default, {
-            className: (0, _classnames2.default)(_styles2.default.filterIconNode, _styles2.default.iconNoneFill) }) : _react2.default.createElement(_ContactFilterSolid2.default, { className: _styles2.default.filterIconNode })
-        ),
-        !this.state.unfold ? null : _react2.default.createElement(
-          'div',
-          {
-            className: _styles2.default.contactSourceList,
-            onClick: function onClick(e) {
-              return e.stopPropagation();
-            },
-            'data-sign': 'contactSourceList'
-          },
-          contactSourceNames.map(function (sourceName) {
-            return _react2.default.createElement(ContactSourceItem, {
-              key: sourceName,
-              sourceName: sourceName,
-              sourceLabel: _this2.getString(sourceName, currentLocale),
-              isSelected: sourceName === selectedSourceName,
-              onSelect: _this2.emitSelect
-            });
-          })
-        )
-      );
+        "data-sign": "contactSourceList"
+      }, contactSourceNames.map(function (sourceName) {
+        return _react.default.createElement(ContactSourceItem, {
+          key: sourceName,
+          sourceName: sourceName,
+          sourceLabel: _this2.getString(sourceName, currentLocale),
+          isSelected: sourceName === selectedSourceName,
+          onSelect: _this2.emitSelect
+        });
+      })));
     }
   }]);
+
   return ContactSourceFilter;
 }(_react.Component);
 
 exports.default = ContactSourceFilter;
-
-
 ContactSourceFilter.propTypes = {
-  className: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
-  onSourceSelect: _propTypes2.default.func,
-  selectedSourceName: _propTypes2.default.string,
-  contactSourceNames: _propTypes2.default.arrayOf(_propTypes2.default.string).isRequired,
-  unfold: _propTypes2.default.bool,
-  onUnfoldChange: _propTypes2.default.func
+  className: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired,
+  onSourceSelect: _propTypes.default.func,
+  selectedSourceName: _propTypes.default.string,
+  contactSourceNames: _propTypes.default.arrayOf(_propTypes.default.string).isRequired,
+  unfold: _propTypes.default.bool,
+  onUnfoldChange: _propTypes.default.func
 };
-
 ContactSourceFilter.defaultProps = {
   className: undefined,
   selectedSourceName: undefined,

@@ -1,143 +1,111 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
-
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 exports.ConfirmDeleteModal = ConfirmDeleteModal;
 exports.ClickToDialButton = ClickToDialButton;
 exports.ClickToSmsButton = ClickToSmsButton;
 exports.DeleteButton = DeleteButton;
 exports.MarkButton = MarkButton;
 exports.PreviewButton = PreviewButton;
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.symbol");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es6.promise");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+require("core-js/modules/es6.object.define-property");
 
-var _classnames = require('classnames');
+require("core-js/modules/es6.object.create");
 
-var _classnames2 = _interopRequireDefault(_classnames);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _Modal = require('../Modal');
+require("regenerator-runtime/runtime");
 
-var _Modal2 = _interopRequireDefault(_Modal);
+var _react = _interopRequireWildcard(require("react"));
 
-var _EntityButton = require('../EntityButton');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _EntityButton2 = _interopRequireDefault(_EntityButton);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _EntityModal = require('../EntityModal');
+var _Modal = _interopRequireDefault(require("../Modal"));
 
-var _EntityModal2 = _interopRequireDefault(_EntityModal);
+var _EntityButton = _interopRequireDefault(require("../EntityButton"));
 
-var _Button = require('../Button');
+var _EntityModal = _interopRequireDefault(require("../EntityModal"));
 
-var _Button2 = _interopRequireDefault(_Button);
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _LogButton = require('../LogButton');
+var _LogButton = _interopRequireDefault(require("../LogButton"));
 
-var _LogButton2 = _interopRequireDefault(_LogButton);
+var _DeleteMessageIcon = _interopRequireDefault(require("../../assets/images/DeleteMessageIcon.svg"));
 
-var _DeleteMessageIcon = require('../../assets/images/DeleteMessageIcon.svg');
+var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
 
-var _DeleteMessageIcon2 = _interopRequireDefault(_DeleteMessageIcon);
+var _Mark = _interopRequireDefault(require("../../assets/images/Mark.svg"));
 
-var _CloseIcon = require('../../assets/images/CloseIcon.svg');
+var _Unmark = _interopRequireDefault(require("../../assets/images/Unmark.svg"));
 
-var _CloseIcon2 = _interopRequireDefault(_CloseIcon);
+var _Preview = _interopRequireDefault(require("../../assets/images/Preview.svg"));
 
-var _Mark = require('../../assets/images/Mark.svg');
+var _Download = _interopRequireDefault(require("../../assets/images/Download.svg"));
 
-var _Mark2 = _interopRequireDefault(_Mark);
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _Unmark = require('../../assets/images/Unmark.svg');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _Unmark2 = _interopRequireDefault(_Unmark);
-
-var _Preview = require('../../assets/images/Preview.svg');
-
-var _Preview2 = _interopRequireDefault(_Preview);
-
-var _Download = require('../../assets/images/Download.svg');
-
-var _Download2 = _interopRequireDefault(_Download);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function ConfirmDeleteModal(_ref) {
   var currentLocale = _ref.currentLocale,
       show = _ref.show,
       onDelete = _ref.onDelete,
       onCancel = _ref.onCancel;
-
-  return _react2.default.createElement(
-    _Modal2.default,
-    {
-      show: show,
-      currentLocale: currentLocale,
-      onConfirm: onDelete,
-      onCancel: onCancel
-    },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.contentText },
-      _i18n2.default.getString('sureToDeleteVoiceMail', currentLocale)
-    )
-  );
+  return _react.default.createElement(_Modal.default, {
+    show: show,
+    currentLocale: currentLocale,
+    onConfirm: onDelete,
+    onCancel: onCancel
+  }, _react.default.createElement("div", {
+    className: _styles.default.contentText
+  }, _i18n.default.getString('sureToDeleteVoiceMail', currentLocale)));
 }
-ConfirmDeleteModal.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  show: _propTypes2.default.bool.isRequired,
-  onDelete: _propTypes2.default.func,
-  onCancel: _propTypes2.default.func
-};
 
+ConfirmDeleteModal.propTypes = {
+  currentLocale: _propTypes.default.string.isRequired,
+  show: _propTypes.default.bool.isRequired,
+  onDelete: _propTypes.default.func,
+  onCancel: _propTypes.default.func
+};
 ConfirmDeleteModal.defaultProps = {
   onDelete: function onDelete() {},
   onCancel: function onCancel() {}
@@ -150,25 +118,23 @@ function ClickToDialButton(_ref2) {
       disableClickToDial = _ref2.disableClickToDial,
       phoneNumber = _ref2.phoneNumber,
       title = _ref2.title;
-
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.clickToDialButton, className),
-      onClick: onClickToDial,
-      disabled: disableLinks || disableClickToDial || !phoneNumber },
-    _react2.default.createElement('span', {
-      className: _DynamicsFont2.default.call,
-      title: title })
-  );
+  return _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.button, _styles.default.clickToDialButton, className),
+    onClick: onClickToDial,
+    disabled: disableLinks || disableClickToDial || !phoneNumber
+  }, _react.default.createElement("span", {
+    className: _DynamicsFont.default.call,
+    title: title
+  }));
 }
+
 ClickToDialButton.propTypes = {
-  className: _propTypes2.default.string,
-  onClickToDial: _propTypes2.default.func,
-  disableLinks: _propTypes2.default.bool,
-  disableClickToDial: _propTypes2.default.bool,
-  phoneNumber: _propTypes2.default.string,
-  title: _propTypes2.default.string
+  className: _propTypes.default.string,
+  onClickToDial: _propTypes.default.func,
+  disableLinks: _propTypes.default.bool,
+  disableClickToDial: _propTypes.default.bool,
+  phoneNumber: _propTypes.default.string,
+  title: _propTypes.default.string
 };
 ClickToDialButton.defaultProps = {
   className: undefined,
@@ -185,24 +151,22 @@ function ClickToSmsButton(_ref3) {
       disableLinks = _ref3.disableLinks,
       phoneNumber = _ref3.phoneNumber,
       title = _ref3.title;
-
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.clickToSmsButton, className),
-      onClick: onClickToSms,
-      disabled: disableLinks || !phoneNumber },
-    _react2.default.createElement('span', {
-      className: _DynamicsFont2.default.composeText,
-      title: title })
-  );
+  return _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.button, _styles.default.clickToSmsButton, className),
+    onClick: onClickToSms,
+    disabled: disableLinks || !phoneNumber
+  }, _react.default.createElement("span", {
+    className: _DynamicsFont.default.composeText,
+    title: title
+  }));
 }
+
 ClickToSmsButton.propTypes = {
-  className: _propTypes2.default.string,
-  onClickToSms: _propTypes2.default.func,
-  disableLinks: _propTypes2.default.bool,
-  phoneNumber: _propTypes2.default.string,
-  title: _propTypes2.default.string
+  className: _propTypes.default.string,
+  onClickToSms: _propTypes.default.func,
+  disableLinks: _propTypes.default.bool,
+  phoneNumber: _propTypes.default.string,
+  title: _propTypes.default.string
 };
 ClickToSmsButton.defaultProps = {
   className: undefined,
@@ -217,31 +181,24 @@ function DeleteButton(_ref4) {
       title = _ref4.title,
       openDeleteModal = _ref4.openDeleteModal,
       disabled = _ref4.disabled;
-
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.svgBtn, className),
-      onClick: openDeleteModal,
-      disabled: disabled
-    },
-    _react2.default.createElement(
-      'span',
-      { title: title },
-      _react2.default.createElement(_DeleteMessageIcon2.default, {
-        width: 14,
-        height: 17,
-        className: (0, _classnames2.default)(_styles2.default.svgFillIcon, disabled ? _styles2.default.disabled : null)
-      })
-    )
-  );
+  return _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.button, _styles.default.svgBtn, className),
+    onClick: openDeleteModal,
+    disabled: disabled
+  }, _react.default.createElement("span", {
+    title: title
+  }, _react.default.createElement(_DeleteMessageIcon.default, {
+    width: 14,
+    height: 17,
+    className: (0, _classnames.default)(_styles.default.svgFillIcon, disabled ? _styles.default.disabled : null)
+  })));
 }
 
 DeleteButton.propTypes = {
-  className: _propTypes2.default.string,
-  title: _propTypes2.default.string,
-  openDeleteModal: _propTypes2.default.func,
-  disabled: _propTypes2.default.bool.isRequired
+  className: _propTypes.default.string,
+  title: _propTypes.default.string,
+  openDeleteModal: _propTypes.default.func,
+  disabled: _propTypes.default.bool.isRequired
 };
 DeleteButton.defaultProps = {
   className: undefined,
@@ -256,37 +213,30 @@ function MarkButton(_ref5) {
       markTitle = _ref5.markTitle,
       unmarkTitle = _ref5.unmarkTitle,
       disabled = _ref5.disabled;
-
-  var Icon = marked ? _Unmark2.default : _Mark2.default;
+  var Icon = marked ? _Unmark.default : _Mark.default;
   var title = marked ? unmarkTitle : markTitle;
-  var classNames = (0, _classnames2.default)(_styles2.default.unmarked, marked ? _styles2.default.svgFillIcon : null, disabled ? _styles2.default.disabled : null);
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.svgBtn, className),
-      onClick: onClick,
-      disabled: disabled
-    },
-    _react2.default.createElement(
-      'span',
-      { title: title },
-      _react2.default.createElement(Icon, {
-        width: 14,
-        height: 17,
-        title: title,
-        className: classNames
-      })
-    )
-  );
+  var classNames = (0, _classnames.default)(_styles.default.unmarked, marked ? _styles.default.svgFillIcon : null, disabled ? _styles.default.disabled : null);
+  return _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.button, _styles.default.svgBtn, className),
+    onClick: onClick,
+    disabled: disabled
+  }, _react.default.createElement("span", {
+    title: title
+  }, _react.default.createElement(Icon, {
+    width: 14,
+    height: 17,
+    title: title,
+    className: classNames
+  })));
 }
 
 MarkButton.propTypes = {
-  className: _propTypes2.default.string,
-  markTitle: _propTypes2.default.string,
-  unmarkTitle: _propTypes2.default.string,
-  onClick: _propTypes2.default.func.isRequired,
-  marked: _propTypes2.default.bool.isRequired,
-  disabled: _propTypes2.default.bool.isRequired
+  className: _propTypes.default.string,
+  markTitle: _propTypes.default.string,
+  unmarkTitle: _propTypes.default.string,
+  onClick: _propTypes.default.func.isRequired,
+  marked: _propTypes.default.bool.isRequired,
+  disabled: _propTypes.default.bool.isRequired
 };
 MarkButton.defaultProps = {
   className: undefined,
@@ -299,45 +249,42 @@ function PreviewButton(_ref6) {
       onClick = _ref6.onClick,
       disabled = _ref6.disabled,
       className = _ref6.className;
-
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.svgBtn, className),
-      onClick: onClick,
-      disabled: disabled
-    },
-    _react2.default.createElement(
-      'span',
-      { title: title },
-      _react2.default.createElement(_Preview2.default, {
-        className: (0, _classnames2.default)(_styles2.default.svgFillIcon, disabled ? _styles2.default.disabled : null)
-      })
-    )
-  );
+  return _react.default.createElement(_Button.default, {
+    className: (0, _classnames.default)(_styles.default.button, _styles.default.svgBtn, className),
+    onClick: onClick,
+    disabled: disabled
+  }, _react.default.createElement("span", {
+    title: title
+  }, _react.default.createElement(_Preview.default, {
+    className: (0, _classnames.default)(_styles.default.svgFillIcon, disabled ? _styles.default.disabled : null)
+  })));
 }
+
 PreviewButton.propTypes = {
-  title: _propTypes2.default.string.isRequired,
-  onClick: _propTypes2.default.func.isRequired,
-  disabled: _propTypes2.default.bool.isRequired,
-  className: _propTypes2.default.string
+  title: _propTypes.default.string.isRequired,
+  onClick: _propTypes.default.func.isRequired,
+  disabled: _propTypes.default.bool.isRequired,
+  className: _propTypes.default.string
 };
 PreviewButton.defaultProps = {
   className: undefined
 };
 
-var ActionMenuList = function (_Component) {
-  (0, _inherits3.default)(ActionMenuList, _Component);
+var ActionMenuList =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ActionMenuList, _Component);
 
   function ActionMenuList(props) {
-    var _this2 = this;
+    var _this;
 
-    (0, _classCallCheck3.default)(this, ActionMenuList);
+    _classCallCheck(this, ActionMenuList);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ActionMenuList.__proto__ || (0, _getPrototypeOf2.default)(ActionMenuList)).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ActionMenuList).call(this, props));
 
     _this.onCreateEnityModal = function (entityType) {
       _this.props.onCreateEntity(entityType);
+
       _this.closeEntityModal();
     };
 
@@ -359,9 +306,11 @@ var ActionMenuList = function (_Component) {
 
     _this.onDelete = function () {
       _this.props.onDelete();
+
       _this.setState({
         disableDelete: true
       });
+
       _this.onCloseDeleteModal();
     };
 
@@ -405,11 +354,14 @@ var ActionMenuList = function (_Component) {
       disableDelete: false,
       marking: false
     };
-
-    _this.onMark = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+    _this.onMark =
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee() {
       var _this$props, marked, onUnmark, onMark, onClick;
 
-      return _regenerator2.default.wrap(function _callee$(_context) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -418,12 +370,13 @@ var ActionMenuList = function (_Component) {
                 break;
               }
 
-              return _context.abrupt('return');
+              return _context.abrupt("return");
 
             case 2:
               _this.setState({
                 marking: true
               });
+
               _this$props = _this.props, marked = _this$props.marked, onUnmark = _this$props.onUnmark, onMark = _this$props.onMark;
               onClick = marked ? onUnmark : onMark;
               _context.prev = 5;
@@ -436,7 +389,7 @@ var ActionMenuList = function (_Component) {
 
             case 10:
               _context.prev = 10;
-              _context.t0 = _context['catch'](5);
+              _context.t0 = _context["catch"](5);
 
             case 12:
               _this.setState({
@@ -444,57 +397,55 @@ var ActionMenuList = function (_Component) {
               });
 
             case 13:
-            case 'end':
+            case "end":
               return _context.stop();
           }
         }
-      }, _callee, _this2, [[5, 10]]);
+      }, _callee, null, [[5, 10]]);
     }));
     return _this;
   }
 
-  (0, _createClass3.default)(ActionMenuList, [{
-    key: 'render',
+  _createClass(ActionMenuList, [{
+    key: "render",
     value: function render() {
-      var _props = this.props,
-          className = _props.className,
-          currentLocale = _props.currentLocale,
-          onLog = _props.onLog,
-          isLogged = _props.isLogged,
-          isLogging = _props.isLogging,
-          isCreating = _props.isCreating,
-          onViewEntity = _props.onViewEntity,
-          onCreateEntity = _props.onCreateEntity,
-          createEntityTypes = _props.createEntityTypes,
-          hasEntity = _props.hasEntity,
-          onClickToDial = _props.onClickToDial,
-          onClickToSms = _props.onClickToSms,
-          phoneNumber = _props.phoneNumber,
-          disableLinks = _props.disableLinks,
-          disableClickToDial = _props.disableClickToDial,
-          addLogTitle = _props.addLogTitle,
-          editLogTitle = _props.editLogTitle,
-          callTitle = _props.callTitle,
-          textTitle = _props.textTitle,
-          createEntityTitle = _props.createEntityTitle,
-          viewEntityTitle = _props.viewEntityTitle,
-          onDelete = _props.onDelete,
-          deleteTitle = _props.deleteTitle,
-          onMark = _props.onMark,
-          marked = _props.marked,
-          markTitle = _props.markTitle,
-          unmarkTitle = _props.unmarkTitle,
-          previewTitle = _props.previewTitle,
-          downloadTitle = _props.downloadTitle,
-          onPreview = _props.onPreview,
-          faxAttachment = _props.faxAttachment,
-          externalViewEntity = _props.externalViewEntity,
-          externalHasEntity = _props.externalHasEntity,
-          disableClickToSms = _props.disableClickToSms;
-
-
-      var logButton = onLog ? _react2.default.createElement(_LogButton2.default, {
-        className: _styles2.default.button,
+      var _this$props2 = this.props,
+          className = _this$props2.className,
+          currentLocale = _this$props2.currentLocale,
+          onLog = _this$props2.onLog,
+          isLogged = _this$props2.isLogged,
+          isLogging = _this$props2.isLogging,
+          isCreating = _this$props2.isCreating,
+          onViewEntity = _this$props2.onViewEntity,
+          onCreateEntity = _this$props2.onCreateEntity,
+          createEntityTypes = _this$props2.createEntityTypes,
+          hasEntity = _this$props2.hasEntity,
+          onClickToDial = _this$props2.onClickToDial,
+          onClickToSms = _this$props2.onClickToSms,
+          phoneNumber = _this$props2.phoneNumber,
+          disableLinks = _this$props2.disableLinks,
+          disableClickToDial = _this$props2.disableClickToDial,
+          addLogTitle = _this$props2.addLogTitle,
+          editLogTitle = _this$props2.editLogTitle,
+          callTitle = _this$props2.callTitle,
+          textTitle = _this$props2.textTitle,
+          createEntityTitle = _this$props2.createEntityTitle,
+          viewEntityTitle = _this$props2.viewEntityTitle,
+          onDelete = _this$props2.onDelete,
+          deleteTitle = _this$props2.deleteTitle,
+          onMark = _this$props2.onMark,
+          marked = _this$props2.marked,
+          markTitle = _this$props2.markTitle,
+          unmarkTitle = _this$props2.unmarkTitle,
+          previewTitle = _this$props2.previewTitle,
+          downloadTitle = _this$props2.downloadTitle,
+          onPreview = _this$props2.onPreview,
+          faxAttachment = _this$props2.faxAttachment,
+          externalViewEntity = _this$props2.externalViewEntity,
+          externalHasEntity = _this$props2.externalHasEntity,
+          disableClickToSms = _this$props2.disableClickToSms;
+      var logButton = onLog ? _react.default.createElement(_LogButton.default, {
+        className: _styles.default.button,
         onLog: onLog,
         disableLinks: disableLinks,
         isLogged: isLogged,
@@ -503,20 +454,20 @@ var ActionMenuList = function (_Component) {
         addTitle: addLogTitle,
         editTitle: editLogTitle
       }) : null;
+      var entityButton;
 
-      var entityButton = void 0;
       if (externalViewEntity) {
         if (externalHasEntity) {
-          entityButton = _react2.default.createElement(_EntityButton2.default, {
-            className: _styles2.default.button,
+          entityButton = _react.default.createElement(_EntityButton.default, {
+            className: _styles.default.button,
             onViewEntity: externalViewEntity,
             hasEntity: externalHasEntity,
             disableLinks: disableLinks,
             viewEntityTitle: viewEntityTitle
           });
         } else if (phoneNumber && onCreateEntity) {
-          entityButton = _react2.default.createElement(_EntityButton2.default, {
-            className: _styles2.default.button,
+          entityButton = _react.default.createElement(_EntityButton.default, {
+            className: _styles.default.button,
             onCreateEntity: this.openEntityModal,
             hasEntity: externalHasEntity,
             disableLinks: disableLinks,
@@ -526,16 +477,16 @@ var ActionMenuList = function (_Component) {
           entityButton = null;
         }
       } else if (hasEntity && onViewEntity) {
-        entityButton = _react2.default.createElement(_EntityButton2.default, {
-          className: _styles2.default.button,
+        entityButton = _react.default.createElement(_EntityButton.default, {
+          className: _styles.default.button,
           onViewEntity: onViewEntity,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
           viewEntityTitle: viewEntityTitle
         });
       } else if (!hasEntity && phoneNumber && onCreateEntity) {
-        entityButton = _react2.default.createElement(_EntityButton2.default, {
-          className: _styles2.default.button,
+        entityButton = _react.default.createElement(_EntityButton.default, {
+          className: _styles.default.button,
           onCreateEntity: this.openEntityModal,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
@@ -545,15 +496,14 @@ var ActionMenuList = function (_Component) {
         entityButton = null;
       }
 
-      var entityModal = !hasEntity && phoneNumber ? _react2.default.createElement(_EntityModal2.default, {
+      var entityModal = !hasEntity && phoneNumber ? _react.default.createElement(_EntityModal.default, {
         currentLocale: currentLocale,
         entities: createEntityTypes,
         show: this.state.entityModalVisible,
         onCreate: this.onCreateEnityModal,
         onCancel: this.onCancelEntityModal
       }) : null;
-
-      var clickToDialButton = onClickToDial ? _react2.default.createElement(ClickToDialButton, {
+      var clickToDialButton = onClickToDial ? _react.default.createElement(ClickToDialButton, {
         onClickToDial: onClickToDial,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
@@ -561,115 +511,100 @@ var ActionMenuList = function (_Component) {
         currentLocale: currentLocale,
         title: callTitle
       }) : null;
-      var clickToSmsButton = onClickToSms ? _react2.default.createElement(ClickToSmsButton, {
+      var clickToSmsButton = onClickToSms ? _react.default.createElement(ClickToSmsButton, {
         onClickToSms: onClickToSms,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks || disableClickToSms,
         currentLocale: currentLocale,
         title: textTitle
       }) : null;
-      var deleteButton = onDelete ? _react2.default.createElement(DeleteButton, {
+      var deleteButton = onDelete ? _react.default.createElement(DeleteButton, {
         onDelete: onDelete,
         currentLocale: currentLocale,
         title: deleteTitle,
         openDeleteModal: this.openDeleteModal,
         disabled: this.state.disableDelete || disableLinks
       }) : null;
-
-      var confirmDeleteModal = onDelete ? _react2.default.createElement(ConfirmDeleteModal, {
+      var confirmDeleteModal = onDelete ? _react.default.createElement(ConfirmDeleteModal, {
         currentLocale: currentLocale,
         show: this.state.deleteModalVisible,
         onDelete: this.onDelete,
         onCancel: this.onCancelDelete
       }) : null;
-      var markButton = onMark ? _react2.default.createElement(MarkButton, {
+      var markButton = onMark ? _react.default.createElement(MarkButton, {
         markTitle: markTitle,
         unmarkTitle: unmarkTitle,
         marked: marked,
         onClick: this.onMark,
         disabled: disableLinks
       }) : null;
-      var previewButton = onPreview && faxAttachment && faxAttachment.uri ? _react2.default.createElement(PreviewButton, {
+      var previewButton = onPreview && faxAttachment && faxAttachment.uri ? _react.default.createElement(PreviewButton, {
         title: previewTitle,
         onClick: this.onPreview,
         disabled: disableLinks
       }) : null;
-      var downloadButton = faxAttachment && faxAttachment.uri ? _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.svgBtn, _styles2.default.svgFillIcon, disableLinks ? _styles2.default.disabled : null) },
-        _react2.default.createElement(
-          'a',
-          {
-            target: '_blank',
-            download: true,
-            title: downloadTitle,
-            href: faxAttachment.uri,
-            onClick: this._onDownloadClick,
-            disabled: disableLinks
-          },
-          _react2.default.createElement(_Download2.default, { width: 18, height: 18 })
-        )
-      ) : null;
-      return _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, className), onClick: this.preventEventPropogation },
-        clickToDialButton,
-        clickToSmsButton,
-        previewButton,
-        downloadButton,
-        entityButton,
-        logButton,
-        markButton,
-        deleteButton,
-        entityModal,
-        confirmDeleteModal
-      );
+      var downloadButton = faxAttachment && faxAttachment.uri ? _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.button, _styles.default.svgBtn, _styles.default.svgFillIcon, disableLinks ? _styles.default.disabled : null)
+      }, _react.default.createElement("a", {
+        target: "_blank",
+        download: true,
+        title: downloadTitle,
+        href: faxAttachment.uri,
+        onClick: this._onDownloadClick,
+        disabled: disableLinks
+      }, _react.default.createElement(_Download.default, {
+        width: 18,
+        height: 18
+      }))) : null;
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.root, className),
+        onClick: this.preventEventPropogation
+      }, clickToDialButton, clickToSmsButton, previewButton, downloadButton, entityButton, logButton, markButton, deleteButton, entityModal, confirmDeleteModal);
     }
   }]);
+
   return ActionMenuList;
 }(_react.Component);
 
 exports.default = ActionMenuList;
-
-
 ActionMenuList.propTypes = {
-  className: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
-  onLog: _propTypes2.default.func,
-  isLogged: _propTypes2.default.bool,
-  isLogging: _propTypes2.default.bool,
-  isCreating: _propTypes2.default.bool,
-  onViewEntity: _propTypes2.default.func,
-  onCreateEntity: _propTypes2.default.func,
-  createEntityTypes: _propTypes2.default.array,
-  hasEntity: _propTypes2.default.bool,
-  onClickToDial: _propTypes2.default.func,
-  onClickToSms: _propTypes2.default.func,
-  phoneNumber: _propTypes2.default.string,
-  disableLinks: _propTypes2.default.bool,
-  disableClickToDial: _propTypes2.default.bool,
-  addLogTitle: _propTypes2.default.string,
-  editLogTitle: _propTypes2.default.string,
-  textTitle: _propTypes2.default.string,
-  callTitle: _propTypes2.default.string,
-  createEntityTitle: _propTypes2.default.string,
-  viewEntityTitle: _propTypes2.default.string,
-  onDelete: _propTypes2.default.func,
-  deleteTitle: _propTypes2.default.string,
-  onMark: _propTypes2.default.func,
-  onUnmark: _propTypes2.default.func,
-  marked: _propTypes2.default.bool,
-  markTitle: _propTypes2.default.string,
-  unmarkTitle: _propTypes2.default.string,
-  previewTitle: _propTypes2.default.string,
-  downloadTitle: _propTypes2.default.string,
-  onPreview: _propTypes2.default.func,
-  faxAttachment: _propTypes2.default.shape({
-    uri: _propTypes2.default.string
+  className: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired,
+  onLog: _propTypes.default.func,
+  isLogged: _propTypes.default.bool,
+  isLogging: _propTypes.default.bool,
+  isCreating: _propTypes.default.bool,
+  onViewEntity: _propTypes.default.func,
+  onCreateEntity: _propTypes.default.func,
+  createEntityTypes: _propTypes.default.array,
+  hasEntity: _propTypes.default.bool,
+  onClickToDial: _propTypes.default.func,
+  onClickToSms: _propTypes.default.func,
+  phoneNumber: _propTypes.default.string,
+  disableLinks: _propTypes.default.bool,
+  disableClickToDial: _propTypes.default.bool,
+  addLogTitle: _propTypes.default.string,
+  editLogTitle: _propTypes.default.string,
+  textTitle: _propTypes.default.string,
+  callTitle: _propTypes.default.string,
+  createEntityTitle: _propTypes.default.string,
+  viewEntityTitle: _propTypes.default.string,
+  onDelete: _propTypes.default.func,
+  deleteTitle: _propTypes.default.string,
+  onMark: _propTypes.default.func,
+  onUnmark: _propTypes.default.func,
+  marked: _propTypes.default.bool,
+  markTitle: _propTypes.default.string,
+  unmarkTitle: _propTypes.default.string,
+  previewTitle: _propTypes.default.string,
+  downloadTitle: _propTypes.default.string,
+  onPreview: _propTypes.default.func,
+  faxAttachment: _propTypes.default.shape({
+    uri: _propTypes.default.string
   }),
-  externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.bool,
-  disableClickToSms: _propTypes2.default.bool
+  externalViewEntity: _propTypes.default.func,
+  externalHasEntity: _propTypes.default.bool,
+  disableClickToSms: _propTypes.default.bool
 };
 ActionMenuList.defaultProps = {
   className: undefined,

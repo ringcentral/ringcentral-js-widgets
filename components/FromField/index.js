@@ -1,73 +1,74 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+require("core-js/modules/es6.string.iterator");
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+require("core-js/modules/es6.array.from");
 
-var _react = require('react');
+require("core-js/modules/es6.regexp.to-string");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.date.to-string");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+require("core-js/modules/es6.symbol");
 
-var _classnames = require('classnames');
+require("core-js/modules/web.dom.iterable");
 
-var _classnames2 = _interopRequireDefault(_classnames);
+require("core-js/modules/es6.array.is-array");
 
-var _DropdownSelect = require('../DropdownSelect');
+var _react = _interopRequireDefault(require("react"));
 
-var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _styles = require('./styles.scss');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles2 = _interopRequireDefault(_styles);
+var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
-var _i18n = require('./i18n');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 function PhoneNumber(_ref) {
   var formatPhone = _ref.formatPhone,
       usageType = _ref.usageType,
       currentLocale = _ref.currentLocale,
       phoneNumber = _ref.phoneNumber;
-
-  var usageTypeDom = usageType ? _react2.default.createElement(
-    'span',
-    { className: _styles2.default.usageType },
-    _i18n2.default.getString(usageType, currentLocale)
-  ) : null;
-  return _react2.default.createElement(
-    'span',
-    { className: _styles2.default.phoneNumber },
-    usageTypeDom,
-    _react2.default.createElement(
-      'span',
-      null,
-      formatPhone(phoneNumber)
-    )
-  );
+  var usageTypeDom = usageType ? _react.default.createElement("span", {
+    className: _styles.default.usageType
+  }, _i18n.default.getString(usageType, currentLocale)) : null;
+  return _react.default.createElement("span", {
+    className: _styles.default.phoneNumber
+  }, usageTypeDom, _react.default.createElement("span", null, formatPhone(phoneNumber)));
 }
 
 PhoneNumber.propTypes = {
-  formatPhone: _propTypes2.default.func.isRequired,
-  phoneNumber: _propTypes2.default.string,
-  usageType: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired
+  formatPhone: _propTypes.default.func.isRequired,
+  phoneNumber: _propTypes.default.string,
+  usageType: _propTypes.default.string,
+  currentLocale: _propTypes.default.string.isRequired
 };
-
 PhoneNumber.defaultProps = {
   phoneNumber: null,
   usageType: null
 };
+
 function FromField(_ref2) {
   var className = _ref2.className,
       fromNumber = _ref2.fromNumber,
@@ -81,28 +82,28 @@ function FromField(_ref2) {
   if (hidden) {
     return null;
   }
-  var options = [].concat((0, _toConsumableArray3.default)(fromNumbers));
+
+  var options = _toConsumableArray(fromNumbers);
+
   if (showAnonymous) {
     options.push({
       phoneNumber: 'anonymous'
     });
   }
-  return _react2.default.createElement(_DropdownSelect2.default, {
-    className: (0, _classnames2.default)(_styles2.default.root, className),
-    iconClassName: _styles2.default.selectIcon,
+
+  return _react.default.createElement(_DropdownSelect.default, {
+    className: (0, _classnames.default)(_styles.default.root, className),
+    iconClassName: _styles.default.selectIcon,
     value: fromNumber,
-    label: _i18n2.default.getString('from', currentLocale) + ':',
+    label: "".concat(_i18n.default.getString('from', currentLocale), ":"),
     onChange: onChange,
     options: options,
     renderValue: function renderValue(value) {
       if (value === 'anonymous') {
-        return _react2.default.createElement(
-          'span',
-          null,
-          _i18n2.default.getString('Blocked', currentLocale)
-        );
+        return _react.default.createElement("span", null, _i18n.default.getString('Blocked', currentLocale));
       }
-      return _react2.default.createElement(PhoneNumber, {
+
+      return _react.default.createElement(PhoneNumber, {
         formatPhone: formatPhone,
         phoneNumber: value,
         currentLocale: currentLocale
@@ -113,13 +114,10 @@ function FromField(_ref2) {
     },
     renderFunction: function renderFunction(option) {
       if (option.phoneNumber === 'anonymous') {
-        return _react2.default.createElement(
-          'span',
-          null,
-          _i18n2.default.getString('Blocked', currentLocale)
-        );
+        return _react.default.createElement("span", null, _i18n.default.getString('Blocked', currentLocale));
       }
-      return _react2.default.createElement(PhoneNumber, {
+
+      return _react.default.createElement(PhoneNumber, {
         formatPhone: formatPhone,
         phoneNumber: option.phoneNumber,
         usageType: option.usageType,
@@ -130,24 +128,23 @@ function FromField(_ref2) {
 }
 
 FromField.propTypes = {
-  fromNumber: _propTypes2.default.string,
-  formatPhone: _propTypes2.default.func.isRequired,
-  fromNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    phoneNumber: _propTypes2.default.string,
-    usageType: _propTypes2.default.string
+  fromNumber: _propTypes.default.string,
+  formatPhone: _propTypes.default.func.isRequired,
+  fromNumbers: _propTypes.default.arrayOf(_propTypes.default.shape({
+    phoneNumber: _propTypes.default.string,
+    usageType: _propTypes.default.string
   })).isRequired,
-  onChange: _propTypes2.default.func.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  hidden: _propTypes2.default.bool.isRequired,
-  showAnonymous: _propTypes2.default.bool,
-  className: _propTypes2.default.string
+  onChange: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  hidden: _propTypes.default.bool.isRequired,
+  showAnonymous: _propTypes.default.bool,
+  className: _propTypes.default.string
 };
-
 FromField.defaultProps = {
   fromNumber: null,
   className: undefined,
   showAnonymous: true
 };
-
-exports.default = FromField;
+var _default = FromField;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

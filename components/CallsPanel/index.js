@@ -1,112 +1,104 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _react = _interopRequireDefault(require("react"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("core-js/fn/array/find");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _Header = _interopRequireDefault(require("../Header"));
 
-var _react = require('react');
+var _Panel = _interopRequireDefault(require("../Panel"));
 
-var _react2 = _interopRequireDefault(_react);
+var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-var _propTypes = require('prop-types');
+var _CallList = _interopRequireDefault(require("../CallList"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _CallListV = _interopRequireDefault(require("../CallListV2"));
 
-var _debounce = require('ringcentral-integration/lib/debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
-require('core-js/fn/array/find');
-
-var _Header = require('../Header');
-
-var _Header2 = _interopRequireDefault(_Header);
-
-var _Panel = require('../Panel');
-
-var _Panel2 = _interopRequireDefault(_Panel);
-
-var _SpinnerOverlay = require('../SpinnerOverlay');
-
-var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
-
-var _CallList = require('../CallList');
-
-var _CallList2 = _interopRequireDefault(_CallList);
-
-var _CallListV = require('../CallListV2');
-
-var _CallListV2 = _interopRequireDefault(_CallListV);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 var HEADER_HEIGHT = 38;
 
-var CallsPanel = function (_React$PureComponent) {
-  (0, _inherits3.default)(CallsPanel, _React$PureComponent);
+var CallsPanel =
+/*#__PURE__*/
+function (_React$PureComponent) {
+  _inherits(CallsPanel, _React$PureComponent);
 
   function CallsPanel(props) {
-    (0, _classCallCheck3.default)(this, CallsPanel);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallsPanel.__proto__ || (0, _getPrototypeOf2.default)(CallsPanel)).call(this, props));
+    _classCallCheck(this, CallsPanel);
 
-    _this._onResize = (0, _debounce2.default)(function () {
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallsPanel).call(this, props));
+    _this._onResize = (0, _debounce.default)(function () {
       if (_this._mounted) {
         _this._calculateContentSize();
       }
     }, 300);
-
-
     _this.state = {
       contentHeight: 0,
       contentWidth: 0
     };
-
     _this._mounted = false;
-    _this._listWrapper = _react2.default.createRef();
+    _this._listWrapper = _react.default.createRef();
     return _this;
   }
 
-  (0, _createClass3.default)(CallsPanel, [{
-    key: 'componentDidMount',
+  _createClass(CallsPanel, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       this._mounted = true;
+
       this._calculateContentSize();
+
       window.addEventListener('resize', this._onResize);
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this._mounted = false;
       window.removeEventListener('resize', this._onResize);
     }
   }, {
-    key: '_calculateContentSize',
+    key: "_calculateContentSize",
     value: function _calculateContentSize() {
       if (this._listWrapper && this._listWrapper.current && this._listWrapper.current.getBoundingClientRect) {
         var react = this._listWrapper.current.getBoundingClientRect();
@@ -115,7 +107,6 @@ var CallsPanel = function (_React$PureComponent) {
           contentHeight: react.bottom - react.top - HEADER_HEIGHT,
           contentWidth: react.right - react.left
         });
-
         return;
       }
 
@@ -125,43 +116,41 @@ var CallsPanel = function (_React$PureComponent) {
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _props = this.props,
-          brand = _props.brand,
-          currentLocale = _props.currentLocale,
-          calls = _props.calls,
-          areaCode = _props.areaCode,
-          countryCode = _props.countryCode,
-          onViewContact = _props.onViewContact,
-          onCreateContact = _props.onCreateContact,
-          onLogCall = _props.onLogCall,
-          onClickToDial = _props.onClickToDial,
-          onClickToSms = _props.onClickToSms,
-          isLoggedContact = _props.isLoggedContact,
-          disableLinks = _props.disableLinks,
-          disableClickToDial = _props.disableClickToDial,
-          outboundSmsPermission = _props.outboundSmsPermission,
-          internalSmsPermission = _props.internalSmsPermission,
-          dateTimeFormatter = _props.dateTimeFormatter,
-          showSpinner = _props.showSpinner,
-          title = _props.title,
-          active = _props.active,
-          loggingMap = _props.loggingMap,
-          webphoneAnswer = _props.webphoneAnswer,
-          webphoneReject = _props.webphoneReject,
-          webphoneHangup = _props.webphoneHangup,
-          webphoneResume = _props.webphoneResume,
-          enableContactFallback = _props.enableContactFallback,
-          autoLog = _props.autoLog,
-          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
-          sourceIcons = _props.sourceIcons,
-          phoneTypeRenderer = _props.phoneTypeRenderer,
-          phoneSourceNameRenderer = _props.phoneSourceNameRenderer,
-          useNewList = _props.useNewList;
-
-
-      var callsListView = useNewList ? _react2.default.createElement(_CallListV2.default, {
+      var _this$props = this.props,
+          brand = _this$props.brand,
+          currentLocale = _this$props.currentLocale,
+          calls = _this$props.calls,
+          areaCode = _this$props.areaCode,
+          countryCode = _this$props.countryCode,
+          onViewContact = _this$props.onViewContact,
+          onCreateContact = _this$props.onCreateContact,
+          onLogCall = _this$props.onLogCall,
+          onClickToDial = _this$props.onClickToDial,
+          onClickToSms = _this$props.onClickToSms,
+          isLoggedContact = _this$props.isLoggedContact,
+          disableLinks = _this$props.disableLinks,
+          disableClickToDial = _this$props.disableClickToDial,
+          outboundSmsPermission = _this$props.outboundSmsPermission,
+          internalSmsPermission = _this$props.internalSmsPermission,
+          dateTimeFormatter = _this$props.dateTimeFormatter,
+          showSpinner = _this$props.showSpinner,
+          title = _this$props.title,
+          active = _this$props.active,
+          loggingMap = _this$props.loggingMap,
+          webphoneAnswer = _this$props.webphoneAnswer,
+          webphoneReject = _this$props.webphoneReject,
+          webphoneHangup = _this$props.webphoneHangup,
+          webphoneResume = _this$props.webphoneResume,
+          enableContactFallback = _this$props.enableContactFallback,
+          autoLog = _this$props.autoLog,
+          showContactDisplayPlaceholder = _this$props.showContactDisplayPlaceholder,
+          sourceIcons = _this$props.sourceIcons,
+          phoneTypeRenderer = _this$props.phoneTypeRenderer,
+          phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
+          useNewList = _this$props.useNewList;
+      var callsListView = useNewList ? _react.default.createElement(_CallListV.default, {
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -193,7 +182,7 @@ var CallsPanel = function (_React$PureComponent) {
         width: this.state.contentWidth,
         height: this.state.contentHeight,
         useNewList: useNewList
-      }) : _react2.default.createElement(_CallList2.default, {
+      }) : _react.default.createElement(_CallList.default, {
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -223,65 +212,53 @@ var CallsPanel = function (_React$PureComponent) {
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer
       });
-
-      var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : callsListView;
-
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.root, ref: this._listWrapper },
-        _react2.default.createElement(
-          _Header2.default,
-          null,
-          title
-        ),
-        _react2.default.createElement(
-          _Panel2.default,
-          { className: _styles2.default.content },
-          content
-        )
-      );
+      var content = showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : callsListView;
+      return _react.default.createElement("div", {
+        className: _styles.default.root,
+        ref: this._listWrapper
+      }, _react.default.createElement(_Header.default, null, title), _react.default.createElement(_Panel.default, {
+        className: _styles.default.content
+      }, content));
     }
   }]);
+
   return CallsPanel;
-}(_react2.default.PureComponent);
+}(_react.default.PureComponent);
 
 exports.default = CallsPanel;
-
-
 CallsPanel.propTypes = {
-  brand: _propTypes2.default.string.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  calls: _propTypes2.default.arrayOf(_propTypes2.default.any).isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  onViewContact: _propTypes2.default.func,
-  onCreateContact: _propTypes2.default.func,
-  onClickToDial: _propTypes2.default.func,
-  onClickToSms: _propTypes2.default.func,
-  onLogCall: _propTypes2.default.func,
-  isLoggedContact: _propTypes2.default.func,
-  disableLinks: _propTypes2.default.bool.isRequired,
-  disableClickToDial: _propTypes2.default.bool,
-  outboundSmsPermission: _propTypes2.default.bool,
-  internalSmsPermission: _propTypes2.default.bool,
-  dateTimeFormatter: _propTypes2.default.func.isRequired,
-  showSpinner: _propTypes2.default.bool,
-  title: _propTypes2.default.string,
-  active: _propTypes2.default.bool,
-  loggingMap: _propTypes2.default.object,
-  webphoneAnswer: _propTypes2.default.func,
-  webphoneReject: _propTypes2.default.func,
-  webphoneHangup: _propTypes2.default.func,
-  webphoneResume: _propTypes2.default.func,
-  enableContactFallback: _propTypes2.default.bool,
-  autoLog: _propTypes2.default.bool,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object,
-  phoneTypeRenderer: _propTypes2.default.func,
-  phoneSourceNameRenderer: _propTypes2.default.func,
-  useNewList: _propTypes2.default.bool
+  brand: _propTypes.default.string.isRequired,
+  currentLocale: _propTypes.default.string.isRequired,
+  calls: _propTypes.default.arrayOf(_propTypes.default.any).isRequired,
+  areaCode: _propTypes.default.string.isRequired,
+  countryCode: _propTypes.default.string.isRequired,
+  onViewContact: _propTypes.default.func,
+  onCreateContact: _propTypes.default.func,
+  onClickToDial: _propTypes.default.func,
+  onClickToSms: _propTypes.default.func,
+  onLogCall: _propTypes.default.func,
+  isLoggedContact: _propTypes.default.func,
+  disableLinks: _propTypes.default.bool.isRequired,
+  disableClickToDial: _propTypes.default.bool,
+  outboundSmsPermission: _propTypes.default.bool,
+  internalSmsPermission: _propTypes.default.bool,
+  dateTimeFormatter: _propTypes.default.func.isRequired,
+  showSpinner: _propTypes.default.bool,
+  title: _propTypes.default.string,
+  active: _propTypes.default.bool,
+  loggingMap: _propTypes.default.object,
+  webphoneAnswer: _propTypes.default.func,
+  webphoneReject: _propTypes.default.func,
+  webphoneHangup: _propTypes.default.func,
+  webphoneResume: _propTypes.default.func,
+  enableContactFallback: _propTypes.default.bool,
+  autoLog: _propTypes.default.bool,
+  showContactDisplayPlaceholder: _propTypes.default.bool,
+  sourceIcons: _propTypes.default.object,
+  phoneTypeRenderer: _propTypes.default.func,
+  phoneSourceNameRenderer: _propTypes.default.func,
+  useNewList: _propTypes.default.bool
 };
-
 CallsPanel.defaultProps = {
   onViewContact: undefined,
   onCreateContact: undefined,
