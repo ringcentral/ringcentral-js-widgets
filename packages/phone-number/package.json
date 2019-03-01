@@ -31,7 +31,7 @@
     "jest-junit": "^6.0.0"
   },
   "scripts": {
-    "gulp": "yarn gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "yarn gulp build",
     "release": "yarn gulp release",
     "test": "jest",

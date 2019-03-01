@@ -11,7 +11,7 @@
     "node": ">=8"
   },
   "scripts": {
-    "gulp": "yarn gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "start": "yarn gulp devServer",
     "dev-server": "yarn gulp devServer",
     "build-extension": "yarn gulp demoExtension"
