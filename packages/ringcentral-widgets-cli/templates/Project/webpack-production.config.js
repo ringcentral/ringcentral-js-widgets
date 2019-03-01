@@ -1,3 +1,4 @@
+require('@ringcentral-integration/babel-settings/lib/register');
 const webpack = require('webpack');
 const fs = require('fs');
 const path = require('path');

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { filter } from 'ramda';
 import scheduleStatus from './scheduleStatus';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
@@ -26,6 +27,22 @@ export function getMeetingSchedulingStatusReducer(types) {
   };
 }
 
+export function getMeetingUpdatingStatusReducer(types) {
+  return (state = [], { type, meetingId }) => {
+    switch (type) {
+      case types.initUpdating:
+        return [...state, {
+          // using object type for further recording
+          meetingId,
+        }];
+      case types.updated:
+      case types.resetUpdating:
+        return filter(obj => obj.meetingId !== meetingId, state);
+      default: return state;
+    }
+  };
+}
+
 export function getMeetingStorageReducer(types) {
   return (state = {}, { type, meeting = null }) => {
     switch (type) {
@@ -45,5 +62,6 @@ export function getMeetingStorageReducer(types) {
 export default types => combineReducers({
   status: getModuleStatusReducer(types),
   meeting: getMeetingInfoReducer(types),
-  schedulingStatus: getMeetingSchedulingStatusReducer(types)
+  schedulingStatus: getMeetingSchedulingStatusReducer(types),
+  updatingStatus: getMeetingUpdatingStatusReducer(types),
 });

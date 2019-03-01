@@ -1,5 +1,4 @@
 import callingSettingsMessages from 'ringcentral-integration/modules/CallingSettings/callingSettingsMessages';
-
 export default {
   [callingSettingsMessages.saveSuccess]: "La configuración se guardó correctamente.",
   [callingSettingsMessages.saveSuccessWithSoftphone]: "La configuración se guardó correctamente. Asegúrese de que tiene {brand} para escritorio instalado en su computadora.",

@@ -20,9 +20,12 @@
     "test:updateSnapshot": "jest --updateSnapshot"
   },
   "dependencies": {
+    "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/i18n": "^2.0.0",
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "babel-istanbul": "^0.12.1",
     "coveralls": "^2.11.15",
     "dotenv": "^5.0.0",
@@ -33,6 +36,7 @@
     "fs-extra": "^7.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
+    "jest-junit": "^6.0.0",
     "moment": "^2.22.1",
     "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
@@ -48,8 +52,8 @@
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.1.3",
     "ringcentral-client": "^1.0.0-beta.1",
-    "ringcentral-integration": "^0.10.0",
-    "ringcentral-widgets": "^0.10.0",
+    "ringcentral-integration": "^0.9.0",
+    "ringcentral-widgets": "^0.9.0",
     "ringcentral-widgets-demo": "^0.0.1",
     "yargs": "^12.0.5"
   },
@@ -61,11 +65,8 @@
     },
     "transform": {
       "loadLocale\\.js$": "<rootDir>/test/__mocks__/loadLocale.js",
-      "^.+\\.js$": "babel-jest"
+      "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     },
-    "transformIgnorePatterns": [
-      ".*?/node_modules/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo|locale-loader|babel-settings)/).*/"
-    ],
     "setupFiles": [
       "<rootDir>/test/support/shim.js",
       "<rootDir>/test/support/setup.js"
@@ -73,10 +74,10 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "setupTestFrameworkScriptFile": "./jest.setup.js"
+    "setupTestFrameworkScriptFile": "./jest.setup.js",
+    "reporters": [ "default", "jest-junit" ]
   },
   "peerDependencies": {
-    "babel-runtime": "^6.26.0"
   },
   "devDependencies": {
     "react-test-renderer": "^16.4.1"

@@ -1,5 +1,4 @@
 import phoneTypes from '../../enums/phoneTypes';
-
 export default {
   [phoneTypes.business]: "勤務先電話",
   [phoneTypes.extension]: "内線番号",

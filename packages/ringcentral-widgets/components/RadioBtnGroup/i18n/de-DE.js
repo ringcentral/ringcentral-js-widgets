@@ -1,6 +1,6 @@
 export default {
-  Home: "Home",
-  Mobile: "Mobile",
+  Home: "Privat",
+  Mobile: "Mobil",
   Work: "Arbeit"
 };
 

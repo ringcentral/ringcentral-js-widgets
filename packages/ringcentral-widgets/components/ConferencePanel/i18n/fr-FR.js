@@ -5,8 +5,9 @@ export default {
   participantsAccess: "Accès des participants",
   addinalDialInNumbers: "Numéros à composer additionnels",
   selectNumbers: "Sélect. numéros",
-  enableJoinBeforeHost: "Activer l'option permettant de rejoindre la conférence avant l'hôte",
+  enableJoinBeforeHost: "Activ. option pour joindre la réu. avant l'hôte",
   conferenceCommands: "Commandes de la conférence",
+  conferenceOptions: "Options de conférence",
   inviteWithGCalendar: "Inviter avec Google Agenda",
   inviteWithText: "Envoyer une invitation par SMS",
   joinAsHost: "Lancer la conférence",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"conferenceOptions"@#@ @source: @#@"Conference Options"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@

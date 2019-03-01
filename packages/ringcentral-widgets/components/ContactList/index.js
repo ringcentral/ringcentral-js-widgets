@@ -62,6 +62,7 @@ export default class ContactList extends Component {
     }
     return state;
   }
+
   componentDidUpdate(prevProps) {
     if (this.state.lastContactGroups !== prevProps.contactGroups) {
       if (this.list && this.list.current && this.list.current.recomputeRowHeights) {
@@ -69,19 +70,22 @@ export default class ContactList extends Component {
       }
     }
   }
+
   calculateRowHeight = ({ index }) => {
     if (this.state.captionRows[index]) {
       return CAPTION_HEIGHT;
     }
     return ROW_HEIGHT;
   }
+
   findGroup = ({ index }) => find(
     item => (
-      index >= item.startIndex &&
-      index < item.startIndex + item.contacts.length
+      index >= item.startIndex
+        && index < item.startIndex + item.contacts.length
     ),
     this.state.groups,
   )
+
   rowGetter = ({ index }) => {
     if (this.state.captionRows[index]) {
       return {
@@ -91,6 +95,7 @@ export default class ContactList extends Component {
     const group = this.findGroup({ index });
     return group.contacts[index - group.startIndex];
   }
+
   onScroll = ({ scrollTop }) => {
     if (scrollTop !== this.state.scrollTop) {
       this.setState({
@@ -98,11 +103,13 @@ export default class ContactList extends Component {
       });
     }
   }
+
   resetScrollTop() {
     this.setState({
       scrollTop: 0,
     });
   }
+
   cellRenderer = ({
     rowData,
   }) => {
@@ -137,6 +144,7 @@ export default class ContactList extends Component {
       </div>
     );
   }
+
   onRowsRendered = ({ startIndex }) => {
     // update header with the correct caption
     if (this.state.captionRows[startIndex]) {
@@ -159,6 +167,7 @@ export default class ContactList extends Component {
       }
     }
   }
+
   headerRenderer = () => (
     <div
       className={styles.groupCaption}
@@ -166,6 +175,7 @@ export default class ContactList extends Component {
       {this.state.currentCaption}
     </div>
   )
+
   renderList() {
     // use table instead of list to allow caption header
     return (
@@ -192,6 +202,7 @@ export default class ContactList extends Component {
       </Table>
     );
   }
+
   render() {
     const {
       currentLocale,

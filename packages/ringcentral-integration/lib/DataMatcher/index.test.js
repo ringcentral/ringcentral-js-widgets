@@ -899,7 +899,7 @@ describe('DataMatcher', async () => {
       [false, true].forEach((ignoreCache) => {
         instance._searchProviders.forEach((_, name) => {
           expect(instance._matchSource.args[idx][0])
-            .to.deep.equal({
+            .to.include({
               queries,
               name,
               ignoreCache,

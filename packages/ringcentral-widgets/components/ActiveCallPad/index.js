@@ -300,11 +300,10 @@ class ActiveCallPad extends Component {
             <div className={styles.buttonPopup}>
               {
                 buttons.slice(DisplayButtonNumber - 1).map(({
-                  title,
+                  id,
                   ...opts
                 }) => (<MoreActionItem
-                  key={title}
-                  title={title}
+                  key={id}
                   {...opts}
                 />))
               }

@@ -1,5 +1,4 @@
 import meetingStatus from 'ringcentral-integration/modules/Meeting/meetingStatus';
-
 export default {
   [meetingStatus.emptyTopic]: "請輸入會議主題。",
   [meetingStatus.noPassword]: "請提供會議密碼。",

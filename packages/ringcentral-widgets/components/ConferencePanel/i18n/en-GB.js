@@ -7,6 +7,7 @@ export default {
   selectNumbers: "Select numbers",
   enableJoinBeforeHost: "Enable joining before Host",
   conferenceCommands: "Conference commands",
+  conferenceOptions: "Conference Options",
   inviteWithGCalendar: "Invite with Google Calendar",
   inviteWithText: "Invite by text",
   joinAsHost: "Launch Conference",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"conferenceOptions"@#@ @source: @#@"Conference Options"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@

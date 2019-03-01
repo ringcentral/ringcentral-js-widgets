@@ -8,7 +8,7 @@
     "/restapi/v1.0/account/208594004/extension/208594004/message-store",
     "/restapi/v1.0/account/208594004/extension/208594004/presence?detailedTelephonyState=true&sipData=true"
   ],
-  "expirationTime": "2019-01-28T08:58:03.630Z",
+  "expirationTime": "2029-01-28T08:58:03.630Z",
   "expiresIn": 899,
   "deliveryMode": {
     "transportType": "PubNub",

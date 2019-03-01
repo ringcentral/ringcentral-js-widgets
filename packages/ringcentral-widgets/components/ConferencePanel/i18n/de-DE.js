@@ -7,14 +7,15 @@ export default {
   selectNumbers: "Nummern auswählen",
   enableJoinBeforeHost: "Beitritt vor Host ermöglichen",
   conferenceCommands: "Konferenzbefehle",
+  conferenceOptions: "Konferenzoptionen",
   inviteWithGCalendar: "Über Google Kalender einladen",
   inviteWithText: "Mit Textnachricht einladen",
   joinAsHost: "Konferenz beginnen",
   internationalNumber: "Internationale Einwahlnummern:",
-  inviteText_att: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen {brandName} Conferencing bereitgestellt.",
-  inviteText_bt: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}",
-  inviteText_rc: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen {brandName} Conferencing bereitgestellt.",
-  inviteText_telus: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}"
+  inviteText_att: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen durch {brandName}-Konferenzen bereitgestellt.",
+  inviteText_bt: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}",
+  inviteText_rc: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen durch {brandName}-Konferenzen bereitgestellt.",
+  inviteText_telus: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"conferenceOptions"@#@ @source: @#@"Conference Options"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@

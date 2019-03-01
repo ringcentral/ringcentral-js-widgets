@@ -2,6 +2,8 @@ import classnames from 'classnames';
 import { prefixEnum } from 'ringcentral-integration/lib/Enum';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import debounce from 'ringcentral-integration/lib/debounce';
+import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
+import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import formatDuration from '../formatDuration';
 import baseMessageTypes from './baseMessageTypes';
 
@@ -61,12 +63,14 @@ export default class AdapterCore {
     this._userStatus = null;
     this._dndStatus = null;
     this._telephonyStatus = null;
+    this._presenceOption = null;
 
     this.currentState = -1;
     this._scrollale = false;
 
     this._strings = {};
   }
+
   _onMessage(msg) {
     if (msg) {
       switch (msg.type) {
@@ -130,6 +134,31 @@ export default class AdapterCore {
         <div class="${this._styles.currentCallBtn}">${this._strings.currentCallBtn}</div>
         <div class="${this._styles.viewCallsBtn}">${this._strings.viewCallsBtn}</div>
       </header>
+      <div class="${this._styles.dropdownPresence}">
+        <div class="${this._styles.line}">
+          <a class="${this._styles.presenceItem}" data-presence="available">
+            <div class="${this._styles.presence} ${this._styles.statusIcon} ${this._styles.Available}">
+            </div>
+            <span>${this._strings.availableBtn}</span>
+          </a>
+          <a class="${this._styles.presenceItem}" data-presence="busy">
+            <div class="${this._styles.presence} ${this._styles.statusIcon} ${this._styles.Busy}">
+            </div>
+            <span>${this._strings.busyBtn}</span>
+          </a>
+          <a class="${this._styles.presenceItem}" data-presence="doNotAcceptAnyCalls">
+            <div class="${this._styles.presence} ${this._styles.statusIcon} ${this._styles.DoNotAcceptAnyCalls}">
+              <div class="${this._styles.presenceBar}"></div>
+            </div>
+            <span>${this._strings.doNotAcceptAnyCallsBtn}</span>
+          </a>
+          <a class="${this._styles.presenceItem}" data-presence="offline">
+            <div class="${this._styles.presence} ${this._styles.statusIcon} ${this._styles.Offline}">
+            </div>
+            <span>${this._strings.offlineBtn}</span>
+          </a>
+        </div>
+      </div>
       <div class="${this._styles.frameContainer}">
         <iframe class="${this._styles.contentFrame}" sandbox="${sanboxAttributeValue}" allow="${allowAttributeValue}" >
         </iframe>
@@ -173,12 +202,34 @@ export default class AdapterCore {
     this._presenceEl = this._root.querySelector(
       `.${this._styles.presence}`
     );
+
     this._presenceEl.addEventListener('click', (evt) => {
       evt.stopPropagation();
-      this._postMessage({
-        type: this._messageTypes.presenceClicked,
+      this.togglePresenceDropdown();
+    });
+
+    this._presenceItemEls = this._root.querySelectorAll(
+      `.${this._styles.presenceItem}`
+    );
+
+    this._presenceItemEls.forEach((itemEl) => {
+      const dataPresence = itemEl.getAttribute('data-presence');
+      itemEl.addEventListener('click', (evt) => {
+        evt.stopPropagation();
+        this.togglePresenceDropdown();
+        this._postMessage({
+          type: this._messageTypes.presenceItemClicked,
+          presenceType: presenceStatus[dataPresence] || dndStatus[dataPresence]
+        });
       });
     });
+
+    this._dropdownPresence = this._root.querySelector(`.${this._styles.dropdownPresence}`);
+    this._dropdownPresence.addEventListener('click', (evt) => {
+      evt.stopPropagation();
+      this.togglePresenceDropdown();
+    });
+
     this._contentFrameEl = this._root.querySelector(
       `.${this._styles.contentFrame}`
     );
@@ -293,6 +344,7 @@ export default class AdapterCore {
     }
     this._render();
   }
+
   _onWindowResize = () => {
     if (this._dragging) { return; }
     if (this._resizeTimeout) { clearTimeout(this._resizeTimeout); }
@@ -302,6 +354,7 @@ export default class AdapterCore {
       this._renderRestrictedPosition();
     }
   }
+
   _onWindowMouseMove = (e) => {
     if (this._dragging) {
       if (e.buttons === 0) {
@@ -324,6 +377,13 @@ export default class AdapterCore {
       if (delta.x !== 0 || delta.y !== 0) this._isClick = false;
       this._syncPosition();
       this._renderRestrictedPosition();
+    }
+  }
+
+  togglePresenceDropdown() {
+    const dropdownPresence = this._root.querySelector(`.${this._styles.dropdownPresence}`);
+    if (dropdownPresence) {
+      dropdownPresence.classList.toggle(`${this._styles.showDropdown}`);
     }
   }
 
@@ -357,6 +417,7 @@ export default class AdapterCore {
     this.renderAdapterSize();
     this._renderRestrictedPosition();
   }
+
   setMinimized(minimized) {
     this._onSyncMinimized(minimized);
     this._postMessage({
@@ -364,6 +425,7 @@ export default class AdapterCore {
       minimized: this._minimized,
     });
   }
+
   toggleMinimized() {
     this.setMinimized(!this._minimized);
   }
@@ -387,6 +449,7 @@ export default class AdapterCore {
     this._closed = !!closed;
     this._renderMainClass();
   }
+
   setClosed(closed) {
     this._onSyncClosed(closed);
     this._postMessage({
@@ -394,6 +457,7 @@ export default class AdapterCore {
       closed: this.closed,
     });
   }
+
   toggleClosed() {
     this.setClosed(!this.closed);
   }
@@ -405,6 +469,7 @@ export default class AdapterCore {
     this._contentFrameEl.style.height = `${height}px`;
     this.renderAdapterSize();
   }
+
   setSize(size) {
     this._onSyncSize(size);
     this._postMessage({
@@ -436,7 +501,12 @@ export default class AdapterCore {
     this._render();
   }
 
-  _onPushPresence({ dndStatus, userStatus, telephonyStatus }) {
+  _onPushPresence({
+    dndStatus,
+    userStatus,
+    telephonyStatus,
+    presenceOption
+  }) {
     if (
       dndStatus !== this._dndStatus ||
       userStatus !== this._userStatus ||
@@ -445,15 +515,18 @@ export default class AdapterCore {
       this._dndStatus = dndStatus;
       this._userStatus = userStatus;
       this._telephonyStatus = telephonyStatus;
+      this._presenceOption = presenceOption;
       this.renderPresence();
     }
   }
+
   _onPushLocale({
     locale,
     strings = {},
   }) {
     this._locale = locale;
     this._strings = strings;
+    console.log('locale', this._locale, this._strings);
     this._renderString();
   }
 
@@ -461,6 +534,7 @@ export default class AdapterCore {
     this._renderCallBarBtn();
     this._renderRingingCalls();
     this._renderOnHoldCalls();
+    this._renderPresenceItem();
   }
 
   _debouncedPostMessage = debounce(this._postMessage, 100)
@@ -476,6 +550,7 @@ export default class AdapterCore {
       },
     });
   }
+
   _onPushAdapterState({
     size: {
       width,
@@ -506,11 +581,13 @@ export default class AdapterCore {
     this._loading = false;
     this._render();
   }
+
   _calculateFactor() {
     return this._defaultDirection === 'right' ?
       -1 :
       1;
   }
+
   renderPosition() {
     const factor = this._calculateFactor();
     if (this._minimized) {
@@ -525,6 +602,7 @@ export default class AdapterCore {
       );
     }
   }
+
   _renderRestrictedPosition() {
     const {
       minimumX,
@@ -552,6 +630,7 @@ export default class AdapterCore {
     }
     this.renderPosition();
   }
+
   renderAdapterSize() {
     if (this._minimized) {
       this._contentFrameContainerEl.style.width = 0;
@@ -563,6 +642,7 @@ export default class AdapterCore {
       this._contentFrameEl.style.height = `${this._appHeight}px`;
     }
   }
+
   _renderMainClass() {
     this._container.setAttribute('class', classnames(
       this._styles.root,
@@ -579,6 +659,7 @@ export default class AdapterCore {
       this._ringing && this._styles.ringing,
     ));
   }
+
   renderPresence() {
     this._presenceEl.setAttribute('class', classnames(
       this._minimized && this._styles.minimized,
@@ -586,11 +667,27 @@ export default class AdapterCore {
       this._userStatus && this._styles[this._userStatus],
       this._dndStatus && this._styles[this._dndStatus],
     ));
+
+    this._presenceItemEls.forEach((presenceItem) => {
+      const dataPresence = presenceItem.getAttribute('data-presence');
+      if (presenceStatus[dataPresence] === this._presenceOption ||
+          dndStatus[dataPresence === this._presenceOption]) {
+        presenceItem.setAttribute('class', classnames(
+          this._styles.presenceItem, this._styles.selected
+        ));
+      } else {
+        presenceItem.setAttribute('class', classnames(
+          this._styles.presenceItem
+        ));
+      }
+    });
   }
+
   calculateState() {
     const startTime = this._currentStartTime;
     return Math.round(((new Date()).getTime() - startTime) / 1000);
   }
+
   renderCallsBar() {
     // should clean up rotate duration when call info changed
     if (this.rotateInterval) {
@@ -786,6 +883,15 @@ export default class AdapterCore {
     this._viewCallsEl.innerHTML = this._strings.viewCallsBtn;
   }
 
+  _renderPresenceItem() {
+    if (!this._strings) {
+      return;
+    }
+    this._presenceItemEls.forEach((presenceItem) => {
+      const dataPresence = presenceItem.getAttribute('data-presence');
+      presenceItem.querySelector('span').innerHTML = this._strings[`${dataPresence}Btn`];
+    });
+  }
 
   _render() {
     this.renderPresence();
@@ -808,45 +914,59 @@ export default class AdapterCore {
   get container() {
     return this._container;
   }
+
   get root() {
     return this._root;
   }
+
   get headerEl() {
     return this._headerEl;
   }
+
   get contentFrameContainerEl() {
     return this._contentFrameContainerEl;
   }
+
   get toggleEl() {
     return this._toggleEl;
   }
+
   get closeEl() {
     return this._closeEl;
   }
+
   get presenceEl() {
     return this._presenceEl;
   }
+
   get contentFrameEl() {
     return this._contentFrameEl;
   }
+
   get minTranslateX() {
     return this._minTranslateX;
   }
+
   get minTranslateY() {
     return this._minTranslateY;
   }
+
   get translateX() {
     return this._translateX;
   }
+
   get translateY() {
     return this._translateY;
   }
+
   get appWidth() {
     return this._appWidth;
   }
+
   get appHeight() {
     return this._appHeight;
   }
+
   get dragStartPosition() {
     return this._dragStartPosition;
   }
@@ -854,24 +974,31 @@ export default class AdapterCore {
   get closed() {
     return this._closed;
   }
+
   get minimized() {
     return this._minimized;
   }
+
   get dragging() {
     return this._dragging;
   }
+
   get hover() {
     return this._hover;
   }
+
   get loading() {
     return this._loading;
   }
+
   get userStatus() {
     return this._userStatus;
   }
+
   get dndStatus() {
     return this._dndStatus;
   }
+
   get ringing() {
     return this._ringing;
   }

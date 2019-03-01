@@ -1,5 +1,4 @@
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
-
 export default {
   title: "Anrufen",
   [callingOptions.softphone]: "{brand} für Desktop",

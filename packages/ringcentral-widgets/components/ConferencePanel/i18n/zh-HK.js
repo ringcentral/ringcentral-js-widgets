@@ -5,9 +5,10 @@ export default {
   participantsAccess: "參與者存取",
   addinalDialInNumbers: "其他撥入號碼",
   selectNumbers: "選擇號碼",
-  enableJoinBeforeHost: "主持人前啟用參加",
+  enableJoinBeforeHost: "允許在主持人進入會議前加入",
   conferenceCommands: "會議指令",
-  inviteWithGCalendar: "透過 Google 日曆邀請",
+  conferenceOptions: "會議選項",
+  inviteWithGCalendar: "邀請使用 Google 行事曆",
   inviteWithText: "透過文字訊息邀請",
   joinAsHost: "啟動會議",
   internationalNumber: "國際電話撥入號碼",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"conferenceOptions"@#@ @source: @#@"Conference Options"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@

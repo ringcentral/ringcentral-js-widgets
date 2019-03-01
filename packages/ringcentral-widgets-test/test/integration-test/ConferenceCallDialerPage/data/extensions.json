@@ -1,0 +1,71 @@
+{
+  "records" : [ {
+    "id" : "129832006",
+    "type" : "User",
+    "status" : "Enabled",
+    "firstName" : "Something1",
+    "lastName" : "New1",
+    "email" : "dean.chen@ringcentral.com",
+    "extensionNumber" : "101",
+    "account" : {
+      "id" : "129832006"
+    },
+    "phoneNumbers" : [ {
+      "phoneNumber" : "+12054332855",
+      "type" : "VoiceFax",
+      "usageType" : "DirectNumber"
+    }, {
+      "phoneNumber" : "+16505665302",
+      "usageType" : "ContactNumber"
+    }, {
+      "phoneNumber" : "+19078851033",
+      "type" : "VoiceFax",
+      "usageType" : "DirectNumber"
+    }, {
+      "phoneNumber" : "+33272240002",
+      "type" : "VoiceFax",
+      "usageType" : "DirectNumber"
+    }, {
+      "phoneNumber" : "+441161008536",
+      "type" : "VoiceFax",
+      "usageType" : "DirectNumber"
+    }, {
+      "phoneNumber" : "+441161008581",
+      "type" : "VoiceFax",
+      "usageType" : "DirectNumber"
+    }, {
+      "phoneNumber" : "+6442001092",
+      "type" : "VoiceFax",
+      "usageType" : "DirectNumber"
+    } ],
+    "profileImage": {
+      "etag": "4567da7e386282f39482203d55bac2c9",
+      "uri": "http://media-xmnup.lab.nordigy.ru/restapi/v1.0/account/129836006/extension/206745006/profile-image"
+    }
+  }, {
+    "id" : "228705006",
+    "type" : "User",
+    "status" : "Enabled",
+    "firstName" : "Something111",
+    "lastName" : "Unactived111",
+    "department" : "TEST",
+    "email" : "bruce.li+111@ringcentral.com",
+    "extensionNumber" : "102",
+    "account" : {
+      "id" : "129832006"
+    },
+    "phoneNumbers" : [ {
+      "phoneNumber" : "+12057991795",
+      "type" : "VoiceFax",
+      "usageType" : "DirectNumber"
+    } ]
+  }],
+  "paging" : {
+    "page" : 1,
+    "totalPages" : 1,
+    "perPage" : 2000,
+    "totalElements" : 3,
+    "pageStart" : 0,
+    "pageEnd" : 2
+  }
+}

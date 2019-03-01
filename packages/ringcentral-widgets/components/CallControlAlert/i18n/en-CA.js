@@ -1,6 +1,4 @@
-
 import callControlError from 'ringcentral-integration/modules/ActiveCallControl/callControlError';
-
 const {
   holdConflictError,
   unHoldConflictError,
@@ -8,7 +6,6 @@ const {
   unMuteConflictError,
   generalError
 } = callControlError;
-
 export default {
   [muteConflictError]: "This call had been muted on other device. Please unmute the call before you control in this App.",
   [holdConflictError]: "This call had been held on other device. Please unhold the call before you control in this App.",

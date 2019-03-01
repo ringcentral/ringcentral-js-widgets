@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import PlaceholderImage from '../PlaceholderImage';
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
 import i18n from './i18n';
@@ -9,12 +10,16 @@ import styles from './styles.scss';
 
 function AvatarNode({ name, avatarUrl, isInactive }) {
   const avatarStyle = isInactive ? styles.inactiveAvatarNode : styles.avatarNode;
-  return avatarUrl ? (
-    <img className={avatarStyle} alt={name} src={avatarUrl} />
-  ) : (
-    <DefaultAvatar className={avatarStyle} />
+  return (
+    <PlaceholderImage
+      className={avatarStyle}
+      alt={name}
+      src={avatarUrl}
+      placeholder={<DefaultAvatar className={avatarStyle} />}
+    />
   );
 }
+
 AvatarNode.propTypes = {
   name: PropTypes.string,
   avatarUrl: PropTypes.string,

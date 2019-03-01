@@ -1,6 +1,4 @@
-
 import callControlError from 'ringcentral-integration/modules/ActiveCallControl/callControlError';
-
 const {
   holdConflictError,
   unHoldConflictError,
@@ -8,7 +6,6 @@ const {
   unMuteConflictError,
   generalError
 } = callControlError;
-
 export default {
   [muteConflictError]: "Le son de cet appel a été désactivé sur un autre appareil. Veuillez activer le son de l'appel avant votre action dans l'application.",
   [holdConflictError]: "Cet appel a été mis en attente sur un autre appareil. Veuillez reprendre l'appel avant votre action dans l'application.",

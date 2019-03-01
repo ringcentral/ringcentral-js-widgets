@@ -1,5 +1,4 @@
 import callLogMessages from 'ringcentral-integration/enums/callLogMessages';
-
 export default {
   [callLogMessages.logCallLogFailed]: "由于意外错误，加载通话记录失败。请刷新页面并重试。"
 };

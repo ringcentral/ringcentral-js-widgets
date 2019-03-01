@@ -16,14 +16,15 @@ import Switch from '../Switch';
 import CheckBox from '../CheckBox';
 import i18n from './i18n';
 import MeetingSection from '../MeetingSection';
+import {
+  MINUTE_SCALE,
+  HOUR_SCALE,
+  MAX_TOPIC_LENGTH,
+  PASSWORD_REGEX,
+  NO_NUMBER_REGEX,
+  isSafari,
+} from './constants';
 
-const MINUTE_SCALE = 4;
-const HOUR_SCALE = 13;
-const MAX_TOPIC_LENGTH = 128;
-export const PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
-const NO_NUMBER_REGEX = /[^\d]/g;
-
-const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 function getMinutesList(MINUTE_SCALE) {
   return reduce((result) => {
@@ -539,6 +540,7 @@ const MeetingOptions = (
 ) => (
   <MeetingSection
     title={i18n.getString('meetingOptions', currentLocale)}
+    className={styles.meetingOptions}
     toggle={false}
     withSwitch>
     <div>
@@ -554,11 +556,10 @@ const MeetingOptions = (
                   that.password.focus();
                 }, 100);
               }
-              const password = _requireMeetingPassword ? null : meeting.password;
               update({
                 ...meeting,
                 _requireMeetingPassword,
-                password,
+                password: null,
               });
             }}
           dataSign="requirePasswordToggle"
@@ -661,8 +662,7 @@ class MeetingPanel extends Component {
       showWhen,
       showDuration,
       showRecurringMeeting,
-      showLaunchMeeting,
-      launchMeeting,
+      openNewWindow
     } = this.props;
     if (!Object.keys(meeting).length) {
       return null;
@@ -763,13 +763,9 @@ class MeetingPanel extends Component {
           onClick={async () => {
             if (!disabled) {
               await sleep(100);
-              const opener = isSafari() ? window.open() : null;
+              const opener = (openNewWindow && isSafari()) ? window.open() : null;
               await invite(this.props.meeting, opener);
             }
-          }}
-          showLaunchMeeting={showLaunchMeeting}
-          launchMeeting={async () => {
-            await launchMeeting(this.props.meeting);
           }} />
       </div>
     );
@@ -789,8 +785,7 @@ MeetingPanel.propTypes = {
   showWhen: PropTypes.bool,
   showDuration: PropTypes.bool,
   showRecurringMeeting: PropTypes.bool,
-  showLaunchMeeting: PropTypes.bool,
-  launchMeeting: PropTypes.func,
+  openNewWindow: PropTypes.bool,
 };
 
 MeetingPanel.defaultProps = {
@@ -800,8 +795,7 @@ MeetingPanel.defaultProps = {
   showWhen: true,
   showDuration: true,
   showRecurringMeeting: true,
-  showLaunchMeeting: false,
-  launchMeeting() {}
+  openNewWindow: true,
 };
 
 export default MeetingPanel;

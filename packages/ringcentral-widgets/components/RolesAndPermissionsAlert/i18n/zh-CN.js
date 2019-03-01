@@ -1,5 +1,4 @@
 import permissionMessages from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
-
 export default {
   [permissionMessages.invalidTier]: "您的版本不支持 {application} 集成。请联系您的账户代表升级您的 {brand} 版本。",
   [permissionMessages.insufficientPrivilege]: "权限不足。请联系您的账户代表进行升级。"

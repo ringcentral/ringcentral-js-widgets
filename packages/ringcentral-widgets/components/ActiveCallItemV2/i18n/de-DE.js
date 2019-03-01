@@ -17,8 +17,7 @@ export default {
   // addContact: 'Add Contact',
   missedCall: "Verpasst",
   inboundCall: "Eingehend",
-  outboundCall: "Ausgehend"
-  // from: 'From',
+  outboundCall: "Ausgehend" // from: 'From',
   // to: 'To',
   // hangup: 'Hangup',
   // accept: 'Accept',
@@ -27,6 +26,7 @@ export default {
   // mergeToConference: 'Merge',
   // hold: 'Hold',
   // unhold: 'Unhold',
+
 };
 
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@

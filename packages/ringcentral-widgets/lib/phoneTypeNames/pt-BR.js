@@ -1,5 +1,4 @@
 import phoneTypes from '../../enums/phoneTypes';
-
 export default {
   [phoneTypes.business]: "Telefone comercial",
   [phoneTypes.extension]: "Número do ramal",

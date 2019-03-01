@@ -9,6 +9,7 @@ export default new Enum([
   'pushAdapterState',
   'pushLocale',
   'presenceClicked',
+  'presenceItemClicked',
   'clickToDial',
   'clickToSms',
   'pushRingState',

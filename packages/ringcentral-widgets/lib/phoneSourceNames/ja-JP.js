@@ -1,5 +1,4 @@
 import phoneSources from '../../enums/phoneSources';
-
 export default {
   [phoneSources.account]: "アカウント",
   [phoneSources.contact]: "連絡先",

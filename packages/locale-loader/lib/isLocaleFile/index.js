@@ -15,7 +15,7 @@ export default function isLocaleFile(filename) {
   return localeFileRegExp.test(name);
 }
 
-function localeFilter(locales) {
+export function localeFilter(locales) {
   return (filename) => {
     if (!Array.isArray(locales) || locales.length === 0) {
       return true;
@@ -24,8 +24,3 @@ function localeFilter(locales) {
     return locales.includes(name);
   };
 }
-
-export {
-  isLocaleFile,
-  localeFilter
-};

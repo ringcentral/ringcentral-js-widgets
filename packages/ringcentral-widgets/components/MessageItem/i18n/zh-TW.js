@@ -1,5 +1,4 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
-
 export default {
   addLog: "記錄",
   editLog: "編輯記錄",

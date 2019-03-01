@@ -67,7 +67,7 @@ class MergeInfo extends Component {
       formatPhone,
     } = this.props;
     if (!lastCallInfo) {
-      return null;
+      return <div className={styles.userInfo} />;
     }
     const { lastCallAvatar, lastCallInfoTimeout } = this.state;
     const isLastCallInfoReady = (
@@ -94,9 +94,9 @@ class MergeInfo extends Component {
         <div className={styles.merge_item}>
           <div className={styles.callee_avatar}>
             <CallAvatar
-              avatarUrl={isContacts && !lastCallInfo.avatarUrl
-                ? lastCallAvatar
-                : lastCallInfo.avatarUrl}
+              avatarUrl={isContacts && !lastCallInfo.avatarUrl ?
+                lastCallAvatar :
+                lastCallInfo.avatarUrl}
               extraNum={isOnConferenceCall ? lastCallInfo.extraNum : 0}
               isOnConferenceCall={isOnConferenceCall}
               spinnerMode={showSpinner}
@@ -106,13 +106,13 @@ class MergeInfo extends Component {
             (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenceCall)) && (
               <div className={styles.callee_name}>
                 {
-                  isOnConferenceCall
-                    ? (
+                  isOnConferenceCall ?
+                    (
                       <span title={i18n.getString('conferenceCall', currentLocale)}>
                         {i18n.getString('conferenceCall', currentLocale)}
                       </span>
-                    )
-                    : (
+                    ) :
+                    (
                       <span title={calleeName}>{calleeName}</span>
                     )
                 }
@@ -137,9 +137,9 @@ class MergeInfo extends Component {
             (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenceCall)) && (
               <div className={statusClasses}>
                 {
-                  lastCallInfo.status === sessionStatus.finished
-                    ? i18n.getString('disconnected', currentLocale)
-                    : i18n.getString('onHold', currentLocale)
+                  lastCallInfo.status === sessionStatus.finished ?
+                    i18n.getString('disconnected', currentLocale) :
+                    i18n.getString('onHold', currentLocale)
                 }
               </div>
             )
@@ -147,11 +147,11 @@ class MergeInfo extends Component {
 
         </div>
         <div className={styles.merge_item_active}>
-          <div className={styles.callee_avatar_active} >
+          <div className={styles.callee_avatar_active}>
             {
-              currentCallAvatarUrl
-                ? <CallAvatar avatarUrl={currentCallAvatarUrl} />
-                : <CallAvatar avatarUrl={null} />
+              currentCallAvatarUrl ?
+                <CallAvatar avatarUrl={currentCallAvatarUrl} /> :
+                <CallAvatar avatarUrl={null} />
             }
           </div>
           <div className={styles.callee_name_active}>

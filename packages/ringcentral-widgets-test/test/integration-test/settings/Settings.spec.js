@@ -21,7 +21,7 @@ const setupWrapper = async () => {
 describe('settings panel', () => {
   test('initial state', async () => {
     const wrapper = await setupWrapper();
-    let panel = wrapper.find(SettingsPanel).first();
+    const panel = wrapper.find(SettingsPanel).first();
     const linkLines = panel.find(LinkLine);
     expect(linkLines.length).toBe(6);
     expect(linkLines.at(0).props().children).toEqual('Calling');
@@ -34,9 +34,8 @@ describe('settings panel', () => {
   });
 
   test('logout', async () => {
-    const storage = JSON.parse(JSON.stringify(localStorage.store));
     const wrapper = await setupWrapper();
-    let panel = wrapper.find(SettingsPanel).first();
+    const panel = wrapper.find(SettingsPanel).first();
     const logoutIcon = panel.find('span.logout').first();
     const logoutLines = logoutIcon.closest(IconLine);
     expect(logoutLines.length).toBe(1);

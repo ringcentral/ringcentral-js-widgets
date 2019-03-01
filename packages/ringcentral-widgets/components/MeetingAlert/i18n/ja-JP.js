@@ -1,5 +1,4 @@
 import meetingStatus from 'ringcentral-integration/modules/Meeting/meetingStatus';
-
 export default {
   [meetingStatus.emptyTopic]: "会議のトピックを入力してください。",
   [meetingStatus.noPassword]: "会議のパスワードを入力してください。",

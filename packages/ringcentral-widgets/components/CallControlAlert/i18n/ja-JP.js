@@ -1,6 +1,4 @@
-
 import callControlError from 'ringcentral-integration/modules/ActiveCallControl/callControlError';
-
 const {
   holdConflictError,
   unHoldConflictError,
@@ -8,7 +6,6 @@ const {
   unMuteConflictError,
   generalError
 } = callControlError;
-
 export default {
   [muteConflictError]: "この通話は他のデバイスでミュートされていました。通話のミュートを解除してから、このアプリで操作してください。",
   [holdConflictError]: "この通話は他のデバイスで保留に設定されていました。通話の保留を解除してから、このアプリで操作してください。",

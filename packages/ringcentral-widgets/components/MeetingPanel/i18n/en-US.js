@@ -16,4 +16,6 @@ export default {
   password: 'Password',
   enableJoinBeforeHost: 'Enable join before host',
   telephonyOnly: 'Telephony Only',
+  hostVideoOn: 'Host Video On',
+  participantVideoOn: 'Participant Video On',
 };

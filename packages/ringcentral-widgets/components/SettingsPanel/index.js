@@ -94,7 +94,7 @@ export default function SettingsPanel({
   const region = showRegion ?
     (
       <LinkLine
-        onClick={onRegionSettingsLinkClick} >
+        onClick={onRegionSettingsLinkClick}>
         {i18n.getString('region', currentLocale)}
       </LinkLine>
     ) :
@@ -111,7 +111,7 @@ export default function SettingsPanel({
   const audio = showAudio
     ? (
       <LinkLine
-        onClick={onAudioSettingsLinkClick} >
+        onClick={onAudioSettingsLinkClick}>
         {i18n.getString('audio', currentLocale)}
       </LinkLine>
     )
@@ -119,7 +119,7 @@ export default function SettingsPanel({
   const feedback = showFeedback
     ? (
       <LinkLine
-        onClick={onFeedbackSettingsLinkClick} >
+        onClick={onFeedbackSettingsLinkClick}>
         {i18n.getString('feedback', currentLocale)}
       </LinkLine>
     )
@@ -274,7 +274,7 @@ export default function SettingsPanel({
             </span>
           </IconLine>
         </section>
-        <div className={styles.versionContainer} >
+        <div className={styles.versionContainer}>
           {i18n.getString('version', currentLocale)} {version}
         </div>
       </Panel>

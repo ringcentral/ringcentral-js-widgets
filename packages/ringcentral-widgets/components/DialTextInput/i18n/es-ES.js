@@ -1,5 +1,5 @@
 export default {
-  to: "A:",
+  to: "Para:",
   enterNameOrPhoneNumber: "Introducir número"
 };
 

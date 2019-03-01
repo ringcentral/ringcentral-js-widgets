@@ -1,5 +1,4 @@
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
-
 export default {
   [messageSenderMessages.sendSuccess]: "Erfolgreich gesendet.",
   [messageSenderMessages.sendError]: "Fehler beim Senden der Nachricht.",

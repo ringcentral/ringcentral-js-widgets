@@ -1,6 +1,4 @@
-
 import callControlError from 'ringcentral-integration/modules/ActiveCallControl/callControlError';
-
 const {
   holdConflictError,
   unHoldConflictError,
@@ -8,7 +6,6 @@ const {
   unMuteConflictError,
   generalError
 } = callControlError;
-
 export default {
   [muteConflictError]: "此通話已在其他裝置上靜音。處理此應用程式前，請先取消通話的靜音。",
   [holdConflictError]: "此通話已由其他裝置保留。處理此應用程式前，請先取消保留該通話。",

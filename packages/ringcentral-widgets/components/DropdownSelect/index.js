@@ -215,7 +215,7 @@ class DropdownSelect extends Component {
             {renderValue}
           </span>
           <span className={iconClassName}>
-            <i className={dynamicsFont.arrow} />
+            {this.props.icon ? this.props.icon : <i className={dynamicsFont.arrow} />}
           </span>
         </div>
         {dropdownMenu}
@@ -225,6 +225,7 @@ class DropdownSelect extends Component {
 }
 
 DropdownSelect.propTypes = {
+  icon: PropTypes.node,
   reference: PropTypes.func,
   className: PropTypes.string,
   selectedClassName: PropTypes.string,
@@ -258,6 +259,7 @@ DropdownSelect.propTypes = {
 };
 
 DropdownSelect.defaultProps = {
+  icon: undefined,
   reference: undefined,
   className: null,
   selectedClassName: null,

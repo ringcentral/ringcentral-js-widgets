@@ -51,11 +51,11 @@ class ActiveCallDialPad extends Component {
       if (keys === '') {
         return;
       }
+      this.props.onChange(keys);
       keys.split('').forEach((key, index) => {
         setTimeout(() => {
           this.playAudio(key);
-          this.props.onChange(key);
-        }, 150 * index);
+        }, 100 * index);
       });
     };
 

@@ -1,5 +1,4 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-
 export default {
   [webphoneErrors.connectFailed]: "與網路電話伺服器的連線失敗。",
   [webphoneErrors.connected]: "網路電話已註冊。",
@@ -10,7 +9,7 @@ export default {
   [webphoneErrors.toVoiceMailError]: "因為發生內部錯誤，無法將通話轉語音信箱",
   [webphoneErrors.muteError]: "目前無法靜音。",
   [webphoneErrors.holdError]: "目前無法保留。",
-  [webphoneErrors.flipError]: "無法轉接通話。請稍後再試一次。",
+  [webphoneErrors.flipError]: "無法翻轉通話。請稍後再試一次。",
   [webphoneErrors.recordError]: "目前無法對通話進行錄音。錯誤代碼：{errorCode}",
   [webphoneErrors.recordDisabled]: "抱歉，您的帳號並不具進行通話錄音的功能。請聯絡您的帳戶管理員。",
   [webphoneErrors.transferError]: "無法轉接通話。請稍後再試一次。",

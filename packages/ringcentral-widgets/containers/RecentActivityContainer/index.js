@@ -19,6 +19,10 @@ function getTabs({
   recentCalls,
   currentContact,
   sessionId,
+  showRecentCalls,
+  showRecentMessage,
+  showFax,
+  showVoiceMails,
 }) {
   if (!ready) return [];
   let messages = [];
@@ -33,17 +37,18 @@ function getTabs({
       calls = recentCalls.calls[activityCardId];
     }
   }
+
   return [
-    {
+    showVoiceMails ? {
       icon: <VoicemailIcon width={21} height={21} />,
       label: i18n.getString('voicemail', currentLocale),
       path: 'voicemails',
       isActive: path => path === 'voicemails',
       view: null,
-      getData: () => { },
-      cleanUp: () => { }
-    },
-    {
+      getData() { },
+      cleanUp() { }
+    } : null,
+    showRecentMessage ? {
       icon: <span className={dynamicsFont.composeText} />,
       label: i18n.getString('text', currentLocale),
       path: 'recentMessages',
@@ -57,21 +62,21 @@ function getTabs({
           isMessagesLoaded={recentMessages.isMessagesLoaded}
         />
       ),
-      getData: () => {
+      getData() {
         recentMessages.getMessages({ currentContact, sessionId });
       },
       cleanUp: () => recentMessages.cleanUpMessages({ contact: currentContact, sessionId })
-    },
-    {
+    } : null,
+    showFax ? {
       icon: <FaxIcon width={21} height={21} />,
       label: i18n.getString('fax', currentLocale),
       path: 'faxes',
       isActive: path => path === 'faxes',
       view: null,
-      getData: () => { },
-      cleanUp: () => { }
-    },
-    {
+      getData() { },
+      cleanUp() { }
+    } : null,
+    showRecentCalls ? {
       icon: <span className={dynamicsFont.active} />,
       label: i18n.getString('call', currentLocale),
       path: 'recentCalls',
@@ -84,12 +89,12 @@ function getTabs({
           isCallsLoaded={recentCalls.isCallsLoaded}
         />
       ),
-      getData: () => {
+      getData() {
         recentCalls.getCalls({ currentContact, sessionId });
       },
       cleanUp: () => recentCalls.cleanUpCalls({ contact: currentContact, sessionId })
-    },
-  ];
+    } : null,
+  ].filter(x => x !== null);
 }
 
 function mapToProps(_, {
@@ -106,6 +111,10 @@ function mapToProps(_, {
   getSession,
   useContact,
   contact,
+  showRecentCalls = true,
+  showRecentMessage = true,
+  showFax = true,
+  showVoiceMails = true,
 }) {
   let sessionId = null;
   let currentContact = contact;
@@ -144,6 +153,10 @@ function mapToProps(_, {
       recentMessages,
       recentCalls,
       sessionId,
+      showFax,
+      showRecentCalls,
+      showVoiceMails,
+      showRecentMessage,
     }),
     defaultTab: 'recentCalls',
   };

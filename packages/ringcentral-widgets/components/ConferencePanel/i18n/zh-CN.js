@@ -6,10 +6,11 @@ export default {
   addinalDialInNumbers: "附加拨入号码",
   selectNumbers: "选择号码",
   enableJoinBeforeHost: "主持人到来前启用加入",
-  conferenceCommands: "会议命令",
+  conferenceCommands: "电话会议命令",
+  conferenceOptions: "电话会议选项",
   inviteWithGCalendar: "通过 Google 日历邀请",
   inviteWithText: "通过短信邀请",
-  joinAsHost: "启动会议",
+  joinAsHost: "启动电话会议",
   internationalNumber: "国际拨入号码：",
   inviteText_att: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLinks} \n\n此电话会议通过 {brandName} 会议发送给您。",
   inviteText_bt: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码 {dialInNumbersLinks}",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"conferenceOptions"@#@ @source: @#@"Conference Options"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@

@@ -1,5 +1,4 @@
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
-
 export default {
   [callErrors.noToNumber]: "请输入有效的电话号码。",
   [callErrors.noAreaCode]: "请设置{areaCodeLink}以使用 7 位本地电话号码。",

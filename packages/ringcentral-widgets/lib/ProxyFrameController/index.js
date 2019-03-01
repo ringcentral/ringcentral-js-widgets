@@ -27,7 +27,7 @@ export default class ProxyFrameController {
           const {
             query,
             search,
-            ...parsedUri,
+            ...parsedUri
           } = url.parse(oAuthUri, true);
           const uri = url.format({
             ...parsedUri,

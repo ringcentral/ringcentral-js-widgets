@@ -1,5 +1,4 @@
 import conferenceCallErrors from 'ringcentral-integration/modules/ConferenceCall/conferenceCallErrors';
-
 export default {
   [conferenceCallErrors.bringInFailed]: "Falha ao mesclar as chamadas devido a erros inesperados. Tente novamente mais tarde.",
   [conferenceCallErrors.makeConferenceFailed]: "Falha ao mesclar as chamadas devido a erros inesperados. Tente novamente mais tarde.",

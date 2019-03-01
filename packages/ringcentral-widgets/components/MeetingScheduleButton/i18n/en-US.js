@@ -1,5 +1,4 @@
 export default {
   schedule: 'Schedule Meeting',
-  prompt: 'Please authorize RingCentral to access your account information.',
-  launchMeeting: 'Launch Meeting'
+  prompt: 'Please authorize RingCentral to access your account information.'
 };

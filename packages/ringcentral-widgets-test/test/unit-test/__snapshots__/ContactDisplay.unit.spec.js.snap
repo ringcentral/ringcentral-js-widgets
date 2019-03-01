@@ -9,6 +9,7 @@ exports[`<jira id>: RCINT-8557:
 >
   <div
     className="currentName"
+    data-sign="currentName"
     title="(209) 231-2939"
   >
     (209) 231-2939
@@ -25,6 +26,7 @@ exports[`<jira id>: RCINT-8557:
 >
   <div
     className="currentName"
+    data-sign="currentName"
     title=""
   >
     Anonymous
@@ -41,6 +43,7 @@ exports[`<jira id>: RCINT-8557:
 >
   <div
     className="currentName"
+    data-sign="currentName"
     title="fallBackName"
   >
     fallBackName
@@ -57,6 +60,7 @@ exports[`<jira id>: RCINT-8557:
 >
   <div
     className="currentName"
+    data-sign="currentName"
     title="Something1 New1 | RingCentral (209) 231-2939"
   >
     Something1 New1

@@ -2,7 +2,7 @@ export default {
   topic: "Thema",
   when: "Wann",
   duration: "Dauer",
-  recurringMeeting: "Regelmäßig stattfindendes Meeting",
+  recurringMeeting: "Regelmäßiges Meeting",
   recurringDescribe: "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen.",
   video: "Video",
   videoDescribe: "Beim Beitritt zu einem Meeting",
@@ -15,7 +15,9 @@ export default {
   requirePassword: "Meetingkennwort erforderlich",
   password: "Kennwort",
   enableJoinBeforeHost: "Beitritt vor Host ermöglichen",
-  telephonyOnly: "Nur Telefonie"
+  telephonyOnly: "Nur Telefonie",
+  hostVideoOn: "Host-Video ein",
+  participantVideoOn: "Teilnehmervideo ein"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -35,3 +37,5 @@ export default {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@

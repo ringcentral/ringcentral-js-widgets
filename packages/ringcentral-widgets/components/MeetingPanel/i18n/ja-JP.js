@@ -15,7 +15,9 @@ export default {
   requirePassword: "会議のパスワードを要求する",
   password: "パスワード",
   enableJoinBeforeHost: "ホストより前の参加を可能にする",
-  telephonyOnly: "電話通信のみ"
+  telephonyOnly: "電話通信のみ",
+  hostVideoOn: "ホストビデオオン",
+  participantVideoOn: "参加者ビデオオン"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -35,3 +37,5 @@ export default {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@

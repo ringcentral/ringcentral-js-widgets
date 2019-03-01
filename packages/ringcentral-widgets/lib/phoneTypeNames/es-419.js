@@ -1,5 +1,4 @@
 import phoneTypes from '../../enums/phoneTypes';
-
 export default {
   [phoneTypes.business]: "Teléfono del trabajo",
   [phoneTypes.extension]: "Número de extensión",

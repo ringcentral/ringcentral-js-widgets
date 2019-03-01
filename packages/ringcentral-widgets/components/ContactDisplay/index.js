@@ -116,13 +116,17 @@ export default function ContactDisplay({
   if (isOnConferenceCall) {
     const confStr = i18n.getString('conferenceCall', currentLocale);
     contentEl = (
-      <div title={confStr} className={styles.currentName}>
+      <div title={confStr} 
+        data-sign='currentName'
+        className={styles.currentName}>
         {confStr}
       </div>
     );
   } else if (contactName) {
     contentEl = (
-      <div title={contactName} className={styles.currentName}>
+      <div title={contactName} 
+        data-sign='currentName'
+        className={styles.currentName}>
         {contactName}
       </div>
     );
@@ -133,14 +137,18 @@ export default function ContactDisplay({
     });
     const display = groupNames.join(', ');
     contentEl = (
-      <div title={display} className={styles.currentName}>
+      <div title={display} 
+        data-sign='currentName'
+        className={styles.currentName}>
         {display}
       </div>
     );
   } else if (groupNumbers) {
     const display = groupNumbers.join(', ');
     contentEl = (
-      <div title={display} className={styles.currentName}>
+      <div title={display} 
+        data-sign='currentName'
+        className={styles.currentName}>
         {display}
       </div>
     );
@@ -155,7 +163,9 @@ export default function ContactDisplay({
     const title = (enableContactFallback && fallBackName) ||
       phoneNumber || '';
     contentEl = (
-      <div title={title} className={styles.currentName}>
+      <div title={title} 
+        data-sign='currentName'
+        className={styles.currentName}>
         {display}
       </div>
     );
@@ -171,7 +181,9 @@ export default function ContactDisplay({
       phoneSourceNameRenderer,
     });
     contentEl = (
-      <div title={title} className={styles.currentName}>
+      <div title={title} 
+        data-sign='currentName'
+        className={styles.currentName}>
         {display}
       </div>
     );

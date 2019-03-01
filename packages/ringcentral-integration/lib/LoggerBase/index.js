@@ -55,7 +55,7 @@ export default class LoggerBase extends RcModule {
     identityFunction = defaultIdentityFunction,
     logFunction,
     readyCheckFunction,
-    ...options,
+    ...options
   }) {
     super({
       ...options,

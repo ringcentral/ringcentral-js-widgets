@@ -4,7 +4,7 @@ export default {
   starSharp2Body: "隨時瞭解來電者人數",
   starSharp3Title: "離開會議",
   starSharp3Body: "讓主持人掛斷並結束通話",
-  starSharp4Title: "選單",
+  starSharp4Title: "功能表",
   starSharp4Body: "收聽按鍵音指令清單",
   starSharp5Title: "設定聆聽模式",
   starSharp5Body: "按 1 次：將來電者靜音 - 來電者可以按 *、#、6 來取消靜音\n按 2 次：將來電者靜音 - 僅聆聽。沒有取消靜音選項\n按 3 次：將來電者取消靜音 - 再次開啟線路",

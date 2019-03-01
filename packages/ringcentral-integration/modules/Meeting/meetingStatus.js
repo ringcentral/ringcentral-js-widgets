@@ -7,4 +7,6 @@ export default new Enum([
   'durationIncorrect',
   'insufficientPermissions',
   'scheduledSuccess',
+  'updatedSuccess',
+  'internalError',
 ], 'meetingStatus');

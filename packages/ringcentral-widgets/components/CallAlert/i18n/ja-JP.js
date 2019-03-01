@@ -1,5 +1,4 @@
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
-
 export default {
   [callErrors.noToNumber]: "有効な電話番号を入力してください。",
   [callErrors.noAreaCode]: "7桁の国内電話番号を使用するには、{areaCodeLink}を設定してください。",

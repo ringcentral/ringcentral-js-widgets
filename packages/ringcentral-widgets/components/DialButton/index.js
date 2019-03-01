@@ -83,7 +83,7 @@ export default class DialButton extends Component {
   render() {
     const isSpecial = this.props.btn.value === '*';
     return (
-      <div className={classnames(styles.root, this.props.className)}>
+      <div data-sign={`dialPadBtn${this.props.btn.value}`} className={classnames(styles.root, this.props.className)}>
         <svg className={styles.btnSvg} viewBox="0 0 500 500">
           <g
             className={classnames(

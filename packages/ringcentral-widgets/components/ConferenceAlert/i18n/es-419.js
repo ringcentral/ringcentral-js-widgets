@@ -1,5 +1,4 @@
 import messages from 'ringcentral-integration/modules/Conference/messages';
-
 export default {
   [messages.requireAditionalNumbers]: "Seleccione los números de marcado adicionales.",
   [messages.scheduledSuccess]: "La conferencia está programada."

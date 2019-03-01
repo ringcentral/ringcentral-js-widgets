@@ -10,4 +10,8 @@ export default new Enum([
   'initScheduling',
   'scheduled',
   'resetScheduling',
+  // Meeting updating related
+  'initUpdating',
+  'updated',
+  'resetUpdating',
 ], 'meeting');

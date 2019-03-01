@@ -1,5 +1,4 @@
 import permissionMessages from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
-
 export default {
   [permissionMessages.invalidTier]: "お使いのエディションでは、{application}の統合がサポートされていません。{brand}のエディションをアップグレードするには、アカウント担当者にお問い合わせください。",
   [permissionMessages.insufficientPrivilege]: "権限が不足しています。アップグレードについてアカウント担当者にお問い合わせください。"

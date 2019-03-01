@@ -1,6 +1,5 @@
 import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
-
 export default {
   [presenceStatus.available]: "在线",
   [presenceStatus.busy]: "忙碌",

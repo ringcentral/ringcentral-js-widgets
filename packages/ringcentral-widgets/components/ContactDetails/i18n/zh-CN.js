@@ -1,7 +1,6 @@
 import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import phoneTypes from '../../../enums/phoneTypes';
-
 export default {
   [phoneTypes.extension]: "分机号",
   [phoneTypes.direct]: "直拨",

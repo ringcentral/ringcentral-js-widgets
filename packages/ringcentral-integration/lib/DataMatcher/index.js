@@ -1,4 +1,4 @@
-import 'core-js/fn/array/every';
+import { all, filter, forEach } from 'ramda';
 import RcModule from '../RcModule';
 import { Library } from '../di';
 import { prefixEnum } from '../Enum';
@@ -6,7 +6,8 @@ import moduleStatuses from '../../enums/moduleStatuses';
 import baseActionTypes from './baseActionTypes';
 import getDefaultReducer from './getDefaultReducer';
 import getDefaultDataReducer from './getDefaultDataReducer';
-import proxify from '../../lib/proxy/proxify';
+import proxify from '../proxy/proxify';
+import { selector } from '../selector';
 
 export function checkName(name) {
   if (!name) {
@@ -52,7 +53,6 @@ export default class DataMatcher extends RcModule {
     if (!disableCache) {
       this._storage = storage;
     }
-    this._storage = storage;
     this._ttl = ttl;
     this._noMatchTtl = noMatchTtl;
 
@@ -70,43 +70,13 @@ export default class DataMatcher extends RcModule {
       });
     }
 
-    this.addSelector('data',
-      () => (
-        this._storage ?
-          this._storage.getItem(this._storageKey) :
-          this.state.data
-      ),
-      data => (data || {}),
-    );
-
-    this.addSelector('dataMapping',
-      this._selectors.data,
-      (data) => {
-        const dataMap = {};
-        Object.keys(data).forEach((query) => {
-          const queryResult = data[query];
-          if (!queryResult) {
-            return;
-          }
-          let matchesList = [];
-          this._searchProviders.forEach((_providerValue, providerName) => {
-            if (queryResult[providerName] && queryResult[providerName].data.length > 0) {
-              matchesList = matchesList.concat(queryResult[providerName].data);
-            }
-          });
-          if (matchesList.length > 0) {
-            dataMap[query] = matchesList;
-          }
-        });
-        return dataMap;
-      }
-    );
     this._lastCleanUp = 0;
   }
 
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
+
   _getQueries() {
     const output = new Set();
     this._querySources.forEach((readyCheckFn, getQueriesFn) => {
@@ -118,6 +88,7 @@ export default class DataMatcher extends RcModule {
     });
     return [...output];
   }
+
   _cleanUp() {
     // throttle clean up to only run once every 100ms
     const now = Date.now();
@@ -131,6 +102,7 @@ export default class DataMatcher extends RcModule {
       });
     }
   }
+
   _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
@@ -170,8 +142,10 @@ export default class DataMatcher extends RcModule {
   }
 
   get searchProvidersReady() {
-    return [...this._searchProviders.values()]
-      .every(({ readyCheckFn }) => readyCheckFn());
+    return all(
+      ({ readyCheckFn }) => readyCheckFn(),
+      [...this._searchProviders.values()]
+    );
   }
 
   addSearchProvider({ name, searchFn, readyCheckFn }) {
@@ -233,7 +207,8 @@ export default class DataMatcher extends RcModule {
   @proxify
   async match({
     queries,
-    ignoreCache = false
+    ignoreCache = false,
+    ignoreQueue = false,
   }) {
     await Promise.all([...this._searchProviders.keys()]
       .map(name => (
@@ -241,6 +216,7 @@ export default class DataMatcher extends RcModule {
           name,
           queries,
           ignoreCache,
+          ignoreQueue,
         })
       )));
   }
@@ -296,14 +272,16 @@ export default class DataMatcher extends RcModule {
   async _matchSource({
     name,
     queries,
-    ignoreCache
+    ignoreCache,
+    ignoreQueue,
   }) {
     const now = Date.now();
+    const data = this.data;
     const queuedItems = {};
     const promises = [];
     let queue;
     let matching;
-    if (this._matchPromises.has(name)) {
+    if (!ignoreQueue && this._matchPromises.has(name)) {
       matching = this._matchPromises.get(name);
       promises.push(matching.promise);
       matching.queries.forEach((item) => {
@@ -311,27 +289,34 @@ export default class DataMatcher extends RcModule {
       });
     }
 
-    if (this._matchQueues.has(name)) {
+    if (!ignoreQueue && this._matchQueues.has(name)) {
       queue = this._matchQueues.get(name);
       promises.push(queue.promise);
       queue.queries.forEach((item) => {
         queuedItems[item] = true;
       });
     }
-    const data = this.data;
     const filteredQueries = ignoreCache ?
       queries :
-      queries.filter(query => (
-        !queuedItems[query] &&
-        (
-          !data[query] ||
-          !data[query][name] ||
-          now - data[query][name]._t > this._noMatchTtl
-        )
-      ));
+      filter(
+        query => (
+          !queuedItems[query] &&
+          (
+            !data[query] ||
+            !data[query][name] ||
+            now - data[query][name]._t > this._noMatchTtl
+          )
+        ),
+        queries
+      );
 
     if (filteredQueries.length) {
-      if (!matching) {
+      if (ignoreQueue) {
+        promises.push(this._fetchMatchResult({
+          name,
+          queries: filteredQueries,
+        }));
+      } else if (!matching) {
         matching = this._fetchMatchResult({
           name,
           queries: filteredQueries,
@@ -362,18 +347,60 @@ export default class DataMatcher extends RcModule {
   get status() {
     return this.state.status;
   }
+
   get ready() {
     return this.state.status === moduleStatuses.ready;
   }
+
   get pending() {
     return this.state.status === moduleStatuses.pending;
   }
 
   get data() {
-    return this._selectors.data();
+    return this._data;
   }
 
+  @selector
+  _data = [
+    () => (
+      this._storage ?
+        this._storage.getItem(this._storageKey) :
+        this.state.data
+    ),
+    data => (data || {})
+  ]
+
   get dataMapping() {
-    return this._selectors.dataMapping();
+    return this._dataMapping;
   }
+
+  @selector
+  _dataMapping = [
+    () => this.data,
+    (data) => {
+      const dataMap = {};
+      forEach(
+        (query) => {
+          const queryResult = data[query];
+          if (!queryResult) {
+            return;
+          }
+          let matchesList = [];
+          forEach(
+            (_providerValue, providerName) => {
+              if (queryResult[providerName] && queryResult[providerName].data.length > 0) {
+                matchesList = matchesList.concat(queryResult[providerName].data);
+              }
+            },
+            this._searchProviders
+          );
+          if (matchesList.length > 0) {
+            dataMap[query] = matchesList;
+          }
+        },
+        Object.keys(data)
+      );
+      return dataMap;
+    }
+  ]
 }

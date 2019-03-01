@@ -4,6 +4,7 @@
   "description": "Locale Loader for webpack",
   "main": "index.js",
   "scripts": {
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "gulp build",
     "release": "gulp release",
     "test": "jest",
@@ -20,23 +21,25 @@
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.0.0",
-    "babel-runtime": "^6.26.0"
+    "@ringcentral-integration/i18n": "^2.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-settings": "0.0.1",
-    "jest": "^23.6.0"
+    "@babel/core": "^7.2.2",
+    "@ringcentral-integration/babel-settings": "*",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
+    "jest-junit": "^6.0.0"
   },
   "dependencies": {
-    "babel-generator": "^6.26.1",
-    "babylon": "^6.18.0",
+    "@babel/generator": "^7.2.2",
+    "@babel/parser": "^7.2.3",
     "chalk": "^2.4.1",
     "dedent": "^0.7.0",
     "fs-extra": "^7.0.1",
     "glob": "^7.1.2",
     "gulp": "^4.0.0",
-    "gulp-babel": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
     "inquirer": "^6.0.0",
     "loader-utils": "^1.1.0",
@@ -46,14 +49,12 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.js$": "babel-jest"
+      "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!(babel-settings)/).*/"
-    ],
     "watchPathIgnorePatterns": [
       "localization/.*",
       "testData/.*"
-    ]
+    ],
+    "reporters": [ "default", "jest-junit" ]
   }
 }

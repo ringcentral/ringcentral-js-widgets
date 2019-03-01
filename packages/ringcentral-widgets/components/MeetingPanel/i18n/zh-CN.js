@@ -15,7 +15,9 @@ export default {
   requirePassword: "需要会议密码",
   password: "密码",
   enableJoinBeforeHost: "主持人到来前启用加入",
-  telephonyOnly: "仅电话"
+  telephonyOnly: "仅电话",
+  hostVideoOn: "主持人视频开启",
+  participantVideoOn: "参与者视频开启"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -35,3 +37,5 @@ export default {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@

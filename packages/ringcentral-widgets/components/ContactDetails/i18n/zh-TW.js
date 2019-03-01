@@ -1,7 +1,6 @@
 import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import phoneTypes from '../../../enums/phoneTypes';
-
 export default {
   [phoneTypes.extension]: "分機",
   [phoneTypes.direct]: "通訊錄",
@@ -13,7 +12,7 @@ export default {
   emailLabel: "電子郵件",
   call: "通話",
   text: "文字",
-  [presenceStatus.available]: "可用",
+  [presenceStatus.available]: "上線",
   [presenceStatus.offline]: "隱形",
   [presenceStatus.busy]: "忙碌",
   [dndStatus.doNotAcceptAnyCalls]: "勿打擾",

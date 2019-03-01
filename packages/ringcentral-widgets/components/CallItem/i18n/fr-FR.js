@@ -10,7 +10,7 @@ export default {
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",
   viewDetails: "Afficher les détails",
-  addEntity: "Créer",
+  addEntity: "Créer nouveau",
   addLog: "Journal",
   text: "SMS",
   call: "Appeler",

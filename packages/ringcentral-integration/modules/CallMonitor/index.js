@@ -1,4 +1,13 @@
-import 'core-js/fn/array/find';
+import {
+  difference,
+  filter,
+  find,
+  findIndex,
+  forEach,
+  map,
+  reduce,
+  sort,
+} from 'ramda';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
@@ -110,197 +119,70 @@ export default class CallMonitor extends RcModule {
         // match cached calls
         let cachedCalls = [];
         if (_normalizedCalls && cachedSessions && cachedSessions.length) {
-          cachedCalls = _normalizedCalls.filter(x =>
-            x.webphoneSession &&
-            cachedSessions.find(i => i.id === x.webphoneSession.id)
+          cachedCalls = filter(
+            x => (
+              x.webphoneSession &&
+              find(i => (i.id === x.webphoneSession.id), cachedSessions)
+            ),
+            _normalizedCalls
           );
         }
 
         // combine
         const combinedCalls = [...callsFromPresence]; // clone
-        cachedCalls.forEach((cachedCall) => {
-          if (!callsFromPresence.find(x => x.id === cachedCall.id)) {
-            combinedCalls.push(cachedCall);
-          }
-        });
+        forEach(
+          (cachedCall) => {
+            if (!find(x => (x.id === cachedCall.id), callsFromPresence)) {
+              combinedCalls.push(cachedCall);
+            }
+          },
+          cachedCalls
+        );
 
         // mapping and sort
         let theSessions = sessions || [];
-        _normalizedCalls = combinedCalls.map((callItem) => {
-          // use account countryCode to normalize number due to API issues [RCINT-3419]
-          const fromNumber = normalizeNumber({
-            phoneNumber: callItem.from && callItem.from.phoneNumber,
-            countryCode,
-          });
-          const toNumber = normalizeNumber({
-            phoneNumber: callItem.to && callItem.to.phoneNumber,
-            countryCode,
-          });
-          const webphoneSession = matchWephoneSessionWithAcitveCall(theSessions, callItem);
-          theSessions = theSessions.filter(x => x !== webphoneSession);
-          return {
-            ...callItem,
-            from: {
-              phoneNumber: fromNumber,
+        _normalizedCalls = sort(
+          (l, r) => (
+            sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession)
+          ),
+          map(
+            (callItem) => {
+              // use account countryCode to normalize number due to API issues [RCINT-3419]
+              const fromNumber = normalizeNumber({
+                phoneNumber: callItem.from && callItem.from.phoneNumber,
+                countryCode,
+              });
+              const toNumber = normalizeNumber({
+                phoneNumber: callItem.to && callItem.to.phoneNumber,
+                countryCode,
+              });
+              const webphoneSession = matchWephoneSessionWithAcitveCall(theSessions, callItem);
+              theSessions = filter(x => x !== webphoneSession, theSessions);
+              return {
+                ...callItem,
+                from: {
+                  phoneNumber: fromNumber,
+                },
+                to: {
+                  phoneNumber: toNumber,
+                },
+                startTime: (
+                  (webphoneSession && webphoneSession.startTime) ||
+                  callItem.startTime
+                ),
+                webphoneSession,
+              };
             },
-            to: {
-              phoneNumber: toNumber,
-            },
-            startTime: (
-              (webphoneSession && webphoneSession.startTime) ||
-              callItem.startTime
-            ),
-            webphoneSession,
-          };
-        }).sort((l, r) => (
-          sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession)
-        ));
-
+            combinedCalls
+          )
+        );
         return _normalizedCalls;
       },
     );
 
-    this.addSelector('allCalls',
-      this._selectors.normalizedCalls,
-      () => (this._contactMatcher && this._contactMatcher.dataMapping),
-      () => (this._activityMatcher && this._activityMatcher.dataMapping),
-      () => (this.callMatched),
-      (normalizedCalls, contactMapping = {}, activityMapping = {}, callMatched) => {
-        const calls = normalizedCalls.map((callItem) => {
-          const fromNumber = callItem.from && callItem.from.phoneNumber;
-          const toNumber = callItem.to && callItem.to.phoneNumber;
-          const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
-          const toMatches = (toNumber && contactMapping[toNumber]) || [];
-          const toNumberEntity = callMatched[callItem.sessionId];
-          return {
-            ...callItem,
-            fromMatches,
-            toMatches,
-            activityMatches: (activityMapping[callItem.sessionId]) || [],
-            toNumberEntity,
-          };
-        });
-        return calls;
-      }
-    );
-
-    this.addSelector('calls',
-      this._selectors.allCalls,
-      () => this._conferenceCall && this._conferenceCall.isMerging,
-      (calls, isMerging) => (
-        calls.filter((callItem) => {
-          // filtering out the conferece during merging
-          if (isMerging) {
-            return !isConferenceSession(callItem.webphoneSession);
-          }
-          return true;
-        })
-      ),
-    );
-
-    this.addSelector('activeRingCalls',
-      this._selectors.calls,
-      calls => calls.filter(callItem =>
-        callItem.webphoneSession &&
-        isRing(callItem.webphoneSession)
-      )
-    );
-
-    this.addSelector('_activeOnHoldCalls',
-      this._selectors.calls,
-      calls => calls.filter(callItem =>
-        callItem.webphoneSession &&
-        isOnHold(callItem.webphoneSession)
-      )
-    );
-
-    this.addSelector('_activeCurrentCalls',
-      this._selectors.calls,
-      calls => calls.filter(callItem =>
-        callItem.webphoneSession &&
-        !isOnHold(callItem.webphoneSession) &&
-        !isRing(callItem.webphoneSession)
-      )
-    );
-
-    this.addSelector('activeOnHoldCalls',
-      this._selectors._activeOnHoldCalls,
-      this._selectors._activeCurrentCalls,
-      (_activeOnHoldCalls, _activeCurrentCalls) => (
-        (_activeOnHoldCalls.length && !_activeCurrentCalls.length) ?
-          _activeOnHoldCalls.slice(1) :
-          _activeOnHoldCalls
-      ),
-    );
-
-    this.addSelector('activeCurrentCalls',
-      this._selectors._activeCurrentCalls,
-      this._selectors._activeOnHoldCalls,
-      (_activeCurrentCalls, _activeOnHoldCalls) => (
-        (!_activeCurrentCalls.length && _activeOnHoldCalls.length) ?
-          _activeOnHoldCalls.slice(0, 1) :
-          _activeCurrentCalls
-      )
-    );
-
-    this.addSelector('otherDeviceCalls',
-      this._selectors.calls,
-      () => this._webphone && this._webphone.lastEndedSessions,
-      (calls, lastEndedSessions) => (
-        calls.reduce(({ sessionsCache, res }, callItem) => {
-          if (callItem.webphoneSession) {
-            return {
-              sessionsCache,
-              res
-            };
-          }
-
-          if (!sessionsCache || !sessionsCache.length) {
-            return {
-              sessionsCache,
-              res: [...res, callItem]
-            };
-          }
-
-          const endCall = matchWephoneSessionWithAcitveCall(sessionsCache, [...res, callItem]);
-
-          return {
-            sessionsCache: sessionsCache.filter(x => x !== endCall),
-            res: endCall ? res : [...res, callItem]
-          };
-        }, {
-          sessionsCache: lastEndedSessions,
-          res: []
-        }).res
-      ),
-    );
-
-    this.addSelector('uniqueNumbers',
-      this._selectors.normalizedCalls,
-      (normalizedCalls) => {
-        const output = [];
-        const numberMap = {};
-        function addIfNotExist(number) {
-          if (!numberMap[number]) {
-            output.push(number);
-            numberMap[number] = true;
-          }
-        }
-        normalizedCalls.forEach((callItem) => {
-          if (callItem.from && callItem.from.phoneNumber) {
-            addIfNotExist(callItem.from.phoneNumber);
-          }
-          if (callItem.to && callItem.to.phoneNumber) {
-            addIfNotExist(callItem.to.phoneNumber);
-          }
-        });
-        return output;
-      }
-    );
-
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
-        getQueriesFn: this._selectors.uniqueNumbers,
+        getQueriesFn: () => this.uniqueNumbers,
         readyCheckFn: () => (
           this._accountInfo.ready &&
           this._detailedPresence.ready
@@ -308,14 +190,9 @@ export default class CallMonitor extends RcModule {
       });
     }
 
-    this.addSelector('sessionIds',
-      () => this._detailedPresence.calls,
-      calls => calls.map(callItem => callItem.sessionId)
-    );
-
     if (this._activityMatcher) {
       this._activityMatcher.addQuerySource({
-        getQueriesFn: this._selectors.sessionIds,
+        getQueriesFn: () => this.sessionIds,
         readyCheckFn: () => this._detailedPresence.ready,
       });
     }
@@ -368,24 +245,26 @@ export default class CallMonitor extends RcModule {
     } else if (
       this.ready
     ) {
-      const uniqueNumbers = this._selectors.uniqueNumbers();
+      const uniqueNumbers = this.uniqueNumbers;
       if (
         this._lastProcessedNumbers !== uniqueNumbers &&
         (!this._tabManager || this._tabManager.active)
       ) {
+        const newNumbers = difference(uniqueNumbers, this._lastProcessedNumbers || []);
         this._lastProcessedNumbers = uniqueNumbers;
         if (this._contactMatcher && this._contactMatcher.ready) {
-          this._contactMatcher.triggerMatch();
+          this._contactMatcher.match({ queries: newNumbers, ignoreQueue: true });
         }
       }
-      const sessionIds = this._selectors.sessionIds();
+      const sessionIds = this.sessionIds;
       if (
         this._lastProcessedIds !== sessionIds &&
         (!this._tabManager || this._tabManager.active)
       ) {
+        const newSessions = difference(sessionIds, this._lastProcessedIds || []);
         this._lastProcessedIds = sessionIds;
         if (this._activityMatcher && this._activityMatcher.ready) {
-          this._activityMatcher.triggerMatch();
+          this._activityMatcher.match({ queries: newSessions, ignoreQueue: true });
         }
       }
 
@@ -411,53 +290,62 @@ export default class CallMonitor extends RcModule {
           this._call.cleanToNumberEntities();
         }
 
-        let entities = this._call ? this._call.toNumberEntities.sort(sortByStartTime) : [];
+        let entities = this._call ? sort(sortByStartTime, this._call.toNumberEntities) : [];
         // const matchedMap = {};
-        this.calls.forEach((call) => {
-          const oldCallIndex = oldCalls.findIndex(item => item.sessionId === call.sessionId);
-          if (oldCallIndex === -1) {
-            if (typeof this._onNewCall === 'function') {
-              this._onNewCall(call);
+        forEach(
+          (call) => {
+            const oldCallIndex = findIndex(item => (item.sessionId === call.sessionId), oldCalls);
+            if (oldCallIndex === -1) {
+              if (typeof this._onNewCall === 'function') {
+                this._onNewCall(call);
+              }
+              if (typeof this._onRinging === 'function' && isRinging(call)) {
+                this._onRinging(call);
+              }
+            } else {
+              const oldCall = oldCalls[oldCallIndex];
+              oldCalls.splice(oldCallIndex, 1);
+              if ((
+                call.telephonyStatus !== oldCall.telephonyStatus ||
+                (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)
+              ) &&
+                typeof this._onCallUpdated === 'function'
+              ) {
+                this._onCallUpdated(call);
+              }
             }
-            if (typeof this._onRinging === 'function' && isRinging(call)) {
-              this._onRinging(call);
-            }
-          } else {
-            const oldCall = oldCalls[oldCallIndex];
-            oldCalls.splice(oldCallIndex, 1);
-            if ((
-              call.telephonyStatus !== oldCall.telephonyStatus ||
-              (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)
-            ) &&
-              typeof this._onCallUpdated === 'function'
-            ) {
-              this._onCallUpdated(call);
-            }
-          }
-          entities.find((entity, index) => {
-            const toEntity = call.toMatches.find(toMatch =>
-              toMatch.id === entity.entityId
-            );
-            if (toEntity !== undefined) {
-              entities = this._removeMatched(index, entities);
-              this._setMatchedData({
-                sessionId: call.sessionId,
-                toEntityId: toEntity.id,
-              });
-              return true;
-            }
-            return false;
-          });
-        });
+            find((entity, index) => {
+              const toEntity = find(
+                toMatch => (toMatch.id === entity.entityId),
+                call.toMatches
+              );
+              if (toEntity !== undefined) {
+                entities = this._removeMatched(index, entities);
+                this._setMatchedData({
+                  sessionId: call.sessionId,
+                  toEntityId: toEntity.id,
+                });
+                return true;
+              }
+              return false;
+            },
+            entities);
+          },
+          this.calls
+        );
 
-        oldCalls.forEach((call) => {
-          if (typeof this._onCallEnded === 'function') {
-            this._onCallEnded(call);
-          }
-        });
+        forEach(
+          (call) => {
+            if (typeof this._onCallEnded === 'function') {
+              this._onCallEnded(call);
+            }
+          },
+          oldCalls
+        );
       }
     }
   }
+
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
@@ -475,6 +363,7 @@ export default class CallMonitor extends RcModule {
       ...matched,
     });
   }
+
   // user action track funtions
   callItemClickTrack() {
     this.store.dispatch({
@@ -571,54 +460,207 @@ export default class CallMonitor extends RcModule {
     return this.state.status === moduleStatuses.pending;
   }
 
-  get calls() {
-    return this._selectors.calls();
-  }
-
-  get allCalls() {
-    return this._selectors.allCalls();
-  }
-
   get callMatched() {
     return this._storage.getItem(this._callMatchedKey);
   }
 
-  get activeRingCalls() {
-    return this._selectors.activeRingCalls();
-  }
 
-  get activeOnHoldCalls() {
-    return this._selectors.activeOnHoldCalls();
-  }
+  @selector
+  allCalls = [
+    this._selectors.normalizedCalls,
+    () => (this._contactMatcher && this._contactMatcher.dataMapping),
+    () => (this._activityMatcher && this._activityMatcher.dataMapping),
+    () => (this.callMatched),
+    (normalizedCalls, contactMapping = {}, activityMapping = {}, callMatched) => {
+      const calls = map(
+        (callItem) => {
+          const fromNumber = callItem.from && callItem.from.phoneNumber;
+          const toNumber = callItem.to && callItem.to.phoneNumber;
+          const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
+          const toMatches = (toNumber && contactMapping[toNumber]) || [];
+          const toNumberEntity = callMatched[callItem.sessionId];
+          return {
+            ...callItem,
+            fromMatches,
+            toMatches,
+            activityMatches: (activityMapping[callItem.sessionId]) || [],
+            toNumberEntity,
+          };
+        },
+        normalizedCalls
+      );
+      return calls;
+    }
+  ]
 
-  get activeCurrentCalls() {
-    return this._selectors.activeCurrentCalls();
-  }
+  @selector
+  calls = [
+    () => this.allCalls,
+    () => this._conferenceCall && this._conferenceCall.isMerging,
+    (calls, isMerging) => filter(
+      (callItem) => {
+        // filtering out the conferece during merging
+        if (isMerging) {
+          return !isConferenceSession(callItem.webphoneSession);
+        }
+        return true;
+      },
+      calls,
+    )
+  ]
 
-  get otherDeviceCalls() {
-    return this._selectors.otherDeviceCalls();
-  }
+  @selector
+  activeRingCalls = [
+    () => this.calls,
+    calls => filter(
+      callItem => (callItem.webphoneSession && isRing(callItem.webphoneSession)),
+      calls
+    )
+  ]
+
+  @selector
+  _activeOnHoldCalls = [
+    () => this.calls,
+    calls => filter(
+      callItem => (
+        callItem.webphoneSession &&
+        isOnHold(callItem.webphoneSession)
+      ),
+      calls
+    )
+  ]
+
+  @selector
+  _activeCurrentCalls = [
+    () => this.calls,
+    calls => filter(
+      callItem => (
+        callItem.webphoneSession &&
+        !isOnHold(callItem.webphoneSession) &&
+        !isRing(callItem.webphoneSession)
+      ),
+      calls
+    )
+  ]
+
+  @selector
+  activeOnHoldCalls = [
+    () => this._activeOnHoldCalls,
+    () => this._activeCurrentCalls,
+    (_activeOnHoldCalls, _activeCurrentCalls) => (
+      (_activeOnHoldCalls.length && !_activeCurrentCalls.length) ?
+        _activeOnHoldCalls.slice(1) :
+        _activeOnHoldCalls
+    ),
+  ]
+
+  @selector
+  activeCurrentCalls = [
+    () => this._activeCurrentCalls,
+    () => this._activeOnHoldCalls,
+    (_activeCurrentCalls, _activeOnHoldCalls) => (
+      (!_activeCurrentCalls.length && _activeOnHoldCalls.length) ?
+        _activeOnHoldCalls.slice(0, 1) :
+        _activeCurrentCalls
+    )
+  ]
+
+  @selector
+  otherDeviceCalls = [
+    () => this.calls,
+    () => this._webphone && this._webphone.lastEndedSessions,
+    (calls, lastEndedSessions) => (
+      reduce(
+        ({ sessionsCache, res }, callItem) => {
+          if (callItem.webphoneSession) {
+            return {
+              sessionsCache,
+              res
+            };
+          }
+
+          if (!sessionsCache || !sessionsCache.length) {
+            return {
+              sessionsCache,
+              res: [...res, callItem]
+            };
+          }
+
+          const endCall = matchWephoneSessionWithAcitveCall(sessionsCache, [...res, callItem]);
+
+          return {
+            sessionsCache: filter(x => x !== endCall, sessionsCache),
+            res: endCall ? res : [...res, callItem]
+          };
+        }, {
+          sessionsCache: lastEndedSessions,
+          res: []
+        },
+        calls
+      ).res
+    ),
+  ]
+
+  @selector
+  uniqueNumbers = [
+    this._selectors.normalizedCalls,
+    (normalizedCalls) => {
+      const output = [];
+      const numberMap = {};
+      function addIfNotExist(number) {
+        if (!numberMap[number]) {
+          output.push(number);
+          numberMap[number] = true;
+        }
+      }
+      forEach(
+        (callItem) => {
+          if (callItem.from && callItem.from.phoneNumber) {
+            addIfNotExist(callItem.from.phoneNumber);
+          }
+          if (callItem.to && callItem.to.phoneNumber) {
+            addIfNotExist(callItem.to.phoneNumber);
+          }
+        },
+        normalizedCalls
+      );
+      return output;
+    }
+  ]
+
+  @selector
+  sessionIds = [
+    () => this._detailedPresence.calls,
+    calls => map(callItem => callItem.sessionId, calls)
+  ]
 
   @selector
   ringoutRingCalls = [
     () => this.otherDeviceCalls,
-    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
-      isRingingInboundCall(callItem)
+    otherDeviceCalls => filter(
+      callItem => isRingingInboundCall(callItem),
+      otherDeviceCalls
     )
   ]
+
   @selector
   ringoutCurrentCalls = [
     () => this.otherDeviceCalls,
-    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
-      !isRingingInboundCall(callItem) &&
-      !isRingOutOnHold(callItem)
+    otherDeviceCalls => filter(
+      callItem => (
+        !isRingingInboundCall(callItem) &&
+        !isRingOutOnHold(callItem)
+      ),
+      otherDeviceCalls
     )
   ]
+
   @selector
   ringoutOnHoldCalls = [
     () => this.otherDeviceCalls,
-    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
-      isRingOutOnHold(callItem)
+    otherDeviceCalls => filter(
+      callItem => isRingOutOnHold(callItem),
+      otherDeviceCalls
     )
   ]
 }

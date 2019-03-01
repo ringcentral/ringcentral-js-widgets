@@ -1,7 +1,6 @@
 import callResults from 'ringcentral-integration/enums/callResults';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-
 export default {
   [callDirections.inbound]: "來電",
   [callDirections.outbound]: "撥出電話",

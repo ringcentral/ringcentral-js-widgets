@@ -11,22 +11,9 @@
   "devDependencies": {
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "autoprefixer": "^8.4.1",
-    "babel-eslint": "^7.2.3",
-    "babel-core": "^6.24.1",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
     "dotenv": "^5.0.0",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
     "file-loader": "^0.11.1",
     "node-sass": "^4.5.3",
     "postcss-loader": "^1.3.3",
@@ -39,7 +26,7 @@
   },
   "dependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
-    "@ringcentral-integration/phone-number": "^1.0.2",
+    "@ringcentral-integration/phone-number": "^1.0.0",
     "babel-runtime": "^6.26.0",
     "classnames": "^2.2.5",
     "core-js": "^2.5.7",
@@ -56,7 +43,7 @@
     "redux": "^3.7.2",
     "ringcentral": "^3.1.3",
     "ringcentral-client": "^1.0.0-beta.1",
-    "ringcentral-integration": "^0.10.0",
-    "ringcentral-widgets": "^0.10.0"
+    "ringcentral-integration": "^0.9.0",
+    "ringcentral-widgets": "^0.9.0"
   }
 }

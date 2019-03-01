@@ -1,5 +1,4 @@
 import callingSettingsMessages from 'ringcentral-integration/modules/CallingSettings/callingSettingsMessages';
-
 export default {
   [callingSettingsMessages.saveSuccess]: "Impostazioni salvate correttamente.",
   [callingSettingsMessages.saveSuccessWithSoftphone]: "Impostazioni salvate correttamente. Assicurati che {brand} per desktop sia installato nel computer.",

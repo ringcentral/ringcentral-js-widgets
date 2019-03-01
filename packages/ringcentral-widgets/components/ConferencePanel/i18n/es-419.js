@@ -1,12 +1,13 @@
 export default {
   newConference: "Nueva conferencia",
   dialInNumber: "Número de marcado",
-  hostAccess: "Acceso de host",
+  hostAccess: "Acceso del anfitrión",
   participantsAccess: "Acceso de participantes",
   addinalDialInNumbers: "Números de marcado adicionales",
   selectNumbers: "Seleccionar números",
-  enableJoinBeforeHost: "Permitir unirse antes que el host",
+  enableJoinBeforeHost: "Permitir unirse antes que el anfitrión",
   conferenceCommands: "Comandos de conferencia",
+  conferenceOptions: "Opciones de la conferencia",
   inviteWithGCalendar: "Invitar con Google Calendar",
   inviteWithText: "Invitar con mensaje",
   joinAsHost: "Iniciar conferencia",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"conferenceOptions"@#@ @source: @#@"Conference Options"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@
