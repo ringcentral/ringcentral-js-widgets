@@ -1,146 +1,155 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.RUNTIME = exports.PSEUDO_LOCALE = exports.DEFAULT_LOCALE = undefined;
+exports.default = exports.RUNTIME = exports.PSEUDO_LOCALE = exports.DEFAULT_LOCALE = void 0;
 
-var _parseFloat = require('babel-runtime/core-js/number/parse-float');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _parseFloat2 = _interopRequireDefault(_parseFloat);
+require("core-js/modules/es6.symbol");
 
-var _isNan = require('babel-runtime/core-js/number/is-nan');
+require("core-js/modules/es6.promise");
 
-var _isNan2 = _interopRequireDefault(_isNan);
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.number.parse-float");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.number.constructor");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.number.is-nan");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("regenerator-runtime/runtime");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/web.dom.iterable");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.iterator");
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+require("core-js/modules/es6.string.iterator");
 
-var _getIterator3 = _interopRequireDefault(_getIterator2);
+require("core-js/modules/es6.set");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _toPseudoString = _interopRequireDefault(require("./lib/toPseudoString"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _set = require('babel-runtime/core-js/set');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _set2 = _interopRequireDefault(_set);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var DEFAULT_LOCALE = 'en-US';
+exports.DEFAULT_LOCALE = DEFAULT_LOCALE;
+var PSEUDO_LOCALE = 'en-ZZ';
+exports.PSEUDO_LOCALE = PSEUDO_LOCALE;
+var RUNTIME = {
+  locale: DEFAULT_LOCALE,
+  defaultLocale: DEFAULT_LOCALE,
+  instances: new Set(),
+  padRatio: 0.3
+};
 /**
  * @function
  * @description Set currrent runtime locale and load the locale files accordingly
  * @param {String} locale - The desired locale.
  * @return Promise<undefined>
  */
-var setLocale = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(locale) {
-    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, i;
 
-    return _regenerator2.default.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            RUNTIME.locale = locale;
-            _iteratorNormalCompletion = true;
-            _didIteratorError = false;
-            _iteratorError = undefined;
-            _context.prev = 4;
-            _iterator = (0, _getIterator3.default)(RUNTIME.instances);
+exports.RUNTIME = RUNTIME;
 
-          case 6:
-            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context.next = 13;
-              break;
-            }
-
-            i = _step.value;
-            _context.next = 10;
-            return i.load();
-
-          case 10:
-            _iteratorNormalCompletion = true;
-            _context.next = 6;
-            break;
-
-          case 13:
-            _context.next = 19;
-            break;
-
-          case 15:
-            _context.prev = 15;
-            _context.t0 = _context['catch'](4);
-            _didIteratorError = true;
-            _iteratorError = _context.t0;
-
-          case 19:
-            _context.prev = 19;
-            _context.prev = 20;
-
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
-
-          case 22:
-            _context.prev = 22;
-
-            if (!_didIteratorError) {
-              _context.next = 25;
-              break;
-            }
-
-            throw _iteratorError;
-
-          case 25:
-            return _context.finish(22);
-
-          case 26:
-            return _context.finish(19);
-
-          case 27:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this, [[4, 15, 19, 27], [20,, 22, 26]]);
-  }));
-
-  return function setLocale(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
+function setLocale(_x) {
+  return _setLocale.apply(this, arguments);
+}
 /**
  * @class
  * @description I18n is a simple localizations helper class that represents a set of locale files.
  */
 
 
-var _toPseudoString = require('./lib/toPseudoString');
+function _setLocale() {
+  _setLocale = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee4(locale) {
+    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, i;
 
-var _toPseudoString2 = _interopRequireDefault(_toPseudoString);
+    return regeneratorRuntime.wrap(function _callee4$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            RUNTIME.locale = locale;
+            _iteratorNormalCompletion = true;
+            _didIteratorError = false;
+            _iteratorError = undefined;
+            _context5.prev = 4;
+            _iterator = RUNTIME.instances[Symbol.iterator]();
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+          case 6:
+            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+              _context5.next = 13;
+              break;
+            }
 
-var DEFAULT_LOCALE = exports.DEFAULT_LOCALE = 'en-US';
-var PSEUDO_LOCALE = exports.PSEUDO_LOCALE = 'en-ZZ';
-var RUNTIME = exports.RUNTIME = {
-  locale: DEFAULT_LOCALE,
-  defaultLocale: DEFAULT_LOCALE,
-  instances: new _set2.default(),
-  padRatio: 0.3
-};
-var I18n = function () {
+            i = _step.value;
+            _context5.next = 10;
+            return i.load();
+
+          case 10:
+            _iteratorNormalCompletion = true;
+            _context5.next = 6;
+            break;
+
+          case 13:
+            _context5.next = 19;
+            break;
+
+          case 15:
+            _context5.prev = 15;
+            _context5.t0 = _context5["catch"](4);
+            _didIteratorError = true;
+            _iteratorError = _context5.t0;
+
+          case 19:
+            _context5.prev = 19;
+            _context5.prev = 20;
+
+            if (!_iteratorNormalCompletion && _iterator.return != null) {
+              _iterator.return();
+            }
+
+          case 22:
+            _context5.prev = 22;
+
+            if (!_didIteratorError) {
+              _context5.next = 25;
+              break;
+            }
+
+            throw _iteratorError;
+
+          case 25:
+            return _context5.finish(22);
+
+          case 26:
+            return _context5.finish(19);
+
+          case 27:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee4, null, [[4, 15, 19, 27], [20,, 22, 26]]);
+  }));
+  return _setLocale.apply(this, arguments);
+}
+
+var I18n =
+/*#__PURE__*/
+function () {
   /**
    * @constructor
    * @description Accepts a loadLocale function that should be async and resolve to the locale
@@ -148,178 +157,186 @@ var I18n = function () {
    * @param {String => Promise<Object>} loadLocale - Asynchronous locale loader function.
    */
   function I18n(loadLocale) {
-    (0, _classCallCheck3.default)(this, I18n);
+    _classCallCheck(this, I18n);
 
     if (typeof loadLocale !== 'function') {
       throw new Error('loadLocale must be a function');
     }
+
     this._loadLocale = loadLocale;
     this._cache = {};
     RUNTIME.instances.add(this);
     this.load();
   }
 
-  (0, _createClass3.default)(I18n, [{
-    key: '_load',
+  _createClass(I18n, [{
+    key: "_load",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(locale) {
+      var _load2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(locale) {
         var _this = this;
 
         var data;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 if (!(locale !== PSEUDO_LOCALE && !this._cache[locale])) {
-                  _context3.next = 12;
+                  _context2.next = 11;
                   break;
                 }
 
-                data = void 0;
-                _context3.prev = 2;
-                _context3.next = 5;
-                return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-                  return _regenerator2.default.wrap(function _callee2$(_context2) {
+                _context2.prev = 1;
+                _context2.next = 4;
+                return _asyncToGenerator(
+                /*#__PURE__*/
+                regeneratorRuntime.mark(function _callee() {
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
-                      switch (_context2.prev = _context2.next) {
+                      switch (_context.prev = _context.next) {
                         case 0:
-                          return _context2.abrupt('return', _this._loadLocale(locale));
+                          return _context.abrupt("return", _this._loadLocale(locale));
 
                         case 1:
-                        case 'end':
-                          return _context2.stop();
+                        case "end":
+                          return _context.stop();
                       }
                     }
-                  }, _callee2, _this);
+                  }, _callee);
                 }))();
 
-              case 5:
-                data = _context3.sent;
-                _context3.next = 11;
+              case 4:
+                data = _context2.sent;
+                _context2.next = 10;
                 break;
 
-              case 8:
-                _context3.prev = 8;
-                _context3.t0 = _context3['catch'](2);
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](1);
 
                 /* ignore error */
                 data = {};
 
-              case 11:
+              case 10:
                 this._cache[locale] = data;
 
-              case 12:
-              case 'end':
-                return _context3.stop();
+              case 11:
+              case "end":
+                return _context2.stop();
             }
           }
-        }, _callee3, this, [[2, 8]]);
+        }, _callee2, this, [[1, 7]]);
       }));
 
       function _load(_x2) {
-        return _ref2.apply(this, arguments);
+        return _load2.apply(this, arguments);
       }
 
       return _load;
     }()
   }, {
-    key: 'load',
+    key: "load",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+      var _load3 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.next = 2;
+                _context3.next = 2;
                 return this._load(RUNTIME.defaultLocale);
 
               case 2:
-                _context4.next = 4;
+                _context3.next = 4;
                 return this._load(RUNTIME.locale);
 
               case 4:
-              case 'end':
-                return _context4.stop();
+              case "end":
+                return _context3.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee3, this);
       }));
 
       function load() {
-        return _ref4.apply(this, arguments);
+        return _load3.apply(this, arguments);
       }
 
       return load;
     }()
   }, {
-    key: '_getString',
+    key: "_getString",
     value: function _getString(key, locale) {
-      var _context5;
+      var _context4;
 
-      if (this._cache[locale] && (_context5 = this._cache[locale], Object.prototype.hasOwnProperty).call(_context5, key)) {
+      if (this._cache[locale] && (_context4 = this._cache[locale], Object.prototype.hasOwnProperty).call(_context4, key)) {
         return this._cache[locale][key];
       }
-      if (this._cache[RUNTIME.defaultLocale] && (_context5 = this._cache[RUNTIME.defaultLocale], Object.prototype.hasOwnProperty).call(_context5, key)) {
+
+      if (this._cache[RUNTIME.defaultLocale] && (_context4 = this._cache[RUNTIME.defaultLocale], Object.prototype.hasOwnProperty).call(_context4, key)) {
         return this._cache[RUNTIME.defaultLocale][key];
       }
+
       return key;
     }
   }, {
-    key: 'getString',
+    key: "getString",
     value: function getString(key) {
       var locale = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : RUNTIME.locale;
 
       if (locale === PSEUDO_LOCALE) {
-        return (0, _toPseudoString2.default)({
+        return (0, _toPseudoString.default)({
           str: this._getString(key, RUNTIME.defaultLocale),
           padRatio: RUNTIME.padRatio
         });
       }
-      return this._getString(key, locale);
-    }
 
-    // eslint-disable-next-line class-methods-use-this
+      return this._getString(key, locale);
+    } // eslint-disable-next-line class-methods-use-this
 
   }, {
-    key: 'currentLocale',
+    key: "currentLocale",
     get: function get() {
       return RUNTIME.locale;
-    }
-    // eslint-disable-next-line class-methods-use-this
+    } // eslint-disable-next-line class-methods-use-this
 
   }, {
-    key: 'setLocale',
+    key: "setLocale",
     get: function get() {
       return setLocale;
     }
   }], [{
-    key: 'setDefaultLocale',
+    key: "setDefaultLocale",
     value: function setDefaultLocale(locale) {
       RUNTIME.defaultLocale = locale;
     }
   }, {
-    key: 'currentLocale',
+    key: "currentLocale",
     get: function get() {
       return RUNTIME.locale;
     }
   }, {
-    key: 'setLocale',
+    key: "setLocale",
     get: function get() {
       return setLocale;
     }
   }, {
-    key: 'padRatio',
+    key: "padRatio",
     get: function get() {
       return RUNTIME.padRatio;
     },
     set: function set(ratio) {
-      if ((0, _isNan2.default)(ratio)) {
+      if (Number.isNaN(ratio)) {
         console.log('ratio must be a number');
         return;
       }
-      RUNTIME.padRatio = (0, _parseFloat2.default)(ratio);
+
+      RUNTIME.padRatio = Number.parseFloat(ratio);
     }
   }]);
+
   return I18n;
 }();
 
