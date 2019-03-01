@@ -1,35 +1,50 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.transformLoader = exports.consolidateLocale = exports.importLocale = exports.exportLocale = undefined;
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _localeLoader.default;
+  }
+});
+Object.defineProperty(exports, "exportLocale", {
+  enumerable: true,
+  get: function get() {
+    return _exportLocale.default;
+  }
+});
+Object.defineProperty(exports, "importLocale", {
+  enumerable: true,
+  get: function get() {
+    return _importLocale.default;
+  }
+});
+Object.defineProperty(exports, "consolidateLocale", {
+  enumerable: true,
+  get: function get() {
+    return _consolidateLocale.default;
+  }
+});
+Object.defineProperty(exports, "transformLoader", {
+  enumerable: true,
+  get: function get() {
+    return _transformLoader.default;
+  }
+});
 
-var _localeLoader = require('./lib/localeLoader');
+var _localeLoader = _interopRequireDefault(require("./lib/localeLoader"));
 
-var _localeLoader2 = _interopRequireDefault(_localeLoader);
+var _exportLocale = _interopRequireDefault(require("./lib/exportLocale"));
 
-var _exportLocale2 = require('./lib/exportLocale');
+var _importLocale = _interopRequireDefault(require("./lib/importLocale"));
 
-var _exportLocale3 = _interopRequireDefault(_exportLocale2);
+var _consolidateLocale = _interopRequireDefault(require("./lib/consolidateLocale"));
 
-var _importLocale2 = require('./lib/importLocale');
-
-var _importLocale3 = _interopRequireDefault(_importLocale2);
-
-var _consolidateLocale2 = require('./lib/consolidateLocale');
-
-var _consolidateLocale3 = _interopRequireDefault(_consolidateLocale2);
-
-var _transformLoader2 = require('./lib/transformLoader');
-
-var _transformLoader3 = _interopRequireDefault(_transformLoader2);
+var _transformLoader = _interopRequireDefault(require("./lib/transformLoader"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.exportLocale = _exportLocale3.default;
-exports.importLocale = _importLocale3.default;
-exports.consolidateLocale = _consolidateLocale3.default;
-exports.transformLoader = _transformLoader3.default;
-exports.default = _localeLoader2.default;
 //# sourceMappingURL=index.js.map
