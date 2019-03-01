@@ -25,8 +25,8 @@ exports.generateProject = ({
     params: { name: projectName.replace(/\s/g, '') }
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/babelrc.default'),
-    destinationPath: path.resolve(projectDir, '.babelrc')
+    templatePath: path.resolve(__dirname, '../templates/Project/babel.config.js.default'),
+    destinationPath: path.resolve(projectDir, 'babel.config.js')
   });
   copyFile({
     templatePath: path.resolve(__dirname, '../templates/Project/env.default'),

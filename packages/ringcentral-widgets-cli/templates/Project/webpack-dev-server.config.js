@@ -1,4 +1,3 @@
-require('@ringcentral-integration/babel-settings/lib/register');
 const webpack = require('webpack');
 const fs = require('fs');
 const path = require('path');
@@ -19,6 +18,7 @@ const apiConfig = {
 const version = packageConfig.version;
 
 const config = {
+  mode: 'development',
   entry: {
     index: './src/index.js',
     proxy: './src/proxy.js',
@@ -107,7 +107,7 @@ const config = {
             loader: 'sass-loader',
             options: {
               outputStyle: 'expanded',
-              includePaths: [buildPath],
+              includePaths: ['src', 'node_modules'],
             },
           }
         ],
