@@ -1,43 +1,59 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 exports.getDataReducer = getDataReducer;
 
-var _removeUri = require('../../lib/removeUri');
+require("core-js/modules/es6.array.for-each");
 
-var _removeUri2 = _interopRequireDefault(_removeUri);
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.map");
+
+var _removeUri = _interopRequireDefault(require("../../lib/removeUri"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getDataReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         data = _ref.data,
         hasPermission = _ref.hasPermission;
 
     switch (type) {
       case types.fetchSuccess:
         return data && data.map(function (item) {
-          return (0, _extends3.default)({}, item, {
-            extension: (0, _removeUri2.default)(item.extension)
+          return _objectSpread({}, item, {
+            extension: (0, _removeUri.default)(item.extension)
           });
         });
+
       case types.resetSuccess:
         return null;
+
       case types.initSuccess:
         if (hasPermission) {
           return state;
         }
+
         return null;
+
       default:
         return state;
     }

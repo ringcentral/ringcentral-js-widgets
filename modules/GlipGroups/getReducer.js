@@ -1,48 +1,62 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 exports.getDataReducer = getDataReducer;
 exports.getSearchFilterReducer = getSearchFilterReducer;
 exports.getCurrentGroupIdReducer = getCurrentGroupIdReducer;
 exports.getTimestampReducer = getTimestampReducer;
 exports.default = getReducer;
 
-var _redux = require('redux');
+require("core-js/modules/es6.array.for-each");
 
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
+require("core-js/modules/web.dom.iterable");
 
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.filter");
+
+var _redux = require("redux");
+
+var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getDataReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         data = _ref.data,
         group = _ref.group;
 
     switch (type) {
       case types.fetchSuccess:
         return data && data.records;
+
       case types.updateGroup:
         return [group].concat(state.filter(function (g) {
           return g.id !== group.id;
         }));
+
       case types.removeGroup:
         return state.filter(function (g) {
           return g.id !== group.id;
         });
+
       case types.resetSuccess:
         return [];
+
       default:
         return state;
     }
@@ -52,8 +66,9 @@ function getDataReducer(types) {
 function getSearchFilterReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var _ref2 = arguments[1];
-    var type = _ref2.type,
+
+    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref2.type,
         searchFilter = _ref2.searchFilter;
 
     switch (type) {
@@ -61,7 +76,9 @@ function getSearchFilterReducer(types) {
         if (searchFilter !== null && searchFilter !== undefined) {
           return searchFilter;
         }
+
         return state;
+
       default:
         return state;
     }
@@ -71,13 +88,15 @@ function getSearchFilterReducer(types) {
 function getCurrentGroupIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
+
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type,
         groupId = _ref3.groupId;
 
     switch (type) {
       case types.updateCurrentGroupId:
         return groupId;
+
       default:
         return state;
     }
@@ -87,15 +106,18 @@ function getCurrentGroupIdReducer(types) {
 function getTimestampReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
+
+    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref4.type,
         timestamp = _ref4.timestamp;
 
     switch (type) {
       case types.fetchSuccess:
         return timestamp;
+
       case types.resetSuccess:
         return null;
+
       default:
         return state;
     }
@@ -104,9 +126,8 @@ function getTimestampReducer(types) {
 
 function getReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
-    status: (0, _getModuleStatusReducer2.default)(types),
+  return (0, _redux.combineReducers)(_objectSpread({}, reducers, {
+    status: (0, _getModuleStatusReducer.default)(types),
     searchFilter: getSearchFilterReducer(types),
     currentGroupId: getCurrentGroupIdReducer(types)
   }));

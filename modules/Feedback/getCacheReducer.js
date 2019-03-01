@@ -1,4 +1,6 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -9,18 +11,19 @@ exports.getSubjectReducer = getSubjectReducer;
 exports.getDescriptionReducer = getDescriptionReducer;
 exports.default = getCacheReducer;
 
-var _redux = require('redux');
+var _redux = require("redux");
 
 function getReducer(type, cleanType) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var action = arguments[1];
+    var action = arguments.length > 1 ? arguments[1] : undefined;
 
     if (action.type === type) {
       return action.value;
     } else if (action.type === cleanType) {
       return '';
     }
+
     return state;
   };
 }

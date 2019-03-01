@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/ChromeTransport/index.js"],"names":["ClientTransport","ServerTransport"],"mappings":";;;;;;;;;;;;;;;;;QACOA,e;QACAC,e","file":"index.js","sourcesContent":["\nexport ClientTransport from './ClientTransport';\nexport ServerTransport from './ServerTransport';\n"]}
+{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"index.js"}

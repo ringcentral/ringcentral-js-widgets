@@ -1,16 +1,17 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _HashMap = require('../lib/HashMap');
-
-var _HashMap2 = _interopRequireDefault(_HashMap);
+var _HashMap = _interopRequireDefault(require("../lib/HashMap"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _HashMap2.default({
+var _default = new _HashMap.default({
   IPPhoneOffline: 'IP Phone offline',
   abandoned: 'Abandoned',
   account: 'Account',
@@ -26,7 +27,8 @@ exports.default = new _HashMap2.default({
   faxReceiptError: 'Fax Receipt Error',
   faxSendError: 'Fax Send Error',
   hangUp: 'Hang up',
-  HangUp: 'Hang Up', // The Platform not only returns 'Hang up' but alse 'Hang Up', So we add two Key
+  HangUp: 'Hang Up',
+  // The Platform not only returns 'Hang up' but alse 'Hang Up', So we add two Key
   internalError: 'Internal Error',
   internationalDisabled: 'International Disabled',
   internationalRestriction: 'International Restriction',
@@ -54,4 +56,6 @@ exports.default = new _HashMap2.default({
   suspendedAccount: 'Suspended Account',
   disconnected: 'Disconnected'
 });
+
+exports.default = _default;
 //# sourceMappingURL=callResults.js.map

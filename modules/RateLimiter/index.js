@@ -1,120 +1,111 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.index-of");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.create");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.reduce");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.iterator");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("regenerator-runtime/runtime");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.date.now");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _di = require("../../lib/di");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _getRateLimiterReducer = _interopRequireWildcard(require("./getRateLimiterReducer"));
 
-var _dec, _class, _desc, _value, _class2;
+var _errorMessages = _interopRequireDefault(require("./errorMessages"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _dec, _class, _class2, _temp;
 
-var _di = require('../../lib/di');
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _getRateLimiterReducer = require('./getRateLimiterReducer');
-
-var _getRateLimiterReducer2 = _interopRequireDefault(_getRateLimiterReducer);
-
-var _errorMessages = require('./errorMessages');
-
-var _errorMessages2 = _interopRequireDefault(_errorMessages);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_THROTTLE_DURATION = 61 * 1000;
 var DEFAULT_ALERT_TTL = 5 * 1000;
-
 /**
  * @class
  * @description Rate limiter managing module
  */
+
 var RateLimiter = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', { dep: 'Environment', optional: true }, 'GlobalStorage', { dep: 'RateLimiterOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(RateLimiter, _RcModule);
+  deps: ['Alert', 'Client', {
+    dep: 'Environment',
+    optional: true
+  }, 'GlobalStorage', {
+    dep: 'RateLimiterOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 = (_temp =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(RateLimiter, _RcModule);
 
   /**
    * @constructor
@@ -126,22 +117,25 @@ var RateLimiter = (_dec = (0, _di.Module)({
    * @param {Number} params.throttleDuration - throttle duration, default 61 seconds
    */
   function RateLimiter(_ref) {
+    var _this;
+
     var alert = _ref.alert,
         client = _ref.client,
         environment = _ref.environment,
         globalStorage = _ref.globalStorage,
         _ref$throttleDuration = _ref.throttleDuration,
-        throttleDuration = _ref$throttleDuration === undefined ? DEFAULT_THROTTLE_DURATION : _ref$throttleDuration,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'environment', 'globalStorage', 'throttleDuration']);
-    (0, _classCallCheck3.default)(this, RateLimiter);
+        throttleDuration = _ref$throttleDuration === void 0 ? DEFAULT_THROTTLE_DURATION : _ref$throttleDuration,
+        options = _objectWithoutProperties(_ref, ["alert", "client", "environment", "globalStorage", "throttleDuration"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (RateLimiter.__proto__ || (0, _getPrototypeOf2.default)(RateLimiter)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, RateLimiter);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RateLimiter).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
 
     _this._beforeRequestHandler = function () {
       if (_this.throttling) {
-        throw new Error(_errorMessages2.default.rateLimitReached);
+        throw new Error(_errorMessages.default.rateLimitReached);
       }
     };
 
@@ -156,13 +150,16 @@ var RateLimiter = (_dec = (0, _di.Module)({
     _this._requestErrorHandler = function (apiResponse) {
       if (apiResponse instanceof Error && apiResponse.message === 'Request rate exceeded') {
         var wasThrottling = _this.throttling;
+
         _this.store.dispatch({
           type: _this.actionTypes.startThrottle,
           timestamp: Date.now()
         });
+
         if (!wasThrottling) {
           _this.showAlert();
         }
+
         setTimeout(_this._checkTimestamp, _this._throttleDuration);
       }
     };
@@ -173,62 +170,72 @@ var RateLimiter = (_dec = (0, _di.Module)({
     _this._storage = globalStorage;
     _this._throttleDuration = throttleDuration;
     _this._storageKey = 'rateLimiterTimestamp';
-    _this._reducer = (0, _getRateLimiterReducer2.default)(_this.actionTypes);
+    _this._reducer = (0, _getRateLimiterReducer.default)(_this.actionTypes);
+
     _this._storage.registerReducer({
       key: _this._storageKey,
       reducer: (0, _getRateLimiterReducer.getTimestampReducer)(_this.actionTypes)
     });
+
     _this._timeoutId = null;
     _this._lastEnvironmentCounter = 0;
     return _this;
   }
 
-  (0, _createClass3.default)(RateLimiter, [{
-    key: 'initialize',
+  _createClass(RateLimiter, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
-      this.store.subscribe((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      this.store.subscribe(
+      /*#__PURE__*/
+      _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!_this2.ready && _this2._storage.ready && (!_this2._environment || _this2._environment.ready)) {
                   _this2._bindHandlers();
+
                   _this2.store.dispatch({
                     type: _this2.actionTypes.initSuccess
                   });
                 } else if (_this2.ready && _this2._environment && _this2._environment.changeCounter !== _this2._lastEnvironmentCounter) {
                   _this2._lastEnvironmentCounter = _this2._environment.changeCounter;
+
                   _this2._bindHandlers();
                 }
 
               case 1:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2);
+        }, _callee);
       })));
     }
   }, {
-    key: 'showAlert',
+    key: "showAlert",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _showAlert = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (this.throttling && this._alert) {
                   this._alert.danger({
-                    message: _errorMessages2.default.rateLimitReached,
+                    message: _errorMessages.default.rateLimitReached,
                     ttl: DEFAULT_ALERT_TTL,
                     allowDuplicates: false
                   });
                 }
 
               case 1:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -236,22 +243,25 @@ var RateLimiter = (_dec = (0, _di.Module)({
       }));
 
       function showAlert() {
-        return _ref3.apply(this, arguments);
+        return _showAlert.apply(this, arguments);
       }
 
       return showAlert;
     }()
   }, {
-    key: '_bindHandlers',
+    key: "_bindHandlers",
     value: function _bindHandlers() {
       var _this3 = this;
 
       if (this._unbindHandlers) {
         this._unbindHandlers();
       }
+
       var client = this._client.service.platform().client();
+
       client.on(client.events.requestError, this._requestErrorHandler);
       client.on(client.events.beforeRequest, this._beforeRequestHandler);
+
       this._unbindHandlers = function () {
         client.removeListener(client.events.requestError, _this3._requestErrorHandler);
         client.removeListener(client.events.beforeRequest, _this3._beforeRequestHandler);
@@ -259,37 +269,38 @@ var RateLimiter = (_dec = (0, _di.Module)({
       };
     }
   }, {
-    key: 'ttl',
+    key: "ttl",
     get: function get() {
       return this.throttling ? this._throttleDuration - (Date.now() - this.timestamp) : 0;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'timestamp',
+    key: "timestamp",
     get: function get() {
       return this._storage.getItem(this._storageKey);
     }
   }, {
-    key: 'throttleDuration',
+    key: "throttleDuration",
     get: function get() {
       return this._throttleDuration;
     }
   }, {
-    key: 'throttling',
+    key: "throttling",
     get: function get() {
       return Date.now() - this._storage.getItem(this._storageKey) <= this._throttleDuration;
     }
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses2.default.ready;
+      return this.state.status === _moduleStatuses.default.ready;
     }
   }]);
+
   return RateLimiter;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype)), _class2)) || _class);
 exports.default = RateLimiter;
 //# sourceMappingURL=index.js.map

@@ -1,116 +1,145 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.for-each");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.filter");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/web.dom.iterable");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.keys");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.define-property");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.create");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.object.assign");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _di = require("../../lib/di");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _StorageBase2 = _interopRequireDefault(require("../../lib/StorageBase"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _dec, _class;
 
-var _di = require('../../lib/di');
-
-var _StorageBase2 = require('../../lib/StorageBase');
-
-var _StorageBase3 = _interopRequireDefault(_StorageBase2);
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var GlobalStorage = (
 /**
  * @class
  * @description Alternative implementation of the Storage class.
  *  Allows registeration of reducers so that persisted states can be computed with reducers.
  */
-var GlobalStorage = (_dec = (0, _di.Module)({
-  deps: [{ dep: 'GlobalStorageOptions', optional: true }]
-}), _dec(_class = function (_StorageBase) {
-  (0, _inherits3.default)(GlobalStorage, _StorageBase);
+_dec = (0, _di.Module)({
+  deps: [{
+    dep: 'GlobalStorageOptions',
+    optional: true
+  }]
+}), _dec(_class =
+/*#__PURE__*/
+function (_StorageBase) {
+  _inherits(GlobalStorage, _StorageBase);
 
   /**
    * @constructor
    */
   function GlobalStorage(_ref) {
-    var options = (0, _objectWithoutProperties3.default)(_ref, []);
-    (0, _classCallCheck3.default)(this, GlobalStorage);
-    return (0, _possibleConstructorReturn3.default)(this, (GlobalStorage.__proto__ || (0, _getPrototypeOf2.default)(GlobalStorage)).call(this, (0, _extends3.default)({
+    var options = Object.assign({}, _ref);
+
+    _classCallCheck(this, GlobalStorage);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(GlobalStorage).call(this, _objectSpread({
       name: 'globalStorage'
     }, options)));
   }
 
-  (0, _createClass3.default)(GlobalStorage, [{
-    key: 'initialize',
+  _createClass(GlobalStorage, [{
+    key: "initialize",
     value: function initialize() {
-      var _this2 = this;
+      var _this = this;
 
       var storedData = null;
-      var storageKey = (this.prefix ? this.prefix + '-' : '') + 'GlobalStorage';
+      var storageKey = "".concat(this.prefix ? "".concat(this.prefix, "-") : '', "GlobalStorage");
       this._storage = new this._StorageProvider({
         storageKey: storageKey
       });
       storedData = this._storage.getData();
+
       for (var key in storedData) {
         if (!this._reducers[key]) {
           delete storedData[key];
+
           this._storage.removeItem(key);
         }
       }
+
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
         storageKey: storageKey,
         data: storedData
       });
+
       this._storageHandler = function (_ref2) {
         var key = _ref2.key,
             value = _ref2.value;
 
-        if (_this2.ready) {
+        if (_this.ready) {
           storedData[key] = value;
-          _this2.store.dispatch({
-            type: _this2.actionTypes.sync,
+
+          _this.store.dispatch({
+            type: _this.actionTypes.sync,
             key: key,
             value: value
           });
         }
       };
+
       this._storage.on('storage', this._storageHandler);
+
       this.store.subscribe(function () {
-        if (_this2.status !== _moduleStatuses2.default.pending) {
+        if (_this.status !== _moduleStatuses.default.pending) {
           // save new data to storage when changed
-          var currentData = _this2.data;
+          var currentData = _this.data;
+
           for (var _key in currentData) {
             if (storedData[_key] !== currentData[_key]) {
-              _this2._storage.setItem(_key, currentData[_key]);
+              _this._storage.setItem(_key, currentData[_key]);
+
               storedData[_key] = currentData[_key];
             }
           }
@@ -118,7 +147,8 @@ var GlobalStorage = (_dec = (0, _di.Module)({
       });
     }
   }]);
+
   return GlobalStorage;
-}(_StorageBase3.default)) || _class);
+}(_StorageBase2.default)) || _class);
 exports.default = GlobalStorage;
 //# sourceMappingURL=index.js.map

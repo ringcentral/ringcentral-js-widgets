@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/proxy/index.js"],"names":["getProxyServer","getProxyClient","proxify"],"mappings":";;;;;;;;;;;;;;;;;;;;;QAAOA,c;QACAC,c;QACAC,O","file":"index.js","sourcesContent":["export getProxyServer from './getProxyServer';\nexport getProxyClient from './getProxyClient';\nexport proxify from './proxify';\n"]}
+{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"index.js"}

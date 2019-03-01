@@ -1,4 +1,6 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,31 +8,28 @@ Object.defineProperty(exports, "__esModule", {
 exports.getRingoutStatusReducer = getRingoutStatusReducer;
 exports.default = getRingoutReducer;
 
-var _redux = require('redux');
+var _redux = require("redux");
 
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
+var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
-
-var _ringoutStatus = require('./ringoutStatus');
-
-var _ringoutStatus2 = _interopRequireDefault(_ringoutStatus);
+var _ringoutStatus = _interopRequireDefault(require("./ringoutStatus"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getRingoutStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ringoutStatus2.default.idle;
-    var _ref = arguments[1];
-    var type = _ref.type;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ringoutStatus.default.idle;
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type;
 
     switch (type) {
       case types.startToConnect:
-        return _ringoutStatus2.default.connecting;
+        return _ringoutStatus.default.connecting;
 
       case types.connectSuccess:
       case types.connectError:
-        return _ringoutStatus2.default.idle;
+        return _ringoutStatus.default.idle;
 
       default:
         return state;
@@ -40,7 +39,7 @@ function getRingoutStatusReducer(types) {
 
 function getRingoutReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer2.default)(types),
+    status: (0, _getModuleStatusReducer.default)(types),
     ringoutStatus: getRingoutStatusReducer(types)
   });
 }

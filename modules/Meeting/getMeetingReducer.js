@@ -1,37 +1,68 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.filter");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getMeetingInfoReducer = getMeetingInfoReducer;
 exports.getMeetingSchedulingStatusReducer = getMeetingSchedulingStatusReducer;
+exports.getMeetingUpdatingStatusReducer = getMeetingUpdatingStatusReducer;
 exports.getMeetingStorageReducer = getMeetingStorageReducer;
+exports.default = void 0;
 
-var _redux = require('redux');
+require("core-js/modules/es6.string.iterator");
 
-var _scheduleStatus = require('./scheduleStatus');
+require("core-js/modules/es6.array.from");
 
-var _scheduleStatus2 = _interopRequireDefault(_scheduleStatus);
+require("core-js/modules/es6.regexp.to-string");
 
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
+require("core-js/modules/es6.date.to-string");
 
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.is-array");
+
+var _redux = require("redux");
+
+var _ramda = require("ramda");
+
+var _scheduleStatus = _interopRequireDefault(require("./scheduleStatus"));
+
+var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 function getMeetingInfoReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         _ref$meeting = _ref.meeting,
-        meeting = _ref$meeting === undefined ? null : _ref$meeting;
+        meeting = _ref$meeting === void 0 ? null : _ref$meeting;
 
     switch (type) {
       case types.updateMeeting:
         return meeting;
+
       case types.clearMeeting:
         return null;
+
       default:
         return state;
     }
@@ -40,17 +71,48 @@ function getMeetingInfoReducer(types) {
 
 function getMeetingSchedulingStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _scheduleStatus2.default.idle;
-    var _ref2 = arguments[1];
-    var type = _ref2.type;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _scheduleStatus.default.idle;
+
+    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref2.type;
 
     switch (type) {
       case types.initScheduling:
-        return _scheduleStatus2.default.scheduling;
+        return _scheduleStatus.default.scheduling;
+
       case types.scheduled:
-        return _scheduleStatus2.default.scheduled;
+        return _scheduleStatus.default.scheduled;
+
       case types.resetScheduling:
-        return _scheduleStatus2.default.idle;
+        return _scheduleStatus.default.idle;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getMeetingUpdatingStatusReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type,
+        meetingId = _ref3.meetingId;
+
+    switch (type) {
+      case types.initUpdating:
+        return [].concat(_toConsumableArray(state), [{
+          // using object type for further recording
+          meetingId: meetingId
+        }]);
+
+      case types.updated:
+      case types.resetUpdating:
+        return (0, _ramda.filter)(function (obj) {
+          return obj.meetingId !== meetingId;
+        }, state);
+
       default:
         return state;
     }
@@ -60,10 +122,11 @@ function getMeetingSchedulingStatusReducer(types) {
 function getMeetingStorageReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        _ref3$meeting = _ref3.meeting,
-        meeting = _ref3$meeting === undefined ? null : _ref3$meeting;
+
+    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref4.type,
+        _ref4$meeting = _ref4.meeting,
+        meeting = _ref4$meeting === void 0 ? null : _ref4$meeting;
 
     switch (type) {
       case types.scheduled:
@@ -74,17 +137,21 @@ function getMeetingStorageReducer(types) {
           audioOptions: meeting.audioOptions,
           _saved: meeting._saved
         } : {};
+
       default:
         return state;
     }
   };
 }
 
-exports.default = function (types) {
+var _default = function _default(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer2.default)(types),
+    status: (0, _getModuleStatusReducer.default)(types),
     meeting: getMeetingInfoReducer(types),
-    schedulingStatus: getMeetingSchedulingStatusReducer(types)
+    schedulingStatus: getMeetingSchedulingStatusReducer(types),
+    updatingStatus: getMeetingUpdatingStatusReducer(types)
   });
 };
+
+exports.default = _default;
 //# sourceMappingURL=getMeetingReducer.js.map

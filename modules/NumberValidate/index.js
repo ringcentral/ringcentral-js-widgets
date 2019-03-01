@@ -1,123 +1,111 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.index-of");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.create");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.reduce");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.iterator");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.map");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("regenerator-runtime/runtime");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _phoneNumber = require("@ringcentral-integration/phone-number");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _di = require("../../lib/di");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _dec, _class, _desc, _value, _class2;
+var _normalizeNumber = _interopRequireDefault(require("../../lib/normalizeNumber"));
 
-var _phoneNumber = require('@ringcentral-integration/phone-number');
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _numberValidateActionTypes = _interopRequireDefault(require("./numberValidateActionTypes"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _getNumberValidateReducer = _interopRequireDefault(require("./getNumberValidateReducer"));
 
-var _di = require('../../lib/di');
-
-var _isBlank = require('../../lib/isBlank');
-
-var _isBlank2 = _interopRequireDefault(_isBlank);
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _normalizeNumber = require('../../lib/normalizeNumber');
-
-var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _numberValidateActionTypes = require('./numberValidateActionTypes');
-
-var _numberValidateActionTypes2 = _interopRequireDefault(_numberValidateActionTypes);
-
-var _getNumberValidateReducer = require('./getNumberValidateReducer');
-
-var _getNumberValidateReducer2 = _interopRequireDefault(_getNumberValidateReducer);
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var NumberValidate = (
 /**
  * @class
  * @description Validate number with number parser api
  */
-var NumberValidate = (_dec = (0, _di.Module)({
-  deps: ['Brand', 'Client', 'AccountExtension', 'RegionSettings', 'AccountInfo']
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(NumberValidate, _RcModule);
+_dec = (0, _di.Module)({
+  deps: ['Brand', 'Client', 'RegionSettings', 'AccountInfo', {
+    dep: 'AccountExtension',
+    optional: true
+  }, {
+    dep: 'AccountDirectory',
+    optional: true
+  }]
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(NumberValidate, _RcModule);
 
   /**
    * @constructor
@@ -128,29 +116,38 @@ var NumberValidate = (_dec = (0, _di.Module)({
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    */
   function NumberValidate(_ref) {
+    var _this;
+
     var brand = _ref.brand,
         client = _ref.client,
         accountExtension = _ref.accountExtension,
+        accountDirectory = _ref.accountDirectory,
         regionSettings = _ref.regionSettings,
         accountInfo = _ref.accountInfo,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['brand', 'client', 'accountExtension', 'regionSettings', 'accountInfo']);
-    (0, _classCallCheck3.default)(this, NumberValidate);
+        options = _objectWithoutProperties(_ref, ["brand", "client", "accountExtension", "accountDirectory", "regionSettings", "accountInfo"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (NumberValidate.__proto__ || (0, _getPrototypeOf2.default)(NumberValidate)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _numberValidateActionTypes2.default
+    _classCallCheck(this, NumberValidate);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(NumberValidate).call(this, _objectSpread({}, options, {
+      actionTypes: _numberValidateActionTypes.default
     })));
-
     _this._brand = brand;
     _this._client = client;
-    _this._accountExtension = accountExtension;
+
+    if (accountDirectory) {
+      _this._accountDirectory = accountDirectory;
+    } else {
+      _this._accountDirectory = accountExtension;
+    }
+
     _this._regionSettings = regionSettings;
     _this._accountInfo = accountInfo;
-    _this._reducer = (0, _getNumberValidateReducer2.default)(_this.actionTypes);
+    _this._reducer = (0, _getNumberValidateReducer.default)(_this.actionTypes);
     return _this;
   }
 
-  (0, _createClass3.default)(NumberValidate, [{
-    key: 'initialize',
+  _createClass(NumberValidate, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -159,7 +156,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function _onStateChange() {
       if (this._shouldInit()) {
         this._initModuleStatus();
@@ -168,33 +165,33 @@ var NumberValidate = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: '_shouldInit',
+    key: "_shouldInit",
     value: function _shouldInit() {
-      return this._brand.ready && this._regionSettings.ready && this._accountExtension.ready && this._accountInfo.ready && !this.ready;
+      return this._brand.ready && this._regionSettings.ready && this._accountDirectory.ready && this._accountInfo.ready && !this.ready;
     }
   }, {
-    key: '_initModuleStatus',
+    key: "_initModuleStatus",
     value: function _initModuleStatus() {
       this.store.dispatch({
         type: this.actionTypes.initSuccess
       });
     }
   }, {
-    key: '_shouldReset',
+    key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._brand.ready || !this._accountInfo.ready || !this._regionSettings.ready || !this._accountExtension.ready) && this.ready;
+      return (!this._brand.ready || !this._accountInfo.ready || !this._regionSettings.ready || !this._accountDirectory.ready) && this.ready;
     }
   }, {
-    key: '_resetModuleStatus',
+    key: "_resetModuleStatus",
     value: function _resetModuleStatus() {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess
       });
     }
   }, {
-    key: 'isNoToNumber',
+    key: "isNoToNumber",
     value: function isNoToNumber(input) {
-      if ((0, _isBlank2.default)(input)) {
+      if ((0, _isBlank.default)(input)) {
         return true;
       }
 
@@ -209,10 +206,11 @@ var NumberValidate = (_dec = (0, _di.Module)({
       if (hasInvalidChars || !isValid) {
         return true;
       }
+
       return false;
     }
   }, {
-    key: 'isNoAreaCode',
+    key: "isNoAreaCode",
     value: function isNoAreaCode(input) {
       var _parse2 = (0, _phoneNumber.parse)({
         input: input,
@@ -223,50 +221,60 @@ var NumberValidate = (_dec = (0, _di.Module)({
           phoneNumber = _parse2.phoneNumber,
           isServiceNumber = _parse2.isServiceNumber;
 
-      var _regionSettings = this._regionSettings,
-          countryCode = _regionSettings.countryCode,
-          areaCode = _regionSettings.areaCode;
+      var _this$_regionSettings = this._regionSettings,
+          countryCode = _this$_regionSettings.countryCode,
+          areaCode = _this$_regionSettings.areaCode;
 
       if (this._brand.id === '1210' && !isServiceNumber && !hasPlus && phoneNumber.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '') {
         return true;
       }
+
       return false;
     }
   }, {
-    key: '_isSpecial',
+    key: "_isSpecial",
     value: function _isSpecial(phoneNumber) {
       if (phoneNumber && phoneNumber.special) {
         return true;
       }
+
       return false;
     }
   }, {
-    key: 'isNotAnExtension',
+    key: "isNotAnExtension",
     value: function isNotAnExtension(extensionNumber) {
-      if (extensionNumber && extensionNumber.length <= 6 && !this._accountExtension.isAvailableExtension(extensionNumber)) {
+      if (extensionNumber && extensionNumber.length <= 6 && !this._accountDirectory.isAvailableExtension(extensionNumber)) {
         return true;
       }
+
       return false;
     }
   }, {
-    key: 'isCompanyExtension',
+    key: "isCompanyExtension",
     value: function isCompanyExtension(companyNumber, extensionNumber) {
-      var _regionSettings2 = this._regionSettings,
-          countryCode = _regionSettings2.countryCode,
-          areaCode = _regionSettings2.areaCode;
+      var _this$_regionSettings2 = this._regionSettings,
+          countryCode = _this$_regionSettings2.countryCode,
+          areaCode = _this$_regionSettings2.areaCode;
+      var normalizedCompanyNumber = (0, _normalizeNumber.default)({
+        phoneNumber: companyNumber,
+        countryCode: countryCode,
+        areaCode: areaCode
+      });
 
-      var normalizedCompanyNumber = (0, _normalizeNumber2.default)({ phoneNumber: companyNumber, countryCode: countryCode, areaCode: areaCode });
       if (normalizedCompanyNumber !== this._accountInfo.mainCompanyNumber) {
         return false;
       }
-      return this._accountExtension.isAvailableExtension(extensionNumber);
+
+      return this._accountDirectory.isAvailableExtension(extensionNumber);
     }
   }, {
-    key: 'validateNumbers',
+    key: "validateNumbers",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(phoneNumbers) {
+      var _validateNumbers = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(phoneNumbers) {
         var validateResult, validatedNumbers;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -277,7 +285,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                return _context.abrupt('return', validateResult);
+                return _context.abrupt("return", validateResult);
 
               case 3:
                 _context.next = 5;
@@ -285,10 +293,10 @@ var NumberValidate = (_dec = (0, _di.Module)({
 
               case 5:
                 validatedNumbers = _context.sent;
-                return _context.abrupt('return', validatedNumbers);
+                return _context.abrupt("return", validatedNumbers);
 
               case 7:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -296,25 +304,33 @@ var NumberValidate = (_dec = (0, _di.Module)({
       }));
 
       function validateNumbers(_x) {
-        return _ref2.apply(this, arguments);
+        return _validateNumbers.apply(this, arguments);
       }
 
       return validateNumbers;
     }()
   }, {
-    key: 'validateFormat',
+    key: "validateFormat",
     value: function validateFormat(phoneNumbers) {
       var _this3 = this;
 
       var errors = [];
       phoneNumbers.map(function (phoneNumber) {
         if (_this3.isNoToNumber(phoneNumber)) {
-          errors.push({ phoneNumber: phoneNumber, type: 'noToNumber' });
+          errors.push({
+            phoneNumber: phoneNumber,
+            type: 'noToNumber'
+          });
           return null;
         }
+
         if (_this3.isNoAreaCode(phoneNumber)) {
-          errors.push({ phoneNumber: phoneNumber, type: 'noAreaCode' });
+          errors.push({
+            phoneNumber: phoneNumber,
+            type: 'noAreaCode'
+          });
         }
+
         return null;
       });
       return {
@@ -323,13 +339,15 @@ var NumberValidate = (_dec = (0, _di.Module)({
       };
     }
   }, {
-    key: 'validateWithNumberParser',
+    key: "validateWithNumberParser",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(phoneNumbers) {
+      var _validateWithNumberParser = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(phoneNumbers) {
         var _this4 = this;
 
         var pasedNumers, errors, validatedPhoneNumbers;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -340,27 +358,34 @@ var NumberValidate = (_dec = (0, _di.Module)({
                 pasedNumers = _context2.sent;
                 errors = [];
                 validatedPhoneNumbers = [];
-
                 pasedNumers.map(function (phoneNumber) {
                   if (_this4._isSpecial(phoneNumber)) {
-                    errors.push({ phoneNumber: phoneNumber.originalString, type: 'specialNumber' });
+                    errors.push({
+                      phoneNumber: phoneNumber.originalString,
+                      type: 'specialNumber'
+                    });
                     return null;
                   }
+
                   if (_this4.isNotAnExtension(phoneNumber.originalString)) {
-                    errors.push({ phoneNumber: phoneNumber.originalString, type: 'notAnExtension' });
+                    errors.push({
+                      phoneNumber: phoneNumber.originalString,
+                      type: 'notAnExtension'
+                    });
                     return null;
                   }
+
                   validatedPhoneNumbers.push(phoneNumber);
                   return null;
                 });
-                return _context2.abrupt('return', {
+                return _context2.abrupt("return", {
                   result: errors.length === 0,
                   numbers: validatedPhoneNumbers,
                   errors: errors
                 });
 
               case 7:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -368,39 +393,47 @@ var NumberValidate = (_dec = (0, _di.Module)({
       }));
 
       function validateWithNumberParser(_x2) {
-        return _ref3.apply(this, arguments);
+        return _validateWithNumberParser.apply(this, arguments);
       }
 
       return validateWithNumberParser;
     }()
   }, {
-    key: '_numberParser',
+    key: "_numberParser",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(phoneNumbers) {
-        var _regionSettings3, countryCode, areaCode, homeCountry, normalizedNumbers, response;
+      var _numberParser2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(phoneNumbers) {
+        var _this$_regionSettings3, countryCode, areaCode, homeCountry, normalizedNumbers, response;
 
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _regionSettings3 = this._regionSettings, countryCode = _regionSettings3.countryCode, areaCode = _regionSettings3.areaCode;
-                homeCountry = countryCode ? { homeCountry: countryCode } : {};
+                _this$_regionSettings3 = this._regionSettings, countryCode = _this$_regionSettings3.countryCode, areaCode = _this$_regionSettings3.areaCode;
+                homeCountry = countryCode ? {
+                  homeCountry: countryCode
+                } : {};
                 normalizedNumbers = phoneNumbers.map(function (phoneNumber) {
-                  return (0, _normalizeNumber2.default)({ phoneNumber: phoneNumber, countryCode: countryCode, areaCode: areaCode });
+                  return (0, _normalizeNumber.default)({
+                    phoneNumber: phoneNumber,
+                    countryCode: countryCode,
+                    areaCode: areaCode
+                  });
                 });
                 _context3.next = 5;
                 return this._numberParserApi(normalizedNumbers, homeCountry);
 
               case 5:
                 response = _context3.sent;
-                return _context3.abrupt('return', response.phoneNumbers.map(function (phoneNumber) {
-                  return (0, _extends3.default)({}, phoneNumber, {
+                return _context3.abrupt("return", response.phoneNumbers.map(function (phoneNumber) {
+                  return _objectSpread({}, phoneNumber, {
                     international: !!phoneNumber.country && phoneNumber.country.callingCode !== response.homeCountry.callingCode
                   });
                 }));
 
               case 7:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -408,17 +441,19 @@ var NumberValidate = (_dec = (0, _di.Module)({
       }));
 
       function _numberParser(_x3) {
-        return _ref4.apply(this, arguments);
+        return _numberParser2.apply(this, arguments);
       }
 
       return _numberParser;
     }()
   }, {
-    key: '_numberParserApi',
+    key: "_numberParserApi",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(originalStrings, homeCountry) {
+      var _numberParserApi2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4(originalStrings, homeCountry) {
         var response;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -429,10 +464,10 @@ var NumberValidate = (_dec = (0, _di.Module)({
 
               case 2:
                 response = _context4.sent;
-                return _context4.abrupt('return', response);
+                return _context4.abrupt("return", response);
 
               case 4:
-              case 'end':
+              case "end":
                 return _context4.stop();
             }
           }
@@ -440,23 +475,24 @@ var NumberValidate = (_dec = (0, _di.Module)({
       }));
 
       function _numberParserApi(_x4, _x5) {
-        return _ref5.apply(this, arguments);
+        return _numberParserApi2.apply(this, arguments);
       }
 
       return _numberParserApi;
     }()
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
-      return this.status === _moduleStatuses2.default.ready;
+      return this.status === _moduleStatuses.default.ready;
     }
   }]);
+
   return NumberValidate;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'validateNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'validateNumbers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'validateWithNumberParser', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'validateWithNumberParser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_numberParser', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_numberParser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_numberParserApi', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_numberParserApi'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "validateNumbers", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "validateNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "validateWithNumberParser", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "validateWithNumberParser"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_numberParser", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_numberParser"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_numberParserApi", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_numberParserApi"), _class2.prototype)), _class2)) || _class);
 exports.default = NumberValidate;
 //# sourceMappingURL=index.js.map

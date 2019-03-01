@@ -1,38 +1,50 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 exports.getConversationListReducer = getConversationListReducer;
 exports.getConversationStoreReducer = getConversationStoreReducer;
 exports.getTimestampReducer = getTimestampReducer;
 exports.getSyncInfoReducer = getSyncInfoReducer;
 exports.default = getDataReducer;
 
-var _redux = require('redux');
+require("core-js/modules/es6.object.define-property");
 
-var _messageHelper = require('../../lib/messageHelper');
+require("core-js/modules/es6.array.reduce");
 
-var messageHelper = _interopRequireWildcard(_messageHelper);
+require("core-js/modules/es6.array.iterator");
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+require("core-js/modules/es6.object.keys");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+require("core-js/modules/es6.array.find-index");
+
+require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.array.sort");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.for-each");
+
+var _redux = require("redux");
+
+var messageHelper = _interopRequireWildcard(require("../../lib/messageHelper"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getConversationListReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         records = _ref.records,
         conversationId = _ref.conversationId,
         conversationStore = _ref.conversationStore,
@@ -40,6 +52,7 @@ function getConversationListReducer(types) {
 
     var newState = [];
     var stateMap = {};
+
     switch (type) {
       case types.conversationsISyncSuccess:
       case types.conversationsFSyncSuccess:
@@ -48,6 +61,7 @@ function getConversationListReducer(types) {
           if (!records || records.length === 0) {
             return state;
           }
+
           state.forEach(function (oldConversation) {
             newState.push(oldConversation);
             stateMap[oldConversation.id] = {
@@ -55,14 +69,17 @@ function getConversationListReducer(types) {
             };
           });
         }
+
         records.forEach(function (record) {
           var message = messageHelper.normalizeRecord(record);
           var id = message.conversationId;
           var newCreationTime = message.creationTime;
           var isDeleted = messageHelper.messageIsDeleted(message);
+
           if (stateMap[id]) {
             var oldConversation = newState[stateMap[id].index];
             var creationTime = oldConversation.creationTime;
+
             if (creationTime < newCreationTime && !isDeleted) {
               newState[stateMap[id].index] = {
                 id: id,
@@ -70,13 +87,15 @@ function getConversationListReducer(types) {
                 type: message.type,
                 messageId: message.id
               };
-            }
-            // when user deleted a coversation message
+            } // when user deleted a coversation message
+
+
             if (isDeleted && message.id === oldConversation.messageId) {
               var oldMessageList = conversationStore[id] || [];
               var exsitedMessageList = oldMessageList.filter(function (m) {
                 return m.id !== message.id;
               });
+
               if (exsitedMessageList.length > 0) {
                 newState[stateMap[id].index] = {
                   id: id,
@@ -85,16 +104,20 @@ function getConversationListReducer(types) {
                   messageId: exsitedMessageList[0].id
                 };
                 return;
-              }
-              // when user delete conversation
+              } // when user delete conversation
+
+
               newState[stateMap[id].index] = null;
               delete stateMap[id];
             }
+
             return;
           }
+
           if (isDeleted || !messageHelper.messageIsAcceptable(message)) {
             return;
           }
+
           newState.push({
             id: id,
             creationTime: newCreationTime,
@@ -108,6 +131,7 @@ function getConversationListReducer(types) {
         return newState.filter(function (c) {
           return !!c;
         }).sort(messageHelper.sortByCreationTime);
+
       case types.deleteConversation:
         return state.filter(function (c) {
           return c.id !== conversationId;
@@ -118,8 +142,10 @@ function getConversationListReducer(types) {
           var messageId = _ref2.messageId;
           return messageIds.indexOf(messageId) > -1;
         });
+
       case types.resetSuccess:
         return [];
+
       default:
         return state;
     }
@@ -129,14 +155,16 @@ function getConversationListReducer(types) {
 function getConversationStoreReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
+
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type,
         records = _ref3.records,
         conversationId = _ref3.conversationId,
         messageIds = _ref3.messageIds;
 
     var newState = {};
     var updatedConversations = {};
+
     switch (type) {
       case types.conversationsISyncSuccess:
       case types.conversationsFSyncSuccess:
@@ -145,8 +173,10 @@ function getConversationStoreReducer(types) {
           if (!records || records.length === 0) {
             return state;
           }
-          newState = (0, _extends3.default)({}, state);
+
+          newState = _objectSpread({}, state);
         }
+
         records.forEach(function (record) {
           var message = messageHelper.normalizeRecord(record);
           var id = message.conversationId;
@@ -154,15 +184,19 @@ function getConversationStoreReducer(types) {
           var oldMessageIndex = newMessages.findIndex(function (r) {
             return r.id === record.id;
           });
+
           if (messageHelper.messageIsDeleted(message)) {
             newState[id] = newMessages.filter(function (m) {
               return m.id !== message.id;
             });
+
             if (newState[id].length === 0) {
               delete newState[id];
             }
+
             return;
           }
+
           if (oldMessageIndex > -1) {
             if (newMessages[oldMessageIndex].lastModifiedTime < message.lastModifiedTime) {
               newMessages[oldMessageIndex] = message;
@@ -170,39 +204,47 @@ function getConversationStoreReducer(types) {
           } else if (messageHelper.messageIsAcceptable(message)) {
             newMessages.push(message);
           }
+
           updatedConversations[id] = 1;
           newState[id] = newMessages;
         });
-        (0, _keys2.default)(updatedConversations).forEach(function (id) {
+        Object.keys(updatedConversations).forEach(function (id) {
           var noSorted = newState[id];
           newState[id] = noSorted.sort(messageHelper.sortByCreationTime);
         });
         return newState;
+
       case types.deleteConversation:
         if (!state[conversationId]) {
           return state;
         }
-        newState = (0, _extends3.default)({}, state);
+
+        newState = _objectSpread({}, state);
         delete newState[conversationId];
         return newState;
+
       case types.sliceConversations:
         {
-          var keys = (0, _keys2.default)(state);
+          var keys = Object.keys(state);
           return keys.reduce(function (acc, key) {
             var messages = state[key];
             var persist = messages.filter(function (_ref4) {
               var id = _ref4.id;
               return messageIds.indexOf(id) > -1;
             });
+
             if (!persist.length) {
               return acc;
             }
+
             acc[key] = persist;
             return acc;
           }, {});
         }
+
       case types.resetSuccess:
         return {};
+
       default:
         return state;
     }
@@ -212,16 +254,19 @@ function getConversationStoreReducer(types) {
 function getTimestampReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref5 = arguments[1];
-    var type = _ref5.type,
+
+    var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref5.type,
         timestamp = _ref5.timestamp;
 
     switch (type) {
       case types.conversationsFSyncSuccess:
       case types.conversationsISyncSuccess:
         return timestamp;
+
       case types.resetSuccess:
         return null;
+
       default:
         return state;
     }
@@ -231,16 +276,19 @@ function getTimestampReducer(types) {
 function getSyncInfoReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref6 = arguments[1];
-    var type = _ref6.type,
+
+    var _ref6 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref6.type,
         syncInfo = _ref6.syncInfo;
 
     switch (type) {
       case types.conversationsFSyncSuccess:
       case types.conversationsISyncSuccess:
         return syncInfo;
+
       case types.resetSuccess:
         return null;
+
       default:
         return state;
     }

@@ -1,4 +1,6 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,6 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = RCBrandConfig;
 exports.ATTBrandConfig = ATTBrandConfig;
 exports.TelusBrandConfig = TelusBrandConfig;
+
 function RCBrandConfig() {
   return {
     brandId: '1210',

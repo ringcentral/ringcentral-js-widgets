@@ -1,118 +1,101 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.object.create");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _keys = require('babel-runtime/core-js/object/keys');
+require("core-js/modules/es6.object.define-property");
 
-var _keys2 = _interopRequireDefault(_keys);
+require("core-js/modules/es6.array.reduce");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.is-array");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.regexp.replace");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.date.to-iso-string");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.date.now");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("regenerator-runtime/runtime");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.index-of");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.keys");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/web.dom.iterable");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.for-each");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _di = require("../../lib/di");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _dec, _class, _desc, _value, _class2;
+var _syncTypes = _interopRequireDefault(require("../../enums/syncTypes"));
 
-var _di = require('../../lib/di');
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _Pollable2 = require('../../lib/Pollable');
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _Pollable3 = _interopRequireDefault(_Pollable2);
+var _contactHelper = require("../../lib/contactHelper");
 
-var _sleep = require('../../lib/sleep');
+var _getAddressBookReducer = _interopRequireWildcard(require("./getAddressBookReducer"));
 
-var _sleep2 = _interopRequireDefault(_sleep);
+var _dec, _class, _class2;
 
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _syncTypes = require('../../enums/syncTypes');
-
-var _syncTypes2 = _interopRequireDefault(_syncTypes);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _contactHelper = require('../../lib/contactHelper');
-
-var _getAddressBookReducer = require('./getAddressBookReducer');
-
-var _getAddressBookReducer2 = _interopRequireDefault(_getAddressBookReducer);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 var CONTACTS_PER_PAGE = 250;
 var DEFAULT_TTL = 30 * 60 * 1000;
@@ -129,26 +112,41 @@ function getSyncParams(syncToken, pageId) {
   var query = {
     perPage: CONTACTS_PER_PAGE
   };
+
   if (syncToken) {
     query.syncToken = syncToken;
-    query.syncType = _syncTypes2.default.iSync;
+    query.syncType = _syncTypes.default.iSync;
   } else {
-    query.syncType = _syncTypes2.default.fSync;
+    query.syncType = _syncTypes.default.fSync;
   }
+
   if (pageId) {
     query.pageId = pageId;
   }
+
   return query;
 }
-
 /**
  * @class
  * @description Accound book module to get user person contacts in RC
  */
+
+
 var AddressBook = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'RolesAndPermissions', { dep: 'Storage', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'AddressBookOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_Pollable) {
-  (0, _inherits3.default)(AddressBook, _Pollable);
+  deps: ['Client', 'Auth', 'RolesAndPermissions', {
+    dep: 'Storage',
+    optional: true
+  }, {
+    dep: 'TabManager',
+    optional: true
+  }, {
+    dep: 'AddressBookOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_Pollable) {
+  _inherits(AddressBook, _Pollable);
 
   /**
    * @constructor
@@ -163,30 +161,34 @@ var AddressBook = (_dec = (0, _di.Module)({
    * @param {Bool} params.disableCache - polling flag, default false
    */
   function AddressBook(_ref) {
+    var _this;
+
     var client = _ref.client,
         auth = _ref.auth,
         storage = _ref.storage,
         tabManager = _ref.tabManager,
         rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$ttl = _ref.ttl,
-        ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
+        ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
         _ref$timeToRetry = _ref.timeToRetry,
-        timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
+        timeToRetry = _ref$timeToRetry === void 0 ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
         _ref$polling = _ref.polling,
-        polling = _ref$polling === undefined ? true : _ref$polling,
+        polling = _ref$polling === void 0 ? true : _ref$polling,
         _ref$disableCache = _ref.disableCache,
-        disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'tabManager', 'rolesAndPermissions', 'ttl', 'timeToRetry', 'polling', 'disableCache']);
-    (0, _classCallCheck3.default)(this, AddressBook);
+        disableCache = _ref$disableCache === void 0 ? false : _ref$disableCache,
+        options = _objectWithoutProperties(_ref, ["client", "auth", "storage", "tabManager", "rolesAndPermissions", "ttl", "timeToRetry", "polling", "disableCache"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AddressBook.__proto__ || (0, _getPrototypeOf2.default)(AddressBook)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, AddressBook);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AddressBook).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
-
     _this._client = client;
+
     if (!disableCache) {
       _this._storage = storage;
     }
+
     _this._auth = auth;
     _this._tabManager = tabManager;
     _this._ttl = ttl;
@@ -197,22 +199,26 @@ var AddressBook = (_dec = (0, _di.Module)({
     _this._syncTokenStorageKey = 'contactsSyncToken';
     _this._syncTimestampStorageKey = 'contactsSyncTimestamp';
     _this._addressBookStorageKey = 'addressBookContactsList';
+
     if (_this._storage) {
-      _this._reducer = (0, _getAddressBookReducer2.default)(_this.actionTypes);
+      _this._reducer = (0, _getAddressBookReducer.default)(_this.actionTypes);
+
       _this._storage.registerReducer({
         key: _this._syncTokenStorageKey,
         reducer: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes)
       });
+
       _this._storage.registerReducer({
         key: _this._syncTimestampStorageKey,
         reducer: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
       });
+
       _this._storage.registerReducer({
         key: _this._addressBookStorageKey,
         reducer: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getAddressBookReducer2.default)(_this.actionTypes, {
+      _this._reducer = (0, _getAddressBookReducer.default)(_this.actionTypes, {
         contactList: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes),
         syncToken: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes),
         syncTimestamp: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
@@ -224,33 +230,37 @@ var AddressBook = (_dec = (0, _di.Module)({
     }, function (rawContacts) {
       var contactsList = [];
       rawContacts.forEach(function (rawContact) {
-        var contact = (0, _extends3.default)({
+        var contact = _objectSpread({
           type: _this.sourceName,
           phoneNumbers: [],
           emails: []
         }, rawContact);
-        contact.id = '' + contact.id;
-        contact.name = (contact.firstName || '') + ' ' + (contact.lastName || '');
+
+        contact.id = "".concat(contact.id);
+        contact.name = "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
         if (contact.email) contact.emails.push(contact.email);
         if (contact.email2) contact.emails.push(contact.email2);
-        (0, _keys2.default)(contact).forEach(function (key) {
+        Object.keys(contact).forEach(function (key) {
           if (key.toLowerCase().indexOf('phone') === -1) {
             return;
           }
+
           if (typeof contact[key] !== 'string') {
             return;
           }
+
           (0, _contactHelper.addPhoneToContact)(contact, contact[key], key);
         });
         contactsList.push(contact);
       });
       return contactsList;
     });
+
     return _this;
   }
 
-  (0, _createClass3.default)(AddressBook, [{
-    key: 'initialize',
+  _createClass(AddressBook, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -259,10 +269,12 @@ var AddressBook = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _onStateChange2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -274,6 +286,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.init
                 });
+
                 if (this._shouleCleanCache()) {
                   this._cleanUp();
                 }
@@ -309,7 +322,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                 }
 
               case 12:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -317,43 +330,45 @@ var AddressBook = (_dec = (0, _di.Module)({
       }));
 
       function _onStateChange() {
-        return _ref2.apply(this, arguments);
+        return _onStateChange2.apply(this, arguments);
       }
 
       return _onStateChange;
     }()
   }, {
-    key: '_shouldInit',
+    key: "_shouldInit",
     value: function _shouldInit() {
       return (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && this._rolesAndPermissions.ready && this._auth.loggedIn && this.pending;
     }
   }, {
-    key: '_shouldReset',
+    key: "_shouldReset",
     value: function _shouldReset() {
       return (!!this._storage && !this._storage.ready || !!this._tabManager && !this._tabManager.ready || !this._rolesAndPermissions.ready || !this._auth.loggedIn) && this.ready;
     }
   }, {
-    key: '_shouleCleanCache',
+    key: "_shouleCleanCache",
     value: function _shouleCleanCache() {
       return this._auth.isFreshLogin || !this.timestamp || Date.now() - this.timestamp > this._ttl;
     }
   }, {
-    key: '_shouldFetch',
+    key: "_shouldFetch",
     value: function _shouldFetch() {
       return (!this._storage || !this._tabManager || this._tabManager.active) && this._shouleCleanCache();
     }
   }, {
-    key: '_isDataReady',
+    key: "_isDataReady",
     value: function _isDataReady() {
       // only turns ready when data has been fetched
       // (could be from other tabs)
-      return this.status === _moduleStatuses2.default.initializing && this.syncTime !== null;
+      return this.status === _moduleStatuses.default.initializing && this.syncTime !== null;
     }
   }, {
-    key: '_initAddressBook',
+    key: "_initAddressBook",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _initAddressBook2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -362,7 +377,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                return _context2.abrupt('return');
+                return _context2.abrupt("return");
 
               case 2:
                 if (!this._shouldFetch()) {
@@ -380,8 +395,7 @@ var AddressBook = (_dec = (0, _di.Module)({
 
               case 8:
                 _context2.prev = 8;
-                _context2.t0 = _context2['catch'](3);
-
+                _context2.t0 = _context2["catch"](3);
                 console.error('syncData error:', _context2.t0);
 
               case 11:
@@ -396,7 +410,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                 }
 
               case 14:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -404,29 +418,33 @@ var AddressBook = (_dec = (0, _di.Module)({
       }));
 
       function _initAddressBook() {
-        return _ref3.apply(this, arguments);
+        return _initAddressBook2.apply(this, arguments);
       }
 
       return _initAddressBook;
     }()
   }, {
-    key: '_resetModuleStatus',
+    key: "_resetModuleStatus",
     value: function _resetModuleStatus() {
       this.store.dispatch({
         type: this.actionTypes.reset
       });
+
       this._clearTimeout();
+
       this._promise = null;
       this.store.dispatch({
         type: this.actionTypes.resetSuccess
       });
     }
   }, {
-    key: '_syncWithForbiddenCheck',
+    key: "_syncWithForbiddenCheck",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(syncToken) {
+      var _syncWithForbiddenCheck2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(syncToken) {
         var response, result;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -436,11 +454,11 @@ var AddressBook = (_dec = (0, _di.Module)({
 
               case 3:
                 response = _context3.sent;
-                return _context3.abrupt('return', response);
+                return _context3.abrupt("return", response);
 
               case 7:
                 _context3.prev = 7;
-                _context3.t0 = _context3['catch'](0);
+                _context3.t0 = _context3["catch"](0);
 
                 if (!(_context3.t0 && _context3.t0.apiResponse && _context3.t0.apiResponse._response && _context3.t0.apiResponse._response.status === 403)) {
                   _context3.next = 12;
@@ -453,13 +471,13 @@ var AddressBook = (_dec = (0, _di.Module)({
                     syncTime: new Date().toISOString()
                   }
                 };
-                return _context3.abrupt('return', result);
+                return _context3.abrupt("return", result);
 
               case 12:
                 throw _context3.t0;
 
               case 13:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -467,25 +485,29 @@ var AddressBook = (_dec = (0, _di.Module)({
       }));
 
       function _syncWithForbiddenCheck(_x) {
-        return _ref4.apply(this, arguments);
+        return _syncWithForbiddenCheck2.apply(this, arguments);
       }
 
       return _syncWithForbiddenCheck;
     }()
   }, {
-    key: 'sync',
+    key: "sync",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+      var _sync2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5() {
         var _this3 = this;
 
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 if (!this._promise) {
-                  this._promise = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+                  this._promise = _asyncToGenerator(
+                  /*#__PURE__*/
+                  regeneratorRuntime.mark(function _callee4() {
                     var response;
-                    return _regenerator2.default.wrap(function _callee4$(_context4) {
+                    return regeneratorRuntime.wrap(function _callee4$(_context4) {
                       while (1) {
                         switch (_context4.prev = _context4.next) {
                           case 0:
@@ -494,6 +516,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                             _this3.store.dispatch({
                               type: _this3.actionTypes.sync
                             });
+
                             _context4.next = 4;
                             return _this3._syncWithForbiddenCheck(_this3.syncToken);
 
@@ -506,22 +529,26 @@ var AddressBook = (_dec = (0, _di.Module)({
                               syncToken: response.syncInfo.syncToken,
                               syncTime: response.syncInfo.syncTime
                             });
+
                             if (_this3._polling) {
                               _this3._startPolling();
                             }
+
                             _context4.next = 15;
                             break;
 
                           case 9:
                             _context4.prev = 9;
-                            _context4.t0 = _context4['catch'](0);
+                            _context4.t0 = _context4["catch"](0);
 
                             _this3._onSyncError();
+
                             if (_this3._polling) {
                               _this3._startPolling(_this3.timeToRetry);
                             } else {
                               _this3._retry();
                             }
+
                             _this3._promise = null;
                             throw _context4.t0;
 
@@ -529,18 +556,19 @@ var AddressBook = (_dec = (0, _di.Module)({
                             _this3._promise = null;
 
                           case 16:
-                          case 'end':
+                          case "end":
                             return _context4.stop();
                         }
                       }
-                    }, _callee4, _this3, [[0, 9]]);
+                    }, _callee4, null, [[0, 9]]);
                   }))();
                 }
+
                 _context5.next = 3;
                 return this._promise;
 
               case 3:
-              case 'end':
+              case "end":
                 return _context5.stop();
             }
           }
@@ -548,24 +576,26 @@ var AddressBook = (_dec = (0, _di.Module)({
       }));
 
       function sync() {
-        return _ref5.apply(this, arguments);
+        return _sync2.apply(this, arguments);
       }
 
       return sync;
     }()
   }, {
-    key: '_onSyncError',
+    key: "_onSyncError",
     value: function _onSyncError() {
       this.store.dispatch({
         type: this.actionTypes.syncError
       });
     }
   }, {
-    key: '_sync',
+    key: "_sync",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(syncToken, pageId) {
+      var _sync3 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee6(syncToken, pageId) {
         var params, response, lastResponse;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
@@ -581,11 +611,11 @@ var AddressBook = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                return _context6.abrupt('return', response);
+                return _context6.abrupt("return", response);
 
               case 6:
                 _context6.next = 8;
-                return (0, _sleep2.default)(1000);
+                return (0, _sleep.default)(1000);
 
               case 8:
                 _context6.next = 10;
@@ -593,12 +623,12 @@ var AddressBook = (_dec = (0, _di.Module)({
 
               case 10:
                 lastResponse = _context6.sent;
-                return _context6.abrupt('return', (0, _extends3.default)({}, lastResponse, {
+                return _context6.abrupt("return", _objectSpread({}, lastResponse, {
                   records: response.records.concat(lastResponse.records)
                 }));
 
               case 12:
-              case 'end':
+              case "end":
                 return _context6.stop();
             }
           }
@@ -606,17 +636,19 @@ var AddressBook = (_dec = (0, _di.Module)({
       }));
 
       function _sync(_x2, _x3) {
-        return _ref7.apply(this, arguments);
+        return _sync3.apply(this, arguments);
       }
 
       return _sync;
     }()
   }, {
-    key: '_syncAddressBookApi',
+    key: "_syncAddressBookApi",
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(params) {
+      var _syncAddressBookApi2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee7(params) {
         var updateRequest;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
@@ -627,10 +659,11 @@ var AddressBook = (_dec = (0, _di.Module)({
                 updateRequest = _context7.sent;
 
                 this._decodeAddressBook(updateRequest);
-                return _context7.abrupt('return', updateRequest);
+
+                return _context7.abrupt("return", updateRequest);
 
               case 5:
-              case 'end':
+              case "end":
                 return _context7.stop();
             }
           }
@@ -638,24 +671,26 @@ var AddressBook = (_dec = (0, _di.Module)({
       }));
 
       function _syncAddressBookApi(_x4) {
-        return _ref8.apply(this, arguments);
+        return _syncAddressBookApi2.apply(this, arguments);
       }
 
       return _syncAddressBookApi;
     }()
   }, {
-    key: '_decode',
+    key: "_decode",
     value: function _decode(text) {
       return text.replace(REGX_DECODE, function ($0) {
         var handleText = $0;
+
         if (DECODE[$0]) {
           handleText = DECODE[$0];
         }
+
         return handleText;
       });
     }
   }, {
-    key: '_decodeAddressBook',
+    key: "_decodeAddressBook",
     value: function _decodeAddressBook(origin) {
       var _this4 = this;
 
@@ -664,6 +699,7 @@ var AddressBook = (_dec = (0, _di.Module)({
           if (record.firstName) {
             record.firstName = _this4._decode(record.firstName);
           }
+
           if (record.lastName) {
             record.lastName = _this4._decode(record.lastName);
           }
@@ -671,17 +707,15 @@ var AddressBook = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: '_cleanUp',
+    key: "_cleanUp",
     value: function _cleanUp() {
       this.store.dispatch({
         type: this.actionTypes.cleanUp
       });
-    }
-
-    // interface of contact source
+    } // interface of contact source
 
   }, {
-    key: 'matchPhoneNumber',
+    key: "matchPhoneNumber",
     value: function matchPhoneNumber(phoneNumber) {
       return (0, _contactHelper.getMatchContacts)({
         contacts: this.contacts,
@@ -690,10 +724,12 @@ var AddressBook = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'fetchData',
+    key: "fetchData",
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+      var _fetchData = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee8() {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
@@ -701,7 +737,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                 return this.sync();
 
               case 2:
-              case 'end':
+              case "end":
                 return _context8.stop();
             }
           }
@@ -709,78 +745,78 @@ var AddressBook = (_dec = (0, _di.Module)({
       }));
 
       function fetchData() {
-        return _ref9.apply(this, arguments);
+        return _fetchData.apply(this, arguments);
       }
 
       return fetchData;
     }()
   }, {
-    key: '_hasPermission',
+    key: "_hasPermission",
     get: function get() {
       return !!this._rolesAndPermissions.permissions.ReadPersonalContacts;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'syncToken',
+    key: "syncToken",
     get: function get() {
       if (this._storage) {
         return this._storage.getItem(this._syncTokenStorageKey);
       }
+
       return this.state.syncToken;
     }
   }, {
-    key: 'rawContacts',
+    key: "rawContacts",
     get: function get() {
       if (this._storage) {
         return this._storage.getItem(this._addressBookStorageKey);
       }
+
       return this.state.contactList;
     }
   }, {
-    key: 'timestamp',
+    key: "timestamp",
     get: function get() {
       if (this._storage) {
         return this._storage.getItem(this._syncTimestampStorageKey);
       }
+
       return this.state.syncTimestamp;
     }
   }, {
-    key: 'ttl',
+    key: "ttl",
     get: function get() {
       return this._ttl;
     }
   }, {
-    key: 'timeToRetry',
+    key: "timeToRetry",
     get: function get() {
       return this._timeToRetry;
-    }
-
-    // interface of contact source
+    } // interface of contact source
 
   }, {
-    key: 'sourceName',
+    key: "sourceName",
     get: function get() {
       return 'personal';
-    }
-
-    // interface of contact source
+    } // interface of contact source
 
   }, {
-    key: 'contacts',
+    key: "contacts",
     get: function get() {
       return this._selectors.contacts();
     }
   }, {
-    key: 'sourceReady',
+    key: "sourceReady",
     get: function get() {
       return this.ready;
     }
   }]);
+
   return AddressBook;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sync'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_syncAddressBookApi', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_syncAddressBookApi'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype)), _class2)) || _class);
+}(_Pollable2.default), (_applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_syncAddressBookApi", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_syncAddressBookApi"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
 exports.default = AddressBook;
 //# sourceMappingURL=index.js.map

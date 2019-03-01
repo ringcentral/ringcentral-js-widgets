@@ -1,17 +1,8 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 exports.getGlipPostsStatusReducer = getGlipPostsStatusReducer;
 exports.getGlipPostsCreateStatusReducer = getGlipPostsCreateStatusReducer;
 exports.getGlipPostsStoreReducer = getGlipPostsStoreReducer;
@@ -21,30 +12,71 @@ exports.getGlipPostsPageInfoReducer = getGlipPostsPageInfoReducer;
 exports.getGlipPostsFetchTimeReducer = getGlipPostsFetchTimeReducer;
 exports.default = getGlipPostsReducer;
 
-var _redux = require('redux');
+require("core-js/modules/es6.string.iterator");
 
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
+require("core-js/modules/es6.array.from");
 
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
+require("core-js/modules/es6.regexp.to-string");
 
-var _status = require('./status');
+require("core-js/modules/es6.date.to-string");
 
-var _status2 = _interopRequireDefault(_status);
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.date.now");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.find-index");
+
+var _redux = require("redux");
+
+var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
+
+var _status = _interopRequireDefault(require("./status"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function getGlipPostsStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status2.default.idle;
-    var _ref = arguments[1];
-    var type = _ref.type;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status.default.idle;
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type;
 
     switch (type) {
       case types.fetch:
-        return _status2.default.fetching;
+        return _status.default.fetching;
+
       case types.fetchError:
       case types.fetchSuccess:
-        return _status2.default.idle;
+        return _status.default.idle;
+
       default:
         return state;
     }
@@ -53,16 +85,19 @@ function getGlipPostsStatusReducer(types) {
 
 function getGlipPostsCreateStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status2.default.idle;
-    var _ref2 = arguments[1];
-    var type = _ref2.type;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status.default.idle;
+
+    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref2.type;
 
     switch (type) {
       case types.create:
-        return _status2.default.creating;
+        return _status.default.creating;
+
       case types.createError:
       case types.createSuccess:
-        return _status2.default.idle;
+        return _status.default.idle;
+
       default:
         return state;
     }
@@ -72,8 +107,9 @@ function getGlipPostsCreateStatusReducer(types) {
 function getGlipPostsStoreReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
+
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type,
         groupId = _ref3.groupId,
         records = _ref3.records,
         record = _ref3.record,
@@ -81,24 +117,29 @@ function getGlipPostsStoreReducer(types) {
         isSendByMe = _ref3.isSendByMe,
         lastPageToken = _ref3.lastPageToken;
 
-    var newState = void 0;
-    var newPosts = void 0;
-    var oldPostIndex = void 0;
+    var newState;
+    var newPosts;
+    var oldPostIndex;
+
     switch (type) {
       case types.fetchSuccess:
-        newState = (0, _extends3.default)({}, state);
+        newState = _objectSpread({}, state);
+
         if (!lastPageToken) {
           newState[groupId] = records;
         } else {
           var preRecords = newState[groupId];
           newState[groupId] = [].concat(preRecords).concat(records);
         }
+
         return newState;
+
       case types.create:
       case types.createSuccess:
       case types.createError:
-        newState = (0, _extends3.default)({}, state);
-        newPosts = newState[groupId] && [].concat((0, _toConsumableArray3.default)(newState[groupId])) || [];
+        newState = _objectSpread({}, state);
+        newPosts = newState[groupId] && _toConsumableArray(newState[groupId]) || [];
+
         if (oldRecordId) {
           oldPostIndex = newPosts.findIndex(function (p) {
             return p.id === oldRecordId;
@@ -108,13 +149,15 @@ function getGlipPostsStoreReducer(types) {
             return p.id === record.id;
           });
         }
+
         if (oldPostIndex > -1) {
           newPosts.splice(oldPostIndex, 1, record);
           newState[groupId] = newPosts;
         } else if (isSendByMe) {
           oldPostIndex = newPosts.findIndex(function (p) {
-            return p.creatorId === record.creatorId && p.text === record.text && p.sendStatus === _status2.default.creating;
+            return p.creatorId === record.creatorId && p.text === record.text && p.sendStatus === _status.default.creating;
           });
+
           if (oldPostIndex === -1) {
             newState[groupId] = [record].concat(newPosts.filter(function (p) {
               return p.id !== record.id;
@@ -125,9 +168,12 @@ function getGlipPostsStoreReducer(types) {
             return p.id !== record.id;
           }));
         }
+
         return newState;
+
       case types.resetSuccess:
         return {};
+
       default:
         return state;
     }
@@ -137,21 +183,24 @@ function getGlipPostsStoreReducer(types) {
 function getGlipPostsInputsReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
+
+    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref4.type,
         groupId = _ref4.groupId,
         textValue = _ref4.textValue,
         mentions = _ref4.mentions;
 
-    var newState = void 0;
+    var newState;
+
     switch (type) {
       case types.updatePostInput:
-        newState = (0, _extends3.default)({}, state);
+        newState = _objectSpread({}, state);
         newState[groupId] = {
           text: textValue,
           mentions: mentions
         };
         return newState;
+
       default:
         return state;
     }
@@ -161,20 +210,24 @@ function getGlipPostsInputsReducer(types) {
 function getGlipPostsReadTimeReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref5 = arguments[1];
-    var type = _ref5.type,
+
+    var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref5.type,
         groupId = _ref5.groupId,
         _ref5$time = _ref5.time,
-        time = _ref5$time === undefined ? Date.now() : _ref5$time;
+        time = _ref5$time === void 0 ? Date.now() : _ref5$time;
 
-    var newState = void 0;
+    var newState;
+
     switch (type) {
       case types.updateReadTime:
-        newState = (0, _extends3.default)({}, state);
+        newState = _objectSpread({}, state);
         newState[groupId] = time;
         return newState;
+
       case types.resetSuccess:
         return {};
+
       default:
         return state;
     }
@@ -184,19 +237,23 @@ function getGlipPostsReadTimeReducer(types) {
 function getGlipPostsPageInfoReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref6 = arguments[1];
-    var type = _ref6.type,
+
+    var _ref6 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref6.type,
         groupId = _ref6.groupId,
         navigation = _ref6.navigation;
 
-    var newState = void 0;
+    var newState;
+
     switch (type) {
       case types.fetchSuccess:
-        newState = (0, _extends3.default)({}, state);
+        newState = _objectSpread({}, state);
         newState[groupId] = navigation;
         return newState;
+
       case types.resetSuccess:
         return {};
+
       default:
         return state;
     }
@@ -206,18 +263,22 @@ function getGlipPostsPageInfoReducer(types) {
 function getGlipPostsFetchTimeReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref7 = arguments[1];
-    var type = _ref7.type,
+
+    var _ref7 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref7.type,
         groupId = _ref7.groupId;
 
-    var newState = void 0;
+    var newState;
+
     switch (type) {
       case types.fetchSuccess:
-        newState = (0, _extends3.default)({}, state);
+        newState = _objectSpread({}, state);
         newState[groupId] = Date.now();
         return newState;
+
       case types.resetSuccess:
         return {};
+
       default:
         return state;
     }
@@ -226,9 +287,8 @@ function getGlipPostsFetchTimeReducer(types) {
 
 function getGlipPostsReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
-    status: (0, _getModuleStatusReducer2.default)(types),
+  return (0, _redux.combineReducers)(_objectSpread({}, reducers, {
+    status: (0, _getModuleStatusReducer.default)(types),
     fetchStatus: getGlipPostsStatusReducer(types),
     glipPostsStore: getGlipPostsStoreReducer(types),
     createStatus: getGlipPostsCreateStatusReducer(types),

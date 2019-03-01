@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/AvailabilityMonitor/errorMessages.js"],"names":["Enum"],"mappings":";;;;;;;;;AAAA;;;;eAEe,IAAIA,aAAJ,CAAS,CACtB,gBADsB,EAEtB,iBAFsB,CAAT,EAGZ,sBAHY,C","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'serviceLimited',\n  'appInitialError',\n], 'limitedErrorMessages');\n"],"file":"errorMessages.js"}

@@ -1,27 +1,53 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 exports.getMessagesReducer = getMessagesReducer;
 exports.default = getAlertReducer;
 
-var _redux = require('redux');
+require("core-js/modules/es6.string.iterator");
 
-require('core-js/fn/array/find');
+require("core-js/modules/es6.array.from");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.find");
+
+var _redux = require("redux");
+
+require("core-js/fn/array/find");
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 function getMessagesReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         message = _ref.message,
         payload = _ref.payload,
         ttl = _ref.ttl,
@@ -38,7 +64,8 @@ function getMessagesReducer(types) {
         })) {
           return state;
         }
-        return [].concat((0, _toConsumableArray3.default)(state), [{
+
+        return [].concat(_toConsumableArray(state), [{
           id: id,
           message: message,
           payload: payload,
@@ -46,12 +73,15 @@ function getMessagesReducer(types) {
           level: level,
           timestamp: timestamp
         }]);
+
       case types.dismiss:
         return state.filter(function (item) {
           return ids.indexOf(item.id) === -1;
         });
+
       case types.dismissAll:
         return [];
+
       default:
         return state;
     }

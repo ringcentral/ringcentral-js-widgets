@@ -1,109 +1,91 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.filter");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.array.index-of");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.create");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.define-property");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.reduce");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.keys");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/web.dom.iterable");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.for-each");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _di = require("../../lib/di");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _getFeedbackReducer = _interopRequireDefault(require("./getFeedbackReducer"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _getCacheReducer = _interopRequireDefault(require("./getCacheReducer"));
 
-var _dec, _class, _desc, _value, _class2;
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _di = require('../../lib/di');
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _getFeedbackReducer = require('./getFeedbackReducer');
-
-var _getFeedbackReducer2 = _interopRequireDefault(_getFeedbackReducer);
-
-var _getCacheReducer = require('./getCacheReducer');
-
-var _getCacheReducer2 = _interopRequireDefault(_getCacheReducer);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-  return desc;
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var Feedback = (
 /**
  * @class
  * @description user feedback module
  */
-var Feedback = (_dec = (0, _di.Module)({
+_dec = (0, _di.Module)({
   deps: ['Auth', 'Storage']
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(Feedback, _RcModule);
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(Feedback, _RcModule);
 
   /**
    * @constructor
@@ -112,26 +94,33 @@ var Feedback = (_dec = (0, _di.Module)({
    * @param {Storage} params.storage - storage module instance
    */
   function Feedback(_ref) {
+    var _this;
+
     var auth = _ref.auth,
         storage = _ref.storage,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'storage']);
-    (0, _classCallCheck3.default)(this, Feedback);
+        options = _objectWithoutProperties(_ref, ["auth", "storage"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Feedback.__proto__ || (0, _getPrototypeOf2.default)(Feedback)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, Feedback);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Feedback).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
-
     _this._auth = auth;
     _this._storageKey = 'feedback';
     _this._storage = storage;
-    _this._reducer = (0, _getFeedbackReducer2.default)(_this.actionTypes);
-    _this._cacheReducer = (0, _getCacheReducer2.default)(_this.actionTypes);
-    _this._storage.registerReducer({ key: _this._storageKey, reducer: _this._cacheReducer });
+    _this._reducer = (0, _getFeedbackReducer.default)(_this.actionTypes);
+    _this._cacheReducer = (0, _getCacheReducer.default)(_this.actionTypes);
+
+    _this._storage.registerReducer({
+      key: _this._storageKey,
+      reducer: _this._cacheReducer
+    });
+
     return _this;
   }
 
-  (0, _createClass3.default)(Feedback, [{
-    key: 'initialize',
+  _createClass(Feedback, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -140,7 +129,7 @@ var Feedback = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function _onStateChange() {
       if (this._auth.ready && this._storage.ready && !this.ready) {
         this.store.dispatch({
@@ -153,7 +142,7 @@ var Feedback = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: 'updateEmail',
+    key: "updateEmail",
     value: function updateEmail(email) {
       this.store.dispatch({
         type: this.actionTypes.updateEmail,
@@ -161,7 +150,7 @@ var Feedback = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'updateTopic',
+    key: "updateTopic",
     value: function updateTopic(topic) {
       this.store.dispatch({
         type: this.actionTypes.updateTopic,
@@ -169,7 +158,7 @@ var Feedback = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'updateSubject',
+    key: "updateSubject",
     value: function updateSubject(subjectText) {
       this.store.dispatch({
         type: this.actionTypes.updateSubject,
@@ -177,7 +166,7 @@ var Feedback = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'updateDescription',
+    key: "updateDescription",
     value: function updateDescription(descriptionText) {
       this.store.dispatch({
         type: this.actionTypes.updateDescription,
@@ -185,49 +174,50 @@ var Feedback = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'clean',
+    key: "clean",
     value: function clean() {
       this.store.dispatch({
         type: this.actionTypes.clean
       });
     }
   }, {
-    key: 'sendFeedback',
+    key: "sendFeedback",
     value: function sendFeedback(mailToUrl) {
       window.location.href = mailToUrl;
     }
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses2.default.ready;
+      return this.state.status === _moduleStatuses.default.ready;
     }
   }, {
-    key: 'data',
+    key: "data",
     get: function get() {
       return this._storage.getItem(this._storageKey);
     }
   }, {
-    key: 'email',
+    key: "email",
     get: function get() {
       return this.data.email;
     }
   }, {
-    key: 'topic',
+    key: "topic",
     get: function get() {
       return this.data.topic;
     }
   }, {
-    key: 'subject',
+    key: "subject",
     get: function get() {
       return this.data.subject;
     }
   }, {
-    key: 'description',
+    key: "description",
     get: function get() {
       return this.data.description;
     }
   }]);
+
   return Feedback;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateEmail', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateEmail'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTopic', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTopic'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSubject', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSubject'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateDescription', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateDescription'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clean', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clean'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sendFeedback', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sendFeedback'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "updateEmail", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateEmail"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTopic", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTopic"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSubject", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSubject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateDescription", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateDescription"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clean", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "clean"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendFeedback", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "sendFeedback"), _class2.prototype)), _class2)) || _class);
 exports.default = Feedback;
 //# sourceMappingURL=index.js.map

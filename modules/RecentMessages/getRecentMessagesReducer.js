@@ -1,55 +1,77 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-var _extends4 = require('babel-runtime/helpers/extends');
-
-var _extends5 = _interopRequireDefault(_extends4);
-
 exports.getContactsReducer = getContactsReducer;
 exports.getMessagesReducer = getMessagesReducer;
 exports.getMessageStatusReducer = getMessageStatusReducer;
 exports.default = getRecentMessagesReducer;
 
-var _redux = require('redux');
+require("core-js/modules/es6.array.index-of");
 
-var _messageStatus = require('./messageStatus');
+require("core-js/modules/es6.number.constructor");
 
-var _messageStatus2 = _interopRequireDefault(_messageStatus);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
+require("core-js/modules/es6.symbol");
 
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.map");
+
+var _redux = require("redux");
+
+var _messageStatus = _interopRequireDefault(require("./messageStatus"));
+
+var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getContactsReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         contact = _ref.contact,
         sessionId = _ref.sessionId;
 
     var contactId = String(contact && contact.id);
+
     if (type === types.loadSuccess) {
-      return (0, _extends5.default)({}, state, (0, _defineProperty3.default)({}, sessionId ? contactId + '-' + sessionId : contactId, contact));
+      return _objectSpread({}, state, _defineProperty({}, sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId, contact));
     } else if (type === types.loadReset) {
-      var _ = state[sessionId ? contactId + '-' + sessionId : contactId],
-          rest = (0, _objectWithoutProperties3.default)(state, [sessionId ? contactId + '-' + sessionId : contactId]);
+      var _ = state[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId],
+          rest = _objectWithoutProperties(state, [sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId].map(_toPropertyKey));
 
       return rest;
     }
+
     return state;
   };
 }
@@ -57,21 +79,24 @@ function getContactsReducer(types) {
 function getMessagesReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref2 = arguments[1];
-    var type = _ref2.type,
+
+    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref2.type,
         contact = _ref2.contact,
         messages = _ref2.messages,
         sessionId = _ref2.sessionId;
 
     var contactId = String(contact && contact.id);
+
     if (type === types.loadSuccess) {
-      return (0, _extends5.default)({}, state, (0, _defineProperty3.default)({}, sessionId ? contactId + '-' + sessionId : contactId, messages));
+      return _objectSpread({}, state, _defineProperty({}, sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId, messages));
     } else if (type === types.loadReset) {
-      var _ = state[sessionId ? contactId + '-' + sessionId : contactId],
-          rest = (0, _objectWithoutProperties3.default)(state, [sessionId ? contactId + '-' + sessionId : contactId]);
+      var _ = state[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId],
+          rest = _objectWithoutProperties(state, [sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId].map(_toPropertyKey));
 
       return rest;
     }
+
     return state;
   };
 }
@@ -79,15 +104,18 @@ function getMessagesReducer(types) {
 function getMessageStatusReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref3 = arguments[1];
-    var type = _ref3.type;
+
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type;
 
     switch (type) {
       case types.initLoad:
-        return _messageStatus2.default.loading;
+        return _messageStatus.default.loading;
+
       case types.loadReset:
       case types.loadSuccess:
-        return _messageStatus2.default.loaded;
+        return _messageStatus.default.loaded;
+
       default:
         return state;
     }
@@ -96,7 +124,7 @@ function getMessageStatusReducer(types) {
 
 function getRecentMessagesReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer2.default)(types),
+    status: (0, _getModuleStatusReducer.default)(types),
     contacts: getContactsReducer(types),
     messages: getMessagesReducer(types),
     messageStatus: getMessageStatusReducer(types)

@@ -1,142 +1,148 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es6.string.iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.array.from");
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+require("core-js/modules/es6.regexp.to-string");
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+require("core-js/modules/es6.date.to-string");
 
-var _keys = require('babel-runtime/core-js/object/keys');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _keys2 = _interopRequireDefault(_keys);
+require("core-js/modules/es6.symbol");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.index-of");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.create");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.define-property");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.array.reduce");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.is-array");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/web.dom.iterable");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.array.iterator");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.object.keys");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.array.filter");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.array.find");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("core-js/modules/es6.array.sort");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _ramda = require("ramda");
 
-var _dec, _class, _desc, _value, _class2;
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _ramda = require('ramda');
+var _di = require("../../lib/di");
 
-var _RcModule2 = require('../../lib/RcModule');
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _getContactDetailsReducer = _interopRequireDefault(require("./getContactDetailsReducer"));
 
-var _di = require('../../lib/di');
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _actionTypes = require('./actionTypes');
+var _background = _interopRequireDefault(require("../../lib/background"));
 
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
+var _phoneTypes = _interopRequireDefault(require("../../enums/phoneTypes"));
 
-var _getContactDetailsReducer = require('./getContactDetailsReducer');
-
-var _getContactDetailsReducer2 = _interopRequireDefault(_getContactDetailsReducer);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _background = require('../../lib/background');
-
-var _background2 = _interopRequireDefault(_background);
-
-var _phoneTypes = require('../../enums/phoneTypes');
-
-var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-  return desc;
-}
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 var sortOtherTypes = function sortOtherTypes(_ref) {
   var _ref$unSortTypes = _ref.unSortTypes,
-      unSortTypes = _ref$unSortTypes === undefined ? [] : _ref$unSortTypes;
+      unSortTypes = _ref$unSortTypes === void 0 ? [] : _ref$unSortTypes;
   var MOBILE = 0,
       BUSINESS = 1,
       HOME = 2,
       FAX = 3,
       OTHER = 4;
-
   var goalOrderTypes = {
-    mobile: MOBILE, business: BUSINESS, home: HOME, fax: FAX, other: OTHER
+    mobile: MOBILE,
+    business: BUSINESS,
+    home: HOME,
+    fax: FAX,
+    other: OTHER
   };
   unSortTypes.sort(function (a, b) {
     return goalOrderTypes[a] - goalOrderTypes[b];
   });
   return unSortTypes;
 };
+
 var ContactDetails = (_dec = (0, _di.Module)({
-  deps: ['Contacts', { dep: 'ContactDetailsOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(ContactDetails, _RcModule);
+  deps: ['Contacts', {
+    dep: 'ContactDetailsOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(ContactDetails, _RcModule);
 
   function ContactDetails(_ref2) {
+    var _this;
+
     var contacts = _ref2.contacts,
-        options = (0, _objectWithoutProperties3.default)(_ref2, ['contacts']);
-    (0, _classCallCheck3.default)(this, ContactDetails);
+        options = _objectWithoutProperties(_ref2, ["contacts"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ContactDetails.__proto__ || (0, _getPrototypeOf2.default)(ContactDetails)).call(this, (0, _extends3.default)({}, options, { actionTypes: _actionTypes2.default })));
+    _classCallCheck(this, ContactDetails);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ContactDetails).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
+    })));
     _this._contacts = contacts;
-    _this._reducer = (0, _getContactDetailsReducer2.default)(_this.actionTypes);
+    _this._reducer = (0, _getContactDetailsReducer.default)(_this.actionTypes);
 
     _this.addSelector('currentContact', function () {
       return _this.condition;
@@ -146,6 +152,7 @@ var ContactDetails = (_dec = (0, _di.Module)({
       if (condition) {
         return _this._contacts.find(condition);
       }
+
       return null;
     });
 
@@ -153,29 +160,40 @@ var ContactDetails = (_dec = (0, _di.Module)({
       return _this.currentContact;
     }, function (currentContact) {
       if (!currentContact) return null;
-      var phoneNumbers = currentContact.rawPhoneNumbers || currentContact.phoneNumbers;
+      var phoneNumbers;
+
+      if (currentContact.rawPhoneNumbers && currentContact.rawPhoneNumbers.length > 0) {
+        phoneNumbers = currentContact.rawPhoneNumbers;
+      } else {
+        phoneNumbers = currentContact.phoneNumbers;
+      }
+
       var phoneMaps = (0, _ramda.reduce)(function (acc, phoneNumberElm) {
         acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
         acc[phoneNumberElm.phoneType].push(phoneNumberElm);
         return acc;
       }, {}, phoneNumbers);
-
-      var unSortTypes = (0, _keys2.default)(phoneMaps).filter(function (key) {
-        return key !== _phoneTypes2.default.extension && key !== _phoneTypes2.default.direct;
+      var unSortTypes = Object.keys(phoneMaps).filter(function (key) {
+        return key !== _phoneTypes.default.extension && key !== _phoneTypes.default.direct;
       });
+      var sortedTypes = sortOtherTypes({
+        unSortTypes: unSortTypes
+      }); // we need sequence that: ext followed by direct followed by others.
 
-      var sortedTypes = sortOtherTypes({ unSortTypes: unSortTypes });
-      // we need sequence that: ext followed by direct followed by others.
       var schema = (0, _ramda.filter)(function (key) {
-        return !!_phoneTypes2.default[key] && Array.isArray(phoneMaps[key]);
-      }, [_phoneTypes2.default.extension, _phoneTypes2.default.direct].concat((0, _toConsumableArray3.default)(sortedTypes)));
-      return (0, _extends3.default)({}, currentContact, { schema: schema, phoneMaps: phoneMaps });
+        return !!_phoneTypes.default[key] && Array.isArray(phoneMaps[key]);
+      }, [_phoneTypes.default.extension, _phoneTypes.default.direct].concat(_toConsumableArray(sortedTypes)));
+      return _objectSpread({}, currentContact, {
+        schema: schema,
+        phoneMaps: phoneMaps
+      });
     });
+
     return _this;
   }
 
-  (0, _createClass3.default)(ContactDetails, [{
-    key: 'initialize',
+  _createClass(ContactDetails, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -184,7 +202,7 @@ var ContactDetails = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function _onStateChange() {
       if (this._shouldInit()) {
         this.store.dispatch({
@@ -197,27 +215,25 @@ var ContactDetails = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: '_shouldInit',
+    key: "_shouldInit",
     value: function _shouldInit() {
       return this._contacts.ready && this.pending;
     }
   }, {
-    key: '_shouldReset',
+    key: "_shouldReset",
     value: function _shouldReset() {
       return !this._contacts.ready && this.ready;
     }
-
     /**
      * Find contact from all contacts by given conditions.
      * Stores search conditions to reducers.
      */
 
   }, {
-    key: 'find',
+    key: "find",
     value: function find(_ref3) {
       var id = _ref3.id,
           type = _ref3.type;
-
       this.store.dispatch({
         type: this.actionTypes.updateCondition,
         condition: {
@@ -227,64 +243,61 @@ var ContactDetails = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'clear',
+    key: "clear",
     value: function clear() {
       this.store.dispatch({
         type: this.actionTypes.resetCondition
       });
     }
   }, {
-    key: 'getProfileImage',
+    key: "getProfileImage",
     value: function getProfileImage(contact) {
       return this._contacts.getProfileImage(contact, false);
     }
   }, {
-    key: 'getPresence',
+    key: "getPresence",
     value: function getPresence(contact) {
       return this._contacts.getPresence(contact, false);
-    }
-
-    // for track click to sms in contact detail
+    } // for track click to sms in contact detail
 
   }, {
-    key: 'onClickToSMS',
+    key: "onClickToSMS",
     value: function onClickToSMS() {
       this.store.dispatch({
         type: this.actionTypes.clickToSMS
       });
-    }
-
-    // for track click to call in contact detail
+    } // for track click to call in contact detail
 
   }, {
-    key: 'onClickToCall',
+    key: "onClickToCall",
     value: function onClickToCall() {
       this.store.dispatch({
         type: this.actionTypes.clickToCall
       });
     }
   }, {
-    key: 'currentContact',
+    key: "currentContact",
     get: function get() {
       return this._selectors.currentContact();
     }
   }, {
-    key: 'contact',
+    key: "contact",
     get: function get() {
       return this._selectors.currentSortedContact();
     }
   }, {
-    key: 'condition',
+    key: "condition",
     get: function get() {
       return this.state.condition;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }]);
+
   return ContactDetails;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'find', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'find'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clear', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clear'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "find", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "find"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clear", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "clear"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype)), _class2)) || _class);
 exports.default = ContactDetails;
 //# sourceMappingURL=index.js.map

@@ -1,129 +1,113 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _assign = require('babel-runtime/core-js/object/assign');
+require("core-js/modules/es6.promise");
 
-var _assign2 = _interopRequireDefault(_assign);
+require("core-js/modules/es6.array.filter");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.array.index-of");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.object.create");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.define-property");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.keys");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/web.dom.iterable");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.for-each");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.assign");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.regexp.replace");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.find");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.reduce");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.array.sort");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.date.to-iso-string");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("regenerator-runtime/runtime");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _background = _interopRequireDefault(require("../../lib/background"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _di = require("../../lib/di");
 
-var _dec, _class, _desc, _value, _class2;
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _background = require('../../lib/background');
+var _callStatus = _interopRequireDefault(require("./callStatus"));
 
-var _background2 = _interopRequireDefault(_background);
+var _getRecentCallsReducer = _interopRequireDefault(require("./getRecentCallsReducer"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _di = require('../../lib/di');
+var _concurrentExecute = _interopRequireDefault(require("../../lib/concurrentExecute"));
 
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _callStatus = require('./callStatus');
-
-var _callStatus2 = _interopRequireDefault(_callStatus);
-
-var _getRecentCallsReducer = require('./getRecentCallsReducer');
-
-var _getRecentCallsReducer2 = _interopRequireDefault(_getRecentCallsReducer);
-
-var _getDateFrom = require('../../lib/getDateFrom');
-
-var _getDateFrom2 = _interopRequireDefault(_getDateFrom);
-
-var _ensureExist = require('../../lib/ensureExist');
-
-var _ensureExist2 = _interopRequireDefault(_ensureExist);
-
-var _concurrentExecute = require('../../lib/concurrentExecute');
-
-var _concurrentExecute2 = _interopRequireDefault(_concurrentExecute);
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var RecentCalls = (
 /**
  * @class
  * @description Retrieve all recent calls related to a specified contact.
  */
-var RecentCalls = (_dec = (0, _di.Module)({
+_dec = (0, _di.Module)({
   deps: ['Client', 'CallHistory']
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(RecentCalls, _RcModule);
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(RecentCalls, _RcModule);
 
   /**
    * @constructor
@@ -132,23 +116,27 @@ var RecentCalls = (_dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function RecentCalls(_ref) {
+    var _context;
+
+    var _this;
+
     var client = _ref.client,
         callHistory = _ref.callHistory,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'callHistory']);
-    (0, _classCallCheck3.default)(this, RecentCalls);
+        options = _objectWithoutProperties(_ref, ["client", "callHistory"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (RecentCalls.__proto__ || (0, _getPrototypeOf2.default)(RecentCalls)).call(this, (0, _extends3.default)({
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, RecentCalls);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RecentCalls).call(this, _objectSpread({
+      actionTypes: _actionTypes.default
     }, options)));
-
-    _this._client = _ensureExist2.default.call(_this, client, 'client');
-    _this._callHistory = _ensureExist2.default.call(_this, callHistory, 'callHistory');
-    _this._reducer = (0, _getRecentCallsReducer2.default)(_this.actionTypes);
+    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
+    _this._callHistory = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, callHistory, 'callHistory');
+    _this._reducer = (0, _getRecentCallsReducer.default)(_this.actionTypes);
     return _this;
   }
 
-  (0, _createClass3.default)(RecentCalls, [{
-    key: 'initialize',
+  _createClass(RecentCalls, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -157,7 +145,7 @@ var RecentCalls = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function _onStateChange() {
       if (this.pending && this._callHistory.ready) {
         this.store.dispatch({
@@ -170,45 +158,45 @@ var RecentCalls = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: 'getCalls',
+    key: "getCalls",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
-        var currentContact = _ref2.currentContact,
-            _ref2$sessionId = _ref2.sessionId,
-            sessionId = _ref2$sessionId === undefined ? null : _ref2$sessionId;
-        var contactId, calls;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _getCalls = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(_ref2) {
+        var currentContact, _ref2$sessionId, sessionId, contactId, calls;
+
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
+                currentContact = _ref2.currentContact, _ref2$sessionId = _ref2.sessionId, sessionId = _ref2$sessionId === void 0 ? null : _ref2$sessionId;
+
                 if (currentContact) {
-                  _context.next = 2;
+                  _context2.next = 3;
                   break;
                 }
 
-                return _context.abrupt('return');
+                return _context2.abrupt("return");
 
-              case 2:
-                contactId = String(currentContact && currentContact.id);
-                // if (this.calls[currentContact.id]) {
+              case 3:
+                contactId = String(currentContact && currentContact.id); // if (this.calls[currentContact.id]) {
 
-                if (!this.calls[sessionId ? contactId + '-' + sessionId : contactId]) {
-                  _context.next = 5;
+                if (!this.calls[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId]) {
+                  _context2.next = 6;
                   break;
                 }
 
-                return _context.abrupt('return');
+                return _context2.abrupt("return");
 
-              case 5:
+              case 6:
                 this.store.dispatch({
                   type: this.actionTypes.initLoad
                 });
-                _context.next = 8;
+                _context2.next = 9;
                 return this._getRecentCalls(currentContact, this._callHistory.calls);
 
-              case 8:
-                calls = _context.sent;
-
+              case 9:
+                calls = _context2.sent;
                 this.store.dispatch({
                   type: this.actionTypes.loadSuccess,
                   calls: calls,
@@ -216,27 +204,26 @@ var RecentCalls = (_dec = (0, _di.Module)({
                   sessionId: sessionId
                 });
 
-              case 10:
-              case 'end':
-                return _context.stop();
+              case 11:
+              case "end":
+                return _context2.stop();
             }
           }
         }, _callee, this);
       }));
 
       function getCalls(_x) {
-        return _ref3.apply(this, arguments);
+        return _getCalls.apply(this, arguments);
       }
 
       return getCalls;
     }()
   }, {
-    key: 'cleanUpCalls',
-    value: function cleanUpCalls(_ref4) {
-      var contact = _ref4.contact,
-          _ref4$sessionId = _ref4.sessionId,
-          sessionId = _ref4$sessionId === undefined ? null : _ref4$sessionId;
-
+    key: "cleanUpCalls",
+    value: function cleanUpCalls(_ref3) {
+      var contact = _ref3.contact,
+          _ref3$sessionId = _ref3.sessionId,
+          sessionId = _ref3$sessionId === void 0 ? null : _ref3$sessionId;
       this.store.dispatch({
         type: this.actionTypes.loadReset,
         contact: contact,
@@ -244,8 +231,7 @@ var RecentCalls = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_getRecentCalls',
-
+    key: "_getRecentCalls",
 
     /**
      * Searching for recent calls of specific contact.
@@ -257,53 +243,56 @@ var RecentCalls = (_dec = (0, _di.Module)({
      * @private
      */
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(currentContact) {
-        var calls = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-        var daySpan = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 60;
-        var length = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 5;
-        var dateFrom, recentCalls;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _getRecentCalls2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(currentContact) {
+        var calls,
+            daySpan,
+            length,
+            dateFrom,
+            recentCalls,
+            _args2 = arguments;
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                dateFrom = (0, _getDateFrom2.default)(daySpan);
-                recentCalls = this._getLocalRecentCalls(currentContact, calls, dateFrom);
-
-                // If we could not find enough recent calls,
+                calls = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
+                daySpan = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : 60;
+                length = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 5;
+                dateFrom = (0, _getDateFrom.default)(daySpan);
+                recentCalls = this._getLocalRecentCalls(currentContact, calls, dateFrom); // If we could not find enough recent calls,
                 // we need to search for calls on server.
 
                 if (!(recentCalls.length < length)) {
-                  _context2.next = 6;
+                  _context3.next = 9;
                   break;
                 }
 
-                _context2.next = 5;
+                _context3.next = 8;
                 return this._fetchRemoteRecentCalls(currentContact, dateFrom.toISOString(), length);
 
-              case 5:
-                recentCalls = _context2.sent;
-
-              case 6:
-
-                recentCalls.sort(this._sortByTime);
-                recentCalls = this._dedup(recentCalls);
-                return _context2.abrupt('return', recentCalls.length > length ? recentCalls.slice(0, length) : recentCalls);
+              case 8:
+                recentCalls = _context3.sent;
 
               case 9:
-              case 'end':
-                return _context2.stop();
+                recentCalls.sort(this._sortByTime);
+                recentCalls = this._dedup(recentCalls);
+                return _context3.abrupt("return", recentCalls.length > length ? recentCalls.slice(0, length) : recentCalls);
+
+              case 12:
+              case "end":
+                return _context3.stop();
             }
           }
         }, _callee2, this);
       }));
 
-      function _getRecentCalls(_x5) {
-        return _ref5.apply(this, arguments);
+      function _getRecentCalls(_x2) {
+        return _getRecentCalls2.apply(this, arguments);
       }
 
       return _getRecentCalls;
     }()
-
     /**
      * Get recent calls from callHistory.
      * @param {Object} currentContact
@@ -312,34 +301,32 @@ var RecentCalls = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: '_getLocalRecentCalls',
-    value: function _getLocalRecentCalls(_ref6, calls, dateFrom) {
-      var phoneNumbers = _ref6.phoneNumbers;
-
+    key: "_getLocalRecentCalls",
+    value: function _getLocalRecentCalls(_ref4, calls, dateFrom) {
       var _this3 = this;
 
+      var phoneNumbers = _ref4.phoneNumbers;
       // Get all calls related to this contact
       return calls.reduce(function (acc, call) {
         if (call && call.to && call.from) {
-          var matches = phoneNumbers.find(_this3._filterPhoneNumber(call));
+          var matches = phoneNumbers.find(_this3._filterPhoneNumber(call)); // Check if calls is within certain days
 
-          // Check if calls is within certain days
           if (!!matches && new Date(call.startTime) > dateFrom) {
             return acc.concat(call);
           }
         }
+
         return acc;
       }, []);
     }
   }, {
-    key: '_filterPhoneNumber',
+    key: "_filterPhoneNumber",
     value: function _filterPhoneNumber(call) {
-      return function (_ref7) {
-        var phoneNumber = _ref7.phoneNumber;
+      return function (_ref5) {
+        var phoneNumber = _ref5.phoneNumber;
         return phoneNumber === call.from.phoneNumber || phoneNumber === call.to.phoneNumber || phoneNumber === call.from.extensionNumber || phoneNumber === call.to.extensionNumber;
       };
     }
-
     /**
      * Fetch recent calls from server by given current contact.
      * @param {Object} currentContact
@@ -350,40 +337,40 @@ var RecentCalls = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: '_fetchRemoteRecentCalls',
-    value: function _fetchRemoteRecentCalls(_ref8, dateFrom, length) {
-      var phoneNumbers = _ref8.phoneNumbers;
-
+    key: "_fetchRemoteRecentCalls",
+    value: function _fetchRemoteRecentCalls(_ref6, dateFrom, length) {
       var _this4 = this;
 
+      var phoneNumbers = _ref6.phoneNumbers;
       var params = {
         dateFrom: dateFrom,
         perPage: length,
         type: 'Voice'
-      };
+      }; // CallLog API doesn't support plus sign in phoneNumber
 
-      // CallLog API doesn't support plus sign in phoneNumber
-      var recentCallsPromises = phoneNumbers.reduce(function (acc, _ref9) {
-        var phoneType = _ref9.phoneType,
-            phoneNumber = _ref9.phoneNumber;
-
+      var recentCallsPromises = phoneNumbers.reduce(function (acc, _ref7) {
+        var phoneType = _ref7.phoneType,
+            phoneNumber = _ref7.phoneNumber;
         phoneNumber = phoneNumber.replace('+', '');
+
         if (phoneType === 'extension') {
-          var _promise = _this4._fetchCallLogList((0, _assign2.default)({}, params, {
+          var _promise = _this4._fetchCallLogList(Object.assign({}, params, {
             extensionNumber: phoneNumber
           }));
+
           return acc.concat(_promise);
         }
-        var promise = _this4._fetchCallLogList((0, _assign2.default)({}, params, {
+
+        var promise = _this4._fetchCallLogList(Object.assign({}, params, {
           phoneNumber: phoneNumber
         }));
+
         return acc.concat(promise);
       }, []);
-
-      return (0, _concurrentExecute2.default)(recentCallsPromises, 5, 500).then(this._flattenToRecords);
+      return (0, _concurrentExecute.default)(recentCallsPromises, 5, 500).then(this._flattenToRecords);
     }
   }, {
-    key: '_fetchCallLogList',
+    key: "_fetchCallLogList",
     value: function _fetchCallLogList(params) {
       var _this5 = this;
 
@@ -392,23 +379,21 @@ var RecentCalls = (_dec = (0, _di.Module)({
       };
     }
   }, {
-    key: '_flattenToRecords',
+    key: "_flattenToRecords",
     value: function _flattenToRecords(items) {
-      return items.reduce(function (acc, _ref10) {
-        var records = _ref10.records;
+      return items.reduce(function (acc, _ref8) {
+        var records = _ref8.records;
         return acc.concat(records);
       }, []);
-    }
-
-    // Sort by time in descending order
+    } // Sort by time in descending order
 
   }, {
-    key: '_sortByTime',
+    key: "_sortByTime",
     value: function _sortByTime(a, b) {
       return new Date(b.startTime) - new Date(a.startTime);
     }
   }, {
-    key: '_dedup',
+    key: "_dedup",
     value: function _dedup(calls) {
       var hash = {};
       return calls.reduce(function (acc, cur) {
@@ -418,22 +403,23 @@ var RecentCalls = (_dec = (0, _di.Module)({
       }, []);
     }
   }, {
-    key: 'calls',
+    key: "calls",
     get: function get() {
       return this.state.calls;
     }
   }, {
-    key: 'isCallsLoaded',
+    key: "isCallsLoaded",
     get: function get() {
-      return this.state.callStatus === _callStatus2.default.loaded;
+      return this.state.callStatus === _callStatus.default.loaded;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }]);
+
   return RecentCalls;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getCalls', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getCalls'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "getCalls", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getCalls"), _class2.prototype)), _class2)) || _class);
 exports.default = RecentCalls;
 //# sourceMappingURL=index.js.map

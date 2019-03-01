@@ -1,121 +1,108 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.index-of");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.object.create");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.define-property");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.array.reduce");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/web.dom.iterable");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("regenerator-runtime/runtime");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.filter");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.array.map");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.date.now");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _uuid = _interopRequireDefault(require("uuid"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _di = require("../../lib/di");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _dec, _class, _desc, _value, _class2;
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _uuid = require('uuid');
+var _alertLevels = _interopRequireDefault(require("./alertLevels"));
 
-var _uuid2 = _interopRequireDefault(_uuid);
+var _getAlertReducer = _interopRequireDefault(require("./getAlertReducer"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _di = require('../../lib/di');
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _alertLevels = require('./alertLevels');
-
-var _alertLevels2 = _interopRequireDefault(_alertLevels);
-
-var _getAlertReducer = require('./getAlertReducer');
-
-var _getAlertReducer2 = _interopRequireDefault(_getAlertReducer);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
+var _dec, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var Alert = (
 /**
  * @class
  * @description Alert messages managing module.
  */
-var Alert = (_dec = (0, _di.Module)({
-  deps: [{ dep: 'AlertOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(Alert, _RcModule);
+_dec = (0, _di.Module)({
+  deps: [{
+    dep: 'AlertOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 = (_temp =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(Alert, _RcModule);
 
   /**
    * @constructor
@@ -123,42 +110,44 @@ var Alert = (_dec = (0, _di.Module)({
    * @param {Number} params.ttl - Default time-to-live for alert messages.
    */
   function Alert(_ref) {
-    var _ref$ttl = _ref.ttl,
-        ttl = _ref$ttl === undefined ? 5000 : _ref$ttl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['ttl']);
-    (0, _classCallCheck3.default)(this, Alert);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Alert.__proto__ || (0, _getPrototypeOf2.default)(Alert)).call(this, (0, _extends3.default)({}, options)));
+    var _ref$ttl = _ref.ttl,
+        ttl = _ref$ttl === void 0 ? 5000 : _ref$ttl,
+        options = _objectWithoutProperties(_ref, ["ttl"]);
+
+    _classCallCheck(this, Alert);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Alert).call(this, _objectSpread({}, options)));
 
     _this._autoDismiss = function () {
       var now = Date.now();
+
       var ids = _this.state.messages.filter(function (item) {
         return item.ttl > 0 && now - item.timestamp > item.ttl;
       }).map(function (item) {
         return item.id;
       });
+
       if (ids.length) {
         _this.dismiss(ids);
       }
     };
 
-    _this._reducer = (0, _getAlertReducer2.default)(_this.actionTypes);
+    _this._reducer = (0, _getAlertReducer.default)(_this.actionTypes);
     _this._ttl = ttl;
     return _this;
   }
 
-  (0, _createClass3.default)(Alert, [{
-    key: '_onStateChange',
+  _createClass(Alert, [{
+    key: "_onStateChange",
     value: function _onStateChange() {}
     /* do nothing */
-
-
     // this module has no dependency, and is always ready
     // eslint-disable-next-line class-methods-use-this
 
   }, {
-    key: 'alert',
-
+    key: "alert",
 
     /**
      * @function
@@ -169,19 +158,16 @@ var Alert = (_dec = (0, _di.Module)({
      * @param {Number} options.ttl - optional, set ttl to 0 to disable auto dismiss
      */
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
-        var message = _ref2.message,
-            payload = _ref2.payload,
-            _ref2$level = _ref2.level,
-            level = _ref2$level === undefined ? _alertLevels2.default.info : _ref2$level,
-            _ref2$ttl = _ref2.ttl,
-            ttl = _ref2$ttl === undefined ? this._ttl : _ref2$ttl,
-            _ref2$allowDuplicates = _ref2.allowDuplicates,
-            allowDuplicates = _ref2$allowDuplicates === undefined ? true : _ref2$allowDuplicates;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _alert = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(_ref2) {
+        var message, payload, _ref2$level, level, _ref2$ttl, ttl, _ref2$allowDuplicates, allowDuplicates;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                message = _ref2.message, payload = _ref2.payload, _ref2$level = _ref2.level, level = _ref2$level === void 0 ? _alertLevels.default.info : _ref2$level, _ref2$ttl = _ref2.ttl, ttl = _ref2$ttl === void 0 ? this._ttl : _ref2$ttl, _ref2$allowDuplicates = _ref2.allowDuplicates, allowDuplicates = _ref2$allowDuplicates === void 0 ? true : _ref2$allowDuplicates;
                 this.store.dispatch({
                   type: this.actionTypes.alert,
                   message: message,
@@ -189,15 +175,16 @@ var Alert = (_dec = (0, _di.Module)({
                   level: level,
                   ttl: ttl,
                   allowDuplicates: allowDuplicates,
-                  id: _uuid2.default.v4(),
+                  id: _uuid.default.v4(),
                   timestamp: Date.now()
                 });
+
                 if (ttl > 0) {
                   setTimeout(this._autoDismiss, ttl + 10);
                 }
 
-              case 2:
-              case 'end':
+              case 3:
+              case "end":
                 return _context.stop();
             }
           }
@@ -205,7 +192,7 @@ var Alert = (_dec = (0, _di.Module)({
       }));
 
       function alert(_x) {
-        return _ref3.apply(this, arguments);
+        return _alert.apply(this, arguments);
       }
 
       return alert;
@@ -219,10 +206,10 @@ var Alert = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: 'danger',
+    key: "danger",
     value: function danger(options) {
-      this.alert((0, _extends3.default)({}, options, {
-        level: _alertLevels2.default.danger
+      this.alert(_objectSpread({}, options, {
+        level: _alertLevels.default.danger
       }));
     }
     /**
@@ -234,10 +221,10 @@ var Alert = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: 'warning',
+    key: "warning",
     value: function warning(options) {
-      this.alert((0, _extends3.default)({}, options, {
-        level: _alertLevels2.default.warning
+      this.alert(_objectSpread({}, options, {
+        level: _alertLevels.default.warning
       }));
     }
     /**
@@ -249,10 +236,10 @@ var Alert = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: 'info',
+    key: "info",
     value: function info(options) {
-      this.alert((0, _extends3.default)({}, options, {
-        level: _alertLevels2.default.info
+      this.alert(_objectSpread({}, options, {
+        level: _alertLevels.default.info
       }));
     }
     /**
@@ -264,10 +251,10 @@ var Alert = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: 'success',
+    key: "success",
     value: function success(options) {
-      this.alert((0, _extends3.default)({}, options, {
-        level: _alertLevels2.default.success
+      this.alert(_objectSpread({}, options, {
+        level: _alertLevels.default.success
       }));
     }
     /**
@@ -277,10 +264,12 @@ var Alert = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: 'dismiss',
+    key: "dismiss",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ids) {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _dismiss = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(ids) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -290,7 +279,7 @@ var Alert = (_dec = (0, _di.Module)({
                 });
 
               case 1:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -298,7 +287,7 @@ var Alert = (_dec = (0, _di.Module)({
       }));
 
       function dismiss(_x2) {
-        return _ref4.apply(this, arguments);
+        return _dismiss.apply(this, arguments);
       }
 
       return dismiss;
@@ -309,10 +298,12 @@ var Alert = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: 'dismissAll',
+    key: "dismissAll",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _dismissAll = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -321,7 +312,7 @@ var Alert = (_dec = (0, _di.Module)({
                 });
 
               case 1:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -329,41 +320,40 @@ var Alert = (_dec = (0, _di.Module)({
       }));
 
       function dismissAll() {
-        return _ref5.apply(this, arguments);
+        return _dismissAll.apply(this, arguments);
       }
 
       return dismissAll;
     }()
   }, {
-    key: '_actionTypes',
+    key: "_actionTypes",
     get: function get() {
-      return _actionTypes2.default;
+      return _actionTypes.default;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
-      return _moduleStatuses2.default.ready;
-    }
-    // eslint-disable-next-line class-methods-use-this
+      return _moduleStatuses.default.ready;
+    } // eslint-disable-next-line class-methods-use-this
 
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
       return true;
     }
   }, {
-    key: 'messages',
+    key: "messages",
     get: function get() {
       return this.state.messages;
     }
-
     /**
      * @function
      * @description Scans the messages for expired ones and dismiss them.
      */
 
   }]);
+
   return Alert;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'alert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'alert'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'dismiss', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'dismiss'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'dismissAll', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'dismissAll'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype)), _class2)) || _class);
 exports.default = Alert;
 //# sourceMappingURL=index.js.map

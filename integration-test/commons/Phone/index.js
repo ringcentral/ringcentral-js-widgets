@@ -1,307 +1,355 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _dec, _class;
-
 exports.createPhone = createPhone;
+exports.default = void 0;
 
-var _ringcentral = require('ringcentral');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _ringcentral2 = _interopRequireDefault(_ringcentral);
+require("core-js/modules/es6.symbol");
 
-var _ringcentralClient = require('ringcentral-client');
+require("core-js/modules/es6.object.create");
 
-var _ringcentralClient2 = _interopRequireDefault(_ringcentralClient);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _di = require('../../../lib/di');
+require("core-js/modules/es6.array.for-each");
 
-var _RcModule2 = require('../../../lib/RcModule');
+require("core-js/modules/es6.array.filter");
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+require("core-js/modules/web.dom.iterable");
 
-var _callingOptions = require('../../../modules/CallingSettings/callingOptions');
+require("core-js/modules/es6.array.iterator");
 
-var _callingOptions2 = _interopRequireDefault(_callingOptions);
+require("core-js/modules/es6.object.keys");
 
-var _AccountContacts = require('../../../modules/AccountContacts');
+require("core-js/modules/es6.object.define-property");
 
-var _AccountContacts2 = _interopRequireDefault(_AccountContacts);
+var _ringcentral = _interopRequireDefault(require("ringcentral"));
 
-var _AccountExtension = require('../../../modules/AccountExtension');
+var _ringcentralClient = _interopRequireDefault(require("ringcentral-client"));
 
-var _AccountExtension2 = _interopRequireDefault(_AccountExtension);
+var _di = require("../../../lib/di");
 
-var _AccountInfo = require('../../../modules/AccountInfo');
+var _RcModule2 = _interopRequireDefault(require("../../../lib/RcModule"));
 
-var _AccountInfo2 = _interopRequireDefault(_AccountInfo);
+var _AccountContacts = _interopRequireDefault(require("../../../modules/AccountContacts"));
 
-var _AccountPhoneNumber = require('../../../modules/AccountPhoneNumber');
+var _AccountDirectory = _interopRequireDefault(require("../../../modules/AccountDirectory"));
 
-var _AccountPhoneNumber2 = _interopRequireDefault(_AccountPhoneNumber);
+var _AccountInfo = _interopRequireDefault(require("../../../modules/AccountInfo"));
 
-var _AddressBook = require('../../../modules/AddressBook');
+var _AddressBook = _interopRequireDefault(require("../../../modules/AddressBook"));
 
-var _AddressBook2 = _interopRequireDefault(_AddressBook);
+var _Alert = _interopRequireDefault(require("../../../modules/Alert"));
 
-var _Alert = require('../../../modules/Alert');
+var _Auth = _interopRequireDefault(require("../../../modules/Auth"));
 
-var _Alert2 = _interopRequireDefault(_Alert);
+var _Brand = _interopRequireDefault(require("../../../modules/Brand"));
 
-var _Auth = require('../../../modules/Auth');
+var _Call = _interopRequireDefault(require("../../../modules/Call"));
 
-var _Auth2 = _interopRequireDefault(_Auth);
+var _CallingSettings = _interopRequireDefault(require("../../../modules/CallingSettings"));
 
-var _Brand = require('../../../modules/Brand');
+var _Contacts = _interopRequireDefault(require("../../../modules/Contacts"));
 
-var _Brand2 = _interopRequireDefault(_Brand);
+var _ContactDetails = _interopRequireDefault(require("../../../modules/ContactDetails"));
 
-var _Call = require('../../../modules/Call');
+var _ConnectivityMonitor = _interopRequireDefault(require("../../../modules/ConnectivityMonitor"));
 
-var _Call2 = _interopRequireDefault(_Call);
+var _DialingPlan = _interopRequireDefault(require("../../../modules/DialingPlan"));
 
-var _CallingSettings = require('../../../modules/CallingSettings');
+var _ExtensionDevice = _interopRequireDefault(require("../../../modules/ExtensionDevice"));
 
-var _CallingSettings2 = _interopRequireDefault(_CallingSettings);
+var _Environment = _interopRequireDefault(require("../../../modules/Environment"));
 
-var _Contacts = require('../../../modules/Contacts');
+var _ExtensionInfo = _interopRequireDefault(require("../../../modules/ExtensionInfo"));
 
-var _Contacts2 = _interopRequireDefault(_Contacts);
+var _ExtensionPhoneNumber = _interopRequireDefault(require("../../../modules/ExtensionPhoneNumber"));
 
-var _ContactDetails = require('../../../modules/ContactDetails');
+var _ForwardingNumber = _interopRequireDefault(require("../../../modules/ForwardingNumber"));
 
-var _ContactDetails2 = _interopRequireDefault(_ContactDetails);
+var _GlobalStorage = _interopRequireDefault(require("../../../modules/GlobalStorage"));
 
-var _ConnectivityMonitor = require('../../../modules/ConnectivityMonitor');
+var _Locale = _interopRequireDefault(require("../../../modules/Locale"));
 
-var _ConnectivityMonitor2 = _interopRequireDefault(_ConnectivityMonitor);
+var _RateLimiter = _interopRequireDefault(require("../../../modules/RateLimiter"));
 
-var _DialingPlan = require('../../../modules/DialingPlan');
+var _RegionSettings = _interopRequireDefault(require("../../../modules/RegionSettings"));
 
-var _DialingPlan2 = _interopRequireDefault(_DialingPlan);
+var _Ringout = _interopRequireDefault(require("../../../modules/Ringout"));
 
-var _ExtensionDevice = require('../../../modules/ExtensionDevice');
+var _Webphone = _interopRequireDefault(require("../../../modules/Webphone"));
 
-var _ExtensionDevice2 = _interopRequireDefault(_ExtensionDevice);
+var _RolesAndPermissions = _interopRequireDefault(require("../../../modules/RolesAndPermissions"));
 
-var _Environment = require('../../../modules/Environment');
+var _Softphone = _interopRequireDefault(require("../../../modules/Softphone"));
 
-var _Environment2 = _interopRequireDefault(_Environment);
+var _Storage = _interopRequireDefault(require("../../../modules/Storage"));
 
-var _ExtensionInfo = require('../../../modules/ExtensionInfo');
+var _Subscription = _interopRequireDefault(require("../../../modules/Subscription"));
 
-var _ExtensionInfo2 = _interopRequireDefault(_ExtensionInfo);
+var _TabManager = _interopRequireDefault(require("../../../modules/TabManager"));
 
-var _ExtensionPhoneNumber = require('../../../modules/ExtensionPhoneNumber');
+var _NumberValidate = _interopRequireDefault(require("../../../modules/NumberValidate"));
 
-var _ExtensionPhoneNumber2 = _interopRequireDefault(_ExtensionPhoneNumber);
+var _MessageSender = _interopRequireDefault(require("../../../modules/MessageSender"));
 
-var _ForwardingNumber = require('../../../modules/ForwardingNumber');
+var _ComposeText = _interopRequireDefault(require("../../../modules/ComposeText"));
 
-var _ForwardingNumber2 = _interopRequireDefault(_ForwardingNumber);
+var _MessageStore = _interopRequireDefault(require("../../../modules/MessageStore"));
 
-var _GlobalStorage = require('../../../modules/GlobalStorage');
+var _Conversations = _interopRequireDefault(require("../../../modules/Conversations"));
 
-var _GlobalStorage2 = _interopRequireDefault(_GlobalStorage);
+var _ContactSearch = _interopRequireDefault(require("../../../modules/ContactSearch"));
 
-var _Locale = require('../../../modules/Locale');
+var _DateTimeFormat = _interopRequireDefault(require("../../../modules/DateTimeFormat"));
 
-var _Locale2 = _interopRequireDefault(_Locale);
+var _Conference = _interopRequireDefault(require("../../../modules/Conference"));
 
-var _RateLimiter = require('../../../modules/RateLimiter');
+var _ConferenceCall = _interopRequireDefault(require("../../../modules/ConferenceCall"));
 
-var _RateLimiter2 = _interopRequireDefault(_RateLimiter);
+var _QuickAccess = _interopRequireDefault(require("../../../modules/QuickAccess"));
 
-var _RegionSettings = require('../../../modules/RegionSettings');
+var _ActiveCallControl = _interopRequireDefault(require("../../../modules/ActiveCallControl"));
 
-var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
+var _ActiveCalls = _interopRequireDefault(require("../../../modules/ActiveCalls"));
 
-var _Ringout = require('../../../modules/Ringout');
+var _DetailedPresence = _interopRequireDefault(require("../../../modules/DetailedPresence"));
 
-var _Ringout2 = _interopRequireDefault(_Ringout);
+var _CallLog = _interopRequireDefault(require("../../../modules/CallLog"));
 
-var _Webphone = require('../../../modules/Webphone');
+var _CallMonitor = _interopRequireDefault(require("../../../modules/CallMonitor"));
 
-var _Webphone2 = _interopRequireDefault(_Webphone);
+var _CallHistory = _interopRequireDefault(require("../../../modules/CallHistory"));
 
-var _RolesAndPermissions = require('../../../modules/RolesAndPermissions');
+var _RecentMessages = _interopRequireDefault(require("../../../modules/RecentMessages"));
 
-var _RolesAndPermissions2 = _interopRequireDefault(_RolesAndPermissions);
+var _RecentCalls = _interopRequireDefault(require("../../../modules/RecentCalls"));
 
-var _Softphone = require('../../../modules/Softphone');
+var _AudioSettings = _interopRequireDefault(require("../../../modules/AudioSettings"));
 
-var _Softphone2 = _interopRequireDefault(_Softphone);
+var _Meeting = _interopRequireDefault(require("../../../modules/Meeting"));
 
-var _Storage = require('../../../modules/Storage');
+var _LocaleSettings = _interopRequireDefault(require("../../../modules/LocaleSettings"));
 
-var _Storage2 = _interopRequireDefault(_Storage);
+var _ContactMatcher = _interopRequireDefault(require("../../../modules/ContactMatcher"));
 
-var _Subscription = require('../../../modules/Subscription');
+var _UserGuide = _interopRequireDefault(require("../../../modules/UserGuide"));
 
-var _Subscription2 = _interopRequireDefault(_Subscription);
+var _normalizeNumber2 = _interopRequireDefault(require("../../../lib/normalizeNumber"));
 
-var _TabManager = require('../../../modules/TabManager');
+var _ringoutStatus = _interopRequireDefault(require("../../../modules/Ringout/ringoutStatus"));
 
-var _TabManager2 = _interopRequireDefault(_TabManager);
+var _softphoneStatus = _interopRequireDefault(require("../../../modules/Softphone/softphoneStatus"));
 
-var _NumberValidate = require('../../../modules/NumberValidate');
+var _callingModes = _interopRequireDefault(require("../../../modules/CallingSettings/callingModes"));
 
-var _NumberValidate2 = _interopRequireDefault(_NumberValidate);
+var _AvailabilityMonitor = _interopRequireDefault(require("../../../modules/AvailabilityMonitor"));
 
-var _MessageSender = require('../../../modules/MessageSender');
+var _BlockedNumber = _interopRequireDefault(require("../../../modules/BlockedNumber"));
 
-var _MessageSender2 = _interopRequireDefault(_MessageSender);
-
-var _ComposeText = require('../../../modules/ComposeText');
-
-var _ComposeText2 = _interopRequireDefault(_ComposeText);
-
-var _MessageStore = require('../../../modules/MessageStore');
-
-var _MessageStore2 = _interopRequireDefault(_MessageStore);
-
-var _Conversations = require('../../../modules/Conversations');
-
-var _Conversations2 = _interopRequireDefault(_Conversations);
-
-var _ContactSearch = require('../../../modules/ContactSearch');
-
-var _ContactSearch2 = _interopRequireDefault(_ContactSearch);
-
-var _DateTimeFormat = require('../../../modules/DateTimeFormat');
-
-var _DateTimeFormat2 = _interopRequireDefault(_DateTimeFormat);
-
-var _Conference = require('../../../modules/Conference');
-
-var _Conference2 = _interopRequireDefault(_Conference);
-
-var _ConferenceCall = require('../../../modules/ConferenceCall');
-
-var _ConferenceCall2 = _interopRequireDefault(_ConferenceCall);
-
-var _QuickAccess = require('../../../modules/QuickAccess');
-
-var _QuickAccess2 = _interopRequireDefault(_QuickAccess);
-
-var _ActiveCallControl = require('../../../modules/ActiveCallControl');
-
-var _ActiveCallControl2 = _interopRequireDefault(_ActiveCallControl);
-
-var _ActiveCalls = require('../../../modules/ActiveCalls');
-
-var _ActiveCalls2 = _interopRequireDefault(_ActiveCalls);
-
-var _DetailedPresence = require('../../../modules/DetailedPresence');
-
-var _DetailedPresence2 = _interopRequireDefault(_DetailedPresence);
-
-var _CallLog = require('../../../modules/CallLog');
-
-var _CallLog2 = _interopRequireDefault(_CallLog);
-
-var _CallMonitor = require('../../../modules/CallMonitor');
-
-var _CallMonitor2 = _interopRequireDefault(_CallMonitor);
-
-var _CallHistory = require('../../../modules/CallHistory');
-
-var _CallHistory2 = _interopRequireDefault(_CallHistory);
-
-var _RecentMessages = require('../../../modules/RecentMessages');
-
-var _RecentMessages2 = _interopRequireDefault(_RecentMessages);
-
-var _RecentCalls = require('../../../modules/RecentCalls');
-
-var _RecentCalls2 = _interopRequireDefault(_RecentCalls);
-
-var _AudioSettings = require('../../../modules/AudioSettings');
-
-var _AudioSettings2 = _interopRequireDefault(_AudioSettings);
-
-var _Meeting = require('../../../modules/Meeting');
-
-var _Meeting2 = _interopRequireDefault(_Meeting);
-
-var _LocaleSettings = require('../../../modules/LocaleSettings');
-
-var _LocaleSettings2 = _interopRequireDefault(_LocaleSettings);
-
-var _ContactMatcher = require('../../../modules/ContactMatcher');
-
-var _ContactMatcher2 = _interopRequireDefault(_ContactMatcher);
-
-var _UserGuide = require('../../../modules/UserGuide');
-
-var _UserGuide2 = _interopRequireDefault(_UserGuide);
-
-var _normalizeNumber2 = require('../../../lib/normalizeNumber');
-
-var _normalizeNumber3 = _interopRequireDefault(_normalizeNumber2);
-
-var _ringoutStatus = require('../../../modules/Ringout/ringoutStatus');
-
-var _ringoutStatus2 = _interopRequireDefault(_ringoutStatus);
-
-var _softphoneStatus = require('../../../modules/Softphone/softphoneStatus');
-
-var _softphoneStatus2 = _interopRequireDefault(_softphoneStatus);
-
-var _callingModes = require('../../../modules/CallingSettings/callingModes');
-
-var _callingModes2 = _interopRequireDefault(_callingModes);
-
-var _BlockedNumber = require('../../../modules/BlockedNumber');
-
-var _BlockedNumber2 = _interopRequireDefault(_BlockedNumber);
+var _dec2, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BasePhone = (_dec = (0, _di.ModuleFactory)({
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
   providers: [{
     provide: 'Client',
-    useFactory: function useFactory(_ref) {
-      var sdkConfig = _ref.sdkConfig;
-      return new _ringcentralClient2.default(new _ringcentral2.default(sdkConfig));
+    useFactory: function useFactory(_ref2) {
+      var sdkConfig = _ref2.sdkConfig;
+      return new _ringcentralClient.default(new _ringcentral.default(sdkConfig));
     },
-    deps: [{ dep: 'SdkConfig', useParam: true }]
-  }, { provide: 'Alert', useClass: _Alert2.default }, { provide: 'Brand', useClass: _Brand2.default }, { provide: 'Softphone', useClass: _Softphone2.default }, { provide: 'Locale', useClass: _Locale2.default }, { provide: 'DateTimeFormat', useClass: _DateTimeFormat2.default }, { provide: 'TabManager', useClass: _TabManager2.default }, { provide: 'GlobalStorage', useClass: _GlobalStorage2.default }, { provide: 'LocaleSettings', useClass: _LocaleSettings2.default }, { provide: 'Environment', useClass: _Environment2.default }, { provide: 'Auth', useClass: _Auth2.default }, { provide: 'Ringout', useClass: _Ringout2.default }, { provide: 'ConnectivityMonitor', useClass: _ConnectivityMonitor2.default }, { provide: 'RateLimiter', useClass: _RateLimiter2.default }, { provide: 'Storage', useClass: _Storage2.default }, { provide: 'AudioSettings', useClass: _AudioSettings2.default }, { provide: 'AccountExtension', useClass: _AccountExtension2.default }, { provide: 'AccountInfo', useClass: _AccountInfo2.default }, { provide: 'ExtensionDevice', useClass: _ExtensionDevice2.default }, { provide: 'ExtensionInfo', useClass: _ExtensionInfo2.default }, { provide: 'RolesAndPermissions', useClass: _RolesAndPermissions2.default }, { provide: 'DialingPlan', useClass: _DialingPlan2.default }, { provide: 'ExtensionPhoneNumber', useClass: _ExtensionPhoneNumber2.default }, { provide: 'ForwardingNumber', useClass: _ForwardingNumber2.default }, { provide: 'RegionSettings', useClass: _RegionSettings2.default }, { provide: 'NumberValidate', useClass: _NumberValidate2.default }, { provide: 'CallingSettings', useClass: _CallingSettings2.default }, { provide: 'Call', useClass: _Call2.default }, { provide: 'Subscription', useClass: _Subscription2.default }, { provide: 'ActiveCalls', useClass: _ActiveCalls2.default }, { provide: 'DetailedPresence', useClass: _DetailedPresence2.default }, { provide: 'MessageSender', useClass: _MessageSender2.default }, { provide: 'ComposeText', useClass: _ComposeText2.default }, { provide: 'MessageStore', useClass: _MessageStore2.default }, { provide: 'Conversations', useClass: _Conversations2.default }, { provide: 'Conference', useClass: _Conference2.default }, { provide: 'CallLog', useClass: _CallLog2.default }, { provide: 'CallHistory', useClass: _CallHistory2.default }, { provide: 'AccountPhoneNumber', useClass: _AccountPhoneNumber2.default }, { provide: 'AccountContacts', useClass: _AccountContacts2.default }, { provide: 'AddressBook', useClass: _AddressBook2.default }, { provide: 'Contacts', useClass: _Contacts2.default }, { provide: 'QuickAccess', useClass: _QuickAccess2.default }, {
+    deps: [{
+      dep: 'SdkConfig',
+      useParam: true
+    }]
+  }, {
+    provide: 'Alert',
+    useClass: _Alert.default
+  }, {
+    provide: 'Brand',
+    useClass: _Brand.default
+  }, {
+    provide: 'Softphone',
+    useClass: _Softphone.default
+  }, {
+    provide: 'Locale',
+    useClass: _Locale.default
+  }, {
+    provide: 'DateTimeFormat',
+    useClass: _DateTimeFormat.default
+  }, {
+    provide: 'TabManager',
+    useClass: _TabManager.default
+  }, {
+    provide: 'GlobalStorage',
+    useClass: _GlobalStorage.default
+  }, {
+    provide: 'LocaleSettings',
+    useClass: _LocaleSettings.default
+  }, {
+    provide: 'Environment',
+    useClass: _Environment.default
+  }, {
+    provide: 'Auth',
+    useClass: _Auth.default
+  }, {
+    provide: 'Ringout',
+    useClass: _Ringout.default
+  }, {
+    provide: 'ConnectivityMonitor',
+    useClass: _ConnectivityMonitor.default
+  }, {
+    provide: 'RateLimiter',
+    useClass: _RateLimiter.default
+  }, {
+    provide: 'Storage',
+    useClass: _Storage.default
+  }, {
+    provide: 'AudioSettings',
+    useClass: _AudioSettings.default
+  }, {
+    provide: 'AccountDirectory',
+    useClass: _AccountDirectory.default
+  }, {
+    provide: 'AccountInfo',
+    useClass: _AccountInfo.default
+  }, {
+    provide: 'ExtensionDevice',
+    useClass: _ExtensionDevice.default
+  }, {
+    provide: 'ExtensionInfo',
+    useClass: _ExtensionInfo.default
+  }, {
+    provide: 'RolesAndPermissions',
+    useClass: _RolesAndPermissions.default
+  }, {
+    provide: 'DialingPlan',
+    useClass: _DialingPlan.default
+  }, {
+    provide: 'ExtensionPhoneNumber',
+    useClass: _ExtensionPhoneNumber.default
+  }, {
+    provide: 'ForwardingNumber',
+    useClass: _ForwardingNumber.default
+  }, {
+    provide: 'RegionSettings',
+    useClass: _RegionSettings.default
+  }, {
+    provide: 'NumberValidate',
+    useClass: _NumberValidate.default
+  }, {
+    provide: 'CallingSettings',
+    useClass: _CallingSettings.default
+  }, {
+    provide: 'Call',
+    useClass: _Call.default
+  }, {
+    provide: 'Subscription',
+    useClass: _Subscription.default
+  }, {
+    provide: 'ActiveCalls',
+    useClass: _ActiveCalls.default
+  }, {
+    provide: 'DetailedPresence',
+    useClass: _DetailedPresence.default
+  }, {
+    provide: 'MessageSender',
+    useClass: _MessageSender.default
+  }, {
+    provide: 'ComposeText',
+    useClass: _ComposeText.default
+  }, {
+    provide: 'MessageStore',
+    useClass: _MessageStore.default
+  }, {
+    provide: 'Conversations',
+    useClass: _Conversations.default
+  }, {
+    provide: 'Conference',
+    useClass: _Conference.default
+  }, {
+    provide: 'CallLog',
+    useClass: _CallLog.default
+  }, {
+    provide: 'CallHistory',
+    useClass: _CallHistory.default
+  }, // { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
+  {
+    provide: 'AccountContacts',
+    useClass: _AccountContacts.default
+  }, {
+    provide: 'AddressBook',
+    useClass: _AddressBook.default
+  }, {
+    provide: 'Contacts',
+    useClass: _Contacts.default
+  }, {
+    provide: 'QuickAccess',
+    useClass: _QuickAccess.default
+  }, {
     provide: 'ContactSources',
     deps: ['AddressBook', 'AccountContacts'],
-    useFactory: function useFactory(_ref2) {
-      var addressBook = _ref2.addressBook,
-          accountContacts = _ref2.accountContacts;
+    useFactory: function useFactory(_ref3) {
+      var addressBook = _ref3.addressBook,
+          accountContacts = _ref3.accountContacts;
       return [addressBook, accountContacts];
     }
-  }, { provide: 'ContactDetails', useClass: _ContactDetails2.default }, { provide: 'ContactMatcher', useClass: _ContactMatcher2.default }, { provide: 'RecentMessages', useClass: _RecentMessages2.default }, { provide: 'RecentCalls', useClass: _RecentCalls2.default }, { provide: 'Meeting', useClass: _Meeting2.default }, { provide: 'Webphone', useClass: _Webphone2.default }, { provide: 'ContactSearch', useClass: _ContactSearch2.default }, { provide: 'CallMonitor', useClass: _CallMonitor2.default }, { provide: 'UserGuide', useClass: _UserGuide2.default }, { provide: 'ActiveCallControl', useClass: _ActiveCallControl2.default }, {
+  }, {
+    provide: 'ContactDetails',
+    useClass: _ContactDetails.default
+  }, {
+    provide: 'ContactMatcher',
+    useClass: _ContactMatcher.default
+  }, {
+    provide: 'RecentMessages',
+    useClass: _RecentMessages.default
+  }, {
+    provide: 'RecentCalls',
+    useClass: _RecentCalls.default
+  }, {
+    provide: 'Meeting',
+    useClass: _Meeting.default
+  }, {
+    provide: 'Webphone',
+    useClass: _Webphone.default
+  }, {
+    provide: 'ContactSearch',
+    useClass: _ContactSearch.default
+  }, {
+    provide: 'CallMonitor',
+    useClass: _CallMonitor.default
+  }, {
+    provide: 'UserGuide',
+    useClass: _UserGuide.default
+  }, {
+    provide: 'ActiveCallControl',
+    useClass: _ActiveCallControl.default
+  }, {
     provide: 'StorageOptions',
     useValue: {
       // StorageProvider: LocalForageStorage, // IndexedDB
@@ -323,23 +371,34 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
       showMMSAttachment: true
     },
     spread: true
-  }, { provide: 'ConferenceCall', useClass: _ConferenceCall2.default },
-  // {
+  }, {
+    provide: 'ConferenceCall',
+    useClass: _ConferenceCall.default
+  }, // {
   // provide: 'ConferenceCallOptions',
   // useValue: {
   // pulling: false,
   // },
   // spread: true,
   // },
-  { provide: 'BlockedNumber', useClass: _BlockedNumber2.default }]
-}), _dec(_class = function (_RcModule) {
-  (0, _inherits3.default)(BasePhone, _RcModule);
+  {
+    provide: 'AvailabilityMonitor',
+    useClass: _AvailabilityMonitor.default
+  }, {
+    provide: 'BlockedNumber',
+    useClass: _BlockedNumber.default
+  }]
+}), _dec2(_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(BasePhone, _RcModule);
 
   function BasePhone(options) {
-    (0, _classCallCheck3.default)(this, BasePhone);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (BasePhone.__proto__ || (0, _getPrototypeOf2.default)(BasePhone)).call(this, options));
+    _classCallCheck(this, BasePhone);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(BasePhone).call(this, options));
     var ringout = options.ringout,
         webphone = options.webphone,
         callingSettings = options.callingSettings,
@@ -348,9 +407,7 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
         contactSearch = options.contactSearch,
         contacts = options.contacts,
         contactMatcher = options.contactMatcher,
-        conferenceCall = options.conferenceCall;
-
-    //     contactSearch.addSearchSource({
+        conferenceCall = options.conferenceCall; //     contactSearch.addSearchSource({
     //       sourceName: 'contacts',
     //       searchFn({ searchString }) {
     //         const items = contacts.allContacts;
@@ -387,12 +444,10 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //       searchFn: async ({ queries }) => contacts.matchContacts({ phoneNumbers: queries }),
     //       readyCheckFn: () => contacts.ready,
     //     });
-
     //     // Webphone configuration
     //     webphone.onCallEnd((session, currentSession, ringSession) => {
     //       const callsOnholdReg = /^\/conferenceCall\/callsOnhold\/(.+)\/(.+)$/;
     //       const execCallsOnhold = callsOnholdReg.exec(routerInteraction.currentPath);
-
     //       if (execCallsOnhold) {
     //         const fromSessionIdOfCallsOnhold = execCallsOnhold[2];
     //         if (!currentSession || session.id === currentSession.id) {
@@ -404,14 +459,12 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //           return;
     //         }
     //       }
-
     //       const withinCallCtrl = !![
     //         '/calls/active',
     //         '/conferenceCall/dialer/',
     //         '/conferenceCall/callsOnhold',
     //         '/conferenceCall/participants',
     //       ].find(path => routerInteraction.currentPath.indexOf(path) === 0);
-
     //       if (
     //         withinCallCtrl
     // && (!currentSession || session.id === currentSession.id)
@@ -432,7 +485,6 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //         routerInteraction.goBack();
     //         return;
     //       }
-
     //       if (
     //         currentSession
     // && currentSession.id !== session.id
@@ -441,12 +493,10 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //         routerInteraction.replace(`/calls/active/${currentSession.id}`);
     //         return;
     //       }
-
     //       if (!currentSession && ringSession) {
     //         routerInteraction.push('/calls');
     //       }
     //     });
-
     //     webphone.onCallStart((session) => {
     //       const path = `/calls/active/${session.id}`;
     //       if (routerInteraction.currentPath !== path) {
@@ -457,7 +507,6 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //         }
     //       }
     //     });
-
     //     webphone.onCallRing(() => {
     //       if (webphone.ringSessions.length > 1) {
     //         if (routerInteraction.currentPath !== '/calls') {
@@ -470,7 +519,6 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //         });
     //       }
     //     });
-
     //     webphone.onBeforeCallResume((session) => {
     //       const sessionId = session && session.id;
     //       const mergingPair = conferenceCall && conferenceCall.mergingPair;
@@ -479,7 +527,6 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //         conferenceCall.closeMergingPair();
     //       }
     //     });
-
     //     webphone.onBeforeCallEnd((session) => {
     //       const mergingPair = conferenceCall && conferenceCall.mergingPair;
     //       if (
@@ -491,15 +538,12 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //         conferenceCall.closeMergingPair();
     //       }
     //     });
-
     //     conferenceCall.onMergeSuccess((conferenceData) => {
     //       routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
     //     });
-
     //     // CallMonitor configuration
     //     this._softphoneConnectTime = null;
     //     this._softphoneConnectNumber = null;
-
     //     callMonitor._onRinging = (call) => {
     //       // auto nav rules
     //       if (
@@ -522,7 +566,6 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //         this._softphoneConnectNumber = null;
     //       }
     //     };
-
     //     const phone = this;
     //     callMonitor._onCallEnded = () => {
     //       if (
@@ -536,17 +579,15 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     return _this;
   }
 
-  (0, _createClass3.default)(BasePhone, [{
-    key: '_normalizeNumber',
+  _createClass(BasePhone, [{
+    key: "_normalizeNumber",
     value: function _normalizeNumber(phoneNumber) {
-      return (0, _normalizeNumber3.default)({
+      return (0, _normalizeNumber2.default)({
         phoneNumber: phoneNumber,
         countryCode: this.regionSettings.countryCode,
         areaCode: this.regionSettings.areaCode
       });
-    }
-
-    //   initialize() {
+    } //   initialize() {
     //     const { rolesAndPermissions } = this;
     //     this.store.subscribe(() => {
     //       if (this.auth.ready) {
@@ -604,25 +645,27 @@ var BasePhone = (_dec = (0, _di.ModuleFactory)({
     //   }
 
   }, {
-    key: '_actionTypes',
+    key: "_actionTypes",
     get: function get() {
       /* no action types */
       return null;
     }
   }]);
-  return BasePhone;
-}(_RcModule3.default)) || _class);
-exports.default = BasePhone;
-function createPhone(_ref3) {
-  var _dec2, _class2;
 
-  var _ref3$prefix = _ref3.prefix,
-      prefix = _ref3$prefix === undefined ? 'rc' : _ref3$prefix,
-      _ref3$version = _ref3.version,
-      version = _ref3$version === undefined ? '0.1.0' : _ref3$version,
-      apiConfig = _ref3.apiConfig,
-      brandConfig = _ref3.brandConfig;
-  var Phone = (_dec2 = (0, _di.ModuleFactory)({
+  return BasePhone;
+}(_RcModule2.default)) || _class2);
+exports.default = BasePhone;
+
+function createPhone(_ref) {
+  var _dec, _class;
+
+  var _ref$prefix = _ref.prefix,
+      prefix = _ref$prefix === void 0 ? 'rc' : _ref$prefix,
+      _ref$version = _ref.version,
+      version = _ref$version === void 0 ? '0.1.0' : _ref$version,
+      apiConfig = _ref.apiConfig,
+      brandConfig = _ref.brandConfig;
+  var Phone = (_dec = (0, _di.ModuleFactory)({
     providers: [{
       provide: 'ModuleOptions',
       useValue: {
@@ -631,14 +674,14 @@ function createPhone(_ref3) {
       spread: true
     }, {
       provide: 'SdkConfig',
-      useValue: (0, _extends3.default)({}, apiConfig, {
+      useValue: _objectSpread({}, apiConfig, {
         cachePrefix: 'sdk-rc',
         clearCacheOnRefreshError: false
       })
     }, {
       provide: 'EnvironmentOptions',
       useValue: {
-        sdkConfig: (0, _extends3.default)({}, apiConfig, {
+        sdkConfig: _objectSpread({}, apiConfig, {
           cachePrefix: 'sdk-rc',
           clearCacheOnRefreshError: false
         })
@@ -664,17 +707,19 @@ function createPhone(_ref3) {
         return version;
       }
     }]
-  }), _dec2(_class2 = function (_BasePhone) {
-    (0, _inherits3.default)(Phone, _BasePhone);
+  }), _dec(_class =
+  /*#__PURE__*/
+  function (_BasePhone) {
+    _inherits(Phone, _BasePhone);
 
     function Phone() {
-      (0, _classCallCheck3.default)(this, Phone);
-      return (0, _possibleConstructorReturn3.default)(this, (Phone.__proto__ || (0, _getPrototypeOf2.default)(Phone)).apply(this, arguments));
+      _classCallCheck(this, Phone);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(Phone).apply(this, arguments));
     }
 
     return Phone;
-  }(BasePhone)) || _class2);
-
+  }(BasePhone)) || _class);
   return Phone.create();
 }
 //# sourceMappingURL=index.js.map

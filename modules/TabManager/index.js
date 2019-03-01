@@ -1,101 +1,114 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.symbol");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.promise");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.for-each");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.filter");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/web.dom.iterable");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.define-property");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.object.create");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("regenerator-runtime/runtime");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.assign");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _di = require("../../lib/di");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _Tabbie = _interopRequireDefault(require("../../lib/Tabbie"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+
+var _getTabManagerReducer = _interopRequireDefault(require("./getTabManagerReducer"));
 
 var _dec, _class;
 
-var _RcModule2 = require('../../lib/RcModule');
-
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _di = require('../../lib/di');
-
-var _Tabbie = require('../../lib/Tabbie');
-
-var _Tabbie2 = _interopRequireDefault(_Tabbie);
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _getTabManagerReducer = require('./getTabManagerReducer');
-
-var _getTabManagerReducer2 = _interopRequireDefault(_getTabManagerReducer);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var TabManager = (
 /**
  * @class
  * @description To handle data between different tabs
  */
-var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
-  (0, _inherits3.default)(TabManager, _RcModule);
+_dec = (0, _di.Module)(), _dec(_class =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(TabManager, _RcModule);
 
   function TabManager(_ref) {
-    var options = (0, _objectWithoutProperties3.default)(_ref, []);
-    (0, _classCallCheck3.default)(this, TabManager);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (TabManager.__proto__ || (0, _getPrototypeOf2.default)(TabManager)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    var options = Object.assign({}, _ref);
+
+    _classCallCheck(this, TabManager);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TabManager).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
-
-    _this._tabbie = new _Tabbie2.default({
+    _this._tabbie = new _Tabbie.default({
       prefix: _this.prefix
     });
-    _this._reducer = (0, _getTabManagerReducer2.default)(_this.actionTypes);
+    _this._reducer = (0, _getTabManagerReducer.default)(_this.actionTypes);
     return _this;
   }
 
-  (0, _createClass3.default)(TabManager, [{
-    key: 'initialize',
+  _createClass(TabManager, [{
+    key: "initialize",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+      var _initialize = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
         var _this2 = this;
 
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -114,9 +127,13 @@ var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
                 _context2.t0.dispatch.call(_context2.t0, _context2.t3);
 
                 if (this._tabbie.enabled) {
-                  this._tabbie.on('mainTabIdChanged', function () {
-                    var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(mainTabId) {
-                      return _regenerator2.default.wrap(function _callee$(_context) {
+                  this._tabbie.on('mainTabIdChanged',
+                  /*#__PURE__*/
+                  function () {
+                    var _ref2 = _asyncToGenerator(
+                    /*#__PURE__*/
+                    regeneratorRuntime.mark(function _callee(mainTabId) {
+                      return regeneratorRuntime.wrap(function _callee$(_context) {
                         while (1) {
                           switch (_context.prev = _context.next) {
                             case 0:
@@ -137,19 +154,20 @@ var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
                               _context.t0.dispatch.call(_context.t0, _context.t4);
 
                             case 8:
-                            case 'end':
+                            case "end":
                               return _context.stop();
                           }
                         }
-                      }, _callee, _this2);
+                      }, _callee);
                     }));
 
                     return function (_x) {
-                      return _ref3.apply(this, arguments);
+                      return _ref2.apply(this, arguments);
                     };
                   }());
+
                   this._tabbie.on('event', function (event) {
-                    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
                       args[_key - 1] = arguments[_key];
                     }
 
@@ -162,7 +180,7 @@ var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
                 }
 
               case 8:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -170,34 +188,36 @@ var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
       }));
 
       function initialize() {
-        return _ref2.apply(this, arguments);
+        return _initialize.apply(this, arguments);
       }
 
       return initialize;
     }()
   }, {
-    key: 'send',
+    key: "send",
     value: function send(event) {
-      var _tabbie;
+      var _this$_tabbie;
 
-      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
         args[_key2 - 1] = arguments[_key2];
       }
 
-      (_tabbie = this._tabbie).send.apply(_tabbie, [event].concat(args));
+      (_this$_tabbie = this._tabbie).send.apply(_this$_tabbie, [event].concat(args));
     }
   }, {
-    key: 'ensureActive',
+    key: "ensureActive",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _ensureActive = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                return _context3.abrupt('return', this._tabbie.checkIsMain());
+                return _context3.abrupt("return", this._tabbie.checkIsMain());
 
               case 1:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -205,33 +225,34 @@ var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
       }));
 
       function ensureActive() {
-        return _ref4.apply(this, arguments);
+        return _ensureActive.apply(this, arguments);
       }
 
       return ensureActive;
     }()
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses2.default.ready;
+      return this.state.status === _moduleStatuses.default.ready;
     }
   }, {
-    key: 'active',
+    key: "active",
     get: function get() {
       return this.state.active;
     }
   }, {
-    key: 'event',
+    key: "event",
     get: function get() {
       return this.state.event;
     }
   }]);
+
   return TabManager;
-}(_RcModule3.default)) || _class);
+}(_RcModule2.default)) || _class);
 exports.default = TabManager;
 //# sourceMappingURL=index.js.map

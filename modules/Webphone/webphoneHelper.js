@@ -1,17 +1,11 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
+exports.isChrome = isChrome;
 exports.isWebSocketSupport = isWebSocketSupport;
 exports.isWebRTCSupport = isWebRTCSupport;
 exports.isBrowserSupport = isBrowserSupport;
@@ -24,28 +18,62 @@ exports.sortByLastActiveTimeDesc = sortByLastActiveTimeDesc;
 exports.isConferenceSession = isConferenceSession;
 exports.isRecording = isRecording;
 
-var _recordStatus = require('./recordStatus');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _recordStatus2 = _interopRequireDefault(_recordStatus);
+require("core-js/modules/es6.symbol");
 
-var _sessionStatus = require('./sessionStatus');
+require("core-js/modules/es6.array.is-array");
 
-var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
+require("core-js/modules/es6.array.index-of");
 
-var _utils = require('../../lib/di/utils/utils');
+require("core-js/modules/web.dom.iterable");
 
-var _callDirections = require('../../enums/callDirections');
+require("core-js/modules/es6.array.iterator");
 
-var _callDirections2 = _interopRequireDefault(_callDirections);
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.regexp.split");
+
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/es6.regexp.match");
+
+var _recordStatus = _interopRequireDefault(require("./recordStatus"));
+
+var _sessionStatus = _interopRequireDefault(require("./sessionStatus"));
+
+var _utils = require("../../lib/di/utils/utils");
+
+var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var environment = void 0;
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var environment;
+
 if (typeof window !== 'undefined') {
   environment = window;
 }
+
 if (typeof global !== 'undefined') {
   environment = global.window || global;
+}
+
+function isChrome() {
+  if (!environment.navigator) {
+    return false;
+  }
+
+  return !!environment.navigator.userAgent.match(/Chrom(e|ium)/);
 }
 
 function isWebSocketSupport() {
@@ -56,6 +84,7 @@ function isWebRTCSupport() {
   if (!environment.navigator) {
     return false;
   }
+
   return !!(environment.MediaStream && environment.RTCPeerConnection && environment.navigator.mediaDevices.getUserMedia);
 }
 
@@ -79,7 +108,7 @@ function extractHeadersData(session, headers) {
     var data = headers['P-Rc-Api-Ids'][0].raw.split(';').map(function (sub) {
       return sub.split('=');
     }).reduce(function (accum, _ref) {
-      var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+      var _ref2 = _slicedToArray(_ref, 2),
           key = _ref2[0],
           value = _ref2[1];
 
@@ -87,7 +116,7 @@ function extractHeadersData(session, headers) {
       return accum;
     }, {});
 
-    if ((0, _keys2.default)(data).length) {
+    if (Object.keys(data).length) {
       session.__rc_partyData = data;
     }
   }
@@ -117,7 +146,7 @@ function normalizeSession(session) {
     isToVoicemail: !!session.__rc_isToVoicemail,
     isForwarded: !!session.__rc_isForwarded,
     isReplied: !!session.__rc_isReplied,
-    recordStatus: session.__rc_recordStatus || _recordStatus2.default.idle,
+    recordStatus: session.__rc_recordStatus || _recordStatus.default.idle,
     contactMatch: session.__rc_contactMatch,
     minimized: !!session.__rc_minimized,
     partyData: session.__rc_partyData || null,
@@ -128,7 +157,7 @@ function normalizeSession(session) {
 }
 
 function isRing(session) {
-  return !!(session && session.direction === _callDirections2.default.inbound && session.callStatus === _sessionStatus2.default.connecting);
+  return !!(session && session.direction === _callDirections.default.inbound && session.callStatus === _sessionStatus.default.connecting);
 }
 
 function isOnHold(session) {
@@ -143,20 +172,23 @@ function sortByLastActiveTimeDesc(l, r) {
   if (!l || !r) {
     return 0;
   }
+
   if (r.lastActiveTime !== l.lastActiveTime) {
     return r.lastActiveTime - l.lastActiveTime;
   }
+
   return sortByCreationTimeDesc(l, r);
 }
-
 /**
  * HACK: this function is not very reliable, only use it before the merging complete.
  */
+
+
 function isConferenceSession(session) {
   return session && session.to && session.to.indexOf('conf_') === 0;
 }
 
 function isRecording(session) {
-  return !!(session && (session.recordStatus === _recordStatus2.default.pending || session.recordStatus === _recordStatus2.default.recording));
+  return !!(session && (session.recordStatus === _recordStatus.default.pending || session.recordStatus === _recordStatus.default.recording));
 }
 //# sourceMappingURL=webphoneHelper.js.map

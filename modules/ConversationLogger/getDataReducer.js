@@ -1,4 +1,6 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,13 +8,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.getAutoLogReducer = getAutoLogReducer;
 exports.default = getDataReducer;
 
-var _redux = require('redux');
+var _redux = require("redux");
 
 function getAutoLogReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         autoLog = _ref.autoLog;
 
     if (type === types.setAutoLog) return !!autoLog;

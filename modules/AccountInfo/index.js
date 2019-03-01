@@ -1,86 +1,103 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.symbol");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.promise");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.for-each");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.filter");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.array.index-of");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/web.dom.iterable");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.iterator");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.reflect.get");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("regenerator-runtime/runtime");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _jsonMask = _interopRequireDefault(require("json-mask"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _di = require("../../lib/di");
 
-var _get2 = require('babel-runtime/helpers/get');
+var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
 
-var _get3 = _interopRequireDefault(_get2);
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _permissionsMessages = _interopRequireDefault(require("../RolesAndPermissions/permissionsMessages"));
 
 var _dec, _class;
 
-var _jsonMask = require('json-mask');
-
-var _jsonMask2 = _interopRequireDefault(_jsonMask);
-
-var _di = require('../../lib/di');
-
-var _DataFetcher2 = require('../../lib/DataFetcher');
-
-var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
-
-var _ensureExist = require('../../lib/ensureExist');
-
-var _ensureExist2 = _interopRequireDefault(_ensureExist);
-
-var _loginStatus = require('../Auth/loginStatus');
-
-var _loginStatus2 = _interopRequireDefault(_loginStatus);
-
-var _permissionsMessages = require('../RolesAndPermissions/permissionsMessages');
-
-var _permissionsMessages2 = _interopRequireDefault(_permissionsMessages);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DEFAULT_MASK = ['id,mainNumber,status', 'operator(id,extensionNumber)', 'serviceInfo(brand(id,homeCountry(isoCode)))', 'regionalSettings(' + ['timezone(id,name,bias)', 'homeCountry(id)', 'language(localeCode)', 'formattingLocale(localeCode)', 'timeFormat'].join(',') + ')'].join(',');
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+var DEFAULT_MASK = ['id,mainNumber,status', 'operator(id,extensionNumber)', 'serviceInfo(brand(id,homeCountry(isoCode)))', "regionalSettings(".concat(['timezone(id,name,bias)', 'homeCountry(id)', 'language(localeCode)', 'formattingLocale(localeCode)', 'timeFormat'].join(','), ")")].join(',');
 /**
  * @class
  * @description Accound info managing module.
  */
+
 var AccountInfo = (_dec = (0, _di.Module)({
-  deps: ['Client', 'RolesAndPermissions', 'Alert', { dep: 'AccountInfoOptions', optional: true }]
-}), _dec(_class = function (_DataFetcher) {
-  (0, _inherits3.default)(AccountInfo, _DataFetcher);
+  deps: ['Client', 'RolesAndPermissions', 'Alert', {
+    dep: 'AccountInfoOptions',
+    optional: true
+  }]
+}), _dec(_class =
+/*#__PURE__*/
+function (_DataFetcher) {
+  _inherits(AccountInfo, _DataFetcher);
 
   /**
    * @constructor
@@ -88,42 +105,47 @@ var AccountInfo = (_dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function AccountInfo(_ref) {
-    var _this2 = this;
+    var _context2;
+
+    var _this;
 
     var client = _ref.client,
         rolesAndPermissions = _ref.rolesAndPermissions,
         alert = _ref.alert,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'alert']);
-    (0, _classCallCheck3.default)(this, AccountInfo);
+        options = _objectWithoutProperties(_ref, ["client", "rolesAndPermissions", "alert"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AccountInfo.__proto__ || (0, _getPrototypeOf2.default)(AccountInfo)).call(this, (0, _extends3.default)({
+    _classCallCheck(this, AccountInfo);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AccountInfo).call(this, _objectSpread({
       name: 'accountInfo',
       client: client,
       fetchFunction: function () {
-        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-          return _regenerator2.default.wrap(function _callee$(_context) {
+        var _fetchFunction = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.t0 = _jsonMask2.default;
+                  _context.t0 = _jsonMask.default;
                   _context.next = 3;
                   return client.account().get();
 
                 case 3:
                   _context.t1 = _context.sent;
                   _context.t2 = DEFAULT_MASK;
-                  return _context.abrupt('return', (0, _context.t0)(_context.t1, _context.t2));
+                  return _context.abrupt("return", (0, _context.t0)(_context.t1, _context.t2));
 
                 case 6:
-                case 'end':
+                case "end":
                   return _context.stop();
               }
             }
-          }, _callee, _this2);
+          }, _callee);
         }));
 
         function fetchFunction() {
-          return _ref2.apply(this, arguments);
+          return _fetchFunction.apply(this, arguments);
         }
 
         return fetchFunction;
@@ -132,8 +154,7 @@ var AccountInfo = (_dec = (0, _di.Module)({
         return _this._rolesAndPermissions.ready;
       }
     }, options)));
-
-    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
     _this._alert = alert;
 
     _this.addSelector('info', function () {
@@ -141,83 +162,87 @@ var AccountInfo = (_dec = (0, _di.Module)({
     }, function (data) {
       return data || {};
     });
+
     return _this;
   }
 
-  (0, _createClass3.default)(AccountInfo, [{
-    key: '_onStateChange',
+  _createClass(AccountInfo, [{
+    key: "_onStateChange",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _onStateChange2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.next = 2;
-                return (0, _get3.default)(AccountInfo.prototype.__proto__ || (0, _getPrototypeOf2.default)(AccountInfo.prototype), '_onStateChange', this).call(this);
+                _context3.next = 2;
+                return _get(_getPrototypeOf(AccountInfo.prototype), "_onStateChange", this).call(this);
 
               case 2:
-                if (!(this._auth.loginStatus === _loginStatus2.default.loggedIn && this.ready && !this._hasPermission)) {
-                  _context2.next = 6;
+                if (!(this._auth.loginStatus === _loginStatus.default.loggedIn && this.ready && !this._hasPermission)) {
+                  _context3.next = 6;
                   break;
                 }
 
-                _context2.next = 5;
+                _context3.next = 5;
                 return this._auth.logout();
 
               case 5:
                 if (this._alert) {
                   this._alert.danger({
-                    message: _permissionsMessages2.default.insufficientPrivilege,
+                    message: _permissionsMessages.default.insufficientPrivilege,
                     ttl: 0
                   });
                 }
 
               case 6:
-              case 'end':
-                return _context2.stop();
+              case "end":
+                return _context3.stop();
             }
           }
         }, _callee2, this);
       }));
 
       function _onStateChange() {
-        return _ref3.apply(this, arguments);
+        return _onStateChange2.apply(this, arguments);
       }
 
       return _onStateChange;
     }()
   }, {
-    key: 'info',
+    key: "info",
     get: function get() {
       return this._selectors.info();
     }
   }, {
-    key: 'id',
+    key: "id",
     get: function get() {
       return this.info.id;
     }
   }, {
-    key: 'country',
+    key: "country",
     get: function get() {
       return this.info.serviceInfo && this.info.serviceInfo.brand.homeCountry;
     }
   }, {
-    key: 'countryCode',
+    key: "countryCode",
     get: function get() {
       return this.country && this.country.isoCode || 'US';
     }
   }, {
-    key: 'mainCompanyNumber',
+    key: "mainCompanyNumber",
     get: function get() {
       return this.info.mainNumber;
     }
   }, {
-    key: '_hasPermission',
+    key: "_hasPermission",
     get: function get() {
       return !!this._rolesAndPermissions.permissions.ReadCompanyInfo;
     }
   }]);
+
   return AccountInfo;
-}(_DataFetcher3.default)) || _class);
+}(_DataFetcher2.default)) || _class);
 exports.default = AccountInfo;
 //# sourceMappingURL=index.js.map

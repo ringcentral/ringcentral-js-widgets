@@ -1,126 +1,100 @@
-'use strict';
+"use strict";
 
-var _TestPhoneFactory = require('../TestPhoneFactory');
+require("core-js/modules/es6.array.for-each");
 
-var _TestPhoneFactory2 = _interopRequireDefault(_TestPhoneFactory);
+require("core-js/modules/es6.array.filter");
 
-var _testAccount = require('../config/testAccount');
+require("core-js/modules/web.dom.iterable");
 
-var _regionSetting = require('../../spec-modules/regionSetting');
+require("core-js/modules/es6.array.iterator");
 
-var _regionSetting2 = _interopRequireDefault(_regionSetting);
+require("core-js/modules/es6.object.keys");
 
-var _numValidInCall = require('../../spec-modules/numValidInCall');
+require("core-js/modules/es6.object.define-property");
 
-var _numValidInCall2 = _interopRequireDefault(_numValidInCall);
+var _TestPhoneFactory = _interopRequireDefault(require("../TestPhoneFactory"));
 
-var _callingSettings = require('../../spec-modules/callingSettings');
+var _testAccount = require("../config/testAccount");
 
-var _callingSettings2 = _interopRequireDefault(_callingSettings);
+var _regionSetting = _interopRequireDefault(require("../../spec-modules/regionSetting"));
 
-var _composeText = require('../../spec-modules/composeText');
+var _numValidInCall = _interopRequireDefault(require("../../spec-modules/numValidInCall"));
 
-var _composeText2 = _interopRequireDefault(_composeText);
+var _callingSettings = _interopRequireDefault(require("../../spec-modules/callingSettings"));
 
-var _rateLimiter = require('../../spec-modules/rateLimiter');
+var _composeText = _interopRequireDefault(require("../../spec-modules/composeText"));
 
-var _rateLimiter2 = _interopRequireDefault(_rateLimiter);
+var _rateLimiter = _interopRequireDefault(require("../../spec-modules/rateLimiter"));
 
-var _blockedNumber = require('../../spec-modules/blockedNumber');
+var _blockedNumber = _interopRequireDefault(require("../../spec-modules/blockedNumber"));
 
-var _blockedNumber2 = _interopRequireDefault(_blockedNumber);
+var _forwardingNumber = _interopRequireDefault(require("../../spec-modules/forwardingNumber"));
 
-var _forwardingNumber = require('../../spec-modules/forwardingNumber');
+var _accountExtension = _interopRequireDefault(require("../../spec-modules/accountExtension"));
 
-var _forwardingNumber2 = _interopRequireDefault(_forwardingNumber);
+var _extensionInfo = _interopRequireDefault(require("../../spec-modules/extensionInfo"));
 
-var _accountExtension = require('../../spec-modules/accountExtension');
+var _accountInfo = _interopRequireDefault(require("../../spec-modules/accountInfo"));
 
-var _accountExtension2 = _interopRequireDefault(_accountExtension);
+var _dialingPlan = _interopRequireDefault(require("../../spec-modules/dialingPlan"));
 
-var _accountPhoneNumber = require('../../spec-modules/accountPhoneNumber');
+var _rolesAndPermissions = _interopRequireDefault(require("../../spec-modules/rolesAndPermissions"));
 
-var _accountPhoneNumber2 = _interopRequireDefault(_accountPhoneNumber);
+var _extensionPhoneNumber = _interopRequireDefault(require("../../spec-modules/extensionPhoneNumber"));
 
-var _extensionInfo = require('../../spec-modules/extensionInfo');
+var _presence = _interopRequireDefault(require("../../spec-modules/presence"));
 
-var _extensionInfo2 = _interopRequireDefault(_extensionInfo);
+var _conferenceCall = _interopRequireDefault(require("../../spec-modules/conferenceCall"));
 
-var _accountInfo = require('../../spec-modules/accountInfo');
-
-var _accountInfo2 = _interopRequireDefault(_accountInfo);
-
-var _dialingPlan = require('../../spec-modules/dialingPlan');
-
-var _dialingPlan2 = _interopRequireDefault(_dialingPlan);
-
-var _rolesAndPermissions = require('../../spec-modules/rolesAndPermissions');
-
-var _rolesAndPermissions2 = _interopRequireDefault(_rolesAndPermissions);
-
-var _extensionPhoneNumber = require('../../spec-modules/extensionPhoneNumber');
-
-var _extensionPhoneNumber2 = _interopRequireDefault(_extensionPhoneNumber);
-
-var _presence = require('../../spec-modules/presence');
-
-var _presence2 = _interopRequireDefault(_presence);
-
-var _conferenceCall = require('../../spec-modules/conferenceCall');
-
-var _conferenceCall2 = _interopRequireDefault(_conferenceCall);
+var _availabilityMonitor = _interopRequireDefault(require("../../spec-modules/availabilityMonitor"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import runCallLogTests from '../../spec-modules/callLog';
-var phone = (0, _TestPhoneFactory2.default)();
-(0, _numValidInCall2.default)(phone.auth, phone.alert, phone.client, phone.regionSettings, phone.call, _testAccount.multiDialingPlanIncludingUSCAAccount);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-// phone = getTestPhone();
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var phone = (0, _TestPhoneFactory.default)();
+(0, _numValidInCall.default)(phone.auth, phone.alert, phone.client, phone.regionSettings, phone.call, _testAccount.multiDialingPlanIncludingUSCAAccount); // phone = getTestPhone();
 // runCallLogTests(phone.auth, phone.client, phone.callLog, callLogAccount);
 
-phone = (0, _TestPhoneFactory2.default)();
-(0, _regionSetting2.default)(phone.auth, phone.client, phone.regionSettings, _testAccount.multiDialingPlanIncludingUSCAAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _regionSetting.default)(phone.auth, phone.client, phone.regionSettings, _testAccount.multiDialingPlanIncludingUSCAAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _callingSettings.default)(phone.auth, phone.client, phone.alert, _testAccount.defaultAccount, phone.callingSettings, phone.extensionPhoneNumber, phone.extensionInfo);
+phone = (0, _TestPhoneFactory.default)();
+(0, _composeText.default)(phone.auth, phone.client, _testAccount.smsAccount, phone.alert, phone.regionSettings, phone.composeText, phone.messageSender);
+phone = (0, _TestPhoneFactory.default)();
+(0, _rateLimiter.default)(phone.auth, phone.alert, _testAccount.defaultAccount, phone.client, phone.rateLimiter);
+phone = (0, _TestPhoneFactory.default)();
+(0, _blockedNumber.default)(phone.auth, phone.client, phone.blockedNumber, _testAccount.defaultAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _forwardingNumber.default)(phone.auth, phone.client, phone.forwardingNumber, _testAccount.defaultAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _accountExtension.default)(phone.auth, phone.client, phone.accountExtension, _testAccount.defaultAccount); // phone = getTestPhone();
+// runAccountPhoneNumberTests(
+//   phone.auth,
+//   phone.client,
+//   phone.accountPhoneNumber,
+//   defaultAccount,
+// );
 
-phone = (0, _TestPhoneFactory2.default)();
-(0, _callingSettings2.default)(phone.auth, phone.client, phone.alert, _testAccount.defaultAccount, phone.callingSettings, phone.extensionPhoneNumber, phone.extensionInfo);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _composeText2.default)(phone.auth, phone.client, _testAccount.smsAccount, phone.alert, phone.regionSettings, phone.composeText, phone.messageSender);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _rateLimiter2.default)(phone.auth, phone.alert, _testAccount.defaultAccount, phone.client, phone.rateLimiter);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _blockedNumber2.default)(phone.auth, phone.client, phone.blockedNumber, _testAccount.defaultAccount);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _forwardingNumber2.default)(phone.auth, phone.client, phone.forwardingNumber, _testAccount.defaultAccount);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _accountExtension2.default)(phone.auth, phone.client, phone.accountExtension, _testAccount.defaultAccount);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _accountPhoneNumber2.default)(phone.auth, phone.client, phone.accountPhoneNumber, _testAccount.defaultAccount);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _extensionInfo2.default)(phone.auth, phone.client, phone.extensionInfo, _testAccount.defaultAccount, phone.alert);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _accountInfo2.default)(phone.auth, phone.client, phone.accountInfo, _testAccount.defaultAccount, phone.alert);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _dialingPlan2.default)(phone.auth, phone.client, phone.dialingPlan, _testAccount.defaultAccount);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _rolesAndPermissions2.default)(phone.auth, phone.client, phone.rolesAndPermissions, _testAccount.defaultAccount, phone.alert);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _extensionPhoneNumber2.default)(phone.auth, phone.client, phone.extensionPhoneNumber, _testAccount.defaultAccount);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _presence2.default)(phone.auth, phone.client, phone.detailedPresence, _testAccount.defaultAccount);
-
-phone = (0, _TestPhoneFactory2.default)();
-(0, _conferenceCall2.default)(phone.auth, phone.client, phone.conferenceCall, phone.alert, _testAccount.defaultAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _extensionInfo.default)(phone.auth, phone.client, phone.extensionInfo, _testAccount.defaultAccount, phone.alert);
+phone = (0, _TestPhoneFactory.default)();
+(0, _accountInfo.default)(phone.auth, phone.client, phone.accountInfo, _testAccount.defaultAccount, phone.alert);
+phone = (0, _TestPhoneFactory.default)();
+(0, _dialingPlan.default)(phone.auth, phone.client, phone.dialingPlan, _testAccount.defaultAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _rolesAndPermissions.default)(phone.auth, phone.client, phone.rolesAndPermissions, _testAccount.defaultAccount, phone.alert);
+phone = (0, _TestPhoneFactory.default)();
+(0, _extensionPhoneNumber.default)(phone.auth, phone.client, phone.extensionPhoneNumber, _testAccount.defaultAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _presence.default)(phone.auth, phone.client, phone.detailedPresence, _testAccount.defaultAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _conferenceCall.default)(phone.auth, phone.client, phone.conferenceCall, phone.alert, _testAccount.defaultAccount);
+phone = (0, _TestPhoneFactory.default)();
+(0, _availabilityMonitor.default)(_objectSpread({}, phone, {
+  account: _testAccount.defaultAccount
+}));
 //# sourceMappingURL=commons.spec.js.map

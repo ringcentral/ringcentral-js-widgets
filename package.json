@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-integration",
-  "version": "0.10.1",
+  "version": "0.10.0",
   "description": "RingCentral Integration Common Javascript Core Library",
   "main": "rc-phone.js",
   "repository": {
@@ -14,10 +14,11 @@
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-integration-commons#readme",
   "devDependencies": {
+    "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
     "babel-istanbul": "^0.12.1",
-    "babel-loader": "^7.0.0",
+    "babel-loader": "^8.0.4",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
     "chai": "^4.0.2",
@@ -29,7 +30,7 @@
     "format-message": "^5.0.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.0",
-    "gulp-babel": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-mocha": "^5.0.0",
     "gulp-sourcemaps": "^2.0.0-alpha",
@@ -55,14 +56,13 @@
     "source-map-support": "^0.4.0",
     "through2": "^2.0.1",
     "watchify": "^3.7.0",
-    "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.4.5",
+    "webpack": "^4.29.0",
+    "webpack-dev-server": "^3.1.14",
     "yargs": "^12.0.5"
   },
   "peerDependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
-    "babel-runtime": "^6.26.0",
     "core-js": "^2.5.6",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
@@ -78,13 +78,9 @@
     "ramda": "^0.25.0",
     "redux": "^3.5.2",
     "reselect": "^2.5.4",
-    "ringcentral-web-phone": "^0.6.2",
+    "ringcentral-web-phone": "^0.6.3",
     "url-loader": "^1.0.1",
     "uuid": "^3.3.2",
     "yards": "^0.1.4"
-  },
-  "prettier": {
-    "trailingComma": "all",
-    "singleQuote": true
   }
 }

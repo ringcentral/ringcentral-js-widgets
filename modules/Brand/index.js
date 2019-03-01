@@ -1,56 +1,76 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.array.index-of");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.keys");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.define-property");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.object.create");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.function.name");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _di = require("../../lib/di");
+
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _dec, _class;
 
-var _RcModule2 = require('../../lib/RcModule');
-
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _di = require('../../lib/di');
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Brand = (
 /**
  * @class
  * @description Brand managing module
  */
-var Brand = (_dec = (0, _di.Module)({
-  deps: [{ dep: 'BrandOptions', optional: true }]
-}), _dec(_class = function (_RcModule) {
-  (0, _inherits3.default)(Brand, _RcModule);
+_dec = (0, _di.Module)({
+  deps: [{
+    dep: 'BrandOptions',
+    optional: true
+  }]
+}), _dec(_class =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(Brand, _RcModule);
 
   /**
    * @constructor
@@ -61,6 +81,8 @@ var Brand = (_dec = (0, _di.Module)({
    * @param {String} params.application - application name
    */
   function Brand(_ref) {
+    var _this;
+
     var id = _ref.id,
         name = _ref.name,
         fullName = _ref.fullName,
@@ -68,10 +90,11 @@ var Brand = (_dec = (0, _di.Module)({
         application = _ref.application,
         code = _ref.code,
         brandConfig = _ref.brandConfig,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['id', 'name', 'fullName', 'appName', 'application', 'code', 'brandConfig']);
-    (0, _classCallCheck3.default)(this, Brand);
+        options = _objectWithoutProperties(_ref, ["id", "name", "fullName", "appName", "application", "code", "brandConfig"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Brand.__proto__ || (0, _getPrototypeOf2.default)(Brand)).call(this, options));
+    _classCallCheck(this, Brand);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Brand).call(this, options));
 
     _this._reducer = function () {
       var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
@@ -85,72 +108,70 @@ var Brand = (_dec = (0, _di.Module)({
       };
       return state;
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(Brand, [{
-    key: '_onStateChange',
+  _createClass(Brand, [{
+    key: "_onStateChange",
     value: function _onStateChange() {
       /* do nothing */
     }
   }, {
-    key: '_actionTypes',
+    key: "_actionTypes",
     get: function get() {
       /* no action types */
     }
   }, {
-    key: 'id',
+    key: "id",
     get: function get() {
       return this.state.id;
     }
   }, {
-    key: 'name',
+    key: "name",
     get: function get() {
       return this.state.name;
     }
   }, {
-    key: 'fullName',
+    key: "fullName",
     get: function get() {
       return this.state.fullName;
     }
   }, {
-    key: 'application',
+    key: "application",
     get: function get() {
       return this.state.application;
     }
   }, {
-    key: 'appName',
+    key: "appName",
     get: function get() {
       return this.state.appName;
     }
   }, {
-    key: 'code',
+    key: "code",
     get: function get() {
       return this.state.code;
-    }
-
-    // eslint-disable-next-line class-methods-use-this
+    } // eslint-disable-next-line class-methods-use-this
 
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
-      return _moduleStatuses2.default.ready;
+      return _moduleStatuses.default.ready;
     }
   }, {
-    key: 'brandConfig',
+    key: "brandConfig",
     get: function get() {
       return this.state.brandConfig;
-    }
-
-    // eslint-disable-next-line class-methods-use-this
+    } // eslint-disable-next-line class-methods-use-this
 
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
       return true;
     }
   }]);
+
   return Brand;
-}(_RcModule3.default)) || _class);
+}(_RcModule2.default)) || _class);
 exports.default = Brand;
 //# sourceMappingURL=index.js.map

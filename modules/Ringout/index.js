@@ -1,124 +1,108 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.index-of");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.create");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.reduce");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.iterator");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.date.now");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("regenerator-runtime/runtime");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _di = require("../../lib/di");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _getRingoutReducer = _interopRequireDefault(require("./getRingoutReducer"));
 
-var _dec, _class, _desc, _value, _class2;
+var _ringoutErrors = _interopRequireDefault(require("./ringoutErrors"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _di = require('../../lib/di');
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _getRingoutReducer = require('./getRingoutReducer');
-
-var _getRingoutReducer2 = _interopRequireDefault(_getRingoutReducer);
-
-var _ringoutErrors = require('./ringoutErrors');
-
-var _ringoutErrors2 = _interopRequireDefault(_ringoutErrors);
-
-var _sleep = require('../../lib/sleep');
-
-var _sleep2 = _interopRequireDefault(_sleep);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_MONITOR_INTERVAL = 2500;
 var DEFAULT_TIME_BETWEEN_CALLS = 10000;
-
 /**
  * @class
  * @description Ringout managing module
  */
+
 var Ringout = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', { dep: 'RingoutOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(Ringout, _RcModule);
+  deps: ['Auth', 'Client', {
+    dep: 'RingoutOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(Ringout, _RcModule);
 
   /**
    * @constructor
@@ -129,29 +113,31 @@ var Ringout = (_dec = (0, _di.Module)({
    * @param {Number} params.timeBetweenCalls - time between calls, default 10000
    */
   function Ringout(_ref) {
+    var _this;
+
     var auth = _ref.auth,
         client = _ref.client,
         _ref$monitorInterval = _ref.monitorInterval,
-        monitorInterval = _ref$monitorInterval === undefined ? DEFAULT_MONITOR_INTERVAL : _ref$monitorInterval,
+        monitorInterval = _ref$monitorInterval === void 0 ? DEFAULT_MONITOR_INTERVAL : _ref$monitorInterval,
         _ref$timeBetweenCalls = _ref.timeBetweenCalls,
-        timeBetweenCalls = _ref$timeBetweenCalls === undefined ? DEFAULT_TIME_BETWEEN_CALLS : _ref$timeBetweenCalls,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'monitorInterval', 'timeBetweenCalls']);
-    (0, _classCallCheck3.default)(this, Ringout);
+        timeBetweenCalls = _ref$timeBetweenCalls === void 0 ? DEFAULT_TIME_BETWEEN_CALLS : _ref$timeBetweenCalls,
+        options = _objectWithoutProperties(_ref, ["auth", "client", "monitorInterval", "timeBetweenCalls"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Ringout.__proto__ || (0, _getPrototypeOf2.default)(Ringout)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, Ringout);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Ringout).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
-
     _this._auth = auth;
     _this._client = client;
-    _this._reducer = (0, _getRingoutReducer2.default)(_this.actionTypes);
+    _this._reducer = (0, _getRingoutReducer.default)(_this.actionTypes);
     _this._monitorInterval = monitorInterval;
     _this._timeBetweenCalls = timeBetweenCalls;
     return _this;
   }
 
-  (0, _createClass3.default)(Ringout, [{
-    key: 'initialize',
+  _createClass(Ringout, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -168,85 +154,91 @@ var Ringout = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'makeCall',
+    key: "makeCall",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
-        var fromNumber = _ref2.fromNumber,
-            toNumber = _ref2.toNumber,
-            prompt = _ref2.prompt;
-        var resp, startTime;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _makeCall = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(_ref2) {
+        var fromNumber, toNumber, prompt, resp, startTime;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(this.status === _moduleStatuses2.default.ready)) {
-                  _context.next = 19;
+                fromNumber = _ref2.fromNumber, toNumber = _ref2.toNumber, prompt = _ref2.prompt;
+
+                if (!(this.status === _moduleStatuses.default.ready)) {
+                  _context.next = 20;
                   break;
                 }
 
                 this.store.dispatch({
                   type: this.actionTypes.startToConnect
                 });
-                _context.prev = 2;
-                _context.next = 5;
+                _context.prev = 3;
+                _context.next = 6;
                 return this._client.account().extension().ringOut().post({
-                  from: { phoneNumber: fromNumber },
-                  to: { phoneNumber: toNumber },
+                  from: {
+                    phoneNumber: fromNumber
+                  },
+                  to: {
+                    phoneNumber: toNumber
+                  },
                   playPrompt: prompt
                 });
 
-              case 5:
+              case 6:
                 resp = _context.sent;
                 startTime = Date.now();
-                _context.next = 9;
+                _context.next = 10;
                 return this._monitorRingout(resp.id, startTime);
 
-              case 9:
+              case 10:
                 this.store.dispatch({
                   type: this.actionTypes.connectSuccess
                 });
-                _context.next = 17;
+                _context.next = 18;
                 break;
 
-              case 12:
-                _context.prev = 12;
-                _context.t0 = _context['catch'](2);
-
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context["catch"](3);
                 this.store.dispatch({
                   type: this.actionTypes.connectError
                 });
 
-                if (!(_context.t0.message !== _ringoutErrors2.default.pollingCancelled)) {
-                  _context.next = 17;
+                if (!(_context.t0.message !== _ringoutErrors.default.pollingCancelled)) {
+                  _context.next = 18;
                   break;
                 }
 
                 throw _context.t0;
 
-              case 17:
-                _context.next = 19;
+              case 18:
+                _context.next = 20;
                 break;
 
-              case 19:
-              case 'end':
+              case 20:
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 12]]);
+        }, _callee, this, [[3, 13]]);
       }));
 
       function makeCall(_x) {
-        return _ref3.apply(this, arguments);
+        return _makeCall.apply(this, arguments);
       }
 
       return makeCall;
     }()
   }, {
-    key: '_monitorRingout',
+    key: "_monitorRingout",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ringoutId, startTime) {
+      var _monitorRingout2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(ringoutId, startTime) {
         var callerStatus;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -267,11 +259,11 @@ var Ringout = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                throw new Error(_ringoutErrors2.default.pollingCancelled);
+                throw new Error(_ringoutErrors.default.pollingCancelled);
 
               case 6:
                 _context2.next = 8;
-                return (0, _sleep2.default)(this._monitorInterval);
+                return (0, _sleep.default)(this._monitorInterval);
 
               case 8:
                 _context2.next = 10;
@@ -288,10 +280,10 @@ var Ringout = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                throw new Error(_ringoutErrors2.default.firstLegConnectFailed);
+                throw new Error(_ringoutErrors.default.firstLegConnectFailed);
 
               case 15:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -299,72 +291,73 @@ var Ringout = (_dec = (0, _di.Module)({
       }));
 
       function _monitorRingout(_x2, _x3) {
-        return _ref4.apply(this, arguments);
+        return _monitorRingout2.apply(this, arguments);
       }
 
       return _monitorRingout;
     }()
   }, {
-    key: '_fetchRingoutStatus',
+    key: "_fetchRingoutStatus",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ringoutId) {
+      var _fetchRingoutStatus2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(ringoutId) {
         var callStatus, resp, exception;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.prev = 0;
-                callStatus = void 0;
-                _context3.next = 4;
+                _context3.next = 3;
                 return this._client.account().extension().ringOut(ringoutId).get().catch(function (error) {
                   if (error && error.apiResponse && error.apiResponse._response && error.apiResponse._response.status === 404) {
                     callStatus = 'Success';
                   }
                 });
 
-              case 4:
+              case 3:
                 resp = _context3.sent;
-                return _context3.abrupt('return', callStatus || resp.status.callerStatus);
+                return _context3.abrupt("return", callStatus || resp.status.callerStatus);
 
-              case 8:
-                _context3.prev = 8;
-                _context3.t0 = _context3['catch'](0);
-                exception = new Error(_ringoutErrors2.default.pollingFailed);
-
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](0);
+                exception = new Error(_ringoutErrors.default.pollingFailed);
                 exception.error = _context3.t0;
                 throw exception;
 
-              case 13:
-              case 'end':
+              case 12:
+              case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[0, 8]]);
+        }, _callee3, this, [[0, 7]]);
       }));
 
       function _fetchRingoutStatus(_x4) {
-        return _ref5.apply(this, arguments);
+        return _fetchRingoutStatus2.apply(this, arguments);
       }
 
       return _fetchRingoutStatus;
     }()
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'ringoutStatus',
+    key: "ringoutStatus",
     get: function get() {
       return this.state.ringoutStatus;
     }
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses2.default.ready;
+      return this.state.status === _moduleStatuses.default.ready;
     }
   }]);
+
   return Ringout;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_monitorRingout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_monitorRingout'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_fetchRingoutStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetchRingoutStatus'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_monitorRingout", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_monitorRingout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchRingoutStatus", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchRingoutStatus"), _class2.prototype)), _class2)) || _class);
 exports.default = Ringout;
 //# sourceMappingURL=index.js.map

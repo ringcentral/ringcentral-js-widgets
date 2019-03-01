@@ -1,165 +1,153 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.array.find");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.array.filter");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.object.create");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.define-property");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.reduce");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.array.iterator");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.keys");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.index-of");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/web.dom.iterable");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.map");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("regenerator-runtime/runtime");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.promise");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _ramda = require("ramda");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _di = require("../../lib/di");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _promise = require('babel-runtime/core-js/promise');
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _promise2 = _interopRequireDefault(_promise);
+var _getAudioSettingsReducer = _interopRequireDefault(require("./getAudioSettingsReducer"));
 
-var _dec, _class, _desc, _value, _class2;
+var _getStorageReducer = _interopRequireDefault(require("./getStorageReducer"));
 
-var _ramda = require('ramda');
+var _audioSettingsErrors = _interopRequireDefault(require("./audioSettingsErrors"));
 
-var _RcModule2 = require('../../lib/RcModule');
-
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _di = require('../../lib/di');
-
-var _ensureExist = require('../../lib/ensureExist');
-
-var _ensureExist2 = _interopRequireDefault(_ensureExist);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _getAudioSettingsReducer = require('./getAudioSettingsReducer');
-
-var _getAudioSettingsReducer2 = _interopRequireDefault(_getAudioSettingsReducer);
-
-var _getStorageReducer = require('./getStorageReducer');
-
-var _getStorageReducer2 = _interopRequireDefault(_getStorageReducer);
-
-var _audioSettingsErrors = require('./audioSettingsErrors');
-
-var _audioSettingsErrors2 = _interopRequireDefault(_audioSettingsErrors);
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 function polyfillGetUserMedia() {
   if (navigator.mediaDevices === undefined) {
     navigator.mediaDevices = {};
   }
+
   navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
   if (navigator.mediaDevices.getUserMedia === undefined && navigator.getUserMedia) {
     navigator.mediaDevices.getUserMedia = function (constraints) {
-      return new _promise2.default(function (resolve, reject) {
+      return new Promise(function (resolve, reject) {
         navigator.getUserMedia.call(navigator, constraints, resolve, reject);
       });
     };
   }
 }
-polyfillGetUserMedia();
 
+polyfillGetUserMedia();
 /**
  * @class
  * @description AudioSettings module.
  */
+
 var AudioSettings = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Alert', 'Storage', 'RolesAndPermissions']
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(AudioSettings, _RcModule);
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(AudioSettings, _RcModule);
 
   function AudioSettings(_ref) {
+    var _context;
+
+    var _this;
+
     var auth = _ref.auth,
         alert = _ref.alert,
         storage = _ref.storage,
         rolesAndPermissions = _ref.rolesAndPermissions,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'alert', 'storage', 'rolesAndPermissions']);
-    (0, _classCallCheck3.default)(this, AudioSettings);
+        options = _objectWithoutProperties(_ref, ["auth", "alert", "storage", "rolesAndPermissions"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AudioSettings.__proto__ || (0, _getPrototypeOf2.default)(AudioSettings)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, AudioSettings);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AudioSettings).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
-
-    _this._storage = _ensureExist2.default.call(_this, storage, 'storage');
-    _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
-    _this._alert = _ensureExist2.default.call(_this, alert, 'alert');
-    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+    _this._storage = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, storage, 'storage');
+    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
+    _this._alert = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, alert, 'alert');
+    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions');
     _this._storageKey = 'audioSettings';
+
     _this._storage.registerReducer({
       key: _this._storageKey,
-      reducer: (0, _getStorageReducer2.default)(_this.actionTypes)
+      reducer: (0, _getStorageReducer.default)(_this.actionTypes)
     });
-    _this._reducer = (0, _getAudioSettingsReducer2.default)(_this.actionTypes);
+
+    _this._reducer = (0, _getAudioSettingsReducer.default)(_this.actionTypes);
 
     _this.addSelector('availableOutputDevices', function () {
       return _this.state.availableDevices;
@@ -168,6 +156,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
         return device.kind === 'audiooutput';
       }, devices);
     });
+
     _this.addSelector('availableInputDevices', function () {
       return _this.state.availableDevices;
     }, function (devices) {
@@ -175,11 +164,12 @@ var AudioSettings = (_dec = (0, _di.Module)({
         return device.kind === 'audioinput';
       }, devices);
     });
+
     return _this;
   }
 
-  (0, _createClass3.default)(AudioSettings, [{
-    key: 'initializeProxy',
+  _createClass(AudioSettings, [{
+    key: "initializeProxy",
     value: function initializeProxy() {
       var _this2 = this;
 
@@ -187,49 +177,55 @@ var AudioSettings = (_dec = (0, _di.Module)({
       if (this.supportDevices) {
         this._checkDevices();
       }
+
       this.store.subscribe(function () {
         if (_this2.ready && _this2._auth.loggedIn && _this2._rolesAndPermissions.webphoneEnabled && !_this2.userMedia) {
           // Make sure it only prompts once
           if (_this2.hasAutoPrompted) return;
+
           _this2.markAutoPrompted();
+
           _this2.getUserMedia();
         }
       });
     }
   }, {
-    key: 'markAutoPrompted',
+    key: "markAutoPrompted",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _markAutoPrompted = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.autoPrompted
                 });
 
               case 1:
-              case 'end':
-                return _context.stop();
+              case "end":
+                return _context2.stop();
             }
           }
         }, _callee, this);
       }));
 
       function markAutoPrompted() {
-        return _ref2.apply(this, arguments);
+        return _markAutoPrompted.apply(this, arguments);
       }
 
       return markAutoPrompted;
     }()
   }, {
-    key: 'initialize',
+    key: "initialize",
     value: function initialize() {
       var _this3 = this;
 
       this.store.subscribe(function () {
         return _this3._onStateChange();
       });
+
       if (navigator && navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
         navigator.mediaDevices.addEventListener('devicechange', function () {
           _this3._checkDevices();
@@ -237,25 +233,27 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: '_shouldInit',
+    key: "_shouldInit",
     value: function _shouldInit() {
       return !!(this.pending && this._storage.ready && this._auth.ready && this._rolesAndPermissions.ready);
     }
   }, {
-    key: '_shouldReset',
+    key: "_shouldReset",
     value: function _shouldReset() {
       return !!(this.ready && (!this._auth.ready || !this._storage.ready || !this._rolesAndPermissions.ready));
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _onStateChange2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context2.next = 8;
+                  _context3.next = 8;
                   break;
                 }
 
@@ -264,18 +262,18 @@ var AudioSettings = (_dec = (0, _di.Module)({
                 });
 
                 if (!this.supportDevices) {
-                  _context2.next = 5;
+                  _context3.next = 5;
                   break;
                 }
 
-                _context2.next = 5;
+                _context3.next = 5;
                 return this._checkDevices();
 
               case 5:
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
-                _context2.next = 9;
+                _context3.next = 9;
                 break;
 
               case 8:
@@ -289,85 +287,93 @@ var AudioSettings = (_dec = (0, _di.Module)({
                 }
 
               case 9:
-              case 'end':
-                return _context2.stop();
+              case "end":
+                return _context3.stop();
             }
           }
         }, _callee2, this);
       }));
 
       function _onStateChange() {
-        return _ref3.apply(this, arguments);
+        return _onStateChange2.apply(this, arguments);
       }
 
       return _onStateChange;
     }()
   }, {
-    key: '_checkDevices',
+    key: "_checkDevices",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+      var _checkDevices2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
         var devices;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.next = 2;
+                _context4.next = 2;
                 return navigator.mediaDevices.enumerateDevices();
 
               case 2:
-                devices = _context3.sent;
-
+                devices = _context4.sent;
                 this.store.dispatch({
                   type: this.actionTypes.setAvailableDevices,
+                  // TODO formatting for devices info instances and replace JSON APIs.
                   devices: devices.map(function (d) {
-                    return d.toJSON();
+                    return JSON.parse(JSON.stringify(d));
                   })
                 });
 
               case 4:
-              case 'end':
-                return _context3.stop();
+              case "end":
+                return _context4.stop();
             }
           }
         }, _callee3, this);
       }));
 
       function _checkDevices() {
-        return _ref4.apply(this, arguments);
+        return _checkDevices2.apply(this, arguments);
       }
 
       return _checkDevices;
     }()
   }, {
-    key: 'getUserMedia',
+    key: "getUserMedia",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+      var _getUserMedia = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4() {
         var stream;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (navigator.mediaDevices.getUserMedia) {
-                  _context4.next = 2;
+                  _context5.next = 2;
                   break;
                 }
 
-                return _context4.abrupt('return');
+                return _context5.abrupt("return");
 
               case 2:
-                _context4.prev = 2;
+                _context5.prev = 2;
 
                 if (!this._getUserMediaPromise) {
-                  this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({ audio: true });
+                  this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({
+                    audio: true
+                  });
                 }
-                _context4.next = 6;
+
+                _context5.next = 6;
                 return this._getUserMediaPromise;
 
               case 6:
-                stream = _context4.sent;
-
+                stream = _context5.sent;
                 this._getUserMediaPromise = null;
+
                 this._onGetUserMediaSuccess();
+
                 if (typeof stream.getTracks === 'function') {
                   stream.getTracks().forEach(function (track) {
                     track.stop();
@@ -375,148 +381,148 @@ var AudioSettings = (_dec = (0, _di.Module)({
                 } else if (typeof stream.stop === 'function') {
                   stream.stop();
                 }
-                _context4.next = 16;
+
+                _context5.next = 16;
                 break;
 
               case 12:
-                _context4.prev = 12;
-                _context4.t0 = _context4['catch'](2);
-
+                _context5.prev = 12;
+                _context5.t0 = _context5["catch"](2);
                 this._getUserMediaPromise = null;
-                this.onGetUserMediaError(_context4.t0);
+                this.onGetUserMediaError(_context5.t0);
 
               case 16:
-              case 'end':
-                return _context4.stop();
+              case "end":
+                return _context5.stop();
             }
           }
         }, _callee4, this, [[2, 12]]);
       }));
 
       function getUserMedia() {
-        return _ref5.apply(this, arguments);
+        return _getUserMedia.apply(this, arguments);
       }
 
       return getUserMedia;
     }()
   }, {
-    key: '_onGetUserMediaSuccess',
+    key: "_onGetUserMediaSuccess",
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+      var _onGetUserMediaSuccess2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5() {
         var userMediaAlert;
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee5$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 userMediaAlert = (0, _ramda.find)(function (item) {
-                  return item.message === _audioSettingsErrors2.default.userMediaPermission;
+                  return item.message === _audioSettingsErrors.default.userMediaPermission;
                 }, this._alert.messages);
 
                 if (userMediaAlert) {
                   this._alert.dismiss(userMediaAlert.id);
                 }
+
                 this.store.dispatch({
                   type: this.actionTypes.getUserMediaSuccess
                 });
+
                 this._checkDevices();
 
               case 4:
-              case 'end':
-                return _context5.stop();
+              case "end":
+                return _context6.stop();
             }
           }
         }, _callee5, this);
       }));
 
       function _onGetUserMediaSuccess() {
-        return _ref6.apply(this, arguments);
+        return _onGetUserMediaSuccess2.apply(this, arguments);
       }
 
       return _onGetUserMediaSuccess;
     }()
   }, {
-    key: 'onGetUserMediaError',
+    key: "onGetUserMediaError",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(error) {
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+      var _onGetUserMediaError = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee6(error) {
+        return regeneratorRuntime.wrap(function _callee6$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.getUserMediaError,
                   error: error
                 });
+
                 this._alert.danger({
-                  message: _audioSettingsErrors2.default.userMediaPermission,
+                  message: _audioSettingsErrors.default.userMediaPermission,
                   allowDuplicates: false
                 });
 
               case 2:
-              case 'end':
-                return _context6.stop();
+              case "end":
+                return _context7.stop();
             }
           }
         }, _callee6, this);
       }));
 
       function onGetUserMediaError(_x) {
-        return _ref7.apply(this, arguments);
+        return _onGetUserMediaError.apply(this, arguments);
       }
 
       return onGetUserMediaError;
     }()
   }, {
-    key: 'showAlert',
+    key: "showAlert",
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+      var _showAlert = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 if (!this.userMedia) {
                   this._alert.danger({
-                    message: _audioSettingsErrors2.default.userMediaPermission,
+                    message: _audioSettingsErrors.default.userMediaPermission,
                     allowDuplicates: false,
                     ttl: 30 * 1000
                   });
                 }
 
               case 1:
-              case 'end':
-                return _context7.stop();
+              case "end":
+                return _context8.stop();
             }
           }
         }, _callee7, this);
       }));
 
       function showAlert() {
-        return _ref8.apply(this, arguments);
+        return _showAlert.apply(this, arguments);
       }
 
       return showAlert;
     }()
   }, {
-    key: 'setData',
+    key: "setData",
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref9) {
-        var _ref9$dialButtonVolum = _ref9.dialButtonVolume,
-            dialButtonVolume = _ref9$dialButtonVolum === undefined ? this.dialButtonVolume : _ref9$dialButtonVolum,
-            _ref9$dialButtonMuted = _ref9.dialButtonMuted,
-            dialButtonMuted = _ref9$dialButtonMuted === undefined ? this.dialButtonMuted : _ref9$dialButtonMuted,
-            _ref9$ringtoneVolume = _ref9.ringtoneVolume,
-            ringtoneVolume = _ref9$ringtoneVolume === undefined ? this.ringtoneVolume : _ref9$ringtoneVolume,
-            _ref9$ringtoneMuted = _ref9.ringtoneMuted,
-            ringtoneMuted = _ref9$ringtoneMuted === undefined ? this.ringtoneMuted : _ref9$ringtoneMuted,
-            _ref9$callVolume = _ref9.callVolume,
-            callVolume = _ref9$callVolume === undefined ? this.callVolume : _ref9$callVolume,
-            _ref9$outputDeviceId = _ref9.outputDeviceId,
-            outputDeviceId = _ref9$outputDeviceId === undefined ? this.outputDeviceId : _ref9$outputDeviceId,
-            _ref9$inputDeviceId = _ref9.inputDeviceId,
-            inputDeviceId = _ref9$inputDeviceId === undefined ? this.inputDeviceId : _ref9$inputDeviceId;
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+      var _setData = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee8(_ref2) {
+        var _ref2$dialButtonVolum, dialButtonVolume, _ref2$dialButtonMuted, dialButtonMuted, _ref2$ringtoneVolume, ringtoneVolume, _ref2$ringtoneMuted, ringtoneMuted, _ref2$callVolume, callVolume, _ref2$outputDeviceId, outputDeviceId, _ref2$inputDeviceId, inputDeviceId;
+
+        return regeneratorRuntime.wrap(function _callee8$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
+                _ref2$dialButtonVolum = _ref2.dialButtonVolume, dialButtonVolume = _ref2$dialButtonVolum === void 0 ? this.dialButtonVolume : _ref2$dialButtonVolum, _ref2$dialButtonMuted = _ref2.dialButtonMuted, dialButtonMuted = _ref2$dialButtonMuted === void 0 ? this.dialButtonMuted : _ref2$dialButtonMuted, _ref2$ringtoneVolume = _ref2.ringtoneVolume, ringtoneVolume = _ref2$ringtoneVolume === void 0 ? this.ringtoneVolume : _ref2$ringtoneVolume, _ref2$ringtoneMuted = _ref2.ringtoneMuted, ringtoneMuted = _ref2$ringtoneMuted === void 0 ? this.ringtoneMuted : _ref2$ringtoneMuted, _ref2$callVolume = _ref2.callVolume, callVolume = _ref2$callVolume === void 0 ? this.callVolume : _ref2$callVolume, _ref2$outputDeviceId = _ref2.outputDeviceId, outputDeviceId = _ref2$outputDeviceId === void 0 ? this.outputDeviceId : _ref2$outputDeviceId, _ref2$inputDeviceId = _ref2.inputDeviceId, inputDeviceId = _ref2$inputDeviceId === void 0 ? this.inputDeviceId : _ref2$inputDeviceId;
                 this.store.dispatch({
                   type: this.actionTypes.setData,
                   dialButtonVolume: dialButtonVolume,
@@ -528,27 +534,27 @@ var AudioSettings = (_dec = (0, _di.Module)({
                   inputDeviceId: inputDeviceId
                 });
 
-              case 1:
-              case 'end':
-                return _context8.stop();
+              case 2:
+              case "end":
+                return _context9.stop();
             }
           }
         }, _callee8, this);
       }));
 
       function setData(_x2) {
-        return _ref10.apply(this, arguments);
+        return _setData.apply(this, arguments);
       }
 
       return setData;
     }()
   }, {
-    key: 'outputDeviceId',
+    key: "outputDeviceId",
     get: function get() {
       return this._storage.getItem(this._storageKey).outputDeviceId;
     }
   }, {
-    key: 'outputDevice',
+    key: "outputDevice",
     get: function get() {
       var _this4 = this;
 
@@ -557,12 +563,12 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }, this.availableDevices);
     }
   }, {
-    key: 'inputDeviceId',
+    key: "inputDeviceId",
     get: function get() {
       return this._storage.getItem(this._storageKey).inputDeviceId;
     }
   }, {
-    key: 'inputDevice',
+    key: "inputDevice",
     get: function get() {
       var _this5 = this;
 
@@ -571,78 +577,81 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }, this.availableDevices);
     }
   }, {
-    key: 'supportDevices',
+    key: "supportDevices",
     get: function get() {
       return !!(HTMLMediaElement.prototype.setSinkId && navigator.mediaDevices && navigator.mediaDevices.enumerateDevices);
     }
   }, {
-    key: 'availableDevices',
+    key: "availableDevices",
     get: function get() {
       return this.state.availableDevices;
     }
   }, {
-    key: 'availableOutputDevices',
+    key: "availableOutputDevices",
     get: function get() {
       return this._selectors.availableOutputDevices();
     }
   }, {
-    key: 'availableInputDevices',
+    key: "availableInputDevices",
     get: function get() {
       return this._selectors.availableInputDevices();
     }
   }, {
-    key: 'cacheData',
+    key: "cacheData",
     get: function get() {
       return this._storage.getItem(this._storageKey) || {};
     }
   }, {
-    key: 'dialButtonVolume',
+    key: "dialButtonVolume",
     get: function get() {
       return this.cacheData.dialButtonVolume;
     }
   }, {
-    key: 'dialButtonMuted',
+    key: "dialButtonMuted",
     get: function get() {
       return this.cacheData.dialButtonMuted;
     }
   }, {
-    key: 'ringtoneVolume',
+    key: "ringtoneVolume",
     get: function get() {
       return this.cacheData.ringtoneVolume;
     }
   }, {
-    key: 'ringtoneMuted',
+    key: "ringtoneMuted",
     get: function get() {
       return this.cacheData.ringtoneMuted;
     }
   }, {
-    key: 'callVolume',
+    key: "callVolume",
     get: function get() {
       return this.cacheData.callVolume;
     }
   }, {
-    key: 'userMedia',
+    key: "userMedia",
     get: function get() {
       var isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+
       if (isFirefox) {
         return true;
-      }
-      // this detection method may not work in the future
+      } // this detection method may not work in the future
       // currently there is no good way to detect this
+
+
       return !!(this.availableDevices.length && this.availableDevices[0].label !== '');
     }
   }, {
-    key: 'hasAutoPrompted',
+    key: "hasAutoPrompted",
     get: function get() {
       return this.cacheData.hasAutoPrompted;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }]);
+
   return AudioSettings;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'markAutoPrompted', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'markAutoPrompted'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_checkDevices', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_checkDevices'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_onGetUserMediaSuccess', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_onGetUserMediaSuccess'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onGetUserMediaError', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onGetUserMediaError'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "markAutoPrompted", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "markAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkDevices", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onGetUserMediaSuccess", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_onGetUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onGetUserMediaError", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onGetUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype)), _class2)) || _class);
 exports.default = AudioSettings;
 //# sourceMappingURL=index.js.map

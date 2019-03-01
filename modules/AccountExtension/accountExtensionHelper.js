@@ -1,4 +1,6 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -8,6 +10,11 @@ exports.isEnabled = isEnabled;
 exports.isNotActivated = isNotActivated;
 exports.isFiltered = isFiltered;
 exports.simplifyExtensionData = simplifyExtensionData;
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.array.index-of");
+
 /**
  * @typedef Extension
  * @type {object}
@@ -40,41 +47,45 @@ exports.simplifyExtensionData = simplifyExtensionData;
 function hasExtensionNumber(ext) {
   return ext.extensionNumber && ext.extensionNumber !== '';
 }
-
 /**
  *
  * @param {Extension} ext
  * @returns {boolean}
  */
+
+
 function isEnabled(ext) {
   return ext.status === 'Enabled';
 }
-
 /**
  *
  * @param {Extension} ext
  * @returns {boolean}
  */
+
+
 function isNotActivated(ext) {
   return ext.status === 'NotActivated';
 }
-
 /**
  *
  * @param {object} ext
  * @param {string[]} list
  * @returns {boolean}
  */
+
+
 function isFiltered(ext, list) {
   return list.indexOf(ext.type) === -1;
 }
-
 /**
  * @function
  * @description Returns a simplified extension data for caching to reducer storage use
  * @param {Extension}
  * @return {SimpleExtension}
  */
+
+
 function simplifyExtensionData(_ref) {
   var extensionNumber = _ref.extensionNumber,
       name = _ref.name,
@@ -83,7 +94,6 @@ function simplifyExtensionData(_ref) {
       type = _ref.type,
       contact = _ref.contact,
       profileImage = _ref.profileImage;
-
   return {
     ext: extensionNumber,
     name: name,

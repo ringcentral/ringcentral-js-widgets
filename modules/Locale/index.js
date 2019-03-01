@@ -1,145 +1,134 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es6.string.iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.array.from");
 
-var _keys = require('babel-runtime/core-js/object/keys');
+require("core-js/modules/es6.regexp.to-string");
 
-var _keys2 = _interopRequireDefault(_keys);
+require("core-js/modules/es6.date.to-string");
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.array.is-array");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.promise");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.index-of");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.create");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.reduce");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.array.for-each");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.keys");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("regenerator-runtime/runtime");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _redux = require("redux");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _i18n = _interopRequireWildcard(require("@ringcentral-integration/i18n"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _class, _desc, _value, _class2;
+var _di = require("../../lib/di");
 
-var _formatMessage = require('format-message');
+var _reducers = require("./reducers");
 
-var _formatMessage2 = _interopRequireDefault(_formatMessage);
+var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-var _redux = require('redux');
+var _getProxyStatusReducer = _interopRequireDefault(require("../../lib/getProxyStatusReducer"));
 
-var _i18n = require('@ringcentral-integration/i18n');
+var _detectBrowserLocale = _interopRequireDefault(require("../../lib/detectBrowserLocale"));
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _moduleActionTypes = _interopRequireDefault(require("../../enums/moduleActionTypes"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _proxyActionTypes = _interopRequireDefault(require("../../enums/proxyActionTypes"));
 
-var _proxify = require('../../lib/proxy/proxify');
+var _dec, _class, _class2;
 
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _di = require('../../lib/di');
-
-var _reducers = require('./reducers');
-
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
-
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
-
-var _getProxyStatusReducer = require('../../lib/getProxyStatusReducer');
-
-var _getProxyStatusReducer2 = _interopRequireDefault(_getProxyStatusReducer);
-
-var _detectBrowserLocale = require('../../lib/detectBrowserLocale');
-
-var _detectBrowserLocale2 = _interopRequireDefault(_detectBrowserLocale);
-
-var _Enum = require('../../lib/Enum');
-
-var _Enum2 = _interopRequireDefault(_Enum);
-
-var _moduleActionTypes = require('../../enums/moduleActionTypes');
-
-var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
-
-var _proxyActionTypes = require('../../enums/proxyActionTypes');
-
-var _proxyActionTypes2 = _interopRequireDefault(_proxyActionTypes);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-  return desc;
-}
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var Locale = (
 /**
  * @class
  * @description Locale managing module
  */
-var Locale = (_dec = (0, _di.Module)({
-  deps: [{ dep: 'LocaleOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(Locale, _RcModule);
+_dec = (0, _di.Module)({
+  deps: [{
+    dep: 'LocaleOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(Locale, _RcModule);
 
   /**
    * @constructor
@@ -147,21 +136,22 @@ var Locale = (_dec = (0, _di.Module)({
    * @param {String} params.defaultLocale - default 'en-US'
    */
   function Locale() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var _this;
 
-    var _ref$defaultLocale = _ref.defaultLocale,
-        defaultLocale = _ref$defaultLocale === undefined ? _i18n.DEFAULT_LOCALE : _ref$defaultLocale,
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        _ref$defaultLocale = _ref.defaultLocale,
+        defaultLocale = _ref$defaultLocale === void 0 ? _i18n.DEFAULT_LOCALE : _ref$defaultLocale,
         _ref$detectBrowser = _ref.detectBrowser,
-        detectBrowser = _ref$detectBrowser === undefined ? true : _ref$detectBrowser,
+        detectBrowser = _ref$detectBrowser === void 0 ? true : _ref$detectBrowser,
         _ref$polling = _ref.polling,
-        polling = _ref$polling === undefined ? false : _ref$polling,
+        polling = _ref$polling === void 0 ? false : _ref$polling,
         _ref$pollingInterval = _ref.pollingInterval,
-        pollingInterval = _ref$pollingInterval === undefined ? 2000 : _ref$pollingInterval,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['defaultLocale', 'detectBrowser', 'polling', 'pollingInterval']);
-    (0, _classCallCheck3.default)(this, Locale);
+        pollingInterval = _ref$pollingInterval === void 0 ? 2000 : _ref$pollingInterval,
+        options = _objectWithoutProperties(_ref, ["defaultLocale", "detectBrowser", "polling", "pollingInterval"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Locale.__proto__ || (0, _getPrototypeOf2.default)(Locale)).call(this, (0, _extends3.default)({}, options)));
+    _classCallCheck(this, Locale);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Locale).call(this, _objectSpread({}, options)));
     _this._defaultLocale = defaultLocale;
     _this._detectBrowser = detectBrowser;
     _this._polling = polling;
@@ -169,11 +159,13 @@ var Locale = (_dec = (0, _di.Module)({
     return _this;
   }
 
-  (0, _createClass3.default)(Locale, [{
-    key: 'initialize',
+  _createClass(Locale, [{
+    key: "initialize",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _initialize = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -184,12 +176,13 @@ var Locale = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
+
                 if (this._polling) {
                   this._syncBrowserLocale();
                 }
 
               case 4:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -197,18 +190,20 @@ var Locale = (_dec = (0, _di.Module)({
       }));
 
       function initialize() {
-        return _ref2.apply(this, arguments);
+        return _initialize.apply(this, arguments);
       }
 
       return initialize;
     }()
   }, {
-    key: '_syncBrowserLocale',
+    key: "_syncBrowserLocale",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+      var _syncBrowserLocale2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
         var _this2 = this;
 
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -226,7 +221,7 @@ var Locale = (_dec = (0, _di.Module)({
                 }, this._pollingInterval);
 
               case 4:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -234,18 +229,20 @@ var Locale = (_dec = (0, _di.Module)({
       }));
 
       function _syncBrowserLocale() {
-        return _ref3.apply(this, arguments);
+        return _syncBrowserLocale2.apply(this, arguments);
       }
 
       return _syncBrowserLocale;
     }()
   }, {
-    key: 'initializeProxy',
+    key: "initializeProxy",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+      var _initializeProxy = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4() {
         var _this3 = this;
 
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -259,8 +256,12 @@ var Locale = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.proxyInitSuccess
                 });
-                this.store.subscribe((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-                  return _regenerator2.default.wrap(function _callee3$(_context3) {
+                this.store.subscribe(
+                /*#__PURE__*/
+                _asyncToGenerator(
+                /*#__PURE__*/
+                regeneratorRuntime.mark(function _callee3() {
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
                       switch (_context3.prev = _context3.next) {
                         case 0:
@@ -279,15 +280,15 @@ var Locale = (_dec = (0, _di.Module)({
                           });
 
                         case 4:
-                        case 'end':
+                        case "end":
                           return _context3.stop();
                       }
                     }
-                  }, _callee3, _this3);
+                  }, _callee3);
                 })));
 
               case 5:
-              case 'end':
+              case "end":
                 return _context4.stop();
             }
           }
@@ -295,21 +296,22 @@ var Locale = (_dec = (0, _di.Module)({
       }));
 
       function initializeProxy() {
-        return _ref4.apply(this, arguments);
+        return _initializeProxy.apply(this, arguments);
       }
 
       return initializeProxy;
     }()
-
     /**
      * @property {String} currentLocale
      */
 
   }, {
-    key: 'toggleDebugMode',
+    key: "toggleDebugMode",
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+      var _toggleDebugMode = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
@@ -317,12 +319,13 @@ var Locale = (_dec = (0, _di.Module)({
                   type: this.actionTypes.toggleDebugMode,
                   debugMode: this.debugMode
                 });
+
                 if (this.debugMode) {
                   this.setLocale(_i18n.PSEUDO_LOCALE);
                 }
 
               case 2:
-              case 'end':
+              case "end":
                 return _context5.stop();
             }
           }
@@ -330,42 +333,43 @@ var Locale = (_dec = (0, _di.Module)({
       }));
 
       function toggleDebugMode() {
-        return _ref6.apply(this, arguments);
+        return _toggleDebugMode.apply(this, arguments);
       }
 
       return toggleDebugMode;
     }()
   }, {
-    key: '_setLocale',
+    key: "_setLocale",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(locale) {
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+      var _setLocale2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee6(locale) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return _i18n2.default.setLocale(locale);
+                return _i18n.default.setLocale(locale);
 
               case 2:
-                _formatMessage2.default.setup({
+                _formatMessage.default.setup({
                   locale: this.currentLocale === _i18n.PSEUDO_LOCALE ? _i18n.DEFAULT_LOCALE : this.currentLocale
                 });
 
               case 3:
-              case 'end':
+              case "end":
                 return _context6.stop();
             }
           }
         }, _callee6, this);
       }));
 
-      function _setLocale(_x2) {
-        return _ref7.apply(this, arguments);
+      function _setLocale(_x) {
+        return _setLocale2.apply(this, arguments);
       }
 
       return _setLocale;
     }()
-
     /**
      *  @function
      *  @description Sets the desired locale as the current locale. This will also
@@ -376,10 +380,12 @@ var Locale = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: 'setLocale',
+    key: "setLocale",
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(locale) {
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+      var _setLocale3 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee7(locale) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
@@ -401,76 +407,76 @@ var Locale = (_dec = (0, _di.Module)({
 
               case 7:
                 _context7.prev = 7;
-                _context7.t0 = _context7['catch'](1);
-
+                _context7.t0 = _context7["catch"](1);
                 this.store.dispatch({
                   type: this.actionTypes.setLocaleError,
                   error: _context7.t0
                 });
 
               case 10:
-              case 'end':
+              case "end":
                 return _context7.stop();
             }
           }
         }, _callee7, this, [[1, 7]]);
       }));
 
-      function setLocale(_x3) {
-        return _ref8.apply(this, arguments);
+      function setLocale(_x2) {
+        return _setLocale3.apply(this, arguments);
       }
 
       return setLocale;
     }()
   }, {
-    key: '_actionTypes',
+    key: "_actionTypes",
     get: function get() {
-      return new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), (0, _toConsumableArray3.default)((0, _keys2.default)(_proxyActionTypes2.default)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
+      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.default)), _toConsumableArray(Object.keys(_proxyActionTypes.default)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
     }
   }, {
-    key: 'reducer',
+    key: "reducer",
     get: function get() {
       return (0, _redux.combineReducers)({
-        status: (0, _getModuleStatusReducer2.default)(this.actionTypes),
+        status: (0, _getModuleStatusReducer.default)(this.actionTypes),
         currentLocale: (0, _reducers.getCurrentLocaleReducer)(this.actionTypes),
         debugMode: (0, _reducers.getToggleDebugMode)(this.actionTypes)
       });
     }
   }, {
-    key: 'proxyReducer',
+    key: "proxyReducer",
     get: function get() {
       return (0, _redux.combineReducers)({
-        status: (0, _getProxyStatusReducer2.default)(this.actionTypes),
+        status: (0, _getProxyStatusReducer.default)(this.actionTypes),
         proxyLocale: (0, _reducers.getProxyLocaleReducer)(this.actionTypes)
       });
     }
   }, {
-    key: 'currentLocale',
+    key: "currentLocale",
     get: function get() {
       return this._transport && this.proxyState && (this.proxyState.proxyLocale || this._defaultLocale) || this.state.currentLocale || this._defaultLocale;
     }
   }, {
-    key: 'browserLocale',
+    key: "browserLocale",
     get: function get() {
-      return (0, _detectBrowserLocale2.default)(this._defaultLocale);
+      return (0, _detectBrowserLocale.default)(this._defaultLocale);
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.proxyState && this.proxyState.status || this.state.status;
     }
   }, {
-    key: 'proxyStatus',
+    key: "proxyStatus",
     get: function get() {
       return this.proxyState.status;
     }
   }, {
-    key: 'debugMode',
+    key: "debugMode",
     get: function get() {
       return this.state.debugMode;
     }
   }]);
+
   return Locale;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'toggleDebugMode', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleDebugMode'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setLocale', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLocale'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "toggleDebugMode", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLocale", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setLocale"), _class2.prototype)), _class2)) || _class);
 exports.default = Locale;
 //# sourceMappingURL=index.js.map

@@ -1,82 +1,93 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.index-of");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/web.dom.iterable");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.for-each");
 
-var _class, _temp;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-var ClientHistoryRequest = (_temp = _class = function () {
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ClientHistoryRequest =
+/*#__PURE__*/
+function () {
   function ClientHistoryRequest(requestContainer, client) {
-    (0, _classCallCheck3.default)(this, ClientHistoryRequest);
+    _classCallCheck(this, ClientHistoryRequest);
 
     this._requestContainer = requestContainer;
     this._client = client.service.platform().client();
     this.init();
   }
 
-  (0, _createClass3.default)(ClientHistoryRequest, [{
-    key: 'init',
+  _createClass(ClientHistoryRequest, [{
+    key: "init",
     value: function init() {
       var _this = this;
 
       this._client.on(this._client.events.beforeRequest, function (apiResponse) {
         _this._requestContainer.set(apiResponse._request.url, null);
       });
+
       this._client.on(this._client.events.requestSuccess, function (apiResponse) {
         _this._requestContainer.set(apiResponse._request.url, JSON.parse(apiResponse._text));
       });
+
       this._client.on(this._client.events.requestError, function (error) {
         console.error(error);
       });
     }
   }, {
-    key: 'getRawResponse',
+    key: "getRawResponse",
     value: function getRawResponse(endPoint) {
       var rawResponse = null;
+
       this._requestContainer.forEach(function (value, key) {
         if (key.indexOf(endPoint) > -1) {
           rawResponse = value;
         }
       });
+
       if (rawResponse == null) {
-        throw new Error('Cannot find rawResponse from endPoint:\'' + endPoint + '\'');
+        throw new Error("Cannot find rawResponse from endPoint:'".concat(endPoint, "'"));
       } else {
         return rawResponse;
       }
     }
   }, {
-    key: 'debugHistoryRequest',
+    key: "debugHistoryRequest",
     value: function debugHistoryRequest() {
       this._requestContainer.forEach(function (value, key) {
-        console.debug('Request  URL:\'' + key + '\' Response:\'' + value + '\'');
+        console.debug("Request  URL:'".concat(key, "' Response:'").concat(value, "'"));
       });
     }
   }, {
-    key: 'requestLog',
+    key: "requestLog",
     get: function get() {
       return this._requestContainer;
     }
   }]);
+
   return ClientHistoryRequest;
-}(), _class.endPoints = {
+}();
+
+exports.default = ClientHistoryRequest;
+ClientHistoryRequest.endPoints = {
   callLog: '/account/~/extension/~/call-log',
   dialingPlan: '/account/~/dialing-plan',
   token: '/restapi/oauth/token',
   companyPager: '/restapi/v1.0/account/~/extension/~/company-pager',
   sms: '/restapi/v1.0/account/~/extension/~/sms',
   conferenceCall: '/restapi/v1.0/account/~/telephony/conference'
-}, _temp);
-exports.default = ClientHistoryRequest;
+};
 //# sourceMappingURL=ClientHistoryRequest.js.map

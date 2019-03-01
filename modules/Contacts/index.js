@@ -1,153 +1,129 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.DefaultContactListPageSize = undefined;
+exports.default = exports.DefaultContactListPageSize = void 0;
 
-var _defineProperty = require('babel-runtime/core-js/object/define-property');
+require("core-js/modules/es6.promise");
 
-var _defineProperty2 = _interopRequireDefault(_defineProperty);
+require("core-js/modules/es6.array.filter");
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es6.array.index-of");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.object.create");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.object.define-property");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.reduce");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.keys");
 
-var _from = require('babel-runtime/core-js/array/from');
+require("regenerator-runtime/runtime");
 
-var _from2 = _interopRequireDefault(_from);
+require("core-js/modules/es6.array.find");
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+require("core-js/modules/es6.regexp.to-string");
 
-var _getIterator3 = _interopRequireDefault(_getIterator2);
+require("core-js/modules/es6.date.to-string");
 
-var _map = require('babel-runtime/core-js/map');
+require("core-js/modules/es6.array.for-each");
 
-var _map2 = _interopRequireDefault(_map);
+require("core-js/modules/es6.array.from");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.symbol");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.date.now");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/web.dom.iterable");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.array.iterator");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.string.iterator");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.map");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _selector = require("../../lib/selector");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _di = require("../../lib/di");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _contactHelper = require("../../lib/contactHelper");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _selector = require('../../lib/selector');
+var _getContactsReducer = _interopRequireDefault(require("./getContactsReducer"));
 
-var _RcModule2 = require('../../lib/RcModule');
-
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _di = require('../../lib/di');
-
-var _ensureExist = require('../../lib/ensureExist');
-
-var _ensureExist2 = _interopRequireDefault(_ensureExist);
-
-var _isBlank = require('../../lib/isBlank');
-
-var _isBlank2 = _interopRequireDefault(_isBlank);
-
-var _contactHelper = require('../../lib/contactHelper');
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _getContactsReducer = require('./getContactsReducer');
-
-var _getContactsReducer2 = _interopRequireDefault(_getContactsReducer);
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _initDefineProp(target, property, descriptor, context) {
-  if (!descriptor) return;
-  (0, _defineProperty2.default)(target, property, {
-    enumerable: descriptor.enumerable,
-    configurable: descriptor.configurable,
-    writable: descriptor.writable,
-    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-  });
-}
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _initializerWarningHelper(descriptor, context) {
-  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-}
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
-  return desc;
-}
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-var DefaultContactListPageSize = exports.DefaultContactListPageSize = 20;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var DefaultContactListPageSize = 20;
 /**
  * @class
  * @description Contacts managing module
  */
+
+exports.DefaultContactListPageSize = DefaultContactListPageSize;
 var Contacts = (_dec = (0, _di.Module)({
-  deps: ['Auth', { dep: 'ContactSources', optional: true }, { dep: 'ContactsOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(Contacts, _RcModule);
+  deps: ['Auth', {
+    dep: 'ContactSources',
+    optional: true
+  }, {
+    dep: 'ContactsOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 = (_temp =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(Contacts, _RcModule);
 
   /**
    * @constructor
@@ -155,36 +131,40 @@ var Contacts = (_dec = (0, _di.Module)({
    * @param {Auth} params.auth - auth module instance
    */
   function Contacts(_ref) {
+    var _context;
+
+    var _this;
+
     var auth = _ref.auth,
         _ref$contactSources = _ref.contactSources,
-        contactSources = _ref$contactSources === undefined ? [] : _ref$contactSources,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'contactSources']);
-    (0, _classCallCheck3.default)(this, Contacts);
+        contactSources = _ref$contactSources === void 0 ? [] : _ref$contactSources,
+        options = _objectWithoutProperties(_ref, ["auth", "contactSources"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Contacts.__proto__ || (0, _getPrototypeOf2.default)(Contacts)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, Contacts);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Contacts).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
 
-    _initDefineProp(_this, 'sourceNames', _descriptor, _this);
+    _initializerDefineProperty(_this, "sourceNames", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'allContacts', _descriptor2, _this);
+    _initializerDefineProperty(_this, "allContacts", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'contactGroups', _descriptor3, _this);
+    _initializerDefineProperty(_this, "contactGroups", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'filteredContacts', _descriptor4, _this);
+    _initializerDefineProperty(_this, "filteredContacts", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
-    _this._reducer = (0, _getContactsReducer2.default)(_this.actionTypes);
-    _this._contactSources = new _map2.default();
-    _this._sourcesLastStatus = new _map2.default();
+    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
+    _this._reducer = (0, _getContactsReducer.default)(_this.actionTypes);
+    _this._contactSources = new Map();
+    _this._sourcesLastStatus = new Map();
     _this._sourcesUpdatedAt = Date.now();
-
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
 
     try {
-      for (var _iterator = (0, _getIterator3.default)(contactSources), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      for (var _iterator = contactSources[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var source = _step.value;
 
         _this.addSource(source);
@@ -194,7 +174,7 @@ var Contacts = (_dec = (0, _di.Module)({
       _iteratorError = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
           _iterator.return();
         }
       } finally {
@@ -207,8 +187,8 @@ var Contacts = (_dec = (0, _di.Module)({
     return _this;
   }
 
-  (0, _createClass3.default)(Contacts, [{
-    key: 'initialize',
+  _createClass(Contacts, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -217,7 +197,7 @@ var Contacts = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function _onStateChange() {
       if (this._shouldInit()) {
         this.store.dispatch({
@@ -228,35 +208,33 @@ var Contacts = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: '_shouldInit',
+    key: "_shouldInit",
     value: function _shouldInit() {
       return this._auth.loggedIn && this.sourceModuleReady && this.pending;
     }
   }, {
-    key: '_shouldReset',
+    key: "_shouldReset",
     value: function _shouldReset() {
       return (!this._auth.loggedIn || !this.sourceModuleReady) && this.ready;
     }
   }, {
-    key: '_resetModuleStatus',
+    key: "_resetModuleStatus",
     value: function _resetModuleStatus() {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess
       });
     }
   }, {
-    key: 'updateFilter',
+    key: "updateFilter",
     value: function updateFilter(_ref2) {
       var sourceFilter = _ref2.sourceFilter,
           searchFilter = _ref2.searchFilter;
-
       this.store.dispatch({
         type: this.actionTypes.updateFilter,
         sourceFilter: sourceFilter,
         searchFilter: searchFilter
       });
     }
-
     /**
      * @function
      * @param {Object} source - source module object
@@ -271,110 +249,89 @@ var Contacts = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: 'addSource',
+    key: "addSource",
     value: function addSource(source) {
       if (!source.sourceName) {
         throw new Error('Contacts: "sourceName" is required in Contacts source.');
       }
+
       if (this._contactSources.has(source.sourceName)) {
-        throw new Error('Contacts: A contact source named "' + source.sourceName + '" already exists');
+        throw new Error("Contacts: A contact source named \"".concat(source.sourceName, "\" already exists"));
       }
+
       if (source.getPresence && typeof source.getPresence !== 'function') {
         throw new Error('Contacts: source\' getPresence must be a function');
       }
+
       if (source.getProfileImage && typeof source.getProfileImage !== 'function') {
         throw new Error('Contacts: source\' getProfileImage must be a function');
       }
+
       if (source.matchPhoneNumber && typeof source.matchPhoneNumber !== 'function') {
         throw new Error('Contacts: source\' matchPhoneNumber must be a function');
       }
+
       this._contactSources.set(source.sourceName, source);
+
       this._sourcesLastStatus.set(source.sourceName, {});
+
       this._sourcesUpdatedAt = Date.now();
     }
   }, {
-    key: '_checkSourceUpdated',
+    key: "_checkSourceUpdated",
     value: function _checkSourceUpdated() {
       var updated = false;
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
 
-      try {
-        for (var _iterator2 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var sourceName = _step2.value;
+      var _arr = Array.from(this._contactSources.keys());
 
-          var source = this._contactSources.get(sourceName);
-          var lastStatus = this._sourcesLastStatus.get(sourceName);
-          if (lastStatus.ready !== source.sourceReady || lastStatus.data !== source.contacts) {
-            updated = true;
-            this._sourcesLastStatus.set(sourceName, {
-              ready: source.sourceReady,
-              data: source.contacts
-            });
-          }
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
+      for (var _i = 0; _i < _arr.length; _i++) {
+        var sourceName = _arr[_i];
+
+        var source = this._contactSources.get(sourceName);
+
+        var lastStatus = this._sourcesLastStatus.get(sourceName);
+
+        if (lastStatus.ready !== source.sourceReady || lastStatus.data !== source.contacts) {
+          updated = true;
+
+          this._sourcesLastStatus.set(sourceName, {
+            ready: source.sourceReady,
+            data: source.contacts
+          });
         }
       }
 
       if (updated) {
         this._sourcesUpdatedAt = Date.now();
       }
+
       return this._sourcesUpdatedAt;
     }
   }, {
-    key: 'matchPhoneNumber',
+    key: "matchPhoneNumber",
     value: function matchPhoneNumber(phoneNumber) {
       var result = [];
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
 
-      try {
-        for (var _iterator3 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var sourceName = _step3.value;
+      var _arr2 = Array.from(this._contactSources.keys());
 
-          var source = this._contactSources.get(sourceName);
-          if (typeof source.matchPhoneNumber === 'function') {
-            result = result.concat(source.matchPhoneNumber(phoneNumber));
-          }
-        }
-      } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3.return) {
-            _iterator3.return();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
+      for (var _i2 = 0; _i2 < _arr2.length; _i2++) {
+        var sourceName = _arr2[_i2];
+
+        var source = this._contactSources.get(sourceName);
+
+        if (typeof source.matchPhoneNumber === 'function') {
+          result = result.concat(source.matchPhoneNumber(phoneNumber));
         }
       }
 
       return result;
     }
   }, {
-    key: 'matchContacts',
+    key: "matchContacts",
     value: function matchContacts(_ref3) {
       var _this3 = this;
 
       var phoneNumbers = _ref3.phoneNumbers;
-
       var result = {};
       phoneNumbers.forEach(function (phoneNumber) {
         result[phoneNumber] = _this3.matchPhoneNumber(phoneNumber);
@@ -382,259 +339,228 @@ var Contacts = (_dec = (0, _di.Module)({
       return result;
     }
   }, {
-    key: 'find',
+    key: "find",
     value: function find(_ref4) {
       var type = _ref4.type,
           id = _ref4.id;
-
       var contactId = (id || '').toString();
+
       var source = this._contactSources.get(type);
+
       if (source) {
         return source.contacts.find(function (x) {
           return x.id.toString() === contactId;
         });
       }
+
       return null;
     }
   }, {
-    key: 'getProfileImage',
+    key: "getProfileImage",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(contact) {
-        var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-        var source, result;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _getProfileImage = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(contact) {
+        var useCache,
+            source,
+            result,
+            _args = arguments;
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
+                useCache = _args.length > 1 && _args[1] !== undefined ? _args[1] : true;
                 source = this._contactSources.get(contact && contact.type);
 
                 if (!(source && source.getProfileImage)) {
-                  _context.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
-                _context.next = 4;
+                _context2.next = 5;
                 return source.getProfileImage(contact, useCache);
 
-              case 4:
-                result = _context.sent;
-                return _context.abrupt('return', result);
-
-              case 6:
-                return _context.abrupt('return', null);
+              case 5:
+                result = _context2.sent;
+                return _context2.abrupt("return", result);
 
               case 7:
-              case 'end':
-                return _context.stop();
+                return _context2.abrupt("return", null);
+
+              case 8:
+              case "end":
+                return _context2.stop();
             }
           }
         }, _callee, this);
       }));
 
-      function getProfileImage(_x2) {
-        return _ref5.apply(this, arguments);
+      function getProfileImage(_x) {
+        return _getProfileImage.apply(this, arguments);
       }
 
       return getProfileImage;
     }()
   }, {
-    key: 'getPresence',
+    key: "getPresence",
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(contact) {
-        var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-        var source, result;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _getPresence = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(contact) {
+        var useCache,
+            source,
+            result,
+            _args2 = arguments;
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
+                useCache = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : true;
                 source = this._contactSources.get(contact && contact.type);
 
                 if (!(source && source.getPresence)) {
-                  _context2.next = 6;
+                  _context3.next = 7;
                   break;
                 }
 
-                _context2.next = 4;
+                _context3.next = 5;
                 return source.getPresence(contact, useCache);
 
-              case 4:
-                result = _context2.sent;
-                return _context2.abrupt('return', result);
-
-              case 6:
-                return _context2.abrupt('return', null);
+              case 5:
+                result = _context3.sent;
+                return _context3.abrupt("return", result);
 
               case 7:
-              case 'end':
-                return _context2.stop();
+                return _context3.abrupt("return", null);
+
+              case 8:
+              case "end":
+                return _context3.stop();
             }
           }
         }, _callee2, this);
       }));
 
-      function getPresence(_x4) {
-        return _ref6.apply(this, arguments);
+      function getPresence(_x2) {
+        return _getPresence.apply(this, arguments);
       }
 
       return getPresence;
     }()
   }, {
-    key: 'sync',
+    key: "sync",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        var _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, sourceName, source;
+      var _sync = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
+        var _arr3, _i3, sourceName, source;
 
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _iteratorNormalCompletion4 = true;
-                _didIteratorError4 = false;
-                _iteratorError4 = undefined;
-                _context3.prev = 3;
-                _iterator4 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys()));
+                _arr3 = Array.from(this._contactSources.keys());
+                _i3 = 0;
 
-              case 5:
-                if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
-                  _context3.next = 14;
+              case 2:
+                if (!(_i3 < _arr3.length)) {
+                  _context4.next = 11;
                   break;
                 }
 
-                sourceName = _step4.value;
+                sourceName = _arr3[_i3];
                 source = this._contactSources.get(sourceName);
 
                 if (!(typeof source.sync === 'function')) {
-                  _context3.next = 11;
+                  _context4.next = 8;
                   break;
                 }
 
-                _context3.next = 11;
+                _context4.next = 8;
                 return source.sync();
 
+              case 8:
+                _i3++;
+                _context4.next = 2;
+                break;
+
               case 11:
-                _iteratorNormalCompletion4 = true;
-                _context3.next = 5;
-                break;
-
-              case 14:
-                _context3.next = 20;
-                break;
-
-              case 16:
-                _context3.prev = 16;
-                _context3.t0 = _context3['catch'](3);
-                _didIteratorError4 = true;
-                _iteratorError4 = _context3.t0;
-
-              case 20:
-                _context3.prev = 20;
-                _context3.prev = 21;
-
-                if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                  _iterator4.return();
-                }
-
-              case 23:
-                _context3.prev = 23;
-
-                if (!_didIteratorError4) {
-                  _context3.next = 26;
-                  break;
-                }
-
-                throw _iteratorError4;
-
-              case 26:
-                return _context3.finish(23);
-
-              case 27:
-                return _context3.finish(20);
-
-              case 28:
-              case 'end':
-                return _context3.stop();
+              case "end":
+                return _context4.stop();
             }
           }
-        }, _callee3, this, [[3, 16, 20, 28], [21,, 23, 27]]);
+        }, _callee3, this);
       }));
 
       function sync() {
-        return _ref7.apply(this, arguments);
+        return _sync.apply(this, arguments);
       }
 
       return sync;
     }()
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'sourceModuleReady',
+    key: "sourceModuleReady",
     get: function get() {
       var ready = true;
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
 
-      try {
-        for (var _iterator5 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var sourceName = _step5.value;
+      var _arr4 = Array.from(this._contactSources.keys());
 
-          var source = this._contactSources.get(sourceName);
-          if (!source.ready) {
-            ready = false;
-          }
-        }
-      } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion5 && _iterator5.return) {
-            _iterator5.return();
-          }
-        } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
-          }
+      for (var _i4 = 0; _i4 < _arr4.length; _i4++) {
+        var sourceName = _arr4[_i4];
+
+        var source = this._contactSources.get(sourceName);
+
+        if (!source.ready) {
+          ready = false;
         }
       }
 
       return ready;
     }
   }, {
-    key: 'companyContacts',
+    key: "companyContacts",
     get: function get() {
       var source = this._contactSources.get('company');
+
       if (source) {
         return source.contacts;
       }
+
       return [];
     }
   }, {
-    key: 'personalContacts',
+    key: "personalContacts",
     get: function get() {
       var source = this._contactSources.get('personal');
+
       if (source) {
         return source.contacts;
       }
+
       return [];
     }
   }, {
-    key: 'searchFilter',
+    key: "searchFilter",
     get: function get() {
       return this.state.searchFilter;
     }
   }, {
-    key: 'sourceFilter',
+    key: "sourceFilter",
     get: function get() {
       return this.state.sourceFilter;
     }
   }]);
+
   return Contacts;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'sourceNames', [_selector.selector], {
+}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this4 = this;
 
@@ -644,39 +570,26 @@ var Contacts = (_dec = (0, _di.Module)({
       return _this4._checkSourceUpdated();
     }, function () {
       var names = [_contactHelper.AllContactSourceName];
-      var _iteratorNormalCompletion6 = true;
-      var _didIteratorError6 = false;
-      var _iteratorError6 = undefined;
 
-      try {
-        for (var _iterator6 = (0, _getIterator3.default)((0, _from2.default)(_this4._contactSources.keys())), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-          var sourceName = _step6.value;
+      var _arr5 = Array.from(_this4._contactSources.keys());
 
-          var source = _this4._contactSources.get(sourceName);
-          if (source.sourceReady) {
-            names.push(sourceName);
-          }
-        }
-      } catch (err) {
-        _didIteratorError6 = true;
-        _iteratorError6 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion6 && _iterator6.return) {
-            _iterator6.return();
-          }
-        } finally {
-          if (_didIteratorError6) {
-            throw _iteratorError6;
-          }
+      for (var _i5 = 0; _i5 < _arr5.length; _i5++) {
+        var sourceName = _arr5[_i5];
+
+        var source = _this4._contactSources.get(sourceName);
+
+        if (source.sourceReady) {
+          names.push(sourceName);
         }
       }
 
       return names;
     }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'allContacts', [_selector.selector], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "allContacts", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this5 = this;
 
@@ -684,39 +597,26 @@ var Contacts = (_dec = (0, _di.Module)({
       return _this5._checkSourceUpdated();
     }, function () {
       var contacts = [];
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
 
-      try {
-        for (var _iterator7 = (0, _getIterator3.default)((0, _from2.default)(_this5._contactSources.keys())), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var sourceName = _step7.value;
+      var _arr6 = Array.from(_this5._contactSources.keys());
 
-          var source = _this5._contactSources.get(sourceName);
-          if (source.sourceReady) {
-            contacts = contacts.concat(source.contacts);
-          }
-        }
-      } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion7 && _iterator7.return) {
-            _iterator7.return();
-          }
-        } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
-          }
+      for (var _i6 = 0; _i6 < _arr6.length; _i6++) {
+        var sourceName = _arr6[_i6];
+
+        var source = _this5._contactSources.get(sourceName);
+
+        if (source.sourceReady) {
+          contacts = contacts.concat(source.contacts);
         }
       }
 
       return contacts;
     }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'contactGroups', [_selector.selector], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "contactGroups", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this6 = this;
 
@@ -726,8 +626,10 @@ var Contacts = (_dec = (0, _di.Module)({
       return (0, _contactHelper.groupByFirstLetterOfName)((0, _contactHelper.sortContactItemsByName)((0, _contactHelper.uniqueContactItems)(filteredContacts)));
     }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'filteredContacts', [_selector.selector], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "filteredContacts", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this7 = this;
 
@@ -738,12 +640,15 @@ var Contacts = (_dec = (0, _di.Module)({
     }, function () {
       return _this7._checkSourceUpdated();
     }, function (searchFilter, sourceFilter) {
-      var contacts = void 0;
-      if ((0, _isBlank2.default)(searchFilter) && (sourceFilter === _contactHelper.AllContactSourceName || (0, _isBlank2.default)(sourceFilter))) {
+      var contacts;
+
+      if ((0, _isBlank.default)(searchFilter) && (sourceFilter === _contactHelper.AllContactSourceName || (0, _isBlank.default)(sourceFilter))) {
         return _this7.allContacts;
       }
-      if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank2.default)(sourceFilter)) {
+
+      if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank.default)(sourceFilter)) {
         var source = _this7._contactSources.get(sourceFilter);
+
         if (source && source.sourceReady) {
           /* eslint { "prefer-destructuring": 0 } */
           contacts = source.contacts;
@@ -753,9 +658,11 @@ var Contacts = (_dec = (0, _di.Module)({
       } else {
         contacts = _this7.allContacts;
       }
-      if (!(0, _isBlank2.default)(searchFilter)) {
+
+      if (!(0, _isBlank.default)(searchFilter)) {
         contacts = (0, _contactHelper.filterContacts)(contacts, searchFilter);
       }
+
       return contacts;
     }];
   }

@@ -1,51 +1,58 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("regenerator-runtime/runtime");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/web.dom.iterable");
 
-var _map = require('babel-runtime/core-js/map');
+require("core-js/modules/es6.array.iterator");
 
-var _map2 = _interopRequireDefault(_map);
+require("core-js/modules/es6.string.iterator");
 
-var _HelpUtil = require('../utils/HelpUtil');
+require("core-js/modules/es6.map");
 
-var _WaitUtil = require('../utils/WaitUtil');
+var _HelpUtil = require("../utils/HelpUtil");
 
-var _ClientHistoryRequest = require('../utils/ClientHistoryRequest');
+var _WaitUtil = require("../utils/WaitUtil");
 
-var _ClientHistoryRequest2 = _interopRequireDefault(_ClientHistoryRequest);
+var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
-var _mock = require('../mock');
+var mock = _interopRequireWildcard(require("../mock"));
 
-var mock = _interopRequireWildcard(_mock);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var authzProfileBody = require('../mock/data/authzProfile');
 
-exports.default = function (auth, client, presence, account) {
+var _default = function _default(auth, client, presence, account) {
   describe('Presence:', function () {
     var _this = this;
 
     this.timeout(20000);
     mock.mockClient(client);
-
-    var isLoginSuccess = void 0;
-    var clientHistoryRequest = new _ClientHistoryRequest2.default(new _map2.default(), client);
-
-    afterEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-      return _regenerator2.default.wrap(function _callee$(_context) {
+    var isLoginSuccess;
+    var clientHistoryRequest = new _ClientHistoryRequest.default(new Map(), client);
+    afterEach(
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -57,15 +64,18 @@ exports.default = function (auth, client, presence, account) {
               return (0, _WaitUtil.waitInSeconds)(1);
 
             case 4:
-            case 'end':
+            case "end":
               return _context.stop();
           }
         }
-      }, _callee, this);
+      }, _callee);
     })));
-
-    it('Should load presenceStatus when there is ReadPresenceStatus permission', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-      return _regenerator2.default.wrap(function _callee2$(_context2) {
+    it('Should load presenceStatus when there is ReadPresenceStatus permission',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
@@ -79,9 +89,12 @@ exports.default = function (auth, client, presence, account) {
 
               if (!isLoginSuccess) {
                 console.error('Skip test case as failed to login with credential ', account);
+
                 _this.skip();
               }
+
               _this.retries(2);
+
               _context2.next = 9;
               return (0, _WaitUtil.waitInSeconds)(1);
 
@@ -89,20 +102,25 @@ exports.default = function (auth, client, presence, account) {
               expect(presence.presenceStatus).equal('Available');
 
             case 10:
-            case 'end':
+            case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, _this);
+      }, _callee2);
     })));
-
-    it("Should not load presenceStatus when there isn't ReadPresenceStatus permission", (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-      return _regenerator2.default.wrap(function _callee3$(_context3) {
+    it("Should not load presenceStatus when there isn't ReadPresenceStatus permission",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               mock.restore();
-              mock.mockForLogin({ mockAuthzProfile: false });
+              mock.mockForLogin({
+                mockAuthzProfile: false
+              });
               mock.authzProfile({
                 permissions: authzProfileBody.permissions.filter(function (p) {
                   return p.permission.id !== 'ReadPresenceStatus';
@@ -116,9 +134,12 @@ exports.default = function (auth, client, presence, account) {
 
               if (!isLoginSuccess) {
                 console.error('Skip test case as failed to login with credential ', account);
+
                 _this.skip();
               }
+
               _this.retries(2);
+
               _context3.next = 10;
               return (0, _WaitUtil.waitInSeconds)(1);
 
@@ -126,12 +147,14 @@ exports.default = function (auth, client, presence, account) {
               expect(presence.presenceStatus).equal(null);
 
             case 11:
-            case 'end':
+            case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, _this);
+      }, _callee3);
     })));
   });
 };
+
+exports.default = _default;
 //# sourceMappingURL=presence.js.map

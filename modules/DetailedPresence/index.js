@@ -1,118 +1,106 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.object.create");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.define-property");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.reduce");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.array.iterator");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.keys");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("regenerator-runtime/runtime");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.function.bind");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.filter");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.array.map");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.date.now");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _di = require("../../lib/di");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _Presence2 = _interopRequireDefault(require("../Presence"));
 
-var _dec, _class, _desc, _value, _class2;
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _di = require('../../lib/di');
+var _getDetailedPresenceReducer = _interopRequireDefault(require("./getDetailedPresenceReducer"));
 
-var _Presence2 = require('../Presence');
+var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
-var _Presence3 = _interopRequireDefault(_Presence2);
+var _throttle = _interopRequireDefault(require("../../lib/throttle"));
 
-var _actionTypes = require('./actionTypes');
+var _callLogHelpers = require("../../lib/callLogHelpers");
 
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _getDetailedPresenceReducer = require('./getDetailedPresenceReducer');
-
-var _getDetailedPresenceReducer2 = _interopRequireDefault(_getDetailedPresenceReducer);
-
-var _subscriptionFilters = require('../../enums/subscriptionFilters');
-
-var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
-
-var _throttle = require('../../lib/throttle');
-
-var _throttle2 = _interopRequireDefault(_throttle);
-
-var _callLogHelpers = require('../../lib/callLogHelpers');
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
+var _dec, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 var presenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
 var FETCH_THRESHOLD = 2000;
-
 /**
  * @class
  * @description Presence detail info managing module
  */
+
 var DetailedPresence = (_dec = (0, _di.Module)({
-  deps: [{ dep: 'DetailedPresenceOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_Presence) {
-  (0, _inherits3.default)(DetailedPresence, _Presence);
+  deps: [{
+    dep: 'DetailedPresenceOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 = (_temp =
+/*#__PURE__*/
+function (_Presence) {
+  _inherits(DetailedPresence, _Presence);
 
   /**
    * @constructor
@@ -123,12 +111,16 @@ var DetailedPresence = (_dec = (0, _di.Module)({
    * @param {ConnectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
    */
   function DetailedPresence(options) {
-    (0, _classCallCheck3.default)(this, DetailedPresence);
+    var _context;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (DetailedPresence.__proto__ || (0, _getPrototypeOf2.default)(DetailedPresence)).call(this, (0, _extends3.default)({
-      getReducer: _getDetailedPresenceReducer2.default,
-      subscriptionFilter: _subscriptionFilters2.default.detailedPresence,
-      actionTypes: _actionTypes2.default,
+    var _this;
+
+    _classCallCheck(this, DetailedPresence);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DetailedPresence).call(this, _objectSpread({
+      getReducer: _getDetailedPresenceReducer.default,
+      subscriptionFilter: _subscriptionFilters.default.detailedPresence,
+      actionTypes: _actionTypes.default,
       lastNotDisturbDndStatusStorageKey: 'lastNotDisturbDndStatusDetailPresence'
     }, options)));
 
@@ -138,26 +130,28 @@ var DetailedPresence = (_dec = (0, _di.Module)({
           if (message.body.sequence < _this._lastSequence) {
             return;
           }
+
           _this._lastSequence = message.body.sequence;
         }
 
         var body = message.body;
 
-        _this.store.dispatch((0, _extends3.default)({}, body, {
+        _this.store.dispatch(_objectSpread({}, body, {
           type: _this.actionTypes.notification,
           lastDndStatus: _this.dndStatus,
           timestamp: Date.now()
         }));
-
         /**
          * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
          * when the real calls count larger than the active calls returned by the pubnub,
          * we need to pulling the calls manually.
          */
+
+
         var _body$activeCalls = body.activeCalls,
-            activeCalls = _body$activeCalls === undefined ? [] : _body$activeCalls,
+            activeCalls = _body$activeCalls === void 0 ? [] : _body$activeCalls,
             _body$totalActiveCall = body.totalActiveCalls,
-            totalActiveCalls = _body$totalActiveCall === undefined ? 0 : _body$totalActiveCall;
+            totalActiveCalls = _body$totalActiveCall === void 0 ? 0 : _body$totalActiveCall;
 
         if (activeCalls.length !== totalActiveCalls) {
           _this._fetchRemainingCalls();
@@ -181,35 +175,36 @@ var DetailedPresence = (_dec = (0, _di.Module)({
       });
     });
 
-    _this._fetchRemainingCalls = (0, _throttle2.default)(_this._fetch.bind(_this), FETCH_THRESHOLD);
+    _this._fetchRemainingCalls = (0, _throttle.default)((_context = _assertThisInitialized(_assertThisInitialized(_this)), _this._fetch).bind(_context), FETCH_THRESHOLD);
     return _this;
   }
 
-  (0, _createClass3.default)(DetailedPresence, [{
-    key: '_fetch',
+  _createClass(DetailedPresence, [{
+    key: "_fetch",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+      var _fetch2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
         var ownerId, body, _body$activeCalls2, activeCalls, _body$totalActiveCall2, totalActiveCalls;
 
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.fetch
                 });
                 ownerId = this._auth.ownerId;
-                _context.prev = 2;
-                _context.next = 5;
-                return this._client.service.platform().get(_subscriptionFilters2.default.detailedPresence);
+                _context2.prev = 2;
+                _context2.next = 5;
+                return this._client.service.platform().get(_subscriptionFilters.default.detailedPresence);
 
               case 5:
-                body = _context.sent.json();
+                body = _context2.sent.json();
 
                 if (this._auth.ownerId === ownerId) {
-                  _body$activeCalls2 = body.activeCalls, activeCalls = _body$activeCalls2 === undefined ? [] : _body$activeCalls2, _body$totalActiveCall2 = body.totalActiveCalls, totalActiveCalls = _body$totalActiveCall2 === undefined ? 0 : _body$totalActiveCall2;
-
-                  this.store.dispatch((0, _extends3.default)({}, body, {
+                  _body$activeCalls2 = body.activeCalls, activeCalls = _body$activeCalls2 === void 0 ? [] : _body$activeCalls2, _body$totalActiveCall2 = body.totalActiveCalls, totalActiveCalls = _body$totalActiveCall2 === void 0 ? 0 : _body$totalActiveCall2;
+                  this.store.dispatch(_objectSpread({}, body, {
                     // api get doesn't response 'totalActiveCalls' currently
                     // because not like notification, here 'activeCalls' contains all the calls
                     totalActiveCalls: totalActiveCalls || activeCalls.length,
@@ -219,57 +214,59 @@ var DetailedPresence = (_dec = (0, _di.Module)({
                   }));
                   this._promise = null;
                 }
-                _context.next = 12;
+
+                _context2.next = 12;
                 break;
 
               case 9:
-                _context.prev = 9;
-                _context.t0 = _context['catch'](2);
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](2);
 
                 if (this._auth.ownerId === ownerId) {
                   this.store.dispatch({
                     type: this.actionTypes.fetchError,
-                    error: _context.t0
+                    error: _context2.t0
                   });
                   this._promise = null;
                 }
 
               case 12:
-              case 'end':
-                return _context.stop();
+              case "end":
+                return _context2.stop();
             }
           }
         }, _callee, this, [[2, 9]]);
       }));
 
       function _fetch() {
-        return _ref.apply(this, arguments);
+        return _fetch2.apply(this, arguments);
       }
 
       return _fetch;
     }()
   }, {
-    key: 'data',
+    key: "data",
     get: function get() {
       return this.state.data;
     }
   }, {
-    key: 'calls',
+    key: "calls",
     get: function get() {
       return this._selectors.calls();
     }
   }, {
-    key: 'telephonyStatus',
+    key: "telephonyStatus",
     get: function get() {
       return this.state.telephonyStatus;
     }
   }, {
-    key: 'sessionIdList',
+    key: "sessionIdList",
     get: function get() {
       return this._selectors.sessionIdList();
     }
   }]);
+
   return DetailedPresence;
-}(_Presence3.default), (_applyDecoratedDescriptor(_class2.prototype, '_fetch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetch'), _class2.prototype)), _class2)) || _class);
+}(_Presence2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype)), _class2)) || _class);
 exports.default = DetailedPresence;
 //# sourceMappingURL=index.js.map

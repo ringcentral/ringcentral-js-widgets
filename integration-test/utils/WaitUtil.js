@@ -1,19 +1,18 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _promise = require("babel-runtime/core-js/promise");
-
-var _promise2 = _interopRequireDefault(_promise);
-
 exports.waitUntilNotNull = waitUntilNotNull;
 exports.waitUntilEqual = waitUntilEqual;
 exports.waitUntilObjectSizeGreaterThan = waitUntilObjectSizeGreaterThan;
 exports.waitInSeconds = waitInSeconds;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.date.now");
 
 function isTimeOut(startTime, timeoutInSeconds) {
   return Date.now() - startTime > timeoutInSeconds * 1000;
@@ -21,15 +20,17 @@ function isTimeOut(startTime, timeoutInSeconds) {
 
 function waitUntilNotNull(source, checkItem, timeoutInSeconds) {
   var startTime = Date.now();
-  return new _promise2.default(function (resolve) {
+  return new Promise(function (resolve) {
     var timer = setInterval(function () {
       if (isTimeOut(startTime, timeoutInSeconds)) {
         clearInterval(timer);
         resolve(false);
-        console.error("Timeout wait for " + checkItem + "  to be not null");
+        console.error("Timeout wait for ".concat(checkItem, "  to be not null"));
       }
+
       try {
         var checkValue = source();
+
         if (checkValue !== null && checkValue !== undefined) {
           clearInterval(timer);
           resolve(true);
@@ -43,15 +44,17 @@ function waitUntilNotNull(source, checkItem, timeoutInSeconds) {
 
 function waitUntilEqual(source, checkItem, expect, timeoutInSeconds) {
   var startTime = Date.now();
-  return new _promise2.default(function (resolve) {
+  return new Promise(function (resolve) {
     var timer = setInterval(function () {
       if (isTimeOut(startTime, timeoutInSeconds)) {
         clearInterval(timer);
         resolve(false);
-        console.error("Timeout wait for " + checkItem + "  to be " + expect);
+        console.error("Timeout wait for ".concat(checkItem, "  to be ").concat(expect));
       }
+
       try {
         var checkValue = source();
+
         if (checkValue === expect) {
           clearInterval(timer);
           resolve(true);
@@ -65,15 +68,17 @@ function waitUntilEqual(source, checkItem, expect, timeoutInSeconds) {
 
 function waitUntilObjectSizeGreaterThan(source, checkItem, compareSize, timeoutInSeconds) {
   var startTime = Date.now();
-  return new _promise2.default(function (resolve) {
+  return new Promise(function (resolve) {
     var timer = setInterval(function () {
       if (isTimeOut(startTime, timeoutInSeconds)) {
         clearInterval(timer);
         resolve(false);
-        console.log("Timeout wait for " + checkItem + " to be not null");
+        console.log("Timeout wait for ".concat(checkItem, " to be not null"));
       }
+
       try {
         var checkValue = source();
+
         if (checkValue !== null && checkValue.length > compareSize) {
           clearInterval(timer);
           resolve(true);
@@ -86,7 +91,7 @@ function waitUntilObjectSizeGreaterThan(source, checkItem, compareSize, timeoutI
 }
 
 function waitInSeconds(seconds) {
-  return new _promise2.default(function (resolve) {
+  return new Promise(function (resolve) {
     setTimeout(function () {
       resolve(null);
     }, seconds * 1000);

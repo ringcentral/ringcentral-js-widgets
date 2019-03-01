@@ -1,145 +1,164 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.array.find-index");
+
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.sort");
+
+require("core-js/modules/es6.array.find");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _defineProperty = require('babel-runtime/core-js/object/define-property');
+require("core-js/modules/es6.promise");
 
-var _defineProperty2 = _interopRequireDefault(_defineProperty);
+require("core-js/modules/es6.string.iterator");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.array.from");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.regexp.to-string");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.date.to-string");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+require("core-js/modules/es6.symbol");
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+require("core-js/modules/es6.array.is-array");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.filter");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.array.index-of");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.create");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.define-property");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.reduce");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.keys");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/web.dom.iterable");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.array.for-each");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.regexp.match");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("regenerator-runtime/runtime");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _ramda = require("ramda");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _di = require("../../lib/di");
 
-var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3;
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-require('core-js/fn/array/find');
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _di = require('../../lib/di');
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _getCallMonitorReducer = _interopRequireWildcard(require("./getCallMonitorReducer"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _moduleStatuses = require('../../enums/moduleStatuses');
+var _normalizeNumber = _interopRequireDefault(require("../../lib/normalizeNumber"));
 
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
+var _callMonitorHelper = require("./callMonitorHelper");
 
-var _actionTypes = require('./actionTypes');
+var _selector = require("../../lib/selector");
 
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
+var _callLogHelpers = require("../../lib/callLogHelpers");
 
-var _getCallMonitorReducer = require('./getCallMonitorReducer');
+var _webphoneHelper = require("../Webphone/webphoneHelper");
 
-var _getCallMonitorReducer2 = _interopRequireDefault(_getCallMonitorReducer);
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _temp;
 
-var _ensureExist = require('../../lib/ensureExist');
-
-var _ensureExist2 = _interopRequireDefault(_ensureExist);
-
-var _normalizeNumber = require('../../lib/normalizeNumber');
-
-var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
-
-var _callMonitorHelper = require('./callMonitorHelper');
-
-var _selector = require('../../lib/selector');
-
-var _callLogHelpers = require('../../lib/callLogHelpers');
-
-var _webphoneHelper = require('../Webphone/webphoneHelper');
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _initDefineProp(target, property, descriptor, context) {
-  if (!descriptor) return;
-  (0, _defineProperty2.default)(target, property, {
-    enumerable: descriptor.enumerable,
-    configurable: descriptor.configurable,
-    writable: descriptor.writable,
-    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-  });
-}
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
-  return desc;
-}
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-function _initializerWarningHelper(descriptor, context) {
-  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-}
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+var CallMonitor = (
 /**
  * @class
  * @description active calls monitor module
  */
-var CallMonitor = (_dec = (0, _di.Module)({
-  deps: ['AccountInfo', 'Storage', 'DetailedPresence', { dep: 'ContactMatcher', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Call', optional: true }, { dep: 'ConferenceCall', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }, { dep: 'TabManager', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(CallMonitor, _RcModule);
+_dec = (0, _di.Module)({
+  deps: ['AccountInfo', 'Storage', 'DetailedPresence', {
+    dep: 'ContactMatcher',
+    optional: true
+  }, {
+    dep: 'Webphone',
+    optional: true
+  }, {
+    dep: 'Call',
+    optional: true
+  }, {
+    dep: 'ConferenceCall',
+    optional: true
+  }, {
+    dep: 'ActivityMatcher',
+    optional: true
+  }, {
+    dep: 'CallMonitorOptions',
+    optional: true
+  }, {
+    dep: 'TabManager',
+    optional: true
+  }]
+}), _dec(_class = (_class2 = (_temp =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(CallMonitor, _RcModule);
 
   /**
    * @constructor
@@ -158,6 +177,10 @@ var CallMonitor = (_dec = (0, _di.Module)({
    * @param {Function} params.onCallEnded - function on call ended
    */
   function CallMonitor(_ref) {
+    var _context;
+
+    var _this;
+
     var call = _ref.call,
         conferenceCall = _ref.conferenceCall,
         accountInfo = _ref.accountInfo,
@@ -171,23 +194,44 @@ var CallMonitor = (_dec = (0, _di.Module)({
         onCallUpdated = _ref.onCallUpdated,
         onCallEnded = _ref.onCallEnded,
         storage = _ref.storage,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['call', 'conferenceCall', 'accountInfo', 'detailedPresence', 'activityMatcher', 'contactMatcher', 'tabManager', 'webphone', 'onRinging', 'onNewCall', 'onCallUpdated', 'onCallEnded', 'storage']);
-    (0, _classCallCheck3.default)(this, CallMonitor);
+        options = _objectWithoutProperties(_ref, ["call", "conferenceCall", "accountInfo", "detailedPresence", "activityMatcher", "contactMatcher", "tabManager", "webphone", "onRinging", "onNewCall", "onCallUpdated", "onCallEnded", "storage"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallMonitor.__proto__ || (0, _getPrototypeOf2.default)(CallMonitor)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, CallMonitor);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallMonitor).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
 
-    _initDefineProp(_this, 'ringoutRingCalls', _descriptor, _this);
+    _initializerDefineProperty(_this, "allCalls", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'ringoutCurrentCalls', _descriptor2, _this);
+    _initializerDefineProperty(_this, "calls", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'ringoutOnHoldCalls', _descriptor3, _this);
+    _initializerDefineProperty(_this, "activeRingCalls", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "_activeOnHoldCalls", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "_activeCurrentCalls", _descriptor5, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "activeOnHoldCalls", _descriptor6, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "activeCurrentCalls", _descriptor7, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "otherDeviceCalls", _descriptor8, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "uniqueNumbers", _descriptor9, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "sessionIds", _descriptor10, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "ringoutRingCalls", _descriptor11, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "ringoutCurrentCalls", _descriptor12, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "ringoutOnHoldCalls", _descriptor13, _assertThisInitialized(_assertThisInitialized(_this)));
 
     _this._call = call;
     _this._conferenceCall = conferenceCall;
-    _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
-    _this._detailedPresence = _ensureExist2.default.call(_this, detailedPresence, 'detailedPresence');
+    _this._accountInfo = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, accountInfo, 'accountInfo');
+    _this._detailedPresence = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, detailedPresence, 'detailedPresence');
     _this._contactMatcher = contactMatcher;
     _this._activityMatcher = activityMatcher;
     _this._tabManager = tabManager;
@@ -196,17 +240,17 @@ var CallMonitor = (_dec = (0, _di.Module)({
     _this._onNewCall = onNewCall;
     _this._onCallUpdated = onCallUpdated;
     _this._onCallEnded = onCallEnded;
-    _this._storage = _ensureExist2.default.call(_this, storage, 'storage');
+    _this._storage = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, storage, 'storage');
     _this._callMatchedKey = 'callMatched';
-
-    _this._reducer = (0, _getCallMonitorReducer2.default)(_this.actionTypes);
+    _this._reducer = (0, _getCallMonitorReducer.default)(_this.actionTypes);
 
     _this._storage.registerReducer({
       key: _this._callMatchedKey,
       reducer: (0, _getCallMonitorReducer.getCallMatchedReducer)(_this.actionTypes)
     });
 
-    var _normalizedCalls = void 0;
+    var _normalizedCalls;
+
     _this.addSelector('normalizedCalls', function () {
       return _this._detailedPresence.calls;
     }, function () {
@@ -218,41 +262,45 @@ var CallMonitor = (_dec = (0, _di.Module)({
     }, function (callsFromPresence, countryCode, sessions, cachedSessions) {
       // match cached calls
       var cachedCalls = [];
-      if (_normalizedCalls && cachedSessions && cachedSessions.length) {
-        cachedCalls = _normalizedCalls.filter(function (x) {
-          return x.webphoneSession && cachedSessions.find(function (i) {
-            return i.id === x.webphoneSession.id;
-          });
-        });
-      }
 
-      // combine
-      var combinedCalls = [].concat((0, _toConsumableArray3.default)(callsFromPresence)); // clone
-      cachedCalls.forEach(function (cachedCall) {
-        if (!callsFromPresence.find(function (x) {
+      if (_normalizedCalls && cachedSessions && cachedSessions.length) {
+        cachedCalls = (0, _ramda.filter)(function (x) {
+          return x.webphoneSession && (0, _ramda.find)(function (i) {
+            return i.id === x.webphoneSession.id;
+          }, cachedSessions);
+        }, _normalizedCalls);
+      } // combine
+
+
+      var combinedCalls = _toConsumableArray(callsFromPresence); // clone
+
+
+      (0, _ramda.forEach)(function (cachedCall) {
+        if (!(0, _ramda.find)(function (x) {
           return x.id === cachedCall.id;
-        })) {
+        }, callsFromPresence)) {
           combinedCalls.push(cachedCall);
         }
-      });
+      }, cachedCalls); // mapping and sort
 
-      // mapping and sort
       var theSessions = sessions || [];
-      _normalizedCalls = combinedCalls.map(function (callItem) {
+      _normalizedCalls = (0, _ramda.sort)(function (l, r) {
+        return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
+      }, (0, _ramda.map)(function (callItem) {
         // use account countryCode to normalize number due to API issues [RCINT-3419]
-        var fromNumber = (0, _normalizeNumber2.default)({
+        var fromNumber = (0, _normalizeNumber.default)({
           phoneNumber: callItem.from && callItem.from.phoneNumber,
           countryCode: countryCode
         });
-        var toNumber = (0, _normalizeNumber2.default)({
+        var toNumber = (0, _normalizeNumber.default)({
           phoneNumber: callItem.to && callItem.to.phoneNumber,
           countryCode: countryCode
         });
         var webphoneSession = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(theSessions, callItem);
-        theSessions = theSessions.filter(function (x) {
+        theSessions = (0, _ramda.filter)(function (x) {
           return x !== webphoneSession;
-        });
-        return (0, _extends3.default)({}, callItem, {
+        }, theSessions);
+        return _objectSpread({}, callItem, {
           from: {
             phoneNumber: fromNumber
           },
@@ -262,153 +310,26 @@ var CallMonitor = (_dec = (0, _di.Module)({
           startTime: webphoneSession && webphoneSession.startTime || callItem.startTime,
           webphoneSession: webphoneSession
         });
-      }).sort(function (l, r) {
-        return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
-      });
-
+      }, combinedCalls));
       return _normalizedCalls;
-    });
-
-    _this.addSelector('allCalls', _this._selectors.normalizedCalls, function () {
-      return _this._contactMatcher && _this._contactMatcher.dataMapping;
-    }, function () {
-      return _this._activityMatcher && _this._activityMatcher.dataMapping;
-    }, function () {
-      return _this.callMatched;
-    }, function (normalizedCalls) {
-      var contactMapping = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var activityMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      var callMatched = arguments[3];
-
-      var calls = normalizedCalls.map(function (callItem) {
-        var fromNumber = callItem.from && callItem.from.phoneNumber;
-        var toNumber = callItem.to && callItem.to.phoneNumber;
-        var fromMatches = fromNumber && contactMapping[fromNumber] || [];
-        var toMatches = toNumber && contactMapping[toNumber] || [];
-        var toNumberEntity = callMatched[callItem.sessionId];
-        return (0, _extends3.default)({}, callItem, {
-          fromMatches: fromMatches,
-          toMatches: toMatches,
-          activityMatches: activityMapping[callItem.sessionId] || [],
-          toNumberEntity: toNumberEntity
-        });
-      });
-      return calls;
-    });
-
-    _this.addSelector('calls', _this._selectors.allCalls, function () {
-      return _this._conferenceCall && _this._conferenceCall.isMerging;
-    }, function (calls, isMerging) {
-      return calls.filter(function (callItem) {
-        // filtering out the conferece during merging
-        if (isMerging) {
-          return !(0, _webphoneHelper.isConferenceSession)(callItem.webphoneSession);
-        }
-        return true;
-      });
-    });
-
-    _this.addSelector('activeRingCalls', _this._selectors.calls, function (calls) {
-      return calls.filter(function (callItem) {
-        return callItem.webphoneSession && (0, _webphoneHelper.isRing)(callItem.webphoneSession);
-      });
-    });
-
-    _this.addSelector('_activeOnHoldCalls', _this._selectors.calls, function (calls) {
-      return calls.filter(function (callItem) {
-        return callItem.webphoneSession && (0, _webphoneHelper.isOnHold)(callItem.webphoneSession);
-      });
-    });
-
-    _this.addSelector('_activeCurrentCalls', _this._selectors.calls, function (calls) {
-      return calls.filter(function (callItem) {
-        return callItem.webphoneSession && !(0, _webphoneHelper.isOnHold)(callItem.webphoneSession) && !(0, _webphoneHelper.isRing)(callItem.webphoneSession);
-      });
-    });
-
-    _this.addSelector('activeOnHoldCalls', _this._selectors._activeOnHoldCalls, _this._selectors._activeCurrentCalls, function (_activeOnHoldCalls, _activeCurrentCalls) {
-      return _activeOnHoldCalls.length && !_activeCurrentCalls.length ? _activeOnHoldCalls.slice(1) : _activeOnHoldCalls;
-    });
-
-    _this.addSelector('activeCurrentCalls', _this._selectors._activeCurrentCalls, _this._selectors._activeOnHoldCalls, function (_activeCurrentCalls, _activeOnHoldCalls) {
-      return !_activeCurrentCalls.length && _activeOnHoldCalls.length ? _activeOnHoldCalls.slice(0, 1) : _activeCurrentCalls;
-    });
-
-    _this.addSelector('otherDeviceCalls', _this._selectors.calls, function () {
-      return _this._webphone && _this._webphone.lastEndedSessions;
-    }, function (calls, lastEndedSessions) {
-      return calls.reduce(function (_ref2, callItem) {
-        var sessionsCache = _ref2.sessionsCache,
-            res = _ref2.res;
-
-        if (callItem.webphoneSession) {
-          return {
-            sessionsCache: sessionsCache,
-            res: res
-          };
-        }
-
-        if (!sessionsCache || !sessionsCache.length) {
-          return {
-            sessionsCache: sessionsCache,
-            res: [].concat((0, _toConsumableArray3.default)(res), [callItem])
-          };
-        }
-
-        var endCall = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(sessionsCache, [].concat((0, _toConsumableArray3.default)(res), [callItem]));
-
-        return {
-          sessionsCache: sessionsCache.filter(function (x) {
-            return x !== endCall;
-          }),
-          res: endCall ? res : [].concat((0, _toConsumableArray3.default)(res), [callItem])
-        };
-      }, {
-        sessionsCache: lastEndedSessions,
-        res: []
-      }).res;
-    });
-
-    _this.addSelector('uniqueNumbers', _this._selectors.normalizedCalls, function (normalizedCalls) {
-      var output = [];
-      var numberMap = {};
-      function addIfNotExist(number) {
-        if (!numberMap[number]) {
-          output.push(number);
-          numberMap[number] = true;
-        }
-      }
-      normalizedCalls.forEach(function (callItem) {
-        if (callItem.from && callItem.from.phoneNumber) {
-          addIfNotExist(callItem.from.phoneNumber);
-        }
-        if (callItem.to && callItem.to.phoneNumber) {
-          addIfNotExist(callItem.to.phoneNumber);
-        }
-      });
-      return output;
     });
 
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
-        getQueriesFn: _this._selectors.uniqueNumbers,
+        getQueriesFn: function getQueriesFn() {
+          return _this.uniqueNumbers;
+        },
         readyCheckFn: function readyCheckFn() {
           return _this._accountInfo.ready && _this._detailedPresence.ready;
         }
       });
     }
 
-    _this.addSelector('sessionIds', function () {
-      return _this._detailedPresence.calls;
-    }, function (calls) {
-      return calls.map(function (callItem) {
-        return callItem.sessionId;
-      });
-    });
-
     if (_this._activityMatcher) {
       _this._activityMatcher.addQuerySource({
-        getQueriesFn: _this._selectors.sessionIds,
+        getQueriesFn: function getQueriesFn() {
+          return _this.sessionIds;
+        },
         readyCheckFn: function readyCheckFn() {
           return _this._detailedPresence.ready;
         }
@@ -421,16 +342,18 @@ var CallMonitor = (_dec = (0, _di.Module)({
     return _this;
   }
 
-  (0, _createClass3.default)(CallMonitor, [{
-    key: '_onStateChange',
+  _createClass(CallMonitor, [{
+    key: "_onStateChange",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+      var _onStateChange2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
         var _this2 = this;
 
-        var uniqueNumbers, sessionIds, oldCalls, entities;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        var uniqueNumbers, newNumbers, sessionIds, newSessions, oldCalls, entities;
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 if ((!this._call || this._call.ready) && (!this._conferenceCall || this._conferenceCall.ready) && this._accountInfo.ready && this._detailedPresence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
                   this.store.dispatch({
@@ -450,96 +373,110 @@ var CallMonitor = (_dec = (0, _di.Module)({
                     type: this.actionTypes.resetSuccess
                   });
                 } else if (this.ready) {
-                  uniqueNumbers = this._selectors.uniqueNumbers();
+                  uniqueNumbers = this.uniqueNumbers;
 
                   if (this._lastProcessedNumbers !== uniqueNumbers && (!this._tabManager || this._tabManager.active)) {
+                    newNumbers = (0, _ramda.difference)(uniqueNumbers, this._lastProcessedNumbers || []);
                     this._lastProcessedNumbers = uniqueNumbers;
+
                     if (this._contactMatcher && this._contactMatcher.ready) {
-                      this._contactMatcher.triggerMatch();
+                      this._contactMatcher.match({
+                        queries: newNumbers,
+                        ignoreQueue: true
+                      });
                     }
                   }
-                  sessionIds = this._selectors.sessionIds();
+
+                  sessionIds = this.sessionIds;
 
                   if (this._lastProcessedIds !== sessionIds && (!this._tabManager || this._tabManager.active)) {
+                    newSessions = (0, _ramda.difference)(sessionIds, this._lastProcessedIds || []);
                     this._lastProcessedIds = sessionIds;
+
                     if (this._activityMatcher && this._activityMatcher.ready) {
-                      this._activityMatcher.triggerMatch();
+                      this._activityMatcher.match({
+                        queries: newSessions,
+                        ignoreQueue: true
+                      });
                     }
                   }
 
                   if (this._lastProcessedCalls !== this.calls) {
                     oldCalls = this._lastProcessedCalls && this._lastProcessedCalls.slice() || [];
+                    this._lastProcessedCalls = this.calls; // no ringing calls
 
-
-                    this._lastProcessedCalls = this.calls;
-
-                    // no ringing calls
                     if (this._call && oldCalls.length !== 0 && this.calls.length === 0 && this._call.toNumberEntities && this._call.toNumberEntities.length !== 0) {
                       // console.log('no calls clean to number:');
                       this._call.cleanToNumberEntities();
                     }
 
-                    entities = this._call ? this._call.toNumberEntities.sort(_callLogHelpers.sortByStartTime) : [];
-                    // const matchedMap = {};
+                    entities = this._call ? (0, _ramda.sort)(_callLogHelpers.sortByStartTime, this._call.toNumberEntities) : []; // const matchedMap = {};
 
-                    this.calls.forEach(function (call) {
-                      var oldCallIndex = oldCalls.findIndex(function (item) {
+                    (0, _ramda.forEach)(function (call) {
+                      var oldCallIndex = (0, _ramda.findIndex)(function (item) {
                         return item.sessionId === call.sessionId;
-                      });
+                      }, oldCalls);
+
                       if (oldCallIndex === -1) {
                         if (typeof _this2._onNewCall === 'function') {
                           _this2._onNewCall(call);
                         }
+
                         if (typeof _this2._onRinging === 'function' && (0, _callLogHelpers.isRinging)(call)) {
                           _this2._onRinging(call);
                         }
                       } else {
                         var oldCall = oldCalls[oldCallIndex];
                         oldCalls.splice(oldCallIndex, 1);
+
                         if ((call.telephonyStatus !== oldCall.telephonyStatus || (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)) && typeof _this2._onCallUpdated === 'function') {
                           _this2._onCallUpdated(call);
                         }
                       }
-                      entities.find(function (entity, index) {
-                        var toEntity = call.toMatches.find(function (toMatch) {
+
+                      (0, _ramda.find)(function (entity, index) {
+                        var toEntity = (0, _ramda.find)(function (toMatch) {
                           return toMatch.id === entity.entityId;
-                        });
+                        }, call.toMatches);
+
                         if (toEntity !== undefined) {
                           entities = _this2._removeMatched(index, entities);
+
                           _this2._setMatchedData({
                             sessionId: call.sessionId,
                             toEntityId: toEntity.id
                           });
+
                           return true;
                         }
-                        return false;
-                      });
-                    });
 
-                    oldCalls.forEach(function (call) {
+                        return false;
+                      }, entities);
+                    }, this.calls);
+                    (0, _ramda.forEach)(function (call) {
                       if (typeof _this2._onCallEnded === 'function') {
                         _this2._onCallEnded(call);
                       }
-                    });
+                    }, oldCalls);
                   }
                 }
 
               case 1:
-              case 'end':
-                return _context.stop();
+              case "end":
+                return _context2.stop();
             }
           }
         }, _callee, this);
       }));
 
       function _onStateChange() {
-        return _ref3.apply(this, arguments);
+        return _onStateChange2.apply(this, arguments);
       }
 
       return _onStateChange;
     }()
   }, {
-    key: 'initialize',
+    key: "initialize",
     value: function initialize() {
       var _this3 = this;
 
@@ -548,7 +485,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_removeMatched',
+    key: "_removeMatched",
     value: function _removeMatched(index, entities) {
       console.log('removeMatched:', index);
       entities.splice(index, 1);
@@ -556,199 +493,391 @@ var CallMonitor = (_dec = (0, _di.Module)({
       return entities;
     }
   }, {
-    key: '_setMatchedData',
+    key: "_setMatchedData",
     value: function _setMatchedData(matched) {
-      this.store.dispatch((0, _extends3.default)({
+      this.store.dispatch(_objectSpread({
         type: this.actionTypes.setData
       }, matched));
-    }
-    // user action track funtions
+    } // user action track funtions
 
   }, {
-    key: 'callItemClickTrack',
+    key: "callItemClickTrack",
     value: function callItemClickTrack() {
       this.store.dispatch({
         type: this.actionTypes.callItemClickTrack
       });
     }
   }, {
-    key: 'allCallsClickHoldTrack',
+    key: "allCallsClickHoldTrack",
     value: function allCallsClickHoldTrack() {
       this.store.dispatch({
         type: this.actionTypes.allCallsClickHoldTrack
       });
     }
   }, {
-    key: 'allCallsClickHangupTrack',
+    key: "allCallsClickHangupTrack",
     value: function allCallsClickHangupTrack() {
       this.store.dispatch({
         type: this.actionTypes.allCallsClickHangupTrack
       });
     }
   }, {
-    key: 'allCallsClickRejectTrack',
+    key: "allCallsClickRejectTrack",
     value: function allCallsClickRejectTrack() {
       this.store.dispatch({
         type: this.actionTypes.allCallsClickRejectTrack
       });
     }
   }, {
-    key: 'callControlClickAddTrack',
+    key: "callControlClickAddTrack",
     value: function callControlClickAddTrack() {
       this.store.dispatch({
         type: this.actionTypes.callControlClickAddTrack
       });
     }
   }, {
-    key: 'mergeControlClickHangupTrack',
+    key: "mergeControlClickHangupTrack",
     value: function mergeControlClickHangupTrack() {
       this.store.dispatch({
         type: this.actionTypes.mergeControlClickHangupTrack
       });
     }
   }, {
-    key: 'callControlClickMergeTrack',
+    key: "callControlClickMergeTrack",
     value: function callControlClickMergeTrack() {
       this.store.dispatch({
         type: this.actionTypes.callControlClickMergeTrack
       });
     }
   }, {
-    key: 'confirmMergeClickCloseTrack',
+    key: "confirmMergeClickCloseTrack",
     value: function confirmMergeClickCloseTrack() {
       this.store.dispatch({
         type: this.actionTypes.confirmMergeClickCloseTrack
       });
     }
   }, {
-    key: 'confirmMergeClickMergeTrack',
+    key: "confirmMergeClickMergeTrack",
     value: function confirmMergeClickMergeTrack() {
       this.store.dispatch({
         type: this.actionTypes.confirmMergeClickMergeTrack
       });
     }
   }, {
-    key: 'callsOnHoldClickAddTrack',
+    key: "callsOnHoldClickAddTrack",
     value: function callsOnHoldClickAddTrack() {
       this.store.dispatch({
         type: this.actionTypes.callsOnHoldClickAddTrack
       });
     }
   }, {
-    key: 'callsOnHoldClickMergeTrack',
+    key: "callsOnHoldClickMergeTrack",
     value: function callsOnHoldClickMergeTrack() {
       this.store.dispatch({
         type: this.actionTypes.callsOnHoldClickMergeTrack
       });
     }
   }, {
-    key: 'callsOnHoldClickHangupTrack',
+    key: "callsOnHoldClickHangupTrack",
     value: function callsOnHoldClickHangupTrack() {
       this.store.dispatch({
         type: this.actionTypes.callsOnHoldClickHangupTrack
       });
     }
   }, {
-    key: 'callControlClickParticipantAreaTrack',
+    key: "callControlClickParticipantAreaTrack",
     value: function callControlClickParticipantAreaTrack() {
       this.store.dispatch({
         type: this.actionTypes.callControlClickParticipantAreaClickTrack
       });
     }
   }, {
-    key: 'hasRingingCalls',
+    key: "hasRingingCalls",
     get: function get() {
       return (0, _callLogHelpers.hasRingingCalls)(this.calls);
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses2.default.ready;
+      return this.state.status === _moduleStatuses.default.ready;
     }
   }, {
-    key: 'pending',
+    key: "pending",
     get: function get() {
-      return this.state.status === _moduleStatuses2.default.pending;
+      return this.state.status === _moduleStatuses.default.pending;
     }
   }, {
-    key: 'calls',
-    get: function get() {
-      return this._selectors.calls();
-    }
-  }, {
-    key: 'allCalls',
-    get: function get() {
-      return this._selectors.allCalls();
-    }
-  }, {
-    key: 'callMatched',
+    key: "callMatched",
     get: function get() {
       return this._storage.getItem(this._callMatchedKey);
     }
-  }, {
-    key: 'activeRingCalls',
-    get: function get() {
-      return this._selectors.activeRingCalls();
-    }
-  }, {
-    key: 'activeOnHoldCalls',
-    get: function get() {
-      return this._selectors.activeOnHoldCalls();
-    }
-  }, {
-    key: 'activeCurrentCalls',
-    get: function get() {
-      return this._selectors.activeCurrentCalls();
-    }
-  }, {
-    key: 'otherDeviceCalls',
-    get: function get() {
-      return this._selectors.otherDeviceCalls();
-    }
   }]);
+
   return CallMonitor;
-}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringoutRingCalls', [_selector.selector], {
+}(_RcModule2.default), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "allCalls", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return [function () {
-      return _this4.otherDeviceCalls;
-    }, function (otherDeviceCalls) {
-      return otherDeviceCalls.filter(function (callItem) {
-        return (0, _callLogHelpers.isRingingInboundCall)(callItem);
-      });
+    return [this._selectors.normalizedCalls, function () {
+      return _this4._contactMatcher && _this4._contactMatcher.dataMapping;
+    }, function () {
+      return _this4._activityMatcher && _this4._activityMatcher.dataMapping;
+    }, function () {
+      return _this4.callMatched;
+    }, function (normalizedCalls) {
+      var contactMapping = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var activityMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var callMatched = arguments.length > 3 ? arguments[3] : undefined;
+      var calls = (0, _ramda.map)(function (callItem) {
+        var fromNumber = callItem.from && callItem.from.phoneNumber;
+        var toNumber = callItem.to && callItem.to.phoneNumber;
+        var fromMatches = fromNumber && contactMapping[fromNumber] || [];
+        var toMatches = toNumber && contactMapping[toNumber] || [];
+        var toNumberEntity = callMatched[callItem.sessionId];
+        return _objectSpread({}, callItem, {
+          fromMatches: fromMatches,
+          toMatches: toMatches,
+          activityMatches: activityMapping[callItem.sessionId] || [],
+          toNumberEntity: toNumberEntity
+        });
+      }, normalizedCalls);
+      return calls;
     }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'ringoutCurrentCalls', [_selector.selector], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this5 = this;
 
     return [function () {
-      return _this5.otherDeviceCalls;
-    }, function (otherDeviceCalls) {
-      return otherDeviceCalls.filter(function (callItem) {
-        return !(0, _callLogHelpers.isRingingInboundCall)(callItem) && !(0, _callLogHelpers.isOnHold)(callItem);
-      });
+      return _this5.allCalls;
+    }, function () {
+      return _this5._conferenceCall && _this5._conferenceCall.isMerging;
+    }, function (calls, isMerging) {
+      return (0, _ramda.filter)(function (callItem) {
+        // filtering out the conferece during merging
+        if (isMerging) {
+          return !(0, _webphoneHelper.isConferenceSession)(callItem.webphoneSession);
+        }
+
+        return true;
+      }, calls);
     }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'ringoutOnHoldCalls', [_selector.selector], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "activeRingCalls", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this6 = this;
 
     return [function () {
-      return _this6.otherDeviceCalls;
+      return _this6.calls;
+    }, function (calls) {
+      return (0, _ramda.filter)(function (callItem) {
+        return callItem.webphoneSession && (0, _webphoneHelper.isRing)(callItem.webphoneSession);
+      }, calls);
+    }];
+  }
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "_activeOnHoldCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this7 = this;
+
+    return [function () {
+      return _this7.calls;
+    }, function (calls) {
+      return (0, _ramda.filter)(function (callItem) {
+        return callItem.webphoneSession && (0, _webphoneHelper.isOnHold)(callItem.webphoneSession);
+      }, calls);
+    }];
+  }
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "_activeCurrentCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this8 = this;
+
+    return [function () {
+      return _this8.calls;
+    }, function (calls) {
+      return (0, _ramda.filter)(function (callItem) {
+        return callItem.webphoneSession && !(0, _webphoneHelper.isOnHold)(callItem.webphoneSession) && !(0, _webphoneHelper.isRing)(callItem.webphoneSession);
+      }, calls);
+    }];
+  }
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "activeOnHoldCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this9 = this;
+
+    return [function () {
+      return _this9._activeOnHoldCalls;
+    }, function () {
+      return _this9._activeCurrentCalls;
+    }, function (_activeOnHoldCalls, _activeCurrentCalls) {
+      return _activeOnHoldCalls.length && !_activeCurrentCalls.length ? _activeOnHoldCalls.slice(1) : _activeOnHoldCalls;
+    }];
+  }
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "activeCurrentCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this10 = this;
+
+    return [function () {
+      return _this10._activeCurrentCalls;
+    }, function () {
+      return _this10._activeOnHoldCalls;
+    }, function (_activeCurrentCalls, _activeOnHoldCalls) {
+      return !_activeCurrentCalls.length && _activeOnHoldCalls.length ? _activeOnHoldCalls.slice(0, 1) : _activeCurrentCalls;
+    }];
+  }
+}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, "otherDeviceCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this11 = this;
+
+    return [function () {
+      return _this11.calls;
+    }, function () {
+      return _this11._webphone && _this11._webphone.lastEndedSessions;
+    }, function (calls, lastEndedSessions) {
+      return (0, _ramda.reduce)(function (_ref2, callItem) {
+        var sessionsCache = _ref2.sessionsCache,
+            res = _ref2.res;
+
+        if (callItem.webphoneSession) {
+          return {
+            sessionsCache: sessionsCache,
+            res: res
+          };
+        }
+
+        if (!sessionsCache || !sessionsCache.length) {
+          return {
+            sessionsCache: sessionsCache,
+            res: [].concat(_toConsumableArray(res), [callItem])
+          };
+        }
+
+        var endCall = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(sessionsCache, [].concat(_toConsumableArray(res), [callItem]));
+        return {
+          sessionsCache: (0, _ramda.filter)(function (x) {
+            return x !== endCall;
+          }, sessionsCache),
+          res: endCall ? res : [].concat(_toConsumableArray(res), [callItem])
+        };
+      }, {
+        sessionsCache: lastEndedSessions,
+        res: []
+      }, calls).res;
+    }];
+  }
+}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return [this._selectors.normalizedCalls, function (normalizedCalls) {
+      var output = [];
+      var numberMap = {};
+
+      function addIfNotExist(number) {
+        if (!numberMap[number]) {
+          output.push(number);
+          numberMap[number] = true;
+        }
+      }
+
+      (0, _ramda.forEach)(function (callItem) {
+        if (callItem.from && callItem.from.phoneNumber) {
+          addIfNotExist(callItem.from.phoneNumber);
+        }
+
+        if (callItem.to && callItem.to.phoneNumber) {
+          addIfNotExist(callItem.to.phoneNumber);
+        }
+      }, normalizedCalls);
+      return output;
+    }];
+  }
+}), _descriptor10 = _applyDecoratedDescriptor(_class2.prototype, "sessionIds", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this12 = this;
+
+    return [function () {
+      return _this12._detailedPresence.calls;
+    }, function (calls) {
+      return (0, _ramda.map)(function (callItem) {
+        return callItem.sessionId;
+      }, calls);
+    }];
+  }
+}), _descriptor11 = _applyDecoratedDescriptor(_class2.prototype, "ringoutRingCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this13 = this;
+
+    return [function () {
+      return _this13.otherDeviceCalls;
     }, function (otherDeviceCalls) {
-      return otherDeviceCalls.filter(function (callItem) {
+      return (0, _ramda.filter)(function (callItem) {
+        return (0, _callLogHelpers.isRingingInboundCall)(callItem);
+      }, otherDeviceCalls);
+    }];
+  }
+}), _descriptor12 = _applyDecoratedDescriptor(_class2.prototype, "ringoutCurrentCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this14 = this;
+
+    return [function () {
+      return _this14.otherDeviceCalls;
+    }, function (otherDeviceCalls) {
+      return (0, _ramda.filter)(function (callItem) {
+        return !(0, _callLogHelpers.isRingingInboundCall)(callItem) && !(0, _callLogHelpers.isOnHold)(callItem);
+      }, otherDeviceCalls);
+    }];
+  }
+}), _descriptor13 = _applyDecoratedDescriptor(_class2.prototype, "ringoutOnHoldCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this15 = this;
+
+    return [function () {
+      return _this15.otherDeviceCalls;
+    }, function (otherDeviceCalls) {
+      return (0, _ramda.filter)(function (callItem) {
         return (0, _callLogHelpers.isOnHold)(callItem);
-      });
+      }, otherDeviceCalls);
     }];
   }
 })), _class2)) || _class);

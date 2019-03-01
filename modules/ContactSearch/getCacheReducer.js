@@ -1,25 +1,31 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 exports.getContactSearchReducer = getContactSearchReducer;
 exports.default = getCacheReducer;
 
-var _redux = require('redux');
+require("core-js/modules/es6.date.now");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.for-each");
+
+var _redux = require("redux");
 
 function getContactSearchReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         entities = _ref.entities,
         sourceName = _ref.sourceName,
         searchString = _ref.searchString,
@@ -29,21 +35,23 @@ function getContactSearchReducer(types) {
       case types.save:
         {
           var data = {};
-          (0, _keys2.default)(state).forEach(function (key) {
+          Object.keys(state).forEach(function (key) {
             if (Date.now() - state[key].timestamp < ttl) {
               data[key] = state[key];
             }
           });
-          var key = sourceName + '-' + searchString;
+          var key = "".concat(sourceName, "-").concat(searchString);
           data[key] = {
             entities: entities,
             timestamp: Date.now()
           };
           return data;
         }
+
       case types.initSuccess:
       case types.cleanUp:
         return {};
+
       default:
         return state;
     }

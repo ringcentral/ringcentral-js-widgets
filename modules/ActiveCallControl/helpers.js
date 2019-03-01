@@ -1,50 +1,56 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 exports.isHangUp = isHangUp;
 exports.isReject = isReject;
 exports.normalizeSession = normalizeSession;
 exports.requestURI = requestURI;
 exports.confictError = confictError;
 
-var _recordStatus = require('../../modules/Webphone/recordStatus');
+require("core-js/modules/es6.array.for-each");
 
-var _recordStatus2 = _interopRequireDefault(_recordStatus);
+require("core-js/modules/es6.array.filter");
 
-var _callResults = require('../../enums/callResults');
+require("core-js/modules/web.dom.iterable");
 
-var _callResults2 = _interopRequireDefault(_callResults);
+require("core-js/modules/es6.array.iterator");
 
-var _callDirections = require('../../enums/callDirections');
+require("core-js/modules/es6.object.keys");
 
-var _callDirections2 = _interopRequireDefault(_callDirections);
+require("core-js/modules/es6.object.define-property");
 
-var _activeCallControlStatus = require('../../enums/activeCallControlStatus');
+require("core-js/modules/es6.function.name");
 
-var _activeCallControlStatus2 = _interopRequireDefault(_activeCallControlStatus);
+var _recordStatus = _interopRequireDefault(require("../../modules/Webphone/recordStatus"));
+
+var _callResults = _interopRequireDefault(require("../../enums/callResults"));
+
+var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+
+var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function isHangUp(code) {
-  return code === _callResults2.default.disconnected;
+  return code === _callResults.default.disconnected;
 }
+
 function isReject(_ref) {
   var direction = _ref.direction,
       code = _ref.code;
-
-  return direction === _callDirections2.default.inbound && (code === _activeCallControlStatus2.default.setUp || code === _activeCallControlStatus2.default.proceeding);
+  return direction === _callDirections.default.inbound && (code === _activeCallControlStatus.default.setUp || code === _activeCallControlStatus.default.proceeding);
 }
+
 function normalizeSession(_ref2) {
   var call = _ref2.call,
       _ref2$activeSessionSt = _ref2.activeSessionStatus,
-      activeSessionStatus = _ref2$activeSessionSt === undefined ? {} : _ref2$activeSessionSt;
+      activeSessionStatus = _ref2$activeSessionSt === void 0 ? {} : _ref2$activeSessionSt;
   var telephonySessionId = call.telephonySessionId,
       partyId = call.partyId,
       direction = call.direction,
@@ -58,7 +64,6 @@ function normalizeSession(_ref2) {
       isOnHold = activeSessionStatus.isOnHold,
       isReject = activeSessionStatus.isReject,
       isOnRecording = activeSessionStatus.isOnRecording;
-
   var formatValue = {
     telephonySessionId: telephonySessionId,
     partyId: partyId,
@@ -83,31 +88,32 @@ function normalizeSession(_ref2) {
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
-    recordStatus: isOnRecording ? _recordStatus2.default.recording : _recordStatus2.default.idle,
+    recordStatus: isOnRecording ? _recordStatus.default.recording : _recordStatus.default.idle,
     removed: false,
     isReject: isReject
   };
-  return (0, _extends3.default)({}, formatValue);
+  return _objectSpread({}, formatValue);
 }
+
 function requestURI(activeSession) {
   var telephonySessionId = activeSession.telephonySessionId,
       partyId = activeSession.partyId,
       recordingId = activeSession.recordingId;
-
-  var prefix = '/account/~/telephony/sessions/' + telephonySessionId;
+  var prefix = "/account/~/telephony/sessions/".concat(telephonySessionId);
   return {
-    hangUp: '' + prefix,
-    reject: prefix + '/parties/' + partyId + '/reject',
-    hold: prefix + '/parties/' + partyId + '/hold',
-    unHold: prefix + '/parties/' + partyId + '/unhold',
-    transfer: prefix + '/parties/' + partyId + '/transfer',
-    flip: prefix + '/parties/' + partyId + '/flip',
-    getPartyData: prefix + '/parties/' + partyId,
-    mute: prefix + '/parties/' + partyId,
-    record: prefix + '/parties/' + partyId + '/recordings',
-    stopRecord: prefix + '/parties/' + partyId + '/recordings/' + recordingId
+    hangUp: "".concat(prefix),
+    reject: "".concat(prefix, "/parties/").concat(partyId, "/reject"),
+    hold: "".concat(prefix, "/parties/").concat(partyId, "/hold"),
+    unHold: "".concat(prefix, "/parties/").concat(partyId, "/unhold"),
+    transfer: "".concat(prefix, "/parties/").concat(partyId, "/transfer"),
+    flip: "".concat(prefix, "/parties/").concat(partyId, "/flip"),
+    getPartyData: "".concat(prefix, "/parties/").concat(partyId),
+    mute: "".concat(prefix, "/parties/").concat(partyId),
+    record: "".concat(prefix, "/parties/").concat(partyId, "/recordings"),
+    stopRecord: "".concat(prefix, "/parties/").concat(partyId, "/recordings/").concat(recordingId)
   };
 }
+
 function confictError(error) {
   var conflictErrRgx = /409/g;
   var conflictMsgRgx = /Incorrect State/g;

@@ -1,142 +1,114 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
-
-var _defineProperty = require('babel-runtime/core-js/object/define-property');
-
-var _defineProperty2 = _interopRequireDefault(_defineProperty);
-
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
-
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
-
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _get2 = require('babel-runtime/helpers/get');
-
-var _get3 = _interopRequireDefault(_get2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _dec, _class, _desc, _value, _class2, _descriptor;
-
 exports.callIdentityFunction = callIdentityFunction;
+exports.default = void 0;
 
-var _ramda = require('ramda');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _di = require('../../lib/di');
+require("core-js/modules/es6.symbol");
 
-var _LoggerBase2 = require('../../lib/LoggerBase');
+require("core-js/modules/es6.promise");
 
-var _LoggerBase3 = _interopRequireDefault(_LoggerBase2);
+require("core-js/modules/es6.array.filter");
 
-var _ensureExist = require('../../lib/ensureExist');
+require("core-js/modules/es6.array.index-of");
 
-var _ensureExist2 = _interopRequireDefault(_ensureExist);
+require("core-js/modules/es6.reflect.get");
 
-var _callLogHelpers = require('../../lib/callLogHelpers');
+require("core-js/modules/es6.object.create");
 
-var _callLoggerTriggerTypes = require('../../enums/callLoggerTriggerTypes');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _callLoggerTriggerTypes2 = _interopRequireDefault(_callLoggerTriggerTypes);
+require("core-js/modules/es6.object.define-property");
 
-var _actionTypes = require('./actionTypes');
+require("core-js/modules/es6.array.reduce");
 
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
+require("core-js/modules/es6.array.iterator");
 
-var _getDataReducer = require('./getDataReducer');
+require("core-js/modules/es6.object.keys");
 
-var _getDataReducer2 = _interopRequireDefault(_getDataReducer);
+require("core-js/modules/es6.object.assign");
 
-var _proxify = require('../../lib/proxy/proxify');
+require("core-js/modules/es6.array.find-index");
 
-var _proxify2 = _interopRequireDefault(_proxify);
+require("core-js/modules/web.dom.iterable");
 
-var _selector = require('../../lib/selector');
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.find");
+
+require("core-js/modules/es6.array.some");
+
+require("core-js/modules/es6.date.now");
+
+require("regenerator-runtime/runtime");
+
+var _ramda = require("ramda");
+
+var _di = require("../../lib/di");
+
+var _LoggerBase2 = _interopRequireDefault(require("../../lib/LoggerBase"));
+
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+
+var _callLogHelpers = require("../../lib/callLogHelpers");
+
+var _callLoggerTriggerTypes = _interopRequireDefault(require("../../enums/callLoggerTriggerTypes"));
+
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+
+var _getDataReducer = _interopRequireDefault(require("./getDataReducer"));
+
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _selector = require("../../lib/selector");
+
+var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _initDefineProp(target, property, descriptor, context) {
-  if (!descriptor) return;
-  (0, _defineProperty2.default)(target, property, {
-    enumerable: descriptor.enumerable,
-    configurable: descriptor.configurable,
-    writable: descriptor.writable,
-    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-  });
-}
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _initializerWarningHelper(descriptor, context) {
-  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-}
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
-  return desc;
-}
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 /**
  * @function
@@ -147,15 +119,30 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 function callIdentityFunction(call) {
   return call.sessionId;
 }
-
 /**
  * @class
  * @description call logger module
  */
+
+
 var CallLogger = (_dec = (0, _di.Module)({
-  deps: ['Storage', { dep: 'ActivityMatcher', optional: true }, 'CallHistory', 'CallMonitor', { dep: 'ContactMatcher', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'CallLoggerOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_LoggerBase) {
-  (0, _inherits3.default)(CallLogger, _LoggerBase);
+  deps: ['Storage', {
+    dep: 'ActivityMatcher',
+    optional: true
+  }, 'CallHistory', 'CallMonitor', {
+    dep: 'ContactMatcher',
+    optional: true
+  }, {
+    dep: 'TabManager',
+    optional: true
+  }, {
+    dep: 'CallLoggerOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 = (_temp =
+/*#__PURE__*/
+function (_LoggerBase) {
+  _inherits(CallLogger, _LoggerBase);
 
   /**
    * @constructor
@@ -167,6 +154,10 @@ var CallLogger = (_dec = (0, _di.Module)({
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
    */
   function CallLogger(_ref) {
+    var _context;
+
+    var _this;
+
     var storage = _ref.storage,
         activityMatcher = _ref.activityMatcher,
         callHistory = _ref.callHistory,
@@ -174,165 +165,176 @@ var CallLogger = (_dec = (0, _di.Module)({
         contactMatcher = _ref.contactMatcher,
         tabManager = _ref.tabManager,
         initialState = _ref.initialState,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['storage', 'activityMatcher', 'callHistory', 'callMonitor', 'contactMatcher', 'tabManager', 'initialState']);
-    (0, _classCallCheck3.default)(this, CallLogger);
+        options = _objectWithoutProperties(_ref, ["storage", "activityMatcher", "callHistory", "callMonitor", "contactMatcher", "tabManager", "initialState"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallLogger.__proto__ || (0, _getPrototypeOf2.default)(CallLogger)).call(this, (0, _extends3.default)({}, options, {
+    _classCallCheck(this, CallLogger);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallLogger).call(this, _objectSpread({}, options, {
       name: 'callLogger',
-      actionTypes: _actionTypes2.default,
-      getDataReducer: _getDataReducer2.default,
+      actionTypes: _actionTypes.default,
+      getDataReducer: _getDataReducer.default,
       identityFunction: callIdentityFunction
     })));
 
-    _initDefineProp(_this, 'transferredCallsMap', _descriptor, _this);
+    _initializerDefineProperty(_this, "transferredCallsMap", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _this._storage = _ensureExist2.default.call(_this, storage, 'storage');
-    _this._callMonitor = _ensureExist2.default.call(_this, callMonitor, 'callMonitor');
-    _this._contactMatcher = _ensureExist2.default.call(_this, contactMatcher, 'contactMatcher');
-    _this._activityMatcher = _ensureExist2.default.call(_this, activityMatcher, 'activityMatcher');
+    _this._storage = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, storage, 'storage');
+    _this._callMonitor = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, callMonitor, 'callMonitor');
+    _this._contactMatcher = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, contactMatcher, 'contactMatcher');
+    _this._activityMatcher = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, activityMatcher, 'activityMatcher');
     _this._callHistory = callHistory;
     _this._tabManager = tabManager;
-    _this._storageKey = _this._name + 'Data';
+    _this._storageKey = "".concat(_this._name, "Data");
+
     _this._storage.registerReducer({
       key: _this._storageKey,
-      reducer: (0, _getDataReducer2.default)(_this.actionTypes, initialState)
+      reducer: (0, _getDataReducer.default)(_this.actionTypes, initialState)
     });
+
     _this._lastProcessedCalls = null;
     _this._lastProcessedEndedCalls = null;
     _this._customMatcherHooks = [];
     return _this;
   }
 
-  (0, _createClass3.default)(CallLogger, [{
-    key: '_onReset',
+  _createClass(CallLogger, [{
+    key: "_onReset",
     value: function _onReset() {
       this._lastProcessedCalls = null;
       this._lastProcessedEndedCalls = null;
     }
   }, {
-    key: '_shouldInit',
+    key: "_shouldInit",
     value: function _shouldInit() {
       return this.pending && this._callMonitor.ready && (!this._callHistory || this._callHistory.ready) && (!this._tabManager || this._tabManager.ready) && this._contactMatcher.ready && this._activityMatcher.ready && this._readyCheckFunction() && this._storage.ready;
     }
   }, {
-    key: '_shouldReset',
+    key: "_shouldReset",
     value: function _shouldReset() {
       return this.ready && (!this._callMonitor.ready || !this._callMonitor.ready || this._callHistory && !this._callHistory.ready || this._tabManager && !this._tabManager.ready || !this._contactMatcher.ready || !this._activityMatcher.ready || !this._readyCheckFunction() || !this._storage.ready);
     }
   }, {
-    key: 'log',
+    key: "log",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
-        var call = _ref2.call,
-            options = (0, _objectWithoutProperties3.default)(_ref2, ['call']);
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _log = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(_ref2) {
+        var call, options;
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                return _context.abrupt('return', (0, _get3.default)(CallLogger.prototype.__proto__ || (0, _getPrototypeOf2.default)(CallLogger.prototype), 'log', this).call(this, (0, _extends3.default)({ item: call }, options)));
+                call = _ref2.call, options = _objectWithoutProperties(_ref2, ["call"]);
+                return _context2.abrupt("return", _get(_getPrototypeOf(CallLogger.prototype), "log", this).call(this, _objectSpread({
+                  item: call
+                }, options)));
 
-              case 1:
-              case 'end':
-                return _context.stop();
+              case 2:
+              case "end":
+                return _context2.stop();
             }
           }
         }, _callee, this);
       }));
 
       function log(_x) {
-        return _ref3.apply(this, arguments);
+        return _log.apply(this, arguments);
       }
 
       return log;
     }()
   }, {
-    key: '_ensureActive',
+    key: "_ensureActive",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+      var _ensureActive2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
         var isActive;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.t0 = !this._tabManager;
+                _context3.t0 = !this._tabManager;
 
-                if (_context2.t0) {
-                  _context2.next = 5;
+                if (_context3.t0) {
+                  _context3.next = 5;
                   break;
                 }
 
-                _context2.next = 4;
+                _context3.next = 4;
                 return this._tabManager.ensureActive();
 
               case 4:
-                _context2.t0 = _context2.sent;
+                _context3.t0 = _context3.sent;
 
               case 5:
-                isActive = _context2.t0;
-                return _context2.abrupt('return', isActive);
+                isActive = _context3.t0;
+                return _context3.abrupt("return", isActive);
 
               case 7:
-              case 'end':
-                return _context2.stop();
+              case "end":
+                return _context3.stop();
             }
           }
         }, _callee2, this);
       }));
 
       function _ensureActive() {
-        return _ref4.apply(this, arguments);
+        return _ensureActive2.apply(this, arguments);
       }
 
       return _ensureActive;
     }()
   }, {
-    key: '_shouldLogNewCall',
+    key: "_shouldLogNewCall",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(call) {
+      var _shouldLogNewCall2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(call) {
         var isActive;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.next = 2;
+                _context4.next = 2;
                 return this._ensureActive();
 
               case 2:
-                isActive = _context3.sent;
-                return _context3.abrupt('return', isActive && this.autoLog && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)));
+                isActive = _context4.sent;
+                return _context4.abrupt("return", isActive && this.autoLog && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)));
 
               case 4:
-              case 'end':
-                return _context3.stop();
+              case "end":
+                return _context4.stop();
             }
           }
         }, _callee3, this);
       }));
 
       function _shouldLogNewCall(_x2) {
-        return _ref5.apply(this, arguments);
+        return _shouldLogNewCall2.apply(this, arguments);
       }
 
       return _shouldLogNewCall;
     }()
   }, {
-    key: 'logCall',
+    key: "logCall",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
-        var call = _ref6.call,
-            contact = _ref6.contact,
-            options = (0, _objectWithoutProperties3.default)(_ref6, ['call', 'contact']);
-        var inbound, fromEntity, toEntity;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+      var _logCall = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4(_ref3) {
+        var call, contact, options, inbound, fromEntity, toEntity;
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
+                call = _ref3.call, contact = _ref3.contact, options = _objectWithoutProperties(_ref3, ["call", "contact"]);
                 inbound = (0, _callLogHelpers.isInbound)(call);
                 fromEntity = inbound && contact || null;
                 toEntity = !inbound && contact || null;
-                _context4.next = 5;
-                return this.log((0, _extends3.default)({}, options, {
-                  call: (0, _extends3.default)({}, call, {
+                _context5.next = 6;
+                return this.log(_objectSpread({}, options, {
+                  call: _objectSpread({}, call, {
                     duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
                     result: call.result || call.telephonyStatus
                   }),
@@ -340,35 +342,35 @@ var CallLogger = (_dec = (0, _di.Module)({
                   toEntity: toEntity
                 }));
 
-              case 5:
-              case 'end':
-                return _context4.stop();
+              case 6:
+              case "end":
+                return _context5.stop();
             }
           }
         }, _callee4, this);
       }));
 
       function logCall(_x3) {
-        return _ref7.apply(this, arguments);
+        return _logCall.apply(this, arguments);
       }
 
       return logCall;
     }()
   }, {
-    key: '_autoLogCall',
+    key: "_autoLogCall",
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref8) {
-        var call = _ref8.call,
-            fromEntity = _ref8.fromEntity,
-            toEntity = _ref8.toEntity,
-            triggerType = _ref8.triggerType;
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+      var _autoLogCall2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5(_ref4) {
+        var call, fromEntity, toEntity, triggerType;
+        return regeneratorRuntime.wrap(function _callee5$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                call = _ref4.call, fromEntity = _ref4.fromEntity, toEntity = _ref4.toEntity, triggerType = _ref4.triggerType;
+                _context6.next = 3;
                 return this.log({
-                  call: (0, _extends3.default)({}, call, {
+                  call: _objectSpread({}, call, {
                     duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
                     result: call.result || call.telephonyStatus
                   }),
@@ -377,68 +379,71 @@ var CallLogger = (_dec = (0, _di.Module)({
                   triggerType: triggerType
                 });
 
-              case 2:
-              case 'end':
-                return _context5.stop();
+              case 3:
+              case "end":
+                return _context6.stop();
             }
           }
         }, _callee5, this);
       }));
 
       function _autoLogCall(_x4) {
-        return _ref9.apply(this, arguments);
+        return _autoLogCall2.apply(this, arguments);
       }
 
       return _autoLogCall;
     }()
   }, {
-    key: '_activityMatcherCheck',
+    key: "_activityMatcherCheck",
     value: function _activityMatcherCheck(sessionId) {
       return !this._activityMatcher.dataMapping[sessionId] || !this._activityMatcher.dataMapping[sessionId].length;
     }
   }, {
-    key: '_customMatcherCheck',
+    key: "_customMatcherCheck",
     value: function _customMatcherCheck(sessionId) {
       if (!this._customMatcherHooks.length) {
         return true;
       }
+
       return this._customMatcherHooks.some(function (hook) {
         return hook(sessionId);
       });
     }
   }, {
-    key: 'addCustomMatcherHook',
+    key: "addCustomMatcherHook",
     value: function addCustomMatcherHook(hook) {
       this._customMatcherHooks.push(hook);
     }
   }, {
-    key: '_onNewCall',
+    key: "_onNewCall",
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(call, triggerType) {
+      var _onNewCall2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee6(call, triggerType) {
         var toNumberEntity, fromMatches, toMatches, fromEntity, toEntity;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee6$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context6.next = 2;
+                _context7.next = 2;
                 return this._shouldLogNewCall(call);
 
               case 2:
-                if (!_context6.sent) {
-                  _context6.next = 20;
+                if (!_context7.sent) {
+                  _context7.next = 20;
                   break;
                 }
 
-                _context6.next = 5;
+                _context7.next = 5;
                 return this._activityMatcher.triggerMatch();
 
               case 5:
                 if (!(this._activityMatcherCheck(call.sessionId) && this._customMatcherCheck(call.sessionId))) {
-                  _context6.next = 18;
+                  _context7.next = 18;
                   break;
                 }
 
-                _context6.next = 8;
+                _context7.next = 8;
                 return this._contactMatcher.triggerMatch();
 
               case 8:
@@ -457,7 +462,7 @@ var CallLogger = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context6.next = 16;
+                _context7.next = 16;
                 return this._autoLogCall({
                   call: call,
                   fromEntity: fromEntity,
@@ -466,118 +471,125 @@ var CallLogger = (_dec = (0, _di.Module)({
                 });
 
               case 16:
-                _context6.next = 20;
+                _context7.next = 20;
                 break;
 
               case 18:
-                _context6.next = 20;
+                _context7.next = 20;
                 return this._autoLogCall({
                   call: call,
                   triggerType: triggerType
                 });
 
               case 20:
-              case 'end':
-                return _context6.stop();
+              case "end":
+                return _context7.stop();
             }
           }
         }, _callee6, this);
       }));
 
       function _onNewCall(_x5, _x6) {
-        return _ref10.apply(this, arguments);
+        return _onNewCall2.apply(this, arguments);
       }
 
       return _onNewCall;
     }()
   }, {
-    key: '_shouldLogUpdatedCall',
+    key: "_shouldLogUpdatedCall",
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(call) {
+      var _shouldLogUpdatedCall2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee7(call) {
         var isActive, activityMatches;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee7$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context7.next = 2;
+                _context8.next = 2;
                 return this._ensureActive();
 
               case 2:
-                isActive = _context7.sent;
+                isActive = _context8.sent;
 
                 if (!(isActive && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)))) {
-                  _context7.next = 10;
+                  _context8.next = 10;
                   break;
                 }
 
                 if (!this.autoLog) {
-                  _context7.next = 6;
+                  _context8.next = 6;
                   break;
                 }
 
-                return _context7.abrupt('return', true);
+                return _context8.abrupt("return", true);
 
               case 6:
-                _context7.next = 8;
+                _context8.next = 8;
                 return this._activityMatcher.triggerMatch();
 
               case 8:
                 activityMatches = this._activityMatcher.dataMapping[call.sessionId] || [];
-                return _context7.abrupt('return', activityMatches.length > 0);
+                return _context8.abrupt("return", activityMatches.length > 0);
 
               case 10:
-                return _context7.abrupt('return', false);
+                return _context8.abrupt("return", false);
 
               case 11:
-              case 'end':
-                return _context7.stop();
+              case "end":
+                return _context8.stop();
             }
           }
         }, _callee7, this);
       }));
 
       function _shouldLogUpdatedCall(_x7) {
-        return _ref11.apply(this, arguments);
+        return _shouldLogUpdatedCall2.apply(this, arguments);
       }
 
       return _shouldLogUpdatedCall;
     }()
   }, {
-    key: '_onCallUpdated',
+    key: "_onCallUpdated",
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(call, triggerType) {
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+      var _onCallUpdated2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee8(call, triggerType) {
+        return regeneratorRuntime.wrap(function _callee8$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context8.next = 2;
+                _context9.next = 2;
                 return this._shouldLogUpdatedCall(call);
 
               case 2:
-                if (!_context8.sent) {
-                  _context8.next = 5;
+                if (!_context9.sent) {
+                  _context9.next = 5;
                   break;
                 }
 
-                _context8.next = 5;
-                return this._autoLogCall({ call: call, triggerType: triggerType });
+                _context9.next = 5;
+                return this._autoLogCall({
+                  call: call,
+                  triggerType: triggerType
+                });
 
               case 5:
-              case 'end':
-                return _context8.stop();
+              case "end":
+                return _context9.stop();
             }
           }
         }, _callee8, this);
       }));
 
       function _onCallUpdated(_x8, _x9) {
-        return _ref12.apply(this, arguments);
+        return _onCallUpdated2.apply(this, arguments);
       }
 
       return _onCallUpdated;
     }()
   }, {
-    key: '_processCalls',
+    key: "_processCalls",
     value: function _processCalls() {
       var _this2 = this;
 
@@ -585,61 +597,69 @@ var CallLogger = (_dec = (0, _di.Module)({
         if (this._lastProcessedCalls !== this._callMonitor.calls) {
           var oldCalls = this._lastProcessedCalls && this._lastProcessedCalls.slice() || [];
           this._lastProcessedCalls = this._callMonitor.calls;
-
           (0, _callLogHelpers.removeDuplicateSelfCalls)(this._lastProcessedCalls).forEach(function (call) {
             var oldCallIndex = oldCalls.findIndex(function (item) {
               return item.sessionId === call.sessionId;
             });
+
             if (oldCallIndex === -1) {
-              _this2._onNewCall(call, _callLoggerTriggerTypes2.default.presenceUpdate);
+              _this2._onNewCall(call, _callLoggerTriggerTypes.default.presenceUpdate);
             } else {
               var oldCall = oldCalls[oldCallIndex];
               oldCalls.splice(oldCallIndex, 1);
+
               if (call.telephonyStatus !== oldCall.telephonyStatus) {
-                _this2._onCallUpdated((0, _extends3.default)({}, call, {
+                _this2._onCallUpdated(_objectSpread({}, call, {
                   isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
                   transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-                }), _callLoggerTriggerTypes2.default.presenceUpdate);
+                }), _callLoggerTriggerTypes.default.presenceUpdate);
               }
+
               if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
                 _this2.store.dispatch({
                   type: _this2.actionTypes.addTransferredCall,
                   sessionId: call.sessionId,
                   transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber
                 });
-                _this2._onCallUpdated((0, _extends3.default)({}, call, {
+
+                _this2._onCallUpdated(_objectSpread({}, call, {
                   isTransferredCall: true,
                   transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber,
                   phoneNumberUpdated: true
-                }), _callLoggerTriggerTypes2.default.presenceUpdate);
+                }), _callLoggerTriggerTypes.default.presenceUpdate);
               }
             }
           });
           oldCalls.forEach(function (call) {
-            _this2._onCallUpdated((0, _extends3.default)({}, call, {
+            _this2._onCallUpdated(_objectSpread({}, call, {
               isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
               transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-            }), _callLoggerTriggerTypes2.default.presenceUpdate);
+            }), _callLoggerTriggerTypes.default.presenceUpdate);
           });
         }
+
         if (this._callHistory && this._lastProcessedEndedCalls !== this._callHistory.recentlyEndedCalls) {
           var _oldCalls = this._lastProcessedEndedCalls && this._lastProcessedEndedCalls.slice() || [];
+
           this._lastProcessedEndedCalls = this._callHistory.recentlyEndedCalls;
           var currentSessions = {};
+
           this._lastProcessedEndedCalls.forEach(function (call) {
             currentSessions[call.sessionId] = true;
           });
+
           _oldCalls.forEach(function (call) {
             if (!currentSessions[call.sessionId]) {
               // call log updated
               var callInfo = _this2._callHistory.calls.find(function (item) {
                 return item.sessionId === call.sessionId;
               });
+
               if (callInfo) {
-                _this2._onCallUpdated((0, _extends3.default)({}, callInfo, {
+                _this2._onCallUpdated(_objectSpread({}, callInfo, {
                   isTransferredCall: !!_this2.transferredCallsMap[callInfo.sessionId],
                   transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-                }), _callLoggerTriggerTypes2.default.callLogSync);
+                }), _callLoggerTriggerTypes.default.callLogSync);
               }
             }
           });
@@ -647,40 +667,44 @@ var CallLogger = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
-        return _regenerator2.default.wrap(function _callee9$(_context9) {
+      var _onStateChange2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                _context9.next = 2;
-                return (0, _get3.default)(CallLogger.prototype.__proto__ || (0, _getPrototypeOf2.default)(CallLogger.prototype), '_onStateChange', this).call(this);
+                _context10.next = 2;
+                return _get(_getPrototypeOf(CallLogger.prototype), "_onStateChange", this).call(this);
 
               case 2:
                 this._processCalls();
 
               case 3:
-              case 'end':
-                return _context9.stop();
+              case "end":
+                return _context10.stop();
             }
           }
         }, _callee9, this);
       }));
 
       function _onStateChange() {
-        return _ref13.apply(this, arguments);
+        return _onStateChange2.apply(this, arguments);
       }
 
       return _onStateChange;
     }()
   }, {
-    key: 'setAutoLog',
+    key: "setAutoLog",
     value: function () {
-      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(autoLog) {
-        return _regenerator2.default.wrap(function _callee10$(_context10) {
+      var _setAutoLog = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee10(autoLog) {
+        return regeneratorRuntime.wrap(function _callee10$(_context11) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 if (this.ready && autoLog !== this.autoLog) {
                   this.store.dispatch({
@@ -690,26 +714,28 @@ var CallLogger = (_dec = (0, _di.Module)({
                 }
 
               case 1:
-              case 'end':
-                return _context10.stop();
+              case "end":
+                return _context11.stop();
             }
           }
         }, _callee10, this);
       }));
 
       function setAutoLog(_x10) {
-        return _ref14.apply(this, arguments);
+        return _setAutoLog.apply(this, arguments);
       }
 
       return setAutoLog;
     }()
   }, {
-    key: 'setLogOnRinging',
+    key: "setLogOnRinging",
     value: function () {
-      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(logOnRinging) {
-        return _regenerator2.default.wrap(function _callee11$(_context11) {
+      var _setLogOnRinging = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee11(logOnRinging) {
+        return regeneratorRuntime.wrap(function _callee11$(_context12) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 if (this.ready && logOnRinging !== this.logOnRinging) {
                   this.store.dispatch({
@@ -719,38 +745,41 @@ var CallLogger = (_dec = (0, _di.Module)({
                 }
 
               case 1:
-              case 'end':
-                return _context11.stop();
+              case "end":
+                return _context12.stop();
             }
           }
         }, _callee11, this);
       }));
 
       function setLogOnRinging(_x11) {
-        return _ref15.apply(this, arguments);
+        return _setLogOnRinging.apply(this, arguments);
       }
 
       return setLogOnRinging;
     }()
   }, {
-    key: 'autoLog',
+    key: "autoLog",
     get: function get() {
       return this._storage.getItem(this._storageKey).autoLog;
     }
   }, {
-    key: 'logOnRinging',
+    key: "logOnRinging",
     get: function get() {
       return this._storage.getItem(this._storageKey).logOnRinging;
     }
   }, {
-    key: 'transferredCallsArr',
+    key: "transferredCallsArr",
     get: function get() {
       return this._storage.getItem(this._storageKey).transferredCallsMap;
     }
   }]);
+
   return CallLogger;
-}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'log'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setAutoLog'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setLogOnRinging', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLogOnRinging'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'transferredCallsMap', [_selector.selector], {
+}(_LoggerBase2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logCall", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "logCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogOnRinging", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogOnRinging"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "transferredCallsMap", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this3 = this;
 
@@ -758,7 +787,7 @@ var CallLogger = (_dec = (0, _di.Module)({
       return _this3.transferredCallsArr;
     }, function (transferredCallsArr) {
       return (0, _ramda.reduce)(function (mapping, matcher) {
-        return (0, _assign2.default)({}, mapping, matcher);
+        return Object.assign({}, mapping, matcher);
       }, {}, transferredCallsArr);
     }];
   }

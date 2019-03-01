@@ -1,147 +1,124 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _defineProperty2 = require('babel-runtime/core-js/object/define-property');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+require("core-js/modules/es6.symbol");
 
-var _defineProperty4 = require('babel-runtime/helpers/defineProperty');
+require("core-js/modules/es6.promise");
 
-var _defineProperty5 = _interopRequireDefault(_defineProperty4);
+require("core-js/modules/es6.object.create");
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.object.define-property");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.array.reduce");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.iterator");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.object.keys");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.filter");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.sort");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/web.dom.iterable");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.for-each");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.map");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.array.index-of");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.date.now");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("regenerator-runtime/runtime");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _di = require("../../lib/di");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _getCallingSettingsReducer = require("./getCallingSettingsReducer");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _mapOptionToMode = _interopRequireDefault(require("./mapOptionToMode"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _callingOptions = _interopRequireDefault(require("./callingOptions"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _callingSettingsMessages = _interopRequireDefault(require("./callingSettingsMessages"));
 
-var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _selector = require("../../lib/selector");
 
-var _di = require('../../lib/di');
-
-var _getCallingSettingsReducer = require('./getCallingSettingsReducer');
-
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _mapOptionToMode = require('./mapOptionToMode');
-
-var _mapOptionToMode2 = _interopRequireDefault(_mapOptionToMode);
-
-var _callingOptions = require('./callingOptions');
-
-var _callingOptions2 = _interopRequireDefault(_callingOptions);
-
-var _callingSettingsMessages = require('./callingSettingsMessages');
-
-var _callingSettingsMessages2 = _interopRequireDefault(_callingSettingsMessages);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _selector = require('../../lib/selector');
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _initDefineProp(target, property, descriptor, context) {
-  if (!descriptor) return;
-  (0, _defineProperty3.default)(target, property, {
-    enumerable: descriptor.enumerable,
-    configurable: descriptor.configurable,
-    writable: descriptor.writable,
-    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-  });
-}
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _initializerWarningHelper(descriptor, context) {
-  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-}
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
-  return desc;
-}
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var CallingSettings = (
 /**
  * @class
  * @description Call setting managing module
  */
-var CallingSettings = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Brand', 'ExtensionInfo', 'ExtensionPhoneNumber', 'ForwardingNumber', 'Storage', 'RolesAndPermissions', { dep: 'TabManager', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'CallingSettingsOptions', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(CallingSettings, _RcModule);
+_dec = (0, _di.Module)({
+  deps: ['Alert', 'Brand', 'ExtensionInfo', 'ExtensionPhoneNumber', 'ForwardingNumber', 'Storage', 'RolesAndPermissions', {
+    dep: 'TabManager',
+    optional: true
+  }, {
+    dep: 'Webphone',
+    optional: true
+  }, {
+    dep: 'CallingSettingsOptions',
+    optional: true
+  }]
+}), _dec(_class = (_class2 = (_temp =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(CallingSettings, _RcModule);
 
   /**
    * @constructor
@@ -158,6 +135,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
    * @param {Function} params.onFirstLogin - func on first login
    */
   function CallingSettings(_ref) {
+    var _this;
+
     var alert = _ref.alert,
         brand = _ref.brand,
         extensionInfo = _ref.extensionInfo,
@@ -168,22 +147,23 @@ var CallingSettings = (_dec = (0, _di.Module)({
         tabManager = _ref.tabManager,
         onFirstLogin = _ref.onFirstLogin,
         webphone = _ref.webphone,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'brand', 'extensionInfo', 'extensionPhoneNumber', 'forwardingNumber', 'storage', 'rolesAndPermissions', 'tabManager', 'onFirstLogin', 'webphone']);
-    (0, _classCallCheck3.default)(this, CallingSettings);
+        options = _objectWithoutProperties(_ref, ["alert", "brand", "extensionInfo", "extensionPhoneNumber", "forwardingNumber", "storage", "rolesAndPermissions", "tabManager", "onFirstLogin", "webphone"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallingSettings.__proto__ || (0, _getPrototypeOf2.default)(CallingSettings)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, CallingSettings);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallingSettings).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
 
-    _initDefineProp(_this, 'callWithOptions', _descriptor, _this);
+    _initializerDefineProperty(_this, "callWithOptions", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'myPhoneNumbers', _descriptor2, _this);
+    _initializerDefineProperty(_this, "myPhoneNumbers", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'otherPhoneNumbers', _descriptor3, _this);
+    _initializerDefineProperty(_this, "otherPhoneNumbers", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'availableNumbers', _descriptor4, _this);
+    _initializerDefineProperty(_this, "availableNumbers", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initDefineProp(_this, 'fromNumbers', _descriptor5, _this);
+    _initializerDefineProperty(_this, "fromNumbers", _descriptor5, _assertThisInitialized(_assertThisInitialized(_this)));
 
     _this._alert = alert;
     _this._brand = brand;
@@ -195,7 +175,6 @@ var CallingSettings = (_dec = (0, _di.Module)({
     _this._tabManager = tabManager;
     _this._webphone = webphone;
     _this._storageKey = 'callingSettingsData';
-
     _this._onFirstLogin = onFirstLogin;
 
     _this._storage.registerReducer({
@@ -207,8 +186,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
     return _this;
   }
 
-  (0, _createClass3.default)(CallingSettings, [{
-    key: 'initialize',
+  _createClass(CallingSettings, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -217,10 +196,12 @@ var CallingSettings = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _onStateChange2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -249,6 +230,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 }
 
                 this._reset();
+
                 _context.next = 18;
                 break;
 
@@ -266,7 +248,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 return this._validateSettings();
 
               case 18:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -274,32 +256,34 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _onStateChange() {
-        return _ref2.apply(this, arguments);
+        return _onStateChange2.apply(this, arguments);
       }
 
       return _onStateChange;
     }()
   }, {
-    key: '_shouldInit',
+    key: "_shouldInit",
     value: function _shouldInit() {
       return this._storage.ready && this._extensionInfo.ready && this._extensionPhoneNumber.ready && this._forwardingNumber.ready && this._rolesAndPermissions.ready && this.pending;
     }
   }, {
-    key: '_shouldReset',
+    key: "_shouldReset",
     value: function _shouldReset() {
       return this.ready && (!this._storage.ready || !this._extensionInfo.ready || !this._extensionPhoneNumber.ready || !this._forwardingNumber.ready || !this._rolesAndPermissions.ready);
     }
   }, {
-    key: '_shouldValidate',
+    key: "_shouldValidate",
     value: function _shouldValidate() {
       return this.ready && (this._ringoutEnabled !== this._rolesAndPermissions.ringoutEnabled || this._webphoneEnabled !== this._rolesAndPermissions.webphoneEnabled || this._myPhoneNumbers !== this.myPhoneNumbers || this._otherPhoneNumbers !== this.otherPhoneNumbers);
     }
   }, {
-    key: '_init',
+    key: "_init",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+      var _init2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
         var defaultCallWith;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -308,27 +292,30 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                return _context2.abrupt('return');
+                return _context2.abrupt("return");
 
               case 2:
                 this._myPhoneNumbers = this.myPhoneNumbers;
                 this._otherPhoneNumbers = this.otherPhoneNumbers;
                 this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
                 this._webphoneEnabled = this._rolesAndPermissions.webphoneEnabled;
+
                 if (!this.timestamp) {
                   // first time login
                   defaultCallWith = this.callWithOptions && this.callWithOptions[0];
-
                   this.store.dispatch({
                     type: this.actionTypes.setData,
                     callWith: defaultCallWith,
                     timestamp: Date.now()
                   });
+
                   this._warningEmergencyCallingNotAvailable();
+
                   if (typeof this._onFirstLogin === 'function') {
                     this._onFirstLogin();
                   }
                 }
+
                 _context2.next = 9;
                 return this._validateSettings();
 
@@ -337,7 +324,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 return this._initFromNumber();
 
               case 11:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -345,24 +332,26 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _init() {
-        return _ref3.apply(this, arguments);
+        return _init2.apply(this, arguments);
       }
 
       return _init;
     }()
   }, {
-    key: '_reset',
+    key: "_reset",
     value: function _reset() {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess
       });
     }
   }, {
-    key: '_initFromNumber',
+    key: "_initFromNumber",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+      var _initFromNumber2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
         var fromNumber, fromNumberList;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -378,7 +367,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 return this.updateFromNumber(fromNumberList[0]);
 
               case 5:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -386,16 +375,18 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _initFromNumber() {
-        return _ref4.apply(this, arguments);
+        return _initFromNumber2.apply(this, arguments);
       }
 
       return _initFromNumber;
     }()
   }, {
-    key: 'updateFromNumber',
+    key: "updateFromNumber",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(number) {
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+      var _updateFromNumber = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4(number) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -405,7 +396,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 });
 
               case 1:
-              case 'end':
+              case "end":
                 return _context4.stop();
             }
           }
@@ -413,27 +404,29 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function updateFromNumber(_x) {
-        return _ref5.apply(this, arguments);
+        return _updateFromNumber.apply(this, arguments);
       }
 
       return updateFromNumber;
     }()
   }, {
-    key: '_setSoftPhoneToCallWith',
+    key: "_setSoftPhoneToCallWith",
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+      var _setSoftPhoneToCallWith2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.setData,
-                  callWith: _callingOptions2.default.softphone,
+                  callWith: _callingOptions.default.softphone,
                   timestamp: Date.now()
                 });
 
               case 1:
-              case 'end':
+              case "end":
                 return _context5.stop();
             }
           }
@@ -441,16 +434,18 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _setSoftPhoneToCallWith() {
-        return _ref6.apply(this, arguments);
+        return _setSoftPhoneToCallWith2.apply(this, arguments);
       }
 
       return _setSoftPhoneToCallWith;
     }()
   }, {
-    key: '_validateSettings',
+    key: "_validateSettings",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+      var _validateSettings2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
@@ -464,9 +459,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
               case 3:
                 this._alert.danger({
-                  message: _callingSettingsMessages2.default.webphonePermissionRemoved,
+                  message: _callingSettingsMessages.default.webphonePermissionRemoved,
                   ttl: 0
                 });
+
                 _context6.next = 13;
                 break;
 
@@ -481,9 +477,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
               case 9:
                 this._alert.danger({
-                  message: _callingSettingsMessages2.default.permissionChanged,
+                  message: _callingSettingsMessages.default.permissionChanged,
                   ttl: 0
                 });
+
                 _context6.next = 13;
                 break;
 
@@ -491,18 +488,19 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 if (this._hasPhoneNumberChanged()) {
                   this.store.dispatch({
                     type: this.actionTypes.setData,
-                    callWith: _callingOptions2.default.myphone,
+                    callWith: _callingOptions.default.myphone,
                     myLocation: this._myPhoneNumbers[0],
                     timestamp: Date.now()
                   });
+
                   this._alert.danger({
-                    message: _callingSettingsMessages2.default.phoneNumberChanged,
+                    message: _callingSettingsMessages.default.phoneNumberChanged,
                     ttl: 0
                   });
                 }
 
               case 13:
-              case 'end':
+              case "end":
                 return _context6.stop();
             }
           }
@@ -510,43 +508,45 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _validateSettings() {
-        return _ref7.apply(this, arguments);
+        return _validateSettings2.apply(this, arguments);
       }
 
       return _validateSettings;
     }()
   }, {
-    key: '_hasWebphonePermissionRemoved',
+    key: "_hasWebphonePermissionRemoved",
     value: function _hasWebphonePermissionRemoved() {
-      return !(this._webphoneEnabled && this._webphone) && this.callWith === _callingOptions2.default.browser;
+      return !(this._webphoneEnabled && this._webphone) && this.callWith === _callingOptions.default.browser;
     }
   }, {
-    key: '_hasPermissionChanged',
+    key: "_hasPermissionChanged",
     value: function _hasPermissionChanged() {
-      return !this._ringoutEnabled && (this.callWith === _callingOptions2.default.myphone || this.callWith === _callingOptions2.default.otherphone || this.callWith === _callingOptions2.default.customphone);
+      return !this._ringoutEnabled && (this.callWith === _callingOptions.default.myphone || this.callWith === _callingOptions.default.otherphone || this.callWith === _callingOptions.default.customphone);
     }
   }, {
-    key: '_hasPhoneNumberChanged',
+    key: "_hasPhoneNumberChanged",
     value: function _hasPhoneNumberChanged() {
-      return this.callWith === _callingOptions2.default.otherphone && this._otherPhoneNumbers.indexOf(this.myLocation) === -1 || this.callWith === _callingOptions2.default.myphone && this._myPhoneNumbers.indexOf(this.myLocation) === -1;
+      return this.callWith === _callingOptions.default.otherphone && this._otherPhoneNumbers.indexOf(this.myLocation) === -1 || this.callWith === _callingOptions.default.myphone && this._myPhoneNumbers.indexOf(this.myLocation) === -1;
     }
   }, {
-    key: '_warningEmergencyCallingNotAvailable',
+    key: "_warningEmergencyCallingNotAvailable",
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+      var _warningEmergencyCallingNotAvailable2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                if (this.callWith === _callingOptions2.default.browser) {
+                if (this.callWith === _callingOptions.default.browser) {
                   this._alert.info({
-                    message: _callingSettingsMessages2.default.emergencyCallingNotAvailable,
+                    message: _callingSettingsMessages.default.emergencyCallingNotAvailable,
                     ttl: 0
                   });
                 }
 
               case 1:
-              case 'end':
+              case "end":
                 return _context7.stop();
             }
           }
@@ -554,22 +554,23 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _warningEmergencyCallingNotAvailable() {
-        return _ref8.apply(this, arguments);
+        return _warningEmergencyCallingNotAvailable2.apply(this, arguments);
       }
 
       return _warningEmergencyCallingNotAvailable;
     }()
   }, {
-    key: 'setData',
+    key: "setData",
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref9, withPrompt) {
-        var callWith = _ref9.callWith,
-            myLocation = _ref9.myLocation,
-            ringoutPrompt = _ref9.ringoutPrompt;
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+      var _setData = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee8(_ref2, withPrompt) {
+        var callWith, myLocation, ringoutPrompt;
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
+                callWith = _ref2.callWith, myLocation = _ref2.myLocation, ringoutPrompt = _ref2.ringoutPrompt;
                 // TODO validate myLocation
                 this.store.dispatch({
                   type: this.actionTypes.setData,
@@ -578,21 +579,23 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   ringoutPrompt: ringoutPrompt,
                   timestamp: Date.now()
                 });
+
                 if (withPrompt) {
-                  if (this.callWith === _callingOptions2.default.softphone) {
+                  if (this.callWith === _callingOptions.default.softphone) {
                     this._alert.info({
-                      message: _callingSettingsMessages2.default.saveSuccessWithSoftphone
+                      message: _callingSettingsMessages.default.saveSuccessWithSoftphone
                     });
                   } else {
                     this._alert.info({
-                      message: _callingSettingsMessages2.default.saveSuccess
+                      message: _callingSettingsMessages.default.saveSuccess
                     });
+
                     this._warningEmergencyCallingNotAvailable();
                   }
                 }
 
-              case 2:
-              case 'end':
+              case 3:
+              case "end":
                 return _context8.stop();
             }
           }
@@ -600,65 +603,68 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function setData(_x2, _x3) {
-        return _ref10.apply(this, arguments);
+        return _setData.apply(this, arguments);
       }
 
       return setData;
     }()
   }, {
-    key: 'data',
+    key: "data",
     get: function get() {
       return this._storage.getItem(this._storageKey);
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'ready',
+    key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses2.default.ready;
+      return this.state.status === _moduleStatuses.default.ready;
     }
   }, {
-    key: 'pending',
+    key: "pending",
     get: function get() {
-      return this.state.status === _moduleStatuses2.default.pending;
+      return this.state.status === _moduleStatuses.default.pending;
     }
   }, {
-    key: 'callWith',
+    key: "callWith",
     get: function get() {
       return this.data.callWith;
     }
   }, {
-    key: 'callingMode',
+    key: "callingMode",
     get: function get() {
-      return (0, _mapOptionToMode2.default)(this.callWith);
+      return (0, _mapOptionToMode.default)(this.callWith);
     }
   }, {
-    key: 'ringoutPrompt',
+    key: "ringoutPrompt",
     get: function get() {
       return this.data.ringoutPrompt;
     }
   }, {
-    key: 'myLocation',
+    key: "myLocation",
     get: function get() {
       return this.data.myLocation;
     }
   }, {
-    key: 'timestamp',
+    key: "timestamp",
     get: function get() {
       return this.data.timestamp;
     }
   }, {
-    key: 'fromNumber',
+    key: "fromNumber",
     get: function get() {
       return this.data.fromNumber;
     }
   }]);
+
   return CallingSettings;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_initFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_initFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_setSoftPhoneToCallWith', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_setSoftPhoneToCallWith'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_validateSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_validateSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_warningEmergencyCallingNotAvailable', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_warningEmergencyCallingNotAvailable'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'callWithOptions', [_selector.selector], {
+}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this3 = this;
 
@@ -672,25 +678,34 @@ var CallingSettings = (_dec = (0, _di.Module)({
       return _this3._extensionPhoneNumber.numbers.length > 0;
     }, function (ringoutEnabled, webphoneEnabled, hasOtherPhone, hasExtensionPhoneNumber) {
       if (!hasExtensionPhoneNumber) {
-        return [_callingOptions2.default.softphone];
+        return [_callingOptions.default.softphone];
       }
+
       var callWithOptions = [];
+
       if (_this3._webphone && webphoneEnabled) {
-        callWithOptions.push(_callingOptions2.default.browser);
+        callWithOptions.push(_callingOptions.default.browser);
       }
-      callWithOptions.push(_callingOptions2.default.softphone);
+
+      callWithOptions.push(_callingOptions.default.softphone);
+
       if (ringoutEnabled) {
-        callWithOptions.push(_callingOptions2.default.myphone);
+        callWithOptions.push(_callingOptions.default.myphone);
+
         if (hasOtherPhone) {
-          callWithOptions.push(_callingOptions2.default.otherphone);
+          callWithOptions.push(_callingOptions.default.otherphone);
         }
-        callWithOptions.push(_callingOptions2.default.customphone);
+
+        callWithOptions.push(_callingOptions.default.customphone);
       }
+
       return callWithOptions;
     }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'myPhoneNumbers', [_selector.selector], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "myPhoneNumbers", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this4 = this;
 
@@ -704,14 +719,18 @@ var CallingSettings = (_dec = (0, _di.Module)({
       var myPhoneNumbers = directNumbers.map(function (item) {
         return item.phoneNumber;
       });
+
       if (mainCompanyNumber && extensionNumber) {
-        myPhoneNumbers.push(mainCompanyNumber.phoneNumber + '*' + extensionNumber);
+        myPhoneNumbers.push("".concat(mainCompanyNumber.phoneNumber, "*").concat(extensionNumber));
       }
+
       return myPhoneNumbers;
     }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'otherPhoneNumbers', [_selector.selector], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "otherPhoneNumbers", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this5 = this;
 
@@ -738,8 +757,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
       });
     }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'availableNumbers', [_selector.selector], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "availableNumbers", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this6 = this;
 
@@ -748,13 +769,15 @@ var CallingSettings = (_dec = (0, _di.Module)({
     }, function () {
       return _this6.otherPhoneNumbers;
     }, function (myPhoneNumbers, otherPhoneNumbers) {
-      var _ref11;
+      var _ref3;
 
-      return _ref11 = {}, (0, _defineProperty5.default)(_ref11, _callingOptions2.default.myphone, myPhoneNumbers), (0, _defineProperty5.default)(_ref11, _callingOptions2.default.otherphone, otherPhoneNumbers), _ref11;
+      return _ref3 = {}, _defineProperty(_ref3, _callingOptions.default.myphone, myPhoneNumbers), _defineProperty(_ref3, _callingOptions.default.otherphone, otherPhoneNumbers), _ref3;
     }];
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'fromNumbers', [_selector.selector], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "fromNumbers", [_selector.selector], {
+  configurable: true,
   enumerable: true,
+  writable: true,
   initializer: function initializer() {
     var _this7 = this;
 
@@ -767,6 +790,6 @@ var CallingSettings = (_dec = (0, _di.Module)({
       });
     }];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype)), _class2)) || _class);
 exports.default = CallingSettings;
 //# sourceMappingURL=index.js.map

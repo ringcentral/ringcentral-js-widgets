@@ -1,143 +1,139 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.DefaultMinimalSearchLength = undefined;
+exports.default = exports.DefaultMinimalSearchLength = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es6.regexp.to-string");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.date.to-string");
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+require("core-js/modules/es6.array.is-array");
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+require("core-js/modules/es6.promise");
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+require("core-js/modules/es6.array.filter");
 
-var _getIterator3 = _interopRequireDefault(_getIterator2);
+require("core-js/modules/es6.object.create");
 
-var _from = require('babel-runtime/core-js/array/from');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _from2 = _interopRequireDefault(_from);
+require("core-js/modules/es6.object.define-property");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.array.reduce");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.object.keys");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.for-each");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _map = require('babel-runtime/core-js/map');
+require("core-js/modules/es6.symbol");
 
-var _map2 = _interopRequireDefault(_map);
+require("core-js/modules/es6.date.now");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.array.index-of");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.function.name");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.sort");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.from");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("regenerator-runtime/runtime");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.string.iterator");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.map");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.regexp.search");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _uuid = _interopRequireDefault(require("uuid"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _di = require("../../lib/di");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _loginStatus = _interopRequireDefault(require("../../modules/Auth/loginStatus"));
 
-var _dec, _class, _desc, _value, _class2;
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _uuid = require('uuid');
+var _debounce = _interopRequireDefault(require("../../lib/debounce"));
 
-var _uuid2 = _interopRequireDefault(_uuid);
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _RcModule2 = require('../../lib/RcModule');
+var _getContactSearchReducer = _interopRequireDefault(require("./getContactSearchReducer"));
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _getCacheReducer = _interopRequireDefault(require("./getCacheReducer"));
 
-var _di = require('../../lib/di');
-
-var _loginStatus = require('../../modules/Auth/loginStatus');
-
-var _loginStatus2 = _interopRequireDefault(_loginStatus);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _debounce = require('../../lib/debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _getContactSearchReducer = require('./getContactSearchReducer');
-
-var _getContactSearchReducer2 = _interopRequireDefault(_getContactSearchReducer);
-
-var _getCacheReducer = require('./getCacheReducer');
-
-var _getCacheReducer2 = _interopRequireDefault(_getCacheReducer);
+var _dec, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-  return desc;
-}
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-var DefaultMinimalSearchLength = exports.DefaultMinimalSearchLength = 3;
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var DefaultMinimalSearchLength = 3;
 /**
  * @class
  * @description Contact search module
  */
+
+exports.DefaultMinimalSearchLength = DefaultMinimalSearchLength;
 var ContactSearch = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Storage', { dep: 'ContactSearchOptions', optional: true }, { dep: 'TabManager', optional: true }]
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(ContactSearch, _RcModule);
+  deps: ['Auth', 'Storage', {
+    dep: 'ContactSearchOptions',
+    optional: true
+  }, {
+    dep: 'TabManager',
+    optional: true
+  }]
+}), _dec(_class = (_class2 = (_temp =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(ContactSearch, _RcModule);
 
   /**
    * @constructor
@@ -149,48 +145,52 @@ var ContactSearch = (_dec = (0, _di.Module)({
    * @param {Number} params.ttl - timestamp of local cache, default 5 mins
    */
   function ContactSearch(_ref) {
+    var _this;
+
     var auth = _ref.auth,
         storage = _ref.storage,
         _ref$storageKey = _ref.storageKey,
-        storageKey = _ref$storageKey === undefined ? 'contactSearchCache' : _ref$storageKey,
+        storageKey = _ref$storageKey === void 0 ? 'contactSearchCache' : _ref$storageKey,
         _ref$minimalSearchLen = _ref.minimalSearchLength,
-        minimalSearchLength = _ref$minimalSearchLen === undefined ? DefaultMinimalSearchLength : _ref$minimalSearchLen,
+        minimalSearchLength = _ref$minimalSearchLen === void 0 ? DefaultMinimalSearchLength : _ref$minimalSearchLen,
         _ref$ttl = _ref.ttl,
-        ttl = _ref$ttl === undefined ? 5 * 60 * 1000 : _ref$ttl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'storage', 'storageKey', 'minimalSearchLength', 'ttl']);
-    (0, _classCallCheck3.default)(this, ContactSearch);
+        ttl = _ref$ttl === void 0 ? 5 * 60 * 1000 : _ref$ttl,
+        options = _objectWithoutProperties(_ref, ["auth", "storage", "storageKey", "minimalSearchLength", "ttl"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ContactSearch.__proto__ || (0, _getPrototypeOf2.default)(ContactSearch)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, ContactSearch);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ContactSearch).call(this, _objectSpread({}, options, {
+      actionTypes: _actionTypes.default
     })));
-
-    _this.debouncedSearch = (0, _debounce2.default)(_this.search, 800, false);
-
+    _this.debouncedSearch = (0, _debounce.default)(_this.search, 800, false);
     _this._auth = auth;
     _this._storage = storage;
     _this._storageKey = storageKey;
     _this._minimalSearchLength = minimalSearchLength;
     _this._ttl = ttl;
-    _this._searchSources = new _map2.default();
-    _this._searchSourcesFormat = new _map2.default();
-    _this._searchSourcesCheck = new _map2.default();
+    _this._searchSources = new Map();
+    _this._searchSourcesFormat = new Map();
+    _this._searchSourcesCheck = new Map();
     _this._searchIds = {};
+
     if (_this._storage) {
-      _this._reducer = (0, _getContactSearchReducer2.default)(_this.actionTypes);
+      _this._reducer = (0, _getContactSearchReducer.default)(_this.actionTypes);
+
       _this._storage.registerReducer({
         key: _this._storageKey,
-        reducer: (0, _getCacheReducer2.default)(_this.actionTypes)
+        reducer: (0, _getCacheReducer.default)(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getContactSearchReducer2.default)(_this.actionTypes, {
-        cache: (0, _getCacheReducer2.default)(_this.actionTypes)
+      _this._reducer = (0, _getContactSearchReducer.default)(_this.actionTypes, {
+        cache: (0, _getCacheReducer.default)(_this.actionTypes)
       });
     }
+
     return _this;
   }
 
-  (0, _createClass3.default)(ContactSearch, [{
-    key: 'initialize',
+  _createClass(ContactSearch, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -199,55 +199,56 @@ var ContactSearch = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function _onStateChange() {
       if (this._shouldInit()) {
         this._initModuleStatus();
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
+
         this._clearStateCache();
       }
     }
   }, {
-    key: '_shouldInit',
+    key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loginStatus === _loginStatus2.default.loggedIn && (!this._storage || this._storage.ready) && this._readyCheck() && !this.ready;
+      return this._auth.loginStatus === _loginStatus.default.loggedIn && (!this._storage || this._storage.ready) && this._readyCheck() && !this.ready;
     }
   }, {
-    key: '_shouldReset',
+    key: "_shouldReset",
     value: function _shouldReset() {
-      return (this._auth.loginStatus !== _loginStatus2.default.loggedIn || this._storage && !this._storage.ready) && this.ready;
+      return (this._auth.loginStatus !== _loginStatus.default.loggedIn || this._storage && !this._storage.ready) && this.ready;
     }
   }, {
-    key: '_initModuleStatus',
+    key: "_initModuleStatus",
     value: function _initModuleStatus() {
       this.store.dispatch({
         type: this.actionTypes.initSuccess
       });
     }
   }, {
-    key: '_clearStateCache',
+    key: "_clearStateCache",
     value: function _clearStateCache() {
       this.store.dispatch({
         type: this.actionTypes.cleanUp
       });
     }
   }, {
-    key: '_resetModuleStatus',
+    key: "_resetModuleStatus",
     value: function _resetModuleStatus() {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess
       });
     }
   }, {
-    key: 'resetSearchStatus',
+    key: "resetSearchStatus",
     value: function resetSearchStatus() {
       this.store.dispatch({
         type: this.actionTypes.reset
       });
     }
   }, {
-    key: 'addSearchSource',
+    key: "addSearchSource",
     value: function addSearchSource(_ref2) {
       var sourceName = _ref2.sourceName,
           searchFn = _ref2.searchFn,
@@ -257,239 +258,235 @@ var ContactSearch = (_dec = (0, _di.Module)({
       if (!sourceName) {
         throw new Error('ContactSearch: "sourceName" is required.');
       }
+
       if (this._searchSources.has(sourceName)) {
-        throw new Error('ContactSearch: A search source named "' + sourceName + '" already exists');
+        throw new Error("ContactSearch: A search source named \"".concat(sourceName, "\" already exists"));
       }
+
       if (this._searchSourcesCheck.has(sourceName)) {
-        throw new Error('ContactSearch: A search source check named "' + sourceName + '" already exists');
+        throw new Error("ContactSearch: A search source check named \"".concat(sourceName, "\" already exists"));
       }
+
       if (this._searchSourcesFormat.has(sourceName)) {
-        throw new Error('ContactSearch: A search source format named "' + sourceName + '" already exists');
+        throw new Error("ContactSearch: A search source format named \"".concat(sourceName, "\" already exists"));
       }
+
       if (typeof searchFn !== 'function') {
         throw new Error('ContactSearch: searchFn must be a function');
       }
+
       if (typeof readyCheckFn !== 'function') {
         throw new Error('ContactSearch: readyCheckFn must be a function');
       }
+
       if (typeof formatFn !== 'function') {
         throw new Error('ContactSearch: formatFn must be a function');
       }
+
       this._searchSources.set(sourceName, searchFn);
+
       this._searchSourcesFormat.set(sourceName, formatFn);
+
       this._searchSourcesCheck.set(sourceName, readyCheckFn);
     }
   }, {
-    key: 'search',
+    key: "search",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref3) {
+      var _search = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(_ref3) {
         var _this3 = this;
 
-        var searchString = _ref3.searchString;
+        var searchString, searchOnSources, _i, sourceName;
 
-        var searchOnSources, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, sourceName;
-
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                searchString = _ref3.searchString;
+
                 if (!(!this.ready || !searchString || searchString.length < this._minimalSearchLength)) {
-                  _context2.next = 3;
+                  _context2.next = 4;
                   break;
                 }
 
                 this.store.dispatch({
                   type: this.actionTypes.prepareSearch
                 });
-                return _context2.abrupt('return');
+                return _context2.abrupt("return");
 
-              case 3:
+              case 4:
                 this._clearTimeout();
-                this._timeoutId = setTimeout((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+
+                this._timeoutId = setTimeout(
+                /*#__PURE__*/
+                _asyncToGenerator(
+                /*#__PURE__*/
+                regeneratorRuntime.mark(function _callee() {
                   var searching;
-                  return _regenerator2.default.wrap(function _callee$(_context) {
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                       switch (_context.prev = _context.next) {
                         case 0:
-                          searching = (0, _extends3.default)({}, _this3.state.searching);
+                          searching = _objectSpread({}, _this3.state.searching);
                           _context.next = 3;
-                          return _this3.search({ searchString: undefined });
+                          return _this3.search({
+                            searchString: undefined
+                          });
 
                         case 3:
                           _context.next = 5;
                           return _this3.search(searching);
 
                         case 5:
-                        case 'end':
+                        case "end":
                           return _context.stop();
                       }
                     }
-                  }, _callee, _this3);
+                  }, _callee);
                 })), this._ttl);
-                searchOnSources = (0, _from2.default)(this._searchSources.keys());
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
-                _context2.prev = 9;
-                _iterator = (0, _getIterator3.default)(searchOnSources);
+                searchOnSources = Array.from(this._searchSources.keys());
+                _i = 0;
 
-              case 11:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context2.next = 18;
+              case 8:
+                if (!(_i < searchOnSources.length)) {
+                  _context2.next = 15;
                   break;
                 }
 
-                sourceName = _step.value;
-                _context2.next = 15;
+                sourceName = searchOnSources[_i];
+                _context2.next = 12;
                 return this._searchSource({
                   searchOnSources: searchOnSources,
                   sourceName: sourceName,
                   searchString: searchString
                 });
 
+              case 12:
+                _i++;
+                _context2.next = 8;
+                break;
+
               case 15:
-                _iteratorNormalCompletion = true;
-                _context2.next = 11;
-                break;
-
-              case 18:
-                _context2.next = 24;
-                break;
-
-              case 20:
-                _context2.prev = 20;
-                _context2.t0 = _context2['catch'](9);
-                _didIteratorError = true;
-                _iteratorError = _context2.t0;
-
-              case 24:
-                _context2.prev = 24;
-                _context2.prev = 25;
-
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                  _iterator.return();
-                }
-
-              case 27:
-                _context2.prev = 27;
-
-                if (!_didIteratorError) {
-                  _context2.next = 30;
-                  break;
-                }
-
-                throw _iteratorError;
-
-              case 30:
-                return _context2.finish(27);
-
-              case 31:
-                return _context2.finish(24);
-
-              case 32:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[9, 20, 24, 32], [25,, 27, 31]]);
+        }, _callee2, this);
       }));
 
       function search(_x) {
-        return _ref4.apply(this, arguments);
+        return _search.apply(this, arguments);
       }
 
       return search;
     }()
   }, {
-    key: '_clearTimeout',
+    key: "_clearTimeout",
     value: function _clearTimeout() {
       if (this._timeoutId) {
         clearTimeout(this._timeoutId);
       }
-    }
-
-    // TODO Need to refactor, remove cache, and update data in real time.
+    } // TODO Need to refactor, remove cache, and update data in real time.
 
   }, {
-    key: '_searchSource',
+    key: "_searchSource",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref6) {
-        var searchOnSources = _ref6.searchOnSources,
-            sourceName = _ref6.sourceName,
-            searchString = _ref6.searchString;
-        var searchId, entities;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _searchSource2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(_ref5) {
+        var searchOnSources, sourceName, searchString, searchId, entities;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                searchId = _uuid2.default.v4();
-
+                searchOnSources = _ref5.searchOnSources, sourceName = _ref5.sourceName, searchString = _ref5.searchString;
+                searchId = _uuid.default.v4();
                 this._searchIds[sourceName] = searchId;
                 this.store.dispatch({
                   type: this.actionTypes.search
                 });
-                _context3.prev = 3;
+                _context3.prev = 4;
                 entities = null;
-
-                entities = this._searchFromCache({ sourceName: sourceName, searchString: searchString });
+                entities = this._searchFromCache({
+                  sourceName: sourceName,
+                  searchString: searchString
+                });
 
                 if (!entities) {
-                  _context3.next = 9;
+                  _context3.next = 10;
                   break;
                 }
 
-                this._loadSearching({ searchOnSources: searchOnSources, searchString: searchString, entities: entities });
-                return _context3.abrupt('return');
+                this._loadSearching({
+                  searchOnSources: searchOnSources,
+                  searchString: searchString,
+                  entities: entities
+                });
 
-              case 9:
-                _context3.next = 11;
+                return _context3.abrupt("return");
+
+              case 10:
+                _context3.next = 12;
                 return this._searchSources.get(sourceName)({
                   searchString: searchString
                 });
 
-              case 11:
+              case 12:
                 entities = _context3.sent;
-
                 entities = this._searchSourcesFormat.get(sourceName)(entities);
-                this._saveSearching({ sourceName: sourceName, searchString: searchString, entities: entities });
+
+                this._saveSearching({
+                  sourceName: sourceName,
+                  searchString: searchString,
+                  entities: entities
+                });
+
                 if (this._searchIds[sourceName] === searchId) {
-                  this._loadSearching({ searchOnSources: searchOnSources, searchString: searchString, entities: entities });
+                  this._loadSearching({
+                    searchOnSources: searchOnSources,
+                    searchString: searchString,
+                    entities: entities
+                  });
                 }
-                _context3.next = 20;
+
+                _context3.next = 21;
                 break;
 
-              case 17:
-                _context3.prev = 17;
-                _context3.t0 = _context3['catch'](3);
+              case 18:
+                _context3.prev = 18;
+                _context3.t0 = _context3["catch"](4);
 
                 this._onSearchError();
 
-              case 20:
-              case 'end':
+              case 21:
+              case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[3, 17]]);
+        }, _callee3, this, [[4, 18]]);
       }));
 
       function _searchSource(_x2) {
-        return _ref7.apply(this, arguments);
+        return _searchSource2.apply(this, arguments);
       }
 
       return _searchSource;
     }()
   }, {
-    key: '_quickSort',
-    value: function _quickSort(_ref8) {
-      var _ref8$result = _ref8.result,
-          result = _ref8$result === undefined ? [] : _ref8$result,
-          _ref8$searchString = _ref8.searchString,
-          searchString = _ref8$searchString === undefined ? '' : _ref8$searchString;
+    key: "_quickSort",
+    value: function _quickSort(_ref6) {
+      var _ref6$result = _ref6.result,
+          result = _ref6$result === void 0 ? [] : _ref6$result,
+          _ref6$searchString = _ref6.searchString,
+          searchString = _ref6$searchString === void 0 ? '' : _ref6$searchString;
 
-      var list = [].concat((0, _toConsumableArray3.default)(result));
+      var list = _toConsumableArray(result);
+
       if (searchString === '') {
         return list;
       }
+
       return list.sort(function (current, next) {
         var currentName = current.name || '';
         var currentPhoneNumber = current.phoneNumber || '';
@@ -500,45 +497,46 @@ var ContactSearch = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_searchFromCache',
-    value: function _searchFromCache(_ref9) {
-      var sourceName = _ref9.sourceName,
-          searchString = _ref9.searchString;
-
-      var key = sourceName + '-' + searchString;
+    key: "_searchFromCache",
+    value: function _searchFromCache(_ref7) {
+      var sourceName = _ref7.sourceName,
+          searchString = _ref7.searchString;
+      var key = "".concat(sourceName, "-").concat(searchString);
       var searching = this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
       var now = Date.now();
+
       if (searching && now - searching.timestamp < this._ttl) {
         return searching.entities;
       }
+
       return null;
     }
   }, {
-    key: '_readyCheck',
+    key: "_readyCheck",
     value: function _readyCheck() {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
       try {
-        for (var _iterator2 = (0, _getIterator3.default)(this._searchSourcesCheck.keys()), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var sourceName = _step2.value;
+        for (var _iterator = this._searchSourcesCheck.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var sourceName = _step.value;
 
           if (!this._searchSourcesCheck.get(sourceName)()) {
             return false;
           }
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _didIteratorError = true;
+        _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
+            _iterator.return();
           }
         } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
+          if (_didIteratorError) {
+            throw _iteratorError;
           }
         }
       }
@@ -546,19 +544,18 @@ var ContactSearch = (_dec = (0, _di.Module)({
       return true;
     }
   }, {
-    key: '_onSearchError',
+    key: "_onSearchError",
     value: function _onSearchError() {
       this.store.dispatch({
         type: this.actionTypes.searchError
       });
     }
   }, {
-    key: '_loadSearching',
-    value: function _loadSearching(_ref10) {
-      var searchOnSources = _ref10.searchOnSources,
-          searchString = _ref10.searchString,
-          entities = _ref10.entities;
-
+    key: "_loadSearching",
+    value: function _loadSearching(_ref8) {
+      var searchOnSources = _ref8.searchOnSources,
+          searchString = _ref8.searchString,
+          entities = _ref8.entities;
       this.store.dispatch({
         type: this.actionTypes.searchSuccess,
         searchOnSources: searchOnSources,
@@ -567,12 +564,11 @@ var ContactSearch = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_saveSearching',
-    value: function _saveSearching(_ref11) {
-      var sourceName = _ref11.sourceName,
-          searchString = _ref11.searchString,
-          entities = _ref11.entities;
-
+    key: "_saveSearching",
+    value: function _saveSearching(_ref9) {
+      var sourceName = _ref9.sourceName,
+          searchString = _ref9.searchString,
+          entities = _ref9.entities;
       this.store.dispatch({
         type: this.actionTypes.save,
         sourceName: sourceName,
@@ -582,37 +578,38 @@ var ContactSearch = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'cache',
+    key: "cache",
     get: function get() {
       return this._storage ? this._storage.getItem(this._storageKey) : this.state.cache;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }, {
-    key: 'searchStatus',
+    key: "searchStatus",
     get: function get() {
       return this.state.searchStatus;
     }
   }, {
-    key: 'searching',
+    key: "searching",
     get: function get() {
       return this.state.searching;
     }
   }, {
-    key: 'searchResult',
+    key: "searchResult",
     get: function get() {
       return this.searching ? this.searching.result : [];
     }
   }, {
-    key: 'sortedResult',
+    key: "sortedResult",
     get: function get() {
       return this._quickSort(this.searching);
     }
   }]);
+
   return ContactSearch;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'search', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'search'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_searchSource', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_searchSource'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "search", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "search"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_searchSource", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_searchSource"), _class2.prototype)), _class2)) || _class);
 exports.default = ContactSearch;
 //# sourceMappingURL=index.js.map

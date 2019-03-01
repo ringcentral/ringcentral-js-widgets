@@ -1,39 +1,45 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MockedPubNub = undefined;
-
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
-
-var _getIterator3 = _interopRequireDefault(_getIterator2);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
 exports.getLastPubnub = getLastPubnub;
+exports.MockedPubNub = void 0;
 
-var _pubnub = require('pubnub');
+require("core-js/modules/es6.object.define-property");
 
-var _pubnub2 = _interopRequireDefault(_pubnub);
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
+var _pubnub = _interopRequireDefault(require("pubnub"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 var pubnubs = [];
 
-var MockedPubNub = exports.MockedPubNub = function () {
+var MockedPubNub =
+/*#__PURE__*/
+function () {
   function MockedPubNub(_ref) {
     var subscribeKey = _ref.subscribeKey;
-    (0, _classCallCheck3.default)(this, MockedPubNub);
+
+    _classCallCheck(this, MockedPubNub);
 
     this._subscribeKey = subscribeKey;
-    this._realPubnub = new _pubnub2.default({ subscribeKey: subscribeKey });
+    this._realPubnub = new _pubnub.default({
+      subscribeKey: subscribeKey
+    });
     this.encrypt = this._realPubnub.encrypt;
     this.decrypt = this._realPubnub.decrypt;
     this._channels = [];
@@ -41,47 +47,44 @@ var MockedPubNub = exports.MockedPubNub = function () {
     pubnubs.push(this);
   }
 
-  (0, _createClass3.default)(MockedPubNub, [{
-    key: 'subscribe',
+  _createClass(MockedPubNub, [{
+    key: "subscribe",
     value: function subscribe(_ref2) {
       var channels = _ref2.channels;
-
       this._channels = channels;
     }
   }, {
-    key: 'addListener',
+    key: "addListener",
     value: function addListener(listener) {
       var _this = this;
 
       this._listeners.push(listener);
+
       setTimeout(function () {
         return _this.mockedConnected();
       }, 0);
     }
   }, {
-    key: 'removeAllListeners',
+    key: "removeAllListeners",
     value: function removeAllListeners() {
       this._listeners = [];
     }
   }, {
-    key: 'destroy',
+    key: "destroy",
     value: function destroy() {
       this._realPubnub = null;
-    }
-
-    // Methods to do mocking operations
+    } // Methods to do mocking operations
 
   }, {
-    key: 'mockedConnected',
+    key: "mockedConnected",
     value: function mockedConnected() {
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = (0, _getIterator3.default)(this._listeners), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (var _iterator = this._listeners[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var listen = _step.value;
-
           listen.status({
             category: 'PNConnectedCategory',
             operation: 'PNSubscribeOperation'
@@ -92,7 +95,7 @@ var MockedPubNub = exports.MockedPubNub = function () {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
             _iterator.return();
           }
         } finally {
@@ -103,7 +106,7 @@ var MockedPubNub = exports.MockedPubNub = function () {
       }
     }
   }, {
-    key: 'mockMessage',
+    key: "mockMessage",
     value: function mockMessage(msg) {
       var pubnubMsg = {
         channel: this._channels[0],
@@ -114,16 +117,19 @@ var MockedPubNub = exports.MockedPubNub = function () {
         publisher: undefined,
         message: msg
       };
+
       this._listeners.forEach(function (l) {
         return l.message(pubnubMsg);
       });
     }
   }]);
+
   return MockedPubNub;
 }();
 
-MockedPubNub.OPERATIONS = _pubnub2.default.OPERATIONS;
-MockedPubNub.CATEGORIES = _pubnub2.default.CATEGORIES;
+exports.MockedPubNub = MockedPubNub;
+MockedPubNub.OPERATIONS = _pubnub.default.OPERATIONS;
+MockedPubNub.CATEGORIES = _pubnub.default.CATEGORIES;
 
 function getLastPubnub() {
   return pubnubs[pubnubs.length - 1];
@@ -131,6 +137,7 @@ function getLastPubnub() {
 
 function mockPubnub() {
   var id = require.resolve('pubnub');
+
   if (require.cache[id]) {
     require.cache[id].exports = MockedPubNub;
   }

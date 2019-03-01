@@ -1,124 +1,111 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.array.filter");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.array.index-of");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.create");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.array.reduce");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.iterator");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/es6.object.keys");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/web.dom.iterable");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.for-each");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("regenerator-runtime/runtime");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _di = require("../../lib/di");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _getQuickAccessReducer = _interopRequireDefault(require("./getQuickAccessReducer"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _dec, _class, _desc, _value, _class2;
-
-var _RcModule2 = require('../../lib/RcModule');
-
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
-var _di = require('../../lib/di');
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _getQuickAccessReducer = require('./getQuickAccessReducer');
-
-var _getQuickAccessReducer2 = _interopRequireDefault(_getQuickAccessReducer);
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
 var QuickAccess = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Storage', 'Webphone']
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(QuickAccess, _RcModule);
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(QuickAccess, _RcModule);
 
   function QuickAccess(_ref) {
+    var _this;
+
     var auth = _ref.auth,
         webphone = _ref.webphone,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'webphone']);
-    (0, _classCallCheck3.default)(this, QuickAccess);
+        options = _objectWithoutProperties(_ref, ["auth", "webphone"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (QuickAccess.__proto__ || (0, _getPrototypeOf2.default)(QuickAccess)).call(this, (0, _extends3.default)({
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, QuickAccess);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(QuickAccess).call(this, _objectSpread({
+      actionTypes: _actionTypes.default
     }, options)));
-
     _this._auth = auth;
     _this._webphone = webphone;
-    _this._reducer = (0, _getQuickAccessReducer2.default)(_this.actionTypes);
+    _this._reducer = (0, _getQuickAccessReducer.default)(_this.actionTypes);
     return _this;
   }
 
-  (0, _createClass3.default)(QuickAccess, [{
-    key: 'initialize',
+  _createClass(QuickAccess, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -127,10 +114,12 @@ var QuickAccess = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _onStateChange2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -142,16 +131,17 @@ var QuickAccess = (_dec = (0, _di.Module)({
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
-                }
-                // When there is an incoming call,
+                } // When there is an incoming call,
                 // the page should be dismissed
+
+
                 if (this._webphone.ready && this._webphone.ringSession && this._webphone.ringSession !== this._lastRingSession) {
                   this._lastRingSession = this._webphone.ringSession;
                   this.exit();
                 }
 
               case 2:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -159,16 +149,18 @@ var QuickAccess = (_dec = (0, _di.Module)({
       }));
 
       function _onStateChange() {
-        return _ref2.apply(this, arguments);
+        return _onStateChange2.apply(this, arguments);
       }
 
       return _onStateChange;
     }()
   }, {
-    key: 'enter',
+    key: "enter",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _enter = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -178,7 +170,7 @@ var QuickAccess = (_dec = (0, _di.Module)({
                 });
 
               case 1:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -186,16 +178,18 @@ var QuickAccess = (_dec = (0, _di.Module)({
       }));
 
       function enter() {
-        return _ref3.apply(this, arguments);
+        return _enter.apply(this, arguments);
       }
 
       return enter;
     }()
   }, {
-    key: 'exit',
+    key: "exit",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _exit = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -205,7 +199,7 @@ var QuickAccess = (_dec = (0, _di.Module)({
                 });
 
               case 1:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -213,23 +207,24 @@ var QuickAccess = (_dec = (0, _di.Module)({
       }));
 
       function exit() {
-        return _ref4.apply(this, arguments);
+        return _exit.apply(this, arguments);
       }
 
       return exit;
     }()
   }, {
-    key: 'entered',
+    key: "entered",
     get: function get() {
       return this.state.entered;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }]);
+
   return QuickAccess;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'enter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'enter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'exit', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'exit'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "enter", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "enter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "exit", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "exit"), _class2.prototype)), _class2)) || _class);
 exports.default = QuickAccess;
 //# sourceMappingURL=index.js.map

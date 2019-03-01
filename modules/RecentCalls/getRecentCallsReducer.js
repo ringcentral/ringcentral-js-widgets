@@ -1,55 +1,77 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-var _extends3 = require('babel-runtime/helpers/extends');
-
-var _extends4 = _interopRequireDefault(_extends3);
-
 exports.getCallsReducer = getCallsReducer;
 exports.getCallStatusReducer = getCallStatusReducer;
 exports.default = getRecentCallsReducer;
 
-var _redux = require('redux');
+require("core-js/modules/es6.array.index-of");
 
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
+require("core-js/modules/es6.number.constructor");
 
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _callStatus = require('./callStatus');
+require("core-js/modules/es6.symbol");
 
-var _callStatus2 = _interopRequireDefault(_callStatus);
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.map");
+
+var _redux = require("redux");
+
+var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
+
+var _callStatus = _interopRequireDefault(require("./callStatus"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getCallsReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref = arguments[1];
-    var type = _ref.type,
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type,
         contact = _ref.contact,
         calls = _ref.calls,
         sessionId = _ref.sessionId;
 
     var contactId = String(contact && contact.id);
+
     if (type === types.loadSuccess) {
-      return (0, _extends4.default)({}, state, (0, _defineProperty3.default)({}, sessionId ? contactId + '-' + sessionId : contactId, calls));
+      return _objectSpread({}, state, _defineProperty({}, sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId, calls));
     } else if (type === types.loadReset) {
-      var _ = state[sessionId ? contactId + '-' + sessionId : contactId],
-          rest = (0, _objectWithoutProperties3.default)(state, [sessionId ? contactId + '-' + sessionId : contactId]);
+      var _ = state[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId],
+          rest = _objectWithoutProperties(state, [sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId].map(_toPropertyKey));
 
       return rest;
     }
+
     return state;
   };
 }
@@ -57,15 +79,18 @@ function getCallsReducer(types) {
 function getCallStatusReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref2 = arguments[1];
-    var type = _ref2.type;
+
+    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref2.type;
 
     switch (type) {
       case types.initLoad:
-        return _callStatus2.default.loading;
+        return _callStatus.default.loading;
+
       case types.loadReset:
       case types.loadSuccess:
-        return _callStatus2.default.loaded;
+        return _callStatus.default.loaded;
+
       default:
         return state;
     }
@@ -74,7 +99,7 @@ function getCallStatusReducer(types) {
 
 function getRecentCallsReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer2.default)(types),
+    status: (0, _getModuleStatusReducer.default)(types),
     calls: getCallsReducer(types),
     callStatus: getCallStatusReducer(types)
   });

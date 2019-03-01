@@ -1,139 +1,117 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+require("core-js/modules/es6.symbol");
 
-var _assign = require('babel-runtime/core-js/object/assign');
+require("core-js/modules/es6.promise");
 
-var _assign2 = _interopRequireDefault(_assign);
+require("core-js/modules/es6.array.filter");
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.object.create");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.object.define-property");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.for-each");
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+require("core-js/modules/es6.array.map");
 
-var _getIterator3 = _interopRequireDefault(_getIterator2);
+require("core-js/modules/es6.object.assign");
 
-var _keys = require('babel-runtime/core-js/object/keys');
+require("core-js/modules/es6.array.sort");
 
-var _keys2 = _interopRequireDefault(_keys);
+require("core-js/modules/es6.array.find");
 
-var _extends2 = require('babel-runtime/helpers/extends');
+require("core-js/modules/es6.date.to-iso-string");
 
-var _extends3 = _interopRequireDefault(_extends2);
+require("regenerator-runtime/runtime");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.regexp.split");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.array.index-of");
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+require("core-js/modules/web.dom.iterable");
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+require("core-js/modules/es6.array.iterator");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.keys");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.array.reduce");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _di = require("../../lib/di");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _messageStatus = _interopRequireDefault(require("./messageStatus"));
 
-var _dec, _class, _desc, _value, _class2;
+var _getRecentMessagesReducer = _interopRequireDefault(require("./getRecentMessagesReducer"));
 
-var _proxify = require('../../lib/proxy/proxify');
+var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
 
-var _proxify2 = _interopRequireDefault(_proxify);
+var _concurrentExecute = _interopRequireDefault(require("../../lib/concurrentExecute"));
 
-var _ensureExist = require('../../lib/ensureExist');
+var _messageHelper = require("../../lib/messageHelper");
 
-var _ensureExist2 = _interopRequireDefault(_ensureExist);
-
-var _RcModule2 = require('../../lib/RcModule');
-
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _di = require('../../lib/di');
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _messageStatus = require('./messageStatus');
-
-var _messageStatus2 = _interopRequireDefault(_messageStatus);
-
-var _getRecentMessagesReducer = require('./getRecentMessagesReducer');
-
-var _getRecentMessagesReducer2 = _interopRequireDefault(_getRecentMessagesReducer);
-
-var _getDateFrom = require('../../lib/getDateFrom');
-
-var _getDateFrom2 = _interopRequireDefault(_getDateFrom);
-
-var _concurrentExecute = require('../../lib/concurrentExecute');
-
-var _concurrentExecute2 = _interopRequireDefault(_concurrentExecute);
-
-var _messageHelper = require('../../lib/messageHelper');
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return desc;
-}
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+var RecentMessages = (
 /**
  * @class
  * @description Retrieve all recent messages related to a specified contact.
  */
-var RecentMessages = (_dec = (0, _di.Module)({
+_dec = (0, _di.Module)({
   deps: ['Client', 'MessageStore']
-}), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(RecentMessages, _RcModule);
+}), _dec(_class = (_class2 =
+/*#__PURE__*/
+function (_RcModule) {
+  _inherits(RecentMessages, _RcModule);
 
   /**
    * @constructor
@@ -142,23 +120,27 @@ var RecentMessages = (_dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function RecentMessages(_ref) {
+    var _context;
+
+    var _this;
+
     var client = _ref.client,
         messageStore = _ref.messageStore,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'messageStore']);
-    (0, _classCallCheck3.default)(this, RecentMessages);
+        options = _objectWithoutProperties(_ref, ["client", "messageStore"]);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (RecentMessages.__proto__ || (0, _getPrototypeOf2.default)(RecentMessages)).call(this, (0, _extends3.default)({
-      actionTypes: _actionTypes2.default
+    _classCallCheck(this, RecentMessages);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RecentMessages).call(this, _objectSpread({
+      actionTypes: _actionTypes.default
     }, options)));
-
-    _this._client = _ensureExist2.default.call(_this, client, 'client');
-    _this._messageStore = _ensureExist2.default.call(_this, messageStore, 'messageStore');
-    _this._reducer = (0, _getRecentMessagesReducer2.default)(_this.actionTypes);
+    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
+    _this._messageStore = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, messageStore, 'messageStore');
+    _this._reducer = (0, _getRecentMessagesReducer.default)(_this.actionTypes);
 
     _this.addSelector('unreadMessageCounts', function () {
       return _this.messages;
     }, function (messages) {
-      return (0, _keys2.default)(messages).reduce(function (unreadCounts, contactId) {
+      return Object.keys(messages).reduce(function (unreadCounts, contactId) {
         unreadCounts[contactId] = messages[contactId].reduce(function (acc, cur) {
           return acc + (cur.readStatus !== 'Read' ? 1 : 0);
         }, 0);
@@ -170,8 +152,8 @@ var RecentMessages = (_dec = (0, _di.Module)({
     return _this;
   }
 
-  (0, _createClass3.default)(RecentMessages, [{
-    key: 'initialize',
+  _createClass(RecentMessages, [{
+    key: "initialize",
     value: function initialize() {
       var _this2 = this;
 
@@ -180,7 +162,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_onStateChange',
+    key: "_onStateChange",
     value: function _onStateChange() {
       if (this.pending && this._messageStore.ready) {
         this.store.dispatch({
@@ -190,89 +172,68 @@ var RecentMessages = (_dec = (0, _di.Module)({
         this.store.dispatch({
           type: this.actionTypes.resetSuccess
         });
-      } else if ((0, _keys2.default)(this.messages).length > 0) {
+      } else if (Object.keys(this.messages).length > 0) {
         // Listen to messageStore state changes
         if (this._messageStore.updatedTimestamp !== this._prevMessageStoreTimestamp) {
-          this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
-          // for (const contact of Object.values(this.contacts)) {
+          this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp; // for (const contact of Object.values(this.contacts)) {
           //   this.getMessages(contact, false, true);
           // }
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
 
-          try {
-            for (var _iterator = (0, _getIterator3.default)((0, _keys2.default)(this.contacts)), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var key = _step.value;
+          var _arr = Object.keys(this.contacts);
 
-              this.getMessages({
-                currentContact: this.contacts[key],
-                sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
-                fromLocale: false,
-                forceUpdate: true
-              });
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
+          for (var _i = 0; _i < _arr.length; _i++) {
+            var key = _arr[_i];
+            this.getMessages({
+              currentContact: this.contacts[key],
+              sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
+              fromLocale: false,
+              forceUpdate: true
+            });
           }
         }
       }
     }
   }, {
-    key: 'getMessages',
+    key: "getMessages",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
-        var currentContact = _ref2.currentContact,
-            _ref2$sessionId = _ref2.sessionId,
-            sessionId = _ref2$sessionId === undefined ? null : _ref2$sessionId,
-            _ref2$fromLocal = _ref2.fromLocal,
-            fromLocal = _ref2$fromLocal === undefined ? false : _ref2$fromLocal,
-            _ref2$forceUpdate = _ref2.forceUpdate,
-            forceUpdate = _ref2$forceUpdate === undefined ? false : _ref2$forceUpdate;
-        var contactId, messages;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _getMessages = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(_ref2) {
+        var currentContact, _ref2$sessionId, sessionId, _ref2$fromLocal, fromLocal, _ref2$forceUpdate, forceUpdate, contactId, messages;
+
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
+                currentContact = _ref2.currentContact, _ref2$sessionId = _ref2.sessionId, sessionId = _ref2$sessionId === void 0 ? null : _ref2$sessionId, _ref2$fromLocal = _ref2.fromLocal, fromLocal = _ref2$fromLocal === void 0 ? false : _ref2$fromLocal, _ref2$forceUpdate = _ref2.forceUpdate, forceUpdate = _ref2$forceUpdate === void 0 ? false : _ref2$forceUpdate;
+
                 if (currentContact) {
-                  _context.next = 2;
+                  _context2.next = 3;
                   break;
                 }
 
-                return _context.abrupt('return');
+                return _context2.abrupt("return");
 
-              case 2:
+              case 3:
                 contactId = currentContact.id;
 
-                if (!(!forceUpdate && !!this.messages[sessionId ? contactId + '-' + sessionId : contactId])) {
-                  _context.next = 5;
+                if (!(!forceUpdate && !!this.messages[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId])) {
+                  _context2.next = 6;
                   break;
                 }
 
-                return _context.abrupt('return');
+                return _context2.abrupt("return");
 
-              case 5:
+              case 6:
                 this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
                 this.store.dispatch({
                   type: this.actionTypes.initLoad
                 });
-                _context.next = 9;
+                _context2.next = 10;
                 return this._getRecentMessages(currentContact, this._messageStore.textConversations, fromLocal);
 
-              case 9:
-                messages = _context.sent;
-
+              case 10:
+                messages = _context2.sent;
                 this.store.dispatch({
                   type: this.actionTypes.loadSuccess,
                   messages: messages,
@@ -280,27 +241,26 @@ var RecentMessages = (_dec = (0, _di.Module)({
                   sessionId: sessionId
                 });
 
-              case 11:
-              case 'end':
-                return _context.stop();
+              case 12:
+              case "end":
+                return _context2.stop();
             }
           }
         }, _callee, this);
       }));
 
       function getMessages(_x) {
-        return _ref3.apply(this, arguments);
+        return _getMessages.apply(this, arguments);
       }
 
       return getMessages;
     }()
   }, {
-    key: 'cleanUpMessages',
-    value: function cleanUpMessages(_ref4) {
-      var contact = _ref4.contact,
-          _ref4$sessionId = _ref4.sessionId,
-          sessionId = _ref4$sessionId === undefined ? null : _ref4$sessionId;
-
+    key: "cleanUpMessages",
+    value: function cleanUpMessages(_ref3) {
+      var contact = _ref3.contact,
+          _ref3$sessionId = _ref3.sessionId,
+          sessionId = _ref3$sessionId === void 0 ? null : _ref3$sessionId;
       this.store.dispatch({
         type: this.actionTypes.loadReset,
         contact: contact,
@@ -308,8 +268,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_getRecentMessages',
-
+    key: "_getRecentMessages",
 
     /**
      * Searching for recent messages of specific contact.
@@ -322,65 +281,69 @@ var RecentMessages = (_dec = (0, _di.Module)({
      * @private
      */
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(currentContact) {
-        var conversations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-        var fromLocal = arguments[2];
-        var daySpan = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 60;
-        var length = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 5;
-        var dateFrom, recentMessages, dateTo;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _getRecentMessages2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(currentContact) {
+        var conversations,
+            fromLocal,
+            daySpan,
+            length,
+            dateFrom,
+            recentMessages,
+            dateTo,
+            _args2 = arguments;
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                dateFrom = (0, _getDateFrom2.default)(daySpan);
-                recentMessages = this._getLocalRecentMessages(currentContact, conversations, dateFrom, length);
-
-                // If we could not find enough recent messages,
+                conversations = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
+                fromLocal = _args2.length > 2 ? _args2[2] : undefined;
+                daySpan = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 60;
+                length = _args2.length > 4 && _args2[4] !== undefined ? _args2[4] : 5;
+                dateFrom = (0, _getDateFrom.default)(daySpan);
+                recentMessages = this._getLocalRecentMessages(currentContact, conversations, dateFrom, length); // If we could not find enough recent messages,
                 // we need to search for messages on server.
 
                 if (!(!fromLocal && recentMessages.length < length)) {
-                  _context2.next = 15;
+                  _context3.next = 19;
                   break;
                 }
 
                 dateTo = recentMessages.length > 0 ? new Date(recentMessages[recentMessages.length - 1].creationTime) : undefined;
-                _context2.prev = 4;
-                _context2.t0 = recentMessages;
-                _context2.next = 8;
+                _context3.prev = 8;
+                _context3.t0 = recentMessages;
+                _context3.next = 12;
                 return this._fetchRemoteRecentMessages(currentContact, dateFrom.toISOString(), dateTo && dateTo.toISOString(), length);
 
-              case 8:
-                _context2.t1 = _context2.sent;
-                recentMessages = _context2.t0.concat.call(_context2.t0, _context2.t1);
-                _context2.next = 15;
+              case 12:
+                _context3.t1 = _context3.sent;
+                recentMessages = _context3.t0.concat.call(_context3.t0, _context3.t1);
+                _context3.next = 19;
                 break;
 
-              case 12:
-                _context2.prev = 12;
-                _context2.t2 = _context2['catch'](4);
+              case 16:
+                _context3.prev = 16;
+                _context3.t2 = _context3["catch"](8);
+                console.error(_context3.t2);
 
-                console.error(_context2.t2);
-
-              case 15:
-
+              case 19:
                 recentMessages = this._dedup(recentMessages);
-                return _context2.abrupt('return', recentMessages.length > length ? recentMessages.slice(0, length) : recentMessages);
+                return _context3.abrupt("return", recentMessages.length > length ? recentMessages.slice(0, length) : recentMessages);
 
-              case 17:
-              case 'end':
-                return _context2.stop();
+              case 21:
+              case "end":
+                return _context3.stop();
             }
           }
-        }, _callee2, this, [[4, 12]]);
+        }, _callee2, this, [[8, 16]]);
       }));
 
-      function _getRecentMessages(_x5) {
-        return _ref5.apply(this, arguments);
+      function _getRecentMessages(_x2) {
+        return _getRecentMessages2.apply(this, arguments);
       }
 
       return _getRecentMessages;
     }()
-
     /**
      * Get recent messages from messageStore.
      * @param {Object} currentContact
@@ -390,30 +353,32 @@ var RecentMessages = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: '_getLocalRecentMessages',
-    value: function _getLocalRecentMessages(_ref6, conversations, dateFrom, length) {
-      var phoneNumbers = _ref6.phoneNumbers;
-
+    key: "_getLocalRecentMessages",
+    value: function _getLocalRecentMessages(_ref4, conversations, dateFrom, length) {
+      var phoneNumbers = _ref4.phoneNumbers;
       // Get all messages related to this contact
       var recentMessages = [];
-      var matches = void 0;
+      var matches;
+
       for (var i = conversations.length - 1; i >= 0; i -= 1) {
         var conversation = conversations[i];
         var messageList = this._messageStore.conversationStore[conversation.conversationId] || [];
-        matches = phoneNumbers.find(this._filterPhoneNumber(conversation));
-        // Check if message is within certain days
+        matches = phoneNumbers.find(this._filterPhoneNumber(conversation)); // Check if message is within certain days
+
         if (!!matches && new Date(conversation.creationTime) > dateFrom) {
           recentMessages = recentMessages.concat(messageList);
         }
+
         if (recentMessages.length >= length) break;
       }
+
       return recentMessages.sort(_messageHelper.sortByDate).slice(0, length);
     }
   }, {
-    key: '_filterPhoneNumber',
+    key: "_filterPhoneNumber",
     value: function _filterPhoneNumber(message) {
-      return function (_ref7) {
-        var phoneNumber = _ref7.phoneNumber;
+      return function (_ref5) {
+        var phoneNumber = _ref5.phoneNumber;
         return phoneNumber === message.from.phoneNumber || !!message.to.find(function (to) {
           return to.phoneNumber === phoneNumber;
         }) || phoneNumber === message.from.extensionNumber || !!message.to.find(function (to) {
@@ -421,7 +386,6 @@ var RecentMessages = (_dec = (0, _di.Module)({
         });
       };
     }
-
     /**
      * Fetch recent messages from server by given current contact.
      * @param {Object} currentContact
@@ -432,41 +396,40 @@ var RecentMessages = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: '_fetchRemoteRecentMessages',
-    value: function _fetchRemoteRecentMessages(_ref8, dateFrom) {
-      var phoneNumbers = _ref8.phoneNumbers;
-
+    key: "_fetchRemoteRecentMessages",
+    value: function _fetchRemoteRecentMessages(_ref6, dateFrom) {
       var _this3 = this;
 
+      var phoneNumbers = _ref6.phoneNumbers;
       var dateTo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new Date().toISOString();
-      var length = arguments[3];
-
+      var length = arguments.length > 3 ? arguments[3] : undefined;
       var params = {
         dateTo: dateTo,
         dateFrom: dateFrom,
         messageType: ['SMS', 'Text', 'Pager'],
         perPage: length
       };
-      var recentMessagesPromise = phoneNumbers.reduce(function (acc, _ref9) {
-        var phoneNumber = _ref9.phoneNumber;
+      var recentMessagesPromise = phoneNumbers.reduce(function (acc, _ref7) {
+        var phoneNumber = _ref7.phoneNumber;
 
         if (phoneNumber) {
-          var promise = _this3._fetchMessageList((0, _assign2.default)({}, params, {
+          var promise = _this3._fetchMessageList(Object.assign({}, params, {
             phoneNumber: phoneNumber
           }));
+
           return acc.concat(promise);
         }
-        return acc;
-      }, []);
 
-      // TODO: Because we need to navigate to the message page,
+        return acc;
+      }, []); // TODO: Because we need to navigate to the message page,
       // So we may need to push new messages to messageStore
-      return (0, _concurrentExecute2.default)(recentMessagesPromise, 5, 500).then(this._flattenToMessageRecords).then(this._markAsRemoteMessage).then(function (messages) {
+
+      return (0, _concurrentExecute.default)(recentMessagesPromise, 5, 500).then(this._flattenToMessageRecords).then(this._markAsRemoteMessage).then(function (messages) {
         return _this3._sortMessages(messages);
       });
     }
   }, {
-    key: '_fetchMessageList',
+    key: "_fetchMessageList",
     value: function _fetchMessageList(params) {
       var _this4 = this;
 
@@ -475,22 +438,22 @@ var RecentMessages = (_dec = (0, _di.Module)({
       };
     }
   }, {
-    key: '_countUnreadMessages',
+    key: "_countUnreadMessages",
     value: function _countUnreadMessages(messages) {
       return messages.reduce(function (acc, cur) {
         return acc + (cur.readStatus !== 'Read' ? 1 : 0);
       }, 0);
     }
   }, {
-    key: '_flattenToMessageRecords',
+    key: "_flattenToMessageRecords",
     value: function _flattenToMessageRecords(allMessages) {
-      return allMessages.reduce(function (acc, _ref10) {
-        var records = _ref10.records;
+      return allMessages.reduce(function (acc, _ref8) {
+        var records = _ref8.records;
         return acc.concat(records);
       }, []);
     }
   }, {
-    key: '_sortMessages',
+    key: "_sortMessages",
     value: function _sortMessages(recentMessages) {
       // Sort by time in descending order
       return recentMessages.sort(function (a, b) {
@@ -498,7 +461,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_markAsRemoteMessage',
+    key: "_markAsRemoteMessage",
     value: function _markAsRemoteMessage(messages) {
       return messages.map(function (message) {
         message.fromRemote = true;
@@ -506,7 +469,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: '_dedup',
+    key: "_dedup",
     value: function _dedup(messages) {
       var hash = {};
       return messages.reduce(function (acc, cur) {
@@ -516,32 +479,33 @@ var RecentMessages = (_dec = (0, _di.Module)({
       }, []);
     }
   }, {
-    key: 'contacts',
+    key: "contacts",
     get: function get() {
       return this.state.contacts;
     }
   }, {
-    key: 'messages',
+    key: "messages",
     get: function get() {
       return this.state.messages;
     }
   }, {
-    key: 'unreadMessageCounts',
+    key: "unreadMessageCounts",
     get: function get() {
       return this._selectors.unreadMessageCounts();
     }
   }, {
-    key: 'isMessagesLoaded',
+    key: "isMessagesLoaded",
     get: function get() {
-      return this.state.messageStatus === _messageStatus2.default.loaded;
+      return this.state.messageStatus === _messageStatus.default.loaded;
     }
   }, {
-    key: 'status',
+    key: "status",
     get: function get() {
       return this.state.status;
     }
   }]);
+
   return RecentMessages;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getMessages'), _class2.prototype)), _class2)) || _class);
+}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "getMessages", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getMessages"), _class2.prototype)), _class2)) || _class);
 exports.default = RecentMessages;
 //# sourceMappingURL=index.js.map

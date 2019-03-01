@@ -1,44 +1,62 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 exports.getCallStatusReducer = getCallStatusReducer;
 exports.getToNumberEntitiesReducer = getToNumberEntitiesReducer;
 exports.getLastPhoneNumberReducer = getLastPhoneNumberReducer;
 exports.getLastRecipientReducer = getLastRecipientReducer;
 exports.default = getCallReducer;
 
-var _redux = require('redux');
+require("core-js/modules/es6.string.iterator");
 
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
+require("core-js/modules/es6.array.from");
 
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
+require("core-js/modules/es6.regexp.to-string");
 
-var _callStatus = require('./callStatus');
+require("core-js/modules/es6.date.to-string");
 
-var _callStatus2 = _interopRequireDefault(_callStatus);
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.is-array");
+
+var _redux = require("redux");
+
+var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
+
+var _callStatus = _interopRequireDefault(require("./callStatus"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function getCallStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _callStatus2.default.idle;
-    var _ref = arguments[1];
-    var type = _ref.type;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _callStatus.default.idle;
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type;
 
     switch (type) {
       case types.connect:
-        return _callStatus2.default.connecting;
+        return _callStatus.default.connecting;
 
       case types.connectSuccess:
       case types.connectError:
-        return _callStatus2.default.idle;
+        return _callStatus.default.idle;
 
       default:
         return state;
@@ -49,16 +67,19 @@ function getCallStatusReducer(types) {
 function getToNumberEntitiesReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var _ref2 = arguments[1];
-    var type = _ref2.type,
+
+    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref2.type,
         data = _ref2.data;
 
     switch (type) {
       case types.toNumberMatched:
-        return [].concat((0, _toConsumableArray3.default)(state), [data]);
+        return [].concat(_toConsumableArray(state), [data]);
+
       case types.cleanToNumberEntities:
       case types.resetSuccess:
         return [];
+
       default:
         return state;
     }
@@ -68,32 +89,37 @@ function getToNumberEntitiesReducer(types) {
 function getLastPhoneNumberReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
+
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type,
         isConference = _ref3.isConference,
         _ref3$phoneNumber = _ref3.phoneNumber,
-        phoneNumber = _ref3$phoneNumber === undefined ? null : _ref3$phoneNumber;
+        phoneNumber = _ref3$phoneNumber === void 0 ? null : _ref3$phoneNumber;
 
     switch (type) {
       case types.connect:
         return isConference ? state : phoneNumber;
+
       default:
         return state;
     }
   };
 }
+
 function getLastRecipientReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
+
+    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref4.type,
         isConference = _ref4.isConference,
         _ref4$recipient = _ref4.recipient,
-        recipient = _ref4$recipient === undefined ? null : _ref4$recipient;
+        recipient = _ref4$recipient === void 0 ? null : _ref4$recipient;
 
     switch (type) {
       case types.connect:
         return isConference ? state : recipient;
+
       default:
         return state;
     }
@@ -102,7 +128,7 @@ function getLastRecipientReducer(types) {
 
 function getCallReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer2.default)(types),
+    status: (0, _getModuleStatusReducer.default)(types),
     callStatus: getCallStatusReducer(types),
     toNumberEntities: getToNumberEntitiesReducer(types)
   });
