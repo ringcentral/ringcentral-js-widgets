@@ -1,40 +1,72 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.parseIncompletePhoneNumber = exports.isSameLocalNumber = exports.isValidNumber = exports.formatTypes = exports.isE164 = exports.parse = exports.detect = exports.format = undefined;
+Object.defineProperty(exports, "isValidNumber", {
+  enumerable: true,
+  get: function get() {
+    return _libphonenumberJs.isValidNumber;
+  }
+});
+Object.defineProperty(exports, "parseIncompletePhoneNumber", {
+  enumerable: true,
+  get: function get() {
+    return _libphonenumberJs.parseIncompletePhoneNumber;
+  }
+});
+Object.defineProperty(exports, "format", {
+  enumerable: true,
+  get: function get() {
+    return _format.default;
+  }
+});
+Object.defineProperty(exports, "formatTypes", {
+  enumerable: true,
+  get: function get() {
+    return _format.formatTypes;
+  }
+});
+Object.defineProperty(exports, "detect", {
+  enumerable: true,
+  get: function get() {
+    return _detect.default;
+  }
+});
+Object.defineProperty(exports, "parse", {
+  enumerable: true,
+  get: function get() {
+    return _parse.default;
+  }
+});
+Object.defineProperty(exports, "isE164", {
+  enumerable: true,
+  get: function get() {
+    return _isE.default;
+  }
+});
+Object.defineProperty(exports, "isSameLocalNumber", {
+  enumerable: true,
+  get: function get() {
+    return _isSameLocalNumber.default;
+  }
+});
 
-var _libphonenumberJs = require('libphonenumber-js');
+var _libphonenumberJs = require("libphonenumber-js");
 
-var _format = require('./lib/format');
+var _format = _interopRequireWildcard(require("./lib/format"));
 
-var _format2 = _interopRequireDefault(_format);
+var _detect = _interopRequireDefault(require("./lib/detect"));
 
-var _detect = require('./lib/detect');
+var _parse = _interopRequireDefault(require("./lib/parse"));
 
-var _detect2 = _interopRequireDefault(_detect);
+var _isE = _interopRequireDefault(require("./lib/isE164"));
 
-var _parse = require('./lib/parse');
-
-var _parse2 = _interopRequireDefault(_parse);
-
-var _isE = require('./lib/isE164');
-
-var _isE2 = _interopRequireDefault(_isE);
-
-var _isSameLocalNumber = require('./lib/isSameLocalNumber');
-
-var _isSameLocalNumber2 = _interopRequireDefault(_isSameLocalNumber);
+var _isSameLocalNumber = _interopRequireDefault(require("./lib/isSameLocalNumber"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.format = _format2.default;
-exports.detect = _detect2.default;
-exports.parse = _parse2.default;
-exports.isE164 = _isE2.default;
-exports.formatTypes = _format.formatTypes;
-exports.isValidNumber = _libphonenumberJs.isValidNumber;
-exports.isSameLocalNumber = _isSameLocalNumber2.default;
-exports.parseIncompletePhoneNumber = _libphonenumberJs.parseIncompletePhoneNumber;
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 //# sourceMappingURL=index.js.map
