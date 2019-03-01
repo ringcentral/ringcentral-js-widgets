@@ -32,8 +32,8 @@
   },
   "scripts": {
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
-    "build": "gulp build",
-    "release": "gulp release",
+    "build": "yarn gulp build",
+    "release": "yarn gulp release",
     "test": "jest",
     "watch": "jest --watch"
   },
