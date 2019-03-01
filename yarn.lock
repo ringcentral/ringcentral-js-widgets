@@ -2794,7 +2794,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6:
+classnames@^2.1.2, classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -6649,7 +6649,7 @@ interpret@^1.0.0, interpret@^1.1.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.2.0.tgz#d5061a6224be58e8083985f5014d844359576296"
   integrity sha512-mT34yGKMNceBQUoVn7iCDKDntA7SC6gycMAWzGx1z/CMCTV7b2AAtXlo3nRyHZ1FelRkQbQjprHSYGwzLtkVbw==
 
-invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
+invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.3, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -10876,7 +10876,7 @@ react-test-renderer@^16.0.0, react-test-renderer@^16.0.0-0, react-test-renderer@
     react-is "^16.8.3"
     scheduler "^0.13.3"
 
-react-transition-group@^2.2.1, react-transition-group@^2.4.0:
+react-transition-group@^2.2.1:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.6.0.tgz#3c41cbdd9c044c5f8604d4e8d319e860919c9fae"
   integrity sha512-VzZ+6k/adL3pJHo4PU/MHEPjW59/TGQtRsXC+wnxsx2mxjQKNHnDdJL/GpYuPJIsyHGjYbBQfIJ2JNOAdPc8GQ==
@@ -10904,18 +10904,17 @@ react-widgets-moment@^4.0.4:
   integrity sha512-nmdxTrTXo7H40uZAGEhEpt7Xs5YjKd+poWfWlaSKE07Z1cFyxQCeOMshYUFA2p6vP1ieGeR52nr+C5GSPZ3ikA==
 
 react-widgets@^4.1.1:
-  version "4.4.10"
-  resolved "https://registry.yarnpkg.com/react-widgets/-/react-widgets-4.4.10.tgz#e752c57902421d333a5b702ad0d526b96691c998"
-  integrity sha512-ERPwWxgfHv20ddNuUeINA9Od/b6DTcDgdAWrcwRf+DtMlN1UtiyLVVCb7V0H44kDVX/TUkG91wQ07FIZyNSV2A==
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/react-widgets/-/react-widgets-4.2.6.tgz#ed277ab9c6d9890debd2261b95cc36c2fb2f94ec"
+  integrity sha512-GnKH/+Yi1m3nghCif2TY8KyGbhJEeP1GJ5E/47LLu9Iby0xIUOh4l+tjGk/XHPmHjyi6JlQ+4xw7t6xLw7XVcw==
   dependencies:
-    classnames "^2.2.6"
+    classnames "^2.1.2"
     date-arithmetic "^3.1.0"
     dom-helpers "^3.3.1"
-    invariant "^2.2.4"
+    invariant "^2.2.3"
     prop-types-extra "^1.0.1"
     react-component-managers "^3.1.0"
-    react-lifecycles-compat "^3.0.4"
-    react-transition-group "^2.4.0"
+    react-transition-group "^2.2.1"
     uncontrollable "^5.0.0"
     warning "^3.0.0"
 
