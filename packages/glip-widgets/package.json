@@ -4,7 +4,7 @@
   "description": "RingCentral Integration Glip Widgets Library",
   "main": "index.js",
   "scripts": {
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "gulp": "yarn gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "yarn gulp build",
     "release": "yarn gulp release",
     "eslint": "eslint --quiet ."

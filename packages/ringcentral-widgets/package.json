@@ -4,9 +4,9 @@
   "description": "RingCentral Integration Widget Library",
   "main": "index.js",
   "scripts": {
-    "build": "gulp build",
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
-    "release": "gulp release",
+    "build": "yarn gulp build",
+    "gulp": "yarn gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
     "eslint": "eslint --quiet ."
   },
   "repository": {
