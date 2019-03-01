@@ -4,6 +4,7 @@ import RingCentral from 'ringcentral';
 import dialingPlanBody from './data/dialingPlan';
 import extensionBody from './data/extensionInfo';
 import extensionListBody from './data/extension';
+import extensionsListBody from './data/extensions';
 import accountBody from './data/accountInfo';
 import subscriptionBody from './data/subscription';
 import apiInfoBody from './data/apiInfo';
@@ -221,7 +222,15 @@ export function extensionList(mockResponse = {}) {
     }
   });
 }
-
+export function extensionsList(mockResponse = {}) {
+  mockApi({
+    url: `begin:${mockServer}/restapi/v1.0/account/~/directory/contacts?`,
+    body: {
+      ...extensionsListBody,
+      ...mockResponse,
+    }
+  });
+}
 export function accountInfo(mockResponse = {}) {
   mockApi({
     path: '/restapi/v1.0/account/~',
@@ -529,6 +538,24 @@ export function mockForbidden({
   });
 }
 
+
+export function mockLimited({
+  method = 'GET',
+  path,
+  url,
+}) {
+  mockApi({
+    method,
+    path,
+    url,
+    status: 503,
+    body: {
+      errorCode: 'CMN-211',
+      errors: [{ errorCode: 'CMN-211' }]
+    },
+  });
+}
+
 export function mockClient(client) {
   client.service = createSDK({});
 }
@@ -615,6 +642,7 @@ export function mockForLogin({
   }
   device(params.deviceData);
   extensionList(params.extensionListData);
+  extensionsList(params.extensionsListData);
   accountPhoneNumber(params.accountPhoneNumberData);
   blockedNumber(params.blockedNumberData);
   if (mockForwardingNumber) {

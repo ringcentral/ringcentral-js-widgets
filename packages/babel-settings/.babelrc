@@ -11,5 +11,6 @@
     "transform-export-extensions", // stage 1
     "transform-class-properties" // stage 2
   ],
-  "sourceMaps": true
+  "sourceMaps": true,
+  "retainLines": true,
 }

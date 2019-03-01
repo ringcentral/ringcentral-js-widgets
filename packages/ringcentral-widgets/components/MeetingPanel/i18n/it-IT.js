@@ -14,8 +14,10 @@ export default {
   meetingOptions: "Opzioni riunione",
   requirePassword: "Richiedi password riunione",
   password: "Password",
-  enableJoinBeforeHost: "Consenti ingresso prima del moderatore",
-  telephonyOnly: "Solo telefonia"
+  enableJoinBeforeHost: "Ingresso prima del moderatore",
+  telephonyOnly: "Solo telefonia",
+  hostVideoOn: "Video moderatore attivato",
+  participantVideoOn: "Video partecipante attivato"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -35,3 +37,5 @@ export default {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@

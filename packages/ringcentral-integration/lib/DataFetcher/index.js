@@ -26,6 +26,7 @@ const RETRY_INTERVALS = [
     'Auth',
     'Client',
     'Subscription',
+    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'DataFetcherOptions', optional: true }
@@ -38,6 +39,7 @@ export default class DataFetcher extends Pollable {
     storage,
     subscription,
     tabManager,
+    availabilityMonitor,
     timeToRetry = DEFAULT_RETRY,
     ttl = DEFAULT_TTL,
     polling = false,
@@ -72,6 +74,7 @@ export default class DataFetcher extends Pollable {
     }
     this._subscription = subscription;
     this._tabManager = tabManager;
+    this._availabilityMonitor = availabilityMonitor;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
     this._polling = polling;
@@ -189,6 +192,9 @@ export default class DataFetcher extends Pollable {
         await this.fetchData();
       } catch (e) {
         console.error('fetchData error:', e);
+        if (this._availabilityMonitor) {
+          this._availabilityMonitor.handleInitialError(e);
+        }
         this._retry();
       }
     } else if (this._polling) {

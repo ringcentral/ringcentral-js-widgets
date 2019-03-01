@@ -1,5 +1,4 @@
 import callLogMessages from 'ringcentral-integration/enums/callLogMessages';
-
 export default {
   [callLogMessages.logCallLogFailed]: "Échec du chargement du formulaire du journal des appels en raison d'une erreur inattendue. Veuillez actualiser la page et réessayer."
 };

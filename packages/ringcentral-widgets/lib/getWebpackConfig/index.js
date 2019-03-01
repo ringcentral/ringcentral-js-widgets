@@ -3,6 +3,9 @@ import path from 'path';
 import webpack from 'webpack';
 
 function getBaseConfig({
+  cacheDirectory = false,
+  hashPrefix = '',
+  supportedLocales = [],
   themeFolder,
 }) {
   return {
@@ -16,8 +19,18 @@ function getBaseConfig({
         {
           test: /\.js$/,
           use: [
-            'babel-loader',
-            '@ringcentral-integration/locale-loader',
+            {
+              loader: 'babel-loader',
+              options: {
+                cacheDirectory,
+              }
+            },
+            {
+              loader: '@ringcentral-integration/locale-loader',
+              options: {
+                supportedLocales
+              }
+            },
           ],
           exclude: /node_modules/,
         },
@@ -50,7 +63,13 @@ function getBaseConfig({
             {
               loader: 'style-loader',
             },
-            'css-loader?modules&localIdentName=[path]_[name]_[local]_[hash:base64:5]',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: `${hashPrefix}_[path][name]__[local]--[hash:base64:5]`,
+              },
+            },
             {
               loader: 'postcss-loader',
               options: {
@@ -74,16 +93,14 @@ function getBaseConfig({
         },
       ],
     },
-    plugins: [
-      new webpack.optimize.ModuleConcatenationPlugin()
-    ],
+    plugins: [],
   };
 }
 
 
 export default function getWebpackConfig({
   env = 'development',
-  ...options,
+  ...options
 }) {
   const base = getBaseConfig({
     ...options,
@@ -91,6 +108,7 @@ export default function getWebpackConfig({
   if (env === 'production') {
     return {
       ...base,
+      mode: 'production',
       plugins: [
         ...base.plugins,
         new webpack.DefinePlugin({
@@ -98,19 +116,12 @@ export default function getWebpackConfig({
             NODE_ENV: JSON.stringify('production'),
           },
         }),
-        new webpack.optimize.UglifyJsPlugin({
-          compress: {
-            warnings: false,
-            screw_ie8: true,
-          },
-          comments: false,
-          sourceMap: true,
-        }),
       ],
     };
   }
   return {
     ...base,
+    mode: 'development',
     devtool: 'inline-source-map',
     plugins: [
       ...base.plugins,

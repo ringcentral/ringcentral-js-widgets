@@ -13,8 +13,6 @@ export default class MeetingScheduleButton extends PureComponent {
     disabled: PropTypes.bool,
     onClick: PropTypes.func.isRequired,
     brand: PropTypes.string,
-    launchMeeting: PropTypes.func,
-    showLaunchMeeting: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -23,8 +21,6 @@ export default class MeetingScheduleButton extends PureComponent {
     disabled: false,
     brand: undefined,
     currentLocale: undefined,
-    launchMeeting() {},
-    showLaunchMeeting: false
   }
 
   getI18nButtonString() {
@@ -35,10 +31,6 @@ export default class MeetingScheduleButton extends PureComponent {
     return i18n.getString('prompt');
   }
 
-  getI18nLaunchMeetingString() {
-    return i18n.getString('launchMeeting');
-  }
-
   render() {
     const {
       hidden,
@@ -46,32 +38,17 @@ export default class MeetingScheduleButton extends PureComponent {
       meeting,
       onClick,
       brand,
-      currentLocale,
-      showLaunchMeeting,
-      launchMeeting
+      currentLocale
     } = this.props;
     return (
       <div
-        className={classnames(styles.inviteBox, !hidden ? styles.withShadow : styles.onlyButton,
-        { [styles.launchMeeting]: showLaunchMeeting })} >
+        className={classnames(styles.inviteBox, !hidden ? styles.withShadow : styles.onlyButton)}>
         {
           hidden ? (
             <div className={styles.actionPrompt}>
               { this.getI18nPromptString() }
             </div>
           ) : null
-        }
-        {
-          showLaunchMeeting ? <Button
-            onClick={launchMeeting}
-            disabled={disabled}
-            className={classnames(styles.button, disabled ? styles.disabled : null,
-               styles.launchMeetingButton)}
-            dataSign="launchMeetingButton"
-          >
-            { this.getI18nLaunchMeetingString() }
-          </Button>
-          : null
         }
         <Button
           onClick={onClick}

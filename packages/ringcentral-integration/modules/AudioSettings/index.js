@@ -154,7 +154,8 @@ export default class AudioSettings extends RcModule {
     const devices = await navigator.mediaDevices.enumerateDevices();
     this.store.dispatch({
       type: this.actionTypes.setAvailableDevices,
-      devices: devices.map(d => d.toJSON()),
+      // TODO formatting for devices info instances and replace JSON APIs.
+      devices: devices.map(d => JSON.parse(JSON.stringify(d))),
     });
   }
 

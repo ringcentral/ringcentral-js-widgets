@@ -15,7 +15,7 @@ import updateConferenceCallBody from 'ringcentral-integration/integration-test/m
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
 import { initPhoneWrapper, timeout } from '../shared';
 import { CONFERENCE_SESSION_ID, makeCall, mockActiveCalls, mockDetailedPresencePubnub } from '../../support/callHelper';
-import extensionListBody from './data/extension';
+import extensionsListBody from './data/extensions';
 
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
@@ -56,8 +56,8 @@ async function mockAddCall(phone, wrapper, contactA, contactB) {
 }
 
 async function mockContacts(phone) {
-  mock.extensionList(extensionListBody);
-  await phone.accountExtension.fetchData();
+  mock.extensionsList(extensionsListBody);
+  await phone.accountDirectory.fetchData();
 }
 
 async function mockStartConference(phone, wrapper) {

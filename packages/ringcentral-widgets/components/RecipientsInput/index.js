@@ -24,7 +24,9 @@ const focusCampo = (inputField) => {
       inputField.selectionEnd = elemLen;
     }
   }
-  inputField.focus();
+  setTimeout(() => {
+    inputField.focus();
+  }, 0);
 };
 
 function SelectedRecipientItem({
@@ -176,7 +178,7 @@ class RecipientsInput extends Component {
       return false;
     };
     // using React SyntheticEvent to deal with cross browser issue
-    this.handleHotKey = (e: React.KeyboardEvent) => {
+    this.handleHotKey = (e) => {
       if (this.state.isFocusOnInput && this.state.value.length >= 3) {
         if (e.key === 'ArrowUp') {
           this.reduceSelectedContactIndex();

@@ -4,11 +4,10 @@ import RingCentralClient from 'ringcentral-client';
 import { ModuleFactory } from '../../../lib/di';
 import RcModule from '../../../lib/RcModule';
 
-import callingOptions from '../../../modules/CallingSettings/callingOptions';
 import AccountContacts from '../../../modules/AccountContacts';
-import AccountExtension from '../../../modules/AccountExtension';
+import AccountDirectory from '../../../modules/AccountDirectory';
 import AccountInfo from '../../../modules/AccountInfo';
-import AccountPhoneNumber from '../../../modules/AccountPhoneNumber';
+// import AccountPhoneNumber from '../../../modules/AccountPhoneNumber';
 import AddressBook from '../../../modules/AddressBook';
 import Alert from '../../../modules/Alert';
 import Auth from '../../../modules/Auth';
@@ -64,6 +63,7 @@ import normalizeNumber from '../../../lib/normalizeNumber';
 import ringoutStatus from '../../../modules/Ringout/ringoutStatus';
 import softphoneStatus from '../../../modules/Softphone/softphoneStatus';
 import callingModes from '../../../modules/CallingSettings/callingModes';
+import AvailabilityMonitor from '../../../modules/AvailabilityMonitor';
 import BlockedNumber from '../../../modules/BlockedNumber';
 
 @ModuleFactory({
@@ -92,7 +92,7 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     { provide: 'RateLimiter', useClass: RateLimiter },
     { provide: 'Storage', useClass: Storage },
     { provide: 'AudioSettings', useClass: AudioSettings },
-    { provide: 'AccountExtension', useClass: AccountExtension },
+    { provide: 'AccountDirectory', useClass: AccountDirectory },
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
@@ -114,7 +114,7 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     { provide: 'Conference', useClass: Conference },
     { provide: 'CallLog', useClass: CallLog },
     { provide: 'CallHistory', useClass: CallHistory },
-    { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
+    // { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
@@ -170,6 +170,7 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     // },
     // spread: true,
     // },
+    { provide: 'AvailabilityMonitor', useClass: AvailabilityMonitor },
     { provide: 'BlockedNumber', useClass: BlockedNumber }
   ]
 })

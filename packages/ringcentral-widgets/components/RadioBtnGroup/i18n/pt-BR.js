@@ -1,6 +1,6 @@
 export default {
   Home: "Página principal",
-  Mobile: "Dispositivo móvel",
+  Mobile: "Disp. móvel",
   Work: "Trabalho"
 };
 

@@ -5,4 +5,3 @@ export default new HashMap({
   setUp: 'Setup',
   proceeding: 'Proceeding'
 });
-

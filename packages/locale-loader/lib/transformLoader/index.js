@@ -2,8 +2,8 @@ import through from 'through2';
 import fs from 'fs-extra';
 import path from 'path';
 import generateLoaderContent from '../generateLoaderContent';
-import { isLocaleFile } from '../isLocaleFile';
-import { isLoaderFile, noChunks } from '../isLoaderFile';
+import isLocaleFile from '../isLocaleFile';
+import isLoaderFile, { noChunks } from '../isLoaderFile';
 
 export default function transformLoader({
   noChunk = false

@@ -1,6 +1,4 @@
-
 import callControlError from 'ringcentral-integration/modules/ActiveCallControl/callControlError';
-
 const {
   holdConflictError,
   unHoldConflictError,
@@ -8,7 +6,6 @@ const {
   unMuteConflictError,
   generalError
 } = callControlError;
-
 export default {
   [muteConflictError]: "Esta chamada foi silenciada em outro dispositivo. Reative a chamada antes da sua operação neste aplicativo.",
   [holdConflictError]: "Esta chamada foi colocada em espera em outro dispositivo. Retire a chamada de espera antes da sua operação neste aplicativo.",

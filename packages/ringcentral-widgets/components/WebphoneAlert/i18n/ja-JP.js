@@ -1,5 +1,4 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-
 export default {
   [webphoneErrors.connectFailed]: "ウェブ電話サーバーとの接続が失敗しました。",
   [webphoneErrors.connected]: "ウェブ電話は登録されています。",

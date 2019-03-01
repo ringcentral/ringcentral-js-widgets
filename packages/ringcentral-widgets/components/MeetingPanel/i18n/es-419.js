@@ -14,8 +14,10 @@ export default {
   meetingOptions: "Opciones de reunión",
   requirePassword: "Requerir contraseña de reunión",
   password: "Contraseña",
-  enableJoinBeforeHost: "Permitir unirse antes que el host",
-  telephonyOnly: "Solo telefonía"
+  enableJoinBeforeHost: "Permitir unirse antes que el anfitrión",
+  telephonyOnly: "Solo telefonía",
+  hostVideoOn: "Video de anfitrión activado",
+  participantVideoOn: "Video del participante activado"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -35,3 +37,5 @@ export default {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@

@@ -22,7 +22,8 @@ export default class LoginPanel extends Component {
       showSpinner,
       children,
       showSignUp,
-      onSignUpButtonClick
+      onSignUpButtonClick,
+      customStyles
     } = this.props;
     const spinner = showSpinner ? <SpinnerOverlay /> : null;
     const versionDisplay = version ? (
@@ -34,7 +35,7 @@ export default class LoginPanel extends Component {
       <div className={classnames(styles.root, className)}>
         <button
           data-sign="loginButton"
-          className={styles.loginButton}
+          className={classnames(styles.loginButton, customStyles)}
           onClick={onLoginButtonClick}
           disabled={disabled}
         >
@@ -66,7 +67,8 @@ LoginPanel.propTypes = {
   showSpinner: PropTypes.bool,
   children: PropTypes.node,
   showSignUp: PropTypes.bool,
-  onSignUpButtonClick: PropTypes.func
+  onSignUpButtonClick: PropTypes.func,
+  customStyles: PropTypes.string,
 };
 
 LoginPanel.defaultProps = {
@@ -76,5 +78,6 @@ LoginPanel.defaultProps = {
   showSpinner: false,
   children: undefined,
   showSignUp: false,
-  onSignUpButtonClick() {}
+  onSignUpButtonClick() {},
+  customStyles: undefined,
 };

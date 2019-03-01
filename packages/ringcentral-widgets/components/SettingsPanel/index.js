@@ -72,6 +72,7 @@ export default function SettingsPanel({
   savedLocale,
   saveLocale,
   clickToDialTitle,
+  versionContainer,
 }) {
   if (showSpinner) {
     return (
@@ -94,44 +95,44 @@ export default function SettingsPanel({
   const region = showRegion ?
     (
       <LinkLine
-        onClick={onRegionSettingsLinkClick} >
+        onClick={onRegionSettingsLinkClick}>
         {i18n.getString('region', currentLocale)}
       </LinkLine>
     ) :
     null;
 
-  const calling = showCalling
-    ? (
+  const calling = showCalling ?
+    (
       <LinkLine
-        onClick={onCallingSettingsLinkClick} >
+        onClick={onCallingSettingsLinkClick}>
         {i18n.getString('calling', currentLocale)}
       </LinkLine>
-    )
-    : null;
-  const audio = showAudio
-    ? (
+    ) :
+    null;
+  const audio = showAudio ?
+    (
       <LinkLine
-        onClick={onAudioSettingsLinkClick} >
+        onClick={onAudioSettingsLinkClick}>
         {i18n.getString('audio', currentLocale)}
       </LinkLine>
-    )
-    : null;
-  const feedback = showFeedback
-    ? (
+    ) :
+    null;
+  const feedback = showFeedback ?
+    (
       <LinkLine
-        onClick={onFeedbackSettingsLinkClick} >
+        onClick={onFeedbackSettingsLinkClick}>
         {i18n.getString('feedback', currentLocale)}
       </LinkLine>
-    )
-    : null;
-  const quickAccess = showQuickAccess
-    ? (
+    ) :
+    null;
+  const quickAccess = showQuickAccess ?
+    (
       <LinkLine
-        onClick={onQuickAccessLinkClick} >
+        onClick={onQuickAccessLinkClick}>
         {i18n.getString('quickAccess', currentLocale)}
       </LinkLine>
-    )
-    : null;
+    ) :
+    null;
   const presenceSetting = (showPresenceSettings && dndStatus && userStatus) ?
     (
       <PresenceSettingSection
@@ -162,12 +163,12 @@ export default function SettingsPanel({
     outboundSMS || clickToDialPermissions) ?
     (
       <IconLine
-        icon={
+        icon={(
           <Switch
             checked={clickToDialEnabled}
             onChange={onClickToDialChange}
           />
-        }
+)}
         title={clickToDialTitle}
       >
         {clickToDialText}
@@ -177,13 +178,13 @@ export default function SettingsPanel({
   // if the Switch component is disabled then the text to describe it will be a disabled color.
   const autoLog = showAutoLog ? (
     <IconLine
-      icon={
+      icon={(
         <Switch
           disable={disableAutoLogEnabled}
           checked={autoLogEnabled}
           onChange={onAutoLogChange}
         />
-      }
+)}
     >
       <span className={classnames(disableAutoLogEnabled && styles.disableText)}>
         {i18n.getString('autoLogCalls', currentLocale)}
@@ -193,13 +194,13 @@ export default function SettingsPanel({
     null;
   const autoLogNotes = showAutoLogNotes ? (
     <IconLine
-      icon={
+      icon={(
         <Switch
           disable={disableAutoLogNotesEnabled}
           checked={autoLogNotesEnabled}
           onChange={onAutoLogNotesChange}
         />
-      }
+)}
     >
       <span className={classnames(disableAutoLogNotesEnabled && styles.disableText)}>
         {i18n.getString('autoLogNotes', currentLocale)}
@@ -209,12 +210,12 @@ export default function SettingsPanel({
     null;
   const autoLogSMS = showAutoLogSMS ? (
     <IconLine
-      icon={
+      icon={(
         <Switch
           checked={autoLogSMSEnabled}
           onChange={onAutoLogSMSChange}
         />
-      }
+)}
     >
       {i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
@@ -226,10 +227,18 @@ export default function SettingsPanel({
   ) : null;
   const userGuide = showUserGuide ? (
     <LinkLine
-      onClick={onUserGuideClick} >
+      onClick={onUserGuideClick}>
       {i18n.getString('userGuide', currentLocale)}
     </LinkLine>
   ) : null;
+
+  const versionArea = versionContainer || (
+    <div className={styles.versionContainer}>
+      {i18n.getString('version', currentLocale)}
+      {' '}
+      {version}
+    </div>
+  );
   return (
     <div className={classnames(styles.root, className)}>
       {header}
@@ -267,16 +276,14 @@ export default function SettingsPanel({
             onClick={onLogoutButtonClick}
             icon={
               <span className={classnames(styles.logoutIcon, dynamicsFont.logout)} />
-            } >
+            }>
             {i18n.getString('logout', currentLocale)}
             <span className={styles.loginNumber}>
               {` ${loginNumber}`}
             </span>
           </IconLine>
         </section>
-        <div className={styles.versionContainer} >
-          {i18n.getString('version', currentLocale)} {version}
-        </div>
+        {versionArea}
       </Panel>
     </div>
   );
@@ -336,6 +343,7 @@ SettingsPanel.propTypes = {
   onUserGuideClick: PropTypes.func.isRequired,
   showUserGuide: PropTypes.bool,
   clickToDialTitle: PropTypes.string,
+  versionContainer: PropTypes.node,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -381,4 +389,5 @@ SettingsPanel.defaultProps = {
   showQuickAccess: false,
   onQuickAccessLinkClick: () => null,
   clickToDialTitle: null,
+  versionContainer: null,
 };

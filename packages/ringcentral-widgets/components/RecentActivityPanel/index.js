@@ -30,8 +30,9 @@ function RecentActivityPanel(props) {
   if (!props.currentContact) {
     return null;
   }
+  const containerClass = classnames(styles.container, props.className);
   return (
-    <div className={styles.container}>
+    <div className={containerClass}>
       <div className={styles.header} onClick={onPanelToggle}>
         <Header buttons={[toggleButton]} className={styles.header}>{title}</Header>
       </div>
@@ -44,11 +45,13 @@ RecentActivityPanel.propTypes = {
   title: PropTypes.string.isRequired,
   currentContact: PropTypes.object,
   onPanelToggle: PropTypes.func.isRequired,
-  expanded: PropTypes.bool.isRequired
+  expanded: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 };
 
 RecentActivityPanel.defaultProps = {
-  currentContact: null
+  currentContact: null,
+  className: null,
 };
 
 export default expandable({

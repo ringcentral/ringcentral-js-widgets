@@ -1,5 +1,4 @@
 import conferenceCallErrors from 'ringcentral-integration/modules/ConferenceCall/conferenceCallErrors';
-
 export default {
   [conferenceCallErrors.bringInFailed]: "Échec de la fusion des appels en raison d'erreurs inattendues. Veuillez réessayer ultérieurement.",
   [conferenceCallErrors.makeConferenceFailed]: "Échec de la fusion des appels en raison d'erreurs inattendues. Veuillez réessayer ultérieurement.",

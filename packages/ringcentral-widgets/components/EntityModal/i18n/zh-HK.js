@@ -1,5 +1,5 @@
 export default {
-  account: "帳戶",
+  account: "帳號",
   contact: "通訊錄",
   lead: "主管",
   opportunity: "機會",

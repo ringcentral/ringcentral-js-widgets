@@ -21,8 +21,7 @@
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^9.3.1",
-    "babel-loader": "^7.0.0",
-    "babel-polyfill": "^6.22.0",
+    "babel-loader": "^8.0.4",
     "classnames": "^2.2.5",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
@@ -47,10 +46,8 @@
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
     "url-loader": "^1.0.1",
-    "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.4.5"
+    "webpack": "^4.29.0",
+    "webpack-dev-server": "^3.1.14"
   },
-  "peerDependencies": {
-    "babel-runtime": "^6.26.0"
-  }
+  "peerDependencies": {}
 }

@@ -15,19 +15,28 @@
   "license": "MIT",
   "private": false,
   "peerDependencies": {
-    "babel-runtime": "^6.26.0"
+    "@babel/polyfill": "^7.2.5"
   },
   "devDependencies": {
+    "@ringcentral-integration/babel-settings": "*",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "faker": "^4.1.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.0",
-    "gulp-babel": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
     "jest": "^23.6.0"
   },
   "scripts": {
     "test": "jest",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "gulp build",
     "release": "gulp release"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
+    }
   }
 }

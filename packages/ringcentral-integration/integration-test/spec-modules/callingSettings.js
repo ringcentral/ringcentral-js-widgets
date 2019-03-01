@@ -179,7 +179,7 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
         });
         //TODO: Add test cases for Other Phone Numbers
       });
-    });
+     });
 
     it('Should only include softphone when ReadUserPhoneNumbers is false', async () => {
       mock.restore();

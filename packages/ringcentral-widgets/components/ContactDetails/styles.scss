@@ -57,6 +57,7 @@
   }
   .label {
     @include label;
+    word-break: break-all;
   }
   .number {
     min-width: 40%;

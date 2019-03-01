@@ -21,7 +21,7 @@ export default new Enum([
   'increaseCurrentPage',
   'resetCurrentPage',
   'cleanOldConversatioans',
-  'addEntity',
+  'addEntities',
   'removeEntity',
   'addResponses',
   'removeResponse'

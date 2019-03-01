@@ -1,7 +1,6 @@
 import callResults from 'ringcentral-integration/enums/callResults';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-
 export default {
   [callDirections.inbound]: "In entrata",
   [callDirections.outbound]: "In uscita",
@@ -26,7 +25,7 @@ export default {
   [callResults.faxReceiptError]: "Errore di ricezione fax",
   [callResults.faxOnDemand]: "Fax on-demand",
   [callResults.partialReceive]: "Ricezione parziale",
-  [callResults.blocked]: "Bloccato",
+  [callResults.blocked]: "Bloccata",
   [callResults.callConnected]: "Disconnessa",
   [callResults.noAnswer]: "Nessuna risposta",
   [callResults.internationalDisabled]: "Internazionale disabilitato",
@@ -38,14 +37,14 @@ export default {
   [callResults.IPPhoneOffline]: "Telefono IP offline",
   [callResults.restrictedNumber]: "Numero soggetto a restrizioni",
   [callResults.wrongNumber]: "Numero errato",
-  [callResults.stopped]: "Interrotto",
+  [callResults.stopped]: "Interrotta",
   [callResults.suspendedAccount]: "Account sospeso",
   [callResults.hangUp]: "Riagganciato",
   [callResults.HangUp]: "Riagganciato",
-  [callResults.abandoned]: "Abbandonato",
-  [callResults.declined]: "Rifiutato",
+  [callResults.abandoned]: "Abbandonata",
+  [callResults.declined]: "Rifiutata",
   [callResults.faxReceipt]: "Ricezione fax",
-  [callResults.disconnected]: "Disconnesso"
+  [callResults.disconnected]: "Disconnessa"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@

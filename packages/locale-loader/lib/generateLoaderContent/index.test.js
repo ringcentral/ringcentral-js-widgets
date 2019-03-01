@@ -1,6 +1,6 @@
 import { transform } from 'babel-core';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
-import { babelrc } from 'babel-settings';
+import fs from 'fs-extra';
 import generateLoaderContent from './';
 
 const files = [
@@ -15,6 +15,9 @@ describe('generateLoaderContent', () => {
     expect(typeof content).toBe('string');
   });
   describe('generated content', () => {
+    afterAll(async () => {
+      await fs.remove('./testData/loader.js');
+    });
     const content = generateLoaderContent({ files });
     files.forEach((file) => {
       const baseName = file.split('.')[0];
@@ -30,11 +33,12 @@ describe('generateLoaderContent', () => {
         expect(content.indexOf(`case '${lang}':`) > -1).toBe(true);
       });
     });
-    test('should be valid js file content', () => {
-      let code;
-      expect(() => { code = transform(content, babelrc).code; }).not.toThrow();
-      expect(() => { eval(code); }).not.toThrow();
-      expect(typeof eval(code)).toBe('function');
+    test('should be valid js file content', async () => {
+      expect(() => { transform(content, { filename: 'en-GB.js' }); }).not.toThrow();
+      await fs.writeFile('./testData/loader.js', content);
+      /* eslint-disable-next-line */
+      const loader = require('../../testData/loader');
+      expect(typeof loader.default).toBe('function');
     });
   });
   test('should accept chunk = false parameter', () => {

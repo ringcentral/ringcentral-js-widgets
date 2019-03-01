@@ -1,7 +1,6 @@
 import path from 'path';
 import gulp from 'gulp';
 import fs from 'fs-extra';
-import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import transformLocaleLoader from './';
 
 
@@ -16,10 +15,10 @@ const files = [
 function transform() {
   return new Promise((resolve, reject) => {
     gulp.src(path.resolve(sourceFolder, 'loadLocale.js'))
-    .pipe(transformLocaleLoader())
-    .pipe(gulp.dest(path.resolve(sourceFolder, 'output')))
-    .on('end', resolve)
-    .on('error', reject);
+      .pipe(transformLocaleLoader())
+      .pipe(gulp.dest(path.resolve(sourceFolder, 'output')))
+      .on('end', resolve)
+      .on('error', reject);
   });
 }
 

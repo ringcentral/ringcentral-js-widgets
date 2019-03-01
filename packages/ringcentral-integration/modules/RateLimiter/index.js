@@ -2,9 +2,7 @@ import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import actionTypes from './actionTypes';
 import moduleStatuses from '../../enums/moduleStatuses';
-import getRateLimiterReducer, {
-  getTimestampReducer,
-} from './getRateLimiterReducer';
+import getRateLimiterReducer, { getTimestampReducer } from './getRateLimiterReducer';
 import errorMessages from './errorMessages';
 import proxify from '../../lib/proxy/proxify';
 

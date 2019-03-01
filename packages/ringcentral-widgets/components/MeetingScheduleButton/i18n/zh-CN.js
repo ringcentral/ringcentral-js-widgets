@@ -1,5 +1,5 @@
 export default {
-  schedule: "安排会议",
+  schedule: "安排视频会议",
   prompt: "请授权 RingCentral 访问您的账户信息。"
 };
 

@@ -1,5 +1,4 @@
 import phoneTypes from '../../enums/phoneTypes';
-
 export default {
   [phoneTypes.business]: "商務電話",
   [phoneTypes.extension]: "分機號碼",

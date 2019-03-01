@@ -15,7 +15,9 @@ export default {
   requirePassword: "Require meeting password",
   password: "Password",
   enableJoinBeforeHost: "Enable joining before host",
-  telephonyOnly: "Telephony only"
+  telephonyOnly: "Telephony only",
+  hostVideoOn: "Host Video On",
+  participantVideoOn: "Participant Video On"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -35,3 +37,5 @@ export default {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@

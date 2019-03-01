@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Wed Nov 23 2016 15:54:23 GMT+0800 (CST)
 
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,22 +15,23 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // 'src/modules/**/*.js',
-      'integration-test/**/*spec.js',
+      // 'modules/**/availabilityMonitorHelper.test.js',
+      'modules/AvailabilityMonitor/*.test.js',
+      // 'integration-test/**/*spec.js',
     ],
 
     // list of files to exclude
     exclude: [
       'enums/**/*.test.js',
       'lib/**/*.test.js',
-      'modules/**/*.test.js'
+      // 'modules/**/*.test.js'
     ],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      // 'src/modules/**/*.js': ['webpack'],
+      'modules/**/*.js': ['webpack'],
       'integration-test/**/*.js': ['webpack'],
     },
 

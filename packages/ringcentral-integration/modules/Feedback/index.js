@@ -27,7 +27,7 @@ export default class Feedback extends RcModule {
   constructor({
     auth,
     storage,
-    ...options,
+    ...options
   }) {
     super({
       ...options,

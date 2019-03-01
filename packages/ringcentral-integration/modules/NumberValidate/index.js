@@ -14,7 +14,10 @@ import getNumberValidateReducer from './getNumberValidateReducer';
  * @description Validate number with number parser api
  */
 @Module({
-  deps: ['Brand', 'Client', 'AccountExtension', 'RegionSettings', 'AccountInfo']
+  deps: ['Brand', 'Client', 'RegionSettings', 'AccountInfo',
+    { dep: 'AccountExtension', optional: true },
+    { dep: 'AccountDirectory', optional: true }
+  ]
 })
 export default class NumberValidate extends RcModule {
   /**
@@ -29,6 +32,7 @@ export default class NumberValidate extends RcModule {
     brand,
     client,
     accountExtension,
+    accountDirectory,
     regionSettings,
     accountInfo,
     ...options
@@ -39,7 +43,12 @@ export default class NumberValidate extends RcModule {
     });
     this._brand = brand;
     this._client = client;
-    this._accountExtension = accountExtension;
+    if (accountDirectory) {
+      this._accountDirectory = accountDirectory;
+    } else {
+      this._accountDirectory = accountExtension;
+    }
+
     this._regionSettings = regionSettings;
     this._accountInfo = accountInfo;
     this._reducer = getNumberValidateReducer(this.actionTypes);
@@ -61,7 +70,7 @@ export default class NumberValidate extends RcModule {
     return (
       this._brand.ready &&
       this._regionSettings.ready &&
-      this._accountExtension.ready &&
+      this._accountDirectory.ready &&
       this._accountInfo.ready &&
       !this.ready
     );
@@ -79,7 +88,7 @@ export default class NumberValidate extends RcModule {
         !this._brand.ready ||
         !this._accountInfo.ready ||
         !this._regionSettings.ready ||
-        !this._accountExtension.ready
+        !this._accountDirectory.ready
       ) &&
       this.ready
     );
@@ -149,7 +158,7 @@ export default class NumberValidate extends RcModule {
     if (
       extensionNumber &&
       extensionNumber.length <= 6 &&
-      !this._accountExtension.isAvailableExtension(extensionNumber)
+      !this._accountDirectory.isAvailableExtension(extensionNumber)
     ) {
       return true;
     }
@@ -166,7 +175,7 @@ export default class NumberValidate extends RcModule {
     if (normalizedCompanyNumber !== this._accountInfo.mainCompanyNumber) {
       return false;
     }
-    return this._accountExtension.isAvailableExtension(extensionNumber);
+    return this._accountDirectory.isAvailableExtension(extensionNumber);
   }
 
   @proxify

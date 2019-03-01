@@ -1,7 +1,3 @@
-import babelrc from './lib/babelrc';
-import transform from './lib/transform';
+const baseConfig = require('./babel.config');
 
-export {
-  babelrc,
-  transform,
-};
+module.exports = baseConfig;

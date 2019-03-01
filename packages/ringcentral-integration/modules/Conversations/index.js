@@ -152,6 +152,11 @@ export default class Conversations extends RcModule {
     this._showMMSAttachment = showMMSAttachment;
     this._lastConversaionList = [];
 
+
+    this._messageSender.on(this._messageSender.actionTypes.send, ({ toNumbers }) => {
+      this.addEntities(toNumbers);
+    });
+
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
         getQueriesFn: () => this.uniqueNumbers,
@@ -926,10 +931,10 @@ export default class Conversations extends RcModule {
   get correspondentResponse() {
     return this.state.correspondentResponse;
   }
-  addEntitys(entitys) {
+  addEntities(entities) {
     this.store.dispatch({
-      type: this.actionTypes.addEntity,
-      entitys,
+      type: this.actionTypes.addEntities,
+      entities,
     });
   }
   removeEntity(entity) {

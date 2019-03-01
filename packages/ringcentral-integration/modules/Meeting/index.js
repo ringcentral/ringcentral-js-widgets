@@ -1,4 +1,7 @@
 import moment from 'moment';
+import { find } from 'ramda';
+import format, { formatTypes } from '@ringcentral-integration/phone-number/lib/format';
+
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
@@ -174,18 +177,19 @@ export default class Meeting extends RcModule {
 
   getMobileDialingNumberTpl(dialInNumbers, meetingId) {
     return dialInNumbers
-      .map(({ country, formattedNumber, location = '' }) => {
-        const filterFormattedNumber = formattedNumber.replace(/\s|-/g, '');
-        return `+${country.callingCode}${filterFormattedNumber},,${meetingId}# ${location}`;
-      })
+      .map(({ phoneNumber, location = '' }) => `${phoneNumber},,${meetingId}# ${location}`)
       .join('\n    ');
   }
 
   getPhoneDialingNumberTpl(dialInNumbers) {
     return dialInNumbers
-      .map(({ country, formattedNumber, location = '' }) => {
-        const filterFormattedNumber = formattedNumber.replace(/-/g, ' ');
-        return `+${country.callingCode} ${filterFormattedNumber}${location}`;
+      .map(({ phoneNumber, location = '', country }) => {
+        const filterFormattedNumber = format({
+          phoneNumber,
+          countryCode: country.isoCode,
+          type: formatTypes.international
+        });
+        return `${filterFormattedNumber}${location}`;
       })
       .join('\n    ');
   }
@@ -223,8 +227,10 @@ export default class Meeting extends RcModule {
           _saved: meeting._saved
         }
       });
-      const mobileDialingNumberTpl = this.getMobileDialingNumberTpl(serviceInfo.dialInNumbers, resp.id);
-      const phoneDialingNumberTpl = this.getPhoneDialingNumberTpl(serviceInfo.dialInNumbers, resp.id);
+      const mobileDialingNumberTpl = this.getMobileDialingNumberTpl(serviceInfo.dialInNumbers,
+        resp.id);
+      const phoneDialingNumberTpl = this.getPhoneDialingNumberTpl(serviceInfo.dialInNumbers,
+        resp.id);
       serviceInfo.mobileDialingNumberTpl = mobileDialingNumberTpl;
       serviceInfo.phoneDialingNumberTpl = phoneDialingNumberTpl;
       const result = {
@@ -263,10 +269,119 @@ export default class Meeting extends RcModule {
               permissionName,
             },
           });
+        } else {
+          this._alert.danger({
+            message: meetingStatus.internalError,
+          });
         }
       }
       return null;
     }
+  }
+
+  @proxify
+  async getMeeting(meetingId) {
+    return this._client
+      .account()
+      .extension()
+      .meeting(meetingId)
+      .get();
+  }
+
+  @proxify
+  async updateMeeting(meetingId, meeting, { isAlertSuccess = false } = {}, opener) {
+    if (this._isUpdating(meetingId)) return null;
+    meeting = meeting || this.meeting;
+    try {
+      this.store.dispatch({
+        type: this.actionTypes.initUpdating,
+        meetingId,
+      });
+      // Validate meeting
+      this._validate(meeting);
+      const formattedMeeting = this._format(meeting);
+
+      const [resp, serviceInfo] = await Promise.all([
+        this._client
+          .account()
+          .extension()
+          .meeting(meetingId)
+          .put(formattedMeeting),
+        this._client
+          .account()
+          .extension()
+          .meeting()
+          .serviceInfo()
+          .get()
+      ]);
+
+      this.store.dispatch({
+        type: this.actionTypes.updated,
+        meeting: {
+          ...formattedMeeting,
+          _saved: meeting._saved
+        },
+        meetingId,
+      });
+      const mobileDialingNumberTpl = this.getMobileDialingNumberTpl(serviceInfo.dialInNumbers,
+        resp.id);
+      const phoneDialingNumberTpl = this.getPhoneDialingNumberTpl(serviceInfo.dialInNumbers,
+        resp.id);
+      serviceInfo.mobileDialingNumberTpl = mobileDialingNumberTpl;
+      serviceInfo.phoneDialingNumberTpl = phoneDialingNumberTpl;
+      const result = {
+        meeting: resp,
+        serviceInfo,
+        extensionInfo: this.extensionInfo
+      };
+      if (typeof this.scheduledHook === 'function') {
+        await this.scheduledHook(result, opener);
+      }
+      // Reload meeting info
+      this._initMeeting();
+      // Notify user the meeting has been scheduled
+      if (isAlertSuccess) {
+        setTimeout(() => {
+          this._alert.info({
+            message: meetingStatus.updatedSuccess
+          });
+        }, 50);
+      }
+      return result;
+    } catch (errors) {
+      this.store.dispatch({
+        type: this.actionTypes.resetUpdating,
+        meetingId,
+      });
+      if (errors instanceof MeetingErrors) {
+        for (const error of errors.all) {
+          this._alert.warning(error);
+        }
+      } else if (errors && errors.apiResponse) {
+        const { errorCode, permissionName } = errors.apiResponse.json();
+        if (errorCode === 'InsufficientPermissions' && permissionName) {
+          this._alert.danger({
+            message: meetingStatus.insufficientPermissions,
+            payload: {
+              permissionName,
+            },
+          });
+        } else {
+          this._alert.danger({
+            message: meetingStatus.internalError,
+          });
+        }
+      }
+      return null;
+    }
+  }
+
+  /**
+   * @param {number} meetingId
+   */
+  _isUpdating(meetingId) {
+    return this.state.updatingStatus &&
+      find(obj => obj.meetingId === meetingId, this.state.updatingStatus);
   }
 
   /**

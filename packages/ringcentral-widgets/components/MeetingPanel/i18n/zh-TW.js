@@ -14,8 +14,10 @@ export default {
   meetingOptions: "會議選項",
   requirePassword: "會議密碼為必填",
   password: "密碼",
-  enableJoinBeforeHost: "允許在主持人之前加入",
-  telephonyOnly: "僅電話"
+  enableJoinBeforeHost: "允許在主持人進入會議前加入",
+  telephonyOnly: "僅電話",
+  hostVideoOn: "主持人視訊開啟",
+  participantVideoOn: "參與者視訊開啟"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -35,3 +37,5 @@ export default {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@

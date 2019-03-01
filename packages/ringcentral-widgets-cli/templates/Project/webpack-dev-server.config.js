@@ -18,6 +18,7 @@ const apiConfig = {
 const version = packageConfig.version;
 
 const config = {
+  mode: 'development',
   entry: {
     index: './src/index.js',
     proxy: './src/proxy.js',
@@ -106,7 +107,7 @@ const config = {
             loader: 'sass-loader',
             options: {
               outputStyle: 'expanded',
-              includePaths: [buildPath],
+              includePaths: ['src', 'node_modules'],
             },
           }
         ],

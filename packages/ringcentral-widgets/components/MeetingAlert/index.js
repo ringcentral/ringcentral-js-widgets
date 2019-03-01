@@ -52,4 +52,5 @@ MeetingAlert.handleMessage = ({ message }) => (
   || (message === meetingStatus.noPassword)
   || (message === meetingStatus.insufficientPermissions)
   || (message === meetingStatus.scheduledSuccess)
+  || (message === meetingStatus.internalError)
 );

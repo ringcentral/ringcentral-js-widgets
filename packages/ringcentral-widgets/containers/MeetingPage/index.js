@@ -12,7 +12,7 @@ function mapToProps(_, {
   showWhen,
   showDuration,
   showRecurringMeeting,
-  showLaunchMeeting,
+  openNewWindow = true
 }) {
   return {
     meeting: meeting.meeting || {},
@@ -21,7 +21,7 @@ function mapToProps(_, {
     showWhen,
     showDuration,
     showRecurringMeeting,
-    showLaunchMeeting,
+    openNewWindow
   };
 }
 

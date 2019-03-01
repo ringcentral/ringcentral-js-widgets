@@ -1,4 +1,6 @@
-import 'core-js/fn/array/find';
+import { find } from 'ramda';
+import EventEmitter from 'event-emitter';
+import uuid from 'uuid';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
@@ -143,9 +145,9 @@ export default class MessageSender extends RcModule {
     }
     this.store.dispatch({ type: this.actionTypes.validate });
     if (validateResult) {
-      const isMySenderNumber = this.senderNumbersList.find(number => (
+      const isMySenderNumber = find(number => (
         number.phoneNumber === senderNumber
-      ));
+      ), this.senderNumbersList);
       if (!isMySenderNumber) {
         validateResult = false;
       }
@@ -207,6 +209,7 @@ export default class MessageSender extends RcModule {
   async send({
     fromNumber, toNumbers, text, replyOnMessageId, multipart = false
   }) {
+    const eventId = uuid.v4();
     if (!this._validateText(text, multipart)) {
       return null;
     }
@@ -226,7 +229,14 @@ export default class MessageSender extends RcModule {
           return null;
         }
       }
-
+      this.emit(this.actionTypes.send, {
+        eventId,
+        fromNumber,
+        toNumbers,
+        text,
+        replyOnMessageId,
+        multipart,
+      });
       this.store.dispatch({
         type: this.actionTypes.send,
       });
@@ -268,6 +278,14 @@ export default class MessageSender extends RcModule {
 
       return responses;
     } catch (error) {
+      this.emit(this.actionTypes.sendError, {
+        eventId,
+        fromNumber,
+        toNumbers,
+        text,
+        replyOnMessageId,
+        multipart,
+      });
       this.store.dispatch({
         type: this.actionTypes.sendError,
         error: 'error'
@@ -365,3 +383,5 @@ export default class MessageSender extends RcModule {
     return this._extensionPhoneNumber.smsSenderNumbers;
   }
 }
+
+EventEmitter(MessageSender.prototype);

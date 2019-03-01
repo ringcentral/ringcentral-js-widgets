@@ -1,5 +1,4 @@
 import messages from 'ringcentral-integration/modules/Conference/messages';
-
 export default {
   [messages.requireAditionalNumbers]: "Veuillez sélectionner les autres numéros à composer.",
   [messages.scheduledSuccess]: "La téléconférence est planifiée."

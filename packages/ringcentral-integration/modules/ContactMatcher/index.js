@@ -35,7 +35,8 @@ export default class ContactMatcher extends DataMatcher {
   async forceMatchNumber({ phoneNumber }) {
     await this.match({
       queries: [phoneNumber],
-      ignoreCache: true
+      ignoreCache: true,
+      ignoreQueue: true,
     });
   }
 }

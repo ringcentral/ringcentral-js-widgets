@@ -1,7 +1,6 @@
 import callResults from 'ringcentral-integration/enums/callResults';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-
 export default {
   [callDirections.inbound]: "Entrante",
   [callDirections.outbound]: "Saliente",
@@ -19,7 +18,7 @@ export default {
   [callResults.missed]: "Perdida",
   [callResults.callAccepted]: "Atendida",
   [callResults.accepted]: "Atendida",
-  [callResults.voicemail]: "Mensaje de voz",
+  [callResults.voicemail]: "Buzón de voz",
   [callResults.rejected]: "Rechazada",
   [callResults.reply]: "Responder",
   [callResults.received]: "Recibida",

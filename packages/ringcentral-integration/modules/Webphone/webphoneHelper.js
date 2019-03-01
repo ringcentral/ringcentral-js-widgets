@@ -11,6 +11,13 @@ if (typeof global !== 'undefined') {
   environment = global.window || global;
 }
 
+export function isChrome() {
+  if (!environment.navigator) {
+    return false;
+  }
+  return !!(environment.navigator.userAgent.match(/Chrom(e|ium)/));
+}
+
 export function isWebSocketSupport() {
   return !!(environment && environment.WebSocket);
 }

@@ -1,0 +1,84 @@
+.root {
+  margin-top: 24px;
+  line-height: 17px;
+  text-align: left;
+  min-width: 165px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  display: none;
+}
+
+.bk {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: none;
+}
+
+.showSelects {
+  display: block !important;
+}
+
+.centerStyle {
+  top: 50%;
+  position: absolute;
+}
+
+.presence {
+  @extend .centerStyle;
+  left: 20px;
+  height: 14px;
+  width: 14px;
+  border-radius: 8px;
+  margin-top: -7px;
+  display: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.presenceList {
+  padding: 0;
+}
+
+.presenceItem {
+  padding: 10px 15px;
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.Offline {
+  display: block;
+  background: #cdcdcd;
+}
+
+.Busy {
+  display: block;
+  background: #f95b5c;
+}
+
+.Available {
+  display: block;
+  background-color: #32ae31;
+}
+
+.presenceBar {
+  display: none;
+  position: absolute;
+  width: 8px;
+  height: 2px;
+  border-radius: 1.5px;
+  background-color: #ffffff;
+  transform-origin: 50% 50%;
+  transform: translate(3px, 6px);
+}
+
+.DoNotAcceptAnyCalls {
+  display: block;
+  background: #f95b5c;
+  .presenceBar {
+    display: block;
+  }
+}

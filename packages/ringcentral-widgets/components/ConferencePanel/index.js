@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import formatMessage from 'format-message';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import messages from 'ringcentral-integration/modules/Conference/messages';
 import Switch from '../Switch';
-import i18n from './i18n';
-import styles from './styles.scss';
 import Select from '../DropdownSelect';
 import BackHeader from '../BackHeader';
 import Button from '../Button';
 import LinkLine from '../LinkLine';
-import formatMessage from 'format-message';
+import MeetingSection from '../MeetingSection';
+import i18n from './i18n';
+import styles from './styles.scss';
 
 // TODO Move to a separate folder.
 function CheckBox({ checked, onChange }) {
@@ -100,7 +100,6 @@ class ConferencePanel extends Component {
     super(props);
     this.state = {
       dialInNumbers: this.formatDialInNumbers(props),
-      showAdditionalNumbers: false,
       showAdditionalNumberList: false,
       mainCtrlOverlapped: false
     };
@@ -131,30 +130,19 @@ class ConferencePanel extends Component {
     }
   }
 
-  onAddionalNumbersSwitch = (checked) => {
-    this.setState({
-      showAdditionalNumbers: checked,
-    });
-  };
-
   inviteTxt = () => {
     const {
-      dialInNumber, additionalNumbers, participantCode, brand, alert
+      dialInNumber, additionalNumbers, participantCode, brand
     } = this.props;
-    const { dialInNumbers, showAdditionalNumbers } = this.state;
-    if (showAdditionalNumbers && additionalNumbers.length < 1) {
-      alert(messages.requireAditionalNumbers);
-      return '';
-    }
+    const { dialInNumbers } = this.state;
     const formattedDialInNumber = dialInNumbers.find(
       e => e.phoneNumber === dialInNumber
     ).formattedPhoneNumber;
-    const additionalNumbersTxt = additionalNumbers.map(p =>
-      dialInNumbers.find(obj => obj.phoneNumber === p)
+    const additionalNumbersTxt = additionalNumbers.map(p => dialInNumbers.find(obj => obj.phoneNumber === p)
     ).map(fmt => `${fmt.region}  ${fmt.formattedPhoneNumber}`)
       .join('\n');
     let additionalNumbersSection = '';
-    if (showAdditionalNumbers) {
+    if (additionalNumbers.length > 0) {
       additionalNumbersSection = `${i18n.getString('internationalNumber', this.props.currentLocale)}\n${additionalNumbersTxt}`;
     }
     //     return `
@@ -202,9 +190,9 @@ class ConferencePanel extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.dialInNumbers !== this.props.dialInNumbers ||
-      nextProps.countryCode !== this.props.countryCode ||
-      nextProps.areaCode !== this.props.areaCode
+      nextProps.dialInNumbers !== this.props.dialInNumbers
+      || nextProps.countryCode !== this.props.countryCode
+      || nextProps.areaCode !== this.props.areaCode
     ) {
       this.setState({
         dialInNumbers: this.formatDialInNumbers(nextProps),
@@ -238,10 +226,10 @@ class ConferencePanel extends Component {
       showJoinAsHost = true,
       showEnableJoinBeforeHost = true,
       recipientsSection,
+      bottomClassName,
     } = this.props;
     const {
       dialInNumbers,
-      showAdditionalNumbers,
       showAdditionalNumberList,
       mainCtrlOverlapped
     } = this.state;
@@ -264,30 +252,20 @@ class ConferencePanel extends Component {
         additionalNumberObjs.push(dialInNumbers.find(e => e.phoneNumber === n));
       }
     }
-    const additionalNumbersCtrl = showAdditionalNumbers ? (
-      <div style={{ width: '100%' }}>
-        <LinkLine
-          className={styles.linkLine}
-          onClick={() => { this.setState({ showAdditionalNumberList: true }); }} >
-          {i18n.getString('selectNumbers', currentLocale)}
-        </LinkLine>
-        <DialInNumberList
-          dialInNumbers={additionalNumberObjs}
-          selected={additionalNumbers}
-          onChange={updateAdditionalNumbers} />
-      </div>
-    ) : '';
     const bottomClass = [styles.bottom];
     if (mainCtrlOverlapped) bottomClass.push(styles.overlapped);
+    if (bottomClassName) bottomClass.push(bottomClassName);
     setTimeout(this.checkOverlap, 1);
+
     return (
       <div className={styles.container}>
         <div
           className={styles.main}
           onScroll={this.checkOverlap}
-          ref={(ref) => { this.mainCtrl = ref; }}>
+          ref={(ref) => { this.mainCtrl = ref; }}
+        >
           <div className={styles.dialInNumber}>
-            <label>{i18n.getString('dialInNumber', currentLocale)}</label>
+            <label className={styles.title}>{i18n.getString('dialInNumber', currentLocale)}</label>
             <Select
               className={styles.select}
               value={dialInNumber}
@@ -316,43 +294,57 @@ class ConferencePanel extends Component {
               {formatPin(hostCode)}
             </div>
           </div>
-          <div className={styles.formGroup}>
+          <div
+            className={classNames(styles.formGroup, styles.hasBottomBorder)}
+          >
             <label>{i18n.getString('participantsAccess', currentLocale)}</label>
             <div className={styles.field} data-sign="participantCode">
               {formatPin(participantCode)}
             </div>
           </div>
-          {
-            recipientsSection
-          }
-          <div className={styles.formGroup}>
-            <label>{i18n.getString('addinalDialInNumbers', currentLocale)}</label>
-            <span className={styles.field}>
-              <Switch
-                checked={showAdditionalNumbers}
-                onChange={this.onAddionalNumbersSwitch}
-                dataSign="addinalNumbersToggle"
+          {recipientsSection}
+          <MeetingSection
+            className={styles.section}
+            title={i18n.getString('addinalDialInNumbers', currentLocale)}
+          >
+            <div>
+              <LinkLine
+                className={styles.linkLine}
+                onClick={() => { this.setState({ showAdditionalNumberList: true }); }}
+              >
+                {i18n.getString('selectNumbers', currentLocale)}
+              </LinkLine>
+              <DialInNumberList
+                dialInNumbers={additionalNumberObjs}
+                selected={additionalNumbers}
+                onChange={updateAdditionalNumbers}
               />
-            </span>
-            {additionalNumbersCtrl}
-          </div>
-          {
-            showEnableJoinBeforeHost &&
-            <div className={styles.formGroup}>
-              <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
-              <span className={styles.field}>
-                <Switch
-                  checked={allowJoinBeforeHost}
-                  onChange={onAllowJoinBeforeHostChange}
-                  dataSign="enableJoinToggle"
-                />
-              </span>
             </div>
+          </MeetingSection>
+          {
+            showEnableJoinBeforeHost
+            && (
+            <MeetingSection
+              className={styles.section}
+              title={i18n.getString('conferenceOptions', currentLocale)}
+              withSwitch
+            >
+              <div className={classNames(styles.formGroup, styles.hasTopMargin, styles.noPadding)}>
+                <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
+                <span className={styles.field}>
+                  <Switch
+                    checked={allowJoinBeforeHost}
+                    onChange={onAllowJoinBeforeHostChange}
+                    dataSign="enableJoinToggle"
+                  />
+                </span>
+              </div>
+            </MeetingSection>
+            )
           }
-
           <Button
             onClick={showHelpCommands}
-            className={styles.link}>
+            className={styles.section}>
             {i18n.getString('conferenceCommands', currentLocale)}
           </Button>
         </div>
@@ -365,23 +357,30 @@ class ConferencePanel extends Component {
                 getInviteTxt={this.inviteTxt}
                 participantCode={formatPin(participantCode)}
                 key={Date.now()}
-              />)
+              />
+            )
           )}
           {
-            !disableTxtBtn &&
+            !disableTxtBtn
+            && (
             <Button
               className={styles.button}
+              dataSign="inviteWithText"
               onClick={this.inviteWithText}>
               {i18n.getString('inviteWithText', currentLocale)}
             </Button>
+            )
           }
           {
-            showJoinAsHost &&
+            showJoinAsHost
+            && (
             <Button
               className={styles.primaryButton}
+              dataSign="launchConference"
               onClick={joinAsHost}>
               {i18n.getString('joinAsHost', currentLocale)}
             </Button>
+            )
           }
         </div>
       </div>
@@ -405,12 +404,12 @@ ConferencePanel.propTypes = {
   onAllowJoinBeforeHostChange: PropTypes.func.isRequired,
   additionalButtons: PropTypes.array,
   showHelpCommands: PropTypes.func.isRequired,
-  alert: PropTypes.func.isRequired,
   disableTxtBtn: PropTypes.bool.isRequired,
   showJoinAsHost: PropTypes.bool,
   showEnableJoinBeforeHost: PropTypes.bool,
   brand: PropTypes.object.isRequired,
   recipientsSection: PropTypes.node,
+  bottomClassName: PropTypes.string,
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],
@@ -418,6 +417,7 @@ ConferencePanel.defaultProps = {
   recipientsSection: undefined,
   showJoinAsHost: true,
   showEnableJoinBeforeHost: true,
+  bottomClassName: null,
 };
 
 export default ConferencePanel;

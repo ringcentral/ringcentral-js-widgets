@@ -1,5 +1,4 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
-
 export default {
   title: "訊息",
   search: "搜尋……",

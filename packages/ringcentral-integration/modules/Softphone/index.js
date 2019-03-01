@@ -23,6 +23,7 @@ export default class Softphone extends RcModule {
   constructor({
     brand,
     extensionMode = false,
+    callHandler = null,
     ...options
   }) {
     super({
@@ -31,6 +32,7 @@ export default class Softphone extends RcModule {
     });
     this._brand = brand;
     this._extensionMode = extensionMode;
+    this._callHandler = callHandler;
     this._reducer = getSoftphoneReducer(this.actionTypes);
   }
 
@@ -57,15 +59,23 @@ export default class Softphone extends RcModule {
       type: this.actionTypes.startToConnect,
       phoneNumber,
     });
+
+    const cmd = `call?number=${encodeURIComponent(phoneNumber)}`;
+    const uri = `${this.protocol}://${cmd}`;
+
+    if (this._callHandler) {
+      this._callHandler({
+        protocol: this.protocol,
+        command: cmd,
+      });
+    } else if (this._extensionMode) {
     // TODO use window.open in extension background, this method will crash chrome when
     // executed in background page.
-    const uri = `${this.protocol}://call?number=${encodeURIComponent(phoneNumber)}`;
-    if (this._extensionMode) {
       window.open(uri);
     } else if (window.navigator.msLaunchUri) {
       // to support ie to start the service
       window.navigator.msLaunchUri(uri);
-    } else if (window.ActiveXObject || 'ActiveXObject' in window ) {
+    } else if (window.ActiveXObject || 'ActiveXObject' in window) {
       // to support ie on Windows < 8
       window.open(uri);
     } else {

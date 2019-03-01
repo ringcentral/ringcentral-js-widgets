@@ -7,6 +7,7 @@ export default {
   selectNumbers: 'Select Numbers',
   enableJoinBeforeHost: 'Enable join before Host',
   conferenceCommands: 'Conference Commands',
+  conferenceOptions: 'Conference Options',
   inviteWithGCalendar: 'Invite with Google Calendar',
   inviteWithText: 'Invite with Text',
   joinAsHost: 'Launch Conference',

@@ -18,7 +18,7 @@ import runRateLimiterTests from '../../spec-modules/rateLimiter';
 import runBlockedNumberTests from '../../spec-modules/blockedNumber';
 import runForwardingNumberTests from '../../spec-modules/forwardingNumber';
 import runAccountExtensionTests from '../../spec-modules/accountExtension';
-import runAccountPhoneNumberTests from '../../spec-modules/accountPhoneNumber';
+// import runAccountPhoneNumberTests from '../../spec-modules/accountPhoneNumber';
 import runExtensionInfoTests from '../../spec-modules/extensionInfo';
 import runAccountInfoTests from '../../spec-modules/accountInfo';
 import runDialingPlanTests from '../../spec-modules/dialingPlan';
@@ -26,6 +26,7 @@ import runRolesAndPermissionsTests from '../../spec-modules/rolesAndPermissions'
 import runExtensionPhoneNumberTests from '../../spec-modules/extensionPhoneNumber';
 import runPresenceTests from '../../spec-modules/presence';
 import runConferenceCallTests from '../../spec-modules/conferenceCall';
+import runAvailabilityMonitorTests from '../../spec-modules/availabilityMonitor';
 
 let phone = getTestPhone();
 runNumValidInCallTests(phone.auth, phone.alert, phone.client, phone.regionSettings, phone.call,
@@ -93,13 +94,13 @@ runAccountExtensionTests(
   defaultAccount,
 );
 
-phone = getTestPhone();
-runAccountPhoneNumberTests(
-  phone.auth,
-  phone.client,
-  phone.accountPhoneNumber,
-  defaultAccount,
-);
+// phone = getTestPhone();
+// runAccountPhoneNumberTests(
+//   phone.auth,
+//   phone.client,
+//   phone.accountPhoneNumber,
+//   defaultAccount,
+// );
 
 phone = getTestPhone();
 runExtensionInfoTests(
@@ -160,3 +161,9 @@ runConferenceCallTests(
   phone.alert,
   defaultAccount,
 );
+
+phone = getTestPhone();
+runAvailabilityMonitorTests({
+  ...phone,
+  account: defaultAccount,
+});

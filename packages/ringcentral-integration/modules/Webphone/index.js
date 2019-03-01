@@ -22,6 +22,7 @@ import Enum from '../../lib/Enum';
 
 import {
   isBrowserSupport,
+  isChrome,
   normalizeSession,
   isRing,
   isOnHold,
@@ -385,7 +386,8 @@ export default class Webphone extends RcModule {
       media: {
         remote: this._remoteVideo,
         local: this._localVideo,
-      }
+      },
+      enableQos: isChrome(),
     });
     this._webphone.userAgent.audioHelper.loadAudio({
       incoming: incomingAudio, // path to audio file for incoming call

@@ -15,7 +15,9 @@ export default {
   requirePassword: "Exigir senha da reunião",
   password: "Senha",
   enableJoinBeforeHost: "Ativar participação antes de organizar",
-  telephonyOnly: "Somente telefonia"
+  telephonyOnly: "Somente telefonia",
+  hostVideoOn: "Vídeo do organizador ativado",
+  participantVideoOn: "Vídeo do participante ativado"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -35,3 +37,5 @@ export default {
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
+// @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
+// @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@

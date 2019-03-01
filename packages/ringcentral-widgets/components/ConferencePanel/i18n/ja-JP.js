@@ -7,6 +7,7 @@ export default {
   selectNumbers: "番号の選択",
   enableJoinBeforeHost: "ホストより前の参加を可能にする",
   conferenceCommands: "会議コマンド",
+  conferenceOptions: "会議オプション",
   inviteWithGCalendar: "Googleカレンダーを使用して招待",
   inviteWithText: "テキストで招待",
   joinAsHost: "会議を起動",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"conferenceOptions"@#@ @source: @#@"Conference Options"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@

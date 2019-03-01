@@ -11,24 +11,26 @@
     "node": ">=8"
   },
   "scripts": {
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "start": "yarn gulp devServer",
     "dev-server": "yarn gulp devServer",
     "build-extension": "yarn gulp demoExtension"
   },
   "dependencies": {
+    "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/i18n": "^2.0.0",
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^9.3.1",
     "babel-istanbul": "^0.12.1",
-    "babel-loader": "^7.0.0",
+    "babel-loader": "^8.0.4",
     "coveralls": "^2.11.15",
     "css-loader": "^0.28.4",
     "file-loader": "^2.0.0",
     "format-message": "^5.0.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.0",
-    "gulp-babel": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",
     "identity-obj-proxy": "^3.0.0",
@@ -55,11 +57,9 @@
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
     "url-loader": "^1.0.1",
-    "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.4.5",
+    "webpack": "^4.29.0",
+    "webpack-dev-server": "^3.1.14",
     "yargs": "^12.0.5"
   },
-  "peerDependencies": {
-    "babel-runtime": "^6.26.0"
-  }
+  "peerDependencies": {}
 }

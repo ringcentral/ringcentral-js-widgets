@@ -13,6 +13,7 @@ import actionTypes from './actionTypes';
 import getReducer from './getReducer';
 import getDataReducer from './getDataReducer';
 import messageStoreErrors from './errors';
+import debounce from '../../lib/debounce';
 
 const DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
 const DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
@@ -20,6 +21,8 @@ const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
 const DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
 const DEFAULT_MESSAGES_FILTER = list => list;
+// Number of messages to be updated in one time
+const UPDATE_MESSAGE_ONCE_COUNT = 20;
 
 function getSyncParams({
   recordCount, conversationLoadLength, dateFrom, dateTo, syncToken
@@ -61,6 +64,7 @@ function getSyncParams({
     'Subscription',
     'ConnectivityMonitor',
     'RolesAndPermissions',
+    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'MessageStoreOptions', optional: true }
@@ -76,6 +80,7 @@ export default class MessageStore extends Pollable {
     tabManager,
     rolesAndPermissions,
     connectivityMonitor,
+    availabilityMonitor,
     ttl = DEFAULT_TTL,
     polling = false,
     disableCache = false,
@@ -90,12 +95,13 @@ export default class MessageStore extends Pollable {
       ...options,
       actionTypes,
     });
-    this._auth = this:: ensureExist(auth, 'auth');
-    this._alert = this:: ensureExist(alert, 'alert');
-    this._client = this:: ensureExist(client, 'client');
-    this._subscription = this:: ensureExist(subscription, 'subscription');
+
+    this._auth = this::ensureExist(auth, 'auth');
+    this._alert = this::ensureExist(alert, 'alert');
+    this._client = this::ensureExist(client, 'client');
+    this._subscription = this::ensureExist(subscription, 'subscription');
     this._rolesAndPermissions =
-      this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+      this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
 
     if (!disableCache) {
       this._storage = storage;
@@ -105,6 +111,7 @@ export default class MessageStore extends Pollable {
 
     this._tabManager = tabManager;
     this._connectivityMonitor = connectivityMonitor;
+    this._availabilityMonitor = availabilityMonitor;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
     this._polling = polling;
@@ -172,6 +179,7 @@ export default class MessageStore extends Pollable {
       (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
       this._subscription.ready &&
       this._rolesAndPermissions.ready &&
+      (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
     );
   }
@@ -184,7 +192,8 @@ export default class MessageStore extends Pollable {
         !this._subscription.ready ||
         (!!this._connectivityMonitor && !this._connectivityMonitor.ready) ||
         !this._rolesAndPermissions.ready ||
-        (this._tabManager && !this._tabManager.ready)
+        (this._tabManager && !this._tabManager.ready) ||
+        (this._availabilityMonitor && !this._availabilityMonitor.ready)
       ) &&
       this.ready
     );
@@ -433,8 +442,7 @@ export default class MessageStore extends Pollable {
    */
   _dispatchMessageHandlers(records) {
     // Sort all records by creation time
-    records = records.slice().sort((a, b) =>
-      (new Date(a.creationTime)).getTime() - (new Date(b.creationTime)).getTime()
+    records = records.slice().sort((a, b) => (new Date(a.creationTime)).getTime() - (new Date(b.creationTime)).getTime()
     );
     for (const record of records) {
       const {
@@ -517,7 +525,20 @@ export default class MessageStore extends Pollable {
     });
   }
 
+  /**
+   * Batch update messages status
+   *
+   * @param {*} messageIds
+   * @param {*} body
+   * @returns
+   * @memberof MessageStore
+   */
   async _batchUpdateMessagesApi(messageIds, body) {
+    // Not to request when there're no messages
+    if (!messageIds || messageIds.length === 0) {
+      return;
+    }
+
     const ids = decodeURIComponent(messageIds.join(','));
     const platform = this._client.service.platform();
     const responses = await batchPutApi({
@@ -528,35 +549,82 @@ export default class MessageStore extends Pollable {
     return responses;
   }
 
+  /**
+   * Change messages' status to `READ` or `UNREAD`.
+   * Update 20 messages per time with `_batchUpdateMessagesApi`,
+   * or `_updateMessageApi` one by one in recursion.
+   *
+   * @param {*} messageIds
+   * @param {*} status
+   * @returns
+   * @memberof MessageStore
+   */
   async _updateMessagesApi(messageIds, status) {
-    if (messageIds.length === 1) {
-      const result = await this._updateMessageApi(messageIds[0], status);
-      return [result];
+    const allMessageIds = messageIds;
+    if (!allMessageIds || allMessageIds.length === 0) {
+      return [];
     }
-    const UPDATE_MESSAGE_ONCE_COUNT = 20;
-    const leftIds = messageIds.slice(0, UPDATE_MESSAGE_ONCE_COUNT);
-    const rightIds = messageIds.slice(UPDATE_MESSAGE_ONCE_COUNT);
-    const body = leftIds.map(() => (
-      { body: { readStatus: status } }
-    ));
-    const responses = await this._batchUpdateMessagesApi(leftIds, body);
+
     const results = [];
-    responses.forEach((res) => {
-      if (res.response().status === 200) {
-        results.push(res.json());
+
+    for (let index = 0; ; index++) {
+      let nextLength = (index + 1) * UPDATE_MESSAGE_ONCE_COUNT;
+
+      if (nextLength > allMessageIds.length) {
+        nextLength = allMessageIds.length - index * UPDATE_MESSAGE_ONCE_COUNT;
+      } else {
+        nextLength = UPDATE_MESSAGE_ONCE_COUNT;
       }
-    });
-    if (rightIds.length > 0) {
-      const rightResults = await this._updateMessagesApi(rightIds, status);
-      if (rightResults.length > 0) {
-        results.concat(rightResults);
+
+      // If there's only one message, use another api to update its status
+      if (nextLength === 1) {
+        const result = await this._updateMessageApi(messageIds[0], status);
+        return [result];
+      }
+
+      const leftIds = allMessageIds.slice(index * UPDATE_MESSAGE_ONCE_COUNT,
+        index * UPDATE_MESSAGE_ONCE_COUNT + nextLength);
+
+      const body = leftIds.map(() => (
+        { body: { readStatus: status } }
+      ));
+      const responses = await this._batchUpdateMessagesApi(leftIds, body);
+      responses.forEach((res) => {
+        if (res.response().status === 200) {
+          results.push(res.json());
+        }
+      });
+
+      const { ownerId } = this._auth;
+      if (allMessageIds.length > (index + 1) * UPDATE_MESSAGE_ONCE_COUNT) {
+        await sleep(1300);
+        // Check if owner ID has been changed. If it is, cancel this update.
+        if (ownerId !== this._auth.ownerId) {
+          return [];
+        }
+      } else {
+        break;
       }
     }
+
     return results;
   }
 
+  /**
+   * Set message status to `READ`.
+   *
+   * @param {*} conversationId
+   * @returns
+   * @memberof MessageStore
+   */
   @proxify
   async readMessages(conversationId) {
+    this._debouncedSetConversationAsRead(conversationId);
+  }
+
+  _debouncedSetConversationAsRead = debounce(this._setConversationAsRead, 500, true)
+
+  async _setConversationAsRead(conversationId) {
     const messageList = this.conversationStore[conversationId];
     if (!messageList || messageList.length === 0) {
       return null;
@@ -566,13 +634,20 @@ export default class MessageStore extends Pollable {
       return null;
     }
     try {
+      const { ownerId } = this._auth;
       const updatedMessages = await this._updateMessagesApi(unreadMessageIds, 'Read');
+
+      if (ownerId !== this._auth.ownerId) {
+        return;
+      }
+
       this.store.dispatch({
         type: this.actionTypes.updateMessages,
         records: updatedMessages,
       });
     } catch (error) {
       console.error(error);
+
       this._alert.warning({
         message: messageStoreErrors.readFailed,
       });
@@ -580,6 +655,13 @@ export default class MessageStore extends Pollable {
     return null;
   }
 
+  /**
+   * Set message status to `UNREAD`.
+   *
+   * @param {*} conversationId
+   * @returns
+   * @memberof MessageStore
+   */
   @proxify
   async unreadMessage(messageId) {
     //  for track mark message
@@ -710,64 +792,57 @@ export default class MessageStore extends Pollable {
   allConversations = [
     () => this.data && this.data.conversationList,
     () => this.conversationStore,
-    (conversationList = [], conversationStore) =>
-      conversationList.map(
-        (conversationItem) => {
-          const messageList = conversationStore[conversationItem.id] || [];
-          return {
-            ...messageList[0],
-            unreadCounts: messageList.filter(messageHelper.messageIsUnread).length,
-          };
-        }
-      )
+    (conversationList = [], conversationStore) => conversationList.map(
+      (conversationItem) => {
+        const messageList = conversationStore[conversationItem.id] || [];
+        return {
+          ...messageList[0],
+          unreadCounts: messageList.filter(messageHelper.messageIsUnread).length,
+        };
+      }
+    )
   ]
 
   @selector
   textConversations = [
     () => this.allConversations,
-    conversations =>
-      conversations.filter(
-        conversation => messageHelper.messageIsTextMessage(conversation)
-      )
+    conversations => conversations.filter(
+      conversation => messageHelper.messageIsTextMessage(conversation)
+    )
   ]
 
   @selector
   textUnreadCounts = [
     () => this.textConversations,
-    conversations =>
-      conversations.reduce((a, b) => a + b.unreadCounts, 0)
+    conversations => conversations.reduce((a, b) => a + b.unreadCounts, 0)
   ]
 
   @selector
   faxMessages = [
     () => this.allConversations,
-    conversations =>
-      conversations.filter(
-        conversation => messageHelper.messageIsFax(conversation)
-      )
+    conversations => conversations.filter(
+      conversation => messageHelper.messageIsFax(conversation)
+    )
   ]
 
   @selector
   faxUnreadCounts = [
     () => this.faxMessages,
-    conversations =>
-      conversations.reduce((a, b) => a + b.unreadCounts, 0)
+    conversations => conversations.reduce((a, b) => a + b.unreadCounts, 0)
   ]
 
   @selector
   voicemailMessages = [
     () => this.allConversations,
-    conversations =>
-      conversations.filter(
-        conversation => messageHelper.messageIsVoicemail(conversation)
-      )
+    conversations => conversations.filter(
+      conversation => messageHelper.messageIsVoicemail(conversation)
+    )
   ]
 
   @selector
   voiceUnreadCounts = [
     () => this.voicemailMessages,
-    conversations =>
-      conversations.reduce((a, b) => a + b.unreadCounts, 0)
+    conversations => conversations.reduce((a, b) => a + b.unreadCounts, 0)
   ]
 
   @selector

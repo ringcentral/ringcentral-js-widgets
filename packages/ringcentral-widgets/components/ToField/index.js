@@ -139,7 +139,7 @@ export default class ToField extends Component {
     return false;
   }
   // using React SyntheticEvent to deal with cross browser issue
-  handleHotKey = (e: React.KeyboardEvent) => {
+  handleHotKey = (e) => {
     if (this.state.isFocusOnInput && this.props.value.length >= 3) {
       if (e.key === 'ArrowUp') {
         this.reduceSelectedContactIndex();

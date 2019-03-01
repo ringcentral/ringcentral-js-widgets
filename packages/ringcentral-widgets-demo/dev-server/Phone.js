@@ -6,9 +6,10 @@ import RcModule from 'ringcentral-integration/lib/RcModule';
 
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import AccountContacts from 'ringcentral-integration/modules/AccountContacts';
-import AccountExtension from 'ringcentral-integration/modules/AccountExtension';
+import AccountDirectory from 'ringcentral-integration/modules/AccountDirectory';
+// import AccountExtension from 'ringcentral-integration/modules/AccountExtension';
 import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
-import AccountPhoneNumber from 'ringcentral-integration/modules/AccountPhoneNumber';
+// import AccountPhoneNumber from 'ringcentral-integration/modules/AccountPhoneNumber';
 import AddressBook from 'ringcentral-integration/modules/AddressBook';
 import Alert from 'ringcentral-integration/modules/Alert';
 import Auth from 'ringcentral-integration/modules/Auth';
@@ -73,6 +74,7 @@ import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
 import ringoutStatus from 'ringcentral-integration/modules/Ringout/ringoutStatus';
 import softphoneStatus from 'ringcentral-integration/modules/Softphone/softphoneStatus';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import AvailabilityMonitor from 'ringcentral-integration/modules/AvailabilityMonitor';
 import { hashHistory } from 'react-router';
 
 const history = global.process && global.process.release && global.process.release.name === 'node' ?
@@ -108,7 +110,7 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'AudioSettings', useClass: AudioSettings },
     { provide: 'AudioSettingsUI', useClass: AudioSettingsUI },
     { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
-    { provide: 'AccountExtension', useClass: AccountExtension },
+    { provide: 'AccountDirectory', useClass: AccountDirectory },
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
@@ -132,7 +134,7 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'RouterInteraction', useClass: RouterInteraction },
     { provide: 'CallLog', useClass: CallLog },
     { provide: 'CallHistory', useClass: CallHistory },
-    { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
+    // { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
@@ -184,6 +186,14 @@ const history = global.process && global.process.release && global.process.relea
       spread: true
     },
     { provide: 'ConferenceCall', useClass: ConferenceCall },
+    // { provide: 'AvailabilityMonitor', useClass: AvailabilityMonitor },
+    // {
+    //   provide: 'AvailabilityMonitorOptions',
+    //   useValue: {
+    //     enabled: true,
+    //   },
+    //   spread: true
+    // },
     // {
     //   provide: 'ConferenceCallOptions',
     //   useValue: {
@@ -191,6 +201,25 @@ const history = global.process && global.process.release && global.process.relea
     //   },
     //   spread: true,
     // },
+    {
+      provide: 'AccountContactsOptions',
+      useValue: {
+        avatarTtl: 5 * 60 * 1000,
+        presenceTtl: 5 * 60 * 1000,
+        needCheckStatus: false,
+      },
+      spread: true,
+    },
+    {
+      provide: 'AccountDirectoryOptions',
+      useValue: {
+        polling: true,
+        disableCache: false,
+        needCheckStatus: false,
+        showNotActivated: true,
+      },
+      spread: true,
+    },
     {
       provide: 'RouterInteractionOptions',
       useValue: {

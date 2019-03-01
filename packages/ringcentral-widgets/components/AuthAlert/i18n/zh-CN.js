@@ -1,5 +1,4 @@
 import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
-
 export default {
   [authMessages.internalError]: "由于内部错误，登录失败：请稍后再试。",
   [authMessages.accessDenied]: "访问被拒绝。请联系支持。",

@@ -1,7 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { transform } from 'babel-core';
-import { babelrc } from 'babel-settings';
+import { transformSync } from '@babel/core';
 import importLocale from './';
 import exportLocale from '../exportLocale';
 
@@ -81,7 +80,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transform(content, babelrc).code);
+      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
     }).not.toThrow();
     expect(json.modern).toBe('rogue');
     expect(json.whisky).toBe('Changed');
@@ -119,7 +118,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transform(content, babelrc).code);
+      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
     }).not.toThrow();
     expect(json.modern).toBe('rogue');
     expect(json.whisky).toBe(undefined);
@@ -142,7 +141,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transform(content, babelrc).code);
+      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
     }).not.toThrow();
     expect(json.modern).toBe('rogue');
     expect(json.whisky).toBe(undefined);
@@ -174,7 +173,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transform(content, babelrc).code);
+      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
     }).not.toThrow();
 
     expect(json.whisky).toBe('Vault');
@@ -210,7 +209,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transform(content, babelrc).code);
+      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
     }).not.toThrow();
     expect(json.modern).toBe(undefined);
     expect(json.newline).toBe(undefined);
@@ -238,7 +237,7 @@ describe('importLocale', () => {
     expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
     expect(() => {
-      eval(transform(content, babelrc).code);
+      eval(transformSync(content, { filename: 'en-GB.js' }).code);
     }).not.toThrow();
   });
 });

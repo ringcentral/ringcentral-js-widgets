@@ -5,12 +5,10 @@ import DndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import { map } from 'ramda';
 
 import PresenceStatusIcon from '../PresenceStatusIcon';
+import PlaceholderImage from '../PlaceholderImage';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
 import phoneTypes from '../../enums/phoneTypes';
-// import phoneTypeNames from '../../lib/phoneTypeNames';
-
-// import FaxIcon from '../../assets/images/Fax.svg';
 import i18n from './i18n';
 
 import styles from './styles.scss';
@@ -25,10 +23,13 @@ export function getPresenceStatusName(presence, currentLocale) {
 
 function AvatarNode({ name, avatarUrl, isInactive }) {
   const avatarStyle = isInactive ? styles.inactiveAvatarNode : styles.avatarNode;
-  return avatarUrl ? (
-    <img className={avatarStyle} alt={name} src={avatarUrl} />
-  ) : (
-    <DefaultAvatar className={avatarStyle} />
+  return (
+    <PlaceholderImage
+      className={avatarStyle}
+      alt={name}
+      src={avatarUrl}
+      placeholder={<DefaultAvatar className={avatarStyle} />}
+    />
   );
 }
 AvatarNode.propTypes = {

@@ -228,7 +228,7 @@ export default class Presence extends RcModule {
         this.store.dispatch({
           type: this.actionTypes.updateSuccess,
           ...data,
-          lastDndStatus: this.dndStatus,
+          lastDndStatus: this.dndStatus
         });
       }
     } catch (error) {
@@ -253,6 +253,7 @@ export default class Presence extends RcModule {
     }
     return params;
   }
+
   async setAvailable() {
     if (this.userStatus === presenceStatus.available &&
       this.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
@@ -261,6 +262,7 @@ export default class Presence extends RcModule {
     const params = this._getUpdateStatusParams(presenceStatus.available);
     await this._update(params);
   }
+
   async setBusy() {
     if (
       this.userStatus === presenceStatus.busy &&
@@ -280,7 +282,7 @@ export default class Presence extends RcModule {
     }
     const params = {
       dndStatus: dndStatus.doNotAcceptAnyCalls,
-      userStatus: presenceStatus.busy,
+      userStatus: presenceStatus.busy
     };
     await this._update(params);
   }
@@ -294,6 +296,26 @@ export default class Presence extends RcModule {
     }
     const params = this._getUpdateStatusParams(presenceStatus.offline);
     await this._update(params);
+  }
+
+  async setPresence(presenceData) {
+    switch(presenceData) {
+      case presenceStatus.available:
+        await this.setAvailable();
+        break;
+      case presenceStatus.busy:
+        await this.setBusy();
+        break;
+      case dndStatus.doNotAcceptAnyCalls:
+        await this.setDoNotDisturb();
+        break;
+      case presenceStatus.offline:
+        await this.setInvisible();
+        break;
+      default:
+        await this.setAvailable();
+        break;
+    }
   }
 
   async toggleAcceptCallQueueCalls() {
@@ -340,4 +362,33 @@ export default class Presence extends RcModule {
   get presenceStatus() {
     return this.state.presenceStatus;
   }
+
+  get presenceOption() {
+    // available
+    if (
+    this.state.userStatus === presenceStatus.available &&
+    this.state.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
+      return presenceStatus.available
+    }
+
+    // busy
+    if(this.state.userStatus === presenceStatus.busy &&
+    this.state.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
+      return presenceStatus.busy;
+    }
+
+    // doNotDisturb
+    if(this.state.dndStatus === dndStatus.doNotAcceptAnyCalls) {
+      return dndStatus.doNotAcceptAnyCalls;
+    }
+
+    // invisible
+    if(this.state.userStatus === presenceStatus.offline &&
+    this.state.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
+      return presenceStatus.offline
+    }
+
+    return presenceStatus.available
+  }
+
 }

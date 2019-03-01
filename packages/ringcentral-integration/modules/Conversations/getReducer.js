@@ -163,12 +163,12 @@ export function getConversationStatusReducer(types) {
 export function getCorrespondentMatch(types) {
   return (state = [], {
     type,
-    entitys = [],
+    entities = [],
     entity = {}
   }) => {
     switch (type) {
-      case types.addEntity: {
-        const newState = [...entitys];
+      case types.addEntities: {
+        const newState = [...entities];
         return newState;
       }
       case types.removeEntity: {

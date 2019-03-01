@@ -1,13 +1,12 @@
 import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import phoneTypes from '../../../enums/phoneTypes';
-
 export default {
   [phoneTypes.extension]: "Poste",
   [phoneTypes.direct]: "Direct",
   [phoneTypes.mobile]: "Appareil mobile",
   [phoneTypes.home]: "Domicile",
-  [phoneTypes.business]: "Professionnel",
+  [phoneTypes.business]: "Bureau",
   [phoneTypes.fax]: "Télécopieur",
   [phoneTypes.other]: "Autre",
   emailLabel: "Courriel",

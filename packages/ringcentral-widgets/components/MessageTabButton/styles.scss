@@ -93,7 +93,7 @@ $blueWidth:110/150*100%;
 
 .notices {
   position: absolute;
-  bottom: 1.8em;
+  top: calc(54% - 1.4em);
   right: calc(50% - 2.5em);
   width: 2.1em;
   height: 1.5em;

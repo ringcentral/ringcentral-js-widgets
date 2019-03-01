@@ -1,5 +1,4 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-
 export default {
   [webphoneErrors.connectFailed]: "Verbindung mit Webtelefonserver fehlgeschlagen.",
   [webphoneErrors.connected]: "Das Webtelefon wurde registriert.",

@@ -1,5 +1,4 @@
 import regionSettingsMessages from 'ringcentral-integration/modules/RegionSettings/regionSettingsMessages';
-
 export default {
   region: "地區",
   [regionSettingsMessages.saveSuccess]: "設定儲存成功。",

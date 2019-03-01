@@ -2,8 +2,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
 import { reduce, filter, forEach, find } from 'ramda';
-import { parse } from 'babylon';
-import generate from 'babel-generator';
+import { parse } from '@babel/parser';
+import generate from '@babel/generator';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import inquirer from 'inquirer';
 

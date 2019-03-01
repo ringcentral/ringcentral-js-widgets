@@ -31,7 +31,6 @@ import ConferenceCallDialerPage from 'ringcentral-widgets/containers/ConferenceC
 import CallsOnholdPage from 'ringcentral-widgets/containers/CallsOnholdPage';
 import DialerAndCallsTabContainer from 'ringcentral-widgets/containers/DialerAndCallsTabContainer';
 import ConferenceParticipantPage from 'ringcentral-widgets/containers/ConferenceParticipantPage';
-import QuickAccessPage from 'ringcentral-widgets/containers/QuickAccessPage';
 import TransferPage from 'ringcentral-widgets/containers/TransferPage';
 import SimpleActiveCallCtrlPage from 'ringcentral-widgets/containers/SimpleActiveCallCtrlPage';
 
@@ -95,7 +94,6 @@ export default function App({
                   />
                 </IncomingCallPage>
                 <UserGuidePage />
-                <QuickAccessPage />
               </AppView>
             )} >
             <Route

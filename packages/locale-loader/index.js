@@ -1,8 +1,14 @@
 import localeLoader from './lib/localeLoader';
 
-export exportLocale from './lib/exportLocale';
-export importLocale from './lib/importLocale';
-export consolidateLocale from './lib/consolidateLocale';
-export transformLoader from './lib/transformLoader';
+import exportLocale from './lib/exportLocale';
+import importLocale from './lib/importLocale';
+import consolidateLocale from './lib/consolidateLocale';
+import transformLoader from './lib/transformLoader';
 
-export default localeLoader;
+export {
+  exportLocale,
+  importLocale,
+  consolidateLocale,
+  transformLoader,
+  localeLoader as default,
+};

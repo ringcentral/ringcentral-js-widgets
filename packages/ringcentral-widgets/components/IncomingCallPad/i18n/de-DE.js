@@ -3,7 +3,7 @@ export default {
   reply: "Antworten",
   ignore: "Ignorieren",
   toVoicemail: "An Voicemail",
-  answer: "Antwort",
+  answer: "Antworten",
   answerAndEnd: "Antw. u. beenden",
   answerAndHold: "Antw. u. halten"
 };

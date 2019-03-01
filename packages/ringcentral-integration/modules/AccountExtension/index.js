@@ -22,6 +22,7 @@ import proxify from '../../lib/proxy/proxify';
 import extensionTypes from '../../enums/extensionTypes';
 
 const extensionRegExp = /.*\/extension$/;
+
 const DEFAULT_TTL = 24 * 60 * 60 * 1000;
 const DEFAULT_CHECK_STATUS = true;
 
@@ -114,6 +115,7 @@ export default class AccountExtension extends DataFetcher {
       }
     }
   }
+
   async _processExtension(item) {
     const { extensionId, eventType } = item;
     const id = parseInt(extensionId, 10);
