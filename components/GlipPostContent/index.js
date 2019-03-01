@@ -1,80 +1,71 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es6.regexp.replace");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.function.name");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es6.array.map");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _react = _interopRequireDefault(require("react"));
 
-var _classnames = require('classnames');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _Download = require('ringcentral-widgets/assets/images/Download.svg');
+var _Download = _interopRequireDefault(require("ringcentral-widgets/assets/images/Download.svg"));
 
-var _Download2 = _interopRequireDefault(_Download);
+var _isPicture = _interopRequireDefault(require("../../lib/isPicture"));
 
-var _isPicture = require('../../lib/isPicture');
+var _GlipMarkdown = _interopRequireDefault(require("../GlipMarkdown"));
 
-var _isPicture2 = _interopRequireDefault(_isPicture);
-
-var _GlipMarkdown = require('../GlipMarkdown');
-
-var _GlipMarkdown2 = _interopRequireDefault(_GlipMarkdown);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Attachments(_ref) {
   var attachments = _ref.attachments;
-
   var attachmentFiles = attachments.map(function (attachment) {
-    if ((0, _isPicture2.default)(attachment.contentUri)) {
-      return _react2.default.createElement('img', {
+    if ((0, _isPicture.default)(attachment.contentUri)) {
+      return _react.default.createElement("img", {
         key: attachment.name,
         src: attachment.contentUri,
         alt: attachment.name,
-        className: _styles2.default.attachmentImg
+        className: _styles.default.attachmentImg
       });
     }
+
     if (attachment.type === 'Card') {
       // TODO: update message with i18n
       return 'Unsupported message';
     }
-    return _react2.default.createElement(
-      'a',
-      {
-        key: attachment.name,
-        download: true,
-        href: attachment.contentUri,
-        className: _styles2.default.attachmentFile
-      },
-      attachment.name,
-      _react2.default.createElement(
-        'span',
-        { title: 'Download', className: _styles2.default.downloadIcon },
-        _react2.default.createElement(_Download2.default, { width: '18', height: '18' })
-      )
-    );
+
+    return _react.default.createElement("a", {
+      key: attachment.name,
+      download: true,
+      href: attachment.contentUri,
+      className: _styles.default.attachmentFile
+    }, attachment.name, _react.default.createElement("span", {
+      title: "Download",
+      className: _styles.default.downloadIcon
+    }, _react.default.createElement(_Download.default, {
+      width: "18",
+      height: "18"
+    })));
   });
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.attachments },
-    attachmentFiles
-  );
+  return _react.default.createElement("div", {
+    className: _styles.default.attachments
+  }, attachmentFiles);
 }
 
 Attachments.propTypes = {
-  attachments: _propTypes2.default.array.isRequired
+  attachments: _propTypes.default.array.isRequired
 };
 
 function PostContent(_ref2) {
@@ -83,40 +74,40 @@ function PostContent(_ref2) {
       atRender = _ref2.atRender;
 
   if (!post.text && (!post.attachments || post.attachments.length === 0)) {
-    return _react2.default.createElement(
-      'div',
-      { className: (0, _classnames2.default)(_styles2.default.root, className) },
-      'Unsupported message'
-    );
+    return _react.default.createElement("div", {
+      className: (0, _classnames.default)(_styles.default.root, className)
+    }, "Unsupported message");
   }
+
   var text = post.text;
+
   if (text) {
     text = text.replace('[code]', '```\n').replace('[/code]', '\n```\n');
   }
-  var textContent = text ? _react2.default.createElement(_GlipMarkdown2.default, { text: text, atRender: atRender }) : null;
-  var attachments = post.attachments ? _react2.default.createElement(Attachments, { attachments: post.attachments }) : null;
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.root, className) },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.content },
-      textContent,
-      attachments
-    )
-  );
+
+  var textContent = text ? _react.default.createElement(_GlipMarkdown.default, {
+    text: text,
+    atRender: atRender
+  }) : null;
+  var attachments = post.attachments ? _react.default.createElement(Attachments, {
+    attachments: post.attachments
+  }) : null;
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.root, className)
+  }, _react.default.createElement("div", {
+    className: _styles.default.content
+  }, textContent, attachments));
 }
 
 PostContent.propTypes = {
-  post: _propTypes2.default.object.isRequired,
-  className: _propTypes2.default.string,
-  atRender: _propTypes2.default.func
+  post: _propTypes.default.object.isRequired,
+  className: _propTypes.default.string,
+  atRender: _propTypes.default.func
 };
-
 PostContent.defaultProps = {
   className: undefined,
   atRender: undefined
 };
-
-exports.default = PostContent;
+var _default = PostContent;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

@@ -1,106 +1,125 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("core-js/modules/es6.function.name");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.array.index-of");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+require("core-js/modules/es6.array.filter");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+require("core-js/modules/es6.array.find");
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+require("core-js/modules/es6.regexp.replace");
 
-var _react = require('react');
+require("core-js/modules/es6.array.map");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.regexp.match");
 
-var _propTypes = require('prop-types');
+var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _classnames = require('classnames');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _rcTooltip = _interopRequireDefault(require("rc-tooltip"));
 
-var _rcTooltip = require('rc-tooltip');
+require("rc-tooltip/assets/bootstrap_white.css");
 
-var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+require("rc-editor-mention/assets/index.css");
 
-require('rc-tooltip/assets/bootstrap_white.css');
+var _rcEditorMention = _interopRequireWildcard(require("rc-editor-mention"));
 
-require('rc-editor-mention/assets/index.css');
+var _EmojiSelect = _interopRequireDefault(require("../EmojiSelect"));
 
-var _rcEditorMention = require('rc-editor-mention');
+var _emoji = _interopRequireDefault(require("../../assets/images/emoji.png"));
 
-var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
+var _upload = _interopRequireDefault(require("../../assets/images/upload.png"));
 
-var _EmojiSelect = require('../EmojiSelect');
-
-var _EmojiSelect2 = _interopRequireDefault(_EmojiSelect);
-
-var _emoji = require('../../assets/images/emoji.png');
-
-var _emoji2 = _interopRequireDefault(_emoji);
-
-var _upload = require('../../assets/images/upload.png');
-
-var _upload2 = _interopRequireDefault(_upload);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function isOnMobileDevice() {
   if (typeof navigator !== 'undefined') {
     return navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i);
   }
+
   return false;
 }
 
-var GlipChatForm = function (_Component) {
-  (0, _inherits3.default)(GlipChatForm, _Component);
+var GlipChatForm =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(GlipChatForm, _Component);
 
   function GlipChatForm(props) {
-    (0, _classCallCheck3.default)(this, GlipChatForm);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (GlipChatForm.__proto__ || (0, _getPrototypeOf2.default)(GlipChatForm)).call(this, props));
+    _classCallCheck(this, GlipChatForm);
 
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipChatForm).call(this, props));
     _this.state = {
       defaultValue: (0, _rcEditorMention.toEditorState)(props.textValue),
       suggestions: []
     };
+
     _this._onInputChange = function (editorState) {
       _this.setState({
         defaultValue: editorState
       });
+
       if (typeof _this.props.onTextChange === 'function') {
         var mentions = (0, _rcEditorMention.getMentions)(editorState).map(function (mention) {
           var email = mention.replace('@[', '').replace(']', '');
+
           var member = _this.props.members.find(function (m) {
             return m.email === email;
           });
+
           return {
             mention: mention,
             matcherId: member && member.id
           };
         });
+
         _this.props.onTextChange((0, _rcEditorMention.toString)(editorState), mentions);
       }
     };
@@ -108,19 +127,26 @@ var GlipChatForm = function (_Component) {
     _this._onSearchChange = function (value) {
       var members = _this.props.members.filter(function (m) {
         var search = value && value.toLowerCase();
+
         if (!search) {
           return true;
         }
-        var name = (m.firstName + ' ' + m.lastName).toLowerCase();
+
+        var name = "".concat(m.firstName, " ").concat(m.lastName).toLowerCase();
+
         if (name.indexOf(search) > -1) {
           return true;
         }
+
         if (m.email && m.email.indexOf(search) > -1) {
           return true;
         }
+
         return false;
       });
+
       var suggestions = _this._getSuggestions(members);
+
       _this.setState({
         suggestions: suggestions
       });
@@ -128,24 +154,29 @@ var GlipChatForm = function (_Component) {
 
     _this._onSubmit = function (e) {
       _this.props.onSubmit();
+
       e.preventDefault();
     };
 
     _this._onTextAreaKeyDown = function (e) {
       if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
         _this.props.onSubmit();
+
         e.preventDefault();
       }
     };
 
     _this._onSelectEmoji = function (emoji) {
-      var newText = _this.props.textValue ? _this.props.textValue + ' ' + emoji + ' ' : emoji + ' ';
+      var newText = _this.props.textValue ? "".concat(_this.props.textValue, " ").concat(emoji, " ") : "".concat(emoji, " ");
+
       if (typeof _this.props.onTextChange === 'function') {
         _this.props.onTextChange(newText);
       }
+
       _this.setState({
         defaultValue: (0, _rcEditorMention.toEditorState)(newText)
       });
+
       setTimeout(function () {
         if (_this._metionInput) {
           _this._metionInput.reset();
@@ -155,41 +186,50 @@ var GlipChatForm = function (_Component) {
 
     _this._onSelectFile = function (e) {
       var file = e.target.files[0];
+
       if (!file) {
         return;
       }
+
       var reader = new FileReader();
+
       reader.onloadend = function (evt) {
         if (evt.target.readyState === FileReader.DONE) {
           _this.props.onUploadFile(file.name, evt.target.result);
         }
       };
+
       reader.readAsArrayBuffer(file);
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(GlipChatForm, [{
-    key: 'componentDidMount',
+  _createClass(GlipChatForm, [{
+    key: "componentDidMount",
     value: function componentDidMount() {
       this._autoFocus();
     }
   }, {
-    key: 'componentWillReceiveProps',
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       if (this.props.members !== nextProps.members) {
         var suggestions = this._getSuggestions(nextProps.members);
+
         this.setState({
           suggestions: suggestions
         });
       }
+
       if (nextProps.groupId !== this.props.groupId) {
         var _suggestions = this._getSuggestions(nextProps.members);
+
         this.setState({
           suggestions: _suggestions,
           defaultValue: (0, _rcEditorMention.toEditorState)(nextProps.textValue)
         });
       }
+
       if (this.props.textValue !== nextProps.textValue) {
         this.setState({
           defaultValue: (0, _rcEditorMention.toEditorState)(nextProps.textValue)
@@ -197,14 +237,16 @@ var GlipChatForm = function (_Component) {
       }
     }
   }, {
-    key: 'componentDidUpdate',
+    key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       if (prevProps.groupId !== this.props.groupId) {
         this._autoFocus();
+
         if (this._metionInput) {
           this._metionInput.reset();
         }
       }
+
       if (this.props.textValue.length === 0 && prevProps.textValue.length > 0) {
         if (this._metionInput) {
           this._metionInput.reset();
@@ -212,115 +254,119 @@ var GlipChatForm = function (_Component) {
       }
     }
   }, {
-    key: '_getSuggestions',
+    key: "_getSuggestions",
     value: function _getSuggestions(suggestions) {
       return suggestions.map(function (suggestion) {
-        return _react2.default.createElement(
-          _rcEditorMention.Nav,
-          { style: { height: 34 }, value: '[' + suggestion.email + ']', key: suggestion.id },
-          _react2.default.createElement(
-            'span',
-            null,
-            suggestion.firstName,
-            ' ',
-            suggestion.lastName
-          )
-        );
+        return _react.default.createElement(_rcEditorMention.Nav, {
+          style: {
+            height: 34
+          },
+          value: "[".concat(suggestion.email, "]"),
+          key: suggestion.id
+        }, _react.default.createElement("span", null, suggestion.firstName, " ", suggestion.lastName));
       });
     }
   }, {
-    key: '_autoFocus',
+    key: "_autoFocus",
     value: function _autoFocus() {
       if (isOnMobileDevice()) {
         return;
       }
+
       if (this._metionInput) {
         this._metionInput._editor.focusEditor();
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          className = _props.className,
-          placeholder = _props.placeholder,
-          height = _props.height;
-
+      var _this$props = this.props,
+          className = _this$props.className,
+          placeholder = _this$props.placeholder,
+          height = _this$props.height;
       var noFoundString = 'No found.'; // TODO: i18n after string confirmed
-      return _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, className), style: { height: height } },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.tools },
-          _react2.default.createElement(
-            _rcTooltip2.default,
-            {
-              placement: 'top',
-              trigger: 'click',
-              arrowContent: _react2.default.createElement('div', { className: 'rc-tooltip-arrow-inner' }),
-              overlayClassName: _styles2.default.emojisTooltip,
-              overlay: _react2.default.createElement(
-                'div',
-                { style: { width: 250, height: 200 } },
-                _react2.default.createElement(_EmojiSelect2.default, { onSelect: this._onSelectEmoji })
-              )
-            },
-            _react2.default.createElement('img', { alt: 'emoji', src: _emoji2.default, className: _styles2.default.emoji })
-          ),
-          _react2.default.createElement(
-            'label',
-            { className: _styles2.default.file },
-            _react2.default.createElement('img', { alt: 'emoji', src: _upload2.default }),
-            _react2.default.createElement('input', { type: 'file', onChange: this._onSelectFile })
-          )
-        ),
-        _react2.default.createElement(
-          'form',
-          { onSubmit: this._onSubmit },
-          _react2.default.createElement(_rcEditorMention2.default, {
-            style: { width: '100%', height: height - 35, lineHeight: '18px' },
-            className: _styles2.default.mentionInput,
-            ref: function ref(input) {
-              _this2._metionInput = input;
-            },
-            placeholder: placeholder,
-            placement: 'bottom',
-            defaultValue: this.state.defaultValue,
-            onChange: this._onInputChange,
-            onSearchChange: this._onSearchChange,
-            suggestions: this.state.suggestions,
-            prefix: '@',
-            notFoundContent: noFoundString,
-            multiLines: true,
-            mode: 'immutable',
-            onKeyDown: this._onTextAreaKeyDown
-          }),
-          _react2.default.createElement('input', { type: 'submit', className: _styles2.default.submit })
-        )
-      );
+
+      return _react.default.createElement("div", {
+        className: (0, _classnames.default)(_styles.default.root, className),
+        style: {
+          height: height
+        }
+      }, _react.default.createElement("div", {
+        className: _styles.default.tools
+      }, _react.default.createElement(_rcTooltip.default, {
+        placement: "top",
+        trigger: "click",
+        arrowContent: _react.default.createElement("div", {
+          className: "rc-tooltip-arrow-inner"
+        }),
+        overlayClassName: _styles.default.emojisTooltip,
+        overlay: _react.default.createElement("div", {
+          style: {
+            width: 250,
+            height: 200
+          }
+        }, _react.default.createElement(_EmojiSelect.default, {
+          onSelect: this._onSelectEmoji
+        }))
+      }, _react.default.createElement("img", {
+        alt: "emoji",
+        src: _emoji.default,
+        className: _styles.default.emoji
+      })), _react.default.createElement("label", {
+        className: _styles.default.file
+      }, _react.default.createElement("img", {
+        alt: "emoji",
+        src: _upload.default
+      }), _react.default.createElement("input", {
+        type: "file",
+        onChange: this._onSelectFile
+      }))), _react.default.createElement("form", {
+        onSubmit: this._onSubmit
+      }, _react.default.createElement(_rcEditorMention.default, {
+        style: {
+          width: '100%',
+          height: height - 35,
+          lineHeight: '18px'
+        },
+        className: _styles.default.mentionInput,
+        ref: function ref(input) {
+          _this2._metionInput = input;
+        },
+        placeholder: placeholder,
+        placement: "bottom",
+        defaultValue: this.state.defaultValue,
+        onChange: this._onInputChange,
+        onSearchChange: this._onSearchChange,
+        suggestions: this.state.suggestions,
+        prefix: "@",
+        notFoundContent: noFoundString,
+        multiLines: true,
+        mode: "immutable",
+        onKeyDown: this._onTextAreaKeyDown
+      }), _react.default.createElement("input", {
+        type: "submit",
+        className: _styles.default.submit
+      })));
     }
   }]);
+
   return GlipChatForm;
 }(_react.Component);
 
 exports.default = GlipChatForm;
-
-
 GlipChatForm.propTypes = {
-  textValue: _propTypes2.default.string,
-  className: _propTypes2.default.string,
-  onTextChange: _propTypes2.default.func,
-  onSubmit: _propTypes2.default.func.isRequired,
-  onUploadFile: _propTypes2.default.func.isRequired,
-  placeholder: _propTypes2.default.string,
-  groupId: _propTypes2.default.string,
-  members: _propTypes2.default.array,
-  height: _propTypes2.default.number
+  textValue: _propTypes.default.string,
+  className: _propTypes.default.string,
+  onTextChange: _propTypes.default.func,
+  onSubmit: _propTypes.default.func.isRequired,
+  onUploadFile: _propTypes.default.func.isRequired,
+  placeholder: _propTypes.default.string,
+  groupId: _propTypes.default.string,
+  members: _propTypes.default.array,
+  height: _propTypes.default.number
 };
-
 GlipChatForm.defaultProps = {
   className: undefined,
   textValue: '',

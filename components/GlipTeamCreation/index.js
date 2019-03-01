@@ -1,74 +1,81 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("core-js/modules/es6.symbol");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.promise");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.object.define-property");
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es6.object.create");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.array.map");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.function.name");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.array.find-index");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+require("regenerator-runtime/runtime");
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+require("core-js/modules/es6.array.filter");
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _Modal = _interopRequireDefault(require("ringcentral-widgets/components/Modal"));
 
-var _react = require('react');
+var _SearchInput = _interopRequireDefault(require("ringcentral-widgets/components/SearchInput"));
 
-var _react2 = _interopRequireDefault(_react);
+var _TextInput = _interopRequireDefault(require("ringcentral-widgets/components/TextInput"));
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _Modal = require('ringcentral-widgets/components/Modal');
-
-var _Modal2 = _interopRequireDefault(_Modal);
-
-var _SearchInput = require('ringcentral-widgets/components/SearchInput');
-
-var _SearchInput2 = _interopRequireDefault(_SearchInput);
-
-var _TextInput = require('ringcentral-widgets/components/TextInput');
-
-var _TextInput2 = _interopRequireDefault(_TextInput);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var GlipTeamCreationModal = function (_Component) {
-  (0, _inherits3.default)(GlipTeamCreationModal, _Component);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var GlipTeamCreationModal =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(GlipTeamCreationModal, _Component);
 
   function GlipTeamCreationModal(props) {
-    var _this2 = this;
+    var _this;
 
-    (0, _classCallCheck3.default)(this, GlipTeamCreationModal);
+    _classCallCheck(this, GlipTeamCreationModal);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (GlipTeamCreationModal.__proto__ || (0, _getPrototypeOf2.default)(GlipTeamCreationModal)).call(this, props));
-
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipTeamCreationModal).call(this, props));
     _this.state = {
       selectedContacts: [],
       teamName: '',
@@ -80,12 +87,15 @@ var GlipTeamCreationModal = function (_Component) {
       _this.setState({
         error: null
       });
+
       var searchString = e.target.value;
+
       _this.props.updateFilter(searchString);
     };
 
     _this.updateTeamName = function (e) {
       var name = e.target.value;
+
       _this.setState({
         teamName: name,
         error: null
@@ -104,15 +114,21 @@ var GlipTeamCreationModal = function (_Component) {
 
     _this.onCancel = function () {
       _this.props.updateFilter('');
+
       _this.props.closeModal();
+
       _this.setState({
         selectedContacts: [],
         teamName: ''
       });
     };
 
-    _this.onConfirm = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-      return _regenerator2.default.wrap(function _callee$(_context) {
+    _this.onConfirm =
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -121,7 +137,7 @@ var GlipTeamCreationModal = function (_Component) {
                 break;
               }
 
-              return _context.abrupt('return');
+              return _context.abrupt("return");
 
             case 2:
               if (!(_this.state.teamName === '')) {
@@ -130,8 +146,11 @@ var GlipTeamCreationModal = function (_Component) {
               }
 
               // TODO: update error message with i18n
-              _this.setState({ error: 'Please enter a valid team name.' });
-              return _context.abrupt('return');
+              _this.setState({
+                error: 'Please enter a valid team name.'
+              });
+
+              return _context.abrupt("return");
 
             case 5:
               if (!(_this.state.selectedContacts.length === 0)) {
@@ -140,49 +159,64 @@ var GlipTeamCreationModal = function (_Component) {
               }
 
               // TODO: update error message with i18n
-              _this.setState({ error: 'Please select team number.' });
-              return _context.abrupt('return');
+              _this.setState({
+                error: 'Please select team number.'
+              });
+
+              return _context.abrupt("return");
 
             case 8:
-              _this.setState({ creating: true });
+              _this.setState({
+                creating: true
+              });
+
               _context.prev = 9;
               _context.next = 12;
               return _this.props.createTeam(_this.state);
 
             case 12:
               _this.props.updateFilter('');
+
               _this.setState({
                 selectedContacts: [],
                 teamName: '',
                 creating: false
               });
+
               _this.props.closeModal();
+
               _context.next = 21;
               break;
 
             case 17:
               _context.prev = 17;
-              _context.t0 = _context['catch'](9);
-
+              _context.t0 = _context["catch"](9);
               console.log(_context.t0.message);
-              _this.setState({ error: _context.t0.message, creating: false });
+
+              _this.setState({
+                error: _context.t0.message,
+                creating: false
+              });
 
             case 21:
-            case 'end':
+            case "end":
               return _context.stop();
           }
         }
-      }, _callee, _this2, [[9, 17]]);
+      }, _callee, null, [[9, 17]]);
     }));
 
     _this.addContact = function (contact) {
       _this.setState({
         error: null
       });
+
       var email = contact.email || contact.emails && contact.emails[0];
+
       var oldIndex = _this.state.selectedContacts.findIndex(function (c) {
         return c.email === email;
       });
+
       if (oldIndex > -1) {
         return;
       }
@@ -193,120 +227,91 @@ var GlipTeamCreationModal = function (_Component) {
           email: email
         }].concat(_this.state.selectedContacts)
       });
+
       _this.props.updateFilter('');
     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(GlipTeamCreationModal, [{
-    key: 'render',
+  _createClass(GlipTeamCreationModal, [{
+    key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
-      var contacts = void 0;
+      var contacts;
+
       if (this.props.searchFilter.length < 3) {
         contacts = [];
       } else {
         contacts = this.props.filteredContacts.filter(function (c) {
           return c.emails.length;
         }).slice(0, 10);
-      }
-      // TODO: update title message with i18n
-      return _react2.default.createElement(
-        _Modal2.default,
-        {
-          onConfirm: this.onConfirm,
-          onCancel: this.onCancel,
-          currentLocale: 'en-US',
-          show: this.props.show,
-          title: 'Create Team',
-          textCancel: 'Close',
-          textConfirm: this.state.creating ? 'Creating' : 'Create'
-        },
-        this.state.error ? _react2.default.createElement(
-          'div',
-          { className: _styles2.default.errorMessage },
-          this.state.error
-        ) : null,
-        _react2.default.createElement(_TextInput2.default, {
-          className: _styles2.default.teamName,
-          value: this.state.teamName,
-          onChange: this.updateTeamName,
-          placeholder: 'Team name'
-        }),
-        _react2.default.createElement(_SearchInput2.default, {
-          className: _styles2.default.searchInput,
-          value: this.props.searchFilter,
-          onChange: this.updateSeachString,
-          placeholder: 'Search and add people..'
-        }),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.selectedContacts },
-          this.state.selectedContacts.map(function (contact) {
-            return _react2.default.createElement(
-              'span',
-              {
-                className: _styles2.default.selectedContactItem,
-                key: contact.email
-              },
-              contact.name,
-              _react2.default.createElement(
-                'span',
-                {
-                  className: _styles2.default.closeIcon,
-                  onClick: function onClick() {
-                    return _this3.removeContact(contact.email);
-                  }
-                },
-                'x'
-              )
-            );
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.contacts },
-          contacts.map(function (contact) {
-            return _react2.default.createElement(
-              'div',
-              {
-                className: _styles2.default.contactItem,
-                key: contact.email || contact.emails && contact.emails[0],
-                onClick: function onClick() {
-                  return _this3.addContact(contact);
-                }
-              },
-              _react2.default.createElement(
-                'div',
-                { className: _styles2.default.contactName, title: contact.name },
-                contact.name
-              ),
-              _react2.default.createElement(
-                'div',
-                {
-                  className: _styles2.default.contactEmail,
-                  title: contact.email || contact.emails && contact.emails[0] },
-                contact.email || contact.emails && contact.emails[0]
-              )
-            );
-          })
-        )
-      );
+      } // TODO: update title message with i18n
+
+
+      return _react.default.createElement(_Modal.default, {
+        onConfirm: this.onConfirm,
+        onCancel: this.onCancel,
+        currentLocale: "en-US",
+        show: this.props.show,
+        title: "Create Team",
+        textCancel: "Close",
+        textConfirm: this.state.creating ? 'Creating' : 'Create'
+      }, this.state.error ? _react.default.createElement("div", {
+        className: _styles.default.errorMessage
+      }, this.state.error) : null, _react.default.createElement(_TextInput.default, {
+        className: _styles.default.teamName,
+        value: this.state.teamName,
+        onChange: this.updateTeamName,
+        placeholder: "Team name"
+      }), _react.default.createElement(_SearchInput.default, {
+        className: _styles.default.searchInput,
+        value: this.props.searchFilter,
+        onChange: this.updateSeachString,
+        placeholder: "Search and add people.."
+      }), _react.default.createElement("div", {
+        className: _styles.default.selectedContacts
+      }, this.state.selectedContacts.map(function (contact) {
+        return _react.default.createElement("span", {
+          className: _styles.default.selectedContactItem,
+          key: contact.email
+        }, contact.name, _react.default.createElement("span", {
+          className: _styles.default.closeIcon,
+          onClick: function onClick() {
+            return _this2.removeContact(contact.email);
+          }
+        }, "x"));
+      })), _react.default.createElement("div", {
+        className: _styles.default.contacts
+      }, contacts.map(function (contact) {
+        return _react.default.createElement("div", {
+          className: _styles.default.contactItem,
+          key: contact.email || contact.emails && contact.emails[0],
+          onClick: function onClick() {
+            return _this2.addContact(contact);
+          }
+        }, _react.default.createElement("div", {
+          className: _styles.default.contactName,
+          title: contact.name
+        }, contact.name), _react.default.createElement("div", {
+          className: _styles.default.contactEmail,
+          title: contact.email || contact.emails && contact.emails[0]
+        }, contact.email || contact.emails && contact.emails[0]));
+      })));
     }
   }]);
+
   return GlipTeamCreationModal;
 }(_react.Component);
 
 exports.default = GlipTeamCreationModal;
-
-
 GlipTeamCreationModal.propTypes = {
-  show: _propTypes2.default.bool.isRequired,
-  closeModal: _propTypes2.default.func.isRequired,
-  createTeam: _propTypes2.default.func.isRequired,
-  updateFilter: _propTypes2.default.func.isRequired,
-  searchFilter: _propTypes2.default.string.isRequired,
-  filteredContacts: _propTypes2.default.array.isRequired
+  show: _propTypes.default.bool.isRequired,
+  closeModal: _propTypes.default.func.isRequired,
+  createTeam: _propTypes.default.func.isRequired,
+  updateFilter: _propTypes.default.func.isRequired,
+  searchFilter: _propTypes.default.string.isRequired,
+  filteredContacts: _propTypes.default.array.isRequired
 };
 //# sourceMappingURL=index.js.map

@@ -1,79 +1,57 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = EmojiSelect;
 
-var _react = require('react');
+require("core-js/modules/es6.array.map");
 
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = require('prop-types');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _classnames = require('classnames');
+var _reactEmojione = _interopRequireDefault(require("react-emojione"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _emojione = _interopRequireDefault(require("../../assets/images/emojione.png"));
 
-var _reactEmojione = require('react-emojione');
+var _emojis = _interopRequireDefault(require("./emojis.json"));
 
-var _reactEmojione2 = _interopRequireDefault(_reactEmojione);
-
-var _emojione = require('../../assets/images/emojione.png');
-
-var _emojione2 = _interopRequireDefault(_emojione);
-
-var _emojis = require('./emojis.json');
-
-var _emojis2 = _interopRequireDefault(_emojis);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function EmojiSelect(_ref) {
   var onSelect = _ref.onSelect,
       className = _ref.className;
-
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.root, className) },
-    _emojis2.default.map(function (emoji) {
-      var emojsStr = ':' + emoji + ':';
-      return _react2.default.createElement(
-        'span',
-        {
-          key: emoji,
-          className: _styles2.default.emoji,
-          onClick: function onClick() {
-            return onSelect(emojsStr);
-          }
-        },
-        _react2.default.createElement(
-          _reactEmojione2.default,
-          {
-            style: {
-              width: 25,
-              height: 25,
-              backgroundImage: 'url("' + _emojione2.default + '")'
-            }
-          },
-          emojsStr
-        )
-      );
-    })
-  );
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.root, className)
+  }, _emojis.default.map(function (emoji) {
+    var emojsStr = ":".concat(emoji, ":");
+    return _react.default.createElement("span", {
+      key: emoji,
+      className: _styles.default.emoji,
+      onClick: function onClick() {
+        return onSelect(emojsStr);
+      }
+    }, _react.default.createElement(_reactEmojione.default, {
+      style: {
+        width: 25,
+        height: 25,
+        backgroundImage: "url(\"".concat(_emojione.default, "\")")
+      }
+    }, emojsStr));
+  }));
 }
 
 EmojiSelect.propTypes = {
-  onSelect: _propTypes2.default.func.isRequired,
-  className: _propTypes2.default.string
+  onSelect: _propTypes.default.func.isRequired,
+  className: _propTypes.default.string
 };
-
 EmojiSelect.defaultProps = {
   className: undefined
 };

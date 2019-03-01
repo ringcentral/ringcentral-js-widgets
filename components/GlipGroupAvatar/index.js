@@ -1,28 +1,29 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require('react');
+require("core-js/modules/es6.string.small");
 
-var _react2 = _interopRequireDefault(_react);
+require("core-js/modules/es6.array.map");
 
-var _propTypes = require('prop-types');
+require("core-js/modules/es6.string.big");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+require("core-js/modules/es6.array.filter");
 
-var _classnames = require('classnames');
+var _react = _interopRequireDefault(require("react"));
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _default_avatar = require('../../assets/images/default_avatar.png');
+var _classnames = _interopRequireDefault(require("classnames"));
 
-var _default_avatar2 = _interopRequireDefault(_default_avatar);
+var _default_avatar = _interopRequireDefault(require("../../assets/images/default_avatar.png"));
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30,59 +31,54 @@ function GroupAvatar(_ref) {
   var persons = _ref.persons,
       className = _ref.className,
       unread = _ref.unread;
+  var image;
 
-  var image = void 0;
   if (persons.length <= 2) {
     var personsWithoutMe = persons.filter(function (p) {
       return !p.isMe;
     });
     var person = personsWithoutMe && personsWithoutMe[0];
-    image = _react2.default.createElement('img', {
-      className: _styles2.default.big,
-      src: person && person.avatar || _default_avatar2.default,
+    image = _react.default.createElement("img", {
+      className: _styles.default.big,
+      src: person && person.avatar || _default_avatar.default,
       alt: person && person.id
     });
   } else {
-    image = _react2.default.createElement(
-      'div',
-      { className: _styles2.default.images },
-      persons.slice(0, 9).map(function (person) {
-        return _react2.default.createElement('img', {
-          key: person.id,
-          className: _styles2.default.small,
-          src: person && person.avatar || _default_avatar2.default,
-          alt: person && person.id
-        });
-      })
-    );
+    image = _react.default.createElement("div", {
+      className: _styles.default.images
+    }, persons.slice(0, 9).map(function (person) {
+      return _react.default.createElement("img", {
+        key: person.id,
+        className: _styles.default.small,
+        src: person && person.avatar || _default_avatar.default,
+        alt: person && person.id
+      });
+    }));
   }
-  var unreadEl = void 0;
+
+  var unreadEl;
+
   if (unread > 0) {
-    unreadEl = _react2.default.createElement(
-      'span',
-      { className: _styles2.default.unread },
-      unread > 99 ? '99+' : unread
-    );
+    unreadEl = _react.default.createElement("span", {
+      className: _styles.default.unread
+    }, unread > 99 ? '99+' : unread);
   }
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.root, className) },
-    image,
-    unreadEl
-  );
+
+  return _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.root, className)
+  }, image, unreadEl);
 }
 
 GroupAvatar.propTypes = {
-  className: _propTypes2.default.string,
-  persons: _propTypes2.default.array,
-  unread: _propTypes2.default.number
+  className: _propTypes.default.string,
+  persons: _propTypes.default.array,
+  unread: _propTypes.default.number
 };
-
 GroupAvatar.defaultProps = {
   className: undefined,
   unread: 0,
   persons: []
 };
-
-exports.default = GroupAvatar;
+var _default = GroupAvatar;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

@@ -1,36 +1,35 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _regenerator = require('babel-runtime/regenerator');
+require("core-js/modules/es6.promise");
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+require("regenerator-runtime/runtime");
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+require("core-js/modules/es6.function.name");
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+require("core-js/modules/es6.array.find");
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _reactRedux = require("react-redux");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _withPhone = _interopRequireDefault(require("ringcentral-widgets/lib/withPhone"));
 
-var _reactRedux = require('react-redux');
-
-var _withPhone = require('ringcentral-widgets/lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
-
-var _GlipChatPanel = require('../../components/GlipChatPanel');
-
-var _GlipChatPanel2 = _interopRequireDefault(_GlipChatPanel);
+var _GlipChatPanel = _interopRequireDefault(require("../../components/GlipChatPanel"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function getAtRender(_ref) {
   var glipGroups = _ref.glipGroups,
@@ -41,8 +40,8 @@ function getAtRender(_ref) {
   var AtRender = function AtRender(_ref2) {
     var id = _ref2.id,
         type = _ref2.type;
-
     var name = id;
+
     if (type === 'Team') {
       var group = glipGroups.allGroups.find(function (g) {
         return g.id === id;
@@ -50,26 +49,28 @@ function getAtRender(_ref) {
       name = group && group.name;
     } else {
       var person = glipPersons.personsMap[id];
-      name = person && '' + person.firstName + (person.lastName ? ' ' + person.lastName : '') || id;
+      name = person && "".concat(person.firstName).concat(person.lastName ? " ".concat(person.lastName) : '') || id;
     }
+
     var onClickAtLink = function onClickAtLink(e) {
       e.preventDefault();
+
       if (type === 'Person') {
         onViewPersonProfile(id);
       } else if (type === 'Team') {
         onViewGroup(id);
       }
     };
-    return _react2.default.createElement(
-      'a',
-      { href: '#' + id, onClick: onClickAtLink },
-      '@',
-      name
-    );
+
+    return _react.default.createElement("a", {
+      href: "#".concat(id),
+      onClick: onClickAtLink
+    }, "@", name);
   };
+
   AtRender.propTypes = {
-    id: _propTypes2.default.string.isRequired,
-    type: _propTypes2.default.string.isRequired
+    id: _propTypes.default.string.isRequired,
+    type: _propTypes.default.string.isRequired
   };
   return AtRender;
 }
@@ -79,7 +80,6 @@ function mapToProps(_, _ref3) {
       _ref3$phone = _ref3.phone,
       glipGroups = _ref3$phone.glipGroups,
       glipPosts = _ref3$phone.glipPosts;
-
   return {
     groupId: params.groupId,
     group: glipGroups.currentGroup,
@@ -95,22 +95,25 @@ function mapToFunctions(_, _ref4) {
       glipPersons = _ref4$phone.glipPersons,
       dateTimeFormat = _ref4$phone.dateTimeFormat,
       _ref4$dateTimeFormatt = _ref4.dateTimeFormatter,
-      dateTimeFormatter = _ref4$dateTimeFormatt === undefined ? function (time) {
-    return dateTimeFormat.formatDateTime({ utcTimestamp: time });
+      dateTimeFormatter = _ref4$dateTimeFormatt === void 0 ? function (time) {
+    return dateTimeFormat.formatDateTime({
+      utcTimestamp: time
+    });
   } : _ref4$dateTimeFormatt,
       onViewPersonProfile = _ref4.onViewPersonProfile,
       onViewGroup = _ref4.onViewGroup,
       _ref4$mobile = _ref4.mobile,
-      mobile = _ref4$mobile === undefined ? true : _ref4$mobile;
-
+      mobile = _ref4$mobile === void 0 ? true : _ref4$mobile;
   return {
     mobile: mobile,
     loadGroup: function loadGroup(groupId) {
       glipGroups.updateCurrentGroupId(groupId);
     },
     loadNextPage: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _loadNextPage = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -118,22 +121,24 @@ function mapToFunctions(_, _ref4) {
                 return glipPosts.loadNextPage(glipGroups.currentGroupId);
 
               case 2:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee);
       }));
 
       function loadNextPage() {
-        return _ref5.apply(this, arguments);
+        return _loadNextPage.apply(this, arguments);
       }
 
       return loadNextPage;
     }(),
     createPost: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _createPost = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -143,15 +148,15 @@ function mapToFunctions(_, _ref4) {
                 });
 
               case 2:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2);
       }));
 
       function createPost() {
-        return _ref6.apply(this, arguments);
+        return _createPost.apply(this, arguments);
       }
 
       return createPost;
@@ -163,7 +168,6 @@ function mapToFunctions(_, _ref4) {
         mentions: mentions
       });
     },
-
     uploadFile: function uploadFile(fileName, rawFile) {
       return glipPosts.sendFile({
         fileName: fileName,
@@ -182,12 +186,11 @@ function mapToFunctions(_, _ref4) {
         onViewPersonProfile(personId);
       }
     },
-
     dateTimeFormatter: dateTimeFormatter
   };
 }
 
-var GlipChatPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_GlipChatPanel2.default));
-
-exports.default = GlipChatPage;
+var GlipChatPage = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_GlipChatPanel.default));
+var _default = GlipChatPage;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

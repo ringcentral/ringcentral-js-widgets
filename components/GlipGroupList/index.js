@@ -1,88 +1,89 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = void 0;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+require("core-js/modules/es7.symbol.async-iterator");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+require("core-js/modules/es6.symbol");
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+require("core-js/modules/es6.object.define-property");
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+require("core-js/modules/es6.object.create");
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+require("core-js/modules/es6.object.set-prototype-of");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _react = _interopRequireWildcard(require("react"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _reactVirtualized = require("react-virtualized");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactVirtualized = require('react-virtualized');
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _GlipGroupItem = require('../GlipGroupItem');
-
-var _GlipGroupItem2 = _interopRequireDefault(_GlipGroupItem);
+var _GlipGroupItem = _interopRequireDefault(require("../GlipGroupItem"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var GlipGroupList = function (_PureComponent) {
-  (0, _inherits3.default)(GlipGroupList, _PureComponent);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var GlipGroupList =
+/*#__PURE__*/
+function (_PureComponent) {
+  _inherits(GlipGroupList, _PureComponent);
 
   function GlipGroupList(props) {
-    (0, _classCallCheck3.default)(this, GlipGroupList);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (GlipGroupList.__proto__ || (0, _getPrototypeOf2.default)(GlipGroupList)).call(this, props));
+    _classCallCheck(this, GlipGroupList);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipGroupList).call(this, props));
 
     _this._rowRenderer = function (_ref) {
       var index = _ref.index,
           key = _ref.key,
           style = _ref.style;
-
       var group = _this.props.groups[index];
-      return _react2.default.createElement(
-        'div',
-        {
-          key: key,
-          style: style
+      return _react.default.createElement("div", {
+        key: key,
+        style: style
+      }, _react.default.createElement(_GlipGroupItem.default, {
+        group: group,
+        active: group.id === _this.props.currentGroupId,
+        onSelectGroup: function onSelectGroup() {
+          _this.props.onSelectGroup(group.id);
         },
-        _react2.default.createElement(_GlipGroupItem2.default, {
-          group: group,
-          active: group.id === _this.props.currentGroupId,
-          onSelectGroup: function onSelectGroup() {
-            _this.props.onSelectGroup(group.id);
-          },
-          className: _styles2.default.item
-        })
-      );
+        className: _styles.default.item
+      }));
     };
 
     _this._rowHeight = 75;
-    _this._list = _react2.default.createRef();
+    _this._list = _react.default.createRef();
     return _this;
   }
 
-  (0, _createClass3.default)(GlipGroupList, [{
-    key: 'componentDidUpdate',
+  _createClass(GlipGroupList, [{
+    key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       if (this.props.groups !== prevProps.groups || this.props.currentGroupId !== prevProps.currentGroupId) {
         if (this._list && this._list.current) {
@@ -91,15 +92,14 @@ var GlipGroupList = function (_PureComponent) {
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var _props = this.props,
-          groups = _props.groups,
-          width = _props.width,
-          height = _props.height,
-          className = _props.className;
-
-      return _react2.default.createElement(_reactVirtualized.List, {
+      var _this$props = this.props,
+          groups = _this$props.groups,
+          width = _this$props.width,
+          height = _this$props.height,
+          className = _this$props.className;
+      return _react.default.createElement(_reactVirtualized.List, {
         ref: this._list,
         className: className,
         width: width,
@@ -110,21 +110,19 @@ var GlipGroupList = function (_PureComponent) {
       });
     }
   }]);
+
   return GlipGroupList;
 }(_react.PureComponent);
 
 exports.default = GlipGroupList;
-
-
 GlipGroupList.propTypes = {
-  className: _propTypes2.default.string,
-  groups: _propTypes2.default.array,
-  onSelectGroup: _propTypes2.default.func.isRequired,
-  currentGroupId: _propTypes2.default.string,
-  width: _propTypes2.default.number.isRequired,
-  height: _propTypes2.default.number.isRequired
+  className: _propTypes.default.string,
+  groups: _propTypes.default.array,
+  onSelectGroup: _propTypes.default.func.isRequired,
+  currentGroupId: _propTypes.default.string,
+  width: _propTypes.default.number.isRequired,
+  height: _propTypes.default.number.isRequired
 };
-
 GlipGroupList.defaultProps = {
   className: undefined,
   groups: [],

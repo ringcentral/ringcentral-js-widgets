@@ -4,6 +4,7 @@
   "description": "RingCentral Integration Glip Widgets Library",
   "main": "index.js",
   "scripts": {
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "yarn gulp build",
     "release": "yarn gulp release",
     "eslint": "eslint --quiet ."
@@ -19,7 +20,6 @@
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
-    "babel-runtime": "^6.26.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.1",
@@ -29,13 +29,14 @@
     "ringcentral-widgets": "^0.10.0"
   },
   "devDependencies": {
-    "@ringcentral-integration/locale-loader": "^2.0.0",
+    "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "autoprefixer": "^9.3.1",
     "execa": "^1.0.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.0",
-    "gulp-babel": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",
     "identity-obj-proxy": "^3.0.0",
