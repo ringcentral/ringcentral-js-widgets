@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/locale-loader",
-  "version": "2.0.0",
+  "version": "0.10.3",
   "description": "Locale Loader for webpack",
   "main": "index.js",
   "repository": {
@@ -23,9 +23,6 @@
     "dedent": "^0.7.0",
     "fs-extra": "^7.0.1",
     "glob": "^7.1.2",
-    "gulp": "^4.0.0",
-    "gulp-babel": "^8.0.0",
-    "gulp-sourcemaps": "^2.6.4",
     "inquirer": "^6.0.0",
     "loader-utils": "^1.1.0",
     "ramda": "^0.25.0",
