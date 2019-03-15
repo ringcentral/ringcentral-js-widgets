@@ -86,7 +86,8 @@ function ActiveCallPanel(_ref) {
       conferenceCallParties = _ref.conferenceCallParties,
       lastCallInfo = _ref.lastCallInfo,
       getAvatarUrl = _ref.getAvatarUrl,
-      actions = _ref.actions;
+      actions = _ref.actions,
+      controlBusy = _ref.controlBusy;
   var backHeader = showBackButton ? _react.default.createElement(_BackHeader.default, {
     onBackClick: onBackButtonClick,
     backButton: _react.default.createElement(_BackButton.default, {
@@ -180,7 +181,8 @@ function ActiveCallPanel(_ref) {
     mergeDisabled: mergeDisabled,
     conferenceCallEquipped: conferenceCallEquipped,
     hasConferenceCall: hasConferenceCall,
-    actions: actions
+    actions: actions,
+    controlBusy: controlBusy
   }), children));
 }
 
@@ -233,7 +235,8 @@ ActiveCallPanel.propTypes = {
   hasConferenceCall: _propTypes.default.bool,
   lastCallInfo: _propTypes.default.object,
   getAvatarUrl: _propTypes.default.func,
-  actions: _propTypes.default.array
+  actions: _propTypes.default.array,
+  controlBusy: _propTypes.default.bool
 };
 ActiveCallPanel.defaultProps = {
   startTime: null,
@@ -273,7 +276,8 @@ ActiveCallPanel.defaultProps = {
   getAvatarUrl: function getAvatarUrl() {
     return null;
   },
-  actions: []
+  actions: [],
+  controlBusy: false
 };
 var _default = ActiveCallPanel;
 exports.default = _default;

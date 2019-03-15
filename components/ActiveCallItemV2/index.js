@@ -97,7 +97,8 @@ function WebphoneButtons(_ref) {
       showMergeCall = _ref.showMergeCall,
       showHold = _ref.showHold,
       disableMerge = _ref.disableMerge,
-      onMergeCall = _ref.onMergeCall;
+      onMergeCall = _ref.onMergeCall,
+      disableLinks = _ref.disableLinks;
 
   if (!session) {
     return null;
@@ -128,7 +129,8 @@ function WebphoneButtons(_ref) {
         webphoneAnswer(session.id);
       },
       icon: _Answer.default,
-      showBorder: false
+      showBorder: false,
+      disabled: disableLinks
     }));
   }
 
@@ -149,6 +151,7 @@ function WebphoneButtons(_ref) {
         iconWidth: 260,
         iconX: 120,
         icon: _Hold.default,
+        disabled: disableLinks,
         showBorder: true
       }));
     } else {
@@ -164,6 +167,7 @@ function WebphoneButtons(_ref) {
         iconWidth: 260,
         iconX: 120,
         icon: _Hold.default,
+        disabled: disableLinks,
         showBorder: true
       }));
     }
@@ -187,7 +191,7 @@ function WebphoneButtons(_ref) {
       iconX: 120,
       icon: _MergeIntoConferenceIcon.default,
       showBorder: true,
-      disabled: disableMerge
+      disabled: disableMerge || disableLinks
     }));
   }
 
@@ -205,7 +209,8 @@ function WebphoneButtons(_ref) {
     iconWidth: 260,
     iconX: 120,
     icon: endIcon,
-    showBorder: false
+    showBorder: false,
+    disabled: disableLinks
   })), answerBtn);
 }
 
@@ -220,7 +225,8 @@ WebphoneButtons.propTypes = {
   showHold: _propTypes.default.bool,
   disableMerge: _propTypes.default.bool,
   onMergeCall: _propTypes.default.func,
-  webphoneAnswer: _propTypes.default.func
+  webphoneAnswer: _propTypes.default.func,
+  disableLinks: _propTypes.default.bool
 };
 WebphoneButtons.defaultProps = {
   session: undefined,
@@ -236,7 +242,8 @@ WebphoneButtons.defaultProps = {
   },
   webphoneAnswer: function webphoneAnswer(i) {
     return i;
-  }
+  },
+  disableLinks: false
 };
 
 function RingoutButtons(_ref2) {

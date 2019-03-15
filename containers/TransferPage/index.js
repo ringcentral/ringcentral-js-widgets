@@ -47,7 +47,8 @@ function mapToProps(_, _ref) {
     sessionId: sessionId,
     currentLocale: locale.currentLocale,
     searchContactList: contactSearch && contactSearch.sortedResult,
-    session: session
+    session: session,
+    controlBusy: activeCallControl && activeCallControl.busy || false
   };
 }
 

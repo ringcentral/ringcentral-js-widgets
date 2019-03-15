@@ -51,12 +51,14 @@ function mapToProps(_, _ref) {
       callingSettings = _ref$phone.callingSettings,
       connectivityMonitor = _ref$phone.connectivityMonitor,
       rateLimiter = _ref$phone.rateLimiter,
+      activeCallControl = _ref$phone.activeCallControl,
       _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
       showContactDisplayPlaceholder = _ref$showContactDispl === void 0 ? false : _ref$showContactDispl,
       _ref$showRingoutCallC = _ref.showRingoutCallControl,
       showRingoutCallControl = _ref$showRingoutCallC === void 0 ? false : _ref$showRingoutCallC,
       useV2 = _ref.useV2;
   var isWebRTC = callingSettings.callingMode === _callingModes.default.webphone;
+  var controlBusy = activeCallControl && activeCallControl.busy || false;
   return {
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
@@ -75,7 +77,7 @@ function mapToProps(_, _ref) {
     isWebRTC: isWebRTC,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
     useV2: useV2,
-    disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling
+    disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling || controlBusy
   };
 }
 

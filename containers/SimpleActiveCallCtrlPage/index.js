@@ -108,7 +108,8 @@ function mapToProps(_, _ref) {
     phoneNumber: phoneNumber,
     fallBackName: fallBackName,
     brand: brand.fullName,
-    activeCallControl: activeCallControl
+    activeCallControl: activeCallControl,
+    controlBusy: activeCallControl.busy
   };
 }
 
@@ -128,6 +129,10 @@ function mapToFunctions(_, _ref2) {
     }
   };
 }
+
+var muteCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.muteCtrl,
+    transferCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.transferCtrl,
+    holdCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.holdCtrl; // const actions = [muteCtrl, transferCtrl, holdCtrl]
 
 var ActiveCallControlPanel =
 /*#__PURE__*/
@@ -157,7 +162,7 @@ function (_Component) {
     };
 
     _this.onUnhold = function () {
-      return _this.props.activeCallControl.unHold(_this.props.sessionId);
+      return _this.props.activeCallControl.unhold(_this.props.sessionId);
     };
 
     _this.onHangup = function () {
@@ -215,9 +220,6 @@ function (_Component) {
         return null;
       }
 
-      var muteCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.muteCtrl,
-          transferCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.transferCtrl,
-          holdCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.holdCtrl;
       return _react.default.createElement(_CallCtrlPanel.default, {
         sessionId: this.props.sessionId,
         currentLocale: this.props.currentLocale,
@@ -238,13 +240,14 @@ function (_Component) {
         selectedMatcherIndex: this.state.selectedMatcherIndex,
         layout: _callCtrlLayouts.default.normalCtrl,
         startTime: this.props.activeSession.startTime,
-        actions: [muteCtrl, transferCtrl, holdCtrl],
+        actions: this.props.actions,
         isOnMute: this.props.activeSession.isOnMute,
         isOnHold: this.props.activeSession.isOnHold,
         nameMatches: this.props.nameMatches,
         onSelectMatcherName: this.onSelectMatcherName,
         brand: this.props.brand,
-        showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder
+        showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
+        controlBusy: this.props.controlBusy
       });
     }
   }]);
@@ -266,7 +269,9 @@ ActiveCallControlPanel.propTypes = {
   phoneNumber: _propTypes.default.string,
   showContactDisplayPlaceholder: _propTypes.default.bool,
   brand: _propTypes.default.string.isRequired,
-  onTransfer: _propTypes.default.func.isRequired
+  onTransfer: _propTypes.default.func.isRequired,
+  controlBusy: _propTypes.default.bool,
+  actions: _propTypes.default.array
 };
 ActiveCallControlPanel.defaultProps = {
   setActiveSessionId: function setActiveSessionId() {},
@@ -277,7 +282,9 @@ ActiveCallControlPanel.defaultProps = {
   nameMatches: [],
   fallBackName: '',
   phoneNumber: '',
-  showContactDisplayPlaceholder: false
+  showContactDisplayPlaceholder: false,
+  controlBusy: false,
+  actions: [muteCtrl, transferCtrl, holdCtrl]
 };
 
 var _default = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ActiveCallControlPanel));

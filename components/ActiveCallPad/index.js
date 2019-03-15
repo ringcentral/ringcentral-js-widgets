@@ -230,6 +230,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var controlBusy = this.props.controlBusy;
       var buttons = [];
       /* --------------------- Mute/Unmute --------------------------- */
 
@@ -237,13 +238,13 @@ function (_Component) {
         icon: _Mute.default,
         id: ACTIONS_CTRL_MAP.muteCtrl,
         title: _i18n.default.getString('unmute', this.props.currentLocale),
-        disabled: this.props.isOnHold,
+        disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onUnmute
       } : {
         icon: _Unmute.default,
         id: ACTIONS_CTRL_MAP.muteCtrl,
         title: _i18n.default.getString('mute', this.props.currentLocale),
-        disabled: this.props.isOnHold,
+        disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onMute
       });
       /* --------------------- keyPad --------------------------- */
@@ -266,7 +267,8 @@ function (_Component) {
         iconY: 165,
         title: this.props.isOnHold ? _i18n.default.getString('onHold', this.props.currentLocale) : _i18n.default.getString('hold', this.props.currentLocale),
         active: this.props.isOnHold,
-        onClick: this.props.isOnHold ? this.props.onUnhold : this.props.onHold
+        onClick: this.props.isOnHold ? this.props.onUnhold : this.props.onHold,
+        disabled: controlBusy
       });
       /* --------------------- Add/Merge --------------------------- */
 
@@ -276,14 +278,14 @@ function (_Component) {
           icon: _MergeIntoConferenceIcon.default,
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           title: _i18n.default.getString('mergeToConference', this.props.currentLocale),
-          disabled: this.props.mergeDisabled,
+          disabled: this.props.mergeDisabled || controlBusy,
           onClick: this.props.onMerge,
           showRipple: !this.props.mergeDisabled
         } : {
           icon: _Combine.default,
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           title: _i18n.default.getString('add', this.props.currentLocale),
-          disabled: this.props.addDisabled,
+          disabled: this.props.addDisabled || controlBusy,
           onClick: this.props.onAdd
         });
       }
@@ -295,7 +297,7 @@ function (_Component) {
         id: ACTIONS_CTRL_MAP.recordCtrl,
         title: this.props.recordStatus === _recordStatus.default.recording ? _i18n.default.getString('stopRecord', this.props.currentLocale) : _i18n.default.getString('record', this.props.currentLocale),
         active: this.props.recordStatus === _recordStatus.default.recording,
-        disabled: this.props.isOnHold || this.props.recordStatus === _recordStatus.default.pending || this.props.layout === _callCtrlLayouts.default.mergeCtrl || this.props.recordStatus === _recordStatus.default.noAccess,
+        disabled: this.props.isOnHold || this.props.recordStatus === _recordStatus.default.pending || this.props.layout === _callCtrlLayouts.default.mergeCtrl || this.props.recordStatus === _recordStatus.default.noAccess || controlBusy,
         onClick: this.props.recordStatus === _recordStatus.default.recording ? this.props.onStopRecord : this.props.onRecord
       });
       /* --------------------- Transfer --------------------------- */
@@ -305,7 +307,7 @@ function (_Component) {
         icon: _Transfer.default,
         id: ACTIONS_CTRL_MAP.transferCtrl,
         title: _i18n.default.getString('transfer', this.props.currentLocale),
-        disabled: disabledTransfer,
+        disabled: disabledTransfer || controlBusy,
         onClick: this.props.onToggleTransferPanel
       });
       /* --------------------- Flip --------------------------- */
@@ -315,7 +317,7 @@ function (_Component) {
         icon: _Flip.default,
         id: ACTIONS_CTRL_MAP.flipCtrl,
         title: _i18n.default.getString('flip', this.props.currentLocale),
-        disabled: disabledFlip,
+        disabled: disabledFlip || controlBusy,
         onClick: this.props.onShowFlipPanel
       }); // filter actions
 
@@ -338,7 +340,7 @@ function (_Component) {
           title: _i18n.default.getString('more', this.props.currentLocale),
           active: this.state.expandMore,
           className: (0, _classnames.default)(_styles.default.moreButton, _styles.default.callButton),
-          disabled: disabledFlip && disabledTransfer,
+          disabled: disabledFlip && disabledTransfer || controlBusy,
           icon: _MoreIcon.default
         }), _react.default.createElement(_Tooltip.default, {
           fixed: false,
@@ -375,13 +377,14 @@ function (_Component) {
       }, _react.default.createElement("div", {
         className: _styles.default.button
       }, _react.default.createElement(_CircleButton.default, {
-        className: _styles.default.stopButton,
+        className: (0, _classnames.default)(_styles.default.stopButton, controlBusy && _styles.default.disabled),
         onClick: this.props.onHangup,
         icon: _End.default,
         showBorder: false,
         iconWidth: 250,
         iconX: 125,
-        dataSign: "hangup"
+        dataSign: "hangup",
+        disabled: controlBusy
       }))));
     }
   }]);

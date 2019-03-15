@@ -141,16 +141,30 @@ function (_PureComponent) {
   }, {
     key: "render",
     value: function render() {
-      if (!this.props.session) {
+      var _this$props = this.props,
+          controlBusy = _this$props.controlBusy,
+          session = _this$props.session,
+          onBack = _this$props.onBack,
+          currentLocale = _this$props.currentLocale,
+          searchContact = _this$props.searchContact,
+          searchContactList = _this$props.searchContactList,
+          formatPhone = _this$props.formatPhone,
+          phoneTypeRenderer = _this$props.phoneTypeRenderer,
+          phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
+          recipientsContactInfoRenderer = _this$props.recipientsContactInfoRenderer,
+          recipientsContactPhoneRenderer = _this$props.recipientsContactPhoneRenderer,
+          autoFocus = _this$props.autoFocus;
+
+      if (!session) {
         return null;
       }
 
-      var isOnTransfer = !!this.props.session.isOnTransfer;
+      var isOnTransfer = !!session.isOnTransfer;
       return _react.default.createElement("div", {
         className: _styles.default.root
       }, _react.default.createElement(_BackHeader.default, {
-        onBackClick: this.props.onBack
-      }, _i18n.default.getString('transferTo', this.props.currentLocale)), _react.default.createElement(_RecipientsInput.default, {
+        onBackClick: onBack
+      }, _i18n.default.getString('transferTo', currentLocale)), _react.default.createElement(_RecipientsInput.default, {
         className: _styles.default.dialInput,
         value: this.state.toNumber,
         onChange: this.onToNumberChange,
@@ -158,16 +172,16 @@ function (_PureComponent) {
         recipient: this.state.recipient,
         addToRecipients: this.setRecipient,
         removeFromRecipients: this.clearRecipient,
-        searchContact: this.props.searchContact,
-        searchContactList: this.props.searchContactList,
-        formatContactPhone: this.props.formatPhone,
-        currentLocale: this.props.currentLocale,
-        phoneTypeRenderer: this.props.phoneTypeRenderer,
-        phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
-        contactInfoRenderer: this.props.recipientsContactInfoRenderer,
-        contactPhoneRenderer: this.props.recipientsContactPhoneRenderer,
+        searchContact: searchContact,
+        searchContactList: searchContactList,
+        formatContactPhone: formatPhone,
+        currentLocale: currentLocale,
+        phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
+        contactInfoRenderer: recipientsContactInfoRenderer,
+        contactPhoneRenderer: recipientsContactPhoneRenderer,
         titleEnabled: true,
-        autoFocus: this.props.autoFocus
+        autoFocus: autoFocus
       }), _react.default.createElement("div", {
         className: _styles.default.padContainer
       }, _react.default.createElement(_DialPad.default, {
@@ -181,7 +195,7 @@ function (_PureComponent) {
         className: isOnTransfer ? _styles.default.disabled : undefined,
         onClick: this.onTransfer,
         icon: _Transfer.default,
-        disabled: isOnTransfer
+        disabled: isOnTransfer || controlBusy
       })))));
     }
   }]);
@@ -205,7 +219,8 @@ TransferPanel.propTypes = {
   recipientsContactPhoneRenderer: _propTypes.default.func,
   autoFocus: _propTypes.default.bool,
   sessionId: _propTypes.default.string.isRequired,
-  session: _propTypes.default.object
+  session: _propTypes.default.object,
+  controlBusy: _propTypes.default.bool
 };
 TransferPanel.defaultProps = {
   setActiveSessionId: null,
@@ -215,6 +230,7 @@ TransferPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   autoFocus: true,
   session: null,
-  searchContactList: []
+  searchContactList: [],
+  controlBusy: false
 };
 //# sourceMappingURL=index.js.map

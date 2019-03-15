@@ -34,7 +34,7 @@ function CircleButton(props) {
     });
   }
 
-  var circleClass = (0, _classnames.default)(_styles.default.circle, props.showBorder ? null : _styles.default.noBorder);
+  var circleClass = (0, _classnames.default)(_styles.default.circle, !props.showBorder && _styles.default.noBorder);
   var onClick = props.disabled ? null : props.onClick;
   return _react.default.createElement("svg", {
     "data-sign": props.dataSign,

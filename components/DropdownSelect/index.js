@@ -283,9 +283,9 @@ function (_Component) {
         className: (0, _classnames.default)(_styles.default.selectedValue, ellipsis && _styles.default.ellipsis, this.props.selectedClassName)
       }, renderValue), _react.default.createElement("span", {
         className: iconClassName
-      }, this.props.icon ? this.props.icon : _react.default.createElement("i", {
+      }, this.props.icon === undefined ? _react.default.createElement("i", {
         className: _DynamicsFont.default.arrow
-      }))), dropdownMenu);
+      }) : this.props.icon)), dropdownMenu);
     }
   }]);
 
