@@ -15,7 +15,16 @@ export function isChrome() {
   if (!environment.navigator) {
     return false;
   }
-  return !!(environment.navigator.userAgent.match(/Chrom(e|ium)/));
+  const browserUa = environment.navigator.userAgent.toLowerCase()
+  return !!(browserUa.match(/chrom(e|ium)/));
+}
+
+export function isFirefox() {
+  if (!environment.navigator) {
+    return false;
+  }
+  const browserUa = environment.navigator.userAgent.toLowerCase()
+  return browserUa.indexOf('firefox') > -1 && !isChrome();
 }
 
 export function isWebSocketSupport() {

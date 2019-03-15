@@ -87,9 +87,9 @@ class ActiveCallPad extends Component {
       const { dom: { current } } = this.dropdown.current;
 
       if (
-        !current.contains(e.target)
-        && !this.moreButton.current.contains(e.target)
-        && this.state.expandMore
+        !current.contains(e.target) &&
+        !this.moreButton.current.contains(e.target) &&
+        this.state.expandMore
       ) {
         this.setState({
           expandMore: false,
@@ -145,6 +145,10 @@ class ActiveCallPad extends Component {
   }
 
   render() {
+    const {
+      controlBusy,
+    } = this.props;
+
     let buttons = [];
     /* --------------------- Mute/Unmute --------------------------- */
     buttons.push(this.props.isOnMute
@@ -152,14 +156,14 @@ class ActiveCallPad extends Component {
         icon: MuteIcon,
         id: ACTIONS_CTRL_MAP.muteCtrl,
         title: i18n.getString('unmute', this.props.currentLocale),
-        disabled: this.props.isOnHold,
+        disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onUnmute,
       }
       : {
         icon: UnmuteIcon,
         id: ACTIONS_CTRL_MAP.muteCtrl,
         title: i18n.getString('mute', this.props.currentLocale),
-        disabled: this.props.isOnHold,
+        disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onMute,
       }
     );
@@ -191,6 +195,7 @@ class ActiveCallPad extends Component {
         onClick: this.props.isOnHold
           ? this.props.onUnhold
           : this.props.onHold,
+        disabled: controlBusy,
       }
     );
 
@@ -205,7 +210,7 @@ class ActiveCallPad extends Component {
           icon: MergeIcon,
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           title: i18n.getString('mergeToConference', this.props.currentLocale),
-          disabled: this.props.mergeDisabled,
+          disabled: this.props.mergeDisabled || controlBusy,
           onClick: this.props.onMerge,
           showRipple: !this.props.mergeDisabled,
         }
@@ -213,7 +218,7 @@ class ActiveCallPad extends Component {
           icon: CombineIcon,
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           title: i18n.getString('add', this.props.currentLocale),
-          disabled: this.props.addDisabled,
+          disabled: this.props.addDisabled || controlBusy,
           onClick: this.props.onAdd,
         }
       );
@@ -233,6 +238,7 @@ class ActiveCallPad extends Component {
           || this.props.recordStatus === recordStatus.pending
           || this.props.layout === callCtrlLayouts.mergeCtrl
           || this.props.recordStatus === recordStatus.noAccess
+          || controlBusy
         ),
         onClick: this.props.recordStatus === recordStatus.recording
           ? this.props.onStopRecord
@@ -249,7 +255,7 @@ class ActiveCallPad extends Component {
         icon: TransferIcon,
         id: ACTIONS_CTRL_MAP.transferCtrl,
         title: i18n.getString('transfer', this.props.currentLocale),
-        disabled: disabledTransfer,
+        disabled: disabledTransfer || controlBusy,
         onClick: this.props.onToggleTransferPanel,
       }
     );
@@ -265,7 +271,7 @@ class ActiveCallPad extends Component {
         icon: FlipIcon,
         id: ACTIONS_CTRL_MAP.flipCtrl,
         title: i18n.getString('flip', this.props.currentLocale),
-        disabled: disabledFlip,
+        disabled: disabledFlip || controlBusy,
         onClick: this.props.onShowFlipPanel,
       }
     );
@@ -289,7 +295,7 @@ class ActiveCallPad extends Component {
             title={i18n.getString('more', this.props.currentLocale)}
             active={this.state.expandMore}
             className={classnames(styles.moreButton, styles.callButton)}
-            disabled={disabledFlip && disabledTransfer}
+            disabled={disabledFlip && disabledTransfer || controlBusy}
             icon={MoreIcon} />
           <Tooltip
             fixed={false}
@@ -333,13 +339,17 @@ class ActiveCallPad extends Component {
         <div className={classnames(styles.buttonRow, styles.stopButtonGroup)}>
           <div className={styles.button}>
             <CircleButton
-              className={styles.stopButton}
+              className={classnames(
+                styles.stopButton,
+                controlBusy && styles.disabled,
+              )}
               onClick={this.props.onHangup}
               icon={EndIcon}
               showBorder={false}
               iconWidth={250}
               iconX={125}
               dataSign="hangup"
+              disabled={controlBusy}
             />
           </div>
         </div>

@@ -22,7 +22,7 @@ function CircleButton(props) {
   }
   const circleClass = classnames(
     styles.circle,
-    props.showBorder ? null : styles.noBorder
+    !props.showBorder && styles.noBorder,
   );
   const onClick = props.disabled ? null : props.onClick;
   return (

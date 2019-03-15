@@ -63,6 +63,7 @@ function mapToProps(_, {
     fallBackName,
     brand: brand.fullName,
     activeCallControl,
+    controlBusy: activeCallControl.busy,
   };
 }
 
@@ -85,6 +86,8 @@ function mapToFunctions(_, {
   };
 }
 
+const { muteCtrl, transferCtrl, holdCtrl } = ACTIONS_CTRL_MAP;
+// const actions = [muteCtrl, transferCtrl, holdCtrl]
 class ActiveCallControlPanel extends Component {
   constructor(props) {
     super(props);
@@ -96,7 +99,7 @@ class ActiveCallControlPanel extends Component {
     this.onMute = () => this.props.activeCallControl.mute(this.props.sessionId);
     this.onUnmute = () => this.props.activeCallControl.unmute(this.props.sessionId);
     this.onHold = () => this.props.activeCallControl.hold(this.props.sessionId);
-    this.onUnhold = () => this.props.activeCallControl.unHold(this.props.sessionId);
+    this.onUnhold = () => this.props.activeCallControl.unhold(this.props.sessionId);
     this.onHangup = () => this.props.activeCallControl.hangUp(this.props.sessionId);
 
     this.formatPhone = phoneNumber => formatNumber({
@@ -137,7 +140,7 @@ class ActiveCallControlPanel extends Component {
       // or using skeleton screen here
       return null;
     }
-    const { muteCtrl, transferCtrl, holdCtrl } = ACTIONS_CTRL_MAP;
+
 
     return (
       <CallCtrlPanel
@@ -160,13 +163,14 @@ class ActiveCallControlPanel extends Component {
         selectedMatcherIndex={this.state.selectedMatcherIndex}
         layout={callCtrlLayouts.normalCtrl}
         startTime={this.props.activeSession.startTime}
-        actions={[muteCtrl, transferCtrl, holdCtrl]}
+        actions={this.props.actions}
         isOnMute={this.props.activeSession.isOnMute}
         isOnHold={this.props.activeSession.isOnHold}
         nameMatches={this.props.nameMatches}
         onSelectMatcherName={this.onSelectMatcherName}
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
+        controlBusy={this.props.controlBusy}
       />
     );
   }
@@ -187,6 +191,8 @@ ActiveCallControlPanel.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool,
   brand: PropTypes.string.isRequired,
   onTransfer: PropTypes.func.isRequired,
+  controlBusy: PropTypes.bool,
+  actions: PropTypes.array,
 };
 
 ActiveCallControlPanel.defaultProps = {
@@ -199,6 +205,8 @@ ActiveCallControlPanel.defaultProps = {
   fallBackName: '',
   phoneNumber: '',
   showContactDisplayPlaceholder: false,
+  controlBusy: false,
+  actions: [muteCtrl, transferCtrl, holdCtrl],
 };
 
 export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControlPanel));

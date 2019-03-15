@@ -92,6 +92,14 @@ $stopButtonIconRatio:0.98;
       fill: #ffffff;
     }
   }
+  .stopButton.disabled {
+    circle {
+      fill: rgba(229, 229, 229, 1);
+    }
+    g {
+      cursor: not-allowed;
+    }
+  }
 }
 
 .relative {

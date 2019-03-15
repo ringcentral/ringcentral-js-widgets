@@ -215,7 +215,7 @@ class DropdownSelect extends Component {
             {renderValue}
           </span>
           <span className={iconClassName}>
-            {this.props.icon ? this.props.icon : <i className={dynamicsFont.arrow} />}
+            {this.props.icon === undefined ? <i className={dynamicsFont.arrow} /> : this.props.icon}
           </span>
         </div>
         {dropdownMenu}

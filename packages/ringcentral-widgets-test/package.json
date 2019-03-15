@@ -25,8 +25,8 @@
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
     "babel-istanbul": "^0.12.1",
+    "babel-jest": "^23.6.0",
     "coveralls": "^2.11.15",
     "dotenv": "^5.0.0",
     "enzyme": "^3.4.4",
@@ -42,8 +42,8 @@
     "pubnub": "^4.20.1",
     "ramda": "^0.25.0",
     "rc-tooltip": "^3.7.2",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
     "react-redux": "^5.0.5",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
@@ -75,11 +75,13 @@
       "enzyme-to-json/serializer"
     ],
     "setupTestFrameworkScriptFile": "./jest.setup.js",
-    "reporters": [ "default", "jest-junit" ]
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   },
-  "peerDependencies": {
-  },
+  "peerDependencies": {},
   "devDependencies": {
-    "react-test-renderer": "^16.4.1"
+    "react-test-renderer": "^16.8.3"
   }
 }

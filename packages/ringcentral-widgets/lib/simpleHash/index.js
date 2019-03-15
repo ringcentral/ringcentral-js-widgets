@@ -7,4 +7,3 @@ export default function simpleHash() {
   const token = `${Math.floor(Math.random() * 10000)}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
   return btoa(token);
 }
-

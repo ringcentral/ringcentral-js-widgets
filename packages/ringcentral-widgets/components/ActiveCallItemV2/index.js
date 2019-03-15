@@ -32,6 +32,7 @@ function WebphoneButtons({
   showHold,
   disableMerge,
   onMergeCall,
+  disableLinks,
 }) {
   if (!session) {
     return null;
@@ -62,6 +63,7 @@ function WebphoneButtons({
           }}
           icon={AnswerIcon}
           showBorder={false}
+          disabled={disableLinks}
         />
       </span>
     );
@@ -83,6 +85,7 @@ function WebphoneButtons({
             iconWidth={260}
             iconX={120}
             icon={HoldIcon}
+            disabled={disableLinks}
             showBorder
           />
         </span>
@@ -99,6 +102,7 @@ function WebphoneButtons({
             iconWidth={260}
             iconX={120}
             icon={HoldIcon}
+            disabled={disableLinks}
             showBorder
           />
         </span>
@@ -126,7 +130,7 @@ function WebphoneButtons({
           iconX={120}
           icon={MergeIntoConferenceIcon}
           showBorder
-          disabled={disableMerge}
+          disabled={disableMerge || disableLinks}
         />
       </span>
     );
@@ -147,6 +151,7 @@ function WebphoneButtons({
           iconX={120}
           icon={endIcon}
           showBorder={false}
+          disabled={disableLinks}
         />
       </span>
       {answerBtn}
@@ -166,6 +171,7 @@ WebphoneButtons.propTypes = {
   disableMerge: PropTypes.bool,
   onMergeCall: PropTypes.func,
   webphoneAnswer: PropTypes.func,
+  disableLinks: PropTypes.bool,
 };
 
 WebphoneButtons.defaultProps = {
@@ -179,6 +185,7 @@ WebphoneButtons.defaultProps = {
   disableMerge: true,
   onMergeCall: i => i,
   webphoneAnswer: i => i,
+  disableLinks: false,
 };
 
 function RingoutButtons({
