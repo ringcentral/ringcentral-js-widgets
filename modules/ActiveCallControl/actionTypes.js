@@ -41,7 +41,11 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var _default = new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.default)), ['updateActiveSessions', 'updateActiveSessionStatus', 'removeActiveSession', 'updateSessions', 'resetSuccess', 'setActiveSessionId', 'hangUpSuccess', 'holdSuccess', 'unHoldSuccess', 'startRecord', 'stopRecord', 'recordFail', 'mute', 'unmute', 'hold', 'unhold']), 'activeCallControlStore');
+function getActionSet(action) {
+  return [action, "".concat(action, "Success"), "".concat(action, "Error")];
+}
+
+var _default = new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.default)), ['updateActiveSessions', 'updateActiveSessionStatus', 'removeActiveSession', 'updateSessions', 'resetSuccess', 'setActiveSessionId', 'startRecord', 'stopRecord', 'recordFail'], _toConsumableArray(getActionSet('mute')), _toConsumableArray(getActionSet('unmute')), _toConsumableArray(getActionSet('hold')), _toConsumableArray(getActionSet('unhold')), _toConsumableArray(getActionSet('transfer')), _toConsumableArray(getActionSet('reject')), _toConsumableArray(getActionSet('hangUp')), _toConsumableArray(getActionSet('flip'))), 'activeCallControlStore');
 
 exports.default = _default;
 //# sourceMappingURL=actionTypes.js.map

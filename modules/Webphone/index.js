@@ -197,6 +197,7 @@ function (_RcModule) {
    * @param {Function} params.onCallResume - callback on a call resume
    * @param {Function} params.onBeforeCallResume - callback before a call resume
    * @param {Function} params.onBeforeCallEnd - callback before a call hangup
+   * @param {Object} params.webphoneSDKOptions - callback before a call hangup
    */
   function Webphone(_ref) {
     var _context;
@@ -222,7 +223,8 @@ function (_RcModule) {
         onCallResume = _ref.onCallResume,
         onBeforeCallResume = _ref.onBeforeCallResume,
         onBeforeCallEnd = _ref.onBeforeCallEnd,
-        options = _objectWithoutProperties(_ref, ["appKey", "appName", "appVersion", "alert", "auth", "client", "rolesAndPermissions", "webphoneLogLevel", "contactMatcher", "numberValidate", "audioSettings", "tabManager", "onCallEnd", "onCallRing", "onCallStart", "onCallResume", "onBeforeCallResume", "onBeforeCallEnd"]);
+        webphoneSDKOptions = _ref.webphoneSDKOptions,
+        options = _objectWithoutProperties(_ref, ["appKey", "appName", "appVersion", "alert", "auth", "client", "rolesAndPermissions", "webphoneLogLevel", "contactMatcher", "numberValidate", "audioSettings", "tabManager", "onCallEnd", "onCallRing", "onCallStart", "onCallResume", "onBeforeCallResume", "onBeforeCallEnd", "webphoneSDKOptions"]);
 
     _classCallCheck(this, Webphone);
 
@@ -244,6 +246,7 @@ function (_RcModule) {
     _this._audioSettings = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, audioSettings, 'audioSettings');
     _this._contactMatcher = contactMatcher;
     _this._tabManager = tabManager;
+    _this._webphoneSDKOptions = webphoneSDKOptions || {};
     _this._onCallEndFunctions = [];
 
     if (typeof onCallEnd === 'function') {
@@ -584,7 +587,7 @@ function (_RcModule) {
 
       this._removeWebphone();
 
-      this._webphone = new _ringcentralWebPhone.default(provisionData, {
+      this._webphone = new _ringcentralWebPhone.default(provisionData, _objectSpread({
         appKey: this._appKey,
         appName: this._appName,
         appVersion: this._appVersion,
@@ -599,8 +602,9 @@ function (_RcModule) {
           remote: this._remoteVideo,
           local: this._localVideo
         },
-        enableQos: (0, _webphoneHelper.isChrome)()
-      });
+        enableQos: (0, _webphoneHelper.isChrome)(),
+        enableMidLinesInSDP: (0, _webphoneHelper.isFirefox)()
+      }, this._webphoneSDKOptions));
 
       this._webphone.userAgent.audioHelper.loadAudio({
         incoming: _incoming.default,

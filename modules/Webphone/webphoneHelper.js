@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isChrome = isChrome;
+exports.isFirefox = isFirefox;
 exports.isWebSocketSupport = isWebSocketSupport;
 exports.isWebRTCSupport = isWebRTCSupport;
 exports.isBrowserSupport = isBrowserSupport;
@@ -24,8 +25,6 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.array.index-of");
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -37,6 +36,8 @@ require("core-js/modules/es6.regexp.split");
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.regexp.match");
 
@@ -73,7 +74,17 @@ function isChrome() {
     return false;
   }
 
-  return !!environment.navigator.userAgent.match(/Chrom(e|ium)/);
+  var browserUa = environment.navigator.userAgent.toLowerCase();
+  return !!browserUa.match(/chrom(e|ium)/);
+}
+
+function isFirefox() {
+  if (!environment.navigator) {
+    return false;
+  }
+
+  var browserUa = environment.navigator.userAgent.toLowerCase();
+  return browserUa.indexOf('firefox') > -1 && !isChrome();
 }
 
 function isWebSocketSupport() {

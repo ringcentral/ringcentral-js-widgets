@@ -27,8 +27,6 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.array.is-array");
-
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.index-of");
@@ -48,6 +46,8 @@ require("core-js/modules/es6.object.keys");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.regexp.match");
 
@@ -236,12 +236,14 @@ function (_RcModule) {
     _this._activityMatcher = activityMatcher;
     _this._tabManager = tabManager;
     _this._webphone = webphone;
-    _this._onRinging = onRinging;
     _this._onNewCall = onNewCall;
     _this._onCallUpdated = onCallUpdated;
     _this._onCallEnded = onCallEnded;
     _this._storage = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, storage, 'storage');
     _this._callMatchedKey = 'callMatched';
+    _this._onRinging = onRinging; // change _onRinging hook to array lsit
+
+    _this._onRingingFuncs = [];
     _this._reducer = (0, _getCallMonitorReducer.default)(_this.actionTypes);
 
     _this._storage.registerReducer({
@@ -420,10 +422,21 @@ function (_RcModule) {
                       if (oldCallIndex === -1) {
                         if (typeof _this2._onNewCall === 'function') {
                           _this2._onNewCall(call);
-                        }
+                        } // loop to execut the onRinging handlers
 
-                        if (typeof _this2._onRinging === 'function' && (0, _callLogHelpers.isRinging)(call)) {
-                          _this2._onRinging(call);
+
+                        if ((0, _callLogHelpers.isRinging)(call)) {
+                          if (_this2._onRinging && typeof _this2._onRinging === 'function') {
+                            _this2._onRinging(call);
+                          }
+
+                          if (Array.isArray(_this2._onRingingFuncs) && _this2._onRingingFuncs.length) {
+                            _this2._onRingingFuncs.forEach(function (func) {
+                              if (func && typeof func === 'function') {
+                                func(call);
+                              }
+                            });
+                          }
                         }
                       } else {
                         var oldCall = oldCalls[oldCallIndex];
@@ -590,6 +603,11 @@ function (_RcModule) {
       this.store.dispatch({
         type: this.actionTypes.callControlClickParticipantAreaClickTrack
       });
+    }
+  }, {
+    key: "onRingings",
+    value: function onRingings(func) {
+      this._onRingingFuncs.push(func);
     }
   }, {
     key: "hasRingingCalls",

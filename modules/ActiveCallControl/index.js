@@ -99,6 +99,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var DEFAULT_TTL = 30 * 60 * 1000;
 var DEFAULT_TIME_TO_RETRY = 62 * 1000;
+var DEFAULT_BUSY_TIMEOUT = 3 * 1000;
 var telephonySessionsEndPoint = /\/telephony\/sessions$/;
 var storageKey = 'activeCallControl';
 var subscribeEvent = '/account/~/extension/~/telephony/sessions';
@@ -629,10 +630,14 @@ function (_Pollable) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _context8.prev = 0;
+                this.store.dispatch({
+                  type: this.actionTypes.mute,
+                  timestamp: Date.now()
+                });
+                _context8.prev = 1;
                 activeSession = this.getActiveSession(sessionId);
                 url = (0, _helpers.requestURI)(activeSession).mute;
-                _context8.next = 5;
+                _context8.next = 6;
                 return this.patch({
                   url: url,
                   body: {
@@ -640,13 +645,16 @@ function (_Pollable) {
                   }
                 });
 
-              case 5:
-                _context8.next = 10;
+              case 6:
+                this.store.dispatch({
+                  type: this.actionTypes.muteSuccess
+                });
+                _context8.next = 13;
                 break;
 
-              case 7:
-                _context8.prev = 7;
-                _context8.t0 = _context8["catch"](0);
+              case 9:
+                _context8.prev = 9;
+                _context8.t0 = _context8["catch"](1);
 
                 if ((0, _helpers.confictError)(_context8.t0)) {
                   this._alert.warning({
@@ -658,12 +666,16 @@ function (_Pollable) {
                   });
                 }
 
-              case 10:
+                this.store.dispatch({
+                  type: this.actionTypes.muteError
+                });
+
+              case 13:
               case "end":
                 return _context8.stop();
             }
           }
-        }, _callee7, this, [[0, 7]]);
+        }, _callee7, this, [[1, 9]]);
       }));
 
       function mute(_x2) {
@@ -683,10 +695,14 @@ function (_Pollable) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                _context9.prev = 0;
+                this.store.dispatch({
+                  type: this.actionTypes.unmute,
+                  timestamp: Date.now()
+                });
+                _context9.prev = 1;
                 activeSession = this.getActiveSession(sessionId);
                 url = (0, _helpers.requestURI)(activeSession).mute;
-                _context9.next = 5;
+                _context9.next = 6;
                 return this.patch({
                   url: url,
                   body: {
@@ -694,13 +710,16 @@ function (_Pollable) {
                   }
                 });
 
-              case 5:
-                _context9.next = 10;
+              case 6:
+                this.store.dispatch({
+                  type: this.actionTypes.unmuteSuccess
+                });
+                _context9.next = 13;
                 break;
 
-              case 7:
-                _context9.prev = 7;
-                _context9.t0 = _context9["catch"](0);
+              case 9:
+                _context9.prev = 9;
+                _context9.t0 = _context9["catch"](1);
 
                 if ((0, _helpers.confictError)(_context9.t0)) {
                   this._alert.warning({
@@ -712,12 +731,16 @@ function (_Pollable) {
                   });
                 }
 
-              case 10:
+                this.store.dispatch({
+                  type: this.actionTypes.unmuteError
+                });
+
+              case 13:
               case "end":
                 return _context9.stop();
             }
           }
-        }, _callee8, this, [[0, 7]]);
+        }, _callee8, this, [[1, 9]]);
       }));
 
       function unmute(_x3) {
@@ -843,38 +866,46 @@ function (_Pollable) {
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
-                _context12.prev = 0;
+                this.store.dispatch({
+                  type: this.actionTypes.hangUp,
+                  timestamp: Date.now()
+                });
+                _context12.prev = 1;
                 activeSession = this.getActiveSession(sessionId);
                 url = (0, _helpers.requestURI)(activeSession).hangUp;
-                _context12.next = 5;
+                _context12.next = 6;
                 return this._client.service._platform.delete(url);
 
-              case 5:
+              case 6:
                 if (typeof this._onCallEndFunc === 'function') {
                   this._onCallEndFunc();
                 }
 
                 this.store.dispatch({
-                  type: this.actionTypes.removeActiveSession,
+                  type: this.actionTypes.hangUpSuccess,
                   sessionId: sessionId
                 });
-                _context12.next = 12;
+                _context12.next = 14;
                 break;
 
-              case 9:
-                _context12.prev = 9;
-                _context12.t0 = _context12["catch"](0);
+              case 10:
+                _context12.prev = 10;
+                _context12.t0 = _context12["catch"](1);
 
                 this._alert.warning({
                   message: _callControlError.default.generalError
                 });
 
-              case 12:
+                this.store.dispatch({
+                  type: this.actionTypes.hangUpError
+                });
+
+              case 14:
               case "end":
                 return _context12.stop();
             }
           }
-        }, _callee11, this, [[0, 9]]);
+        }, _callee11, this, [[1, 10]]);
       }));
 
       function hangUp(_x6) {
@@ -894,34 +925,42 @@ function (_Pollable) {
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
-                _context13.prev = 0;
+                this.store.dispatch({
+                  type: this.actionTypes.reject,
+                  timestamp: Date.now()
+                });
+                _context13.prev = 1;
                 activeSession = this.getActiveSession(sessionId);
                 url = (0, _helpers.requestURI)(activeSession).reject;
-                _context13.next = 5;
+                _context13.next = 6;
                 return this._client.service._platform.post(url);
 
-              case 5:
+              case 6:
                 this.store.dispatch({
-                  type: this.actionTypes.removeActiveSession,
+                  type: this.actionTypes.rejectSuccess,
                   sessionId: sessionId
                 });
-                _context13.next = 11;
+                _context13.next = 13;
                 break;
 
-              case 8:
-                _context13.prev = 8;
-                _context13.t0 = _context13["catch"](0);
+              case 9:
+                _context13.prev = 9;
+                _context13.t0 = _context13["catch"](1);
 
                 this._alert.warning({
                   message: _callControlError.default.generalError
                 });
 
-              case 11:
+                this.store.dispatch({
+                  type: this.actionTypes.rejectError
+                });
+
+              case 13:
               case "end":
                 return _context13.stop();
             }
           }
-        }, _callee12, this, [[0, 8]]);
+        }, _callee12, this, [[1, 9]]);
       }));
 
       function reject(_x7) {
@@ -941,23 +980,27 @@ function (_Pollable) {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
-                _context14.prev = 0;
-                activeSession = this.getActiveSession(sessionId);
-                url = (0, _helpers.requestURI)(activeSession).hold;
-                _context14.next = 5;
-                return this._client.service._platform.post(url);
-
-              case 5:
                 this.store.dispatch({
                   type: this.actionTypes.hold,
+                  timestamp: Date.now()
+                });
+                _context14.prev = 1;
+                activeSession = this.getActiveSession(sessionId);
+                url = (0, _helpers.requestURI)(activeSession).hold;
+                _context14.next = 6;
+                return this._client.service._platform.post(url);
+
+              case 6:
+                this.store.dispatch({
+                  type: this.actionTypes.holdSuccess,
                   activeSession: activeSession
                 });
-                _context14.next = 11;
+                _context14.next = 13;
                 break;
 
-              case 8:
-                _context14.prev = 8;
-                _context14.t0 = _context14["catch"](0);
+              case 9:
+                _context14.prev = 9;
+                _context14.t0 = _context14["catch"](1);
 
                 if ((0, _helpers.confictError)(_context14.t0)) {
                   this._alert.warning({
@@ -969,12 +1012,16 @@ function (_Pollable) {
                   });
                 }
 
-              case 11:
+                this.store.dispatch({
+                  type: this.actionTypes.holdError
+                });
+
+              case 13:
               case "end":
                 return _context14.stop();
             }
           }
-        }, _callee13, this, [[0, 8]]);
+        }, _callee13, this, [[1, 9]]);
       }));
 
       function hold(_x8) {
@@ -984,9 +1031,9 @@ function (_Pollable) {
       return hold;
     }()
   }, {
-    key: "unHold",
+    key: "unhold",
     value: function () {
-      var _unHold = _asyncToGenerator(
+      var _unhold = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee14(sessionId) {
         var activeSession, url;
@@ -994,23 +1041,27 @@ function (_Pollable) {
           while (1) {
             switch (_context15.prev = _context15.next) {
               case 0:
-                _context15.prev = 0;
-                activeSession = this.getActiveSession(sessionId);
-                url = (0, _helpers.requestURI)(activeSession).unHold;
-                _context15.next = 5;
-                return this._client.service._platform.post(url);
-
-              case 5:
                 this.store.dispatch({
                   type: this.actionTypes.unhold,
+                  timestamp: Date.now()
+                });
+                _context15.prev = 1;
+                activeSession = this.getActiveSession(sessionId);
+                url = (0, _helpers.requestURI)(activeSession).unhold;
+                _context15.next = 6;
+                return this._client.service._platform.post(url);
+
+              case 6:
+                this.store.dispatch({
+                  type: this.actionTypes.unholdSuccess,
                   activeSession: activeSession
                 });
-                _context15.next = 11;
+                _context15.next = 13;
                 break;
 
-              case 8:
-                _context15.prev = 8;
-                _context15.t0 = _context15["catch"](0);
+              case 9:
+                _context15.prev = 9;
+                _context15.t0 = _context15["catch"](1);
 
                 if ((0, _helpers.confictError)(_context15.t0)) {
                   this._alert.warning({
@@ -1022,19 +1073,23 @@ function (_Pollable) {
                   });
                 }
 
-              case 11:
+                this.store.dispatch({
+                  type: this.actionTypes.holdError
+                });
+
+              case 13:
               case "end":
                 return _context15.stop();
             }
           }
-        }, _callee14, this, [[0, 8]]);
+        }, _callee14, this, [[1, 9]]);
       }));
 
-      function unHold(_x9) {
-        return _unHold.apply(this, arguments);
+      function unhold(_x9) {
+        return _unhold.apply(this, arguments);
       }
 
-      return unHold;
+      return unhold;
     }()
   }, {
     key: "transfer",
@@ -1049,17 +1104,21 @@ function (_Pollable) {
           while (1) {
             switch (_context16.prev = _context16.next) {
               case 0:
-                _context16.prev = 0;
+                this.store.dispatch({
+                  type: this.actionTypes.transfer,
+                  timestamp: Date.now()
+                });
+                _context16.prev = 1;
                 activeSession = this.getActiveSession(sessionId);
                 url = (0, _helpers.requestURI)(activeSession).transfer;
-                _context16.next = 5;
+                _context16.next = 6;
                 return this._numberValidate.validateNumbers([transferNumber]);
 
-              case 5:
+              case 6:
                 validatedResult = _context16.sent;
 
                 if (validatedResult.result) {
-                  _context16.next = 9;
+                  _context16.next = 11;
                   break;
                 }
 
@@ -1071,9 +1130,12 @@ function (_Pollable) {
                     }
                   });
                 });
+                this.store.dispatch({
+                  type: this.actionTypes.transferError
+                });
                 return _context16.abrupt("return");
 
-              case 9:
+              case 11:
                 validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
                 phoneNumber = validPhoneNumber;
 
@@ -1081,29 +1143,36 @@ function (_Pollable) {
                   phoneNumber = [this._accountInfo.mainCompanyNumber, validPhoneNumber].join('*');
                 }
 
-                _context16.next = 14;
+                _context16.next = 16;
                 return this._client.service._platform.post(url, {
                   phoneNumber: phoneNumber
                 });
 
-              case 14:
-                _context16.next = 19;
+              case 16:
+                this.store.dispatch({
+                  type: this.actionTypes.transferSuccess
+                });
+                _context16.next = 23;
                 break;
 
-              case 16:
-                _context16.prev = 16;
-                _context16.t0 = _context16["catch"](0);
+              case 19:
+                _context16.prev = 19;
+                _context16.t0 = _context16["catch"](1);
 
                 this._alert.warning({
                   message: _callControlError.default.generalError
                 });
 
-              case 19:
+                this.store.dispatch({
+                  type: this.actionTypes.transferError
+                });
+
+              case 23:
               case "end":
                 return _context16.stop();
             }
           }
-        }, _callee15, this, [[0, 16]]);
+        }, _callee15, this, [[1, 19]]);
       }));
 
       function transfer(_x10, _x11) {
@@ -1111,7 +1180,8 @@ function (_Pollable) {
       }
 
       return transfer;
-    }()
+    }() // Incomplete Implementation?
+
   }, {
     key: "flip",
     value: function () {
@@ -1123,29 +1193,39 @@ function (_Pollable) {
           while (1) {
             switch (_context17.prev = _context17.next) {
               case 0:
-                _context17.prev = 0;
+                this.store.dispatch({
+                  type: this.actionTypes.flip,
+                  timestamp: Date.now()
+                });
+                _context17.prev = 1;
                 activeSession = this.getActiveSession(sessionId);
                 url = (0, _helpers.requestURI)(activeSession).flip;
-                _context17.next = 5;
+                _context17.next = 6;
                 return this._client.service._platform.post(url, {
                   callFlipId: flipValue
                 });
 
-              case 5:
-                _context17.next = 10;
+              case 6:
+                this.store.dispatch({
+                  type: this.actionTypes.flipSuccess
+                });
+                _context17.next = 13;
                 break;
 
-              case 7:
-                _context17.prev = 7;
-                _context17.t0 = _context17["catch"](0);
+              case 9:
+                _context17.prev = 9;
+                _context17.t0 = _context17["catch"](1);
+                this.store.dispatch({
+                  type: this.actionTypes.flipError
+                });
                 throw _context17.t0;
 
-              case 10:
+              case 13:
               case "end":
                 return _context17.stop();
             }
           }
-        }, _callee16, this, [[0, 7]]);
+        }, _callee16, this, [[1, 9]]);
       }));
 
       function flip(_x12, _x13) {
@@ -1282,6 +1362,17 @@ function (_Pollable) {
     key: "activeSessionsStatus",
     get: function get() {
       return this.data.activeSessionsStatus || {};
+    }
+    /**
+     * Mitigation strategy for avoiding 404/409 on call control endpoings.
+     * This should gradually move towards per session controls rather than
+     * a global busy timeout.
+     */
+
+  }, {
+    key: "busy",
+    get: function get() {
+      return Date.now() - this.data.busy < DEFAULT_BUSY_TIMEOUT;
     }
   }, {
     key: "timestamp",

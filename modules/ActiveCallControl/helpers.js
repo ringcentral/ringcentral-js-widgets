@@ -104,7 +104,7 @@ function requestURI(activeSession) {
     hangUp: "".concat(prefix),
     reject: "".concat(prefix, "/parties/").concat(partyId, "/reject"),
     hold: "".concat(prefix, "/parties/").concat(partyId, "/hold"),
-    unHold: "".concat(prefix, "/parties/").concat(partyId, "/unhold"),
+    unhold: "".concat(prefix, "/parties/").concat(partyId, "/unhold"),
     transfer: "".concat(prefix, "/parties/").concat(partyId, "/transfer"),
     flip: "".concat(prefix, "/parties/").concat(partyId, "/flip"),
     getPartyData: "".concat(prefix, "/parties/").concat(partyId),
