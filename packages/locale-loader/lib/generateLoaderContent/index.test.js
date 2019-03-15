@@ -1,7 +1,7 @@
 import { transform } from 'babel-core';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import fs from 'fs-extra';
-import generateLoaderContent from './';
+import generateLoaderContent from '.';
 
 const files = [
   'en_us.js',

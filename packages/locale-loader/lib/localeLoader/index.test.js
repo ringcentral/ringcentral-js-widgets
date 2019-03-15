@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
-import localeLoader from './';
+import localeLoader from '.';
 
 const testFolder = './testData';
 

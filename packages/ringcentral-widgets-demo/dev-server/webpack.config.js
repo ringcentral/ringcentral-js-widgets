@@ -77,6 +77,7 @@ const base = {
     ],
   },
   devtool: 'inline-source-map',
+  mode: 'development',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {

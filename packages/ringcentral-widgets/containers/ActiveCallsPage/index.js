@@ -19,12 +19,14 @@ function mapToProps(_, {
     callingSettings,
     connectivityMonitor,
     rateLimiter,
+    activeCallControl,
   },
   showContactDisplayPlaceholder = false,
   showRingoutCallControl = false,
   useV2,
 }) {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
+  const controlBusy = activeCallControl && activeCallControl.busy || false;
 
   return {
     currentLocale: locale.currentLocale,
@@ -50,8 +52,11 @@ function mapToProps(_, {
     isWebRTC,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
     useV2,
-    disableLinks: !connectivityMonitor.connectivity ||
-      rateLimiter.throttling,
+    disableLinks: (
+      !connectivityMonitor.connectivity ||
+      rateLimiter.throttling ||
+      controlBusy
+    ),
   };
 }
 

@@ -101,92 +101,155 @@ class CallCtrlPanel extends Component {
   }
 
   render() {
-    if (this.state.isShowKeyPad) {
+    const {
+      onKeyPadChange,
+      actions,
+      addDisabled,
+      areaCode,
+      avatarUrl,
+      backButtonLabel,
+      brand,
+      callStatus,
+      children,
+      conferenceCallEquipped,
+      conferenceCallParties,
+      controlBusy,
+      countryCode,
+      currentLocale,
+      direction,
+      fallBackName,
+      flipNumbers,
+      formatPhone,
+      getAvatarUrl,
+      gotoParticipantsCtrl,
+      hasConferenceCall,
+      isOnFlip,
+      isOnHold,
+      isOnMute,
+      lastCallInfo,
+      layout,
+      mergeDisabled,
+      nameMatches,
+      onAdd,
+      onBackButtonClick,
+      onFlip,
+      onHangup,
+      onHold,
+      onMute,
+      onPark,
+      onRecord,
+      onSelectMatcherName,
+      onStopRecord,
+      onUnhold,
+      onUnmute,
+      phoneNumber,
+      phoneSourceNameRenderer,
+      phoneTypeRenderer,
+      recordStatus,
+      selectedMatcherIndex,
+      sessionId,
+      showBackButton,
+      showContactDisplayPlaceholder,
+      showSpinner,
+      sourceIcons,
+      startTime,
+    } = this.props;
+    const {
+      isShowKeyPad,
+      isShowFlipPanel,
+      isShowMergeConfirm,
+    } = this.state;
+
+    if (isShowKeyPad) {
       return (
         <ActiveCallDialPad
-          onChange={this.props.onKeyPadChange}
+          onChange={onKeyPadChange}
           hiddenDialPad={this.hiddenKeyPad}
-          onHangup={this.props.onHangup}
-          currentLocale={this.props.currentLocale}
+          onHangup={onHangup}
+          currentLocale={currentLocale}
         />
       );
     }
-    if (this.state.isShowFlipPanel) {
+    if (isShowFlipPanel) {
       return (
         <FlipPanel
-          isOnFlip={this.props.isOnFlip}
-          flipNumbers={this.props.flipNumbers}
-          currentLocale={this.props.currentLocale}
-          formatPhone={this.props.formatPhone}
+          isOnFlip={isOnFlip}
+          flipNumbers={flipNumbers}
+          currentLocale={currentLocale}
+          formatPhone={formatPhone}
           hideFlipPanel={this.hideFlipPanel}
-          onFlip={this.props.onFlip}
-          complete={this.props.onHangup}
+          onFlip={onFlip}
+          complete={onHangup}
         />
       );
     }
     return (
       <ActiveCallPanel
-        showBackButton={this.props.showBackButton}
-        backButtonLabel={this.props.backButtonLabel}
-        onBackButtonClick={this.props.onBackButtonClick}
-        currentLocale={this.props.currentLocale}
-        formatPhone={this.props.formatPhone}
-        phoneNumber={this.props.phoneNumber}
-        sessionId={this.props.sessionId}
-        callStatus={this.props.callStatus}
-        startTime={this.props.startTime}
-        isOnMute={this.props.isOnMute}
-        isOnHold={this.props.isOnHold}
-        recordStatus={this.props.recordStatus}
-        onMute={this.props.onMute}
-        onUnmute={this.props.onUnmute}
-        onHold={this.props.onHold}
-        onUnhold={this.props.onUnhold}
-        onRecord={this.props.onRecord}
-        onStopRecord={this.props.onStopRecord}
+        showBackButton={showBackButton}
+        backButtonLabel={backButtonLabel}
+        onBackButtonClick={onBackButtonClick}
+        currentLocale={currentLocale}
+        formatPhone={formatPhone}
+        phoneNumber={phoneNumber}
+        sessionId={sessionId}
+        callStatus={callStatus}
+        startTime={startTime}
+        isOnMute={isOnMute}
+        isOnHold={isOnHold}
+        recordStatus={recordStatus}
+        onMute={onMute}
+        onUnmute={onUnmute}
+        onHold={onHold}
+        onUnhold={onUnhold}
+        onRecord={onRecord}
+        onStopRecord={onStopRecord}
         onShowKeyPad={this.showKeyPad}
-        onHangup={this.props.onHangup}
-        onPark={this.props.onPark}
-        onAdd={this.props.onAdd}
+        onHangup={onHangup}
+        onPark={onPark}
+        onAdd={onAdd}
         onMerge={this.onMerge}
-        nameMatches={this.props.nameMatches}
-        fallBackName={this.props.fallBackName}
-        areaCode={this.props.areaCode}
-        countryCode={this.props.countryCode}
-        selectedMatcherIndex={this.props.selectedMatcherIndex}
-        onSelectMatcherName={this.props.onSelectMatcherName}
-        avatarUrl={this.props.avatarUrl}
-        brand={this.props.brand}
-        showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
+        nameMatches={nameMatches}
+        fallBackName={fallBackName}
+        areaCode={areaCode}
+        countryCode={countryCode}
+        selectedMatcherIndex={selectedMatcherIndex}
+        onSelectMatcherName={onSelectMatcherName}
+        avatarUrl={avatarUrl}
+        brand={brand}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         onShowFlipPanel={this.showFlipPanel}
         onToggleTransferPanel={this.onTransfer}
-        gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
-        flipNumbers={this.props.flipNumbers}
-        sourceIcons={this.props.sourceIcons}
-        phoneTypeRenderer={this.props.phoneTypeRenderer}
-        phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
-        layout={this.props.layout}
-        direction={this.props.direction}
-        addDisabled={this.props.addDisabled}
-        mergeDisabled={this.props.mergeDisabled}
-        conferenceCallEquipped={this.props.conferenceCallEquipped}
-        hasConferenceCall={this.props.hasConferenceCall}
-        conferenceCallParties={this.props.conferenceCallParties}
-        lastCallInfo={this.props.lastCallInfo}
-        getAvatarUrl={this.props.getAvatarUrl}
-        actions={this.props.actions}
+        gotoParticipantsCtrl={gotoParticipantsCtrl}
+        flipNumbers={flipNumbers}
+        sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
+        layout={layout}
+        direction={direction}
+        addDisabled={addDisabled}
+        mergeDisabled={mergeDisabled}
+        conferenceCallEquipped={conferenceCallEquipped}
+        hasConferenceCall={hasConferenceCall}
+        conferenceCallParties={conferenceCallParties}
+        lastCallInfo={lastCallInfo}
+        getAvatarUrl={getAvatarUrl}
+        actions={actions}
+        controlBusy={controlBusy}
       >
-        {this.props.children}
-        {this.props.showSpinner ? <SpinnerOverlay /> : null}
-        {this.props.layout === callCtrlLayouts.normalCtrl
-          ? <ConfirmMergeModal
-            currentLocale={this.props.currentLocale}
-            show={this.state.isShowMergeConfirm}
-            onMerge={this.confirmMerge}
-            onCancel={this.hideMergeConfirmAlt}
-            partyProfiles={this.props.conferenceCallParties}
-          />
-          : null
+        {children}
+        {showSpinner ? <SpinnerOverlay /> : null}
+        {
+          layout === callCtrlLayouts.normalCtrl ?
+            (
+              <ConfirmMergeModal
+                currentLocale={currentLocale}
+                show={isShowMergeConfirm}
+                onMerge={this.confirmMerge}
+                onCancel={this.hideMergeConfirmAlt}
+                partyProfiles={conferenceCallParties}
+              />
+            ) :
+            null
         }
       </ActiveCallPanel>
     );
@@ -250,6 +313,7 @@ CallCtrlPanel.propTypes = {
   afterConfirmMerge: PropTypes.func,
   afterOnMerge: PropTypes.func,
   actions: PropTypes.array,
+  controlBusy: PropTypes.bool,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -295,6 +359,7 @@ CallCtrlPanel.defaultProps = {
   onSelectMatcherName: () => null,
   actions: [],
   recordStatus: '',
+  controlBusy: false,
 };
 
 export default CallCtrlPanel;

@@ -75,7 +75,7 @@ export function requestURI(activeSession) {
     hangUp: `${prefix}`,
     reject: `${prefix}/parties/${partyId}/reject`,
     hold: `${prefix}/parties/${partyId}/hold`,
-    unHold: `${prefix}/parties/${partyId}/unhold`,
+    unhold: `${prefix}/parties/${partyId}/unhold`,
     transfer: `${prefix}/parties/${partyId}/transfer`,
     flip: `${prefix}/parties/${partyId}/flip`,
     getPartyData: `${prefix}/parties/${partyId}`,

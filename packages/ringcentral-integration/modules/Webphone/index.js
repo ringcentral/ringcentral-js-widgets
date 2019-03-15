@@ -23,6 +23,7 @@ import Enum from '../../lib/Enum';
 import {
   isBrowserSupport,
   isChrome,
+  isFirefox,
   normalizeSession,
   isRing,
   isOnHold,
@@ -82,6 +83,7 @@ export default class Webphone extends RcModule {
    * @param {Function} params.onCallResume - callback on a call resume
    * @param {Function} params.onBeforeCallResume - callback before a call resume
    * @param {Function} params.onBeforeCallEnd - callback before a call hangup
+   * @param {Object} params.webphoneSDKOptions - callback before a call hangup
    */
   constructor({
     appKey,
@@ -102,6 +104,7 @@ export default class Webphone extends RcModule {
     onCallResume,
     onBeforeCallResume,
     onBeforeCallEnd,
+    webphoneSDKOptions,
     ...options
   }) {
     super({
@@ -120,6 +123,7 @@ export default class Webphone extends RcModule {
     this._audioSettings = this:: ensureExist(audioSettings, 'audioSettings');
     this._contactMatcher = contactMatcher;
     this._tabManager = tabManager;
+    this._webphoneSDKOptions = webphoneSDKOptions || {};
 
     this._onCallEndFunctions = [];
     if (typeof onCallEnd === 'function') {
@@ -388,6 +392,8 @@ export default class Webphone extends RcModule {
         local: this._localVideo,
       },
       enableQos: isChrome(),
+      enableMidLinesInSDP: isFirefox(),
+      ...this._webphoneSDKOptions
     });
     this._webphone.userAgent.audioHelper.loadAudio({
       incoming: incomingAudio, // path to audio file for incoming call

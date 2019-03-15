@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import findLoaderFiles from './';
+import findLoaderFiles from '.';
 
 const sourceFolder = './testData/getLoaderFiles';
 const loaderContent = '/* loadLocale */';

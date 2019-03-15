@@ -67,7 +67,7 @@ function getBaseConfig({
               loader: 'css-loader',
               options: {
                 modules: true,
-                localIdentName: `${hashPrefix}_[path][name]__[local]--[hash:base64:5]`,
+                localIdentName: `${hashPrefix}_[path]_[name]_[local]_[hash:base64:5]`,
               },
             },
             {

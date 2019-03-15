@@ -95,12 +95,14 @@ export default class CallMonitor extends RcModule {
     this._activityMatcher = activityMatcher;
     this._tabManager = tabManager;
     this._webphone = webphone;
-    this._onRinging = onRinging;
     this._onNewCall = onNewCall;
     this._onCallUpdated = onCallUpdated;
     this._onCallEnded = onCallEnded;
     this._storage = this::ensureExist(storage, 'storage');
     this._callMatchedKey = 'callMatched';
+    this._onRinging = onRinging;
+    // change _onRinging hook to array lsit
+    this._onRingingFuncs = [];
 
     this._reducer = getCallMonitorReducer(this.actionTypes);
 
@@ -299,8 +301,18 @@ export default class CallMonitor extends RcModule {
               if (typeof this._onNewCall === 'function') {
                 this._onNewCall(call);
               }
-              if (typeof this._onRinging === 'function' && isRinging(call)) {
-                this._onRinging(call);
+              // loop to execut the onRinging handlers
+              if (isRinging(call)) {
+                if (this._onRinging && typeof this._onRinging === 'function') {
+                  this._onRinging(call);
+                }
+                if (Array.isArray(this._onRingingFuncs) && this._onRingingFuncs.length) {
+                  this._onRingingFuncs.forEach((func) => {
+                    if (func && typeof func === 'function') {
+                      func(call);
+                    }
+                  });
+                }
               }
             } else {
               const oldCall = oldCalls[oldCallIndex];
@@ -442,6 +454,10 @@ export default class CallMonitor extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.callControlClickParticipantAreaClickTrack
     });
+  }
+
+  onRingings(func) {
+    this._onRingingFuncs.push(func);
   }
 
   get hasRingingCalls() {

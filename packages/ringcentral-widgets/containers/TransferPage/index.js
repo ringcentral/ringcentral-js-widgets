@@ -25,6 +25,7 @@ function mapToProps(_, {
     currentLocale: locale.currentLocale,
     searchContactList: contactSearch && contactSearch.sortedResult,
     session,
+    controlBusy: activeCallControl && activeCallControl.busy || false,
   };
 }
 

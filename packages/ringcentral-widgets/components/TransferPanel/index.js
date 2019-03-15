@@ -25,6 +25,7 @@ export default class TransferPanel extends PureComponent {
     autoFocus: PropTypes.bool,
     sessionId: PropTypes.string.isRequired,
     session: PropTypes.object,
+    controlBusy: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -36,6 +37,7 @@ export default class TransferPanel extends PureComponent {
     autoFocus: true,
     session: null,
     searchContactList: [],
+    controlBusy: false,
   };
 
   constructor(props) {
@@ -105,15 +107,29 @@ export default class TransferPanel extends PureComponent {
   }
 
   render() {
-    if (!this.props.session) {
+    const {
+      controlBusy,
+      session,
+      onBack,
+      currentLocale,
+      searchContact,
+      searchContactList,
+      formatPhone,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
+      recipientsContactInfoRenderer,
+      recipientsContactPhoneRenderer,
+      autoFocus,
+    } = this.props;
+    if (!session) {
       return null;
     }
-    const isOnTransfer = !!this.props.session.isOnTransfer;
+    const isOnTransfer = !!session.isOnTransfer;
     return (
       <div className={styles.root}>
         <BackHeader
-          onBackClick={this.props.onBack}>
-          {i18n.getString('transferTo', this.props.currentLocale)}
+          onBackClick={onBack}>
+          {i18n.getString('transferTo', currentLocale)}
         </BackHeader>
         <RecipientsInput
           className={styles.dialInput}
@@ -123,16 +139,16 @@ export default class TransferPanel extends PureComponent {
           recipient={this.state.recipient}
           addToRecipients={this.setRecipient}
           removeFromRecipients={this.clearRecipient}
-          searchContact={this.props.searchContact}
-          searchContactList={this.props.searchContactList}
-          formatContactPhone={this.props.formatPhone}
-          currentLocale={this.props.currentLocale}
-          phoneTypeRenderer={this.props.phoneTypeRenderer}
-          phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
-          contactInfoRenderer={this.props.recipientsContactInfoRenderer}
-          contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
+          searchContact={searchContact}
+          searchContactList={searchContactList}
+          formatContactPhone={formatPhone}
+          currentLocale={currentLocale}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+          contactInfoRenderer={recipientsContactInfoRenderer}
+          contactPhoneRenderer={recipientsContactPhoneRenderer}
           titleEnabled
-          autoFocus={this.props.autoFocus}
+          autoFocus={autoFocus}
         />
         <div className={styles.padContainer}>
           <DialPad
@@ -145,7 +161,7 @@ export default class TransferPanel extends PureComponent {
                 className={isOnTransfer ? styles.disabled : undefined}
                 onClick={this.onTransfer}
                 icon={TransferIcon}
-                disabled={isOnTransfer}
+                disabled={isOnTransfer || controlBusy}
               />
             </div>
           </div>

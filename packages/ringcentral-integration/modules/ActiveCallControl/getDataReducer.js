@@ -58,6 +58,8 @@ function getActiveSessionIdReducer(types) {
         return sessionId;
       }
       case types.resetSuccess:
+      case types.rejectSuccess:
+      case types.hangUpSuccess:
       case types.removeActiveSession: {
         return null;
       }
@@ -94,6 +96,8 @@ function getRecordingIdsStatusReducer(types) {
         return newState;
       }
       case types.recordFail:
+      case types.rejectSuccess:
+      case types.hangUpSuccess:
       case types.removeActiveSession:
       case types.resetSuccess:
         return {};
@@ -127,18 +131,12 @@ function getActiveSessionsStatusReducer(types) {
           sessionId
         });
       }
-      case types.startRecord:
-      case types.stopRecord: {
-        return setActiveSessionStatus(state, activeSession, { isOnRecording: type === types.startRecord });
+      case types.holdSuccess:
+      case types.unholdSuccess: {
+        return setActiveSessionStatus(state, activeSession, { isOnHold: type === types.holdSuccess });
       }
-      case types.mute:
-      case types.unmute: {
-        return setActiveSessionStatus(state, activeSession, { isOnMute: type === types.mute });
-      }
-      case types.hold:
-      case types.unhold: {
-        return setActiveSessionStatus(state, activeSession, { isOnHold: type === types.hold });
-      }
+      case types.rejectSuccess:
+      case types.hangUpSuccess:
       case types.removeActiveSession: {
         const newState = { ...state };
         if (newState[sessionId]) {
@@ -154,6 +152,7 @@ function getActiveSessionsStatusReducer(types) {
     }
   };
 }
+
 function getTimestampReducer(types) {
   return (state = null, { type, timestamp }) => {
     switch (type) {
@@ -166,10 +165,46 @@ function getTimestampReducer(types) {
     }
   };
 }
+
+function getBusyReducer(types) {
+  return (state = 0, { type, timestamp }) => {
+    switch (type) {
+      case types.hold:
+      case types.unhold:
+      case types.mute:
+      case types.unmute:
+      case types.transfer:
+      case types.reject:
+      case types.hangUp:
+      case types.flip:
+        return timestamp;
+      case types.holdSuccess:
+      case types.holdError:
+      case types.unholdSuccess:
+      case types.unholdError:
+      case types.muteSuccess:
+      case types.muteError:
+      case types.unmuteSuccess:
+      case types.unmuteError:
+      case types.transferSuccess:
+      case types.transferError:
+      case types.rejectSuccess:
+      case types.rejectError:
+      case types.hangUpSuccess:
+      case types.hangUpError:
+      case types.flipSuccess:
+      case types.flipError:
+        return 0;
+      default:
+        return state;
+    }
+  };
+}
 export default function getDataReducer(types) {
   return combineReducers({
     activeSessionId: getActiveSessionIdReducer(types),
     activeSessionsStatus: getActiveSessionsStatusReducer(types),
+    busy: getBusyReducer(types),
     recordingIds: getRecordingIdsStatusReducer(types),
     timestamp: getTimestampReducer(types),
   });

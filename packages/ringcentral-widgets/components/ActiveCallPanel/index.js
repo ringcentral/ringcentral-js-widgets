@@ -62,6 +62,7 @@ function ActiveCallPanel({
   lastCallInfo,
   getAvatarUrl,
   actions,
+  controlBusy,
 }) {
   const backHeader = showBackButton ? (
     <BackHeader
@@ -162,6 +163,7 @@ function ActiveCallPanel({
           conferenceCallEquipped={conferenceCallEquipped}
           hasConferenceCall={hasConferenceCall}
           actions={actions}
+          controlBusy={controlBusy}
         />
         {children}
       </Panel>
@@ -219,6 +221,7 @@ ActiveCallPanel.propTypes = {
   lastCallInfo: PropTypes.object,
   getAvatarUrl: PropTypes.func,
   actions: PropTypes.array,
+  controlBusy: PropTypes.bool,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -251,7 +254,8 @@ ActiveCallPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
-  actions: []
+  actions: [],
+  controlBusy: false,
 };
 
 export default ActiveCallPanel;
