@@ -1,5 +1,5 @@
 import { find } from 'ramda';
-import EventEmitter from 'event-emitter';
+import EventEmitter from 'events';
 import uuid from 'uuid';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
@@ -56,6 +56,7 @@ export default class MessageSender extends RcModule {
     this._extensionInfo = extensionInfo;
     this._reducer = getMessageSenderReducer(this.actionTypes);
     this._numberValidate = numberValidate;
+    this._eventEmitter = new EventEmitter();
   }
 
   initialize() {
@@ -229,7 +230,7 @@ export default class MessageSender extends RcModule {
           return null;
         }
       }
-      this.emit(this.actionTypes.send, {
+      this._eventEmitter.emit(this.actionTypes.send, {
         eventId,
         fromNumber,
         toNumbers,
@@ -278,7 +279,7 @@ export default class MessageSender extends RcModule {
 
       return responses;
     } catch (error) {
-      this.emit(this.actionTypes.sendError, {
+      this._eventEmitter.emit(this.actionTypes.sendError, {
         eventId,
         fromNumber,
         toNumbers,
@@ -363,6 +364,10 @@ export default class MessageSender extends RcModule {
     this._alertWarning(messageSenderMessages.sendError);
   }
 
+  on(event, handler) {
+    this._eventEmitter.on(event, handler);
+  }
+
   get status() {
     return this.state.status;
   }
@@ -383,5 +388,3 @@ export default class MessageSender extends RcModule {
     return this._extensionPhoneNumber.smsSenderNumbers;
   }
 }
-
-EventEmitter(MessageSender.prototype);

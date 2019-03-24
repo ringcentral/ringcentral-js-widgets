@@ -4,9 +4,10 @@ import i18n from './i18n';
 
 function Eula(props) {
   const {
-    currentLocale, className, onLinkClicked, brandId
+    currentLocale, className, onLinkClicked, brandId,
+    useEulaAbbreviation
   } = props;
-  let labelId = 'eula';
+  let labelId = useEulaAbbreviation ? 'eulaAbbr' : 'eula';
   let link;
   const isFr = currentLocale.substr(0, 2).toLowerCase() === 'fr';
 
@@ -48,11 +49,13 @@ Eula.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
   onLinkClicked: PropTypes.func,
+  useEulaAbbreviation: PropTypes.bool,
 };
 
 Eula.defaultProps = {
-  className: PropTypes.string,
-  onLinkClicked: PropTypes.func,
+  className: '',
+  onLinkClicked() { },
+  useEulaAbbreviation: false
 };
 
 export default Eula;

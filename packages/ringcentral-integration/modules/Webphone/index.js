@@ -1,4 +1,5 @@
 import { find, filter } from 'ramda';
+import EventEmitter from 'events';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import incomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import outgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
@@ -44,6 +45,16 @@ const extendedControlStatus = new Enum([
   'stopped',
 ]);
 
+const EVENTS = new Enum([
+  'callRing',
+  'callStart',
+  'callEnd',
+  'callHold',
+  'callResume',
+  'beforeCallResume',
+  'beforeCallEnd',
+]);
+
 /**
  * @constructor
  * @description Web phone module to handle phone interaction with WebRTC.
@@ -53,11 +64,11 @@ const extendedControlStatus = new Enum([
     'Auth',
     'Alert',
     'Client',
-    { dep: 'ContactMatcher', optional: true },
     'NumberValidate',
     'RolesAndPermissions',
     'AudioSettings',
     { dep: 'TabManager', optional: true },
+    { dep: 'ContactMatcher', optional: true },
     { dep: 'WebphoneOptions', optional: true }
   ]
 })
@@ -81,6 +92,7 @@ export default class Webphone extends RcModule {
    * @param {Function} params.onCallRing - callback on a call ring
    * @param {Function} params.onCallStart - callback on a call start
    * @param {Function} params.onCallResume - callback on a call resume
+   * @param {Function} params.onCallHold - callback on a call holded
    * @param {Function} params.onBeforeCallResume - callback before a call resume
    * @param {Function} params.onBeforeCallEnd - callback before a call hangup
    * @param {Object} params.webphoneSDKOptions - callback before a call hangup
@@ -102,6 +114,7 @@ export default class Webphone extends RcModule {
     onCallRing,
     onCallStart,
     onCallResume,
+    onCallHold,
     onBeforeCallResume,
     onBeforeCallEnd,
     webphoneSDKOptions,
@@ -111,6 +124,7 @@ export default class Webphone extends RcModule {
       ...options,
       actionTypes,
     });
+    this._eventEmitter = new EventEmitter();
     this._appKey = appKey;
     this._appName = appName;
     this._appVersion = appVersion;
@@ -125,29 +139,27 @@ export default class Webphone extends RcModule {
     this._tabManager = tabManager;
     this._webphoneSDKOptions = webphoneSDKOptions || {};
 
-    this._onCallEndFunctions = [];
     if (typeof onCallEnd === 'function') {
-      this._onCallEndFunctions.push(onCallEnd);
+      this._eventEmitter.on(EVENTS.callEnd, onCallEnd);
     }
-    this._onCallRingFunctions = [];
     if (typeof onCallRing === 'function') {
-      this._onCallRingFunctions.push(onCallRing);
+      this._eventEmitter.on(EVENTS.callRing, onCallRing);
     }
-    this._onCallStartFunctions = [];
     if (typeof onCallStart === 'function') {
-      this._onCallStartFunctions.push(onCallStart);
+      this._eventEmitter.on(EVENTS.callStart, onCallStart);
     }
-    this._onCallResumeFunctions = [];
     if (typeof onCallResume === 'function') {
-      this._onCallResumeFunctions.push(onCallResume);
+      this._eventEmitter.on(EVENTS.callResume, onCallResume);
     }
-    this._onBeforeCallResumeFunctions = [];
+    if (typeof onCallHold === 'function') {
+      this._eventEmitter.on(EVENTS.callHold, onCallHold);
+    }
     if (typeof onBeforeCallResume === 'function') {
-      this._onBeforeCallResumeFunctions.push(onBeforeCallResume);
+      this._eventEmitter.on(EVENTS.beforeCallResume, onBeforeCallResume);
     }
     this._onBeforeCallEndFunctions = [];
     if (typeof onBeforeCallEnd === 'function') {
-      this._onBeforeCallEndFunctions.push(onBeforeCallEnd);
+      this._eventEmitter.on(EVENTS.beforeCallEnd, onBeforeCallEnd);
     }
 
     this._webphone = null;
@@ -744,17 +756,6 @@ export default class Webphone extends RcModule {
       session.__rc_callStatus = sessionStatus.connected;
       this._updateSessions();
     });
-    // session.on('hold', () => {
-    //   console.log('Event: hold');
-    //   session.__rc_callStatus = sessionStatus.onHold;
-    //   this._updateSessions();
-    // });
-    // session.on('unhold', () => {
-    //   console.log('Event: unhold');
-    //   session.__rc_callStatus = sessionStatus.connected;
-    //   session.__rc_lastActiveTime = Date.now();
-    //   this._updateSessions();
-    // });
     session.on('userMediaFailed', () => {
       this._audioSettings.onGetUserMediaError();
     });
@@ -898,6 +899,7 @@ export default class Webphone extends RcModule {
       await session.hold();
       session.__rc_callStatus = sessionStatus.onHold;
       this._updateSessions();
+      this._onCallHold(session);
       return true;
     } catch (e) {
       console.error('hold error:', e);
@@ -1291,12 +1293,7 @@ export default class Webphone extends RcModule {
     ) {
       this._contactMatcher.triggerMatch();
     }
-    if (typeof this._onCallStartFunc === 'function') {
-      this._onCallStartFunc(normalizedSession, this.activeSession);
-    }
-    this._onCallStartFunctions.forEach(
-      handler => handler(normalizedSession, this.activeSession)
-    );
+    this._eventEmitter.emit(EVENTS.callStart, normalizedSession, this.activeSession);
   }
 
   _onCallRing(session) {
@@ -1316,22 +1313,12 @@ export default class Webphone extends RcModule {
     if (this.activeSession && !isOnHold(this.activeSession)) {
       this._webphone.userAgent.audioHelper.playIncoming(false);
     }
-    if (typeof this._onCallRingFunc === 'function') {
-      this._onCallRingFunc(normalizedSession, this.ringSession);
-    }
-    this._onCallRingFunctions.forEach(
-      handler => handler(normalizedSession, this.ringSession)
-    );
+    this._eventEmitter.emit(EVENTS.callRing, normalizedSession, this.ringSession);
   }
 
   _onBeforeCallEnd(session) {
     const normalizedSession = find(x => x.id === session.id, this.sessions);
-    if (typeof this._onBeforeCallEndFunc === 'function') {
-      this._onBeforeCallEndFunc(normalizedSession, this.activeSession);
-    }
-    this._onBeforeCallEndFunctions.forEach(
-      handler => handler(normalizedSession, this.activeSession)
-    );
+    this._eventEmitter.emit(EVENTS.beforeCallEnd, normalizedSession, this.activeSession);
   }
 
   _onCallEnd(session) {
@@ -1346,32 +1333,24 @@ export default class Webphone extends RcModule {
       session: normalizedSession,
       sessions: this.sessions,
     });
-    if (typeof this._onCallEndFunc === 'function') {
-      this._onCallEndFunc(normalizedSession, this.activeSession, this.ringSession);
-    }
-    this._onCallEndFunctions.forEach(
-      handler => handler(normalizedSession, this.activeSession, this.ringSession)
+    this._eventEmitter.emit(
+      EVENTS.callEnd, normalizedSession, this.activeSession, this.ringSession
     );
   }
 
   _onBeforeCallResume(session) {
     const normalizedSession = find(x => x.id === session.id, this.sessions);
-    if (typeof this._onBeforeCallResumeFunc === 'function') {
-      this._onBeforeCallResumeFunc(normalizedSession, this.activeSession);
-    }
-    this._onBeforeCallResumeFunctions.forEach(
-      handler => handler(normalizedSession, this.activeSession)
-    );
+    this._eventEmitter.emit(EVENTS.beforeCallResume, normalizedSession, this.activeSession);
   }
 
   _onCallResume(session) {
     const normalizedSession = find(x => x.id === session.id, this.sessions);
-    if (typeof this._onCallResumeFunc === 'function') {
-      this._onCallResumeFunc(normalizedSession, this.activeSession);
-    }
-    this._onCallResumeFunctions.forEach(
-      handler => handler(normalizedSession, this.activeSession)
-    );
+    this._eventEmitter.emit(EVENTS.callResume, normalizedSession, this.activeSession);
+  }
+
+  _onCallHold(session) {
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
+    this._eventEmitter.emit(EVENTS.callHold, normalizedSession, this.activeSession);
   }
 
   async _retrySleep() {
@@ -1409,37 +1388,43 @@ export default class Webphone extends RcModule {
 
   onCallStart(handler) {
     if (typeof handler === 'function') {
-      this._onCallStartFunctions.push(handler);
+      this._eventEmitter.on(EVENTS.callStart, handler);
     }
   }
 
   onCallRing(handler) {
     if (typeof handler === 'function') {
-      this._onCallRingFunctions.push(handler);
+      this._eventEmitter.on(EVENTS.callRing, handler);
     }
   }
 
   onCallEnd(handler) {
     if (typeof handler === 'function') {
-      this._onCallEndFunctions.push(handler);
+      this._eventEmitter.on(EVENTS.callEnd, handler);
     }
   }
 
   onBeforeCallResume(handler) {
     if (typeof handler === 'function') {
-      this._onBeforeCallResumeFunctions.push(handler);
+      this._eventEmitter.on(EVENTS.beforeCallResume, handler);
     }
   }
 
   onCallResume(handler) {
     if (typeof handler === 'function') {
-      this._onCallResumeFunctions.push(handler);
+      this._eventEmitter.on(EVENTS.callResume, handler);
+    }
+  }
+
+  onCallHold(handler) {
+    if (typeof handler === 'function') {
+      this._eventEmitter.on(EVENTS.callHold, handler);
     }
   }
 
   onBeforeCallEnd(handler) {
     if (typeof handler === 'function') {
-      this._onBeforeCallEndFunctions.push(handler);
+      this._eventEmitter.on(EVENTS.beforeCallEnd, handler);
     }
   }
 

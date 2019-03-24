@@ -10,6 +10,7 @@ import momentLocalizer from 'react-widgets-moment';
 import 'react-widgets/dist/css/react-widgets.css';
 import DateIcon from '../../assets/images/Date.svg';
 import TimeIcon from '../../assets/images/Time.svg';
+import DropdownSelect from '../DropdownSelect';
 
 import styles from './styles.scss';
 import Switch from '../Switch';
@@ -412,7 +413,7 @@ const RecurringMeeting = (
   }
 ) => (
   <MeetingSection className={styles.section}>
-    <div>
+    <div className={styles.RecurringMeetingDiv}>
       <div className={styles.spaceBetween}>
         <span className={styles.label}>
           {i18n.getString('recurringMeeting', currentLocale)}
@@ -455,8 +456,8 @@ const Video = (
   }
 ) => (
   <MeetingSection title={i18n.getString('video', currentLocale)} withSwitch>
-    <div>
-      <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
+    <div className={styles.videoDiv}>
+      <div className={classnames(styles.labelLight, styles.fixTopMargin, styles.videoDescribe)}>
         {i18n.getString('videoDescribe', currentLocale)}
       </div>
       <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
@@ -499,35 +500,94 @@ Video.propTypes = {
   meeting: PropTypes.object.isRequired,
 };
 
+const AudioOptionsCheckbox = ({
+  update,
+  meeting,
+  data
+}) => (
+  <CheckBox
+    onSelect={({ key }) => {
+      const audioOptions = key.split('_');
+      update({
+        ...meeting,
+        audioOptions,
+      });
+    }}
+    valueField="key"
+    textField="text"
+    selected={meeting.audioOptions.join('_')}
+    data={data} />
+);
+AudioOptionsCheckbox.propTypes = {
+  update: PropTypes.func.isRequired,
+  meeting: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
+};
+const AudioOptionsDropdown = ({
+  update,
+  meeting,
+  data
+}) => (
+  <DropdownSelect
+    className={classnames(styles.dropdownSelect)}
+    iconClassNßame={styles.dropdownIcon}
+    value={meeting.audioOptions.join('_')}
+    onChange={({ key }) => {
+      const audioOptions = key.split('_');
+      update({
+        ...meeting,
+        audioOptions,
+      });
+    }}
+    options={data}
+    valueFunction={option => option.text}
+    renderValue={value => data.find(item => item.key === value).text}
+    renderFunction={option => <div title={option.text}>{option.text}</div>}
+    dropdownAlign="left"
+    titleEnabled
+  />
+);
+AudioOptionsDropdown.propTypes = {
+  update: PropTypes.func.isRequired,
+  meeting: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
+};
+
 const AudioOptions = (
   {
     currentLocale,
     update,
     meeting,
     data,
+    audioOptionToggle
   }
-) => (
-  <MeetingSection title={i18n.getString('audioOptions', currentLocale)} withSwitch>
-    <CheckBox
-      onSelect={({ key }) => {
-          const audioOptions = key.split('_');
-          update({
-            ...meeting,
-            audioOptions,
-          });
-        }}
-      valueField="key"
-      textField="text"
-      selected={meeting.audioOptions.join('_')}
-      data={data} />
-  </MeetingSection>
-);
+) => {
+  const audioOptions = audioOptionToggle ? (
+    <AudioOptionsDropdown
+      update={update}
+      meeting={meeting}
+      data={data}
+    />
+  ) : (
+    <AudioOptionsCheckbox
+      update={update}
+      meeting={meeting}
+      data={data}
+    />
+  );
+  return (
+    <MeetingSection title={i18n.getString('audioOptions', currentLocale)} withSwitch>
+      {audioOptions}
+    </MeetingSection>
+  );
+}
 
 AudioOptions.propTypes = {
   update: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   meeting: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
+  audioOptionToggle: PropTypes.bool.isRequired
 };
 
 const MeetingOptions = (
@@ -536,83 +596,91 @@ const MeetingOptions = (
     meeting,
     update,
     that,
+    meetingOptionToggle,
+    passwordPlaceholderEnable
   }
-) => (
-  <MeetingSection
-    title={i18n.getString('meetingOptions', currentLocale)}
-    className={styles.meetingOptions}
-    toggle={false}
-    withSwitch>
-    <div>
-      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-        <span className={styles.labelLight}>
-          {i18n.getString('requirePassword', currentLocale)}
-        </span>
-        <Switch
-          checked={meeting._requireMeetingPassword}
-          onChange={(_requireMeetingPassword) => {
-              if (_requireMeetingPassword) {
-                setTimeout(() => {
-                  that.password.focus();
-                }, 100);
-              }
-              update({
-                ...meeting,
-                _requireMeetingPassword,
-                password: null,
-              });
-            }}
-          dataSign="requirePasswordToggle"
-          />
-      </div>
-      {
-          meeting._requireMeetingPassword ? (
-            <div className={styles.passwordBox}>
-              <div className={styles.labelLight}>
-                {i18n.getString('password', currentLocale)}
+) => {
+  const passwordPlaceholder = passwordPlaceholderEnable ? i18n.getString('password', currentLocale) : '';
+  return (
+    <MeetingSection
+      title={i18n.getString('meetingOptions', currentLocale)}
+      className={styles.meetingOptions}
+      toggle={meetingOptionToggle}
+      withSwitch>
+      <div className={styles.meetingOptionsDiv}>
+        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+          <span className={styles.labelLight}>
+            {i18n.getString('requirePassword', currentLocale)}
+          </span>
+          <Switch
+            checked={meeting._requireMeetingPassword}
+            onChange={(_requireMeetingPassword) => {
+                if (_requireMeetingPassword) {
+                  setTimeout(() => {
+                    that.password.focus();
+                  }, 100);
+                }
+                update({
+                  ...meeting,
+                  _requireMeetingPassword,
+                  password: null,
+                });
+              }}
+            dataSign="requirePasswordToggle"
+            />
+        </div>
+        {
+            meeting._requireMeetingPassword ? (
+              <div className={styles.passwordBox}>
+                <div className={styles.labelLight}>
+                  {i18n.getString('password', currentLocale)}
+                </div>
+                <input
+                  type="text"
+                  placeholder={passwordPlaceholder}
+                  className={styles.password}
+                  ref={(ref) => { that.password = ref; }}
+                  value={meeting.password || ''}
+                  onChange={({ target }) => {
+                    if (PASSWORD_REGEX.test(target.value)) {
+                      update({
+                        ...meeting,
+                        password: target.value
+                      });
+                    }
+                  }}
+                  data-sign="requirePasswordInput"
+                />
               </div>
-              <input
-                type="text"
-                className={styles.password}
-                ref={(ref) => { that.password = ref; }}
-                value={meeting.password || ''}
-                onChange={({ target }) => {
-                  if (PASSWORD_REGEX.test(target.value)) {
-                    update({
-                      ...meeting,
-                      password: target.value
-                    });
-                  }
-                }}
-                data-sign="requirePasswordInput"
-              />
-            </div>
-          ) : null
-        }
-      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-        <span className={styles.labelLight}>
-          {i18n.getString('enableJoinBeforeHost', currentLocale)}
-        </span>
-        <Switch
-          checked={meeting.allowJoinBeforeHost}
-          onChange={(allowJoinBeforeHost) => {
+            ) : null
+          }
+        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+          <span className={classnames(styles.labelLight, styles.defaultShrink)}>
+            {i18n.getString('enableJoinBeforeHost', currentLocale)}
+          </span>
+          <Switch
+            checked={meeting.allowJoinBeforeHost}
+            onChange={(allowJoinBeforeHost) => {
               update({
                 ...meeting,
                 allowJoinBeforeHost,
               });
             }}
-          dataSign="enableJoinToggle"
-          />
+            dataSign="enableJoinToggle"
+            className={styles.notShrink}
+            />
+        </div>
       </div>
-    </div>
-  </MeetingSection>
-);
-
+    </MeetingSection>
+  );
+};
 MeetingOptions.propTypes = {
   update: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   meeting: PropTypes.object.isRequired,
   that: PropTypes.object.isRequired,
+  meetingOptionToggle: PropTypes.bool.isRequired,
+  passwordPlaceholderEnable: PropTypes.bool.isRequired
 };
 
 class MeetingPanel extends Component {
@@ -662,7 +730,11 @@ class MeetingPanel extends Component {
       showWhen,
       showDuration,
       showRecurringMeeting,
-      openNewWindow
+      openNewWindow,
+      meetingOptionToggle,
+      passwordPlaceholderEnable,
+      audioOptionToggle,
+      onOK
     } = this.props;
     if (!Object.keys(meeting).length) {
       return null;
@@ -746,12 +818,15 @@ class MeetingPanel extends Component {
                 data={AUDIO_OPTIONS}
                 currentLocale={currentLocale}
                 meeting={meeting}
-                update={update} />
+                update={update}
+                audioOptionToggle={audioOptionToggle} />
               <MeetingOptions
                 currentLocale={currentLocale}
                 meeting={meeting}
                 that={this}
-                update={update} />
+                update={update}
+                meetingOptionToggle={meetingOptionToggle}
+                passwordPlaceholderEnable={passwordPlaceholderEnable} />
             </div>
           ) : null
         }
@@ -760,6 +835,7 @@ class MeetingPanel extends Component {
           hidden={hidden}
           disabled={disabled}
           meeting={meeting}
+          onOK={onOK}
           onClick={async () => {
             if (!disabled) {
               await sleep(100);
@@ -786,6 +862,10 @@ MeetingPanel.propTypes = {
   showDuration: PropTypes.bool,
   showRecurringMeeting: PropTypes.bool,
   openNewWindow: PropTypes.bool,
+  meetingOptionToggle: PropTypes.bool,
+  passwordPlaceholderEnable: PropTypes.bool,
+  audioOptionToggle: PropTypes.bool,
+  onOK: PropTypes.func
 };
 
 MeetingPanel.defaultProps = {
@@ -796,6 +876,10 @@ MeetingPanel.defaultProps = {
   showDuration: true,
   showRecurringMeeting: true,
   openNewWindow: true,
+  meetingOptionToggle: false,
+  passwordPlaceholderEnable: false,
+  audioOptionToggle: false,
+  onOK: undefined
 };
 
 export default MeetingPanel;

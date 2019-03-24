@@ -1,5 +1,5 @@
 import uuid from 'uuid';
-import emitter from 'event-emitter';
+import EventEmitter from 'events';
 import sleep from './sleep';
 
 const HEART_BEAT_INTERVAL = 1000;
@@ -15,14 +15,16 @@ const FIGHT_TIMEOUT = 20;
  * @class
  * @description The base active tab and cross tab event handling class.
  */
-export default class Tabbie {
+export default class Tabbie extends EventEmitter {
   constructor({
     prefix = '',
     heartBeatInterval = HEART_BEAT_INTERVAL,
     heartBeatExpire = HEART_BEAT_EXPIRE,
     gcInterval = GC_INTERVAL,
     fightTimeout = FIGHT_TIMEOUT,
+    ...options
   }) {
+    super(options);
     this._prefix = (prefix && prefix !== '') ? `${prefix}-` : '';
     this._enabled = typeof window !== 'undefined' &&
       typeof document.visibilityState !== 'undefined' &&
@@ -88,9 +90,11 @@ export default class Tabbie {
       }
     }
   }
+
   _heartBeat = () => {
     localStorage.setItem(this._heartBeatKey, Date.now());
   }
+
   _gc = () => {
     const expiredCut = Date.now() - this._heartBeatExpire;
     this._getHeartBeatKeys().forEach(async (key) => {
@@ -103,6 +107,7 @@ export default class Tabbie {
       }
     });
   }
+
   _getHeartBeatKeys() {
     const { length } = localStorage;
     const keys = new Set();
@@ -112,6 +117,7 @@ export default class Tabbie {
     }
     return [...keys];
   }
+
   _setAsMainTab() {
     localStorage.setItem(this._mainTabKey, this.id);
     this.emit('mainTabIdChanged', this.id);
@@ -155,9 +161,11 @@ export default class Tabbie {
   get id() {
     return this._id;
   }
+
   get enabled() {
     return this._enabled;
   }
+
   get prefix() {
     return this._prefix;
   }
@@ -172,4 +180,3 @@ export default class Tabbie {
     }
   }
 }
-emitter(Tabbie.prototype);

@@ -259,3 +259,20 @@
 .meetingOptions {
   border-bottom: 1px solid $silver;
 }
+.videoDescribe,
+.RecurringMeetingDiv,
+.videoDiv,
+.meetingOptionsDiv {
+  font-weight: normal;
+}
+.dropdownSelect {
+  width: 150px;
+}
+
+.notShrink {
+  flex-shrink: 0;
+}
+
+.defaultShrink {
+  flex-shrink: 1;
+}

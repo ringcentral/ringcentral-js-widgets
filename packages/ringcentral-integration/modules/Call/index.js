@@ -121,6 +121,7 @@ export default class Call extends RcModule {
       this.pending
     );
   }
+
   _shouldReset() {
     return (
       (
@@ -153,6 +154,7 @@ export default class Call extends RcModule {
       this._webphone.disconnect();
     }
   }
+
   async _processCall() {
     const oldCallSettingMode = this._callSettingMode;
     if (this._callingSettings.callingMode !== oldCallSettingMode && this._webphone) {
@@ -164,6 +166,7 @@ export default class Call extends RcModule {
       }
     }
   }
+
   @proxify
   async onToNumberChange(value) {
     this.store.dispatch({

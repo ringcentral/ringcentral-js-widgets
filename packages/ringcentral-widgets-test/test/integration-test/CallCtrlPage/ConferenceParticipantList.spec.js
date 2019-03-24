@@ -23,7 +23,8 @@ describe('Conference Participant List Page', () => {
     expect(participantLists).toHaveLength(2);
     expect(wrapper.find('.backLabel').text()).toEqual('Conference Call');
     expect(wrapper.find('.participantsCount').text()).toEqual('2 Participants');
-    participantLists.at(0).find('.rejectButton').at(0).simulate('click');
+    participantLists.at(0).find('.rejectButton').at(0).find('g')
+      .simulate('click');
     await timeout(100);
     let confirmModal = wrapper.find(ConfirmRemoveModal);
     expect(confirmModal.props().show).toBeTruthy();
@@ -31,7 +32,8 @@ describe('Conference Participant List Page', () => {
     await timeout(100);
     confirmModal = wrapper.find(ConfirmRemoveModal);
     expect(confirmModal.props().show).toBeFalsy();
-    participantLists.at(0).find('.rejectButton').at(0).simulate('click');
+    participantLists.at(0).find('.rejectButton').at(0).find('g')
+      .simulate('click');
     await timeout(100);
     confirmModal = wrapper.find(ConfirmRemoveModal);
     const partyProfiles = phone.conferenceCall.partyProfiles;
@@ -49,7 +51,8 @@ describe('Conference Participant List Page', () => {
     // terminate a participant
     expect(participantLists).toHaveLength(1);
     expect(wrapper.find('.participantsCount').text()).toEqual('1 Participant');
-    participantLists.at(0).find('.rejectButton').at(0).simulate('click');
+    participantLists.at(0).find('.rejectButton').at(0).find('g')
+      .simulate('click');
     await timeout(100);
     confirmModal = wrapper.find(ConfirmRemoveModal);
     expect(confirmModal.props().show).toBeTruthy();

@@ -1,5 +1,5 @@
 import { find } from 'ramda';
-import EventEmitter from 'event-emitter';
+import EventEmitter from 'events';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
@@ -87,6 +87,7 @@ export default class ConferenceCall extends RcModule {
       ...options,
       actionTypes,
     });
+    this._eventEmitter = new EventEmitter();
     this._auth = this:: ensureExist(auth, 'auth');
     this._alert = this:: ensureExist(alert, 'alert');
     this._call = this:: ensureExist(call, 'call');
@@ -409,7 +410,7 @@ export default class ConferenceCall extends RcModule {
           });
           const conferenceState = Object.values(this.conferences)[0];
 
-          this.emit(this.actionTypes.mergeSucceeded, conferenceState);
+          this._eventEmitter.emit(this.actionTypes.mergeSucceeded, conferenceState);
         }, () => {
           const conferenceState = Object.values(this.conferences)[0];
 
@@ -435,7 +436,7 @@ export default class ConferenceCall extends RcModule {
         this.store.dispatch({
           type: this.actionTypes.mergeSucceeded,
         });
-        this.emit(this.actionTypes.mergeSucceeded);
+        this._eventEmitter.emit(this.actionTypes.mergeSucceeded);
       } catch (e) {
         const conferenceState = Object.values(this.conferences)[0];
         /**
@@ -576,10 +577,10 @@ export default class ConferenceCall extends RcModule {
 
   onMergeSuccess(func, isOnce) {
     if (isOnce) {
-      this.once(this.actionTypes.mergeSucceeded, func);
+      this._eventEmitter.once(this.actionTypes.mergeSucceeded, func);
       return;
     }
-    this.on(this.actionTypes.mergeSucceeded, func);
+    this._eventEmitter.on(this.actionTypes.mergeSucceeded, func);
   }
 
   removeMergeSuccess(func) {
@@ -1046,5 +1047,3 @@ export default class ConferenceCall extends RcModule {
     },
   ]
 }
-
-EventEmitter(ConferenceCall.prototype);

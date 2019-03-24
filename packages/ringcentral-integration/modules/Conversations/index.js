@@ -152,7 +152,6 @@ export default class Conversations extends RcModule {
     this._showMMSAttachment = showMMSAttachment;
     this._lastConversaionList = [];
 
-
     this._messageSender.on(this._messageSender.actionTypes.send, ({ toNumbers }) => {
       this.addEntities(toNumbers);
     });

@@ -164,8 +164,9 @@ export default class UserGuide extends React.Component {
         )}
       </Transition>
     );
+    const { carouselClassName } = this.props;
     return (
-      <div className={styles.carousel}>
+      <div className={classnames(styles.carousel, carouselClassName)}>
         <div
           className={styles.carouselBox}
           style={{ transform: `translateX(-${this.state.curIdx * 100}vw)` }}
@@ -216,6 +217,7 @@ UserGuide.propTypes = {
   guides: PropTypes.array.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  carouselClassName: PropTypes.string,
 };
 
 UserGuide.defaultProps = {
@@ -224,5 +226,6 @@ UserGuide.defaultProps = {
   playing: false,
   firstLogin: false,
   updateCarousel: () => null,
-  quickAccessEnter: undefined
+  quickAccessEnter: undefined,
+  carouselClassName: null,
 };

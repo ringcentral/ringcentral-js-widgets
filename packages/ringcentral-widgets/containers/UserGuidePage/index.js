@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withPhone } from '../../lib/phoneContext';
 import UserGuide from '../../components/UserGuide';
 
-function mapToProps(_, {
+export function mapToProps(_, {
   phone: {
     locale,
     userGuide
@@ -24,7 +24,7 @@ function mapToProps(_, {
   };
 }
 
-function mapToFunctions(_, {
+export function mapToFunctions(_, {
   phone: {
     userGuide,
     quickAccess

@@ -73,7 +73,7 @@ async function mockStartConference(phone, wrapper) {
   expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${sessionB.id}`);
   wrapper.update();
   const mergeButton = wrapper.find(CallCtrlContainer).find(CircleButton).at(3);
-  mergeButton.simulate('click');
+  mergeButton.find('g').simulate('click');
   await timeout(100);
   /* manual terminate normal session, accept conference session */
   phone.webphone.sessions.forEach((x) => {
@@ -187,7 +187,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     expect(phone.routerInteraction.currentPath.indexOf('/calls/active')).toEqual(0);
     const callCtrlContainer = wrapper.find(CallCtrlContainer);
     const addButton = callCtrlContainer.find(CircleButton).at(3);
-    addButton.simulate('click');
+    addButton.find('g').simulate('click');
     await timeout(500);
     wrapper.update();
     expect(phone.routerInteraction.currentPath)
@@ -259,7 +259,7 @@ describe('RCI-1710156: Call control add call flow', () => {
     expect(addButton.find('.buttonTitle').text()).toEqual('Add');
     // #2 user selected add button
     await timeout(400);
-    addCircleButton.simulate('click');
+    addCircleButton.find('g').simulate('click');
     wrapper.update();
     const fromNumber = phone.webphone.activeSession.fromNumber;
     expect(phone.routerInteraction.currentPath)

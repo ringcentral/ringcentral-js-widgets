@@ -23,6 +23,7 @@ export default class TabManager extends RcModule {
     });
     this._reducer = getTabManagerReducer(this.actionTypes);
   }
+
   async initialize() {
     this.store.dispatch({
       type: this.actionTypes.initSuccess,

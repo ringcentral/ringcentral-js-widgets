@@ -1,14 +1,15 @@
 import uuid from 'uuid';
-import emitter from 'event-emitter';
+import EventEmitter from 'events';
 import MemoryStorage from './MemoryStorage';
 
 // TODO: experiment with a managed list of keys to watch rather than matching every event with
 // storageKey might provide better performance
 
-export default class SynchronizedStorage {
+export default class SynchronizedStorage extends EventEmitter {
   constructor({
     storageKey,
   }) {
+    super();
     if (!storageKey) {
       throw Error('SynchronizedStorage must be created with a storage key');
     }
@@ -55,6 +56,7 @@ export default class SynchronizedStorage {
       this._localStorage = new MemoryStorage();
     }
   }
+
   getLocalStorageKeys() {
     const len = this._localStorage.length;
     const keys = [];
@@ -66,6 +68,7 @@ export default class SynchronizedStorage {
     }
     return keys;
   }
+
   getData() {
     const output = {};
     this.getLocalStorageKeys().forEach((key) => {
@@ -76,6 +79,7 @@ export default class SynchronizedStorage {
     });
     return output;
   }
+
   getItem(key) {
     try {
       const {
@@ -86,6 +90,7 @@ export default class SynchronizedStorage {
       return undefined;
     }
   }
+
   setItem(key, value) {
     this._localStorage.setItem(
       `${this._storageKey}-${key}`,
@@ -95,19 +100,20 @@ export default class SynchronizedStorage {
       }),
     );
   }
+
   removeItem(key) {
     this._localStorage.removeItem(
       `${this._storageKey}-${key}`,
     );
   }
+
   destroy() {
     if (this._storageHandler) {
       window.removeEventListener('storage', this._storageHandler);
     }
   }
+
   get id() {
     return this._id;
   }
 }
-
-emitter(SynchronizedStorage.prototype);

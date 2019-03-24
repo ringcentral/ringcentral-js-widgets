@@ -1,9 +1,9 @@
-import RcModule from '../../lib/RcModule';
+import sleep from '../../lib/sleep';
 import { Module } from '../../lib/di';
+import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
 import getSoftphoneReducer from './getSoftphoneReducer';
-import sleep from '../../lib/sleep';
 import proxify from '../../lib/proxy/proxify';
 
 /**
@@ -11,7 +11,11 @@ import proxify from '../../lib/proxy/proxify';
  * @description Softphone module to call softphone
  */
 @Module({
-  deps: ['Brand', { dep: 'SoftphoneOptions', optional: true }]
+  deps: [
+    'Brand',
+    { dep: 'ContactMatcher', optional: true },
+    { dep: 'SoftphoneOptions', optional: true },
+  ]
 })
 export default class Softphone extends RcModule {
   /**
@@ -19,11 +23,14 @@ export default class Softphone extends RcModule {
    * @param {Object} params - params object
    * @param {Brnad} params.brand - brand module instance
    * @param {Bool} params.extensionMode - default false
+   * @param {Function} param.callHandler - custom call handler, optional
+   * @param {MontactMatcher} param.contactMatcher - contactMatcher module instance, optional
    */
   constructor({
     brand,
     extensionMode = false,
-    callHandler = null,
+    callHandler,
+    contactMatcher,
     ...options
   }) {
     super({
@@ -33,6 +40,7 @@ export default class Softphone extends RcModule {
     this._brand = brand;
     this._extensionMode = extensionMode;
     this._callHandler = callHandler;
+    this._contactMatcher = contactMatcher;
     this._reducer = getSoftphoneReducer(this.actionTypes);
   }
 
@@ -67,10 +75,11 @@ export default class Softphone extends RcModule {
       this._callHandler({
         protocol: this.protocol,
         command: cmd,
+        phoneNumber,
       });
     } else if (this._extensionMode) {
-    // TODO use window.open in extension background, this method will crash chrome when
-    // executed in background page.
+      // TODO use window.open in extension background, this method will crash chrome when
+      // executed in background page.
       window.open(uri);
     } else if (window.navigator.msLaunchUri) {
       // to support ie to start the service
@@ -88,6 +97,13 @@ export default class Softphone extends RcModule {
       await sleep(300);
       document.body.removeChild(frame);
     }
+
+    if (this._contactMatcher) {
+      await this._contactMatcher.forceMatchNumber({
+        phoneNumber,
+      });
+    }
+
     this.store.dispatch({
       type: this.actionTypes.connectComplete,
     });
