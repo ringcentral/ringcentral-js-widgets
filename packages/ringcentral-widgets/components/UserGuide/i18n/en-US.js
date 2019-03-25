@@ -1,5 +1,5 @@
 export default {
-  start: 'Take a Quick Tour',
+  start: 'Take a quick tour',
   skip: 'Skip',
   next: 'Next',
   finish: 'Finish',

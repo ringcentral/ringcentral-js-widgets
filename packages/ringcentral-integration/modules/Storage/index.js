@@ -39,6 +39,7 @@ export default class Storage extends StorageBase {
     this._auth = auth;
     this._tabManager = tabManager;
   }
+
   initialize() {
     let storedData = null;
     this.store.subscribe(async () => {
@@ -91,7 +92,11 @@ export default class Storage extends StorageBase {
           type: this.actionTypes.reset,
         });
         if (this._storageHandler) {
-          this._storage.off('storage', this._storageHandler);
+          if (this._storage.off) {
+            this._storage.off('storage', this._storageHandler);
+          } else if (this._storage.removeListener) {
+            this._storage.removeListener('storage', this._storageHandler);
+          }
           this._storageHandler = null;
         }
         if (this._storage) {

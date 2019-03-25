@@ -1,6 +1,4 @@
-const sleep = t => new Promise((resolve) => {
-  setTimeout(() => resolve(), t);
-});
+import sleep from '../sleep';
 
 /**
  * With concurrentExecute helper function, you could control

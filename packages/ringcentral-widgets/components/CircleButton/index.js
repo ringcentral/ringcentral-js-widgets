@@ -31,7 +31,11 @@ function CircleButton(props) {
       xmlns="http://www.w3.org/2000/svg"
       className={classnames(styles.btnSvg, props.className)}
       viewBox="0 0 500 500"
-      onClick={onClick}
+      onClick={(e) => {
+        if ((e.target && e.target.tagName !== 'svg') && onClick) {
+          onClick(e);
+        }
+      }}
       width={props.width}
       height={props.height}
       x={props.x}

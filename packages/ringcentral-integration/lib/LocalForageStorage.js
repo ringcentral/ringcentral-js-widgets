@@ -1,13 +1,14 @@
 import uuid from 'uuid';
-import emitter from 'event-emitter';
+import EventEmitter from 'events';
 import localforage from 'localforage';
 
 import MemoryStorage from './MemoryStorage';
 
-export default class LocalforageStorage {
+export default class LocalforageStorage extends EventEmitter {
   constructor({
     storageKey,
   }) {
+    super();
     if (!storageKey) {
       throw Error('SynchronizedStorage must be created with a storage key');
     }
@@ -123,5 +124,3 @@ export default class LocalforageStorage {
     this._ready = true;
   }
 }
-
-emitter(LocalforageStorage.prototype);

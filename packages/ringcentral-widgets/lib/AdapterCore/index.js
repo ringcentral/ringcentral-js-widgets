@@ -223,12 +223,12 @@ export default class AdapterCore {
         });
       });
     });
-
-    this._dropdownPresence = this._root.querySelector(`.${this._styles.dropdownPresence}`);
-    this._dropdownPresence.addEventListener('click', (evt) => {
-      evt.stopPropagation();
-      this.togglePresenceDropdown();
-    });
+    if (this._dropdownPresence) {
+      this._dropdownPresence.addEventListener('click', (evt) => {
+        evt.stopPropagation();
+        this.togglePresenceDropdown();
+      });
+    }
 
     this._contentFrameEl = this._root.querySelector(
       `.${this._styles.contentFrame}`
@@ -381,9 +381,9 @@ export default class AdapterCore {
   }
 
   togglePresenceDropdown() {
-    const dropdownPresence = this._root.querySelector(`.${this._styles.dropdownPresence}`);
-    if (dropdownPresence) {
-      dropdownPresence.classList.toggle(`${this._styles.showDropdown}`);
+    if (this.dropdownPresence) {
+      this.dropdownPresence.classList.toggle(`${this._styles.showDropdown}`);
+      this.setMinimized(false);
     }
   }
 
@@ -424,6 +424,9 @@ export default class AdapterCore {
       type: this._messageTypes.syncMinimized,
       minimized: this._minimized,
     });
+    if (minimized && this.dropdownPresence) {
+      this.dropdownPresence.classList.remove(`${this._styles.showDropdown}`);
+    }
   }
 
   toggleMinimized() {
@@ -1069,5 +1072,9 @@ export default class AdapterCore {
 
   get moveOutViewCallsBtn() {
     return !this._onAllCallsPath && (this.moveOutRingingInfo || this.moveOutOnHoldInfo);
+  }
+
+  get dropdownPresence() {
+    return this._root.querySelector(`.${this._styles.dropdownPresence}`);
   }
 }

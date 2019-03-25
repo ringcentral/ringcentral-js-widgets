@@ -1,11 +1,11 @@
-import RcModule from '../../lib/RcModule';
+import sleep from '../../lib/sleep';
 import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
 import getRingoutReducer from './getRingoutReducer';
 import ringoutErrors from './ringoutErrors';
-import sleep from '../../lib/sleep';
-import proxify from '../../lib/proxy/proxify';
 
 const DEFAULT_MONITOR_INTERVAL = 2500;
 const DEFAULT_TIME_BETWEEN_CALLS = 10000;
@@ -15,7 +15,12 @@ const DEFAULT_TIME_BETWEEN_CALLS = 10000;
  * @description Ringout managing module
  */
 @Module({
-  deps: ['Auth', 'Client', { dep: 'RingoutOptions', optional: true }]
+  deps: [
+    'Auth',
+    'Client',
+    { dep: 'ContactMatcher', optional: true },
+    { dep: 'RingoutOptions', optional: true },
+  ]
 })
 export default class Ringout extends RcModule {
   /**
@@ -25,10 +30,12 @@ export default class Ringout extends RcModule {
    * @param {Auth} params.auth - auth module instance
    * @param {Number} params.monitorInterval - monitor interval, default 2500
    * @param {Number} params.timeBetweenCalls - time between calls, default 10000
+   * @param {MontactMatcher} param.contactMatcher - contactMatcher module instance, optional
    */
   constructor({
     auth,
     client,
+    contactMatcher,
     monitorInterval = DEFAULT_MONITOR_INTERVAL,
     timeBetweenCalls = DEFAULT_TIME_BETWEEN_CALLS,
     ...options
@@ -39,6 +46,7 @@ export default class Ringout extends RcModule {
     });
     this._auth = auth;
     this._client = client;
+    this._contactMatcher = contactMatcher;
     this._reducer = getRingoutReducer(this.actionTypes);
     this._monitorInterval = monitorInterval;
     this._timeBetweenCalls = timeBetweenCalls;
@@ -57,6 +65,7 @@ export default class Ringout extends RcModule {
       }
     });
   }
+
   @proxify
   async makeCall({ fromNumber, toNumber, prompt }) {
     if (this.status === moduleStatuses.ready) {
@@ -69,8 +78,16 @@ export default class Ringout extends RcModule {
           to: { phoneNumber: toNumber },
           playPrompt: prompt
         });
+
+        if (this._contactMatcher) {
+          await this._contactMatcher.forceMatchBatchNumbers({
+            phoneNumbers: [fromNumber, toNumber],
+          });
+        }
+
         const startTime = Date.now();
         await this._monitorRingout(resp.id, startTime);
+
         this.store.dispatch({
           type: this.actionTypes.connectSuccess
         });

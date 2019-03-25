@@ -1,14 +1,17 @@
-import EventEmitter from 'event-emitter';
+import EventEmitter from 'events';
 import Enum from '../Enum';
 
 
-export default class TransportBase {
-  constructor({ name, prefix, timeout = 90 * 1000 } = {}) {
+export default class TransportBase extends EventEmitter {
+  constructor({
+    name, prefix, timeout = 90 * 1000, ...options
+  } = {}) {
+    super(options);
     if (!name) {
       throw new Error(`${this.constructor.name}: "name" is required.`);
     }
     const prefixString = prefix ? `${prefix}-` : '';
-    this._events = new Enum([
+    const events = new Enum([
       'request',
       'response',
       'push',
@@ -16,10 +19,13 @@ export default class TransportBase {
     ], `${prefixString}${name}`);
 
     this._timeout = timeout;
+    this._events = {
+      ...this._events,
+      ...events
+    };
   }
+
   get events() {
     return this._events;
   }
 }
-
-EventEmitter(TransportBase.prototype);

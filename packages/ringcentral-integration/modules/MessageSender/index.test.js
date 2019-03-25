@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
+import EventEmitter from 'events';
 import MessageSender, { MessageMaxLength, MultipartMessageMaxLength } from './index';
 import getMessageSenderReducer from './getMessageSenderReducer';
 import actionTypes from './messageSenderActionTypes';
@@ -14,6 +15,7 @@ describe('MessageSender Unit Test', () => {
     messageSender = sinon.createStubInstance(MessageSender);
     store = createStore(getMessageSenderReducer(actionTypes));
     messageSender._store = store;
+    messageSender._eventEmitter = new EventEmitter();
     messageSender._prefixedActionTypes = actionTypes;
     [
       '_onStateChange',

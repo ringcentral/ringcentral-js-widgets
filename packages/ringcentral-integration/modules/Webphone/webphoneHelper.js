@@ -48,10 +48,10 @@ export function isBrowserSupport() {
 
 export function extractHeadersData(session, headers) {
   if (
-    headers
-    && headers['P-Rc-Api-Ids']
-    && headers['P-Rc-Api-Ids'][0]
-    && headers['P-Rc-Api-Ids'][0].raw
+    headers &&
+    headers['P-Rc-Api-Ids'] &&
+    headers['P-Rc-Api-Ids'][0] &&
+    headers['P-Rc-Api-Ids'][0].raw
   ) {
     /**
      * interface PartyData {
@@ -78,10 +78,10 @@ export function extractHeadersData(session, headers) {
   }
 
   if (
-    headers
-    && headers['Call-ID']
-    && headers['Call-ID'][0]
-    && headers['Call-ID'][0].raw
+    headers &&
+    headers['Call-ID'] &&
+    headers['Call-ID'][0] &&
+    headers['Call-ID'][0].raw
   ) {
     session.__rc_callId = headers['Call-ID'][0].raw;
   }

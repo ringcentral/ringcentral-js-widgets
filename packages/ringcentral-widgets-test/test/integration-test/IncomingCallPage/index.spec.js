@@ -33,7 +33,7 @@ describe('Inbound Call in Call Control Page', () => {
     const { wrapper, phone } = await initPhoneWrapper();
     const session = await makeInbountCall(phone, wrapper);
     const buttonAnswer = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(4);
-    buttonAnswer.find(CircleButton).simulate('click');
+    buttonAnswer.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${session.id}`);
