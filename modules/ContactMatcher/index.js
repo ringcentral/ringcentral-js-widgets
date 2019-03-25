@@ -138,20 +138,20 @@ function (_DataMatcher) {
       return hasMatchNumber;
     }()
   }, {
-    key: "forceMatchNumber",
+    key: "forceMatchBatchNumbers",
     value: function () {
-      var _forceMatchNumber = _asyncToGenerator(
+      var _forceMatchBatchNumbers = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(_ref3) {
-        var phoneNumber;
+        var phoneNumbers;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                phoneNumber = _ref3.phoneNumber;
+                phoneNumbers = _ref3.phoneNumbers;
                 _context2.next = 3;
                 return this.match({
-                  queries: [phoneNumber],
+                  queries: phoneNumbers,
                   ignoreCache: true,
                   ignoreQueue: true
                 });
@@ -164,7 +164,38 @@ function (_DataMatcher) {
         }, _callee2, this);
       }));
 
-      function forceMatchNumber(_x2) {
+      function forceMatchBatchNumbers(_x2) {
+        return _forceMatchBatchNumbers.apply(this, arguments);
+      }
+
+      return forceMatchBatchNumbers;
+    }()
+  }, {
+    key: "forceMatchNumber",
+    value: function () {
+      var _forceMatchNumber = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(_ref4) {
+        var phoneNumber;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                phoneNumber = _ref4.phoneNumber;
+                _context3.next = 3;
+                return this.forceMatchBatchNumbers({
+                  phoneNumbers: [phoneNumber]
+                });
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function forceMatchNumber(_x3) {
         return _forceMatchNumber.apply(this, arguments);
       }
 
@@ -173,6 +204,6 @@ function (_DataMatcher) {
   }]);
 
   return ContactMatcher;
-}(_DataMatcher2.default), (_applyDecoratedDescriptor(_class2.prototype, "hasMatchNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "hasMatchNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forceMatchNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "forceMatchNumber"), _class2.prototype)), _class2)) || _class);
+}(_DataMatcher2.default), (_applyDecoratedDescriptor(_class2.prototype, "hasMatchNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "hasMatchNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forceMatchBatchNumbers", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "forceMatchBatchNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forceMatchNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "forceMatchNumber"), _class2.prototype)), _class2)) || _class);
 exports.default = ContactMatcher;
 //# sourceMappingURL=index.js.map

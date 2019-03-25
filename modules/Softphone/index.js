@@ -33,17 +33,17 @@ require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _di = require("../../lib/di");
+
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _getSoftphoneReducer = _interopRequireDefault(require("./getSoftphoneReducer"));
-
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
@@ -90,6 +90,9 @@ var Softphone = (
  */
 _dec = (0, _di.Module)({
   deps: ['Brand', {
+    dep: 'ContactMatcher',
+    optional: true
+  }, {
     dep: 'SoftphoneOptions',
     optional: true
   }]
@@ -103,6 +106,8 @@ function (_RcModule) {
    * @param {Object} params - params object
    * @param {Brnad} params.brand - brand module instance
    * @param {Bool} params.extensionMode - default false
+   * @param {Function} param.callHandler - custom call handler, optional
+   * @param {MontactMatcher} param.contactMatcher - contactMatcher module instance, optional
    */
   function Softphone(_ref) {
     var _this;
@@ -110,9 +115,9 @@ function (_RcModule) {
     var brand = _ref.brand,
         _ref$extensionMode = _ref.extensionMode,
         extensionMode = _ref$extensionMode === void 0 ? false : _ref$extensionMode,
-        _ref$callHandler = _ref.callHandler,
-        callHandler = _ref$callHandler === void 0 ? null : _ref$callHandler,
-        options = _objectWithoutProperties(_ref, ["brand", "extensionMode", "callHandler"]);
+        callHandler = _ref.callHandler,
+        contactMatcher = _ref.contactMatcher,
+        options = _objectWithoutProperties(_ref, ["brand", "extensionMode", "callHandler", "contactMatcher"]);
 
     _classCallCheck(this, Softphone);
 
@@ -122,6 +127,7 @@ function (_RcModule) {
     _this._brand = brand;
     _this._extensionMode = extensionMode;
     _this._callHandler = callHandler;
+    _this._contactMatcher = contactMatcher;
     _this._reducer = (0, _getSoftphoneReducer.default)(_this.actionTypes);
     return _this;
   }
@@ -156,7 +162,8 @@ function (_RcModule) {
 
                 this._callHandler({
                   protocol: this.protocol,
-                  command: cmd
+                  command: cmd,
+                  phoneNumber: phoneNumber
                 });
 
                 _context.next = 28;
@@ -212,11 +219,22 @@ function (_RcModule) {
                 document.body.removeChild(frame);
 
               case 28:
+                if (!this._contactMatcher) {
+                  _context.next = 31;
+                  break;
+                }
+
+                _context.next = 31;
+                return this._contactMatcher.forceMatchNumber({
+                  phoneNumber: phoneNumber
+                });
+
+              case 31:
                 this.store.dispatch({
                   type: this.actionTypes.connectComplete
                 });
 
-              case 29:
+              case 32:
               case "end":
                 return _context.stop();
             }

@@ -213,7 +213,11 @@ function (_StorageBase) {
                   });
 
                   if (_this2._storageHandler) {
-                    _this2._storage.off('storage', _this2._storageHandler);
+                    if (_this2._storage.off) {
+                      _this2._storage.off('storage', _this2._storageHandler);
+                    } else if (_this2._storage.removeListener) {
+                      _this2._storage.removeListener('storage', _this2._storageHandler);
+                    }
 
                     _this2._storageHandler = null;
                   }

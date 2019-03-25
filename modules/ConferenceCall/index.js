@@ -61,7 +61,7 @@ require("core-js/modules/es6.array.sort");
 
 var _ramda = require("ramda");
 
-var _eventEmitter = _interopRequireDefault(require("event-emitter"));
+var _events = _interopRequireDefault(require("events"));
 
 var _di = require("../../lib/di");
 
@@ -220,6 +220,7 @@ function (_RcModule) {
 
     _initializerDefineProperty(_this, "partyProfiles", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
+    _this._eventEmitter = new _events.default();
     _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
     _this._alert = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, alert, 'alert');
     _this._call = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, call, 'call');
@@ -789,7 +790,7 @@ function (_RcModule) {
 
                   var conferenceState = Object.values(_this3.conferences)[0];
 
-                  _this3.emit(_this3.actionTypes.mergeSucceeded, conferenceState);
+                  _this3._eventEmitter.emit(_this3.actionTypes.mergeSucceeded, conferenceState);
                 }, function () {
                   var conferenceState = Object.values(_this3.conferences)[0];
                   /**
@@ -826,7 +827,9 @@ function (_RcModule) {
                 this.store.dispatch({
                   type: this.actionTypes.mergeSucceeded
                 });
-                this.emit(this.actionTypes.mergeSucceeded);
+
+                this._eventEmitter.emit(this.actionTypes.mergeSucceeded);
+
                 _context7.next = 30;
                 break;
 
@@ -1067,11 +1070,12 @@ function (_RcModule) {
     key: "onMergeSuccess",
     value: function onMergeSuccess(func, isOnce) {
       if (isOnce) {
-        this.once(this.actionTypes.mergeSucceeded, func);
+        this._eventEmitter.once(this.actionTypes.mergeSucceeded, func);
+
         return;
       }
 
-      this.on(this.actionTypes.mergeSucceeded, func);
+      this._eventEmitter.on(this.actionTypes.mergeSucceeded, func);
     }
   }, {
     key: "removeMergeSuccess",
@@ -1842,5 +1846,4 @@ function (_RcModule) {
   }
 })), _class2)) || _class);
 exports.default = ConferenceCall;
-(0, _eventEmitter.default)(ConferenceCall.prototype);
 //# sourceMappingURL=index.js.map

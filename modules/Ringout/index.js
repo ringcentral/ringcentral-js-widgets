@@ -35,9 +35,13 @@ require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _di = require("../../lib/di");
+
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
@@ -46,10 +50,6 @@ var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 var _getRingoutReducer = _interopRequireDefault(require("./getRingoutReducer"));
 
 var _ringoutErrors = _interopRequireDefault(require("./ringoutErrors"));
-
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
-
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2;
 
@@ -96,6 +96,9 @@ var DEFAULT_TIME_BETWEEN_CALLS = 10000;
 
 var Ringout = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Client', {
+    dep: 'ContactMatcher',
+    optional: true
+  }, {
     dep: 'RingoutOptions',
     optional: true
   }]
@@ -111,17 +114,19 @@ function (_RcModule) {
    * @param {Auth} params.auth - auth module instance
    * @param {Number} params.monitorInterval - monitor interval, default 2500
    * @param {Number} params.timeBetweenCalls - time between calls, default 10000
+   * @param {MontactMatcher} param.contactMatcher - contactMatcher module instance, optional
    */
   function Ringout(_ref) {
     var _this;
 
     var auth = _ref.auth,
         client = _ref.client,
+        contactMatcher = _ref.contactMatcher,
         _ref$monitorInterval = _ref.monitorInterval,
         monitorInterval = _ref$monitorInterval === void 0 ? DEFAULT_MONITOR_INTERVAL : _ref$monitorInterval,
         _ref$timeBetweenCalls = _ref.timeBetweenCalls,
         timeBetweenCalls = _ref$timeBetweenCalls === void 0 ? DEFAULT_TIME_BETWEEN_CALLS : _ref$timeBetweenCalls,
-        options = _objectWithoutProperties(_ref, ["auth", "client", "monitorInterval", "timeBetweenCalls"]);
+        options = _objectWithoutProperties(_ref, ["auth", "client", "contactMatcher", "monitorInterval", "timeBetweenCalls"]);
 
     _classCallCheck(this, Ringout);
 
@@ -130,6 +135,7 @@ function (_RcModule) {
     })));
     _this._auth = auth;
     _this._client = client;
+    _this._contactMatcher = contactMatcher;
     _this._reducer = (0, _getRingoutReducer.default)(_this.actionTypes);
     _this._monitorInterval = monitorInterval;
     _this._timeBetweenCalls = timeBetweenCalls;
@@ -167,7 +173,7 @@ function (_RcModule) {
                 fromNumber = _ref2.fromNumber, toNumber = _ref2.toNumber, prompt = _ref2.prompt;
 
                 if (!(this.status === _moduleStatuses.default.ready)) {
-                  _context.next = 20;
+                  _context.next = 23;
                   break;
                 }
 
@@ -188,41 +194,53 @@ function (_RcModule) {
 
               case 6:
                 resp = _context.sent;
-                startTime = Date.now();
+
+                if (!this._contactMatcher) {
+                  _context.next = 10;
+                  break;
+                }
+
                 _context.next = 10;
-                return this._monitorRingout(resp.id, startTime);
+                return this._contactMatcher.forceMatchBatchNumbers({
+                  phoneNumbers: [fromNumber, toNumber]
+                });
 
               case 10:
+                startTime = Date.now();
+                _context.next = 13;
+                return this._monitorRingout(resp.id, startTime);
+
+              case 13:
                 this.store.dispatch({
                   type: this.actionTypes.connectSuccess
                 });
-                _context.next = 18;
+                _context.next = 21;
                 break;
 
-              case 13:
-                _context.prev = 13;
+              case 16:
+                _context.prev = 16;
                 _context.t0 = _context["catch"](3);
                 this.store.dispatch({
                   type: this.actionTypes.connectError
                 });
 
                 if (!(_context.t0.message !== _ringoutErrors.default.pollingCancelled)) {
-                  _context.next = 18;
+                  _context.next = 21;
                   break;
                 }
 
                 throw _context.t0;
 
-              case 18:
-                _context.next = 20;
+              case 21:
+                _context.next = 23;
                 break;
 
-              case 20:
+              case 23:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[3, 13]]);
+        }, _callee, this, [[3, 16]]);
       }));
 
       function makeCall(_x) {

@@ -53,6 +53,8 @@ require("core-js/modules/es6.map");
 
 var _ramda = require("ramda");
 
+var _events = _interopRequireDefault(require("events"));
+
 var _ringcentralWebPhone = _interopRequireDefault(require("ringcentral-web-phone"));
 
 var _incoming = _interopRequireDefault(require("ringcentral-web-phone/audio/incoming.ogg"));
@@ -155,17 +157,18 @@ var FIFTH_RETRIES_DELAY = 60 * 1000;
 var MAX_RETRIES_DELAY = 2 * 60 * 1000;
 var INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 var extendedControlStatus = new _Enum.default(['pending', 'playing', 'stopped']);
+var EVENTS = new _Enum.default(['callRing', 'callStart', 'callEnd', 'callHold', 'callResume', 'beforeCallResume', 'beforeCallEnd']);
 /**
  * @constructor
  * @description Web phone module to handle phone interaction with WebRTC.
  */
 
 var Webphone = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Alert', 'Client', {
-    dep: 'ContactMatcher',
-    optional: true
-  }, 'NumberValidate', 'RolesAndPermissions', 'AudioSettings', {
+  deps: ['Auth', 'Alert', 'Client', 'NumberValidate', 'RolesAndPermissions', 'AudioSettings', {
     dep: 'TabManager',
+    optional: true
+  }, {
+    dep: 'ContactMatcher',
     optional: true
   }, {
     dep: 'WebphoneOptions',
@@ -195,6 +198,7 @@ function (_RcModule) {
    * @param {Function} params.onCallRing - callback on a call ring
    * @param {Function} params.onCallStart - callback on a call start
    * @param {Function} params.onCallResume - callback on a call resume
+   * @param {Function} params.onCallHold - callback on a call holded
    * @param {Function} params.onBeforeCallResume - callback before a call resume
    * @param {Function} params.onBeforeCallEnd - callback before a call hangup
    * @param {Object} params.webphoneSDKOptions - callback before a call hangup
@@ -221,10 +225,11 @@ function (_RcModule) {
         onCallRing = _ref.onCallRing,
         onCallStart = _ref.onCallStart,
         onCallResume = _ref.onCallResume,
+        onCallHold = _ref.onCallHold,
         onBeforeCallResume = _ref.onBeforeCallResume,
         onBeforeCallEnd = _ref.onBeforeCallEnd,
         webphoneSDKOptions = _ref.webphoneSDKOptions,
-        options = _objectWithoutProperties(_ref, ["appKey", "appName", "appVersion", "alert", "auth", "client", "rolesAndPermissions", "webphoneLogLevel", "contactMatcher", "numberValidate", "audioSettings", "tabManager", "onCallEnd", "onCallRing", "onCallStart", "onCallResume", "onBeforeCallResume", "onBeforeCallEnd", "webphoneSDKOptions"]);
+        options = _objectWithoutProperties(_ref, ["appKey", "appName", "appVersion", "alert", "auth", "client", "rolesAndPermissions", "webphoneLogLevel", "contactMatcher", "numberValidate", "audioSettings", "tabManager", "onCallEnd", "onCallRing", "onCallStart", "onCallResume", "onCallHold", "onBeforeCallResume", "onBeforeCallEnd", "webphoneSDKOptions"]);
 
     _classCallCheck(this, Webphone);
 
@@ -234,6 +239,7 @@ function (_RcModule) {
 
     _initializerDefineProperty(_this, "ringingCallOnView", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
+    _this._eventEmitter = new _events.default();
     _this._appKey = appKey;
     _this._appName = appName;
     _this._appVersion = appVersion;
@@ -247,40 +253,35 @@ function (_RcModule) {
     _this._contactMatcher = contactMatcher;
     _this._tabManager = tabManager;
     _this._webphoneSDKOptions = webphoneSDKOptions || {};
-    _this._onCallEndFunctions = [];
 
     if (typeof onCallEnd === 'function') {
-      _this._onCallEndFunctions.push(onCallEnd);
+      _this._eventEmitter.on(EVENTS.callEnd, onCallEnd);
     }
-
-    _this._onCallRingFunctions = [];
 
     if (typeof onCallRing === 'function') {
-      _this._onCallRingFunctions.push(onCallRing);
+      _this._eventEmitter.on(EVENTS.callRing, onCallRing);
     }
-
-    _this._onCallStartFunctions = [];
 
     if (typeof onCallStart === 'function') {
-      _this._onCallStartFunctions.push(onCallStart);
+      _this._eventEmitter.on(EVENTS.callStart, onCallStart);
     }
-
-    _this._onCallResumeFunctions = [];
 
     if (typeof onCallResume === 'function') {
-      _this._onCallResumeFunctions.push(onCallResume);
+      _this._eventEmitter.on(EVENTS.callResume, onCallResume);
     }
 
-    _this._onBeforeCallResumeFunctions = [];
+    if (typeof onCallHold === 'function') {
+      _this._eventEmitter.on(EVENTS.callHold, onCallHold);
+    }
 
     if (typeof onBeforeCallResume === 'function') {
-      _this._onBeforeCallResumeFunctions.push(onBeforeCallResume);
+      _this._eventEmitter.on(EVENTS.beforeCallResume, onBeforeCallResume);
     }
 
     _this._onBeforeCallEndFunctions = [];
 
     if (typeof onBeforeCallEnd === 'function') {
-      _this._onBeforeCallEndFunctions.push(onBeforeCallEnd);
+      _this._eventEmitter.on(EVENTS.beforeCallEnd, onBeforeCallEnd);
     }
 
     _this._webphone = null;
@@ -1187,18 +1188,7 @@ function (_RcModule) {
         session.__rc_callStatus = _sessionStatus.default.connected;
 
         _this5._updateSessions();
-      }); // session.on('hold', () => {
-      //   console.log('Event: hold');
-      //   session.__rc_callStatus = sessionStatus.onHold;
-      //   this._updateSessions();
-      // });
-      // session.on('unhold', () => {
-      //   console.log('Event: unhold');
-      //   session.__rc_callStatus = sessionStatus.connected;
-      //   session.__rc_lastActiveTime = Date.now();
-      //   this._updateSessions();
-      // });
-
+      });
       session.on('userMediaFailed', function () {
         _this5._audioSettings.onGetUserMediaError();
       });
@@ -1575,10 +1565,12 @@ function (_RcModule) {
 
                 this._updateSessions();
 
+                this._onCallHold(session);
+
                 return _context15.abrupt("return", true);
 
-              case 13:
-                _context15.prev = 13;
+              case 14:
+                _context15.prev = 14;
                 _context15.t0 = _context15["catch"](5);
                 console.error('hold error:', _context15.t0);
 
@@ -1588,12 +1580,12 @@ function (_RcModule) {
 
                 return _context15.abrupt("return", false);
 
-              case 18:
+              case 19:
               case "end":
                 return _context15.stop();
             }
           }
-        }, _callee14, this, [[5, 13]]);
+        }, _callee14, this, [[5, 14]]);
       }));
 
       function hold(_x9) {
@@ -2640,8 +2632,6 @@ function (_RcModule) {
   }, {
     key: "_onCallStart",
     value: function _onCallStart(session) {
-      var _this14 = this;
-
       this._addSession(session);
 
       var normalizedSession = (0, _ramda.find)(function (x) {
@@ -2657,19 +2647,11 @@ function (_RcModule) {
         this._contactMatcher.triggerMatch();
       }
 
-      if (typeof this._onCallStartFunc === 'function') {
-        this._onCallStartFunc(normalizedSession, this.activeSession);
-      }
-
-      this._onCallStartFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this14.activeSession);
-      });
+      this._eventEmitter.emit(EVENTS.callStart, normalizedSession, this.activeSession);
     }
   }, {
     key: "_onCallRing",
     value: function _onCallRing(session) {
-      var _this15 = this;
-
       this._addSession(session);
 
       var normalizedSession = (0, _ramda.find)(function (x) {
@@ -2689,36 +2671,20 @@ function (_RcModule) {
         this._webphone.userAgent.audioHelper.playIncoming(false);
       }
 
-      if (typeof this._onCallRingFunc === 'function') {
-        this._onCallRingFunc(normalizedSession, this.ringSession);
-      }
-
-      this._onCallRingFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this15.ringSession);
-      });
+      this._eventEmitter.emit(EVENTS.callRing, normalizedSession, this.ringSession);
     }
   }, {
     key: "_onBeforeCallEnd",
     value: function _onBeforeCallEnd(session) {
-      var _this16 = this;
-
       var normalizedSession = (0, _ramda.find)(function (x) {
         return x.id === session.id;
       }, this.sessions);
 
-      if (typeof this._onBeforeCallEndFunc === 'function') {
-        this._onBeforeCallEndFunc(normalizedSession, this.activeSession);
-      }
-
-      this._onBeforeCallEndFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this16.activeSession);
-      });
+      this._eventEmitter.emit(EVENTS.beforeCallEnd, normalizedSession, this.activeSession);
     }
   }, {
     key: "_onCallEnd",
     value: function _onCallEnd(session) {
-      var _this17 = this;
-
       session.__rc_extendedControlStatus = extendedControlStatus.stopped;
       var normalizedSession = (0, _ramda.find)(function (x) {
         return x.id === session.id;
@@ -2736,47 +2702,34 @@ function (_RcModule) {
         sessions: this.sessions
       });
 
-      if (typeof this._onCallEndFunc === 'function') {
-        this._onCallEndFunc(normalizedSession, this.activeSession, this.ringSession);
-      }
-
-      this._onCallEndFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this17.activeSession, _this17.ringSession);
-      });
+      this._eventEmitter.emit(EVENTS.callEnd, normalizedSession, this.activeSession, this.ringSession);
     }
   }, {
     key: "_onBeforeCallResume",
     value: function _onBeforeCallResume(session) {
-      var _this18 = this;
-
       var normalizedSession = (0, _ramda.find)(function (x) {
         return x.id === session.id;
       }, this.sessions);
 
-      if (typeof this._onBeforeCallResumeFunc === 'function') {
-        this._onBeforeCallResumeFunc(normalizedSession, this.activeSession);
-      }
-
-      this._onBeforeCallResumeFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this18.activeSession);
-      });
+      this._eventEmitter.emit(EVENTS.beforeCallResume, normalizedSession, this.activeSession);
     }
   }, {
     key: "_onCallResume",
     value: function _onCallResume(session) {
-      var _this19 = this;
-
       var normalizedSession = (0, _ramda.find)(function (x) {
         return x.id === session.id;
       }, this.sessions);
 
-      if (typeof this._onCallResumeFunc === 'function') {
-        this._onCallResumeFunc(normalizedSession, this.activeSession);
-      }
+      this._eventEmitter.emit(EVENTS.callResume, normalizedSession, this.activeSession);
+    }
+  }, {
+    key: "_onCallHold",
+    value: function _onCallHold(session) {
+      var normalizedSession = (0, _ramda.find)(function (x) {
+        return x.id === session.id;
+      }, this.sessions);
 
-      this._onCallResumeFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this19.activeSession);
-      });
+      this._eventEmitter.emit(EVENTS.callHold, normalizedSession, this.activeSession);
     }
   }, {
     key: "_retrySleep",
@@ -2886,42 +2839,49 @@ function (_RcModule) {
     key: "onCallStart",
     value: function onCallStart(handler) {
       if (typeof handler === 'function') {
-        this._onCallStartFunctions.push(handler);
+        this._eventEmitter.on(EVENTS.callStart, handler);
       }
     }
   }, {
     key: "onCallRing",
     value: function onCallRing(handler) {
       if (typeof handler === 'function') {
-        this._onCallRingFunctions.push(handler);
+        this._eventEmitter.on(EVENTS.callRing, handler);
       }
     }
   }, {
     key: "onCallEnd",
     value: function onCallEnd(handler) {
       if (typeof handler === 'function') {
-        this._onCallEndFunctions.push(handler);
+        this._eventEmitter.on(EVENTS.callEnd, handler);
       }
     }
   }, {
     key: "onBeforeCallResume",
     value: function onBeforeCallResume(handler) {
       if (typeof handler === 'function') {
-        this._onBeforeCallResumeFunctions.push(handler);
+        this._eventEmitter.on(EVENTS.beforeCallResume, handler);
       }
     }
   }, {
     key: "onCallResume",
     value: function onCallResume(handler) {
       if (typeof handler === 'function') {
-        this._onCallResumeFunctions.push(handler);
+        this._eventEmitter.on(EVENTS.callResume, handler);
+      }
+    }
+  }, {
+    key: "onCallHold",
+    value: function onCallHold(handler) {
+      if (typeof handler === 'function') {
+        this._eventEmitter.on(EVENTS.callHold, handler);
       }
     }
   }, {
     key: "onBeforeCallEnd",
     value: function onBeforeCallEnd(handler) {
       if (typeof handler === 'function') {
-        this._onBeforeCallEndFunctions.push(handler);
+        this._eventEmitter.on(EVENTS.beforeCallEnd, handler);
       }
     }
   }, {
@@ -3074,10 +3034,10 @@ function (_RcModule) {
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this20 = this;
+    var _this14 = this;
 
     return [function () {
-      return _this20.ringSessions;
+      return _this14.ringSessions;
     }, function (sessions) {
       return (0, _ramda.find)(function (session) {
         return !session.minimized;

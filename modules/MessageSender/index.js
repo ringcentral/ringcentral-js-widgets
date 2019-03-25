@@ -41,7 +41,7 @@ require("core-js/modules/es6.array.for-each");
 
 var _ramda = require("ramda");
 
-var _eventEmitter = _interopRequireDefault(require("event-emitter"));
+var _events = _interopRequireDefault(require("events"));
 
 var _uuid = _interopRequireDefault(require("uuid"));
 
@@ -150,6 +150,7 @@ function (_RcModule) {
     _this._extensionInfo = extensionInfo;
     _this._reducer = (0, _getMessageSenderReducer.default)(_this.actionTypes);
     _this._numberValidate = numberValidate;
+    _this._eventEmitter = new _events.default();
     return _this;
   }
 
@@ -495,7 +496,7 @@ function (_RcModule) {
                 return _context2.abrupt("return", null);
 
               case 16:
-                this.emit(this.actionTypes.send, {
+                this._eventEmitter.emit(this.actionTypes.send, {
                   eventId: eventId,
                   fromNumber: fromNumber,
                   toNumbers: toNumbers,
@@ -503,6 +504,7 @@ function (_RcModule) {
                   replyOnMessageId: replyOnMessageId,
                   multipart: multipart
                 });
+
                 this.store.dispatch({
                   type: this.actionTypes.send
                 });
@@ -730,7 +732,8 @@ function (_RcModule) {
               case 114:
                 _context2.prev = 114;
                 _context2.t3 = _context2["catch"](4);
-                this.emit(this.actionTypes.sendError, {
+
+                this._eventEmitter.emit(this.actionTypes.sendError, {
                   eventId: eventId,
                   fromNumber: fromNumber,
                   toNumbers: toNumbers,
@@ -738,6 +741,7 @@ function (_RcModule) {
                   replyOnMessageId: replyOnMessageId,
                   multipart: multipart
                 });
+
                 this.store.dispatch({
                   type: this.actionTypes.sendError,
                   error: 'error'
@@ -897,6 +901,11 @@ function (_RcModule) {
       this._alertWarning(_messageSenderMessages.default.sendError);
     }
   }, {
+    key: "on",
+    value: function on(event, handler) {
+      this._eventEmitter.on(event, handler);
+    }
+  }, {
     key: "status",
     get: function get() {
       return this.state.status;
@@ -926,5 +935,4 @@ function (_RcModule) {
   return MessageSender;
 }(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "_validateToNumbers", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateToNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "send", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendSms", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendSms"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendPager", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendPager"), _class2.prototype)), _class2)) || _class);
 exports.default = MessageSender;
-(0, _eventEmitter.default)(MessageSender.prototype);
 //# sourceMappingURL=index.js.map
