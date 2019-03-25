@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _default = {
-  start: 'Take a Quick Tour',
+  start: 'Take a quick tour',
   skip: 'Skip',
   next: 'Next',
   finish: 'Finish'

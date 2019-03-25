@@ -72,12 +72,15 @@
 .creationTime {
   @include field-value-font;
   color: $ash;
-  align-self: flex-start;
+  // align-self: flex-start;
   text-align: right;
 }
 
 .detailsWithTime {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .embellishInfoWrapper {
@@ -89,8 +92,8 @@
   margin: 0 5px;
   color: $ash;;
   font-size: 11px;
-  position: relative;
-  top: -1px;
+  // position: relative;
+  // top: -1px;
 }
 
 .contactDisplay {

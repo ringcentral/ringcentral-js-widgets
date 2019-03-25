@@ -19,8 +19,9 @@ function Eula(props) {
   var currentLocale = props.currentLocale,
       className = props.className,
       onLinkClicked = props.onLinkClicked,
-      brandId = props.brandId;
-  var labelId = 'eula';
+      brandId = props.brandId,
+      useEulaAbbreviation = props.useEulaAbbreviation;
+  var labelId = useEulaAbbreviation ? 'eulaAbbr' : 'eula';
   var link;
   var isFr = currentLocale.substr(0, 2).toLowerCase() === 'fr';
 
@@ -63,11 +64,13 @@ Eula.propTypes = {
   brandId: _propTypes.default.string.isRequired,
   currentLocale: _propTypes.default.string.isRequired,
   className: _propTypes.default.string,
-  onLinkClicked: _propTypes.default.func
+  onLinkClicked: _propTypes.default.func,
+  useEulaAbbreviation: _propTypes.default.bool
 };
 Eula.defaultProps = {
-  className: _propTypes.default.string,
-  onLinkClicked: _propTypes.default.func
+  className: '',
+  onLinkClicked: function onLinkClicked() {},
+  useEulaAbbreviation: false
 };
 var _default = Eula;
 exports.default = _default;

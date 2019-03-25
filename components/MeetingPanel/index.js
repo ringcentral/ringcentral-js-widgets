@@ -33,6 +33,8 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.keys");
 
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es6.regexp.replace");
 
 require("core-js/modules/es6.regexp.split");
@@ -60,6 +62,8 @@ require("react-widgets/dist/css/react-widgets.css");
 var _Date = _interopRequireDefault(require("../../assets/images/Date.svg"));
 
 var _Time = _interopRequireDefault(require("../../assets/images/Time.svg"));
+
+var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -504,7 +508,9 @@ var RecurringMeeting = function RecurringMeeting(_ref15) {
       meeting = _ref15.meeting;
   return _react.default.createElement(_MeetingSection.default, {
     className: _styles.default.section
-  }, _react.default.createElement("div", null, _react.default.createElement("div", {
+  }, _react.default.createElement("div", {
+    className: _styles.default.RecurringMeetingDiv
+  }, _react.default.createElement("div", {
     className: _styles.default.spaceBetween
   }, _react.default.createElement("span", {
     className: _styles.default.label
@@ -536,8 +542,10 @@ var Video = function Video(_ref16) {
   return _react.default.createElement(_MeetingSection.default, {
     title: _i18n.default.getString('video', currentLocale),
     withSwitch: true
-  }, _react.default.createElement("div", null, _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.labelLight, _styles.default.fixTopMargin)
+  }, _react.default.createElement("div", {
+    className: _styles.default.videoDiv
+  }, _react.default.createElement("div", {
+    className: (0, _classnames.default)(_styles.default.labelLight, _styles.default.fixTopMargin, _styles.default.videoDescribe)
   }, _i18n.default.getString('videoDescribe', currentLocale)), _react.default.createElement("div", {
     className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.fixTopMargin)
   }, _react.default.createElement("span", {
@@ -571,15 +579,11 @@ Video.propTypes = {
   meeting: _propTypes.default.object.isRequired
 };
 
-var AudioOptions = function AudioOptions(_ref17) {
-  var currentLocale = _ref17.currentLocale,
-      update = _ref17.update,
+var AudioOptionsCheckbox = function AudioOptionsCheckbox(_ref17) {
+  var update = _ref17.update,
       meeting = _ref17.meeting,
       data = _ref17.data;
-  return _react.default.createElement(_MeetingSection.default, {
-    title: _i18n.default.getString('audioOptions', currentLocale),
-    withSwitch: true
-  }, _react.default.createElement(_CheckBox.default, {
+  return _react.default.createElement(_CheckBox.default, {
     onSelect: function onSelect(_ref18) {
       var key = _ref18.key;
       var audioOptions = key.split('_');
@@ -591,27 +595,100 @@ var AudioOptions = function AudioOptions(_ref17) {
     textField: "text",
     selected: meeting.audioOptions.join('_'),
     data: data
-  }));
+  });
+};
+
+AudioOptionsCheckbox.propTypes = {
+  update: _propTypes.default.func.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  data: _propTypes.default.array.isRequired
+};
+
+var AudioOptionsDropdown = function AudioOptionsDropdown(_ref19) {
+  var update = _ref19.update,
+      meeting = _ref19.meeting,
+      data = _ref19.data;
+  return _react.default.createElement(_DropdownSelect.default, {
+    className: (0, _classnames.default)(_styles.default.dropdownSelect),
+    iconClassNßame: _styles.default.dropdownIcon,
+    value: meeting.audioOptions.join('_'),
+    onChange: function onChange(_ref20) {
+      var key = _ref20.key;
+      var audioOptions = key.split('_');
+      update(_objectSpread({}, meeting, {
+        audioOptions: audioOptions
+      }));
+    },
+    options: data,
+    valueFunction: function valueFunction(option) {
+      return option.text;
+    },
+    renderValue: function renderValue(value) {
+      return data.find(function (item) {
+        return item.key === value;
+      }).text;
+    },
+    renderFunction: function renderFunction(option) {
+      return _react.default.createElement("div", {
+        title: option.text
+      }, option.text);
+    },
+    dropdownAlign: "left",
+    titleEnabled: true
+  });
+};
+
+AudioOptionsDropdown.propTypes = {
+  update: _propTypes.default.func.isRequired,
+  meeting: _propTypes.default.object.isRequired,
+  data: _propTypes.default.array.isRequired
+};
+
+var AudioOptions = function AudioOptions(_ref21) {
+  var currentLocale = _ref21.currentLocale,
+      update = _ref21.update,
+      meeting = _ref21.meeting,
+      data = _ref21.data,
+      audioOptionToggle = _ref21.audioOptionToggle;
+  var audioOptions = audioOptionToggle ? _react.default.createElement(AudioOptionsDropdown, {
+    update: update,
+    meeting: meeting,
+    data: data
+  }) : _react.default.createElement(AudioOptionsCheckbox, {
+    update: update,
+    meeting: meeting,
+    data: data
+  });
+  return _react.default.createElement(_MeetingSection.default, {
+    title: _i18n.default.getString('audioOptions', currentLocale),
+    withSwitch: true
+  }, audioOptions);
 };
 
 AudioOptions.propTypes = {
   update: _propTypes.default.func.isRequired,
   currentLocale: _propTypes.default.string.isRequired,
   meeting: _propTypes.default.object.isRequired,
-  data: _propTypes.default.array.isRequired
+  data: _propTypes.default.array.isRequired,
+  audioOptionToggle: _propTypes.default.bool.isRequired
 };
 
-var MeetingOptions = function MeetingOptions(_ref19) {
-  var currentLocale = _ref19.currentLocale,
-      meeting = _ref19.meeting,
-      update = _ref19.update,
-      that = _ref19.that;
+var MeetingOptions = function MeetingOptions(_ref22) {
+  var currentLocale = _ref22.currentLocale,
+      meeting = _ref22.meeting,
+      update = _ref22.update,
+      that = _ref22.that,
+      meetingOptionToggle = _ref22.meetingOptionToggle,
+      passwordPlaceholderEnable = _ref22.passwordPlaceholderEnable;
+  var passwordPlaceholder = passwordPlaceholderEnable ? _i18n.default.getString('password', currentLocale) : '';
   return _react.default.createElement(_MeetingSection.default, {
     title: _i18n.default.getString('meetingOptions', currentLocale),
     className: _styles.default.meetingOptions,
-    toggle: false,
+    toggle: meetingOptionToggle,
     withSwitch: true
-  }, _react.default.createElement("div", null, _react.default.createElement("div", {
+  }, _react.default.createElement("div", {
+    className: _styles.default.meetingOptionsDiv
+  }, _react.default.createElement("div", {
     className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.fixTopMargin)
   }, _react.default.createElement("span", {
     className: _styles.default.labelLight
@@ -636,13 +713,14 @@ var MeetingOptions = function MeetingOptions(_ref19) {
     className: _styles.default.labelLight
   }, _i18n.default.getString('password', currentLocale)), _react.default.createElement("input", {
     type: "text",
+    placeholder: passwordPlaceholder,
     className: _styles.default.password,
-    ref: function ref(_ref21) {
-      that.password = _ref21;
+    ref: function ref(_ref24) {
+      that.password = _ref24;
     },
     value: meeting.password || '',
-    onChange: function onChange(_ref20) {
-      var target = _ref20.target;
+    onChange: function onChange(_ref23) {
+      var target = _ref23.target;
 
       if (_constants.PASSWORD_REGEX.test(target.value)) {
         update(_objectSpread({}, meeting, {
@@ -654,7 +732,7 @@ var MeetingOptions = function MeetingOptions(_ref19) {
   })) : null, _react.default.createElement("div", {
     className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.fixTopMargin)
   }, _react.default.createElement("span", {
-    className: _styles.default.labelLight
+    className: (0, _classnames.default)(_styles.default.labelLight, _styles.default.defaultShrink)
   }, _i18n.default.getString('enableJoinBeforeHost', currentLocale)), _react.default.createElement(_Switch.default, {
     checked: meeting.allowJoinBeforeHost,
     onChange: function onChange(allowJoinBeforeHost) {
@@ -662,7 +740,8 @@ var MeetingOptions = function MeetingOptions(_ref19) {
         allowJoinBeforeHost: allowJoinBeforeHost
       }));
     },
-    dataSign: "enableJoinToggle"
+    dataSign: "enableJoinToggle",
+    className: _styles.default.notShrink
   }))));
 };
 
@@ -670,7 +749,9 @@ MeetingOptions.propTypes = {
   update: _propTypes.default.func.isRequired,
   currentLocale: _propTypes.default.string.isRequired,
   meeting: _propTypes.default.object.isRequired,
-  that: _propTypes.default.object.isRequired
+  that: _propTypes.default.object.isRequired,
+  meetingOptionToggle: _propTypes.default.bool.isRequired,
+  passwordPlaceholderEnable: _propTypes.default.bool.isRequired
 };
 
 var MeetingPanel =
@@ -749,7 +830,11 @@ function (_Component) {
           showWhen = _this$props.showWhen,
           showDuration = _this$props.showDuration,
           showRecurringMeeting = _this$props.showRecurringMeeting,
-          openNewWindow = _this$props.openNewWindow;
+          openNewWindow = _this$props.openNewWindow,
+          meetingOptionToggle = _this$props.meetingOptionToggle,
+          passwordPlaceholderEnable = _this$props.passwordPlaceholderEnable,
+          audioOptionToggle = _this$props.audioOptionToggle,
+          onOK = _this$props.onOK;
 
       if (!Object.keys(meeting).length) {
         return null;
@@ -825,17 +910,21 @@ function (_Component) {
         data: AUDIO_OPTIONS,
         currentLocale: currentLocale,
         meeting: meeting,
-        update: update
+        update: update,
+        audioOptionToggle: audioOptionToggle
       }), _react.default.createElement(MeetingOptions, {
         currentLocale: currentLocale,
         meeting: meeting,
         that: this,
-        update: update
+        update: update,
+        meetingOptionToggle: meetingOptionToggle,
+        passwordPlaceholderEnable: passwordPlaceholderEnable
       })) : null, _react.default.createElement(ScheduleButton, {
         currentLocale: currentLocale,
         hidden: hidden,
         disabled: disabled,
         meeting: meeting,
+        onOK: onOK,
         onClick:
         /*#__PURE__*/
         _asyncToGenerator(
@@ -886,7 +975,11 @@ MeetingPanel.propTypes = {
   showWhen: _propTypes.default.bool,
   showDuration: _propTypes.default.bool,
   showRecurringMeeting: _propTypes.default.bool,
-  openNewWindow: _propTypes.default.bool
+  openNewWindow: _propTypes.default.bool,
+  meetingOptionToggle: _propTypes.default.bool,
+  passwordPlaceholderEnable: _propTypes.default.bool,
+  audioOptionToggle: _propTypes.default.bool,
+  onOK: _propTypes.default.func
 };
 MeetingPanel.defaultProps = {
   recipientsSection: undefined,
@@ -895,7 +988,11 @@ MeetingPanel.defaultProps = {
   showWhen: true,
   showDuration: true,
   showRecurringMeeting: true,
-  openNewWindow: true
+  openNewWindow: true,
+  meetingOptionToggle: false,
+  passwordPlaceholderEnable: false,
+  audioOptionToggle: false,
+  onOK: undefined
 };
 var _default = MeetingPanel;
 exports.default = _default;

@@ -252,8 +252,9 @@ function (_React$Component) {
         }, indicatorView), nextButton);
       });
 
+      var carouselClassName = this.props.carouselClassName;
       return _react.default.createElement("div", {
-        className: _styles.default.carousel
+        className: (0, _classnames.default)(_styles.default.carousel, carouselClassName)
       }, _react.default.createElement("div", {
         className: _styles.default.carouselBox,
         style: {
@@ -301,7 +302,8 @@ UserGuide.propTypes = {
   quickAccessEnter: _propTypes.default.func,
   guides: _propTypes.default.array.isRequired,
   showSpinner: _propTypes.default.bool.isRequired,
-  currentLocale: _propTypes.default.string.isRequired
+  currentLocale: _propTypes.default.string.isRequired,
+  carouselClassName: _propTypes.default.string
 };
 UserGuide.defaultProps = {
   curIdx: 0,
@@ -311,6 +313,7 @@ UserGuide.defaultProps = {
   updateCarousel: function updateCarousel() {
     return null;
   },
-  quickAccessEnter: undefined
+  quickAccessEnter: undefined,
+  carouselClassName: null
 };
 //# sourceMappingURL=index.js.map

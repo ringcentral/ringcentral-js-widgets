@@ -35,13 +35,19 @@ function CircleButton(props) {
   }
 
   var circleClass = (0, _classnames.default)(_styles.default.circle, !props.showBorder && _styles.default.noBorder);
-  var onClick = props.disabled ? null : props.onClick;
+
+  var _onClick = props.disabled ? null : props.onClick;
+
   return _react.default.createElement("svg", {
     "data-sign": props.dataSign,
     xmlns: "http://www.w3.org/2000/svg",
     className: (0, _classnames.default)(_styles.default.btnSvg, props.className),
     viewBox: "0 0 500 500",
-    onClick: onClick,
+    onClick: function onClick(e) {
+      if (e.target && e.target.tagName !== 'svg' && _onClick) {
+        _onClick(e);
+      }
+    },
     width: props.width,
     height: props.height,
     x: props.x,
