@@ -4,6 +4,7 @@ import RingCentralClient from 'ringcentral-client';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
+import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import AccountContacts from 'ringcentral-integration/modules/AccountContacts';
 import AccountDirectory from 'ringcentral-integration/modules/AccountDirectory';
@@ -48,7 +49,7 @@ import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
 import ActiveCallControl from 'ringcentral-integration/modules/ActiveCallControl';
 
-import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
+// import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
 import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
 import CallLog from 'ringcentral-integration/modules/CallLog';
 import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
@@ -124,7 +125,7 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
     { provide: 'Call', useClass: Call },
     { provide: 'Subscription', useClass: Subscription },
-    { provide: 'ActiveCalls', useClass: ActiveCalls },
+    // { provide: 'ActiveCalls', useClass: ActiveCalls },
     { provide: 'DetailedPresence', useClass: DetailedPresence },
     { provide: 'MessageSender', useClass: MessageSender },
     { provide: 'ComposeText', useClass: ComposeText },
@@ -226,6 +227,10 @@ const history = global.process && global.process.release && global.process.relea
         history,
       },
       spread: true,
+    },
+    {
+      provide: 'Analytics',
+      useClass: Analytics,
     }
   ]
 })
@@ -341,7 +346,21 @@ export default class BasePhone extends RcModule {
       }
     });
 
+    webphone.onCallInit((session) => {
+      const path = `/calls/active/${session.id}`;
+      if (routerInteraction.currentPath !== path) {
+        if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+          routerInteraction.replace(path);
+        } else {
+          routerInteraction.push(path);
+        }
+      }
+    });
+
     webphone.onCallStart((session) => {
+      if (session.direction === callDirections.outbound) {
+        return;
+      }
       const path = `/calls/active/${session.id}`;
       if (routerInteraction.currentPath !== path) {
         if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {

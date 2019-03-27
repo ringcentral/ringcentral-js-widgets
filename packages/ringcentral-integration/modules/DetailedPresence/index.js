@@ -9,6 +9,7 @@ import {
   removeInboundRingOutLegs,
 } from '../../lib/callLogHelpers';
 import proxify from '../../lib/proxy/proxify';
+import { selector } from '../../lib/selector';
 
 const presenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
 const FETCH_THRESHOLD = 2000;
@@ -39,19 +40,6 @@ export default class DetailedPresence extends Presence {
       lastNotDisturbDndStatusStorageKey: 'lastNotDisturbDndStatusDetailPresence',
       ...options
     });
-
-    this.addSelector('sessionIdList',
-      () => this.state.calls,
-      calls => calls.map(call => call.sessionId),
-    );
-
-    this.addSelector('calls',
-      () => this.state.data,
-      data => (
-        removeInboundRingOutLegs(data)
-          .filter(call => !isEnded(call))
-      ),
-    );
 
     this._fetchRemainingCalls = throttle(this:: this._fetch, FETCH_THRESHOLD);
   }
@@ -89,17 +77,24 @@ export default class DetailedPresence extends Presence {
     return this.state.data;
   }
 
-  get calls() {
-    return this._selectors.calls();
-  }
+  @selector
+  calls = [
+    () => this.data,
+    data => (
+      removeInboundRingOutLegs(data)
+        .filter(call => !isEnded(call))
+    ),
+  ]
 
   get telephonyStatus() {
     return this.state.telephonyStatus;
   }
 
-  get sessionIdList() {
-    return this._selectors.sessionIdList();
-  }
+  @selector
+  sessionIdList = [
+    () => this.calls,
+    calls => calls.map(call => call.sessionId),
+  ]
 
   @proxify
   async _fetch() {

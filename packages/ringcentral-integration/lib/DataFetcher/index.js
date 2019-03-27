@@ -134,7 +134,7 @@ export default class DataFetcher extends Pollable {
         type: this.actionTypes.resetSuccess,
         cleanOnReset: this._cleanOnReset,
       });
-    } else if (this._shouldSubscribe()) {
+    } else if (this._shouldHandleSubscriptionMessage()) {
       this._processSubscription();
     }
   }
@@ -160,7 +160,7 @@ export default class DataFetcher extends Pollable {
       !this.pending
     );
   }
-  _shouldSubscribe() {
+  _shouldHandleSubscriptionMessage() {
     return !!(
       this.ready &&
       this._subscription &&
@@ -187,6 +187,9 @@ export default class DataFetcher extends Pollable {
       this.data !== null;
   }
   async _init() {
+    if (this._subscription && this._subscriptionFilters) {
+      this._subscription.subscribe(this._subscriptionFilters);
+    }
     if (this._shouldFetch()) {
       try {
         await this.fetchData();
@@ -201,9 +204,6 @@ export default class DataFetcher extends Pollable {
       this._startPolling();
     } else {
       this._retry();
-    }
-    if (this._subscription && this._subscriptionFilters) {
-      this._subscription.subscribe(this._subscriptionFilters);
     }
   }
   _processSubscription() {

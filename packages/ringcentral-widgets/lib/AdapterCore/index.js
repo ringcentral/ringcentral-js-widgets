@@ -529,7 +529,6 @@ export default class AdapterCore {
   }) {
     this._locale = locale;
     this._strings = strings;
-    console.log('locale', this._locale, this._strings);
     this._renderString();
   }
 
@@ -785,7 +784,6 @@ export default class AdapterCore {
   _renderMinimizedBar() {
     this._logoEl.setAttribute('class', classnames(
       this._styles.logo,
-      this._styles.dock,
       this._logoUrl && this._logoUrl !== '' && this._styles.visible,
     ));
     this._durationEl.setAttribute('class', classnames(

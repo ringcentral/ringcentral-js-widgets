@@ -563,11 +563,13 @@ export default class Conversations extends RcModule {
       const newConversations = [];
       const conversationMap = {};
       const pushConversation = (c) => {
-        if (conversationMap[c.id]) {
+        // use conversationId when available, use id for VoiceMail/Fax/etc..
+        const cid = c.conversationId || c.id;
+        if (conversationMap[cid]) {
           return;
         }
         newConversations.push(c);
-        conversationMap[c.id] = 1;
+        conversationMap[cid] = 1;
       };
       conversations.forEach(pushConversation);
       oldConversations.forEach(pushConversation);

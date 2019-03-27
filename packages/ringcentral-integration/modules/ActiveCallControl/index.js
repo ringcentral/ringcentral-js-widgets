@@ -225,6 +225,7 @@ export default class ActiveCallControl extends Pollable {
 
   async _init() {
     if (!this._hasPermission) return;
+    this._subscription.subscribe(subscribeEvent);
     if (this._shouldFetch()) {
       try {
         await this.fetchData();
@@ -236,11 +237,13 @@ export default class ActiveCallControl extends Pollable {
     } else {
       this._retry();
     }
-    this._subscription.subscribe(subscribeEvent);
   }
 
   _subscriptionHandler() {
-    if (this._storage && this._tabManager && !this._tabManager.active) {
+    if (
+      !this.ready ||
+      this._storage && this._tabManager && !this._tabManager.active
+    ) {
       return;
     }
     const { message } = this._subscription;

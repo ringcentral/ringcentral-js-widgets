@@ -77,6 +77,7 @@ export function getConnectRetryCountsReducer(types) {
 export function getActiveSessionIdReducer(types) {
   return (state = null, { type, session = {}, sessions = [] }) => {
     switch (type) {
+      case types.callInit:
       case types.callStart:
         return session.id;
       case types.callEnd: {

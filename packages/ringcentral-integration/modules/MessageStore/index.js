@@ -18,6 +18,7 @@ import debounce from '../../lib/debounce';
 const DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
 const DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 const DEFAULT_TTL = 30 * 60 * 1000;
+const DEFAULT_REFRESH_LOCK = 5 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
 const DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
 const DEFAULT_MESSAGES_FILTER = list => list;
@@ -82,6 +83,7 @@ export default class MessageStore extends Pollable {
     connectivityMonitor,
     availabilityMonitor,
     ttl = DEFAULT_TTL,
+    refreshLock = DEFAULT_REFRESH_LOCK,
     polling = false,
     disableCache = false,
     timeToRetry = DEFAULT_RETRY,
@@ -113,6 +115,7 @@ export default class MessageStore extends Pollable {
     this._connectivityMonitor = connectivityMonitor;
     this._availabilityMonitor = availabilityMonitor;
     this._ttl = ttl;
+    this._refreshLock = refreshLock;
     this._timeToRetry = timeToRetry;
     this._polling = polling;
     this._conversationsLoadLength = conversationsLoadLength;
@@ -147,18 +150,21 @@ export default class MessageStore extends Pollable {
 
   async _onStateChange() {
     if (this._shouldInit()) {
-      this.store.dispatch({
-        type: this.actionTypes.init,
-      });
+      await this._init();
+    } else if (this._isDataReady()) {
+      /**
+       * When there is cached data, triggering init will immediately trigger initSuccess.
+       * This causes the code to run this._checkConnectivity() before initializing
+       * this._connectivity, forcing the the module to always run sync on app restart.
+       * Moving the this._connectivity initializating just before initSuccess ensure
+       * that this._checkConnectivity is only run when this._connectivity has been set.
+       */
       if (this._connectivityMonitor) {
         this._connectivity = this._connectivityMonitor.connectivity;
       }
-      await this._init();
-    } else if (this._isDataReady()) {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-      //
     } else if (this._shouldReset()) {
       this._clearTimeout();
       this._promise = null;
@@ -205,6 +211,9 @@ export default class MessageStore extends Pollable {
   }
 
   async _init() {
+    this.store.dispatch({
+      type: this.actionTypes.init,
+    });
     if (!this._hasPermission) return;
     if (this._shouldFetch()) {
       try {
@@ -223,7 +232,8 @@ export default class MessageStore extends Pollable {
 
   _shouldFetch() {
     return (
-      !this._tabManager || this._tabManager.active
+      (!this._tabManager || this._tabManager.active) &&
+      (!this.timestamp || Date.now() - this.timestamp > this.refreshLock)
     );
   }
 
@@ -774,6 +784,10 @@ export default class MessageStore extends Pollable {
 
   get ttl() {
     return this._ttl;
+  }
+
+  get refreshLock() {
+    return this._refreshLock;
   }
 
   get syncInfo() {

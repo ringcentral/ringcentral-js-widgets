@@ -16,13 +16,14 @@ export function CallInfoBar({
 }) {
   return (
     <div className={styles.bar}>
-      <div className={styles.currentCallInfo} onClick={onClick}>
+      <div className={styles.currentCallInfo} title={label} onClick={onClick}>
         {label}
       </div>
       {
         shouldDisplayViewCallsBtn ?
           <Button
             className={styles.viewCallsBtn}
+            tooltip={i18n.getString('viewCalls', currentLocale)}
             onClick={onClick}
           >
             {i18n.getString('viewCalls', currentLocale)}

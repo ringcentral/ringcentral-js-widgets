@@ -218,7 +218,7 @@ export default class GlipGroups extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
       });
-    } else if (this._shouldSubscribe()) {
+    } else if (this._shouldHandleSubscriptionMessage()) {
       this._processSubscription();
     } else if (
       this.ready &&
@@ -270,7 +270,7 @@ export default class GlipGroups extends Pollable {
     );
   }
 
-  _shouldSubscribe() {
+  _shouldHandleSubscriptionMessage() {
     return !!(
       this.ready &&
       this._subscription &&

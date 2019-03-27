@@ -91,7 +91,7 @@ export default class GlipPosts extends RcModule {
         type: this.actionTypes.resetSuccess,
       });
       this._fetchPromises = {};
-    } else if (this._shouldSubscribe()) {
+    } else if (this._shouldHandleSubscriptionMessage()) {
       this._processSubscription();
     }
   }
@@ -116,7 +116,7 @@ export default class GlipPosts extends RcModule {
     );
   }
 
-  _shouldSubscribe() {
+  _shouldHandleSubscriptionMessage() {
     return !!(
       this.ready &&
       this._subscription &&

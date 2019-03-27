@@ -156,12 +156,17 @@ describe('Webphone :: getActiveSessionIdReducer', () => {
         .to.equal(originalState);
     });
 
-    it('should return sessionId when actionTypes is callStart', () => {
-      const originalState = '1111';
-      expect(reducer(originalState, {
-        type: actionTypes.callStart,
-        session: { id: '222' },
-      })).to.equal('222');
+    it('should return sessionId when actionTypes is callStart or callInit', () => {
+      [
+        actionTypes.callStart,
+        actionTypes.callInit,
+      ].forEach((type) => {
+        const originalState = '1111';
+        expect(reducer(originalState, {
+          type,
+          session: { id: '222' },
+        })).to.equal('222');
+      });
     });
 
     it(`should return original state when actionTypes is callEnd
