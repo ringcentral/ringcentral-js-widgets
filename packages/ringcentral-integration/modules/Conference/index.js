@@ -71,9 +71,10 @@ export default class Conference extends DataFetcher {
 
   async _onStateChange() {
     super._onStateChange();
-    if (!this.data
-      || !this._regionSetting.ready
-      || this._lastCountryCode === this._regionSetting.countryCode) {
+    if (
+      !this.data ||
+      !this._regionSetting.ready ||
+      this._lastCountryCode === this._regionSetting.countryCode) {
       return;
     }
     this._lastCountryCode = this._regionSetting.countryCode;
@@ -126,6 +127,7 @@ export default class Conference extends DataFetcher {
       type: this.actionTypes.inviteWithText
     });
   }
+
   // for track join as host
   @proxify
   onJoinAsHost() {
@@ -149,9 +151,5 @@ export default class Conference extends DataFetcher {
 
   get _hasPermission() {
     return !!this._rolesAndPermissions.permissions.OrganizeConference;
-  }
-
-  _shouldFetch() {
-    return !this._tabManager || this._tabManager.active;
   }
 }

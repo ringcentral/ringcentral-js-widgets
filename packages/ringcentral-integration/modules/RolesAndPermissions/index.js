@@ -192,6 +192,7 @@ export default class RolesAndPermissions extends DataFetcher {
       )
     );
   }
+
   get onlyPagerPermission() {
     return !!(
       this.serviceFeatures && (

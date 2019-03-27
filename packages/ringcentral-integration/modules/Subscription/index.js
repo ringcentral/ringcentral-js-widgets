@@ -1,3 +1,7 @@
+import {
+  equals,
+  map,
+} from 'ramda';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import loginStatus from '../Auth/loginStatus';
@@ -5,8 +9,10 @@ import moduleStatuses from '../../enums/moduleStatuses';
 import getSubscriptionReducer, { getCachedSubscriptionReducer, } from './getSubscriptionReducer';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
+import { normalizeEventFilter } from './normalizeEventFilter';
 
 const DEFAULT_TIME_TO_RETRY = 60 * 1000;
+
 
 /**
  * @class
@@ -53,6 +59,7 @@ export default class Subscription extends RcModule {
     this._retryTimeoutId = null;
     this._registerTimeoutId = null;
   }
+
   initialize() {
     this.store.subscribe(async () => {
       if (
@@ -105,16 +112,19 @@ export default class Subscription extends RcModule {
   get cachedSubscription() {
     return this._storage.getItem(this._cacheStorageKey);
   }
+
   _startSleepDetection() {
     this._stopSleepDetection();
     this._detectSleep();
   }
+
   _stopSleepDetection() {
     if (this._sleepTimeout) {
       clearTimeout(this._sleepTimeout);
       this._sleepTimeout = null;
     }
   }
+
   _detectSleep() {
     const t = Date.now();
     this._sleepTimeout = setTimeout(async () => {
@@ -125,6 +135,7 @@ export default class Subscription extends RcModule {
       this._detectSleep();
     }, 10 * 1000);
   }
+
   _createSubscription() {
     this._subscription = this._client.service.createSubscription();
     if (this.cachedSubscription) {
@@ -207,7 +218,13 @@ export default class Subscription extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.subscribe,
       });
-      if (this._subscription) {
+      if (
+        this._subscription &&
+        !equals(
+          map(normalizeEventFilter, this._subscription.eventFilters()).sort(),
+          map(normalizeEventFilter, this.filters).sort(),
+        )
+      ) {
         this._subscription.setEventFilters(this.filters);
         this._subscription.register();
       }
@@ -218,12 +235,11 @@ export default class Subscription extends RcModule {
     if (!this._subscription) {
       this._createSubscription();
     }
-    this._subscription.setEventFilters(this.filters);
     this._register(delay);
   }
 
   @proxify
-  async subscribe(events = [], delay = 2000) {
+  async subscribe(events = [], delay) {
     if (this.ready) {
       const oldFilters = this.filters;
       this.store.dispatch({

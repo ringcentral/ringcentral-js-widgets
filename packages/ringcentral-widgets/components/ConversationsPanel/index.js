@@ -238,7 +238,7 @@ export default class ConversationsPanel extends Component {
     const tabsHeader = this.renderTabs();
     const content = this.renderContent();
     return (
-      <div className={styles.root}>
+      <div data-sign="ConversationsPanel" className={styles.root}>
         {header}
         {tabsHeader}
         {content}

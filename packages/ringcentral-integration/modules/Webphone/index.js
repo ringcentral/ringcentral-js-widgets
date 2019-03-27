@@ -53,6 +53,7 @@ const EVENTS = new Enum([
   'callResume',
   'beforeCallResume',
   'beforeCallEnd',
+  'callInit',
 ]);
 
 /**
@@ -90,7 +91,8 @@ export default class Webphone extends RcModule {
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance, optional
    * @param {Function} params.onCallEnd - callback on a call end
    * @param {Function} params.onCallRing - callback on a call ring
-   * @param {Function} params.onCallStart - callback on a call start
+   * @param {Function} params.onCallStart - callback on a call accpeted by callee
+   * @param {Function} params.onCallInit - callback on create a new call
    * @param {Function} params.onCallResume - callback on a call resume
    * @param {Function} params.onCallHold - callback on a call holded
    * @param {Function} params.onBeforeCallResume - callback before a call resume
@@ -115,6 +117,7 @@ export default class Webphone extends RcModule {
     onCallStart,
     onCallResume,
     onCallHold,
+    onCallInit,
     onBeforeCallResume,
     onBeforeCallEnd,
     webphoneSDKOptions,
@@ -153,6 +156,9 @@ export default class Webphone extends RcModule {
     }
     if (typeof onCallHold === 'function') {
       this._eventEmitter.on(EVENTS.callHold, onCallHold);
+    }
+    if (typeof onCallInit === 'function') {
+      this._eventEmitter.on(EVENTS.callInit, onCallInit);
     }
     if (typeof onBeforeCallResume === 'function') {
       this._eventEmitter.on(EVENTS.beforeCallResume, onBeforeCallResume);
@@ -699,13 +705,13 @@ export default class Webphone extends RcModule {
       console.log('accepted');
       session.__rc_callStatus = sessionStatus.connected;
       extractHeadersData(session, incomingResponse.headers);
+      this._onCallStart(session);
       if (
         session.__rc_extendedControls &&
         session.__rc_extendedControlStatus === extendedControlStatus.pending
       ) {
         this._playExtendedControls(session);
       }
-      this._updateSessions();
     });
     session.on('progress', (incomingResponse) => {
       console.log('progress...');
@@ -789,7 +795,6 @@ export default class Webphone extends RcModule {
       await this._holdOtherSession(sessionId);
       this._onAccepted(sipSession, 'inbound');
       await sipSession.accept(this.acceptOptions);
-      this._onCallStart(sipSession);
       this.store.dispatch({ // for track
         type: this.actionTypes.callAnswer,
       });
@@ -830,8 +835,8 @@ export default class Webphone extends RcModule {
       return false;
     }
     try {
-      const validatedResult
-        = await this._numberValidate.validateNumbers([forwardNumber]);
+      const validatedResult =
+        await this._numberValidate.validateNumbers([forwardNumber]);
       if (!validatedResult.result) {
         validatedResult.errors.forEach((error) => {
           this._alert.warning({
@@ -928,6 +933,7 @@ export default class Webphone extends RcModule {
         throw e;
       }
       session.__rc_callStatus = sessionStatus.onHold;
+      this._onCallHold(session);
     }));
     // update cached sessions
     this.store.dispatch({
@@ -946,6 +952,7 @@ export default class Webphone extends RcModule {
         await this._holdOtherSession(session.id);
         this._onBeforeCallResume(session);
         await session.unhold();
+        session.__rc_callStatus = sessionStatus.connected;
         this._updateSessions();
         this._onCallResume(session);
       }
@@ -1036,8 +1043,8 @@ export default class Webphone extends RcModule {
     try {
       session.__rc_isOnTransfer = true;
       this._updateSessions();
-      const validatedResult
-        = await this._numberValidate.validateNumbers([transferNumber]);
+      const validatedResult =
+        await this._numberValidate.validateNumbers([transferNumber]);
       if (!validatedResult.result) {
         validatedResult.errors.forEach((error) => {
           this._alert.warning({
@@ -1212,6 +1219,7 @@ export default class Webphone extends RcModule {
       });
       return null;
     }
+    await this._holdOtherSession();
     const session = this._webphone.userAgent.invite(toNumber, {
       sessionDescriptionHandlerOptions: this.acceptOptions.sessionDescriptionHandlerOptions,
       fromNumber,
@@ -1225,8 +1233,7 @@ export default class Webphone extends RcModule {
     session.__rc_extendedControls = extendedControls;
     session.__rc_extendedControlStatus = extendedControlStatus.pending;
     this._onAccepted(session);
-    await this._holdOtherSession(session.id);
-    this._onCallStart(session);
+    this._onCallInit(session);
     return session;
   }
 
@@ -1279,11 +1286,11 @@ export default class Webphone extends RcModule {
     });
   }
 
-  _onCallStart(session) {
+  _onCallInit(session) {
     this._addSession(session);
     const normalizedSession = find(x => x.id === session.id, this.sessions);
     this.store.dispatch({
-      type: this.actionTypes.callStart,
+      type: this.actionTypes.callInit,
       session: normalizedSession,
       sessions: this.sessions,
     });
@@ -1293,6 +1300,17 @@ export default class Webphone extends RcModule {
     ) {
       this._contactMatcher.triggerMatch();
     }
+    this._eventEmitter.emit(EVENTS.callInit, normalizedSession, this.activeSession);
+  }
+
+  _onCallStart(session) {
+    this._addSession(session);
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
+    this.store.dispatch({
+      type: this.actionTypes.callStart,
+      session: normalizedSession,
+      sessions: this.sessions,
+    });
     this._eventEmitter.emit(EVENTS.callStart, normalizedSession, this.activeSession);
   }
 
@@ -1389,6 +1407,12 @@ export default class Webphone extends RcModule {
   onCallStart(handler) {
     if (typeof handler === 'function') {
       this._eventEmitter.on(EVENTS.callStart, handler);
+    }
+  }
+
+  onCallInit(handler) {
+    if (typeof handler === 'function') {
+      this._eventEmitter.on(EVENTS.callInit, handler);
     }
   }
 

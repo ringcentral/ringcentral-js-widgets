@@ -1,23 +1,10 @@
-import mask from 'json-mask';
 import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
 import ensureExist from '../../lib/ensureExist';
+import { selector } from '../../lib/selector';
 
 import loginStatus from '../Auth/loginStatus';
 import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
-
-const DEFAULT_MASK = [
-  'id,mainNumber,status',
-  'operator(id,extensionNumber)',
-  'serviceInfo(brand(id,homeCountry(isoCode)))',
-  `regionalSettings(${[
-    'timezone(id,name,bias)',
-    'homeCountry(id)',
-    'language(localeCode)',
-    'formattingLocale(localeCode)',
-    'timeFormat',
-  ].join(',')})`,
-].join(',');
 
 /**
  * @class
@@ -46,19 +33,13 @@ export default class AccountInfo extends DataFetcher {
     super({
       name: 'accountInfo',
       client,
-      fetchFunction: async () => mask(await client.account().get(), DEFAULT_MASK),
+      fetchFunction: async () => client.account().get(),
       readyCheckFn: () => this._rolesAndPermissions.ready,
       ...options,
     });
 
     this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._alert = alert;
-
-    this.addSelector(
-      'info',
-      () => this.data,
-      data => data || {},
-    );
   }
 
   async _onStateChange() {
@@ -78,9 +59,23 @@ export default class AccountInfo extends DataFetcher {
     }
   }
 
-  get info() {
-    return this._selectors.info();
-  }
+  @selector
+  info = [
+    () => this.data,
+    data => data || {},
+  ]
+
+  @selector
+  serviceInfo = [
+    () => this.info,
+    info => info.serviceInfo || {},
+  ]
+
+  @selector
+  servicePlan = [
+    () => this.serviceInfo,
+    serviceInfo => serviceInfo.servicePlan || {},
+  ]
 
   get id() {
     return this.info.id;

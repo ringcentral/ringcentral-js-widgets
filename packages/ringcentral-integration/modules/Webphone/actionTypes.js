@@ -14,6 +14,7 @@ export default new Enum([
   'updateSessions',
   'destroySessions',
   'beforeCallStart',
+  'callInit',
   'callStart',
   'callEnd',
   'callRing',

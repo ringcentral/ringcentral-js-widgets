@@ -226,6 +226,7 @@ export default class IncomingCallPad extends Component {
               onClick={() => null}
               icon={MessageIcon}
               title={i18n.getString('reply', currentLocale)}
+              dataSign="reply"
               className={styles.callButton}
             />
           </TooltipCom>
@@ -233,6 +234,7 @@ export default class IncomingCallPad extends Component {
             onClick={reject}
             icon={IgnoreIcon}
             title={i18n.getString('ignore', currentLocale)}
+            dataSign="ignore"
             className={styles.callButton}
           />
         </div>

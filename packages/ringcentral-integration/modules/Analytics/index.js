@@ -56,6 +56,7 @@ const INIT_TRACK_LIST = [
   '_participantListClickHangup',
   '_callControlClickMerge',
   '_callControlClickParticipantArea',
+  '_accountInfoReady',
 ];
 
 /**
@@ -79,6 +80,7 @@ const INIT_TRACK_LIST = [
     { dep: 'UserGuide', optional: true },
     { dep: 'CallMonitor', optional: true },
     { dep: 'ConferenceCall', optional: true },
+    { dep: 'AccountInfo', optional: true },
   ]
 })
 export default class Analytics extends RcModule {
@@ -89,20 +91,21 @@ export default class Analytics extends RcModule {
     appVersion,
     brandCode,
     // modules
+    accountInfo,
+    adapter,
     auth,
     call,
-    webphone,
+    callHistory,
+    callMonitor,
+    conference,
+    conferenceCall,
+    contactDetails,
     contacts,
     messageSender,
-    adapter,
-    routerInteraction,
     messageStore,
-    contactDetails,
-    callHistory,
-    conference,
+    routerInteraction,
     userGuide,
-    callMonitor,
-    conferenceCall,
+    webphone,
     ...options
   }) {
     super({
@@ -115,20 +118,21 @@ export default class Analytics extends RcModule {
     this._appVersion = appVersion;
     this._brandCode = brandCode;
     // modules
+    this._accountInfo = accountInfo;
+    this._adapter = adapter;
     this._auth = auth;
     this._call = call;
-    this._webphone = webphone;
+    this._callHistory = callHistory;
+    this._callMonitor = callMonitor;
+    this._conference = conference;
+    this._conferenceCall = conferenceCall;
+    this._contactDetails = contactDetails;
     this._contacts = contacts;
     this._messageSender = messageSender;
-    this._adapter = adapter;
-    this._router = routerInteraction;
     this._messageStore = messageStore;
-    this._contactDetails = contactDetails;
-    this._callHistory = callHistory;
-    this._conference = conference;
+    this._router = routerInteraction;
     this._userGuide = userGuide;
-    this._callMonitor = callMonitor;
-    this._conferenceCall = conferenceCall;
+    this._webphone = webphone;
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
     this._segment = Segment();
@@ -137,16 +141,15 @@ export default class Analytics extends RcModule {
 
   initialize() {
     this.store.subscribe(() => this._onStateChange());
-    this._segment.load(this._analyticsKey);
   }
 
   identify({
     userId,
-    name,
+    ...props
   }) {
-    global.analytics.identify(userId, {
-      name
-    });
+    if (this.analytics) {
+      this.analytics.identify(userId, props);
+    }
   }
 
   track(event, {
@@ -158,7 +161,9 @@ export default class Analytics extends RcModule {
       brand: this._brandCode,
       ...properties,
     };
-    global.analytics.track(event, trackProps);
+    if (this.analytics) {
+      this.analytics.track(event, trackProps);
+    }
   }
 
   trackNavigation({ router, eventPostfix }) {
@@ -172,6 +177,17 @@ export default class Analytics extends RcModule {
   }
 
   async _onStateChange() {
+    if (this.pending) {
+      this.store.dispatch({
+        type: this.actionTypes.init,
+      });
+      if (this._analyticsKey) {
+        this._segment.load(this._analyticsKey);
+      }
+      this.store.dispatch({
+        type: this.actionTypes.initSuccess,
+      });
+    }
     if (this.ready && this.lastActions.length && !this._promise) {
       this._promise = this._processActions();
     }
@@ -213,6 +229,18 @@ export default class Analytics extends RcModule {
   _logout(action) {
     if (this._auth && this._auth.actionTypes.logout === action.type) {
       this.track('Logout');
+    }
+  }
+
+  _accountInfoReady(action) {
+    if (this._accountInfo && this._accountInfo.actionTypes.initSuccess === action.type) {
+      this.identify({
+        userId: this._accountInfo._auth.ownerId,
+        accountId: this._accountInfo.id,
+        servicePlanId: this._accountInfo.servicePlan.id,
+        edition: this._accountInfo.servicePlan.edition,
+        CRMEnabled: this._accountInfo._rolesAndPermissions.tierEnabled
+      });
     }
   }
 
@@ -614,14 +642,14 @@ export default class Analytics extends RcModule {
   }
 
   get status() {
-    return moduleStatuses.ready;
+    return this.state.status;
   }
 
   get ready() {
-    return true;
+    return this.status === moduleStatuses.ready;
   }
 
   get pending() {
-    return false;
+    return this.status === moduleStatuses.pending;
   }
 }

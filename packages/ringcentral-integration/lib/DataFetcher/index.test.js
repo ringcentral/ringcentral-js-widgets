@@ -20,7 +20,7 @@ describe('DataFetcher Unit Test', () => {
       '_shouldFetch',
       '_isDataReady',
       '_shouldReset',
-      '_shouldSubscribe',
+      '_shouldHandleSubscriptionMessage',
       '_init',
       '_clearTimeout',
       '_processSubscription',
@@ -37,7 +37,7 @@ describe('DataFetcher Unit Test', () => {
     it('_init should be called once when _shouldInit is true', () => {
       sinon.stub(dataFetcher, '_shouldInit').callsFake(() => true);
       sinon.stub(dataFetcher, '_shouldReset').callsFake(() => false);
-      sinon.stub(dataFetcher, '_shouldSubscribe').callsFake(() => false);
+      sinon.stub(dataFetcher, '_shouldHandleSubscriptionMessage').callsFake(() => false);
       sinon.stub(dataFetcher, '_init');
       sinon.stub(dataFetcher, '_clearTimeout');
       sinon.stub(dataFetcher, '_processSubscription');
@@ -49,7 +49,7 @@ describe('DataFetcher Unit Test', () => {
     it('_clearTimeout should be called once when _shouldReset is true', () => {
       sinon.stub(dataFetcher, '_shouldInit').callsFake(() => false);
       sinon.stub(dataFetcher, '_shouldReset').callsFake(() => true);
-      sinon.stub(dataFetcher, '_shouldSubscribe').callsFake(() => false);
+      sinon.stub(dataFetcher, '_shouldHandleSubscriptionMessage').callsFake(() => false);
       sinon.stub(dataFetcher, '_isDataReady').callsFake(() => false);
       sinon.stub(dataFetcher, '_init');
       sinon.stub(dataFetcher, '_clearTimeout');
@@ -59,10 +59,10 @@ describe('DataFetcher Unit Test', () => {
       sinon.assert.calledOnce(dataFetcher._clearTimeout);
       sinon.assert.notCalled(dataFetcher._processSubscription);
     });
-    it('_processSubscription should be called once when _shouldSubscribe is true', () => {
+    it('_processSubscription should be called once when _shouldHandleSubscriptionMessage is true', () => {
       sinon.stub(dataFetcher, '_shouldInit').callsFake(() => false);
       sinon.stub(dataFetcher, '_shouldReset').callsFake(() => false);
-      sinon.stub(dataFetcher, '_shouldSubscribe').callsFake(() => true);
+      sinon.stub(dataFetcher, '_shouldHandleSubscriptionMessage').callsFake(() => true);
       sinon.stub(dataFetcher, '_isDataReady').callsFake(() => false);
       sinon.stub(dataFetcher, '_init');
       sinon.stub(dataFetcher, '_clearTimeout');
@@ -75,7 +75,7 @@ describe('DataFetcher Unit Test', () => {
     it('_init and _clearTimeout and _processSubscription should not be called', () => {
       sinon.stub(dataFetcher, '_shouldInit').callsFake(() => false);
       sinon.stub(dataFetcher, '_shouldReset').callsFake(() => false);
-      sinon.stub(dataFetcher, '_shouldSubscribe').callsFake(() => false);
+      sinon.stub(dataFetcher, '_shouldHandleSubscriptionMessage').callsFake(() => false);
       sinon.stub(dataFetcher, '_init');
       sinon.stub(dataFetcher, '_clearTimeout');
       sinon.stub(dataFetcher, '_processSubscription');

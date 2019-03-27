@@ -467,11 +467,11 @@ const Video = (
         <Switch
           checked={meeting.startHostVideo}
           onChange={(startHostVideo) => {
-              update({
-                ...meeting,
-                startHostVideo,
-              });
-            }}
+            update({
+              ...meeting,
+              startHostVideo,
+            });
+          }}
           dataSign="videoHostToggle"
           />
       </div>
@@ -482,11 +482,11 @@ const Video = (
         <Switch
           checked={meeting.startParticipantsVideo}
           onChange={(startParticipantsVideo) => {
-              update({
-                ...meeting,
-                startParticipantsVideo,
-              });
-            }}
+            update({
+              ...meeting,
+              startParticipantsVideo,
+            });
+          }}
           dataSign="videoParticipantToggle"
           />
       </div>
@@ -580,7 +580,7 @@ const AudioOptions = (
       {audioOptions}
     </MeetingSection>
   );
-}
+};
 
 AudioOptions.propTypes = {
   update: PropTypes.func.isRequired,
@@ -609,23 +609,23 @@ const MeetingOptions = (
       withSwitch>
       <div className={styles.meetingOptionsDiv}>
         <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-          <span className={styles.labelLight}>
+          <span className={classnames(styles.labelLight, styles.defaultShrink)}>
             {i18n.getString('requirePassword', currentLocale)}
           </span>
           <Switch
             checked={meeting._requireMeetingPassword}
             onChange={(_requireMeetingPassword) => {
-                if (_requireMeetingPassword) {
-                  setTimeout(() => {
-                    that.password.focus();
-                  }, 100);
-                }
-                update({
-                  ...meeting,
-                  _requireMeetingPassword,
-                  password: null,
-                });
-              }}
+              if (_requireMeetingPassword) {
+                setTimeout(() => {
+                  that.password.focus();
+                }, 100);
+              }
+              update({
+                ...meeting,
+                _requireMeetingPassword,
+                password: null,
+              });
+            }}
             dataSign="requirePasswordToggle"
             />
         </div>
@@ -667,7 +667,6 @@ const MeetingOptions = (
               });
             }}
             dataSign="enableJoinToggle"
-            className={styles.notShrink}
             />
         </div>
       </div>

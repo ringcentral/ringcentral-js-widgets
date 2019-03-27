@@ -37,6 +37,7 @@ export default function SettingsPanel({
   showAutoLog,
   showAutoLogNotes,
   showAudio,
+  showReport,
   autoLogEnabled,
   autoLogNotesEnabled,
   disableAutoLogEnabled,
@@ -50,6 +51,7 @@ export default function SettingsPanel({
   clickToDialEnabled,
   clickToDialPermissions,
   onClickToDialChange,
+  onReportLinkClick,
   showRegion,
   showHeader,
   outboundSMS,
@@ -97,6 +99,15 @@ export default function SettingsPanel({
       <LinkLine
         onClick={onRegionSettingsLinkClick}>
         {i18n.getString('region', currentLocale)}
+      </LinkLine>
+    ) :
+    null;
+
+  const report = showReport ?
+    (
+      <LinkLine
+        onClick={onReportLinkClick}>
+        {i18n.getString('report', currentLocale)}
       </LinkLine>
     ) :
     null;
@@ -259,6 +270,7 @@ export default function SettingsPanel({
         {clickToDial}
         {additional}
         {feedback}
+        {report}
         {quickAccess}
         {userGuide}
         <section className={styles.section}>
@@ -305,6 +317,7 @@ SettingsPanel.propTypes = {
   showAudio: PropTypes.bool,
   showAutoLog: PropTypes.bool,
   showAutoLogNotes: PropTypes.bool,
+  showReport: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
   autoLogNotesEnabled: PropTypes.bool,
   disableAutoLogEnabled: PropTypes.bool,
@@ -344,6 +357,7 @@ SettingsPanel.propTypes = {
   showUserGuide: PropTypes.bool,
   clickToDialTitle: PropTypes.string,
   versionContainer: PropTypes.node,
+  onReportLinkClick: PropTypes.func,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -359,6 +373,7 @@ SettingsPanel.defaultProps = {
   showAutoLogNotes: false,
   showRegion: false,
   showUserGuide: false,
+  showReport: false,
   autoLogEnabled: false,
   autoLogNotesEnabled: false,
   disableAutoLogEnabled: false,
@@ -390,4 +405,5 @@ SettingsPanel.defaultProps = {
   onQuickAccessLinkClick: () => null,
   clickToDialTitle: null,
   versionContainer: null,
+  onReportLinkClick: () => null,
 };
