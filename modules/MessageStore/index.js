@@ -118,6 +118,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
 var DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 var DEFAULT_TTL = 30 * 60 * 1000;
+var DEFAULT_REFRESH_LOCK = 5 * 60 * 1000;
 var DEFAULT_RETRY = 62 * 1000;
 var DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
 
@@ -205,6 +206,8 @@ function (_Pollable) {
         availabilityMonitor = _ref2.availabilityMonitor,
         _ref2$ttl = _ref2.ttl,
         ttl = _ref2$ttl === void 0 ? DEFAULT_TTL : _ref2$ttl,
+        _ref2$refreshLock = _ref2.refreshLock,
+        refreshLock = _ref2$refreshLock === void 0 ? DEFAULT_REFRESH_LOCK : _ref2$refreshLock,
         _ref2$polling = _ref2.polling,
         polling = _ref2$polling === void 0 ? false : _ref2$polling,
         _ref2$disableCache = _ref2.disableCache,
@@ -219,7 +222,7 @@ function (_Pollable) {
         conversationLoadLength = _ref2$conversationLoa === void 0 ? DEFAULT_CONVERSATION_LOAD_LENGTH : _ref2$conversationLoa,
         _ref2$messagesFilter = _ref2.messagesFilter,
         messagesFilter = _ref2$messagesFilter === void 0 ? DEFAULT_MESSAGES_FILTER : _ref2$messagesFilter,
-        options = _objectWithoutProperties(_ref2, ["auth", "alert", "client", "subscription", "storage", "tabManager", "rolesAndPermissions", "connectivityMonitor", "availabilityMonitor", "ttl", "polling", "disableCache", "timeToRetry", "daySpan", "conversationsLoadLength", "conversationLoadLength", "messagesFilter"]);
+        options = _objectWithoutProperties(_ref2, ["auth", "alert", "client", "subscription", "storage", "tabManager", "rolesAndPermissions", "connectivityMonitor", "availabilityMonitor", "ttl", "refreshLock", "polling", "disableCache", "timeToRetry", "daySpan", "conversationsLoadLength", "conversationLoadLength", "messagesFilter"]);
 
     _classCallCheck(this, MessageStore);
 
@@ -259,6 +262,7 @@ function (_Pollable) {
     _this._connectivityMonitor = connectivityMonitor;
     _this._availabilityMonitor = availabilityMonitor;
     _this._ttl = ttl;
+    _this._refreshLock = refreshLock;
     _this._timeToRetry = timeToRetry;
     _this._polling = polling;
     _this._conversationsLoadLength = conversationsLoadLength;
@@ -308,30 +312,33 @@ function (_Pollable) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context2.next = 7;
+                  _context2.next = 5;
                   break;
                 }
 
-                this.store.dispatch({
-                  type: this.actionTypes.init
-                });
-
-                if (this._connectivityMonitor) {
-                  this._connectivity = this._connectivityMonitor.connectivity;
-                }
-
-                _context2.next = 5;
+                _context2.next = 3;
                 return this._init();
 
-              case 5:
-                _context2.next = 8;
+              case 3:
+                _context2.next = 6;
                 break;
 
-              case 7:
+              case 5:
                 if (this._isDataReady()) {
+                  /**
+                   * When there is cached data, triggering init will immediately trigger initSuccess.
+                   * This causes the code to run this._checkConnectivity() before initializing
+                   * this._connectivity, forcing the the module to always run sync on app restart.
+                   * Moving the this._connectivity initializating just before initSuccess ensure
+                   * that this._checkConnectivity is only run when this._connectivity has been set.
+                   */
+                  if (this._connectivityMonitor) {
+                    this._connectivity = this._connectivityMonitor.connectivity;
+                  }
+
                   this.store.dispatch({
                     type: this.actionTypes.initSuccess
-                  }); //
+                  });
                 } else if (this._shouldReset()) {
                   this._clearTimeout();
 
@@ -345,7 +352,7 @@ function (_Pollable) {
                   this._checkConnectivity();
                 }
 
-              case 8:
+              case 6:
               case "end":
                 return _context2.stop();
             }
@@ -384,54 +391,58 @@ function (_Pollable) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.init
+                });
+
                 if (this._hasPermission) {
-                  _context3.next = 2;
+                  _context3.next = 3;
                   break;
                 }
 
                 return _context3.abrupt("return");
 
-              case 2:
+              case 3:
                 if (!this._shouldFetch()) {
-                  _context3.next = 14;
+                  _context3.next = 15;
                   break;
                 }
 
-                _context3.prev = 3;
-                _context3.next = 6;
+                _context3.prev = 4;
+                _context3.next = 7;
                 return this.fetchData();
 
-              case 6:
-                _context3.next = 12;
+              case 7:
+                _context3.next = 13;
                 break;
 
-              case 8:
-                _context3.prev = 8;
-                _context3.t0 = _context3["catch"](3);
+              case 9:
+                _context3.prev = 9;
+                _context3.t0 = _context3["catch"](4);
                 console.error('fetchData error:', _context3.t0);
 
                 this._retry();
 
-              case 12:
-                _context3.next = 15;
+              case 13:
+                _context3.next = 16;
                 break;
 
-              case 14:
+              case 15:
                 if (this._polling) {
                   this._startPolling();
                 } else {
                   this._retry();
                 }
 
-              case 15:
+              case 16:
                 this._subscription.subscribe('/account/~/extension/~/message-store');
 
-              case 16:
+              case 17:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee2, this, [[3, 8]]);
+        }, _callee2, this, [[4, 9]]);
       }));
 
       function _init() {
@@ -443,7 +454,7 @@ function (_Pollable) {
   }, {
     key: "_shouldFetch",
     value: function _shouldFetch() {
-      return !this._tabManager || this._tabManager.active;
+      return (!this._tabManager || this._tabManager.active) && (!this.timestamp || Date.now() - this.timestamp > this.refreshLock);
     }
   }, {
     key: "_subscriptionHandler",
@@ -1576,6 +1587,11 @@ function (_Pollable) {
     key: "ttl",
     get: function get() {
       return this._ttl;
+    }
+  }, {
+    key: "refreshLock",
+    get: function get() {
+      return this._refreshLock;
     }
   }, {
     key: "syncInfo",

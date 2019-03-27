@@ -1,5 +1,7 @@
 "use strict";
 
+require("core-js/modules/es6.array.map");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -31,9 +33,13 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.sort");
+
 require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
+
+var _ramda = require("ramda");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -48,6 +54,8 @@ var _getSubscriptionReducer = _interopRequireWildcard(require("./getSubscription
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _normalizeEventFilter = require("./normalizeEventFilter");
 
 var _dec, _class, _class2;
 
@@ -355,7 +363,7 @@ function (_RcModule) {
           type: _this5.actionTypes.subscribe
         });
 
-        if (_this5._subscription) {
+        if (_this5._subscription && !(0, _ramda.equals)((0, _ramda.map)(_normalizeEventFilter.normalizeEventFilter, _this5._subscription.eventFilters()).sort(), (0, _ramda.map)(_normalizeEventFilter.normalizeEventFilter, _this5.filters).sort())) {
           _this5._subscription.setEventFilters(_this5.filters);
 
           _this5._subscription.register();
@@ -368,8 +376,6 @@ function (_RcModule) {
       if (!this._subscription) {
         this._createSubscription();
       }
-
-      this._subscription.setEventFilters(this.filters);
 
       this._register(delay);
     }
@@ -388,7 +394,7 @@ function (_RcModule) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 events = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : [];
-                delay = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : 2000;
+                delay = _args4.length > 1 ? _args4[1] : undefined;
 
                 if (!this.ready) {
                   _context4.next = 8;

@@ -331,11 +331,6 @@ function (_DataFetcher) {
       });
     }
   }, {
-    key: "_shouldFetch",
-    value: function _shouldFetch() {
-      return !this._tabManager || this._tabManager.active;
-    }
-  }, {
     key: "additionalNumbers",
     get: function get() {
       return this._storage.getItem(this._additionalNumbersStorageKey) || [];

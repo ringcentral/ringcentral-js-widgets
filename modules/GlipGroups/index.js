@@ -432,7 +432,7 @@ function (_Pollable) {
                 break;
 
               case 17:
-                if (!this._shouldSubscribe()) {
+                if (!this._shouldHandleSubscriptionMessage()) {
                   _context2.next = 21;
                   break;
                 }
@@ -493,8 +493,8 @@ function (_Pollable) {
       return !!((!this._auth.loggedIn || !this._rolesAndPermissions.ready || this._storage && !this._storage.ready || this._readyCheckFn && !this._readyCheckFn() || this._subscription && !this._subscription.ready || this._glipPosts && !this._glipPosts.ready || this._glipPersons && !this._glipPersons.ready || this._connectivityMonitor && !this._connectivityMonitor.ready || this._tabManager && !this._tabManager.ready) && this.ready);
     }
   }, {
-    key: "_shouldSubscribe",
-    value: function _shouldSubscribe() {
+    key: "_shouldHandleSubscriptionMessage",
+    value: function _shouldHandleSubscriptionMessage() {
       return !!(this.ready && this._subscription && this._subscription.ready && this._subscription.message && this._subscription.message !== this._lastMessage);
     }
   }, {

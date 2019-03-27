@@ -206,7 +206,7 @@ function (_RcModule) {
                     type: this.actionTypes.resetSuccess
                   });
                   this._fetchPromises = {};
-                } else if (this._shouldSubscribe()) {
+                } else if (this._shouldHandleSubscriptionMessage()) {
                   this._processSubscription();
                 }
 
@@ -235,8 +235,8 @@ function (_RcModule) {
       return (!this._auth.loggedIn || !this._rolesAndPermissions.ready || !this._subscription.ready) && this.ready;
     }
   }, {
-    key: "_shouldSubscribe",
-    value: function _shouldSubscribe() {
+    key: "_shouldHandleSubscriptionMessage",
+    value: function _shouldHandleSubscriptionMessage() {
       return !!(this.ready && this._subscription && this._subscription.ready && this._subscription.message && this._subscription.message !== this._lastMessage);
     }
   }, {

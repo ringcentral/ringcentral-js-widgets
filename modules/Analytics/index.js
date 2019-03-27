@@ -49,8 +49,6 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.object.assign");
 
-require("core-js/modules/es6.function.name");
-
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _di = require("../../lib/di");
@@ -109,7 +107,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_mergeCallControlClickMerge', '_mergeCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea'];
+var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_mergeCallControlClickMerge', '_mergeCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea', '_accountInfoReady'];
 /**
  * @class
  * @description Analytics module.
@@ -161,6 +159,9 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     dep: 'ConferenceCall',
     optional: true
+  }, {
+    dep: 'AccountInfo',
+    optional: true
   }]
 }), _dec(_class =
 /*#__PURE__*/
@@ -174,21 +175,22 @@ function (_RcModule) {
         appName = _ref.appName,
         appVersion = _ref.appVersion,
         brandCode = _ref.brandCode,
+        accountInfo = _ref.accountInfo,
+        adapter = _ref.adapter,
         auth = _ref.auth,
         call = _ref.call,
-        webphone = _ref.webphone,
+        callHistory = _ref.callHistory,
+        callMonitor = _ref.callMonitor,
+        conference = _ref.conference,
+        conferenceCall = _ref.conferenceCall,
+        contactDetails = _ref.contactDetails,
         contacts = _ref.contacts,
         messageSender = _ref.messageSender,
-        adapter = _ref.adapter,
-        routerInteraction = _ref.routerInteraction,
         messageStore = _ref.messageStore,
-        contactDetails = _ref.contactDetails,
-        callHistory = _ref.callHistory,
-        conference = _ref.conference,
+        routerInteraction = _ref.routerInteraction,
         userGuide = _ref.userGuide,
-        callMonitor = _ref.callMonitor,
-        conferenceCall = _ref.conferenceCall,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "auth", "call", "webphone", "contacts", "messageSender", "adapter", "routerInteraction", "messageStore", "contactDetails", "callHistory", "conference", "userGuide", "callMonitor", "conferenceCall"]);
+        webphone = _ref.webphone,
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "accountInfo", "adapter", "auth", "call", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetails", "contacts", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone"]);
 
     _classCallCheck(this, Analytics);
 
@@ -201,20 +203,21 @@ function (_RcModule) {
     _this._appVersion = appVersion;
     _this._brandCode = brandCode; // modules
 
+    _this._accountInfo = accountInfo;
+    _this._adapter = adapter;
     _this._auth = auth;
     _this._call = call;
-    _this._webphone = webphone;
+    _this._callHistory = callHistory;
+    _this._callMonitor = callMonitor;
+    _this._conference = conference;
+    _this._conferenceCall = conferenceCall;
+    _this._contactDetails = contactDetails;
     _this._contacts = contacts;
     _this._messageSender = messageSender;
-    _this._adapter = adapter;
-    _this._router = routerInteraction;
     _this._messageStore = messageStore;
-    _this._contactDetails = contactDetails;
-    _this._callHistory = callHistory;
-    _this._conference = conference;
+    _this._router = routerInteraction;
     _this._userGuide = userGuide;
-    _this._callMonitor = callMonitor;
-    _this._conferenceCall = conferenceCall; // init
+    _this._webphone = webphone; // init
 
     _this._reducer = (0, _getAnalyticsReducer.default)(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
@@ -230,17 +233,16 @@ function (_RcModule) {
       this.store.subscribe(function () {
         return _this2._onStateChange();
       });
-
-      this._segment.load(this._analyticsKey);
     }
   }, {
     key: "identify",
     value: function identify(_ref2) {
       var userId = _ref2.userId,
-          name = _ref2.name;
-      global.analytics.identify(userId, {
-        name: name
-      });
+          props = _objectWithoutProperties(_ref2, ["userId"]);
+
+      if (this.analytics) {
+        this.analytics.identify(userId, props);
+      }
     }
   }, {
     key: "track",
@@ -253,7 +255,9 @@ function (_RcModule) {
         brand: this._brandCode
       }, properties);
 
-      global.analytics.track(event, trackProps);
+      if (this.analytics) {
+        this.analytics.track(event, trackProps);
+      }
     }
   }, {
     key: "trackNavigation",
@@ -278,11 +282,25 @@ function (_RcModule) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (this.pending) {
+                  this.store.dispatch({
+                    type: this.actionTypes.init
+                  });
+
+                  if (this._analyticsKey) {
+                    this._segment.load(this._analyticsKey);
+                  }
+
+                  this.store.dispatch({
+                    type: this.actionTypes.initSuccess
+                  });
+                }
+
                 if (this.ready && this.lastActions.length && !this._promise) {
                   this._promise = this._processActions();
                 }
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -370,6 +388,19 @@ function (_RcModule) {
     value: function _logout(action) {
       if (this._auth && this._auth.actionTypes.logout === action.type) {
         this.track('Logout');
+      }
+    }
+  }, {
+    key: "_accountInfoReady",
+    value: function _accountInfoReady(action) {
+      if (this._accountInfo && this._accountInfo.actionTypes.initSuccess === action.type) {
+        this.identify({
+          userId: this._accountInfo._auth.ownerId,
+          accountId: this._accountInfo.id,
+          servicePlanId: this._accountInfo.servicePlan.id,
+          edition: this._accountInfo.servicePlan.edition,
+          CRMEnabled: this._accountInfo._rolesAndPermissions.tierEnabled
+        });
       }
     }
   }, {
@@ -773,17 +804,17 @@ function (_RcModule) {
   }, {
     key: "status",
     get: function get() {
-      return _moduleStatuses.default.ready;
+      return this.state.status;
     }
   }, {
     key: "ready",
     get: function get() {
-      return true;
+      return this.status === _moduleStatuses.default.ready;
     }
   }, {
     key: "pending",
     get: function get() {
-      return false;
+      return this.status === _moduleStatuses.default.pending;
     }
   }]);
 

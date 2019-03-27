@@ -157,7 +157,7 @@ var FIFTH_RETRIES_DELAY = 60 * 1000;
 var MAX_RETRIES_DELAY = 2 * 60 * 1000;
 var INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 var extendedControlStatus = new _Enum.default(['pending', 'playing', 'stopped']);
-var EVENTS = new _Enum.default(['callRing', 'callStart', 'callEnd', 'callHold', 'callResume', 'beforeCallResume', 'beforeCallEnd']);
+var EVENTS = new _Enum.default(['callRing', 'callStart', 'callEnd', 'callHold', 'callResume', 'beforeCallResume', 'beforeCallEnd', 'callInit']);
 /**
  * @constructor
  * @description Web phone module to handle phone interaction with WebRTC.
@@ -196,7 +196,8 @@ function (_RcModule) {
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance, optional
    * @param {Function} params.onCallEnd - callback on a call end
    * @param {Function} params.onCallRing - callback on a call ring
-   * @param {Function} params.onCallStart - callback on a call start
+   * @param {Function} params.onCallStart - callback on a call accpeted by callee
+   * @param {Function} params.onCallInit - callback on create a new call
    * @param {Function} params.onCallResume - callback on a call resume
    * @param {Function} params.onCallHold - callback on a call holded
    * @param {Function} params.onBeforeCallResume - callback before a call resume
@@ -226,10 +227,11 @@ function (_RcModule) {
         onCallStart = _ref.onCallStart,
         onCallResume = _ref.onCallResume,
         onCallHold = _ref.onCallHold,
+        onCallInit = _ref.onCallInit,
         onBeforeCallResume = _ref.onBeforeCallResume,
         onBeforeCallEnd = _ref.onBeforeCallEnd,
         webphoneSDKOptions = _ref.webphoneSDKOptions,
-        options = _objectWithoutProperties(_ref, ["appKey", "appName", "appVersion", "alert", "auth", "client", "rolesAndPermissions", "webphoneLogLevel", "contactMatcher", "numberValidate", "audioSettings", "tabManager", "onCallEnd", "onCallRing", "onCallStart", "onCallResume", "onCallHold", "onBeforeCallResume", "onBeforeCallEnd", "webphoneSDKOptions"]);
+        options = _objectWithoutProperties(_ref, ["appKey", "appName", "appVersion", "alert", "auth", "client", "rolesAndPermissions", "webphoneLogLevel", "contactMatcher", "numberValidate", "audioSettings", "tabManager", "onCallEnd", "onCallRing", "onCallStart", "onCallResume", "onCallHold", "onCallInit", "onBeforeCallResume", "onBeforeCallEnd", "webphoneSDKOptions"]);
 
     _classCallCheck(this, Webphone);
 
@@ -272,6 +274,10 @@ function (_RcModule) {
 
     if (typeof onCallHold === 'function') {
       _this._eventEmitter.on(EVENTS.callHold, onCallHold);
+    }
+
+    if (typeof onCallInit === 'function') {
+      _this._eventEmitter.on(EVENTS.callInit, onCallInit);
     }
 
     if (typeof onBeforeCallResume === 'function') {
@@ -1125,11 +1131,11 @@ function (_RcModule) {
         session.__rc_callStatus = _sessionStatus.default.connected;
         (0, _webphoneHelper.extractHeadersData)(session, incomingResponse.headers);
 
+        _this5._onCallStart(session);
+
         if (session.__rc_extendedControls && session.__rc_extendedControlStatus === extendedControlStatus.pending) {
           _this5._playExtendedControls(session);
         }
-
-        _this5._updateSessions();
       });
       session.on('progress', function (incomingResponse) {
         console.log('progress...');
@@ -1251,17 +1257,15 @@ function (_RcModule) {
                 return sipSession.accept(this.acceptOptions);
 
               case 10:
-                this._onCallStart(sipSession);
-
                 this.store.dispatch({
                   // for track
                   type: this.actionTypes.callAnswer
                 });
-                _context9.next = 19;
+                _context9.next = 18;
                 break;
 
-              case 14:
-                _context9.prev = 14;
+              case 13:
+                _context9.prev = 13;
                 _context9.t0 = _context9["catch"](4);
                 console.log('Accept failed');
                 console.error(_context9.t0);
@@ -1272,12 +1276,12 @@ function (_RcModule) {
                   this._onCallEnd(sipSession);
                 }
 
-              case 19:
+              case 18:
               case "end":
                 return _context9.stop();
             }
           }
-        }, _callee8, this, [[4, 14]]);
+        }, _callee8, this, [[4, 13]]);
       }));
 
       function answer(_x2) {
@@ -1600,6 +1604,8 @@ function (_RcModule) {
       var _holdOtherSession2 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee16(currentSessionId) {
+        var _this10 = this;
+
         return regeneratorRuntime.wrap(function _callee16$(_context17) {
           while (1) {
             switch (_context17.prev = _context17.next) {
@@ -1660,7 +1666,9 @@ function (_RcModule) {
                           case 16:
                             session.__rc_callStatus = _sessionStatus.default.onHold;
 
-                          case 17:
+                            _this10._onCallHold(session);
+
+                          case 18:
                           case "end":
                             return _context16.stop();
                         }
@@ -1717,7 +1725,7 @@ function (_RcModule) {
                 _context18.prev = 3;
 
                 if (!session.onLocalHold()) {
-                  _context18.next = 12;
+                  _context18.next = 13;
                   break;
                 }
 
@@ -1731,25 +1739,27 @@ function (_RcModule) {
                 return session.unhold();
 
               case 10:
+                session.__rc_callStatus = _sessionStatus.default.connected;
+
                 this._updateSessions();
 
                 this._onCallResume(session);
 
-              case 12:
-                _context18.next = 17;
+              case 13:
+                _context18.next = 18;
                 break;
 
-              case 14:
-                _context18.prev = 14;
+              case 15:
+                _context18.prev = 15;
                 _context18.t0 = _context18["catch"](3);
                 console.log(_context18.t0);
 
-              case 17:
+              case 18:
               case "end":
                 return _context18.stop();
             }
           }
-        }, _callee17, this, [[3, 14]]);
+        }, _callee17, this, [[3, 15]]);
       }));
 
       function unhold(_x12) {
@@ -1964,7 +1974,7 @@ function (_RcModule) {
       var _transfer = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee21(transferNumber, sessionId) {
-        var _this10 = this;
+        var _this11 = this;
 
         var session, validatedResult, validPhoneNumber;
         return regeneratorRuntime.wrap(function _callee21$(_context22) {
@@ -1998,7 +2008,7 @@ function (_RcModule) {
                 }
 
                 validatedResult.errors.forEach(function (error) {
-                  _this10._alert.warning({
+                  _this11._alert.warning({
                     message: _callErrors.default[error.type],
                     payload: {
                       phoneNumber: error.phoneNumber
@@ -2058,7 +2068,7 @@ function (_RcModule) {
       var _transferWarm = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee23(transferNumber, sessionId) {
-        var _this11 = this;
+        var _this12 = this;
 
         var session, newSession;
         return regeneratorRuntime.wrap(function _callee23$(_context24) {
@@ -2099,7 +2109,7 @@ function (_RcModule) {
                         case 3:
                           console.log('Transferred');
 
-                          _this11._onCallEnd(session);
+                          _this12._onCallEnd(session);
 
                           _context23.next = 10;
                           break;
@@ -2490,6 +2500,10 @@ function (_RcModule) {
                 return _context31.abrupt("return", null);
 
               case 10:
+                _context31.next = 12;
+                return this._holdOtherSession();
+
+              case 12:
                 session = this._webphone.userAgent.invite(toNumber, {
                   sessionDescriptionHandlerOptions: this.acceptOptions.sessionDescriptionHandlerOptions,
                   fromNumber: fromNumber,
@@ -2505,11 +2519,7 @@ function (_RcModule) {
 
                 this._onAccepted(session);
 
-                _context31.next = 21;
-                return this._holdOtherSession(session.id);
-
-              case 21:
-                this._onCallStart(session);
+                this._onCallInit(session);
 
                 return _context31.abrupt("return", session);
 
@@ -2533,7 +2543,7 @@ function (_RcModule) {
       var _updateSessionMatchedContact = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee31(sessionId, contact) {
-        var _this12 = this;
+        var _this13 = this;
 
         return regeneratorRuntime.wrap(function _callee31$(_context32) {
           while (1) {
@@ -2542,7 +2552,7 @@ function (_RcModule) {
                 this._sessionHandleWithId(sessionId, function (session) {
                   session.__rc_contactMatch = contact;
 
-                  _this12._updateSessions();
+                  _this13._updateSessions();
                 });
 
               case 1:
@@ -2603,7 +2613,7 @@ function (_RcModule) {
       var _toggleMinimized = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee32(sessionId) {
-        var _this13 = this;
+        var _this14 = this;
 
         return regeneratorRuntime.wrap(function _callee32$(_context33) {
           while (1) {
@@ -2612,7 +2622,7 @@ function (_RcModule) {
                 this._sessionHandleWithId(sessionId, function (session) {
                   session.__rc_minimized = !session.__rc_minimized;
 
-                  _this13._updateSessions();
+                  _this14._updateSessions();
                 });
 
               case 1:
@@ -2630,6 +2640,26 @@ function (_RcModule) {
       return toggleMinimized;
     }()
   }, {
+    key: "_onCallInit",
+    value: function _onCallInit(session) {
+      this._addSession(session);
+
+      var normalizedSession = (0, _ramda.find)(function (x) {
+        return x.id === session.id;
+      }, this.sessions);
+      this.store.dispatch({
+        type: this.actionTypes.callInit,
+        session: normalizedSession,
+        sessions: this.sessions
+      });
+
+      if (this._contactMatcher && (!this._tabManager || this._tabManager.active)) {
+        this._contactMatcher.triggerMatch();
+      }
+
+      this._eventEmitter.emit(EVENTS.callInit, normalizedSession, this.activeSession);
+    }
+  }, {
     key: "_onCallStart",
     value: function _onCallStart(session) {
       this._addSession(session);
@@ -2642,10 +2672,6 @@ function (_RcModule) {
         session: normalizedSession,
         sessions: this.sessions
       });
-
-      if (this._contactMatcher && (!this._tabManager || this._tabManager.active)) {
-        this._contactMatcher.triggerMatch();
-      }
 
       this._eventEmitter.emit(EVENTS.callStart, normalizedSession, this.activeSession);
     }
@@ -2843,6 +2869,13 @@ function (_RcModule) {
       }
     }
   }, {
+    key: "onCallInit",
+    value: function onCallInit(handler) {
+      if (typeof handler === 'function') {
+        this._eventEmitter.on(EVENTS.callInit, handler);
+      }
+    }
+  }, {
     key: "onCallRing",
     value: function onCallRing(handler) {
       if (typeof handler === 'function') {
@@ -3034,10 +3067,10 @@ function (_RcModule) {
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this14 = this;
+    var _this15 = this;
 
     return [function () {
-      return _this14.ringSessions;
+      return _this15.ringSessions;
     }, function (sessions) {
       return (0, _ramda.find)(function (session) {
         return !session.minimized;

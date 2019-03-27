@@ -471,45 +471,44 @@ function (_Pollable) {
                 return _context6.abrupt("return");
 
               case 2:
+                this._subscription.subscribe(subscribeEvent);
+
                 if (!this._shouldFetch()) {
-                  _context6.next = 13;
+                  _context6.next = 14;
                   break;
                 }
 
-                _context6.prev = 3;
-                _context6.next = 6;
+                _context6.prev = 4;
+                _context6.next = 7;
                 return this.fetchData();
 
-              case 6:
-                _context6.next = 11;
+              case 7:
+                _context6.next = 12;
                 break;
 
-              case 8:
-                _context6.prev = 8;
-                _context6.t0 = _context6["catch"](3);
+              case 9:
+                _context6.prev = 9;
+                _context6.t0 = _context6["catch"](4);
 
                 this._retry();
 
-              case 11:
-                _context6.next = 14;
+              case 12:
+                _context6.next = 15;
                 break;
 
-              case 13:
+              case 14:
                 if (this._polling) {
                   this._startPolling();
                 } else {
                   this._retry();
                 }
 
-              case 14:
-                this._subscription.subscribe(subscribeEvent);
-
               case 15:
               case "end":
                 return _context6.stop();
             }
           }
-        }, _callee5, this, [[3, 8]]);
+        }, _callee5, this, [[4, 9]]);
       }));
 
       function _init() {
@@ -521,7 +520,7 @@ function (_Pollable) {
   }, {
     key: "_subscriptionHandler",
     value: function _subscriptionHandler() {
-      if (this._storage && this._tabManager && !this._tabManager.active) {
+      if (!this.ready || this._storage && this._tabManager && !this._tabManager.active) {
         return;
       }
 

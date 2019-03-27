@@ -27,13 +27,13 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
-require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.function.bind");
+require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.filter");
 
-require("core-js/modules/es6.array.map");
+require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.function.bind");
 
 require("core-js/modules/es6.date.now");
 
@@ -53,7 +53,9 @@ var _callLogHelpers = require("../../lib/callLogHelpers");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _class, _class2, _temp;
+var _selector = require("../../lib/selector");
+
+var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -62,6 +64,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -84,6 +88,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
 var presenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
 var FETCH_THRESHOLD = 2000;
@@ -159,21 +165,9 @@ function (_Presence) {
       }
     };
 
-    _this.addSelector('sessionIdList', function () {
-      return _this.state.calls;
-    }, function (calls) {
-      return calls.map(function (call) {
-        return call.sessionId;
-      });
-    });
+    _initializerDefineProperty(_this, "calls", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _this.addSelector('calls', function () {
-      return _this.state.data;
-    }, function (data) {
-      return (0, _callLogHelpers.removeInboundRingOutLegs)(data).filter(function (call) {
-        return !(0, _callLogHelpers.isEnded)(call);
-      });
-    });
+    _initializerDefineProperty(_this, "sessionIdList", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
     _this._fetchRemainingCalls = (0, _throttle.default)((_context = _assertThisInitialized(_assertThisInitialized(_this)), _this._fetch).bind(_context), FETCH_THRESHOLD);
     return _this;
@@ -250,23 +244,43 @@ function (_Presence) {
       return this.state.data;
     }
   }, {
-    key: "calls",
-    get: function get() {
-      return this._selectors.calls();
-    }
-  }, {
     key: "telephonyStatus",
     get: function get() {
       return this.state.telephonyStatus;
     }
-  }, {
-    key: "sessionIdList",
-    get: function get() {
-      return this._selectors.sessionIdList();
-    }
   }]);
 
   return DetailedPresence;
-}(_Presence2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype)), _class2)) || _class);
+}(_Presence2.default), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this2 = this;
+
+    return [function () {
+      return _this2.data;
+    }, function (data) {
+      return (0, _callLogHelpers.removeInboundRingOutLegs)(data).filter(function (call) {
+        return !(0, _callLogHelpers.isEnded)(call);
+      });
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "sessionIdList", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return [function () {
+      return _this3.calls;
+    }, function (calls) {
+      return calls.map(function (call) {
+        return call.sessionId;
+      });
+    }];
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype)), _class2)) || _class);
 exports.default = DetailedPresence;
 //# sourceMappingURL=index.js.map

@@ -182,6 +182,7 @@ function getActiveSessionIdReducer(types) {
         sessions = _ref6$sessions === void 0 ? [] : _ref6$sessions;
 
     switch (type) {
+      case types.callInit:
       case types.callStart:
         return session.id;
 

@@ -72,13 +72,17 @@ var _callActions = _interopRequireDefault(require("../../enums/callActions"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _class, _class2, _temp;
+var _selector = require("../../lib/selector");
+
+var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -100,17 +104,21 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
-var DEFAULT_TTL = 5 * 60 * 1000;
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+var DEFAULT_TTL = 5 * 60 * 1000; // Lock fetching on app refresh if lst fetch happened less than this timespan
+
+var DEFAULT_REFRESH_LOCK = 3 * 60 * 1000;
 var DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
 var DEFAULT_DAY_SPAN = 7;
 var RECORD_COUNT = 250;
@@ -192,6 +200,8 @@ function (_Pollable) {
         tabManager = _ref.tabManager,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
+        _ref$refreshLock = _ref.refreshLock,
+        refreshLock = _ref$refreshLock === void 0 ? DEFAULT_REFRESH_LOCK : _ref$refreshLock,
         _ref$tokenExpiresIn = _ref.tokenExpiresIn,
         tokenExpiresIn = _ref$tokenExpiresIn === void 0 ? DEFAULT_TOKEN_EXPIRES_IN : _ref$tokenExpiresIn,
         _ref$timeToRetry = _ref.timeToRetry,
@@ -206,7 +216,7 @@ function (_Pollable) {
         isLimitList = _ref$isLimitList === void 0 ? false : _ref$isLimitList,
         _ref$listRecordCount = _ref.listRecordCount,
         listRecordCount = _ref$listRecordCount === void 0 ? LIST_RECORD_COUNT : _ref$listRecordCount,
-        options = _objectWithoutProperties(_ref, ["auth", "client", "storage", "extensionPhoneNumber", "extensionInfo", "subscription", "rolesAndPermissions", "tabManager", "ttl", "tokenExpiresIn", "timeToRetry", "daySpan", "polling", "disableCache", "isLimitList", "listRecordCount"]);
+        options = _objectWithoutProperties(_ref, ["auth", "client", "storage", "extensionPhoneNumber", "extensionInfo", "subscription", "rolesAndPermissions", "tabManager", "ttl", "refreshLock", "tokenExpiresIn", "timeToRetry", "daySpan", "polling", "disableCache", "isLimitList", "listRecordCount"]);
 
     _classCallCheck(this, CallLog);
 
@@ -225,7 +235,7 @@ function (_Pollable) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(presenceRegExp.test(message.event) && message.body && message.body.activeCalls && (0, _callLogHelpers.hasEndedCalls)(message.body.activeCalls))) {
+                if (!(_this.ready && presenceRegExp.test(message.event) && message.body && message.body.activeCalls && (0, _callLogHelpers.hasEndedCalls)(message.body.activeCalls))) {
                   _context.next = 5;
                   break;
                 }
@@ -319,6 +329,9 @@ function (_Pollable) {
         }
       }, _callee2);
     }));
+
+    _initializerDefineProperty(_this, "calls", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+
     _this._auth = auth;
     _this._client = client;
 
@@ -337,6 +350,7 @@ function (_Pollable) {
     _this._ttl = ttl;
     _this._tokenExpiresIn = tokenExpiresIn;
     _this._timeToRetry = timeToRetry;
+    _this._refreshLock = refreshLock;
     _this._daySpan = daySpan;
     _this._polling = polling;
 
@@ -359,49 +373,6 @@ function (_Pollable) {
       });
     }
 
-    _this.addSelector('calls', function () {
-      return _this.data;
-    }, function (data) {
-      // TODO make sure removeDuplicateIntermediateCalls is necessary here
-      var calls = (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data.filter(function (call) {
-        return (// [RCINT-3472] calls with result === 'stopped' seems to be useless
-          call.result !== _callResults.default.stopped && // [RCINT-51111] calls with result === 'busy'
-          call.result !== _callResults.default.busy && // [RCINT-6839]
-          // Call processing result is undefined
-          call.result !== _callResults.default.unknown && // Outgoing fax sending has failed
-          call.result !== _callResults.default.faxSendError && // Incoming fax has failed to be received
-          call.result !== _callResults.default.faxReceiptError && // Outgoing fax has failed because of no answer
-          call.result !== _callResults.default.callFailed && // Outgoing fax sending has been stopped
-          call.result !== _callResults.default.stopped && // Error Internal error occurred when receiving fax
-          call.result !== _callResults.default.faxReceipt
-        );
-      }))).map(function (call) {
-        // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
-        // When user use DL number set ringout and the outBound from number must not a oneself company/extension number
-        // Call log sync will response tow legs.
-        // But user use company plus extension number, call log sync will response only one leg.
-        // And the results about `to` and `from` in platform APIs call log sync response is opposite.
-        // This is a temporary solution.
-        var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
-        var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this._extensionInfo.data.extensionNumber;
-
-        if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions.default.ringOutWeb || call.action === _callActions.default.ringOutPC || call.action === _callActions.default.ringOutMobile) && !isOutBoundCompanyNumber && !isOutBoundFromSelfExtNumber) {
-          return _objectSpread({}, call, {
-            from: call.to,
-            to: call.from
-          });
-        }
-
-        return call;
-      });
-
-      if (_this._isLimitList) {
-        return calls.slice(0, _this._listRecordCount);
-      }
-
-      return calls;
-    });
-
     _this._promise = null;
     _this._lastMessage = null;
     return _this;
@@ -417,36 +388,35 @@ function (_Pollable) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(!this._storage || !this._tabManager || this._tabManager.active)) {
-                  _context3.next = 11;
+                if (this._subscription) {
+                  this._subscription.subscribe(_subscriptionFilters.default.detailedPresence);
+                }
+
+                if (!((!this._tabManager || this._tabManager.active) && (!this.timestamp || Date.now() - this.timestamp > this.refreshLock))) {
+                  _context3.next = 12;
                   break;
                 }
 
-                _context3.prev = 1;
-                _context3.next = 4;
+                _context3.prev = 2;
+                _context3.next = 5;
                 return this.sync();
 
-              case 4:
-                _context3.next = 9;
+              case 5:
+                _context3.next = 10;
                 break;
 
-              case 6:
-                _context3.prev = 6;
-                _context3.t0 = _context3["catch"](1);
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](2);
                 console.log(_context3.t0);
 
-              case 9:
-                _context3.next = 12;
+              case 10:
+                _context3.next = 13;
                 break;
 
-              case 11:
+              case 12:
                 if (this._polling) {
                   this._startPolling();
-                }
-
-              case 12:
-                if (this._subscription) {
-                  this._subscription.subscribe(_subscriptionFilters.default.detailedPresence);
                 }
 
               case 13:
@@ -454,7 +424,7 @@ function (_Pollable) {
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[1, 6]]);
+        }, _callee3, this, [[2, 7]]);
       }));
 
       function _init() {
@@ -773,16 +743,16 @@ function (_Pollable) {
                 syncType = _args10.length > 0 && _args10[0] !== undefined ? _args10[0] : this.token ? _syncTypes.default.iSync : _syncTypes.default.fSync;
 
                 if (this._promise) {
-                  _context10.next = 6;
+                  _context10.next = 4;
                   break;
                 }
 
                 this._promise = this._sync(syncType);
                 return _context10.abrupt("return", this._promise);
 
-              case 6:
+              case 4:
                 if (this._queueSync) {
-                  _context10.next = 9;
+                  _context10.next = 7;
                   break;
                 }
 
@@ -829,10 +799,10 @@ function (_Pollable) {
                 }))();
                 return _context10.abrupt("return", this._queueSync);
 
-              case 9:
+              case 7:
                 return _context10.abrupt("return", this._queueSync);
 
-              case 10:
+              case 8:
               case "end":
                 return _context10.stop();
             }
@@ -871,11 +841,6 @@ function (_Pollable) {
       return this.state.data;
     }
   }, {
-    key: "calls",
-    get: function get() {
-      return this._selectors.calls();
-    }
-  }, {
     key: "token",
     get: function get() {
       if (this._storage) {
@@ -897,6 +862,11 @@ function (_Pollable) {
     key: "ttl",
     get: function get() {
       return this._ttl;
+    }
+  }, {
+    key: "refreshLock",
+    get: function get() {
+      return this._refreshLock;
     }
   }, {
     key: "timeToRetry",
@@ -927,6 +897,56 @@ function (_Pollable) {
   }]);
 
   return CallLog;
-}(_Pollable2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_iSync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_iSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fSync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
+}(_Pollable2.default), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return [function () {
+      return _this4.data;
+    }, function (data) {
+      // TODO make sure removeDuplicateIntermediateCalls is necessary here
+      var calls = (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data.filter(function (call) {
+        return (// [RCINT-3472] calls with result === 'stopped' seems to be useless
+          call.result !== _callResults.default.stopped && // [RCINT-51111] calls with result === 'busy'
+          call.result !== _callResults.default.busy && // [RCINT-6839]
+          // Call processing result is undefined
+          call.result !== _callResults.default.unknown && // Outgoing fax sending has failed
+          call.result !== _callResults.default.faxSendError && // Incoming fax has failed to be received
+          call.result !== _callResults.default.faxReceiptError && // Outgoing fax has failed because of no answer
+          call.result !== _callResults.default.callFailed && // Outgoing fax sending has been stopped
+          call.result !== _callResults.default.stopped && // Error Internal error occurred when receiving fax
+          call.result !== _callResults.default.faxReceipt
+        );
+      }))).map(function (call) {
+        // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
+        // When user use DL number set ringout and the outBound from number must not a oneself company/extension number
+        // Call log sync will response tow legs.
+        // But user use company plus extension number, call log sync will response only one leg.
+        // And the results about `to` and `from` in platform APIs call log sync response is opposite.
+        // This is a temporary solution.
+        var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this4.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
+        var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this4._extensionInfo.data.extensionNumber;
+
+        if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions.default.ringOutWeb || call.action === _callActions.default.ringOutPC || call.action === _callActions.default.ringOutMobile) && !isOutBoundCompanyNumber && !isOutBoundFromSelfExtNumber) {
+          return _objectSpread({}, call, {
+            from: call.to,
+            to: call.from
+          });
+        }
+
+        return call;
+      });
+
+      if (_this4._isLimitList) {
+        return calls.slice(0, _this4._listRecordCount);
+      }
+
+      return calls;
+    }];
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_iSync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_iSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fSync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
 exports.default = CallLog;
 //# sourceMappingURL=index.js.map
