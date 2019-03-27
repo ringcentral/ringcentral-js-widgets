@@ -63,9 +63,11 @@ function CallInfoBar(_ref) {
     className: _styles.default.bar
   }, _react.default.createElement("div", {
     className: _styles.default.currentCallInfo,
+    title: label,
     onClick: onClick
   }, label), shouldDisplayViewCallsBtn ? _react.default.createElement(_Button.default, {
     className: _styles.default.viewCallsBtn,
+    tooltip: _i18n.default.getString('viewCalls', currentLocale),
     onClick: onClick
   }, _i18n.default.getString('viewCalls', currentLocale)) : null);
 }

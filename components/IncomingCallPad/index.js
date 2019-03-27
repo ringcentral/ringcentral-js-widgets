@@ -308,11 +308,13 @@ function (_Component) {
         },
         icon: _MessageFill.default,
         title: _i18n.default.getString('reply', currentLocale),
+        dataSign: "reply",
         className: _styles.default.callButton
       })), _react.default.createElement(_ActiveCallButton.default, {
         onClick: reject,
         icon: _Ignore.default,
         title: _i18n.default.getString('ignore', currentLocale),
+        dataSign: "ignore",
         className: _styles.default.callButton
       })), hasOtherActiveCall ? multiCallButtons : singleCallButtons);
     }

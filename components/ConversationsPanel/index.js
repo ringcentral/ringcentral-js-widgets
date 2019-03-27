@@ -303,6 +303,7 @@ function (_Component) {
       var tabsHeader = this.renderTabs();
       var content = this.renderContent();
       return _react.default.createElement("div", {
+        "data-sign": "ConversationsPanel",
         className: _styles.default.root
       }, header, tabsHeader, content);
     }

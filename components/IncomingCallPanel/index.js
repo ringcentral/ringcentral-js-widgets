@@ -96,6 +96,7 @@ UserInfo.defaultProps = {
 
 function IncomingCallPanel(props) {
   return _react.default.createElement("div", {
+    "data-sign": "IncomingCallPanel",
     className: (0, _classnames.default)(_styles.default.root, props.className)
   }, _react.default.createElement("span", {
     className: _styles.default.backButton,

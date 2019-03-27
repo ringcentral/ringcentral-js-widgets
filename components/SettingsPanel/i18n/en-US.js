@@ -24,7 +24,8 @@ var _default = {
   language: 'Language',
   feedback: 'Feedback',
   userGuide: "What\'s New",
-  quickAccess: "Quick Access Setting"
+  quickAccess: "Quick Access Setting",
+  report: "Analysis Report"
 };
 exports.default = _default;
 //# sourceMappingURL=en-US.js.map

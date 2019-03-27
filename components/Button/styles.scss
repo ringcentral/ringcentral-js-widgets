@@ -3,6 +3,7 @@
 .root {
   color: $primary-color;
   cursor: pointer;
+  text-overflow: ellipsis;
 }
 .root:hover {
   color: $primary-color-highlight;

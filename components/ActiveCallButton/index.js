@@ -56,7 +56,8 @@ function ActiveCallButton(props) {
     iconHeight: props.iconHeight,
     iconX: props.iconX,
     iconY: props.iconY,
-    showRipple: props.showRipple
+    showRipple: props.showRipple,
+    dataSign: props.dataSign
   }), _react.default.createElement("text", {
     className: _styles.default.buttonTitle,
     x: "250",
@@ -82,7 +83,8 @@ ActiveCallButton.propTypes = {
   iconHeight: _propTypes.default.number,
   iconX: _propTypes.default.number,
   iconY: _propTypes.default.number,
-  showRipple: _propTypes.default.bool
+  showRipple: _propTypes.default.bool,
+  dataSign: _propTypes.default.string
 };
 ActiveCallButton.defaultProps = {
   className: undefined,

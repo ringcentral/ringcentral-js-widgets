@@ -691,7 +691,7 @@ var MeetingOptions = function MeetingOptions(_ref22) {
   }, _react.default.createElement("div", {
     className: (0, _classnames.default)(_styles.default.spaceBetween, _styles.default.fixTopMargin)
   }, _react.default.createElement("span", {
-    className: _styles.default.labelLight
+    className: (0, _classnames.default)(_styles.default.labelLight, _styles.default.defaultShrink)
   }, _i18n.default.getString('requirePassword', currentLocale)), _react.default.createElement(_Switch.default, {
     checked: meeting._requireMeetingPassword,
     onChange: function onChange(_requireMeetingPassword) {
@@ -740,8 +740,7 @@ var MeetingOptions = function MeetingOptions(_ref22) {
         allowJoinBeforeHost: allowJoinBeforeHost
       }));
     },
-    dataSign: "enableJoinToggle",
-    className: _styles.default.notShrink
+    dataSign: "enableJoinToggle"
   }))));
 };
 

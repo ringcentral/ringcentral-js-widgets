@@ -62,6 +62,7 @@ function SettingsPanel(_ref) {
       showAutoLog = _ref.showAutoLog,
       showAutoLogNotes = _ref.showAutoLogNotes,
       showAudio = _ref.showAudio,
+      showReport = _ref.showReport,
       autoLogEnabled = _ref.autoLogEnabled,
       autoLogNotesEnabled = _ref.autoLogNotesEnabled,
       disableAutoLogEnabled = _ref.disableAutoLogEnabled,
@@ -75,6 +76,7 @@ function SettingsPanel(_ref) {
       clickToDialEnabled = _ref.clickToDialEnabled,
       clickToDialPermissions = _ref.clickToDialPermissions,
       onClickToDialChange = _ref.onClickToDialChange,
+      onReportLinkClick = _ref.onReportLinkClick,
       showRegion = _ref.showRegion,
       showHeader = _ref.showHeader,
       outboundSMS = _ref.outboundSMS,
@@ -114,6 +116,9 @@ function SettingsPanel(_ref) {
   var region = showRegion ? _react.default.createElement(_LinkLine.default, {
     onClick: onRegionSettingsLinkClick
   }, _i18n.default.getString('region', currentLocale)) : null;
+  var report = showReport ? _react.default.createElement(_LinkLine.default, {
+    onClick: onReportLinkClick
+  }, _i18n.default.getString('report', currentLocale)) : null;
   var calling = showCalling ? _react.default.createElement(_LinkLine.default, {
     onClick: onCallingSettingsLinkClick
   }, _i18n.default.getString('calling', currentLocale)) : null;
@@ -195,7 +200,7 @@ function SettingsPanel(_ref) {
     className: (0, _classnames.default)(_styles.default.root, className)
   }, header, _react.default.createElement(_Panel.default, {
     className: (0, _classnames.default)(_styles.default.content, showHeader && _styles.default.contentWithHeader)
-  }, locale, calling, region, audio, presenceSetting, children, autoLog, autoLogNotes, autoLogSMS, clickToDial, additional, feedback, quickAccess, userGuide, _react.default.createElement("section", {
+  }, locale, calling, region, audio, presenceSetting, children, autoLog, autoLogNotes, autoLogSMS, clickToDial, additional, feedback, report, quickAccess, userGuide, _react.default.createElement("section", {
     className: _styles.default.section
   }, _react.default.createElement(_Line.default, {
     noBorder: true
@@ -233,6 +238,7 @@ SettingsPanel.propTypes = {
   showAudio: _propTypes.default.bool,
   showAutoLog: _propTypes.default.bool,
   showAutoLogNotes: _propTypes.default.bool,
+  showReport: _propTypes.default.bool,
   autoLogEnabled: _propTypes.default.bool,
   autoLogNotesEnabled: _propTypes.default.bool,
   disableAutoLogEnabled: _propTypes.default.bool,
@@ -271,7 +277,8 @@ SettingsPanel.propTypes = {
   onUserGuideClick: _propTypes.default.func.isRequired,
   showUserGuide: _propTypes.default.bool,
   clickToDialTitle: _propTypes.default.string,
-  versionContainer: _propTypes.default.node
+  versionContainer: _propTypes.default.node,
+  onReportLinkClick: _propTypes.default.func
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -287,6 +294,7 @@ SettingsPanel.defaultProps = {
   showAutoLogNotes: false,
   showRegion: false,
   showUserGuide: false,
+  showReport: false,
   autoLogEnabled: false,
   autoLogNotesEnabled: false,
   disableAutoLogEnabled: false,
@@ -333,6 +341,9 @@ SettingsPanel.defaultProps = {
     return null;
   },
   clickToDialTitle: null,
-  versionContainer: null
+  versionContainer: null,
+  onReportLinkClick: function onReportLinkClick() {
+    return null;
+  }
 };
 //# sourceMappingURL=index.js.map
