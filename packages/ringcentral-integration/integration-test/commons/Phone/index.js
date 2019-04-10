@@ -5,9 +5,8 @@ import { ModuleFactory } from '../../../lib/di';
 import RcModule from '../../../lib/RcModule';
 
 import AccountContacts from '../../../modules/AccountContacts';
-import AccountDirectory from '../../../modules/AccountDirectory';
+import CompanyContacts from '../../../modules/CompanyContacts';
 import AccountInfo from '../../../modules/AccountInfo';
-// import AccountPhoneNumber from '../../../modules/AccountPhoneNumber';
 import AddressBook from '../../../modules/AddressBook';
 import Alert from '../../../modules/Alert';
 import Auth from '../../../modules/Auth';
@@ -47,7 +46,7 @@ import QuickAccess from '../../../modules/QuickAccess';
 import ActiveCallControl from '../../../modules/ActiveCallControl';
 
 import ActiveCalls from '../../../modules/ActiveCalls';
-import DetailedPresence from '../../../modules/DetailedPresence';
+import Presence from '../../../modules/Presence';
 import CallLog from '../../../modules/CallLog';
 import CallMonitor from '../../../modules/CallMonitor';
 import CallHistory from '../../../modules/CallHistory';
@@ -92,7 +91,7 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     { provide: 'RateLimiter', useClass: RateLimiter },
     { provide: 'Storage', useClass: Storage },
     { provide: 'AudioSettings', useClass: AudioSettings },
-    { provide: 'AccountDirectory', useClass: AccountDirectory },
+    { provide: 'CompanyContacts', useClass: CompanyContacts },
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
@@ -106,7 +105,7 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     { provide: 'Call', useClass: Call },
     { provide: 'Subscription', useClass: Subscription },
     { provide: 'ActiveCalls', useClass: ActiveCalls },
-    { provide: 'DetailedPresence', useClass: DetailedPresence },
+    { provide: 'Presence', useClass: Presence },
     { provide: 'MessageSender', useClass: MessageSender },
     { provide: 'ComposeText', useClass: ComposeText },
     { provide: 'MessageStore', useClass: MessageStore },
@@ -114,7 +113,6 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     { provide: 'Conference', useClass: Conference },
     { provide: 'CallLog', useClass: CallLog },
     { provide: 'CallHistory', useClass: CallHistory },
-    // { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },

@@ -40,7 +40,6 @@ export default class ActiveCalls extends DataFetcher {
   }) {
     super({
       ...options,
-      name: 'activeCalls',
       client,
       ttl,
       getDataReducer,
@@ -65,6 +64,10 @@ export default class ActiveCalls extends DataFetcher {
       () => this.data,
       data => data || [],
     );
+  }
+
+  get _name() {
+    return 'activeCalls';
   }
 
   _shouldInit() {

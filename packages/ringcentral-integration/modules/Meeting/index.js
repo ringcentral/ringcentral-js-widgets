@@ -43,7 +43,7 @@ export const getDefaultMeetingSettings = (extensionName, startTime) => ({
   _saved: false,
 });
 
-class MeetingErrors {
+export class MeetingErrors {
   constructor(type) {
     this._errors = [];
     if (type) this._errors.push({ message: type });

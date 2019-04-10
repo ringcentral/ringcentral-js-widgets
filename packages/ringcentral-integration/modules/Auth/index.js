@@ -402,13 +402,13 @@ export default class Auth extends RcModule {
   * @param {Function} handler
   */
   removeBeforeLogoutHandler(handler) {
-    this._beforeLogoutHandlers.remove(handler);
+    this._beforeLogoutHandlers.delete(handler);
   }
 
   addAfterLoggedInHandler(handler) {
     this._afterLoggedInHandlers.add(handler);
     return () => {
-      this._afterLoggedInHandlers.remove(handler);
+      this._afterLoggedInHandlers.delete(handler);
     };
   }
 

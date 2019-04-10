@@ -1,12 +1,10 @@
 import { expect } from 'chai';
-import getPresenceReducer, {
+import {
   getDndStatusReducer,
   getLastNotDisturbDndStatusReducer,
   getPresenceStatusReducer,
   getUserStatusReducer,
-  getMessageReducer,
 } from './getPresenceReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import dndStatuses from './dndStatus';
 import actionTypes from './actionTypes';
 
@@ -39,7 +37,7 @@ describe('getDndStatusReducer', () => {
         const dndStatus = {};
         expect(reducer(null, {
           type,
-          dndStatus,
+          data: { dndStatus },
         })).to.equal(dndStatus);
       });
     });
@@ -47,7 +45,7 @@ describe('getDndStatusReducer', () => {
       const dndStatus = {};
       expect(reducer(null, {
         type: actionTypes.reset,
-        dndStatus,
+        data: { dndStatus },
       })).to.be.null;
     });
   });
@@ -82,7 +80,7 @@ describe('getLastNotDisturbDndStatusReducer', () => {
         const lastDndStatus = {};
         expect(reducer(null, {
           type,
-          dndStatus,
+          data: { dndStatus },
           lastDndStatus,
         })).to.equal(lastDndStatus);
       });
@@ -100,7 +98,7 @@ describe('getLastNotDisturbDndStatusReducer', () => {
         const originalState = {};
         expect(reducer(originalState, {
           type,
-          dndStatus,
+          data: { dndStatus },
           lastDndStatus,
         })).to.equal(originalState);
       });
@@ -118,7 +116,7 @@ describe('getLastNotDisturbDndStatusReducer', () => {
         const originalState = {};
         expect(reducer(originalState, {
           type,
-          dndStatus,
+          data: { dndStatus },
           lastDndStatus,
         })).to.equal(originalState);
       });
@@ -127,7 +125,7 @@ describe('getLastNotDisturbDndStatusReducer', () => {
       const dndStatus = {};
       expect(reducer(null, {
         type: actionTypes.resetSuccess,
-        dndStatus,
+        data: { dndStatus },
       })).to.be.null;
     });
   });
@@ -159,7 +157,7 @@ describe('getPresenceStatusReducer', () => {
         const presenceStatus = {};
         expect(reducer(null, {
           type,
-          presenceStatus,
+          data: { presenceStatus },
         })).to.equal(presenceStatus);
       });
     });
@@ -167,7 +165,7 @@ describe('getPresenceStatusReducer', () => {
       const presenceStatus = {};
       expect(reducer(null, {
         type: actionTypes.reset,
-        presenceStatus,
+        data: { presenceStatus },
       })).to.be.null;
     });
   });
@@ -202,7 +200,7 @@ describe('getUserStatusReducer', () => {
         const userStatus = {};
         expect(reducer(null, {
           type,
-          userStatus,
+          data: { userStatus },
         })).to.equal(userStatus);
       });
     });
@@ -210,75 +208,8 @@ describe('getUserStatusReducer', () => {
       const userStatus = {};
       expect(reducer(null, {
         type: actionTypes.reset,
-        userStatus,
+        data: { userStatus },
       })).to.be.null;
-    });
-  });
-});
-
-describe('getMessageReducer', () => {
-  it('should be a function', () => {
-    expect(getMessageReducer).to.be.a('function');
-  });
-  it('should return a reducer', () => {
-    expect(getMessageReducer({ types: actionTypes })).to.be.a('function');
-  });
-  describe('messageReducer', () => {
-    const reducer = getMessageReducer(actionTypes);
-    it('should have initial state of null', () => {
-      expect(reducer(undefined, {})).to.be.null;
-    });
-    it('should return original state if type is not recognized', () => {
-      const originalState = [];
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
-    });
-    it('should return message on fetchSuccess, notification and updateSuccess', () => {
-      [
-        actionTypes.fetchSuccess,
-        actionTypes.notification,
-        actionTypes.updateSuccess,
-      ].forEach((type) => {
-        const message = {};
-        expect(reducer(null, {
-          type,
-          message,
-        })).to.equal(message);
-      });
-    });
-    it('should return null on reset', () => {
-      const message = {};
-      expect(reducer(null, {
-        type: actionTypes.reset,
-        message,
-      })).to.be.null;
-    });
-  });
-});
-
-describe('getPresenceReducer', () => {
-  it('should be a function', () => {
-    expect(getPresenceReducer).to.be.a('function');
-  });
-  it('should return a reducer', () => {
-    expect(getPresenceReducer(actionTypes)).to.be.a('function');
-  });
-  describe('presenceReducer', () => {
-    const reducer = getPresenceReducer(actionTypes);
-    const statusReducer = getModuleStatusReducer(actionTypes);
-    const dndStatusReducer = getDndStatusReducer(actionTypes);
-    const presenceStatusReducer = getPresenceStatusReducer(actionTypes);
-    const userStatusReducer = getUserStatusReducer(actionTypes);
-    const messageReducer = getMessageReducer(actionTypes);
-    it('should return combined state', () => {
-      expect(reducer(undefined, {}))
-        .to.deep.equal({
-          status: statusReducer(undefined, {}),
-          dndStatus: dndStatusReducer(undefined, {}),
-          presenceStatus: presenceStatusReducer(undefined, {}),
-          userStatus: userStatusReducer(undefined, {}),
-          message: messageReducer(undefined, {}),
-        });
     });
   });
 });

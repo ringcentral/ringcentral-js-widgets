@@ -7,10 +7,8 @@ import RcModule from 'ringcentral-integration/lib/RcModule';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import AccountContacts from 'ringcentral-integration/modules/AccountContacts';
-import AccountDirectory from 'ringcentral-integration/modules/AccountDirectory';
-// import AccountExtension from 'ringcentral-integration/modules/AccountExtension';
+import CompanyContacts from 'ringcentral-integration/modules/CompanyContacts';
 import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
-// import AccountPhoneNumber from 'ringcentral-integration/modules/AccountPhoneNumber';
 import AddressBook from 'ringcentral-integration/modules/AddressBook';
 import Alert from 'ringcentral-integration/modules/Alert';
 import Auth from 'ringcentral-integration/modules/Auth';
@@ -49,8 +47,7 @@ import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
 import ActiveCallControl from 'ringcentral-integration/modules/ActiveCallControl';
 
-// import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
-import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
+import Presence from 'ringcentral-integration/modules/Presence';
 import CallLog from 'ringcentral-integration/modules/CallLog';
 import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
 import CallHistory from 'ringcentral-integration/modules/CallHistory';
@@ -111,7 +108,7 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'AudioSettings', useClass: AudioSettings },
     { provide: 'AudioSettingsUI', useClass: AudioSettingsUI },
     { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
-    { provide: 'AccountDirectory', useClass: AccountDirectory },
+    { provide: 'CompanyContacts', useClass: CompanyContacts },
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
@@ -125,8 +122,7 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
     { provide: 'Call', useClass: Call },
     { provide: 'Subscription', useClass: Subscription },
-    // { provide: 'ActiveCalls', useClass: ActiveCalls },
-    { provide: 'DetailedPresence', useClass: DetailedPresence },
+    { provide: 'Presence', useClass: Presence },
     { provide: 'MessageSender', useClass: MessageSender },
     { provide: 'ComposeText', useClass: ComposeText },
     { provide: 'MessageStore', useClass: MessageStore },
@@ -135,7 +131,6 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'RouterInteraction', useClass: RouterInteraction },
     { provide: 'CallLog', useClass: CallLog },
     { provide: 'CallHistory', useClass: CallHistory },
-    // { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
@@ -212,12 +207,9 @@ const history = global.process && global.process.release && global.process.relea
       spread: true,
     },
     {
-      provide: 'AccountDirectoryOptions',
+      provide: 'CompanyContactsOptions',
       useValue: {
         polling: true,
-        disableCache: false,
-        needCheckStatus: false,
-        showNotActivated: true,
       },
       spread: true,
     },

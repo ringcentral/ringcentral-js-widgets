@@ -8,7 +8,7 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 export default function BackHeader(props) {
   const buttons = props.buttons || [];
   const defaultBackButton =
-    <i className={classnames(dynamicsFont.arrow, styles.iconRotate)} />;
+    <i data-sign="backButton" className={classnames(dynamicsFont.arrow, styles.iconRotate)} />;
   buttons.push({
     label: props.backButton || defaultBackButton,
     onClick: props.onBackClick,

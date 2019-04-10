@@ -9,8 +9,7 @@ export async function batchPutApi({
 }) {
   const boundry = `Boundary_${uuid.v4()}`;
   const options = { headers: {} };
-  options.headers[ApiResponse._contentType]
-    = `${ApiResponse._multipartContentType}; boundary=${boundry}`;
+  options.headers[ApiResponse._contentType] = `${ApiResponse._multipartContentType}; boundary=${boundry}`;
   body = body.reduce((data, item) => {
     data += `--${boundry}\r\n`;
     data += `${ApiResponse._contentType}: ${ApiResponse._jsonContentType}\r\n\r\n`;
@@ -29,8 +28,7 @@ export async function batchGetApi({
 }) {
   const boundry = `Boundary_${uuid.v4()}`;
   const options = { headers: {} };
-  options.headers[ApiResponse._contentType]
-    = `${ApiResponse._multipartContentType}; boundary=${boundry}`;
+  options.headers[ApiResponse._contentType] = `${ApiResponse._multipartContentType}; boundary=${boundry}`;
   const result = await platform.get(url, query, options);
   return result.multipart();
 }

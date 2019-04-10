@@ -24,7 +24,7 @@ And we defined the module status related action types in moduleActionTypes enums
 
 ```javascript
 import Enum from '../../lib/Enum';
-import moduleActionTypes from '../../enums/moduleActionTypes';
+import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
 export default new Enum([
   ...Object.keys(moduleActionTypes),

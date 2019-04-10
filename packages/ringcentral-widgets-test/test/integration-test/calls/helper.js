@@ -8,7 +8,7 @@ import {
   makeCall,
   getInboundCall,
   mockActiveCalls,
-  mockDetailedPresencePubnub,
+  mockPresencePubnub,
   mockGeneratePresenceApi,
   mockGeneratePresenceUpdateApi,
   mockGenerateActiveCallsApi,
@@ -21,7 +21,7 @@ function mockCallProcedure(func) {
     mock.activeCalls(activeCallsBody);
     await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
     await timeout(100);
-    await mockDetailedPresencePubnub(activeCallsBody);
+    await mockPresencePubnub(activeCallsBody);
   };
 }
 
@@ -102,5 +102,5 @@ export async function mockActiveCallPanelData(phone, mockOtherDeivce = [], ringS
   });
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(100);
-  await mockDetailedPresencePubnub(activeCalls);
+  await mockPresencePubnub(activeCalls);
 }

@@ -222,7 +222,7 @@ export function extensionList(mockResponse = {}) {
     }
   });
 }
-export function extensionsList(mockResponse = {}) {
+export function companyContactList(mockResponse = {}) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/directory/contacts?`,
     body: {
@@ -642,8 +642,8 @@ export function mockForLogin({
   }
   device(params.deviceData);
   extensionList(params.extensionListData);
-  extensionsList(params.extensionsListData);
-  accountPhoneNumber(params.accountPhoneNumberData);
+  companyContactList(params.extensionsListData);
+  // accountPhoneNumber(params.accountPhoneNumberData);
   blockedNumber(params.blockedNumberData);
   if (mockForwardingNumber) {
     forwardingNumber(params.forwardingNumberData);

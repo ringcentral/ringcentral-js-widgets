@@ -52,7 +52,7 @@ export async function makeConferenceCall(phone, options = defaultConferenceOptio
 }
 
 /* --- mock pubnub --- */
-export async function mockDetailedPresencePubnub(activeCallsBody) {
+export async function mockPresencePubnub(activeCallsBody) {
   const pubnub = MockedPubNub.getLastPubnub();
   const encrypted = pubnub._realPubnub.encrypt(
     JSON.stringify({

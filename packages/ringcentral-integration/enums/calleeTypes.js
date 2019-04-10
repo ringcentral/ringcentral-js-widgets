@@ -1,7 +1,7 @@
 import Enum from '../lib/Enum';
 
 export default new Enum([
-  'unknow',
+  'unknown',
   'contacts',
   'conference',
 ], 'calleeTypes');

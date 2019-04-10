@@ -46,7 +46,6 @@ export default class RolesAndPermissions extends DataFetcher {
   }) {
     super({
       ...options,
-      name: 'rolesAndPermissions',
       client,
       ttl,
       fetchFunction: async () => extractData(
@@ -73,6 +72,10 @@ export default class RolesAndPermissions extends DataFetcher {
       () => this.data,
       data => data || {},
     );
+  }
+
+  get _name() {
+    return 'rolesAndPermissions';
   }
 
   async _onStateChange() {

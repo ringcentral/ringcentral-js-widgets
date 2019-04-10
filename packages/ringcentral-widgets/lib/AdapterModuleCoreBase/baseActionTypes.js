@@ -1,5 +1,5 @@
 import Enum from 'ringcentral-integration/lib/Enum';
-import moduleActionTypes from 'ringcentral-integration/enums/moduleActionTypes';
+import { moduleActionTypes } from 'ringcentral-integration/enums/moduleActionTypes';
 import proxyActionTypes from 'ringcentral-integration/enums/proxyActionTypes';
 
 export default new Enum([

@@ -7,7 +7,7 @@ import PresenceItem from 'ringcentral-widgets/components/PresenceItem';
 import Eula from 'ringcentral-widgets/components/Eula';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 
-import { getWrapper, timeout } from '../shared';
+import { getWrapper } from '../shared';
 
 const setupWrapper = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
@@ -52,7 +52,6 @@ describe('settings panel', () => {
     const wrapper = await setupWrapper();
     let panel = wrapper.find(SettingsPanel).first();
     let presenceSettingSection = panel.find(PresenceSettingSection).first();
-    const store = wrapper.props().phone.store;
     const presenceItems = presenceSettingSection.find('.presenceList').first().find(PresenceItem);
     expect(presenceItems.length).toBe(4);
     const availableItem = presenceItems.at(0);
@@ -66,9 +65,7 @@ describe('settings panel', () => {
     panel = wrapper.find(SettingsPanel).first();
     presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Available');
-    expect(store.getState().detailedPresence.userStatus).toEqual('Available');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(store.getState().detailedPresence.dndStatus).toEqual('TakeAllCalls');
 
 
     const busyResponse = {
@@ -85,9 +82,7 @@ describe('settings panel', () => {
     panel = wrapper.find(SettingsPanel).first();
     presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
-    expect(store.getState().detailedPresence.userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(store.getState().detailedPresence.dndStatus).toEqual('TakeAllCalls');
 
 
     const noDisturbResponse = {
@@ -105,9 +100,7 @@ describe('settings panel', () => {
     panel = wrapper.find(SettingsPanel).first();
     presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
-    expect(store.getState().detailedPresence.userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('DoNotAcceptAnyCalls');
-    expect(store.getState().detailedPresence.dndStatus).toEqual('DoNotAcceptAnyCalls');
 
     const offlineResponse = {
       dndStatus: 'TakeAllCalls',
@@ -124,8 +117,6 @@ describe('settings panel', () => {
     panel = wrapper.find(SettingsPanel).first();
     presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Offline');
-    expect(store.getState().detailedPresence.userStatus).toEqual('Offline');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(store.getState().detailedPresence.dndStatus).toEqual('TakeAllCalls');
   });
 });

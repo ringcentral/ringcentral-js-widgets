@@ -330,6 +330,7 @@ export default class AddressBook extends Pollable {
       records: response.records.concat(lastResponse.records),
     };
   }
+
   @proxify
   async _syncAddressBookApi(params) {
     const updateRequest = await this._client

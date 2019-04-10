@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
 import Pollable from '../Pollable';
 import { Library } from '../di';
-import { prefixEnum } from '../Enum';
-import getDataFetcherReducer, {
-  getDefaultDataReducer,
-  getDefaultTimestampReducer,
+import {
+  getDataFetcherReducer,
+  createGetDataReducer,
+  createGetTimestampReducer,
 } from './getDataFetcherReducer';
 import moduleStatuses from '../../enums/moduleStatuses';
-import baseActionTypes from './baseActionTypes';
 import proxify from '../proxy/proxify';
 import ensureExist from '../ensureExist';
+import Enum from '../Enum';
+import { moduleActionTypes } from '../../enums/moduleActionTypes';
+import { actionTypeGenerator } from '../actionTypeGenerator';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
@@ -42,52 +44,46 @@ export default class DataFetcher extends Pollable {
     availabilityMonitor,
     timeToRetry = DEFAULT_RETRY,
     ttl = DEFAULT_TTL,
+    pollingInterval = ttl,
     polling = false,
     disableCache = false,
-    name,
-    actionTypes = prefixEnum({ enumMap: baseActionTypes, prefix: name }),
+    cleanOnReset = false,
     getReducer = getDataFetcherReducer,
-    getDataReducer = getDefaultDataReducer,
-    getTimestampReducer = getDefaultTimestampReducer,
+    getDataReducer = createGetDataReducer(cleanOnReset),
+    getTimestampReducer = createGetTimestampReducer(cleanOnReset),
     fetchFunction,
     forbiddenHandler,
     subscriptionFilters,
     subscriptionHandler,
     readyCheckFn,
-    cleanOnReset = false,
     ...options
   }) {
-    if (!name) {
-      throw new Error('name must be defined');
-    }
     if (typeof fetchFunction !== 'function') {
       throw new Error('fetchFunction must be a asynchronous function');
     }
     super({
       ...options,
-      actionTypes,
     });
     this._auth = this:: ensureExist(auth, 'auth');
     this._client = this:: ensureExist(client, 'client');
-    if (!disableCache) {
-      this._storage = storage;
-    }
+    this._disableCache = disableCache;
+    this._storage = storage;
     this._subscription = subscription;
     this._tabManager = tabManager;
     this._availabilityMonitor = availabilityMonitor;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
     this._polling = polling;
+    this._pollingInterval = pollingInterval;
     this._fetchFunction = fetchFunction;
     this._forbiddenHandler = forbiddenHandler;
     this._subscriptionFilters = subscriptionFilters;
     this._subscriptionHandler = subscriptionHandler;
     this._readyCheckFn = readyCheckFn;
-    this._cleanOnReset = cleanOnReset;
 
-    this._storageKey = `${name}-data`; // differentiate from old key
+    this._storageKey = `${this._name}-data`; // differentiate from old key
 
-    if (this._storage) {
+    if (!this._disableCache && this._storage) {
       this._reducer = getReducer(this.actionTypes);
       this._storage.registerReducer({
         key: this._storageKey,
@@ -98,17 +94,31 @@ export default class DataFetcher extends Pollable {
       });
     } else {
       this._reducer = getReducer(this.actionTypes, {
-        timestamp: getTimestampReducer(this.actionTypes),
         data: getDataReducer(this.actionTypes),
+        timestamp: getTimestampReducer(this.actionTypes),
       });
     }
 
     this._promise = null;
     this._lastMessage = null;
   }
+
+  get _name() {
+    throw new Error(`${this.constructor.name}::_name must be defined`);
+  }
+
+  get _actionTypes() {
+    return new Enum([
+      ...Object.keys(moduleActionTypes),
+      ...actionTypeGenerator('fetch'),
+      'retry',
+    ], this._name);
+  }
+
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
+
   async _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
@@ -132,12 +142,12 @@ export default class DataFetcher extends Pollable {
       this._promise = null;
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
-        cleanOnReset: this._cleanOnReset,
       });
     } else if (this._shouldHandleSubscriptionMessage()) {
       this._processSubscription();
     }
   }
+
   _shouldInit() {
     return !!(
       this._auth.loggedIn &&
@@ -148,6 +158,7 @@ export default class DataFetcher extends Pollable {
       this.pending
     );
   }
+
   _shouldReset() {
     return !!(
       (
@@ -160,6 +171,7 @@ export default class DataFetcher extends Pollable {
       !this.pending
     );
   }
+
   _shouldHandleSubscriptionMessage() {
     return !!(
       this.ready &&
@@ -170,6 +182,7 @@ export default class DataFetcher extends Pollable {
       this._subscription.message !== this._lastMessage
     );
   }
+
   _shouldFetch() {
     return (
       (!this._tabManager || this._tabManager.active) &&
@@ -180,12 +193,15 @@ export default class DataFetcher extends Pollable {
       )
     );
   }
+
   _isDataReady() {
     // only turns ready when data has been fetched
     // (could be from other tabs)
     return this.status === moduleStatuses.initializing &&
-      this.data !== null;
+      this.data !== null &&
+      this.timestamp !== null;
   }
+
   async _init() {
     if (this._subscription && this._subscriptionFilters) {
       this._subscription.subscribe(this._subscriptionFilters);
@@ -206,12 +222,14 @@ export default class DataFetcher extends Pollable {
       this._retry();
     }
   }
+
   _processSubscription() {
     this._lastMessage = this._subscription.message;
     this._subscriptionHandler(this._lastMessage);
   }
+
   get data() {
-    if (this._storage) {
+    if (!this._disableCache && this._storage) {
       return (
         this._storage.getItem(this._storageKey) &&
         this._storage.getItem(this._storageKey).data
@@ -221,7 +239,7 @@ export default class DataFetcher extends Pollable {
   }
 
   get timestamp() {
-    if (this._storage) {
+    if (!this._disableCache && this._storage) {
       return (
         this._storage.getItem(this._storageKey) &&
         this._storage.getItem(this._storageKey).timestamp
@@ -244,6 +262,10 @@ export default class DataFetcher extends Pollable {
 
   get ttl() {
     return this._ttl;
+  }
+
+  get pollingInterval() {
+    return this._pollingInterval;
   }
 
   get retryCount() {
@@ -316,6 +338,7 @@ export default class DataFetcher extends Pollable {
       }
     }
   }
+
   @proxify
   async fetchData() {
     if (!this._promise) {

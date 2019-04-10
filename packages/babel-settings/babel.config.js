@@ -6,7 +6,10 @@ module.exports = function baseBabelConfig(api) {
         useBuiltIns: 'usage',
       }],
       '@babel/preset-react',
-      '@babel/preset-typescript',
+      ['@babel/preset-typescript', {
+        isTSX: true,
+        allExtensions: true
+      }]
     ],
     plugins: [
       ['@babel/plugin-proposal-decorators', {
@@ -18,6 +21,7 @@ module.exports = function baseBabelConfig(api) {
       }],
       '@babel/plugin-proposal-export-default-from',
       '@babel/plugin-proposal-export-namespace-from',
+      '@babel/plugin-proposal-object-rest-spread'
     ],
   };
 };

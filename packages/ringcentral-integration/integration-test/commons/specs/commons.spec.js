@@ -17,8 +17,6 @@ import runComposeTextTests from '../../spec-modules/composeText';
 import runRateLimiterTests from '../../spec-modules/rateLimiter';
 import runBlockedNumberTests from '../../spec-modules/blockedNumber';
 import runForwardingNumberTests from '../../spec-modules/forwardingNumber';
-import runAccountExtensionTests from '../../spec-modules/accountExtension';
-// import runAccountPhoneNumberTests from '../../spec-modules/accountPhoneNumber';
 import runExtensionInfoTests from '../../spec-modules/extensionInfo';
 import runAccountInfoTests from '../../spec-modules/accountInfo';
 import runDialingPlanTests from '../../spec-modules/dialingPlan';
@@ -87,22 +85,6 @@ runForwardingNumberTests(
 );
 
 phone = getTestPhone();
-runAccountExtensionTests(
-  phone.auth,
-  phone.client,
-  phone.accountExtension,
-  defaultAccount,
-);
-
-// phone = getTestPhone();
-// runAccountPhoneNumberTests(
-//   phone.auth,
-//   phone.client,
-//   phone.accountPhoneNumber,
-//   defaultAccount,
-// );
-
-phone = getTestPhone();
 runExtensionInfoTests(
   phone.auth,
   phone.client,
@@ -149,7 +131,7 @@ phone = getTestPhone();
 runPresenceTests(
   phone.auth,
   phone.client,
-  phone.detailedPresence,
+  phone.presence,
   defaultAccount,
 );
 

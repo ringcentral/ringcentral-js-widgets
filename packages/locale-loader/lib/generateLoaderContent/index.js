@@ -26,7 +26,7 @@ export default function generateLoaderContent(/** @type {GLCOptions} */ {
 }) {
   const usedLang = {};
   const cases = files.sort(byLocale).map((f) => {
-    const basename = f.replace(/\.(js|json)$/i, '');
+    const basename = f.replace(/\.(js|json|ts)$/i, '');
     const locale = formatLocale(basename);
     const lang = locale.split('-')[0];
     const padding = chunk ? '  ' : '';

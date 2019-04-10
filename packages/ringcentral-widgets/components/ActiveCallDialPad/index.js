@@ -116,6 +116,7 @@ class ActiveCallDialPad extends Component {
                 onClick={this.props.onHangup}
                 icon={EndIcon}
                 showBorder={false}
+                dataSign='hangUp'
               />
             </div>
           </div>

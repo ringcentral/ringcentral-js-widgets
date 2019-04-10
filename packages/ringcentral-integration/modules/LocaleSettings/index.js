@@ -2,7 +2,7 @@ import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 import { combineReducers } from 'redux';
 import RcModule from '../../lib/RcModule';
 import Enum from '../../lib/Enum';
-import moduleActionTypes from '../../enums/moduleActionTypes';
+import { moduleActionTypes } from '../../enums/moduleActionTypes';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';

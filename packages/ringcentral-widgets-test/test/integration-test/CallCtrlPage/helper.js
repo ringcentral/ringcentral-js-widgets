@@ -9,7 +9,7 @@ import {
   mockActiveCalls,
   makeConferenceCall,
   mockGeneratePresenceApi,
-  mockDetailedPresencePubnub,
+  mockPresencePubnub,
   mockGenerateActiveCallsApi,
   mockGeneratePresenceUpdateApi
 } from '../../support/callHelper';
@@ -58,7 +58,7 @@ export async function mockConferenceCallEnv(phone, params = {
   mock.activeCalls(activeCallsBody);
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(100);
-  await mockDetailedPresencePubnub(activeCallsBody);
+  await mockPresencePubnub(activeCallsBody);
   /* mock redux datas */
   phone.store.dispatch({
     type: `${prefix}-${actionTypes.makeConferenceSucceeded}`,

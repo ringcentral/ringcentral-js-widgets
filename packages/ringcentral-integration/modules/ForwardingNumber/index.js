@@ -28,7 +28,6 @@ export default class ForwardingNumber extends DataFetcher {
     ...options
   }) {
     super({
-      name: 'forwardingNumber',
       client,
       fetchFunction: async () => {
         const lists = await fetchList(params => (
@@ -42,6 +41,10 @@ export default class ForwardingNumber extends DataFetcher {
       ...options,
     });
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+  }
+
+  get _name() {
+    return 'forwardingNumber';
   }
 
   @selector

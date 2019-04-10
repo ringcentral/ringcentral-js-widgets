@@ -26,7 +26,6 @@ export default class GlipCompany extends DataFetcher {
     ...options
   }) {
     super({
-      name: 'glipCompany',
       client,
       fetchFunction: async () => {
         const response = await this._client.glip().companies('~').get();
@@ -37,6 +36,10 @@ export default class GlipCompany extends DataFetcher {
       ...options,
     });
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+  }
+
+  get _name() {
+    return 'glipCompany';
   }
 
   @selector

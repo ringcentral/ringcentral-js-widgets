@@ -17,7 +17,7 @@ function mapToProps(_, {
     callingSettings,
     version,
     rolesAndPermissions,
-    detailedPresence,
+    presence,
   },
   showRegion = true,
   showCalling = true,
@@ -55,7 +55,7 @@ function mapToProps(_, {
       regionSettings.ready &&
       (!callingSettings || callingSettings.ready) &&
       rolesAndPermissions.ready &&
-      (!detailedPresence || detailedPresence.ready) &&
+      (!presence || presence.ready) &&
       (!localeSettings || localeSettings.ready)
     ),
     showFeedback,
@@ -76,9 +76,9 @@ function mapToProps(_, {
     outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS ||
     !!rolesAndPermissions.permissions.InternalSMS,
     isCallQueueMember: extensionInfo.isCallQueueMember,
-    dndStatus: detailedPresence && detailedPresence.dndStatus,
-    userStatus: detailedPresence && detailedPresence.userStatus,
-    openPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
+    dndStatus: presence && presence.dndStatus,
+    userStatus: presence && presence.userStatus,
+    openPresenceSettings: !!(presence && params && params.showPresenceSettings),
     showPresenceSettings:
       showPresenceSettings && rolesAndPermissions.hasEditPresencePermission,
     supportedLocales: localeSettings && localeSettings.supportedLocales,
@@ -90,7 +90,7 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   phone: {
     auth,
-    detailedPresence,
+    presence,
     routerInteraction,
     localeSettings,
     userGuide,
@@ -124,12 +124,12 @@ function mapToFunctions(_, {
       quickAccess.enter();
     },
 
-    setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
-    setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),
-    setDoNotDisturb: (...args) => (detailedPresence && detailedPresence.setDoNotDisturb(...args)),
-    setInvisible: (...args) => (detailedPresence && detailedPresence.setInvisible(...args)),
+    setAvailable: (...args) => (presence && presence.setAvailable(...args)),
+    setBusy: (...args) => (presence && presence.setBusy(...args)),
+    setDoNotDisturb: (...args) => (presence && presence.setDoNotDisturb(...args)),
+    setInvisible: (...args) => (presence && presence.setInvisible(...args)),
     toggleAcceptCallQueueCalls: (...args) => (
-      detailedPresence && detailedPresence.toggleAcceptCallQueueCalls(...args)
+      presence && presence.toggleAcceptCallQueueCalls(...args)
     ),
     saveLocale: localeSettings && (locale => localeSettings.saveLocale(locale)),
   };

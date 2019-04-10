@@ -17,6 +17,7 @@ export default {
   feedback: 'Feedback',
   userGuide: "What\'s New",
   quickAccess: "Quick Access Setting",
-  report: "Analysis Report",
+  report: "Analytics Report",
+  beta: "Beta"
 };
 

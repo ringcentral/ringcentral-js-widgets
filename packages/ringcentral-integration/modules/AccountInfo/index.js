@@ -31,7 +31,6 @@ export default class AccountInfo extends DataFetcher {
     ...options
   }) {
     super({
-      name: 'accountInfo',
       client,
       fetchFunction: async () => client.account().get(),
       readyCheckFn: () => this._rolesAndPermissions.ready,
@@ -40,6 +39,10 @@ export default class AccountInfo extends DataFetcher {
 
     this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._alert = alert;
+  }
+
+  get _name() {
+    return 'accountInfo';
   }
 
   async _onStateChange() {

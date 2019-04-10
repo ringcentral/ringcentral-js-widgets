@@ -13,7 +13,7 @@ export default function ActiveCallButton(props) {
     props.active ? styles.buttonActive : null,
     props.disabled ? styles.buttonDisabled : null,
   );
-  const text = props.title.split('\n').map((line, index) => (
+  const text = props.title && props.title.split('\n').map((line, index) => (
     <tspan dy={index ? '1.1em' : 0} x="250" key={line}>
       {line}
     </tspan>
@@ -52,6 +52,7 @@ export default function ActiveCallButton(props) {
         x="250"
         y="500"
         textAnchor="middle"
+        data-sign={props.title.toLowerCase()}
       >
         {text}
       </text>
