@@ -17,8 +17,6 @@ var _callDirections = _interopRequireDefault(require("ringcentral-integration/en
 
 var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
-var _ConferenceCallIcon = _interopRequireDefault(require("../../assets/images/ConferenceCallIcon.svg"));
-
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));

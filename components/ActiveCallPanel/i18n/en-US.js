@@ -9,7 +9,7 @@ exports.default = void 0;
 var _default = {
   conferenceCall: 'Conference Call',
   onHold: 'On Hold',
-  unknow: 'Unknown',
+  unknown: 'Unknown',
   disconnected: 'Disconnected',
   loading: 'Loading ...',
   loadingTimeout: 'Loading timeout.'

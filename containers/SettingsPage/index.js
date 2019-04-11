@@ -41,7 +41,7 @@ function mapToProps(_, _ref) {
       callingSettings = _ref$phone.callingSettings,
       version = _ref$phone.version,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
-      detailedPresence = _ref$phone.detailedPresence,
+      presence = _ref$phone.presence,
       _ref$showRegion = _ref.showRegion,
       showRegion = _ref$showRegion === void 0 ? true : _ref$showRegion,
       _ref$showCalling = _ref.showCalling,
@@ -72,7 +72,7 @@ function mapToProps(_, _ref) {
   }
 
   return {
-    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready) && (!localeSettings || localeSettings.ready)),
+    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && rolesAndPermissions.ready && (!presence || presence.ready) && (!localeSettings || localeSettings.ready)),
     showFeedback: showFeedback,
     showQuickAccess: showQuickAccess,
     showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
@@ -85,9 +85,9 @@ function mapToProps(_, _ref) {
     ringoutEnabled: rolesAndPermissions.ringoutEnabled,
     outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS || !!rolesAndPermissions.permissions.InternalSMS,
     isCallQueueMember: extensionInfo.isCallQueueMember,
-    dndStatus: detailedPresence && detailedPresence.dndStatus,
-    userStatus: detailedPresence && detailedPresence.userStatus,
-    openPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
+    dndStatus: presence && presence.dndStatus,
+    userStatus: presence && presence.userStatus,
+    openPresenceSettings: !!(presence && params && params.showPresenceSettings),
     showPresenceSettings: showPresenceSettings && rolesAndPermissions.hasEditPresencePermission,
     supportedLocales: localeSettings && localeSettings.supportedLocales,
     savedLocale: localeSettings && localeSettings.savedLocale,
@@ -98,7 +98,7 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
       auth = _ref2$phone.auth,
-      detailedPresence = _ref2$phone.detailedPresence,
+      presence = _ref2$phone.presence,
       routerInteraction = _ref2$phone.routerInteraction,
       localeSettings = _ref2$phone.localeSettings,
       userGuide = _ref2$phone.userGuide,
@@ -156,19 +156,19 @@ function mapToFunctions(_, _ref2) {
       quickAccess.enter();
     },
     setAvailable: function setAvailable() {
-      return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);
+      return presence && presence.setAvailable.apply(presence, arguments);
     },
     setBusy: function setBusy() {
-      return detailedPresence && detailedPresence.setBusy.apply(detailedPresence, arguments);
+      return presence && presence.setBusy.apply(presence, arguments);
     },
     setDoNotDisturb: function setDoNotDisturb() {
-      return detailedPresence && detailedPresence.setDoNotDisturb.apply(detailedPresence, arguments);
+      return presence && presence.setDoNotDisturb.apply(presence, arguments);
     },
     setInvisible: function setInvisible() {
-      return detailedPresence && detailedPresence.setInvisible.apply(detailedPresence, arguments);
+      return presence && presence.setInvisible.apply(presence, arguments);
     },
     toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
-      return detailedPresence && detailedPresence.toggleAcceptCallQueueCalls.apply(detailedPresence, arguments);
+      return presence && presence.toggleAcceptCallQueueCalls.apply(presence, arguments);
     },
     saveLocale: localeSettings && function (locale) {
       return localeSettings.saveLocale(locale);

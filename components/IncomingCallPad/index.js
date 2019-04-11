@@ -233,6 +233,7 @@ function (_Component) {
         buttonClassName: _styles.default.answerButton,
         icon: _Answer.default,
         showBorder: false,
+        dataSign: "answer",
         className: _styles.default.bigCallButton
       }));
 

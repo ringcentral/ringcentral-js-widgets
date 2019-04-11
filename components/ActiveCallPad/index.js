@@ -237,12 +237,14 @@ function (_Component) {
       buttons.push(this.props.isOnMute ? {
         icon: _Mute.default,
         id: ACTIONS_CTRL_MAP.muteCtrl,
+        dataSign: 'mute',
         title: _i18n.default.getString('unmute', this.props.currentLocale),
         disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onUnmute
       } : {
         icon: _Unmute.default,
         id: ACTIONS_CTRL_MAP.muteCtrl,
+        dataSign: 'unmute',
         title: _i18n.default.getString('mute', this.props.currentLocale),
         disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onMute
@@ -252,6 +254,7 @@ function (_Component) {
       buttons.push({
         icon: _Dialpad.default,
         id: ACTIONS_CTRL_MAP.keypadCtrl,
+        dataSign: 'keypad',
         title: _i18n.default.getString('keypad', this.props.currentLocale),
         onClick: this.props.onShowKeyPad,
         disabled: this.props.layout === _callCtrlLayouts.default.conferenceCtrl
@@ -265,6 +268,7 @@ function (_Component) {
         iconHeight: 160,
         iconX: 190,
         iconY: 165,
+        dataSign: this.props.isOnHold ? 'onHold' : 'hold',
         title: this.props.isOnHold ? _i18n.default.getString('onHold', this.props.currentLocale) : _i18n.default.getString('hold', this.props.currentLocale),
         active: this.props.isOnHold,
         onClick: this.props.isOnHold ? this.props.onUnhold : this.props.onHold,

@@ -198,7 +198,8 @@ function (_Component) {
         className: _styles.default.stopButton,
         onClick: this.props.onHangup,
         icon: _End.default,
-        showBorder: false
+        showBorder: false,
+        dataSign: "hangUp"
       })))));
     }
   }]);

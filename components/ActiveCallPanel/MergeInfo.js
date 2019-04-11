@@ -215,7 +215,7 @@ MergeInfo.propTypes = {
 };
 MergeInfo.defaultProps = {
   lastCallInfo: {
-    calleeType: _calleeTypes.default.unknow
+    calleeType: _calleeTypes.default.unknown
   },
   currentCallTitle: undefined,
   currentCallAvatarUrl: undefined,

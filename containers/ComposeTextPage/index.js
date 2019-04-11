@@ -13,8 +13,6 @@ var _reactRedux = require("react-redux");
 
 var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
-var _messageSenderMessages = _interopRequireDefault(require("ringcentral-integration/modules/MessageSender/messageSenderMessages"));
-
 var _ComposeTextPanel = _interopRequireDefault(require("../../components/ComposeTextPanel"));
 
 var _phoneContext = require("../../lib/phoneContext");

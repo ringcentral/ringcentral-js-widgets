@@ -118,7 +118,9 @@ function SettingsPanel(_ref) {
   }, _i18n.default.getString('region', currentLocale)) : null;
   var report = showReport ? _react.default.createElement(_LinkLine.default, {
     onClick: onReportLinkClick
-  }, _i18n.default.getString('report', currentLocale)) : null;
+  }, _i18n.default.getString('report', currentLocale), _react.default.createElement("span", {
+    className: _styles.default.subtitle
+  }, "".concat(_i18n.default.getString('beta', currentLocale)))) : null;
   var calling = showCalling ? _react.default.createElement(_LinkLine.default, {
     onClick: onCallingSettingsLinkClick
   }, _i18n.default.getString('calling', currentLocale)) : null;
@@ -200,7 +202,7 @@ function SettingsPanel(_ref) {
     className: (0, _classnames.default)(_styles.default.root, className)
   }, header, _react.default.createElement(_Panel.default, {
     className: (0, _classnames.default)(_styles.default.content, showHeader && _styles.default.contentWithHeader)
-  }, locale, calling, region, audio, presenceSetting, children, autoLog, autoLogNotes, autoLogSMS, clickToDial, additional, feedback, report, quickAccess, userGuide, _react.default.createElement("section", {
+  }, report, locale, calling, region, audio, presenceSetting, children, autoLog, autoLogNotes, autoLogSMS, clickToDial, additional, feedback, quickAccess, userGuide, _react.default.createElement("section", {
     className: _styles.default.section
   }, _react.default.createElement(_Line.default, {
     noBorder: true

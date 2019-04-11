@@ -31,10 +31,6 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
-
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
-
 var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
 
 var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));

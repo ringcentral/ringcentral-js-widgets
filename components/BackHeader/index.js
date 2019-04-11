@@ -25,6 +25,7 @@ function BackHeader(props) {
   var buttons = props.buttons || [];
 
   var defaultBackButton = _react.default.createElement("i", {
+    "data-sign": "backButton",
     className: (0, _classnames.default)(_DynamicsFont.default.arrow, _styles.default.iconRotate)
   });
 

@@ -43,8 +43,6 @@ var _LogButton = _interopRequireDefault(require("../LogButton"));
 
 var _DeleteMessageIcon = _interopRequireDefault(require("../../assets/images/DeleteMessageIcon.svg"));
 
-var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
-
 var _Mark = _interopRequireDefault(require("../../assets/images/Mark.svg"));
 
 var _Unmark = _interopRequireDefault(require("../../assets/images/Unmark.svg"));

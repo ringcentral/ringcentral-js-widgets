@@ -11,13 +11,7 @@ require("core-js/modules/es6.object.assign");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _reactRedux = require("react-redux");
-
-var _Alert = _interopRequireDefault(require("ringcentral-integration/modules/Alert"));
-
-var _Locale = _interopRequireDefault(require("ringcentral-integration/modules/Locale"));
 
 var _AnimationAlert = _interopRequireDefault(require("../../components/AnimationAlert"));
 

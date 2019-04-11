@@ -33,13 +33,7 @@ var _MessageTabButton = _interopRequireDefault(require("../MessageTabButton"));
 
 var _NavigationBar = _interopRequireDefault(require("../NavigationBar"));
 
-var _SearchInput = _interopRequireDefault(require("../SearchInput"));
-
 var _ComposeText = _interopRequireDefault(require("../../assets/images/ComposeText.svg"));
-
-var _NewComposeText = _interopRequireDefault(require("../../assets/images/NewComposeText.svg"));
-
-var _NewComposeTextHover = _interopRequireDefault(require("../../assets/images/NewComposeTextHover.svg"));
 
 var _ConversationList = _interopRequireDefault(require("../ConversationList"));
 

@@ -9,13 +9,13 @@ exports.default = void 0;
 var _default = {
   conferenceCall: "Llamada de conferencia",
   onHold: "En espera",
-  unknow: "Desconocida",
+  unknown: "Desconocida",
   disconnected: "Desconectada",
   loading: "Cargando...",
   loadingTimeout: "Tiempo de carga expirado."
 }; // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@
-// @key: @#@"unknow"@#@ @source: @#@"Unknown"@#@
+// @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"disconnected"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
 // @key: @#@"loadingTimeout"@#@ @source: @#@"Loading timeout."@#@

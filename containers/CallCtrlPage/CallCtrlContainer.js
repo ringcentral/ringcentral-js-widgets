@@ -538,7 +538,7 @@ CallCtrlContainer.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: {
-    calleeType: _calleeTypes.default.unknow
+    calleeType: _calleeTypes.default.unknown
   },
   conferenceCallId: null,
   gotoParticipantsCtrl: function gotoParticipantsCtrl(i) {
