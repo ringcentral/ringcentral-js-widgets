@@ -6,23 +6,14 @@ import getContactDetailsReducer from './getContactDetailsReducer';
 import proxify from '../../lib/proxy/proxify';
 import background from '../../lib/background';
 import phoneTypes from '../../enums/phoneTypes';
+import { phoneTypeOrder } from '../../lib/phoneTypeHelper';
 
-
-const sortOtherTypes = ({ unSortTypes = [] }) => {
-  const [MOBILE, BUSINESS, HOME, FAX, OTHER] = [0, 1, 2, 3, 4];
-  const goalOrderTypes = {
-    mobile: MOBILE, business: BUSINESS, home: HOME, fax: FAX, other: OTHER
-  };
-  unSortTypes.sort((a, b) => goalOrderTypes[a] - goalOrderTypes[b]);
-  return unSortTypes;
-};
 @Module({
   deps: [
     'Contacts',
     { dep: 'ContactDetailsOptions', optional: true }
   ]
 })
-
 export default class ContactDetails extends RcModule {
   constructor({ contacts, ...options }) {
     super({ ...options, actionTypes });
@@ -46,7 +37,7 @@ export default class ContactDetails extends RcModule {
       (currentContact) => {
         if (!currentContact) return null;
         let phoneNumbers;
-        if ( currentContact.rawPhoneNumbers && currentContact.rawPhoneNumbers.length > 0 ) {
+        if (currentContact.rawPhoneNumbers && currentContact.rawPhoneNumbers.length > 0) {
           phoneNumbers = currentContact.rawPhoneNumbers;
         } else {
           phoneNumbers = currentContact.phoneNumbers;
@@ -57,19 +48,9 @@ export default class ContactDetails extends RcModule {
           return acc;
         }, {}, phoneNumbers);
 
-        const unSortTypes = (Object.keys(phoneMaps).filter(
-          key => key !== phoneTypes.extension && key !== phoneTypes.direct
-        ));
-
-        const sortedTypes = sortOtherTypes({ unSortTypes });
-        // we need sequence that: ext followed by direct followed by others.
         const schema = filter(
           key => (!!phoneTypes[key] && Array.isArray(phoneMaps[key])),
-          [
-            phoneTypes.extension,
-            phoneTypes.direct,
-            ...sortedTypes
-          ],
+          phoneTypeOrder,
         );
         return { ...currentContact, schema, phoneMaps };
       }

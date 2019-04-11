@@ -2,6 +2,8 @@ import {
   reduce,
   forEach,
   map,
+  join,
+  keys,
 } from 'ramda';
 import phoneTypes from '../../enums/phoneTypes';
 import RcModule from '../../lib/RcModule';
@@ -28,9 +30,7 @@ const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
 @Module({
   deps: [
     'Client',
-    { dep: 'AccountExtension', optional: true },
-    { dep: 'AccountDirectory', optional: true },
-    { dep: 'AccountPhoneNumber', optional: true },
+    { dep: 'CompanyContacts' },
     { dep: 'AccountContactsOptions', optional: true }
   ]
 })
@@ -39,8 +39,7 @@ export default class AccountContacts extends RcModule {
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
-   * @param {AccountExtension} params.accountExtension - accountExtension module instance
-   * @param {AccountPhoneNumber} params.accountPhoneNumber - accountPhoneNumber module instance
+   * @param {CompanyContacts} params.companyContacts - companyContacts module instance
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
@@ -49,9 +48,7 @@ export default class AccountContacts extends RcModule {
    */
   constructor({
     client,
-    accountExtension,
-    accountDirectory,
-    accountPhoneNumber,
+    companyContacts,
     ttl = DEFAULT_TTL,
     avatarTtl = DEFAULT_AVATARTTL,
     presenceTtl = DEFAULT_PRESENCETTL,
@@ -63,12 +60,7 @@ export default class AccountContacts extends RcModule {
       actionTypes,
     });
     this._client = this:: ensureExist(client, 'client');
-    if (accountDirectory) {
-      this._accountDirectory = accountDirectory;
-    } else {
-      this._accountPhoneNumber = this:: ensureExist(accountPhoneNumber, 'accountPhoneNumber');
-      this._accountExtension = this:: ensureExist(accountExtension, 'accountExtension');
-    }
+    this._companyContacts = this::ensureExist(companyContacts, 'companyContacts');
     this._ttl = ttl;
     this._avatarTtl = avatarTtl;
     this._presenceTtl = presenceTtl;
@@ -95,18 +87,14 @@ export default class AccountContacts extends RcModule {
 
   _shouldInit() {
     return (
-      (this._accountDirectory ? this._accountDirectory.ready :
-        (this._accountExtension && this._accountExtension.ready)) &&
-      (this._accountPhoneNumber ? this._accountPhoneNumber.ready : true) &&
+      this._companyContacts.ready &&
       this.pending
     );
   }
 
   _shouldReset() {
     return (
-      (this._accountDirectory ? !this._accountDirectory.ready :
-        (!this._accountExtension.ready || !this._accountPhoneNumber.ready)
-      ) &&
+      !this._companyContacts.ready &&
       this.ready
     );
   }
@@ -130,7 +118,7 @@ export default class AccountContacts extends RcModule {
     let imageUrl = null;
     try {
       const response = await this._client
-        .account()
+        .account(contact.account.id)
         .extension(contact.id)
         .profileImage('195x195')
         .get();
@@ -229,28 +217,59 @@ export default class AccountContacts extends RcModule {
   async _batchQueryPresences(contacts) {
     const presenceSet = {};
     try {
-      if (contacts.length === 1) {
-        const { id } = contacts[0];
-        const response = await this._client.account().extension(id).presence().get();
-        presenceSet[id] = response;
-      } else if (contacts.length > 1) {
-        const ids = contacts.map(x => x.id).join(',');
-        const multipartResponse = await batchGetApi({
-          platform: this._client.service.platform(),
-          url: `/account/~/extension/${ids}/presence?detailedTelephonyState=true&sipData=true`,
-        });
-        const responses = map(x => x.json(), multipartResponse);
-        forEach(
-          (item) => {
-            if (item.errorCode) {
-              console.warn(item);
+      const accountExtensionMap = reduce(
+        (acc, item) => {
+          if (!acc[item.account.id]) {
+            acc[item.account.id] = [];
+          }
+          acc[item.account.id].push(item.id);
+          return acc;
+        },
+        {},
+        contacts,
+      );
+      const batchResponses = await Promise.all(
+        map(
+          async (accountId) => {
+            if (accountExtensionMap[accountId].length > 1) {
+              const ids = join(',', accountExtensionMap[accountId]);
+              // extract json data now so the data appears in the same format
+              // as single requests
+              return map(
+                resp => resp.json(),
+                await batchGetApi({
+                  platform: this._client.service.platform(),
+                  url: `/account/${accountId}/extension/${ids}/presence`,
+                }),
+              );
+            } else {
+              // wrap single request response data in array to keep the same
+              // format as batch requests
+              return [
+                await this._client
+                .account(accountId)
+                .extension(accountExtensionMap[accountId][0])
+                .presence().get()
+              ];
+            }
+          },
+          keys(accountExtensionMap),
+        )
+      );
+      // treat all data as batch since the data is normalized
+      forEach(
+        batch => forEach(
+          (data) => {
+            if(data.errorCode) {
+              console.warn(data);
               return;
             }
-            presenceSet[item.extension.id] = item;
+            presenceSet[data.extension.id] = data;
           },
-          responses
-        );
-      }
+          batch,
+        ),
+        batchResponses,
+      );
     } catch (e) {
       console.error(e);
     }
@@ -274,77 +293,36 @@ export default class AccountContacts extends RcModule {
     return 'company';
   }
 
-  @selector
-  extensionContacts = [
-    () => this._accountExtension.availableExtensions,
-    () => this._accountPhoneNumber.extensionToPhoneNumberMap,
-    () => this.profileImages,
-    () => this.presences,
-    (extensions, extensionToPhoneNumberMap, profileImages, presences) => reduce(
-      (result, extension) => {
-        const id = `${extension.id}`;
-        const contact = {
-          type: this.sourceName,
-          id,
-          firstName: extension.contact && extension.contact.firstName,
-          lastName: extension.contact && extension.contact.lastName,
-          emails: extension.contact ? [extension.contact.email] : [],
-          extensionNumber: extension.ext,
-          hasProfileImage: !!extension.hasProfileImage,
-          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: phoneTypes.extension }],
-          profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
-          presence: presences[id] && presences[id].presence,
-          contactStatus: extension.status,
-        };
-        contact.name = `${contact.firstName || ''} ${contact.lastName || ''}`;
-        if (isBlank(contact.extensionNumber)) {
-          return result;
-        }
-        const phones = extensionToPhoneNumberMap[contact.extensionNumber];
-        if (phones && phones.length > 0) {
-          phones.forEach((phone) => {
-            addPhoneToContact(contact, phone.phoneNumber, phoneTypes.direct);
-          });
-        }
-        result.push(contact);
-        return result;
-      },
-      [],
-      extensions,
-    ),
-  ]
-
   // interface of contact source
   @selector
   directoryContacts = [
-    () => this._accountDirectory.availableExtensions,
+    () => this._companyContacts.filteredContacts,
     () => this.profileImages,
     () => this.presences,
-    (extensions, profileImages, presences) => reduce(
-      (result, extension) => {
-        const id = `${extension.id}`;
+    (contacts, profileImages, presences) => reduce(
+      (result, item) => {
+        const id = `${item.id}`;
         const contact = {
+          ...item,
           type: this.sourceName,
           id,
-          firstName: extension.firstName,
-          lastName: extension.lastName,
-          emails: [extension.email],
-          extensionNumber: extension.extensionNumber,
-          hasProfileImage: !!extension.profileImage,
+          emails: [item.email],
+          extensionNumber: item.extensionNumber,
+          hasProfileImage: !!item.profileImage,
           phoneNumbers: [{
-            phoneNumber: extension.extensionNumber,
+            phoneNumber: item.extensionNumber,
             phoneType: phoneTypes.extension
           }],
           profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
           presence: presences[id] && presences[id].presence,
-          contactStatus: extension.status,
+          contactStatus: item.status,
         };
-        contact.name = extension.name ? extension.name : `${contact.firstName || ''} ${contact.lastName || ''}`;
+        contact.name = item.name ? item.name : `${contact.firstName || ''} ${contact.lastName || ''}`;
         if (isBlank(contact.extensionNumber)) {
           return result;
         }
-        if (extension.phoneNumbers && extension.phoneNumbers.length > 0) {
-          extension.phoneNumbers.forEach((phone) => {
+        if (item.phoneNumbers && item.phoneNumbers.length > 0) {
+          item.phoneNumbers.forEach((phone) => {
             if (phone.type) {
               contact.phoneNumbers.push({ ...phone, phoneType: phoneTypes.direct });
             }
@@ -354,12 +332,12 @@ export default class AccountContacts extends RcModule {
         return result;
       },
       [],
-      extensions,
+      contacts,
     ),
   ]
 
   get contacts() {
-    return this._accountDirectory ? this.directoryContacts : this.extensionContacts;
+    return this.directoryContacts;
   }
 
   get sourceReady() {

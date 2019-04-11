@@ -30,7 +30,6 @@ export default class ExtensionPhoneNumber extends DataFetcher {
     ...options
   }) {
     super({
-      name: 'extensionPhoneNumber',
       client,
       fetchFunction: async () => (await fetchList(params => (
         client.account().extension().phoneNumber().list(params)
@@ -44,6 +43,10 @@ export default class ExtensionPhoneNumber extends DataFetcher {
     });
 
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+  }
+
+  get _name() {
+    return 'extensionPhoneNumber';
   }
 
   @selector

@@ -38,13 +38,11 @@ export default class Conference extends DataFetcher {
     ...options
   }) {
     super({
-      name: 'conference',
       client,
       fetchFunction: async () => mask(
         await client.account().extension().conferencing().get(),
         DEFAULT_MASK,
       ),
-      actionTypes,
       storage,
       ...options,
     });
@@ -67,6 +65,14 @@ export default class Conference extends DataFetcher {
       key: this._savedStorageKey,
       reducer: createSimpleReducer(this.actionTypes.updateSaveCurrentSettings, '_saved'),
     });
+  }
+
+  get _name() {
+    return 'conference';
+  }
+
+  get _actionTypes() {
+    return actionTypes;
   }
 
   async _onStateChange() {

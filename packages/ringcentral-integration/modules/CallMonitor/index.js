@@ -40,7 +40,7 @@ import {
   deps: [
     'AccountInfo',
     'Storage',
-    'DetailedPresence',
+    'Presence',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'Call', optional: true },
@@ -57,7 +57,7 @@ export default class CallMonitor extends RcModule {
    * @param {Call} params.call - call module instance
    * @param {ConferenceCall} params.conferenceCall - conference call module instance
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
-   * @param {DetailedPresence} params.detailedPresence - detailedPresence module instance
+   * @param {Presence} params.presence - presence module instance
    * @param {ActivityMatcher} params.activityMatcher - activityMatcher module instance
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
    * @param {Webphone} params.webphone - webphone module instance
@@ -71,7 +71,7 @@ export default class CallMonitor extends RcModule {
     call,
     conferenceCall,
     accountInfo,
-    detailedPresence,
+    presence,
     activityMatcher,
     contactMatcher,
     tabManager,
@@ -90,7 +90,7 @@ export default class CallMonitor extends RcModule {
     this._call = call;
     this._conferenceCall = conferenceCall;
     this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
-    this._detailedPresence = this::ensureExist(detailedPresence, 'detailedPresence');
+    this._presence = this::ensureExist(presence, 'presence');
     this._contactMatcher = contactMatcher;
     this._activityMatcher = activityMatcher;
     this._tabManager = tabManager;
@@ -113,7 +113,7 @@ export default class CallMonitor extends RcModule {
 
     let _normalizedCalls;
     this.addSelector('normalizedCalls',
-      () => this._detailedPresence.calls,
+      () => this._presence.calls,
       () => this._accountInfo.countryCode,
       () => this._webphone && this._webphone.sessions,
       () => this._webphone && this._webphone.cachedSessions,
@@ -187,7 +187,7 @@ export default class CallMonitor extends RcModule {
         getQueriesFn: () => this.uniqueNumbers,
         readyCheckFn: () => (
           this._accountInfo.ready &&
-          this._detailedPresence.ready
+          this._presence.ready
         ),
       });
     }
@@ -195,7 +195,7 @@ export default class CallMonitor extends RcModule {
     if (this._activityMatcher) {
       this._activityMatcher.addQuerySource({
         getQueriesFn: () => this.sessionIds,
-        readyCheckFn: () => this._detailedPresence.ready,
+        readyCheckFn: () => this._presence.ready,
       });
     }
 
@@ -209,7 +209,7 @@ export default class CallMonitor extends RcModule {
       (!this._call || this._call.ready) &&
       (!this._conferenceCall || this._conferenceCall.ready) &&
       this._accountInfo.ready &&
-      this._detailedPresence.ready &&
+      this._presence.ready &&
       (!this._contactMatcher || this._contactMatcher.ready) &&
       (!this._activityMatcher || this._activityMatcher.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
@@ -227,7 +227,7 @@ export default class CallMonitor extends RcModule {
         (this._call && !this._call.ready) ||
         (this._conferenceCall && !this._conferenceCall.ready) ||
         !this._accountInfo.ready ||
-        !this._detailedPresence.ready ||
+        !this._presence.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
         (this._activityMatcher && !this._activityMatcher.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
@@ -646,7 +646,7 @@ export default class CallMonitor extends RcModule {
 
   @selector
   sessionIds = [
-    () => this._detailedPresence.calls,
+    () => this._presence.calls,
     calls => map(callItem => callItem.sessionId, calls)
   ]
 

@@ -22,7 +22,6 @@ export default class ExtensionDevice extends DataFetcher {
     ...options
   }) {
     super({
-      name: 'extensionDevice',
       client,
       fetchFunction: async () => (await fetchList(params => (
         client.account().extension().device().list(params)
@@ -54,6 +53,10 @@ export default class ExtensionDevice extends DataFetcher {
         return phoneLines;
       },
     );
+  }
+
+  get _name() {
+    return 'extensionDevice';
   }
 
   get devices() {

@@ -13,19 +13,23 @@ export default class Pollable extends RcModule {
     });
     this._timeoutId = null;
   }
-  // eslint-disable-next-line class-methods-use-this
+
   get timestamp() {
     throw new Error('timestamp is not defined');
   }
-  // eslint-disable-next-line class-methods-use-this
+
   get ttl() {
     throw new Error('ttl is not defined');
   }
-  // eslint-disable-next-line class-methods-use-this
+
+  get pollingInterval() {
+    return this.ttl;
+  }
+
   get timeToRetry() {
     throw new Error('timeToRetry is not defined');
   }
-  // eslint-disable-next-line class-methods-use-this
+
   fetchData() {
     throw new Error('fetchData is not implemented');
   }
@@ -34,7 +38,7 @@ export default class Pollable extends RcModule {
     if (this._timeoutId) clearTimeout(this._timeoutId);
   }
 
-  _startPolling(t = (this.timestamp + this.ttl + 10) - Date.now()) {
+  _startPolling(t = (this.timestamp + this.pollingInterval + 10) - Date.now()) {
     this._clearTimeout();
     this._timeoutId = setTimeout(() => {
       this._timeoutId = null;
@@ -51,6 +55,7 @@ export default class Pollable extends RcModule {
       }
     }, t);
   }
+
   _retry(t = this.timeToRetry) {
     this._clearTimeout();
     this._timeoutId = setTimeout(() => {

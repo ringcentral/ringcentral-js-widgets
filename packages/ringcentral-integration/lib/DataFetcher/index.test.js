@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
 import DataFetcher from './index';
-import getDataFetcherReducer from './getDataFetcherReducer';
+import { getDataFetcherReducer } from './getDataFetcherReducer';
 import actionTypes from './baseActionTypes';
 
 describe('DataFetcher Unit Test', () => {
@@ -276,4 +276,3 @@ describe('DataFetcher Unit Test', () => {
     });
   });
 });
-

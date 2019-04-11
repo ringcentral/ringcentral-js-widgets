@@ -14,7 +14,12 @@ import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownL
 import updateConferenceCallBody from 'ringcentral-integration/integration-test/mock/data/updateConference';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
 import { initPhoneWrapper, timeout } from '../shared';
-import { CONFERENCE_SESSION_ID, makeCall, mockActiveCalls, mockDetailedPresencePubnub } from '../../support/callHelper';
+import {
+  CONFERENCE_SESSION_ID,
+  makeCall,
+  mockActiveCalls,
+  mockPresencePubnub,
+} from '../../support/callHelper';
 import extensionsListBody from './data/extensions';
 
 beforeEach(async () => {
@@ -38,7 +43,7 @@ async function mockSub(phone) {
   mock.activeCalls(activeCallsBody);
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(100);
-  await mockDetailedPresencePubnub(activeCallsBody);
+  await mockPresencePubnub(activeCallsBody);
 }
 
 async function mockAddCall(phone, wrapper, contactA, contactB) {
@@ -56,8 +61,8 @@ async function mockAddCall(phone, wrapper, contactA, contactB) {
 }
 
 async function mockContacts(phone) {
-  mock.extensionsList(extensionsListBody);
-  await phone.accountDirectory.fetchData();
+  mock.companyContactList(extensionsListBody);
+  await phone.companyContacts.fetchData();
 }
 
 async function mockStartConference(phone, wrapper) {
@@ -131,7 +136,6 @@ describe('RCI-1071: simplified call control page #3', () => {
     const mergeInfo = wrapper.find(MergeInfo);
     expect(mergeInfo).toHaveLength(1);
 
-    const callAvatarA = mergeInfo.find(CallAvatar).at(0);
     const callAvatarB = mergeInfo.find(CallAvatar).at(1);
     // TODO: mock contactsA's data
     // expect(callAvatar.props().avatarUrl).toEqual('avatarUrl');
@@ -148,9 +152,7 @@ describe('RCI-1071: simplified call control page #3', () => {
       mockRecentActivity: true,
     });
     await mockContacts(phone);
-    const contactA = phone.contacts.allContacts.find(
-      item => item.type === 'company' && item.hasProfileImage
-    );
+    const contactA = phone.contacts.allContacts.find(item => item.type === 'company');
     await mockAddCall(phone, wrapper, contactA, contactA);
     const sessionId = phone.webphone.sessions[1].id;
     const sessionA = phone.webphone._sessions.get(sessionId);
@@ -161,9 +163,10 @@ describe('RCI-1071: simplified call control page #3', () => {
     const mergeInfo = wrapper.find(MergeInfo);
     expect(mergeInfo).toHaveLength(1);
 
-    const callAvatarA = mergeInfo.find(CallAvatar).at(0);
     const callAvatarB = mergeInfo.find(CallAvatar).at(1);
+
     const domCalleeStatus = mergeInfo.find('.callee_status');
+
     // TODO: mock contactsA's data
     // expect(callAvatarA.props().avatarUrl).toEqual('');
     expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);

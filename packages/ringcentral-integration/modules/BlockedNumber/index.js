@@ -27,7 +27,6 @@ export default class BlockedNumber extends DataFetcher {
   }) {
     super({
       ...options,
-      name: 'blockedNumber',
       client,
       fetchFunction: async () => fetchList(params => (
         this._client.account().extension().blockedNumber().list(params)
@@ -37,6 +36,10 @@ export default class BlockedNumber extends DataFetcher {
     });
 
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+  }
+
+  get _name() {
+    return 'blockedNumber';
   }
 
   @selector

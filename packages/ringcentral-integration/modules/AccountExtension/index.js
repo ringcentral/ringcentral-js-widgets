@@ -72,10 +72,8 @@ export default class AccountExtension extends DataFetcher {
   }) {
     super({
       ...options,
-      name: 'accountExtension',
       client,
       ttl,
-      actionTypes,
       getDataReducer,
       getTimestampReducer,
       subscriptionFilters: [subscriptionFilters.accountExtension],
@@ -88,11 +86,20 @@ export default class AccountExtension extends DataFetcher {
       })).filter(ext => this._extensionFilter(ext)).map(simplifyExtensionData),
       readyCheckFn: () => this._rolesAndPermissions.ready,
     });
+    console.warn('AccountExtension module is deprecated, please use CompanyContacts instead.');
 
     this._checkStatus = checkStatus;
     this._typeList = typeList;
     this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._showNotActivated = showNotActivated;
+  }
+
+  get _name() {
+    return 'accountExtension';
+  }
+
+  get _actionTypes() {
+    return actionTypes;
   }
 
   _extensionFilter(ext) {

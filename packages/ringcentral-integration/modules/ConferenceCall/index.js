@@ -809,7 +809,7 @@ export default class ConferenceCall extends RcModule {
         toUserName = contact.name;
         rcId = contact.id;
       } else {
-        calleeType = calleeTypes.unknow;
+        calleeType = calleeTypes.unknown;
       }
     }
 
@@ -973,7 +973,7 @@ export default class ConferenceCall extends RcModule {
         } else if (this.isConferenceSession(lastCall.id)) {
           lastCalleeType = calleeTypes.conference;
         } else {
-          lastCalleeType = calleeTypes.unknow;
+          lastCalleeType = calleeTypes.unknown;
         }
       } else if (
         _fromSessionId === fromSessionId
@@ -986,7 +986,7 @@ export default class ConferenceCall extends RcModule {
         return _lastCallInfo;
       } else {
         return {
-          calleeType: calleeTypes.unknow,
+          calleeType: calleeTypes.unknown,
         };
       }
 
@@ -1019,7 +1019,7 @@ export default class ConferenceCall extends RcModule {
           break;
         default:
           _lastCallInfo = {
-            calleeType: calleeTypes.unknow,
+            calleeType: calleeTypes.unknown,
             avatarUrl: null,
             name: null,
             status: lastCall ? lastCall.callStatus : null,

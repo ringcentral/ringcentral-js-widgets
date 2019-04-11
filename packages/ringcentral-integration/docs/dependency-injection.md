@@ -43,7 +43,7 @@ Note that if you want the module to be always injetable, the `@Module()` decorat
     // Required dependency
     'Client',
     // Optional dependency
-    { dep: 'AccountPhoneNumberOptions', optional: true }
+    { dep: 'CompanyContactsOptions', optional: true }
   ]
 })
 export default class ActiveCalls {
@@ -174,24 +174,24 @@ In order to provide more extensibility, the DI system supports module inheritanc
 Basically, a Module can inherit from another Module or Library, the inheritance will actually combine the metadata of child class and parent class.
 
 ```js
-@Module({
+@Library({
   deps: [
     'Client',
     'Storage',
     'Subscription'
   ]
 })
-class Presence extends RcModule {}
+class DataFetcher extends RcModule {}
 
 @Module({
   deps: [
     'Auth'
   ]
 })
-class DetailedPresence extends Presence {}
+class Presence extends DataFetcher {}
 ```
 
-From the snippet above, we know that the `DetailedPresence` Module inherits from `Presence` Module, in this case, the dependencies of two classes will be injected into the instance of child class. Afterwards, you can pass the dependencies through `super()` all the way up to its ancestor classes. Note that multilevel inheritance is supported.
+From the snippet above, we know that the `Presence` Module inherits from `DataFetcher` Module, in this case, the dependencies of two classes will be injected into the instance of child class. Afterwards, you can pass the dependencies through `super()` all the way up to its ancestor classes. Note that multilevel inheritance is supported.
 
 The rule for inheritance is almost the same as language's. The metadata of parent class may be overwritten by its child class. For instance, you can make an optional dependency of parent class non-optional by overwriting the `optional` property.
 

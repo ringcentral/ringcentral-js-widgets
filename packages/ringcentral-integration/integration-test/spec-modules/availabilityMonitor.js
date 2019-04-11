@@ -6,7 +6,7 @@ import * as mock from '../mock';
 /** global describe */
 
 export default ({
-  auth, alert, client, detailedPresence, availabilityMonitor, messageStore, callLog, account,
+  auth, alert, client, presence, availabilityMonitor, messageStore, callLog, account,
 }) => {
   describe('AvailabilityMonitor:', () => {
     this.timeout(20000);
@@ -36,8 +36,8 @@ export default ({
         method: 'PUT',
         path: '/restapi/v1.0/account/~/extension/~/presence'
       });
-      // expect(detailedPresence.setBusy).to.throw();
-      await detailedPresence.setBusy();
+      // expect(presence.setBusy).to.throw();
+      await presence.setBusy();
       expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
     });
 

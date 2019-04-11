@@ -153,6 +153,7 @@ export default class IncomingCallPad extends Component {
           buttonClassName={styles.answerButton}
           icon={AnswerIcon}
           showBorder={false}
+          dataSign="answer"
           className={styles.bigCallButton}
         />
       </div>

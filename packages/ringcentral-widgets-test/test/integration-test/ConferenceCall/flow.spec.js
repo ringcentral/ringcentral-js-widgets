@@ -11,7 +11,7 @@ import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import { mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
-import { makeCall, mockActiveCalls, mockDetailedPresencePubnub, CONFERENCE_SESSION_ID } from '../../support/callHelper';
+import { makeCall, mockActiveCalls, mockPresencePubnub, CONFERENCE_SESSION_ID } from '../../support/callHelper';
 import { initPhoneWrapper, timeout } from '../shared';
 import deviceBody from './data/device';
 
@@ -29,7 +29,7 @@ async function updateCallMonitorCalls(phone) {
   mock.activeCalls(activeCallsBody);
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(100);
-  await mockDetailedPresencePubnub(activeCallsBody);
+  await mockPresencePubnub(activeCallsBody);
 }
 
 async function dialAnotherOutboundCall(phone, wrapper) {

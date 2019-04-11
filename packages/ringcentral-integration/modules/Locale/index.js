@@ -16,7 +16,7 @@ import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import getProxyStatusReducer from '../../lib/getProxyStatusReducer';
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
 import Enum from '../../lib/Enum';
-import moduleActionTypes from '../../enums/moduleActionTypes';
+import { moduleActionTypes } from '../../enums/moduleActionTypes';
 import proxyActionTypes from '../../enums/proxyActionTypes';
 
 /**
@@ -88,6 +88,7 @@ export default class Locale extends RcModule {
       this._syncBrowserLocale();
     }
   }
+
   async _syncBrowserLocale() {
     if (!this.debugMode && this.browserLocale !== this.currentLocale) {
       await this.setLocale(this.browserLocale);

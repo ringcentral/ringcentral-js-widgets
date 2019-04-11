@@ -1,97 +1,121 @@
-import RcModule from '../../lib/RcModule';
+import DataFetcher from '../../lib/DataFetcher';
 import { Module } from '../../lib/di';
-import getPresenceReducer, { getLastNotDisturbDndStatusReducer } from './getPresenceReducer';
-import presenceActionTypes from './actionTypes';
-import moduleStatuses from '../../enums/moduleStatuses';
+import { selector } from '../../lib/selector';
+import Enum from '../../lib/Enum';
+import { actionTypeGenerator } from '../../lib/actionTypeGenerator';
+import {
+  isEnded,
+  removeInboundRingOutLegs,
+} from '../../lib/callLogHelpers';
+import debounce from '../../lib/debounce';
+
+
+import { getDataReducer } from './getPresenceReducer';
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import dndStatus from './dndStatus';
 import presenceStatus from './presenceStatus';
 import proxify from '../../lib/proxy/proxify';
 import ensureExist from '../../lib/ensureExist';
 
-const presenceEndPoint = /.*\/presence(\?.*)?/;
+const presenceRegExp = /.*\/presence(\?.*)?/;
+const detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
 
-/**
- * @class
- * @description Presence info module
- */
 @Module({
   deps: [
-    'Auth', 'Client', 'Subscription', 'RolesAndPermissions',
+    'RolesAndPermissions',
+    'ConnectivityMonitor',
     { dep: 'Storage', optional: true },
-    { dep: 'ConnectivityMonitor', optional: true },
     { dep: 'PresenceOptions', optional: true }
   ]
 })
-export default class Presence extends RcModule {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Auth} params.auth - auth module instance
-   * @param {Client} params.client - client module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {Subscription} params.subscription - subscription module instance
-   * @param {Object} params.actionTypes - actionTypes enums
-   */
+export default class Presence extends DataFetcher {
   constructor({
-    auth,
-    client,
-    storage,
-    subscription,
-    rolesAndPermissions,
+    detailed = true,
+    fetchRemainingDelay = 2000,
+    ttl = 62 * 1000,
+    polling = false,
+    pollingInterval = 3 * 60 * 1000,
     connectivityMonitor,
-    actionTypes = presenceActionTypes,
-    getReducer = getPresenceReducer,
-    subscriptionFilter = subscriptionFilters.presence,
-    lastNotDisturbDndStatusStorageKey = 'lastNotDisturbDndStatus',
+    rolesAndPermissions,
     ...options
   }) {
     super({
       ...options,
-      actionTypes,
+      polling,
+      ttl,
+      pollingInterval,
+      getDataReducer,
+      fetchFunction: async () => {
+        const endpoint = this._detailed ?
+          subscriptionFilters.detailedPresence :
+          subscriptionFilters.presence;
+        const data = (await this._client.service.platform()
+          .get(endpoint)).json();
+        return data;
+      },
+      subscriptionFilters: [
+        detailed ?
+          subscriptionFilters.detailedPresence :
+          subscriptionFilters.presence
+      ],
+      subscriptionHandler: (message) => {
+        const regExp = this._detailed ?
+          detailedPresenceRegExp :
+          presenceRegExp;
+        if (regExp.test(message.event) && message.body) {
+          if (message.body.sequence) {
+            if (message.body.sequence < this.sequence) {
+              return;
+            }
+          }
+          const { body } = message;
+          this.store.dispatch({
+            data: body,
+            type: this.actionTypes.notification,
+            lastDndStatus: this.dndStatus,
+            timestamp: Date.now(),
+          });
+
+          /**
+           * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
+           * when the real calls count larger than the active calls returned by the pubnub,
+           * we need to pulling the calls manually.
+           */
+          const { activeCalls = [], totalActiveCalls = 0 } = body;
+          if (activeCalls.length !== totalActiveCalls) {
+            this._fetchRemainingCalls();
+          }
+        }
+      },
+      readyCheckFn: () => (
+        this._rolesAndPermissions.ready &&
+        this._connectivityMonitor.ready
+      ),
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._client = this::ensureExist(client, 'client');
-    this._subscription = this::ensureExist(subscription, 'subscription');
-    this._rolesAndPermissions =
-      this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._storage = storage;
-    this._connectivityMonitor = connectivityMonitor;
+    this._detailed = true;
+    this._connectivityMonitor = this::ensureExist(connectivityMonitor, 'connectivityMonitor');
+    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._fetchRemainingCalls = debounce(() => this.fetchData(), fetchRemainingDelay);
+  }
 
-    this._subscriptionFilter = subscriptionFilter;
+  get _name() {
+    return 'presence';
+  }
 
-    this._lastMessage = null;
-
-    this._delayTimeoutId = null;
-    this._lastNotDisturbDndStatusStorageKey = lastNotDisturbDndStatusStorageKey;
-    if (this._storage) {
-      this._reducer = getReducer(this.actionTypes);
-      this._storage.registerReducer({
-        key: this._lastNotDisturbDndStatusStorageKey,
-        reducer: getLastNotDisturbDndStatusReducer(this.actionTypes)
-      });
-    } else {
-      this._reducer = getReducer(this.actionTypes, {
-        lastNotDisturbDndStatus: getLastNotDisturbDndStatusReducer(this.actionTypes),
-      });
-    }
-    this._lastSequence = 0;
+  get _actionTypes() {
+    return new Enum([
+      ...Object.keys(super._actionTypes),
+      ...actionTypeGenerator('update'),
+      'notification',
+    ], this._name);
   }
 
   async _onStateChange() {
     if (this._shouldInit()) {
-      await this._init();
-    } else if (this._shouldReset()) {
-      this._reset();
-    } else if (
-      this.ready &&
-      this._subscription.ready &&
-      this._subscription.message &&
-      this._subscription.message !== this._lastMessage
-    ) {
-      this._lastMessage = this._subscription.message;
-      this._subscriptionHandler(this._lastMessage);
-    } else if (
+      this._connectivity = this._connectivityMonitor.connectivity;
+    }
+    super._onStateChange();
+    if (
       this.ready &&
       this._connectivityMonitor &&
       this._connectivityMonitor.ready &&
@@ -99,116 +123,10 @@ export default class Presence extends RcModule {
     ) {
       this._connectivity = this._connectivityMonitor.connectivity;
       // fetch data on regain connectivity
-      if (this._connectivity) {
-        if (this._rolesAndPermissions.hasPresencePermission) {
-          this._fetch();
-        }
+      if (this._connectivity && this._hasPermission) {
+        this.fetchData();
       }
     }
-  }
-
-  _subscriptionHandler(message) {
-    if (message && presenceEndPoint.test(message.event) && message.body) {
-      if (message.body.sequence) {
-        if (message.body.sequence < this._lastSequence) {
-          return;
-        }
-        this._lastSequence = message.body.sequence;
-      }
-      this.store.dispatch({
-        type: this.actionTypes.notification,
-        ...message.body,
-      });
-    }
-  }
-
-  initialize() {
-    this.store.subscribe(() => this._onStateChange());
-  }
-
-  _shouldInit() {
-    return (
-      this._auth.loggedIn &&
-      (!this._storage || this._storage.ready) &&
-      (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
-      this._subscription.ready &&
-      this._rolesAndPermissions.ready &&
-      this.status === moduleStatuses.pending
-    );
-  }
-
-  _shouldReset() {
-    return (
-      (
-        !this._auth.loggedIn ||
-        (!!this._storage && !this._storage.ready) ||
-        !this._rolesAndPermissions.ready ||
-        (this._connectivityMonitor && !this._connectivityMonitor.ready) ||
-        !this._subscription.ready
-      ) &&
-      this.ready
-    );
-  }
-
-  async _init() {
-    this.store.dispatch({
-      type: this.actionTypes.init,
-    });
-    if (this._connectivityMonitor) {
-      this._connectivity = this._connectivityMonitor.connectivity;
-    }
-    if (this._rolesAndPermissions.hasPresencePermission) {
-      await this.fetch();
-      this._subscription.subscribe(this._subscriptionFilter);
-    }
-    this.store.dispatch({
-      type: this.actionTypes.initSuccess,
-    });
-  }
-
-  _reset() {
-    this.store.dispatch({
-      type: this.actionTypes.reset,
-    });
-    this._lastSequence = 0;
-    this._lastMessage = null;
-    this.store.dispatch({
-      type: this.actionTypes.resetSuccess,
-    });
-  }
-
-  @proxify
-  async _fetch() {
-    this.store.dispatch({
-      type: this.actionTypes.fetch,
-    });
-    try {
-      const { ownerId } = this._auth;
-      const data = await this._client.account().extension().presence().get();
-      if (ownerId === this._auth.ownerId) {
-        this.store.dispatch({
-          type: this.actionTypes.fetchSuccess,
-          ...data,
-          lastDndStatus: this.dndStatus,
-        });
-      }
-      this._promise = null;
-    } catch (error) {
-      this._promise = null;
-      this.store.dispatch({
-        type: this.actionTypes.fetchError,
-        error,
-      });
-      throw error;
-    }
-  }
-
-  @proxify
-  async fetch() {
-    if (!this._promise) {
-      this._promise = this._fetch();
-    }
-    return this._promise;
   }
 
   @proxify
@@ -227,7 +145,7 @@ export default class Presence extends RcModule {
       if (ownerId === this._auth.ownerId) {
         this.store.dispatch({
           type: this.actionTypes.updateSuccess,
-          ...data,
+          data,
           lastDndStatus: this.dndStatus
         });
       }
@@ -299,7 +217,7 @@ export default class Presence extends RcModule {
   }
 
   async setPresence(presenceData) {
-    switch(presenceData) {
+    switch (presenceData) {
       case presenceStatus.available:
         await this.setAvailable();
         break;
@@ -332,63 +250,96 @@ export default class Presence extends RcModule {
     }
   }
 
-  get status() {
-    return this.state.status;
+  /**
+   * @override
+   * @description make sure data returns object so that the property getters
+   *  will not fail.
+   * @returns {Object}
+   */
+  get data() {
+    return super.data || {};
   }
 
-  get ready() {
-    return this.state.status === moduleStatuses.ready;
+  get sequence() {
+    return this.data.sequence;
+  }
+
+  @selector
+  activeCalls = [
+    () => this.data.activeCalls,
+    calls => calls || [],
+  ]
+
+  @selector
+  calls = [
+    () => this.activeCalls,
+    activeCalls => (
+      removeInboundRingOutLegs(activeCalls)
+        .filter(call => !isEnded(call))
+    ),
+  ]
+
+  @selector
+  sessionIdList = [
+    () => this.calls,
+    calls => calls.map(call => call.sessionId),
+  ]
+
+  get telephonyStatus() {
+    return this.data.telephonyStatus;
   }
 
   get dndStatus() {
-    return this.state.dndStatus;
+    return this.data.dndStatus;
   }
 
   get lastNotDisturbDndStatus() {
-    if (this._storage) {
-      return this._storage.getItem(this._lastNotDisturbDndStatusStorageKey);
-    }
-    return this.state.lastNotDisturbDndStatus;
+    return this.data.lastNotDisturbDndStatus;
   }
+
 
   get userStatus() {
-    return this.state.userStatus;
-  }
-
-  get message() {
-    return this.state.message;
+    return this.data.userStatus;
   }
 
   get presenceStatus() {
-    return this.state.presenceStatus;
+    return this.data.presenceStatus;
   }
 
   get presenceOption() {
     // available
     if (
-    this.state.userStatus === presenceStatus.available &&
-    this.state.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
-      return presenceStatus.available
+      this.data.userStatus === presenceStatus.available &&
+      this.data.dndStatus !== dndStatus.doNotAcceptAnyCalls
+    ) {
+      return presenceStatus.available;
     }
 
     // busy
-    if(this.state.userStatus === presenceStatus.busy &&
-    this.state.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
+    if (
+      this.data.userStatus === presenceStatus.busy &&
+      this.data.dndStatus !== dndStatus.doNotAcceptAnyCalls
+    ) {
       return presenceStatus.busy;
     }
 
     // doNotDisturb
-    if(this.state.dndStatus === dndStatus.doNotAcceptAnyCalls) {
+    if (this.data.dndStatus === dndStatus.doNotAcceptAnyCalls) {
       return dndStatus.doNotAcceptAnyCalls;
     }
 
     // invisible
-    if(this.state.userStatus === presenceStatus.offline &&
-    this.state.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
-      return presenceStatus.offline
+    if (
+      this.data.userStatus === presenceStatus.offline &&
+      this.data.dndStatus !== dndStatus.doNotAcceptAnyCalls
+    ) {
+      return presenceStatus.offline;
     }
 
-    return presenceStatus.available
+    return presenceStatus.available;
   }
 
+  get _hasPermission() {
+    return this._rolesAndPermissions.hasPresencePermission;
+  }
 }

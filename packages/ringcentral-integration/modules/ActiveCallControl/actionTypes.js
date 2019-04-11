@@ -1,5 +1,5 @@
 import Enum from '../../lib/Enum';
-import moduleActionTypes from '../../enums/moduleActionTypes';
+import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
 function getActionSet(action) {
   return [

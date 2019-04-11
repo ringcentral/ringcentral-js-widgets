@@ -1,6 +1,6 @@
 # Presence Event Handling
 
-  We use `DetailedPresence` and `Presence` modules to handle presence event. `DetailedPresence` is based on `Presence` module. Those modules get presence event by subscribing `/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true`. When a presence event happen, client can get detailed Presence from notification message.
+  We use `Presence` and `Presence` modules to handle presence event. `Presence` is based on `Presence` module. Those modules get presence event by subscribing `/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true`. When a presence event happen, client can get detailed Presence from notification message.
   It includes presenceStatus, dndStatus, userStatus and active calls list in notification message. Active calls include all user's ongoing calls in all devices.
 
 ## Determine the presence status of a user
@@ -16,7 +16,7 @@
 
 ## How to Match Ringout two legs
 
-  Active calls in presence event message include two legs of a ringout call, so we need to remove inbound leg. Inbound ringout leg is removed in [calls](https://github.com/ringcentral/ringcentral-js-integration-commons/blob/master/src/modules/DetailedPresence/index.js#L53) of DetailedPresence module.
+  Active calls in presence event message include two legs of a ringout call, so we need to remove inbound leg. Inbound ringout leg is removed in [calls](https://github.com/ringcentral/ringcentral-js-integration-commons/blob/master/src/modules/Presence/index.js#L53) of Presence module.
 
   If two calls's session id is a difference of 1000, 2000, 3000 or 4000, and a call's from phone number is same as anather call's to phone number, they are two legs of a ring call. Matching function is [here](https://github.com/ringcentral/ringcentral-js-integration-commons/blob/master/src/lib/callLogHelpers.js#L101).
 

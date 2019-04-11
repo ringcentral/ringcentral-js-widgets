@@ -9,15 +9,19 @@ function getBaseConfig({
   themeFolder,
 }) {
   return {
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx']
+    },
     module: {
       rules: [
         {
           enforce: 'pre',
-          test: /\.js$/,
+          test: /\.(js|jsx|ts|tsx)$/,
+          exclude: /node_modules/,
           loader: 'source-map-loader',
         },
         {
-          test: /\.js$/,
+          test: /\.(js|jsx|ts|tsx)$/,
           use: [
             {
               loader: 'babel-loader',

@@ -28,7 +28,6 @@ export default class DialingPlan extends DataFetcher {
     ...options
   }) {
     super({
-      name: 'dialingPlan',
       client,
       polling: true,
       fetchFunction: async () => (await fetchList(async (params) => {
@@ -45,6 +44,10 @@ export default class DialingPlan extends DataFetcher {
     });
 
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+  }
+
+  get _name() {
+    return 'dialingPlan';
   }
 
   @selector

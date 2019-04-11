@@ -5,6 +5,7 @@ import isBlank from '../../lib/isBlank';
 import moduleStatuses from '../../enums/moduleStatuses';
 import normalizeNumber from '../../lib/normalizeNumber';
 import proxify from '../../lib/proxy/proxify';
+import ensureExist from '../../lib/ensureExist';
 
 import numberValidateActionTypes from './numberValidateActionTypes';
 import getNumberValidateReducer from './getNumberValidateReducer';
@@ -15,8 +16,7 @@ import getNumberValidateReducer from './getNumberValidateReducer';
  */
 @Module({
   deps: ['Brand', 'Client', 'RegionSettings', 'AccountInfo',
-    { dep: 'AccountExtension', optional: true },
-    { dep: 'AccountDirectory', optional: true }
+    { dep: 'CompanyContacts' }
   ]
 })
 export default class NumberValidate extends RcModule {
@@ -24,15 +24,14 @@ export default class NumberValidate extends RcModule {
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
-   * @param {AccountExtension} params.accountExtension - accountExtension module instance
+   * @param {CompanyContacts} params.companyContacts - companyContacts module instance
    * @param {RegionSettings} params.regionSettings - regionSettings module instance
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    */
   constructor({
     brand,
     client,
-    accountExtension,
-    accountDirectory,
+    companyContacts,
     regionSettings,
     accountInfo,
     ...options
@@ -43,11 +42,7 @@ export default class NumberValidate extends RcModule {
     });
     this._brand = brand;
     this._client = client;
-    if (accountDirectory) {
-      this._accountDirectory = accountDirectory;
-    } else {
-      this._accountDirectory = accountExtension;
-    }
+    this._companyContacts = this::ensureExist(companyContacts, 'companyContacts');
 
     this._regionSettings = regionSettings;
     this._accountInfo = accountInfo;
@@ -70,7 +65,7 @@ export default class NumberValidate extends RcModule {
     return (
       this._brand.ready &&
       this._regionSettings.ready &&
-      this._accountDirectory.ready &&
+      this._companyContacts.ready &&
       this._accountInfo.ready &&
       !this.ready
     );
@@ -88,7 +83,7 @@ export default class NumberValidate extends RcModule {
         !this._brand.ready ||
         !this._accountInfo.ready ||
         !this._regionSettings.ready ||
-        !this._accountDirectory.ready
+        !this._companyContacts.ready
       ) &&
       this.ready
     );
@@ -158,7 +153,7 @@ export default class NumberValidate extends RcModule {
     if (
       extensionNumber &&
       extensionNumber.length <= 6 &&
-      !this._accountDirectory.isAvailableExtension(extensionNumber)
+      !this._companyContacts.isAvailableExtension(extensionNumber)
     ) {
       return true;
     }
@@ -175,7 +170,7 @@ export default class NumberValidate extends RcModule {
     if (normalizedCompanyNumber !== this._accountInfo.mainCompanyNumber) {
       return false;
     }
-    return this._accountDirectory.isAvailableExtension(extensionNumber);
+    return this._companyContacts.isAvailableExtension(extensionNumber);
   }
 
   @proxify

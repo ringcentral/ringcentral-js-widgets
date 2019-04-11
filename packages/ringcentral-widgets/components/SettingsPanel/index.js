@@ -108,6 +108,7 @@ export default function SettingsPanel({
       <LinkLine
         onClick={onReportLinkClick}>
         {i18n.getString('report', currentLocale)}
+        <span className={styles.subtitle}>{`${i18n.getString('beta', currentLocale)}`}</span>
       </LinkLine>
     ) :
     null;
@@ -258,6 +259,7 @@ export default function SettingsPanel({
           styles.content,
           showHeader && styles.contentWithHeader,
         )}>
+        {report}
         {locale}
         {calling}
         {region}
@@ -270,7 +272,6 @@ export default function SettingsPanel({
         {clickToDial}
         {additional}
         {feedback}
-        {report}
         {quickAccess}
         {userGuide}
         <section className={styles.section}>

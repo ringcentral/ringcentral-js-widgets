@@ -83,6 +83,7 @@ export default class RcModule {
   get state() {
     return this._getState();
   }
+
   get proxyState() {
     return this._getProxyState();
   }
@@ -111,6 +112,7 @@ export default class RcModule {
     }
     return this._store;
   }
+
   /**
    * @property
    * @type String
@@ -119,6 +121,7 @@ export default class RcModule {
   get prefix() {
     return this._prefix;
   }
+
   /**
    * @property
    * @type Enum
@@ -127,6 +130,7 @@ export default class RcModule {
   get actionTypes() {
     return this._prefixedActionTypes;
   }
+
   /**
    * @property
    * @type String
@@ -209,6 +213,7 @@ export default class RcModule {
     this._setStore(store);
     this._initModule();
   }
+
   _setStore(store) {
     this._store = store;
     for (const subModule in this) {
@@ -220,6 +225,7 @@ export default class RcModule {
       }
     }
   }
+
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }

@@ -1,7 +1,7 @@
 export default {
   conferenceCall: "Conferencia telefónica",
   onHold: "En espera",
-  unknow: "Desconocido",
+  unknown: "Desconocido",
   disconnected: "Desconectada",
   loading: "Cargando...",
   loadingTimeout: "Tiempo de carga vencido."
@@ -9,7 +9,7 @@ export default {
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@
-// @key: @#@"unknow"@#@ @source: @#@"Unknown"@#@
+// @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"disconnected"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
 // @key: @#@"loadingTimeout"@#@ @source: @#@"Loading timeout."@#@

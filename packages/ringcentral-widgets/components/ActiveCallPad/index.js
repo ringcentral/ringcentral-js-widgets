@@ -154,7 +154,8 @@ class ActiveCallPad extends Component {
     buttons.push(this.props.isOnMute
       ? {
         icon: MuteIcon,
-        id: ACTIONS_CTRL_MAP.muteCtrl,
+        id: ACTIONS_CTRL_MAP.muteCtrl, 
+        dataSign: 'mute',
         title: i18n.getString('unmute', this.props.currentLocale),
         disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onUnmute,
@@ -162,6 +163,7 @@ class ActiveCallPad extends Component {
       : {
         icon: UnmuteIcon,
         id: ACTIONS_CTRL_MAP.muteCtrl,
+        dataSign: 'unmute',
         title: i18n.getString('mute', this.props.currentLocale),
         disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onMute,
@@ -173,6 +175,7 @@ class ActiveCallPad extends Component {
       {
         icon: KeypadIcon,
         id: ACTIONS_CTRL_MAP.keypadCtrl,
+        dataSign: 'keypad',
         title: i18n.getString('keypad', this.props.currentLocale),
         onClick: this.props.onShowKeyPad,
         disabled: this.props.layout === callCtrlLayouts.conferenceCtrl,
@@ -188,6 +191,7 @@ class ActiveCallPad extends Component {
         iconHeight: 160,
         iconX: 190,
         iconY: 165,
+        dataSign: this.props.isOnHold ? 'onHold':'hold',
         title: this.props.isOnHold
           ? i18n.getString('onHold', this.props.currentLocale)
           : i18n.getString('hold', this.props.currentLocale),

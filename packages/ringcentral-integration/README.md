@@ -111,7 +111,7 @@ There are two ways to custom modules:
 ```javascript
 @Module({
   deps: [
-    'AccountExtension',
+    'CompanyContacts',
     'GlipPersons',
     { dep: 'GlipContactsOptions', optional: true }
   ]
@@ -230,10 +230,10 @@ Get what you want from state.
   }
 ```
 
-`setStore` methods also triggers module initialization. 
+`setStore` methods also triggers module initialization.
 
 1. All sub modules' `_setStore` methods are called too.
-2. All sub modules. And in every module, the `initizlize` methods is called. 
+2. All sub modules. And in every module, the `initizlize` methods is called.
 
 ```javascript
   setStore(store) {
@@ -407,34 +407,32 @@ Please refer to [Dependency Injection](docs/dependency-injection.md) for more de
 ## Modules
 ---
 
-- [x] AccountExtension
 - [x] AccountInfo
-- [x] AccountPhoneNumber
+- [x] AddressBook
 - [x] Alert
 - [x] Auth
-- [x] AddressBook
 - [x] BlockedNumber
 - [x] Brand
 - [x] Call
 - [x] CallingSettings
+- [x] CompanyContacts
 - [x] ComposeText
 - [x] ConnectivityMonitor
-- [x] Conversation
-- [x] ContactSearch
 - [x] Contacts
+- [x] ContactSearch
+- [x] Conversation
+- [x] Presence
 - [x] DialingPlan
-- [x] DetailedPresence
 - [x] Environment
+- [x] ExtensionDevice
 - [x] ExtensionInfo
 - [x] ExtensionPhoneNumber
-- [x] ExtensionDevice
 - [x] GlobalStorage
 - [x] Locale
+- [x] Messages
 - [x] MessageSender
 - [x] MessageStore
-- [x] Messages
 - [x] NumberValidate
-- [x] Presence
 - [x] RateLimiter
 - [x] RecentCalls
 - [x] RecentMessages

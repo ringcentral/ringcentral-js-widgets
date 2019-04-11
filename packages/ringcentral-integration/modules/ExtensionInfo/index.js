@@ -75,7 +75,6 @@ export default class ExtensionInfo extends DataFetcher {
     ...options
   }) {
     super({
-      name: 'extensionInfo',
       client,
       ttl,
       polling,
@@ -109,6 +108,10 @@ export default class ExtensionInfo extends DataFetcher {
       this._selectors.info,
       info => (info.serviceFeatures || {}),
     );
+  }
+
+  get _name() {
+    return 'extensionInfo';
   }
 
   async _subscriptionHandleFn(message) {
