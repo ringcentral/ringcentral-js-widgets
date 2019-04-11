@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/phone-number",
-  "version": "0.10.5",
+  "version": "0.10.6",
   "description": "Wrapper around libphonenumber-js to provide RingCentral specific phone handling.",
   "main": "index.js",
   "repository": {
