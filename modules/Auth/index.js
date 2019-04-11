@@ -152,8 +152,9 @@ function (_RcModule) {
   function Auth() {
     var _this;
 
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        client = _ref.client,
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var client = _ref.client,
         alert = _ref.alert,
         brand = _ref.brand,
         locale = _ref.locale,
@@ -798,7 +799,7 @@ function (_RcModule) {
   }, {
     key: "removeBeforeLogoutHandler",
     value: function removeBeforeLogoutHandler(handler) {
-      this._beforeLogoutHandlers.remove(handler);
+      this._beforeLogoutHandlers.delete(handler);
     }
   }, {
     key: "addAfterLoggedInHandler",
@@ -808,7 +809,7 @@ function (_RcModule) {
       this._afterLoggedInHandlers.add(handler);
 
       return function () {
-        _this6._afterLoggedInHandlers.remove(handler);
+        _this6._afterLoggedInHandlers.delete(handler);
       };
     }
   }, {

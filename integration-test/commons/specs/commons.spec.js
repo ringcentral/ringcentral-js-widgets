@@ -30,8 +30,6 @@ var _blockedNumber = _interopRequireDefault(require("../../spec-modules/blockedN
 
 var _forwardingNumber = _interopRequireDefault(require("../../spec-modules/forwardingNumber"));
 
-var _accountExtension = _interopRequireDefault(require("../../spec-modules/accountExtension"));
-
 var _extensionInfo = _interopRequireDefault(require("../../spec-modules/extensionInfo"));
 
 var _accountInfo = _interopRequireDefault(require("../../spec-modules/accountInfo"));
@@ -71,15 +69,6 @@ phone = (0, _TestPhoneFactory.default)();
 phone = (0, _TestPhoneFactory.default)();
 (0, _forwardingNumber.default)(phone.auth, phone.client, phone.forwardingNumber, _testAccount.defaultAccount);
 phone = (0, _TestPhoneFactory.default)();
-(0, _accountExtension.default)(phone.auth, phone.client, phone.accountExtension, _testAccount.defaultAccount); // phone = getTestPhone();
-// runAccountPhoneNumberTests(
-//   phone.auth,
-//   phone.client,
-//   phone.accountPhoneNumber,
-//   defaultAccount,
-// );
-
-phone = (0, _TestPhoneFactory.default)();
 (0, _extensionInfo.default)(phone.auth, phone.client, phone.extensionInfo, _testAccount.defaultAccount, phone.alert);
 phone = (0, _TestPhoneFactory.default)();
 (0, _accountInfo.default)(phone.auth, phone.client, phone.accountInfo, _testAccount.defaultAccount, phone.alert);
@@ -90,7 +79,7 @@ phone = (0, _TestPhoneFactory.default)();
 phone = (0, _TestPhoneFactory.default)();
 (0, _extensionPhoneNumber.default)(phone.auth, phone.client, phone.extensionPhoneNumber, _testAccount.defaultAccount);
 phone = (0, _TestPhoneFactory.default)();
-(0, _presence.default)(phone.auth, phone.client, phone.detailedPresence, _testAccount.defaultAccount);
+(0, _presence.default)(phone.auth, phone.client, phone.presence, _testAccount.defaultAccount);
 phone = (0, _TestPhoneFactory.default)();
 (0, _conferenceCall.default)(phone.auth, phone.client, phone.conferenceCall, phone.alert, _testAccount.defaultAccount);
 phone = (0, _TestPhoneFactory.default)();

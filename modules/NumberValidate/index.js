@@ -49,6 +49,8 @@ var _normalizeNumber = _interopRequireDefault(require("../../lib/normalizeNumber
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+
 var _numberValidateActionTypes = _interopRequireDefault(require("./numberValidateActionTypes"));
 
 var _getNumberValidateReducer = _interopRequireDefault(require("./getNumberValidateReducer"));
@@ -79,13 +81,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
@@ -96,11 +98,7 @@ var NumberValidate = (
  */
 _dec = (0, _di.Module)({
   deps: ['Brand', 'Client', 'RegionSettings', 'AccountInfo', {
-    dep: 'AccountExtension',
-    optional: true
-  }, {
-    dep: 'AccountDirectory',
-    optional: true
+    dep: 'CompanyContacts'
   }]
 }), _dec(_class = (_class2 =
 /*#__PURE__*/
@@ -111,20 +109,21 @@ function (_RcModule) {
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
-   * @param {AccountExtension} params.accountExtension - accountExtension module instance
+   * @param {CompanyContacts} params.companyContacts - companyContacts module instance
    * @param {RegionSettings} params.regionSettings - regionSettings module instance
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    */
   function NumberValidate(_ref) {
+    var _context;
+
     var _this;
 
     var brand = _ref.brand,
         client = _ref.client,
-        accountExtension = _ref.accountExtension,
-        accountDirectory = _ref.accountDirectory,
+        companyContacts = _ref.companyContacts,
         regionSettings = _ref.regionSettings,
         accountInfo = _ref.accountInfo,
-        options = _objectWithoutProperties(_ref, ["brand", "client", "accountExtension", "accountDirectory", "regionSettings", "accountInfo"]);
+        options = _objectWithoutProperties(_ref, ["brand", "client", "companyContacts", "regionSettings", "accountInfo"]);
 
     _classCallCheck(this, NumberValidate);
 
@@ -133,13 +132,7 @@ function (_RcModule) {
     })));
     _this._brand = brand;
     _this._client = client;
-
-    if (accountDirectory) {
-      _this._accountDirectory = accountDirectory;
-    } else {
-      _this._accountDirectory = accountExtension;
-    }
-
+    _this._companyContacts = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, companyContacts, 'companyContacts');
     _this._regionSettings = regionSettings;
     _this._accountInfo = accountInfo;
     _this._reducer = (0, _getNumberValidateReducer.default)(_this.actionTypes);
@@ -167,7 +160,7 @@ function (_RcModule) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._brand.ready && this._regionSettings.ready && this._accountDirectory.ready && this._accountInfo.ready && !this.ready;
+      return this._brand.ready && this._regionSettings.ready && this._companyContacts.ready && this._accountInfo.ready && !this.ready;
     }
   }, {
     key: "_initModuleStatus",
@@ -179,7 +172,7 @@ function (_RcModule) {
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._brand.ready || !this._accountInfo.ready || !this._regionSettings.ready || !this._accountDirectory.ready) && this.ready;
+      return (!this._brand.ready || !this._accountInfo.ready || !this._regionSettings.ready || !this._companyContacts.ready) && this.ready;
     }
   }, {
     key: "_resetModuleStatus",
@@ -243,7 +236,7 @@ function (_RcModule) {
   }, {
     key: "isNotAnExtension",
     value: function isNotAnExtension(extensionNumber) {
-      if (extensionNumber && extensionNumber.length <= 6 && !this._accountDirectory.isAvailableExtension(extensionNumber)) {
+      if (extensionNumber && extensionNumber.length <= 6 && !this._companyContacts.isAvailableExtension(extensionNumber)) {
         return true;
       }
 
@@ -265,7 +258,7 @@ function (_RcModule) {
         return false;
       }
 
-      return this._accountDirectory.isAvailableExtension(extensionNumber);
+      return this._companyContacts.isAvailableExtension(extensionNumber);
     }
   }, {
     key: "validateNumbers",
@@ -274,30 +267,30 @@ function (_RcModule) {
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(phoneNumbers) {
         var validateResult, validatedNumbers;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 validateResult = this.validateFormat(phoneNumbers);
 
                 if (validateResult.result) {
-                  _context.next = 3;
+                  _context2.next = 3;
                   break;
                 }
 
-                return _context.abrupt("return", validateResult);
+                return _context2.abrupt("return", validateResult);
 
               case 3:
-                _context.next = 5;
+                _context2.next = 5;
                 return this.validateWithNumberParser(phoneNumbers);
 
               case 5:
-                validatedNumbers = _context.sent;
-                return _context.abrupt("return", validatedNumbers);
+                validatedNumbers = _context2.sent;
+                return _context2.abrupt("return", validatedNumbers);
 
               case 7:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
         }, _callee, this);
@@ -347,15 +340,15 @@ function (_RcModule) {
         var _this4 = this;
 
         var pasedNumers, errors, validatedPhoneNumbers;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.next = 2;
+                _context3.next = 2;
                 return this._numberParser(phoneNumbers);
 
               case 2:
-                pasedNumers = _context2.sent;
+                pasedNumers = _context3.sent;
                 errors = [];
                 validatedPhoneNumbers = [];
                 pasedNumers.map(function (phoneNumber) {
@@ -378,7 +371,7 @@ function (_RcModule) {
                   validatedPhoneNumbers.push(phoneNumber);
                   return null;
                 });
-                return _context2.abrupt("return", {
+                return _context3.abrupt("return", {
                   result: errors.length === 0,
                   numbers: validatedPhoneNumbers,
                   errors: errors
@@ -386,7 +379,7 @@ function (_RcModule) {
 
               case 7:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
         }, _callee2, this);
@@ -406,9 +399,9 @@ function (_RcModule) {
       regeneratorRuntime.mark(function _callee3(phoneNumbers) {
         var _this$_regionSettings3, countryCode, areaCode, homeCountry, normalizedNumbers, response;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this$_regionSettings3 = this._regionSettings, countryCode = _this$_regionSettings3.countryCode, areaCode = _this$_regionSettings3.areaCode;
                 homeCountry = countryCode ? {
@@ -421,12 +414,12 @@ function (_RcModule) {
                     areaCode: areaCode
                   });
                 });
-                _context3.next = 5;
+                _context4.next = 5;
                 return this._numberParserApi(normalizedNumbers, homeCountry);
 
               case 5:
-                response = _context3.sent;
-                return _context3.abrupt("return", response.phoneNumbers.map(function (phoneNumber) {
+                response = _context4.sent;
+                return _context4.abrupt("return", response.phoneNumbers.map(function (phoneNumber) {
                   return _objectSpread({}, phoneNumber, {
                     international: !!phoneNumber.country && phoneNumber.country.callingCode !== response.homeCountry.callingCode
                   });
@@ -434,7 +427,7 @@ function (_RcModule) {
 
               case 7:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
         }, _callee3, this);
@@ -453,22 +446,22 @@ function (_RcModule) {
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee4(originalStrings, homeCountry) {
         var response;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
+                _context5.next = 2;
                 return this._client.numberParser().parse().post({
                   originalStrings: originalStrings
                 }, homeCountry);
 
               case 2:
-                response = _context4.sent;
-                return _context4.abrupt("return", response);
+                response = _context5.sent;
+                return _context5.abrupt("return", response);
 
               case 4:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
         }, _callee4, this);

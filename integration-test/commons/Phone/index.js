@@ -36,7 +36,7 @@ var _RcModule2 = _interopRequireDefault(require("../../../lib/RcModule"));
 
 var _AccountContacts = _interopRequireDefault(require("../../../modules/AccountContacts"));
 
-var _AccountDirectory = _interopRequireDefault(require("../../../modules/AccountDirectory"));
+var _CompanyContacts = _interopRequireDefault(require("../../../modules/CompanyContacts"));
 
 var _AccountInfo = _interopRequireDefault(require("../../../modules/AccountInfo"));
 
@@ -116,7 +116,7 @@ var _ActiveCallControl = _interopRequireDefault(require("../../../modules/Active
 
 var _ActiveCalls = _interopRequireDefault(require("../../../modules/ActiveCalls"));
 
-var _DetailedPresence = _interopRequireDefault(require("../../../modules/DetailedPresence"));
+var _Presence = _interopRequireDefault(require("../../../modules/Presence"));
 
 var _CallLog = _interopRequireDefault(require("../../../modules/CallLog"));
 
@@ -139,12 +139,6 @@ var _ContactMatcher = _interopRequireDefault(require("../../../modules/ContactMa
 var _UserGuide = _interopRequireDefault(require("../../../modules/UserGuide"));
 
 var _normalizeNumber2 = _interopRequireDefault(require("../../../lib/normalizeNumber"));
-
-var _ringoutStatus = _interopRequireDefault(require("../../../modules/Ringout/ringoutStatus"));
-
-var _softphoneStatus = _interopRequireDefault(require("../../../modules/Softphone/softphoneStatus"));
-
-var _callingModes = _interopRequireDefault(require("../../../modules/CallingSettings/callingModes"));
 
 var _AvailabilityMonitor = _interopRequireDefault(require("../../../modules/AvailabilityMonitor"));
 
@@ -233,8 +227,8 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     provide: 'AudioSettings',
     useClass: _AudioSettings.default
   }, {
-    provide: 'AccountDirectory',
-    useClass: _AccountDirectory.default
+    provide: 'CompanyContacts',
+    useClass: _CompanyContacts.default
   }, {
     provide: 'AccountInfo',
     useClass: _AccountInfo.default
@@ -275,8 +269,8 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     provide: 'ActiveCalls',
     useClass: _ActiveCalls.default
   }, {
-    provide: 'DetailedPresence',
-    useClass: _DetailedPresence.default
+    provide: 'Presence',
+    useClass: _Presence.default
   }, {
     provide: 'MessageSender',
     useClass: _MessageSender.default
@@ -298,8 +292,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
   }, {
     provide: 'CallHistory',
     useClass: _CallHistory.default
-  }, // { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
-  {
+  }, {
     provide: 'AccountContacts',
     useClass: _AccountContacts.default
   }, {

@@ -35,11 +35,7 @@ var _conferenceCallErrors = _interopRequireDefault(require("../../modules/Confer
 
 var _conferenceCallStatus = _interopRequireDefault(require("../../modules/ConferenceCall/conferenceCallStatus"));
 
-var _callingOptions = _interopRequireDefault(require("../../modules/CallingSettings/callingOptions"));
-
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
-
-var _sinon = _interopRequireDefault(require("sinon"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -126,7 +126,6 @@ function (_DataFetcher) {
     _classCallCheck(this, Conference);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Conference).call(this, _objectSpread({
-      name: 'conference',
       client: client,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator(
@@ -159,7 +158,6 @@ function (_DataFetcher) {
 
         return fetchFunction;
       }(),
-      actionTypes: _actionTypes.default,
       storage: storage
     }, options)));
     _this._alert = alert;
@@ -329,6 +327,16 @@ function (_DataFetcher) {
       this.store.dispatch({
         type: this.actionTypes.joinAsHost
       });
+    }
+  }, {
+    key: "_name",
+    get: function get() {
+      return 'conference';
+    }
+  }, {
+    key: "_actionTypes",
+    get: function get() {
+      return _actionTypes.default;
     }
   }, {
     key: "additionalNumbers",

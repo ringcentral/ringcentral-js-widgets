@@ -29,7 +29,7 @@ require("core-js/modules/es6.object.keys");
 
 var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
-var _moduleActionTypes = _interopRequireDefault(require("../../enums/moduleActionTypes"));
+var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41,7 +41,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var _default = new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.default)), ['login', 'loginSuccess', 'loginError', 'logout', 'logoutSuccess', 'logoutError', 'refresh', 'refreshSuccess', 'refreshError', 'beforeLogout', 'cancelLogout', 'tabSync']), 'authActionTypes');
+var _default = new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), ['login', 'loginSuccess', 'loginError', 'logout', 'logoutSuccess', 'logoutError', 'refresh', 'refreshSuccess', 'refreshError', 'beforeLogout', 'cancelLogout', 'tabSync']), 'authActionTypes');
 
 exports.default = _default;
 //# sourceMappingURL=actionTypes.js.map

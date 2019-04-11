@@ -11,7 +11,7 @@ var _Enum = _interopRequireDefault(require("../lib/Enum"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = new _Enum.default(['unknow', 'contacts', 'conference'], 'calleeTypes');
+var _default = new _Enum.default(['unknown', 'contacts', 'conference'], 'calleeTypes');
 
 exports.default = _default;
 //# sourceMappingURL=calleeTypes.js.map

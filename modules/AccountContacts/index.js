@@ -21,11 +21,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
-require("core-js/modules/es6.array.iterator");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -63,7 +65,7 @@ var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _getReducer = _interopRequireDefault(require("./getReducer"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -119,14 +121,7 @@ var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
 
 var AccountContacts = (_dec = (0, _di.Module)({
   deps: ['Client', {
-    dep: 'AccountExtension',
-    optional: true
-  }, {
-    dep: 'AccountDirectory',
-    optional: true
-  }, {
-    dep: 'AccountPhoneNumber',
-    optional: true
+    dep: 'CompanyContacts'
   }, {
     dep: 'AccountContactsOptions',
     optional: true
@@ -140,8 +135,7 @@ function (_RcModule) {
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
-   * @param {AccountExtension} params.accountExtension - accountExtension module instance
-   * @param {AccountPhoneNumber} params.accountPhoneNumber - accountPhoneNumber module instance
+   * @param {CompanyContacts} params.companyContacts - companyContacts module instance
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
@@ -154,9 +148,7 @@ function (_RcModule) {
     var _this;
 
     var client = _ref.client,
-        accountExtension = _ref.accountExtension,
-        accountDirectory = _ref.accountDirectory,
-        accountPhoneNumber = _ref.accountPhoneNumber,
+        companyContacts = _ref.companyContacts,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
         _ref$avatarTtl = _ref.avatarTtl,
@@ -165,7 +157,7 @@ function (_RcModule) {
         presenceTtl = _ref$presenceTtl === void 0 ? DEFAULT_PRESENCETTL : _ref$presenceTtl,
         _ref$avatarQueryInter = _ref.avatarQueryInterval,
         avatarQueryInterval = _ref$avatarQueryInter === void 0 ? DEFAULT_AVATARQUERYINTERVAL : _ref$avatarQueryInter,
-        options = _objectWithoutProperties(_ref, ["client", "accountExtension", "accountDirectory", "accountPhoneNumber", "ttl", "avatarTtl", "presenceTtl", "avatarQueryInterval"]);
+        options = _objectWithoutProperties(_ref, ["client", "companyContacts", "ttl", "avatarTtl", "presenceTtl", "avatarQueryInterval"]);
 
     _classCallCheck(this, AccountContacts);
 
@@ -173,21 +165,10 @@ function (_RcModule) {
       actionTypes: _actionTypes.default
     })));
 
-    _initializerDefineProperty(_this, "extensionContacts", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
-
-    _initializerDefineProperty(_this, "directoryContacts", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "directoryContacts", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
     _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-
-    if (accountDirectory) {
-      _this._accountDirectory = accountDirectory;
-    } else {
-      var _context2;
-
-      _this._accountPhoneNumber = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, accountPhoneNumber, 'accountPhoneNumber');
-      _this._accountExtension = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, accountExtension, 'accountExtension');
-    }
-
+    _this._companyContacts = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, companyContacts, 'companyContacts');
     _this._ttl = ttl;
     _this._avatarTtl = avatarTtl;
     _this._presenceTtl = presenceTtl;
@@ -221,12 +202,12 @@ function (_RcModule) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return (this._accountDirectory ? this._accountDirectory.ready : this._accountExtension && this._accountExtension.ready) && (this._accountPhoneNumber ? this._accountPhoneNumber.ready : true) && this.pending;
+      return this._companyContacts.ready && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (this._accountDirectory ? !this._accountDirectory.ready : !this._accountExtension.ready || !this._accountPhoneNumber.ready) && this.ready;
+      return !this._companyContacts.ready && this.ready;
     } // interface of contact source
 
   }, {
@@ -241,65 +222,65 @@ function (_RcModule) {
             imageUrl,
             response,
             _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context3) {
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 useCache = _args.length > 1 && _args[1] !== undefined ? _args[1] : true;
 
                 if (!(!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage)) {
-                  _context3.next = 3;
+                  _context2.next = 3;
                   break;
                 }
 
-                return _context3.abrupt("return", null);
+                return _context2.abrupt("return", null);
 
               case 3:
                 imageId = contact.id;
 
                 if (!(useCache && this.profileImages[imageId] && Date.now() - this.profileImages[imageId].timestamp < this._avatarTtl)) {
-                  _context3.next = 7;
+                  _context2.next = 7;
                   break;
                 }
 
                 image = this.profileImages[imageId].imageUrl;
-                return _context3.abrupt("return", image);
+                return _context2.abrupt("return", image);
 
               case 7:
                 imageUrl = null;
-                _context3.prev = 8;
-                _context3.next = 11;
-                return this._client.account().extension(contact.id).profileImage('195x195').get();
+                _context2.prev = 8;
+                _context2.next = 11;
+                return this._client.account(contact.account.id).extension(contact.id).profileImage('195x195').get();
 
               case 11:
-                response = _context3.sent;
-                _context3.t0 = URL;
-                _context3.next = 15;
+                response = _context2.sent;
+                _context2.t0 = URL;
+                _context2.next = 15;
                 return response._response.blob();
 
               case 15:
-                _context3.t1 = _context3.sent;
-                imageUrl = _context3.t0.createObjectURL.call(_context3.t0, _context3.t1);
+                _context2.t1 = _context2.sent;
+                imageUrl = _context2.t0.createObjectURL.call(_context2.t0, _context2.t1);
                 this.store.dispatch({
                   type: this.actionTypes.fetchImageSuccess,
                   imageId: imageId,
                   imageUrl: imageUrl,
                   ttl: this._avatarTtl
                 });
-                _context3.next = 23;
+                _context2.next = 23;
                 break;
 
               case 20:
-                _context3.prev = 20;
-                _context3.t2 = _context3["catch"](8);
-                console.error(_context3.t2);
+                _context2.prev = 20;
+                _context2.t2 = _context2["catch"](8);
+                console.error(_context2.t2);
 
               case 23:
-                return _context3.abrupt("return", imageUrl);
+                return _context2.abrupt("return", imageUrl);
 
               case 24:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee, this, [[8, 20]]);
@@ -373,18 +354,18 @@ function (_RcModule) {
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(getPresenceContexts) {
         var contacts, responses, presenceMap;
-        return regeneratorRuntime.wrap(function _callee2$(_context4) {
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 contacts = getPresenceContexts.map(function (x) {
                   return x.contact;
                 });
-                _context4.next = 3;
+                _context3.next = 3;
                 return this._batchQueryPresences(contacts);
 
               case 3:
-                responses = _context4.sent;
+                responses = _context3.sent;
                 presenceMap = {};
                 getPresenceContexts.forEach(function (ctx) {
                   var response = responses[ctx.contact.id];
@@ -415,7 +396,7 @@ function (_RcModule) {
 
               case 7:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee2, this);
@@ -432,77 +413,111 @@ function (_RcModule) {
     value: function () {
       var _batchQueryPresences2 = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(contacts) {
-        var presenceSet, id, response, ids, multipartResponse, responses;
-        return regeneratorRuntime.wrap(function _callee3$(_context5) {
+      regeneratorRuntime.mark(function _callee4(contacts) {
+        var _this4 = this;
+
+        var presenceSet, accountExtensionMap, batchResponses;
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 presenceSet = {};
                 _context5.prev = 1;
-
-                if (!(contacts.length === 1)) {
-                  _context5.next = 10;
-                  break;
-                }
-
-                id = contacts[0].id;
-                _context5.next = 6;
-                return this._client.account().extension(id).presence().get();
-
-              case 6:
-                response = _context5.sent;
-                presenceSet[id] = response;
-                _context5.next = 17;
-                break;
-
-              case 10:
-                if (!(contacts.length > 1)) {
-                  _context5.next = 17;
-                  break;
-                }
-
-                ids = contacts.map(function (x) {
-                  return x.id;
-                }).join(',');
-                _context5.next = 14;
-                return (0, _batchApiHelper.batchGetApi)({
-                  platform: this._client.service.platform(),
-                  url: "/account/~/extension/".concat(ids, "/presence?detailedTelephonyState=true&sipData=true")
-                });
-
-              case 14:
-                multipartResponse = _context5.sent;
-                responses = (0, _ramda.map)(function (x) {
-                  return x.json();
-                }, multipartResponse);
-                (0, _ramda.forEach)(function (item) {
-                  if (item.errorCode) {
-                    console.warn(item);
-                    return;
+                accountExtensionMap = (0, _ramda.reduce)(function (acc, item) {
+                  if (!acc[item.account.id]) {
+                    acc[item.account.id] = [];
                   }
 
-                  presenceSet[item.extension.id] = item;
-                }, responses);
+                  acc[item.account.id].push(item.id);
+                  return acc;
+                }, {}, contacts);
+                _context5.next = 5;
+                return Promise.all((0, _ramda.map)(
+                /*#__PURE__*/
+                function () {
+                  var _ref2 = _asyncToGenerator(
+                  /*#__PURE__*/
+                  regeneratorRuntime.mark(function _callee3(accountId) {
+                    var ids;
+                    return regeneratorRuntime.wrap(function _callee3$(_context4) {
+                      while (1) {
+                        switch (_context4.prev = _context4.next) {
+                          case 0:
+                            if (!(accountExtensionMap[accountId].length > 1)) {
+                              _context4.next = 10;
+                              break;
+                            }
 
-              case 17:
-                _context5.next = 22;
+                            ids = (0, _ramda.join)(',', accountExtensionMap[accountId]); // extract json data now so the data appears in the same format
+                            // as single requests
+
+                            _context4.t0 = _ramda.map;
+
+                            _context4.t1 = function (resp) {
+                              return resp.json();
+                            };
+
+                            _context4.next = 6;
+                            return (0, _batchApiHelper.batchGetApi)({
+                              platform: _this4._client.service.platform(),
+                              url: "/account/".concat(accountId, "/extension/").concat(ids, "/presence")
+                            });
+
+                          case 6:
+                            _context4.t2 = _context4.sent;
+                            return _context4.abrupt("return", (0, _context4.t0)(_context4.t1, _context4.t2));
+
+                          case 10:
+                            _context4.next = 12;
+                            return _this4._client.account(accountId).extension(accountExtensionMap[accountId][0]).presence().get();
+
+                          case 12:
+                            _context4.t3 = _context4.sent;
+                            return _context4.abrupt("return", [_context4.t3]);
+
+                          case 14:
+                          case "end":
+                            return _context4.stop();
+                        }
+                      }
+                    }, _callee3);
+                  }));
+
+                  return function (_x4) {
+                    return _ref2.apply(this, arguments);
+                  };
+                }(), (0, _ramda.keys)(accountExtensionMap)));
+
+              case 5:
+                batchResponses = _context5.sent;
+                // treat all data as batch since the data is normalized
+                (0, _ramda.forEach)(function (batch) {
+                  return (0, _ramda.forEach)(function (data) {
+                    if (data.errorCode) {
+                      console.warn(data);
+                      return;
+                    }
+
+                    presenceSet[data.extension.id] = data;
+                  }, batch);
+                }, batchResponses);
+                _context5.next = 12;
                 break;
 
-              case 19:
-                _context5.prev = 19;
+              case 9:
+                _context5.prev = 9;
                 _context5.t0 = _context5["catch"](1);
                 console.error(_context5.t0);
 
-              case 22:
+              case 12:
                 return _context5.abrupt("return", presenceSet);
 
-              case 23:
+              case 13:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee3, this, [[1, 19]]);
+        }, _callee4, null, [[1, 9]]);
       }));
 
       function _batchQueryPresences(_x3) {
@@ -531,11 +546,12 @@ function (_RcModule) {
     key: "sourceName",
     get: function get() {
       return 'company';
-    }
+    } // interface of contact source
+
   }, {
     key: "contacts",
     get: function get() {
-      return this._accountDirectory ? this.directoryContacts : this.extensionContacts;
+      return this.directoryContacts;
     }
   }, {
     key: "sourceReady",
@@ -545,60 +561,7 @@ function (_RcModule) {
   }]);
 
   return AccountContacts;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "extensionContacts", [_selector.selector], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    var _this4 = this;
-
-    return [function () {
-      return _this4._accountExtension.availableExtensions;
-    }, function () {
-      return _this4._accountPhoneNumber.extensionToPhoneNumberMap;
-    }, function () {
-      return _this4.profileImages;
-    }, function () {
-      return _this4.presences;
-    }, function (extensions, extensionToPhoneNumberMap, profileImages, presences) {
-      return (0, _ramda.reduce)(function (result, extension) {
-        var id = "".concat(extension.id);
-        var contact = {
-          type: _this4.sourceName,
-          id: id,
-          firstName: extension.contact && extension.contact.firstName,
-          lastName: extension.contact && extension.contact.lastName,
-          emails: extension.contact ? [extension.contact.email] : [],
-          extensionNumber: extension.ext,
-          hasProfileImage: !!extension.hasProfileImage,
-          phoneNumbers: [{
-            phoneNumber: extension.ext,
-            phoneType: _phoneTypes.default.extension
-          }],
-          profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
-          presence: presences[id] && presences[id].presence,
-          contactStatus: extension.status
-        };
-        contact.name = "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
-
-        if ((0, _isBlank.default)(contact.extensionNumber)) {
-          return result;
-        }
-
-        var phones = extensionToPhoneNumberMap[contact.extensionNumber];
-
-        if (phones && phones.length > 0) {
-          phones.forEach(function (phone) {
-            (0, _contactHelper.addPhoneToContact)(contact, phone.phoneNumber, _phoneTypes.default.direct);
-          });
-        }
-
-        result.push(contact);
-        return result;
-      }, [], extensions);
-    }];
-  }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_selector.selector], {
+}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -606,38 +569,38 @@ function (_RcModule) {
     var _this5 = this;
 
     return [function () {
-      return _this5._accountDirectory.availableExtensions;
+      return _this5._companyContacts.filteredContacts;
     }, function () {
       return _this5.profileImages;
     }, function () {
       return _this5.presences;
-    }, function (extensions, profileImages, presences) {
-      return (0, _ramda.reduce)(function (result, extension) {
-        var id = "".concat(extension.id);
-        var contact = {
+    }, function (contacts, profileImages, presences) {
+      return (0, _ramda.reduce)(function (result, item) {
+        var id = "".concat(item.id);
+
+        var contact = _objectSpread({}, item, {
           type: _this5.sourceName,
           id: id,
-          firstName: extension.firstName,
-          lastName: extension.lastName,
-          emails: [extension.email],
-          extensionNumber: extension.extensionNumber,
-          hasProfileImage: !!extension.profileImage,
+          emails: [item.email],
+          extensionNumber: item.extensionNumber,
+          hasProfileImage: !!item.profileImage,
           phoneNumbers: [{
-            phoneNumber: extension.extensionNumber,
+            phoneNumber: item.extensionNumber,
             phoneType: _phoneTypes.default.extension
           }],
           profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
           presence: presences[id] && presences[id].presence,
-          contactStatus: extension.status
-        };
-        contact.name = extension.name ? extension.name : "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
+          contactStatus: item.status
+        });
+
+        contact.name = item.name ? item.name : "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
 
         if ((0, _isBlank.default)(contact.extensionNumber)) {
           return result;
         }
 
-        if (extension.phoneNumbers && extension.phoneNumbers.length > 0) {
-          extension.phoneNumbers.forEach(function (phone) {
+        if (item.phoneNumbers && item.phoneNumbers.length > 0) {
+          item.phoneNumbers.forEach(function (phone) {
             if (phone.type) {
               contact.phoneNumbers.push(_objectSpread({}, phone, {
                 phoneType: _phoneTypes.default.direct
@@ -648,7 +611,7 @@ function (_RcModule) {
 
         result.push(contact);
         return result;
-      }, [], extensions);
+      }, [], contacts);
     }];
   }
 })), _class2)) || _class);

@@ -123,7 +123,6 @@ function (_DataFetcher) {
     _classCallCheck(this, ExtensionPhoneNumber);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ExtensionPhoneNumber).call(this, _objectSpread({
-      name: 'extensionPhoneNumber',
       client: client,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator(
@@ -184,6 +183,11 @@ function (_DataFetcher) {
   }
 
   _createClass(ExtensionPhoneNumber, [{
+    key: "_name",
+    get: function get() {
+      return 'extensionPhoneNumber';
+    }
+  }, {
     key: "_hasPermission",
     get: function get() {
       return !!this._rolesAndPermissions.permissions.ReadUserPhoneNumbers;

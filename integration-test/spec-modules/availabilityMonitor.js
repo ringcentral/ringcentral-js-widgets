@@ -15,15 +15,11 @@ var _HelpUtil = require("../utils/HelpUtil");
 
 var _WaitUtil = require("../utils/WaitUtil");
 
-var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
-
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _this = void 0;
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -34,7 +30,7 @@ var _default = function _default(_ref) {
   var auth = _ref.auth,
       alert = _ref.alert,
       client = _ref.client,
-      detailedPresence = _ref.detailedPresence,
+      presence = _ref.presence,
       availabilityMonitor = _ref.availabilityMonitor,
       messageStore = _ref.messageStore,
       callLog = _ref.callLog,
@@ -112,10 +108,10 @@ var _default = function _default(_ref) {
               mock.mockLimited({
                 method: 'PUT',
                 path: '/restapi/v1.0/account/~/extension/~/presence'
-              }); // expect(detailedPresence.setBusy).to.throw();
+              }); // expect(presence.setBusy).to.throw();
 
               _context3.next = 3;
-              return detailedPresence.setBusy();
+              return presence.setBusy();
 
             case 3:
               expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);

@@ -143,7 +143,6 @@ function (_DataFetcher) {
     _classCallCheck(this, ExtensionInfo);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ExtensionInfo).call(this, _objectSpread({
-      name: 'extensionInfo',
       client: client,
       ttl: ttl,
       polling: polling,
@@ -288,6 +287,11 @@ function (_DataFetcher) {
 
       return _subscriptionHandleFn;
     }()
+  }, {
+    key: "_name",
+    get: function get() {
+      return 'extensionInfo';
+    }
   }, {
     key: "info",
     get: function get() {

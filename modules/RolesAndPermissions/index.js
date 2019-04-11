@@ -131,7 +131,6 @@ function (_DataFetcher) {
     _classCallCheck(this, RolesAndPermissions);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RolesAndPermissions).call(this, _objectSpread({}, options, {
-      name: 'rolesAndPermissions',
       client: client,
       ttl: ttl,
       fetchFunction: function () {
@@ -339,6 +338,11 @@ function (_DataFetcher) {
       if (this._extensionInfo.ready) {
         this._extensionInfo.fetchData();
       }
+    }
+  }, {
+    key: "_name",
+    get: function get() {
+      return 'rolesAndPermissions';
     }
   }, {
     key: "serviceFeatures",

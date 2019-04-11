@@ -160,7 +160,6 @@ function (_DataFetcher) {
     _classCallCheck(this, AccountPhoneNumber);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AccountPhoneNumber).call(this, _objectSpread({
-      name: 'accountPhoneNumber',
       client: client,
       getDataReducer: _getReducer.getDataReducer,
       fetchFunction: function () {
@@ -203,11 +202,17 @@ function (_DataFetcher) {
 
     _initializerDefineProperty(_this, "extensionToPhoneNumberMap", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
+    console.warn('AccountPhoneNumber module is deprecated, please use CompanyContacts instead.');
     _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
   _createClass(AccountPhoneNumber, [{
+    key: "_name",
+    get: function get() {
+      return 'accountPhoneNumber';
+    }
+  }, {
     key: "_hasPermission",
     get: function get() {
       return !!this._rolesAndPermissions.permissions.ReadCompanyPhoneNumbers;

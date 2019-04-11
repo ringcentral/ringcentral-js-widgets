@@ -5,15 +5,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.array.is-array");
+
 require("core-js/modules/es6.promise");
 
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
 
@@ -23,25 +33,37 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.for-each");
+require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
 
 var _di = require("../../lib/di");
 
-var _getPresenceReducer = _interopRequireWildcard(require("./getPresenceReducer"));
+var _selector = require("../../lib/selector");
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _actionTypeGenerator = require("../../lib/actionTypeGenerator");
+
+var _callLogHelpers = require("../../lib/callLogHelpers");
+
+var _debounce = _interopRequireDefault(require("../../lib/debounce"));
+
+var _getPresenceReducer = require("./getPresenceReducer");
 
 var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
@@ -53,13 +75,21 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _dec, _class, _class2;
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -81,6 +111,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
@@ -89,90 +123,135 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
-var presenceEndPoint = /.*\/presence(\?.*)?/;
-/**
- * @class
- * @description Presence info module
- */
-
+var presenceRegExp = /.*\/presence(\?.*)?/;
+var detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
 var Presence = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'Subscription', 'RolesAndPermissions', {
+  deps: ['RolesAndPermissions', 'ConnectivityMonitor', {
     dep: 'Storage',
-    optional: true
-  }, {
-    dep: 'ConnectivityMonitor',
     optional: true
   }, {
     dep: 'PresenceOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
-function (_RcModule) {
-  _inherits(Presence, _RcModule);
+function (_DataFetcher) {
+  _inherits(Presence, _DataFetcher);
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Auth} params.auth - auth module instance
-   * @param {Client} params.client - client module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {Subscription} params.subscription - subscription module instance
-   * @param {Object} params.actionTypes - actionTypes enums
-   */
   function Presence(_ref) {
-    var _context;
+    var _context2;
 
     var _this;
 
-    var auth = _ref.auth,
-        client = _ref.client,
-        storage = _ref.storage,
-        subscription = _ref.subscription,
-        rolesAndPermissions = _ref.rolesAndPermissions,
+    var _ref$detailed = _ref.detailed,
+        detailed = _ref$detailed === void 0 ? true : _ref$detailed,
+        _ref$fetchRemainingDe = _ref.fetchRemainingDelay,
+        fetchRemainingDelay = _ref$fetchRemainingDe === void 0 ? 2000 : _ref$fetchRemainingDe,
+        _ref$ttl = _ref.ttl,
+        ttl = _ref$ttl === void 0 ? 62 * 1000 : _ref$ttl,
+        _ref$polling = _ref.polling,
+        polling = _ref$polling === void 0 ? false : _ref$polling,
+        _ref$pollingInterval = _ref.pollingInterval,
+        pollingInterval = _ref$pollingInterval === void 0 ? 3 * 60 * 1000 : _ref$pollingInterval,
         connectivityMonitor = _ref.connectivityMonitor,
-        _ref$actionTypes = _ref.actionTypes,
-        actionTypes = _ref$actionTypes === void 0 ? _actionTypes.default : _ref$actionTypes,
-        _ref$getReducer = _ref.getReducer,
-        getReducer = _ref$getReducer === void 0 ? _getPresenceReducer.default : _ref$getReducer,
-        _ref$subscriptionFilt = _ref.subscriptionFilter,
-        subscriptionFilter = _ref$subscriptionFilt === void 0 ? _subscriptionFilters.default.presence : _ref$subscriptionFilt,
-        _ref$lastNotDisturbDn = _ref.lastNotDisturbDndStatusStorageKey,
-        lastNotDisturbDndStatusStorageKey = _ref$lastNotDisturbDn === void 0 ? 'lastNotDisturbDndStatus' : _ref$lastNotDisturbDn,
-        options = _objectWithoutProperties(_ref, ["auth", "client", "storage", "subscription", "rolesAndPermissions", "connectivityMonitor", "actionTypes", "getReducer", "subscriptionFilter", "lastNotDisturbDndStatusStorageKey"]);
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        options = _objectWithoutProperties(_ref, ["detailed", "fetchRemainingDelay", "ttl", "polling", "pollingInterval", "connectivityMonitor", "rolesAndPermissions"]);
 
     _classCallCheck(this, Presence);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Presence).call(this, _objectSpread({}, options, {
-      actionTypes: actionTypes
+      polling: polling,
+      ttl: ttl,
+      pollingInterval: pollingInterval,
+      getDataReducer: _getPresenceReducer.getDataReducer,
+      fetchFunction: function () {
+        var _fetchFunction = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee() {
+          var endpoint, data;
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  endpoint = _this._detailed ? _subscriptionFilters.default.detailedPresence : _subscriptionFilters.default.presence;
+                  _context.next = 3;
+                  return _this._client.service.platform().get(endpoint);
+
+                case 3:
+                  data = _context.sent.json();
+                  return _context.abrupt("return", data);
+
+                case 5:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }));
+
+        function fetchFunction() {
+          return _fetchFunction.apply(this, arguments);
+        }
+
+        return fetchFunction;
+      }(),
+      subscriptionFilters: [detailed ? _subscriptionFilters.default.detailedPresence : _subscriptionFilters.default.presence],
+      subscriptionHandler: function subscriptionHandler(message) {
+        var regExp = _this._detailed ? detailedPresenceRegExp : presenceRegExp;
+
+        if (regExp.test(message.event) && message.body) {
+          if (message.body.sequence) {
+            if (message.body.sequence < _this.sequence) {
+              return;
+            }
+          }
+
+          var body = message.body;
+
+          _this.store.dispatch({
+            data: body,
+            type: _this.actionTypes.notification,
+            lastDndStatus: _this.dndStatus,
+            timestamp: Date.now()
+          });
+          /**
+           * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
+           * when the real calls count larger than the active calls returned by the pubnub,
+           * we need to pulling the calls manually.
+           */
+
+
+          var _body$activeCalls = body.activeCalls,
+              activeCalls = _body$activeCalls === void 0 ? [] : _body$activeCalls,
+              _body$totalActiveCall = body.totalActiveCalls,
+              totalActiveCalls = _body$totalActiveCall === void 0 ? 0 : _body$totalActiveCall;
+
+          if (activeCalls.length !== totalActiveCalls) {
+            _this._fetchRemainingCalls();
+          }
+        }
+      },
+      readyCheckFn: function readyCheckFn() {
+        return _this._rolesAndPermissions.ready && _this._connectivityMonitor.ready;
+      }
     })));
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-    _this._subscription = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, subscription, 'subscription');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions');
-    _this._storage = storage;
-    _this._connectivityMonitor = connectivityMonitor;
-    _this._subscriptionFilter = subscriptionFilter;
-    _this._lastMessage = null;
-    _this._delayTimeoutId = null;
-    _this._lastNotDisturbDndStatusStorageKey = lastNotDisturbDndStatusStorageKey;
 
-    if (_this._storage) {
-      _this._reducer = getReducer(_this.actionTypes);
+    _initializerDefineProperty(_this, "activeCalls", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
-      _this._storage.registerReducer({
-        key: _this._lastNotDisturbDndStatusStorageKey,
-        reducer: (0, _getPresenceReducer.getLastNotDisturbDndStatusReducer)(_this.actionTypes)
-      });
-    } else {
-      _this._reducer = getReducer(_this.actionTypes, {
-        lastNotDisturbDndStatus: (0, _getPresenceReducer.getLastNotDisturbDndStatusReducer)(_this.actionTypes)
-      });
-    }
+    _initializerDefineProperty(_this, "calls", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _this._lastSequence = 0;
+    _initializerDefineProperty(_this, "sessionIdList", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _this._detailed = true;
+    _this._connectivityMonitor = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, connectivityMonitor, 'connectivityMonitor');
+    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
+    _this._fetchRemainingCalls = (0, _debounce.default)(function () {
+      return _this.fetchData();
+    }, fetchRemainingDelay);
     return _this;
   }
 
@@ -181,46 +260,31 @@ function (_RcModule) {
     value: function () {
       var _onStateChange2 = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+      regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                if (!this._shouldInit()) {
-                  _context2.next = 5;
-                  break;
+                if (this._shouldInit()) {
+                  this._connectivity = this._connectivityMonitor.connectivity;
                 }
 
-                _context2.next = 3;
-                return this._init();
+                _get(_getPrototypeOf(Presence.prototype), "_onStateChange", this).call(this);
 
-              case 3:
-                _context2.next = 6;
-                break;
-
-              case 5:
-                if (this._shouldReset()) {
-                  this._reset();
-                } else if (this.ready && this._subscription.ready && this._subscription.message && this._subscription.message !== this._lastMessage) {
-                  this._lastMessage = this._subscription.message;
-
-                  this._subscriptionHandler(this._lastMessage);
-                } else if (this.ready && this._connectivityMonitor && this._connectivityMonitor.ready && this._connectivity !== this._connectivityMonitor.connectivity) {
+                if (this.ready && this._connectivityMonitor && this._connectivityMonitor.ready && this._connectivity !== this._connectivityMonitor.connectivity) {
                   this._connectivity = this._connectivityMonitor.connectivity; // fetch data on regain connectivity
 
-                  if (this._connectivity) {
-                    if (this._rolesAndPermissions.hasPresencePermission) {
-                      this._fetch();
-                    }
+                  if (this._connectivity && this._hasPermission) {
+                    this.fetchData();
                   }
                 }
 
-              case 6:
+              case 3:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
       function _onStateChange() {
@@ -230,244 +294,60 @@ function (_RcModule) {
       return _onStateChange;
     }()
   }, {
-    key: "_subscriptionHandler",
-    value: function _subscriptionHandler(message) {
-      if (message && presenceEndPoint.test(message.event) && message.body) {
-        if (message.body.sequence) {
-          if (message.body.sequence < this._lastSequence) {
-            return;
-          }
-
-          this._lastSequence = message.body.sequence;
-        }
-
-        this.store.dispatch(_objectSpread({
-          type: this.actionTypes.notification
-        }, message.body));
-      }
-    }
-  }, {
-    key: "initialize",
-    value: function initialize() {
-      var _this2 = this;
-
-      this.store.subscribe(function () {
-        return _this2._onStateChange();
-      });
-    }
-  }, {
-    key: "_shouldInit",
-    value: function _shouldInit() {
-      return this._auth.loggedIn && (!this._storage || this._storage.ready) && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this._subscription.ready && this._rolesAndPermissions.ready && this.status === _moduleStatuses.default.pending;
-    }
-  }, {
-    key: "_shouldReset",
-    value: function _shouldReset() {
-      return (!this._auth.loggedIn || !!this._storage && !this._storage.ready || !this._rolesAndPermissions.ready || this._connectivityMonitor && !this._connectivityMonitor.ready || !this._subscription.ready) && this.ready;
-    }
-  }, {
-    key: "_init",
-    value: function () {
-      var _init2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.init
-                });
-
-                if (this._connectivityMonitor) {
-                  this._connectivity = this._connectivityMonitor.connectivity;
-                }
-
-                if (!this._rolesAndPermissions.hasPresencePermission) {
-                  _context3.next = 6;
-                  break;
-                }
-
-                _context3.next = 5;
-                return this.fetch();
-
-              case 5:
-                this._subscription.subscribe(this._subscriptionFilter);
-
-              case 6:
-                this.store.dispatch({
-                  type: this.actionTypes.initSuccess
-                });
-
-              case 7:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function _init() {
-        return _init2.apply(this, arguments);
-      }
-
-      return _init;
-    }()
-  }, {
-    key: "_reset",
-    value: function _reset() {
-      this.store.dispatch({
-        type: this.actionTypes.reset
-      });
-      this._lastSequence = 0;
-      this._lastMessage = null;
-      this.store.dispatch({
-        type: this.actionTypes.resetSuccess
-      });
-    }
-  }, {
-    key: "_fetch",
-    value: function () {
-      var _fetch2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        var ownerId, data;
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.fetch
-                });
-                _context4.prev = 1;
-                ownerId = this._auth.ownerId;
-                _context4.next = 5;
-                return this._client.account().extension().presence().get();
-
-              case 5:
-                data = _context4.sent;
-
-                if (ownerId === this._auth.ownerId) {
-                  this.store.dispatch(_objectSpread({
-                    type: this.actionTypes.fetchSuccess
-                  }, data, {
-                    lastDndStatus: this.dndStatus
-                  }));
-                }
-
-                this._promise = null;
-                _context4.next = 15;
-                break;
-
-              case 10:
-                _context4.prev = 10;
-                _context4.t0 = _context4["catch"](1);
-                this._promise = null;
-                this.store.dispatch({
-                  type: this.actionTypes.fetchError,
-                  error: _context4.t0
-                });
-                throw _context4.t0;
-
-              case 15:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee3, this, [[1, 10]]);
-      }));
-
-      function _fetch() {
-        return _fetch2.apply(this, arguments);
-      }
-
-      return _fetch;
-    }()
-  }, {
-    key: "fetch",
-    value: function () {
-      var _fetch3 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                if (!this._promise) {
-                  this._promise = this._fetch();
-                }
-
-                return _context5.abrupt("return", this._promise);
-
-              case 2:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee4, this);
-      }));
-
-      function fetch() {
-        return _fetch3.apply(this, arguments);
-      }
-
-      return fetch;
-    }()
-  }, {
     key: "_update",
     value: function () {
       var _update2 = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(params) {
+      regeneratorRuntime.mark(function _callee3(params) {
         var ownerId, platform, response, data;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (this._rolesAndPermissions.hasEditPresencePermission) {
-                  _context6.next = 2;
+                  _context4.next = 2;
                   break;
                 }
 
-                return _context6.abrupt("return");
+                return _context4.abrupt("return");
 
               case 2:
-                _context6.prev = 2;
+                _context4.prev = 2;
                 ownerId = this._auth.ownerId;
                 platform = this._client.service.platform();
-                _context6.next = 7;
+                _context4.next = 7;
                 return platform.put('/account/~/extension/~/presence', params);
 
               case 7:
-                response = _context6.sent;
+                response = _context4.sent;
                 data = response.json();
 
                 if (ownerId === this._auth.ownerId) {
-                  this.store.dispatch(_objectSpread({
-                    type: this.actionTypes.updateSuccess
-                  }, data, {
+                  this.store.dispatch({
+                    type: this.actionTypes.updateSuccess,
+                    data: data,
                     lastDndStatus: this.dndStatus
-                  }));
+                  });
                 }
 
-                _context6.next = 16;
+                _context4.next = 16;
                 break;
 
               case 12:
-                _context6.prev = 12;
-                _context6.t0 = _context6["catch"](2);
+                _context4.prev = 12;
+                _context4.t0 = _context4["catch"](2);
                 this.store.dispatch({
                   type: this.actionTypes.updateError,
-                  error: _context6.t0
+                  error: _context4.t0
                 });
-                throw _context6.t0;
+                throw _context4.t0;
 
               case 16:
               case "end":
-                return _context6.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, this, [[2, 12]]);
+        }, _callee3, this, [[2, 12]]);
       }));
 
       function _update(_x) {
@@ -495,30 +375,30 @@ function (_RcModule) {
     value: function () {
       var _setAvailable = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6() {
+      regeneratorRuntime.mark(function _callee4() {
         var params;
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(this.userStatus === _presenceStatus.default.available && this.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls)) {
-                  _context7.next = 2;
+                  _context5.next = 2;
                   break;
                 }
 
-                return _context7.abrupt("return");
+                return _context5.abrupt("return");
 
               case 2:
                 params = this._getUpdateStatusParams(_presenceStatus.default.available);
-                _context7.next = 5;
+                _context5.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context7.stop();
+                return _context5.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee4, this);
       }));
 
       function setAvailable() {
@@ -532,30 +412,30 @@ function (_RcModule) {
     value: function () {
       var _setBusy = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee7() {
+      regeneratorRuntime.mark(function _callee5() {
         var params;
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+        return regeneratorRuntime.wrap(function _callee5$(_context6) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(this.userStatus === _presenceStatus.default.busy && this.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls)) {
-                  _context8.next = 2;
+                  _context6.next = 2;
                   break;
                 }
 
-                return _context8.abrupt("return");
+                return _context6.abrupt("return");
 
               case 2:
                 params = this._getUpdateStatusParams(_presenceStatus.default.busy);
-                _context8.next = 5;
+                _context6.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context8.stop();
+                return _context6.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee5, this);
       }));
 
       function setBusy() {
@@ -569,33 +449,33 @@ function (_RcModule) {
     value: function () {
       var _setDoNotDisturb = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee8() {
+      regeneratorRuntime.mark(function _callee6() {
         var params;
-        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+        return regeneratorRuntime.wrap(function _callee6$(_context7) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!(this.dndStatus === _dndStatus.default.doNotAcceptAnyCalls)) {
-                  _context9.next = 2;
+                  _context7.next = 2;
                   break;
                 }
 
-                return _context9.abrupt("return");
+                return _context7.abrupt("return");
 
               case 2:
                 params = {
                   dndStatus: _dndStatus.default.doNotAcceptAnyCalls,
                   userStatus: _presenceStatus.default.busy
                 };
-                _context9.next = 5;
+                _context7.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context9.stop();
+                return _context7.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee6, this);
       }));
 
       function setDoNotDisturb() {
@@ -609,30 +489,30 @@ function (_RcModule) {
     value: function () {
       var _setInvisible = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee9() {
+      regeneratorRuntime.mark(function _callee7() {
         var params;
-        return regeneratorRuntime.wrap(function _callee9$(_context10) {
+        return regeneratorRuntime.wrap(function _callee7$(_context8) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 if (!(this.userStatus === _presenceStatus.default.offline && this.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls)) {
-                  _context10.next = 2;
+                  _context8.next = 2;
                   break;
                 }
 
-                return _context10.abrupt("return");
+                return _context8.abrupt("return");
 
               case 2:
                 params = this._getUpdateStatusParams(_presenceStatus.default.offline);
-                _context10.next = 5;
+                _context8.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context10.stop();
+                return _context8.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee7, this);
       }));
 
       function setInvisible() {
@@ -646,56 +526,56 @@ function (_RcModule) {
     value: function () {
       var _setPresence = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee10(presenceData) {
-        return regeneratorRuntime.wrap(function _callee10$(_context11) {
+      regeneratorRuntime.mark(function _callee8(presenceData) {
+        return regeneratorRuntime.wrap(function _callee8$(_context9) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context11.t0 = presenceData;
-                _context11.next = _context11.t0 === _presenceStatus.default.available ? 3 : _context11.t0 === _presenceStatus.default.busy ? 6 : _context11.t0 === _dndStatus.default.doNotAcceptAnyCalls ? 9 : _context11.t0 === _presenceStatus.default.offline ? 12 : 15;
+                _context9.t0 = presenceData;
+                _context9.next = _context9.t0 === _presenceStatus.default.available ? 3 : _context9.t0 === _presenceStatus.default.busy ? 6 : _context9.t0 === _dndStatus.default.doNotAcceptAnyCalls ? 9 : _context9.t0 === _presenceStatus.default.offline ? 12 : 15;
                 break;
 
               case 3:
-                _context11.next = 5;
+                _context9.next = 5;
                 return this.setAvailable();
 
               case 5:
-                return _context11.abrupt("break", 18);
+                return _context9.abrupt("break", 18);
 
               case 6:
-                _context11.next = 8;
+                _context9.next = 8;
                 return this.setBusy();
 
               case 8:
-                return _context11.abrupt("break", 18);
+                return _context9.abrupt("break", 18);
 
               case 9:
-                _context11.next = 11;
+                _context9.next = 11;
                 return this.setDoNotDisturb();
 
               case 11:
-                return _context11.abrupt("break", 18);
+                return _context9.abrupt("break", 18);
 
               case 12:
-                _context11.next = 14;
+                _context9.next = 14;
                 return this.setInvisible();
 
               case 14:
-                return _context11.abrupt("break", 18);
+                return _context9.abrupt("break", 18);
 
               case 15:
-                _context11.next = 17;
+                _context9.next = 17;
                 return this.setAvailable();
 
               case 17:
-                return _context11.abrupt("break", 18);
+                return _context9.abrupt("break", 18);
 
               case 18:
               case "end":
-                return _context11.stop();
+                return _context9.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee8, this);
       }));
 
       function setPresence(_x2) {
@@ -709,11 +589,11 @@ function (_RcModule) {
     value: function () {
       var _toggleAcceptCallQueueCalls = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee11() {
+      regeneratorRuntime.mark(function _callee9() {
         var params;
-        return regeneratorRuntime.wrap(function _callee11$(_context12) {
+        return regeneratorRuntime.wrap(function _callee9$(_context10) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 params = {
                   userStatus: this.userStatus
@@ -726,19 +606,19 @@ function (_RcModule) {
                 }
 
                 if (!params.dndStatus) {
-                  _context12.next = 5;
+                  _context10.next = 5;
                   break;
                 }
 
-                _context12.next = 5;
+                _context10.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context12.stop();
+                return _context10.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee9, this);
       }));
 
       function toggleAcceptCallQueueCalls() {
@@ -747,73 +627,134 @@ function (_RcModule) {
 
       return toggleAcceptCallQueueCalls;
     }()
+    /**
+     * @override
+     * @description make sure data returns object so that the property getters
+     *  will not fail.
+     * @returns {Object}
+     */
+
   }, {
-    key: "status",
+    key: "_name",
     get: function get() {
-      return this.state.status;
+      return 'presence';
     }
   }, {
-    key: "ready",
+    key: "_actionTypes",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.ready;
+      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_get(_getPrototypeOf(Presence.prototype), "_actionTypes", this))), _toConsumableArray((0, _actionTypeGenerator.actionTypeGenerator)('update')), ['notification']), this._name);
+    }
+  }, {
+    key: "data",
+    get: function get() {
+      return _get(_getPrototypeOf(Presence.prototype), "data", this) || {};
+    }
+  }, {
+    key: "sequence",
+    get: function get() {
+      return this.data.sequence;
+    }
+  }, {
+    key: "telephonyStatus",
+    get: function get() {
+      return this.data.telephonyStatus;
     }
   }, {
     key: "dndStatus",
     get: function get() {
-      return this.state.dndStatus;
+      return this.data.dndStatus;
     }
   }, {
     key: "lastNotDisturbDndStatus",
     get: function get() {
-      if (this._storage) {
-        return this._storage.getItem(this._lastNotDisturbDndStatusStorageKey);
-      }
-
-      return this.state.lastNotDisturbDndStatus;
+      return this.data.lastNotDisturbDndStatus;
     }
   }, {
     key: "userStatus",
     get: function get() {
-      return this.state.userStatus;
-    }
-  }, {
-    key: "message",
-    get: function get() {
-      return this.state.message;
+      return this.data.userStatus;
     }
   }, {
     key: "presenceStatus",
     get: function get() {
-      return this.state.presenceStatus;
+      return this.data.presenceStatus;
     }
   }, {
     key: "presenceOption",
     get: function get() {
       // available
-      if (this.state.userStatus === _presenceStatus.default.available && this.state.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
+      if (this.data.userStatus === _presenceStatus.default.available && this.data.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
         return _presenceStatus.default.available;
       } // busy
 
 
-      if (this.state.userStatus === _presenceStatus.default.busy && this.state.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
+      if (this.data.userStatus === _presenceStatus.default.busy && this.data.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
         return _presenceStatus.default.busy;
       } // doNotDisturb
 
 
-      if (this.state.dndStatus === _dndStatus.default.doNotAcceptAnyCalls) {
+      if (this.data.dndStatus === _dndStatus.default.doNotAcceptAnyCalls) {
         return _dndStatus.default.doNotAcceptAnyCalls;
       } // invisible
 
 
-      if (this.state.userStatus === _presenceStatus.default.offline && this.state.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
+      if (this.data.userStatus === _presenceStatus.default.offline && this.data.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
         return _presenceStatus.default.offline;
       }
 
       return _presenceStatus.default.available;
     }
+  }, {
+    key: "_hasPermission",
+    get: function get() {
+      return this._rolesAndPermissions.hasPresencePermission;
+    }
   }]);
 
   return Presence;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_update", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_update"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcher2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_update", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_update"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this2 = this;
+
+    return [function () {
+      return _this2.data.activeCalls;
+    }, function (calls) {
+      return calls || [];
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return [function () {
+      return _this3.activeCalls;
+    }, function (activeCalls) {
+      return (0, _callLogHelpers.removeInboundRingOutLegs)(activeCalls).filter(function (call) {
+        return !(0, _callLogHelpers.isEnded)(call);
+      });
+    }];
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "sessionIdList", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return [function () {
+      return _this4.calls;
+    }, function (calls) {
+      return calls.map(function (call) {
+        return call.sessionId;
+      });
+    }];
+  }
+})), _class2)) || _class);
 exports.default = Presence;
 //# sourceMappingURL=index.js.map

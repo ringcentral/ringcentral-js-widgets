@@ -16,7 +16,7 @@ var _default = new _HashMap.default({
   detailedPresence: '/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true&totalActiveCalls',
   extensionInfo: '/account/~/extension/~',
   accountExtension: '/account/~/extension',
-  accountDirectory: '/account/~/directory/contacts'
+  companyContacts: '/account/~/directory/contacts'
 });
 
 exports.default = _default;

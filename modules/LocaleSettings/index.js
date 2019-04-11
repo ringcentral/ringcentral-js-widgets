@@ -53,7 +53,7 @@ var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
-var _moduleActionTypes = _interopRequireDefault(require("../../enums/moduleActionTypes"));
+var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
@@ -143,8 +143,9 @@ function (_RcModule) {
 
     var _this;
 
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        globalStorage = _ref.globalStorage,
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var globalStorage = _ref.globalStorage,
         locale = _ref.locale,
         _ref$supportedLocales = _ref.supportedLocales,
         supportedLocales = _ref$supportedLocales === void 0 ? [_i18n.DEFAULT_LOCALE] : _ref$supportedLocales,
@@ -261,7 +262,7 @@ function (_RcModule) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.default)), ['saveLocale']), 'localeSettings');
+      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), ['saveLocale']), 'localeSettings');
     }
   }, {
     key: "reducer",

@@ -5,17 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -27,21 +21,17 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/web.dom.iterable");
-
 require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.array.filter");
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.array.sort");
 
 var _ramda = require("ramda");
 
@@ -59,19 +49,13 @@ var _background = _interopRequireDefault(require("../../lib/background"));
 
 var _phoneTypes = _interopRequireDefault(require("../../enums/phoneTypes"));
 
+var _phoneTypeHelper = require("../../lib/phoneTypeHelper");
+
 var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -99,27 +83,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
-var sortOtherTypes = function sortOtherTypes(_ref) {
-  var _ref$unSortTypes = _ref.unSortTypes,
-      unSortTypes = _ref$unSortTypes === void 0 ? [] : _ref$unSortTypes;
-  var MOBILE = 0,
-      BUSINESS = 1,
-      HOME = 2,
-      FAX = 3,
-      OTHER = 4;
-  var goalOrderTypes = {
-    mobile: MOBILE,
-    business: BUSINESS,
-    home: HOME,
-    fax: FAX,
-    other: OTHER
-  };
-  unSortTypes.sort(function (a, b) {
-    return goalOrderTypes[a] - goalOrderTypes[b];
-  });
-  return unSortTypes;
-};
-
 var ContactDetails = (_dec = (0, _di.Module)({
   deps: ['Contacts', {
     dep: 'ContactDetailsOptions',
@@ -130,11 +93,11 @@ var ContactDetails = (_dec = (0, _di.Module)({
 function (_RcModule) {
   _inherits(ContactDetails, _RcModule);
 
-  function ContactDetails(_ref2) {
+  function ContactDetails(_ref) {
     var _this;
 
-    var contacts = _ref2.contacts,
-        options = _objectWithoutProperties(_ref2, ["contacts"]);
+    var contacts = _ref.contacts,
+        options = _objectWithoutProperties(_ref, ["contacts"]);
 
     _classCallCheck(this, ContactDetails);
 
@@ -173,16 +136,9 @@ function (_RcModule) {
         acc[phoneNumberElm.phoneType].push(phoneNumberElm);
         return acc;
       }, {}, phoneNumbers);
-      var unSortTypes = Object.keys(phoneMaps).filter(function (key) {
-        return key !== _phoneTypes.default.extension && key !== _phoneTypes.default.direct;
-      });
-      var sortedTypes = sortOtherTypes({
-        unSortTypes: unSortTypes
-      }); // we need sequence that: ext followed by direct followed by others.
-
       var schema = (0, _ramda.filter)(function (key) {
         return !!_phoneTypes.default[key] && Array.isArray(phoneMaps[key]);
-      }, [_phoneTypes.default.extension, _phoneTypes.default.direct].concat(_toConsumableArray(sortedTypes)));
+      }, _phoneTypeHelper.phoneTypeOrder);
       return _objectSpread({}, currentContact, {
         schema: schema,
         phoneMaps: phoneMaps
@@ -231,9 +187,9 @@ function (_RcModule) {
 
   }, {
     key: "find",
-    value: function find(_ref3) {
-      var id = _ref3.id,
-          type = _ref3.type;
+    value: function find(_ref2) {
+      var id = _ref2.id,
+          type = _ref2.type;
       this.store.dispatch({
         type: this.actionTypes.updateCondition,
         condition: {

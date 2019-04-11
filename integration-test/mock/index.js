@@ -15,7 +15,7 @@ exports.extensionInfo = extensionInfo;
 exports.conferenceCallBringIn = conferenceCallBringIn;
 exports.removeFromConference = removeFromConference;
 exports.extensionList = extensionList;
-exports.extensionsList = extensionsList;
+exports.companyContactList = companyContactList;
 exports.accountInfo = accountInfo;
 exports.apiInfo = apiInfo;
 exports.messageSync = messageSync;
@@ -341,7 +341,7 @@ function extensionList() {
   });
 }
 
-function extensionsList() {
+function companyContactList() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   mockApi({
     url: "begin:".concat(mockServer, "/restapi/v1.0/account/~/directory/contacts?"),
@@ -683,8 +683,9 @@ function recentActivity() {
 }
 
 function mockForLogin() {
-  var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref4$mockAuthzProfil = _ref4.mockAuthzProfile,
+  var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  var _ref4$mockAuthzProfil = _ref4.mockAuthzProfile,
       mockAuthzProfile = _ref4$mockAuthzProfil === void 0 ? true : _ref4$mockAuthzProfil,
       _ref4$mockExtensionIn = _ref4.mockExtensionInfo,
       mockExtensionInfo = _ref4$mockExtensionIn === void 0 ? true : _ref4$mockExtensionIn,
@@ -723,8 +724,8 @@ function mockForLogin() {
 
   device(params.deviceData);
   extensionList(params.extensionListData);
-  extensionsList(params.extensionsListData);
-  accountPhoneNumber(params.accountPhoneNumberData);
+  companyContactList(params.extensionsListData); // accountPhoneNumber(params.accountPhoneNumberData);
+
   blockedNumber(params.blockedNumberData);
 
   if (mockForwardingNumber) {

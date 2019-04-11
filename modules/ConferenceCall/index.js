@@ -1491,7 +1491,7 @@ function (_RcModule) {
                     toUserName = contact.name;
                     rcId = contact.id;
                   } else {
-                    calleeType = _calleeTypes.default.unknow;
+                    calleeType = _calleeTypes.default.unknown;
                   }
                 }
 
@@ -1761,7 +1761,7 @@ function (_RcModule) {
         } else if (_this8.isConferenceSession(lastCall.id)) {
           lastCalleeType = _calleeTypes.default.conference;
         } else {
-          lastCalleeType = _calleeTypes.default.unknow;
+          lastCalleeType = _calleeTypes.default.unknown;
         }
       } else if (_fromSessionId === fromSessionId && _lastCallInfo && _lastCallInfo.calleeType) {
         _lastCallInfo = _objectSpread({}, _lastCallInfo, {
@@ -1770,7 +1770,7 @@ function (_RcModule) {
         return _lastCallInfo;
       } else {
         return {
-          calleeType: _calleeTypes.default.unknow
+          calleeType: _calleeTypes.default.unknown
         };
       }
 
@@ -1809,7 +1809,7 @@ function (_RcModule) {
 
         default:
           _lastCallInfo = {
-            calleeType: _calleeTypes.default.unknow,
+            calleeType: _calleeTypes.default.unknown,
             avatarUrl: null,
             name: null,
             status: lastCall ? lastCall.callStatus : null,

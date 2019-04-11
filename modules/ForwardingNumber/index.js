@@ -119,7 +119,6 @@ function (_DataFetcher) {
     _classCallCheck(this, ForwardingNumber);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ForwardingNumber).call(this, _objectSpread({
-      name: 'forwardingNumber',
       client: client,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator(
@@ -175,6 +174,11 @@ function (_DataFetcher) {
   }
 
   _createClass(ForwardingNumber, [{
+    key: "_name",
+    get: function get() {
+      return 'forwardingNumber';
+    }
+  }, {
     key: "_hasPermission",
     get: function get() {
       return !!this._rolesAndPermissions.permissions.ReadUserForwardingFlipNumbers;

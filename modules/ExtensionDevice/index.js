@@ -106,7 +106,6 @@ function (_DataFetcher) {
     _classCallCheck(this, ExtensionDevice);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ExtensionDevice).call(this, _objectSpread({
-      name: 'extensionDevice',
       client: client,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator(
@@ -171,6 +170,11 @@ function (_DataFetcher) {
   }
 
   _createClass(ExtensionDevice, [{
+    key: "_name",
+    get: function get() {
+      return 'extensionDevice';
+    }
+  }, {
     key: "devices",
     get: function get() {
       return this._selectors.devices();

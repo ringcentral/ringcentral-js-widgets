@@ -133,7 +133,7 @@ var CallMonitor = (
  * @description active calls monitor module
  */
 _dec = (0, _di.Module)({
-  deps: ['AccountInfo', 'Storage', 'DetailedPresence', {
+  deps: ['AccountInfo', 'Storage', 'Presence', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -166,7 +166,7 @@ function (_RcModule) {
    * @param {Call} params.call - call module instance
    * @param {ConferenceCall} params.conferenceCall - conference call module instance
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
-   * @param {DetailedPresence} params.detailedPresence - detailedPresence module instance
+   * @param {Presence} params.presence - presence module instance
    * @param {ActivityMatcher} params.activityMatcher - activityMatcher module instance
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
    * @param {Webphone} params.webphone - webphone module instance
@@ -184,7 +184,7 @@ function (_RcModule) {
     var call = _ref.call,
         conferenceCall = _ref.conferenceCall,
         accountInfo = _ref.accountInfo,
-        detailedPresence = _ref.detailedPresence,
+        presence = _ref.presence,
         activityMatcher = _ref.activityMatcher,
         contactMatcher = _ref.contactMatcher,
         tabManager = _ref.tabManager,
@@ -194,7 +194,7 @@ function (_RcModule) {
         onCallUpdated = _ref.onCallUpdated,
         onCallEnded = _ref.onCallEnded,
         storage = _ref.storage,
-        options = _objectWithoutProperties(_ref, ["call", "conferenceCall", "accountInfo", "detailedPresence", "activityMatcher", "contactMatcher", "tabManager", "webphone", "onRinging", "onNewCall", "onCallUpdated", "onCallEnded", "storage"]);
+        options = _objectWithoutProperties(_ref, ["call", "conferenceCall", "accountInfo", "presence", "activityMatcher", "contactMatcher", "tabManager", "webphone", "onRinging", "onNewCall", "onCallUpdated", "onCallEnded", "storage"]);
 
     _classCallCheck(this, CallMonitor);
 
@@ -231,7 +231,7 @@ function (_RcModule) {
     _this._call = call;
     _this._conferenceCall = conferenceCall;
     _this._accountInfo = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, accountInfo, 'accountInfo');
-    _this._detailedPresence = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, detailedPresence, 'detailedPresence');
+    _this._presence = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, presence, 'presence');
     _this._contactMatcher = contactMatcher;
     _this._activityMatcher = activityMatcher;
     _this._tabManager = tabManager;
@@ -254,7 +254,7 @@ function (_RcModule) {
     var _normalizedCalls;
 
     _this.addSelector('normalizedCalls', function () {
-      return _this._detailedPresence.calls;
+      return _this._presence.calls;
     }, function () {
       return _this._accountInfo.countryCode;
     }, function () {
@@ -322,7 +322,7 @@ function (_RcModule) {
           return _this.uniqueNumbers;
         },
         readyCheckFn: function readyCheckFn() {
-          return _this._accountInfo.ready && _this._detailedPresence.ready;
+          return _this._accountInfo.ready && _this._presence.ready;
         }
       });
     }
@@ -333,7 +333,7 @@ function (_RcModule) {
           return _this.sessionIds;
         },
         readyCheckFn: function readyCheckFn() {
-          return _this._detailedPresence.ready;
+          return _this._presence.ready;
         }
       });
     }
@@ -357,14 +357,14 @@ function (_RcModule) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if ((!this._call || this._call.ready) && (!this._conferenceCall || this._conferenceCall.ready) && this._accountInfo.ready && this._detailedPresence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
+                if ((!this._call || this._call.ready) && (!this._conferenceCall || this._conferenceCall.ready) && this._accountInfo.ready && this._presence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
                   this.store.dispatch({
                     type: this.actionTypes.init
                   });
                   this.store.dispatch({
                     type: this.actionTypes.initSuccess
                   });
-                } else if ((this._call && !this._call.ready || this._conferenceCall && !this._conferenceCall.ready || !this._accountInfo.ready || !this._detailedPresence.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready || this._tabManager && !this._tabManager.ready || !this._storage.ready) && this.ready) {
+                } else if ((this._call && !this._call.ready || this._conferenceCall && !this._conferenceCall.ready || !this._accountInfo.ready || !this._presence.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready || this._tabManager && !this._tabManager.ready || !this._storage.ready) && this.ready) {
                   this.store.dispatch({
                     type: this.actionTypes.reset
                   });
@@ -846,7 +846,7 @@ function (_RcModule) {
     var _this12 = this;
 
     return [function () {
-      return _this12._detailedPresence.calls;
+      return _this12._presence.calls;
     }, function (calls) {
       return (0, _ramda.map)(function (callItem) {
         return callItem.sessionId;

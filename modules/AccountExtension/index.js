@@ -150,10 +150,8 @@ function (_DataFetcher) {
     _classCallCheck(this, AccountExtension);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AccountExtension).call(this, _objectSpread({}, options, {
-      name: 'accountExtension',
       client: client,
       ttl: ttl,
-      actionTypes: _actionTypes.default,
       getDataReducer: _getAccountExtensionReducer.getDataReducer,
       getTimestampReducer: _getAccountExtensionReducer.getTimestampReducer,
       subscriptionFilters: [_subscriptionFilters.default.accountExtension],
@@ -225,6 +223,7 @@ function (_DataFetcher) {
 
     _initializerDefineProperty(_this, "availableExtensions", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
+    console.warn('AccountExtension module is deprecated, please use CompanyContacts instead.');
     _this._checkStatus = checkStatus;
     _this._typeList = typeList;
     _this._rolesAndPermissions = (_context3 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context3, rolesAndPermissions, 'rolesAndPermissions');
@@ -462,6 +461,16 @@ function (_DataFetcher) {
       return !!(0, _ramda.find)(function (item) {
         return item.ext === extensionNumber;
       }, this.availableExtensions);
+    }
+  }, {
+    key: "_name",
+    get: function get() {
+      return 'accountExtension';
+    }
+  }, {
+    key: "_actionTypes",
+    get: function get() {
+      return _actionTypes.default;
     }
   }, {
     key: "_hasPermission",

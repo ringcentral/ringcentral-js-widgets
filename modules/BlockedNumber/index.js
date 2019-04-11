@@ -115,7 +115,6 @@ function (_DataFetcher) {
     _classCallCheck(this, BlockedNumber);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(BlockedNumber).call(this, _objectSpread({}, options, {
-      name: 'blockedNumber',
       client: client,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator(
@@ -156,6 +155,11 @@ function (_DataFetcher) {
   }
 
   _createClass(BlockedNumber, [{
+    key: "_name",
+    get: function get() {
+      return 'blockedNumber';
+    }
+  }, {
     key: "_hasPermission",
     get: function get() {
       return !!this._rolesAndPermissions.permissions.ReadBlockedNumbers;

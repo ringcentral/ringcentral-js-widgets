@@ -115,7 +115,6 @@ function (_DataFetcher) {
     _classCallCheck(this, GlipCompany);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipCompany).call(this, _objectSpread({
-      name: 'glipCompany',
       client: client,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator(
@@ -160,6 +159,11 @@ function (_DataFetcher) {
   }
 
   _createClass(GlipCompany, [{
+    key: "_name",
+    get: function get() {
+      return 'glipCompany';
+    }
+  }, {
     key: "name",
     get: function get() {
       return this.info.name;

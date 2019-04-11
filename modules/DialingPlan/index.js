@@ -119,7 +119,6 @@ function (_DataFetcher) {
     _classCallCheck(this, DialingPlan);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(DialingPlan).call(this, _objectSpread({
-      name: 'dialingPlan',
       client: client,
       polling: true,
       fetchFunction: function () {
@@ -200,6 +199,11 @@ function (_DataFetcher) {
   }
 
   _createClass(DialingPlan, [{
+    key: "_name",
+    get: function get() {
+      return 'dialingPlan';
+    }
+  }, {
     key: "plans",
     get: function get() {
       return this._selectors.plans();

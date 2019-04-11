@@ -65,7 +65,7 @@ var _detectBrowserLocale = _interopRequireDefault(require("../../lib/detectBrows
 
 var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
-var _moduleActionTypes = _interopRequireDefault(require("../../enums/moduleActionTypes"));
+var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
 var _proxyActionTypes = _interopRequireDefault(require("../../enums/proxyActionTypes"));
 
@@ -138,8 +138,9 @@ function (_RcModule) {
   function Locale() {
     var _this;
 
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$defaultLocale = _ref.defaultLocale,
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var _ref$defaultLocale = _ref.defaultLocale,
         defaultLocale = _ref$defaultLocale === void 0 ? _i18n.DEFAULT_LOCALE : _ref$defaultLocale,
         _ref$detectBrowser = _ref.detectBrowser,
         detectBrowser = _ref$detectBrowser === void 0 ? true : _ref$detectBrowser,
@@ -430,7 +431,7 @@ function (_RcModule) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.default)), _toConsumableArray(Object.keys(_proxyActionTypes.default)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
+      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), _toConsumableArray(Object.keys(_proxyActionTypes.default)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
     }
   }, {
     key: "reducer",

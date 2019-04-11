@@ -125,7 +125,6 @@ function (_DataFetcher) {
     _classCallCheck(this, ActiveCalls);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ActiveCalls).call(this, _objectSpread({}, options, {
-      name: 'activeCalls',
       client: client,
       ttl: ttl,
       getDataReducer: _getActiveCallsReducer.getDataReducer,
@@ -214,6 +213,11 @@ function (_DataFetcher) {
     key: "_shouldInit",
     value: function _shouldInit() {
       return _get(_getPrototypeOf(ActiveCalls.prototype), "_shouldInit", this).call(this) && this._rolesAndPermissions.ready;
+    }
+  }, {
+    key: "_name",
+    get: function get() {
+      return 'activeCalls';
     }
   }, {
     key: "_hasPermission",

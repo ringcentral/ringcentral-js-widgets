@@ -5,7 +5,7 @@ require("core-js/modules/es6.array.find");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.getDefaultMeetingSettings = exports.MeetingType = exports.UTC_TIMEZONE_ID = void 0;
+exports.default = exports.MeetingErrors = exports.getDefaultMeetingSettings = exports.MeetingType = exports.UTC_TIMEZONE_ID = void 0;
 
 require("core-js/modules/es6.array.is-array");
 
@@ -183,6 +183,7 @@ function () {
   return MeetingErrors;
 }();
 
+exports.MeetingErrors = MeetingErrors;
 var Meeting = (_dec = (0, _di.Module)({
   deps: ['Alert', 'Client', 'ExtensionInfo', 'Storage', {
     dep: 'MeetingOptions',

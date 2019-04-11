@@ -124,7 +124,6 @@ function (_DataFetcher) {
     _classCallCheck(this, AccountInfo);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AccountInfo).call(this, _objectSpread({
-      name: 'accountInfo',
       client: client,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator(
@@ -210,6 +209,11 @@ function (_DataFetcher) {
 
       return _onStateChange;
     }()
+  }, {
+    key: "_name",
+    get: function get() {
+      return 'accountInfo';
+    }
   }, {
     key: "id",
     get: function get() {
