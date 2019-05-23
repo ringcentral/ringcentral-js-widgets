@@ -99,6 +99,7 @@ describe('Webphone badge', () => {
       });
 
       test('Alert Message', async () => {
+        await sleep(50);
         wrapper.update();
         const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
         expect(webphoneAlerts.map(x => x.text())).toContain(msg);
