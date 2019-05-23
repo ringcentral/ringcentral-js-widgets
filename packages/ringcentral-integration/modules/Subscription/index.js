@@ -142,7 +142,7 @@ export default class Subscription extends RcModule {
       try {
         this._subscription.setSubscription(this.cachedSubscription);
       } catch (error) {
-        /* falls through */
+        this._subscription = this._client.service.createSubscription();
       }
     }
     this._subscription.on(this._subscription.events.notification, (message) => {

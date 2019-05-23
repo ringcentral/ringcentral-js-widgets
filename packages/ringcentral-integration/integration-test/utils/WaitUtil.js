@@ -24,7 +24,7 @@ export function waitUntilNotNull(source, checkItem, timeoutInSeconds) {
   });
 }
 
-export function waitUntilEqual(source, checkItem, expect, timeoutInSeconds) {
+export function waitUntilEqual(source, checkItem, expect, timeoutInSeconds, retryTtl = 500) {
   const startTime = Date.now();
   return new Promise((resolve) => {
     const timer = setInterval(() => {
@@ -42,7 +42,7 @@ export function waitUntilEqual(source, checkItem, expect, timeoutInSeconds) {
       } catch (e) {
         console.error(e);
       }
-    }, 500);
+    }, retryTtl);
   });
 }
 

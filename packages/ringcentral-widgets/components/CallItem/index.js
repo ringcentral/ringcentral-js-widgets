@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import 'core-js/fn/array/find';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import messageDirection from 'ringcentral-integration/enums/messageDirection';
@@ -343,6 +342,7 @@ export default class CallItem extends Component {
       areaCode,
       countryCode,
       disableLinks,
+      disableCallButton,
       disableClickToDial,
       outboundSmsPermission,
       internalSmsPermission,
@@ -485,6 +485,7 @@ export default class CallItem extends Component {
           }
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
+          disableCallButton={disableCallButton}
           disableClickToDial={disableClickToDial}
           isLogging={isLogging || this.state.isLogging}
           isLogged={activityMatches.length > 0}
@@ -541,6 +542,7 @@ CallItem.propTypes = {
   onClickToSms: PropTypes.func,
   isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
@@ -578,6 +580,7 @@ CallItem.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   disableLinks: false,
+  disableCallButton: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   autoLog: false,

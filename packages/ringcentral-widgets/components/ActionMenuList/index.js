@@ -53,6 +53,7 @@ export function ClickToDialButton({
   className,
   onClickToDial,
   disableLinks,
+  disableCallButton,
   disableClickToDial,
   phoneNumber,
   title,
@@ -61,7 +62,8 @@ export function ClickToDialButton({
     <Button
       className={classnames(styles.button, styles.clickToDialButton, className)}
       onClick={onClickToDial}
-      disabled={disableLinks || disableClickToDial || !phoneNumber} >
+      dataSign={title}
+      disabled={disableLinks || disableCallButton || disableClickToDial || !phoneNumber}>
       <span
         className={dynamicsFont.call}
         title={title} />
@@ -72,6 +74,7 @@ ClickToDialButton.propTypes = {
   className: PropTypes.string,
   onClickToDial: PropTypes.func,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   phoneNumber: PropTypes.string,
   title: PropTypes.string,
@@ -80,6 +83,7 @@ ClickToDialButton.defaultProps = {
   className: undefined,
   onClickToDial: undefined,
   disableLinks: false,
+  disableCallButton: false,
   disableClickToDial: false,
   phoneNumber: undefined,
   title: undefined,
@@ -96,6 +100,7 @@ export function ClickToSmsButton({
     <Button
       className={classnames(styles.button, styles.clickToSmsButton, className)}
       onClick={onClickToSms}
+      dataSign='clickToSms'
       disabled={disableLinks || !phoneNumber} >
       <span
         className={dynamicsFont.composeText}
@@ -129,6 +134,7 @@ export function DeleteButton({
       className={classnames(styles.button, styles.svgBtn, className)}
       onClick={openDeleteModal}
       disabled={disabled}
+      dataSign={title}
     >
       <span title={title}>
         <DeleteMessageIcon
@@ -173,6 +179,7 @@ export function MarkButton({
       className={classnames(styles.button, styles.svgBtn, className)}
       onClick={onClick}
       disabled={disabled}
+      dataSign='mark'
     >
       <span title={title}>
         <Icon
@@ -329,6 +336,7 @@ export default class ActionMenuList extends Component {
       onClickToSms,
       phoneNumber,
       disableLinks,
+      disableCallButton,
       disableClickToDial,
       addLogTitle,
       editLogTitle,
@@ -417,13 +425,13 @@ export default class ActionMenuList extends Component {
       />
       ) : null;
 
-
     const clickToDialButton = onClickToDial ?
       (
         <ClickToDialButton
           onClickToDial={onClickToDial}
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
+          disableCallButton={disableCallButton}
           disableClickToDial={disableClickToDial}
           currentLocale={currentLocale}
           title={callTitle}
@@ -530,6 +538,7 @@ ActionMenuList.propTypes = {
   onClickToSms: PropTypes.func,
   phoneNumber: PropTypes.string,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   addLogTitle: PropTypes.string,
   editLogTitle: PropTypes.string,
@@ -568,6 +577,7 @@ ActionMenuList.defaultProps = {
   onClickToSms: undefined,
   phoneNumber: undefined,
   disableLinks: false,
+  disableCallButton: false,
   disableClickToDial: false,
   addLogTitle: undefined,
   editLogTitle: undefined,

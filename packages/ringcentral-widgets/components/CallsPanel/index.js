@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'ringcentral-integration/lib/debounce';
-import 'core-js/fn/array/find';
 import Header from '../Header';
 import Panel from '../Panel';
 import SpinnerOverlay from '../SpinnerOverlay';
@@ -43,9 +42,9 @@ export default class CallsPanel extends React.PureComponent {
   }, 300);
 
   _calculateContentSize() {
-    if (this._listWrapper
-      && this._listWrapper.current
-      && this._listWrapper.current.getBoundingClientRect
+    if (this._listWrapper &&
+      this._listWrapper.current &&
+      this._listWrapper.current.getBoundingClientRect
     ) {
       const react = this._listWrapper.current.getBoundingClientRect();
 
@@ -77,6 +76,7 @@ export default class CallsPanel extends React.PureComponent {
       onClickToSms,
       isLoggedContact,
       disableLinks,
+      disableCallButton,
       disableClickToDial,
       outboundSmsPermission,
       internalSmsPermission,
@@ -98,6 +98,11 @@ export default class CallsPanel extends React.PureComponent {
       useNewList,
     } = this.props;
 
+    const {
+      contentWidth,
+      contentHeight,
+    } = this.state;
+
     const callsListView = useNewList ?
       (
         <CallListV2
@@ -113,6 +118,7 @@ export default class CallsPanel extends React.PureComponent {
           onClickToSms={onClickToSms}
           isLoggedContact={isLoggedContact}
           disableLinks={disableLinks}
+          disableCallButton={disableCallButton}
           disableClickToDial={disableClickToDial}
           outboundSmsPermission={outboundSmsPermission}
           internalSmsPermission={internalSmsPermission}
@@ -129,8 +135,8 @@ export default class CallsPanel extends React.PureComponent {
           sourceIcons={sourceIcons}
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
-          width={this.state.contentWidth}
-          height={this.state.contentHeight}
+          width={contentWidth}
+          height={contentHeight}
           useNewList={useNewList}
         />
       ) :
@@ -148,6 +154,7 @@ export default class CallsPanel extends React.PureComponent {
           onClickToSms={onClickToSms}
           isLoggedContact={isLoggedContact}
           disableLinks={disableLinks}
+          disableCallButton={disableCallButton}
           disableClickToDial={disableClickToDial}
           outboundSmsPermission={outboundSmsPermission}
           internalSmsPermission={internalSmsPermission}
@@ -174,7 +181,7 @@ export default class CallsPanel extends React.PureComponent {
         <Header>
           {title}
         </Header>
-        <Panel className={styles.content} >
+        <Panel className={styles.content}>
           {content}
         </Panel>
       </div>
@@ -195,6 +202,7 @@ CallsPanel.propTypes = {
   onLogCall: PropTypes.func,
   isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool.isRequired,
+  disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
@@ -222,6 +230,7 @@ CallsPanel.defaultProps = {
   onLogCall: undefined,
   onClickToDial: undefined,
   onClickToSms: undefined,
+  disableCallButton: false,
   disableClickToDial: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,

@@ -20,6 +20,7 @@ export default class CallList extends PureComponent {
       onClickToSms,
       isLoggedContact,
       disableLinks,
+      disableCallButton,
       disableClickToDial,
       outboundSmsPermission,
       internalSmsPermission,
@@ -64,6 +65,7 @@ export default class CallList extends PureComponent {
               onClickToSms={onClickToSms}
               isLoggedContact={isLoggedContact}
               disableLinks={disableLinks}
+              disableCallButton={disableCallButton}
               disableClickToDial={disableClickToDial}
               outboundSmsPermission={outboundSmsPermission}
               internalSmsPermission={internalSmsPermission}
@@ -116,6 +118,7 @@ CallList.propTypes = {
   isLoggedContact: PropTypes.func,
   loggingMap: PropTypes.object,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
@@ -142,6 +145,7 @@ CallList.defaultProps = {
   className: null,
   active: false,
   disableLinks: false,
+  disableCallButton: false,
   disableClickToDial: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,

@@ -21,4 +21,3 @@ module.exports = function localeLoader(content) {
     callback(null, content);
   }
 };
-

@@ -72,6 +72,7 @@ module.exports = {
     'no-shadow': 0,
     'no-underscore-dangle': 0,
     'no-unused-vars': 1,
+    'react/destructuring-assignment': 1,
     'react/sort-comp': 0,
     'react/forbid-prop-types': 0,
     'react/jsx-closing-bracket-location': 0,

@@ -1,6 +1,31 @@
 {
   "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/forwarding-number?page=1&perPage=100",
-  "records" : [{
+  "records" : [
+    {
+      "id" : "417276280004",
+      "phoneNumber" : "+12092312771",
+      "label" : "Home",
+      "features" : [ "CallFlip", "CallForwarding" ],
+      "flipNumber" : "1",
+      "type" : "Home"
+    },
+    {
+      "id" : "417276280004",
+      "phoneNumber" : "+18772085607",
+      "label" : "Work",
+      "features" : [ "CallFlip", "CallForwarding" ],
+      "flipNumber" : "3",
+      "type" : "Work"
+    },
+    {
+      "id" : "417276280004",
+      "phoneNumber" : "+14804483267",
+      "label" : "Mobile",
+      "features" : [ "CallFlip", "CallForwarding" ],
+      "flipNumber" : "2",
+      "type" : "Mobile"
+    }
+    ,{
     "id" : "417276280004",
     "phoneNumber" : "+16502095678",
     "label" : "Mobile",

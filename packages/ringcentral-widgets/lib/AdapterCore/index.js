@@ -673,7 +673,7 @@ export default class AdapterCore {
     this._presenceItemEls.forEach((presenceItem) => {
       const dataPresence = presenceItem.getAttribute('data-presence');
       if (presenceStatus[dataPresence] === this._presenceOption ||
-          dndStatus[dataPresence === this._presenceOption]) {
+          dndStatus[dataPresence] === this._presenceOption) {
         presenceItem.setAttribute('class', classnames(
           this._styles.presenceItem, this._styles.selected
         ));

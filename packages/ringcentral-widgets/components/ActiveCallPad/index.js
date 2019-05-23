@@ -23,6 +23,8 @@ import MergeIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { pickElements } from './utils';
 
+import MoreActionItem from './MoreActionItem';
+
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -36,37 +38,6 @@ export const ACTIONS_CTRL_MAP = {
   recordCtrl: 'recordCtrl',
   transferCtrl: 'transferCtrl',
   flipCtrl: 'flipCtrl'
-};
-
-export function MoreActionItem({
-  title,
-  icon: Icon,
-  disabled,
-  onClick,
-}) {
-  const iconClassName = classnames(
-    styles.buttonIcon,
-    disabled ? styles.buttonDisabled : styles.buttonActive
-  );
-  return (
-    <div
-      className={styles.buttonItem}
-      onClick={disabled ? null : onClick}>
-      <div className={iconClassName}>
-        {<Icon />}
-      </div>
-      <div className={styles.buttonName}>
-        {title}
-      </div>
-    </div>
-  );
-}
-
-MoreActionItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 class ActiveCallPad extends Component {
@@ -151,16 +122,16 @@ class ActiveCallPad extends Component {
 
     let buttons = [];
     /* --------------------- Mute/Unmute --------------------------- */
-    buttons.push(this.props.isOnMute
-      ? {
+    buttons.push(this.props.isOnMute ?
+      {
         icon: MuteIcon,
-        id: ACTIONS_CTRL_MAP.muteCtrl, 
+        id: ACTIONS_CTRL_MAP.muteCtrl,
         dataSign: 'mute',
         title: i18n.getString('unmute', this.props.currentLocale),
         disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onUnmute,
-      }
-      : {
+      } :
+      {
         icon: UnmuteIcon,
         id: ACTIONS_CTRL_MAP.muteCtrl,
         dataSign: 'unmute',
@@ -191,14 +162,14 @@ class ActiveCallPad extends Component {
         iconHeight: 160,
         iconX: 190,
         iconY: 165,
-        dataSign: this.props.isOnHold ? 'onHold':'hold',
-        title: this.props.isOnHold
-          ? i18n.getString('onHold', this.props.currentLocale)
-          : i18n.getString('hold', this.props.currentLocale),
+        dataSign: this.props.isOnHold ? 'onHold' : 'hold',
+        title: this.props.isOnHold ?
+          i18n.getString('onHold', this.props.currentLocale) :
+          i18n.getString('hold', this.props.currentLocale),
         active: this.props.isOnHold,
-        onClick: this.props.isOnHold
-          ? this.props.onUnhold
-          : this.props.onHold,
+        onClick: this.props.isOnHold ?
+          this.props.onUnhold :
+          this.props.onHold,
         disabled: controlBusy,
       }
     );
@@ -209,18 +180,20 @@ class ActiveCallPad extends Component {
         this.props.layout === callCtrlLayouts.mergeCtrl ||
         (this.props.layout === callCtrlLayouts.normalCtrl && this.props.hasConferenceCall)
       );
-      buttons.push(showMerge
-        ? {
+      buttons.push(showMerge ?
+        {
           icon: MergeIcon,
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
+          dataSign: 'merge',
           title: i18n.getString('mergeToConference', this.props.currentLocale),
           disabled: this.props.mergeDisabled || controlBusy,
           onClick: this.props.onMerge,
           showRipple: !this.props.mergeDisabled,
-        }
-        : {
+        } :
+        {
           icon: CombineIcon,
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
+          dataSign: 'add',
           title: i18n.getString('add', this.props.currentLocale),
           disabled: this.props.addDisabled || controlBusy,
           onClick: this.props.onAdd,
@@ -233,20 +206,21 @@ class ActiveCallPad extends Component {
       {
         icon: RecordIcon,
         id: ACTIONS_CTRL_MAP.recordCtrl,
-        title: this.props.recordStatus === recordStatus.recording
-          ? i18n.getString('stopRecord', this.props.currentLocale)
-          : i18n.getString('record', this.props.currentLocale),
+        dataSign: this.props.recordStatus === recordStatus.recording ? 'stopRecord' : 'record',
+        title: this.props.recordStatus === recordStatus.recording ?
+          i18n.getString('stopRecord', this.props.currentLocale) :
+          i18n.getString('record', this.props.currentLocale),
         active: this.props.recordStatus === recordStatus.recording,
         disabled: (
-          this.props.isOnHold
-          || this.props.recordStatus === recordStatus.pending
-          || this.props.layout === callCtrlLayouts.mergeCtrl
-          || this.props.recordStatus === recordStatus.noAccess
-          || controlBusy
+          this.props.isOnHold ||
+          this.props.recordStatus === recordStatus.pending ||
+          this.props.layout === callCtrlLayouts.mergeCtrl ||
+          this.props.recordStatus === recordStatus.noAccess ||
+          controlBusy
         ),
-        onClick: this.props.recordStatus === recordStatus.recording
-          ? this.props.onStopRecord
-          : this.props.onRecord,
+        onClick: this.props.recordStatus === recordStatus.recording ?
+          this.props.onStopRecord :
+          this.props.onRecord,
       }
     );
 
@@ -258,6 +232,7 @@ class ActiveCallPad extends Component {
       {
         icon: TransferIcon,
         id: ACTIONS_CTRL_MAP.transferCtrl,
+        dataSign: 'transfer',
         title: i18n.getString('transfer', this.props.currentLocale),
         disabled: disabledTransfer || controlBusy,
         onClick: this.props.onToggleTransferPanel,
@@ -266,14 +241,15 @@ class ActiveCallPad extends Component {
 
     /* --------------------- Flip --------------------------- */
     const disabledFlip = (
-      this.props.flipNumbers.length === 0
-      || this.props.isOnHold
-      || this.props.layout !== callCtrlLayouts.normalCtrl
+      this.props.flipNumbers.length === 0 ||
+      this.props.isOnHold ||
+      this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {
         icon: FlipIcon,
         id: ACTIONS_CTRL_MAP.flipCtrl,
+        dataSign: 'flip',
         title: i18n.getString('flip', this.props.currentLocale),
         disabled: disabledFlip || controlBusy,
         onClick: this.props.onShowFlipPanel,
@@ -300,7 +276,8 @@ class ActiveCallPad extends Component {
             active={this.state.expandMore}
             className={classnames(styles.moreButton, styles.callButton)}
             disabled={disabledFlip && disabledTransfer || controlBusy}
-            icon={MoreIcon} />
+            icon={MoreIcon}
+            dataSign="callActions" />
           <Tooltip
             fixed={false}
             open={this.state.expandMore}
@@ -312,10 +289,12 @@ class ActiveCallPad extends Component {
                 buttons.slice(DisplayButtonNumber - 1).map(({
                   id,
                   ...opts
-                }) => (<MoreActionItem
-                  key={id}
-                  {...opts}
-                />))
+                }) => (
+                  <MoreActionItem
+  key={id}
+  {...opts}
+                />
+                ))
               }
             </div>
           </Tooltip>

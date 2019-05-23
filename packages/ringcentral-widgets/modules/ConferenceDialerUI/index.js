@@ -75,11 +75,7 @@ export default class ConferenceDialerUI extends DialerUI {
       ...super.getUIFunctions(),
       onBack: () => this._routerInteraction.push(this._backURL),
       setLastSessionId: () => this.setLastSessionId(fromSessionId),
-      onCallButtonClick: () =>
-        this.onCallButtonClick({
-          fromNumber,
-          fromSessionId,
-        }),
+      onCallButtonClick: () => this.onCallButtonClick({ fromNumber, fromSessionId }),
       inConference: true,
     };
   }

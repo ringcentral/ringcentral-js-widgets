@@ -10,25 +10,23 @@ import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
 import styles from './styles.scss';
 
 function AppView(props) {
-  const {
-    offline,
-    webphoneUnavailable,
-    onWebphoneBadgeClicked,
-  } = props;
   let badge = null;
-  if (offline) {
+  if (props.offline) {
     badge = (
       <OfflineModeBadge
         offline={props.offline}
         showOfflineAlert={props.showOfflineAlert}
         currentLocale={props.currentLocale}
-      />);
-  } else if (webphoneUnavailable) {
+      />
+    );
+  } else if (props.webphoneUnavailable) {
     badge = (
       <WebphoneBadge
         currentLocale={props.currentLocale}
-        onClick={onWebphoneBadgeClicked}
-      />);
+        onClick={props.onWebphoneBadgeClicked}
+        isConnecting={props.webphoneConnecting}
+      />
+    );
   }
   return (
     <div className={styles.root}>
@@ -54,6 +52,7 @@ AppView.propTypes = {
   showOfflineAlert: PropTypes.func.isRequired,
   webphoneUnavailable: PropTypes.bool.isRequired,
   onWebphoneBadgeClicked: PropTypes.func.isRequired,
+  webphoneConnecting: PropTypes.bool,
 };
 
 AppView.defaultProps = {
@@ -61,6 +60,7 @@ AppView.defaultProps = {
   server: null,
   enabled: false,
   onSetData: undefined,
+  webphoneConnecting: false,
 };
 
 export default withPhone(connect((state, {
@@ -71,7 +71,6 @@ export default withPhone(connect((state, {
     audioSettings,
     environment,
     connectivityMonitor,
-    rateLimiter,
     callingSettings,
   },
 }) => ({
@@ -80,21 +79,20 @@ export default withPhone(connect((state, {
   enabled: environment.enabled,
   offline: (
     !connectivityMonitor.connectivity ||
-    auth.proxyRetryCount > 0 ||
-    rateLimiter.throttling
+    auth.proxyRetryCount > 0
   ),
   webphoneUnavailable: (
     auth.ready &&
     audioSettings.ready &&
     webphone.ready &&
-    auth.loggedIn && (
-      callingSettings.callingMode === callingModes.webphone &&
-      (
-        !audioSettings.userMedia ||
-        !!webphone.errorCode
-      )
+    auth.loggedIn &&
+    callingSettings.isWebphoneMode &&
+    (
+      !audioSettings.userMedia ||
+      (webphone.reconnecting || webphone.connectError)
     )
   ),
+  webphoneConnecting: (webphone.ready && webphone.reconnecting),
 }), (dispatch, {
   phone: {
     webphone,
@@ -123,8 +121,7 @@ export default withPhone(connect((state, {
     }
     if (webphone && webphone.ready) {
       // Trigger reconnect
-      // webphone.connect();
-      webphone.showAlert();
+      webphone.connect();
     }
   },
 }))(AppView));

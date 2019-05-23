@@ -100,6 +100,7 @@ export default class ConversationsPanel extends Component {
       currentLocale,
       perPage,
       disableLinks,
+      disableCallButton,
       conversations,
       brand,
       showConversationDetail,
@@ -166,6 +167,7 @@ export default class ConversationsPanel extends Component {
             currentLocale={currentLocale}
             perPage={perPage}
             disableLinks={disableLinks}
+            disableCallButton={disableCallButton}
             conversations={conversations}
             brand={brand}
             showConversationDetail={showConversationDetail}
@@ -277,6 +279,7 @@ ConversationsPanel.propTypes = {
   searchInput: PropTypes.string,
   perPage: PropTypes.number,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   conversations: PropTypes.array.isRequired,
   brand: PropTypes.string.isRequired,
   dateTimeFormatter: PropTypes.func,
@@ -323,6 +326,7 @@ ConversationsPanel.defaultProps = {
   searchInput: '',
   perPage: 20,
   disableLinks: false,
+  disableCallButton: false,
   dateTimeFormatter: undefined,
   onLogConversation: undefined,
   onViewContact: undefined,

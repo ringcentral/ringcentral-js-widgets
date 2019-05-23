@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.scss';
+import React, { Component } from 'react';
+
 import i18n from './i18n';
+import styles from './styles.scss';
 
 const UIHeightOffset = 23;
 // the extra height of the entire field with paddings and borders
@@ -19,6 +20,7 @@ export default class MessageInput extends Component {
     onHeightChange: PropTypes.func,
     inputExpandable: PropTypes.bool,
   }
+
   static defaultProps = {
     disabled: false,
     onSend: undefined,
@@ -29,6 +31,7 @@ export default class MessageInput extends Component {
     maxLength: 5000,
     inputExpandable: true,
   }
+
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -36,6 +39,7 @@ export default class MessageInput extends Component {
       height: props.minHeight,
     };
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       // use setState(updater, callback) to recaculate height after value has been update to DOM
@@ -57,6 +61,7 @@ export default class MessageInput extends Component {
       );
     }
   }
+
   componentDidMount() {
     // do a initial size check in case the component is mounted with multi line value
     const newHeight = this.calculateNewHeight();
@@ -69,6 +74,7 @@ export default class MessageInput extends Component {
       });
     }
   }
+
   calculateNewHeight() {
     if (!this.props.inputExpandable) {
       return this.props.minHeight;
@@ -84,11 +90,12 @@ export default class MessageInput extends Component {
     } = this.props;
     if (newHeight < minHeight) {
       return minHeight;
-    } else if (newHeight > maxHeight) {
+    } if (newHeight > maxHeight) {
       return maxHeight;
     }
     return newHeight;
   }
+
   onChange = (e) => {
     const {
       currentTarget: {
@@ -107,21 +114,27 @@ export default class MessageInput extends Component {
       this.props.onChange(value);
     }
   }
+
   onKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      if (!e.shiftKey) {
-        e.preventDefault();
-        if (typeof this.props.onSend === 'function') {
-          this.props.onSend();
-        }
-      }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      this.onSend();
     }
   }
+
+  onSend = () => {
+    if (
+      !this.props.disabled &&
+      typeof this.props.onSend === 'function'
+    ) {
+      this.props.onSend();
+    }
+  }
+
   render() {
     const {
       currentLocale,
       disabled,
-      onSend,
       maxLength,
     } = this.props;
     const {
@@ -150,7 +163,7 @@ export default class MessageInput extends Component {
             data-sign="messageButton"
             type="button"
             value={i18n.getString('send', currentLocale)}
-            onClick={onSend}
+            onClick={this.onSend}
             className={styles.sendButton}
             disabled={disabled}
           />

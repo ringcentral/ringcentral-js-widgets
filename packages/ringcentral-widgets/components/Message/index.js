@@ -9,6 +9,7 @@ function Message(props) {
   return (
     <div className={styles.alertHolder}>
       <div
+        data-sign="alert"
         className={classnames(
           styles[props.level],
         )}>

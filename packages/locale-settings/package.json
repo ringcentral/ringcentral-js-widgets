@@ -4,5 +4,8 @@
   "description": "Default locale settings.",
   "main": "index.js",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "ci": {
+    "ringcentral-js-widgets": "**"
+  }
 }

@@ -6,7 +6,7 @@ export = RcModule;
 /*~ Write your module's methods and properties in this class */
 declare class RcModule {
   [x: string]: any;
-  constructor(getState?: any, getProxyState?: any, prefix?: string, actionTypes?: Enum);
+  constructor(getState?: any, getProxyState?: any, prefix?: string, actionTypes?: any);
 
   private _prefix: string;
   private _prefixedActionTypes: any;
@@ -14,7 +14,7 @@ declare class RcModule {
   private _proxyReducer: any;
   private _modulePath: string;
   private _selectors: any;
-  private _actionTypes: any;
+  _actionTypes: any;
   private _getState: any;
   state: any;
   store: any;

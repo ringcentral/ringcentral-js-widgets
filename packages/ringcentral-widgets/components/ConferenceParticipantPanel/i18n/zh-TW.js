@@ -6,7 +6,8 @@ export default {
   cancel: "取消",
   participants: "參與者",
   participant: "參與者",
-  conferenceCall: "電話會議"
+  conferenceCall: "電話會議",
+  unknownNumber: "匿名"
 };
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
@@ -17,3 +18,4 @@ export default {
 // @key: @#@"participants"@#@ @source: @#@"Participants"@#@
 // @key: @#@"participant"@#@ @source: @#@"Participant"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"unknownNumber"@#@ @source: @#@"Anonymous"@#@

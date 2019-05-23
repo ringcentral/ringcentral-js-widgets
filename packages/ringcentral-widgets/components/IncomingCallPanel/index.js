@@ -32,7 +32,6 @@ function UserInfo(props) {
           areaCode={props.areaCode}
           countryCode={props.countryCode}
           showType={false}
-          disabled={false}
           selected={props.selectedMatcherIndex}
           onSelectContact={props.onSelectMatcherName}
           isLogging={false}

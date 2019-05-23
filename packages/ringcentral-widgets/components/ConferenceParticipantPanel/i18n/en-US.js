@@ -7,4 +7,5 @@ export default {
   participants: 'Participants',
   participant: 'Participant',
   conferenceCall: 'Conference Call',
+  unknownNumber: 'Anonymous'
 };

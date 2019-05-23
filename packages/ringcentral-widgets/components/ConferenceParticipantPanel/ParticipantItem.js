@@ -22,13 +22,18 @@ function ParticipantItem({
   return (
     <MediaObject
       containerCls={styles.participantItem}
-      mediaLeft={
+      bodyCls={styles.mediaBodyCls}
+      mediaLeft={(
         <div className={styles.avatar}>
           <CallAvatar isOnConferenceCall={false} avatarUrl={avatarUrl} />
         </div>
-      }
-      mediaBody={<div title={detail} className={styles.detail}>{detail}</div>}
-      mediaRight={
+      )}
+      mediaBody={(
+        <div title={detail} className={styles.detail}>
+          {detail}
+        </div>
+      )}
+      mediaRight={(
         <span title={i18n.getString('removeParticipant', currentLocale)} className={styles.webphoneButton}>
           <CircleButton
             className={styles.rejectButton}
@@ -42,7 +47,7 @@ function ParticipantItem({
             showBorder={false}
           />
         </span>
-     }
+      )}
     />
   );
 }

@@ -7,21 +7,28 @@ function mapToProps(_, {
   phone: {
     meeting,
     locale,
+    connectivityMonitor,
+    rateLimiter,
   },
   disabled = false,
   showWhen,
   showDuration,
   showRecurringMeeting,
-  openNewWindow = true
+  openNewWindow = true,
 }) {
   return {
     meeting: meeting.meeting || {},
     currentLocale: locale.currentLocale,
-    disabled: meeting.isScheduling || disabled,
+    disabled: (
+      meeting.isScheduling ||
+      disabled ||
+      !connectivityMonitor.connectivity ||
+      (rateLimiter && rateLimiter.throttling)
+    ),
     showWhen,
     showDuration,
     showRecurringMeeting,
-    openNewWindow
+    openNewWindow,
   };
 }
 

@@ -1,8 +1,8 @@
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
+import Button from 'ringcentral-widgets/components/Button';
 import CallingSettings from 'ringcentral-widgets/components/CallingSettingsPanel';
 import LinkLine from 'ringcentral-widgets/components/LinkLine';
-import Button from 'ringcentral-widgets/components/Button';
+import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
+import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
 
 import { getWrapper } from '../shared';
 
@@ -23,31 +23,31 @@ beforeEach(async () => {
 });
 
 describe('calling settings', () => {
-  test('initial state', async () => {
+  test('check the title is correct', () => {
     expect(callingSettings.find('div.label').first().props().children).toEqual('Calling');
   });
 
-  test('button state', async () => {
+  test('check button state with when select different option', () => {
     let saveButton = callingSettings.find(Button).first();
     expect(saveButton.props().disabled).toEqual(true);
 
     const items = callingSettings.find('.dropdownItem');
+    // items.at(5).text()
     const lastItem = items.at(items.length - 1);
-    await lastItem.simulate('click');
+    lastItem.simulate('click');
     callingSettings = wrapper.find(CallingSettings).first();
     saveButton = callingSettings.find(Button).first();
     expect(saveButton.props().disabled).toEqual(false);
   });
 
-  test('save', async () => {
+  test('check save run currectly', () => {
     const saveButton = callingSettings.find(Button).first();
 
     const items = callingSettings.find('.dropdownItem');
     const lastItem = items.at(items.length - 1);
-    await lastItem.simulate('click');
-    await saveButton.simulate('click');
+    lastItem.simulate('click');
+    saveButton.simulate('click');
 
-    
     const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
@@ -60,8 +60,8 @@ describe('calling settings', () => {
     );
 
     const firstItem = items.at(0); // Browser
-    await firstItem.simulate('click');
-    await saveButton.simulate('click');
+    firstItem.simulate('click');
+    saveButton.simulate('click');
 
     const message = store.getState(wrapper).alert.messages.find(item => /emergencyCallingNotAvailable/.test(item.message));
     expect(message).toBeTruthy();

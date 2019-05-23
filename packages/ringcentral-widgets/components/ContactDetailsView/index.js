@@ -36,6 +36,7 @@ export default class ContactDetailsView extends PureComponent {
       onBackClick,
       onClickToSMS,
       onClickToDial,
+      disableCallButton,
       onClickMailTo,
       formatNumber,
       sourceNodeRenderer,
@@ -52,6 +53,7 @@ export default class ContactDetailsView extends PureComponent {
           contactItem={contactItem}
           onClickToSMS={onClickToSMS}
           onClickToDial={onClickToDial}
+          disableCallButton={disableCallButton}
           onClickMailTo={onClickMailTo}
           formatNumber={formatNumber}
           sourceNodeRenderer={sourceNodeRenderer}
@@ -95,6 +97,7 @@ ContactDetailsView.propTypes = {
   children: PropTypes.node,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
 };
 
 ContactDetailsView.defaultProps = {
@@ -107,4 +110,5 @@ ContactDetailsView.defaultProps = {
   sourceNodeRenderer: () => null,
   outboundSmsPermission: false,
   internalSmsPermission: false,
+  disableCallButton: false,
 };

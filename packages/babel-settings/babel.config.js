@@ -4,6 +4,7 @@ module.exports = function baseBabelConfig(api) {
     presets: [
       ['@babel/preset-env', {
         useBuiltIns: 'usage',
+        corejs: 2,
       }],
       '@babel/preset-react',
       ['@babel/preset-typescript', {

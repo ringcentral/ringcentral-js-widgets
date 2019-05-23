@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/phone-number",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Wrapper around libphonenumber-js to provide RingCentral specific phone handling.",
   "main": "index.js",
   "repository": {
@@ -21,13 +21,12 @@
   "peerDependencies": {},
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^24.5.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
-    "jest": "^23.6.0",
+    "jest": "^24.5.0",
     "jest-junit": "^6.0.0"
   },
   "scripts": {
@@ -42,5 +41,8 @@
       "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     },
     "reporters": [ "default", "jest-junit" ]
+  },
+  "ci": {
+    "ringcentral-js-widgets": "**"
   }
 }

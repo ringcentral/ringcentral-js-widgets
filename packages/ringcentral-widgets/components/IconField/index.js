@@ -6,7 +6,7 @@ import styles from './styles.scss';
 export default function IconField(props) {
   return (
     <div className={props.className}>
-      <div className={styles.content} title={props.title}>
+      <div className={styles.content} title={props.title} data-sign="iconField">
         {props.children}
       </div>
       <div className={styles.iconHolder}>

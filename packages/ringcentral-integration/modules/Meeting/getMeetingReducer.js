@@ -59,7 +59,8 @@ export function getMeetingStorageReducer(types) {
   };
 }
 
-export default types => combineReducers({
+export default (types, reducers) => combineReducers({
+  ...reducers,
   status: getModuleStatusReducer(types),
   meeting: getMeetingInfoReducer(types),
   schedulingStatus: getMeetingSchedulingStatusReducer(types),

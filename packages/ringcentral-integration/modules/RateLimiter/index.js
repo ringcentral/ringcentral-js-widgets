@@ -1,8 +1,11 @@
+import { pathOr } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import actionTypes from './actionTypes';
 import moduleStatuses from '../../enums/moduleStatuses';
-import getRateLimiterReducer, { getTimestampReducer } from './getRateLimiterReducer';
+import getRateLimiterReducer, {
+  getTimestampReducer,
+} from './getRateLimiterReducer';
 import errorMessages from './errorMessages';
 import proxify from '../../lib/proxy/proxify';
 
@@ -19,8 +22,8 @@ const DEFAULT_ALERT_TTL = 5 * 1000;
     'Client',
     { dep: 'Environment', optional: true },
     'GlobalStorage',
-    { dep: 'RateLimiterOptions', optional: true }
-  ]
+    { dep: 'RateLimiterOptions', optional: true },
+  ],
 })
 export default class RateLimiter extends RcModule {
   /**
@@ -58,6 +61,7 @@ export default class RateLimiter extends RcModule {
     this._timeoutId = null;
     this._lastEnvironmentCounter = 0;
   }
+
   initialize() {
     this.store.subscribe(async () => {
       if (
@@ -79,60 +83,87 @@ export default class RateLimiter extends RcModule {
       }
     });
   }
+
+  /**
+   * If the app is throttling, an incoming request will lead to an exception
+   */
   _beforeRequestHandler = () => {
     if (this.throttling) {
       throw new Error(errorMessages.rateLimitReached);
     }
-  }
+  };
+
   _checkTimestamp = () => {
     if (!this.throttling) {
       this.store.dispatch({
         type: this.actionTypes.stopThrottle,
       });
     }
-  }
+  };
+
   @proxify
   async showAlert() {
-    if (this.throttling && this._alert) {
-      this._alert.danger({
-        message: errorMessages.rateLimitReached,
-        ttl: DEFAULT_ALERT_TTL,
-        allowDuplicates: false,
-      });
+    if (!this.throttling || !this._alert) {
+      return;
     }
+
+    this._alert.warning({
+      message: errorMessages.rateLimitReached,
+      ttl: DEFAULT_THROTTLE_DURATION,
+      allowDuplicates: false,
+    });
   }
+
   _requestErrorHandler = (apiResponse) => {
     if (
-      apiResponse instanceof Error &&
-      apiResponse.message === 'Request rate exceeded'
+      !(apiResponse instanceof Error) ||
+      apiResponse.message !== 'Request rate exceeded'
     ) {
-      const wasThrottling = this.throttling;
-      this.store.dispatch({
-        type: this.actionTypes.startThrottle,
-        timestamp: Date.now(),
-      });
-      if (!wasThrottling) {
-        this.showAlert();
-      }
-      setTimeout(this._checkTimestamp, this._throttleDuration);
+      return;
     }
-  }
+
+    const wasThrottling = this.throttling;
+    this.store.dispatch({
+      type: this.actionTypes.startThrottle,
+      timestamp: Date.now(),
+    });
+    if (!wasThrottling) {
+      this.showAlert();
+    }
+
+    // Get `retry-after` from response headers first
+    this._throttleDuration = pathOr(DEFAULT_THROTTLE_DURATION,
+      ['apiResponse', '_response', 'headers', 'retry-after'],
+      apiResponse);
+
+    setTimeout(this._checkTimestamp, this._throttleDuration);
+  };
+
   _bindHandlers() {
     if (this._unbindHandlers) {
       this._unbindHandlers();
     }
     const client = this._client.service.platform().client();
+    // TODO: Bind the `rateLimitError` event instead
     client.on(client.events.requestError, this._requestErrorHandler);
     client.on(client.events.beforeRequest, this._beforeRequestHandler);
     this._unbindHandlers = () => {
-      client.removeListener(client.events.requestError, this._requestErrorHandler);
-      client.removeListener(client.events.beforeRequest, this._beforeRequestHandler);
+      client.removeListener(
+        client.events.requestError,
+        this._requestErrorHandler,
+      );
+      client.removeListener(
+        client.events.beforeRequest,
+        this._beforeRequestHandler,
+      );
       this._unbindHandlers = null;
     };
   }
 
   get ttl() {
-    return this.throttling ? this._throttleDuration - (Date.now() - this.timestamp) : 0;
+    return this.throttling
+      ? this._throttleDuration - (Date.now() - this.timestamp)
+      : 0;
   }
 
   get status() {
@@ -147,8 +178,14 @@ export default class RateLimiter extends RcModule {
     return this._throttleDuration;
   }
 
+  /**
+   * Is in throttling status
+   */
   get throttling() {
-    return Date.now() - this._storage.getItem(this._storageKey) <= this._throttleDuration;
+    return (
+      Date.now() - this._storage.getItem(this._storageKey) <=
+      this._throttleDuration
+    );
   }
 
   get ready() {

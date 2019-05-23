@@ -31,19 +31,21 @@ export default function CallsOnholdContainer({
   onAdd,
   getAvatarUrl,
 }) {
-  const backHeader = (<BackHeader
-    className={styles.header}
-    onBackClick={onBackButtonClick}
-    backButton={<BackButton label={i18n.getString('activeCall', currentLocale)} />}
-  />);
+  const backHeader = (
+    <BackHeader
+      className={styles.header}
+      onBackClick={onBackButtonClick}
+      backButton={<BackButton label={i18n.getString('activeCall', currentLocale)} />}
+    />
+  );
 
   return (
     <div className={styles.root}>
       {backHeader}
       <div className={styles.callList}>
         {
-          calls.length
-            ? calls.map(call => (
+          calls.length ?
+            calls.map(call => (
               <ActiveCallItem
                 call={call}
                 key={call.id}
@@ -70,8 +72,11 @@ export default function CallsOnholdContainer({
                 getAvatarUrl={getAvatarUrl}
                 showHold={false}
               />
-            ))
-            : <div className={styles.noCalls}>{i18n.getString('noCalls', currentLocale)}</div>
+            )) : (
+              <div className={styles.noCalls}>
+                {i18n.getString('noCalls', currentLocale)}
+              </div>
+            )
         }
       </div>
       <div className={styles.addBtnContainer}>

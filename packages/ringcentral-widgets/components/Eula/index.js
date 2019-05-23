@@ -5,7 +5,7 @@ import i18n from './i18n';
 function Eula(props) {
   const {
     currentLocale, className, onLinkClicked, brandId,
-    useEulaAbbreviation
+    useEulaAbbreviation, dataSign,
   } = props;
   let labelId = useEulaAbbreviation ? 'eulaAbbr' : 'eula';
   let link;
@@ -38,6 +38,7 @@ function Eula(props) {
       rel="noopener noreferrer"
       target="_blank"
       onClick={(onLinkClicked ? (e => props.onLinkClicked(e, link)) : null)}
+      data-sign={dataSign}
     >
       {i18n.getString(labelId)}
     </a>
@@ -45,6 +46,7 @@ function Eula(props) {
 }
 
 Eula.propTypes = {
+  dataSign: PropTypes.string,
   brandId: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
@@ -53,6 +55,7 @@ Eula.propTypes = {
 };
 
 Eula.defaultProps = {
+  dataSign: null,
   className: '',
   onLinkClicked() { },
   useEulaAbbreviation: false

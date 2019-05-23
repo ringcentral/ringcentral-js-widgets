@@ -47,7 +47,6 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "core-js": "^2.5.7",
     "immutable": "^3.7.4",
     "prop-types": "^15.5.10",
     "ramda": "^0.25.0",
@@ -55,5 +54,8 @@
     "react-emojione": "^5.0.0",
     "react-markdown": "^3.1.4",
     "react-virtualized": "^9.19.1"
+  },
+  "ci": {
+    "ringcentral-js-widgets": "**"
   }
 }

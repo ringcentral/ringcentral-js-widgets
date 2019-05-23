@@ -110,6 +110,7 @@ function mapToFunctions(_, {
     regionSettings,
     contactSearch,
     conferenceCall,
+    callingSettings,
     routerInteraction,
     callMonitor,
   },
@@ -201,23 +202,26 @@ function mapToFunctions(_, {
       if (!session || !conferenceCall.validateCallRecording(session)) {
         return;
       }
-      const otherOutboundCalls = filter(
-        call => call.direction === callDirections.outbound &&
-          (
-            call.webphoneSession &&
-            call.webphoneSession.id !== session.id
-          ),
+      let fromNumber = callingSettings.fromNumber;
+      if (session.direction === callDirections.outbound) {
+        fromNumber = session.fromNumber; // keep the same fromNumber
+      }
+      const otherCalls = filter(
+        call => (
+          call.webphoneSession &&
+          call.webphoneSession.id !== session.id
+        ),
         callMonitor.allCalls
       );
-      if (otherOutboundCalls.length) {
+      if (otherCalls.length) {
         // goto 'calls on hold' page
-        routerInteraction.push(`/conferenceCall/callsOnhold/${session.fromNumber}/${session.id}`);
+        routerInteraction.push(`/conferenceCall/callsOnhold/${fromNumber}/${session.id}`);
       } else {
         if (conferenceCall) {
           conferenceCall.setMergeParty({ fromSessionId: sessionId });
         }
         // goto dialer directly
-        routerInteraction.push(`/conferenceCall/dialer/${session.fromNumber}/${sessionId}`);
+        routerInteraction.push(`/conferenceCall/dialer/${fromNumber}/${sessionId}`);
       }
     },
     onBeforeMerge(sessionId) {

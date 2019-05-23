@@ -21,6 +21,7 @@ export default class ActionMenu extends Component {
       onClickToSms,
       phoneNumber,
       disableLinks,
+      disableCallButton,
       disableClickToDial,
       addLogTitle,
       editLogTitle,
@@ -63,6 +64,7 @@ export default class ActionMenu extends Component {
             onClickToSms={onClickToSms}
             phoneNumber={phoneNumber}
             disableLinks={disableLinks}
+            disableCallButton={disableCallButton}
             disableClickToDial={disableClickToDial}
             addLogTitle={addLogTitle}
             editLogTitle={editLogTitle}
@@ -106,6 +108,7 @@ ActionMenu.propTypes = {
   onClickToSms: PropTypes.func,
   phoneNumber: PropTypes.string,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   addLogTitle: PropTypes.string,
   editLogTitle: PropTypes.string,
@@ -142,6 +145,7 @@ ActionMenu.defaultProps = {
   onClickToSms: undefined,
   phoneNumber: undefined,
   disableLinks: false,
+  disableCallButton: false,
   disableClickToDial: false,
   addLogTitle: undefined,
   editLogTitle: undefined,

@@ -14,7 +14,6 @@ export function getTimestampReducer(types) {
   };
 }
 
-
 export default function getRateLimiterReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),

@@ -11,7 +11,6 @@ import proxify from '../../lib/proxy/proxify';
 export const DEFAULT_TIME_TO_RETRY = 5 * 1000;
 export const DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 
-
 async function defaultCheckConnectionFn() {
   return fetch('https://pubsub.pubnub.com/time/0');
 }
@@ -138,18 +137,17 @@ export default class ConnectivityMonitor extends RcModule {
   }
 
   _requestErrorHandler(error) {
-    if (
-      !error.apiResponse ||
-      !error.apiResponse._response
-    ) {
-      if (this.connectivity) {
-        this.store.dispatch({
-          type: this.actionTypes.connectFail,
-        });
-        this.showAlert();
-      }
-      this._retry();
+    if (error.apiResponse) {
+      return;
     }
+
+    if (this.connectivity) {
+      this.store.dispatch({
+        type: this.actionTypes.connectFail,
+      });
+      this.showAlert();
+    }
+    this._retry();
   }
 
   _bindHandlers() {
@@ -212,4 +210,3 @@ export default class ConnectivityMonitor extends RcModule {
     return this.state.connectivity;
   }
 }
-

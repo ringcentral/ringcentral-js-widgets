@@ -18,7 +18,7 @@
   justify-content: flex-start;
   .mediaBody {
     flex-grow: 1;
-    overflow: hidden;
+    // overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -40,7 +40,7 @@
 .media,
 .mediaBody {
   zoom: 1;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .mediaBody {

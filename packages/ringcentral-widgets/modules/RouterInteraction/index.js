@@ -24,11 +24,13 @@ export default class RouterInteraction extends RcModule {
     this._reducer = routerReducer;
     this._history = history;
   }
+
   initialize() {
     this._history = syncHistoryWithStore(this._history, this.store, {
       selectLocationState: () => this.state,
     });
   }
+
   initializeProxy() {
     this._history = syncHistoryWithStore(this._history, this.store, {
       selectLocationState: () => this.state,
@@ -60,10 +62,12 @@ export default class RouterInteraction extends RcModule {
   async push(...args) {
     this._history.push(...args);
   }
+
   @proxify
   async replace(...args) {
     this._history.replace(...args);
   }
+
   @proxify
   async goBack(...args) {
     this._history.goBack(...args);

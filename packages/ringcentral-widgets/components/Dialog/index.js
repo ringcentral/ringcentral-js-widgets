@@ -8,7 +8,7 @@ import Button from '../Button';
 import CloseIcon from '../../assets/images/CloseIcon.svg';
 
 function FlatButton({
-  className, disabled, onClick, children
+  className, disabled, onClick, children, dataSign
 }) {
   return (
     <div
@@ -18,6 +18,7 @@ function FlatButton({
         styles.text,
         disabled && styles.disabled,
       )}
+      data-sign={dataSign}
       onClick={!disabled && onClick}
     >
       {children}
@@ -65,6 +66,7 @@ export default function Dialog({
               styles.cancelBtn,
               cancelBtnClassName,
             )}
+            dataSign='cancel'
             onClick={onCancel}
           >
             {textCancel || i18n.getString('cancel', currentLocale)}
@@ -77,6 +79,7 @@ export default function Dialog({
               styles.confirmBtn,
               confirmBtnClassName,
             )}
+            dataSign='confirm'
             onClick={onConfirm}
           >
             {textConfirm || i18n.getString('confirm', currentLocale)}

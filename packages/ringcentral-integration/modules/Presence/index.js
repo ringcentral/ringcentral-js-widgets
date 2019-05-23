@@ -306,6 +306,10 @@ export default class Presence extends DataFetcher {
     return this.data.presenceStatus;
   }
 
+  get meetingStatus() {
+    return this.data.meetingStatus;
+  }
+
   get presenceOption() {
     // available
     if (

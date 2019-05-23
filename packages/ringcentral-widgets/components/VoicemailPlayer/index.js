@@ -164,7 +164,7 @@ class VoicemailPlayer extends Component {
           onClick={this._playAudio}
           disabled={disabled}
         >
-          <span title={i18n.getString('play', currentLocale)}>
+          <span title={i18n.getString('play', currentLocale)} data-sign='play'>
             <PlayIcon width={18} height={18} />
           </span>
         </Button>
@@ -181,6 +181,7 @@ class VoicemailPlayer extends Component {
           className={classnames(styles.download, (disabled ? styles.disabled : null))}
           target="_blank"
           download
+          data-sign='download'
           title={i18n.getString('download', currentLocale)}
           href={downloadUri}
           onClick={this._onDownloadClick}

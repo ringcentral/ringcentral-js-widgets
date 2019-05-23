@@ -1,7 +1,5 @@
-import 'core-js/fn/array/find';
 import * as R from 'ramda';
 import { isValidNumber, isSameLocalNumber } from '@ringcentral-integration/phone-number';
-
 import HashMap from './HashMap';
 import callActions from '../enums/callActions';
 import callDirections from '../enums/callDirections';
@@ -252,7 +250,7 @@ export function getPhoneNumberMatches(call = {}) {
   const {
     to = {},
     from = {},
-    sessionId,
+    // sessionId,
     toMatches,
     fromMatches
   } = call;

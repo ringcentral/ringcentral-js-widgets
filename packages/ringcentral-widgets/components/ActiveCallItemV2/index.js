@@ -131,6 +131,7 @@ function WebphoneButtons({
           icon={MergeIntoConferenceIcon}
           showBorder
           disabled={disableMerge || disableLinks}
+          dataSign={mergeTitle}
         />
       </span>
     );
@@ -140,7 +141,7 @@ function WebphoneButtons({
     <div className={styles.webphoneButtons}>
       {mergeBtn}
       {holdBtn}
-      <span title={rejectTitle} className={styles.webphoneButton}>
+      <span title={rejectTitle} data-sign="toVoiceMail" className={styles.webphoneButton}>
         <CircleButton
           className={styles.rejectButton}
           onClick={(e) => {
@@ -433,8 +434,8 @@ export default class ActiveCallItem extends Component {
     } else if (contactMatches && contactMatches.length) {
       const contact = nextProps.call.webphoneSession.contactMatch;
       if (contact) {
-        selected = contactMatches.findIndex(match =>
-          match.id === contact.id
+        selected = contactMatches.findIndex(
+          match => match.id === contact.id
         );
       }
       if (selected === -1 || !contact) {
@@ -498,6 +499,7 @@ export default class ActiveCallItem extends Component {
       ringoutTransfer,
       ringoutReject,
       showRingoutCallControl,
+      showMultipleMatch,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -515,7 +517,7 @@ export default class ActiveCallItem extends Component {
     const hasCallControl = !!(webphoneSession || showRingoutCallControl);
     const cursorPointer = hasCallControl && !!onClick;
     return (
-      <div className={styles.callItemContainer}>
+      <div data-sign="callItem" className={styles.callItemContainer}>
         <MediaObject
           containerCls={styles.wrapper}
           bodyCls={classnames({
@@ -529,7 +531,7 @@ export default class ActiveCallItem extends Component {
             [styles.cursorUnset]: !cursorPointer,
             [styles.disabled]: hasCallControl && disableLinks,
           })}
-          mediaLeft={
+          mediaLeft={(
             <div onClick={(hasCallControl && onClick) ? onClick : null}>
               <CallIcon
                 direction={direction}
@@ -545,20 +547,20 @@ export default class ActiveCallItem extends Component {
                 extraNum={extraNum}
               />
             </div>
-          }
-          mediaBody={
+          )}
+          mediaBody={(
             <div
               onClick={(hasCallControl && onClick) ? onClick : null}
               className={styles.strechVertical}>
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
-                contactName={contactName}
+                contactName={showMultipleMatch ? undefined : contactName}
                 className={classnames(styles.contactDisplay, contactDisplayStyle)}
                 contactMatches={contactMatches}
                 selected={this.state.selected}
                 onSelectContact={this.onSelectContact}
-                disabled
-                iconClassName={styles.icon}
+                disabled={!showMultipleMatch}
+                iconClassName={showMultipleMatch ? undefined : styles.selectIcon}
                 isLogging={isLogging || this.state.isLogging}
                 fallBackName={fallbackContactName}
                 enableContactFallback={enableContactFallback}
@@ -572,43 +574,45 @@ export default class ActiveCallItem extends Component {
                 sourceIcons={sourceIcons}
                 phoneTypeRenderer={phoneTypeRenderer}
                 phoneSourceNameRenderer={phoneSourceNameRenderer}
-                stopPropagation={false}
               />
               {showCallDetail ? this.getCallInfo() : null}
             </div>
-          }
-          mediaRight={
+          )}
+          mediaRight={(
             <div className={styles.actionIconsBox}>
               {
                 webphoneSession ?
-                  <WebphoneButtons
-                    session={webphoneSession}
-                    webphoneReject={this.webphoneToVoicemail}
-                    webphoneHangup={webphoneHangup}
-                    webphoneResume={webphoneResume}
-                    webphoneHold={webphoneHold}
-                    currentLocale={currentLocale}
-                    showMergeCall={showMergeCall}
-                    showHold={showHold}
-                    disableMerge={disableMerge}
-                    onMergeCall={onMergeCall}
-                    webphoneAnswer={webphoneAnswer}
-                  /> :
-                  <RingoutButtons
-                    showRingoutCallControl={showRingoutCallControl}
-                    sessionId={sessionId}
-                    disableLinks={disableLinks}
-                    currentLocale={currentLocale}
-                    ringing={ringing}
-                    inbound={inbound}
-                    ringoutReject={ringoutReject}
-                    ringoutHangup={ringoutHangup}
-                    ringoutTransfer={ringoutTransfer}
-                  />
+                  (
+                    <WebphoneButtons
+                      session={webphoneSession}
+                      webphoneReject={this.webphoneToVoicemail}
+                      webphoneHangup={webphoneHangup}
+                      webphoneResume={webphoneResume}
+                      webphoneHold={webphoneHold}
+                      currentLocale={currentLocale}
+                      showMergeCall={showMergeCall}
+                      showHold={showHold}
+                      disableMerge={disableMerge}
+                      onMergeCall={onMergeCall}
+                      webphoneAnswer={webphoneAnswer}
+                    />
+                  ) : (
+                    <RingoutButtons
+                      showRingoutCallControl={showRingoutCallControl}
+                      sessionId={sessionId}
+                      disableLinks={disableLinks}
+                      currentLocale={currentLocale}
+                      ringing={ringing}
+                      inbound={inbound}
+                      ringoutReject={ringoutReject}
+                      ringoutHangup={ringoutHangup}
+                      ringoutTransfer={ringoutTransfer}
+                    />
+                  )
               }
               {extraButton}
             </div>
-          }
+          )}
         />
       </div>
     );
@@ -670,6 +674,7 @@ ActiveCallItem.propTypes = {
   ringoutTransfer: PropTypes.func,
   showRingoutCallControl: PropTypes.bool,
   ringoutReject: PropTypes.func,
+  showMultipleMatch: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
@@ -704,4 +709,5 @@ ActiveCallItem.defaultProps = {
   ringoutTransfer: undefined,
   ringoutReject: undefined,
   showRingoutCallControl: false,
+  showMultipleMatch: false,
 };

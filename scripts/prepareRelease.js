@@ -1,4 +1,4 @@
-const prepareRelease = require('../packages/monorepo-tools/lib/releasePackage').prepareRelease;
+import { prepareRelease } from './releaseHelpers';
 
 const packageNames = [
   'ringcentral-integration',

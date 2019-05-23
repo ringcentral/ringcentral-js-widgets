@@ -9,6 +9,7 @@ import styles from './styles.scss';
 export default function OfflineModeBadge({
   className,
   offline,
+  badgeTitle,
   currentLocale,
   showOfflineAlert,
 }) {
@@ -17,10 +18,10 @@ export default function OfflineModeBadge({
       <Draggable className={styles.root}>
         <Badge
           className={classnames(className, styles.badge)}
-          name={i18n.getString('offlineMode', currentLocale)}
+          name={i18n.getString(badgeTitle, currentLocale)}
           onClick={showOfflineAlert}
         >
-          {i18n.getString('offlineMode', currentLocale)}
+          {i18n.getString(badgeTitle, currentLocale)}
         </Badge>
       </Draggable>
     );
@@ -30,6 +31,7 @@ export default function OfflineModeBadge({
 
 OfflineModeBadge.propTypes = {
   offline: PropTypes.bool.isRequired,
+  badgeTitle: PropTypes.string,
   showOfflineAlert: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
@@ -37,4 +39,5 @@ OfflineModeBadge.propTypes = {
 
 OfflineModeBadge.defaultProps = {
   className: null,
+  badgeTitle: 'offlineMode',
 };

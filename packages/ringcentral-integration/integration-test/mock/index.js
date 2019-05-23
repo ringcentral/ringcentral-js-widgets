@@ -31,8 +31,11 @@ import conferenceCallBody from './data/conferenceCall';
 import numberParseBody from './data/numberParse';
 import conferenceCallBringInBody from './data/conferenceCallBringIn';
 import updateConferenceCallBody from './data/updateConference';
+import sipProvisionBody from './data/sipProvision';
+import fetchDLBody from './data/fetchDL';
+import fetchDLWithNoRecordBody from './data/fetchDLWithNoRecord';
 
-const mockServer = 'http://whatever';
+export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
   const opts = {
     ...options,
@@ -515,6 +518,40 @@ export function activeCalls(mockResponse = {}) {
   });
 }
 
+export function sipProvision(mockResponse = {}) {
+  mockApi({
+    method: 'POST',
+    url: `begin:${mockServer}/restapi/v1.0/client-info/sip-provision`,
+    body: {
+      ...sipProvisionBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
+export function fetchDL(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/device`,
+    body: {
+      ...fetchDLBody,
+      ...mockResponse,
+    }
+  });
+}
+
+export function fetchDLWithNoRecord(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/device`,
+    body: {
+      ...fetchDLWithNoRecordBody,
+      ...mockResponse,
+    }
+  });
+}
+
 export function restore() {
   fetchMock.restore();
 }
@@ -538,20 +575,19 @@ export function mockForbidden({
   });
 }
 
-
 export function mockLimited({
-  method = 'GET',
-  path,
-  url,
+  method = 'GET', path, url, headers
 }) {
   mockApi({
     method,
     path,
     url,
     status: 503,
+    headers,
     body: {
+      status: 503,
       errorCode: 'CMN-211',
-      errors: [{ errorCode: 'CMN-211' }]
+      errors: [{ errorCode: 'CMN-211' }],
     },
   });
 }
@@ -615,6 +651,7 @@ export function recentActivity(mockResponse = {}, isOnce = false) {
     isOnce
   });
 }
+
 export function mockForLogin({
   mockAuthzProfile = true,
   mockExtensionInfo = true,
@@ -649,6 +686,7 @@ export function mockForLogin({
     forwardingNumber(params.forwardingNumberData);
   }
   messageList(params.messageListData);
+
   if (mockMessageSync) {
     messageSync(params.messageSyncData);
   }
@@ -656,6 +694,8 @@ export function mockForLogin({
   subscription(params.subscriptionData);
   callLog(params.callLogData);
   addressBook(params.addressBookData);
+  sipProvision(params.sipProvisionData);
+  fetchDL(params.fetchDLData);
   if (mockConferencing) {
     conferencing(params.conferencingData);
   }

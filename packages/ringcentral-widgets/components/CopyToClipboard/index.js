@@ -47,6 +47,7 @@ class CopyToClipboard extends Component {
           ) : (
             <Button
               disabled={disabled}
+              dataSign="copyToClipboard"
               className={classnames(styles.primaryButton, buttonClassName)}
               onClick={() => this.executeCopy()}>
               { buttonText || i18n.getString('copyToClipboard', currentLocale)}

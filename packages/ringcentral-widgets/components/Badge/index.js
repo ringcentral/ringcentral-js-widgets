@@ -13,7 +13,7 @@ function Badge({
     <div
       title={name}
       className={classnames(styles.root, className)}
-      onClick={onClick} >
+      onClick={onClick}>
       {children}
     </div>
   );

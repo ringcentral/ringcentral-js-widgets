@@ -37,7 +37,7 @@ const SYNC_DELAY = 30 * 1000;
 export function processData(data) {
   return {
     records: data.records,
-    timestamp: (new Date(data.syncInfo.syncTime)).getTime(),
+    timestamp: new Date(data.syncInfo.syncTime).getTime(),
     syncToken: data.syncInfo.syncToken,
   };
 }
@@ -52,7 +52,7 @@ export function getISODateTo(records) {
   records.forEach((call) => {
     if (!dateTo || call.startTime < dateTo) dateTo = call.startTime;
   });
-  return dateTo && (new Date(dateTo)).toISOString();
+  return dateTo && new Date(dateTo).toISOString();
 }
 // to not use $ at the end, presence with sipData has extra query parameters
 const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
@@ -71,8 +71,8 @@ const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
     'RolesAndPermissions',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
-    { dep: 'CallLogOptions', optional: true }
-  ]
+    { dep: 'CallLogOptions', optional: true },
+  ],
 })
 export default class CallLog extends Pollable {
   /**
@@ -173,7 +173,7 @@ export default class CallLog extends Pollable {
         this.sync();
       }
     }
-  }
+  };
 
   _onStateChange = async () => {
     if (
@@ -192,10 +192,7 @@ export default class CallLog extends Pollable {
       });
       if (
         this.token &&
-        (
-          !this.timestamp ||
-          Date.now() - this.timestamp > this._tokenExpiresIn
-        )
+        (!this.timestamp || Date.now() - this.timestamp > this._tokenExpiresIn)
       ) {
         this.store.dispatch({
           type: this.actionTypes.clearToken,
@@ -208,15 +205,13 @@ export default class CallLog extends Pollable {
         type: this.actionTypes.initSuccess,
       });
     } else if (
-      (
-        !this._auth.loggedIn ||
+      (!this._auth.loggedIn ||
         (!!this._storage && !this._storage.ready) ||
         (this._extensionPhoneNumber && !this._extensionPhoneNumber.ready) ||
         (this._extensionInfo && !this._extensionInfo.ready) ||
         (this._subscription && !this._subscription.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
-        !this._rolesAndPermissions.ready
-      ) &&
+        !this._rolesAndPermissions.ready) &&
       this.ready
     ) {
       this.store.dispatch({
@@ -237,7 +232,7 @@ export default class CallLog extends Pollable {
       this._lastMessage = this._subscription.message;
       this._subscriptionHandler(this._lastMessage);
     }
-  }
+  };
 
   async _init() {
     if (this._subscription) {
@@ -377,15 +372,14 @@ export default class CallLog extends Pollable {
 
   @proxify
   async _fetch({ dateFrom, dateTo }) {
-    const perPageParam = this._isLimitList ? { perPage: this._listRecordCount } : {};
-    return fetchList(params => (
-      this._client.account().extension().callLog().list({
-        ...params,
-        dateFrom,
-        dateTo,
-        ...perPageParam
-      })
-    ));
+    const perPageParam = this._isLimitList
+      ? { perPage: this._listRecordCount }
+      : {};
+    return fetchList((params) => this._client
+        .account()
+        .extension()
+        .callLog()
+        .list({ ...params, dateFrom, dateTo, ...perPageParam }));
   }
 
   @proxify
@@ -395,10 +389,14 @@ export default class CallLog extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.iSync,
       });
-      const data = await this._client.account().extension().callLogSync().list({
-        syncType: syncTypes.iSync,
-        syncToken: this.token,
-      });
+      const data = await this._client
+        .account()
+        .extension()
+        .callLogSync()
+        .list({
+          syncType: syncTypes.iSync,
+          syncToken: this.token,
+        });
       if (ownerId !== this._auth.ownerId) throw Error('request aborted');
       this.store.dispatch({
         type: this.actionTypes.iSyncSuccess,
@@ -425,24 +423,24 @@ export default class CallLog extends Pollable {
       });
 
       const dateFrom = getISODateFrom(this._daySpan);
-      const data = await this._client.account().extension().callLogSync().list({
-        recordCount: RECORD_COUNT,
-        syncType: syncTypes.fSync,
-        dateFrom,
-      });
+      const data = await this._client
+        .account()
+        .extension()
+        .callLogSync()
+        .list({
+          recordCount: RECORD_COUNT,
+          syncType: syncTypes.fSync,
+          dateFrom,
+        });
       if (ownerId !== this._auth.ownerId) throw Error('request aborted');
       let supplementRecords;
-      const {
-        records,
-        timestamp,
-        syncToken,
-      } = processData(data);
+      const { records, timestamp, syncToken } = processData(data);
       if (records.length >= RECORD_COUNT) {
         // reach the max record count
-        supplementRecords = (await this._fetch({
+        supplementRecords = await this._fetch({
           dateFrom,
           dateTo: getISODateTo(records),
-        }));
+        });
       }
       if (ownerId !== this._auth.ownerId) throw Error('request aborted');
       this.store.dispatch({
@@ -494,6 +492,7 @@ export default class CallLog extends Pollable {
     this._promise = null;
   }
 
+  // TODO: this.token: iSync or fSync depends on token???
   @proxify
   async sync(syncType = this.token ? syncTypes.iSync : syncTypes.fSync) {
     if (!this._promise) {
@@ -521,8 +520,7 @@ export default class CallLog extends Pollable {
   }
 
   get mainCompanyNumbers() {
-    return this._extensionPhoneNumber
-      .numbers
+    return this._extensionPhoneNumber.numbers
       .filter(({ usageType }) => usageType === 'MainCompanyNumber')
       .map(({ phoneNumber }) => phoneNumber);
   }

@@ -71,6 +71,7 @@ export default class CallListV2 extends React.PureComponent {
       onClickToSms,
       isLoggedContact,
       disableLinks,
+      disableCallButton,
       disableClickToDial,
       outboundSmsPermission,
       internalSmsPermission,
@@ -123,6 +124,7 @@ export default class CallListV2 extends React.PureComponent {
           onClickToSms={onClickToSms}
           isLoggedContact={isLoggedContact}
           disableLinks={disableLinks}
+          disableCallButton={disableCallButton}
           disableClickToDial={disableClickToDial}
           outboundSmsPermission={outboundSmsPermission}
           internalSmsPermission={internalSmsPermission}
@@ -216,6 +218,7 @@ CallListV2.propTypes = {
   isLoggedContact: PropTypes.func,
   loggingMap: PropTypes.object,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
@@ -244,6 +247,7 @@ CallListV2.defaultProps = {
   className: null,
   active: false,
   disableLinks: false,
+  disableCallButton: false,
   disableClickToDial: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,

@@ -30,11 +30,14 @@ const displayFormatter = ({
   }
   if (phoneNumber && entityName && entityType) {
     return `${entityName} | ${typeName} ${phoneNumber}`;
-  } else if (entityName && entityType) {
+  }
+  if (entityName && entityType) {
     return `${entityName} | ${typeName}`;
-  } else if (entityName) {
+  }
+  if (entityName) {
     return entityName;
-  } else if (phoneNumber) {
+  }
+  if (phoneNumber) {
     return `${phoneNumber}`;
   }
   return '';
@@ -61,16 +64,19 @@ function ContactDisplayItem({
         <span className={styles.typeName}>{entityName}</span>
       </span>
     );
-  } else if (entityName !== undefined && SourceIcon) {
+  }
+  if (entityName !== undefined && SourceIcon) {
     return (
       <span>
         <SourceIcon className={styles.typeIcon} width={10} height={10} />
         <span className={styles.typeName}>{entityName}</span>
       </span>
     );
-  } else if (entityName !== undefined) {
+  }
+  if (entityName !== undefined) {
     return <span>{entityName}</span>;
-  } else if (phoneNumber) {
+  }
+  if (phoneNumber) {
     return <span>{phoneNumber}</span>;
   }
   return null;
@@ -263,6 +269,7 @@ export default function ContactDisplay({
     </div>
   );
 }
+
 ContactDisplay.propTypes = {
   isOnConferenceCall: PropTypes.bool,
   reference: PropTypes.func,
@@ -270,7 +277,7 @@ ContactDisplay.propTypes = {
   contactMatches: PropTypes.arrayOf(PropTypes.any).isRequired,
   selected: PropTypes.number.isRequired,
   onSelectContact: PropTypes.func,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   isLogging: PropTypes.bool.isRequired,
   fallBackName: PropTypes.string,
   enableContactFallback: PropTypes.bool,
@@ -292,11 +299,13 @@ ContactDisplay.propTypes = {
   contactName: PropTypes.any,
   iconClassName: PropTypes.string,
 };
+
 ContactDisplay.defaultProps = {
   isOnConferenceCall: false,
   reference: undefined,
   className: undefined,
   onSelectContact: undefined,
+  disabled: false,
   fallBackName: '',
   phoneNumber: undefined,
   groupNumbers: undefined,

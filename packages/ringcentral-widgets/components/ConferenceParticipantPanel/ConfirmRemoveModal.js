@@ -16,10 +16,13 @@ export default function ConfirmRemoveModal({
   if (!detail) {
     return null;
   }
-  if (detail.calleeType === calleeTypes.contacts) {
-    detail = detail.toUserName;
-  } else {
-    detail = detail.partyNumber;
+  let displayText = detail.partyNumber || i18n.getString('unknownNumber', currentLocale);
+  if (
+    detail.partyName &&
+    detail.calleeType === calleeTypes.contacts
+  ) {
+    // means that matched a contact
+    displayText = detail.partyName;
   }
   return (
     <Modal
@@ -38,7 +41,7 @@ export default function ConfirmRemoveModal({
     >
       <p>
         {i18n.getString('confirmStr1', currentLocale)}
-        <span>{` ${detail} `}</span>
+        <span>{` ${displayText} `}</span>
         {i18n.getString('confirmStr2', currentLocale)}
       </p>
     </Modal>

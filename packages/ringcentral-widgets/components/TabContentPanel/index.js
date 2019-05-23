@@ -11,7 +11,7 @@ function TabTitle({
   isActive,
 }) {
   return (
-    <span className={classnames(styles.tabTitle, isActive() ? styles.active : null)}>
+    <span  data-sign="allCalls" className={classnames(styles.tabTitle, isActive() ? styles.active : null)}>
       {label}
     </span>
   );

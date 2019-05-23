@@ -1,28 +1,28 @@
 /**
  * Created by Sophie, updated by Bruce
  */
-
 import { pathOr } from 'ramda';
 import { Module } from '../../lib/di';
+import moduleStatuses from '../../enums/moduleStatuses';
 import ensureExist from '../../lib/ensureExist';
 import RcModule from '../../lib/RcModule';
 import getAvailabilityModeReducer from './availabilityMonitorReducer';
 import actionTypes from './actionTypes';
-import { extractUrl, isHAError, generateRandomNumber, isHAEnabledAPI } from './availabilityMonitorHelper';
+import availabilityStatus from './availabilityStatus';
+import {
+  extractUrl,
+  isHAError,
+  generateRandomNumber,
+  isHAEnabledAPI,
+} from './availabilityMonitorHelper';
 import errorMessages from './errorMessages';
 
 // Constants
-export const HEALTH_CHECK_INTERVAL = 5 * 1000;
+export const HEALTH_CHECK_INTERVAL = 60 * 1000;
 export const STATUS_END_POINT = '/restapi/v1.0/status';
 
-
 /**
- * TODO: Deal with `RateLimitor` in offline mode.
- * TODO: App initial errors.
- * TODO: When WebRTC met HA error.
- * TODO: Api match problems, the way finding *High* or *Limited* api is not working correctly.
- *
- * @class
+ * @class AvailabilityMonitor
  * @description Connectivity monitor module
  */
 @Module({
@@ -41,13 +41,7 @@ export default class AvailabilityMonitor extends RcModule {
    * @param {Client} params.client - client module instance
    * @param {Environment} params.environment - environment module instance
    */
-  constructor({
-    alert,
-    client,
-    environment,
-    enabled = false,
-    ...options
-  }) {
+  constructor({ alert, client, environment, enabled = false, ...options }) {
     super({
       actionTypes,
       enabled,
@@ -61,10 +55,15 @@ export default class AvailabilityMonitor extends RcModule {
     this._lastEnvironmentCounter = 0;
     this._healthRetryTime = HEALTH_CHECK_INTERVAL;
     this._reducer = getAvailabilityModeReducer(this.actionTypes);
+
+    // auto bind this
+    this._beforeRequestHandler = this::this._beforeRequestHandler;
+    this._requestErrorHandler = this::this._requestErrorHandler;
   }
 
   _shouldInit() {
-    return !!(this.pending && (!this._environment || this._environment.ready));
+    return !!(this.pending &&
+      (!this._environment || this._environment.ready));
   }
 
   _shouldRebindHandlers() {
@@ -101,30 +100,20 @@ export default class AvailabilityMonitor extends RcModule {
     }
 
     const client = this._client.service.platform().client();
-    client.on(client.events.beforeRequest, (params) => {
-      this._beforeRequestHandler(params);
-    });
+    client.on(client.events.beforeRequest, this._beforeRequestHandler);
 
-    // !TODO: in other modules, when they catch error first check if app is in HA mode.
-    client.on(client.events.requestError, (params) => {
-      this._requestErrorHandler(params);
-    });
+    // TODO: in other modules, when they catch error first check if app is in HA mode.
+    client.on(client.events.requestError, this._requestErrorHandler);
 
     this._unbindHandlers = () => {
-      client.removeListener(
-        client.events.beforeRequest,
-        this._beforeRequestHandler,
-      );
-      client.removeListener(
-        client.events.requestError,
-        this._requestErrorHandler,
-      );
+      client.removeListener(client.events.beforeRequest, this._beforeRequestHandler);
+      client.removeListener(client.events.requestError, this._requestErrorHandler);
       this._unbindHandlers = null;
     };
   }
 
   _beforeRequestHandler(params) {
-    if (!this.isLimitedAvailabilityMode) {
+    if (!this.isLimitedAvailabilityMode || !this._enabled) {
       return;
     }
 
@@ -135,11 +124,12 @@ export default class AvailabilityMonitor extends RcModule {
       return;
     }
 
-    // TODO: the `extractUrl` method might not work with some urls
     // In the limited availability mode, should not block status check api
     // or highly availability api.
-    if (extractUrl({ url: requestUrl }) === STATUS_END_POINT
-      || isHAEnabledAPI({ url: requestUrl, method: requestMethod })) {
+    if (
+      extractUrl({ url: requestUrl }) === STATUS_END_POINT ||
+      isHAEnabledAPI({ url: requestUrl, method: requestMethod })
+    ) {
       return;
     }
 
@@ -158,6 +148,8 @@ export default class AvailabilityMonitor extends RcModule {
       // TODO: Request url included in initial api when app is in initial. If true enter initial error.
       return;
     }
+
+    this.showAlert(errorMessages.serviceLimited);
 
     const retryAfter = pathOr(
       -1,
@@ -181,15 +173,12 @@ export default class AvailabilityMonitor extends RcModule {
       type: this.actionTypes.limitedMode,
     });
 
-    this.timeout = setTimeout(async () => {
-      console.log('this._healthRetryTime', this._healthRetryTime);
+    this._limitedTimeout = setTimeout(async () => {
       await this._intervalHealthCheck();
     }, this._healthRetryTime);
   }
 
   _switchToNormalMode() {
-    console.log('swith to normal mode');
-
     if (!this.isLimitedAvailabilityMode) {
       return;
     }
@@ -197,6 +186,32 @@ export default class AvailabilityMonitor extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.normalMode,
     });
+
+    this._clearTimeout(this._normalTimeout);
+    this._clearTimeout(this._limitedTimeout);
+
+    if (!this._alert) {
+      return;
+    }
+    // dismiss disconnected alerts if found
+    const alertIds = this._alert.messages
+      .filter((m) => m.message === errorMessages.serviceLimited) // eslint-disable-line arrow-parens
+      .map((m) => m.id); // eslint-disable-line arrow-parens
+    if (alertIds.length) {
+      this._alert.dismiss(alertIds);
+    }
+  }
+
+  /**
+   * Clear timeout handler when it's not needed
+   */
+  _clearTimeout(timeoutHandler) {
+    if (!timeoutHandler) {
+      return;
+    }
+
+    clearTimeout(timeoutHandler);
+    timeoutHandler = null;
   }
 
   async _getStatus() {
@@ -210,49 +225,61 @@ export default class AvailabilityMonitor extends RcModule {
    * @memberof AvailabilityMonitor
    */
   async _intervalHealthCheck() {
-    console.log('should randomize the health check');
+    this._clearTimeout(this._limitedTimeout);
 
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
     const response = await this._getStatus();
-    const retryAfter = pathOr(-1, ['headers', 'retryAfter'], response);
-
-    console.log('response', response);
+    const retryAfter = pathOr(0, ['headers', 'retryAfter'], response);
 
     if (response && response.status === 200) {
-      console.log('platform recover');
-
       const waitingTime = generateRandomNumber(); // Generate random seconds (0 ~ 3000)
-      setTimeout(() => {
+      this._normalTimeout = setTimeout(() => {
         this._switchToNormalMode();
       }, waitingTime);
 
       return;
-    } else if (retryAfter > 0) {
+    }
+
+    if (retryAfter > 0) {
       this._healthRetryTime = retryAfter;
     } else {
       this._healthRetryTime = HEALTH_CHECK_INTERVAL;
     }
-    this.timeout = setTimeout(async () => {
+
+    this._limitedTimeout = setTimeout(async () => {
       await this._intervalHealthCheck();
     }, this._healthRetryTime);
   }
 
-  _showAlert(errorLevel, message) {
-    if (errorLevel === 'success') {
-      this._alert.success({ message });
-    } else if (errorLevel === 'warning') {
-      this._alert.warning({ message });
-    } else if (errorLevel === 'danger') {
-      this._alert.danger({ message });
-    } else if (errorLevel === 'info') {
-      this._alert.info({ message });
+  showAlert(message) {
+    if (!this._alert) {
+      return;
     }
+
+    this._alert.warning({
+      message,
+      allowDuplicates: false,
+    });
+  }
+
+  /**
+   * Check if the error is Survival Mode error,
+   * Or if app is already in Survival Mode and current request is blocked with an error.
+   */
+  checkIfHAError(error) {
+    const errMessage = pathOr(null, ['message'], error);
+    return isHAError(error) || errMessage === errorMessages.serviceLimited;
   }
 
   get status() {
     return this.state.status;
+  }
+
+  get ready() {
+    return this.state.status === moduleStatuses.ready;
+  }
+
+  get pending() {
+    return this.state.status === moduleStatuses.pending;
   }
 
   /**
@@ -262,29 +289,12 @@ export default class AvailabilityMonitor extends RcModule {
    * @memberof AvailabilityMonitor
    */
   get isLimitedAvailabilityMode() {
-    return this.state.isLimitedAvailabilityMode;
+    return (
+      this.state.isLimitedAvailabilityMode.mode === availabilityStatus.LIMITED
+    );
   }
 
   get isAppInitialErrorMode() {
     return this.state.isAppInitialError;
-  }
-
-  /**
-   * Handle app initial errors
-   *
-   * @param {*} error
-   * @returns
-   * @memberof AvailabilityMonitor
-   */
-  handleInitialError(error) {
-    if (isHAError(error) || !this._enabled) {
-      return;
-    }
-
-    this._showAlert('danger', errorMessages.appInitialError);
-    // TODO: Need corresponde action to switch APP state back to normal
-    // this.store.dispatch({
-    //   type: this.actionTypes.appInitialError,
-    // });
   }
 }

@@ -35,7 +35,7 @@ function MediaObject({
       [styles.media]: true,
       [styles.flex]: !!flexible,
       [containerCls]: !!containerCls
-      })}>
+    })}>
       {
         mediaLeft ? (
           <div className={classnames(styles.mediaLeft, leftAlignmentClassName, leftCls)}>

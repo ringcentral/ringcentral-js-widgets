@@ -17,6 +17,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
 $fontSizeInt: 15;
 $fontSize: $fontSizeInt+unquote($px);
 $borderWidth:1px;
+$pagePaddingWidth:48px;
 
 .root {
   @include full-size;
@@ -79,6 +80,7 @@ $borderWidth:1px;
   display: inline-block;
   line-height: 16px;
   margin-top: -5px;
+  max-width: calc(100% - #{$pagePaddingWidth});
 }
 
 .userPhoneNumber {

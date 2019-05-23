@@ -46,7 +46,7 @@ describe('Date Picker', () => {
     showDate = new Date(dateWidget.find('input').props().value);
     expect(showDate.getTime()).not.toBe(today.getTime());
     // .rw-popup-transition-exited is the classname used when the popup is closed
-    expect(dateWidget.find('.rw-calendar-header').length).toBe(0);
+    expect(dateWidget.find('.rw-open').length).toBe(0);
   });
   it('User Can Not Select A Last Day', () => {
     const dateWidget = setup({

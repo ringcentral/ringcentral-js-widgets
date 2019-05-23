@@ -108,7 +108,6 @@ export default function SettingsPanel({
       <LinkLine
         onClick={onReportLinkClick}>
         {i18n.getString('report', currentLocale)}
-        <span className={styles.subtitle}>{`${i18n.getString('beta', currentLocale)}`}</span>
       </LinkLine>
     ) :
     null;
@@ -245,7 +244,7 @@ export default function SettingsPanel({
   ) : null;
 
   const versionArea = versionContainer || (
-    <div className={styles.versionContainer}>
+    <div className={styles.versionContainer} data-sign="version">
       {i18n.getString('version', currentLocale)}
       {' '}
       {version}
@@ -277,6 +276,7 @@ export default function SettingsPanel({
         <section className={styles.section}>
           <Line noBorder>
             <EulaRenderer
+              dataSign="eula"
               className={styles.eula}
               currentLocale={currentLocale}
               brandId={brandId} />

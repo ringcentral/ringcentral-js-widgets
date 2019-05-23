@@ -4,6 +4,28 @@ import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErr
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
+const webphoneErrorList = [
+  webphoneErrors.connectFailed,
+  webphoneErrors.toVoiceMailError,
+  webphoneErrors.connected,
+  webphoneErrors.muteError,
+  webphoneErrors.holdError,
+  webphoneErrors.flipError,
+  webphoneErrors.recordError,
+  webphoneErrors.recordDisabled,
+  webphoneErrors.transferError,
+  webphoneErrors.noOutboundCallWithoutDL,
+  webphoneErrors.checkDLError,
+  webphoneErrors.browserNotSupported,
+  webphoneErrors.sipProvisionError,
+  webphoneErrors.webphoneCountOverLimit,
+  webphoneErrors.webphoneForbidden,
+  webphoneErrors.requestTimeout,
+  webphoneErrors.serverTimeout,
+  webphoneErrors.internalServerError,
+  webphoneErrors.unknownError,
+];
+
 export default function WebphoneAlert(props) {
   const { message } = props.message;
   let view = (<span>{i18n.getString(message, props.currentLocale)}</span>);
@@ -16,16 +38,15 @@ export default function WebphoneAlert(props) {
         values={{ errorCode }}
       />
     );
-  }
-  if (
+  } else if (
+    message === webphoneErrors.sipProvisionError ||
+    message === webphoneErrors.webphoneForbidden ||
     message === webphoneErrors.requestTimeout ||
     message === webphoneErrors.serverTimeout ||
     message === webphoneErrors.internalServerError ||
-    message === webphoneErrors.sipProvisionError ||
-    message === webphoneErrors.webphoneForbidden ||
     message === webphoneErrors.unknownError
   ) {
-    const { payload: { statusCode } = {} } = props.message;
+    const { payload: { statusCode, isConnecting = false } = {} } = props.message;
     // sipProvisionError does not have statusCode
     const stub = statusCode ? (
       <FormattedMessage
@@ -33,10 +54,19 @@ export default function WebphoneAlert(props) {
         values={{ errorCode: statusCode }}
       />
     ) : i18n.getString('occurs', props.currentLocale);
+    const subject = isConnecting ? i18n.getString('webphoneRegistering', props.currentLocale) :
+      i18n.getString('webphoneUnavailable', props.currentLocale);
     view = (
       <FormattedMessage
-        message={i18n.getString('webphoneUnavailable', props.currentLocale)}
+        message={subject}
         values={{ error: stub, brandName: props.brand.name }}
+      />
+    );
+  } else if (message === webphoneErrors.checkDLError) {
+    view = (
+      <FormattedMessage
+        message={i18n.getString(message, props.currentLocale)}
+        values={{ brandName: props.brand.name }}
       />
     );
   }
@@ -52,21 +82,5 @@ WebphoneAlert.propTypes = {
 };
 
 WebphoneAlert.handleMessage = ({ message }) => (
-  (message === webphoneErrors.browserNotSupported) ||
-  (message === webphoneErrors.webphoneCountOverLimit) ||
-  (message === webphoneErrors.webphoneForbidden) ||
-  (message === webphoneErrors.notOutboundCallWithoutDL) ||
-  (message === webphoneErrors.toVoiceMailError) ||
-  (message === webphoneErrors.connected) ||
-  (message === webphoneErrors.muteError) ||
-  (message === webphoneErrors.holdError) ||
-  (message === webphoneErrors.flipError) ||
-  (message === webphoneErrors.recordError) ||
-  (message === webphoneErrors.recordDisabled) ||
-  (message === webphoneErrors.transferError) ||
-  (message === webphoneErrors.requestTimeout) ||
-  (message === webphoneErrors.serverTimeout) ||
-  (message === webphoneErrors.internalServerError) ||
-  (message === webphoneErrors.sipProvisionError) ||
-  (message === webphoneErrors.unknownError)
+  webphoneErrorList.filter(err => err === message).length > 0
 );
