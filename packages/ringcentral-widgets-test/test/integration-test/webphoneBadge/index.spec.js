@@ -86,6 +86,7 @@ describe('Webphone badge', () => {
         await sleep(50);
         await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 20);
         mock.fetchDL();
+        phone.webphone._reconnectDelays = phone.webphone._reconnectDelays.map(x => (x * 5000));
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
         await sleep(2);
       });
@@ -99,7 +100,6 @@ describe('Webphone badge', () => {
       });
 
       test('Alert Message', async () => {
-        await sleep(50);
         wrapper.update();
         const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
         expect(webphoneAlerts.map(x => x.text())).toContain(msg);
