@@ -88,7 +88,7 @@ describe('Webphone badge', () => {
         mock.fetchDL();
         phone.webphone._reconnectDelays = phone.webphone._reconnectDelays.map(x => (x * 5000));
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
-        await sleep(2);
+        await sleep(100);
       });
 
       test('Display Web Phone Unavailable Badge', async () => {
