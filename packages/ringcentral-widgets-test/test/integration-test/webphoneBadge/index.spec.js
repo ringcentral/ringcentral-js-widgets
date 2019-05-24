@@ -88,19 +88,14 @@ describe('Webphone badge', () => {
         mock.fetchDL();
         phone.webphone._reconnectDelays = phone.webphone._reconnectDelays.map(x => (x * 5000));
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
-        await sleep(100);
       });
 
-      test('Display Web Phone Unavailable Badge', async () => {
-        phone = wrapper.props().phone;
+      test('Display Web Phone Unavailable Badge and alert message', async () => {
         wrapper.update();
+        phone = wrapper.props().phone;
         const badge = wrapper.find(WebphoneBadge);
         expect(badge.exists()).toBeTruthy();
         expect(badge.text()).toEqual('Web Phone Unavailable');
-      });
-
-      test('Alert Message', async () => {
-        wrapper.update();
         const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
         expect(webphoneAlerts.map(x => x.text())).toContain(msg);
       });
