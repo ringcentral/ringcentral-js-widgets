@@ -100,7 +100,7 @@ export function normalizeSession(session) {
     fromUserName: session.request.from.displayName,
     startTime: session.startTime && (new Date(session.startTime)).getTime(),
     creationTime: session.__rc_creationTime,
-    isOnHold: !!session.onLocalHold(),
+    isOnHold: !!session.localHold,
     isOnMute: !!session.__rc_isOnMute,
     isOnFlip: !!session.__rc_isOnFlip,
     isOnTransfer: !!session.__rc_isOnTransfer,

@@ -1,3 +1,5 @@
+require('@ringcentral-integration/babel-settings/lib/register.js');
+
 const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -7,6 +9,7 @@ const buildPath = path.resolve(__dirname, 'src/app');
 const outputPath = path.resolve(__dirname, 'gh-pages');
 
 const config = {
+  mode: 'production',
   entry: './src/app/index.js',
   output: {
     path: outputPath,
@@ -16,14 +19,6 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-      },
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-      output: {
-        comments: false,
       },
     }),
     new CopyWebpackPlugin([

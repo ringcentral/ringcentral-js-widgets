@@ -187,6 +187,7 @@ export function getDataReducer(types) {
     presenceStatus: getPresenceStatusReducer(types),
     userStatus: getUserStatusReducer(types),
     telephonyStatus: getTelephonyStatusReducer(types),
+    meetingStatus: getMeetingStatusReducer(types),
     activeCalls: getActiveCallsReducer(types),
     lastDndStatus: getLastNotDisturbDndStatusReducer(types),
   });

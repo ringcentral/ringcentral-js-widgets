@@ -24,19 +24,18 @@
     "@ringcentral-integration/i18n": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/core": "^7.3.4",
     "@ringcentral-integration/babel-settings": "*",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^24.5.0",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
-    "jest": "^23.6.0",
+    "jest": "^24.5.0",
     "jest-junit": "^6.0.0"
   },
   "dependencies": {
-    "@babel/generator": "^7.2.2",
-    "@babel/parser": "^7.2.3",
+    "@babel/generator": "^7.3.4",
+    "@babel/parser": "^7.3.4",
     "chalk": "^2.4.1",
     "dedent": "^0.7.0",
     "fs-extra": "^7.0.1",
@@ -56,5 +55,8 @@
       "testData/.*"
     ],
     "reporters": [ "default", "jest-junit" ]
+  },
+  "ci": {
+    "ringcentral-js-widgets": "**"
   }
 }

@@ -5,5 +5,6 @@ export default {
   [meetingStatus.noPassword]: 'Please provide meeting password.',
   [meetingStatus.insufficientPermissions]: '{application} do not have {permissionName} permission.',
   [meetingStatus.scheduledSuccess]: 'Meeting is scheduled.',
+  [meetingStatus.updatedSuccess]: 'Meeting is updated.',
   [meetingStatus.internalError]: 'Internal error, meeting schedule failed. Try again later.',
 };

@@ -103,8 +103,9 @@ class CallCtrlContainer extends Component {
       hasConferenceCall,
     } = nextProps;
 
-    const isInboundCall = session.direction === callDirections.inbound;
-    const isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
+    // const isInboundCall = session.direction === callDirections.inbound;
+    // const isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
+    const isMergeAndAddDisabled = !isWebRTC || !session.partyData;
 
     let mergeDisabled = isMergeAndAddDisabled;
     let addDisabled = isMergeAndAddDisabled;

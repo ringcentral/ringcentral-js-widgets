@@ -6,11 +6,17 @@ const props = {};
 props.onTransfer = () => null;
 props.currentLocale = 'en-US';
 props.toggleTransferPanel = () => null;
-props.isOnTransfer = false;
 props.formatPhone = p => p;
 props.searchContactList = [];
 props.searchContact = () => null;
-
+props.setActiveSessionId = () => null;
+props.sessionId = '123';
+props.session = {
+  isOnTransfer: false,
+};
+props.onBack = () => null;
+props.autoFocus = true;
+props.onCallEnd = () => null;
 /**
  * A example of `TransferPanel`
  */

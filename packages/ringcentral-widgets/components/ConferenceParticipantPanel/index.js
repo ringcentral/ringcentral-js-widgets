@@ -71,11 +71,13 @@ class ParticipantsContainer extends Component {
 
     const { detail, showModal } = this.state;
 
-    const backHeader = (<BackHeader
-      className={styles.header}
-      onBackClick={onBackButtonClick}
-      backButton={<BackButton label={i18n.getString('conferenceCall', currentLocale)} />}
-    />);
+    const backHeader = (
+      <BackHeader
+        className={styles.header}
+        onBackClick={onBackButtonClick}
+        backButton={<BackButton label={i18n.getString('conferenceCall', currentLocale)} />}
+      />
+    );
 
     return (
       <div className={styles.root}>
@@ -84,38 +86,39 @@ class ParticipantsContainer extends Component {
           <div className={styles.participantsCount}>
             {
               participants.length === 1
-              ? `${participants.length} ${i18n.getString('participant', currentLocale)}`
-              : `${participants.length} ${i18n.getString('participants', currentLocale)}`
+                ? `${participants.length} ${i18n.getString('participant', currentLocale)}`
+                : `${participants.length} ${i18n.getString('participants', currentLocale)}`
             }
           </div>
           <div className={styles.participantsList}>
             {
-            participants.map((participant) => {
-              const {
-                avatarUrl,
-                toUserName,
-                partyNumber,
-                calleeType,
-                id,
-              } = participant;
-              let detail;
-
-              if (calleeType === calleeTypes.contacts) {
-                detail = toUserName;
-              } else {
-                detail = partyNumber;
-              }
-              return (
-                <ParticipantItem
-                  key={id}
-                  avatarUrl={avatarUrl}
-                  detail={detail}
-                  currentLocale={currentLocale}
-                  onRemove={() => this.onRemoveBtnClick(participant)}
-                />
-              );
-            })
-          }
+              participants.map((participant) => {
+                const {
+                  id,
+                  avatarUrl,
+                  partyName,
+                  partyNumber,
+                  calleeType,
+                } = participant;
+                let displayText = partyNumber || i18n.getString('unknownNumber', currentLocale);
+                if (
+                  partyName &&
+                  calleeType === calleeTypes.contacts
+                ) {
+                  // means that matched a contact
+                  displayText = partyName;
+                }
+                return (
+                  <ParticipantItem
+                    key={id}
+                    avatarUrl={avatarUrl}
+                    detail={displayText}
+                    currentLocale={currentLocale}
+                    onRemove={() => this.onRemoveBtnClick(participant)}
+                  />
+                );
+              })
+            }
           </div>
         </div>
         <ConfirmRemoveModal

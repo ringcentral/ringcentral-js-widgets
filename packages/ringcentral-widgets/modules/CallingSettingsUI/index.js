@@ -9,6 +9,7 @@ import RcUIModule from '../../lib/RcUIModule';
     'Locale',
     { dep: 'Webphone', optional: true },
     'RouterInteraction',
+    { dep: 'CallingSettingsUIOptions', optional: true }
   ]
 })
 export default class CallingSettingsUI extends RcUIModule {
@@ -18,7 +19,8 @@ export default class CallingSettingsUI extends RcUIModule {
     locale,
     webphone,
     routerInteraction,
-    options
+    searchable,
+    ...options
   }) {
     super({ ...options });
     this._callingSettings = callingSettings;
@@ -26,6 +28,7 @@ export default class CallingSettingsUI extends RcUIModule {
     this._locale = locale;
     this._webphone = webphone;
     this._routerInteraction = routerInteraction;
+    this.locationSearchable = searchable;
   }
 
   get showSpinner() {
@@ -49,6 +52,7 @@ export default class CallingSettingsUI extends RcUIModule {
       availableNumbers: this._callingSettings.availableNumbers,
       disabled: !!(this._webphone && this._webphone.sessions.length > 0),
       showSpinner: this.showSpinner,
+      searchable: this.locationSearchable
     };
   }
 

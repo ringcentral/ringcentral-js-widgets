@@ -29,7 +29,7 @@ describe('Incoming Call Interaction', () => {
 });
 
 describe('Inbound Call in Call Control Page', () => {
-  test('RCI-1038#2 - User anwser the incoming call, Add button is disabled in Call Control Page', async () => {
+  test('RCI-1038#2 - User anwser the incoming call, Add button should not disabled in Call Control Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     const session = await makeInbountCall(phone, wrapper);
     const buttonAnswer = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(4);
@@ -39,7 +39,6 @@ describe('Inbound Call in Call Control Page', () => {
     expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${session.id}`);
     const buttonAdd = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
     expect(buttonAdd.find('.buttonTitle').text()).toEqual('Add');
-    expect(buttonAdd.props().disabled).toBeTruthy();
+    expect(buttonAdd.props().disabled).not.toBeTruthy();
   });
 });
-

@@ -11,12 +11,13 @@ function CheckBox(
     valueField,
     textField,
     className,
+    dataSign,
     ...props
   }
 ) {
   const isListObject = !!(textField && valueField);
   return (
-    <div className={className}>
+    <div className={className} data-sign={dataSign}>
       {
         data.map((item, key) => {
           const isSelected = selected === (isListObject ? item[valueField] : item);
@@ -26,12 +27,12 @@ function CheckBox(
             item.renderExtraInfo({ ...props }) :
             null;
           return (
-            <div key={key}>
+            <div key={key} data-sign={isSelected ? 'selectedItem' : undefined}>
               <div
                 onClick={onClick}
                 className={classnames(styles.item, item && item.disabled ? styles.disabled : null)}>
                 <div className={classnames(styles.checkButton, checkStyle)} />
-                <div className={styles.text}>
+                <div className={styles.text} data-sign="text">
                   { isListObject ? item[textField] : item }
                 </div>
               </div>
@@ -51,12 +52,14 @@ CheckBox.propTypes = {
   data: PropTypes.array.isRequired,
   onSelect: PropTypes.func.isRequired,
   className: PropTypes.string,
+  dataSign: PropTypes.string,
 };
 
 CheckBox.defaultProps = {
   textField: null,
   valueField: null,
   className: null,
+  dataSign: undefined,
 };
 
 export default CheckBox;

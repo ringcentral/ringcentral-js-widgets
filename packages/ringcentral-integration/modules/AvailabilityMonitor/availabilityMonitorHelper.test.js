@@ -1,11 +1,10 @@
-import chai, { expect } from 'chai';
+import { expect } from 'chai';
 import {
   extractUrl,
   isHAError,
   generateRandomNumber,
   isHAEnabledAPI,
 } from './availabilityMonitorHelper';
-import { isIterable } from 'core-js';
 
 describe('availabilityMonitorHelper', () => {
   describe('extractUrl', () => {
@@ -34,17 +33,16 @@ describe('availabilityMonitorHelper', () => {
   describe('Check if response is HA Error', () => {
     // Test(s) for `isHAError`
     it('Test HA error, return true when HA Status & HA Code are all OK', () => {
-      const haErrorCode = 'CMN-211';
+      const errorCode = 'CMN-211';
       const error = {
         apiResponse: {
+          _json: {
+            errors: [{ errorCode, message: 'Service is overloaded...' }],
+          },
           _response: {
             status: 503,
-          },
-          _json: {
-            errorCode: haErrorCode,
-            errors: [haErrorCode],
-          },
-        },
+          }
+        }
       };
 
       expect(isHAError(error)).to.equal(true);
@@ -52,19 +50,18 @@ describe('availabilityMonitorHelper', () => {
 
     // Test(s) for `isHAError`
     it('Test HA error, return false when HA Status & HA code is not OK', () => {
-      const haErrorCode = 'NOT-CMN-211';
+      const errorCode = 'NOT-CMN-211';
       const haErrorStatus = 503;
 
       const error = {
         apiResponse: {
+          _json: {
+            errors: [{ errorCode, message: 'Service is overloaded...' }],
+          },
           _response: {
             status: haErrorStatus,
-          },
-          _json: {
-            errorCode: haErrorCode,
-            errors: [haErrorCode],
-          },
-        },
+          }
+        }
       };
 
       expect(isHAError(error)).to.equal(false);
@@ -72,19 +69,18 @@ describe('availabilityMonitorHelper', () => {
 
     // Test(s) for `isHAError`
     it('Test HA error, return false when HA status is not OK HA code is OK', () => {
-      const haErrorCode = 'NOT-CMN-211';
+      const errorCode = 'NOT-CMN-211';
       const haErrorStatus = 503;
 
       const error = {
         apiResponse: {
+          _json: {
+            errors: [{ errorCode, message: 'Service is overloaded...' }],
+          },
           _response: {
             status: haErrorStatus,
-          },
-          _json: {
-            errorCode: haErrorCode,
-            errors: [haErrorCode],
-          },
-        },
+          }
+        }
       };
 
       expect(isHAError(error)).to.equal(false);
@@ -92,19 +88,18 @@ describe('availabilityMonitorHelper', () => {
 
     // Test(s) for `isHAError`
     it('Test HA error, return false when HA status & HA code are all not OK', () => {
-      const haErrorCode = 'NOT-CMN-211';
+      const errorCode = 'NOT-CMN-211';
       const haErrorStatus = 200;
 
       const error = {
         apiResponse: {
+          _json: {
+            errors: [{ errorCode, message: 'Service is overloaded...' }],
+          },
           _response: {
             status: haErrorStatus,
-          },
-          _json: {
-            errorCode: haErrorCode,
-            errors: [haErrorCode],
-          },
-        },
+          }
+        }
       };
 
       expect(isHAError(error)).to.equal(false);
@@ -137,7 +132,10 @@ describe('availabilityMonitorHelper', () => {
       expect(isHigh).to.equal(true);
 
       testUrl = '/restapi/v1.0/internal/billing-events/process-event';
-      isHigh = isHAEnabledAPI({ url: '/restapi/v1.0/internal/billing-events/process-event', method: 'POST' });
+      isHigh = isHAEnabledAPI({
+        url: '/restapi/v1.0/internal/billing-events/process-event',
+        method: 'POST',
+      });
       expect(isHigh).to.equal(false);
 
       testUrl = 'www.apple.com';

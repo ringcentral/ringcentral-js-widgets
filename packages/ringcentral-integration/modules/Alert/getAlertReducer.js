@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import 'core-js/fn/array/find';
 
 export function getMessagesReducer(types) {
   return (state = [], {
@@ -15,7 +14,7 @@ export function getMessagesReducer(types) {
   }) => {
     switch (type) {
       case types.alert:
-        if (!allowDuplicates && state.find(item => item.message === message)) {
+        if (!allowDuplicates && state.find(item => item.message === message && item.level === level)) {
           return state;
         }
         return [
@@ -44,4 +43,3 @@ export default function getAlertReducer(types) {
     messages: getMessagesReducer(types),
   });
 }
-

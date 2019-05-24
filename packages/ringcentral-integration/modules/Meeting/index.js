@@ -68,6 +68,7 @@ export class MeetingErrors {
     'Client',
     'ExtensionInfo',
     'Storage',
+    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'MeetingOptions', optional: true }
   ]
 })
@@ -77,6 +78,8 @@ export default class Meeting extends RcModule {
     client,
     extensionInfo,
     storage,
+    availabilityMonitor,
+    reducers,
     ...options
   }) {
     super({
@@ -87,6 +90,7 @@ export default class Meeting extends RcModule {
     this._client = client;
     this._extensionInfo = extensionInfo;
     this._storage = storage;
+    this._availabilityMonitor = availabilityMonitor;
     this._reducer = getMeetingReducer(this.actionTypes);
     this._lastMeetingSettingKey = 'lastMeetingSetting';
     this._storage.registerReducer({
@@ -112,6 +116,7 @@ export default class Meeting extends RcModule {
       this._alert.ready &&
       this._storage.ready &&
       this._extensionInfo.ready &&
+      (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
     );
   }
@@ -339,7 +344,7 @@ export default class Meeting extends RcModule {
       }
       // Reload meeting info
       this._initMeeting();
-      // Notify user the meeting has been scheduled
+      // Notify user the meeting has been updated
       if (isAlertSuccess) {
         setTimeout(() => {
           this._alert.info({
@@ -473,6 +478,10 @@ export default class Meeting extends RcModule {
 
   get isScheduling() {
     return this.state.schedulingStatus === scheduleStatus.scheduling;
+  }
+
+  get isUpdating() {
+    return this.meeting && this.meeting.id && this._isUpdating(this.meeting.id);
   }
 
   get status() {

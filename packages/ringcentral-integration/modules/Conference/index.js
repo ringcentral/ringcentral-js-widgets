@@ -19,6 +19,7 @@ const DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(
     'Storage',
     'RegionSettings',
     'RolesAndPermissions',
+    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'ConferenceOptions', optional: true }
   ]
 })
@@ -35,6 +36,7 @@ export default class Conference extends DataFetcher {
     regionSettings,
     storage,
     rolesAndPermissions,
+    availabilityMonitor,
     ...options
   }) {
     super({
@@ -52,6 +54,7 @@ export default class Conference extends DataFetcher {
     this._savedStorageKey = 'conferenceSaveCurrentSettings';
     this._regionSetting = regionSettings;
     this._rolesAndPermissions = rolesAndPermissions;
+    this._availabilityMonitor = availabilityMonitor;
     this._lastCountryCode = null;
     this._storage.registerReducer({
       key: this._dialInNumberStorageKey,
@@ -93,7 +96,10 @@ export default class Conference extends DataFetcher {
   }
 
   _shouldInit() {
-    return super._shouldInit() && this._rolesAndPermissions.ready && this._alert.ready;
+    return super._shouldInit() &&
+      this._rolesAndPermissions.ready &&
+      this._alert.ready &&
+      (!this._availabilityMonitor || this._availabilityMonitor.ready);
   }
 
   @proxify
@@ -104,9 +110,10 @@ export default class Conference extends DataFetcher {
       this._store.dispatch({ type: this.actionTypes.fetchSuccess, data });
       return data;
     } catch (error) {
-      this._alert.warning({
-        message: callControlError.generalError
-      });
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: callControlError.generalError });
+      }
+
       return null;
     }
   }

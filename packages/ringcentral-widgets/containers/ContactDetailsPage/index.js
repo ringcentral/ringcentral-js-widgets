@@ -11,11 +11,23 @@ function mapToProps(_, {
     contactDetails,
     contactSearch,
     rolesAndPermissions,
+    auth,
+    audioSettings,
+    webphone,
+    callingSettings,
   },
 }) {
   return {
     currentLocale: locale.currentLocale,
     contactItem: contactDetails.contact,
+    disableCallButton:
+      auth.ready &&
+      audioSettings.ready &&
+      webphone && webphone.ready &&
+      auth.loggedIn &&
+      (callingSettings.isWebphoneMode &&
+        (!audioSettings.userMedia || !webphone.connected)
+      ),
     showSpinner: !(
       locale.ready &&
       contactSearch.ready &&

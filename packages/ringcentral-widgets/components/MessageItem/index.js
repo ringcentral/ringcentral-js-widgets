@@ -385,6 +385,7 @@ export default class MessageItem extends Component {
       countryCode,
       currentLocale,
       conversation: {
+        conversationId,
         unreadCounts,
         correspondents,
         correspondentMatches,
@@ -397,6 +398,7 @@ export default class MessageItem extends Component {
         faxAttachment,
       },
       disableLinks: parentDisableLinks,
+      disableCallButton,
       disableClickToDial,
       onClickToDial,
       onClickToSms,
@@ -451,7 +453,7 @@ export default class MessageItem extends Component {
       )
       : null;
     return (
-      <div data-sign="messageItem" className={styles.root} onClick={this.onClickItem}>
+      <div data-sign="messageItem" data-id={conversationId} className={styles.root} onClick={this.onClickItem}>
         <div
           className={classnames(
             styles.wrapper,
@@ -537,6 +539,7 @@ export default class MessageItem extends Component {
             disableClickToSms={disableClickToSms}
             phoneNumber={phoneNumber}
             disableLinks={disableLinks}
+            disableCallButton={disableCallButton}
             disableClickToDial={disableClickToDial}
             isLogging={isLogging || this.state.isLogging}
             isLogged={conversationMatches.length > 0}
@@ -599,6 +602,7 @@ MessageItem.propTypes = {
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
@@ -629,6 +633,7 @@ MessageItem.defaultProps = {
   disableClickToDial: false,
   onClickToSms: undefined,
   disableLinks: false,
+  disableCallButton: false,
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,

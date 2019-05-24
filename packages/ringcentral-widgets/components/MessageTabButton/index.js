@@ -32,7 +32,7 @@ function NavigationButton({
         width,
       }}
     >
-      <div className={styles.iconHolder} title={label}>
+      <div className={styles.iconHolder} title={label} data-sign={label}>
         <div className={styles.icon}>
           {icon}
         </div>

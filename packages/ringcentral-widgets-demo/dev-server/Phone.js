@@ -80,15 +80,6 @@ const history = global.process && global.process.release && global.process.relea
   hashHistory;
 @ModuleFactory({
   providers: [
-    {
-      provide: 'Client',
-      useFactory: ({ sdkConfig }) => (
-        new RingCentralClient(new SDK(sdkConfig))
-      ),
-      deps: [
-        { dep: 'SdkConfig', useParam: true, },
-      ],
-    },
     { provide: 'Alert', useClass: Alert },
     { provide: 'Brand', useClass: Brand },
     { provide: 'Softphone', useClass: Softphone },
@@ -107,7 +98,6 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'Storage', useClass: Storage },
     { provide: 'AudioSettings', useClass: AudioSettings },
     { provide: 'AudioSettingsUI', useClass: AudioSettingsUI },
-    { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
     { provide: 'CompanyContacts', useClass: CompanyContacts },
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
@@ -182,14 +172,14 @@ const history = global.process && global.process.release && global.process.relea
       spread: true
     },
     { provide: 'ConferenceCall', useClass: ConferenceCall },
-    // { provide: 'AvailabilityMonitor', useClass: AvailabilityMonitor },
-    // {
-    //   provide: 'AvailabilityMonitorOptions',
-    //   useValue: {
-    //     enabled: true,
-    //   },
-    //   spread: true
-    // },
+    { provide: 'AvailabilityMonitor', useClass: AvailabilityMonitor },
+    {
+      provide: 'AvailabilityMonitorOptions',
+      useValue: {
+        enabled: true,
+      },
+      spread: true
+    },
     // {
     //   provide: 'ConferenceCallOptions',
     //   useValue: {
@@ -515,9 +505,19 @@ export function createPhone({
   version = '0.1.0',
   apiConfig,
   brandConfig,
+  clientService,
 }) {
   @ModuleFactory({
     providers: [
+      {
+        provide: 'Client',
+        useFactory: ({ sdkConfig }) => (
+          new RingCentralClient(clientService || new SDK(sdkConfig))
+        ),
+        deps: [
+          { dep: 'SdkConfig', useParam: true, },
+        ],
+      },
       {
         provide: 'ModuleOptions',
         useValue: {
@@ -556,7 +556,7 @@ export function createPhone({
           appKey: apiConfig.appKey,
           appName: brandConfig.appName,
           appVersion: version,
-          webphoneLogLevel: 1,
+          webphoneLogLevel: 3,
         },
       },
       {

@@ -16,6 +16,10 @@ export function mapToProps(_, {
     connectivityMonitor,
     rateLimiter,
     messageStore,
+    auth,
+    audioSettings,
+    webphone,
+    callingSettings,
   },
   showTitle = false,
   enableContactFallback = false,
@@ -41,6 +45,14 @@ export function mapToProps(_, {
       !connectivityMonitor.connectivity ||
       rateLimiter.throttling
     ),
+    disableCallButton:
+      auth.ready &&
+      audioSettings.ready &&
+      webphone && webphone.ready &&
+      auth.loggedIn &&
+      (callingSettings.isWebphoneMode &&
+        (!audioSettings.userMedia || !webphone.connected)
+      ),
     disableClickToDial: !(call && call.isIdle),
     outboundSmsPermission: !!(
       permissions &&

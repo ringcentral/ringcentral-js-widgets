@@ -799,7 +799,7 @@ describe('DataMatcher', async () => {
         queries: [5, 6, 7, 8, 9],
       });
       expect(instance._matchQueues.has('bar')).to.equal(true);
-      await sleep(20);
+      await sleep(50);
       expect(instance._matchQueues.has('bar')).to.equal(false);
       await secondPromise;
       sinon.assert.calledTwice(instance._fetchMatchResult);

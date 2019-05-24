@@ -32,15 +32,23 @@
   line-height: 35px;
   border-radius: 17.5px;
   text-align: center;
-  color: $snow;
+  /*
+    Reason of important
+    According to the current Button style design, we can't ensure this attribute will cover  Button component origin style.
+    We added important here.
+  */
+  color: $snow !important;
   font-size: 13px;
   &:hover{
-    color: $silver;
+    color: $silver !important;;
   }
 }
 
 .disabled {
   background-color: $silver;
+  &:hover{
+    color: $snow !important;
+  }
 }
 
 .actionPrompt {

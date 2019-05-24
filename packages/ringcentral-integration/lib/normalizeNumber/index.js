@@ -14,11 +14,12 @@ export default function normalizeNumber({
   countryCode = 'US',
   areaCode = '',
 }) {
-  return format({
+  const normalizedNumber = format({
     phoneNumber,
     removeExtension,
     countryCode,
     areaCode,
     type: formatTypes.e164,
   });
+  return normalizedNumber.replace(/\s/g, '');
 }

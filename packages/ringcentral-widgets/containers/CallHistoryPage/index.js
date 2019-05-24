@@ -16,6 +16,10 @@ function mapToProps(_, {
     call,
     composeText,
     rolesAndPermissions,
+    auth,
+    audioSettings,
+    webphone,
+    callingSettings,
   },
   enableContactFallback = false,
   useNewList = false,
@@ -30,6 +34,14 @@ function mapToProps(_, {
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity ||
       rateLimiter.throttling,
+    disableCallButton:
+      auth.ready &&
+      audioSettings.ready &&
+      webphone && webphone.ready &&
+      auth.loggedIn &&
+      (callingSettings.isWebphoneMode &&
+        (!audioSettings.userMedia || !webphone.connected)
+      ),
     disableClickToDial: !(call && call.isIdle),
     outboundSmsPermission: !!(
       rolesAndPermissions.permissions &&

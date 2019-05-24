@@ -7,6 +7,7 @@ import {
 import moduleStatuses from '../../enums/moduleStatuses';
 import mapOptionToMode from './mapOptionToMode';
 import callingOptions from './callingOptions';
+import callingModes from './callingModes';
 import callingSettingsMessages from './callingSettingsMessages';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
@@ -56,6 +57,7 @@ export default class CallingSettings extends RcModule {
     tabManager,
     onFirstLogin,
     webphone,
+    emergencyCallAvailable = false,
     ...options
   }) {
     super({
@@ -72,6 +74,7 @@ export default class CallingSettings extends RcModule {
     this._tabManager = tabManager;
     this._webphone = webphone;
     this._storageKey = 'callingSettingsData';
+    this._emergencyCallAvailable = emergencyCallAvailable;
 
     this._onFirstLogin = onFirstLogin;
 
@@ -86,6 +89,7 @@ export default class CallingSettings extends RcModule {
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
+
   async _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
@@ -105,6 +109,7 @@ export default class CallingSettings extends RcModule {
       await this._validateSettings();
     }
   }
+
   _shouldInit() {
     return (
       this._storage.ready &&
@@ -115,6 +120,7 @@ export default class CallingSettings extends RcModule {
       this.pending
     );
   }
+
   _shouldReset() {
     return (
       this.ready &&
@@ -127,6 +133,7 @@ export default class CallingSettings extends RcModule {
       )
     );
   }
+
   _shouldValidate() {
     return (
       this.ready &&
@@ -138,6 +145,7 @@ export default class CallingSettings extends RcModule {
       )
     );
   }
+
   async _init() {
     if (!this._rolesAndPermissions.callingEnabled) return;
     this._myPhoneNumbers = this.myPhoneNumbers;
@@ -152,7 +160,9 @@ export default class CallingSettings extends RcModule {
         callWith: defaultCallWith,
         timestamp: Date.now(),
       });
-      this._warningEmergencyCallingNotAvailable();
+      if (!this._emergencyCallAvailable) {
+        this._warningEmergencyCallingNotAvailable();
+      }
       if (typeof this._onFirstLogin === 'function') {
         this._onFirstLogin();
       }
@@ -220,13 +230,15 @@ export default class CallingSettings extends RcModule {
       });
     }
   }
+
   _hasWebphonePermissionRemoved() {
     return (!(
       this._webphoneEnabled &&
-        this._webphone
+      this._webphone
     ) &&
       this.callWith === callingOptions.browser);
   }
+
   _hasPermissionChanged() {
     return (
       !this._ringoutEnabled &&
@@ -237,6 +249,7 @@ export default class CallingSettings extends RcModule {
       )
     );
   }
+
   _hasPhoneNumberChanged() {
     return (
       (this.callWith === callingOptions.otherphone &&
@@ -245,6 +258,7 @@ export default class CallingSettings extends RcModule {
         this._myPhoneNumbers.indexOf(this.myLocation) === -1)
     );
   }
+
   @proxify
   async _warningEmergencyCallingNotAvailable() {
     if (this.callWith === callingOptions.browser) {
@@ -289,6 +303,10 @@ export default class CallingSettings extends RcModule {
 
   get timestamp() {
     return this.data.timestamp;
+  }
+
+  get isWebphoneMode() {
+    return this.callingMode === callingModes.webphone;
   }
 
   @selector
@@ -371,7 +389,7 @@ export default class CallingSettings extends RcModule {
     () => this._extensionPhoneNumber.callerIdNumbers,
     phoneNumbers => phoneNumbers.sort((firstItem, lastItem) => {
       if (firstItem.usageType === 'DirectNumber') return -1;
-      else if (lastItem.usageType === 'DirectNumber') return 1;
+      if (lastItem.usageType === 'DirectNumber') return 1;
       else if (firstItem.usageType === 'MainCompanyNumber') return -1;
       else if (lastItem.usageType === 'MainCompanyNumber') return 1;
       else if (firstItem.usageType < lastItem.usageType) return -1;
@@ -399,7 +417,9 @@ export default class CallingSettings extends RcModule {
         this._alert.info({
           message: callingSettingsMessages.saveSuccess,
         });
-        this._warningEmergencyCallingNotAvailable();
+        if (!this._emergencyCallAvailable) {
+          this._warningEmergencyCallingNotAvailable();
+        }
       }
     }
   }

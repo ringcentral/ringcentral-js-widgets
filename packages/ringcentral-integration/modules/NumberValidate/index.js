@@ -165,8 +165,8 @@ export default class NumberValidate extends RcModule {
       countryCode,
       areaCode,
     } = this._regionSettings;
-    const normalizedCompanyNumber
-      = normalizeNumber({ phoneNumber: companyNumber, countryCode, areaCode });
+    const normalizedCompanyNumber =
+      normalizeNumber({ phoneNumber: companyNumber, countryCode, areaCode });
     if (normalizedCompanyNumber !== this._accountInfo.mainCompanyNumber) {
       return false;
     }

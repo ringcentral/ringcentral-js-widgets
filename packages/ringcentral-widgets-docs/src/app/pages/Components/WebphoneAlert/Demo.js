@@ -7,6 +7,9 @@ props.currentLocale = 'en-US';
 props.message = {
   message: 'webphone-browserNotSupported',
 };
+props.brand = {
+  name: 'RingCentral',
+};
 
 /**
  * A example of `WebphoneAlert`

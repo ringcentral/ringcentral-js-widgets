@@ -31,7 +31,8 @@ export default function EntityButton({
     <Button
       className={classnames(styles.entity, className)}
       onClick={onClick}
-      disabled={disableLinks} >
+      disabled={disableLinks}
+      dataSign={title} >
 
       <span
         className={icon}

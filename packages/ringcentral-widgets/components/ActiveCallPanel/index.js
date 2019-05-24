@@ -89,44 +89,50 @@ function ActiveCallPanel({
 
   switch (layout) {
     case callCtrlLayouts.mergeCtrl:
-      callInfo = (<MergeInfo
-        currentLocale={currentLocale}
-        timeCounter={timeCounter}
-        lastCallInfo={lastCallInfo}
-        currentCallAvatarUrl={avatarUrl}
-        currentCallTitle={currentCallTitle || fallBackName}
-        formatPhone={formatPhone}
-        getAvatarUrl={getAvatarUrl}
-      />);
+      callInfo = (
+        <MergeInfo
+          currentLocale={currentLocale}
+          timeCounter={timeCounter}
+          lastCallInfo={lastCallInfo}
+          currentCallAvatarUrl={avatarUrl}
+          currentCallTitle={currentCallTitle || fallBackName}
+          formatPhone={formatPhone}
+          getAvatarUrl={getAvatarUrl}
+        />
+      );
       break;
 
     case callCtrlLayouts.conferenceCtrl:
-      callInfo = (<ConferenceInfo
-        currentLocale={currentLocale}
-        partyProfiles={conferenceCallParties}
-        onClick={gotoParticipantsCtrl}
-      />);
+      callInfo = (
+        <ConferenceInfo
+          currentLocale={currentLocale}
+          partyProfiles={conferenceCallParties}
+          onClick={gotoParticipantsCtrl}
+        />
+      );
       break;
 
     default:
-      callInfo = (<CallInfo
-        currentLocale={currentLocale}
-        nameMatches={nameMatches}
-        fallBackName={fallBackName}
-        phoneNumber={phoneNumber}
-        formatPhone={formatPhone}
-        startTime={startTime}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        selectedMatcherIndex={selectedMatcherIndex}
-        onSelectMatcherName={onSelectMatcherName}
-        avatarUrl={avatarUrl}
-        brand={brand}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        sourceIcons={sourceIcons}
-        phoneTypeRenderer={phoneTypeRenderer}
-        phoneSourceNameRenderer={phoneSourceNameRenderer}
-      />);
+      callInfo = (
+        <CallInfo
+          currentLocale={currentLocale}
+          nameMatches={nameMatches}
+          fallBackName={fallBackName}
+          phoneNumber={phoneNumber}
+          formatPhone={formatPhone}
+          startTime={startTime}
+          areaCode={areaCode}
+          countryCode={countryCode}
+          selectedMatcherIndex={selectedMatcherIndex}
+          onSelectMatcherName={onSelectMatcherName}
+          avatarUrl={avatarUrl}
+          brand={brand}
+          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+        />
+      );
       break;
   }
 

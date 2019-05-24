@@ -4,7 +4,6 @@ import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
 import moduleStatuses from '../../enums/moduleStatuses';
 import callErrors from '../Call/callErrors';
-
 import ensureExist from '../../lib/ensureExist';
 import actionTypes from './actionTypes';
 import getActiveCallControlReducer from './getActiveCallControlReducer';
@@ -32,7 +31,8 @@ const subscribeEvent = '/account/~/extension/~/telephony/sessions';
     'AccountInfo',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
-    { dep: 'ActiveCallControlOptions', optional: true }
+    { dep: 'ActiveCallControlOptions', optional: true },
+    { dep: 'AvailabilityMonitor', optional: true },
   ]
 })
 export default class ActiveCallControl extends Pollable {
@@ -45,6 +45,7 @@ export default class ActiveCallControl extends Pollable {
     subscription,
     connectivityMonitor,
     rolesAndPermissions,
+    availabilityMonitor,
     tabManager,
     callMonitor,
     polling = false,
@@ -65,6 +66,7 @@ export default class ActiveCallControl extends Pollable {
     this._subscription = this:: ensureExist(subscription, 'subscription');
     this._connectivityMonitor = this:: ensureExist(connectivityMonitor, 'connectivityMonitor');
     this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._availabilityMonitor = availabilityMonitor;
     this._callMonitor = this:: ensureExist(callMonitor, 'callMonitor');
     this._tabManager = tabManager;
     this._ttl = ttl;
@@ -124,6 +126,7 @@ export default class ActiveCallControl extends Pollable {
       this._callMonitor.ready &&
       (!this._tabManager || this._tabManager.ready) &&
       this._rolesAndPermissions.ready &&
+      (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
     );
   }
@@ -137,7 +140,8 @@ export default class ActiveCallControl extends Pollable {
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._connectivityMonitor.ready ||
         !this._callMonitor.ready ||
-        !this._rolesAndPermissions.ready
+        !this._rolesAndPermissions.ready ||
+        (!!this._availabilityMonitor && !this._availabilityMonitor.ready)
       ) &&
       this.ready
     );
@@ -331,12 +335,10 @@ export default class ActiveCallControl extends Pollable {
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
-          message: callControlError.muteConflictError
+          message: callControlError.muteConflictError,
         });
-      } else {
-        this._alert.warning({
-          message: callControlError.generalError
-        });
+      } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: callControlError.generalError });
       }
       this.store.dispatch({
         type: this.actionTypes.muteError,
@@ -364,12 +366,10 @@ export default class ActiveCallControl extends Pollable {
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
-          message: callControlError.unMuteConflictError
+          message: callControlError.unMuteConflictError,
         });
-      } else {
-        this._alert.warning({
-          message: callControlError.generalError
-        });
+      } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: callControlError.generalError });
       }
       this.store.dispatch({
         type: this.actionTypes.unmuteError,
@@ -440,9 +440,10 @@ export default class ActiveCallControl extends Pollable {
         sessionId,
       });
     } catch (error) {
-      this._alert.warning({
-        message: callControlError.generalError
-      });
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: callControlError.generalError });
+      }
+
       this.store.dispatch({
         type: this.actionTypes.hangUpError,
       });
@@ -463,9 +464,9 @@ export default class ActiveCallControl extends Pollable {
         sessionId,
       });
     } catch (error) {
-      this._alert.warning({
-        message: callControlError.generalError
-      });
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: callControlError.generalError });
+      }
       this.store.dispatch({
         type: this.actionTypes.rejectError,
       });
@@ -488,13 +489,12 @@ export default class ActiveCallControl extends Pollable {
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
-          message: callControlError.holdConflictError
+          message: callControlError.holdConflictError,
         });
-      } else {
-        this._alert.warning({
-          message: callControlError.generalError
-        });
+      } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: callControlError.generalError });
       }
+
       this.store.dispatch({
         type: this.actionTypes.holdError,
       });
@@ -519,7 +519,7 @@ export default class ActiveCallControl extends Pollable {
         this._alert.warning({
           message: callControlError.unHoldConflictError
         });
-      } else {
+      } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
         this._alert.warning({
           message: callControlError.generalError
         });
@@ -541,12 +541,14 @@ export default class ActiveCallControl extends Pollable {
       const validatedResult = await this._numberValidate.validateNumbers([transferNumber]);
       if (!validatedResult.result) {
         validatedResult.errors.forEach((error) => {
-          this._alert.warning({
-            message: callErrors[error.type],
-            payload: {
-              phoneNumber: error.phoneNumber
-            }
-          });
+          if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+            this._alert.warning({
+              message: callErrors[error.type],
+              payload: {
+                phoneNumber: error.phoneNumber,
+              },
+            });
+          }
         });
         this.store.dispatch({
           type: this.actionTypes.transferError,
@@ -565,9 +567,9 @@ export default class ActiveCallControl extends Pollable {
         type: this.actionTypes.transferSuccess,
       });
     } catch (error) {
-      this._alert.warning({
-        message: callControlError.generalError
-      });
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: callControlError.generalError });
+      }
       this.store.dispatch({
         type: this.actionTypes.transferError,
       });

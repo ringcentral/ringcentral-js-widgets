@@ -19,14 +19,13 @@
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^24.5.0",
     "faker": "^4.1.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
-    "jest": "^23.6.0"
+    "jest": "^24.5.0"
   },
   "scripts": {
     "test": "jest",
@@ -38,5 +37,8 @@
     "transform": {
       "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     }
+  },
+  "ci": {
+    "ringcentral-js-widgets": "**"
   }
 }

@@ -11,7 +11,7 @@ import { selector } from '../../lib/selector';
 import callingModes from '../CallingSettings/callingModes';
 import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
 import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
-import sessionStatus from '../Webphone/sessionStatus';
+import sessionStatusEnum from '../Webphone/sessionStatus';
 
 import actionTypes from './actionTypes';
 import conferenceRole from './conferenceRole';
@@ -58,6 +58,10 @@ function ascendSortParties(parties) {
       dep: 'ConferenceCallOptions',
       optional: true
     },
+    {
+      dep: 'AvailabilityMonitor',
+      optional: true
+    },
   ]
 })
 
@@ -78,6 +82,7 @@ export default class ConferenceCall extends RcModule {
     contactMatcher,
     webphone,
     connectivityMonitor,
+    availabilityMonitor,
     pulling = true,
     capacity = MAXIMUM_CAPACITY,
     timeout = DEFAULT_TIMEOUT,
@@ -88,16 +93,17 @@ export default class ConferenceCall extends RcModule {
       actionTypes,
     });
     this._eventEmitter = new EventEmitter();
-    this._auth = this:: ensureExist(auth, 'auth');
-    this._alert = this:: ensureExist(alert, 'alert');
-    this._call = this:: ensureExist(call, 'call');
-    this._callingSettings = this:: ensureExist(callingSettings, 'callingSettings');
+    this._auth = this::ensureExist(auth, 'auth');
+    this._alert = this::ensureExist(alert, 'alert');
+    this._call = this::ensureExist(call, 'call');
+    this._availabilityMonitor = availabilityMonitor;
+    this._callingSettings = this::ensureExist(callingSettings, 'callingSettings');
     this._client = this:: ensureExist(client, 'client');
     // in order to run the integeration test, we need it to be optional
     this._webphone = webphone;
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
-    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     // we need the constructed actions
     this._reducer = getConferenceCallReducer(this.actionTypes);
     this._ttl = DEFAULT_TTL;
@@ -200,9 +206,12 @@ export default class ConferenceCall extends RcModule {
         });
       }
     } catch (e) {
-      this._alert.warning({
-        message: conferenceCallErrors.terminateConferenceFailed,
-      });
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(e)) {
+        this._alert.warning({
+          message: conferenceCallErrors.terminateConferenceFailed,
+        });
+      }
+
       this.store.dispatch({
         type: this.actionTypes.terminateConferenceFailed,
         message: e.toString()
@@ -248,7 +257,7 @@ export default class ConferenceCall extends RcModule {
     });
 
     try {
-      const partyProfile = await this._getProfile(webphoneSession.id);
+      const partyProfile = this._getProfile(webphoneSession.id);
       await this._client.service.platform()
         .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, webphoneSession.partyData);
       const newConference = await this.updateConferenceStatus(id);
@@ -301,9 +310,12 @@ export default class ConferenceCall extends RcModule {
         conference: this.state.conferences[id],
       });
     } catch (e) {
-      this._alert.warning({
-        message: conferenceCallErrors.removeFromConferenceFailed,
-      });
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(e)) {
+        this._alert.warning({
+          message: conferenceCallErrors.removeFromConferenceFailed,
+        });
+      }
+
       this.store.dispatch({
         type: this.actionTypes.removeFromConferenceFailed,
         message: e.toString()
@@ -446,9 +458,12 @@ export default class ConferenceCall extends RcModule {
         if (conferenceState && conferenceState.conference.parties.length < 1) {
           this.terminateConference(conferenceState.conference.id);
         }
-        this._alert.warning({
-          message: conferenceCallErrors.bringInFailed,
-        });
+
+        if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(e)) {
+          this._alert.warning({
+            message: conferenceCallErrors.bringInFailed,
+          });
+        }
       }
       if (!sipInstances || conferenceId === null) {
         this.store.dispatch({
@@ -623,6 +638,7 @@ export default class ConferenceCall extends RcModule {
       this._call.ready &&
       this._rolesAndPermissions.ready &&
       this._connectivityMonitor.ready &&
+      (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
     );
   }
@@ -636,6 +652,7 @@ export default class ConferenceCall extends RcModule {
         || !this._call.ready
         || !this._rolesAndPermissions.ready
         || !this._connectivityMonitor.ready
+        || (!!this._availabilityMonitor && !this._availabilityMonitor.ready)
       ) &&
       this.ready
     );
@@ -762,62 +779,39 @@ export default class ConferenceCall extends RcModule {
     }
   }
 
-  @proxify
-  async _getProfile(sessionId) {
-    if (!this._contactMatcher) {
-      return null;
-    }
+  _getProfile(sessionId) {
     const session = this._webphone.sessions.find(session => session.id === sessionId);
-    const {
-      to, contactMatch, from, fromNumber, direction
-    } = session;
 
-    let { toUserName } = session;
-    let avatarUrl;
     let rcId;
-    let partyNumber;
-    let calleeType = calleeTypes.contacts;
+    let avatarUrl;
+    let calleeType = calleeTypes.unknown;
+    let partyName = (session.direction === callDirections.outbound) ?
+      session.toUserName :
+      session.fromUserName;
+    const partyNumber = (session.direction === callDirections.outbound) ?
+      session.to :
+      session.from;
 
-    if (direction === callDirections.outbound) {
-      partyNumber = to;
-    } else {
-      partyNumber = fromNumber;
+    let matchedContact = session.contactMatch;
+    if (!matchedContact && this._contactMatcher) {
+      const nameMatches = this._contactMatcher.dataMapping[partyNumber];
+      if (nameMatches && nameMatches.length) {
+        matchedContact = nameMatches[0];
+      }
     }
 
-    // HACK: refresh the cache
-    await this._contactMatcher.match({
-      queries: [partyNumber],
-      ignoreCache: true
-    });
-
-    if (this._contactMatcher && this._contactMatcher.dataMapping) {
-      const contactMapping = this._contactMatcher.dataMapping;
-      let contact = contactMatch;
-      let nameMatches;
-
-      if (direction === callDirections.outbound) {
-        nameMatches = (contactMapping && contactMapping[to]) || [];
-      } else {
-        nameMatches = (contactMapping && contactMapping[from]) || [];
-      }
-
-      if (!contact) {
-        contact = nameMatches && nameMatches[0];
-      }
-      if (contact) {
-        avatarUrl = contact.profileImageUrl;
-        toUserName = contact.name;
-        rcId = contact.id;
-      } else {
-        calleeType = calleeTypes.unknown;
-      }
+    if (matchedContact) {
+      rcId = matchedContact.id;
+      avatarUrl = matchedContact.profileImageUrl;
+      partyName = matchedContact.name;
+      calleeType = calleeTypes.contacts;
     }
 
     return {
-      avatarUrl,
-      toUserName,
-      partyNumber,
       rcId,
+      avatarUrl,
+      partyName,
+      partyNumber,
       calleeType,
     };
   }
@@ -957,20 +951,33 @@ export default class ConferenceCall extends RcModule {
         return _lastCallInfo;
       }
 
-      const lastCall = sessions.find(
-        session => session.id === fromSessionId
-      );
-
-      const toMatches = (lastCall && (
-        this._contactMatcher.dataMapping &&
-        this._contactMatcher.dataMapping[lastCall.to]
-      )) || [];
+      let sessionName;
+      let sessionNumber;
+      let sessionStatus;
+      let matchedContact;
+      const fromSession = sessions.find(session => session.id === fromSessionId);
+      if (fromSession) {
+        sessionName = (fromSession.direction === callDirections.outbound) ?
+          fromSession.toUserName :
+          fromSession.fromUserName;
+        sessionNumber = (fromSession.direction === callDirections.outbound) ?
+          fromSession.to :
+          fromSession.from;
+        sessionStatus = fromSession.callStatus;
+        matchedContact = fromSession.contactMatch;
+        if (!matchedContact && this._contactMatcher) {
+          const nameMatches = this._contactMatcher.dataMapping[sessionNumber];
+          if (nameMatches && nameMatches.length) {
+            matchedContact = nameMatches[0];
+          }
+        }
+      }
 
       let lastCalleeType;
-      if (lastCall) {
-        if (toMatches.length) {
+      if (fromSession) {
+        if (matchedContact) {
           lastCalleeType = calleeTypes.contacts;
-        } else if (this.isConferenceSession(lastCall.id)) {
+        } else if (this.isConferenceSession(fromSession.id)) {
           lastCalleeType = calleeTypes.conference;
         } else {
           lastCalleeType = calleeTypes.unknown;
@@ -981,7 +988,7 @@ export default class ConferenceCall extends RcModule {
       ) {
         _lastCallInfo = {
           ..._lastCallInfo,
-          status: sessionStatus.finished,
+          status: sessionStatusEnum.finished,
         };
         return _lastCallInfo;
       } else {
@@ -1002,28 +1009,28 @@ export default class ConferenceCall extends RcModule {
             extraNum: partiesAvatarUrls.length - 1,
             name: null,
             phoneNumber: null,
-            status: lastCall.callStatus,
+            status: sessionStatus,
             lastCallContact: null,
           };
           break;
         case calleeTypes.contacts:
           _lastCallInfo = {
             calleeType: calleeTypes.contacts,
-            avatarUrl: toMatches[0].profileImageUrl,
-            name: toMatches[0].name,
-            status: lastCall.callStatus,
-            phoneNumber: lastCall.to,
+            avatarUrl: matchedContact.profileImageUrl,
+            name: matchedContact.name,
+            status: sessionStatus,
+            phoneNumber: sessionNumber,
             extraNum: 0,
-            lastCallContact: toMatches[0],
+            lastCallContact: matchedContact,
           };
           break;
         default:
           _lastCallInfo = {
             calleeType: calleeTypes.unknown,
             avatarUrl: null,
-            name: null,
-            status: lastCall ? lastCall.callStatus : null,
-            phoneNumber: lastCall.to,
+            name: sessionName,
+            status: sessionStatus,
+            phoneNumber: sessionNumber,
             extraNum: 0,
             lastCallContact: null,
           };

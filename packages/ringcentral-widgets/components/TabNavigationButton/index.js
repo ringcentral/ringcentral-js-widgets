@@ -38,7 +38,7 @@ export default function NavigationButton({
         height,
       }}
     >
-      <div className={styles.iconHolder} title={label}>
+      <div className={styles.iconHolder} title={label} data-sign={label}>
 
         <div className={classnames(styles.icon, styleClass, activationClassName)}>
           {active ? activeIcon : icon}
@@ -74,5 +74,5 @@ NavigationButton.defaultProps = {
   onClick: undefined,
   keepStyle: false,
   inActiveClassName: undefined,
-  activationClassName: undefined,
+  activeClassName: undefined,
 };

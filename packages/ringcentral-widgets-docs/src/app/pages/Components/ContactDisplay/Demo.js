@@ -33,7 +33,6 @@ class ContactDisplayDemo extends Component {
         areaCode="657"
         countryCode="1"
         contactMatches={contactMatches}
-        disabled={false}
         isLogging={false}
         selected={this.state.selected}
         onSelectContact={this.onSelectContact}

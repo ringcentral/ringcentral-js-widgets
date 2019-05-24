@@ -12,20 +12,22 @@ export function getVideoElementPreparedReducer(types) {
 }
 
 export function getConnectionStatusReducer(types) {
-  return (state = connectionStatus.disconnected, { type }) => {
+  return (state = null, { type }) => {
     switch (type) {
-      case types.connect:
-      case types.reconnect:
+      case types.connect: // trigger by first 3 connect from disconnected or connectFailed status
         return connectionStatus.connecting;
-      case types.registered:
+      case types.reconnect: // trigger by connect from connectError status
+        return connectionStatus.reconnecting;
+      case types.registered: // trigger when register success
         return connectionStatus.connected;
-      case types.unregistered:
-        return connectionStatus.disconnected;
-      case types.disconnect:
-        return connectionStatus.disconnecting;
-      case types.connectError:
-      case types.registrationFailed:
+      case types.connectFailed: // trigger when connect failed (retry time <=2)
         return connectionStatus.connectFailed;
+      case types.connectError: // trigger when connect failed (retry time > 2)
+        return connectionStatus.connectError;
+      case types.unregistered: // trigger by user disconnect success
+        return connectionStatus.disconnected;
+      case types.disconnect: // trigger by user disconnect
+        return connectionStatus.disconnecting;
       default:
         return state;
     }
@@ -36,7 +38,7 @@ export function getErrorCodeReducer(types) {
   return (state = null, { type, errorCode = state }) => {
     switch (type) {
       case types.connectError:
-      case types.registrationFailed:
+      case types.connectFailed:
         return errorCode;
       case types.registered:
         return null;
@@ -50,7 +52,7 @@ export function getStatusCodeReducer(types) {
   return (state = null, { type, statusCode = state }) => {
     switch (type) {
       case types.connectError:
-      case types.registrationFailed:
+      case types.connectFailed:
         return statusCode;
       case types.registered:
         return null;
@@ -61,13 +63,16 @@ export function getStatusCodeReducer(types) {
 }
 
 export function getConnectRetryCountsReducer(types) {
-  return (state = 0, { type }) => {
+  return (state = 0, { type, retryCounts }) => {
     switch (type) {
+      case types.connect:
       case types.reconnect:
         return state + 1;
-      case types.resetRetryCounts:
+      case types.unregistered:
       case types.registered:
         return 0;
+      case types.setRetryCounts:
+        return retryCounts;
       default:
         return state;
     }

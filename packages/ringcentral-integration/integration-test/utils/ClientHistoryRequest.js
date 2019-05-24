@@ -23,7 +23,8 @@ export default class ClientHistoryRequest {
       this._requestContainer.set(apiResponse._request.url, JSON.parse(apiResponse._text));
     });
     this._client.on(this._client.events.requestError, (error) => {
-      console.error(error);
+      console.error(error.apiResponse.json());
+      console.error(error.apiResponse._response.status);
     });
   }
 

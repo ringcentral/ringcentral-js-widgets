@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -19,7 +20,7 @@ import Switch from '../Switch';
 import IconField from '../IconField';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
-import Select from '../DropdownSelect';
+import DropdownSelect from '../DropdownSelect';
 import SaveButton from '../SaveButton';
 
 const TooltipCom = typeof Tooltip === 'function' ? Tooltip : Tooltip.default;
@@ -30,9 +31,10 @@ class CallingSettingsContent extends Component {
     this.state = {
       callWith: props.callWith,
       ringoutPrompt: props.ringoutPrompt,
-      myLocation: props.myLocation,
+      myLocation: props.myLocation
     };
   }
+
   componentWillReceiveProps(newProps) {
     if (newProps.callWith !== this.props.callWith) {
       this.setState({
@@ -50,6 +52,7 @@ class CallingSettingsContent extends Component {
       });
     }
   }
+
   onSave = () => {
     if (typeof this.props.onSave === 'function') {
       const { callWith, myLocation, ringoutPrompt } = this.state;
@@ -60,6 +63,7 @@ class CallingSettingsContent extends Component {
       });
     }
   };
+
   onReset = () => {
     const { callWith, myLocation, ringoutPrompt } = this.props;
     this.setState({
@@ -68,6 +72,7 @@ class CallingSettingsContent extends Component {
       ringoutPrompt,
     });
   };
+
   onCallWithChange = (callWith) => {
     if (callWith === this.props.callWith) {
       this.setState({
@@ -86,17 +91,20 @@ class CallingSettingsContent extends Component {
       ringoutPrompt: this.defaultRingoutPrompt,
     });
   };
+
   onMyLocationChange = (myLocation) => {
     this.setState({
-      myLocation,
+      myLocation
     });
   };
+
   onMyLocationTextChange = (e) => {
     const myLocation = e.target.value;
     this.setState({
       myLocation,
     });
   };
+
   onRingoutPromptChange = (checked) => {
     this.setState({
       ringoutPrompt: checked,
@@ -149,6 +157,7 @@ class CallingSettingsContent extends Component {
       ringoutPrompt,
       availableNumbers,
       disabled,
+      searchable
     } = this.props;
 
     const hasChanges = (
@@ -156,57 +165,66 @@ class CallingSettingsContent extends Component {
       this.state.myLocation !== myLocation ||
       this.state.ringoutPrompt !== ringoutPrompt
     );
+    const availableCallWithNumbers = availableNumbers[this.state.callWith];
+
     const ringout = (
       this.state.callWith !== callingOptions.softphone &&
       this.state.callWith !== callingOptions.browser
-    ) ? (
-      <div>
-        <div className={styles.ringoutHint}>
-          {i18n.getString('ringoutHint', currentLocale)}
+    ) ?
+      (
+        <div>
+          <div className={styles.ringoutHint}>
+            {i18n.getString('ringoutHint', currentLocale)}
+          </div>
+          <InputField
+            dataSign="myLocation"
+            label={i18n.getString('myLocationLabel', currentLocale)}
+          >
+            {availableCallWithNumbers ? (
+              <DropdownSelect
+                className={classnames(styles.select, styles.locationSelect)}
+                value={this.state.myLocation}
+                onChange={this.onMyLocationChange}
+                searchOption={searchable ?
+                  (option, text) => option.includes(text) :
+                  null
+                }
+                options={availableCallWithNumbers}
+                disabled={disabled}
+                dropdownAlign="left"
+                titleEnabled
+              />
+            ) :
+              (
+                <TextInput
+                  dataSign="myLocationInput"
+                  value={this.state.myLocation}
+                  maxLength={30}
+                  onChange={this.onMyLocationTextChange}
+                />
+              )
+            }
+          </InputField>
+          <IconField
+            className={styles.iconField}
+            icon={(
+              <Switch
+                dataSign="ringoutPromptToggle"
+                checked={this.state.ringoutPrompt}
+                onChange={this.onRingoutPromptChange}
+              />
+            )}
+          >
+            {i18n.getString('press1ToStartCallLabel', currentLocale)}
+          </IconField>
         </div>
-        <InputField
-          dataSign="myLocation"
-          label={i18n.getString('myLocationLabel', currentLocale)}
-        >
-          {availableNumbers[this.state.callWith] ? (
-            <Select
-              className={classnames(styles.select, styles.locationSelect)}
-              value={this.state.myLocation}
-              onChange={this.onMyLocationChange}
-              options={availableNumbers[this.state.callWith]}
-              disabled={disabled}
-              dropdownAlign="left"
-              titleEnabled
-            />
-          ) : (
-            <TextInput
-              dataSign="myLocationInput"
-              value={this.state.myLocation}
-              maxLength={30}
-              onChange={this.onMyLocationTextChange}
-            />
-          )}
-        </InputField>
-        <IconField
-          className={styles.iconField}
-          icon={
-            <Switch
-              dataSign="ringoutPromptToggle"
-              checked={this.state.ringoutPrompt}
-              onChange={this.onRingoutPromptChange}
-            />
-          }
-        >
-          {i18n.getString('press1ToStartCallLabel', currentLocale)}
-        </IconField>
-      </div>
       ) : null;
 
     const toolTip = this.getTooltipContent();
     return (
       <React.Fragment>
         <InputField
-          label={
+          label={(
             <span>
               {i18n.getString('makeCallsWith', currentLocale)}
               <TooltipCom
@@ -222,10 +240,10 @@ class CallingSettingsContent extends Component {
                 <InfoIcon width={14} height={14} className={styles.infoIcon} />
               </TooltipCom>
             </span>
-          }
+          )}
           noBorder
         >
-          <Select
+          <DropdownSelect
             dataSign="callingSetting"
             className={styles.select}
             value={this.state.callWith}
@@ -265,10 +283,12 @@ CallingSettingsContent.propTypes = {
   availableNumbers: PropTypes.object.isRequired,
   onSave: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  searchable: PropTypes.bool,
 };
 
 CallingSettingsContent.defaultProps = {
   disabled: false,
+  searchable: false
 };
 
 export default function CallingSettingsPanel({
@@ -280,9 +300,10 @@ export default function CallingSettingsPanel({
 }) {
   const content = showSpinner ? (
     <SpinnerOverlay />
-  ) : (
-    <CallingSettingsContent {...props} currentLocale={currentLocale} />
-  );
+  ) :
+    (
+      <CallingSettingsContent {...props} currentLocale={currentLocale} />
+    );
   return (
     <div
       data-sign="callingSettings"

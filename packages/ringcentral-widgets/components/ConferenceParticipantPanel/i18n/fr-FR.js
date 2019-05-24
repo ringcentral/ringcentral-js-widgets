@@ -6,7 +6,8 @@ export default {
   cancel: "Annuler",
   participants: "Participants",
   participant: "Participant",
-  conferenceCall: "Conférence téléphonique"
+  conferenceCall: "Conférence téléphonique",
+  unknownNumber: "Anonyme"
 };
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
@@ -17,3 +18,4 @@ export default {
 // @key: @#@"participants"@#@ @source: @#@"Participants"@#@
 // @key: @#@"participant"@#@ @source: @#@"Participant"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"unknownNumber"@#@ @source: @#@"Anonymous"@#@

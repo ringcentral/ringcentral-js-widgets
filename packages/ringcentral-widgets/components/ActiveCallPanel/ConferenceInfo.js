@@ -176,10 +176,10 @@ export default class ConferenceInfo extends Component {
                   onClick={(e) => { e.preventDefault(); onClick(); }}
                 >
                   {
-                  displayedProfiles.map(({ avatarUrl, toUserName }, idx) =>
+                  displayedProfiles.map(({ avatarUrl, partyName }, idx) =>
                   (
                     <div
-                      key={`${toUserName}_${idx}`}
+                      key={`${partyName}_${idx}`}
                       className={styles.avatar}>
                       <CallAvatar
                         avatarUrl={avatarUrl}
@@ -208,7 +208,7 @@ export default class ConferenceInfo extends Component {
                 </div>
               )
           }
-        <p className={styles.info}>
+        <p className={styles.info} data-sign="conferenceCall">
           {i18n.getString('conferenceCall', currentLocale)}
         </p>
       </div>
@@ -220,7 +220,7 @@ ConferenceInfo.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   partyProfiles: PropTypes.arrayOf(PropTypes.shape({
     avatarUrl: PropTypes.string,
-    toUserName: PropTypes.string,
+    partyName: PropTypes.string,
   })),
   onClick: PropTypes.func,
 };

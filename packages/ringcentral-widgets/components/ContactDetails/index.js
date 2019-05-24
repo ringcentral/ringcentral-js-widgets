@@ -45,6 +45,8 @@ AvatarNode.defaultProps = {
 
 export default class ContactDetails extends PureComponent {
   onClickToDial = (contact, phoneNumber) => {
+    if (this.props.disableCallButton) return;
+
     this.props.onClickToDial({
       ...contact,
       phoneNumber
@@ -97,9 +99,9 @@ export default class ContactDetails extends PureComponent {
       contactStatus
     } = contactItem;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
-    const presenceName = presence
-      ? getPresenceStatusName(presence, currentLocale)
-      : null;
+    const presenceName = presence ?
+      getPresenceStatusName(presence, currentLocale) :
+      null;
     return (
       <div className={styles.contactProfile}>
         <div className={styles.avatar}>
@@ -146,6 +148,7 @@ export default class ContactDetails extends PureComponent {
   getListItem({
     showCallBtn,
     showTextBtn,
+    disableCallButton,
     key,
     number,
     currentLocale,
@@ -166,27 +169,30 @@ export default class ContactDetails extends PureComponent {
           <span title={displayedPhoneNumber}>{displayedPhoneNumber}</span>
         </div>
         <div className={styles.menu}>
-          {showCallBtn
-            ? (
+          {showCallBtn ?
+            (
               <button
+                className={classnames(
+                  disableCallButton && styles.disabled
+                )}
                 title={i18n.getString('call', currentLocale)}
                 onClick={() => this.onClickToDial(contactItem, number)}
               >
                 <i className={dynamicsFont.call} />
               </button>
-            )
-            : null
+            ) :
+            null
           }
-          {showTextBtn
-            ? (
+          {showTextBtn ?
+            (
               <button
                 title={i18n.getString('text', currentLocale)}
                 onClick={() => this.onClickToSMS(contactItem, number)}
             >
                 <i className={dynamicsFont.composeText} />
               </button>
-            )
-            : null
+            ) :
+            null
           }
         </div>
       </li>
@@ -194,7 +200,7 @@ export default class ContactDetails extends PureComponent {
   }
 
   getPhoneSections() {
-    const { contactItem, currentLocale } = this.props;
+    const { contactItem, currentLocale, disableCallButton } = this.props;
     const { phoneNumbers, phoneMaps, schema } = contactItem;
     if (!phoneNumbers.length) {
       return null;
@@ -213,10 +219,12 @@ export default class ContactDetails extends PureComponent {
                       phoneNumberElm => this.getListItem({
                         showCallBtn: this.props.internalSmsPermission,
                         showTextBtn: this.props.onClickToDial,
+                        disableCallButton,
                         key: phoneNumberElm.phoneNumber,
                         number: phoneNumberElm.phoneNumber,
                         currentLocale,
                         contactItem,
+
                       }),
                       phoneMaps[key]
                     )
@@ -245,6 +253,7 @@ export default class ContactDetails extends PureComponent {
                       phoneNumberElm => this.getListItem({
                         showCallBtn: this.props.onClickToDial,
                         showTextBtn: this.props.outboundSmsPermission,
+                        disableCallButton,
                         key: phoneNumberElm.phoneNumber,
                         number: phoneNumberElm.phoneNumber,
                         currentLocale,
@@ -325,7 +334,8 @@ ContactDetails.propTypes = {
   onClickMailTo: PropTypes.func,
   formatNumber: PropTypes.func.isRequired,
   outboundSmsPermission: PropTypes.bool,
-  internalSmsPermission: PropTypes.bool
+  internalSmsPermission: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
 };
 
 ContactDetails.defaultProps = {
@@ -334,5 +344,6 @@ ContactDetails.defaultProps = {
   onClickMailTo: undefined,
   sourceNodeRenderer: () => null,
   outboundSmsPermission: false,
-  internalSmsPermission: false
+  internalSmsPermission: false,
+  disableCallButton: false,
 };

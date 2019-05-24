@@ -123,6 +123,7 @@ function ActiveCallList({
               ringoutReject={ringoutReject}
               disableLinks={disableLinks}
               showRingoutCallControl={showRingoutCallControl}
+              showMultipleMatch={!showRingoutCallControl} // disabled for salesforce
             />
           );
         })

@@ -254,6 +254,7 @@ export default class AdapterModuleCoreBase extends RcModule {
   get status() {
     return this.state.status;
   }
+
   get ready() {
     return this.status === moduleStatuses.ready;
   }
@@ -265,12 +266,15 @@ export default class AdapterModuleCoreBase extends RcModule {
   get minimized() {
     return this._globalStorage.getItem(this._storageKey).minimized;
   }
+
   get closed() {
     return this._globalStorage.getItem(this._storageKey).closed;
   }
+
   get size() {
     return this._globalStorage.getItem(this._storageKey).size;
   }
+
   get position() {
     return this._globalStorage.getItem(this._storageKey).position;
   }

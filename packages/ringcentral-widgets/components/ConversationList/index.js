@@ -43,6 +43,7 @@ export default class ConversationList extends Component {
       conversations,
       perPage,
       disableLinks,
+      disableCallButton,
       placeholder,
       loadingNextPage,
       ...childProps
@@ -56,6 +57,7 @@ export default class ConversationList extends Component {
           currentLocale={currentLocale}
           key={item.id}
           disableLinks={disableLinks}
+          disableCallButton={disableCallButton}
         />
       ));
     }
@@ -86,6 +88,7 @@ ConversationList.propTypes = {
     subject: PropTypes.string,
   })).isRequired,
   disableLinks: PropTypes.bool,
+  disableCallButton: PropTypes.bool,
   perPage: PropTypes.number,
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
@@ -108,6 +111,7 @@ ConversationList.defaultProps = {
   perPage: 20,
   className: undefined,
   disableLinks: false,
+  disableCallButton: false,
   dateTimeFormatter: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,

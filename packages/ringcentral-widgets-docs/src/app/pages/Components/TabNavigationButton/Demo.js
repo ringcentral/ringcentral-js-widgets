@@ -8,6 +8,7 @@ const props = {};
 props.icon = <CallsIcon />;
 props.activeIcon = <CallsHoverIcon />;
 props.width = '100%';
+props.height = 50;
 
 /**
  * A example of `TabNavigationButton`

@@ -1,4 +1,5 @@
-import ActiveCallPad, { MoreActionItem } from 'ringcentral-widgets/components/ActiveCallPad';
+import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
+import MoreActionItem from 'ringcentral-widgets/components/ActiveCallPad/MoreActionItem';
 import ActiveCallDialPad from 'ringcentral-widgets/components/ActiveCallDialPad';
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';

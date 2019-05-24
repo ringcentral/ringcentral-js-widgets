@@ -16,7 +16,7 @@ describe('generateLoaderContent', () => {
   });
   describe('generated content', () => {
     afterAll(async () => {
-      await fs.remove('./testData/loader.js');
+      await fs.remove('./testData/generateLoaderContent/loader.js');
     });
     const content = generateLoaderContent({ files });
     files.forEach((file) => {
@@ -35,9 +35,10 @@ describe('generateLoaderContent', () => {
     });
     test('should be valid js file content', async () => {
       expect(() => { transform(content, { filename: 'en-GB.js' }); }).not.toThrow();
-      await fs.writeFile('./testData/loader.js', content);
+      await fs.mkdirp('./testData/generateLoaderContent');
+      await fs.writeFile('./testData/generateLoaderContent/loader.js', content);
       /* eslint-disable-next-line */
-      const loader = require('../../testData/loader');
+      const loader = require('../../testData/generateLoaderContent/loader');
       expect(typeof loader.default).toBe('function');
     });
   });

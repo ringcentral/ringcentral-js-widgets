@@ -658,9 +658,9 @@ export default class MessageStore extends Pollable {
     } catch (error) {
       console.error(error);
 
-      this._alert.warning({
-        message: messageStoreErrors.readFailed,
-      });
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: messageStoreErrors.readFailed });
+      }
     }
     return null;
   }
@@ -686,9 +686,10 @@ export default class MessageStore extends Pollable {
       });
     } catch (error) {
       console.error(error);
-      this._alert.warning({
-        message: messageStoreErrors.unreadFailed,
-      });
+
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: messageStoreErrors.unreadFailed });
+      }
     }
   }
 
@@ -717,9 +718,10 @@ export default class MessageStore extends Pollable {
       });
     } catch (error) {
       console.error(error);
-      this._alert.warning({
-        message: messageStoreErrors.deleteFailed,
-      });
+
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: messageStoreErrors.deleteFailed });
+      }
     }
   }
 
@@ -741,9 +743,10 @@ export default class MessageStore extends Pollable {
       });
     } catch (error) {
       console.error(error);
-      this._alert.warning({
-        message: messageStoreErrors.deleteFailed,
-      });
+
+      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+        this._alert.warning({ message: messageStoreErrors.deleteFailed });
+      }
     }
   }
 

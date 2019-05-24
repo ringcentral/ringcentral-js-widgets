@@ -27,17 +27,17 @@
   }
   .icon {
     // fix IE position bug.
-    position: relative; 
+    position: relative;
     right: unset;
   }
   .selectedValue {
     margin-right: 10px;
   }
   ul {
-    width: 180px;
-    left: 50%;
-    margin-left: -100px;
-    cursor: pointer;
+    // width: 180px;
+    // left: 50%;
+    // margin-left: -100px;
+    // cursor: pointer;
     li {
       line-height: 19px;
     }

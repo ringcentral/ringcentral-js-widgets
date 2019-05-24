@@ -1,30 +1,43 @@
 /**
  * Created by Sophie, edited by Bruce
  */
-import { pathOr, indexOf } from 'ramda';
+import { pathOr } from 'ramda';
 import highAvailabilityAPI from './highAvailabilityAPI';
 import availability from './availabilityStatus';
 
+export const TMP_HA_ERROR_CODE = 'MaintenanceMode';
 export const HA_ERROR_CODE = 'CMN-211';
 export const HA_ERROR_STATUS = 503;
-export const PRESENCE_REG_EXP = /\/restapi\/v1.0\/account\/~\/extension\/\d*\/presence/gi;
 
 export function extractUrl({ url }) {
-  const filteredUrl = (url.match(/\/restapi(.*)/gi) && (url.match(/\/restapi(.*)/gi)[0])) || '';
+  const filteredUrl =
+    (url.match(/\/restapi(.*)/gi) && url.match(/\/restapi(.*)/gi)[0]) || '';
   const splitUrl = filteredUrl.split('?')[0] || '';
   return splitUrl;
 }
 
-// Check if this damn error is HA error.
+/** Check if this damn error is HA error. */
 export function isHAError(error) {
   const status = pathOr(-1, ['apiResponse', '_response', 'status'], error);
-  const errorCode = pathOr('N/A', ['apiResponse', '_json', 'errorCode'], error);
-  const isHAErrorIn = indexOf(HA_ERROR_CODE, pathOr([], ['apiResponse', '_json', 'errors'], error)) > -1;
+  const errors = pathOr([], ['apiResponse', '_json', 'errors'], error);
 
-  return (
-    status === HA_ERROR_STATUS
-    && (errorCode === HA_ERROR_CODE || isHAErrorIn)
-  );
+  let errorCodeIn = false;
+  for (const e of errors) {
+    if (pathOr('', ['errorCode'], e) === HA_ERROR_CODE) {
+      errorCodeIn = true;
+      break;
+    }
+  }
+
+  // Result from `status` and `errorCode`.
+  let validHAError = (status === HA_ERROR_STATUS && errorCodeIn);
+  if (!validHAError) {
+    // Result from temp error code, expecially for `presence`.
+    const resErrorCode = pathOr(null, ['apiResponse', '_json', 'errorCode'], error);
+    validHAError = (resErrorCode === TMP_HA_ERROR_CODE);
+  }
+
+  return validHAError;
 }
 
 /**
@@ -38,6 +51,18 @@ export function generateRandomNumber() {
 }
 
 /**
+ * Get availability level by path of url
+ * TODO: Use lru cache to improve performance?
+ */
+function getAvailabilityLevel(path, method) {
+  for (const api of highAvailabilityAPI) {
+    if (path.match(api.reg) && method in api) {
+      return api[method];
+    }
+  }
+}
+
+/**
  * Check if an api is *High* or *Limited*
  *
  * @export
@@ -46,17 +71,17 @@ export function generateRandomNumber() {
  */
 export function isHAEnabledAPI({ url, method }) {
   const filteredUrl = extractUrl({ url });
-  const condition = pathOr('N/A', [filteredUrl, method], highAvailabilityAPI);
-
-  if (PRESENCE_REG_EXP.test(filteredUrl) || condition === availability.HIGH) {
-    return true;
-  } else if (condition === availability.LIMITED) {
+  if (!filteredUrl) {
     return false;
   }
 
-  console.error(
-    `url: ${url} method: ${method} is not set in high or limited available API`
-  );
+  const condition = getAvailabilityLevel(filteredUrl, method);
+  if (!condition) {
+    console.error(
+      `url: ${url} method: ${method} is not set in high or limited available API`,
+    );
+    return false;
+  }
 
-  return false;
+  return (condition === availability.HIGH);
 }

@@ -193,7 +193,12 @@ export default class DialerUI extends RcUIModule {
   }
 
   get isWebphoneConnecting() {
-    return this.isWebphoneMode && this._webphone.connecting;
+    return this.isWebphoneMode && (
+      !this._webphone.ready ||
+      this._webphone.connectionStatus === null ||
+      this._webphone.connecting ||
+      this._webphone.connectFailed
+    );
   }
 
   get isAudioNotEnabled() {
@@ -243,6 +248,7 @@ export default class DialerUI extends RcUIModule {
       dialButtonMuted: this._audioSettings ? this._audioSettings.dialButtonMuted : false,
     };
   }
+
   getUIFunctions() {
     return {
       onToNumberChange: value => this.setToNumberField(value),

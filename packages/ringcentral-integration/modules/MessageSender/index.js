@@ -25,7 +25,14 @@ const SENDING_THRESHOLD = 30;
  * @description Message sender and validator module
  */
 @Module({
-  deps: ['Alert', 'Client', 'ExtensionInfo', 'ExtensionPhoneNumber', 'NumberValidate']
+  deps: [
+    'Alert',
+    'Client',
+    'ExtensionInfo',
+    'ExtensionPhoneNumber',
+    'NumberValidate',
+    { dep: 'AvailabilityMonitor', optional: true },
+  ],
 })
 export default class MessageSender extends RcModule {
   /**
@@ -43,6 +50,7 @@ export default class MessageSender extends RcModule {
     extensionInfo,
     extensionPhoneNumber,
     numberValidate,
+    availabilityMonitor,
     ...options
   }) {
     super({
@@ -56,6 +64,7 @@ export default class MessageSender extends RcModule {
     this._extensionInfo = extensionInfo;
     this._reducer = getMessageSenderReducer(this.actionTypes);
     this._numberValidate = numberValidate;
+    this._availabilityMonitor = availabilityMonitor;
     this._eventEmitter = new EventEmitter();
   }
 
@@ -75,6 +84,7 @@ export default class MessageSender extends RcModule {
     return (
       this._extensionPhoneNumber.ready &&
       this._extensionInfo.ready &&
+      (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       !this.ready
     );
   }
@@ -87,10 +97,9 @@ export default class MessageSender extends RcModule {
 
   _shouldReset() {
     return (
-      (
-        !this._extensionPhoneNumber.ready ||
-        !this._extensionInfo.ready
-      ) &&
+      (!this._extensionPhoneNumber.ready ||
+        !this._extensionInfo.ready ||
+        (!!this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
     );
   }
@@ -361,6 +370,14 @@ export default class MessageSender extends RcModule {
       });
       return;
     }
+
+    if (
+      this._availabilityMonitor &&
+      this._availabilityMonitor.checkIfHAError(error)
+    ) {
+      return null;
+    }
+
     this._alertWarning(messageSenderMessages.sendError);
   }
 

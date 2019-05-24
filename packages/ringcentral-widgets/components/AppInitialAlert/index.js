@@ -19,5 +19,6 @@ AppInitialAlert.propTypes = {
 };
 
 AppInitialAlert.handleMessage = ({ message }) => contains(message, [
-  errorMessages.appInitialError
+  errorMessages.appInitialError,
+  errorMessages.serviceLimited,
 ]);

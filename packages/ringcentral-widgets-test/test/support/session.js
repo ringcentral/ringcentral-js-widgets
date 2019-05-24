@@ -86,7 +86,7 @@ export default class Session {
     this._events[event] = cb;
   }
 
-  onLocalHold() {
+  get localHold() {
     return this.__rc_callStatus === sessionStatus.onHold;
   }
 

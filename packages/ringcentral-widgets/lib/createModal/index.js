@@ -56,14 +56,14 @@ export default function createModal(Comp) {
         clickOutToClose,
         ...props
       } = this.props;
-      const onClick = clickOutToClose ? onClose : () => {};
+      const onClick = clickOutToClose ? onClose : () => { };
       return (
         <div className={show ? classnames(styles.container, className) : styles.containerHidden}>
           <div
             className={show ? classnames(styles.mask, maskClassName) : styles.maskHidden}
             onClick={onClick}
           />
-          <div className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
+          <div data-sign={show ? 'deleteModal' : undefined} className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
             <Comp
               {...props}
             />

@@ -1,4 +1,3 @@
-import 'core-js/fn/array/find';
 import { waitUntilNotNull } from './WaitUtil';
 
 export function containsErrorMessage(errorArray, errorMessageString) {
@@ -14,5 +13,5 @@ export async function ensureLogin(auth, account) {
   await auth.login({
     ...account,
   });
-  return await waitUntilNotNull(() => auth.ownerId, 'Login Success', 6);
+  return waitUntilNotNull(() => auth.ownerId, 'Login Success', 6);
 }

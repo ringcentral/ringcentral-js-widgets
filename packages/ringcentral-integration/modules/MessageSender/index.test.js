@@ -207,7 +207,8 @@ describe('MessageSender Unit Test', () => {
         messageSender._extensionInfo = {
           ready: true
         };
-        expect(messageSender._shouldReset()).to.equal(false);
+        const resetVal = messageSender._shouldReset();
+        expect(resetVal).to.equal(false);
       });
     });
 
@@ -223,7 +224,8 @@ describe('MessageSender Unit Test', () => {
         messageSender._extensionInfo = {
           ready: true
         };
-        expect(messageSender._shouldReset()).to.equal(false);
+        const resetVal = messageSender._shouldReset();
+        expect(resetVal).to.equal(false);
       });
 
       it('Should return false when _extensionInfo is not ready and _extensionPhoneNumber is ready', () => {

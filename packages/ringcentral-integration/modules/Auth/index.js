@@ -8,6 +8,7 @@ import authMessages from './authMessages';
 import moduleStatuses from '../../enums/moduleStatuses';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
+const LoginStatusChangeEvent = 'loginStatusChange';
 
 /**
  * @class
@@ -204,10 +205,10 @@ export default class Auth extends RcModule {
           (!loggedIn && this.loginStatus === loginStatus.loggedIn)
         ) {
           loggedIn = !loggedIn;
-          this._tabManager.send('loginStatusChange', loggedIn);
+          this._tabManager.send(LoginStatusChangeEvent, loggedIn);
         } else if (
           this._tabManager.event &&
-          this._tabManager.event.name === 'loginStatusChange' &&
+          this._tabManager.event.name === LoginStatusChangeEvent &&
           this._tabManager.event.args[0] !== loggedIn
         ) {
           /* eslint { "prefer-destructuring": 0 } */
@@ -357,12 +358,18 @@ export default class Auth extends RcModule {
     });
     const handlers = [...this._beforeLogoutHandlers];
     try {
+      if (this._tabManager && this._tabManager.ready) { 
+        this._tabManager.send(LoginStatusChangeEvent, false);
+      }
       for (const handler of handlers) {
         const result = await (async () => handler())();
         if (result) {
           this.store.dispatch({
             type: this.actionTypes.cancelLogout,
           });
+          if (this._tabManager && this._tabManager.ready) {
+            this._tabManager.send(LoginStatusChangeEvent, true);
+          }
           return Promise.reject(result);
         }
       }

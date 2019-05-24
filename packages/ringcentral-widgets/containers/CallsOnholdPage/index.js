@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import callDirections from 'ringcentral-integration/enums/callDirections';
 import { createSelector } from 'reselect';
 import { filter } from 'ramda';
 
@@ -29,8 +28,7 @@ class CallsOnholdContainer extends Component {
       () => this.props.fromSessionId,
       (calls, fromSessionId) => filter(
         call => (
-          call.webphoneSession &&
-          call.direction !== callDirections.inbound
+          call.webphoneSession
           && !this.props.isConferenceSession(call.webphoneSession)
           && call.webphoneSession.id !== fromSessionId
         ),

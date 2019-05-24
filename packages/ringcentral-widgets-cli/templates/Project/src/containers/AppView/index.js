@@ -55,7 +55,6 @@ export default withPhone(connect((_, {
     oAuth,
     environment,
     connectivityMonitor,
-    rateLimiter,
   }
 }) => ({
   currentLocale: locale.currentLocale,
@@ -63,8 +62,7 @@ export default withPhone(connect((_, {
   enabled: environment.enabled,
   offline: (
     !connectivityMonitor.connectivity ||
-    oAuth.proxyRetryCount > 0 ||
-    rateLimiter.throttling
+    oAuth.proxyRetryCount > 0
   ),
   redirectUri: oAuth.redirectUri
 }), (_, {

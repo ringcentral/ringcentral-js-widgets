@@ -1,6 +1,6 @@
 # Presence Event Handling
 
-  We use `Presence` and `Presence` modules to handle presence event. `Presence` is based on `Presence` module. Those modules get presence event by subscribing `/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true`. When a presence event happen, client can get detailed Presence from notification message.
+  We use `Presence` module to handle presence event. This module gets presence event by subscribing `/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true`. When a presence event happen, client can get detailed Presence from notification message.
   It includes presenceStatus, dndStatus, userStatus and active calls list in notification message. Active calls include all user's ongoing calls in all devices.
 
 ## Determine the presence status of a user

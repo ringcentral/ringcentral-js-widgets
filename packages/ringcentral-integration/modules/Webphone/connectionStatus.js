@@ -1,11 +1,11 @@
 import Enum from '../../lib/Enum';
 
 export default new Enum([
-  'connecting',
-  'connected',
-  'disconnecting',
-  'disconnected',
-  'connectFailed',
-  'active',
-  'idle',
+  'connecting', // status by first 3 connect
+  'connected', // registered
+  'reconnecting', //  status after last connect failed
+  'disconnecting', // status by user disconnect
+  'disconnected', // status by user disconnect
+  'connectFailed', // status when connect failed (retry time <=2)
+  'connectError', // status when connect failed (retry time > 2)
 ], 'connectionStatus');
