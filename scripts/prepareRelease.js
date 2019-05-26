@@ -21,12 +21,12 @@ const args = process.argv.slice(2);
 const packageName = args[0];
 if (!packageNames.includes(packageName)) {
   console.log('package name invalid!');
-  return;
+  process.exit(1);
 }
 const releaseBranchName = args[1];
 if (!releaseBranchNames.includes(releaseBranchName)) {
   console.log('releaseBranchName name invalid!');
-  return;
+  process.exit(1);
 }
 
 prepareRelease(packageName, releaseBranchName);
