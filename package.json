@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/phone-number",
-  "version": "0.10.6",
+  "version": "1.0.3",
   "description": "Wrapper around libphonenumber-js to provide RingCentral specific phone handling.",
   "main": "index.js",
   "repository": {
@@ -27,5 +27,8 @@
       "default",
       "jest-junit"
     ]
+  },
+  "ci": {
+    "ringcentral-js-widgets": "**"
   }
 }
