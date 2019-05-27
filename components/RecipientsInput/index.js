@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,9 +35,9 @@ var _ContactDropdownList = _interopRequireDefault(require("../ContactDropdownLis
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -89,22 +89,22 @@ function SelectedRecipientItem(_ref) {
       _ref$title = _ref.title,
       title = _ref$title === void 0 ? name : _ref$title,
       onRemove = _ref.onRemove;
-  var className = phoneNumber.length > 5 ? _styles.default.phoneNumber : _styles.default.extension;
-  return _react.default.createElement("li", {
+  var className = phoneNumber.length > 5 ? _styles["default"].phoneNumber : _styles["default"].extension;
+  return _react["default"].createElement("li", {
     className: className,
     title: title
-  }, _react.default.createElement("span", null, name), _react.default.createElement(_RemoveButton.default, {
-    className: _styles.default.removeReceiver,
+  }, _react["default"].createElement("span", null, name), _react["default"].createElement(_RemoveButton["default"], {
+    className: _styles["default"].removeReceiver,
     onClick: onRemove,
     visibility: true
   }));
 }
 
 SelectedRecipientItem.propTypes = {
-  phoneNumber: _propTypes.default.string.isRequired,
-  name: _propTypes.default.string,
-  title: _propTypes.default.string,
-  onRemove: _propTypes.default.func.isRequired
+  phoneNumber: _propTypes["default"].string.isRequired,
+  name: _propTypes["default"].string,
+  title: _propTypes["default"].string,
+  onRemove: _propTypes["default"].func.isRequired
 };
 SelectedRecipientItem.defaultProps = {
   name: undefined,
@@ -119,10 +119,10 @@ function SelectedRecipients(_ref2) {
       className = _ref2.className;
 
   if (multiple && recipients.length) {
-    return _react.default.createElement("ul", {
-      className: (0, _classnames.default)(className, _styles.default.selectReceivers)
+    return _react["default"].createElement("ul", {
+      className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
     }, recipients.map(function (item) {
-      return _react.default.createElement(SelectedRecipientItem, {
+      return _react["default"].createElement(SelectedRecipientItem, {
         key: item.phoneNumber,
         name: item.name,
         phoneNumber: item.phoneNumber,
@@ -132,9 +132,9 @@ function SelectedRecipients(_ref2) {
       });
     }));
   } else if (!multiple && recipient) {
-    return _react.default.createElement("ul", {
-      className: (0, _classnames.default)(className, _styles.default.selectReceivers)
-    }, _react.default.createElement(SelectedRecipientItem, {
+    return _react["default"].createElement("ul", {
+      className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
+    }, _react["default"].createElement(SelectedRecipientItem, {
       key: recipient.phoneNumber,
       name: recipient.name,
       phoneNumber: recipient.phoneNumber,
@@ -148,17 +148,17 @@ function SelectedRecipients(_ref2) {
 }
 
 SelectedRecipients.propTypes = {
-  onRemove: _propTypes.default.func.isRequired,
-  recipient: _propTypes.default.shape({
-    phoneNumber: _propTypes.default.string.isRequired,
-    name: _propTypes.default.string
+  onRemove: _propTypes["default"].func.isRequired,
+  recipient: _propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string.isRequired,
+    name: _propTypes["default"].string
   }),
-  recipients: _propTypes.default.arrayOf(_propTypes.default.shape({
-    phoneNumber: _propTypes.default.string.isRequired,
-    name: _propTypes.default.string
+  recipients: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string.isRequired,
+    name: _propTypes["default"].string
   })).isRequired,
-  multiple: _propTypes.default.bool.isRequired,
-  className: _propTypes.default.string
+  multiple: _propTypes["default"].bool.isRequired,
+  className: _propTypes["default"].string
 };
 SelectedRecipients.defaultProps = {
   recipient: null,
@@ -400,43 +400,43 @@ function (_Component) {
       // TODO a temporary fix for rendering slower search result.
       var relatedContactList = this.state.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
 
-      var label = _react.default.createElement("label", {
-        className: _styles.default.label
-      }, this.props.label === undefined ? "".concat(_i18n.default.getString('to', this.props.currentLocale), ":") : this.props.label);
+      var label = _react["default"].createElement("label", {
+        className: _styles["default"].label
+      }, this.props.label === undefined ? "".concat(_i18n["default"].getString('to', this.props.currentLocale), ":") : this.props.label);
 
-      var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react.default.createElement("div", {
-        className: _styles.default.inputWrapper
-      }, _react.default.createElement("div", {
-        className: _styles.default.inputField
-      }, _react.default.createElement("input", {
+      var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react["default"].createElement("div", {
+        className: _styles["default"].inputWrapper
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].inputField
+      }, _react["default"].createElement("input", {
         "data-sign": "recipientsInput",
         ref: this.setInputRef,
         name: "receiver",
         value: this.state.value,
         onChange: this.onInputChange,
-        className: _styles.default.numberInput,
+        className: _styles["default"].numberInput,
         maxLength: 30,
         onFocus: this.onInputFocus,
         onKeyUp: this.onInputKeyUp,
-        placeholder: this.props.placeholder === undefined ? _i18n.default.getString('enterNameOrNumber', this.props.currentLocale) : this.props.placeholder,
+        placeholder: this.props.placeholder === undefined ? _i18n["default"].getString('enterNameOrNumber', this.props.currentLocale) : this.props.placeholder,
         autoComplete: "off"
-      })), _react.default.createElement(_RemoveButton.default, {
-        className: _styles.default.removeButton,
+      })), _react["default"].createElement(_RemoveButton["default"], {
+        className: _styles["default"].removeButton,
         onClick: this.onClean,
         visibility: this.state.value.length > 0
       }));
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.container, this.props.className),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].container, this.props.className),
         onKeyDown: this.handleHotKey
-      }, label, _react.default.createElement("div", {
-        className: this.props.label === undefined ? _styles.default.rightPanel : ''
-      }, _react.default.createElement(SelectedRecipients, {
+      }, label, _react["default"].createElement("div", {
+        className: this.props.label === undefined ? _styles["default"].rightPanel : ''
+      }, _react["default"].createElement(SelectedRecipients, {
         recipient: this.props.recipient,
         recipients: this.props.recipients,
         multiple: this.props.multiple,
         onRemove: this.props.removeFromRecipients,
         className: this.props.recipientsClassName
-      }), toNumberInput), _react.default.createElement(_ContactDropdownList.default, {
+      }), toNumberInput), _react["default"].createElement(_ContactDropdownList["default"], {
         currentLocale: this.props.currentLocale,
         listRef: function listRef(ref) {
           _this4.listRef = ref;
@@ -461,40 +461,40 @@ function (_Component) {
 }(_react.Component);
 
 RecipientsInput.propTypes = {
-  className: _propTypes.default.string,
-  recipientsClassName: _propTypes.default.string,
-  label: _propTypes.default.string,
-  placeholder: _propTypes.default.string,
-  searchContactList: _propTypes.default.arrayOf(_propTypes.default.shape({
-    name: _propTypes.default.string.isRequired,
-    entityType: _propTypes.default.string.isRequired,
-    phoneType: _propTypes.default.string.isRequired,
-    phoneNumber: _propTypes.default.string.isRequired
+  className: _propTypes["default"].string,
+  recipientsClassName: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  placeholder: _propTypes["default"].string,
+  searchContactList: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    name: _propTypes["default"].string.isRequired,
+    entityType: _propTypes["default"].string.isRequired,
+    phoneType: _propTypes["default"].string.isRequired,
+    phoneNumber: _propTypes["default"].string.isRequired
   })).isRequired,
-  recipient: _propTypes.default.shape({
-    phoneNumber: _propTypes.default.string.isRequired,
-    name: _propTypes.default.string
+  recipient: _propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string.isRequired,
+    name: _propTypes["default"].string
   }),
-  recipients: _propTypes.default.arrayOf(_propTypes.default.shape({
-    phoneNumber: _propTypes.default.string.isRequired,
-    name: _propTypes.default.string
+  recipients: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string.isRequired,
+    name: _propTypes["default"].string
   })),
-  value: _propTypes.default.string.isRequired,
-  onChange: _propTypes.default.func.isRequired,
-  onClean: _propTypes.default.func.isRequired,
-  addToRecipients: _propTypes.default.func.isRequired,
-  removeFromRecipients: _propTypes.default.func.isRequired,
-  formatContactPhone: _propTypes.default.func.isRequired,
-  searchContact: _propTypes.default.func,
-  titleEnabled: _propTypes.default.bool,
-  autoFocus: _propTypes.default.bool,
-  currentLocale: _propTypes.default.string.isRequired,
-  multiple: _propTypes.default.bool,
-  inputRef: _propTypes.default.func,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  contactInfoRenderer: _propTypes.default.func,
-  contactPhoneRenderer: _propTypes.default.func
+  value: _propTypes["default"].string.isRequired,
+  onChange: _propTypes["default"].func.isRequired,
+  onClean: _propTypes["default"].func.isRequired,
+  addToRecipients: _propTypes["default"].func.isRequired,
+  removeFromRecipients: _propTypes["default"].func.isRequired,
+  formatContactPhone: _propTypes["default"].func.isRequired,
+  searchContact: _propTypes["default"].func,
+  titleEnabled: _propTypes["default"].bool,
+  autoFocus: _propTypes["default"].bool,
+  currentLocale: _propTypes["default"].string.isRequired,
+  multiple: _propTypes["default"].bool,
+  inputRef: _propTypes["default"].func,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  contactInfoRenderer: _propTypes["default"].func,
+  contactPhoneRenderer: _propTypes["default"].func
 };
 RecipientsInput.defaultProps = {
   className: undefined,
@@ -516,5 +516,5 @@ RecipientsInput.defaultProps = {
   contactPhoneRenderer: undefined
 };
 var _default = RecipientsInput;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

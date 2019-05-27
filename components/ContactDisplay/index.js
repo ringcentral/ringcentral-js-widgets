@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ContactDisplay;
+exports["default"] = ContactDisplay;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -14,6 +14,8 @@ require("core-js/modules/es6.array.from");
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -49,7 +51,7 @@ var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNam
 
 var _phoneSources = _interopRequireDefault(require("../../enums/phoneSources"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -71,18 +73,24 @@ var displayFormatter = function displayFormatter(_ref) {
   var typeName;
 
   if (entityType) {
-    typeName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : (0, _formatMessage.default)(_phoneSourceNames.default.getString(entityType, currentLocale), {
+    typeName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : (0, _formatMessage["default"])(_phoneSourceNames["default"].getString(entityType, currentLocale), {
       brand: brand
     });
   }
 
   if (phoneNumber && entityName && entityType) {
     return "".concat(entityName, " | ").concat(typeName, " ").concat(phoneNumber);
-  } else if (entityName && entityType) {
+  }
+
+  if (entityName && entityType) {
     return "".concat(entityName, " | ").concat(typeName);
-  } else if (entityName) {
+  }
+
+  if (entityName) {
     return entityName;
-  } else if (phoneNumber) {
+  }
+
+  if (phoneNumber) {
     return "".concat(phoneNumber);
   }
 
@@ -97,7 +105,7 @@ function ContactDisplayItem(_ref2) {
   var SourceIcon = null;
 
   if (entityType) {
-    if (entityType === _phoneSources.default.rcContact) {
+    if (entityType === _phoneSources["default"].rcContact) {
       SourceIcon = sourceIcons.brandIcon;
     } else {
       SourceIcon = sourceIcons[entityType];
@@ -105,35 +113,41 @@ function ContactDisplayItem(_ref2) {
   }
 
   if (phoneNumber && entityName !== undefined && SourceIcon) {
-    return _react.default.createElement("span", null, _react.default.createElement(SourceIcon, {
-      className: _styles.default.typeIcon,
+    return _react["default"].createElement("span", null, _react["default"].createElement(SourceIcon, {
+      className: _styles["default"].typeIcon,
       width: 10,
       height: 10
-    }), _react.default.createElement("span", {
-      className: _styles.default.typeName
+    }), _react["default"].createElement("span", {
+      className: _styles["default"].typeName
     }, entityName));
-  } else if (entityName !== undefined && SourceIcon) {
-    return _react.default.createElement("span", null, _react.default.createElement(SourceIcon, {
-      className: _styles.default.typeIcon,
+  }
+
+  if (entityName !== undefined && SourceIcon) {
+    return _react["default"].createElement("span", null, _react["default"].createElement(SourceIcon, {
+      className: _styles["default"].typeIcon,
       width: 10,
       height: 10
-    }), _react.default.createElement("span", {
-      className: _styles.default.typeName
+    }), _react["default"].createElement("span", {
+      className: _styles["default"].typeName
     }, entityName));
-  } else if (entityName !== undefined) {
-    return _react.default.createElement("span", null, entityName);
-  } else if (phoneNumber) {
-    return _react.default.createElement("span", null, phoneNumber);
+  }
+
+  if (entityName !== undefined) {
+    return _react["default"].createElement("span", null, entityName);
+  }
+
+  if (phoneNumber) {
+    return _react["default"].createElement("span", null, phoneNumber);
   }
 
   return null;
 }
 
 ContactDisplayItem.propTypes = {
-  entityName: _propTypes.default.string.isRequired,
-  entityType: _propTypes.default.string.isRequired,
-  phoneNumber: _propTypes.default.string.isRequired,
-  sourceIcons: _propTypes.default.object.isRequired
+  entityName: _propTypes["default"].string.isRequired,
+  entityType: _propTypes["default"].string.isRequired,
+  phoneNumber: _propTypes["default"].string.isRequired,
+  sourceIcons: _propTypes["default"].object.isRequired
 };
 
 function ContactDisplay(_ref3) {
@@ -168,18 +182,18 @@ function ContactDisplay(_ref3) {
   var contentEl;
 
   if (isOnConferenceCall) {
-    var confStr = _i18n.default.getString('conferenceCall', currentLocale);
+    var confStr = _i18n["default"].getString('conferenceCall', currentLocale);
 
-    contentEl = _react.default.createElement("div", {
+    contentEl = _react["default"].createElement("div", {
       title: confStr,
       "data-sign": "currentName",
-      className: _styles.default.currentName
+      className: _styles["default"].currentName
     }, confStr);
   } else if (contactName) {
-    contentEl = _react.default.createElement("div", {
+    contentEl = _react["default"].createElement("div", {
       title: contactName,
       "data-sign": "currentName",
-      className: _styles.default.currentName
+      className: _styles["default"].currentName
     }, contactName);
   } else if (groupNumbers && showGroupNumberName) {
     var groupNames = groupNumbers.map(function (groupNumber) {
@@ -189,31 +203,31 @@ function ContactDisplay(_ref3) {
       return groupContact && groupContact.name || groupNumber;
     });
     var display = groupNames.join(', ');
-    contentEl = _react.default.createElement("div", {
+    contentEl = _react["default"].createElement("div", {
       title: display,
       "data-sign": "currentName",
-      className: _styles.default.currentName
+      className: _styles["default"].currentName
     }, display);
   } else if (groupNumbers) {
     var _display = groupNumbers.join(', ');
 
-    contentEl = _react.default.createElement("div", {
+    contentEl = _react["default"].createElement("div", {
       title: _display,
       "data-sign": "currentName",
-      className: _styles.default.currentName
+      className: _styles["default"].currentName
     }, _display);
   } else if (contactMatches.length === 0) {
-    var _display2 = enableContactFallback && fallBackName || phoneNumber && (0, _formatNumber.default)({
+    var _display2 = enableContactFallback && fallBackName || phoneNumber && (0, _formatNumber["default"])({
       phoneNumber: phoneNumber,
       countryCode: countryCode,
       areaCode: areaCode
-    }) || _i18n.default.getString('unknownNumber', currentLocale);
+    }) || _i18n["default"].getString('unknownNumber', currentLocale);
 
     var title = enableContactFallback && fallBackName || phoneNumber || '';
-    contentEl = _react.default.createElement("div", {
+    contentEl = _react["default"].createElement("div", {
       title: title,
       "data-sign": "currentName",
-      className: _styles.default.currentName
+      className: _styles["default"].currentName
     }, _display2);
   } else if (contactMatches.length === 1) {
     var _display3 = contactMatches[0].name;
@@ -228,10 +242,10 @@ function ContactDisplay(_ref3) {
       phoneSourceNameRenderer: phoneSourceNameRenderer
     });
 
-    contentEl = _react.default.createElement("div", {
+    contentEl = _react["default"].createElement("div", {
       title: _title,
       "data-sign": "currentName",
-      className: _styles.default.currentName
+      className: _styles["default"].currentName
     }, _display3);
   } else if (contactMatches.length > 1) {
     var options = _toConsumableArray(contactMatches);
@@ -240,17 +254,17 @@ function ContactDisplay(_ref3) {
     var _selected = selected;
 
     if (showPlaceholder) {
-      placeholder = _i18n.default.getString('select', currentLocale);
+      placeholder = _i18n["default"].getString('select', currentLocale);
     } else {
       _selected = _selected < 0 ? 0 : _selected;
     }
 
-    contentEl = _react.default.createElement(_DropdownSelect.default, {
+    contentEl = _react["default"].createElement(_DropdownSelect["default"], {
       reference: reference,
-      className: (0, _classnames.default)(_styles.default.select, selectClassName),
-      selectedClassName: (0, _classnames.default)(_styles.default.selectedValue, selectedClassName),
-      buttonStyle: _styles.default.button,
-      iconClassName: (0, _classnames.default)(_styles.default.icon, iconClassName),
+      className: (0, _classnames["default"])(_styles["default"].select, selectClassName),
+      selectedClassName: (0, _classnames["default"])(_styles["default"].selectedValue, selectedClassName),
+      buttonStyle: _styles["default"].button,
+      iconClassName: (0, _classnames["default"])(_styles["default"].icon, iconClassName),
       value: _selected,
       onChange: onSelectContact,
       disabled: disabled || isLogging,
@@ -293,45 +307,46 @@ function ContactDisplay(_ref3) {
     });
   }
 
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.root, className)
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].root, className)
   }, contentEl);
 }
 
 ContactDisplay.propTypes = {
-  isOnConferenceCall: _propTypes.default.bool,
-  reference: _propTypes.default.func,
-  className: _propTypes.default.string,
-  contactMatches: _propTypes.default.arrayOf(_propTypes.default.any).isRequired,
-  selected: _propTypes.default.number.isRequired,
-  onSelectContact: _propTypes.default.func,
-  disabled: _propTypes.default.bool.isRequired,
-  isLogging: _propTypes.default.bool.isRequired,
-  fallBackName: _propTypes.default.string,
-  enableContactFallback: _propTypes.default.bool,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  phoneNumber: _propTypes.default.string,
-  currentLocale: _propTypes.default.string.isRequired,
-  groupNumbers: _propTypes.default.arrayOf(_propTypes.default.string),
-  showType: _propTypes.default.bool,
-  selectClassName: _propTypes.default.string,
-  selectedClassName: _propTypes.default.string,
-  showPlaceholder: _propTypes.default.bool,
-  brand: _propTypes.default.string,
-  stopPropagation: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  showGroupNumberName: _propTypes.default.bool,
-  contactName: _propTypes.default.any,
-  iconClassName: _propTypes.default.string
+  isOnConferenceCall: _propTypes["default"].bool,
+  reference: _propTypes["default"].func,
+  className: _propTypes["default"].string,
+  contactMatches: _propTypes["default"].arrayOf(_propTypes["default"].any).isRequired,
+  selected: _propTypes["default"].number.isRequired,
+  onSelectContact: _propTypes["default"].func,
+  disabled: _propTypes["default"].bool,
+  isLogging: _propTypes["default"].bool.isRequired,
+  fallBackName: _propTypes["default"].string,
+  enableContactFallback: _propTypes["default"].bool,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  phoneNumber: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string.isRequired,
+  groupNumbers: _propTypes["default"].arrayOf(_propTypes["default"].string),
+  showType: _propTypes["default"].bool,
+  selectClassName: _propTypes["default"].string,
+  selectedClassName: _propTypes["default"].string,
+  showPlaceholder: _propTypes["default"].bool,
+  brand: _propTypes["default"].string,
+  stopPropagation: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  showGroupNumberName: _propTypes["default"].bool,
+  contactName: _propTypes["default"].any,
+  iconClassName: _propTypes["default"].string
 };
 ContactDisplay.defaultProps = {
   isOnConferenceCall: false,
   reference: undefined,
   className: undefined,
   onSelectContact: undefined,
+  disabled: false,
   fallBackName: '',
   phoneNumber: undefined,
   groupNumbers: undefined,

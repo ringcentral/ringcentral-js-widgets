@@ -5,11 +5,13 @@ require("core-js/modules/es6.promise");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -39,7 +41,7 @@ var _withPhone = _interopRequireDefault(require("../../lib/withPhone"));
 
 var _ConferenceParticipantPanel = _interopRequireDefault(require("../../components/ConferenceParticipantPanel"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -105,7 +107,7 @@ function (_Component) {
           sessionCount = _this$props.sessionCount;
 
       if (!nextProps.participants.length && nextProps.participants.length !== participants.length) {
-        (0, _sleep.default)(750).then(function () {
+        (0, _sleep["default"])(750).then(function () {
           if (_this2.mounted && sessionCount) {
             onBackButtonClick();
           }
@@ -115,7 +117,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_ConferenceParticipantPanel.default, this.props);
+      return _react["default"].createElement(_ConferenceParticipantPanel["default"], this.props);
     }
   }]);
 
@@ -123,9 +125,9 @@ function (_Component) {
 }(_react.Component);
 
 ConferenceParticipantContainer.propTypes = {
-  participants: _propTypes.default.array.isRequired,
-  onBackButtonClick: _propTypes.default.func.isRequired,
-  sessionCount: _propTypes.default.number.isRequired
+  participants: _propTypes["default"].array.isRequired,
+  onBackButtonClick: _propTypes["default"].func.isRequired,
+  sessionCount: _propTypes["default"].number.isRequired
 };
 
 function mapToProps(_, _ref) {
@@ -190,7 +192,7 @@ function mapToFunctions(_, _ref2) {
       return removeFunc;
     }(),
     formatPhone: function formatPhone(phoneNumber) {
-      return (0, _formatNumber.default)({
+      return (0, _formatNumber["default"])({
         phoneNumber: phoneNumber,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode
@@ -206,7 +208,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ConferenceParticipantPage = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ConferenceParticipantContainer));
+var ConferenceParticipantPage = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ConferenceParticipantContainer));
 var _default = ConferenceParticipantPage;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

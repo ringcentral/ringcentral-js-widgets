@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   logging: "正在记录...",
   logCall: "记录通话",
@@ -32,5 +32,5 @@ var _default = {
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

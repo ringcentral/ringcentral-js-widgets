@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   region: 'Region',
   calling: 'Calling',
@@ -25,8 +25,7 @@ var _default = {
   feedback: 'Feedback',
   userGuide: "What\'s New",
   quickAccess: "Quick Access Setting",
-  report: "Analytics Report",
-  beta: "Beta"
+  report: "Analytics Report"
 };
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

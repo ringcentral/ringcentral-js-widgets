@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -14,6 +14,8 @@ require("core-js/modules/es6.array.from");
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,7 +37,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -50,19 +52,19 @@ function PhoneNumber(_ref) {
       usageType = _ref.usageType,
       currentLocale = _ref.currentLocale,
       phoneNumber = _ref.phoneNumber;
-  var usageTypeDom = usageType ? _react.default.createElement("span", {
-    className: _styles.default.usageType
-  }, _i18n.default.getString(usageType, currentLocale)) : null;
-  return _react.default.createElement("span", {
-    className: _styles.default.phoneNumber
-  }, usageTypeDom, _react.default.createElement("span", null, formatPhone(phoneNumber)));
+  var usageTypeDom = usageType ? _react["default"].createElement("span", {
+    className: _styles["default"].usageType
+  }, _i18n["default"].getString(usageType, currentLocale)) : null;
+  return _react["default"].createElement("span", {
+    className: _styles["default"].phoneNumber
+  }, usageTypeDom, _react["default"].createElement("span", null, formatPhone(phoneNumber)));
 }
 
 PhoneNumber.propTypes = {
-  formatPhone: _propTypes.default.func.isRequired,
-  phoneNumber: _propTypes.default.string,
-  usageType: _propTypes.default.string,
-  currentLocale: _propTypes.default.string.isRequired
+  formatPhone: _propTypes["default"].func.isRequired,
+  phoneNumber: _propTypes["default"].string,
+  usageType: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 PhoneNumber.defaultProps = {
   phoneNumber: null,
@@ -91,19 +93,19 @@ function FromField(_ref2) {
     });
   }
 
-  return _react.default.createElement(_DropdownSelect.default, {
-    className: (0, _classnames.default)(_styles.default.root, className),
-    iconClassName: _styles.default.selectIcon,
+  return _react["default"].createElement(_DropdownSelect["default"], {
+    className: (0, _classnames["default"])(_styles["default"].root, className),
+    iconClassName: _styles["default"].selectIcon,
     value: fromNumber,
-    label: "".concat(_i18n.default.getString('from', currentLocale), ":"),
+    label: "".concat(_i18n["default"].getString('from', currentLocale), ":"),
     onChange: onChange,
     options: options,
     renderValue: function renderValue(value) {
       if (value === 'anonymous') {
-        return _react.default.createElement("span", null, _i18n.default.getString('Blocked', currentLocale));
+        return _react["default"].createElement("span", null, _i18n["default"].getString('Blocked', currentLocale));
       }
 
-      return _react.default.createElement(PhoneNumber, {
+      return _react["default"].createElement(PhoneNumber, {
         formatPhone: formatPhone,
         phoneNumber: value,
         currentLocale: currentLocale
@@ -114,10 +116,10 @@ function FromField(_ref2) {
     },
     renderFunction: function renderFunction(option) {
       if (option.phoneNumber === 'anonymous') {
-        return _react.default.createElement("span", null, _i18n.default.getString('Blocked', currentLocale));
+        return _react["default"].createElement("span", null, _i18n["default"].getString('Blocked', currentLocale));
       }
 
-      return _react.default.createElement(PhoneNumber, {
+      return _react["default"].createElement(PhoneNumber, {
         formatPhone: formatPhone,
         phoneNumber: option.phoneNumber,
         usageType: option.usageType,
@@ -128,17 +130,17 @@ function FromField(_ref2) {
 }
 
 FromField.propTypes = {
-  fromNumber: _propTypes.default.string,
-  formatPhone: _propTypes.default.func.isRequired,
-  fromNumbers: _propTypes.default.arrayOf(_propTypes.default.shape({
-    phoneNumber: _propTypes.default.string,
-    usageType: _propTypes.default.string
+  fromNumber: _propTypes["default"].string,
+  formatPhone: _propTypes["default"].func.isRequired,
+  fromNumbers: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string,
+    usageType: _propTypes["default"].string
   })).isRequired,
-  onChange: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  hidden: _propTypes.default.bool.isRequired,
-  showAnonymous: _propTypes.default.bool,
-  className: _propTypes.default.string
+  onChange: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  hidden: _propTypes["default"].bool.isRequired,
+  showAnonymous: _propTypes["default"].bool,
+  className: _propTypes["default"].string
 };
 FromField.defaultProps = {
   fromNumber: null,
@@ -146,5 +148,5 @@ FromField.defaultProps = {
   showAnonymous: true
 };
 var _default = FromField;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

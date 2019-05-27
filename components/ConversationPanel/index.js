@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -45,9 +47,9 @@ var _MessageInput = _interopRequireDefault(require("../MessageInput"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -65,11 +67,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var ConversationPanel =
 /*#__PURE__*/
@@ -121,7 +123,7 @@ function (_Component) {
       return selected > -1 && contactMatches[selected] || contactMatches.length === 1 && contactMatches[0] || null;
     };
 
-    _this.logConversation = _this.logConversation.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.logConversation = _this.logConversation.bind(_assertThisInitialized(_this));
     _this.state = {
       selected: _this.getInitialContactIndex(),
       isLogging: false,
@@ -300,9 +302,9 @@ function (_Component) {
       var _this2 = this;
 
       if (!this.state.loaded) {
-        return _react.default.createElement("div", {
-          className: _styles.default.root
-        }, _react.default.createElement(_SpinnerOverlay.default, null));
+        return _react["default"].createElement("div", {
+          className: _styles["default"].root
+        }, _react["default"].createElement(_SpinnerOverlay["default"], null));
       }
 
       var conversationBody = null;
@@ -312,11 +314,11 @@ function (_Component) {
           messageSubjectRenderer = _this$props.messageSubjectRenderer;
 
       if (!loading) {
-        conversationBody = _react.default.createElement(_ConversationMessageList.default, {
+        conversationBody = _react["default"].createElement(_ConversationMessageList["default"], {
           currentLocale: this.props.currentLocale,
           height: this.getMessageListHeight(),
           messages: this.props.messages,
-          className: _styles.default.conversationBody,
+          className: _styles["default"].conversationBody,
           dateTimeFormatter: this.props.dateTimeFormatter,
           showSender: recipients && recipients.length > 1,
           messageSubjectRenderer: messageSubjectRenderer,
@@ -337,23 +339,23 @@ function (_Component) {
         logConversation: this.logConversation,
         isLogging: isLogging || this.state.isLogging
       }) : null;
-      var logButton = this.props.onLogConversation && !this.props.renderExtraButton ? _react.default.createElement(_LogButton.default, {
-        className: _styles.default.logButton,
+      var logButton = this.props.onLogConversation && !this.props.renderExtraButton ? _react["default"].createElement(_LogButton["default"], {
+        className: _styles["default"].logButton,
         onLog: this.logConversation,
         disableLinks: this.props.disableLinks,
         isLogged: conversationMatches.length > 0,
         isLogging: isLogging || this.state.isLogging,
         currentLocale: this.props.currentLocale
       }) : null;
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, _react["default"].createElement("div", {
         "data-sign": "conversationPanel",
-        className: _styles.default.header
-      }, _react.default.createElement(_ContactDisplay.default, {
+        className: _styles["default"].header
+      }, _react["default"].createElement(_ContactDisplay["default"], {
         brand: this.props.brand,
-        className: _styles.default.contactDisplay,
-        selectClassName: _styles.default.contactDisplaySelect,
+        className: _styles["default"].contactDisplay,
+        selectClassName: _styles["default"].contactDisplaySelect,
         contactMatches: correspondentMatches || [],
         selected: this.state.selected,
         onSelectContact: this.onSelectContact,
@@ -372,16 +374,16 @@ function (_Component) {
         phoneTypeRenderer: this.props.phoneTypeRenderer,
         phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
         showGroupNumberName: this.props.showGroupNumberName
-      }), _react.default.createElement("a", {
+      }), _react["default"].createElement("a", {
         onClick: function onClick() {
           return _this2.props.goBack();
         },
-        className: _styles.default.backButton
-      }, _react.default.createElement("span", {
-        className: _DynamicsFont.default.arrow
-      })), extraButton && _react.default.createElement("div", {
-        className: _styles.default.logButton
-      }, extraButton), logButton), conversationBody, _react.default.createElement(_MessageInput.default, {
+        className: _styles["default"].backButton
+      }, _react["default"].createElement("span", {
+        className: _DynamicsFont["default"].arrow
+      })), extraButton && _react["default"].createElement("div", {
+        className: _styles["default"].logButton
+      }, extraButton), logButton), conversationBody, _react["default"].createElement(_MessageInput["default"], {
         value: this.props.messageText,
         onChange: this.props.updateMessageText,
         disabled: this.props.sendButtonDisabled,
@@ -397,44 +399,44 @@ function (_Component) {
 }(_react.Component);
 
 ConversationPanel.propTypes = {
-  brand: _propTypes.default.string.isRequired,
-  replyToReceivers: _propTypes.default.func.isRequired,
-  messages: _ConversationMessageList.default.propTypes.messages,
-  updateMessageText: _propTypes.default.func,
-  messageText: _propTypes.default.string,
-  recipients: _propTypes.default.arrayOf(_propTypes.default.shape({
-    phoneNumber: _propTypes.default.string,
-    extensionNumber: _propTypes.default.string,
-    name: _propTypes.default.string
+  brand: _propTypes["default"].string.isRequired,
+  replyToReceivers: _propTypes["default"].func.isRequired,
+  messages: _ConversationMessageList["default"].propTypes.messages,
+  updateMessageText: _propTypes["default"].func,
+  messageText: _propTypes["default"].string,
+  recipients: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string,
+    extensionNumber: _propTypes["default"].string,
+    name: _propTypes["default"].string
   })).isRequired,
-  sendButtonDisabled: _propTypes.default.bool.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  showSpinner: _propTypes.default.bool.isRequired,
-  disableLinks: _propTypes.default.bool,
-  conversation: _propTypes.default.object.isRequired,
-  onLogConversation: _propTypes.default.func,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  autoLog: _propTypes.default.bool,
-  enableContactFallback: _propTypes.default.bool,
-  dateTimeFormatter: _propTypes.default.func.isRequired,
-  goBack: _propTypes.default.func.isRequired,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  showGroupNumberName: _propTypes.default.bool,
-  messageSubjectRenderer: _propTypes.default.func,
-  formatPhone: _propTypes.default.func.isRequired,
-  readMessages: _propTypes.default.func.isRequired,
-  loadPreviousMessages: _propTypes.default.func.isRequired,
-  unloadConversation: _propTypes.default.func.isRequired,
-  perPage: _propTypes.default.number,
-  conversationId: _propTypes.default.string.isRequired,
-  loadConversation: _propTypes.default.func,
-  renderExtraButton: _propTypes.default.func,
-  loadingNextPage: _propTypes.default.bool,
-  inputExpandable: _propTypes.default.bool
+  sendButtonDisabled: _propTypes["default"].bool.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  showSpinner: _propTypes["default"].bool.isRequired,
+  disableLinks: _propTypes["default"].bool,
+  conversation: _propTypes["default"].object.isRequired,
+  onLogConversation: _propTypes["default"].func,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  autoLog: _propTypes["default"].bool,
+  enableContactFallback: _propTypes["default"].bool,
+  dateTimeFormatter: _propTypes["default"].func.isRequired,
+  goBack: _propTypes["default"].func.isRequired,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  showGroupNumberName: _propTypes["default"].bool,
+  messageSubjectRenderer: _propTypes["default"].func,
+  formatPhone: _propTypes["default"].func.isRequired,
+  readMessages: _propTypes["default"].func.isRequired,
+  loadPreviousMessages: _propTypes["default"].func.isRequired,
+  unloadConversation: _propTypes["default"].func.isRequired,
+  perPage: _propTypes["default"].number,
+  conversationId: _propTypes["default"].string.isRequired,
+  loadConversation: _propTypes["default"].func,
+  renderExtraButton: _propTypes["default"].func,
+  loadingNextPage: _propTypes["default"].bool,
+  inputExpandable: _propTypes["default"].bool
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -460,5 +462,5 @@ ConversationPanel.defaultProps = {
   inputExpandable: undefined
 };
 var _default = ConversationPanel;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

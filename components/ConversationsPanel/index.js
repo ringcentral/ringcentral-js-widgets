@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -45,9 +45,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -70,14 +70,14 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function TabTitle(_ref) {
   var type = _ref.type,
       currentLocale = _ref.currentLocale;
-  return _react.default.createElement("span", {
-    className: _styles.default.tabTitle
-  }, _i18n.default.getString(type, currentLocale));
+  return _react["default"].createElement("span", {
+    className: _styles["default"].tabTitle
+  }, _i18n["default"].getString(type, currentLocale));
 }
 
 TabTitle.propTypes = {
-  type: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired
+  type: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 
 var ConversationsPanel =
@@ -112,54 +112,54 @@ function (_Component) {
     key: "renderTabs",
     value: function renderTabs() {
       var tabs = [{
-        icon: _react.default.createElement(TabTitle, {
-          type: _messageTypes.default.all,
+        icon: _react["default"].createElement(TabTitle, {
+          type: _messageTypes["default"].all,
           currentLocale: this.props.currentLocale
         }),
-        label: _i18n.default.getString(_messageTypes.default.all, this.props.currentLocale),
-        path: _messageTypes.default.all,
+        label: _i18n["default"].getString(_messageTypes["default"].all, this.props.currentLocale),
+        path: _messageTypes["default"].all,
         isActive: function isActive(path) {
-          return path === _messageTypes.default.all;
+          return path === _messageTypes["default"].all;
         }
       }, this.props.readVoicemailPermission && {
-        icon: _react.default.createElement(TabTitle, {
-          type: _messageTypes.default.voiceMail,
+        icon: _react["default"].createElement(TabTitle, {
+          type: _messageTypes["default"].voiceMail,
           currentLocale: this.props.currentLocale
         }),
-        label: _i18n.default.getString(_messageTypes.default.voiceMail, this.props.currentLocale),
-        path: _messageTypes.default.voiceMail,
+        label: _i18n["default"].getString(_messageTypes["default"].voiceMail, this.props.currentLocale),
+        path: _messageTypes["default"].voiceMail,
         isActive: function isActive(path) {
-          return path === _messageTypes.default.voiceMail;
+          return path === _messageTypes["default"].voiceMail;
         },
         noticeCounts: this.props.voiceUnreadCounts
       }, this.props.readFaxPermission && {
-        icon: _react.default.createElement(TabTitle, {
-          type: _messageTypes.default.fax,
+        icon: _react["default"].createElement(TabTitle, {
+          type: _messageTypes["default"].fax,
           currentLocale: this.props.currentLocale
         }),
-        label: _i18n.default.getString(_messageTypes.default.fax, this.props.currentLocale),
-        path: _messageTypes.default.fax,
+        label: _i18n["default"].getString(_messageTypes["default"].fax, this.props.currentLocale),
+        path: _messageTypes["default"].fax,
         isActive: function isActive(path) {
-          return path === _messageTypes.default.fax;
+          return path === _messageTypes["default"].fax;
         },
         noticeCounts: this.props.faxUnreadCounts
       }, this.props.readTextPermission && {
-        icon: _react.default.createElement(TabTitle, {
-          type: _messageTypes.default.text,
+        icon: _react["default"].createElement(TabTitle, {
+          type: _messageTypes["default"].text,
           currentLocale: this.props.currentLocale
         }),
-        label: _i18n.default.getString(_messageTypes.default.text, this.props.currentLocale),
-        path: _messageTypes.default.text,
+        label: _i18n["default"].getString(_messageTypes["default"].text, this.props.currentLocale),
+        path: _messageTypes["default"].text,
         isActive: function isActive(path) {
-          return path === _messageTypes.default.text;
+          return path === _messageTypes["default"].text;
         },
         noticeCounts: this.props.textUnreadCounts
       }].filter(function (x) {
         return !!x;
       });
-      return _react.default.createElement(_NavigationBar.default, {
-        button: _MessageTabButton.default,
-        className: _styles.default.tabBar,
+      return _react["default"].createElement(_NavigationBar["default"], {
+        button: _MessageTabButton["default"],
+        className: _styles["default"].tabBar,
         currentPath: this.props.typeFilter,
         goTo: this.onTabChanged,
         tabs: tabs
@@ -176,6 +176,7 @@ function (_Component) {
           currentLocale = _this$props.currentLocale,
           perPage = _this$props.perPage,
           disableLinks = _this$props.disableLinks,
+          disableCallButton = _this$props.disableCallButton,
           conversations = _this$props.conversations,
           brand = _this$props.brand,
           showConversationDetail = _this$props.showConversationDetail,
@@ -214,13 +215,13 @@ function (_Component) {
           renderNoMessage = _this$props.renderNoMessage;
 
       if (showSpinner) {
-        return _react.default.createElement(_SpinnerOverlay.default, null);
+        return _react["default"].createElement(_SpinnerOverlay["default"], null);
       }
 
-      var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n.default.getString('noSearchResults', currentLocale) : _i18n.default.getString('noMessages', currentLocale);
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.content, showTitle && _styles.default.contentWithHeader)
-      }, _react.default.createElement(_Search.default, {
+      var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n["default"].getString('noSearchResults', currentLocale) : _i18n["default"].getString('noMessages', currentLocale);
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].content, showTitle && _styles["default"].contentWithHeader)
+      }, _react["default"].createElement(_Search["default"], {
         composeTextPermission: composeTextPermission,
         typeFilter: typeFilter,
         onSearchInputChange: onSearchInputChange,
@@ -229,11 +230,12 @@ function (_Component) {
         disableLinks: disableLinks,
         goToComposeText: goToComposeText,
         renderSearchTip: renderSearchTip
-      }), conversations.length ? _react.default.createElement(_ConversationList.default, {
-        className: onSearchInputChange ? _styles.default.contentWithSearch : null,
+      }), conversations.length ? _react["default"].createElement(_ConversationList["default"], {
+        className: onSearchInputChange ? _styles["default"].contentWithSearch : null,
         currentLocale: currentLocale,
         perPage: perPage,
         disableLinks: disableLinks,
+        disableCallButton: disableCallButton,
         conversations: conversations,
         brand: brand,
         showConversationDetail: showConversationDetail,
@@ -267,7 +269,7 @@ function (_Component) {
         outboundSmsPermission: outboundSmsPermission,
         internalSmsPermission: internalSmsPermission,
         updateTypeFilter: updateTypeFilter
-      }) : !loadingNextPage && (renderNoMessage && renderNoMessage() || _react.default.createElement(_NoMessage.default, {
+      }) : !loadingNextPage && (renderNoMessage && renderNoMessage() || _react["default"].createElement(_NoMessage["default"], {
         placeholder: placeholder
       })));
     }
@@ -283,22 +285,22 @@ function (_Component) {
 
       if (showComposeText) {
         buttons.push({
-          label: _react.default.createElement(_ComposeText.default, {
-            className: _styles.default.composeText
+          label: _react["default"].createElement(_ComposeText["default"], {
+            className: _styles["default"].composeText
           }),
           onClick: goToComposeText,
           placement: 'right'
         });
       }
 
-      var header = showTitle ? _react.default.createElement(_Header.default, {
+      var header = showTitle ? _react["default"].createElement(_Header["default"], {
         buttons: buttons
-      }, _i18n.default.getString('title', currentLocale)) : null;
+      }, _i18n["default"].getString('title', currentLocale)) : null;
       var tabsHeader = this.renderTabs();
       var content = this.renderContent();
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         "data-sign": "ConversationsPanel",
-        className: _styles.default.root
+        className: _styles["default"].root
       }, header, tabsHeader, content);
     }
   }]);
@@ -306,59 +308,60 @@ function (_Component) {
   return ConversationsPanel;
 }(_react.Component);
 
-exports.default = ConversationsPanel;
+exports["default"] = ConversationsPanel;
 ConversationsPanel.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  showSpinner: _propTypes.default.bool,
-  showTitle: _propTypes.default.bool,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  showComposeText: _propTypes.default.bool,
-  goToComposeText: _propTypes.default.func.isRequired,
-  typeFilter: _propTypes.default.string,
-  updateTypeFilter: _propTypes.default.func,
-  showConversationDetail: _propTypes.default.func.isRequired,
-  textUnreadCounts: _propTypes.default.number.isRequired,
-  voiceUnreadCounts: _propTypes.default.number.isRequired,
-  faxUnreadCounts: _propTypes.default.number.isRequired,
-  showGroupNumberName: _propTypes.default.bool,
-  onClickToDial: _propTypes.default.func,
-  onClickToSms: _propTypes.default.func,
-  markMessage: _propTypes.default.func.isRequired,
-  readMessage: _propTypes.default.func.isRequired,
-  readTextPermission: _propTypes.default.bool,
-  outboundSmsPermission: _propTypes.default.bool,
-  internalSmsPermission: _propTypes.default.bool,
-  readVoicemailPermission: _propTypes.default.bool,
-  readFaxPermission: _propTypes.default.bool,
-  onSearchInputChange: _propTypes.default.func,
-  searchInput: _propTypes.default.string,
-  perPage: _propTypes.default.number,
-  disableLinks: _propTypes.default.bool,
-  conversations: _propTypes.default.array.isRequired,
-  brand: _propTypes.default.string.isRequired,
-  dateTimeFormatter: _propTypes.default.func,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  onLogConversation: _propTypes.default.func,
-  onViewContact: _propTypes.default.func,
-  onCreateContact: _propTypes.default.func,
-  createEntityTypes: _propTypes.default.array,
-  disableClickToDial: _propTypes.default.bool,
-  unmarkMessage: _propTypes.default.func.isRequired,
-  autoLog: _propTypes.default.bool,
-  enableContactFallback: _propTypes.default.bool,
-  deleteMessage: _propTypes.default.func,
-  composeTextPermission: _propTypes.default.bool,
-  previewFaxMessages: _propTypes.default.func,
-  loadNextPage: _propTypes.default.func.isRequired,
-  loadingNextPage: _propTypes.default.bool,
-  onUnmount: _propTypes.default.func,
-  renderExtraButton: _propTypes.default.func,
-  renderSearchTip: _propTypes.default.func,
-  renderNoMessage: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  showSpinner: _propTypes["default"].bool,
+  showTitle: _propTypes["default"].bool,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  showComposeText: _propTypes["default"].bool,
+  goToComposeText: _propTypes["default"].func.isRequired,
+  typeFilter: _propTypes["default"].string,
+  updateTypeFilter: _propTypes["default"].func,
+  showConversationDetail: _propTypes["default"].func.isRequired,
+  textUnreadCounts: _propTypes["default"].number.isRequired,
+  voiceUnreadCounts: _propTypes["default"].number.isRequired,
+  faxUnreadCounts: _propTypes["default"].number.isRequired,
+  showGroupNumberName: _propTypes["default"].bool,
+  onClickToDial: _propTypes["default"].func,
+  onClickToSms: _propTypes["default"].func,
+  markMessage: _propTypes["default"].func.isRequired,
+  readMessage: _propTypes["default"].func.isRequired,
+  readTextPermission: _propTypes["default"].bool,
+  outboundSmsPermission: _propTypes["default"].bool,
+  internalSmsPermission: _propTypes["default"].bool,
+  readVoicemailPermission: _propTypes["default"].bool,
+  readFaxPermission: _propTypes["default"].bool,
+  onSearchInputChange: _propTypes["default"].func,
+  searchInput: _propTypes["default"].string,
+  perPage: _propTypes["default"].number,
+  disableLinks: _propTypes["default"].bool,
+  disableCallButton: _propTypes["default"].bool,
+  conversations: _propTypes["default"].array.isRequired,
+  brand: _propTypes["default"].string.isRequired,
+  dateTimeFormatter: _propTypes["default"].func,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  onLogConversation: _propTypes["default"].func,
+  onViewContact: _propTypes["default"].func,
+  onCreateContact: _propTypes["default"].func,
+  createEntityTypes: _propTypes["default"].array,
+  disableClickToDial: _propTypes["default"].bool,
+  unmarkMessage: _propTypes["default"].func.isRequired,
+  autoLog: _propTypes["default"].bool,
+  enableContactFallback: _propTypes["default"].bool,
+  deleteMessage: _propTypes["default"].func,
+  composeTextPermission: _propTypes["default"].bool,
+  previewFaxMessages: _propTypes["default"].func,
+  loadNextPage: _propTypes["default"].func.isRequired,
+  loadingNextPage: _propTypes["default"].bool,
+  onUnmount: _propTypes["default"].func,
+  renderExtraButton: _propTypes["default"].func,
+  renderSearchTip: _propTypes["default"].func,
+  renderNoMessage: _propTypes["default"].func
 };
 ConversationsPanel.defaultProps = {
   showSpinner: false,
@@ -368,7 +371,7 @@ ConversationsPanel.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   showComposeText: false,
-  typeFilter: _messageTypes.default.all,
+  typeFilter: _messageTypes["default"].all,
   updateTypeFilter: undefined,
   showGroupNumberName: false,
   onClickToDial: undefined,
@@ -382,6 +385,7 @@ ConversationsPanel.defaultProps = {
   searchInput: '',
   perPage: 20,
   disableLinks: false,
+  disableCallButton: false,
   dateTimeFormatter: undefined,
   onLogConversation: undefined,
   onViewContact: undefined,

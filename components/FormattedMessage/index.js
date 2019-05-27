@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -39,13 +39,15 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 var _react = require("react");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -103,7 +105,7 @@ function (_Component) {
           hashedParams[key] = values[key];
         }
       });
-      var nodes = (0, _formatMessage.default)(message, hashedParams).split(tokenDelimeter).filter(function (token) {
+      var nodes = (0, _formatMessage["default"])(message, hashedParams).split(tokenDelimeter).filter(function (token) {
         return !!token;
       }).map(function (token) {
         return elements[token] || token;
@@ -115,11 +117,11 @@ function (_Component) {
   return FormattedMessage;
 }(_react.Component);
 
-exports.default = FormattedMessage;
+exports["default"] = FormattedMessage;
 FormattedMessage.propTypes = {
-  message: _propTypes.default.string.isRequired,
-  values: _propTypes.default.object,
-  tagName: _propTypes.default.string
+  message: _propTypes["default"].string.isRequired,
+  values: _propTypes["default"].object,
+  tagName: _propTypes["default"].string
 };
 FormattedMessage.defaultProps = {
   values: {},

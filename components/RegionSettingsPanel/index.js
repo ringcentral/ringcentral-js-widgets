@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -45,9 +45,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _countryNames = _interopRequireDefault(require("../../lib/countryNames"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -126,7 +126,7 @@ function (_Component) {
     };
 
     _this.renderHandler = function (option) {
-      return "(+".concat(option.callingCode, ") ").concat(_countryNames.default.getString(option.isoCode, _this.props.currentLocale));
+      return "(+".concat(option.callingCode, ") ").concat(_countryNames["default"].getString(option.isoCode, _this.props.currentLocale));
     };
 
     _this.renderValue = function (value) {
@@ -138,7 +138,7 @@ function (_Component) {
         return '';
       }
 
-      return "(+".concat(selectedOption.callingCode, ") ").concat(_countryNames.default.getString(selectedOption.isoCode, _this.props.currentLocale));
+      return "(+".concat(selectedOption.callingCode, ") ").concat(_countryNames["default"].getString(selectedOption.isoCode, _this.props.currentLocale));
     };
 
     _this.state = {
@@ -185,19 +185,19 @@ function (_Component) {
       }
 
       var showAreaCode = this.state.countryCodeValue === 'US' || this.state.countryCodeValue === 'CA';
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, this.props.className)
-      }, _react.default.createElement(_BackHeader.default, {
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
+      }, _react["default"].createElement(_BackHeader["default"], {
         buttons: [],
         onBackClick: this.onBackClick
-      }, _i18n.default.getString('title', this.props.currentLocale)), _react.default.createElement(_Panel.default, {
-        className: _styles.default.content
-      }, _react.default.createElement("div", {
-        className: _styles.default.hint
-      }, _i18n.default.getString(messageId, this.props.currentLocale)), _react.default.createElement(_InputField.default, {
-        label: _i18n.default.getString('country', this.props.currentLocale)
-      }, _react.default.createElement(_DropdownSelect.default, {
-        className: _styles.default.select,
+      }, _i18n["default"].getString('title', this.props.currentLocale)), _react["default"].createElement(_Panel["default"], {
+        className: _styles["default"].content
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].hint
+      }, _i18n["default"].getString(messageId, this.props.currentLocale)), _react["default"].createElement(_InputField["default"], {
+        label: _i18n["default"].getString('country', this.props.currentLocale)
+      }, _react["default"].createElement(_DropdownSelect["default"], {
+        className: _styles["default"].select,
         value: this.state.countryCodeValue,
         onChange: this.onCountryCodeChange,
         options: this.props.availableCountries,
@@ -208,15 +208,15 @@ function (_Component) {
         renderFunction: this.renderHandler,
         renderValue: this.renderValue,
         titleEnabled: true
-      })), showAreaCode && _react.default.createElement(_InputField.default, {
-        label: _i18n.default.getString('areaCode', this.props.currentLocale)
-      }, _react.default.createElement(_TextInput.default, {
-        placeholder: _i18n.default.getString('areaCodePlaceholder', this.props.currentLocale),
+      })), showAreaCode && _react["default"].createElement(_InputField["default"], {
+        label: _i18n["default"].getString('areaCode', this.props.currentLocale)
+      }, _react["default"].createElement(_TextInput["default"], {
+        placeholder: _i18n["default"].getString('areaCodePlaceholder', this.props.currentLocale),
         maxLength: 3,
         filter: this.areaCodeInputFilter,
         value: this.state.areaCodeValue,
         onChange: this.onAreaCodeChange
-      })), _react.default.createElement(_SaveButton.default, {
+      })), _react["default"].createElement(_SaveButton["default"], {
         currentLocale: this.props.currentLocale,
         onClick: this.onSaveClick,
         disabled: !hasChanges
@@ -227,19 +227,19 @@ function (_Component) {
   return RegionSettings;
 }(_react.Component);
 
-exports.default = RegionSettings;
+exports["default"] = RegionSettings;
 RegionSettings.propTypes = {
-  className: _propTypes.default.string,
-  children: _propTypes.default.node,
-  onBackButtonClick: _propTypes.default.func,
-  currentLocale: _propTypes.default.string.isRequired,
-  availableCountries: _propTypes.default.arrayOf(_propTypes.default.shape({
-    isoCode: _propTypes.default.string,
-    callingCode: _propTypes.default.string
+  className: _propTypes["default"].string,
+  children: _propTypes["default"].node,
+  onBackButtonClick: _propTypes["default"].func,
+  currentLocale: _propTypes["default"].string.isRequired,
+  availableCountries: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    isoCode: _propTypes["default"].string,
+    callingCode: _propTypes["default"].string
   })).isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  areaCode: _propTypes.default.string.isRequired,
-  onSave: _propTypes.default.func
+  countryCode: _propTypes["default"].string.isRequired,
+  areaCode: _propTypes["default"].string.isRequired,
+  onSave: _propTypes["default"].func
 };
 RegionSettings.defaultProps = {
   className: undefined,

@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   conferenceCall: "Chamada em conferência",
   onHold: "Em espera",
@@ -20,5 +20,5 @@ var _default = {
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
 // @key: @#@"loadingTimeout"@#@ @source: @#@"Loading timeout."@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

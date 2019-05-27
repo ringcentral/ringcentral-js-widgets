@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   title: "音频",
   dialButtonVolume: "拨号键音量",
@@ -30,5 +30,5 @@ var _default = {
 // @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
 // @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

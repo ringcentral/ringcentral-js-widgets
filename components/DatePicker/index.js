@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -33,9 +33,9 @@ require("react-widgets/dist/css/react-widgets.css");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -104,9 +104,9 @@ function (_Component) {
       });
     };
 
-    _moment.default.locale(_this.props.currentLocale);
+    _moment["default"].locale(_this.props.currentLocale);
 
-    (0, _reactWidgetsMoment.default)();
+    (0, _reactWidgetsMoment["default"])();
     _this.state = {
       open: false
     };
@@ -131,13 +131,13 @@ function (_Component) {
 
       var currentLocale = this.props.currentLocale;
       var dueDate = new Date().toISOString();
-      var showDate = this.props.date ? (0, _moment.default)(this.props.date).format('MM/DD/YY') : '';
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.datePicker, this.props.datePickerClassName),
+      var showDate = this.props.date ? (0, _moment["default"])(this.props.date).format('MM/DD/YY') : '';
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].datePicker, this.props.datePickerClassName),
         ref: function ref(_ref) {
           _this2.date = _ref;
         }
-      }, _react.default.createElement(_DateTimePicker.default, {
+      }, _react["default"].createElement(_DateTimePicker["default"], {
         className: "dateTimePicker",
         culture: currentLocale,
         time: false,
@@ -156,11 +156,11 @@ function (_Component) {
         format: "MM/DD/YY",
         min: new Date(),
         onToggle: function onToggle() {}
-      }), _react.default.createElement("div", {
+      }), _react["default"].createElement("div", {
         onClick: function onClick() {
           return _this2.onClickFunc();
         },
-        className: (0, _classnames.default)(_styles.default.dateText, this.props.dateTextClassName)
+        className: (0, _classnames["default"])(_styles["default"].dateText, this.props.dateTextClassName)
       }, "".concat(this.props.label, ": ").concat(showDate)));
     }
   }]);
@@ -168,14 +168,14 @@ function (_Component) {
   return DatePicker;
 }(_react.Component);
 
-exports.default = DatePicker;
+exports["default"] = DatePicker;
 DatePicker.propTypes = {
-  currentLocale: _propTypes.default.string,
-  label: _propTypes.default.string,
-  date: _propTypes.default.instanceOf(Date),
-  onChange: _propTypes.default.func,
-  datePickerClassName: _propTypes.default.string,
-  dateTextClassName: _propTypes.default.string
+  currentLocale: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  date: _propTypes["default"].instanceOf(Date),
+  onChange: _propTypes["default"].func,
+  datePickerClassName: _propTypes["default"].string,
+  dateTextClassName: _propTypes["default"].string
 };
 DatePicker.defaultProps = {
   currentLocale: 'en-US',

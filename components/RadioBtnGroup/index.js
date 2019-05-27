@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -27,9 +27,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -53,33 +53,33 @@ function RadioOption(props) {
   var btnClassName = '';
 
   if (props.currentIndex === props.selectedIndex) {
-    btnClassName = (0, _classnames.default)(_styles.default.radioBtn, _styles.default.active);
+    btnClassName = (0, _classnames["default"])(_styles["default"].radioBtn, _styles["default"].active);
   } else {
-    btnClassName = _styles.default.radioBtn;
+    btnClassName = _styles["default"].radioBtn;
   }
 
-  return _react.default.createElement("div", {
-    className: _styles.default.radioOption,
+  return _react["default"].createElement("div", {
+    className: _styles["default"].radioOption,
     onClick: function onClick() {
       props.onSelect(props.currentIndex);
     }
-  }, _react.default.createElement("span", {
+  }, _react["default"].createElement("span", {
     className: btnClassName
-  }), _react.default.createElement("span", {
-    className: _styles.default.optionNumber
-  }, props.phoneNumber), _react.default.createElement("span", {
-    className: _styles.default.optionLabel,
+  }), _react["default"].createElement("span", {
+    className: _styles["default"].optionNumber
+  }, props.phoneNumber), _react["default"].createElement("span", {
+    className: _styles["default"].optionLabel,
     title: props.label
-  }, _i18n.default.getString(props.label, props.currentLocale)));
+  }, _i18n["default"].getString(props.label, props.currentLocale)));
 }
 
 RadioOption.propTypes = {
-  currentIndex: _propTypes.default.number.isRequired,
-  phoneNumber: _propTypes.default.string.isRequired,
-  label: _propTypes.default.string,
-  selectedIndex: _propTypes.default.number.isRequired,
-  onSelect: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired
+  currentIndex: _propTypes["default"].number.isRequired,
+  phoneNumber: _propTypes["default"].string.isRequired,
+  label: _propTypes["default"].string,
+  selectedIndex: _propTypes["default"].number.isRequired,
+  onSelect: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 RadioOption.defaultProps = {
   label: ''
@@ -118,10 +118,10 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, this.props.className)
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
       }, this.props.radioOptions.map(function (number, idx) {
-        return _react.default.createElement(RadioOption, {
+        return _react["default"].createElement(RadioOption, {
           currentIndex: idx,
           selectedIndex: _this2.state.selectedIndex,
           key: number.id,
@@ -137,13 +137,13 @@ function (_Component) {
   return RadioButtonGroup;
 }(_react.Component);
 
-exports.default = RadioButtonGroup;
+exports["default"] = RadioButtonGroup;
 RadioButtonGroup.propTypes = {
-  className: _propTypes.default.string.isRequired,
-  radioOptions: _propTypes.default.array.isRequired,
-  disabled: _propTypes.default.bool.isRequired,
-  formatPhone: _propTypes.default.func.isRequired,
-  onRadioSelect: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired
+  className: _propTypes["default"].string.isRequired,
+  radioOptions: _propTypes["default"].array.isRequired,
+  disabled: _propTypes["default"].bool.isRequired,
+  formatPhone: _propTypes["default"].func.isRequired,
+  onRadioSelect: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 //# sourceMappingURL=index.js.map

@@ -6,11 +6,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getLastSessionIdReducer = getLastSessionIdReducer;
-exports.default = getReducer;
+exports["default"] = getReducer;
 
 var _getReducer = _interopRequireDefault(require("../DialerUI/getReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getLastSessionIdReducer(types) {
   return function () {
@@ -34,7 +34,7 @@ function getLastSessionIdReducer(types) {
 }
 
 function getReducer(types) {
-  return (0, _getReducer.default)(types, {
+  return (0, _getReducer["default"])(types, {
     lastSessionId: getLastSessionIdReducer(types)
   });
 }

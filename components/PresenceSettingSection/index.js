@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -41,9 +41,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -87,13 +87,13 @@ function (_Component) {
     };
 
     _this.onCallQueueChange = function () {
-      if (_this.state.dndStatus === _dndStatus.default.doNotAcceptAnyCalls) {
+      if (_this.state.dndStatus === _dndStatus["default"].doNotAcceptAnyCalls) {
         return;
       }
 
       _this.setState(function (preState) {
         return {
-          dndStatus: preState.dndStatus === _dndStatus.default.takeAllCalls ? _dndStatus.default.doNotAcceptDepartmentCalls : _dndStatus.default.takeAllCalls
+          dndStatus: preState.dndStatus === _dndStatus["default"].takeAllCalls ? _dndStatus["default"].doNotAcceptDepartmentCalls : _dndStatus["default"].takeAllCalls
         };
       });
 
@@ -106,58 +106,59 @@ function (_Component) {
   _createClass(PresenceSettingSection, [{
     key: "render",
     value: function render() {
-      var sectionClass = (0, _classnames.default)(_styles.default.section, this.state.showSelects ? _styles.default.showDropdown : null);
-      var acceptQueueCalls = this.props.isCallQueueMember ? _react.default.createElement(_IconLine.default, {
-        icon: _react.default.createElement(_Switch.default, {
-          checked: this.props.dndStatus === _dndStatus.default.takeAllCalls,
+      var sectionClass = (0, _classnames["default"])(_styles["default"].section, this.state.showSelects ? _styles["default"].showDropdown : null);
+      var acceptQueueCalls = this.props.isCallQueueMember ? _react["default"].createElement(_IconLine["default"], {
+        icon: _react["default"].createElement(_Switch["default"], {
+          checked: this.props.dndStatus === _dndStatus["default"].takeAllCalls,
           onChange: this.onCallQueueChange
         })
-      }, _i18n.default.getString('acceptQueueCalls', this.props.currentLocale)) : null;
+      }, _i18n["default"].getString('acceptQueueCalls', this.props.currentLocale)) : null;
       var currentStatus = (0, _PresenceItem.getPresenceStatusName)(this.props.userStatus, this.props.dndStatus, this.props.currentLocale);
-      return _react.default.createElement("section", {
+      return _react["default"].createElement("section", {
         className: sectionClass
-      }, _react.default.createElement(_IconLine.default, {
-        icon: _react.default.createElement("span", {
-          className: _styles.default.dropdownIcon
-        }, _react.default.createElement("i", {
-          className: _DynamicsFont.default.arrow
+      }, _react["default"].createElement(_IconLine["default"], {
+        icon: _react["default"].createElement("span", {
+          className: _styles["default"].dropdownIcon
+        }, _react["default"].createElement("i", {
+          className: _DynamicsFont["default"].arrow
         })),
         onClick: this.toggleShow,
-        className: _styles.default.iconLine
-      }, _react.default.createElement("div", {
-        className: _styles.default.title
-      }, _i18n.default.getString('status', this.props.currentLocale)), _react.default.createElement("div", {
-        className: _styles.default.subTitle
-      }, _react.default.createElement(_PresenceStatusIcon.default, {
-        className: _styles.default.statusIcon,
+        className: _styles["default"].iconLine
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].title,
+        "data-sign": "status"
+      }, _i18n["default"].getString('status', this.props.currentLocale)), _react["default"].createElement("div", {
+        className: _styles["default"].subTitle
+      }, _react["default"].createElement(_PresenceStatusIcon["default"], {
+        className: _styles["default"].statusIcon,
         userStatus: this.props.userStatus,
         dndStatus: this.props.dndStatus
-      }), _react.default.createElement("span", null, currentStatus))), _react.default.createElement(_Line.default, {
-        className: _styles.default.presenceList
-      }, _react.default.createElement(_PresenceItem.default, {
-        userStatus: _presenceStatus.default.available,
-        dndStatus: _dndStatus.default.takeAllCalls,
+      }), _react["default"].createElement("span", null, currentStatus))), _react["default"].createElement(_Line["default"], {
+        className: _styles["default"].presenceList
+      }, _react["default"].createElement(_PresenceItem["default"], {
+        userStatus: _presenceStatus["default"].available,
+        dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: this.props.currentLocale,
         onClick: this.props.setAvailable,
-        selected: this.props.userStatus === _presenceStatus.default.available && this.props.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
-      }), _react.default.createElement(_PresenceItem.default, {
-        userStatus: _presenceStatus.default.busy,
-        dndStatus: _dndStatus.default.takeAllCalls,
+        selected: this.props.userStatus === _presenceStatus["default"].available && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+      }), _react["default"].createElement(_PresenceItem["default"], {
+        userStatus: _presenceStatus["default"].busy,
+        dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: this.props.currentLocale,
         onClick: this.props.setBusy,
-        selected: this.props.userStatus === _presenceStatus.default.busy && this.props.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
-      }), _react.default.createElement(_PresenceItem.default, {
-        userStatus: _presenceStatus.default.busy,
-        dndStatus: _dndStatus.default.doNotAcceptAnyCalls,
+        selected: this.props.userStatus === _presenceStatus["default"].busy && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+      }), _react["default"].createElement(_PresenceItem["default"], {
+        userStatus: _presenceStatus["default"].busy,
+        dndStatus: _dndStatus["default"].doNotAcceptAnyCalls,
         currentLocale: this.props.currentLocale,
         onClick: this.props.setDoNotDisturb,
-        selected: this.props.dndStatus === _dndStatus.default.doNotAcceptAnyCalls
-      }), _react.default.createElement(_PresenceItem.default, {
-        userStatus: _presenceStatus.default.offline,
-        dndStatus: _dndStatus.default.takeAllCalls,
+        selected: this.props.dndStatus === _dndStatus["default"].doNotAcceptAnyCalls
+      }), _react["default"].createElement(_PresenceItem["default"], {
+        userStatus: _presenceStatus["default"].offline,
+        dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: this.props.currentLocale,
         onClick: this.props.setInvisible,
-        selected: this.props.userStatus === _presenceStatus.default.offline && this.props.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
+        selected: this.props.userStatus === _presenceStatus["default"].offline && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
       })), acceptQueueCalls);
     }
   }]);
@@ -165,17 +166,17 @@ function (_Component) {
   return PresenceSettingSection;
 }(_react.Component);
 
-exports.default = PresenceSettingSection;
+exports["default"] = PresenceSettingSection;
 PresenceSettingSection.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  dndStatus: _propTypes.default.string.isRequired,
-  userStatus: _propTypes.default.string.isRequired,
-  isCallQueueMember: _propTypes.default.bool.isRequired,
-  setAvailable: _propTypes.default.func.isRequired,
-  setBusy: _propTypes.default.func.isRequired,
-  setDoNotDisturb: _propTypes.default.func.isRequired,
-  setInvisible: _propTypes.default.func.isRequired,
-  toggleAcceptCallQueueCalls: _propTypes.default.func.isRequired,
-  showPresenceSettings: _propTypes.default.bool.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  dndStatus: _propTypes["default"].string.isRequired,
+  userStatus: _propTypes["default"].string.isRequired,
+  isCallQueueMember: _propTypes["default"].bool.isRequired,
+  setAvailable: _propTypes["default"].func.isRequired,
+  setBusy: _propTypes["default"].func.isRequired,
+  setDoNotDisturb: _propTypes["default"].func.isRequired,
+  setInvisible: _propTypes["default"].func.isRequired,
+  toggleAcceptCallQueueCalls: _propTypes["default"].func.isRequired,
+  showPresenceSettings: _propTypes["default"].bool.isRequired
 };
 //# sourceMappingURL=index.js.map

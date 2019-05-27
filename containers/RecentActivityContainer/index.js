@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getTabs = getTabs;
 exports.mapToProps = mapToProps;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.filter");
 
@@ -33,7 +33,7 @@ var _phoneContext = require("../../lib/phoneContext");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getTabs(_ref) {
   var ready = _ref.ready,
@@ -66,11 +66,11 @@ function getTabs(_ref) {
   }
 
   return [showVoiceMails ? {
-    icon: _react.default.createElement(_VoicemailIcon.default, {
+    icon: _react["default"].createElement(_VoicemailIcon["default"], {
       width: 21,
       height: 21
     }),
-    label: _i18n.default.getString('voicemail', currentLocale),
+    label: _i18n["default"].getString('voicemail', currentLocale),
     path: 'voicemails',
     isActive: function isActive(path) {
       return path === 'voicemails';
@@ -79,15 +79,15 @@ function getTabs(_ref) {
     getData: function getData() {},
     cleanUp: function cleanUp() {}
   } : null, showRecentMessage ? {
-    icon: _react.default.createElement("span", {
-      className: _DynamicsFont.default.composeText
+    icon: _react["default"].createElement("span", {
+      className: _DynamicsFont["default"].composeText
     }),
-    label: _i18n.default.getString('text', currentLocale),
+    label: _i18n["default"].getString('text', currentLocale),
     path: 'recentMessages',
     isActive: function isActive(path) {
       return path === 'recentMessages';
     },
-    view: _react.default.createElement(_RecentActivityMessages.default, {
+    view: _react["default"].createElement(_RecentActivityMessages["default"], {
       messages: messages,
       navigateTo: navigateTo,
       dateTimeFormatter: dateTimeFormatter,
@@ -107,11 +107,11 @@ function getTabs(_ref) {
       });
     }
   } : null, showFax ? {
-    icon: _react.default.createElement(_Fax.default, {
+    icon: _react["default"].createElement(_Fax["default"], {
       width: 21,
       height: 21
     }),
-    label: _i18n.default.getString('fax', currentLocale),
+    label: _i18n["default"].getString('fax', currentLocale),
     path: 'faxes',
     isActive: function isActive(path) {
       return path === 'faxes';
@@ -120,15 +120,15 @@ function getTabs(_ref) {
     getData: function getData() {},
     cleanUp: function cleanUp() {}
   } : null, showRecentCalls ? {
-    icon: _react.default.createElement("span", {
-      className: _DynamicsFont.default.active
+    icon: _react["default"].createElement("span", {
+      className: _DynamicsFont["default"].active
     }),
-    label: _i18n.default.getString('call', currentLocale),
+    label: _i18n["default"].getString('call', currentLocale),
     path: 'recentCalls',
     isActive: function isActive(path) {
       return path === 'recentCalls';
     },
-    view: _react.default.createElement(_RecentActivityCalls.default, {
+    view: _react["default"].createElement(_RecentActivityCalls["default"], {
       calls: calls,
       dateTimeFormatter: dateTimeFormatter,
       currentLocale: currentLocale,
@@ -185,7 +185,7 @@ function mapToProps(_, _ref2) {
     sessionId = session.id;
     currentContact = session.contactMatch;
     var contactMapping = contactMatcher && contactMatcher.dataMapping;
-    var phoneNumber = session.direction === _callDirections.default.outbound ? session.to : session.from;
+    var phoneNumber = session.direction === _callDirections["default"].outbound ? session.to : session.from;
 
     if (!currentContact) {
       currentContact = contactMapping && contactMapping[phoneNumber];
@@ -200,7 +200,7 @@ function mapToProps(_, _ref2) {
 
   return {
     currentLocale: currentLocale,
-    title: _i18n.default.getString('recentActivities', locale.currentLocale),
+    title: _i18n["default"].getString('recentActivities', locale.currentLocale),
     showSpinner: !ready,
     currentContact: currentContact,
     calls: recentCalls.calls || [],
@@ -222,6 +222,6 @@ function mapToProps(_, _ref2) {
   };
 }
 
-var RecentActivityContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel.default));
-exports.default = RecentActivityContainer;
+var RecentActivityContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel["default"]));
+exports["default"] = RecentActivityContainer;
 //# sourceMappingURL=index.js.map

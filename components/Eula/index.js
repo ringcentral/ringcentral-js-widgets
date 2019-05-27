@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -13,14 +13,15 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function Eula(props) {
   var currentLocale = props.currentLocale,
       className = props.className,
       onLinkClicked = props.onLinkClicked,
       brandId = props.brandId,
-      useEulaAbbreviation = props.useEulaAbbreviation;
+      useEulaAbbreviation = props.useEulaAbbreviation,
+      dataSign = props.dataSign;
   var labelId = useEulaAbbreviation ? 'eulaAbbr' : 'eula';
   var link;
   var isFr = currentLocale.substr(0, 2).toLowerCase() === 'fr';
@@ -49,29 +50,32 @@ function Eula(props) {
       break;
   }
 
-  return _react.default.createElement("a", {
+  return _react["default"].createElement("a", {
     className: className,
     href: link,
     rel: "noopener noreferrer",
     target: "_blank",
     onClick: onLinkClicked ? function (e) {
       return props.onLinkClicked(e, link);
-    } : null
-  }, _i18n.default.getString(labelId));
+    } : null,
+    "data-sign": dataSign
+  }, _i18n["default"].getString(labelId));
 }
 
 Eula.propTypes = {
-  brandId: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  className: _propTypes.default.string,
-  onLinkClicked: _propTypes.default.func,
-  useEulaAbbreviation: _propTypes.default.bool
+  dataSign: _propTypes["default"].string,
+  brandId: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  className: _propTypes["default"].string,
+  onLinkClicked: _propTypes["default"].func,
+  useEulaAbbreviation: _propTypes["default"].bool
 };
 Eula.defaultProps = {
+  dataSign: null,
   className: '',
   onLinkClicked: function onLinkClicked() {},
   useEulaAbbreviation: false
 };
 var _default = Eula;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

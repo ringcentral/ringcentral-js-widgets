@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,9 +25,9 @@ var _AlertDisplay = _interopRequireDefault(require("../AlertDisplay"));
 
 var _MessageSenderAlert = _interopRequireDefault(require("../MessageSenderAlert"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -69,13 +69,13 @@ function (_Component) {
     };
 
     _this.getRenderer = function () {
-      return _MessageSenderAlert.default;
+      return _MessageSenderAlert["default"];
     };
 
     _this.messages = [{
       id: '1',
       level: 'warning',
-      message: _messageSenderMessages.default.senderNumberInvalid
+      message: _messageSenderMessages["default"].senderNumberInvalid
     }];
     return _this;
   }
@@ -83,7 +83,7 @@ function (_Component) {
   _createClass(NoSenderAlert, [{
     key: "render",
     value: function render() {
-      return this.state.showAlert ? _react.default.createElement(_AlertDisplay.default, {
+      return this.state.showAlert ? _react["default"].createElement(_AlertDisplay["default"], {
         brand: this.props.brand,
         currentLocale: this.props.currentLocale,
         messages: this.messages,
@@ -96,12 +96,12 @@ function (_Component) {
   return NoSenderAlert;
 }(_react.Component);
 
-exports.default = NoSenderAlert;
+exports["default"] = NoSenderAlert;
 NoSenderAlert.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  outboundSMS: _propTypes.default.bool.isRequired,
-  hasSenderNumbers: _propTypes.default.bool.isRequired,
-  brand: _propTypes.default.string
+  currentLocale: _propTypes["default"].string.isRequired,
+  outboundSMS: _propTypes["default"].bool.isRequired,
+  hasSenderNumbers: _propTypes["default"].bool.isRequired,
+  brand: _propTypes["default"].string
 };
 NoSenderAlert.defaultProps = {
   brand: 'RingCentral'

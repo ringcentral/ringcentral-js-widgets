@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -27,9 +27,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _Button = _interopRequireDefault(require("../Button"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -63,12 +63,12 @@ function (_PureComponent) {
   _createClass(MeetingScheduleButton, [{
     key: "getI18nButtonString",
     value: function getI18nButtonString() {
-      return _i18n.default.getString('schedule');
+      return _i18n["default"].getString('schedule');
     }
   }, {
     key: "getI18nPromptString",
     value: function getI18nPromptString() {
-      return _i18n.default.getString('prompt');
+      return _i18n["default"].getString('prompt');
     }
   }, {
     key: "render",
@@ -80,14 +80,14 @@ function (_PureComponent) {
           onClick = _this$props.onClick,
           brand = _this$props.brand,
           currentLocale = _this$props.currentLocale;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.inviteBox, !hidden ? _styles.default.withShadow : _styles.default.onlyButton)
-      }, hidden ? _react.default.createElement("div", {
-        className: _styles.default.actionPrompt
-      }, this.getI18nPromptString()) : null, _react.default.createElement(_Button.default, {
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].inviteBox, !hidden ? _styles["default"].withShadow : _styles["default"].onlyButton)
+      }, hidden ? _react["default"].createElement("div", {
+        className: _styles["default"].actionPrompt
+      }, this.getI18nPromptString()) : null, _react["default"].createElement(_Button["default"], {
         onClick: onClick,
         disabled: disabled,
-        className: (0, _classnames.default)(_styles.default.button, disabled ? _styles.default.disabled : null),
+        className: (0, _classnames["default"])(_styles["default"].button, disabled ? _styles["default"].disabled : null),
         dataSign: "meetingScheduleButton"
       }, this.getI18nButtonString()));
     }
@@ -96,14 +96,14 @@ function (_PureComponent) {
   return MeetingScheduleButton;
 }(_react.PureComponent);
 
-exports.default = MeetingScheduleButton;
+exports["default"] = MeetingScheduleButton;
 MeetingScheduleButton.propTypes = {
-  currentLocale: _propTypes.default.string,
-  meeting: _propTypes.default.object,
-  hidden: _propTypes.default.bool,
-  disabled: _propTypes.default.bool,
-  onClick: _propTypes.default.func.isRequired,
-  brand: _propTypes.default.string
+  currentLocale: _propTypes["default"].string,
+  meeting: _propTypes["default"].object,
+  hidden: _propTypes["default"].bool,
+  disabled: _propTypes["default"].bool,
+  onClick: _propTypes["default"].func.isRequired,
+  brand: _propTypes["default"].string
 };
 MeetingScheduleButton.defaultProps = {
   meeting: null,

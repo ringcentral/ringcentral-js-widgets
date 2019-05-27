@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -23,11 +23,13 @@ require("core-js/modules/es6.function.bind");
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -43,9 +45,9 @@ var _Enum = _interopRequireDefault(require("ringcentral-integration/lib/Enum"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -63,13 +65,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-var POSITION = new _Enum.default(['top', 'left']);
+var POSITION = new _Enum["default"](['top', 'left']);
 var TAIL_HEIGHT = Math.sqrt(Math.pow(10, 2) * 2);
 
 var getDimensions = function getDimensions(element) {
@@ -164,14 +166,14 @@ function (_Component) {
     _classCallCheck(this, Tooltip);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Tooltip).call(this, props));
-    _this.onResize = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _this.checkPosition).bind(_context);
-    _this.onTransitionEnd = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _this.onTransitionEnd).bind(_context);
+    _this.onResize = (_context = _assertThisInitialized(_this), _this.checkPosition).bind(_context);
+    _this.onTransitionEnd = (_context = _assertThisInitialized(_this), _this.onTransitionEnd).bind(_context);
     _this.state = {
       cachedPositioning: null,
       visibility: null,
       position: null
     };
-    _this.dom = _react.default.createRef();
+    _this.dom = _react["default"].createRef();
     return _this;
   }
 
@@ -351,17 +353,17 @@ function (_Component) {
           direction = _this$props.direction,
           fixed = _this$props.fixed,
           children = _this$props.children;
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         ref: this.dom,
-        className: (0, _classnames.default)(_styles.default.dropdownContainer, open ? _styles.default.opened : null, _styles.default[direction]),
+        className: (0, _classnames["default"])(_styles["default"].dropdownContainer, open ? _styles["default"].opened : null, _styles["default"][direction]),
         style: _objectSpread({
           visibility: this.state.visibility,
           position: fixed ? 'fixed' : 'absolute'
         }, this.state.position)
-      }, _react.default.createElement("div", {
-        className: _styles.default.dropdown
-      }, children), _react.default.createElement("div", {
-        className: _styles.default.tail
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].dropdown
+      }, children), _react["default"].createElement("div", {
+        className: _styles["default"].tail
       }));
     }
   }]);
@@ -370,15 +372,15 @@ function (_Component) {
 }(_react.Component);
 
 Tooltip.propTypes = {
-  triggerElm: _propTypes.default.object,
-  fixed: _propTypes.default.bool,
-  direction: _propTypes.default.string,
-  open: _propTypes.default.bool,
-  onOpen: _propTypes.default.func,
-  beforeOpen: _propTypes.default.func,
-  beforeClose: _propTypes.default.func,
-  onClose: _propTypes.default.func,
-  children: _propTypes.default.node
+  triggerElm: _propTypes["default"].object,
+  fixed: _propTypes["default"].bool,
+  direction: _propTypes["default"].string,
+  open: _propTypes["default"].bool,
+  onOpen: _propTypes["default"].func,
+  beforeOpen: _propTypes["default"].func,
+  beforeClose: _propTypes["default"].func,
+  onClose: _propTypes["default"].func,
+  children: _propTypes["default"].node
 };
 Tooltip.defaultProps = {
   triggerElm: null,
@@ -400,5 +402,5 @@ Tooltip.defaultProps = {
   }
 };
 var _default = Tooltip;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

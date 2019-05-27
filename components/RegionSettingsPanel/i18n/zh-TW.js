@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   title: "地區",
   NAOnlyMessage: "請設定您的區碼。這將會供您的本地撥號使用。",
@@ -22,5 +22,5 @@ var _default = {
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = BackHeader;
+exports["default"] = BackHeader;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -19,14 +19,14 @@ var _Header = _interopRequireDefault(require("../Header"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function BackHeader(props) {
   var buttons = props.buttons || [];
 
-  var defaultBackButton = _react.default.createElement("i", {
+  var defaultBackButton = _react["default"].createElement("i", {
     "data-sign": "backButton",
-    className: (0, _classnames.default)(_DynamicsFont.default.arrow, _styles.default.iconRotate)
+    className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].iconRotate)
   });
 
   buttons.push({
@@ -34,22 +34,22 @@ function BackHeader(props) {
     onClick: props.onBackClick,
     placement: 'left'
   });
-  return _react.default.createElement(_Header.default, {
+  return _react["default"].createElement(_Header["default"], {
     buttons: buttons,
     className: props.className
   }, props.children);
 }
 
 BackHeader.propTypes = {
-  className: _propTypes.default.string,
-  children: _propTypes.default.node,
-  backButton: _propTypes.default.node,
-  buttons: _propTypes.default.arrayOf(_propTypes.default.shape({
-    label: _propTypes.default.node.isRequired,
-    onClick: _propTypes.default.funcs,
-    placement: _propTypes.default.oneOf(['left', 'right'])
+  className: _propTypes["default"].string,
+  children: _propTypes["default"].node,
+  backButton: _propTypes["default"].node,
+  buttons: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    label: _propTypes["default"].node.isRequired,
+    onClick: _propTypes["default"].funcs,
+    placement: _propTypes["default"].oneOf(['left', 'right'])
   })),
-  onBackClick: _propTypes.default.func
+  onBackClick: _propTypes["default"].func
 };
 BackHeader.defaultProps = {
   className: '',

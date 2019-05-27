@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,9 +25,9 @@ var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/Dy
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -89,28 +89,28 @@ function (_Component) {
       };
 
       var Title = function Title() {
-        return title ? _react.default.createElement("span", {
-          className: _styles.default.title
+        return title ? _react["default"].createElement("span", {
+          className: _styles["default"].title
         }, title) : null;
       };
 
       var DropDown = function DropDown(_ref) {
         var isDropDown = _ref.isDropDown,
             onClick = _ref.onClick;
-        return withSwitch ? _react.default.createElement("span", {
-          className: (0, _classnames.default)(isDropDown ? _styles.default.dropDown : null),
+        return withSwitch ? _react["default"].createElement("span", {
+          className: (0, _classnames["default"])(isDropDown ? _styles["default"].dropDown : null),
           onClick: onClick
-        }, _react.default.createElement("i", {
-          className: (0, _classnames.default)(_DynamicsFont.default.arrow, _styles.default.arrow)
+        }, _react["default"].createElement("i", {
+          className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].arrow)
         })) : null;
       };
 
-      var topBorderLine = hideTopBorderLine ? _styles.default.hiddenTopBorder : null;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.section, topBorderLine, className)
-      }, title ? _react.default.createElement("div", {
-        className: _styles.default.spaceBetween
-      }, _react.default.createElement(Title, null), _react.default.createElement(DropDown, {
+      var topBorderLine = hideTopBorderLine ? _styles["default"].hiddenTopBorder : null;
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].section, topBorderLine, className)
+      }, title ? _react["default"].createElement("div", {
+        className: _styles["default"].spaceBetween
+      }, _react["default"].createElement(Title, null), _react["default"].createElement(DropDown, {
         isDropDown: this.state.toggle,
         onClick: toggle
       })) : null, this.state.toggle ? children : null);
@@ -121,12 +121,12 @@ function (_Component) {
 }(_react.Component);
 
 MeetingSection.propTypes = {
-  children: _propTypes.default.element.isRequired,
-  title: _propTypes.default.string,
-  className: _propTypes.default.string,
-  withSwitch: _propTypes.default.bool,
-  toggle: _propTypes.default.bool,
-  hideTopBorderLine: _propTypes.default.bool
+  children: _propTypes["default"].element.isRequired,
+  title: _propTypes["default"].string,
+  className: _propTypes["default"].string,
+  withSwitch: _propTypes["default"].bool,
+  toggle: _propTypes["default"].bool,
+  hideTopBorderLine: _propTypes["default"].bool
 };
 MeetingSection.defaultProps = {
   className: null,
@@ -136,5 +136,5 @@ MeetingSection.defaultProps = {
   hideTopBorderLine: false
 };
 var _default = MeetingSection;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

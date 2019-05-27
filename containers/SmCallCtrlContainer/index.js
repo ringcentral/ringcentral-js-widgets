@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -31,9 +33,9 @@ var _SmCallControl = _interopRequireDefault(require("../../components/SmCallCont
 
 var _withPhone = _interopRequireDefault(require("../../lib/withPhone"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -208,7 +210,7 @@ function (_Component) {
         callDirection: currentSession.direction,
         currentLocale: currentLocale
       };
-      return _react.default.createElement(_SmCallControl.default, props);
+      return _react["default"].createElement(_SmCallControl["default"], props);
     }
   }]);
 
@@ -216,16 +218,16 @@ function (_Component) {
 }(_react.Component);
 
 SmCallCtrlContainer.propTypes = {
-  currentLocale: _propTypes.default.string,
-  activeCallControl: _propTypes.default.object,
-  activeSessions: _propTypes.default.object,
-  sessionId: _propTypes.default.string,
-  status: _propTypes.default.string,
-  mute: _propTypes.default.func.isRequired,
-  unmute: _propTypes.default.func.isRequired,
-  hangUp: _propTypes.default.func.isRequired,
-  reject: _propTypes.default.func.isRequired,
-  getActiveSession: _propTypes.default.func
+  currentLocale: _propTypes["default"].string,
+  activeCallControl: _propTypes["default"].object,
+  activeSessions: _propTypes["default"].object,
+  sessionId: _propTypes["default"].string,
+  status: _propTypes["default"].string,
+  mute: _propTypes["default"].func.isRequired,
+  unmute: _propTypes["default"].func.isRequired,
+  hangUp: _propTypes["default"].func.isRequired,
+  reject: _propTypes["default"].func.isRequired,
+  getActiveSession: _propTypes["default"].func
 };
 SmCallCtrlContainer.defaultProps = {
   currentLocale: 'en-US',
@@ -238,7 +240,7 @@ SmCallCtrlContainer.defaultProps = {
   }
 };
 
-var _default = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(SmCallCtrlContainer));
+var _default = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToProps, mapToFunctions)(SmCallCtrlContainer));
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

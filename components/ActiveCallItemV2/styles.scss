@@ -37,6 +37,7 @@ $ringout-button-size: 24px;
 
     .content {
       flex-shrink: 1;
+      width: calc(100% - #{$avatar-basis} - #{$button-basis});
     }
 
     .actionIconsBox {
@@ -207,11 +208,9 @@ $ringout-button-size: 24px;
 .contactDisplay,
 .contactDisplay * {
   color: $lightblack !important;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
+  max-width: 100%;
 
-  .icon {
+  .selectIcon {
     display: none;
   }
 }

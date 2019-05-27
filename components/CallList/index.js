@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,9 +25,9 @@ var _CallItem = _interopRequireDefault(require("../CallItem"));
 
 var _NoCalls = _interopRequireDefault(require("../NoCalls"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -76,6 +76,7 @@ function (_PureComponent) {
           onClickToSms = _this$props.onClickToSms,
           isLoggedContact = _this$props.isLoggedContact,
           disableLinks = _this$props.disableLinks,
+          disableCallButton = _this$props.disableCallButton,
           disableClickToDial = _this$props.disableClickToDial,
           outboundSmsPermission = _this$props.outboundSmsPermission,
           internalSmsPermission = _this$props.internalSmsPermission,
@@ -100,10 +101,10 @@ function (_PureComponent) {
           readTextPermission = _this$props.readTextPermission;
 
       if (calls && calls.length) {
-        return _react.default.createElement("div", {
+        return _react["default"].createElement("div", {
           className: className
         }, calls.map(function (call, index) {
-          return _react.default.createElement(_CallItem.default, {
+          return _react["default"].createElement(_CallItem["default"], {
             key: call.id,
             call: call,
             renderIndex: index,
@@ -119,6 +120,7 @@ function (_PureComponent) {
             onClickToSms: onClickToSms,
             isLoggedContact: isLoggedContact,
             disableLinks: disableLinks,
+            disableCallButton: disableCallButton,
             disableClickToDial: disableClickToDial,
             outboundSmsPermission: outboundSmsPermission,
             internalSmsPermission: internalSmsPermission,
@@ -145,9 +147,9 @@ function (_PureComponent) {
         }));
       }
 
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         className: className
-      }, _react.default.createElement(_NoCalls.default, {
+      }, _react["default"].createElement(_NoCalls["default"], {
         currentLocale: currentLocale,
         active: active
       }));
@@ -157,49 +159,51 @@ function (_PureComponent) {
   return CallList;
 }(_react.PureComponent);
 
-exports.default = CallList;
+exports["default"] = CallList;
 CallList.propTypes = {
-  className: _propTypes.default.string,
-  brand: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  calls: _propTypes.default.arrayOf(_CallItem.default.propTypes.call).isRequired,
-  active: _propTypes.default.bool,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  onViewContact: _propTypes.default.func,
-  onCreateContact: _propTypes.default.func,
-  createEntityTypes: _propTypes.default.array,
-  onLogCall: _propTypes.default.func,
-  onClickToDial: _propTypes.default.func,
-  onClickToSms: _propTypes.default.func,
-  isLoggedContact: _propTypes.default.func,
-  loggingMap: _propTypes.default.object,
-  disableLinks: _propTypes.default.bool,
-  disableClickToDial: _propTypes.default.bool,
-  outboundSmsPermission: _propTypes.default.bool,
-  internalSmsPermission: _propTypes.default.bool,
-  dateTimeFormatter: _propTypes.default.func.isRequired,
-  webphoneAnswer: _propTypes.default.func,
-  webphoneReject: _propTypes.default.func,
-  webphoneHangup: _propTypes.default.func,
-  webphoneResume: _propTypes.default.func,
-  enableContactFallback: _propTypes.default.bool,
-  autoLog: _propTypes.default.bool,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  renderContactName: _propTypes.default.func,
-  renderExtraButton: _propTypes.default.func,
-  contactDisplayStyle: _propTypes.default.string,
-  externalViewEntity: _propTypes.default.func,
-  externalHasEntity: _propTypes.default.func,
-  readTextPermission: _propTypes.default.bool
+  className: _propTypes["default"].string,
+  brand: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  calls: _propTypes["default"].arrayOf(_CallItem["default"].propTypes.call).isRequired,
+  active: _propTypes["default"].bool,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  onViewContact: _propTypes["default"].func,
+  onCreateContact: _propTypes["default"].func,
+  createEntityTypes: _propTypes["default"].array,
+  onLogCall: _propTypes["default"].func,
+  onClickToDial: _propTypes["default"].func,
+  onClickToSms: _propTypes["default"].func,
+  isLoggedContact: _propTypes["default"].func,
+  loggingMap: _propTypes["default"].object,
+  disableLinks: _propTypes["default"].bool,
+  disableCallButton: _propTypes["default"].bool,
+  disableClickToDial: _propTypes["default"].bool,
+  outboundSmsPermission: _propTypes["default"].bool,
+  internalSmsPermission: _propTypes["default"].bool,
+  dateTimeFormatter: _propTypes["default"].func.isRequired,
+  webphoneAnswer: _propTypes["default"].func,
+  webphoneReject: _propTypes["default"].func,
+  webphoneHangup: _propTypes["default"].func,
+  webphoneResume: _propTypes["default"].func,
+  enableContactFallback: _propTypes["default"].bool,
+  autoLog: _propTypes["default"].bool,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  renderContactName: _propTypes["default"].func,
+  renderExtraButton: _propTypes["default"].func,
+  contactDisplayStyle: _propTypes["default"].string,
+  externalViewEntity: _propTypes["default"].func,
+  externalHasEntity: _propTypes["default"].func,
+  readTextPermission: _propTypes["default"].bool
 };
 CallList.defaultProps = {
   className: null,
   active: false,
   disableLinks: false,
+  disableCallButton: false,
   disableClickToDial: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,

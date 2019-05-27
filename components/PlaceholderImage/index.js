@@ -3,21 +3,23 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -31,9 +33,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -198,7 +200,7 @@ function (_Component) {
         /* eslint-disable-next-line */
 
 
-        return container(_react.default.createElement("img", imgProps));
+        return container(_react["default"].createElement("img", imgProps));
       }
 
       if (!isLoaded && isLoading) {
@@ -213,11 +215,11 @@ function (_Component) {
 }(_react.Component);
 
 PlaceholderImage.propTypes = {
-  src: _propTypes.default.string,
+  src: _propTypes["default"].string,
   // Put default image here
-  placeholder: _propTypes.default.node,
-  placeholderContainer: _propTypes.default.func,
-  container: _propTypes.default.func
+  placeholder: _propTypes["default"].node,
+  placeholderContainer: _propTypes["default"].func,
+  container: _propTypes["default"].func
 };
 PlaceholderImage.defaultProps = {
   src: '',
@@ -226,5 +228,5 @@ PlaceholderImage.defaultProps = {
   placeholderContainer: defaultContainer
 };
 var _default = PlaceholderImage;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,9 +35,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -53,31 +53,31 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function AvatarNode(_ref) {
   var name = _ref.name,
       avatarUrl = _ref.avatarUrl,
       isInactive = _ref.isInactive;
-  var avatarStyle = isInactive ? _styles.default.inactiveAvatarNode : _styles.default.avatarNode;
-  return _react.default.createElement(_PlaceholderImage.default, {
+  var avatarStyle = isInactive ? _styles["default"].inactiveAvatarNode : _styles["default"].avatarNode;
+  return _react["default"].createElement(_PlaceholderImage["default"], {
     className: avatarStyle,
     alt: name,
     src: avatarUrl,
-    placeholder: _react.default.createElement(_DefaultAvatar.default, {
+    placeholder: _react["default"].createElement(_DefaultAvatar["default"], {
       className: avatarStyle
     })
   });
 }
 
 AvatarNode.propTypes = {
-  name: _propTypes.default.string,
-  avatarUrl: _propTypes.default.string,
-  isInactive: _propTypes.default.bool
+  name: _propTypes["default"].string,
+  avatarUrl: _propTypes["default"].string,
+  isInactive: _propTypes["default"].bool
 };
 AvatarNode.defaultProps = {
   name: undefined,
@@ -105,10 +105,10 @@ function (_PureComponent) {
         return null;
       }
 
-      return presence ? _react.default.createElement("div", {
-        className: _styles.default.presenceNodeContainer
-      }, _react.default.createElement(_PresenceStatusIcon.default, _extends({
-        className: _styles.default.presenceNode
+      return presence ? _react["default"].createElement("div", {
+        className: _styles["default"].presenceNodeContainer
+      }, _react["default"].createElement(_PresenceStatusIcon["default"], _extends({
+        className: _styles["default"].presenceNode
       }, presence))) : null;
     };
 
@@ -117,18 +117,18 @@ function (_PureComponent) {
           contactStatus = contact.contactStatus;
 
       if (contactStatus === 'NotActivated') {
-        return _react.default.createElement("div", {
-          className: _styles.default.infoWrapper
-        }, _react.default.createElement("div", {
-          className: _styles.default.inactiveContactName,
+        return _react["default"].createElement("div", {
+          className: _styles["default"].infoWrapper
+        }, _react["default"].createElement("div", {
+          className: _styles["default"].inactiveContactName,
           title: name
-        }, name), _react.default.createElement("div", {
-          className: _styles.default.inactiveText
-        }, _i18n.default.getString('notActivated', currentLocale)));
+        }, name), _react["default"].createElement("div", {
+          className: _styles["default"].inactiveText
+        }, _i18n["default"].getString('notActivated', currentLocale)));
       }
 
-      return _react.default.createElement("div", {
-        className: _styles.default.contactName,
+      return _react["default"].createElement("div", {
+        className: _styles["default"].contactName,
         title: name
       }, name);
     };
@@ -136,7 +136,7 @@ function (_PureComponent) {
     _this.state = {
       loading: true
     };
-    _this.onItemSelected = _this.onItemSelected.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.onItemSelected = _this.onItemSelected.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -183,8 +183,8 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       if (this.state.loading) {
-        return _react.default.createElement("div", {
-          className: _styles.default.root
+        return _react["default"].createElement("div", {
+          className: _styles["default"].root
         });
       }
 
@@ -200,22 +200,22 @@ function (_PureComponent) {
       var sourceNode = sourceNodeRenderer({
         sourceType: type
       });
-      return _react.default.createElement("div", {
-        className: _styles.default.root,
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root,
         onClick: this.onItemSelected,
         "data-sign": "contactItem"
-      }, _react.default.createElement("div", {
-        className: _styles.default.contactProfile
-      }, _react.default.createElement("div", {
-        className: _styles.default.avatarNodeContainer
-      }, _react.default.createElement(AvatarNode, {
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].contactProfile
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].avatarNodeContainer
+      }, _react["default"].createElement(AvatarNode, {
         name: name,
         avatarUrl: profileImageUrl,
         isInactive: contactStatus === 'NotActivated'
-      })), sourceNode ? _react.default.createElement("div", {
-        className: _styles.default.sourceNodeContainer
-      }, sourceNode) : null, this.renderPresence(this.props.contact)), this.renderMiddle(contact, currentLocale), _react.default.createElement("div", {
-        className: _styles.default.phoneNumber,
+      })), sourceNode ? _react["default"].createElement("div", {
+        className: _styles["default"].sourceNodeContainer
+      }, sourceNode) : null, this.renderPresence(this.props.contact)), this.renderMiddle(contact, currentLocale), _react["default"].createElement("div", {
+        className: _styles["default"].phoneNumber,
         title: extensionNumber
       }, extensionNumber));
     }
@@ -224,23 +224,23 @@ function (_PureComponent) {
   return ContactItem;
 }(_react.PureComponent);
 
-exports.default = ContactItem;
+exports["default"] = ContactItem;
 ContactItem.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  contact: _propTypes.default.shape({
-    id: _propTypes.default.string,
-    type: _propTypes.default.string,
-    name: _propTypes.default.string,
-    extensionNumber: _propTypes.default.string,
-    email: _propTypes.default.string,
-    profileImageUrl: _propTypes.default.string,
-    presence: _propTypes.default.object,
-    contactStatus: _propTypes.default.string
+  currentLocale: _propTypes["default"].string.isRequired,
+  contact: _propTypes["default"].shape({
+    id: _propTypes["default"].string,
+    type: _propTypes["default"].string,
+    name: _propTypes["default"].string,
+    extensionNumber: _propTypes["default"].string,
+    email: _propTypes["default"].string,
+    profileImageUrl: _propTypes["default"].string,
+    presence: _propTypes["default"].object,
+    contactStatus: _propTypes["default"].string
   }).isRequired,
-  getAvatarUrl: _propTypes.default.func.isRequired,
-  getPresence: _propTypes.default.func.isRequired,
-  onSelect: _propTypes.default.func,
-  sourceNodeRenderer: _propTypes.default.func
+  getAvatarUrl: _propTypes["default"].func.isRequired,
+  getPresence: _propTypes["default"].func.isRequired,
+  onSelect: _propTypes["default"].func,
+  sourceNodeRenderer: _propTypes["default"].func
 };
 ContactItem.defaultProps = {
   onSelect: undefined,

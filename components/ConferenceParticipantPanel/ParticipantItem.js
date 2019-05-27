@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -23,7 +23,7 @@ var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * TODO: extract the common stucture from `CallItem` & `ActiveCallItem` and this one, since they
@@ -34,40 +34,41 @@ function ParticipantItem(_ref) {
       avatarUrl = _ref.avatarUrl,
       onRemove = _ref.onRemove,
       currentLocale = _ref.currentLocale;
-  return _react.default.createElement(_MediaObject.default, {
-    containerCls: _styles.default.participantItem,
-    mediaLeft: _react.default.createElement("div", {
-      className: _styles.default.avatar
-    }, _react.default.createElement(_CallAvatar.default, {
+  return _react["default"].createElement(_MediaObject["default"], {
+    containerCls: _styles["default"].participantItem,
+    bodyCls: _styles["default"].mediaBodyCls,
+    mediaLeft: _react["default"].createElement("div", {
+      className: _styles["default"].avatar
+    }, _react["default"].createElement(_CallAvatar["default"], {
       isOnConferenceCall: false,
       avatarUrl: avatarUrl
     })),
-    mediaBody: _react.default.createElement("div", {
+    mediaBody: _react["default"].createElement("div", {
       title: detail,
-      className: _styles.default.detail
+      className: _styles["default"].detail
     }, detail),
-    mediaRight: _react.default.createElement("span", {
-      title: _i18n.default.getString('removeParticipant', currentLocale),
-      className: _styles.default.webphoneButton
-    }, _react.default.createElement(_CircleButton.default, {
-      className: _styles.default.rejectButton,
+    mediaRight: _react["default"].createElement("span", {
+      title: _i18n["default"].getString('removeParticipant', currentLocale),
+      className: _styles["default"].webphoneButton
+    }, _react["default"].createElement(_CircleButton["default"], {
+      className: _styles["default"].rejectButton,
       onClick: function onClick(e) {
         e.stopPropagation();
         onRemove();
       },
       iconWidth: 260,
       iconX: 120,
-      icon: _End.default,
+      icon: _End["default"],
       showBorder: false
     }))
   });
 }
 
 ParticipantItem.propTypes = {
-  detail: _propTypes.default.string.isRequired,
-  avatarUrl: _propTypes.default.string,
-  onRemove: _propTypes.default.func,
-  currentLocale: _propTypes.default.string.isRequired
+  detail: _propTypes["default"].string.isRequired,
+  avatarUrl: _propTypes["default"].string,
+  onRemove: _propTypes["default"].func,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 ParticipantItem.defaultProps = {
   avatarUrl: null,
@@ -76,5 +77,5 @@ ParticipantItem.defaultProps = {
   }
 };
 var _default = ParticipantItem;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=ParticipantItem.js.map

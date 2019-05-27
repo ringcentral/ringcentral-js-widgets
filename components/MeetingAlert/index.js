@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = MeetingAlert;
+exports["default"] = MeetingAlert;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -17,7 +17,7 @@ var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function MeetingAlert(_ref) {
   var _ref$message = _ref.message,
@@ -28,9 +28,9 @@ function MeetingAlert(_ref) {
   var msg;
 
   switch (message) {
-    case _meetingStatus.default.insufficientPermissions:
-      msg = _react.default.createElement(_FormattedMessage.default, {
-        message: _i18n.default.getString(message, currentLocale),
+    case _meetingStatus["default"].insufficientPermissions:
+      msg = _react["default"].createElement(_FormattedMessage["default"], {
+        message: _i18n["default"].getString(message, currentLocale),
         values: {
           application: application,
           permissionName: payload.permissionName
@@ -39,19 +39,19 @@ function MeetingAlert(_ref) {
       break;
 
     default:
-      msg = _i18n.default.getString(message, currentLocale);
+      msg = _i18n["default"].getString(message, currentLocale);
       break;
   }
 
-  return _react.default.createElement("span", null, msg);
+  return _react["default"].createElement("span", null, msg);
 }
 
 MeetingAlert.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  message: _propTypes.default.shape({
-    message: _propTypes.default.string.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  message: _propTypes["default"].shape({
+    message: _propTypes["default"].string.isRequired
   }).isRequired,
-  application: _propTypes.default.string
+  application: _propTypes["default"].string
 };
 MeetingAlert.defaultProps = {
   application: undefined
@@ -59,6 +59,6 @@ MeetingAlert.defaultProps = {
 
 MeetingAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _meetingStatus.default.emptyTopic || message === _meetingStatus.default.noPassword || message === _meetingStatus.default.insufficientPermissions || message === _meetingStatus.default.scheduledSuccess || message === _meetingStatus.default.internalError;
+  return message === _meetingStatus["default"].emptyTopic || message === _meetingStatus["default"].noPassword || message === _meetingStatus["default"].insufficientPermissions || message === _meetingStatus["default"].scheduledSuccess || message === _meetingStatus["default"].updatedSuccess || message === _meetingStatus["default"].internalError;
 };
 //# sourceMappingURL=index.js.map

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -43,9 +43,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -107,12 +107,12 @@ function ActiveCallList(_ref) {
     return null;
   }
 
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.list, className)
-  }, _react.default.createElement("div", {
-    className: _styles.default.listTitle
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].list, className)
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].listTitle
   }, title), calls.map(function (call) {
-    return _react.default.createElement(_ActiveCallItem.default, {
+    return _react["default"].createElement(_ActiveCallItem["default"], {
       call: call,
       key: call.id,
       currentLocale: currentLocale,
@@ -152,41 +152,41 @@ function ActiveCallList(_ref) {
 }
 
 ActiveCallList.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  className: _propTypes.default.string,
-  title: _propTypes.default.string.isRequired,
-  calls: _propTypes.default.array.isRequired,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  brand: _propTypes.default.string,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  formatPhone: _propTypes.default.func.isRequired,
-  onClickToSms: _propTypes.default.func,
-  onCreateContact: _propTypes.default.func,
-  createEntityTypes: _propTypes.default.array,
-  onViewContact: _propTypes.default.func,
-  outboundSmsPermission: _propTypes.default.bool,
-  internalSmsPermission: _propTypes.default.bool,
-  isLoggedContact: _propTypes.default.func,
-  onLogCall: _propTypes.default.func,
-  loggingMap: _propTypes.default.object,
-  webphoneAnswer: _propTypes.default.func,
-  webphoneReject: _propTypes.default.func,
-  webphoneHangup: _propTypes.default.func,
-  webphoneResume: _propTypes.default.func,
-  webphoneToVoicemail: _propTypes.default.func,
-  enableContactFallback: _propTypes.default.bool,
-  autoLog: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  disableLinks: _propTypes.default.bool,
-  renderContactName: _propTypes.default.func,
-  renderExtraButton: _propTypes.default.func,
-  contactDisplayStyle: _propTypes.default.string,
-  externalViewEntity: _propTypes.default.func,
-  externalHasEntity: _propTypes.default.func,
-  readTextPermission: _propTypes.default.bool
+  currentLocale: _propTypes["default"].string.isRequired,
+  className: _propTypes["default"].string,
+  title: _propTypes["default"].string.isRequired,
+  calls: _propTypes["default"].array.isRequired,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  brand: _propTypes["default"].string,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  formatPhone: _propTypes["default"].func.isRequired,
+  onClickToSms: _propTypes["default"].func,
+  onCreateContact: _propTypes["default"].func,
+  createEntityTypes: _propTypes["default"].array,
+  onViewContact: _propTypes["default"].func,
+  outboundSmsPermission: _propTypes["default"].bool,
+  internalSmsPermission: _propTypes["default"].bool,
+  isLoggedContact: _propTypes["default"].func,
+  onLogCall: _propTypes["default"].func,
+  loggingMap: _propTypes["default"].object,
+  webphoneAnswer: _propTypes["default"].func,
+  webphoneReject: _propTypes["default"].func,
+  webphoneHangup: _propTypes["default"].func,
+  webphoneResume: _propTypes["default"].func,
+  webphoneToVoicemail: _propTypes["default"].func,
+  enableContactFallback: _propTypes["default"].bool,
+  autoLog: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  disableLinks: _propTypes["default"].bool,
+  renderContactName: _propTypes["default"].func,
+  renderExtraButton: _propTypes["default"].func,
+  contactDisplayStyle: _propTypes["default"].string,
+  externalViewEntity: _propTypes["default"].func,
+  externalHasEntity: _propTypes["default"].func,
+  readTextPermission: _propTypes["default"].bool
 };
 ActiveCallList.defaultProps = {
   className: undefined,
@@ -275,15 +275,15 @@ function (_Component) {
           onExpandNotification = _this$props.onExpandNotification,
           onDiscardNotification = _this$props.onDiscardNotification,
           notificationContainerStyles = _this$props.notificationContainerStyles;
-      return _react.default.createElement("div", null, _react.default.createElement(_InsideModal.default, {
+      return _react["default"].createElement("div", null, _react["default"].createElement(_InsideModal["default"], {
         title: currentLog.title,
         show: currentLog.showLog,
         onClose: onCloseLogSection,
         clickOutToClose: false,
         containerStyles: sectionContainerStyles,
         modalStyles: sectionModalStyles,
-        maskStyle: _styles.default.maskStyle
-      }, _react.default.createElement(_LogSection.default, {
+        maskStyle: _styles["default"].maskStyle
+      }, _react["default"].createElement(_LogSection["default"], {
         currentLocale: currentLocale,
         currentLog: currentLog,
         additionalInfo: additionalInfo,
@@ -294,14 +294,14 @@ function (_Component) {
         onUpdateCallLog: onUpdateCallLog,
         onSaveCallLog: onSaveCallLog,
         showSaveLogBtn: showSaveLogBtn
-      })), logNotification ? _react.default.createElement(_InsideModal.default, {
+      })), logNotification ? _react["default"].createElement(_InsideModal["default"], {
         show: logNotification.showNotification,
         showTitle: false,
-        containerStyles: (0, _classnames.default)(_styles.default.notificationContainer, notificationContainerStyles),
-        modalStyles: _styles.default.notificationModal,
-        contentStyle: _styles.default.notificationContent,
+        containerStyles: (0, _classnames["default"])(_styles["default"].notificationContainer, notificationContainerStyles),
+        modalStyles: _styles["default"].notificationModal,
+        contentStyle: _styles["default"].notificationContent,
         onClose: onCloseNotification
-      }, _react.default.createElement(_LogNotification.default, {
+      }, _react["default"].createElement(_LogNotification["default"], {
         showLogButton: showNotiLogButton,
         currentLocale: currentLocale,
         formatPhone: formatPhone,
@@ -387,11 +387,11 @@ function (_Component) {
           children = _this$props2.children;
 
       if (showSpinner) {
-        return _react.default.createElement(_SpinnerOverlay.default, null);
+        return _react["default"].createElement(_SpinnerOverlay["default"], null);
       }
 
       var isShowMessageIcon = readTextPermission && !!onClickToSms;
-      var CallsListView = useNewList ? _react.default.createElement(_CallListV.default, {
+      var CallsListView = useNewList ? _react["default"].createElement(_CallListV["default"], {
         width: width,
         height: height,
         brand: brand,
@@ -429,7 +429,7 @@ function (_Component) {
         externalViewEntity: externalViewEntity,
         externalHasEntity: externalHasEntity,
         readTextPermission: isShowMessageIcon
-      }) : _react.default.createElement(_CallList.default, {
+      }) : _react["default"].createElement(_CallList["default"], {
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -466,19 +466,19 @@ function (_Component) {
         externalHasEntity: externalHasEntity,
         readTextPermission: isShowMessageIcon
       });
-      var search = onSearchInputChange ? _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.searchContainer)
-      }, _react.default.createElement(_SearchInput.default, {
+      var search = onSearchInputChange ? _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].searchContainer)
+      }, _react["default"].createElement(_SearchInput["default"], {
         key: "100",
-        className: _styles.default.searchInput,
+        className: _styles["default"].searchInput,
         value: searchInput,
         onChange: onSearchInputChange,
-        placeholder: _i18n.default.getString('searchPlaceholder', currentLocale),
+        placeholder: _i18n["default"].getString('searchPlaceholder', currentLocale),
         disabled: disableLinks
       })) : null;
 
       var getCallList = function getCallList(calls, title) {
-        return _react.default.createElement(ActiveCallList, {
+        return _react["default"].createElement(ActiveCallList, {
           title: title,
           calls: calls,
           currentLocale: currentLocale,
@@ -516,99 +516,99 @@ function (_Component) {
         });
       };
 
-      var historyCall = showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.list, className)
-      }, _react.default.createElement("div", {
-        className: _styles.default.listTitle
-      }, onlyHistory ? null : _i18n.default.getString('historyCalls', currentLocale)), CallsListView);
+      var historyCall = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].list, className)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].listTitle
+      }, onlyHistory ? null : _i18n["default"].getString('historyCalls', currentLocale)), CallsListView);
 
-      var noCalls = otherDeviceCalls.length === 0 && _react.default.createElement("p", {
-        className: _styles.default.noCalls
-      }, _i18n.default.getString('noCalls', currentLocale));
+      var noCalls = otherDeviceCalls.length === 0 && _react["default"].createElement("p", {
+        className: _styles["default"].noCalls
+      }, _i18n["default"].getString('noCalls', currentLocale));
 
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.container, onSearchInputChange ? _styles.default.containerWithSearch : null)
-      }, children, search, _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, currentLog && currentLog.showLog ? _styles.default.hiddenScroll : '', className),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].container, onSearchInputChange ? _styles["default"].containerWithSearch : null)
+      }, children, search, _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, currentLog && currentLog.showLog ? _styles["default"].hiddenScroll : '', className),
         ref: this._root
-      }, onlyHistory || getCallList(activeRingCalls, _i18n.default.getString('ringCall', currentLocale)), onlyHistory || getCallList(activeCurrentCalls, _i18n.default.getString('currentCall', currentLocale)), onlyHistory || getCallList(activeOnHoldCalls, _i18n.default.getString('onHoldCall', currentLocale)), onlyHistory || getCallList(otherDeviceCalls, _i18n.default.getString('otherDeviceCall', currentLocale)), calls.length > 0 ? historyCall : noCalls), this.renderLogSection());
+      }, onlyHistory || getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale)), onlyHistory || getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale)), onlyHistory || getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale)), onlyHistory || getCallList(otherDeviceCalls, _i18n["default"].getString('otherDeviceCall', currentLocale)), calls.length > 0 ? historyCall : noCalls), this.renderLogSection());
     }
   }]);
 
   return CallsListPanel;
 }(_react.Component);
 
-exports.default = CallsListPanel;
+exports["default"] = CallsListPanel;
 CallsListPanel.propTypes = {
-  useNewList: _propTypes.default.bool,
-  width: _propTypes.default.number,
-  height: _propTypes.default.number,
-  currentLocale: _propTypes.default.string.isRequired,
-  className: _propTypes.default.string,
-  activeRingCalls: _propTypes.default.array.isRequired,
-  activeOnHoldCalls: _propTypes.default.array.isRequired,
-  activeCurrentCalls: _propTypes.default.array.isRequired,
-  otherDeviceCalls: _propTypes.default.array.isRequired,
-  onSearchInputChange: _propTypes.default.func,
-  searchInput: _propTypes.default.string,
-  showSpinner: _propTypes.default.bool.isRequired,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  brand: _propTypes.default.string,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  formatPhone: _propTypes.default.func.isRequired,
-  onClickToSms: _propTypes.default.func,
-  onCreateContact: _propTypes.default.func,
-  createEntityTypes: _propTypes.default.array,
-  outboundSmsPermission: _propTypes.default.bool,
-  internalSmsPermission: _propTypes.default.bool,
-  isLoggedContact: _propTypes.default.func,
-  onLogCall: _propTypes.default.func,
-  webphoneAnswer: _propTypes.default.func,
-  webphoneReject: _propTypes.default.func,
-  webphoneHangup: _propTypes.default.func,
-  webphoneResume: _propTypes.default.func,
-  webphoneToVoicemail: _propTypes.default.func,
-  autoLog: _propTypes.default.bool,
-  onViewContact: _propTypes.default.func,
-  enableContactFallback: _propTypes.default.bool,
-  loggingMap: _propTypes.default.object,
-  onCallsEmpty: _propTypes.default.func,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  calls: _propTypes.default.arrayOf(_propTypes.default.any).isRequired,
-  onClickToDial: _propTypes.default.func,
-  disableLinks: _propTypes.default.bool.isRequired,
-  disableClickToDial: _propTypes.default.bool,
-  dateTimeFormatter: _propTypes.default.func.isRequired,
-  active: _propTypes.default.bool,
-  renderContactName: _propTypes.default.func,
-  renderExtraButton: _propTypes.default.func,
-  contactDisplayStyle: _propTypes.default.string,
-  activeContactDisplayStyle: _propTypes.default.string,
-  currentLog: _propTypes.default.object,
-  additionalInfo: _propTypes.default.object,
-  onCloseLogSection: _propTypes.default.func,
-  onUpdateCallLog: _propTypes.default.func,
-  onSaveCallLog: _propTypes.default.func,
-  renderEditLogSection: _propTypes.default.func,
-  renderSaveLogButton: _propTypes.default.func,
-  logNotification: _propTypes.default.object,
-  onCloseNotification: _propTypes.default.func,
-  onDiscardNotification: _propTypes.default.func,
-  onSaveNotification: _propTypes.default.func,
-  onExpandNotification: _propTypes.default.func,
-  showSaveLogBtn: _propTypes.default.bool,
-  showNotiLogButton: _propTypes.default.bool,
-  sectionContainerStyles: _propTypes.default.string,
-  sectionModalStyles: _propTypes.default.string,
-  notificationContainerStyles: _propTypes.default.string,
-  externalViewEntity: _propTypes.default.func,
-  externalHasEntity: _propTypes.default.func,
-  readTextPermission: _propTypes.default.bool,
-  children: _propTypes.default.node,
-  onlyHistory: _propTypes.default.bool
+  useNewList: _propTypes["default"].bool,
+  width: _propTypes["default"].number,
+  height: _propTypes["default"].number,
+  currentLocale: _propTypes["default"].string.isRequired,
+  className: _propTypes["default"].string,
+  activeRingCalls: _propTypes["default"].array.isRequired,
+  activeOnHoldCalls: _propTypes["default"].array.isRequired,
+  activeCurrentCalls: _propTypes["default"].array.isRequired,
+  otherDeviceCalls: _propTypes["default"].array.isRequired,
+  onSearchInputChange: _propTypes["default"].func,
+  searchInput: _propTypes["default"].string,
+  showSpinner: _propTypes["default"].bool.isRequired,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  brand: _propTypes["default"].string,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  formatPhone: _propTypes["default"].func.isRequired,
+  onClickToSms: _propTypes["default"].func,
+  onCreateContact: _propTypes["default"].func,
+  createEntityTypes: _propTypes["default"].array,
+  outboundSmsPermission: _propTypes["default"].bool,
+  internalSmsPermission: _propTypes["default"].bool,
+  isLoggedContact: _propTypes["default"].func,
+  onLogCall: _propTypes["default"].func,
+  webphoneAnswer: _propTypes["default"].func,
+  webphoneReject: _propTypes["default"].func,
+  webphoneHangup: _propTypes["default"].func,
+  webphoneResume: _propTypes["default"].func,
+  webphoneToVoicemail: _propTypes["default"].func,
+  autoLog: _propTypes["default"].bool,
+  onViewContact: _propTypes["default"].func,
+  enableContactFallback: _propTypes["default"].bool,
+  loggingMap: _propTypes["default"].object,
+  onCallsEmpty: _propTypes["default"].func,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  calls: _propTypes["default"].arrayOf(_propTypes["default"].any).isRequired,
+  onClickToDial: _propTypes["default"].func,
+  disableLinks: _propTypes["default"].bool.isRequired,
+  disableClickToDial: _propTypes["default"].bool,
+  dateTimeFormatter: _propTypes["default"].func.isRequired,
+  active: _propTypes["default"].bool,
+  renderContactName: _propTypes["default"].func,
+  renderExtraButton: _propTypes["default"].func,
+  contactDisplayStyle: _propTypes["default"].string,
+  activeContactDisplayStyle: _propTypes["default"].string,
+  currentLog: _propTypes["default"].object,
+  additionalInfo: _propTypes["default"].object,
+  onCloseLogSection: _propTypes["default"].func,
+  onUpdateCallLog: _propTypes["default"].func,
+  onSaveCallLog: _propTypes["default"].func,
+  renderEditLogSection: _propTypes["default"].func,
+  renderSaveLogButton: _propTypes["default"].func,
+  logNotification: _propTypes["default"].object,
+  onCloseNotification: _propTypes["default"].func,
+  onDiscardNotification: _propTypes["default"].func,
+  onSaveNotification: _propTypes["default"].func,
+  onExpandNotification: _propTypes["default"].func,
+  showSaveLogBtn: _propTypes["default"].bool,
+  showNotiLogButton: _propTypes["default"].bool,
+  sectionContainerStyles: _propTypes["default"].string,
+  sectionModalStyles: _propTypes["default"].string,
+  notificationContainerStyles: _propTypes["default"].string,
+  externalViewEntity: _propTypes["default"].func,
+  externalHasEntity: _propTypes["default"].func,
+  readTextPermission: _propTypes["default"].bool,
+  children: _propTypes["default"].node,
+  onlyHistory: _propTypes["default"].bool
 };
 CallsListPanel.defaultProps = {
   useNewList: false,
@@ -644,8 +644,8 @@ CallsListPanel.defaultProps = {
   active: false,
   renderContactName: undefined,
   renderExtraButton: undefined,
-  contactDisplayStyle: _styles.default.contactDisplay,
-  activeContactDisplayStyle: _styles.default.activeContactDisplay,
+  contactDisplayStyle: _styles["default"].contactDisplay,
+  activeContactDisplayStyle: _styles["default"].activeContactDisplay,
   currentLog: undefined,
   additionalInfo: undefined,
   onCloseLogSection: undefined,

@@ -26,7 +26,7 @@
     "react-router-redux": "^4.0.7",
     "ringcentral": "^3.1.3",
     "ringcentral-client": "^1.0.0-beta.1",
-    "ringcentral-integration": "^0.10.0"
+    "ringcentral-integration": "^0.10.6"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
@@ -57,7 +57,7 @@
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.1.3",
     "ringcentral-client": "^1.0.0-beta.1",
-    "ringcentral-integration": "^0.10.0",
+    "ringcentral-integration": "^0.10.6",
     "typescript": "^3.4.1",
     "typescript-plugin-css-modules": "^1.0.5",
     "yargs": "^12.0.5"
@@ -65,7 +65,6 @@
   "dependencies": {
     "animate.css": "^3.5.2",
     "classnames": "^2.2.5",
-    "core-js": "^2.5.7",
     "dedent": "^0.7.0",
     "normalize-css": "^2.3.1",
     "prop-types": "^15.5.10",
@@ -81,5 +80,8 @@
     "through2": "^2.0.3",
     "url-parse": "^1.2.0",
     "uuid": "^3.3.2"
+  },
+  "ci": {
+    "ringcentral-js-widgets": "**"
   }
 }

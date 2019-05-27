@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = LogButton;
+exports["default"] = LogButton;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -21,7 +21,7 @@ var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/Dy
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function LogButton(_ref) {
   var className = _ref.className,
@@ -31,28 +31,28 @@ function LogButton(_ref) {
       isLogging = _ref.isLogging,
       addTitle = _ref.addTitle,
       editTitle = _ref.editTitle;
-  var spinner = isLogging ? _react.default.createElement(_Spinner.default, {
+  var spinner = isLogging ? _react["default"].createElement(_Spinner["default"], {
     ringWidth: 2,
-    className: _styles.default.spinner
+    className: _styles["default"].spinner
   }) : null;
-  return _react.default.createElement(_Button.default, {
-    className: (0, _classnames.default)(_styles.default.log, className),
+  return _react["default"].createElement(_Button["default"], {
+    className: (0, _classnames["default"])(_styles["default"].log, className),
     onClick: onLog,
     disabled: disableLinks || isLogging
-  }, _react.default.createElement("span", {
-    className: isLogged ? _DynamicsFont.default.edit : _DynamicsFont.default.callLog,
+  }, _react["default"].createElement("span", {
+    className: isLogged ? _DynamicsFont["default"].edit : _DynamicsFont["default"].callLog,
     title: isLogged ? editTitle : addTitle
   }), spinner);
 }
 
 LogButton.propTypes = {
-  className: _propTypes.default.string,
-  onLog: _propTypes.default.func,
-  isLogged: _propTypes.default.bool,
-  disableLinks: _propTypes.default.bool,
-  isLogging: _propTypes.default.bool,
-  addTitle: _propTypes.default.string,
-  editTitle: _propTypes.default.string
+  className: _propTypes["default"].string,
+  onLog: _propTypes["default"].func,
+  isLogged: _propTypes["default"].bool,
+  disableLinks: _propTypes["default"].bool,
+  isLogging: _propTypes["default"].bool,
+  addTitle: _propTypes["default"].string,
+  editTitle: _propTypes["default"].string
 };
 LogButton.defaultProps = {
   className: undefined,

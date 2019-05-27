@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   logged: "已記錄",
   unlogged: "未使用",
@@ -14,5 +14,5 @@ var _default = {
 // @key: @#@"unlogged"@#@ @source: @#@"Unworked"@#@
 // @key: @#@"faxNotSupported"@#@ @source: @#@"To log fax is not supported."@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

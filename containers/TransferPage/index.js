@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.regexp.replace");
 
@@ -21,7 +21,7 @@ var _TransferPanel = _interopRequireDefault(require("../../components/TransferPa
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -89,7 +89,7 @@ function mapToFunctions(_, _ref2) {
       }
     },
     formatPhone: function formatPhone(phoneNumber) {
-      return (0, _formatNumber.default)({
+      return (0, _formatNumber["default"])({
         phoneNumber: phoneNumber,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode
@@ -109,6 +109,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var TransferPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_TransferPanel.default));
-exports.default = TransferPage;
+var TransferPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_TransferPanel["default"]));
+exports["default"] = TransferPage;
 //# sourceMappingURL=index.js.map

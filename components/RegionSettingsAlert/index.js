@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = RegionSettingsAlert;
+exports["default"] = RegionSettingsAlert;
 
 require("core-js/modules/es6.string.link");
 
@@ -21,7 +21,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function RegionSettingsAlert(_ref) {
   var _ref$message = _ref.message,
@@ -32,12 +32,12 @@ function RegionSettingsAlert(_ref) {
   var msg;
 
   switch (message) {
-    case _regionSettingsMessages.default.dialingPlansChanged:
+    case _regionSettingsMessages["default"].dialingPlansChanged:
       {
-        var regionSettings = _i18n.default.getString('regionSettings', currentLocale);
+        var regionSettings = _i18n["default"].getString('regionSettings', currentLocale);
 
-        var regionSettingsLink = onRegionSettingsLinkClick ? _react.default.createElement("a", {
-          className: _styles.default.link,
+        var regionSettingsLink = onRegionSettingsLinkClick ? _react["default"].createElement("a", {
+          className: _styles["default"].link,
           onClick: function onClick(e) {
             e.preventDefault();
             onRegionSettingsLinkClick({
@@ -45,8 +45,8 @@ function RegionSettingsAlert(_ref) {
             });
           }
         }, regionSettings) : regionSettings;
-        msg = _react.default.createElement(_FormattedMessage.default, {
-          message: _i18n.default.getString(message, currentLocale),
+        msg = _react["default"].createElement(_FormattedMessage["default"], {
+          message: _i18n["default"].getString(message, currentLocale),
           values: {
             regionSettingsLink: regionSettingsLink
           }
@@ -55,19 +55,19 @@ function RegionSettingsAlert(_ref) {
       break;
 
     default:
-      msg = _i18n.default.getString(message, currentLocale);
+      msg = _i18n["default"].getString(message, currentLocale);
       break;
   }
 
-  return _react.default.createElement("div", null, msg);
+  return _react["default"].createElement("div", null, msg);
 }
 
 RegionSettingsAlert.propTypes = {
-  message: _propTypes.default.shape({
-    message: _propTypes.default.string.isRequired
+  message: _propTypes["default"].shape({
+    message: _propTypes["default"].string.isRequired
   }).isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  onRegionSettingsLinkClick: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  onRegionSettingsLinkClick: _propTypes["default"].func
 };
 RegionSettingsAlert.defaultProps = {
   onRegionSettingsLinkClick: undefined
@@ -75,6 +75,6 @@ RegionSettingsAlert.defaultProps = {
 
 RegionSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _regionSettingsMessages.default.saveSuccess || message === _regionSettingsMessages.default.dialingPlansChanged || message === _regionSettingsMessages.default.areaCodeInvalid;
+  return message === _regionSettingsMessages["default"].saveSuccess || message === _regionSettingsMessages["default"].dialingPlansChanged || message === _regionSettingsMessages["default"].areaCodeInvalid;
 };
 //# sourceMappingURL=index.js.map

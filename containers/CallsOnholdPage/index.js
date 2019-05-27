@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -16,6 +16,8 @@ require("core-js/modules/es6.array.index-of");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -39,8 +41,6 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactRedux = require("react-redux");
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
-
 var _reselect = require("reselect");
 
 var _ramda = require("ramda");
@@ -51,9 +51,9 @@ var _CallsOnholdPanel = _interopRequireDefault(require("../../components/CallsOn
 
 var _ActiveCallsPage = require("../ActiveCallsPage");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -104,7 +104,7 @@ function (_Component) {
       return _this.props.fromSessionId;
     }, function (calls, fromSessionId) {
       return (0, _ramda.filter)(function (call) {
-        return call.webphoneSession && call.direction !== _callDirections.default.inbound && !_this.props.isConferenceSession(call.webphoneSession) && call.webphoneSession.id !== fromSessionId;
+        return call.webphoneSession && !_this.props.isConferenceSession(call.webphoneSession) && call.webphoneSession.id !== fromSessionId;
       }, calls);
     });
     return _this;
@@ -113,7 +113,7 @@ function (_Component) {
   _createClass(CallsOnholdContainer, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement(_CallsOnholdPanel.default, _extends({}, this.props, {
+      return _react["default"].createElement(_CallsOnholdPanel["default"], _extends({}, this.props, {
         calls: this.getCalls()
       }));
     }
@@ -123,9 +123,9 @@ function (_Component) {
 }(_react.Component);
 
 CallsOnholdContainer.propTypes = {
-  calls: _propTypes.default.arrayOf(_propTypes.default.object).isRequired,
-  fromSessionId: _propTypes.default.string.isRequired,
-  isConferenceSession: _propTypes.default.func.isRequired
+  calls: _propTypes["default"].arrayOf(_propTypes["default"].object).isRequired,
+  fromSessionId: _propTypes["default"].string.isRequired,
+  isConferenceSession: _propTypes["default"].func.isRequired
 };
 
 function mapToProps(_, _ref) {
@@ -259,7 +259,7 @@ function mapToFunctions(_, _ref2) {
   });
 }
 
-var CallsOnholdPage = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallsOnholdContainer));
+var CallsOnholdPage = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallsOnholdContainer));
 var _default = CallsOnholdPage;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

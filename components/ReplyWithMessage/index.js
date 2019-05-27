@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -63,40 +63,40 @@ var DAYS = 2;
 var cleanRegex = /[^\d]/g;
 
 function TimeInput(props) {
-  return _react.default.createElement("div", {
-    className: _styles.default.timeInput
-  }, _react.default.createElement("span", {
-    className: _styles.default.timeValue
-  }, _react.default.createElement("input", {
+  return _react["default"].createElement("div", {
+    className: _styles["default"].timeInput
+  }, _react["default"].createElement("span", {
+    className: _styles["default"].timeValue
+  }, _react["default"].createElement("input", {
     maxLength: 2,
     value: props.timeValue,
     onChange: props.onTimeValueChange,
     ref: props.inputRef
-  })), _react.default.createElement("span", {
+  })), _react["default"].createElement("span", {
     onClick: function onClick() {
       return props.onSelectTimeUnit(MINS);
     },
-    className: props.timeUnit === MINS ? _styles.default.timeUnitSelected : null
-  }, _i18n.default.getString('min', props.currentLocale)), _react.default.createElement("span", {
-    className: props.timeUnit === HOURS ? _styles.default.timeUnitSelected : null,
+    className: props.timeUnit === MINS ? _styles["default"].timeUnitSelected : null
+  }, _i18n["default"].getString('min', props.currentLocale)), _react["default"].createElement("span", {
+    className: props.timeUnit === HOURS ? _styles["default"].timeUnitSelected : null,
     onClick: function onClick() {
       return props.onSelectTimeUnit(HOURS);
     }
-  }, _i18n.default.getString('hours', props.currentLocale)), _react.default.createElement("span", {
-    className: props.timeUnit === DAYS ? _styles.default.timeUnitSelected : null,
+  }, _i18n["default"].getString('hours', props.currentLocale)), _react["default"].createElement("span", {
+    className: props.timeUnit === DAYS ? _styles["default"].timeUnitSelected : null,
     onClick: function onClick() {
       return props.onSelectTimeUnit(DAYS);
     }
-  }, _i18n.default.getString('days', props.currentLocale)));
+  }, _i18n["default"].getString('days', props.currentLocale)));
 }
 
 TimeInput.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  timeValue: _propTypes.default.string,
-  timeUnit: _propTypes.default.number,
-  inputRef: _propTypes.default.func.isRequired,
-  onTimeValueChange: _propTypes.default.func.isRequired,
-  onSelectTimeUnit: _propTypes.default.func.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  timeValue: _propTypes["default"].string,
+  timeUnit: _propTypes["default"].number,
+  inputRef: _propTypes["default"].func.isRequired,
+  onTimeValueChange: _propTypes["default"].func.isRequired,
+  onSelectTimeUnit: _propTypes["default"].func.isRequired
 };
 TimeInput.defaultProps = {
   timeValue: '',
@@ -226,12 +226,12 @@ function (_Component) {
           onCancel = _this$props.onCancel,
           currentLocale = _this$props.currentLocale,
           disabled = _this$props.disabled;
-      var disableButton = (0, _isBlank.default)(this._getValue().replyText) || disabled;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className)
-      }, _react.default.createElement("div", {
-        className: _styles.default.messages
-      }, _react.default.createElement("div", {
+      var disableButton = (0, _isBlank["default"])(this._getValue().replyText) || disabled;
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].messages
+      }, _react["default"].createElement("div", {
         onClick: function onClick() {
           _this2.onSelectType(CALL_YOU);
 
@@ -239,19 +239,19 @@ function (_Component) {
             _this2.callYouInputRef.focus();
           }, 100);
         },
-        className: (0, _classnames.default)(_styles.default.messageItem, this.state.type === CALL_YOU ? _styles.default.active : null)
-      }, _react.default.createElement("div", {
-        className: _styles.default.label
-      }, _i18n.default.getString('willCallYouBackIn', currentLocale), "..."), _react.default.createElement("div", {
-        className: _styles.default.inputField
-      }, _react.default.createElement(TimeInput, {
+        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CALL_YOU ? _styles["default"].active : null)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].label
+      }, _i18n["default"].getString('willCallYouBackIn', currentLocale), "..."), _react["default"].createElement("div", {
+        className: _styles["default"].inputField
+      }, _react["default"].createElement(TimeInput, {
         currentLocale: currentLocale,
         timeValue: this.state.callYouTimeValue,
         timeUnit: this.state.callYouTimeUnit,
         onTimeValueChange: this.onCallYouTimeValueChange,
         onSelectTimeUnit: this.onCallYouTimeUnitChange,
         inputRef: this.onCallYouInputRef
-      }))), _react.default.createElement("div", {
+      }))), _react["default"].createElement("div", {
         onClick: function onClick() {
           _this2.onSelectType(CALL_ME);
 
@@ -259,26 +259,26 @@ function (_Component) {
             _this2.callMeInputRef.focus();
           }, 100);
         },
-        className: (0, _classnames.default)(_styles.default.messageItem, this.state.type === CALL_ME ? _styles.default.active : null)
-      }, _react.default.createElement("div", {
-        className: _styles.default.label
-      }, _i18n.default.getString('callMeBackIn', currentLocale), "..."), _react.default.createElement("div", {
-        className: _styles.default.inputField
-      }, _react.default.createElement(TimeInput, {
+        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CALL_ME ? _styles["default"].active : null)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].label
+      }, _i18n["default"].getString('callMeBackIn', currentLocale), "..."), _react["default"].createElement("div", {
+        className: _styles["default"].inputField
+      }, _react["default"].createElement(TimeInput, {
         currentLocale: currentLocale,
         timeValue: this.state.callMeTimeValue,
         timeUnit: this.state.callMeTimeUnit,
         onTimeValueChange: this.onCallMeTimeValueChange,
         onSelectTimeUnit: this.onCallMeTimeUnitChange,
         inputRef: this.onCallMeInputRef
-      }))), _react.default.createElement("div", {
+      }))), _react["default"].createElement("div", {
         onClick: function onClick() {
           return _this2.onSelectType(ON_MY_WAY);
         },
-        className: (0, _classnames.default)(_styles.default.messageItem, this.state.type === ON_MY_WAY ? _styles.default.active : null)
-      }, _react.default.createElement("div", {
-        className: _styles.default.label
-      }, _i18n.default.getString('onMyWay', currentLocale))), _react.default.createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === ON_MY_WAY ? _styles["default"].active : null)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].label
+      }, _i18n["default"].getString('onMyWay', currentLocale))), _react["default"].createElement("div", {
         onClick: function onClick() {
           _this2.onSelectType(CUSTOM_MESSAGE);
 
@@ -286,44 +286,44 @@ function (_Component) {
             _this2.customValueInput.focus();
           }, 100);
         },
-        className: (0, _classnames.default)(_styles.default.messageItem, this.state.type === CUSTOM_MESSAGE ? _styles.default.active : null)
-      }, _react.default.createElement("div", {
-        className: _styles.default.label
-      }, _i18n.default.getString('customMessage', currentLocale)), _react.default.createElement("div", {
-        className: _styles.default.inputField
-      }, _react.default.createElement("textarea", {
+        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CUSTOM_MESSAGE ? _styles["default"].active : null)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].label
+      }, _i18n["default"].getString('customMessage', currentLocale)), _react["default"].createElement("div", {
+        className: _styles["default"].inputField
+      }, _react["default"].createElement("textarea", {
         value: this.state.customValue,
         maxLength: 50,
         onChange: this.onCustomValueChange,
         ref: function ref(input) {
           _this2.customValueInput = input;
         }
-      })))), _react.default.createElement("div", {
-        className: _styles.default.buttonGroup
-      }, _react.default.createElement(_Button.default, {
-        className: _styles.default.cancelButton,
+      })))), _react["default"].createElement("div", {
+        className: _styles["default"].buttonGroup
+      }, _react["default"].createElement(_Button["default"], {
+        className: _styles["default"].cancelButton,
         onClick: onCancel
-      }, _i18n.default.getString('cancel', currentLocale)), _react.default.createElement(_Button.default, {
-        className: (0, _classnames.default)(_styles.default.replyButton, disableButton ? _styles.default.disabled : null),
+      }, _i18n["default"].getString('cancel', currentLocale)), _react["default"].createElement(_Button["default"], {
+        className: (0, _classnames["default"])(_styles["default"].replyButton, disableButton ? _styles["default"].disabled : null),
         onClick: this.props.disabled ? function () {} : this.onReply,
         disabled: disableButton
-      }, _react.default.createElement("span", {
-        className: _styles.default.buttonText
-      }, _i18n.default.getString('reply', currentLocale)))));
+      }, _react["default"].createElement("span", {
+        className: _styles["default"].buttonText
+      }, _i18n["default"].getString('reply', currentLocale)))));
     }
   }]);
 
   return ReplyWithMessage;
 }(_react.Component);
 
-exports.default = ReplyWithMessage;
+exports["default"] = ReplyWithMessage;
 ReplyWithMessage.propTypes = {
-  className: _propTypes.default.string,
-  onCancel: _propTypes.default.func.isRequired,
-  onReply: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  onChange: _propTypes.default.func,
-  disabled: _propTypes.default.bool.isRequired
+  className: _propTypes["default"].string,
+  onCancel: _propTypes["default"].func.isRequired,
+  onReply: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onChange: _propTypes["default"].func,
+  disabled: _propTypes["default"].bool.isRequired
 };
 ReplyWithMessage.defaultProps = {
   className: null,

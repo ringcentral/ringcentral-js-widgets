@@ -7,9 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
@@ -23,7 +25,7 @@ var _SettingsPanel = _interopRequireDefault(require("../../components/SettingsPa
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -58,13 +60,13 @@ function mapToProps(_, _ref) {
       showQuickAccess = _ref$showQuickAccess === void 0 ? false : _ref$showQuickAccess,
       params = _ref.params;
   var loginNumber = '';
-  var loggedIn = auth.loginStatus === _loginStatus.default.loggedIn;
+  var loggedIn = auth.loginStatus === _loginStatus["default"].loggedIn;
 
   if (loggedIn && accountInfo.ready && extensionInfo.ready) {
     // If no extensionNumber, extensionNumber field needs to be omitted
     var extensionNumber = extensionInfo.extensionNumber && extensionInfo.extensionNumber !== '0' ? extensionInfo.extensionNumber : null;
     var phoneNumber = [accountInfo.mainCompanyNumber, extensionNumber].join('*');
-    loginNumber = (0, _formatNumber.default)({
+    loginNumber = (0, _formatNumber["default"])({
       phoneNumber: phoneNumber,
       countryCode: regionSettings.countryCode,
       areaCode: regionSettings.areaCode
@@ -176,6 +178,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var SettingsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_SettingsPanel.default));
-exports.default = SettingsPage;
+var SettingsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_SettingsPanel["default"]));
+exports["default"] = SettingsPage;
 //# sourceMappingURL=index.js.map

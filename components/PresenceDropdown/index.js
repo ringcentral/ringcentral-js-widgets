@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _PresenceItem = _interopRequireDefault(require("../PresenceItem"));
 
 var _style = _interopRequireDefault(require("./style.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -96,46 +96,46 @@ function (_Component) {
           setDoNotDisturb = _this$props.setDoNotDisturb,
           setInvisible = _this$props.setInvisible;
       var showSelects = this.state.showSelects;
-      var showDropdown = (0, _classnames.default)(_style.default.root, showSelects ? _style.default.showSelects : null);
-      var showBackground = (0, _classnames.default)(_style.default.bk, showSelects ? _style.default.showSelects : null);
-      return _react.default.createElement("div", null, _react.default.createElement("div", {
-        className: (0, _classnames.default)(_style.default.presence, _style.default[userStatus], _style.default[dndStatus]),
+      var showDropdown = (0, _classnames["default"])(_style["default"].root, showSelects ? _style["default"].showSelects : null);
+      var showBackground = (0, _classnames["default"])(_style["default"].bk, showSelects ? _style["default"].showSelects : null);
+      return _react["default"].createElement("div", null, _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_style["default"].presence, _style["default"][userStatus], _style["default"][dndStatus]),
         onClick: this.toggleShow
-      }, _react.default.createElement("div", {
-        className: _style.default.presenceBar
-      }), _react.default.createElement("div", {
+      }, _react["default"].createElement("div", {
+        className: _style["default"].presenceBar
+      }), _react["default"].createElement("div", {
         className: showDropdown
-      }, _react.default.createElement(_Line.default, {
-        className: _style.default.presenceList
-      }, _react.default.createElement(_PresenceItem.default, {
-        className: _style.default.presenceItem,
-        userStatus: _presenceStatus.default.available,
-        dndStatus: _dndStatus.default.takeAllCalls,
+      }, _react["default"].createElement(_Line["default"], {
+        className: _style["default"].presenceList
+      }, _react["default"].createElement(_PresenceItem["default"], {
+        className: _style["default"].presenceItem,
+        userStatus: _presenceStatus["default"].available,
+        dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: currentLocale,
         onClick: setAvailable,
-        selected: userStatus === _presenceStatus.default.available && dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
-      }), _react.default.createElement(_PresenceItem.default, {
-        className: _style.default.presenceItem,
-        userStatus: _presenceStatus.default.busy,
-        dndStatus: _dndStatus.default.takeAllCalls,
+        selected: userStatus === _presenceStatus["default"].available && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+      }), _react["default"].createElement(_PresenceItem["default"], {
+        className: _style["default"].presenceItem,
+        userStatus: _presenceStatus["default"].busy,
+        dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: currentLocale,
         onClick: setBusy,
-        selected: userStatus === _presenceStatus.default.busy && dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
-      }), _react.default.createElement(_PresenceItem.default, {
-        className: _style.default.presenceItem,
-        userStatus: _presenceStatus.default.busy,
-        dndStatus: _dndStatus.default.doNotAcceptAnyCalls,
+        selected: userStatus === _presenceStatus["default"].busy && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+      }), _react["default"].createElement(_PresenceItem["default"], {
+        className: _style["default"].presenceItem,
+        userStatus: _presenceStatus["default"].busy,
+        dndStatus: _dndStatus["default"].doNotAcceptAnyCalls,
         currentLocale: currentLocale,
         onClick: setDoNotDisturb,
-        selected: dndStatus === _dndStatus.default.doNotAcceptAnyCalls
-      }), _react.default.createElement(_PresenceItem.default, {
-        className: _style.default.presenceItem,
-        userStatus: _presenceStatus.default.offline,
-        dndStatus: _dndStatus.default.takeAllCalls,
+        selected: dndStatus === _dndStatus["default"].doNotAcceptAnyCalls
+      }), _react["default"].createElement(_PresenceItem["default"], {
+        className: _style["default"].presenceItem,
+        userStatus: _presenceStatus["default"].offline,
+        dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: currentLocale,
         onClick: setInvisible,
-        selected: userStatus === _presenceStatus.default.offline && dndStatus !== _dndStatus.default.doNotAcceptAnyCalls
-      })))), _react.default.createElement("div", {
+        selected: userStatus === _presenceStatus["default"].offline && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+      })))), _react["default"].createElement("div", {
         className: showBackground,
         onClick: this.toggleShow
       }));
@@ -145,16 +145,16 @@ function (_Component) {
   return PresenceDropdown;
 }(_react.Component);
 
-exports.default = PresenceDropdown;
+exports["default"] = PresenceDropdown;
 PresenceDropdown.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  dndStatus: _propTypes.default.string,
-  userStatus: _propTypes.default.string,
-  setAvailable: _propTypes.default.func.isRequired,
-  setBusy: _propTypes.default.func.isRequired,
-  setDoNotDisturb: _propTypes.default.func.isRequired,
-  setInvisible: _propTypes.default.func.isRequired,
-  isReady: _propTypes.default.bool.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  dndStatus: _propTypes["default"].string,
+  userStatus: _propTypes["default"].string,
+  setAvailable: _propTypes["default"].func.isRequired,
+  setBusy: _propTypes["default"].func.isRequired,
+  setDoNotDisturb: _propTypes["default"].func.isRequired,
+  setInvisible: _propTypes["default"].func.isRequired,
+  isReady: _propTypes["default"].bool.isRequired
 };
 PresenceDropdown.defaultProps = {
   dndStatus: null,

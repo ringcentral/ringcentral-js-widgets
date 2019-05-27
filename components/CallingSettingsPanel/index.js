@@ -4,12 +4,14 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = CallingSettingsPanel;
+exports["default"] = CallingSettingsPanel;
 
 require("core-js/modules/es6.object.assign");
 
@@ -24,6 +26,10 @@ require("core-js/modules/es6.object.define-property");
 require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es7.array.includes");
+
+require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.array.map");
 
@@ -67,9 +73,9 @@ var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
 var _SaveButton = _interopRequireDefault(require("../SaveButton"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -95,7 +101,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var TooltipCom = typeof _rcTooltip.default === 'function' ? _rcTooltip.default : _rcTooltip.default.default;
+var TooltipCom = typeof _rcTooltip["default"] === 'function' ? _rcTooltip["default"] : _rcTooltip["default"]["default"];
 
 var CallingSettingsContent =
 /*#__PURE__*/
@@ -178,11 +184,11 @@ function (_Component) {
     _this.renderHandler = function (option) {
       var brand = _this.props.brand;
 
-      if (option === _callingOptions.default.myphone) {
+      if (option === _callingOptions["default"].myphone) {
         brand = brand.replace(/\sPhone$/, '');
       }
 
-      return (0, _formatMessage.default)(_i18n.default.getString(option, _this.props.currentLocale), {
+      return (0, _formatMessage["default"])(_i18n["default"].getString(option, _this.props.currentLocale), {
         brand: brand
       });
     };
@@ -224,16 +230,16 @@ function (_Component) {
 
       var contentKeys;
 
-      if (this.state.callWith === _callingOptions.default.browser || this.state.callWith === _callingOptions.default.softphone) {
+      if (this.state.callWith === _callingOptions["default"].browser || this.state.callWith === _callingOptions["default"].softphone) {
         contentKeys = ["".concat(this.state.callWith, "Tooltip")];
       } else {
         contentKeys = ["".concat(this.state.callWith, "Tooltip"), "".concat(this.state.callWith, "Tooltip1")];
       }
 
-      return _react.default.createElement("div", null, contentKeys.map(function (contentKey) {
-        return _react.default.createElement("div", {
+      return _react["default"].createElement("div", null, contentKeys.map(function (contentKey) {
+        return _react["default"].createElement("div", {
           key: contentKey
-        }, (0, _formatMessage.default)(_i18n.default.getString(contentKey, _this2.props.currentLocale), {
+        }, (0, _formatMessage["default"])(_i18n["default"].getString(contentKey, _this2.props.currentLocale), {
           brand: _this2.props.brand
         }));
       }));
@@ -250,58 +256,63 @@ function (_Component) {
           myLocation = _this$props2.myLocation,
           ringoutPrompt = _this$props2.ringoutPrompt,
           availableNumbers = _this$props2.availableNumbers,
-          disabled = _this$props2.disabled;
+          disabled = _this$props2.disabled,
+          searchable = _this$props2.searchable;
       var hasChanges = this.state.callWith !== callWith || this.state.myLocation !== myLocation || this.state.ringoutPrompt !== ringoutPrompt;
-      var ringout = this.state.callWith !== _callingOptions.default.softphone && this.state.callWith !== _callingOptions.default.browser ? _react.default.createElement("div", null, _react.default.createElement("div", {
-        className: _styles.default.ringoutHint
-      }, _i18n.default.getString('ringoutHint', currentLocale)), _react.default.createElement(_InputField.default, {
+      var availableCallWithNumbers = availableNumbers[this.state.callWith];
+      var ringout = this.state.callWith !== _callingOptions["default"].softphone && this.state.callWith !== _callingOptions["default"].browser ? _react["default"].createElement("div", null, _react["default"].createElement("div", {
+        className: _styles["default"].ringoutHint
+      }, _i18n["default"].getString('ringoutHint', currentLocale)), _react["default"].createElement(_InputField["default"], {
         dataSign: "myLocation",
-        label: _i18n.default.getString('myLocationLabel', currentLocale)
-      }, availableNumbers[this.state.callWith] ? _react.default.createElement(_DropdownSelect.default, {
-        className: (0, _classnames.default)(_styles.default.select, _styles.default.locationSelect),
+        label: _i18n["default"].getString('myLocationLabel', currentLocale)
+      }, availableCallWithNumbers ? _react["default"].createElement(_DropdownSelect["default"], {
+        className: (0, _classnames["default"])(_styles["default"].select, _styles["default"].locationSelect),
         value: this.state.myLocation,
         onChange: this.onMyLocationChange,
-        options: availableNumbers[this.state.callWith],
+        searchOption: searchable ? function (option, text) {
+          return option.includes(text);
+        } : null,
+        options: availableCallWithNumbers,
         disabled: disabled,
         dropdownAlign: "left",
         titleEnabled: true
-      }) : _react.default.createElement(_TextInput.default, {
+      }) : _react["default"].createElement(_TextInput["default"], {
         dataSign: "myLocationInput",
         value: this.state.myLocation,
         maxLength: 30,
         onChange: this.onMyLocationTextChange
-      })), _react.default.createElement(_IconField.default, {
-        className: _styles.default.iconField,
-        icon: _react.default.createElement(_Switch.default, {
+      })), _react["default"].createElement(_IconField["default"], {
+        className: _styles["default"].iconField,
+        icon: _react["default"].createElement(_Switch["default"], {
           dataSign: "ringoutPromptToggle",
           checked: this.state.ringoutPrompt,
           onChange: this.onRingoutPromptChange
         })
-      }, _i18n.default.getString('press1ToStartCallLabel', currentLocale))) : null;
+      }, _i18n["default"].getString('press1ToStartCallLabel', currentLocale))) : null;
       var toolTip = this.getTooltipContent();
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_InputField.default, {
-        label: _react.default.createElement("span", null, _i18n.default.getString('makeCallsWith', currentLocale), _react.default.createElement(TooltipCom, {
+      return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_InputField["default"], {
+        label: _react["default"].createElement("span", null, _i18n["default"].getString('makeCallsWith', currentLocale), _react["default"].createElement(TooltipCom, {
           placement: "bottom",
           trigger: "click",
           overlay: toolTip,
           align: {
             offset: [0, 47]
           },
-          arrowContent: _react.default.createElement("div", {
+          arrowContent: _react["default"].createElement("div", {
             className: "rc-tooltip-arrow-inner"
           }),
           getTooltipContainer: function getTooltipContainer() {
             return _this3.tooltipContainner;
           }
-        }, _react.default.createElement(_Info.default, {
+        }, _react["default"].createElement(_Info["default"], {
           width: 14,
           height: 14,
-          className: _styles.default.infoIcon
+          className: _styles["default"].infoIcon
         }))),
         noBorder: true
-      }, _react.default.createElement(_DropdownSelect.default, {
+      }, _react["default"].createElement(_DropdownSelect["default"], {
         dataSign: "callingSetting",
-        className: _styles.default.select,
+        className: _styles["default"].select,
         value: this.state.callWith,
         onChange: this.onCallWithChange,
         options: callWithOptions,
@@ -310,12 +321,12 @@ function (_Component) {
         renderValue: this.renderHandler,
         disabled: disabled,
         titleEnabled: true
-      }), _react.default.createElement("div", {
-        className: _styles.default.tooltipContainner,
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].tooltipContainner,
         ref: function ref(tooltipContainner) {
           _this3.tooltipContainner = tooltipContainner;
         }
-      })), ringout, _react.default.createElement(_SaveButton.default, {
+      })), ringout, _react["default"].createElement(_SaveButton["default"], {
         currentLocale: currentLocale,
         onClick: this.onSave,
         disabled: !hasChanges
@@ -327,18 +338,20 @@ function (_Component) {
 }(_react.Component);
 
 CallingSettingsContent.propTypes = {
-  brand: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  callWithOptions: _propTypes.default.arrayOf(_propTypes.default.string).isRequired,
-  callWith: _propTypes.default.string.isRequired,
-  myLocation: _propTypes.default.string.isRequired,
-  ringoutPrompt: _propTypes.default.bool.isRequired,
-  availableNumbers: _propTypes.default.object.isRequired,
-  onSave: _propTypes.default.func.isRequired,
-  disabled: _propTypes.default.bool
+  brand: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  callWithOptions: _propTypes["default"].arrayOf(_propTypes["default"].string).isRequired,
+  callWith: _propTypes["default"].string.isRequired,
+  myLocation: _propTypes["default"].string.isRequired,
+  ringoutPrompt: _propTypes["default"].bool.isRequired,
+  availableNumbers: _propTypes["default"].object.isRequired,
+  onSave: _propTypes["default"].func.isRequired,
+  disabled: _propTypes["default"].bool,
+  searchable: _propTypes["default"].bool
 };
 CallingSettingsContent.defaultProps = {
-  disabled: false
+  disabled: false,
+  searchable: false
 };
 
 function CallingSettingsPanel(_ref) {
@@ -348,24 +361,24 @@ function CallingSettingsPanel(_ref) {
       showSpinner = _ref.showSpinner,
       props = _objectWithoutProperties(_ref, ["className", "onBackButtonClick", "currentLocale", "showSpinner"]);
 
-  var content = showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : _react.default.createElement(CallingSettingsContent, _extends({}, props, {
+  var content = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : _react["default"].createElement(CallingSettingsContent, _extends({}, props, {
     currentLocale: currentLocale
   }));
-  return _react.default.createElement("div", {
+  return _react["default"].createElement("div", {
     "data-sign": "callingSettings",
-    className: (0, _classnames.default)(_styles.default.root, className)
-  }, _react.default.createElement(_BackHeader.default, {
+    className: (0, _classnames["default"])(_styles["default"].root, className)
+  }, _react["default"].createElement(_BackHeader["default"], {
     onBackClick: onBackButtonClick
-  }, _i18n.default.getString('title', currentLocale)), _react.default.createElement(_Panel.default, {
-    className: _styles.default.content
+  }, _i18n["default"].getString('title', currentLocale)), _react["default"].createElement(_Panel["default"], {
+    className: _styles["default"].content
   }, content));
 }
 
 CallingSettingsPanel.propTypes = {
-  className: _propTypes.default.string,
-  currentLocale: _propTypes.default.string.isRequired,
-  onBackButtonClick: _propTypes.default.func.isRequired,
-  showSpinner: _propTypes.default.bool
+  className: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onBackButtonClick: _propTypes["default"].func.isRequired,
+  showSpinner: _propTypes["default"].bool
 };
 CallingSettingsPanel.defaultProps = {
   className: null,

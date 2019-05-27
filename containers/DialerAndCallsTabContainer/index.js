@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -39,9 +39,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -81,13 +81,13 @@ function (_Component) {
     }, function (currentLocale, currentPath) {
       return [{
         path: '/dialer',
-        label: _i18n.default.getString('dialer', currentLocale),
+        label: _i18n["default"].getString('dialer', currentLocale),
         isActive: function isActive() {
           return currentPath === '/dialer';
         }
       }, {
         path: '/calls',
-        label: _i18n.default.getString('allCalls', currentLocale),
+        label: _i18n["default"].getString('allCalls', currentLocale),
         isActive: function isActive() {
           return currentPath === '/calls';
         }
@@ -100,13 +100,13 @@ function (_Component) {
     key: "render",
     value: function render() {
       if (this.props.showSpinner) {
-        return _react.default.createElement(_SpinnerOverlay.default, null);
+        return _react["default"].createElement(_SpinnerOverlay["default"], null);
       }
 
-      return _react.default.createElement(_TabContentPanel.default, _extends({}, this.props, {
+      return _react["default"].createElement(_TabContentPanel["default"], _extends({}, this.props, {
         tabs: this.getTabs(),
-        navClassName: _styles.default.nav,
-        tabContentClassName: _styles.default.content
+        navClassName: _styles["default"].nav,
+        tabContentClassName: _styles["default"].content
       }));
     }
   }]);
@@ -115,11 +115,11 @@ function (_Component) {
 }(_react.Component);
 
 TabContentView.propTypes = {
-  showTabs: _propTypes.default.bool.isRequired,
-  showSpinner: _propTypes.default.bool.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  currentPath: _propTypes.default.string.isRequired,
-  goTo: _propTypes.default.func.isRequired
+  showTabs: _propTypes["default"].bool.isRequired,
+  showSpinner: _propTypes["default"].bool.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  currentPath: _propTypes["default"].string.isRequired,
+  goTo: _propTypes["default"].func.isRequired
 };
 
 function mapToProps(_, _ref) {
@@ -128,7 +128,7 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       routerInteraction = _ref$phone.routerInteraction;
   return {
-    showTabs: (0, _hasActiveCalls.default)(phone),
+    showTabs: (0, _hasActiveCalls["default"])(phone),
     currentLocale: locale.currentLocale,
     showSpinner: !locale.ready,
     currentPath: routerInteraction.currentPath
@@ -144,6 +144,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var DialerAndCallsTabContainer = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(TabContentView));
-exports.default = DialerAndCallsTabContainer;
+var DialerAndCallsTabContainer = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToProps, mapToFunctions)(TabContentView));
+exports["default"] = DialerAndCallsTabContainer;
 //# sourceMappingURL=index.js.map

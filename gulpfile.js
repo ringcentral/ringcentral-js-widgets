@@ -11,13 +11,15 @@ require("core-js/modules/es6.object.freeze");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es7.symbol.async-iterator");
+require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.symbol");
+require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -28,6 +30,8 @@ require("core-js/modules/es6.object.keys");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.regexp.replace");
 
@@ -61,7 +65,7 @@ var _consolidateLocale = _interopRequireDefault(require("@ringcentral-integratio
 
 var _localeSettings = _interopRequireDefault(require("@ringcentral-integration/locale-settings"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n      .", " {\n        composes: icon;\n      }\n      .", ":before "]);
@@ -91,9 +95,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var BUILD_PATH = _path.default.resolve(__dirname, '../../build/ringcentral-widgets');
+var BUILD_PATH = _path["default"].resolve(__dirname, '../../build/ringcentral-widgets');
 
-var RELEASE_PATH = _path.default.resolve(__dirname, '../../release/ringcentral-widgets');
+var RELEASE_PATH = _path["default"].resolve(__dirname, '../../release/ringcentral-widgets');
 
 function getVersionFromTag() {
   return _getVersionFromTag.apply(this, arguments);
@@ -120,7 +124,7 @@ function _getVersionFromTag() {
           case 3:
             _context7.prev = 3;
             _context7.next = 6;
-            return _execa.default.shell('git describe --exact-match --tags $(git rev-parse HEAD)');
+            return _execa["default"].shell('git describe --exact-match --tags $(git rev-parse HEAD)');
 
           case 6:
             tag = _context7.sent;
@@ -156,18 +160,18 @@ function _getVersionFromTag() {
 }
 
 function clean() {
-  return _fsExtra.default.remove(BUILD_PATH);
+  return _fsExtra["default"].remove(BUILD_PATH);
 }
 
 function copy() {
-  return _gulp.default.src(['./**', '!./**/*.js', '!./test{/**,}', '!./coverage{/**,}', '!./node_modules{/**,}', '!package-lock.json']).pipe(_gulp.default.dest(BUILD_PATH));
+  return _gulp["default"].src(['./**', '!./**/*.js', '!./test{/**,}', '!./coverage{/**,}', '!./node_modules{/**,}', '!package-lock.json']).pipe(_gulp["default"].dest(BUILD_PATH));
 }
 
 function preBuild() {
-  return _gulp.default.src(['./**/*.js', '!./**/*.test.js', '!./test{/**,}', '!./coverage{/**,}', '!./node_modules{/**,}', '!gulpfile.babel.js']).pipe((0, _transformLoader.default)(_objectSpread({}, _localeSettings.default))).pipe(_gulpSourcemaps.default.init()).pipe((0, _gulpBabel.default)()).pipe(_gulpSourcemaps.default.write('.')).pipe(_gulp.default.dest(BUILD_PATH));
+  return _gulp["default"].src(['./**/*.js', '!./**/*.test.js', '!./test{/**,}', '!./coverage{/**,}', '!./node_modules{/**,}', '!gulpfile.babel.js']).pipe((0, _transformLoader["default"])(_objectSpread({}, _localeSettings["default"]))).pipe(_gulpSourcemaps["default"].init()).pipe((0, _gulpBabel["default"])()).pipe(_gulpSourcemaps["default"].write('.')).pipe(_gulp["default"].dest(BUILD_PATH));
 }
 
-var build = _gulp.default.series(clean, copy, preBuild);
+var build = _gulp["default"].series(clean, copy, preBuild);
 
 exports.build = build;
 
@@ -186,7 +190,7 @@ function _releaseClean() {
         switch (_context8.prev = _context8.next) {
           case 0:
             _context8.next = 2;
-            return _fsExtra.default.exists(RELEASE_PATH);
+            return _fsExtra["default"].exists(RELEASE_PATH);
 
           case 2:
             if (_context8.sent) {
@@ -195,11 +199,11 @@ function _releaseClean() {
             }
 
             _context8.next = 5;
-            return _execa.default.shell("mkdir -p ".concat(RELEASE_PATH));
+            return _execa["default"].shell("mkdir -p ".concat(RELEASE_PATH));
 
           case 5:
             _context8.next = 7;
-            return _fsExtra.default.readdir(RELEASE_PATH);
+            return _fsExtra["default"].readdir(RELEASE_PATH);
 
           case 7:
             _context8.t0 = function (file) {
@@ -221,7 +225,7 @@ function _releaseClean() {
 
             file = _step.value;
             _context8.next = 18;
-            return _fsExtra.default.remove(_path.default.resolve(RELEASE_PATH, file));
+            return _fsExtra["default"].remove(_path["default"].resolve(RELEASE_PATH, file));
 
           case 18:
             _iteratorNormalCompletion = true;
@@ -242,8 +246,8 @@ function _releaseClean() {
             _context8.prev = 27;
             _context8.prev = 28;
 
-            if (!_iteratorNormalCompletion && _iterator.return != null) {
-              _iterator.return();
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
             }
 
           case 30:
@@ -273,7 +277,7 @@ function _releaseClean() {
 }
 
 function releaseCopy() {
-  return _gulp.default.src(["".concat(BUILD_PATH, "/**"), "".concat(__dirname, "/README.md"), "".concat(__dirname, "/LICENSE")]).pipe(_gulp.default.dest(RELEASE_PATH));
+  return _gulp["default"].src(["".concat(BUILD_PATH, "/**"), "".concat(__dirname, "/README.md"), "".concat(__dirname, "/LICENSE")]).pipe(_gulp["default"].dest(RELEASE_PATH));
 }
 
 function preRelease() {
@@ -291,7 +295,7 @@ function _preRelease() {
           case 0:
             _context9.t0 = JSON;
             _context9.next = 3;
-            return _fsExtra.default.readFile(_path.default.resolve(BUILD_PATH, 'package.json'));
+            return _fsExtra["default"].readFile(_path["default"].resolve(BUILD_PATH, 'package.json'));
 
           case 3:
             _context9.t1 = _context9.sent;
@@ -311,7 +315,7 @@ function _preRelease() {
             }
 
             _context9.next = 14;
-            return _fsExtra.default.writeFile(_path.default.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
+            return _fsExtra["default"].writeFile(_path["default"].resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
 
           case 14:
           case "end":
@@ -323,7 +327,7 @@ function _preRelease() {
   return _preRelease.apply(this, arguments);
 }
 
-var release = _gulp.default.series(_gulp.default.parallel(build, releaseClean), releaseCopy, preRelease);
+var release = _gulp["default"].series(_gulp["default"].parallel(build, releaseClean), releaseCopy, preRelease);
 
 exports.release = release;
 
@@ -345,9 +349,9 @@ regeneratorRuntime.mark(function _callee() {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          cssLocation = _path.default.resolve(__dirname, 'assets/DynamicsFont/style.css');
+          cssLocation = _path["default"].resolve(__dirname, 'assets/DynamicsFont/style.css');
           _context.next = 4;
-          return _fsExtra.default.readFile(cssLocation, 'utf8');
+          return _fsExtra["default"].readFile(cssLocation, 'utf8');
 
         case 4:
           content = _context.sent;
@@ -360,13 +364,13 @@ regeneratorRuntime.mark(function _callee() {
             if (match) {
               _match = match, _match2 = _slicedToArray(_match, 2), target = _match2[0], name = _match2[1];
               normalizedName = normalizeName(name);
-              newContent = (0, _dedent.default)(_templateObject(), normalizedName, normalizedName);
+              newContent = (0, _dedent["default"])(_templateObject(), normalizedName, normalizedName);
               output = output.replace(target, newContent);
             }
           } while (match);
 
           _context.next = 10;
-          return _fsExtra.default.writeFile(_path.default.resolve(__dirname, 'assets/DynamicsFont/DynamicsFont.scss'), output, 'utf8');
+          return _fsExtra["default"].writeFile(_path["default"].resolve(__dirname, 'assets/DynamicsFont/DynamicsFont.scss'), output, 'utf8');
 
         case 10:
           _context.next = 15;
@@ -393,7 +397,7 @@ regeneratorRuntime.mark(function _callee2() {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          return _context2.abrupt("return", (0, _exportLocale.default)(_objectSpread({}, _localeSettings.default)));
+          return _context2.abrupt("return", (0, _exportLocale["default"])(_objectSpread({}, _localeSettings["default"])));
 
         case 1:
         case "end":
@@ -411,7 +415,7 @@ regeneratorRuntime.mark(function _callee3() {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          return _context3.abrupt("return", (0, _exportLocale.default)(_objectSpread({}, _localeSettings.default, {
+          return _context3.abrupt("return", (0, _exportLocale["default"])(_objectSpread({}, _localeSettings["default"], {
             exportType: 'full'
           })));
 
@@ -431,7 +435,7 @@ regeneratorRuntime.mark(function _callee4() {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          return _context4.abrupt("return", (0, _exportLocale.default)(_objectSpread({}, _localeSettings.default, {
+          return _context4.abrupt("return", (0, _exportLocale["default"])(_objectSpread({}, _localeSettings["default"], {
             exportType: 'translated'
           })));
 
@@ -451,7 +455,7 @@ regeneratorRuntime.mark(function _callee5() {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
-          return _context5.abrupt("return", (0, _importLocale.default)(_objectSpread({}, _localeSettings.default)));
+          return _context5.abrupt("return", (0, _importLocale["default"])(_objectSpread({}, _localeSettings["default"])));
 
         case 1:
         case "end":
@@ -469,8 +473,8 @@ regeneratorRuntime.mark(function _callee6() {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
-          return _context6.abrupt("return", (0, _consolidateLocale.default)(_objectSpread({}, _localeSettings.default, {
-            sourceFolder: _path.default.resolve(__dirname, 'lib/countryNames')
+          return _context6.abrupt("return", (0, _consolidateLocale["default"])(_objectSpread({}, _localeSettings["default"], {
+            sourceFolder: _path["default"].resolve(__dirname, 'lib/countryNames')
           })));
 
         case 1:

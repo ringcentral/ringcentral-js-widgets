@@ -3,19 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.object.assign");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -39,9 +41,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -119,28 +121,30 @@ function (_Component) {
           conversations = _this$props.conversations,
           perPage = _this$props.perPage,
           disableLinks = _this$props.disableLinks,
+          disableCallButton = _this$props.disableCallButton,
           placeholder = _this$props.placeholder,
           loadingNextPage = _this$props.loadingNextPage,
-          childProps = _objectWithoutProperties(_this$props, ["className", "currentLocale", "conversations", "perPage", "disableLinks", "placeholder", "loadingNextPage"]);
+          childProps = _objectWithoutProperties(_this$props, ["className", "currentLocale", "conversations", "perPage", "disableLinks", "disableCallButton", "placeholder", "loadingNextPage"]);
 
       var content;
 
       if (conversations && conversations.length) {
         content = conversations.map(function (item) {
-          return _react.default.createElement(_MessageItem.default, _extends({}, childProps, {
+          return _react["default"].createElement(_MessageItem["default"], _extends({}, childProps, {
             conversation: item,
             currentLocale: currentLocale,
             key: item.id,
-            disableLinks: disableLinks
+            disableLinks: disableLinks,
+            disableCallButton: disableCallButton
           }));
         });
       }
 
-      var loading = loadingNextPage ? _react.default.createElement("div", {
-        className: _styles.default.loading
-      }, _i18n.default.getString('loading', currentLocale)) : null;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className),
+      var loading = loadingNextPage ? _react["default"].createElement("div", {
+        className: _styles["default"].loading
+      }, _i18n["default"].getString('loading', currentLocale)) : null;
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className),
         onScroll: this.onScroll,
         ref: function ref(list) {
           _this2.messagesListBody = list;
@@ -152,38 +156,40 @@ function (_Component) {
   return ConversationList;
 }(_react.Component);
 
-exports.default = ConversationList;
+exports["default"] = ConversationList;
 ConversationList.propTypes = {
-  brand: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  conversations: _propTypes.default.arrayOf(_propTypes.default.shape({
-    id: _propTypes.default.number,
-    conversationId: _propTypes.default.string.isRequired,
-    subject: _propTypes.default.string
+  brand: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  conversations: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    id: _propTypes["default"].number,
+    conversationId: _propTypes["default"].string.isRequired,
+    subject: _propTypes["default"].string
   })).isRequired,
-  disableLinks: _propTypes.default.bool,
-  perPage: _propTypes.default.number,
-  className: _propTypes.default.string,
-  showConversationDetail: _propTypes.default.func.isRequired,
-  readMessage: _propTypes.default.func.isRequired,
-  markMessage: _propTypes.default.func.isRequired,
-  unmarkMessage: _propTypes.default.func.isRequired,
-  dateTimeFormatter: _propTypes.default.func,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  showGroupNumberName: _propTypes.default.bool,
-  placeholder: _propTypes.default.string,
-  typeFilter: _propTypes.default.string,
-  loadNextPage: _propTypes.default.func,
-  loadingNextPage: _propTypes.default.bool,
-  renderExtraButton: _propTypes.default.func
+  disableLinks: _propTypes["default"].bool,
+  disableCallButton: _propTypes["default"].bool,
+  perPage: _propTypes["default"].number,
+  className: _propTypes["default"].string,
+  showConversationDetail: _propTypes["default"].func.isRequired,
+  readMessage: _propTypes["default"].func.isRequired,
+  markMessage: _propTypes["default"].func.isRequired,
+  unmarkMessage: _propTypes["default"].func.isRequired,
+  dateTimeFormatter: _propTypes["default"].func,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  showGroupNumberName: _propTypes["default"].bool,
+  placeholder: _propTypes["default"].string,
+  typeFilter: _propTypes["default"].string,
+  loadNextPage: _propTypes["default"].func,
+  loadingNextPage: _propTypes["default"].bool,
+  renderExtraButton: _propTypes["default"].func
 };
 ConversationList.defaultProps = {
   perPage: 20,
   className: undefined,
   disableLinks: false,
+  disableCallButton: false,
   dateTimeFormatter: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,

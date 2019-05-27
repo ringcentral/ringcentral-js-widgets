@@ -9,13 +9,15 @@ exports.ClickToSmsButton = ClickToSmsButton;
 exports.DeleteButton = DeleteButton;
 exports.MarkButton = MarkButton;
 exports.PreviewButton = PreviewButton;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -57,9 +59,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -88,21 +90,21 @@ function ConfirmDeleteModal(_ref) {
       show = _ref.show,
       onDelete = _ref.onDelete,
       onCancel = _ref.onCancel;
-  return _react.default.createElement(_Modal.default, {
+  return _react["default"].createElement(_Modal["default"], {
     show: show,
     currentLocale: currentLocale,
     onConfirm: onDelete,
     onCancel: onCancel
-  }, _react.default.createElement("div", {
-    className: _styles.default.contentText
-  }, _i18n.default.getString('sureToDeleteVoiceMail', currentLocale)));
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].contentText
+  }, _i18n["default"].getString('sureToDeleteVoiceMail', currentLocale)));
 }
 
 ConfirmDeleteModal.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  show: _propTypes.default.bool.isRequired,
-  onDelete: _propTypes.default.func,
-  onCancel: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  show: _propTypes["default"].bool.isRequired,
+  onDelete: _propTypes["default"].func,
+  onCancel: _propTypes["default"].func
 };
 ConfirmDeleteModal.defaultProps = {
   onDelete: function onDelete() {},
@@ -113,31 +115,35 @@ function ClickToDialButton(_ref2) {
   var className = _ref2.className,
       onClickToDial = _ref2.onClickToDial,
       disableLinks = _ref2.disableLinks,
+      disableCallButton = _ref2.disableCallButton,
       disableClickToDial = _ref2.disableClickToDial,
       phoneNumber = _ref2.phoneNumber,
       title = _ref2.title;
-  return _react.default.createElement(_Button.default, {
-    className: (0, _classnames.default)(_styles.default.button, _styles.default.clickToDialButton, className),
+  return _react["default"].createElement(_Button["default"], {
+    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToDialButton, className),
     onClick: onClickToDial,
-    disabled: disableLinks || disableClickToDial || !phoneNumber
-  }, _react.default.createElement("span", {
-    className: _DynamicsFont.default.call,
+    dataSign: title,
+    disabled: disableLinks || disableCallButton || disableClickToDial || !phoneNumber
+  }, _react["default"].createElement("span", {
+    className: _DynamicsFont["default"].call,
     title: title
   }));
 }
 
 ClickToDialButton.propTypes = {
-  className: _propTypes.default.string,
-  onClickToDial: _propTypes.default.func,
-  disableLinks: _propTypes.default.bool,
-  disableClickToDial: _propTypes.default.bool,
-  phoneNumber: _propTypes.default.string,
-  title: _propTypes.default.string
+  className: _propTypes["default"].string,
+  onClickToDial: _propTypes["default"].func,
+  disableLinks: _propTypes["default"].bool,
+  disableCallButton: _propTypes["default"].bool,
+  disableClickToDial: _propTypes["default"].bool,
+  phoneNumber: _propTypes["default"].string,
+  title: _propTypes["default"].string
 };
 ClickToDialButton.defaultProps = {
   className: undefined,
   onClickToDial: undefined,
   disableLinks: false,
+  disableCallButton: false,
   disableClickToDial: false,
   phoneNumber: undefined,
   title: undefined
@@ -149,22 +155,23 @@ function ClickToSmsButton(_ref3) {
       disableLinks = _ref3.disableLinks,
       phoneNumber = _ref3.phoneNumber,
       title = _ref3.title;
-  return _react.default.createElement(_Button.default, {
-    className: (0, _classnames.default)(_styles.default.button, _styles.default.clickToSmsButton, className),
+  return _react["default"].createElement(_Button["default"], {
+    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToSmsButton, className),
     onClick: onClickToSms,
+    dataSign: "clickToSms",
     disabled: disableLinks || !phoneNumber
-  }, _react.default.createElement("span", {
-    className: _DynamicsFont.default.composeText,
+  }, _react["default"].createElement("span", {
+    className: _DynamicsFont["default"].composeText,
     title: title
   }));
 }
 
 ClickToSmsButton.propTypes = {
-  className: _propTypes.default.string,
-  onClickToSms: _propTypes.default.func,
-  disableLinks: _propTypes.default.bool,
-  phoneNumber: _propTypes.default.string,
-  title: _propTypes.default.string
+  className: _propTypes["default"].string,
+  onClickToSms: _propTypes["default"].func,
+  disableLinks: _propTypes["default"].bool,
+  phoneNumber: _propTypes["default"].string,
+  title: _propTypes["default"].string
 };
 ClickToSmsButton.defaultProps = {
   className: undefined,
@@ -179,24 +186,25 @@ function DeleteButton(_ref4) {
       title = _ref4.title,
       openDeleteModal = _ref4.openDeleteModal,
       disabled = _ref4.disabled;
-  return _react.default.createElement(_Button.default, {
-    className: (0, _classnames.default)(_styles.default.button, _styles.default.svgBtn, className),
+  return _react["default"].createElement(_Button["default"], {
+    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: openDeleteModal,
-    disabled: disabled
-  }, _react.default.createElement("span", {
+    disabled: disabled,
+    dataSign: title
+  }, _react["default"].createElement("span", {
     title: title
-  }, _react.default.createElement(_DeleteMessageIcon.default, {
+  }, _react["default"].createElement(_DeleteMessageIcon["default"], {
     width: 14,
     height: 17,
-    className: (0, _classnames.default)(_styles.default.svgFillIcon, disabled ? _styles.default.disabled : null)
+    className: (0, _classnames["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
   })));
 }
 
 DeleteButton.propTypes = {
-  className: _propTypes.default.string,
-  title: _propTypes.default.string,
-  openDeleteModal: _propTypes.default.func,
-  disabled: _propTypes.default.bool.isRequired
+  className: _propTypes["default"].string,
+  title: _propTypes["default"].string,
+  openDeleteModal: _propTypes["default"].func,
+  disabled: _propTypes["default"].bool.isRequired
 };
 DeleteButton.defaultProps = {
   className: undefined,
@@ -211,16 +219,17 @@ function MarkButton(_ref5) {
       markTitle = _ref5.markTitle,
       unmarkTitle = _ref5.unmarkTitle,
       disabled = _ref5.disabled;
-  var Icon = marked ? _Unmark.default : _Mark.default;
+  var Icon = marked ? _Unmark["default"] : _Mark["default"];
   var title = marked ? unmarkTitle : markTitle;
-  var classNames = (0, _classnames.default)(_styles.default.unmarked, marked ? _styles.default.svgFillIcon : null, disabled ? _styles.default.disabled : null);
-  return _react.default.createElement(_Button.default, {
-    className: (0, _classnames.default)(_styles.default.button, _styles.default.svgBtn, className),
+  var classNames = (0, _classnames["default"])(_styles["default"].unmarked, marked ? _styles["default"].svgFillIcon : null, disabled ? _styles["default"].disabled : null);
+  return _react["default"].createElement(_Button["default"], {
+    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
-    disabled: disabled
-  }, _react.default.createElement("span", {
+    disabled: disabled,
+    dataSign: "mark"
+  }, _react["default"].createElement("span", {
     title: title
-  }, _react.default.createElement(Icon, {
+  }, _react["default"].createElement(Icon, {
     width: 14,
     height: 17,
     title: title,
@@ -229,12 +238,12 @@ function MarkButton(_ref5) {
 }
 
 MarkButton.propTypes = {
-  className: _propTypes.default.string,
-  markTitle: _propTypes.default.string,
-  unmarkTitle: _propTypes.default.string,
-  onClick: _propTypes.default.func.isRequired,
-  marked: _propTypes.default.bool.isRequired,
-  disabled: _propTypes.default.bool.isRequired
+  className: _propTypes["default"].string,
+  markTitle: _propTypes["default"].string,
+  unmarkTitle: _propTypes["default"].string,
+  onClick: _propTypes["default"].func.isRequired,
+  marked: _propTypes["default"].bool.isRequired,
+  disabled: _propTypes["default"].bool.isRequired
 };
 MarkButton.defaultProps = {
   className: undefined,
@@ -247,22 +256,22 @@ function PreviewButton(_ref6) {
       onClick = _ref6.onClick,
       disabled = _ref6.disabled,
       className = _ref6.className;
-  return _react.default.createElement(_Button.default, {
-    className: (0, _classnames.default)(_styles.default.button, _styles.default.svgBtn, className),
+  return _react["default"].createElement(_Button["default"], {
+    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
     disabled: disabled
-  }, _react.default.createElement("span", {
+  }, _react["default"].createElement("span", {
     title: title
-  }, _react.default.createElement(_Preview.default, {
-    className: (0, _classnames.default)(_styles.default.svgFillIcon, disabled ? _styles.default.disabled : null)
+  }, _react["default"].createElement(_Preview["default"], {
+    className: (0, _classnames["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
   })));
 }
 
 PreviewButton.propTypes = {
-  title: _propTypes.default.string.isRequired,
-  onClick: _propTypes.default.func.isRequired,
-  disabled: _propTypes.default.bool.isRequired,
-  className: _propTypes.default.string
+  title: _propTypes["default"].string.isRequired,
+  onClick: _propTypes["default"].func.isRequired,
+  disabled: _propTypes["default"].bool.isRequired,
+  className: _propTypes["default"].string
 };
 PreviewButton.defaultProps = {
   className: undefined
@@ -422,6 +431,7 @@ function (_Component) {
           onClickToSms = _this$props2.onClickToSms,
           phoneNumber = _this$props2.phoneNumber,
           disableLinks = _this$props2.disableLinks,
+          disableCallButton = _this$props2.disableCallButton,
           disableClickToDial = _this$props2.disableClickToDial,
           addLogTitle = _this$props2.addLogTitle,
           editLogTitle = _this$props2.editLogTitle,
@@ -442,8 +452,8 @@ function (_Component) {
           externalViewEntity = _this$props2.externalViewEntity,
           externalHasEntity = _this$props2.externalHasEntity,
           disableClickToSms = _this$props2.disableClickToSms;
-      var logButton = onLog ? _react.default.createElement(_LogButton.default, {
-        className: _styles.default.button,
+      var logButton = onLog ? _react["default"].createElement(_LogButton["default"], {
+        className: _styles["default"].button,
         onLog: onLog,
         disableLinks: disableLinks,
         isLogged: isLogged,
@@ -456,16 +466,16 @@ function (_Component) {
 
       if (externalViewEntity) {
         if (externalHasEntity) {
-          entityButton = _react.default.createElement(_EntityButton.default, {
-            className: _styles.default.button,
+          entityButton = _react["default"].createElement(_EntityButton["default"], {
+            className: _styles["default"].button,
             onViewEntity: externalViewEntity,
             hasEntity: externalHasEntity,
             disableLinks: disableLinks,
             viewEntityTitle: viewEntityTitle
           });
         } else if (phoneNumber && onCreateEntity) {
-          entityButton = _react.default.createElement(_EntityButton.default, {
-            className: _styles.default.button,
+          entityButton = _react["default"].createElement(_EntityButton["default"], {
+            className: _styles["default"].button,
             onCreateEntity: this.openEntityModal,
             hasEntity: externalHasEntity,
             disableLinks: disableLinks,
@@ -475,16 +485,16 @@ function (_Component) {
           entityButton = null;
         }
       } else if (hasEntity && onViewEntity) {
-        entityButton = _react.default.createElement(_EntityButton.default, {
-          className: _styles.default.button,
+        entityButton = _react["default"].createElement(_EntityButton["default"], {
+          className: _styles["default"].button,
           onViewEntity: onViewEntity,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
           viewEntityTitle: viewEntityTitle
         });
       } else if (!hasEntity && phoneNumber && onCreateEntity) {
-        entityButton = _react.default.createElement(_EntityButton.default, {
-          className: _styles.default.button,
+        entityButton = _react["default"].createElement(_EntityButton["default"], {
+          className: _styles["default"].button,
           onCreateEntity: this.openEntityModal,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
@@ -494,68 +504,69 @@ function (_Component) {
         entityButton = null;
       }
 
-      var entityModal = !hasEntity && phoneNumber ? _react.default.createElement(_EntityModal.default, {
+      var entityModal = !hasEntity && phoneNumber ? _react["default"].createElement(_EntityModal["default"], {
         currentLocale: currentLocale,
         entities: createEntityTypes,
         show: this.state.entityModalVisible,
         onCreate: this.onCreateEnityModal,
         onCancel: this.onCancelEntityModal
       }) : null;
-      var clickToDialButton = onClickToDial ? _react.default.createElement(ClickToDialButton, {
+      var clickToDialButton = onClickToDial ? _react["default"].createElement(ClickToDialButton, {
         onClickToDial: onClickToDial,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
+        disableCallButton: disableCallButton,
         disableClickToDial: disableClickToDial,
         currentLocale: currentLocale,
         title: callTitle
       }) : null;
-      var clickToSmsButton = onClickToSms ? _react.default.createElement(ClickToSmsButton, {
+      var clickToSmsButton = onClickToSms ? _react["default"].createElement(ClickToSmsButton, {
         onClickToSms: onClickToSms,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks || disableClickToSms,
         currentLocale: currentLocale,
         title: textTitle
       }) : null;
-      var deleteButton = onDelete ? _react.default.createElement(DeleteButton, {
+      var deleteButton = onDelete ? _react["default"].createElement(DeleteButton, {
         onDelete: onDelete,
         currentLocale: currentLocale,
         title: deleteTitle,
         openDeleteModal: this.openDeleteModal,
         disabled: this.state.disableDelete || disableLinks
       }) : null;
-      var confirmDeleteModal = onDelete ? _react.default.createElement(ConfirmDeleteModal, {
+      var confirmDeleteModal = onDelete ? _react["default"].createElement(ConfirmDeleteModal, {
         currentLocale: currentLocale,
         show: this.state.deleteModalVisible,
         onDelete: this.onDelete,
         onCancel: this.onCancelDelete
       }) : null;
-      var markButton = onMark ? _react.default.createElement(MarkButton, {
+      var markButton = onMark ? _react["default"].createElement(MarkButton, {
         markTitle: markTitle,
         unmarkTitle: unmarkTitle,
         marked: marked,
         onClick: this.onMark,
         disabled: disableLinks
       }) : null;
-      var previewButton = onPreview && faxAttachment && faxAttachment.uri ? _react.default.createElement(PreviewButton, {
+      var previewButton = onPreview && faxAttachment && faxAttachment.uri ? _react["default"].createElement(PreviewButton, {
         title: previewTitle,
         onClick: this.onPreview,
         disabled: disableLinks
       }) : null;
-      var downloadButton = faxAttachment && faxAttachment.uri ? _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.button, _styles.default.svgBtn, _styles.default.svgFillIcon, disableLinks ? _styles.default.disabled : null)
-      }, _react.default.createElement("a", {
+      var downloadButton = faxAttachment && faxAttachment.uri ? _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, _styles["default"].svgFillIcon, disableLinks ? _styles["default"].disabled : null)
+      }, _react["default"].createElement("a", {
         target: "_blank",
         download: true,
         title: downloadTitle,
         href: faxAttachment.uri,
         onClick: this._onDownloadClick,
         disabled: disableLinks
-      }, _react.default.createElement(_Download.default, {
+      }, _react["default"].createElement(_Download["default"], {
         width: 18,
         height: 18
       }))) : null;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className),
         onClick: this.preventEventPropogation
       }, clickToDialButton, clickToSmsButton, previewButton, downloadButton, entityButton, logButton, markButton, deleteButton, entityModal, confirmDeleteModal);
     }
@@ -564,45 +575,46 @@ function (_Component) {
   return ActionMenuList;
 }(_react.Component);
 
-exports.default = ActionMenuList;
+exports["default"] = ActionMenuList;
 ActionMenuList.propTypes = {
-  className: _propTypes.default.string,
-  currentLocale: _propTypes.default.string.isRequired,
-  onLog: _propTypes.default.func,
-  isLogged: _propTypes.default.bool,
-  isLogging: _propTypes.default.bool,
-  isCreating: _propTypes.default.bool,
-  onViewEntity: _propTypes.default.func,
-  onCreateEntity: _propTypes.default.func,
-  createEntityTypes: _propTypes.default.array,
-  hasEntity: _propTypes.default.bool,
-  onClickToDial: _propTypes.default.func,
-  onClickToSms: _propTypes.default.func,
-  phoneNumber: _propTypes.default.string,
-  disableLinks: _propTypes.default.bool,
-  disableClickToDial: _propTypes.default.bool,
-  addLogTitle: _propTypes.default.string,
-  editLogTitle: _propTypes.default.string,
-  textTitle: _propTypes.default.string,
-  callTitle: _propTypes.default.string,
-  createEntityTitle: _propTypes.default.string,
-  viewEntityTitle: _propTypes.default.string,
-  onDelete: _propTypes.default.func,
-  deleteTitle: _propTypes.default.string,
-  onMark: _propTypes.default.func,
-  onUnmark: _propTypes.default.func,
-  marked: _propTypes.default.bool,
-  markTitle: _propTypes.default.string,
-  unmarkTitle: _propTypes.default.string,
-  previewTitle: _propTypes.default.string,
-  downloadTitle: _propTypes.default.string,
-  onPreview: _propTypes.default.func,
-  faxAttachment: _propTypes.default.shape({
-    uri: _propTypes.default.string
+  className: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onLog: _propTypes["default"].func,
+  isLogged: _propTypes["default"].bool,
+  isLogging: _propTypes["default"].bool,
+  isCreating: _propTypes["default"].bool,
+  onViewEntity: _propTypes["default"].func,
+  onCreateEntity: _propTypes["default"].func,
+  createEntityTypes: _propTypes["default"].array,
+  hasEntity: _propTypes["default"].bool,
+  onClickToDial: _propTypes["default"].func,
+  onClickToSms: _propTypes["default"].func,
+  phoneNumber: _propTypes["default"].string,
+  disableLinks: _propTypes["default"].bool,
+  disableCallButton: _propTypes["default"].bool,
+  disableClickToDial: _propTypes["default"].bool,
+  addLogTitle: _propTypes["default"].string,
+  editLogTitle: _propTypes["default"].string,
+  textTitle: _propTypes["default"].string,
+  callTitle: _propTypes["default"].string,
+  createEntityTitle: _propTypes["default"].string,
+  viewEntityTitle: _propTypes["default"].string,
+  onDelete: _propTypes["default"].func,
+  deleteTitle: _propTypes["default"].string,
+  onMark: _propTypes["default"].func,
+  onUnmark: _propTypes["default"].func,
+  marked: _propTypes["default"].bool,
+  markTitle: _propTypes["default"].string,
+  unmarkTitle: _propTypes["default"].string,
+  previewTitle: _propTypes["default"].string,
+  downloadTitle: _propTypes["default"].string,
+  onPreview: _propTypes["default"].func,
+  faxAttachment: _propTypes["default"].shape({
+    uri: _propTypes["default"].string
   }),
-  externalViewEntity: _propTypes.default.func,
-  externalHasEntity: _propTypes.default.bool,
-  disableClickToSms: _propTypes.default.bool
+  externalViewEntity: _propTypes["default"].func,
+  externalHasEntity: _propTypes["default"].bool,
+  disableClickToSms: _propTypes["default"].bool
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -618,6 +630,7 @@ ActionMenuList.defaultProps = {
   onClickToSms: undefined,
   phoneNumber: undefined,
   disableLinks: false,
+  disableCallButton: false,
   disableClickToDial: false,
   addLogTitle: undefined,
   editLogTitle: undefined,

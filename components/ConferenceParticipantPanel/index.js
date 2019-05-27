@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -39,9 +39,9 @@ var _ParticipantItem = _interopRequireDefault(require("./ParticipantItem"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -55,11 +55,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var ParticipantsContainer =
 /*#__PURE__*/
@@ -81,9 +81,9 @@ function (_Component) {
 
     _this.formatPrticipants(props);
 
-    _this.onRemoveBtnClick = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _this.onRemoveBtnClick).bind(_context);
-    _this.onCancel = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _this.onCancel).bind(_context);
-    _this.onCancelNoAfter = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _this.onCancelNoAfter).bind(_context);
+    _this.onRemoveBtnClick = (_context = _assertThisInitialized(_this), _this.onRemoveBtnClick).bind(_context);
+    _this.onCancel = (_context = _assertThisInitialized(_this), _this.onCancel).bind(_context);
+    _this.onCancelNoAfter = (_context = _assertThisInitialized(_this), _this.onCancelNoAfter).bind(_context);
     return _this;
   }
 
@@ -151,46 +151,46 @@ function (_Component) {
           detail = _this$state.detail,
           showModal = _this$state.showModal;
 
-      var backHeader = _react.default.createElement(_BackHeader.default, {
-        className: _styles.default.header,
+      var backHeader = _react["default"].createElement(_BackHeader["default"], {
+        className: _styles["default"].header,
         onBackClick: onBackButtonClick,
-        backButton: _react.default.createElement(_BackButton.default, {
-          label: _i18n.default.getString('conferenceCall', currentLocale)
+        backButton: _react["default"].createElement(_BackButton["default"], {
+          label: _i18n["default"].getString('conferenceCall', currentLocale)
         })
       });
 
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, backHeader, _react.default.createElement("div", {
-        className: _styles.default.participantsListContainer
-      }, _react.default.createElement("div", {
-        className: _styles.default.participantsCount
-      }, participants.length === 1 ? "".concat(participants.length, " ").concat(_i18n.default.getString('participant', currentLocale)) : "".concat(participants.length, " ").concat(_i18n.default.getString('participants', currentLocale))), _react.default.createElement("div", {
-        className: _styles.default.participantsList
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, backHeader, _react["default"].createElement("div", {
+        className: _styles["default"].participantsListContainer
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].participantsCount
+      }, participants.length === 1 ? "".concat(participants.length, " ").concat(_i18n["default"].getString('participant', currentLocale)) : "".concat(participants.length, " ").concat(_i18n["default"].getString('participants', currentLocale))), _react["default"].createElement("div", {
+        className: _styles["default"].participantsList
       }, participants.map(function (participant) {
-        var avatarUrl = participant.avatarUrl,
-            toUserName = participant.toUserName,
+        var id = participant.id,
+            avatarUrl = participant.avatarUrl,
+            partyName = participant.partyName,
             partyNumber = participant.partyNumber,
-            calleeType = participant.calleeType,
-            id = participant.id;
-        var detail;
+            calleeType = participant.calleeType;
 
-        if (calleeType === _calleeTypes.default.contacts) {
-          detail = toUserName;
-        } else {
-          detail = partyNumber;
+        var displayText = partyNumber || _i18n["default"].getString('unknownNumber', currentLocale);
+
+        if (partyName && calleeType === _calleeTypes["default"].contacts) {
+          // means that matched a contact
+          displayText = partyName;
         }
 
-        return _react.default.createElement(_ParticipantItem.default, {
+        return _react["default"].createElement(_ParticipantItem["default"], {
           key: id,
           avatarUrl: avatarUrl,
-          detail: detail,
+          detail: displayText,
           currentLocale: currentLocale,
           onRemove: function onRemove() {
             return _this3.onRemoveBtnClick(participant);
           }
         });
-      }))), _react.default.createElement(_ConfirmRemoveModal.default, {
+      }))), _react["default"].createElement(_ConfirmRemoveModal["default"], {
         show: showModal,
         detail: detail,
         onCancel: this.onCancel,
@@ -206,13 +206,13 @@ function (_Component) {
 }(_react.Component);
 
 ParticipantsContainer.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  removeFunc: _propTypes.default.func,
-  participants: _propTypes.default.arrayOf(_propTypes.default.object).isRequired,
-  onBackButtonClick: _propTypes.default.func,
-  formatPhone: _propTypes.default.func,
-  afterOnCancel: _propTypes.default.func,
-  afterOnRemoveBtnClick: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  removeFunc: _propTypes["default"].func,
+  participants: _propTypes["default"].arrayOf(_propTypes["default"].object).isRequired,
+  onBackButtonClick: _propTypes["default"].func,
+  formatPhone: _propTypes["default"].func,
+  afterOnCancel: _propTypes["default"].func,
+  afterOnRemoveBtnClick: _propTypes["default"].func
 };
 ParticipantsContainer.defaultProps = {
   removeFunc: function removeFunc(i) {
@@ -232,5 +232,5 @@ ParticipantsContainer.defaultProps = {
   }
 };
 var _default = ParticipantsContainer;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -27,9 +27,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -95,21 +95,22 @@ function (_Component) {
           copiedText = _this$props.copiedText,
           buttonText = _this$props.buttonText,
           CustomButton = _this$props.button;
-      return _react.default.createElement("div", {
-        className: _styles.default.container
-      }, _react.default.createElement("textarea", {
-        className: _styles.default.copyTextArea,
+      return _react["default"].createElement("div", {
+        className: _styles["default"].container
+      }, _react["default"].createElement("textarea", {
+        className: _styles["default"].copyTextArea,
         ref: function ref(_ref) {
           _this.copyTextArea = _ref;
         },
         defaultValue: copiedText
-      }), CustomButton ? _react.default.createElement(CustomButton, this.props) : _react.default.createElement(_Button.default, {
+      }), CustomButton ? _react["default"].createElement(CustomButton, this.props) : _react["default"].createElement(_Button["default"], {
         disabled: disabled,
-        className: (0, _classnames.default)(_styles.default.primaryButton, buttonClassName),
+        dataSign: "copyToClipboard",
+        className: (0, _classnames["default"])(_styles["default"].primaryButton, buttonClassName),
         onClick: function onClick() {
           return _this.executeCopy();
         }
-      }, buttonText || _i18n.default.getString('copyToClipboard', currentLocale)));
+      }, buttonText || _i18n["default"].getString('copyToClipboard', currentLocale)));
     }
   }]);
 
@@ -117,14 +118,14 @@ function (_Component) {
 }(_react.Component);
 
 CopyToClipboard.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  handleSuccess: _propTypes.default.func,
-  handleFailure: _propTypes.default.func,
-  buttonClassName: _propTypes.default.string,
-  disabled: _propTypes.default.bool,
-  copiedText: _propTypes.default.string,
-  buttonText: _propTypes.default.string,
-  button: _propTypes.default.node
+  currentLocale: _propTypes["default"].string.isRequired,
+  handleSuccess: _propTypes["default"].func,
+  handleFailure: _propTypes["default"].func,
+  buttonClassName: _propTypes["default"].string,
+  disabled: _propTypes["default"].bool,
+  copiedText: _propTypes["default"].string,
+  buttonText: _propTypes["default"].string,
+  button: _propTypes["default"].node
 };
 CopyToClipboard.defaultProps = {
   handleSuccess: undefined,
@@ -136,5 +137,5 @@ CopyToClipboard.defaultProps = {
   button: undefined
 };
 var _default = CopyToClipboard;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

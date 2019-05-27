@@ -3,19 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -43,7 +45,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -176,26 +178,26 @@ function (_React$Component) {
     value: function getIntroView() {
       var _this2 = this;
 
-      return _react.default.createElement("div", {
-        className: _styles.default.intro
-      }, _react.default.createElement("div", {
-        className: _styles.default.introBg,
+      return _react["default"].createElement("div", {
+        className: _styles["default"].intro
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].introBg,
         style: {
           backgroundImage: "url(".concat(this.props.guides[0], ")")
         }
-      }), _react.default.createElement("div", {
-        className: _styles.default.buttonGroup
-      }, _react.default.createElement(_Button.default, {
-        className: _styles.default.primaryButton,
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].buttonGroup
+      }, _react["default"].createElement(_Button["default"], {
+        className: _styles["default"].primaryButton,
         onClick: function onClick() {
           _this2.slideTo(1);
         }
-      }, _i18n.default.getString('start', this.props.currentLocale)), _react.default.createElement(_Button.default, {
+      }, _i18n["default"].getString('start', this.props.currentLocale)), _react["default"].createElement(_Button["default"], {
         onClick: function onClick() {
           _this2.exit();
         },
-        className: _styles.default.secondaryButton
-      }, _i18n.default.getString('skip', this.props.currentLocale))));
+        className: _styles["default"].secondaryButton
+      }, _i18n["default"].getString('skip', this.props.currentLocale))));
     }
   }, {
     key: "getCarouselView",
@@ -204,9 +206,9 @@ function (_React$Component) {
 
       var guides = this.props.guides.slice(1, this.props.guides.length);
       var imageView = guides.map(function (guide, i) {
-        return _react.default.createElement("div", {
+        return _react["default"].createElement("div", {
           key: i,
-          className: _styles.default.view,
+          className: _styles["default"].view,
           style: {
             backgroundImage: "url(".concat(guide, ")"),
             transform: "translateX(".concat((i + 1) * 100, "vw)")
@@ -214,49 +216,49 @@ function (_React$Component) {
         });
       });
       var indicatorView = guides.map(function (_, i) {
-        var highlight = i + 1 === _this3.state.curIdx ? _styles.default.highlight : null;
-        return _react.default.createElement("li", {
+        var highlight = i + 1 === _this3.state.curIdx ? _styles["default"].highlight : null;
+        return _react["default"].createElement("li", {
           key: i,
-          className: (0, _classnames.default)(_styles.default.dot, highlight),
+          className: (0, _classnames["default"])(_styles["default"].dot, highlight),
           onClick: function onClick() {
             _this3.slideTo(i + 1);
           }
         });
       });
       var onLastPage = this.state.curIdx === this.props.guides.length - 1;
-      var skipButton = onLastPage ? _react.default.createElement("div", {
-        className: _styles.default.secondaryButton
-      }) : _react.default.createElement(_Button.default, {
+      var skipButton = onLastPage ? _react["default"].createElement("div", {
+        className: _styles["default"].secondaryButton
+      }) : _react["default"].createElement(_Button["default"], {
         onClick: function onClick() {
           _this3.exit();
         },
-        className: (0, _classnames.default)(_styles.default.secondaryButton)
-      }, _i18n.default.getString('skip', this.props.currentLocale));
+        className: (0, _classnames["default"])(_styles["default"].secondaryButton)
+      }, _i18n["default"].getString('skip', this.props.currentLocale));
 
-      var nextButton = _react.default.createElement(_Button.default, {
+      var nextButton = _react["default"].createElement(_Button["default"], {
         onClick: function onClick() {
           _this3.slideTo(_this3.state.curIdx + 1);
         },
-        className: (0, _classnames.default)(_styles.default.primaryButton)
-      }, onLastPage ? _i18n.default.getString('finish', this.props.currentLocale) : _i18n.default.getString('next', this.props.currentLocale));
+        className: (0, _classnames["default"])(_styles["default"].primaryButton)
+      }, onLastPage ? _i18n["default"].getString('finish', this.props.currentLocale) : _i18n["default"].getString('next', this.props.currentLocale));
 
-      var controlView = _react.default.createElement(_reactTransitionGroup.Transition, {
-        in: this.state.curIdx > 0,
+      var controlView = _react["default"].createElement(_reactTransitionGroup.Transition, {
+        "in": this.state.curIdx > 0,
         timeout: 300
       }, function (state) {
-        return _react.default.createElement("div", {
-          className: _styles.default.control,
+        return _react["default"].createElement("div", {
+          className: _styles["default"].control,
           style: _objectSpread({}, controlStyles[state])
-        }, skipButton, _react.default.createElement("ul", {
-          className: _styles.default.indicator
+        }, skipButton, _react["default"].createElement("ul", {
+          className: _styles["default"].indicator
         }, indicatorView), nextButton);
       });
 
       var carouselClassName = this.props.carouselClassName;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.carousel, carouselClassName)
-      }, _react.default.createElement("div", {
-        className: _styles.default.carouselBox,
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].carousel, carouselClassName)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].carouselBox,
         style: {
           transform: "translateX(-".concat(this.state.curIdx * 100, "vw)")
         }
@@ -268,42 +270,42 @@ function (_React$Component) {
       if (!this.props.guides || this.props.guides.length === 0 || !this.state.entered) return null;
 
       if (this.props.showSpinner) {
-        return _react.default.createElement(_SpinnerOverlay.default, null);
+        return _react["default"].createElement(_SpinnerOverlay["default"], null);
       }
 
       var view = this.getCarouselView();
-      return _react.default.createElement(_reactTransitionGroup.CSSTransition, {
-        in: this.state.playing,
+      return _react["default"].createElement(_reactTransitionGroup.CSSTransition, {
+        "in": this.state.playing,
         timeout: 400,
         classNames: {
-          appear: _styles.default.enter,
-          appearActive: _styles.default.enterActive,
-          exit: _styles.default.exit,
-          exitActive: _styles.default.exitActive
+          appear: _styles["default"].enter,
+          appearActive: _styles["default"].enterActive,
+          exit: _styles["default"].exit,
+          exitActive: _styles["default"].exitActive
         },
         onExited: this.onExited,
         appear: true
-      }, _react.default.createElement("div", {
-        className: _styles.default.root
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].root
       }, view));
     }
   }]);
 
   return UserGuide;
-}(_react.default.Component);
+}(_react["default"].Component);
 
-exports.default = UserGuide;
+exports["default"] = UserGuide;
 UserGuide.propTypes = {
-  curIdx: _propTypes.default.number,
-  entered: _propTypes.default.bool,
-  playing: _propTypes.default.bool,
-  firstLogin: _propTypes.default.bool,
-  updateCarousel: _propTypes.default.func,
-  quickAccessEnter: _propTypes.default.func,
-  guides: _propTypes.default.array.isRequired,
-  showSpinner: _propTypes.default.bool.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  carouselClassName: _propTypes.default.string
+  curIdx: _propTypes["default"].number,
+  entered: _propTypes["default"].bool,
+  playing: _propTypes["default"].bool,
+  firstLogin: _propTypes["default"].bool,
+  updateCarousel: _propTypes["default"].func,
+  quickAccessEnter: _propTypes["default"].func,
+  guides: _propTypes["default"].array.isRequired,
+  showSpinner: _propTypes["default"].bool.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  carouselClassName: _propTypes["default"].string
 };
 UserGuide.defaultProps = {
   curIdx: 0,

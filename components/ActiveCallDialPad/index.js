@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -16,8 +16,6 @@ require("core-js/modules/es6.object.create");
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -41,9 +39,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -91,12 +89,12 @@ function (_Component) {
     }
 
     _this.playAudio = function (value) {
-      if (_this.audio && _this.audio.canPlayType('audio/ogg') !== '' && _audios.default[value]) {
+      if (_this.audio && _this.audio.canPlayType('audio/ogg') !== '' && _audios["default"][value]) {
         if (!_this.audio.paused) {
           _this.audio.pause();
         }
 
-        _this.audio.src = _audios.default[value];
+        _this.audio.src = _audios["default"][value];
         _this.audio.currentTime = 0;
 
         _this.audio.play();
@@ -171,33 +169,35 @@ function (_Component) {
   _createClass(ActiveCallDialPad, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement(_BackHeader.default, {
+      return _react["default"].createElement("div", {
+        "data-sign": "activeCallDialPad",
+        className: _styles["default"].root
+      }, _react["default"].createElement(_BackHeader["default"], {
         onBackClick: this.props.hiddenDialPad
-      }, _i18n.default.getString('keypad', this.props.currentLocale)), _react.default.createElement("div", {
-        className: _styles.default.dialInput
-      }, _react.default.createElement("input", {
-        className: _styles.default.input,
+      }, _i18n["default"].getString('keypad', this.props.currentLocale)), _react["default"].createElement("div", {
+        className: _styles["default"].dialInput
+      }, _react["default"].createElement("input", {
+        "data-sign": "input",
+        className: _styles["default"].input,
         value: this.state.value,
         onChange: this.onChange,
         onKeyDown: this.onKeyDown,
         onPaste: this.onPaste,
         autoFocus: true // eslint-disable-line
 
-      })), _react.default.createElement("div", {
-        className: _styles.default.padContainer
-      }, _react.default.createElement(_DialPad.default, {
-        className: _styles.default.dialPad,
+      })), _react["default"].createElement("div", {
+        className: _styles["default"].padContainer
+      }, _react["default"].createElement(_DialPad["default"], {
+        className: _styles["default"].dialPad,
         onButtonOutput: this.onButtonOutput
-      }), _react.default.createElement("div", {
-        className: _styles.default.buttonRow
-      }, _react.default.createElement("div", {
-        className: _styles.default.button
-      }, _react.default.createElement(_CircleButton.default, {
-        className: _styles.default.stopButton,
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].buttonRow
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].button
+      }, _react["default"].createElement(_CircleButton["default"], {
+        className: _styles["default"].stopButton,
         onClick: this.props.onHangup,
-        icon: _End.default,
+        icon: _End["default"],
         showBorder: false,
         dataSign: "hangUp"
       })))));
@@ -208,11 +208,11 @@ function (_Component) {
 }(_react.Component);
 
 ActiveCallDialPad.propTypes = {
-  onChange: _propTypes.default.func.isRequired,
-  hiddenDialPad: _propTypes.default.func.isRequired,
-  onHangup: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired
+  onChange: _propTypes["default"].func.isRequired,
+  hiddenDialPad: _propTypes["default"].func.isRequired,
+  onHangup: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 var _default = ActiveCallDialPad;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

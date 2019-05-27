@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = SmCallControl;
+exports["default"] = SmCallControl;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -29,7 +29,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function SmCallControl(props) {
   var onMute = props.onMute,
@@ -42,45 +42,45 @@ function SmCallControl(props) {
       callDirection = props.callDirection; // reject conditions: call direction is inbound & call status is ringing
 
   function canRejectCall() {
-    return _callDirections.default.inbound === callDirection && _telephonyStatus.default.ringing === callStatus;
+    return _callDirections["default"].inbound === callDirection && _telephonyStatus["default"].ringing === callStatus;
   }
 
-  var muteIcon = isOnMute ? _Mute.default : _Unmute.default;
+  var muteIcon = isOnMute ? _Mute["default"] : _Unmute["default"];
   var muteAction = isOnMute ? onUnmute : onMute;
   var muteTitle = isOnMute ? 'unmute' : 'mute';
   var endTitle = canRejectCall() ? 'reject' : 'hangup';
   var endAction = canRejectCall() ? onReject : onHangup;
-  var disabledCtrl = callStatus === _telephonyStatus.default.ringing;
-  return _react.default.createElement("div", {
-    className: _styles.default.smWraper
-  }, _react.default.createElement("span", {
-    title: _i18n.default.getString(muteTitle, currentLocale)
-  }, _react.default.createElement(_CircleButton.default, {
+  var disabledCtrl = callStatus === _telephonyStatus["default"].ringing;
+  return _react["default"].createElement("div", {
+    className: _styles["default"].smWraper
+  }, _react["default"].createElement("span", {
+    title: _i18n["default"].getString(muteTitle, currentLocale)
+  }, _react["default"].createElement(_CircleButton["default"], {
     dataSign: muteTitle,
     icon: muteIcon,
     onClick: muteAction,
-    className: (0, _classnames.default)(_styles.default.button, disabledCtrl ? _styles.default.buttonDisabled : null),
+    className: (0, _classnames["default"])(_styles["default"].button, disabledCtrl ? _styles["default"].buttonDisabled : null),
     disabled: disabledCtrl
-  })), _react.default.createElement("span", {
-    title: _i18n.default.getString(endTitle, currentLocale)
-  }, _react.default.createElement(_CircleButton.default, {
+  })), _react["default"].createElement("span", {
+    title: _i18n["default"].getString(endTitle, currentLocale)
+  }, _react["default"].createElement(_CircleButton["default"], {
     dataSign: endTitle,
     showBorder: false,
-    icon: _End.default,
+    icon: _End["default"],
     onClick: endAction,
-    className: (0, _classnames.default)(_styles.default.hangup, _styles.default.button)
+    className: (0, _classnames["default"])(_styles["default"].hangup, _styles["default"].button)
   })));
 }
 
 SmCallControl.propTypes = {
-  onMute: _propTypes.default.func,
-  onUnmute: _propTypes.default.func,
-  onHangup: _propTypes.default.func,
-  onReject: _propTypes.default.func,
-  isOnMute: _propTypes.default.bool,
-  callStatus: _propTypes.default.string,
-  currentLocale: _propTypes.default.string,
-  callDirection: _propTypes.default.string.isRequired
+  onMute: _propTypes["default"].func,
+  onUnmute: _propTypes["default"].func,
+  onHangup: _propTypes["default"].func,
+  onReject: _propTypes["default"].func,
+  isOnMute: _propTypes["default"].bool,
+  callStatus: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string,
+  callDirection: _propTypes["default"].string.isRequired
 };
 SmCallControl.defaultProps = {
   onMute: function onMute() {},

@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = DialPad;
+exports["default"] = DialPad;
 
 require("core-js/modules/es6.array.map");
 
@@ -19,7 +19,7 @@ var _DialButton = _interopRequireDefault(require("../DialButton"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var keyConfig = [[{
   value: '1',
@@ -77,24 +77,24 @@ function DialPad(_ref) {
       alternativeTimeout = _ref.alternativeTimeout,
       dialButtonVolume = _ref.dialButtonVolume,
       dialButtonMuted = _ref.dialButtonMuted;
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.root, className)
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].root, className)
   }, keyConfig.map(function (row, rowIdx) {
-    return _react.default.createElement("div", {
+    return _react["default"].createElement("div", {
       key: rowIdx,
-      className: _styles.default.row
+      className: _styles["default"].row
     }, row.map(function (btn) {
       if (hideSpecial && (btn.value === '*' || btn.value === '#')) {
-        return _react.default.createElement("div", {
+        return _react["default"].createElement("div", {
           key: btn.value,
-          className: _styles.default.btnPlaceholder
+          className: _styles["default"].btnPlaceholder
         });
       }
 
-      return _react.default.createElement(_DialButton.default, {
+      return _react["default"].createElement(_DialButton["default"], {
         key: btn.value,
         btn: btn,
-        className: _styles.default.btnPlaceholder,
+        className: _styles["default"].btnPlaceholder,
         onPress: onButtonPress,
         onOutput: onButtonOutput,
         alternativeTimeout: alternativeTimeout,
@@ -106,13 +106,13 @@ function DialPad(_ref) {
 }
 
 DialPad.propTypes = {
-  className: _propTypes.default.string,
-  hideSpecial: _propTypes.default.bool,
-  onButtonPress: _propTypes.default.func,
-  onButtonOutput: _propTypes.default.func,
-  alternativeTimeout: _propTypes.default.number,
-  dialButtonVolume: _propTypes.default.number,
-  dialButtonMuted: _propTypes.default.bool
+  className: _propTypes["default"].string,
+  hideSpecial: _propTypes["default"].bool,
+  onButtonPress: _propTypes["default"].func,
+  onButtonOutput: _propTypes["default"].func,
+  alternativeTimeout: _propTypes["default"].number,
+  dialButtonVolume: _propTypes["default"].number,
+  dialButtonMuted: _propTypes["default"].bool
 };
 DialPad.defaultProps = {
   className: undefined,

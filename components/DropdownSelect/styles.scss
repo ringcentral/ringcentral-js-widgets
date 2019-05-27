@@ -23,12 +23,12 @@
   // margin: 0 10px;
   padding: 0;
   width: 100%;
-  outline: medium none!important;
+  outline: medium none !important;
   cursor: pointer;
   text-transform: none;
   background: transparent;
   text-align: left;
-  overflow:hidden;
+  overflow: hidden;
 
   label {
     float: left;
@@ -62,11 +62,13 @@
   display: block;
   line-height: 15px;
   padding: 5px 10px;
+
   &:hover {
     color: $primary-color;
     cursor: pointer;
   }
 }
+
 .dropdownItem:first-child {
   padding-top: 10px;
 }
@@ -78,9 +80,11 @@
 .left {
   text-align: left;
 }
+
 .right {
   text-align: right;
 }
+
 .center {
   text-align: center;
 }
@@ -97,7 +101,7 @@
   width: 100%;
   border: 1px solid #efefef;
   border-radius: 2px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.175);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .175);
   background: #fff;
   max-height: 250px;
   overflow: hidden;
@@ -106,6 +110,7 @@
   &:hover {
     .selected {
       color: inherit;
+
       &:hover {
         color: $primary-color;
       }
@@ -116,11 +121,14 @@
     color: #303030;
     font-size: 13px;
     font-weight: bold;
+
     &:hover {
       color: #303030;
     }
+
     .selected {
       color: #303030;
+
       &:hover {
         color: #303030;
       }
@@ -138,6 +146,7 @@
 .disabled {
   color: #777;
   cursor: not-allowed;
+
   .selectedValue {
     color: #777;
   }
@@ -147,4 +156,6 @@
   @include text-ellipsis;
 }
 
-
+[contenteditable]:focus {
+  outline: 0px solid transparent;
+}

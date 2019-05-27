@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -27,9 +29,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -138,9 +140,9 @@ function (_Component) {
           tooltip = _this$props.tooltip,
           dataSign = _this$props.dataSign;
       var realDisabled = disabled || this.state.disabled;
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         "data-sign": dataSign,
-        className: (0, _classnames.default)(className, _styles.default.root, realDisabled && _styles.default.disabled),
+        className: (0, _classnames["default"])(className, _styles["default"].root, realDisabled && _styles["default"].disabled),
         onClick: realDisabled ? null : function () {
           return _this2.onClick();
         },
@@ -152,14 +154,14 @@ function (_Component) {
   return Button;
 }(_react.Component);
 
-exports.default = Button;
+exports["default"] = Button;
 Button.propTypes = {
-  className: _propTypes.default.string,
-  tooltip: _propTypes.default.string,
-  disabled: _propTypes.default.bool,
-  onClick: _propTypes.default.func,
-  children: _propTypes.default.node,
-  dataSign: _propTypes.default.string
+  className: _propTypes["default"].string,
+  tooltip: _propTypes["default"].string,
+  disabled: _propTypes["default"].bool,
+  onClick: _propTypes["default"].func,
+  children: _propTypes["default"].node,
+  dataSign: _propTypes["default"].string
 };
 Button.defaultProps = {
   className: undefined,

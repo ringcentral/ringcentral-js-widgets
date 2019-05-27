@@ -3,19 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -55,9 +57,9 @@ var _ContactAdd = _interopRequireDefault(require("../../assets/images/ContactAdd
 
 var _ContactSourceFilter = _interopRequireDefault(require("../ContactSourceFilter"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -84,19 +86,19 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function AddContact(_ref) {
   var className = _ref.className,
       onClick = _ref.onClick;
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.addContact, className),
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].addContact, className),
     onClick: onClick
-  }, _react.default.createElement("div", {
-    className: _styles.default.iconContainer
-  }, _react.default.createElement(_ContactAdd.default, {
-    className: _styles.default.iconNode
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].iconContainer
+  }, _react["default"].createElement(_ContactAdd["default"], {
+    className: _styles["default"].iconNode
   })));
 }
 
 AddContact.propTypes = {
-  className: _propTypes.default.string,
-  onClick: _propTypes.default.func.isRequired
+  className: _propTypes["default"].string,
+  onClick: _propTypes["default"].func.isRequired
 };
 AddContact.defaultProps = {
   className: undefined
@@ -153,7 +155,7 @@ function (_Component) {
       });
     };
 
-    _this.onResize = (0, _debounce.default)(function () {
+    _this.onResize = (0, _debounce["default"])(function () {
       if (_this._mounted) {
         _this.setState(_objectSpread({}, _this.calculateContentSize()));
       }
@@ -164,8 +166,8 @@ function (_Component) {
       contentHeight: 0,
       contentWidth: 0
     };
-    _this.contactList = _react.default.createRef();
-    _this.contentWrapper = _react.default.createRef();
+    _this.contactList = _react["default"].createRef();
+    _this.contentWrapper = _react["default"].createRef();
 
     _this.onUnfoldChange = function (unfold) {
       _this.setState({
@@ -260,30 +262,30 @@ function (_Component) {
           Filter = _this$props.contactSourceFilterRenderer,
           sourceNodeRenderer = _this$props.sourceNodeRenderer,
           children = _this$props.children;
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement("div", {
-        className: _styles.default.actionBar
-      }, _react.default.createElement(_SearchInput.default, {
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].actionBar
+      }, _react["default"].createElement(_SearchInput["default"], {
         dataSign: "contactsSearchInput",
-        className: _styles.default.searchInput,
+        className: _styles["default"].searchInput,
         value: this.state.searchString || '',
         onChange: this.onSearchInputChange,
-        placeholder: _i18n.default.getString('searchPlaceholder', currentLocale)
-      }), _react.default.createElement(Filter, {
-        className: _styles.default.actionButton,
+        placeholder: _i18n["default"].getString('searchPlaceholder', currentLocale)
+      }), _react["default"].createElement(Filter, {
+        className: _styles["default"].actionButton,
         currentLocale: currentLocale,
         contactSourceNames: contactSourceNames,
         onSourceSelect: this.onSourceSelect,
         selectedSourceName: searchSource,
         unfold: this.state.unfold,
         onUnfoldChange: this.onUnfoldChange
-      })), _react.default.createElement(_Panel.default, {
-        className: _styles.default.content
-      }, _react.default.createElement("div", {
-        className: _styles.default.contentWrapper,
+      })), _react["default"].createElement(_Panel["default"], {
+        className: _styles["default"].content
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].contentWrapper,
         ref: this.contentWrapper
-      }, _react.default.createElement(_ContactList.default, {
+      }, _react["default"].createElement(_ContactList["default"], {
         ref: this.contactList,
         currentLocale: currentLocale,
         contactGroups: contactGroups,
@@ -293,8 +295,8 @@ function (_Component) {
         sourceNodeRenderer: sourceNodeRenderer,
         width: this.state.contentWidth,
         height: this.state.contentHeight
-      }))), showSpinner ? _react.default.createElement(_SpinnerOverlay.default, {
-        className: _styles.default.spinner
+      }))), showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], {
+        className: _styles["default"].spinner
       }) : null, children);
     }
   }]);
@@ -302,33 +304,33 @@ function (_Component) {
   return ContactsView;
 }(_react.Component);
 
-exports.default = ContactsView;
+exports["default"] = ContactsView;
 ContactsView.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  contactGroups: _propTypes.default.arrayOf(_propTypes.default.shape({
-    id: _propTypes.default.string.isRequired,
-    caption: _propTypes.default.string.isRequired,
-    contacts: _propTypes.default.arrayOf(_ContactItem.default.propTypes.contact).isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  contactGroups: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    id: _propTypes["default"].string.isRequired,
+    caption: _propTypes["default"].string.isRequired,
+    contacts: _propTypes["default"].arrayOf(_ContactItem["default"].propTypes.contact).isRequired
   })).isRequired,
-  contactSourceNames: _propTypes.default.arrayOf(_propTypes.default.string).isRequired,
-  getAvatarUrl: _propTypes.default.func.isRequired,
-  getPresence: _propTypes.default.func.isRequired,
-  showSpinner: _propTypes.default.bool.isRequired,
-  searchSource: _propTypes.default.string,
-  searchString: _propTypes.default.string,
-  onItemSelect: _propTypes.default.func,
-  onSearchContact: _propTypes.default.func,
-  contactSourceFilterRenderer: _propTypes.default.func,
-  sourceNodeRenderer: _propTypes.default.func,
-  onVisitPage: _propTypes.default.func,
-  children: _propTypes.default.node
+  contactSourceNames: _propTypes["default"].arrayOf(_propTypes["default"].string).isRequired,
+  getAvatarUrl: _propTypes["default"].func.isRequired,
+  getPresence: _propTypes["default"].func.isRequired,
+  showSpinner: _propTypes["default"].bool.isRequired,
+  searchSource: _propTypes["default"].string,
+  searchString: _propTypes["default"].string,
+  onItemSelect: _propTypes["default"].func,
+  onSearchContact: _propTypes["default"].func,
+  contactSourceFilterRenderer: _propTypes["default"].func,
+  sourceNodeRenderer: _propTypes["default"].func,
+  onVisitPage: _propTypes["default"].func,
+  children: _propTypes["default"].node
 };
 ContactsView.defaultProps = {
   searchSource: undefined,
   searchString: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
-  contactSourceFilterRenderer: _ContactSourceFilter.default,
+  contactSourceFilterRenderer: _ContactSourceFilter["default"],
   sourceNodeRenderer: undefined,
   onVisitPage: undefined,
   children: undefined

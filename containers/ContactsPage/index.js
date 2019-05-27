@@ -5,9 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
@@ -17,7 +19,7 @@ var _ContactsView = _interopRequireDefault(require("../../components/ContactsVie
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -109,7 +111,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ContactsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactsView.default));
+var ContactsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactsView["default"]));
 var _default = ContactsPage;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

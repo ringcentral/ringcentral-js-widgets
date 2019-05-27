@@ -3,19 +3,23 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.index-of");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -31,13 +35,17 @@ var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -60,7 +68,10 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
   deps: ['CallingSettings', 'Brand', 'Locale', {
     dep: 'Webphone',
     optional: true
-  }, 'RouterInteraction']
+  }, 'RouterInteraction', {
+    dep: 'CallingSettingsUIOptions',
+    optional: true
+  }]
 }), _dec(_class =
 /*#__PURE__*/
 function (_RcUIModule) {
@@ -74,7 +85,8 @@ function (_RcUIModule) {
         locale = _ref.locale,
         webphone = _ref.webphone,
         routerInteraction = _ref.routerInteraction,
-        options = _ref.options;
+        searchable = _ref.searchable,
+        options = _objectWithoutProperties(_ref, ["callingSettings", "brand", "locale", "webphone", "routerInteraction", "searchable"]);
 
     _classCallCheck(this, CallingSettingsUI);
 
@@ -84,6 +96,7 @@ function (_RcUIModule) {
     _this._locale = locale;
     _this._webphone = webphone;
     _this._routerInteraction = routerInteraction;
+    _this.locationSearchable = searchable;
     return _this;
   }
 
@@ -99,7 +112,8 @@ function (_RcUIModule) {
         ringoutPrompt: this._callingSettings.ringoutPrompt,
         availableNumbers: this._callingSettings.availableNumbers,
         disabled: !!(this._webphone && this._webphone.sessions.length > 0),
-        showSpinner: this.showSpinner
+        showSpinner: this.showSpinner,
+        searchable: this.locationSearchable
       };
     }
   }, {
@@ -131,6 +145,6 @@ function (_RcUIModule) {
   }]);
 
   return CallingSettingsUI;
-}(_RcUIModule2.default)) || _class);
-exports.default = CallingSettingsUI;
+}(_RcUIModule2["default"])) || _class);
+exports["default"] = CallingSettingsUI;
 //# sourceMappingURL=index.js.map

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -33,9 +33,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -160,12 +160,12 @@ function (_PureComponent) {
       }
 
       var isOnTransfer = !!session.isOnTransfer;
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement(_BackHeader.default, {
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, _react["default"].createElement(_BackHeader["default"], {
         onBackClick: onBack
-      }, _i18n.default.getString('transferTo', currentLocale)), _react.default.createElement(_RecipientsInput.default, {
-        className: _styles.default.dialInput,
+      }, _i18n["default"].getString('transferTo', currentLocale)), _react["default"].createElement(_RecipientsInput["default"], {
+        className: _styles["default"].dialInput,
         value: this.state.toNumber,
         onChange: this.onToNumberChange,
         onClean: this.clearToNumber,
@@ -182,19 +182,19 @@ function (_PureComponent) {
         contactPhoneRenderer: recipientsContactPhoneRenderer,
         titleEnabled: true,
         autoFocus: autoFocus
-      }), _react.default.createElement("div", {
-        className: _styles.default.padContainer
-      }, _react.default.createElement(_DialPad.default, {
-        className: _styles.default.dialPad,
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].padContainer
+      }, _react["default"].createElement(_DialPad["default"], {
+        className: _styles["default"].dialPad,
         onButtonOutput: this.onButtonOutput
-      }), _react.default.createElement("div", {
-        className: _styles.default.buttonRow
-      }, _react.default.createElement("div", {
-        className: _styles.default.button
-      }, _react.default.createElement(_CircleButton.default, {
-        className: isOnTransfer ? _styles.default.disabled : undefined,
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].buttonRow
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].button
+      }, _react["default"].createElement(_CircleButton["default"], {
+        className: isOnTransfer ? _styles["default"].disabled : undefined,
         onClick: this.onTransfer,
-        icon: _Transfer.default,
+        icon: _Transfer["default"],
         disabled: isOnTransfer || controlBusy
       })))));
     }
@@ -203,24 +203,24 @@ function (_PureComponent) {
   return TransferPanel;
 }(_react.PureComponent);
 
-exports.default = TransferPanel;
+exports["default"] = TransferPanel;
 TransferPanel.propTypes = {
-  setActiveSessionId: _propTypes.default.func,
-  onTransfer: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  onBack: _propTypes.default.func.isRequired,
-  onCallEnd: _propTypes.default.func.isRequired,
-  searchContactList: _propTypes.default.array,
-  searchContact: _propTypes.default.func.isRequired,
-  formatPhone: _propTypes.default.func.isRequired,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  recipientsContactInfoRenderer: _propTypes.default.func,
-  recipientsContactPhoneRenderer: _propTypes.default.func,
-  autoFocus: _propTypes.default.bool,
-  sessionId: _propTypes.default.string.isRequired,
-  session: _propTypes.default.object,
-  controlBusy: _propTypes.default.bool
+  setActiveSessionId: _propTypes["default"].func,
+  onTransfer: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onBack: _propTypes["default"].func.isRequired,
+  onCallEnd: _propTypes["default"].func.isRequired,
+  searchContactList: _propTypes["default"].array,
+  searchContact: _propTypes["default"].func.isRequired,
+  formatPhone: _propTypes["default"].func.isRequired,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  recipientsContactInfoRenderer: _propTypes["default"].func,
+  recipientsContactPhoneRenderer: _propTypes["default"].func,
+  autoFocus: _propTypes["default"].bool,
+  sessionId: _propTypes["default"].string.isRequired,
+  session: _propTypes["default"].object,
+  controlBusy: _propTypes["default"].bool
 };
 TransferPanel.defaultProps = {
   setActiveSessionId: null,

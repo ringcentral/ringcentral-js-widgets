@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -15,7 +15,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * Circle Button with SVG
@@ -25,8 +25,8 @@ function CircleButton(props) {
 
   if (props.icon) {
     var Icon = props.icon;
-    icon = _react.default.createElement(Icon, {
-      className: (0, _classnames.default)(_styles.default.icon, props.iconClassName),
+    icon = _react["default"].createElement(Icon, {
+      className: (0, _classnames["default"])(_styles["default"].icon, props.iconClassName),
       width: props.iconWidth,
       height: props.iconHeight,
       x: props.iconX,
@@ -34,14 +34,14 @@ function CircleButton(props) {
     });
   }
 
-  var circleClass = (0, _classnames.default)(_styles.default.circle, !props.showBorder && _styles.default.noBorder);
+  var circleClass = (0, _classnames["default"])(_styles["default"].circle, !props.showBorder && _styles["default"].noBorder);
 
   var _onClick = props.disabled ? null : props.onClick;
 
-  return _react.default.createElement("svg", {
+  return _react["default"].createElement("svg", {
     "data-sign": props.dataSign,
     xmlns: "http://www.w3.org/2000/svg",
-    className: (0, _classnames.default)(_styles.default.btnSvg, props.className),
+    className: (0, _classnames["default"])(_styles["default"].btnSvg, props.className),
     viewBox: "0 0 500 500",
     onClick: function onClick(e) {
       if (e.target && e.target.tagName !== 'svg' && _onClick) {
@@ -52,15 +52,15 @@ function CircleButton(props) {
     height: props.height,
     x: props.x,
     y: props.y
-  }, props.title ? _react.default.createElement("title", null, props.title) : null, _react.default.createElement("g", {
-    className: _styles.default.btnSvgGroup
-  }, _react.default.createElement("circle", {
+  }, props.title ? _react["default"].createElement("title", null, props.title) : null, _react["default"].createElement("g", {
+    className: _styles["default"].btnSvgGroup
+  }, _react["default"].createElement("circle", {
     className: circleClass,
     cx: "250",
     cy: "250",
     r: "245"
-  }), icon, props.showRipple ? _react.default.createElement("circle", {
-    className: _styles.default.ripple,
+  }), icon, props.showRipple ? _react["default"].createElement("circle", {
+    className: _styles["default"].ripple,
     cx: "250",
     cy: "250",
     r: "245"
@@ -68,23 +68,23 @@ function CircleButton(props) {
 }
 
 CircleButton.propTypes = {
-  icon: _propTypes.default.func,
-  className: _propTypes.default.string,
-  dataSign: _propTypes.default.string,
-  showBorder: _propTypes.default.bool,
-  iconClassName: _propTypes.default.string,
-  onClick: _propTypes.default.func,
-  width: _propTypes.default.string,
-  height: _propTypes.default.string,
-  x: _propTypes.default.number,
-  y: _propTypes.default.number,
-  disabled: _propTypes.default.bool,
-  iconWidth: _propTypes.default.number,
-  iconHeight: _propTypes.default.number,
-  iconX: _propTypes.default.number,
-  iconY: _propTypes.default.number,
-  title: _propTypes.default.string,
-  showRipple: _propTypes.default.bool
+  icon: _propTypes["default"].func,
+  className: _propTypes["default"].string,
+  dataSign: _propTypes["default"].string,
+  showBorder: _propTypes["default"].bool,
+  iconClassName: _propTypes["default"].string,
+  onClick: _propTypes["default"].func,
+  width: _propTypes["default"].string,
+  height: _propTypes["default"].string,
+  x: _propTypes["default"].number,
+  y: _propTypes["default"].number,
+  disabled: _propTypes["default"].bool,
+  iconWidth: _propTypes["default"].number,
+  iconHeight: _propTypes["default"].number,
+  iconX: _propTypes["default"].number,
+  iconY: _propTypes["default"].number,
+  title: _propTypes["default"].string,
+  showRipple: _propTypes["default"].bool
 };
 CircleButton.defaultProps = {
   icon: undefined,
@@ -106,5 +106,5 @@ CircleButton.defaultProps = {
   showRipple: false
 };
 var _default = CircleButton;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

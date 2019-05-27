@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -21,21 +21,22 @@ var _MessageTabButton = _interopRequireDefault(require("../../components/Message
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function TabTitle(_ref) {
   var label = _ref.label,
       isActive = _ref.isActive;
-  return _react.default.createElement("span", {
-    className: (0, _classnames3.default)(_styles.default.tabTitle, isActive() ? _styles.default.active : null)
+  return _react["default"].createElement("span", {
+    "data-sign": "allCalls",
+    className: (0, _classnames3["default"])(_styles["default"].tabTitle, isActive() ? _styles["default"].active : null)
   }, label);
 }
 
 TabTitle.propTypes = {
-  label: _propTypes.default.string.isRequired,
-  isActive: _propTypes.default.func.isRequired
+  label: _propTypes["default"].string.isRequired,
+  isActive: _propTypes["default"].func.isRequired
 };
 
 function renderChildren(_ref2) {
@@ -70,7 +71,7 @@ function TabContentPanel(_ref3) {
 
   var formattedTabs = tabs.map(function (tab) {
     return {
-      icon: _react.default.createElement(TabTitle, {
+      icon: _react["default"].createElement(TabTitle, {
         label: tab.label,
         isActive: tab.isActive
       }),
@@ -79,17 +80,17 @@ function TabContentPanel(_ref3) {
       isActive: tab.isActive
     };
   });
-  return _react.default.createElement("div", {
-    className: _styles.default.root
-  }, _react.default.createElement(_NavigationBar.default, {
-    button: _MessageTabButton.default,
-    className: (0, _classnames3.default)((_classnames = {}, _defineProperty(_classnames, _styles.default.tabBar, true), _defineProperty(_classnames, navClassName, !!navClassName), _classnames)),
+  return _react["default"].createElement("div", {
+    className: _styles["default"].root
+  }, _react["default"].createElement(_NavigationBar["default"], {
+    button: _MessageTabButton["default"],
+    className: (0, _classnames3["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].tabBar, true), _defineProperty(_classnames, navClassName, !!navClassName), _classnames)),
     currentPath: "",
     goTo: goTo,
     tabs: formattedTabs,
     fullSizeInk: false
-  }), _react.default.createElement("div", {
-    className: (0, _classnames3.default)((_classnames2 = {}, _defineProperty(_classnames2, _styles.default.content, true), _defineProperty(_classnames2, tabContentClassName, !!tabContentClassName), _classnames2))
+  }), _react["default"].createElement("div", {
+    className: (0, _classnames3["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].content, true), _defineProperty(_classnames2, tabContentClassName, !!tabContentClassName), _classnames2))
   }, renderChildren({
     children: children,
     showTabs: showTabs
@@ -97,16 +98,16 @@ function TabContentPanel(_ref3) {
 }
 
 TabContentPanel.propTypes = {
-  showTabs: _propTypes.default.bool,
-  tabs: _propTypes.default.arrayOf(_propTypes.default.shape({
-    path: _propTypes.default.string.isRequired,
-    label: _propTypes.default.string.isRequired,
-    isActive: _propTypes.default.func.isRequired
+  showTabs: _propTypes["default"].bool,
+  tabs: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    path: _propTypes["default"].string.isRequired,
+    label: _propTypes["default"].string.isRequired,
+    isActive: _propTypes["default"].func.isRequired
   })).isRequired,
-  goTo: _propTypes.default.func.isRequired,
-  children: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.node]),
-  navClassName: _propTypes.default.string,
-  tabContentClassName: _propTypes.default.string
+  goTo: _propTypes["default"].func.isRequired,
+  children: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes["default"].node]),
+  navClassName: _propTypes["default"].string,
+  tabContentClassName: _propTypes["default"].string
 };
 TabContentPanel.defaultProps = {
   showTabs: false,
@@ -115,5 +116,5 @@ TabContentPanel.defaultProps = {
   tabContentClassName: null
 };
 var _default = TabContentPanel;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

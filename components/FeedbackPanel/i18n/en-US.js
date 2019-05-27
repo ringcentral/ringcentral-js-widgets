@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   feedbackHeader: 'Submit Feedback',
   back: 'Back',
@@ -27,5 +27,5 @@ var _default = {
   descriptionPlaceHolder: 'Please include as much information as possible',
   send: 'Send Your Feedback'
 };
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

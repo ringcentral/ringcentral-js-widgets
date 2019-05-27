@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.for-each");
 
@@ -37,6 +37,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.set");
@@ -63,9 +65,9 @@ var _Message = _interopRequireDefault(require("../Message"));
 
 var _AlertDisplay = _interopRequireDefault(require("../AlertDisplay"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -117,17 +119,17 @@ function AnimationMessage(_ref) {
       props = _objectWithoutProperties(_ref, ["animation", "duration"]);
 
   var second = duration / 1000;
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)([animation, 'animated']),
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])([animation, 'animated']),
     style: {
       animationDuration: "".concat(second, "s")
     }
-  }, _react.default.createElement(_Message.default, props));
+  }, _react["default"].createElement(_Message["default"], props));
 }
 
-AnimationMessage.propTypes = _objectSpread({}, _Message.default.propTypes, {
-  animation: _propTypes.default.string,
-  duration: _propTypes.default.number
+AnimationMessage.propTypes = _objectSpread({}, _Message["default"].propTypes, {
+  animation: _propTypes["default"].string,
+  duration: _propTypes["default"].number
 });
 AnimationMessage.defaultProps = {
   animation: undefined,
@@ -225,7 +227,7 @@ function (_Component) {
                 }
 
                 _context.next = 13;
-                return (0, _sleep.default)(duration);
+                return (0, _sleep["default"])(duration);
 
               case 13:
                 if (_this2.mounted) {
@@ -258,7 +260,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_AlertDisplay.default, _extends({}, this.props, {
+      return _react["default"].createElement(_AlertDisplay["default"], _extends({}, this.props, {
         component: AnimationMessage,
         messages: this.state.messages
       }));
@@ -268,16 +270,16 @@ function (_Component) {
   return AnimationAlert;
 }(_react.Component);
 
-AnimationAlert.propTypes = _objectSpread({}, _AlertDisplay.default.propTypes, {
-  entranceAnimation: _propTypes.default.string,
-  exitAnimation: _propTypes.default.string,
-  duration: _propTypes.default.number
+AnimationAlert.propTypes = _objectSpread({}, _AlertDisplay["default"].propTypes, {
+  entranceAnimation: _propTypes["default"].string,
+  exitAnimation: _propTypes["default"].string,
+  duration: _propTypes["default"].number
 });
-AnimationAlert.defaultProps = _objectSpread({}, _AlertDisplay.default.defaultProps, {
+AnimationAlert.defaultProps = _objectSpread({}, _AlertDisplay["default"].defaultProps, {
   entranceAnimation: ENTRANCE_ANIMATION,
   exitAnimation: EXIT_ANIMATION,
   duration: ANIMATION_DURATION
 });
 var _default = AnimationAlert;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

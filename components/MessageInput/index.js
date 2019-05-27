@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -15,17 +15,17 @@ require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
-var _react = _interopRequireWildcard(require("react"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -79,14 +79,16 @@ function (_Component) {
     };
 
     _this.onKeyDown = function (e) {
-      if (e.key === 'Enter') {
-        if (!e.shiftKey) {
-          e.preventDefault();
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
 
-          if (typeof _this.props.onSend === 'function') {
-            _this.props.onSend();
-          }
-        }
+        _this.onSend();
+      }
+    };
+
+    _this.onSend = function () {
+      if (!_this.props.disabled && typeof _this.props.onSend === 'function') {
+        _this.props.onSend();
       }
     };
 
@@ -157,7 +159,9 @@ function (_Component) {
 
       if (newHeight < minHeight) {
         return minHeight;
-      } else if (newHeight > maxHeight) {
+      }
+
+      if (newHeight > maxHeight) {
         return maxHeight;
       }
 
@@ -171,22 +175,21 @@ function (_Component) {
       var _this$props2 = this.props,
           currentLocale = _this$props2.currentLocale,
           disabled = _this$props2.disabled,
-          onSend = _this$props2.onSend,
           maxLength = _this$props2.maxLength;
       var _this$state = this.state,
           value = _this$state.value,
           height = _this$state.height;
       var inputHeight = height - UIHeightOffset;
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement("div", {
-        className: _styles.default.textField
-      }, _react.default.createElement("textarea", {
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].textField
+      }, _react["default"].createElement("textarea", {
         "data-sign": "messageInput",
         ref: function ref(target) {
           _this3.textArea = target;
         },
-        placeholder: _i18n.default.getString('typeMessage', currentLocale),
+        placeholder: _i18n["default"].getString('typeMessage', currentLocale),
         value: value,
         maxLength: maxLength,
         onChange: this.onChange,
@@ -194,14 +197,14 @@ function (_Component) {
         style: {
           height: inputHeight
         }
-      })), _react.default.createElement("div", {
-        className: _styles.default.submitField
-      }, _react.default.createElement("input", {
+      })), _react["default"].createElement("div", {
+        className: _styles["default"].submitField
+      }, _react["default"].createElement("input", {
         "data-sign": "messageButton",
         type: "button",
-        value: _i18n.default.getString('send', currentLocale),
-        onClick: onSend,
-        className: _styles.default.sendButton,
+        value: _i18n["default"].getString('send', currentLocale),
+        onClick: this.onSend,
+        className: _styles["default"].sendButton,
         disabled: disabled
       })));
     }
@@ -210,18 +213,18 @@ function (_Component) {
   return MessageInput;
 }(_react.Component);
 
-exports.default = MessageInput;
+exports["default"] = MessageInput;
 MessageInput.propTypes = {
-  value: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  disabled: _propTypes.default.bool,
-  minHeight: _propTypes.default.number,
-  maxHeight: _propTypes.default.number,
-  maxLength: _propTypes.default.number,
-  onSend: _propTypes.default.func,
-  onChange: _propTypes.default.func,
-  onHeightChange: _propTypes.default.func,
-  inputExpandable: _propTypes.default.bool
+  value: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  disabled: _propTypes["default"].bool,
+  minHeight: _propTypes["default"].number,
+  maxHeight: _propTypes["default"].number,
+  maxLength: _propTypes["default"].number,
+  onSend: _propTypes["default"].func,
+  onChange: _propTypes["default"].func,
+  onHeightChange: _propTypes["default"].func,
+  inputExpandable: _propTypes["default"].bool
 };
 MessageInput.defaultProps = {
   disabled: false,

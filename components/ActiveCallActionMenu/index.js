@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _EntityButton = _interopRequireDefault(require("../EntityButton"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -95,16 +95,16 @@ function (_Component) {
           onCreateEntity = _this$props.onCreateEntity,
           createEntityTitle = _this$props.createEntityTitle,
           viewEntityTitle = _this$props.viewEntityTitle;
-      var smsButton = onClickToSms ? _react.default.createElement(_Button.default, {
-        className: (0, _classnames.default)(_styles.default.actionButton, _styles.default.sms),
+      var smsButton = onClickToSms ? _react["default"].createElement(_Button["default"], {
+        className: (0, _classnames["default"])(_styles["default"].actionButton, _styles["default"].sms),
         onClick: onClickToSms,
         disabled: disableLinks || !phoneNumber
-      }, _react.default.createElement("span", {
-        className: _DynamicsFont.default.composeText,
+      }, _react["default"].createElement("span", {
+        className: _DynamicsFont["default"].composeText,
         title: textTitle
       })) : null;
-      var logButton = onLog ? _react.default.createElement(_LogButton.default, {
-        className: (0, _classnames.default)(_styles.default.actionButton, _styles.default.log),
+      var logButton = onLog ? _react["default"].createElement(_LogButton["default"], {
+        className: (0, _classnames["default"])(_styles["default"].actionButton, _styles["default"].log),
         onLog: onLog,
         disableLinks: disableLinks,
         isLogged: isLogged,
@@ -116,28 +116,28 @@ function (_Component) {
       var entityButton;
 
       if (hasEntity && onViewEntity) {
-        entityButton = _react.default.createElement(_EntityButton.default, {
-          className: (0, _classnames.default)(_styles.default.actionButton, _styles.default.entity),
+        entityButton = _react["default"].createElement(_EntityButton["default"], {
+          className: (0, _classnames["default"])(_styles["default"].actionButton, _styles["default"].entity),
           onViewEntity: onViewEntity,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
           viewEntityTitle: viewEntityTitle
         });
       } else if (!hasEntity && phoneNumber && onCreateEntity) {
-        entityButton = _react.default.createElement(_Button.default, {
-          className: (0, _classnames.default)(_styles.default.actionButton, _styles.default.addContact),
+        entityButton = _react["default"].createElement(_Button["default"], {
+          className: (0, _classnames["default"])(_styles["default"].actionButton, _styles["default"].addContact),
           onClick: onCreateEntity,
           disabled: disableLinks || !phoneNumber
-        }, _react.default.createElement("span", {
-          className: _DynamicsFont.default.add2,
+        }, _react["default"].createElement("span", {
+          className: _DynamicsFont["default"].add2,
           title: createEntityTitle
         }));
       } else {
         entityButton = null;
       }
 
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className),
         onClick: this.captureClick
       }, smsButton, entityButton, logButton);
     }
@@ -146,25 +146,25 @@ function (_Component) {
   return ActiveCallActionMenu;
 }(_react.Component);
 
-exports.default = ActiveCallActionMenu;
+exports["default"] = ActiveCallActionMenu;
 ActiveCallActionMenu.propTypes = {
-  className: _propTypes.default.string,
-  onClickToSms: _propTypes.default.func,
-  disableLinks: _propTypes.default.bool,
-  phoneNumber: _propTypes.default.string,
-  textTitle: _propTypes.default.string,
-  currentLocale: _propTypes.default.string.isRequired,
-  onLog: _propTypes.default.func,
-  isLogged: _propTypes.default.bool,
-  isLogging: _propTypes.default.bool,
-  addLogTitle: _propTypes.default.string,
-  editLogTitle: _propTypes.default.string,
-  stopPropagation: _propTypes.default.bool,
-  onCreateEntity: _propTypes.default.func,
-  hasEntity: _propTypes.default.bool,
-  onViewEntity: _propTypes.default.func,
-  createEntityTitle: _propTypes.default.string,
-  viewEntityTitle: _propTypes.default.string
+  className: _propTypes["default"].string,
+  onClickToSms: _propTypes["default"].func,
+  disableLinks: _propTypes["default"].bool,
+  phoneNumber: _propTypes["default"].string,
+  textTitle: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onLog: _propTypes["default"].func,
+  isLogged: _propTypes["default"].bool,
+  isLogging: _propTypes["default"].bool,
+  addLogTitle: _propTypes["default"].string,
+  editLogTitle: _propTypes["default"].string,
+  stopPropagation: _propTypes["default"].bool,
+  onCreateEntity: _propTypes["default"].func,
+  hasEntity: _propTypes["default"].bool,
+  onViewEntity: _propTypes["default"].func,
+  createEntityTitle: _propTypes["default"].string,
+  viewEntityTitle: _propTypes["default"].string
 };
 ActiveCallActionMenu.defaultProps = {
   className: undefined,

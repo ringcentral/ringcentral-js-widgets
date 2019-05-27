@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -23,9 +23,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -177,13 +177,13 @@ function (_Component) {
         WebkitTransition: "translate(".concat(this.state.translateX, "px, ").concat(this.state.translateY, "px)"),
         transform: "translate(".concat(this.state.translateX, "px, ").concat(this.state.translateY, "px)")
       };
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         onMouseDown: this._onMouseDown,
         ref: function ref(draggableDom) {
           _this2.draggableDom = draggableDom;
         },
         style: style,
-        className: (0, _classnames.default)(_styles.default.root, className),
+        className: (0, _classnames["default"])(_styles["default"].root, className),
         onClick: this._onClick
       }, children);
     }
@@ -193,13 +193,13 @@ function (_Component) {
 }(_react.Component);
 
 Draggable.propTypes = {
-  className: _propTypes.default.string,
-  children: _propTypes.default.node.isRequired,
-  onClick: _propTypes.default.func,
-  positionOffsetX: _propTypes.default.number,
-  positionOffsetY: _propTypes.default.number,
-  updatePositionOffset: _propTypes.default.func,
-  clickThreshold: _propTypes.default.number
+  className: _propTypes["default"].string,
+  children: _propTypes["default"].node.isRequired,
+  onClick: _propTypes["default"].func,
+  positionOffsetX: _propTypes["default"].number,
+  positionOffsetY: _propTypes["default"].number,
+  updatePositionOffset: _propTypes["default"].func,
+  clickThreshold: _propTypes["default"].number
 };
 Draggable.defaultProps = {
   className: null,
@@ -214,5 +214,5 @@ Draggable.defaultProps = {
   clickThreshold: 5
 };
 var _default = Draggable;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

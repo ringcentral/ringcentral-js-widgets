@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.from");
 
@@ -33,6 +33,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("regenerator-runtime/runtime");
@@ -49,9 +51,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _countryNames = _interopRequireDefault(require("../../lib/countryNames"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -92,7 +94,7 @@ function renderFunction(locale) {
       tokens = _locale$split2.slice(1);
 
   var region = tokens.join('-');
-  return "".concat(_i18n.default.getString(lang, locale), " (").concat(_countryNames.default.getString(region, locale), ")");
+  return "".concat(_i18n["default"].getString(lang, locale), " (").concat(_countryNames["default"].getString(region, locale), ")");
 }
 
 var LocalePicker =
@@ -122,8 +124,8 @@ function (_Component) {
               case 0:
                 _context.next = 2;
                 return Promise.all(_this.props.options.reduce(function (promises, l) {
-                  promises.push(_i18n.default._load(l));
-                  promises.push(_countryNames.default._load(l));
+                  promises.push(_i18n["default"]._load(l));
+                  promises.push(_countryNames["default"]._load(l));
                   return promises;
                 }, []));
 
@@ -146,7 +148,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_DropdownSelect.default, _extends({}, this.props, {
+      return _react["default"].createElement(_DropdownSelect["default"], _extends({}, this.props, {
         dropdownAlign: "left",
         renderValue: renderFunction,
         renderFunction: renderFunction
@@ -157,10 +159,10 @@ function (_Component) {
   return LocalePicker;
 }(_react.Component);
 
-exports.default = LocalePicker;
+exports["default"] = LocalePicker;
 LocalePicker.propTypes = {
-  value: _propTypes.default.string.isRequired,
-  options: _propTypes.default.arrayOf(_propTypes.default.string).isRequired,
-  onChange: _propTypes.default.func.isRequired
+  value: _propTypes["default"].string.isRequired,
+  options: _propTypes["default"].arrayOf(_propTypes["default"].string).isRequired,
+  onChange: _propTypes["default"].func.isRequired
 };
 //# sourceMappingURL=index.js.map

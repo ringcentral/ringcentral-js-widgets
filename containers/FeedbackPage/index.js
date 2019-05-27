@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -17,7 +17,7 @@ var _FeedbackPanel = _interopRequireDefault(require("../../components/FeedbackPa
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -70,6 +70,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var FeedbackPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_FeedbackPanel.default));
-exports.default = FeedbackPage;
+var FeedbackPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_FeedbackPanel["default"]));
+exports["default"] = FeedbackPage;
 //# sourceMappingURL=index.js.map

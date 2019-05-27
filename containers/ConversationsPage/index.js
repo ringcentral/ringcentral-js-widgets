@@ -5,13 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -22,6 +24,8 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.regexp.replace");
 
@@ -37,7 +41,7 @@ var _ConversationsPanel = _interopRequireDefault(require("../../components/Conve
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -65,6 +69,10 @@ function mapToProps(_, _ref) {
       connectivityMonitor = _ref$phone.connectivityMonitor,
       rateLimiter = _ref$phone.rateLimiter,
       messageStore = _ref$phone.messageStore,
+      auth = _ref$phone.auth,
+      audioSettings = _ref$phone.audioSettings,
+      webphone = _ref$phone.webphone,
+      callingSettings = _ref$phone.callingSettings,
       _ref$showTitle = _ref.showTitle,
       showTitle = _ref$showTitle === void 0 ? false : _ref$showTitle,
       _ref$enableContactFal = _ref.enableContactFallback,
@@ -86,6 +94,7 @@ function mapToProps(_, _ref) {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
+    disableCallButton: auth.ready && audioSettings.ready && webphone && webphone.ready && auth.loggedIn && callingSettings.isWebphoneMode && (!audioSettings.userMedia || !webphone.connected),
     disableClickToDial: !(call && call.isIdle),
     outboundSmsPermission: !!(permissions && permissions.OutboundSMS),
     internalSmsPermission: !!(permissions && permissions.InternalSMS),
@@ -328,7 +337,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var _default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConversationsPanel.default));
+var _default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConversationsPanel["default"]));
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

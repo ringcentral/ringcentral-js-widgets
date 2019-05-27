@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -11,7 +11,7 @@ var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enum
 
 var _addLog$editLog$viewD;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -25,7 +25,7 @@ var _default = (_addLog$editLog$viewD = {
   conversation: "Gespräch",
   groupConversation: "Gruppengespräch",
   voiceMessage: "Sprachn."
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes.default.voiceMail, "Voicemail"), _defineProperty(_addLog$editLog$viewD, _messageTypes.default.fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Als ungelesen markieren"), _defineProperty(_addLog$editLog$viewD, "unmark", "Als gelesen markieren"), _defineProperty(_addLog$editLog$viewD, "delete", "Löschen"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax gesendet"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax erhalten"), _defineProperty(_addLog$editLog$viewD, "pages", "Seiten"), _defineProperty(_addLog$editLog$viewD, "preview", "Anzeigen"), _defineProperty(_addLog$editLog$viewD, "download", "Herunterladen"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Anhang: 1 Bild"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Voicemail"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Als ungelesen markieren"), _defineProperty(_addLog$editLog$viewD, "unmark", "Als gelesen markieren"), _defineProperty(_addLog$editLog$viewD, "delete", "Löschen"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax gesendet"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax erhalten"), _defineProperty(_addLog$editLog$viewD, "pages", "Seiten"), _defineProperty(_addLog$editLog$viewD, "preview", "Anzeigen"), _defineProperty(_addLog$editLog$viewD, "download", "Herunterladen"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Anhang: 1 Bild"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -47,5 +47,5 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@
 
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -15,13 +15,13 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -41,6 +41,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("regenerator-runtime/runtime");
@@ -57,7 +59,7 @@ var _getReducer = _interopRequireDefault(require("./getReducer"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -101,7 +103,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var ConferenceDialerUI = (_dec = (0, _di.Module)({
   name: 'ConferenceDialerUI',
@@ -126,7 +128,7 @@ function (_DialerUI) {
     _this._conferenceCall = conferenceCall;
     _this._routerInteraction = routerInteraction;
     _this._backURL = backURL;
-    _this._reducer = (0, _getReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
     return _this;
   }
 
@@ -208,7 +210,7 @@ function (_DialerUI) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_get(_getPrototypeOf(ConferenceDialerUI.prototype), "_actionTypes", this))), ['setLastSessionId']), 'conferenceDialerUI');
+      return new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_get(_getPrototypeOf(ConferenceDialerUI.prototype), "_actionTypes", this))), ['setLastSessionId']), 'conferenceDialerUI');
     }
   }, {
     key: "lastSessionId",
@@ -218,6 +220,6 @@ function (_DialerUI) {
   }]);
 
   return ConferenceDialerUI;
-}(_DialerUI2.default), (_applyDecoratedDescriptor(_class2.prototype, "setLastSessionId", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setLastSessionId"), _class2.prototype)), _class2)) || _class);
-exports.default = ConferenceDialerUI;
+}(_DialerUI2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "setLastSessionId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setLastSessionId"), _class2.prototype)), _class2)) || _class);
+exports["default"] = ConferenceDialerUI;
 //# sourceMappingURL=index.js.map

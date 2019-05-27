@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -53,7 +53,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var cx = _bind.default.bind(_styles.default);
+var cx = _bind["default"].bind(_styles["default"]);
 
 function MessageItem(_ref) {
   var message = _ref.message,
@@ -67,21 +67,21 @@ function MessageItem(_ref) {
   var time = dateTimeFormatter({
     utcTimestamp: creationTime
   });
-  return _react.default.createElement("div", {
+  return _react["default"].createElement("div", {
     className: cx('messageItem', {
       localMessageItem: !message.fromRemote
     }),
     onClick: function onClick() {
       return !message.fromRemote && navigateTo("/conversations/".concat(conversationId));
     }
-  }, _react.default.createElement("dl", {
-    className: _styles.default.dl
-  }, _react.default.createElement("dt", {
+  }, _react["default"].createElement("dl", {
+    className: _styles["default"].dl
+  }, _react["default"].createElement("dt", {
     className: cx('messageSubject', {
       unread: isUnread
     }),
     title: subject
-  }, subject), _react.default.createElement("dd", {
+  }, subject), _react["default"].createElement("dd", {
     className: cx('messageTime', {
       unread: isUnread
     }),
@@ -90,9 +90,9 @@ function MessageItem(_ref) {
 }
 
 MessageItem.propTypes = {
-  message: _propTypes.default.object.isRequired,
-  navigateTo: _propTypes.default.func.isRequired,
-  dateTimeFormatter: _propTypes.default.func.isRequired
+  message: _propTypes["default"].object.isRequired,
+  navigateTo: _propTypes["default"].func.isRequired,
+  dateTimeFormatter: _propTypes["default"].func.isRequired
 };
 
 var RecentActivityMessages =
@@ -123,13 +123,13 @@ function (_Component) {
       var messageListView = null;
 
       if (!isMessagesLoaded) {
-        messageListView = _react.default.createElement(_Spinner.default, {
-          className: _styles.default.spinner,
+        messageListView = _react["default"].createElement(_Spinner["default"], {
+          className: _styles["default"].spinner,
           ringWidth: 4
         });
       } else if (messages.length > 0) {
         messageListView = messages.map(function (message) {
-          return _react.default.createElement(MessageItem, {
+          return _react["default"].createElement(MessageItem, {
             key: message.id,
             message: message,
             navigateTo: navigateTo,
@@ -137,13 +137,13 @@ function (_Component) {
           });
         });
       } else {
-        messageListView = _react.default.createElement("p", {
-          className: _styles.default.noRecords
-        }, _i18n.default.getString('noRecords', currentLocale));
+        messageListView = _react["default"].createElement("p", {
+          className: _styles["default"].noRecords
+        }, _i18n["default"].getString('noRecords', currentLocale));
       }
 
-      return _react.default.createElement("div", {
-        className: _styles.default.messages
+      return _react["default"].createElement("div", {
+        className: _styles["default"].messages
       }, messageListView);
     }
   }]);
@@ -151,12 +151,12 @@ function (_Component) {
   return RecentActivityMessages;
 }(_react.Component);
 
-exports.default = RecentActivityMessages;
+exports["default"] = RecentActivityMessages;
 RecentActivityMessages.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  messages: _propTypes.default.array.isRequired,
-  isMessagesLoaded: _propTypes.default.bool.isRequired,
-  navigateTo: _propTypes.default.func.isRequired,
-  dateTimeFormatter: _propTypes.default.func.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  messages: _propTypes["default"].array.isRequired,
+  isMessagesLoaded: _propTypes["default"].bool.isRequired,
+  navigateTo: _propTypes["default"].func.isRequired,
+  dateTimeFormatter: _propTypes["default"].func.isRequired
 };
 //# sourceMappingURL=index.js.map

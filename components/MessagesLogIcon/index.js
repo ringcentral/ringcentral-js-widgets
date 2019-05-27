@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = MessagesLogIcon;
+exports["default"] = MessagesLogIcon;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -19,31 +19,31 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function MessagesLogIcon(_ref) {
   var disabled = _ref.disabled,
       _onClick = _ref.onClick,
       currentLocale = _ref.currentLocale;
 
-  var tooltip = _i18n.default.getString('log', currentLocale);
+  var tooltip = _i18n["default"].getString('log', currentLocale);
 
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.messageLog, disabled && _styles.default.disabledMessageLog),
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].messageLog, disabled && _styles["default"].disabledMessageLog),
     onClick: function onClick(e) {
       e.stopPropagation();
       if (!disabled) _onClick();
     },
     title: tooltip
-  }, _react.default.createElement(_MessagesLog.default, {
-    className: _styles.default.logIcon
+  }, _react["default"].createElement(_MessagesLog["default"], {
+    className: _styles["default"].logIcon
   }));
 }
 
 MessagesLogIcon.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  disabled: _propTypes.default.bool,
-  onClick: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  disabled: _propTypes["default"].bool,
+  onClick: _propTypes["default"].func
 };
 MessagesLogIcon.defaultProps = {
   disabled: false,

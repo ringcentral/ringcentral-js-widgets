@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   allCalls: "所有通話",
   Unknown: "未知",
@@ -14,5 +14,5 @@ var _default = {
 // @key: @#@"Unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"Multiple"@#@ @source: @#@"Multiple"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

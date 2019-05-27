@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   noActiveCalls: "Nessuna chiamata attiva",
   noCalls: "Nessun risultato trovato.",
@@ -24,5 +24,5 @@ var _default = {
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

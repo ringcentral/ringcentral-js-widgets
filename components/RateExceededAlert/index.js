@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -27,9 +27,9 @@ var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -92,8 +92,8 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_FormattedMessage.default, {
-        message: _i18n.default.getString('rateExceeded', this.props.currentLocale),
+      return _react["default"].createElement(_FormattedMessage["default"], {
+        message: _i18n["default"].getString('rateExceeded', this.props.currentLocale),
         values: {
           ttl: this.state.ttl
         }
@@ -105,16 +105,16 @@ function (_Component) {
 }(_react.Component);
 
 RequestRateExceededAlert.propTypes = {
-  timestamp: _propTypes.default.number.isRequired,
-  duration: _propTypes.default.number.isRequired,
-  currentLocale: _propTypes.default.string.isRequired
+  timestamp: _propTypes["default"].number.isRequired,
+  duration: _propTypes["default"].number.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 
 RequestRateExceededAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return message === _errorMessages.default.rateLimitReached;
+  return message === _errorMessages["default"].rateLimitReached;
 };
 
 var _default = RequestRateExceededAlert;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

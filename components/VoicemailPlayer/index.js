@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -15,11 +15,13 @@ require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -49,9 +51,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -241,24 +243,25 @@ function (_Component) {
       var icon;
 
       if (this.state.playing) {
-        icon = _react.default.createElement(_Button.default, {
-          className: (0, _classnames.default)(_styles.default.play, disabled ? _styles.default.disabled : null),
+        icon = _react["default"].createElement(_Button["default"], {
+          className: (0, _classnames["default"])(_styles["default"].play, disabled ? _styles["default"].disabled : null),
           onClick: this._pauseAudio,
           disabled: disabled
-        }, _react.default.createElement("span", {
-          title: _i18n.default.getString('pause', currentLocale)
-        }, _react.default.createElement(_Pause.default, {
+        }, _react["default"].createElement("span", {
+          title: _i18n["default"].getString('pause', currentLocale)
+        }, _react["default"].createElement(_Pause["default"], {
           width: 18,
           height: 18
         })));
       } else {
-        icon = _react.default.createElement(_Button.default, {
-          className: (0, _classnames.default)(_styles.default.play, disabled ? _styles.default.disabled : null),
+        icon = _react["default"].createElement(_Button["default"], {
+          className: (0, _classnames["default"])(_styles["default"].play, disabled ? _styles["default"].disabled : null),
           onClick: this._playAudio,
           disabled: disabled
-        }, _react.default.createElement("span", {
-          title: _i18n.default.getString('play', currentLocale)
-        }, _react.default.createElement(_Play.default, {
+        }, _react["default"].createElement("span", {
+          title: _i18n["default"].getString('play', currentLocale),
+          "data-sign": "play"
+        }, _react["default"].createElement(_Play["default"], {
           width: 18,
           height: 18
         })));
@@ -266,33 +269,34 @@ function (_Component) {
 
       var currentTime = this._audio.currentTime < duration ? this._audio.currentTime : duration;
       var downloadUri = "".concat(uri, "&contentDisposition=Attachment");
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className)
-      }, icon, _react.default.createElement("span", {
-        className: _styles.default.startTime
-      }, (0, _formatDuration.default)(currentTime)), _react.default.createElement("a", {
-        className: (0, _classnames.default)(_styles.default.download, disabled ? _styles.default.disabled : null),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className)
+      }, icon, _react["default"].createElement("span", {
+        className: _styles["default"].startTime
+      }, (0, _formatDuration["default"])(currentTime)), _react["default"].createElement("a", {
+        className: (0, _classnames["default"])(_styles["default"].download, disabled ? _styles["default"].disabled : null),
         target: "_blank",
         download: true,
-        title: _i18n.default.getString('download', currentLocale),
+        "data-sign": "download",
+        title: _i18n["default"].getString('download', currentLocale),
         href: downloadUri,
         onClick: this._onDownloadClick
-      }, _react.default.createElement(_Download.default, {
+      }, _react["default"].createElement(_Download["default"], {
         width: 18,
         height: 18
-      })), _react.default.createElement("span", {
-        className: _styles.default.endTime
-      }, (0, _formatDuration.default)(duration)), _react.default.createElement("div", {
-        className: _styles.default.progress
-      }, _react.default.createElement("div", {
-        className: _styles.default.all
-      }), _react.default.createElement("div", {
-        className: _styles.default.done,
+      })), _react["default"].createElement("span", {
+        className: _styles["default"].endTime
+      }, (0, _formatDuration["default"])(duration)), _react["default"].createElement("div", {
+        className: _styles["default"].progress
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].all
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].done,
         style: {
           width: "".concat(this.state.progress * 100, "%")
         }
-      }), _react.default.createElement("div", {
-        className: _styles.default.current,
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].current,
         style: {
           left: "".concat(this.state.progress * 100, "%")
         }
@@ -304,12 +308,12 @@ function (_Component) {
 }(_react.Component);
 
 VoicemailPlayer.propTypes = {
-  duration: _propTypes.default.number,
-  uri: _propTypes.default.string.isRequired,
-  className: _propTypes.default.string,
-  onPlay: _propTypes.default.func,
-  disabled: _propTypes.default.bool,
-  currentLocale: _propTypes.default.string.isRequired
+  duration: _propTypes["default"].number,
+  uri: _propTypes["default"].string.isRequired,
+  className: _propTypes["default"].string,
+  onPlay: _propTypes["default"].func,
+  disabled: _propTypes["default"].bool,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 VoicemailPlayer.defaultProps = {
   duration: 0,
@@ -318,5 +322,5 @@ VoicemailPlayer.defaultProps = {
   disabled: false
 };
 var _default = VoicemailPlayer;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

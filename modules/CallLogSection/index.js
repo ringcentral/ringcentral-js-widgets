@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -23,11 +23,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -53,7 +55,7 @@ var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -81,13 +83,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
@@ -108,15 +110,15 @@ function (_RcModule) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CallLogSection).call(this, _objectSpread({
       storage: storage,
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     }, options)));
 
-    _initializerDefineProperty(_this, "calls", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "calls", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "callsMapping", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "callsMapping", _descriptor2, _assertThisInitialized(_this));
 
     _this._storage = storage;
-    _this._storageReducer = (0, _getStorageReducer.default)(_this.actionTypes);
+    _this._storageReducer = (0, _getStorageReducer["default"])(_this.actionTypes);
     _this._storageKey = 'callLogSection';
 
     _this._storage.registerReducer({
@@ -124,7 +126,7 @@ function (_RcModule) {
       reducer: _this._storageReducer
     });
 
-    _this._reducer = (0, _getCallLogSectionReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getCallLogSectionReducer["default"])(_this.actionTypes);
     return _this;
   }
 
@@ -261,8 +263,8 @@ function (_RcModule) {
           onUpdate = _ref2.onUpdate,
           onSuccess = _ref2.onSuccess,
           onError = _ref2.onError;
-      this._logFunction = _ensureExist.default.call(this, logFunction, 'logFunction');
-      this._readyCheckFunction = _ensureExist.default.call(this, readyCheckFunction, 'readyCheckFunction');
+      this._logFunction = _ensureExist["default"].call(this, logFunction, 'logFunction');
+      this._readyCheckFunction = _ensureExist["default"].call(this, readyCheckFunction, 'readyCheckFunction');
       this._onUpdate = onUpdate;
       this._onSuccess = onSuccess;
       this._onError = onError;
@@ -520,7 +522,7 @@ function (_RcModule) {
   }]);
 
   return CallLogSection;
-}(_RcModule2.default), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -551,5 +553,5 @@ function (_RcModule) {
     }, (0, _ramda.converge)((0, _ramda.mergeWith)((0, _ramda.flip)((0, _ramda.assoc)('isSaving'))), [_ramda.identity, (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])])];
   }
 })), _class2)) || _class);
-exports.default = CallLogSection;
+exports["default"] = CallLogSection;
 //# sourceMappingURL=index.js.map

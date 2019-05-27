@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   unmute: "取消靜音",
   mute: "靜音",
@@ -34,5 +34,5 @@ var _default = {
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

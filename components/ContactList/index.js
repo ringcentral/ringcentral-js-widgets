@@ -9,19 +9,21 @@ require("core-js/modules/es6.array.find");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -45,9 +47,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -76,13 +78,13 @@ var ROW_HEIGHT = 50;
 
 function NoContacts(_ref) {
   var currentLocale = _ref.currentLocale;
-  return _react.default.createElement("p", {
-    className: _styles.default.noContacts
-  }, _i18n.default.getString('noContacts', currentLocale));
+  return _react["default"].createElement("p", {
+    className: _styles["default"].noContacts
+  }, _i18n["default"].getString('noContacts', currentLocale));
 }
 
 NoContacts.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired
+  currentLocale: _propTypes["default"].string.isRequired
 };
 
 var ContactList =
@@ -144,8 +146,8 @@ function (_Component) {
       var rowData = _ref6.rowData;
 
       if (rowData.caption) {
-        return _react.default.createElement("div", {
-          className: _styles.default.groupCaption
+        return _react["default"].createElement("div", {
+          className: _styles["default"].groupCaption
         }, rowData.caption);
       }
 
@@ -155,9 +157,9 @@ function (_Component) {
           getPresence = _this$props.getPresence,
           onItemSelect = _this$props.onItemSelect,
           sourceNodeRenderer = _this$props.sourceNodeRenderer;
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         key: "".concat(rowData.type, "-").concat(rowData.id)
-      }, _react.default.createElement(_ContactItem.default, {
+      }, _react["default"].createElement(_ContactItem["default"], {
         currentLocale: currentLocale,
         contact: rowData,
         getAvatarUrl: getAvatarUrl,
@@ -196,13 +198,13 @@ function (_Component) {
     };
 
     _this.headerRenderer = function () {
-      return _react.default.createElement("div", {
-        className: _styles.default.groupCaption
+      return _react["default"].createElement("div", {
+        className: _styles["default"].groupCaption
       }, _this.state.currentCaption);
     };
 
     _this.state = ContactList.getDerivedStateFromProps(props);
-    _this.list = _react.default.createRef();
+    _this.list = _react["default"].createRef();
     return _this;
   }
 
@@ -226,7 +228,7 @@ function (_Component) {
     key: "renderList",
     value: function renderList() {
       // use table instead of list to allow caption header
-      return _react.default.createElement(_reactVirtualized.Table, {
+      return _react["default"].createElement(_reactVirtualized.Table, {
         ref: this.list,
         headerHeight: CAPTION_HEIGHT,
         width: this.props.width,
@@ -237,7 +239,7 @@ function (_Component) {
         onRowsRendered: this.onRowsRendered,
         onScroll: this.onScroll,
         scrollTop: this.state.scrollTop
-      }, _react.default.createElement(_reactVirtualized.Column, {
+      }, _react["default"].createElement(_reactVirtualized.Column, {
         dataKey: "caption",
         disableSort: true,
         flexGrow: 1,
@@ -257,13 +259,13 @@ function (_Component) {
       var content = null;
 
       if (width !== 0 && height !== 0) {
-        content = contactGroups.length ? this.renderList() : _react.default.createElement(NoContacts, {
+        content = contactGroups.length ? this.renderList() : _react["default"].createElement(NoContacts, {
           currentLocale: currentLocale
         });
       }
 
-      return _react.default.createElement("div", {
-        className: _styles.default.root
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
       }, content);
     }
   }], [{
@@ -307,20 +309,20 @@ function (_Component) {
   return ContactList;
 }(_react.Component);
 
-exports.default = ContactList;
+exports["default"] = ContactList;
 ContactList.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  contactGroups: _propTypes.default.arrayOf(_propTypes.default.shape({
-    id: _propTypes.default.string.isRequired,
-    caption: _propTypes.default.string.isRequired,
-    contacts: _propTypes.default.arrayOf(_ContactItem.default.propTypes.contact).isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  contactGroups: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    id: _propTypes["default"].string.isRequired,
+    caption: _propTypes["default"].string.isRequired,
+    contacts: _propTypes["default"].arrayOf(_ContactItem["default"].propTypes.contact).isRequired
   })).isRequired,
-  getAvatarUrl: _propTypes.default.func.isRequired,
-  getPresence: _propTypes.default.func.isRequired,
-  onItemSelect: _propTypes.default.func,
-  sourceNodeRenderer: _propTypes.default.func,
-  width: _propTypes.default.number.isRequired,
-  height: _propTypes.default.number.isRequired
+  getAvatarUrl: _propTypes["default"].func.isRequired,
+  getPresence: _propTypes["default"].func.isRequired,
+  onItemSelect: _propTypes["default"].func,
+  sourceNodeRenderer: _propTypes["default"].func,
+  width: _propTypes["default"].number.isRequired,
+  height: _propTypes["default"].number.isRequired
 };
 ContactList.defaultProps = {
   onItemSelect: undefined,

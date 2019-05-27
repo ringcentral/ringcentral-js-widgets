@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   noRecords: "Nenhum registro recente encontrado.",
   inBound: "Entrada",
@@ -16,5 +16,5 @@ var _default = {
 // @key: @#@"outBound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"missed"@#@ @source: @#@"Missed Call"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

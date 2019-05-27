@@ -3,20 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MoreActionItem = MoreActionItem;
-exports.default = exports.ACTIONS_CTRL_MAP = void 0;
+exports["default"] = exports.ACTIONS_CTRL_MAP = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.object.assign");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -72,13 +73,15 @@ var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayou
 
 var _utils = require("./utils");
 
+var _MoreActionItem = _interopRequireDefault(require("./MoreActionItem"));
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -98,11 +101,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var DisplayButtonNumber = 6;
 var ACTIONS_CTRL_MAP = {
@@ -115,29 +118,6 @@ var ACTIONS_CTRL_MAP = {
   flipCtrl: 'flipCtrl'
 };
 exports.ACTIONS_CTRL_MAP = ACTIONS_CTRL_MAP;
-
-function MoreActionItem(_ref) {
-  var title = _ref.title,
-      Icon = _ref.icon,
-      disabled = _ref.disabled,
-      onClick = _ref.onClick;
-  var iconClassName = (0, _classnames.default)(_styles.default.buttonIcon, disabled ? _styles.default.buttonDisabled : _styles.default.buttonActive);
-  return _react.default.createElement("div", {
-    className: _styles.default.buttonItem,
-    onClick: disabled ? null : onClick
-  }, _react.default.createElement("div", {
-    className: iconClassName
-  }, _react.default.createElement(Icon, null)), _react.default.createElement("div", {
-    className: _styles.default.buttonName
-  }, title));
-}
-
-MoreActionItem.propTypes = {
-  title: _propTypes.default.string.isRequired,
-  icon: _propTypes.default.func.isRequired,
-  disabled: _propTypes.default.bool.isRequired,
-  onClick: _propTypes.default.func.isRequired
-};
 
 var ActiveCallPad =
 /*#__PURE__*/
@@ -154,8 +134,8 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ActiveCallPad).call(this, props));
     _this.moreButton = (0, _react.createRef)();
     _this.dropdown = (0, _react.createRef)();
-    _this.onClick = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _this.onClick).bind(_context);
-    _this.toggleMore = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _this.toggleMore).bind(_context);
+    _this.onClick = (_context = _assertThisInitialized(_this), _this.onClick).bind(_context);
+    _this.toggleMore = (_context = _assertThisInitialized(_this), _this.toggleMore).bind(_context);
     _this.state = {
       expandMore: props.expandMore,
       moreButton: _this.moreButton && _this.moreButton.current
@@ -235,41 +215,41 @@ function (_Component) {
       /* --------------------- Mute/Unmute --------------------------- */
 
       buttons.push(this.props.isOnMute ? {
-        icon: _Mute.default,
+        icon: _Mute["default"],
         id: ACTIONS_CTRL_MAP.muteCtrl,
         dataSign: 'mute',
-        title: _i18n.default.getString('unmute', this.props.currentLocale),
+        title: _i18n["default"].getString('unmute', this.props.currentLocale),
         disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onUnmute
       } : {
-        icon: _Unmute.default,
+        icon: _Unmute["default"],
         id: ACTIONS_CTRL_MAP.muteCtrl,
         dataSign: 'unmute',
-        title: _i18n.default.getString('mute', this.props.currentLocale),
+        title: _i18n["default"].getString('mute', this.props.currentLocale),
         disabled: this.props.isOnHold || controlBusy,
         onClick: this.props.onMute
       });
       /* --------------------- keyPad --------------------------- */
 
       buttons.push({
-        icon: _Dialpad.default,
+        icon: _Dialpad["default"],
         id: ACTIONS_CTRL_MAP.keypadCtrl,
         dataSign: 'keypad',
-        title: _i18n.default.getString('keypad', this.props.currentLocale),
+        title: _i18n["default"].getString('keypad', this.props.currentLocale),
         onClick: this.props.onShowKeyPad,
-        disabled: this.props.layout === _callCtrlLayouts.default.conferenceCtrl
+        disabled: this.props.layout === _callCtrlLayouts["default"].conferenceCtrl
       });
       /* --------------------- Hold/Unhold --------------------------- */
 
       buttons.push({
-        icon: _Hold.default,
+        icon: _Hold["default"],
         id: ACTIONS_CTRL_MAP.holdCtrl,
         iconWidth: 120,
         iconHeight: 160,
         iconX: 190,
         iconY: 165,
         dataSign: this.props.isOnHold ? 'onHold' : 'hold',
-        title: this.props.isOnHold ? _i18n.default.getString('onHold', this.props.currentLocale) : _i18n.default.getString('hold', this.props.currentLocale),
+        title: this.props.isOnHold ? _i18n["default"].getString('onHold', this.props.currentLocale) : _i18n["default"].getString('hold', this.props.currentLocale),
         active: this.props.isOnHold,
         onClick: this.props.isOnHold ? this.props.onUnhold : this.props.onHold,
         disabled: controlBusy
@@ -277,18 +257,20 @@ function (_Component) {
       /* --------------------- Add/Merge --------------------------- */
 
       if (this.props.conferenceCallEquipped) {
-        var showMerge = this.props.layout === _callCtrlLayouts.default.mergeCtrl || this.props.layout === _callCtrlLayouts.default.normalCtrl && this.props.hasConferenceCall;
+        var showMerge = this.props.layout === _callCtrlLayouts["default"].mergeCtrl || this.props.layout === _callCtrlLayouts["default"].normalCtrl && this.props.hasConferenceCall;
         buttons.push(showMerge ? {
-          icon: _MergeIntoConferenceIcon.default,
+          icon: _MergeIntoConferenceIcon["default"],
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
-          title: _i18n.default.getString('mergeToConference', this.props.currentLocale),
+          dataSign: 'merge',
+          title: _i18n["default"].getString('mergeToConference', this.props.currentLocale),
           disabled: this.props.mergeDisabled || controlBusy,
           onClick: this.props.onMerge,
           showRipple: !this.props.mergeDisabled
         } : {
-          icon: _Combine.default,
+          icon: _Combine["default"],
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
-          title: _i18n.default.getString('add', this.props.currentLocale),
+          dataSign: 'add',
+          title: _i18n["default"].getString('add', this.props.currentLocale),
           disabled: this.props.addDisabled || controlBusy,
           onClick: this.props.onAdd
         });
@@ -297,30 +279,33 @@ function (_Component) {
 
 
       buttons.push({
-        icon: _Record.default,
+        icon: _Record["default"],
         id: ACTIONS_CTRL_MAP.recordCtrl,
-        title: this.props.recordStatus === _recordStatus.default.recording ? _i18n.default.getString('stopRecord', this.props.currentLocale) : _i18n.default.getString('record', this.props.currentLocale),
-        active: this.props.recordStatus === _recordStatus.default.recording,
-        disabled: this.props.isOnHold || this.props.recordStatus === _recordStatus.default.pending || this.props.layout === _callCtrlLayouts.default.mergeCtrl || this.props.recordStatus === _recordStatus.default.noAccess || controlBusy,
-        onClick: this.props.recordStatus === _recordStatus.default.recording ? this.props.onStopRecord : this.props.onRecord
+        dataSign: this.props.recordStatus === _recordStatus["default"].recording ? 'stopRecord' : 'record',
+        title: this.props.recordStatus === _recordStatus["default"].recording ? _i18n["default"].getString('stopRecord', this.props.currentLocale) : _i18n["default"].getString('record', this.props.currentLocale),
+        active: this.props.recordStatus === _recordStatus["default"].recording,
+        disabled: this.props.isOnHold || this.props.recordStatus === _recordStatus["default"].pending || this.props.layout === _callCtrlLayouts["default"].mergeCtrl || this.props.recordStatus === _recordStatus["default"].noAccess || controlBusy,
+        onClick: this.props.recordStatus === _recordStatus["default"].recording ? this.props.onStopRecord : this.props.onRecord
       });
       /* --------------------- Transfer --------------------------- */
 
-      var disabledTransfer = this.props.layout !== _callCtrlLayouts.default.normalCtrl;
+      var disabledTransfer = this.props.layout !== _callCtrlLayouts["default"].normalCtrl;
       buttons.push({
-        icon: _Transfer.default,
+        icon: _Transfer["default"],
         id: ACTIONS_CTRL_MAP.transferCtrl,
-        title: _i18n.default.getString('transfer', this.props.currentLocale),
+        dataSign: 'transfer',
+        title: _i18n["default"].getString('transfer', this.props.currentLocale),
         disabled: disabledTransfer || controlBusy,
         onClick: this.props.onToggleTransferPanel
       });
       /* --------------------- Flip --------------------------- */
 
-      var disabledFlip = this.props.flipNumbers.length === 0 || this.props.isOnHold || this.props.layout !== _callCtrlLayouts.default.normalCtrl;
+      var disabledFlip = this.props.flipNumbers.length === 0 || this.props.isOnHold || this.props.layout !== _callCtrlLayouts["default"].normalCtrl;
       buttons.push({
-        icon: _Flip.default,
+        icon: _Flip["default"],
         id: ACTIONS_CTRL_MAP.flipCtrl,
-        title: _i18n.default.getString('flip', this.props.currentLocale),
+        dataSign: 'flip',
+        title: _i18n["default"].getString('flip', this.props.currentLocale),
         disabled: disabledFlip || controlBusy,
         onClick: this.props.onShowFlipPanel
       }); // filter actions
@@ -336,54 +321,55 @@ function (_Component) {
       var moreActions = null;
 
       if (buttons.length > DisplayButtonNumber) {
-        moreActions = _react.default.createElement("span", {
-          className: _styles.default.moreButtonContainer,
+        moreActions = _react["default"].createElement("span", {
+          className: _styles["default"].moreButtonContainer,
           ref: this.moreButton
-        }, _react.default.createElement(_ActiveCallButton.default, {
+        }, _react["default"].createElement(_ActiveCallButton["default"], {
           onClick: this.toggleMore,
-          title: _i18n.default.getString('more', this.props.currentLocale),
+          title: _i18n["default"].getString('more', this.props.currentLocale),
           active: this.state.expandMore,
-          className: (0, _classnames.default)(_styles.default.moreButton, _styles.default.callButton),
+          className: (0, _classnames["default"])(_styles["default"].moreButton, _styles["default"].callButton),
           disabled: disabledFlip && disabledTransfer || controlBusy,
-          icon: _MoreIcon.default
-        }), _react.default.createElement(_Tooltip.default, {
+          icon: _MoreIcon["default"],
+          dataSign: "callActions"
+        }), _react["default"].createElement(_Tooltip["default"], {
           fixed: false,
           open: this.state.expandMore,
           direction: "top",
           ref: this.dropdown,
           triggerElm: this.state.moreButton
-        }, _react.default.createElement("div", {
-          className: _styles.default.buttonPopup
-        }, buttons.slice(DisplayButtonNumber - 1).map(function (_ref2) {
-          var id = _ref2.id,
-              opts = _objectWithoutProperties(_ref2, ["id"]);
+        }, _react["default"].createElement("div", {
+          className: _styles["default"].buttonPopup
+        }, buttons.slice(DisplayButtonNumber - 1).map(function (_ref) {
+          var id = _ref.id,
+              opts = _objectWithoutProperties(_ref, ["id"]);
 
-          return _react.default.createElement(MoreActionItem, _extends({
+          return _react["default"].createElement(_MoreActionItem["default"], _extends({
             key: id
           }, opts));
         }))));
       }
 
       var isLessBtn = buttons.length <= 3 && moreActions === null;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, this.props.className)
-      }, _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.callCtrlButtonGroup, isLessBtn && _styles.default.biggerButton)
-      }, _react.default.createElement("div", {
-        className: _styles.default.buttonRow
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
+      }, _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].callCtrlButtonGroup, isLessBtn && _styles["default"].biggerButton)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].buttonRow
       }, buttons.slice(0, DisplayButtonNumber - (moreActions ? 1 : 0)).map(function (opts) {
-        return _react.default.createElement(_ActiveCallButton.default, _extends({
+        return _react["default"].createElement(_ActiveCallButton["default"], _extends({
           key: opts.title,
-          className: _styles.default.callButton
+          className: _styles["default"].callButton
         }, opts));
-      }), moreActions)), _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.buttonRow, _styles.default.stopButtonGroup)
-      }, _react.default.createElement("div", {
-        className: _styles.default.button
-      }, _react.default.createElement(_CircleButton.default, {
-        className: (0, _classnames.default)(_styles.default.stopButton, controlBusy && _styles.default.disabled),
+      }), moreActions)), _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].buttonRow, _styles["default"].stopButtonGroup)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].button
+      }, _react["default"].createElement(_CircleButton["default"], {
+        className: (0, _classnames["default"])(_styles["default"].stopButton, controlBusy && _styles["default"].disabled),
         onClick: this.props.onHangup,
-        icon: _End.default,
+        icon: _End["default"],
         showBorder: false,
         iconWidth: 250,
         iconX: 125,
@@ -397,38 +383,38 @@ function (_Component) {
 }(_react.Component);
 
 ActiveCallPad.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  className: _propTypes.default.string,
-  isOnMute: _propTypes.default.bool,
-  isOnHold: _propTypes.default.bool,
-  recordStatus: _propTypes.default.string.isRequired,
-  onMute: _propTypes.default.func.isRequired,
-  onUnmute: _propTypes.default.func.isRequired,
-  onHold: _propTypes.default.func.isRequired,
-  onUnhold: _propTypes.default.func.isRequired,
-  onRecord: _propTypes.default.func.isRequired,
-  onStopRecord: _propTypes.default.func.isRequired,
-  onHangup: _propTypes.default.func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  className: _propTypes["default"].string,
+  isOnMute: _propTypes["default"].bool,
+  isOnHold: _propTypes["default"].bool,
+  recordStatus: _propTypes["default"].string.isRequired,
+  onMute: _propTypes["default"].func.isRequired,
+  onUnmute: _propTypes["default"].func.isRequired,
+  onHold: _propTypes["default"].func.isRequired,
+  onUnhold: _propTypes["default"].func.isRequired,
+  onRecord: _propTypes["default"].func.isRequired,
+  onStopRecord: _propTypes["default"].func.isRequired,
+  onHangup: _propTypes["default"].func.isRequired,
   // onPark: PropTypes.func.isRequired,
-  onShowKeyPad: _propTypes.default.func.isRequired,
-  onAdd: _propTypes.default.func,
-  onMerge: _propTypes.default.func,
-  onShowFlipPanel: _propTypes.default.func.isRequired,
-  onToggleTransferPanel: _propTypes.default.func.isRequired,
-  flipNumbers: _propTypes.default.array.isRequired,
-  layout: _propTypes.default.string,
-  addDisabled: _propTypes.default.bool,
-  mergeDisabled: _propTypes.default.bool,
-  conferenceCallEquipped: _propTypes.default.bool,
-  hasConferenceCall: _propTypes.default.bool,
-  expandMore: _propTypes.default.bool,
-  actions: _propTypes.default.array
+  onShowKeyPad: _propTypes["default"].func.isRequired,
+  onAdd: _propTypes["default"].func,
+  onMerge: _propTypes["default"].func,
+  onShowFlipPanel: _propTypes["default"].func.isRequired,
+  onToggleTransferPanel: _propTypes["default"].func.isRequired,
+  flipNumbers: _propTypes["default"].array.isRequired,
+  layout: _propTypes["default"].string,
+  addDisabled: _propTypes["default"].bool,
+  mergeDisabled: _propTypes["default"].bool,
+  conferenceCallEquipped: _propTypes["default"].bool,
+  hasConferenceCall: _propTypes["default"].bool,
+  expandMore: _propTypes["default"].bool,
+  actions: _propTypes["default"].array
 };
 ActiveCallPad.defaultProps = {
   className: null,
   isOnMute: false,
   isOnHold: false,
-  layout: _callCtrlLayouts.default.normalCtrl,
+  layout: _callCtrlLayouts["default"].normalCtrl,
   addDisabled: false,
   mergeDisabled: false,
   conferenceCallEquipped: false,
@@ -439,5 +425,5 @@ ActiveCallPad.defaultProps = {
   actions: []
 };
 var _default = ActiveCallPad;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

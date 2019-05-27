@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -37,9 +39,9 @@ var _phoneContext = require("../../lib/phoneContext");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -253,18 +255,18 @@ function (_Component) {
         return null;
       }
 
-      var phoneNumber = session.direction === _callDirections.default.outbound ? session.to : session.from;
+      var phoneNumber = session.direction === _callDirections["default"].outbound ? session.to : session.from;
       var fallbackUserName;
 
-      if (session.direction === _callDirections.default.inbound && session.from === 'anonymous') {
-        fallbackUserName = _i18n.default.getString('anonymous', this.props.currentLocale);
+      if (session.direction === _callDirections["default"].inbound && session.from === 'anonymous') {
+        fallbackUserName = _i18n["default"].getString('anonymous', this.props.currentLocale);
       }
 
       if (!fallbackUserName) {
-        fallbackUserName = _i18n.default.getString('unknown', this.props.currentLocale);
+        fallbackUserName = _i18n["default"].getString('unknown', this.props.currentLocale);
       }
 
-      return _react.default.createElement(_IncomingCallPanel.default, {
+      return _react["default"].createElement(_IncomingCallPanel["default"], {
         currentLocale: this.props.currentLocale,
         nameMatches: this.props.nameMatches,
         fallBackName: fallbackUserName,
@@ -301,42 +303,42 @@ function (_Component) {
 }(_react.Component);
 
 IncomingCallPage.propTypes = {
-  session: _propTypes.default.shape({
-    id: _propTypes.default.string,
-    direction: _propTypes.default.string,
-    startTime: _propTypes.default.number,
-    isOnMute: _propTypes.default.bool,
-    isOnHold: _propTypes.default.bool,
-    isOnRecord: _propTypes.default.bool,
-    to: _propTypes.default.string,
-    from: _propTypes.default.string,
-    contactMatch: _propTypes.default.object
+  session: _propTypes["default"].shape({
+    id: _propTypes["default"].string,
+    direction: _propTypes["default"].string,
+    startTime: _propTypes["default"].number,
+    isOnMute: _propTypes["default"].bool,
+    isOnHold: _propTypes["default"].bool,
+    isOnRecord: _propTypes["default"].bool,
+    to: _propTypes["default"].string,
+    from: _propTypes["default"].string,
+    contactMatch: _propTypes["default"].object
   }).isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  toggleMinimized: _propTypes.default.func.isRequired,
-  answer: _propTypes.default.func.isRequired,
-  reject: _propTypes.default.func.isRequired,
-  onForward: _propTypes.default.func.isRequired,
-  toVoiceMail: _propTypes.default.func.isRequired,
-  replyWithMessage: _propTypes.default.func.isRequired,
-  formatPhone: _propTypes.default.func.isRequired,
-  children: _propTypes.default.node,
-  nameMatches: _propTypes.default.array.isRequired,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  getAvatarUrl: _propTypes.default.func.isRequired,
-  forwardingNumbers: _propTypes.default.array.isRequired,
-  updateSessionMatchedContact: _propTypes.default.func.isRequired,
-  showContactDisplayPlaceholder: _propTypes.default.bool.isRequired,
-  brand: _propTypes.default.string.isRequired,
-  activeSessionId: _propTypes.default.string,
-  sourceIcons: _propTypes.default.object,
-  hangup: _propTypes.default.func.isRequired,
-  onHold: _propTypes.default.func.isRequired,
-  searchContactList: _propTypes.default.array.isRequired,
-  searchContact: _propTypes.default.func.isRequired,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  toggleMinimized: _propTypes["default"].func.isRequired,
+  answer: _propTypes["default"].func.isRequired,
+  reject: _propTypes["default"].func.isRequired,
+  onForward: _propTypes["default"].func.isRequired,
+  toVoiceMail: _propTypes["default"].func.isRequired,
+  replyWithMessage: _propTypes["default"].func.isRequired,
+  formatPhone: _propTypes["default"].func.isRequired,
+  children: _propTypes["default"].node,
+  nameMatches: _propTypes["default"].array.isRequired,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  getAvatarUrl: _propTypes["default"].func.isRequired,
+  forwardingNumbers: _propTypes["default"].array.isRequired,
+  updateSessionMatchedContact: _propTypes["default"].func.isRequired,
+  showContactDisplayPlaceholder: _propTypes["default"].bool.isRequired,
+  brand: _propTypes["default"].string.isRequired,
+  activeSessionId: _propTypes["default"].string,
+  sourceIcons: _propTypes["default"].object,
+  hangup: _propTypes["default"].func.isRequired,
+  onHold: _propTypes["default"].func.isRequired,
+  searchContactList: _propTypes["default"].array.isRequired,
+  searchContact: _propTypes["default"].func.isRequired,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func
 };
 IncomingCallPage.defaultProps = {
   children: undefined,
@@ -363,7 +365,7 @@ function mapToProps(_, _ref3) {
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
   var fromMatches = contactMapping && contactMapping[currentSession.from] || [];
   var toMatches = contactMapping && contactMapping[currentSession.to] || [];
-  var nameMatches = currentSession.direction === _callDirections.default.outbound ? toMatches : fromMatches;
+  var nameMatches = currentSession.direction === _callDirections["default"].outbound ? toMatches : fromMatches;
   return {
     brand: brand.fullName,
     nameMatches: nameMatches,
@@ -392,7 +394,7 @@ function mapToFunctions(_, _ref4) {
   } : _ref4$getAvatarUrl;
   return {
     formatPhone: function formatPhone(phoneNumber) {
-      return (0, _formatNumber.default)({
+      return (0, _formatNumber["default"])({
         phoneNumber: phoneNumber,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode
@@ -440,5 +442,5 @@ function mapToFunctions(_, _ref4) {
 
 var IncomingCallContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(IncomingCallPage));
 var _default = IncomingCallContainer;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

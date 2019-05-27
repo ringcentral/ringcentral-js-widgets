@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _reactRedux = require("react-redux");
 
@@ -17,7 +17,7 @@ var _ComposeTextPanel = _interopRequireDefault(require("../../components/Compose
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -56,7 +56,7 @@ function mapToFunctions(_, _ref2) {
       conversations = _ref2$phone.conversations,
       _ref2$formatContactPh = _ref2.formatContactPhone,
       formatContactPhone = _ref2$formatContactPh === void 0 ? function (phoneNumber) {
-    return (0, _formatNumber.default)({
+    return (0, _formatNumber["default"])({
       phoneNumber: phoneNumber,
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode
@@ -147,6 +147,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ComposeTextPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel.default));
-exports.default = ComposeTextPage;
+var ComposeTextPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel["default"]));
+exports["default"] = ComposeTextPage;
 //# sourceMappingURL=index.js.map

@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   confirmationInfo: "先前通話未儲存的編輯將會遺失，確定要編輯新的通話？",
   log: "記錄",
@@ -18,5 +18,5 @@ var _default = {
 // @key: @#@"discard"@#@ @source: @#@"Discard & Work on New"@#@
 // @key: @#@"stay"@#@ @source: @#@"Stay on Previous Work"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

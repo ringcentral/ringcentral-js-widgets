@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = CallsOnholdContainer;
+exports["default"] = CallsOnholdContainer;
 
 require("core-js/modules/es6.array.map");
 
@@ -27,7 +27,7 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function CallsOnholdContainer(_ref) {
   var calls = _ref.calls,
@@ -52,20 +52,20 @@ function CallsOnholdContainer(_ref) {
       onAdd = _ref.onAdd,
       getAvatarUrl = _ref.getAvatarUrl;
 
-  var backHeader = _react.default.createElement(_BackHeader.default, {
-    className: _styles.default.header,
+  var backHeader = _react["default"].createElement(_BackHeader["default"], {
+    className: _styles["default"].header,
     onBackClick: onBackButtonClick,
-    backButton: _react.default.createElement(_BackButton.default, {
-      label: _i18n.default.getString('activeCall', currentLocale)
+    backButton: _react["default"].createElement(_BackButton["default"], {
+      label: _i18n["default"].getString('activeCall', currentLocale)
     })
   });
 
-  return _react.default.createElement("div", {
-    className: _styles.default.root
-  }, backHeader, _react.default.createElement("div", {
-    className: _styles.default.callList
+  return _react["default"].createElement("div", {
+    className: _styles["default"].root
+  }, backHeader, _react["default"].createElement("div", {
+    className: _styles["default"].callList
   }, calls.length ? calls.map(function (call) {
-    return _react.default.createElement(_ActiveCallItemV.default, {
+    return _react["default"].createElement(_ActiveCallItemV["default"], {
       call: call,
       key: call.id,
       showMergeCall: true,
@@ -91,45 +91,45 @@ function CallsOnholdContainer(_ref) {
       getAvatarUrl: getAvatarUrl,
       showHold: false
     });
-  }) : _react.default.createElement("div", {
-    className: _styles.default.noCalls
-  }, _i18n.default.getString('noCalls', currentLocale))), _react.default.createElement("div", {
-    className: _styles.default.addBtnContainer
-  }, _react.default.createElement("div", {
-    className: _styles.default.addBtn
-  }, _react.default.createElement("span", {
-    title: _i18n.default.getString('add', currentLocale),
-    className: _styles.default.webphoneButton
-  }, _react.default.createElement(_CircleButton.default, {
-    className: _styles.default.addBtnIcon,
-    icon: _Combine.default,
+  }) : _react["default"].createElement("div", {
+    className: _styles["default"].noCalls
+  }, _i18n["default"].getString('noCalls', currentLocale))), _react["default"].createElement("div", {
+    className: _styles["default"].addBtnContainer
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].addBtn
+  }, _react["default"].createElement("span", {
+    title: _i18n["default"].getString('add', currentLocale),
+    className: _styles["default"].webphoneButton
+  }, _react["default"].createElement(_CircleButton["default"], {
+    className: _styles["default"].addBtnIcon,
+    icon: _Combine["default"],
     showBorder: false,
     onClick: onAdd
   })))));
 }
 
 CallsOnholdContainer.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  onMerge: _propTypes.default.func,
-  calls: _propTypes.default.array.isRequired,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  brand: _propTypes.default.string,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  webphoneAnswer: _propTypes.default.func,
-  webphoneReject: _propTypes.default.func,
-  webphoneHangup: _propTypes.default.func,
-  webphoneResume: _propTypes.default.func,
-  webphoneToVoicemail: _propTypes.default.func,
-  enableContactFallback: _propTypes.default.bool,
-  autoLog: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  onBackButtonClick: _propTypes.default.func,
-  disableMerge: _propTypes.default.bool,
-  onAdd: _propTypes.default.func,
-  getAvatarUrl: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  onMerge: _propTypes["default"].func,
+  calls: _propTypes["default"].array.isRequired,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  brand: _propTypes["default"].string,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  webphoneAnswer: _propTypes["default"].func,
+  webphoneReject: _propTypes["default"].func,
+  webphoneHangup: _propTypes["default"].func,
+  webphoneResume: _propTypes["default"].func,
+  webphoneToVoicemail: _propTypes["default"].func,
+  enableContactFallback: _propTypes["default"].bool,
+  autoLog: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  onBackButtonClick: _propTypes["default"].func,
+  disableMerge: _propTypes["default"].bool,
+  onAdd: _propTypes["default"].func,
+  getAvatarUrl: _propTypes["default"].func
 };
 CallsOnholdContainer.defaultProps = {
   brand: 'RingCentral',

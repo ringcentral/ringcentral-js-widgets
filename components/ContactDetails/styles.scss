@@ -86,6 +86,20 @@
           fill: $primary-color;
         }
       }
+      &.disabled {
+        cursor: not-allowed;
+      }
+      &.disabled:hover,
+      &.disabled:focus,
+      &.disabled:active {
+        outline: none;
+        i {
+          color: #666;
+        }
+        path {
+          fill: #666;
+        }
+      }
     }
     i {
       font-size: 20px;

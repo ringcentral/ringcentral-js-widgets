@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -27,9 +27,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _Spinner = _interopRequireDefault(require("../../assets/images/Spinner.svg"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -174,7 +174,7 @@ function (_Component) {
         opacity: +$transparency
       };
 
-      var hash = _uuid.default.v4();
+      var hash = _uuid["default"].v4();
 
       var portraitChar = "\uE904"; // HACK: &#xe904; is the font code for the portrait icon
 
@@ -189,7 +189,7 @@ function (_Component) {
       var showingSpinner = spinnerMode;
       var aspectRatio = 'xMidYMid meet';
       var xmlns = 'http://www.w3.org/2000/svg';
-      var svgCls = (0, _classnames.default)(_styles.default.callAvatar, onClick ? _styles.default.autoPointerEvents : _styles.default.disabledPointerEvents, className); // spinner sizing
+      var svgCls = (0, _classnames["default"])(_styles["default"].callAvatar, onClick ? _styles["default"].autoPointerEvents : _styles["default"].disabledPointerEvents, className); // spinner sizing
 
       var spinnerId = "spinner-".concat(hash);
       var spinnerScaleSize = 1.5;
@@ -199,7 +199,7 @@ function (_Component) {
       var spinnerTransform = "translate(".concat(spinnerTranslateTo - (isOnConferenceCallWithExtraNum ? margin : 0), ",").concat(spinnerTranslateTo, ") scale(").concat(spinnerScaleSize, ", ").concat(spinnerScaleSize, ")");
 
       if (isOnConferenceCallWithExtraNum) {
-        return _react.default.createElement("svg", {
+        return _react["default"].createElement("svg", {
           onClick: onClick ? function () {
             return onClick();
           } : null,
@@ -208,9 +208,9 @@ function (_Component) {
           viewBox: "0 0 ".concat(initialSize, " ").concat(initialSize),
           preserveAspectRatio: aspectRatio,
           xmlns: xmlns
-        }, _react.default.createElement("defs", null, _react.default.createElement("g", {
+        }, _react["default"].createElement("defs", null, _react["default"].createElement("g", {
           id: textId
-        }, _react.default.createElement("text", {
+        }, _react["default"].createElement("text", {
           x: "0",
           y: "0",
           dy: "".concat(initialSize - 10, "px"),
@@ -220,46 +220,46 @@ function (_Component) {
             opacity: '.5'
           },
           fontFamily: iconFont
-        }, portraitChar)), _react.default.createElement(_Spinner.default, {
+        }, portraitChar)), _react["default"].createElement(_Spinner["default"], {
           id: spinnerId
-        })), _react.default.createElement("circle", {
+        })), _react["default"].createElement("circle", {
           cx: avatarCircleRadius,
           cy: margin + avatarCircleRadius,
           r: avatarCircleRadius,
           fill: $snow,
           stroke: showingSpinner ? $dark : 'inherit',
           strokeOpacity: showingSpinner ? $transparency : '1'
-        }), _react.default.createElement("g", null, _react.default.createElement("clipPath", {
+        }), _react["default"].createElement("g", null, _react["default"].createElement("clipPath", {
           id: clipId
-        }, _react.default.createElement("circle", {
+        }, _react["default"].createElement("circle", {
           cx: avatarCircleRadius,
           cy: margin + avatarCircleRadius,
           r: avatarCircleRadius,
           fill: $snow
-        }))), showingSpinner && _react.default.createElement("g", {
+        }))), showingSpinner && _react["default"].createElement("g", {
           transform: spinnerTransform
-        }, _react.default.createElement("use", {
+        }, _react["default"].createElement("use", {
           xlinkHref: "#".concat(spinnerId)
-        })), avatarUrl && _react.default.createElement("image", {
+        })), avatarUrl && _react["default"].createElement("image", {
           clipPath: "url(#".concat(clipId, ")"),
           height: "100%",
           width: "100%",
           xlinkHref: avatarUrl
-        }), !avatarUrl && !showingSpinner && _react.default.createElement("use", {
+        }), !avatarUrl && !showingSpinner && _react["default"].createElement("use", {
           xlinkHref: "#".concat(textId),
           clipPath: "url(#".concat(clipId, ")"),
           style: defaultAvatarStyle
-        }), _react.default.createElement("circle", {
+        }), _react["default"].createElement("circle", {
           cx: initialSize - extraNumCircleRadius,
           cy: extraNumCircleRadius,
           r: extraNumCircleRadius,
           fill: $snow
-        }), _react.default.createElement("circle", {
+        }), _react["default"].createElement("circle", {
           cx: initialSize - extraNumCircleRadius,
           cy: extraNumCircleRadius,
           r: extraNumCircleRadius - extraNumCircleBorder,
           fill: $blueLight
-        }), _react.default.createElement("text", {
+        }), _react["default"].createElement("text", {
           x: initialSize - extraNumCircleRadius,
           y: extraNumCircleRadius,
           dy: "3px",
@@ -274,7 +274,7 @@ function (_Component) {
         }, "+".concat(extraNum)));
       }
 
-      return _react.default.createElement("svg", {
+      return _react["default"].createElement("svg", {
         className: svgCls,
         onClick: onClick ? function () {
           return onClick();
@@ -283,9 +283,9 @@ function (_Component) {
         viewBox: "0 0 ".concat(initialSize, " ").concat(initialSize),
         preserveAspectRatio: aspectRatio,
         xmlns: xmlns
-      }, _react.default.createElement("defs", null, _react.default.createElement("g", {
+      }, _react["default"].createElement("defs", null, _react["default"].createElement("g", {
         id: textId
-      }, _react.default.createElement("text", {
+      }, _react["default"].createElement("text", {
         x: "0",
         y: "0",
         dy: "".concat(initialSize - 10, "px"),
@@ -296,36 +296,36 @@ function (_Component) {
           opacity: '.5'
         },
         fontFamily: iconFont
-      }, portraitChar)), _react.default.createElement(_Spinner.default, {
+      }, portraitChar)), _react["default"].createElement(_Spinner["default"], {
         id: spinnerId
-      })), _react.default.createElement("circle", {
+      })), _react["default"].createElement("circle", {
         cx: initialSize / 2,
         cy: initialSize / 2,
         r: initialSize / 2 - circleBorder,
         fill: $snow,
         stroke: showingSpinner ? $dark : 'inherit',
         strokeOpacity: showingSpinner ? $transparency : '1'
-      }), _react.default.createElement("g", null, _react.default.createElement("clipPath", {
+      }), _react["default"].createElement("g", null, _react["default"].createElement("clipPath", {
         id: clipId
-      }, _react.default.createElement("circle", {
+      }, _react["default"].createElement("circle", {
         cx: initialSize / 2,
         cy: initialSize / 2,
         r: initialSize / 2 - 1
-      }))), showingSpinner && _react.default.createElement("g", {
+      }))), showingSpinner && _react["default"].createElement("g", {
         transform: spinnerTransform
-      }, _react.default.createElement("use", {
+      }, _react["default"].createElement("use", {
         xlinkHref: "#".concat(spinnerId)
-      })), showingSpinner && _react.default.createElement("g", {
+      })), showingSpinner && _react["default"].createElement("g", {
         transform: spinnerTransform
-      }, _react.default.createElement("use", {
+      }, _react["default"].createElement("use", {
         xlinkHref: "#".concat(spinnerId)
-      })), avatarUrl && _react.default.createElement("image", {
+      })), avatarUrl && _react["default"].createElement("image", {
         clipPath: "url(#".concat(clipId, ")"),
         height: "100%",
         width: "100%",
         xlinkHref: avatarUrl,
         preserveAspectRatio: "xMinYMin slice"
-      }), !avatarUrl && !showingSpinner && _react.default.createElement("use", {
+      }), !avatarUrl && !showingSpinner && _react["default"].createElement("use", {
         xlinkHref: "#".concat(textId),
         clipPath: "url(#".concat(clipId, ")"),
         style: defaultAvatarStyle
@@ -337,16 +337,16 @@ function (_Component) {
 }(_react.Component);
 
 CallAvatar.propTypes = {
-  isOnConferenceCall: _propTypes.default.bool,
-  avatarUrl: _propTypes.default.string,
-  extraNum: _propTypes.default.number,
+  isOnConferenceCall: _propTypes["default"].bool,
+  avatarUrl: _propTypes["default"].string,
+  extraNum: _propTypes["default"].number,
 
   /**
    * Set to true to make it always show the loading spinner.
    */
-  spinnerMode: _propTypes.default.bool,
-  className: _propTypes.default.string,
-  onClick: _propTypes.default.func
+  spinnerMode: _propTypes["default"].bool,
+  className: _propTypes["default"].string,
+  onClick: _propTypes["default"].func
 };
 CallAvatar.defaultProps = {
   isOnConferenceCall: false,
@@ -357,5 +357,5 @@ CallAvatar.defaultProps = {
   onClick: null
 };
 var _default = CallAvatar;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

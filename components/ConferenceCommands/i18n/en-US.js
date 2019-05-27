@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   title: 'Conference Commands',
   starSharp2Title: 'Caller Count',
@@ -25,5 +25,5 @@ var _default = {
   star9Title: 'Record your conference',
   star9Body: 'Press once to START recording\nPress again to STOP recording'
 };
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

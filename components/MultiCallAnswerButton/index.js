@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = MultiCallAnswerButton;
+exports["default"] = MultiCallAnswerButton;
 
 require("core-js/modules/es6.regexp.split");
 
@@ -27,26 +27,26 @@ var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function MultiCallAnswerButton(props) {
-  var Icon = props.isEndOtherCall ? _End.default : _Hold.default;
-  var iconClassName = (0, _classnames.default)(_styles.default.button, props.isEndOtherCall ? _styles.default.endButton : '');
+  var Icon = props.isEndOtherCall ? _End["default"] : _Hold["default"];
+  var iconClassName = (0, _classnames["default"])(_styles["default"].button, props.isEndOtherCall ? _styles["default"].endButton : '');
   var text = props.title.split('\n').map(function (line, index) {
-    return _react.default.createElement("tspan", {
+    return _react["default"].createElement("tspan", {
       dy: index ? '1.1em' : 0,
       x: "250",
       key: line
     }, line);
   });
-  return _react.default.createElement("svg", {
+  return _react["default"].createElement("svg", {
     className: props.className,
     viewBox: "0 0 500 600",
     width: props.width,
     height: props.height,
     x: props.x,
     y: props.y
-  }, _react.default.createElement(_CircleButton.default, {
+  }, _react["default"].createElement(_CircleButton["default"], {
     width: "200",
     height: "200",
     x: 60,
@@ -54,17 +54,17 @@ function MultiCallAnswerButton(props) {
     className: iconClassName,
     onClick: props.onClick,
     icon: Icon
-  }), _react.default.createElement(_CircleButton.default, {
+  }), _react["default"].createElement(_CircleButton["default"], {
     width: "250",
     height: "250",
     x: 200,
     y: 110,
-    className: (0, _classnames.default)(_styles.default.button, _styles.default.answer),
+    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].answer),
     showBorder: false,
     onClick: props.onClick,
-    icon: _Answer.default
-  }), _react.default.createElement("text", {
-    className: _styles.default.buttonTitle,
+    icon: _Answer["default"]
+  }), _react["default"].createElement("text", {
+    className: _styles["default"].buttonTitle,
     x: "250",
     y: "500",
     textAnchor: "middle"
@@ -72,14 +72,14 @@ function MultiCallAnswerButton(props) {
 }
 
 MultiCallAnswerButton.propTypes = {
-  title: _propTypes.default.string.isRequired,
-  className: _propTypes.default.string,
-  onClick: _propTypes.default.func.isRequired,
-  isEndOtherCall: _propTypes.default.bool,
-  width: _propTypes.default.string,
-  height: _propTypes.default.string,
-  x: _propTypes.default.number,
-  y: _propTypes.default.number
+  title: _propTypes["default"].string.isRequired,
+  className: _propTypes["default"].string,
+  onClick: _propTypes["default"].func.isRequired,
+  isEndOtherCall: _propTypes["default"].bool,
+  width: _propTypes["default"].string,
+  height: _propTypes["default"].string,
+  x: _propTypes["default"].number,
+  y: _propTypes["default"].number
 };
 MultiCallAnswerButton.defaultProps = {
   className: null,

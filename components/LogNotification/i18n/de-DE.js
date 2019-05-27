@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   confirmationInfo: "Ihre nicht gespeicherten Änderungen am vorherigen Anruf gehen verloren. Möchten Sie wirklich an dem neuen Anruf arbeiten?",
   log: "Protokoll",
@@ -18,5 +18,5 @@ var _default = {
 // @key: @#@"discard"@#@ @source: @#@"Discard & Work on New"@#@
 // @key: @#@"stay"@#@ @source: @#@"Stay on Previous Work"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

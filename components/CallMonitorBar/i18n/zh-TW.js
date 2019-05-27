@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   currentCall: "目前通話",
   viewCalls: "檢視通話",
@@ -20,5 +20,5 @@ var _default = {
 // @key: @#@"callOnHold"@#@ @source: @#@"{numberOf} Call On Hold"@#@
 // @key: @#@"callsOnHold"@#@ @source: @#@"{numberOf} Calls On Hold"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

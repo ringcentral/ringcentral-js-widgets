@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _DropdownNavigationItem = _interopRequireDefault(require("../DropdownNavigat
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -49,11 +49,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var DropdownNavigationView =
 /*#__PURE__*/
@@ -66,7 +66,7 @@ function (_Component) {
     _classCallCheck(this, DropdownNavigationView);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(DropdownNavigationView).call(this, props));
-    _this.removeChildNavBar = _this.removeChildNavBar.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.removeChildNavBar = _this.removeChildNavBar.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -122,8 +122,8 @@ function (_Component) {
           goTo = _this$props.goTo,
           currentPath = _this$props.currentPath,
           currentVirtualPath = _this$props.currentVirtualPath;
-      return tabs.length ? _react.default.createElement("div", {
-        className: _styles.default.root,
+      return tabs.length ? _react["default"].createElement("div", {
+        className: _styles["default"].root,
         ref: function ref(el) {
           _this3.setChildNavigationElement(el);
         }
@@ -132,15 +132,15 @@ function (_Component) {
         var ActiveIcon = tab.activeIcon;
         var active = tab.isActive && tab.isActive(currentPath, currentVirtualPath) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath;
         var isReverseFillIcon = tab.path === '/contacts' && !active;
-        return _react.default.createElement(_DropdownNavigationItem.default, _extends({}, tab, {
+        return _react["default"].createElement(_DropdownNavigationItem["default"], _extends({}, tab, {
           key: index,
           onClick: function onClick() {
             goTo(tab);
           },
           active: active,
-          icon: typeof Icon === 'function' ? _react.default.createElement(Icon, null) : Icon,
+          icon: typeof Icon === 'function' ? _react["default"].createElement(Icon, null) : Icon,
           isReverseFillIcon: isReverseFillIcon,
-          activeIcon: typeof ActiveIcon === 'function' ? _react.default.createElement(ActiveIcon, null) : ActiveIcon
+          activeIcon: typeof ActiveIcon === 'function' ? _react["default"].createElement(ActiveIcon, null) : ActiveIcon
         }));
       })) : null;
     }
@@ -149,12 +149,12 @@ function (_Component) {
   return DropdownNavigationView;
 }(_react.Component);
 
-exports.default = DropdownNavigationView;
+exports["default"] = DropdownNavigationView;
 DropdownNavigationView.propTypes = {
-  tabs: _NavigationBar.default.propTypes.tabs.isRequired,
-  goTo: _propTypes.default.func.isRequired,
-  currentPath: _propTypes.default.string.isRequired,
-  currentVirtualPath: _propTypes.default.string
+  tabs: _NavigationBar["default"].propTypes.tabs.isRequired,
+  goTo: _propTypes["default"].func.isRequired,
+  currentPath: _propTypes["default"].string.isRequired,
+  currentVirtualPath: _propTypes["default"].string
 };
 DropdownNavigationView.defaultProps = {
   currentVirtualPath: undefined

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.for-each");
 
@@ -12,6 +12,8 @@ require("core-js/modules/es6.array.filter");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -43,9 +45,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -65,11 +67,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var NavigationBar =
 /*#__PURE__*/
@@ -82,7 +84,7 @@ function (_Component) {
     _classCallCheck(this, NavigationBar);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(NavigationBar).call(this, props));
-    _this.goTo = _this.goTo.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.goTo = _this.goTo.bind(_assertThisInitialized(_this));
     _this.mounted = false;
     _this.state = {
       currentVirtualPath: _this.props.currentVirtualPath
@@ -143,7 +145,7 @@ function (_Component) {
       var NavigationButton = button;
       var ChildNavigationView = childNavigationView;
       var isVertical = direction === 'vertical';
-      var directionClass = isVertical ? _styles.default.vertical : undefined;
+      var directionClass = isVertical ? _styles["default"].vertical : undefined;
       var currentVirtualPath = this.state.currentVirtualPath;
       var _tabWidth = 0;
 
@@ -160,27 +162,27 @@ function (_Component) {
         return tab.childTabs && tab.isActive && tab.isActive(currentPath, currentVirtualPath);
       });
       var dropdownMenu = dropdownMenuTab && dropdownMenuTab.childTabs;
-      return _react.default.createElement("nav", {
-        className: (0, _classnames.default)(_styles.default.root, className, directionClass)
+      return _react["default"].createElement("nav", {
+        className: (0, _classnames["default"])(_styles["default"].root, className, directionClass)
       }, tabs.map(function (tab, index) {
         var icon = tab.icon,
             activeIcon = tab.activeIcon;
 
         if (typeof icon === 'function') {
           var Icon = icon;
-          icon = tab.childTabs ? _react.default.createElement(Icon, {
+          icon = tab.childTabs ? _react["default"].createElement(Icon, {
             currentPath: currentPath
-          }) : _react.default.createElement(Icon, null);
+          }) : _react["default"].createElement(Icon, null);
         }
 
         if (typeof activeIcon === 'function') {
           var ActiveIcon = activeIcon;
-          activeIcon = tab.childTabs ? _react.default.createElement(ActiveIcon, {
+          activeIcon = tab.childTabs ? _react["default"].createElement(ActiveIcon, {
             currentPath: currentPath
-          }) : _react.default.createElement(ActiveIcon, null);
+          }) : _react["default"].createElement(ActiveIcon, null);
         }
 
-        return _react.default.createElement(NavigationButton, _extends({}, tab, {
+        return _react["default"].createElement(NavigationButton, _extends({}, tab, {
           fullSizeInk: fullSizeInk,
           key: index,
           onClick: function onClick() {
@@ -194,7 +196,7 @@ function (_Component) {
           icon: icon,
           activeIcon: activeIcon
         }));
-      }), ChildNavigationView && dropdownMenu && dropdownMenu.length ? _react.default.createElement(ChildNavigationView, {
+      }), ChildNavigationView && dropdownMenu && dropdownMenu.length ? _react["default"].createElement(ChildNavigationView, {
         tabs: dropdownMenu,
         goTo: this.goTo,
         currentPath: currentPath,
@@ -206,30 +208,30 @@ function (_Component) {
   return NavigationBar;
 }(_react.Component);
 
-exports.default = NavigationBar;
+exports["default"] = NavigationBar;
 var tabPropTypes = {
-  icon: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.node]),
-  activeIcon: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.node]),
-  label: _propTypes.default.string,
-  path: _propTypes.default.string,
-  virtualPath: _propTypes.default.string,
-  isActive: _propTypes.default.func,
-  noticeCounts: _propTypes.default.number
+  icon: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes["default"].node]),
+  activeIcon: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes["default"].node]),
+  label: _propTypes["default"].string,
+  path: _propTypes["default"].string,
+  virtualPath: _propTypes["default"].string,
+  isActive: _propTypes["default"].func,
+  noticeCounts: _propTypes["default"].number
 };
 NavigationBar.propTypes = {
-  className: _propTypes.default.string,
-  button: _propTypes.default.oneOfType([_propTypes.default.func.isRequired, _propTypes.default.element.isRequired]).isRequired,
-  childNavigationView: _propTypes.default.oneOfType([_propTypes.default.func.isRequired, _propTypes.default.element.isRequired]),
-  tabs: _propTypes.default.arrayOf(_propTypes.default.shape(_objectSpread({}, tabPropTypes, {
-    childTabs: _propTypes.default.arrayOf(_propTypes.default.shape(_objectSpread({}, tabPropTypes)))
+  className: _propTypes["default"].string,
+  button: _propTypes["default"].oneOfType([_propTypes["default"].func.isRequired, _propTypes["default"].element.isRequired]).isRequired,
+  childNavigationView: _propTypes["default"].oneOfType([_propTypes["default"].func.isRequired, _propTypes["default"].element.isRequired]),
+  tabs: _propTypes["default"].arrayOf(_propTypes["default"].shape(_objectSpread({}, tabPropTypes, {
+    childTabs: _propTypes["default"].arrayOf(_propTypes["default"].shape(_objectSpread({}, tabPropTypes)))
   }))),
-  goTo: _propTypes.default.func.isRequired,
-  currentPath: _propTypes.default.string.isRequired,
-  currentVirtualPath: _propTypes.default.string,
-  tabWidth: _propTypes.default.string,
-  tabHeight: _propTypes.default.string,
-  fullSizeInk: _propTypes.default.bool,
-  direction: _propTypes.default.string
+  goTo: _propTypes["default"].func.isRequired,
+  currentPath: _propTypes["default"].string.isRequired,
+  currentVirtualPath: _propTypes["default"].string,
+  tabWidth: _propTypes["default"].string,
+  tabHeight: _propTypes["default"].string,
+  fullSizeInk: _propTypes["default"].bool,
+  direction: _propTypes["default"].string
 };
 NavigationBar.defaultProps = {
   className: undefined,

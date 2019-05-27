@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -15,11 +15,11 @@ var _phoneTypes = _interopRequireDefault(require("../../../enums/phoneTypes"));
 
 var _phoneTypes$extension;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_phoneTypes$extension = {}, _defineProperty(_phoneTypes$extension, _phoneTypes.default.extension, "Ext."), _defineProperty(_phoneTypes$extension, _phoneTypes.default.direct, "Directo"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.mobile, "Móvil"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.home, "Casa"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.business, "Trabajo"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.fax, "Fax"), _defineProperty(_phoneTypes$extension, _phoneTypes.default.other, "Otro"), _defineProperty(_phoneTypes$extension, "emailLabel", "Correo electrónico"), _defineProperty(_phoneTypes$extension, "call", "Llamar"), _defineProperty(_phoneTypes$extension, "text", "Mensaje"), _defineProperty(_phoneTypes$extension, _presenceStatus.default.available, "Disponible"), _defineProperty(_phoneTypes$extension, _presenceStatus.default.offline, "Invisible"), _defineProperty(_phoneTypes$extension, _presenceStatus.default.busy, "Ocupado"), _defineProperty(_phoneTypes$extension, _dndStatus.default.doNotAcceptAnyCalls, "No molestar"), _defineProperty(_phoneTypes$extension, "notActivated", "Inactivo"), _phoneTypes$extension); // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
+var _default = (_phoneTypes$extension = {}, _defineProperty(_phoneTypes$extension, _phoneTypes["default"].extension, "Ext."), _defineProperty(_phoneTypes$extension, _phoneTypes["default"].direct, "Directo"), _defineProperty(_phoneTypes$extension, _phoneTypes["default"].mobile, "Móvil"), _defineProperty(_phoneTypes$extension, _phoneTypes["default"].home, "Casa"), _defineProperty(_phoneTypes$extension, _phoneTypes["default"].business, "Trabajo"), _defineProperty(_phoneTypes$extension, _phoneTypes["default"].fax, "Fax"), _defineProperty(_phoneTypes$extension, _phoneTypes["default"].other, "Otro"), _defineProperty(_phoneTypes$extension, "emailLabel", "Correo electrónico"), _defineProperty(_phoneTypes$extension, "call", "Llamar"), _defineProperty(_phoneTypes$extension, "text", "Mensaje"), _defineProperty(_phoneTypes$extension, _presenceStatus["default"].available, "Disponible"), _defineProperty(_phoneTypes$extension, _presenceStatus["default"].offline, "Invisible"), _defineProperty(_phoneTypes$extension, _presenceStatus["default"].busy, "Ocupado"), _defineProperty(_phoneTypes$extension, _dndStatus["default"].doNotAcceptAnyCalls, "No molestar"), _defineProperty(_phoneTypes$extension, "notActivated", "Inactivo"), _phoneTypes$extension); // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
 // @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile"@#@
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
@@ -36,5 +36,5 @@ var _default = (_phoneTypes$extension = {}, _defineProperty(_phoneTypes$extensio
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
 
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

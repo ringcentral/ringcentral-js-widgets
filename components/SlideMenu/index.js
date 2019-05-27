@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,9 +25,9 @@ var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/Dy
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -49,20 +49,20 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function ToggleButton(_ref) {
   var onClick = _ref.onClick;
-  return _react.default.createElement("div", {
-    className: _styles.default.toggleButton,
+  return _react["default"].createElement("div", {
+    className: _styles["default"].toggleButton,
     onClick: onClick
-  }, _react.default.createElement("div", {
-    className: _styles.default.toggleButtonInner
-  }), _react.default.createElement("div", {
-    className: _styles.default.toggleButtonIcon
-  }, _react.default.createElement("span", {
-    className: (0, _classnames.default)(_DynamicsFont.default.arrow)
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].toggleButtonInner
+  }), _react["default"].createElement("div", {
+    className: _styles["default"].toggleButtonIcon
+  }, _react["default"].createElement("span", {
+    className: (0, _classnames["default"])(_DynamicsFont["default"].arrow)
   })));
 }
 
 ToggleButton.propTypes = {
-  onClick: _propTypes.default.func
+  onClick: _propTypes["default"].func
 };
 ToggleButton.defaultProps = {
   onClick: undefined
@@ -71,11 +71,11 @@ ToggleButton.defaultProps = {
 function ExtendIcon(_ref2) {
   var onClick = _ref2.onClick,
       extendIconClassName = _ref2.extendIconClassName;
-  return _react.default.createElement("div", {
-    className: _styles.default.extendIcon,
+  return _react["default"].createElement("div", {
+    className: _styles["default"].extendIcon,
     onClick: onClick
-  }, _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.extendInner, extendIconClassName)
+  }, _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].extendInner, extendIconClassName)
   }));
 }
 
@@ -143,15 +143,15 @@ function (_Component) {
       var wrapperStyles = {
         height: extended ? maxHeight : minHeight
       };
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className)
-      }, _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.wrapper, withAnimation && _styles.default.withAnimation),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className)
+      }, _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].wrapper, withAnimation && _styles["default"].withAnimation),
         style: wrapperStyles
-      }, _react.default.createElement("div", {
-        className: _styles.default.content
-      }, children)), _react.default.createElement(ExtendIcon, {
-        extendIconClassName: extended ? (0, _classnames.default)(_styles.default.extended, this.props.extendIconClassName) : null,
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].content
+      }, children)), _react["default"].createElement(ExtendIcon, {
+        extendIconClassName: extended ? (0, _classnames["default"])(_styles["default"].extended, this.props.extendIconClassName) : null,
         onClick: this.onToggle
       }));
     }
@@ -160,16 +160,16 @@ function (_Component) {
   return SlideMenu;
 }(_react.Component);
 
-exports.default = SlideMenu;
+exports["default"] = SlideMenu;
 SlideMenu.propTypes = {
-  children: _propTypes.default.node,
-  extended: _propTypes.default.bool,
-  onToggle: _propTypes.default.func,
-  className: _propTypes.default.string,
-  extendIconClassName: _propTypes.default.string,
-  minHeight: _propTypes.default.number,
-  maxHeight: _propTypes.default.number,
-  withAnimation: _propTypes.default.bool
+  children: _propTypes["default"].node,
+  extended: _propTypes["default"].bool,
+  onToggle: _propTypes["default"].func,
+  className: _propTypes["default"].string,
+  extendIconClassName: _propTypes["default"].string,
+  minHeight: _propTypes["default"].number,
+  maxHeight: _propTypes["default"].number,
+  withAnimation: _propTypes["default"].bool
 };
 SlideMenu.defaultProps = {
   className: undefined,

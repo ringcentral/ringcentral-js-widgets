@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -37,9 +37,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -60,11 +60,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var MAXIMUM_AVATARS = 4;
-var WIDTH_PER_AVATAR = parseInt(_styles.default.conferenceAvatarSize, 0); // 51
+var WIDTH_PER_AVATAR = parseInt(_styles["default"].conferenceAvatarSize, 0); // 51
 
-var AVATAR_MERGIN_LEFT = parseInt(_styles.default.avatarMerginLeftSize, 0); // -20
+var AVATAR_MERGIN_LEFT = parseInt(_styles["default"].avatarMerginLeftSize, 0); // -20
 
-var PEDDING_WIDTH = parseInt(_styles.default.avatarPaddingSize, 0); // 15
+var PEDDING_WIDTH = parseInt(_styles["default"].avatarPaddingSize, 0); // 15
 
 var minWidthCalculator = function minWidthCalculator(count) {
   return WIDTH_PER_AVATAR * count + AVATAR_MERGIN_LEFT * (count - 1) + PEDDING_WIDTH * 2 + 1 + 2;
@@ -96,13 +96,13 @@ function (_Component) {
     _classCallCheck(this, ConferenceInfo);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ConferenceInfo).call(this, props));
-    _this.onWindowResize = (0, _debounce.default)(function () {
+    _this.onWindowResize = (0, _debounce["default"])(function () {
       _this.updateAvatarAmounts(_this.props);
     }, 100);
     _this.state = {
       avatarCount: MAXIMUM_AVATARS
     };
-    _this._container = _react.default.createRef();
+    _this._container = _react["default"].createRef();
     return _this;
   }
 
@@ -226,11 +226,11 @@ function (_Component) {
           displayedProfiles = _this$computeDisplaye.displayedProfiles,
           remains = _this$computeDisplaye.remains;
 
-      return _react.default.createElement("div", {
-        className: _styles.default.conferenceCallInfoContainer,
+      return _react["default"].createElement("div", {
+        className: _styles["default"].conferenceCallInfoContainer,
         ref: this._container
-      }, displayedProfiles.length || avatarCount === 0 && remains > 0 ? _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.avatarContainer, _styles.default.clickable),
+      }, displayedProfiles.length || avatarCount === 0 && remains > 0 ? _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].avatarContainer, _styles["default"].clickable),
         onClick: function onClick(e) {
           e.preventDefault();
 
@@ -238,41 +238,42 @@ function (_Component) {
         }
       }, displayedProfiles.map(function (_ref2, idx) {
         var avatarUrl = _ref2.avatarUrl,
-            toUserName = _ref2.toUserName;
-        return _react.default.createElement("div", {
-          key: "".concat(toUserName, "_").concat(idx),
-          className: _styles.default.avatar
-        }, _react.default.createElement(_CallAvatar.default, {
+            partyName = _ref2.partyName;
+        return _react["default"].createElement("div", {
+          key: "".concat(partyName, "_").concat(idx),
+          className: _styles["default"].avatar
+        }, _react["default"].createElement(_CallAvatar["default"], {
           avatarUrl: avatarUrl
         }));
-      }), remains > 0 ? _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.avatar, _styles.default.remains)
-      }, "+".concat(remains)) : null) : _react.default.createElement("div", {
-        className: _styles.default.avatarContainer
-      }, _react.default.createElement("div", {
-        className: _styles.default.avatar,
+      }), remains > 0 ? _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].avatar, _styles["default"].remains)
+      }, "+".concat(remains)) : null) : _react["default"].createElement("div", {
+        className: _styles["default"].avatarContainer
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].avatar,
         style: {
           backgroundColor: '#fff'
         }
-      }, _react.default.createElement("i", {
-        className: (0, _classnames.default)(_DynamicsFont.default.portrait, _styles.default.icon)
-      }))), _react.default.createElement("p", {
-        className: _styles.default.info
-      }, _i18n.default.getString('conferenceCall', currentLocale)));
+      }, _react["default"].createElement("i", {
+        className: (0, _classnames["default"])(_DynamicsFont["default"].portrait, _styles["default"].icon)
+      }))), _react["default"].createElement("p", {
+        className: _styles["default"].info,
+        "data-sign": "conferenceCall"
+      }, _i18n["default"].getString('conferenceCall', currentLocale)));
     }
   }]);
 
   return ConferenceInfo;
 }(_react.Component);
 
-exports.default = ConferenceInfo;
+exports["default"] = ConferenceInfo;
 ConferenceInfo.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  partyProfiles: _propTypes.default.arrayOf(_propTypes.default.shape({
-    avatarUrl: _propTypes.default.string,
-    toUserName: _propTypes.default.string
+  currentLocale: _propTypes["default"].string.isRequired,
+  partyProfiles: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    avatarUrl: _propTypes["default"].string,
+    partyName: _propTypes["default"].string
   })),
-  onClick: _propTypes.default.func
+  onClick: _propTypes["default"].func
 };
 ConferenceInfo.defaultProps = {
   partyProfiles: null,

@@ -7,9 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
@@ -19,7 +21,7 @@ var _MeetingPanel = _interopRequireDefault(require("../../components/MeetingPane
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -29,6 +31,8 @@ function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       meeting = _ref$phone.meeting,
       locale = _ref$phone.locale,
+      connectivityMonitor = _ref$phone.connectivityMonitor,
+      rateLimiter = _ref$phone.rateLimiter,
       _ref$disabled = _ref.disabled,
       disabled = _ref$disabled === void 0 ? false : _ref$disabled,
       showWhen = _ref.showWhen,
@@ -39,7 +43,7 @@ function mapToProps(_, _ref) {
   return {
     meeting: meeting.meeting || {},
     currentLocale: locale.currentLocale,
-    disabled: meeting.isScheduling || disabled,
+    disabled: meeting.isScheduling || disabled || !connectivityMonitor.connectivity || rateLimiter && rateLimiter.throttling,
     showWhen: showWhen,
     showDuration: showDuration,
     showRecurringMeeting: showRecurringMeeting,
@@ -97,6 +101,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var MeetingPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_MeetingPanel.default));
-exports.default = MeetingPage;
+var MeetingPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_MeetingPanel["default"]));
+exports["default"] = MeetingPage;
 //# sourceMappingURL=index.js.map

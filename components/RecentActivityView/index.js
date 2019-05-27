@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.assign");
 
@@ -33,9 +33,9 @@ var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
 var _RecentActivityNavigationButton = _interopRequireDefault(require("../RecentActivityNavigationButton"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -117,8 +117,8 @@ function (_PureComponent) {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
           }
         } finally {
           if (_didIteratorError) {
@@ -146,19 +146,19 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var showSpinner = this.props.showSpinner;
-      if (showSpinner) return _react.default.createElement(_SpinnerOverlay.default, null);
+      if (showSpinner) return _react["default"].createElement(_SpinnerOverlay["default"], null);
       var props = {
         currentPath: this.state.currentTab,
         goTo: this.onTabChanged,
         tabs: this.props.tabs
       };
-      return _react.default.createElement("div", {
-        className: _styles.default.recentActivityView
-      }, _react.default.createElement(_NavigationBar.default, _extends({
-        button: _RecentActivityNavigationButton.default,
-        className: _styles.default.navigationBar
-      }, props)), _react.default.createElement("div", {
-        className: _styles.default.listView
+      return _react["default"].createElement("div", {
+        className: _styles["default"].recentActivityView
+      }, _react["default"].createElement(_NavigationBar["default"], _extends({
+        button: _RecentActivityNavigationButton["default"],
+        className: _styles["default"].navigationBar
+      }, props)), _react["default"].createElement("div", {
+        className: _styles["default"].listView
       }, this.getCurrentTabPanel()));
     }
   }]);
@@ -166,11 +166,11 @@ function (_PureComponent) {
   return RecentActivityView;
 }(_react.PureComponent);
 
-exports.default = RecentActivityView;
+exports["default"] = RecentActivityView;
 RecentActivityView.propTypes = {
-  showSpinner: _propTypes.default.bool.isRequired,
-  currentContact: _propTypes.default.object.isRequired,
-  tabs: _propTypes.default.array.isRequired,
-  defaultTab: _propTypes.default.string.isRequired
+  showSpinner: _propTypes["default"].bool.isRequired,
+  currentContact: _propTypes["default"].object.isRequired,
+  tabs: _propTypes["default"].array.isRequired,
+  defaultTab: _propTypes["default"].string.isRequired
 };
 //# sourceMappingURL=index.js.map

@@ -4,11 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getPresenceStatusName = getPresenceStatusName;
-exports.contactItemPropTypes = exports.default = void 0;
+exports.contactItemPropTypes = exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.assign");
 
@@ -16,9 +14,13 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -56,9 +58,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -88,32 +90,32 @@ function getPresenceStatusName(presence, currentLocale) {
   var presenceStatus = presence.presenceStatus,
       dndStatus = presence.dndStatus;
 
-  if (dndStatus === _dndStatus.default.doNotAcceptAnyCalls) {
-    return _i18n.default.getString(dndStatus, currentLocale);
+  if (dndStatus === _dndStatus["default"].doNotAcceptAnyCalls) {
+    return _i18n["default"].getString(dndStatus, currentLocale);
   }
 
-  return _i18n.default.getString(presenceStatus, currentLocale);
+  return _i18n["default"].getString(presenceStatus, currentLocale);
 }
 
 function AvatarNode(_ref) {
   var name = _ref.name,
       avatarUrl = _ref.avatarUrl,
       isInactive = _ref.isInactive;
-  var avatarStyle = isInactive ? _styles.default.inactiveAvatarNode : _styles.default.avatarNode;
-  return _react.default.createElement(_PlaceholderImage.default, {
+  var avatarStyle = isInactive ? _styles["default"].inactiveAvatarNode : _styles["default"].avatarNode;
+  return _react["default"].createElement(_PlaceholderImage["default"], {
     className: avatarStyle,
     alt: name,
     src: avatarUrl,
-    placeholder: _react.default.createElement(_DefaultAvatar.default, {
+    placeholder: _react["default"].createElement(_DefaultAvatar["default"], {
       className: avatarStyle
     })
   });
 }
 
 AvatarNode.propTypes = {
-  name: _propTypes.default.string,
-  avatarUrl: _propTypes.default.string,
-  isInactive: _propTypes.default.bool
+  name: _propTypes["default"].string,
+  avatarUrl: _propTypes["default"].string,
+  isInactive: _propTypes["default"].bool
 };
 AvatarNode.defaultProps = {
   name: undefined,
@@ -140,6 +142,8 @@ function (_PureComponent) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ContactDetails)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _this.onClickToDial = function (contact, phoneNumber) {
+      if (_this.props.disableCallButton) return;
+
       _this.props.onClickToDial(_objectSpread({}, contact, {
         phoneNumber: phoneNumber
       }));
@@ -159,21 +163,21 @@ function (_PureComponent) {
 
     _this.renderPresence = function (contactStatus, presence, presenceName, currentLocale) {
       if (contactStatus === 'NotActivated') {
-        return _react.default.createElement("div", {
-          className: _styles.default.presence
-        }, _react.default.createElement("div", null, _react.default.createElement("span", {
-          className: _styles.default.inactiveText
-        }, _i18n.default.getString('notActivated', currentLocale))));
+        return _react["default"].createElement("div", {
+          className: _styles["default"].presence
+        }, _react["default"].createElement("div", null, _react["default"].createElement("span", {
+          className: _styles["default"].inactiveText
+        }, _i18n["default"].getString('notActivated', currentLocale))));
       }
 
-      return presence ? _react.default.createElement("div", {
-        className: _styles.default.presence
-      }, _react.default.createElement("div", {
-        className: _styles.default.presenceNodeContainer
-      }, _react.default.createElement(_PresenceStatusIcon.default, _extends({
-        className: _styles.default.presenceNode
-      }, presence))), _react.default.createElement("span", {
-        className: _styles.default.presenceStatus
+      return presence ? _react["default"].createElement("div", {
+        className: _styles["default"].presence
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].presenceNodeContainer
+      }, _react["default"].createElement(_PresenceStatusIcon["default"], _extends({
+        className: _styles["default"].presenceNode
+      }, presence))), _react["default"].createElement("span", {
+        className: _styles["default"].presenceStatus
       }, presenceName)) : null;
     };
 
@@ -196,23 +200,23 @@ function (_PureComponent) {
         sourceType: type
       });
       var presenceName = presence ? getPresenceStatusName(presence, currentLocale) : null;
-      return _react.default.createElement("div", {
-        className: _styles.default.contactProfile
-      }, _react.default.createElement("div", {
-        className: _styles.default.avatar
-      }, _react.default.createElement("div", {
-        className: _styles.default.avatarNodeContainer
-      }, _react.default.createElement(AvatarNode, {
+      return _react["default"].createElement("div", {
+        className: _styles["default"].contactProfile
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].avatar
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].avatarNodeContainer
+      }, _react["default"].createElement(AvatarNode, {
         name: name,
         avatarUrl: profileImageUrl,
         isInactive: contactStatus === 'NotActivated'
-      }), sourceNode ? _react.default.createElement("div", {
-        className: _styles.default.sourceNodeContainer
-      }, sourceNode) : null)), _react.default.createElement("div", {
-        className: _styles.default.info
-      }, _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.name, !presence ? _styles.default.nameWithoutPresence : null)
-      }, _react.default.createElement("span", {
+      }), sourceNode ? _react["default"].createElement("div", {
+        className: _styles["default"].sourceNodeContainer
+      }, sourceNode) : null)), _react["default"].createElement("div", {
+        className: _styles["default"].info
+      }, _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].name, !presence ? _styles["default"].nameWithoutPresence : null)
+      }, _react["default"].createElement("span", {
         style: contactStatus === 'NotActivated' ? {
           color: '#999999',
           fontSize: '12px'
@@ -223,12 +227,12 @@ function (_PureComponent) {
   }, {
     key: "getListContainerBuilder",
     value: function getListContainerBuilder(label, listComp) {
-      return _react.default.createElement("div", {
-        className: _styles.default.item,
+      return _react["default"].createElement("div", {
+        className: _styles["default"].item,
         key: label
-      }, _react.default.createElement("div", {
-        className: _styles.default.label
-      }, _react.default.createElement("span", null, label)), _react.default.createElement("ul", null, listComp));
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].label
+      }, _react["default"].createElement("span", null, label)), _react["default"].createElement("ul", null, listComp));
     }
   }, {
     key: "getListItem",
@@ -237,6 +241,7 @@ function (_PureComponent) {
 
       var showCallBtn = _ref2.showCallBtn,
           showTextBtn = _ref2.showTextBtn,
+          disableCallButton = _ref2.disableCallButton,
           key = _ref2.key,
           number = _ref2.number,
           currentLocale = _ref2.currentLocale,
@@ -254,28 +259,29 @@ function (_PureComponent) {
         displayedPhoneNumber = number;
       }
 
-      return _react.default.createElement("li", {
+      return _react["default"].createElement("li", {
         key: key
-      }, _react.default.createElement("div", {
-        className: _styles.default.number
-      }, _react.default.createElement("span", {
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].number
+      }, _react["default"].createElement("span", {
         title: displayedPhoneNumber
-      }, displayedPhoneNumber)), _react.default.createElement("div", {
-        className: _styles.default.menu
-      }, showCallBtn ? _react.default.createElement("button", {
-        title: _i18n.default.getString('call', currentLocale),
+      }, displayedPhoneNumber)), _react["default"].createElement("div", {
+        className: _styles["default"].menu
+      }, showCallBtn ? _react["default"].createElement("button", {
+        className: (0, _classnames["default"])(disableCallButton && _styles["default"].disabled),
+        title: _i18n["default"].getString('call', currentLocale),
         onClick: function onClick() {
           return _this2.onClickToDial(contactItem, number);
         }
-      }, _react.default.createElement("i", {
-        className: _DynamicsFont.default.call
-      })) : null, showTextBtn ? _react.default.createElement("button", {
-        title: _i18n.default.getString('text', currentLocale),
+      }, _react["default"].createElement("i", {
+        className: _DynamicsFont["default"].call
+      })) : null, showTextBtn ? _react["default"].createElement("button", {
+        title: _i18n["default"].getString('text', currentLocale),
         onClick: function onClick() {
           return _this2.onClickToSMS(contactItem, number);
         }
-      }, _react.default.createElement("i", {
-        className: _DynamicsFont.default.composeText
+      }, _react["default"].createElement("i", {
+        className: _DynamicsFont["default"].composeText
       })) : null));
     }
   }, {
@@ -285,7 +291,8 @@ function (_PureComponent) {
 
       var _this$props2 = this.props,
           contactItem = _this$props2.contactItem,
-          currentLocale = _this$props2.currentLocale;
+          currentLocale = _this$props2.currentLocale,
+          disableCallButton = _this$props2.disableCallButton;
       var phoneNumbers = contactItem.phoneNumbers,
           phoneMaps = contactItem.phoneMaps,
           schema = contactItem.schema;
@@ -294,16 +301,17 @@ function (_PureComponent) {
         return null;
       }
 
-      return _react.default.createElement("div", {
-        className: _styles.default.contacts
+      return _react["default"].createElement("div", {
+        className: _styles["default"].contacts
       }, (0, _ramda.map)(function (key) {
         switch (key) {
-          case _phoneTypes.default.extension:
+          case _phoneTypes["default"].extension:
             {
-              return _this3.getListContainerBuilder(_i18n.default.getString(_phoneTypes.default.extension, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+              return _this3.getListContainerBuilder(_i18n["default"].getString(_phoneTypes["default"].extension, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
                 return _this3.getListItem({
                   showCallBtn: _this3.props.internalSmsPermission,
                   showTextBtn: _this3.props.onClickToDial,
+                  disableCallButton: disableCallButton,
                   key: phoneNumberElm.phoneNumber,
                   number: phoneNumberElm.phoneNumber,
                   currentLocale: currentLocale,
@@ -312,9 +320,9 @@ function (_PureComponent) {
               }, phoneMaps[key]));
             }
 
-          case _phoneTypes.default.fax:
+          case _phoneTypes["default"].fax:
             {
-              return _this3.getListContainerBuilder(_i18n.default.getString(_phoneTypes.default.fax, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+              return _this3.getListContainerBuilder(_i18n["default"].getString(_phoneTypes["default"].fax, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
                 return _this3.getListItem({
                   showCallBtn: false,
                   showTextBtn: false,
@@ -328,10 +336,11 @@ function (_PureComponent) {
 
           default:
             {
-              return _this3.getListContainerBuilder(_i18n.default.getString(_phoneTypes.default[key], currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+              return _this3.getListContainerBuilder(_i18n["default"].getString(_phoneTypes["default"][key], currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
                 return _this3.getListItem({
                   showCallBtn: _this3.props.onClickToDial,
                   showTextBtn: _this3.props.outboundSmsPermission,
+                  disableCallButton: disableCallButton,
                   key: phoneNumberElm.phoneNumber,
                   number: phoneNumberElm.phoneNumber,
                   currentLocale: currentLocale,
@@ -354,29 +363,29 @@ function (_PureComponent) {
       if (!emails || emails.length <= 0) return null;
       var hasMailToHandler = typeof onClickMailTo === 'function';
       var emailListView = emails.map(function (email, index) {
-        return _react.default.createElement("li", {
+        return _react["default"].createElement("li", {
           key: index
-        }, _react.default.createElement("a", {
+        }, _react["default"].createElement("a", {
           title: email,
-          className: hasMailToHandler ? _styles.default.underline : null,
+          className: hasMailToHandler ? _styles["default"].underline : null,
           onClick: function onClick() {
             return _this4.onClickMailTo(email, type);
           }
         }, email));
       });
-      return _react.default.createElement("div", null, _react.default.createElement("div", {
-        className: _styles.default.label
-      }, _react.default.createElement("span", null, _i18n.default.getString('emailLabel', this.props.currentLocale))), _react.default.createElement("ul", null, emailListView));
+      return _react["default"].createElement("div", null, _react["default"].createElement("div", {
+        className: _styles["default"].label
+      }, _react["default"].createElement("span", null, _i18n["default"].getString('emailLabel', this.props.currentLocale))), _react["default"].createElement("ul", null, emailListView));
     }
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement("div", {
-        className: _styles.default.profile
-      }, this.renderProfile()), this.getPhoneSections(), _react.default.createElement("div", {
-        className: _styles.default.email
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].profile
+      }, this.renderProfile()), this.getPhoneSections(), _react["default"].createElement("div", {
+        className: _styles["default"].email
       }, this.renderEmailCell()));
     }
   }]);
@@ -384,31 +393,32 @@ function (_PureComponent) {
   return ContactDetails;
 }(_react.PureComponent);
 
-exports.default = ContactDetails;
+exports["default"] = ContactDetails;
 var contactItemPropTypes = {
-  id: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]).isRequired,
-  type: _propTypes.default.string.isRequired,
-  firstName: _propTypes.default.string,
-  lastName: _propTypes.default.string,
-  email: _propTypes.default.string,
-  profileImageUrl: _propTypes.default.string,
-  phoneNumbers: _propTypes.default.arrayOf(_propTypes.default.shape({
-    phoneNumber: _propTypes.default.string,
-    phoneType: _propTypes.default.string
+  id: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]).isRequired,
+  type: _propTypes["default"].string.isRequired,
+  firstName: _propTypes["default"].string,
+  lastName: _propTypes["default"].string,
+  email: _propTypes["default"].string,
+  profileImageUrl: _propTypes["default"].string,
+  phoneNumbers: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string,
+    phoneType: _propTypes["default"].string
   })),
-  contactStatus: _propTypes.default.string
+  contactStatus: _propTypes["default"].string
 };
 exports.contactItemPropTypes = contactItemPropTypes;
 ContactDetails.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  contactItem: _propTypes.default.shape(contactItemPropTypes).isRequired,
-  sourceNodeRenderer: _propTypes.default.func,
-  onClickToSMS: _propTypes.default.func,
-  onClickToDial: _propTypes.default.func,
-  onClickMailTo: _propTypes.default.func,
-  formatNumber: _propTypes.default.func.isRequired,
-  outboundSmsPermission: _propTypes.default.bool,
-  internalSmsPermission: _propTypes.default.bool
+  currentLocale: _propTypes["default"].string.isRequired,
+  contactItem: _propTypes["default"].shape(contactItemPropTypes).isRequired,
+  sourceNodeRenderer: _propTypes["default"].func,
+  onClickToSMS: _propTypes["default"].func,
+  onClickToDial: _propTypes["default"].func,
+  onClickMailTo: _propTypes["default"].func,
+  formatNumber: _propTypes["default"].func.isRequired,
+  outboundSmsPermission: _propTypes["default"].bool,
+  internalSmsPermission: _propTypes["default"].bool,
+  disableCallButton: _propTypes["default"].bool
 };
 ContactDetails.defaultProps = {
   onClickToSMS: undefined,
@@ -418,6 +428,7 @@ ContactDetails.defaultProps = {
     return null;
   },
   outboundSmsPermission: false,
-  internalSmsPermission: false
+  internalSmsPermission: false,
+  disableCallButton: false
 };
 //# sourceMappingURL=index.js.map

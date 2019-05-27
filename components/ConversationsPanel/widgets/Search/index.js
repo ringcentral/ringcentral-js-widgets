@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = Search;
+exports["default"] = Search;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -25,7 +25,7 @@ var _i18n = _interopRequireDefault(require("../../i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function Search(_ref) {
   var composeTextPermission = _ref.composeTextPermission,
@@ -41,43 +41,43 @@ function Search(_ref) {
     return null;
   }
 
-  var showTextIcon = composeTextPermission && (typeFilter === _messageTypes.default.all || typeFilter === _messageTypes.default.text);
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.searchContainer, showTextIcon ? null : _styles.default.withoutTextIcon)
-  }, _react.default.createElement(_SearchInput.default, {
-    className: _styles.default.searchInput,
+  var showTextIcon = composeTextPermission && (typeFilter === _messageTypes["default"].all || typeFilter === _messageTypes["default"].text);
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].searchContainer, showTextIcon ? null : _styles["default"].withoutTextIcon)
+  }, _react["default"].createElement(_SearchInput["default"], {
+    className: _styles["default"].searchInput,
     value: searchInput,
     onChange: onSearchInputChange,
-    placeholder: _i18n.default.getString('search', currentLocale),
+    placeholder: _i18n["default"].getString('search', currentLocale),
     disabled: disableLinks
-  }), _react.default.createElement("span", {
-    title: _i18n.default.getString('composeText', currentLocale),
-    className: _styles.default.textIcon,
+  }), _react["default"].createElement("span", {
+    title: _i18n["default"].getString('composeText', currentLocale),
+    className: _styles["default"].textIcon,
     onClick: goToComposeText
-  }, _react.default.createElement(_NewComposeTextHover.default, {
-    className: _styles.default.hoverTextSVGIcon,
+  }, _react["default"].createElement(_NewComposeTextHover["default"], {
+    className: _styles["default"].hoverTextSVGIcon,
     width: 20,
     height: 21
-  }), _react.default.createElement(_NewComposeText.default, {
-    className: _styles.default.textSVGIcon,
+  }), _react["default"].createElement(_NewComposeText["default"], {
+    className: _styles["default"].textSVGIcon,
     width: 20,
     height: 21
   })), renderSearchTip && renderSearchTip());
 }
 
 Search.propTypes = {
-  composeTextPermission: _propTypes.default.bool,
-  typeFilter: _propTypes.default.string,
-  onSearchInputChange: _propTypes.default.func,
-  searchInput: _propTypes.default.string,
-  currentLocale: _propTypes.default.string.isRequired,
-  disableLinks: _propTypes.default.bool,
-  goToComposeText: _propTypes.default.func.isRequired,
-  renderSearchTip: _propTypes.default.func
+  composeTextPermission: _propTypes["default"].bool,
+  typeFilter: _propTypes["default"].string,
+  onSearchInputChange: _propTypes["default"].func,
+  searchInput: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string.isRequired,
+  disableLinks: _propTypes["default"].bool,
+  goToComposeText: _propTypes["default"].func.isRequired,
+  renderSearchTip: _propTypes["default"].func
 };
 Search.defaultProps = {
   composeTextPermission: true,
-  typeFilter: _messageTypes.default.all,
+  typeFilter: _messageTypes["default"].all,
   onSearchInputChange: undefined,
   searchInput: '',
   disableLinks: false,

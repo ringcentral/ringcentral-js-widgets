@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -11,7 +11,7 @@ var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enum
 
 var _addLog$editLog$viewD;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -25,7 +25,7 @@ var _default = (_addLog$editLog$viewD = {
   conversation: "会話",
   groupConversation: "グループ会話",
   voiceMessage: "ボイスメッセージ"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes.default.voiceMail, "ボイスメール"), _defineProperty(_addLog$editLog$viewD, _messageTypes.default.fax, "FAX"), _defineProperty(_addLog$editLog$viewD, "mark", "未読にする"), _defineProperty(_addLog$editLog$viewD, "unmark", "既読にする"), _defineProperty(_addLog$editLog$viewD, "delete", "削除"), _defineProperty(_addLog$editLog$viewD, "faxSent", "FAX送信済み"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "FAX受信済み"), _defineProperty(_addLog$editLog$viewD, "pages", "ページ"), _defineProperty(_addLog$editLog$viewD, "preview", "表示"), _defineProperty(_addLog$editLog$viewD, "download", "ダウンロード"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "添付ファイル：1個の画像"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "ボイスメール"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "FAX"), _defineProperty(_addLog$editLog$viewD, "mark", "未読にする"), _defineProperty(_addLog$editLog$viewD, "unmark", "既読にする"), _defineProperty(_addLog$editLog$viewD, "delete", "削除"), _defineProperty(_addLog$editLog$viewD, "faxSent", "FAX送信済み"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "FAX受信済み"), _defineProperty(_addLog$editLog$viewD, "pages", "ページ"), _defineProperty(_addLog$editLog$viewD, "preview", "表示"), _defineProperty(_addLog$editLog$viewD, "download", "ダウンロード"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "添付ファイル：1個の画像"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -47,5 +47,5 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@
 
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

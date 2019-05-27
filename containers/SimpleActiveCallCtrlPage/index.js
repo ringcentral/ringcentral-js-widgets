@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -39,9 +39,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _utils = require("./utils");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -75,16 +75,16 @@ function mapToProps(_, _ref) {
   var nameMatches = [];
 
   if (activeSession && !renderContactName) {
-    nameMatches = activeSession.direction === _callDirections.default.outbound ? activeSession.toMatches : activeSession.fromMatches;
+    nameMatches = activeSession.direction === _callDirections["default"].outbound ? activeSession.toMatches : activeSession.fromMatches;
   }
 
   var phoneNumber;
 
   if (activeSession) {
-    phoneNumber = activeSession.direction === _callDirections.default.outbound ? activeSession.to : activeSession.from;
+    phoneNumber = activeSession.direction === _callDirections["default"].outbound ? activeSession.to : activeSession.from;
   }
 
-  var fallBackName = _i18n.default.getString('Unknown', locale.currentLocale);
+  var fallBackName = _i18n["default"].getString('Unknown', locale.currentLocale);
 
   if (renderContactName) {
     var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeSession, renderContactName({
@@ -170,7 +170,7 @@ function (_Component) {
     };
 
     _this.formatPhone = function (phoneNumber) {
-      return (0, _formatNumber.default)({
+      return (0, _formatNumber["default"])({
         phoneNumber: phoneNumber,
         areaCode: _this.props.areaCode,
         countryCode: _this.props.countryCode
@@ -220,7 +220,7 @@ function (_Component) {
         return null;
       }
 
-      return _react.default.createElement(_CallCtrlPanel.default, {
+      return _react["default"].createElement(_CallCtrlPanel["default"], {
         sessionId: this.props.sessionId,
         currentLocale: this.props.currentLocale,
         fallBackName: this.props.fallBackName,
@@ -232,13 +232,13 @@ function (_Component) {
         onHangup: this.onHangup,
         onTransfer: this.props.onTransfer,
         showBackButton: true,
-        backButtonLabel: _i18n.default.getString('allCalls', this.props.currentLocale),
+        backButtonLabel: _i18n["default"].getString('allCalls', this.props.currentLocale),
         onBackButtonClick: this.props.onBackButtonClick,
         formatPhone: this.formatPhone,
         areaCode: this.props.areaCode,
         countryCode: this.props.countryCode,
         selectedMatcherIndex: this.state.selectedMatcherIndex,
-        layout: _callCtrlLayouts.default.normalCtrl,
+        layout: _callCtrlLayouts["default"].normalCtrl,
         startTime: this.props.activeSession.startTime,
         actions: this.props.actions,
         isOnMute: this.props.activeSession.isOnMute,
@@ -256,22 +256,22 @@ function (_Component) {
 }(_react.Component);
 
 ActiveCallControlPanel.propTypes = {
-  setActiveSessionId: _propTypes.default.func,
-  currentLocale: _propTypes.default.string,
-  sessionId: _propTypes.default.string,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  activeSession: _propTypes.default.object,
-  onBackButtonClick: _propTypes.default.func.isRequired,
-  activeCallControl: _propTypes.default.object,
-  nameMatches: _propTypes.default.array,
-  fallBackName: _propTypes.default.string,
-  phoneNumber: _propTypes.default.string,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  brand: _propTypes.default.string.isRequired,
-  onTransfer: _propTypes.default.func.isRequired,
-  controlBusy: _propTypes.default.bool,
-  actions: _propTypes.default.array
+  setActiveSessionId: _propTypes["default"].func,
+  currentLocale: _propTypes["default"].string,
+  sessionId: _propTypes["default"].string,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  activeSession: _propTypes["default"].object,
+  onBackButtonClick: _propTypes["default"].func.isRequired,
+  activeCallControl: _propTypes["default"].object,
+  nameMatches: _propTypes["default"].array,
+  fallBackName: _propTypes["default"].string,
+  phoneNumber: _propTypes["default"].string,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  brand: _propTypes["default"].string.isRequired,
+  onTransfer: _propTypes["default"].func.isRequired,
+  controlBusy: _propTypes["default"].bool,
+  actions: _propTypes["default"].array
 };
 ActiveCallControlPanel.defaultProps = {
   setActiveSessionId: function setActiveSessionId() {},
@@ -287,7 +287,7 @@ ActiveCallControlPanel.defaultProps = {
   actions: [muteCtrl, transferCtrl, holdCtrl]
 };
 
-var _default = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ActiveCallControlPanel));
+var _default = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ActiveCallControlPanel));
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -20,6 +22,8 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.regexp.replace");
+
+require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.map");
 
@@ -39,9 +43,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -72,29 +76,29 @@ function ForwardNumbers(_ref) {
       onSelect = _ref.onSelect,
       selected = _ref.selected,
       formatPhone = _ref.formatPhone;
-  return _react.default.createElement("div", {
-    className: _styles.default.numbers
+  return _react["default"].createElement("div", {
+    className: _styles["default"].numbers
   }, numbers.map(function (number, index) {
-    return _react.default.createElement("div", {
+    return _react["default"].createElement("div", {
       key: number.id,
-      className: (0, _classnames.default)(_styles.default.number, index === selected ? _styles.default.active : null),
+      className: (0, _classnames["default"])(_styles["default"].number, index === selected ? _styles["default"].active : null),
       onClick: function onClick() {
         return onSelect(index);
       }
-    }, _react.default.createElement("span", {
-      className: _styles.default.label,
+    }, _react["default"].createElement("span", {
+      className: _styles["default"].label,
       title: number.label
-    }, number.label), _react.default.createElement("span", {
-      className: _styles.default.colon
-    }, ":"), _react.default.createElement("span", null, formatPhone(number.phoneNumber)));
+    }, number.label), _react["default"].createElement("span", {
+      className: _styles["default"].colon
+    }, ":"), _react["default"].createElement("span", null, formatPhone(number.phoneNumber)));
   }));
 }
 
 ForwardNumbers.propTypes = {
-  numbers: _propTypes.default.array.isRequired,
-  onSelect: _propTypes.default.func.isRequired,
-  selected: _propTypes.default.number.isRequired,
-  formatPhone: _propTypes.default.func.isRequired
+  numbers: _propTypes["default"].array.isRequired,
+  onSelect: _propTypes["default"].func.isRequired,
+  selected: _propTypes["default"].number.isRequired,
+  formatPhone: _propTypes["default"].func.isRequired
 };
 
 var ForwardForm =
@@ -254,27 +258,27 @@ function (_Component) {
           phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
           autoFocus = _this$props.autoFocus;
       var value = this.getValue();
-      var disableButton = (0, _isBlank.default)(value) || this.state.handling;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className)
-      }, _react.default.createElement(ForwardNumbers, {
+      var disableButton = (0, _isBlank["default"])(value) || this.state.handling;
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className)
+      }, _react["default"].createElement(ForwardNumbers, {
         formatPhone: formatPhone,
         numbers: forwardingNumbers,
         onSelect: this.onSelect,
         selected: this.state.selectedIndex
-      }), _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.custromNumber, this.state.selectedIndex === forwardingNumbers.length ? _styles.default.active : null),
+      }), _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].custromNumber, this.state.selectedIndex === forwardingNumbers.length ? _styles["default"].active : null),
         onClick: this.onSelectCustomNumber
-      }, _react.default.createElement("div", {
-        className: _styles.default.customLabel
-      }, _i18n.default.getString('customNumber', currentLocale)), _react.default.createElement(_RecipientsInput.default, {
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].customLabel
+      }, _i18n["default"].getString('customNumber', currentLocale)), _react["default"].createElement(_RecipientsInput["default"], {
         label: "",
         placeholder: "",
         inputRef: function inputRef(ref) {
           _this2.customInput = ref;
         },
         value: this.state.customValue,
-        className: _styles.default.customInput,
+        className: _styles["default"].customInput,
         onChange: this._onCustomValueChange,
         onClean: this._clearToNumber,
         recipient: this.state.recipient,
@@ -288,38 +292,38 @@ function (_Component) {
         currentLocale: currentLocale,
         titleEnabled: true,
         autoFocus: autoFocus
-      })), _react.default.createElement("div", {
-        className: _styles.default.buttonGroup
-      }, _react.default.createElement(_Button.default, {
-        className: _styles.default.cancelButton,
+      })), _react["default"].createElement("div", {
+        className: _styles["default"].buttonGroup
+      }, _react["default"].createElement(_Button["default"], {
+        className: _styles["default"].cancelButton,
         onClick: onCancel
-      }, _i18n.default.getString('cancel', currentLocale)), _react.default.createElement(_Button.default, {
-        className: (0, _classnames.default)(_styles.default.forwardButton, disableButton ? _styles.default.disabled : null),
+      }, _i18n["default"].getString('cancel', currentLocale)), _react["default"].createElement(_Button["default"], {
+        className: (0, _classnames["default"])(_styles["default"].forwardButton, disableButton ? _styles["default"].disabled : null),
         onClick: this.onForward,
         disabled: disableButton
-      }, _react.default.createElement("span", {
-        className: _styles.default.buttonText
-      }, _i18n.default.getString('forward', currentLocale)))));
+      }, _react["default"].createElement("span", {
+        className: _styles["default"].buttonText
+      }, _i18n["default"].getString('forward', currentLocale)))));
     }
   }]);
 
   return ForwardForm;
 }(_react.Component);
 
-exports.default = ForwardForm;
+exports["default"] = ForwardForm;
 ForwardForm.propTypes = {
-  className: _propTypes.default.string,
-  onCancel: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  forwardingNumbers: _propTypes.default.array.isRequired,
-  formatPhone: _propTypes.default.func.isRequired,
-  onForward: _propTypes.default.func.isRequired,
-  onChange: _propTypes.default.func,
-  searchContactList: _propTypes.default.array.isRequired,
-  searchContact: _propTypes.default.func.isRequired,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  autoFocus: _propTypes.default.bool
+  className: _propTypes["default"].string,
+  onCancel: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  forwardingNumbers: _propTypes["default"].array.isRequired,
+  formatPhone: _propTypes["default"].func.isRequired,
+  onForward: _propTypes["default"].func.isRequired,
+  onChange: _propTypes["default"].func,
+  searchContactList: _propTypes["default"].array.isRequired,
+  searchContact: _propTypes["default"].func.isRequired,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  autoFocus: _propTypes["default"].bool
 };
 ForwardForm.defaultProps = {
   className: null,

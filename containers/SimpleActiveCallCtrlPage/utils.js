@@ -15,13 +15,15 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * @file tools
@@ -55,10 +57,10 @@ var pickFallBackInfo = function pickFallBackInfo() {
 
     if (!contactName) {
       if (activityMatches.length < SINGLE_OR_NONE_MATCH) {
-        return _i18n.default.getString('Unknown', currentLocale);
+        return _i18n["default"].getString('Unknown', currentLocale);
       }
 
-      return _i18n.default.getString('Multiple', currentLocale);
+      return _i18n["default"].getString('Multiple', currentLocale);
     }
 
     return contactName;
@@ -71,14 +73,14 @@ var pickFallBackInfo = function pickFallBackInfo() {
   }
 
   switch (direction) {
-    case _callDirections.default.inbound:
+    case _callDirections["default"].inbound:
       {
         fallBackName = getName(call);
         fallBackNumber = getNumber(call.from);
         break;
       }
 
-    case _callDirections.default.outbound:
+    case _callDirections["default"].outbound:
       {
         fallBackName = getName(call);
         fallBackNumber = getNumber(call.to);

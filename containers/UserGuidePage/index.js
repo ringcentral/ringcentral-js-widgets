@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _reactRedux = require("react-redux");
 
@@ -15,7 +15,7 @@ var _phoneContext = require("../../lib/phoneContext");
 
 var _UserGuide = _interopRequireDefault(require("../../components/UserGuide"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -50,7 +50,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var _default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_UserGuide.default));
+var _default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_UserGuide["default"]));
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

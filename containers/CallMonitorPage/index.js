@@ -5,9 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.regexp.search");
 
@@ -23,7 +25,7 @@ var _phoneContext = require("../../lib/phoneContext");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -47,7 +49,7 @@ function mapToProps(_, _ref) {
     enableContactFallback: enableContactFallback,
     active: true,
     brand: brand.fullName,
-    title: _i18n.default.getString('title', locale.currentLocale),
+    title: _i18n["default"].getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
     calls: callMonitor.calls,
     areaCode: regionSettings.areaCode,
@@ -271,7 +273,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallMonitorPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsPanel.default));
+var CallMonitorPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsPanel["default"]));
 var _default = CallMonitorPage;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

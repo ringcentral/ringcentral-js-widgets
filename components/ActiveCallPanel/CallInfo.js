@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = CallInfo;
+exports["default"] = CallInfo;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -17,32 +17,32 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function CallInfo(props) {
   var avatar;
 
   if (props.avatarUrl) {
-    avatar = _react.default.createElement(_CallAvatar.default, {
+    avatar = _react["default"].createElement(_CallAvatar["default"], {
       avatarUrl: props.avatarUrl
     });
   } else {
-    avatar = _react.default.createElement(_CallAvatar.default, {
+    avatar = _react["default"].createElement(_CallAvatar["default"], {
       avatarUrl: null
     });
   }
 
-  return _react.default.createElement("div", {
-    className: _styles.default.userInfo
-  }, _react.default.createElement("div", {
-    className: _styles.default.avatarContainer
-  }, _react.default.createElement("div", {
-    className: _styles.default.avatar
-  }, avatar)), _react.default.createElement("div", {
-    className: _styles.default.userName
-  }, _react.default.createElement(_ContactDisplay.default, {
-    className: _styles.default.contactDisplay,
-    selectClassName: _styles.default.dropdown,
+  return _react["default"].createElement("div", {
+    className: _styles["default"].userInfo
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].avatarContainer
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].avatar
+  }, avatar)), _react["default"].createElement("div", {
+    className: _styles["default"].userName
+  }, _react["default"].createElement(_ContactDisplay["default"], {
+    className: _styles["default"].contactDisplay,
+    selectClassName: _styles["default"].dropdown,
     contactMatches: props.nameMatches,
     phoneNumber: props.phoneNumber,
     fallBackName: props.fallBackName,
@@ -50,7 +50,6 @@ function CallInfo(props) {
     areaCode: props.areaCode,
     countryCode: props.countryCode,
     showType: false,
-    disabled: false,
     selected: props.selectedMatcherIndex,
     onSelectContact: props.onSelectMatcherName,
     isLogging: false,
@@ -60,28 +59,28 @@ function CallInfo(props) {
     sourceIcons: props.sourceIcons,
     phoneTypeRenderer: props.phoneTypeRenderer,
     phoneSourceNameRenderer: props.phoneSourceNameRenderer
-  })), _react.default.createElement("div", {
-    className: _styles.default.userPhoneNumber,
+  })), _react["default"].createElement("div", {
+    className: _styles["default"].userPhoneNumber,
     "data-sign": "userPhoneNumber"
   }, props.formatPhone(props.phoneNumber)));
 }
 
 CallInfo.propTypes = {
-  phoneNumber: _propTypes.default.string,
-  formatPhone: _propTypes.default.func.isRequired,
-  nameMatches: _propTypes.default.array.isRequired,
-  fallBackName: _propTypes.default.string.isRequired,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  selectedMatcherIndex: _propTypes.default.number.isRequired,
-  onSelectMatcherName: _propTypes.default.func.isRequired,
-  avatarUrl: _propTypes.default.string,
-  brand: _propTypes.default.string,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func
+  phoneNumber: _propTypes["default"].string,
+  formatPhone: _propTypes["default"].func.isRequired,
+  nameMatches: _propTypes["default"].array.isRequired,
+  fallBackName: _propTypes["default"].string.isRequired,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  selectedMatcherIndex: _propTypes["default"].number.isRequired,
+  onSelectMatcherName: _propTypes["default"].func.isRequired,
+  avatarUrl: _propTypes["default"].string,
+  brand: _propTypes["default"].string,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func
 };
 CallInfo.defaultProps = {
   phoneNumber: null,

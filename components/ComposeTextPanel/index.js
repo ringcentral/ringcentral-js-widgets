@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -37,9 +39,9 @@ var _FromField = _interopRequireDefault(require("../FromField"));
 
 var _MessageInput = _interopRequireDefault(require("../MessageInput"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -149,16 +151,16 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, this.props.className)
-      }, this.props.showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : null, _react.default.createElement(_NoSenderAlert.default, {
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
+      }, this.props.showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null, _react["default"].createElement(_NoSenderAlert["default"], {
         currentLocale: this.props.currentLocale,
         outboundSMS: this.props.outboundSMS,
         hasSenderNumbers: this.hasSenderNumbers(),
         brand: this.props.brand
-      }), _react.default.createElement(_RecipientsInput.default, {
+      }), _react["default"].createElement(_RecipientsInput["default"], {
         value: this.props.typingToNumber,
-        recipientsClassName: _styles.default.recipients,
+        recipientsClassName: _styles["default"].recipients,
         onChange: this.props.updateTypingToNumber,
         onClean: this.cleanReceiverValue,
         recipients: this.props.toNumbers,
@@ -175,9 +177,9 @@ function (_Component) {
         titleEnabled: true,
         autoFocus: this.props.autoFocus,
         multiple: true
-      }), _react.default.createElement("div", {
-        className: _styles.default.senderField
-      }, _react.default.createElement(_FromField.default, {
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].senderField
+      }, _react["default"].createElement(_FromField["default"], {
         currentLocale: this.props.currentLocale,
         fromNumber: this.props.senderNumber,
         fromNumbers: this.props.senderNumbers,
@@ -185,7 +187,7 @@ function (_Component) {
         onChange: this.onSenderChange,
         hidden: !this.hasSenderNumbers(),
         showAnonymous: false
-      })), _react.default.createElement(_MessageInput.default, {
+      })), _react["default"].createElement(_MessageInput["default"], {
         value: this.props.messageText,
         onChange: this.props.updateMessageText,
         disabled: this.props.sendButtonDisabled,
@@ -200,44 +202,44 @@ function (_Component) {
 }(_react.Component);
 
 ComposeTextPanel.propTypes = {
-  brand: _propTypes.default.string,
-  className: _propTypes.default.string,
-  send: _propTypes.default.func.isRequired,
-  senderNumbers: _propTypes.default.arrayOf(_propTypes.default.shape({
-    phoneNumber: _propTypes.default.string.isRequired
+  brand: _propTypes["default"].string,
+  className: _propTypes["default"].string,
+  send: _propTypes["default"].func.isRequired,
+  senderNumbers: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string.isRequired
   })).isRequired,
-  sendButtonDisabled: _propTypes.default.bool.isRequired,
-  formatPhone: _propTypes.default.func.isRequired,
-  formatContactPhone: _propTypes.default.func.isRequired,
-  searchContact: _propTypes.default.func.isRequired,
-  searchContactList: _propTypes.default.arrayOf(_propTypes.default.shape({
-    name: _propTypes.default.string.isRequired,
-    entityType: _propTypes.default.string.isRequired,
-    phoneType: _propTypes.default.string.isRequired,
-    phoneNumber: _propTypes.default.string.isRequired
+  sendButtonDisabled: _propTypes["default"].bool.isRequired,
+  formatPhone: _propTypes["default"].func.isRequired,
+  formatContactPhone: _propTypes["default"].func.isRequired,
+  searchContact: _propTypes["default"].func.isRequired,
+  searchContactList: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    name: _propTypes["default"].string.isRequired,
+    entityType: _propTypes["default"].string.isRequired,
+    phoneType: _propTypes["default"].string.isRequired,
+    phoneNumber: _propTypes["default"].string.isRequired
   })).isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  updateSenderNumber: _propTypes.default.func.isRequired,
-  updateTypingToNumber: _propTypes.default.func.isRequired,
-  cleanTypingToNumber: _propTypes.default.func.isRequired,
-  addToNumber: _propTypes.default.func.isRequired,
-  removeToNumber: _propTypes.default.func.isRequired,
-  updateMessageText: _propTypes.default.func.isRequired,
-  messageText: _propTypes.default.string,
-  typingToNumber: _propTypes.default.string,
-  senderNumber: _propTypes.default.string,
-  toNumbers: _propTypes.default.arrayOf(_propTypes.default.shape({
-    phoneNumber: _propTypes.default.string.isRequired,
-    name: _propTypes.default.string
+  currentLocale: _propTypes["default"].string.isRequired,
+  updateSenderNumber: _propTypes["default"].func.isRequired,
+  updateTypingToNumber: _propTypes["default"].func.isRequired,
+  cleanTypingToNumber: _propTypes["default"].func.isRequired,
+  addToNumber: _propTypes["default"].func.isRequired,
+  removeToNumber: _propTypes["default"].func.isRequired,
+  updateMessageText: _propTypes["default"].func.isRequired,
+  messageText: _propTypes["default"].string,
+  typingToNumber: _propTypes["default"].string,
+  senderNumber: _propTypes["default"].string,
+  toNumbers: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string.isRequired,
+    name: _propTypes["default"].string
   })).isRequired,
-  outboundSMS: _propTypes.default.bool,
-  showSpinner: _propTypes.default.bool,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  recipientsContactInfoRenderer: _propTypes.default.func,
-  recipientsContactPhoneRenderer: _propTypes.default.func,
-  autoFocus: _propTypes.default.bool,
-  inputExpandable: _propTypes.default.bool
+  outboundSMS: _propTypes["default"].bool,
+  showSpinner: _propTypes["default"].bool,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  recipientsContactInfoRenderer: _propTypes["default"].func,
+  recipientsContactPhoneRenderer: _propTypes["default"].func,
+  autoFocus: _propTypes["default"].bool,
+  inputExpandable: _propTypes["default"].bool
 };
 ComposeTextPanel.defaultProps = {
   brand: 'RingCentral',
@@ -255,5 +257,5 @@ ComposeTextPanel.defaultProps = {
   inputExpandable: undefined
 };
 var _default = ComposeTextPanel;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

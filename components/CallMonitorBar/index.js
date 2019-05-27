@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallInfoBar = CallInfoBar;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -32,9 +32,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -59,24 +59,24 @@ function CallInfoBar(_ref) {
       onClick = _ref.onClick,
       currentLocale = _ref.currentLocale,
       shouldDisplayViewCallsBtn = _ref.shouldDisplayViewCallsBtn;
-  return _react.default.createElement("div", {
-    className: _styles.default.bar
-  }, _react.default.createElement("div", {
-    className: _styles.default.currentCallInfo,
+  return _react["default"].createElement("div", {
+    className: _styles["default"].bar
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].currentCallInfo,
     title: label,
     onClick: onClick
-  }, label), shouldDisplayViewCallsBtn ? _react.default.createElement(_Button.default, {
-    className: _styles.default.viewCallsBtn,
-    tooltip: _i18n.default.getString('viewCalls', currentLocale),
+  }, label), shouldDisplayViewCallsBtn ? _react["default"].createElement(_Button["default"], {
+    className: _styles["default"].viewCallsBtn,
+    tooltip: _i18n["default"].getString('viewCalls', currentLocale),
     onClick: onClick
-  }, _i18n.default.getString('viewCalls', currentLocale)) : null);
+  }, _i18n["default"].getString('viewCalls', currentLocale)) : null);
 }
 
 CallInfoBar.propTypes = {
-  label: _propTypes.default.string,
-  onClick: _propTypes.default.func,
-  currentLocale: _propTypes.default.string,
-  shouldDisplayViewCallsBtn: _propTypes.default.bool
+  label: _propTypes["default"].string,
+  onClick: _propTypes["default"].func,
+  currentLocale: _propTypes["default"].string,
+  shouldDisplayViewCallsBtn: _propTypes["default"].bool
 };
 CallInfoBar.defaultProps = {
   label: '',
@@ -131,59 +131,59 @@ function (_Component) {
           shouldDisplayViewCallsBtn = _this$props.shouldDisplayViewCallsBtn;
       var numberOfIncomingCalls = ringingCalls.length;
       var numberOfOnHoldCalls = onHoldCalls.length;
-      return _react.default.createElement("div", {
-        className: _styles.default.bar,
+      return _react["default"].createElement("div", {
+        className: _styles["default"].bar,
         onMouseOver: this.showBtn,
         onMouseLeave: this.hideBtn
-      }, _react.default.createElement("div", {
-        className: _styles.default.box
-      }, _react.default.createElement(_CarrouselBar.default, {
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].box
+      }, _react["default"].createElement(_CarrouselBar["default"], {
         hoverBar: this.state.hoverBar
-      }, numberOfOnHoldCalls > 0 ? _react.default.createElement(CallInfoBar, {
-        label: numberOfOnHoldCalls === 1 ? (0, _formatMessage.default)(_i18n.default.getString('callOnHold', currentLocale), {
+      }, numberOfOnHoldCalls > 0 ? _react["default"].createElement(CallInfoBar, {
+        label: numberOfOnHoldCalls === 1 ? (0, _formatMessage["default"])(_i18n["default"].getString('callOnHold', currentLocale), {
           numberOf: numberOfOnHoldCalls
-        }) : (0, _formatMessage.default)(_i18n.default.getString('callsOnHold', currentLocale), {
+        }) : (0, _formatMessage["default"])(_i18n["default"].getString('callsOnHold', currentLocale), {
           numberOf: numberOfOnHoldCalls
         }),
         currentLocale: currentLocale,
         onClick: onViewCallBtnClick,
         shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
-      }) : null, numberOfIncomingCalls > 0 ? _react.default.createElement(CallInfoBar, {
-        label: numberOfIncomingCalls === 1 ? (0, _formatMessage.default)(_i18n.default.getString('incomingCall', currentLocale), {
+      }) : null, numberOfIncomingCalls > 0 ? _react["default"].createElement(CallInfoBar, {
+        label: numberOfIncomingCalls === 1 ? (0, _formatMessage["default"])(_i18n["default"].getString('incomingCall', currentLocale), {
           numberOf: numberOfIncomingCalls
-        }) : (0, _formatMessage.default)(_i18n.default.getString('incomingCalls', currentLocale), {
+        }) : (0, _formatMessage["default"])(_i18n["default"].getString('incomingCalls', currentLocale), {
           numberOf: numberOfIncomingCalls
         }),
         currentLocale: currentLocale,
         onClick: onViewCallBtnClick,
         shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
-      }) : null, currentCalls.length > 0 ? _react.default.createElement("div", {
-        className: _styles.default.bar
-      }, _react.default.createElement("div", {
-        className: _styles.default.duration,
+      }) : null, currentCalls.length > 0 ? _react["default"].createElement("div", {
+        className: _styles["default"].bar
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].duration,
         onClick: onCurrentCallBtnClick
-      }, _react.default.createElement(_DurationCounter.default, {
+      }, _react["default"].createElement(_DurationCounter["default"], {
         startTime: currentCalls[0].startTime
-      })), shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? _react.default.createElement(_Button.default, {
-        className: _styles.default.currentCallBtn,
+      })), shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? _react["default"].createElement(_Button["default"], {
+        className: _styles["default"].currentCallBtn,
         onClick: onCurrentCallBtnClick
-      }, _i18n.default.getString('currentCall', currentLocale)) : null) : null)));
+      }, _i18n["default"].getString('currentCall', currentLocale)) : null) : null)));
     }
   }]);
 
   return CallMonitorBar;
 }(_react.Component);
 
-exports.default = CallMonitorBar;
+exports["default"] = CallMonitorBar;
 CallMonitorBar.propTypes = {
-  ringingCalls: _propTypes.default.array,
-  currentCalls: _propTypes.default.array,
-  onHoldCalls: _propTypes.default.array,
-  currentLocale: _propTypes.default.string.isRequired,
-  onCurrentCallBtnClick: _propTypes.default.func,
-  onViewCallBtnClick: _propTypes.default.func,
-  shouldDisplayCurrentCallBtn: _propTypes.default.bool,
-  shouldDisplayViewCallsBtn: _propTypes.default.bool
+  ringingCalls: _propTypes["default"].array,
+  currentCalls: _propTypes["default"].array,
+  onHoldCalls: _propTypes["default"].array,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onCurrentCallBtnClick: _propTypes["default"].func,
+  onViewCallBtnClick: _propTypes["default"].func,
+  shouldDisplayCurrentCallBtn: _propTypes["default"].bool,
+  shouldDisplayViewCallsBtn: _propTypes["default"].bool
 };
 CallMonitorBar.defaultProps = {
   ringingCalls: [],

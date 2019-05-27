@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -35,7 +35,7 @@ var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayou
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ActiveCallPanel(_ref) {
   var showBackButton = _ref.showBackButton,
@@ -88,19 +88,19 @@ function ActiveCallPanel(_ref) {
       getAvatarUrl = _ref.getAvatarUrl,
       actions = _ref.actions,
       controlBusy = _ref.controlBusy;
-  var backHeader = showBackButton ? _react.default.createElement(_BackHeader.default, {
+  var backHeader = showBackButton ? _react["default"].createElement(_BackHeader["default"], {
     onBackClick: onBackButtonClick,
-    backButton: _react.default.createElement(_BackButton.default, {
+    backButton: _react["default"].createElement(_BackButton["default"], {
       label: backButtonLabel
     })
   }) : null;
 
-  var timeCounter = _react.default.createElement("div", {
-    className: _styles.default.timeCounter
-  }, startTime ? _react.default.createElement(_DurationCounter.default, {
+  var timeCounter = _react["default"].createElement("div", {
+    className: _styles["default"].timeCounter
+  }, startTime ? _react["default"].createElement(_DurationCounter["default"], {
     startTime: startTime,
     offset: startTimeOffset
-  }) : _react.default.createElement("span", {
+  }) : _react["default"].createElement("span", {
     "aria-hidden": "true"
   }, "\xA0"));
 
@@ -108,8 +108,8 @@ function ActiveCallPanel(_ref) {
   var callInfo;
 
   switch (layout) {
-    case _callCtrlLayouts.default.mergeCtrl:
-      callInfo = _react.default.createElement(_MergeInfo.default, {
+    case _callCtrlLayouts["default"].mergeCtrl:
+      callInfo = _react["default"].createElement(_MergeInfo["default"], {
         currentLocale: currentLocale,
         timeCounter: timeCounter,
         lastCallInfo: lastCallInfo,
@@ -120,8 +120,8 @@ function ActiveCallPanel(_ref) {
       });
       break;
 
-    case _callCtrlLayouts.default.conferenceCtrl:
-      callInfo = _react.default.createElement(_ConferenceInfo.default, {
+    case _callCtrlLayouts["default"].conferenceCtrl:
+      callInfo = _react["default"].createElement(_ConferenceInfo["default"], {
         currentLocale: currentLocale,
         partyProfiles: conferenceCallParties,
         onClick: gotoParticipantsCtrl
@@ -129,7 +129,7 @@ function ActiveCallPanel(_ref) {
       break;
 
     default:
-      callInfo = _react.default.createElement(_CallInfo.default, {
+      callInfo = _react["default"].createElement(_CallInfo["default"], {
         currentLocale: currentLocale,
         nameMatches: nameMatches,
         fallBackName: fallBackName,
@@ -150,13 +150,13 @@ function ActiveCallPanel(_ref) {
       break;
   }
 
-  return _react.default.createElement("div", {
+  return _react["default"].createElement("div", {
     "data-sign": "activeCallPanel",
-    className: _styles.default.root
-  }, backHeader, _react.default.createElement(_Panel.default, {
-    className: _styles.default.panel
-  }, layout !== _callCtrlLayouts.default.mergeCtrl ? timeCounter : null, callInfo, _react.default.createElement(_ActiveCallPad.default, {
-    className: _styles.default.callPad,
+    className: _styles["default"].root
+  }, backHeader, _react["default"].createElement(_Panel["default"], {
+    className: _styles["default"].panel
+  }, layout !== _callCtrlLayouts["default"].mergeCtrl ? timeCounter : null, callInfo, _react["default"].createElement(_ActiveCallPad["default"], {
+    className: _styles["default"].callPad,
     currentLocale: currentLocale,
     isOnMute: isOnMute,
     isOnHold: isOnHold,
@@ -187,56 +187,56 @@ function ActiveCallPanel(_ref) {
 }
 
 ActiveCallPanel.propTypes = {
-  phoneNumber: _propTypes.default.string,
-  nameMatches: _propTypes.default.arrayOf(_propTypes.default.object).isRequired,
-  fallBackName: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  startTime: _propTypes.default.number,
-  startTimeOffset: _propTypes.default.number,
-  isOnMute: _propTypes.default.bool,
-  isOnHold: _propTypes.default.bool,
-  recordStatus: _propTypes.default.string.isRequired,
-  onMute: _propTypes.default.func.isRequired,
-  onUnmute: _propTypes.default.func.isRequired,
-  onHold: _propTypes.default.func.isRequired,
-  onUnhold: _propTypes.default.func.isRequired,
-  onRecord: _propTypes.default.func.isRequired,
-  onStopRecord: _propTypes.default.func.isRequired,
-  onAdd: _propTypes.default.func,
-  onMerge: _propTypes.default.func,
-  onHangup: _propTypes.default.func.isRequired,
-  onPark: _propTypes.default.func.isRequired,
-  showBackButton: _propTypes.default.bool,
-  backButtonLabel: _propTypes.default.string,
-  onBackButtonClick: _propTypes.default.func,
-  onShowKeyPad: _propTypes.default.func.isRequired,
-  formatPhone: _propTypes.default.func.isRequired,
-  children: _propTypes.default.node,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  selectedMatcherIndex: _propTypes.default.number.isRequired,
-  onSelectMatcherName: _propTypes.default.func.isRequired,
-  avatarUrl: _propTypes.default.string,
-  brand: _propTypes.default.string,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  onShowFlipPanel: _propTypes.default.func,
-  flipNumbers: _propTypes.default.array,
-  onToggleTransferPanel: _propTypes.default.func,
-  gotoParticipantsCtrl: _propTypes.default.func,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  layout: _propTypes.default.string.isRequired,
-  direction: _propTypes.default.string,
-  addDisabled: _propTypes.default.bool,
-  mergeDisabled: _propTypes.default.bool,
-  conferenceCallParties: _propTypes.default.array,
-  conferenceCallEquipped: _propTypes.default.bool,
-  hasConferenceCall: _propTypes.default.bool,
-  lastCallInfo: _propTypes.default.object,
-  getAvatarUrl: _propTypes.default.func,
-  actions: _propTypes.default.array,
-  controlBusy: _propTypes.default.bool
+  phoneNumber: _propTypes["default"].string,
+  nameMatches: _propTypes["default"].arrayOf(_propTypes["default"].object).isRequired,
+  fallBackName: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  startTime: _propTypes["default"].number,
+  startTimeOffset: _propTypes["default"].number,
+  isOnMute: _propTypes["default"].bool,
+  isOnHold: _propTypes["default"].bool,
+  recordStatus: _propTypes["default"].string.isRequired,
+  onMute: _propTypes["default"].func.isRequired,
+  onUnmute: _propTypes["default"].func.isRequired,
+  onHold: _propTypes["default"].func.isRequired,
+  onUnhold: _propTypes["default"].func.isRequired,
+  onRecord: _propTypes["default"].func.isRequired,
+  onStopRecord: _propTypes["default"].func.isRequired,
+  onAdd: _propTypes["default"].func,
+  onMerge: _propTypes["default"].func,
+  onHangup: _propTypes["default"].func.isRequired,
+  onPark: _propTypes["default"].func.isRequired,
+  showBackButton: _propTypes["default"].bool,
+  backButtonLabel: _propTypes["default"].string,
+  onBackButtonClick: _propTypes["default"].func,
+  onShowKeyPad: _propTypes["default"].func.isRequired,
+  formatPhone: _propTypes["default"].func.isRequired,
+  children: _propTypes["default"].node,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  selectedMatcherIndex: _propTypes["default"].number.isRequired,
+  onSelectMatcherName: _propTypes["default"].func.isRequired,
+  avatarUrl: _propTypes["default"].string,
+  brand: _propTypes["default"].string,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  onShowFlipPanel: _propTypes["default"].func,
+  flipNumbers: _propTypes["default"].array,
+  onToggleTransferPanel: _propTypes["default"].func,
+  gotoParticipantsCtrl: _propTypes["default"].func,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  layout: _propTypes["default"].string.isRequired,
+  direction: _propTypes["default"].string,
+  addDisabled: _propTypes["default"].bool,
+  mergeDisabled: _propTypes["default"].bool,
+  conferenceCallParties: _propTypes["default"].array,
+  conferenceCallEquipped: _propTypes["default"].bool,
+  hasConferenceCall: _propTypes["default"].bool,
+  lastCallInfo: _propTypes["default"].object,
+  getAvatarUrl: _propTypes["default"].func,
+  actions: _propTypes["default"].array,
+  controlBusy: _propTypes["default"].bool
 };
 ActiveCallPanel.defaultProps = {
   startTime: null,
@@ -280,5 +280,5 @@ ActiveCallPanel.defaultProps = {
   controlBusy: false
 };
 var _default = ActiveCallPanel;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

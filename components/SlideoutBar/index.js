@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,7 +25,7 @@ var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.s
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -75,10 +75,10 @@ function (_React$Component) {
   _createClass(SlideoutBar, [{
     key: "_renderCloseButton",
     value: function _renderCloseButton() {
-      return _react.default.createElement("i", {
-        className: _styles.default.closeBtn,
+      return _react["default"].createElement("i", {
+        className: _styles["default"].closeBtn,
         onClick: this._onClose
-      }, _react.default.createElement(_CloseIcon.default, null));
+      }, _react["default"].createElement(_CloseIcon["default"], null));
     }
   }, {
     key: "render",
@@ -91,9 +91,9 @@ function (_React$Component) {
           closable = _this$props.closable,
           children = _this$props.children;
       var slideStyle = slideout ? 'translateX(0)' : "translateX(".concat(offset, "px)");
-      var cls = (0, _classnames.default)(_styles.default.container, className);
+      var cls = (0, _classnames["default"])(_styles["default"].container, className);
       var closeButton = closable ? this._renderCloseButton() : null;
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         className: cls,
         style: {
           transform: slideStyle
@@ -104,17 +104,17 @@ function (_React$Component) {
   }]);
 
   return SlideoutBar;
-}(_react.default.Component);
+}(_react["default"].Component);
 
-exports.default = SlideoutBar;
+exports["default"] = SlideoutBar;
 SlideoutBar.propTypes = {
-  closable: _propTypes.default.bool,
-  children: _propTypes.default.node,
-  className: _propTypes.default.string,
-  offset: _propTypes.default.number.isRequired,
-  slideout: _propTypes.default.bool.isRequired,
-  onClick: _propTypes.default.func,
-  onClose: _propTypes.default.func
+  closable: _propTypes["default"].bool,
+  children: _propTypes["default"].node,
+  className: _propTypes["default"].string,
+  offset: _propTypes["default"].number.isRequired,
+  slideout: _propTypes["default"].bool.isRequired,
+  onClick: _propTypes["default"].func,
+  onClose: _propTypes["default"].func
 };
 SlideoutBar.defaultProps = {
   closable: true,

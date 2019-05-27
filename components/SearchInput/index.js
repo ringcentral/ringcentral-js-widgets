@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -17,19 +17,19 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _Search = _interopRequireDefault(require("../../assets/images/Search.svg"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function SearchInput(props) {
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.root, props.className)
-  }, _react.default.createElement(_Search.default, {
-    className: _styles.default.icon
-  }), _react.default.createElement("input", {
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].root, props.className)
+  }, _react["default"].createElement(_Search["default"], {
+    className: _styles["default"].icon
+  }), _react["default"].createElement("input", {
     name: "search",
     value: props.value,
     onChange: props.onChange,
     onKeyUp: props.onKeyUp,
-    className: _styles.default.input,
+    className: _styles["default"].input,
     maxLength: props.maxLength,
     placeholder: props.placeholder,
     autoComplete: "off",
@@ -39,14 +39,14 @@ function SearchInput(props) {
 }
 
 SearchInput.propTypes = {
-  className: _propTypes.default.string,
-  value: _propTypes.default.string.isRequired,
-  onChange: _propTypes.default.func.isRequired,
-  onKeyUp: _propTypes.default.func,
-  maxLength: _propTypes.default.number,
-  placeholder: _propTypes.default.string,
-  disabled: _propTypes.default.bool,
-  dataSign: _propTypes.default.string
+  className: _propTypes["default"].string,
+  value: _propTypes["default"].string.isRequired,
+  onChange: _propTypes["default"].func.isRequired,
+  onKeyUp: _propTypes["default"].func,
+  maxLength: _propTypes["default"].number,
+  placeholder: _propTypes["default"].string,
+  disabled: _propTypes["default"].bool,
+  dataSign: _propTypes["default"].string
 };
 SearchInput.defaultProps = {
   className: null,
@@ -57,5 +57,5 @@ SearchInput.defaultProps = {
   dataSign: ''
 };
 var _default = SearchInput;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

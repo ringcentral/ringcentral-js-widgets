@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ConfirmRemoveModal;
+exports["default"] = ConfirmRemoveModal;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -19,7 +19,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _Modal = _interopRequireDefault(require("../Modal"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ConfirmRemoveModal(_ref) {
   var currentLocale = _ref.currentLocale,
@@ -32,34 +32,35 @@ function ConfirmRemoveModal(_ref) {
     return null;
   }
 
-  if (detail.calleeType === _calleeTypes.default.contacts) {
-    detail = detail.toUserName;
-  } else {
-    detail = detail.partyNumber;
+  var displayText = detail.partyNumber || _i18n["default"].getString('unknownNumber', currentLocale);
+
+  if (detail.partyName && detail.calleeType === _calleeTypes["default"].contacts) {
+    // means that matched a contact
+    displayText = detail.partyName;
   }
 
-  return _react.default.createElement(_Modal.default, {
+  return _react["default"].createElement(_Modal["default"], {
     show: show,
-    headerClassName: _styles.default.header,
+    headerClassName: _styles["default"].header,
     currentLocale: currentLocale,
-    className: _styles.default.ConfirmRemoveModal,
-    modalClassName: _styles.default.ConfirmRemoveModal,
-    maskClassName: _styles.default.confirmRemoveModalMask,
-    title: _i18n.default.getString('removeParticipant', currentLocale),
+    className: _styles["default"].ConfirmRemoveModal,
+    modalClassName: _styles["default"].ConfirmRemoveModal,
+    maskClassName: _styles["default"].confirmRemoveModalMask,
+    title: _i18n["default"].getString('removeParticipant', currentLocale),
     onConfirm: onRemove,
     onCancel: onCancel,
     clickOutToClose: true,
-    contentClassName: _styles.default.contentText,
-    textConfirm: _i18n.default.getString('remove', currentLocale)
-  }, _react.default.createElement("p", null, _i18n.default.getString('confirmStr1', currentLocale), _react.default.createElement("span", null, " ".concat(detail, " ")), _i18n.default.getString('confirmStr2', currentLocale)));
+    contentClassName: _styles["default"].contentText,
+    textConfirm: _i18n["default"].getString('remove', currentLocale)
+  }, _react["default"].createElement("p", null, _i18n["default"].getString('confirmStr1', currentLocale), _react["default"].createElement("span", null, " ".concat(displayText, " ")), _i18n["default"].getString('confirmStr2', currentLocale)));
 }
 
 ConfirmRemoveModal.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  show: _propTypes.default.bool.isRequired,
-  onCancel: _propTypes.default.func,
-  onRemove: _propTypes.default.func,
-  detail: _propTypes.default.object
+  currentLocale: _propTypes["default"].string.isRequired,
+  show: _propTypes["default"].bool.isRequired,
+  onCancel: _propTypes["default"].func,
+  onRemove: _propTypes["default"].func,
+  detail: _propTypes["default"].object
 };
 ConfirmRemoveModal.defaultProps = {
   onRemove: function onRemove() {},

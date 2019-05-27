@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   loginButton: "登录",
   signupButton: "新用户？请注册",
@@ -14,5 +14,5 @@ var _default = {
 // @key: @#@"signupButton"@#@ @source: @#@"New user? Sign Up"@#@
 // @key: @#@"version"@#@ @source: @#@"Version"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

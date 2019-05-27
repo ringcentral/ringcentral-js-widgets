@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -21,9 +21,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -108,7 +108,7 @@ function (_Component) {
     key: "getValidChildren",
     value: function getValidChildren(children) {
       // .toArray automatically removes invalid React children
-      return _react.default.Children.toArray(children);
+      return _react["default"].Children.toArray(children);
     }
   }, {
     key: "render",
@@ -119,10 +119,10 @@ function (_Component) {
         return this.props.children;
       }
 
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement("div", {
-        className: this.state.showAnimation && !this.state.hoverBar ? _styles.default[this.state.animationMode] : _styles.default.center
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, _react["default"].createElement("div", {
+        className: this.state.showAnimation && !this.state.hoverBar ? _styles["default"][this.state.animationMode] : _styles["default"].center
       }, this.validChildren[this.state.currentIndex]));
     }
   }]);
@@ -130,11 +130,11 @@ function (_Component) {
   return CarrouselBar;
 }(_react.Component);
 
-exports.default = CarrouselBar;
+exports["default"] = CarrouselBar;
 CarrouselBar.propTypes = {
-  children: _propTypes.default.node,
-  scrollInterval: _propTypes.default.number,
-  hoverBar: _propTypes.default.bool
+  children: _propTypes["default"].node,
+  scrollInterval: _propTypes["default"].number,
+  hoverBar: _propTypes["default"].bool
 };
 CarrouselBar.defaultProps = {
   children: undefined,

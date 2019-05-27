@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _ConfirmMergeModal = _interopRequireDefault(require("../ConfirmMergeModal"))
 
 var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -102,7 +102,7 @@ function (_Component) {
       var onBeforeMerge = _this.props.onBeforeMerge;
 
       if (!onBeforeMerge || onBeforeMerge()) {
-        if (_this.props.hasConferenceCall && _this.props.layout === _callCtrlLayouts.default.normalCtrl) {
+        if (_this.props.hasConferenceCall && _this.props.layout === _callCtrlLayouts["default"].normalCtrl) {
           _this.showMergeConfirm();
         } else if (_this.props.onMerge) {
           _this.props.onMerge();
@@ -222,7 +222,7 @@ function (_Component) {
           isShowMergeConfirm = _this$state.isShowMergeConfirm;
 
       if (isShowKeyPad) {
-        return _react.default.createElement(_ActiveCallDialPad.default, {
+        return _react["default"].createElement(_ActiveCallDialPad["default"], {
           onChange: onKeyPadChange,
           hiddenDialPad: this.hiddenKeyPad,
           onHangup: onHangup,
@@ -231,7 +231,7 @@ function (_Component) {
       }
 
       if (isShowFlipPanel) {
-        return _react.default.createElement(_FlipPanel.default, {
+        return _react["default"].createElement(_FlipPanel["default"], {
           isOnFlip: isOnFlip,
           flipNumbers: flipNumbers,
           currentLocale: currentLocale,
@@ -242,7 +242,7 @@ function (_Component) {
         });
       }
 
-      return _react.default.createElement(_ActiveCallPanel.default, {
+      return _react["default"].createElement(_ActiveCallPanel["default"], {
         showBackButton: showBackButton,
         backButtonLabel: backButtonLabel,
         onBackButtonClick: onBackButtonClick,
@@ -293,7 +293,7 @@ function (_Component) {
         getAvatarUrl: getAvatarUrl,
         actions: actions,
         controlBusy: controlBusy
-      }, children, showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : null, layout === _callCtrlLayouts.default.normalCtrl ? _react.default.createElement(_ConfirmMergeModal.default, {
+      }, children, showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null, layout === _callCtrlLayouts["default"].normalCtrl ? _react["default"].createElement(_ConfirmMergeModal["default"], {
         currentLocale: currentLocale,
         show: isShowMergeConfirm,
         onMerge: this.confirmMerge,
@@ -307,63 +307,63 @@ function (_Component) {
 }(_react.Component);
 
 CallCtrlPanel.propTypes = {
-  callStatus: _propTypes.default.string,
-  sessionId: _propTypes.default.string,
-  phoneNumber: _propTypes.default.string,
-  nameMatches: _propTypes.default.array.isRequired,
-  fallBackName: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  startTime: _propTypes.default.number,
-  isOnMute: _propTypes.default.bool,
-  isOnHold: _propTypes.default.bool,
-  isOnFlip: _propTypes.default.bool,
-  flipNumbers: _propTypes.default.array,
-  recordStatus: _propTypes.default.string,
-  onMute: _propTypes.default.func.isRequired,
-  onUnmute: _propTypes.default.func.isRequired,
-  onHold: _propTypes.default.func.isRequired,
-  onUnhold: _propTypes.default.func.isRequired,
-  onRecord: _propTypes.default.func,
-  onStopRecord: _propTypes.default.func,
-  onAdd: _propTypes.default.func,
-  onMerge: _propTypes.default.func,
-  onBeforeMerge: _propTypes.default.func,
-  onPark: _propTypes.default.func,
-  onHangup: _propTypes.default.func.isRequired,
-  onFlip: _propTypes.default.func,
-  onTransfer: _propTypes.default.func.isRequired,
-  showBackButton: _propTypes.default.bool,
-  backButtonLabel: _propTypes.default.string,
-  onBackButtonClick: _propTypes.default.func,
-  onKeyPadChange: _propTypes.default.func,
-  formatPhone: _propTypes.default.func.isRequired,
-  children: _propTypes.default.node,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  selectedMatcherIndex: _propTypes.default.number.isRequired,
-  onSelectMatcherName: _propTypes.default.func,
-  avatarUrl: _propTypes.default.string,
-  brand: _propTypes.default.string,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  layout: _propTypes.default.string.isRequired,
-  showSpinner: _propTypes.default.bool,
-  direction: _propTypes.default.string,
-  addDisabled: _propTypes.default.bool,
-  mergeDisabled: _propTypes.default.bool,
-  conferenceCallEquipped: _propTypes.default.bool,
-  hasConferenceCall: _propTypes.default.bool,
-  lastCallInfo: _propTypes.default.object,
-  conferenceCallParties: _propTypes.default.array,
-  getAvatarUrl: _propTypes.default.func,
-  gotoParticipantsCtrl: _propTypes.default.func,
-  afterHideMergeConfirm: _propTypes.default.func,
-  afterConfirmMerge: _propTypes.default.func,
-  afterOnMerge: _propTypes.default.func,
-  actions: _propTypes.default.array,
-  controlBusy: _propTypes.default.bool
+  callStatus: _propTypes["default"].string,
+  sessionId: _propTypes["default"].string,
+  phoneNumber: _propTypes["default"].string,
+  nameMatches: _propTypes["default"].array.isRequired,
+  fallBackName: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  startTime: _propTypes["default"].number,
+  isOnMute: _propTypes["default"].bool,
+  isOnHold: _propTypes["default"].bool,
+  isOnFlip: _propTypes["default"].bool,
+  flipNumbers: _propTypes["default"].array,
+  recordStatus: _propTypes["default"].string,
+  onMute: _propTypes["default"].func.isRequired,
+  onUnmute: _propTypes["default"].func.isRequired,
+  onHold: _propTypes["default"].func.isRequired,
+  onUnhold: _propTypes["default"].func.isRequired,
+  onRecord: _propTypes["default"].func,
+  onStopRecord: _propTypes["default"].func,
+  onAdd: _propTypes["default"].func,
+  onMerge: _propTypes["default"].func,
+  onBeforeMerge: _propTypes["default"].func,
+  onPark: _propTypes["default"].func,
+  onHangup: _propTypes["default"].func.isRequired,
+  onFlip: _propTypes["default"].func,
+  onTransfer: _propTypes["default"].func.isRequired,
+  showBackButton: _propTypes["default"].bool,
+  backButtonLabel: _propTypes["default"].string,
+  onBackButtonClick: _propTypes["default"].func,
+  onKeyPadChange: _propTypes["default"].func,
+  formatPhone: _propTypes["default"].func.isRequired,
+  children: _propTypes["default"].node,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  selectedMatcherIndex: _propTypes["default"].number.isRequired,
+  onSelectMatcherName: _propTypes["default"].func,
+  avatarUrl: _propTypes["default"].string,
+  brand: _propTypes["default"].string,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  layout: _propTypes["default"].string.isRequired,
+  showSpinner: _propTypes["default"].bool,
+  direction: _propTypes["default"].string,
+  addDisabled: _propTypes["default"].bool,
+  mergeDisabled: _propTypes["default"].bool,
+  conferenceCallEquipped: _propTypes["default"].bool,
+  hasConferenceCall: _propTypes["default"].bool,
+  lastCallInfo: _propTypes["default"].object,
+  conferenceCallParties: _propTypes["default"].array,
+  getAvatarUrl: _propTypes["default"].func,
+  gotoParticipantsCtrl: _propTypes["default"].func,
+  afterHideMergeConfirm: _propTypes["default"].func,
+  afterConfirmMerge: _propTypes["default"].func,
+  afterOnMerge: _propTypes["default"].func,
+  actions: _propTypes["default"].array,
+  controlBusy: _propTypes["default"].bool
 };
 CallCtrlPanel.defaultProps = {
   startTime: null,
@@ -433,5 +433,5 @@ CallCtrlPanel.defaultProps = {
   controlBusy: false
 };
 var _default = CallCtrlPanel;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -41,9 +43,9 @@ var _CallCtrlPanel = _interopRequireDefault(require("../../components/CallCtrlPa
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -61,11 +63,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var CallCtrlContainer =
 /*#__PURE__*/
@@ -93,7 +95,7 @@ function (_Component) {
       mergeDisabled: mergeDisabled,
       addDisabled: addDisabled
     };
-    _this.onLastMergingCallEnded = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _this.onLastMergingCallEnded).bind(_context);
+    _this.onLastMergingCallEnded = (_context = _assertThisInitialized(_this), _this.onLastMergingCallEnded).bind(_context);
 
     _this.onSelectMatcherName = function (option) {
       var nameMatches = _this.props.nameMatches || [];
@@ -207,13 +209,14 @@ function (_Component) {
           isWebRTC = nextProps.isWebRTC,
           isConferenceCallOverload = nextProps.isConferenceCallOverload,
           session = nextProps.session,
-          hasConferenceCall = nextProps.hasConferenceCall;
-      var isInboundCall = session.direction === _callDirections.default.inbound;
-      var isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
+          hasConferenceCall = nextProps.hasConferenceCall; // const isInboundCall = session.direction === callDirections.inbound;
+      // const isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
+
+      var isMergeAndAddDisabled = !isWebRTC || !session.partyData;
       var mergeDisabled = isMergeAndAddDisabled;
       var addDisabled = isMergeAndAddDisabled;
 
-      if (layout === _callCtrlLayouts.default.mergeCtrl && (!lastCallInfo || lastCallInfo.status === _sessionStatus.default.finished)) {
+      if (layout === _callCtrlLayouts["default"].mergeCtrl && (!lastCallInfo || lastCallInfo.status === _sessionStatus["default"].finished)) {
         mergeDisabled = true;
       }
 
@@ -243,12 +246,12 @@ function (_Component) {
                 }
 
                 _context2.next = 3;
-                return (0, _sleep.default)(2000);
+                return (0, _sleep["default"])(2000);
 
               case 3:
                 if (this._mounted) {
                   this.setState({
-                    layout: _callCtrlLayouts.default.normalCtrl
+                    layout: _callCtrlLayouts["default"].normalCtrl
                   });
                 }
 
@@ -274,7 +277,7 @@ function (_Component) {
     key: "getLayout",
     value: function getLayout(lastProps, nextProps) {
       if (nextProps.showSpinner) {
-        return _callCtrlLayouts.default.conferenceCtrl;
+        return _callCtrlLayouts["default"].conferenceCtrl;
       }
 
       return this.props.getInitialLayout(nextProps);
@@ -292,12 +295,12 @@ function (_Component) {
           layout: layout
         });
 
-        if (layout === _callCtrlLayouts.default.normalCtrl) {
+        if (layout === _callCtrlLayouts["default"].normalCtrl) {
           this._updateAvatarAndMatchIndex(nextProps);
         }
-      } else if (layout === _callCtrlLayouts.default.mergeCtrl && CallCtrlContainer.isLastCallEnded(this.props) === false && CallCtrlContainer.isLastCallEnded(nextProps) === true) {
+      } else if (layout === _callCtrlLayouts["default"].mergeCtrl && CallCtrlContainer.isLastCallEnded(this.props) === false && CallCtrlContainer.isLastCallEnded(nextProps) === true) {
         this.onLastMergingCallEnded();
-      } else if (layout === _callCtrlLayouts.default.conferenceCtrl && this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
+      } else if (layout === _callCtrlLayouts["default"].conferenceCtrl && this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
         this._updateCurrentConferenceCall(nextProps);
       }
 
@@ -356,7 +359,7 @@ function (_Component) {
   }, {
     key: "_updateCurrentConferenceCall",
     value: function _updateCurrentConferenceCall(props) {
-      if (this.state.layout === _callCtrlLayouts.default.conferenceCtrl && props.loadConference) {
+      if (this.state.layout === _callCtrlLayouts["default"].conferenceCtrl && props.loadConference) {
         props.loadConference(props.conferenceCallId);
       }
     }
@@ -366,7 +369,7 @@ function (_Component) {
       var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       var nextState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state;
 
-      if (nextState.layout === _callCtrlLayouts.default.mergeCtrl && nextProps.lastCallInfo) {
+      if (nextState.layout === _callCtrlLayouts["default"].mergeCtrl && nextProps.lastCallInfo) {
         nextProps.setMergeParty({
           toSessionId: nextProps.session.id
         });
@@ -381,19 +384,19 @@ function (_Component) {
         return null;
       }
 
-      var phoneNumber = session.direction === _callDirections.default.outbound ? session.to : session.from;
+      var phoneNumber = session.direction === _callDirections["default"].outbound ? session.to : session.from;
       var fallbackUserName;
 
-      if (session.direction === _callDirections.default.inbound && session.from === 'anonymous') {
-        fallbackUserName = _i18n.default.getString('anonymous', this.props.currentLocale);
+      if (session.direction === _callDirections["default"].inbound && session.from === 'anonymous') {
+        fallbackUserName = _i18n["default"].getString('anonymous', this.props.currentLocale);
       }
 
       if (!fallbackUserName) {
-        fallbackUserName = _i18n.default.getString('unknown', this.props.currentLocale);
+        fallbackUserName = _i18n["default"].getString('unknown', this.props.currentLocale);
       }
 
-      var backButtonLabel = this.props.backButtonLabel ? this.props.backButtonLabel : _i18n.default.getString('activeCalls', this.props.currentLocale);
-      return _react.default.createElement(_CallCtrlPanel.default, {
+      var backButtonLabel = this.props.backButtonLabel ? this.props.backButtonLabel : _i18n["default"].getString('activeCalls', this.props.currentLocale);
+      return _react["default"].createElement(_CallCtrlPanel["default"], {
         currentLocale: this.props.currentLocale,
         formatPhone: this.props.formatPhone,
         phoneNumber: phoneNumber,
@@ -454,7 +457,7 @@ function (_Component) {
     key: "isLastCallEnded",
     value: function isLastCallEnded(_ref) {
       var lastCallInfo = _ref.lastCallInfo;
-      return !!(lastCallInfo && lastCallInfo.status === _sessionStatus.default.finished);
+      return !!(lastCallInfo && lastCallInfo.status === _sessionStatus["default"].finished);
     }
   }]);
 
@@ -462,65 +465,65 @@ function (_Component) {
 }(_react.Component);
 
 CallCtrlContainer.propTypes = {
-  session: _propTypes.default.shape({
-    id: _propTypes.default.string,
-    direction: _propTypes.default.string,
-    startTime: _propTypes.default.number,
-    isOnMute: _propTypes.default.bool,
-    isOnHold: _propTypes.default.bool,
-    isOnFlip: _propTypes.default.bool,
-    recordStatus: _propTypes.default.string,
-    to: _propTypes.default.string,
-    from: _propTypes.default.string,
-    contactMatch: _propTypes.default.object
+  session: _propTypes["default"].shape({
+    id: _propTypes["default"].string,
+    direction: _propTypes["default"].string,
+    startTime: _propTypes["default"].number,
+    isOnMute: _propTypes["default"].bool,
+    isOnHold: _propTypes["default"].bool,
+    isOnFlip: _propTypes["default"].bool,
+    recordStatus: _propTypes["default"].string,
+    to: _propTypes["default"].string,
+    from: _propTypes["default"].string,
+    contactMatch: _propTypes["default"].object
   }).isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  onMute: _propTypes.default.func.isRequired,
-  onUnmute: _propTypes.default.func.isRequired,
-  onHold: _propTypes.default.func.isRequired,
-  onUnhold: _propTypes.default.func.isRequired,
-  onRecord: _propTypes.default.func.isRequired,
-  onStopRecord: _propTypes.default.func.isRequired,
-  onHangup: _propTypes.default.func.isRequired,
-  sendDTMF: _propTypes.default.func.isRequired,
-  formatPhone: _propTypes.default.func.isRequired,
-  onAdd: _propTypes.default.func,
-  onMerge: _propTypes.default.func,
-  onBeforeMerge: _propTypes.default.func,
-  onFlip: _propTypes.default.func.isRequired,
-  onPark: _propTypes.default.func.isRequired,
-  onTransfer: _propTypes.default.func.isRequired,
-  children: _propTypes.default.node,
-  nameMatches: _propTypes.default.array.isRequired,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  getAvatarUrl: _propTypes.default.func.isRequired,
-  updateSessionMatchedContact: _propTypes.default.func.isRequired,
-  showBackButton: _propTypes.default.bool,
-  backButtonLabel: _propTypes.default.string,
-  onBackButtonClick: _propTypes.default.func,
-  brand: _propTypes.default.string.isRequired,
-  showContactDisplayPlaceholder: _propTypes.default.bool.isRequired,
-  flipNumbers: _propTypes.default.array.isRequired,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  layout: _propTypes.default.string,
-  showSpinner: _propTypes.default.bool,
-  conferenceCallParties: _propTypes.default.array,
-  conferenceCallEquipped: _propTypes.default.bool,
-  hasConferenceCall: _propTypes.default.bool,
-  lastCallInfo: _propTypes.default.object,
-  conferenceCallId: _propTypes.default.string,
-  gotoParticipantsCtrl: _propTypes.default.func,
-  loadConference: _propTypes.default.func,
-  getInitialLayout: _propTypes.default.func,
-  closeMergingPair: _propTypes.default.func,
-  isWebRTC: _propTypes.default.bool,
-  isConferenceCallOverload: _propTypes.default.bool,
-  afterHideMergeConfirm: _propTypes.default.func,
-  afterConfirmMerge: _propTypes.default.func,
-  afterOnMerge: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  onMute: _propTypes["default"].func.isRequired,
+  onUnmute: _propTypes["default"].func.isRequired,
+  onHold: _propTypes["default"].func.isRequired,
+  onUnhold: _propTypes["default"].func.isRequired,
+  onRecord: _propTypes["default"].func.isRequired,
+  onStopRecord: _propTypes["default"].func.isRequired,
+  onHangup: _propTypes["default"].func.isRequired,
+  sendDTMF: _propTypes["default"].func.isRequired,
+  formatPhone: _propTypes["default"].func.isRequired,
+  onAdd: _propTypes["default"].func,
+  onMerge: _propTypes["default"].func,
+  onBeforeMerge: _propTypes["default"].func,
+  onFlip: _propTypes["default"].func.isRequired,
+  onPark: _propTypes["default"].func.isRequired,
+  onTransfer: _propTypes["default"].func.isRequired,
+  children: _propTypes["default"].node,
+  nameMatches: _propTypes["default"].array.isRequired,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  getAvatarUrl: _propTypes["default"].func.isRequired,
+  updateSessionMatchedContact: _propTypes["default"].func.isRequired,
+  showBackButton: _propTypes["default"].bool,
+  backButtonLabel: _propTypes["default"].string,
+  onBackButtonClick: _propTypes["default"].func,
+  brand: _propTypes["default"].string.isRequired,
+  showContactDisplayPlaceholder: _propTypes["default"].bool.isRequired,
+  flipNumbers: _propTypes["default"].array.isRequired,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  layout: _propTypes["default"].string,
+  showSpinner: _propTypes["default"].bool,
+  conferenceCallParties: _propTypes["default"].array,
+  conferenceCallEquipped: _propTypes["default"].bool,
+  hasConferenceCall: _propTypes["default"].bool,
+  lastCallInfo: _propTypes["default"].object,
+  conferenceCallId: _propTypes["default"].string,
+  gotoParticipantsCtrl: _propTypes["default"].func,
+  loadConference: _propTypes["default"].func,
+  getInitialLayout: _propTypes["default"].func,
+  closeMergingPair: _propTypes["default"].func,
+  isWebRTC: _propTypes["default"].bool,
+  isConferenceCallOverload: _propTypes["default"].bool,
+  afterHideMergeConfirm: _propTypes["default"].func,
+  afterConfirmMerge: _propTypes["default"].func,
+  afterOnMerge: _propTypes["default"].func
 };
 CallCtrlContainer.defaultProps = {
   children: undefined,
@@ -538,7 +541,7 @@ CallCtrlContainer.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: {
-    calleeType: _calleeTypes.default.unknown
+    calleeType: _calleeTypes["default"].unknown
   },
   conferenceCallId: null,
   gotoParticipantsCtrl: function gotoParticipantsCtrl(i) {
@@ -548,9 +551,9 @@ CallCtrlContainer.defaultProps = {
     return i;
   },
   getInitialLayout: function getInitialLayout() {
-    return _callCtrlLayouts.default.normalCtrl;
+    return _callCtrlLayouts["default"].normalCtrl;
   },
-  layout: _callCtrlLayouts.default.normalCtrl,
+  layout: _callCtrlLayouts["default"].normalCtrl,
   closeMergingPair: null,
   isWebRTC: false,
   isConferenceCallOverload: false,
@@ -565,5 +568,5 @@ CallCtrlContainer.defaultProps = {
   }
 };
 var _default = CallCtrlContainer;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=CallCtrlContainer.js.map

@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   recentActivities: "Attività recenti",
   text: "SMS",
@@ -18,5 +18,5 @@ var _default = {
 // @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

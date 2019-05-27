@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   feedbackHeader: "フィードバックを送信",
   back: "戻る",
@@ -46,5 +46,5 @@ var _default = {
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

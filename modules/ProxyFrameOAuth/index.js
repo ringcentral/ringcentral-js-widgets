@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.reflect.get");
 
@@ -23,11 +23,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -57,7 +59,7 @@ var _OAuthBase2 = _interopRequireDefault(require("../../lib/OAuthBase"));
 
 var _dec, _class, _class2, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -93,7 +95,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_PROXY_RETRY = 5000;
 var ProxyFrameOAuth = (_dec = (0, _di.Module)({
@@ -184,10 +186,10 @@ function (_OAuthBase) {
       }, _this._defaultProxyRetry);
     };
 
-    _this._uuid = _uuid.default.v4();
-    _this._proxyUri = (0, _ensureExist.default)(proxyUri, 'proxyUri');
+    _this._uuid = _uuid["default"].v4();
+    _this._proxyUri = (0, _ensureExist["default"])(proxyUri, 'proxyUri');
     _this._defaultProxyRetry = defaultProxyRetry;
-    _this._reducer = (0, _getProxyFrameOAuthReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getProxyFrameOAuthReducer["default"])(_this.actionTypes);
     _this._loggedIn = false;
     return _this;
   }
@@ -438,12 +440,12 @@ function (_OAuthBase) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return _actionTypes.default;
+      return _actionTypes["default"];
     }
   }, {
     key: "proxyUri",
     get: function get() {
-      return "".concat(_url.default.resolve(window.location.href, this._proxyUri), "?hash=").concat(encodeURIComponent(btoa(this._uuid)), "&prefix=").concat(encodeURIComponent(this.prefix));
+      return "".concat(_url["default"].resolve(window.location.href, this._proxyUri), "?hash=").concat(encodeURIComponent(btoa(this._uuid)), "&prefix=").concat(encodeURIComponent(this.prefix));
     }
   }, {
     key: "proxyRetryCount",
@@ -453,6 +455,6 @@ function (_OAuthBase) {
   }]);
 
   return ProxyFrameOAuth;
-}(_OAuthBase2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "setupOAuth", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setupOAuth"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "destroyOAuth", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "destroyOAuth"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "openOAuthPage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "openOAuthPage"), _class2.prototype)), _class2)) || _class);
-exports.default = ProxyFrameOAuth;
+}(_OAuthBase2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "setupOAuth", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setupOAuth"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "destroyOAuth", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "destroyOAuth"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "openOAuthPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "openOAuthPage"), _class2.prototype)), _class2)) || _class);
+exports["default"] = ProxyFrameOAuth;
 //# sourceMappingURL=index.js.map

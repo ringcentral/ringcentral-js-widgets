@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -27,9 +27,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -111,9 +111,9 @@ function (_Component) {
           onKeyDown = _this$props.onKeyDown,
           autoFocus = _this$props.autoFocus;
       var value = this.state.value;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className, invalid && _styles.default.invalid)
-      }, _react.default.createElement("input", {
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className, invalid && _styles["default"].invalid)
+      }, _react["default"].createElement("input", {
         "data-sign": this.props.dataSign,
         autoFocus: autoFocus // eslint-disable-line
         ,
@@ -129,7 +129,7 @@ function (_Component) {
         name: name,
         value: value || '',
         defaultValue: defaultValue,
-        className: (0, _classnames.default)(_styles.default.input, this.props.inputClassName),
+        className: (0, _classnames["default"])(_styles["default"].input, this.props.inputClassName),
         onKeyDown: onKeyDown
       }));
     }
@@ -176,22 +176,22 @@ function (_Component) {
 
 
 TextInput.propTypes = {
-  className: _propTypes.default.string,
-  onChange: _propTypes.default.func,
-  placeholder: _propTypes.default.string,
-  disabled: _propTypes.default.bool,
-  readOnly: _propTypes.default.bool,
-  pattern: _propTypes.default.string,
-  maxLength: _propTypes.default.number,
-  name: _propTypes.default.string,
-  value: _propTypes.default.string,
-  defaultValue: _propTypes.default.string,
-  invalid: _propTypes.default.bool,
-  onKeyDown: _propTypes.default.func,
-  filter: _propTypes.default.func,
-  autoFocus: _propTypes.default.bool,
-  inputClassName: _propTypes.default.string,
-  dataSign: _propTypes.default.string
+  className: _propTypes["default"].string,
+  onChange: _propTypes["default"].func,
+  placeholder: _propTypes["default"].string,
+  disabled: _propTypes["default"].bool,
+  readOnly: _propTypes["default"].bool,
+  pattern: _propTypes["default"].string,
+  maxLength: _propTypes["default"].number,
+  name: _propTypes["default"].string,
+  value: _propTypes["default"].string,
+  defaultValue: _propTypes["default"].string,
+  invalid: _propTypes["default"].bool,
+  onKeyDown: _propTypes["default"].func,
+  filter: _propTypes["default"].func,
+  autoFocus: _propTypes["default"].bool,
+  inputClassName: _propTypes["default"].string,
+  dataSign: _propTypes["default"].string
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -212,5 +212,5 @@ TextInput.defaultProps = {
   dataSign: undefined
 };
 var _default = TextInput;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

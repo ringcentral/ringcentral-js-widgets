@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = Select;
+exports["default"] = Select;
 
 require("core-js/modules/es6.array.map");
 
@@ -19,7 +19,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 require("../../assets/DynamicsFont/DynamicsFont.scss");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // import font face
 function Select(_ref) {
@@ -31,10 +31,10 @@ function Select(_ref) {
       valueFunction = _ref.valueFunction,
       renderFunction = _ref.renderFunction,
       paddingLeft = _ref.paddingLeft;
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.root, className)
-  }, _react.default.createElement("select", {
-    className: _styles.default.select,
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].root, className)
+  }, _react["default"].createElement("select", {
+    className: _styles["default"].select,
     disabled: disabled,
     value: value,
     style: {
@@ -43,7 +43,7 @@ function Select(_ref) {
     onChange: onChange
   }, options.map(function (option, idx) {
     return (// eslint-disable-next-line react/no-array-index-key
-      _react.default.createElement("option", {
+      _react["default"].createElement("option", {
         key: idx,
         value: valueFunction(option, idx)
       }, renderFunction(option, idx))
@@ -52,14 +52,14 @@ function Select(_ref) {
 }
 
 Select.propTypes = {
-  className: _propTypes.default.string,
-  value: _propTypes.default.string,
-  onChange: _propTypes.default.func,
-  disabled: _propTypes.default.bool,
-  options: _propTypes.default.arrayOf(_propTypes.default.any).isRequired,
-  paddingLeft: _propTypes.default.number,
-  valueFunction: _propTypes.default.func,
-  renderFunction: _propTypes.default.func
+  className: _propTypes["default"].string,
+  value: _propTypes["default"].string,
+  onChange: _propTypes["default"].func,
+  disabled: _propTypes["default"].bool,
+  options: _propTypes["default"].arrayOf(_propTypes["default"].any).isRequired,
+  paddingLeft: _propTypes["default"].number,
+  valueFunction: _propTypes["default"].func,
+  renderFunction: _propTypes["default"].func
 };
 Select.defaultProps = {
   className: undefined,

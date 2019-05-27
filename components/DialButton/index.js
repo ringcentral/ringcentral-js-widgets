@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -27,9 +27,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _audios = _interopRequireDefault(require("./audios"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -74,9 +74,9 @@ function (_Component) {
     _this.timeout = null;
     _this.isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1 || false;
 
-    if (typeof document !== 'undefined' && document.createElement && _audios.default[props.btn.value]) {
+    if (typeof document !== 'undefined' && document.createElement && _audios["default"][props.btn.value]) {
       _this.audio = document.createElement('audio');
-      _this.audio.src = _audios.default[props.btn.value];
+      _this.audio.src = _audios["default"][props.btn.value];
     }
 
     _this.onMouseDown = function (e) {
@@ -87,7 +87,7 @@ function (_Component) {
         // so we reset the src of the audio when using audio.play()
 
         if (_this.isEdge) {
-          _this.audio.src = _audios.default[props.btn.value];
+          _this.audio.src = _audios["default"][props.btn.value];
         }
 
         _this.audio.play();
@@ -158,30 +158,30 @@ function (_Component) {
     key: "render",
     value: function render() {
       var isSpecial = this.props.btn.value === '*';
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         "data-sign": "dialPadBtn".concat(this.props.btn.value),
-        className: (0, _classnames.default)(_styles.default.root, this.props.className)
-      }, _react.default.createElement("svg", {
-        className: _styles.default.btnSvg,
+        className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
+      }, _react["default"].createElement("svg", {
+        className: _styles["default"].btnSvg,
         viewBox: "0 0 500 500"
-      }, _react.default.createElement("g", {
-        className: (0, _classnames.default)(_styles.default.btnSvgGroup, this.state.pressed && _styles.default.pressed),
+      }, _react["default"].createElement("g", {
+        className: (0, _classnames["default"])(_styles["default"].btnSvgGroup, this.state.pressed && _styles["default"].pressed),
         onMouseUp: this.onMouseUp,
         onMouseDown: this.onMouseDown,
         onMouseLeave: this.onMouseLeave
-      }, _react.default.createElement("circle", {
-        className: _styles.default.circle,
+      }, _react["default"].createElement("circle", {
+        className: _styles["default"].circle,
         cx: "250",
         cy: "250",
         r: "191"
-      }), _react.default.createElement("text", {
-        className: (0, _classnames.default)(_styles.default.btnValue, isSpecial ? _styles.default.special : null),
+      }), _react["default"].createElement("text", {
+        className: (0, _classnames["default"])(_styles["default"].btnValue, isSpecial ? _styles["default"].special : null),
         x: "0",
         dx: "205",
         y: "0",
         dy: isSpecial ? 350 : 250
-      }, this.props.btn.value), _react.default.createElement("text", {
-        className: _styles.default.btnText,
+      }, this.props.btn.value), _react["default"].createElement("text", {
+        className: _styles["default"].btnText,
         x: "0",
         dx: this.props.btn.dx,
         y: "0",
@@ -193,20 +193,20 @@ function (_Component) {
   return DialButton;
 }(_react.Component);
 
-exports.default = DialButton;
+exports["default"] = DialButton;
 DialButton.propTypes = {
-  btn: _propTypes.default.shape({
-    value: _propTypes.default.string.isRequired,
-    text: _propTypes.default.string,
-    alternativeValue: _propTypes.default.string,
-    dx: _propTypes.default.string
+  btn: _propTypes["default"].shape({
+    value: _propTypes["default"].string.isRequired,
+    text: _propTypes["default"].string,
+    alternativeValue: _propTypes["default"].string,
+    dx: _propTypes["default"].string
   }).isRequired,
-  className: _propTypes.default.string,
-  onPress: _propTypes.default.func,
-  onOutput: _propTypes.default.func,
-  alternativeTimeout: _propTypes.default.number,
-  volume: _propTypes.default.number,
-  muted: _propTypes.default.bool
+  className: _propTypes["default"].string,
+  onPress: _propTypes["default"].func,
+  onOutput: _propTypes["default"].func,
+  alternativeTimeout: _propTypes["default"].number,
+  volume: _propTypes["default"].number,
+  muted: _propTypes["default"].bool
 };
 DialButton.defaultProps = {
   className: null,

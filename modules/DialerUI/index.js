@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -20,6 +20,8 @@ require("core-js/modules/es6.object.define-property");
 require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -55,7 +57,7 @@ var _getReducer = _interopRequireDefault(require("./getReducer"));
 
 var _dec, _class, _class2, _descriptor, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -83,15 +85,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DialerUI = (_dec = (0, _di.Module)({
   name: 'DialerUI',
@@ -136,7 +138,7 @@ function (_RcUIModule) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(DialerUI).call(this, _objectSpread({}, options)));
 
-    _initializerDefineProperty(_this, "searchContactList", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "searchContactList", _descriptor, _assertThisInitialized(_this));
 
     _this._alert = alert;
     _this._audioSettings = audioSettings;
@@ -149,7 +151,7 @@ function (_RcUIModule) {
     _this._rateLimiter = rateLimiter;
     _this._regionSettings = regionSettings;
     _this._webphone = webphone;
-    _this._reducer = (0, _getReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
     _this._callHooks = [];
     return _this;
   }
@@ -344,8 +346,8 @@ function (_RcUIModule) {
                 _context5.prev = 21;
                 _context5.prev = 22;
 
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
                 }
 
               case 24:
@@ -407,7 +409,7 @@ function (_RcUIModule) {
     value: function _loadLastPhoneNumber() {
       if (!this._call.lastRecipient && !this._call.lastPhoneNumber) {
         this._alert.warning({
-          message: _callErrors.default.noToNumber
+          message: _callErrors["default"].noToNumber
         });
       } else {
         this.store.dispatch({
@@ -514,7 +516,7 @@ function (_RcUIModule) {
           return (_this2$_callingSettin = _this2._callingSettings).updateFromNumber.apply(_this2$_callingSettin, arguments);
         },
         formatPhone: function formatPhone(phoneNumber) {
-          return (0, _formatNumber.default)({
+          return (0, _formatNumber["default"])({
             phoneNumber: phoneNumber,
             areaCode: _this2._regionSettings.areaCode,
             countryCode: _this2._regionSettings.countryCode
@@ -536,7 +538,7 @@ function (_RcUIModule) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum.default(['setToNumberField', 'clearToNumberField', 'setRecipient', 'clearRecipient', 'loadLastCallState', 'call', 'callError', 'callSuccess'], 'dialerUI');
+      return new _Enum["default"](['setToNumberField', 'clearToNumberField', 'setRecipient', 'clearRecipient', 'loadLastCallState', 'call', 'callError', 'callSuccess'], 'dialerUI');
     }
   }, {
     key: "toNumberField",
@@ -551,7 +553,7 @@ function (_RcUIModule) {
   }, {
     key: "isWebphoneMode",
     get: function get() {
-      return this._callingSettings.callingMode === _callingModes.default.webphone;
+      return this._callingSettings.callingMode === _callingModes["default"].webphone;
     }
   }, {
     key: "isWebphoneDisconnected",
@@ -561,7 +563,7 @@ function (_RcUIModule) {
   }, {
     key: "isWebphoneConnecting",
     get: function get() {
-      return this.isWebphoneMode && this._webphone.connecting;
+      return this.isWebphoneMode && (!this._webphone.ready || this._webphone.connectionStatus === null || this._webphone.connecting || this._webphone.connectFailed);
     }
   }, {
     key: "isAudioNotEnabled",
@@ -581,7 +583,7 @@ function (_RcUIModule) {
   }]);
 
   return DialerUI;
-}(_RcUIModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "clearToNumberField", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "clearToNumberField"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setToNumberField", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setToNumberField"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRecipient", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearRecipient", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "clearRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "call", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "call"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onCallButtonClick", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onCallButtonClick"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "searchContactList", [_selector.selector], {
+}(_RcUIModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "clearToNumberField", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearToNumberField"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setToNumberField", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setToNumberField"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRecipient", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearRecipient", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "call", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "call"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onCallButtonClick", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onCallButtonClick"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "searchContactList", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -595,5 +597,5 @@ function (_RcUIModule) {
     }];
   }
 })), _class2)) || _class);
-exports.default = DialerUI;
+exports["default"] = DialerUI;
 //# sourceMappingURL=index.js.map

@@ -7,9 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.regexp.search");
 
@@ -33,7 +35,7 @@ var _phoneContext = require("../../lib/phoneContext");
 
 var _ActiveCallsPanel = _interopRequireDefault(require("../../components/ActiveCallsPanel"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -57,7 +59,7 @@ function mapToProps(_, _ref) {
       _ref$showRingoutCallC = _ref.showRingoutCallControl,
       showRingoutCallControl = _ref$showRingoutCallC === void 0 ? false : _ref$showRingoutCallC,
       useV2 = _ref.useV2;
-  var isWebRTC = callingSettings.callingMode === _callingModes.default.webphone;
+  var isWebRTC = callingSettings.callingMode === _callingModes["default"].webphone;
   var controlBusy = activeCallControl && activeCallControl.busy || false;
   return {
     currentLocale: locale.currentLocale,
@@ -109,7 +111,7 @@ function mapToFunctions(_, _ref2) {
       useV2 = _ref2.useV2;
   return {
     formatPhone: function formatPhone(phoneNumber) {
-      return (0, _formatNumber.default)({
+      return (0, _formatNumber["default"])({
         phoneNumber: phoneNumber,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode
@@ -136,7 +138,7 @@ function mapToFunctions(_, _ref2) {
                   return session.id === sessionId;
                 });
 
-                if (conferenceCall && session && session.direction === _callDirections.default.inbound) {
+                if (conferenceCall && session && session.direction === _callDirections["default"].inbound) {
                   conferenceCall.closeMergingPair();
                 }
 
@@ -508,7 +510,7 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onCallsEmpty: onCallsEmpty || function () {
-      var isWebRTC = callingSettings.callingMode === _callingModes.default.webphone;
+      var isWebRTC = callingSettings.callingMode === _callingModes["default"].webphone;
 
       if (isWebRTC && !webphone.sessions.length) {
         routerInteraction.push('/dialer');
@@ -550,6 +552,6 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ActiveCallsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ActiveCallsPanel.default));
-exports.default = ActiveCallsPage;
+var ActiveCallsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ActiveCallsPanel["default"]));
+exports["default"] = ActiveCallsPage;
 //# sourceMappingURL=index.js.map

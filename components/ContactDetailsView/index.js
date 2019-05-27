@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -92,6 +92,7 @@ function (_PureComponent) {
           onBackClick = _this$props.onBackClick,
           onClickToSMS = _this$props.onClickToSMS,
           onClickToDial = _this$props.onClickToDial,
+          disableCallButton = _this$props.disableCallButton,
           onClickMailTo = _this$props.onClickMailTo,
           formatNumber = _this$props.formatNumber,
           sourceNodeRenderer = _this$props.sourceNodeRenderer,
@@ -99,25 +100,26 @@ function (_PureComponent) {
           internalSmsPermission = _this$props.internalSmsPermission,
           children = _this$props.children;
       if (!contactItem) return null;
-      var content = showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : _react.default.createElement(_ContactDetails.default, {
+      var content = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : _react["default"].createElement(_ContactDetails["default"], {
         currentLocale: currentLocale,
         contactItem: contactItem,
         onClickToSMS: onClickToSMS,
         onClickToDial: onClickToDial,
+        disableCallButton: disableCallButton,
         onClickMailTo: onClickMailTo,
         formatNumber: formatNumber,
         sourceNodeRenderer: sourceNodeRenderer,
         outboundSmsPermission: outboundSmsPermission,
         internalSmsPermission: internalSmsPermission
       });
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement(_BackHeader.default, {
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, _react["default"].createElement(_BackHeader["default"], {
         buttons: [],
         onBackClick: onBackClick,
-        className: _styles.default.header
-      }, _i18n.default.getString('contactDetails', currentLocale)), _react.default.createElement(_Panel.default, {
-        className: _styles.default.content
+        className: _styles["default"].header
+      }, _i18n["default"].getString('contactDetails', currentLocale)), _react["default"].createElement(_Panel["default"], {
+        className: _styles["default"].content
       }, content, children));
     }
   }]);
@@ -125,24 +127,25 @@ function (_PureComponent) {
   return ContactDetailsView;
 }(_react.PureComponent);
 
-exports.default = ContactDetailsView;
+exports["default"] = ContactDetailsView;
 ContactDetailsView.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  showSpinner: _propTypes.default.bool.isRequired,
-  contactItem: _propTypes.default.shape(_ContactDetails.contactItemPropTypes),
-  getContact: _propTypes.default.func.isRequired,
-  clearContact: _propTypes.default.func.isRequired,
-  getAvatar: _propTypes.default.func.isRequired,
-  getPresence: _propTypes.default.func.isRequired,
-  onBackClick: _propTypes.default.func,
-  onClickToSMS: _propTypes.default.func,
-  onClickToDial: _propTypes.default.func,
-  onClickMailTo: _propTypes.default.func,
-  formatNumber: _propTypes.default.func.isRequired,
-  sourceNodeRenderer: _propTypes.default.func,
-  children: _propTypes.default.node,
-  outboundSmsPermission: _propTypes.default.bool,
-  internalSmsPermission: _propTypes.default.bool
+  currentLocale: _propTypes["default"].string.isRequired,
+  showSpinner: _propTypes["default"].bool.isRequired,
+  contactItem: _propTypes["default"].shape(_ContactDetails.contactItemPropTypes),
+  getContact: _propTypes["default"].func.isRequired,
+  clearContact: _propTypes["default"].func.isRequired,
+  getAvatar: _propTypes["default"].func.isRequired,
+  getPresence: _propTypes["default"].func.isRequired,
+  onBackClick: _propTypes["default"].func,
+  onClickToSMS: _propTypes["default"].func,
+  onClickToDial: _propTypes["default"].func,
+  onClickMailTo: _propTypes["default"].func,
+  formatNumber: _propTypes["default"].func.isRequired,
+  sourceNodeRenderer: _propTypes["default"].func,
+  children: _propTypes["default"].node,
+  outboundSmsPermission: _propTypes["default"].bool,
+  internalSmsPermission: _propTypes["default"].bool,
+  disableCallButton: _propTypes["default"].bool
 };
 ContactDetailsView.defaultProps = {
   onBackClick: undefined,
@@ -155,6 +158,7 @@ ContactDetailsView.defaultProps = {
     return null;
   },
   outboundSmsPermission: false,
-  internalSmsPermission: false
+  internalSmsPermission: false,
+  disableCallButton: false
 };
 //# sourceMappingURL=index.js.map

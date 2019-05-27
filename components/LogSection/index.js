@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.assign");
 
@@ -12,6 +12,8 @@ require("core-js/modules/es6.array.index-of");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -43,9 +45,9 @@ var _LogBasicInfo = _interopRequireDefault(require("../LogBasicInfo"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -76,15 +78,15 @@ var EditSection = function EditSection(_ref) {
       scrollerRef = _ref.scrollerRef,
       rest = _objectWithoutProperties(_ref, ["children", "scrollerRef"]);
 
-  return _react.default.createElement("div", _extends({}, rest, {
+  return _react["default"].createElement("div", _extends({}, rest, {
     ref: scrollerRef,
-    className: (0, _classnames.default)(_styles.default.editSection)
+    className: (0, _classnames["default"])(_styles["default"].editSection)
   }), children);
 };
 
 EditSection.propTypes = {
-  children: _propTypes.default.object,
-  scrollerRef: _propTypes.default.func
+  children: _propTypes["default"].object,
+  scrollerRef: _propTypes["default"].func
 };
 EditSection.defaultProps = {
   children: null,
@@ -96,20 +98,20 @@ var SaveButton = function SaveButton(_ref2) {
       onClick = _ref2.onClick,
       overlapped = _ref2.overlapped,
       children = _ref2.children;
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.buttonPanel, overlapped && _styles.default.overlapped)
-  }, _react.default.createElement(_Button.default, {
-    className: (0, _classnames.default)(_styles.default.primaryButton, isSaving && _styles.default.disabled),
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].buttonPanel, overlapped && _styles["default"].overlapped)
+  }, _react["default"].createElement(_Button["default"], {
+    className: (0, _classnames["default"])(_styles["default"].primaryButton, isSaving && _styles["default"].disabled),
     disabled: isSaving,
     onClick: onClick
   }, children));
 };
 
 SaveButton.propTypes = {
-  isSaving: _propTypes.default.bool,
-  onClick: _propTypes.default.func,
-  overlapped: _propTypes.default.bool,
-  children: _propTypes.default.string
+  isSaving: _propTypes["default"].bool,
+  onClick: _propTypes["default"].func,
+  overlapped: _propTypes["default"].bool,
+  children: _propTypes["default"].string
 };
 SaveButton.defaultProps = {
   isSaving: false,
@@ -208,13 +210,13 @@ function (_Component) {
         });
       }
 
-      return _react.default.createElement(SaveButton, {
+      return _react["default"].createElement(SaveButton, {
         isSaving: currentLogCall.isSaving,
         onClick: function onClick() {
           return onSaveCallLog(call);
         },
         overlapped: this.state.mainCtrlOverlapped
-      }, _i18n.default.getString('saveLog', currentLocale));
+      }, _i18n["default"].getString('saveLog', currentLocale));
     }
   }, {
     key: "renderLogBasicInfo",
@@ -236,7 +238,7 @@ function (_Component) {
         extraButton = this.props.renderSmallCallContrl(status, currentSessionId);
       }
 
-      return _react.default.createElement(_LogBasicInfo.default, {
+      return _react["default"].createElement(_LogBasicInfo["default"], {
         dataSign: "leftSectionInfo",
         currentLog: this.props.currentLog,
         currentLocale: this.props.currentLocale,
@@ -259,22 +261,22 @@ function (_Component) {
       var showSpinner = currentLog.showSpinner;
 
       if (showSpinner) {
-        return _react.default.createElement(_SpinnerOverlay.default, {
-          className: _styles.default.spinner
+        return _react["default"].createElement(_SpinnerOverlay["default"], {
+          className: _styles["default"].spinner
         });
       }
 
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, this.renderLogBasicInfo(), _react.default.createElement(EditSection, {
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, this.renderLogBasicInfo(), _react["default"].createElement(EditSection, {
         scrollerRef: function scrollerRef(el) {
           _this2.mainCtrl = el;
         },
         onScroll: function onScroll() {
           return _this2.checkOverlap();
         }
-      }, this.getEditLogSection()), this.genSaveLogButton(), isInnerMask ? _react.default.createElement("div", {
-        className: _styles.default.innerMask
+      }, this.getEditLogSection()), this.genSaveLogButton(), isInnerMask ? _react["default"].createElement("div", {
+        className: _styles["default"].innerMask
       }) : null);
     }
   }]);
@@ -282,21 +284,21 @@ function (_Component) {
   return LogSection;
 }(_react.Component);
 
-exports.default = LogSection;
+exports["default"] = LogSection;
 LogSection.propTypes = {
-  currentLog: _propTypes.default.object,
-  additionalInfo: _propTypes.default.object,
-  currentLocale: _propTypes.default.string.isRequired,
-  formatPhone: _propTypes.default.func,
-  onUpdateCallLog: _propTypes.default.func,
-  onSaveCallLog: _propTypes.default.func,
-  renderEditLogSection: _propTypes.default.func,
-  renderSaveLogButton: _propTypes.default.func,
-  isInnerMask: _propTypes.default.bool,
-  onLogBasicInfoClick: _propTypes.default.func,
-  showSaveLogBtn: _propTypes.default.bool,
-  showSmallCallControl: _propTypes.default.bool,
-  renderSmallCallContrl: _propTypes.default.func
+  currentLog: _propTypes["default"].object,
+  additionalInfo: _propTypes["default"].object,
+  currentLocale: _propTypes["default"].string.isRequired,
+  formatPhone: _propTypes["default"].func,
+  onUpdateCallLog: _propTypes["default"].func,
+  onSaveCallLog: _propTypes["default"].func,
+  renderEditLogSection: _propTypes["default"].func,
+  renderSaveLogButton: _propTypes["default"].func,
+  isInnerMask: _propTypes["default"].bool,
+  onLogBasicInfoClick: _propTypes["default"].func,
+  showSaveLogBtn: _propTypes["default"].bool,
+  showSmallCallControl: _propTypes["default"].bool,
+  renderSmallCallContrl: _propTypes["default"].func
 };
 LogSection.defaultProps = {
   currentLog: {},

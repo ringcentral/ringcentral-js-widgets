@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ConfirmMergeModal;
+exports["default"] = ConfirmMergeModal;
 
 require("core-js/modules/es6.array.map");
 
@@ -25,7 +25,7 @@ var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
 var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ConfirmMergeModal(_ref) {
   var currentLocale = _ref.currentLocale,
@@ -36,51 +36,51 @@ function ConfirmMergeModal(_ref) {
   var avatarUrls = partyProfiles.map(function (profile) {
     return profile.avatarUrl;
   });
-  return _react.default.createElement(_Modal.default, {
+  return _react["default"].createElement(_Modal["default"], {
     show: show,
-    headerClassName: _styles.default.header,
+    headerClassName: _styles["default"].header,
     currentLocale: currentLocale,
-    className: _styles.default.confirmMergeModal,
-    modalClassName: _styles.default.confirmMergeModal,
-    cancelBtnClassName: _styles.default.cancelBtn,
-    confirmBtnClassName: _styles.default.confirmBtn,
-    title: _i18n.default.getString('confirmation', currentLocale),
+    className: _styles["default"].confirmMergeModal,
+    modalClassName: _styles["default"].confirmMergeModal,
+    cancelBtnClassName: _styles["default"].cancelBtn,
+    confirmBtnClassName: _styles["default"].confirmBtn,
+    title: _i18n["default"].getString('confirmation', currentLocale),
     onCancel: onCancel,
-    footerClassName: _styles.default.footer
-  }, _react.default.createElement("div", {
-    className: _styles.default.contentText
-  }, _i18n.default.getString('confirmMergeToConference', currentLocale)), _react.default.createElement("div", {
-    className: _styles.default.content
-  }, _react.default.createElement("div", {
-    className: _styles.default.contentText
-  }, _react.default.createElement("div", {
-    className: _styles.default.avatar
-  }, _react.default.createElement(_CallAvatar.default, {
+    footerClassName: _styles["default"].footer
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].contentText
+  }, _i18n["default"].getString('confirmMergeToConference', currentLocale)), _react["default"].createElement("div", {
+    className: _styles["default"].content
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].contentText
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].avatar
+  }, _react["default"].createElement(_CallAvatar["default"], {
     avatarUrl: avatarUrls[0],
     isOnConferenceCall: true,
     extraNum: avatarUrls.length - 1
-  })), _react.default.createElement("span", null, _i18n.default.getString('conferenceCall', currentLocale))), _react.default.createElement("span", {
-    title: _i18n.default.getString('mergeToConference', currentLocale),
-    className: _styles.default.webphoneButton
-  }, _react.default.createElement(_CircleButton.default, {
-    className: _styles.default.mergeButton,
+  })), _react["default"].createElement("span", null, _i18n["default"].getString('conferenceCall', currentLocale))), _react["default"].createElement("span", {
+    title: _i18n["default"].getString('mergeToConference', currentLocale),
+    className: _styles["default"].webphoneButton
+  }, _react["default"].createElement(_CircleButton["default"], {
+    className: _styles["default"].mergeButton,
     onClick: function onClick(e) {
       e.stopPropagation();
       onMerge();
     },
     iconWidth: 260,
     iconX: 120,
-    icon: _MergeIntoConferenceIcon.default,
+    icon: _MergeIntoConferenceIcon["default"],
     showBorder: false
   }))));
 }
 
 ConfirmMergeModal.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  show: _propTypes.default.bool.isRequired,
-  onMerge: _propTypes.default.func,
-  onCancel: _propTypes.default.func,
-  partyProfiles: _propTypes.default.arrayOf(_propTypes.default.object)
+  currentLocale: _propTypes["default"].string.isRequired,
+  show: _propTypes["default"].bool.isRequired,
+  onMerge: _propTypes["default"].func,
+  onCancel: _propTypes["default"].func,
+  partyProfiles: _propTypes["default"].arrayOf(_propTypes["default"].object)
 };
 ConfirmMergeModal.defaultProps = {
   onMerge: function onMerge() {},

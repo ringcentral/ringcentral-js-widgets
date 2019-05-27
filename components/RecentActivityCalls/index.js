@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -33,9 +33,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -62,21 +62,21 @@ function getCurrentStatus(_ref, currentLocale) {
   if (direction === 'Inbound') {
     if (result === 'Missed') {
       return {
-        status: _i18n.default.getString('missed', currentLocale),
-        icon: _DynamicsFont.default.missed,
+        status: _i18n["default"].getString('missed', currentLocale),
+        icon: _DynamicsFont["default"].missed,
         isMissedCall: true
       };
     }
 
     return {
-      status: _i18n.default.getString('inBound', currentLocale),
-      icon: _DynamicsFont.default.inbound
+      status: _i18n["default"].getString('inBound', currentLocale),
+      icon: _DynamicsFont["default"].inbound
     };
   }
 
   return {
-    status: _i18n.default.getString('outBound', currentLocale),
-    icon: _DynamicsFont.default.outbound
+    status: _i18n["default"].getString('outBound', currentLocale),
+    icon: _DynamicsFont["default"].outbound
   };
 }
 
@@ -95,34 +95,34 @@ function CallItem(_ref2) {
   startTime = dateTimeFormatter({
     utcTimestamp: new Date(startTime).getTime()
   });
-  duration = (0, _formatDuration.default)(duration);
-  return _react.default.createElement("div", {
-    className: _styles.default.callItem
-  }, _react.default.createElement("dl", {
-    className: (0, _classnames.default)(_styles.default.dl, isMissedCall ? _styles.default.missedCall : '')
-  }, _react.default.createElement("dt", {
-    className: _styles.default.status,
+  duration = (0, _formatDuration["default"])(duration);
+  return _react["default"].createElement("div", {
+    className: _styles["default"].callItem
+  }, _react["default"].createElement("dl", {
+    className: (0, _classnames["default"])(_styles["default"].dl, isMissedCall ? _styles["default"].missedCall : '')
+  }, _react["default"].createElement("dt", {
+    className: _styles["default"].status,
     title: status
-  }, _react.default.createElement("span", {
-    className: _styles.default.iconWrapper
-  }, _react.default.createElement("i", {
-    className: (0, _classnames.default)(icon, _styles.default.callIcon),
+  }, _react["default"].createElement("span", {
+    className: _styles["default"].iconWrapper
+  }, _react["default"].createElement("i", {
+    className: (0, _classnames["default"])(icon, _styles["default"].callIcon),
     title: status
-  })), _react.default.createElement("span", {
+  })), _react["default"].createElement("span", {
     title: status
-  }, status), _react.default.createElement("small", {
-    className: _styles.default.duration,
+  }, status), _react["default"].createElement("small", {
+    className: _styles["default"].duration,
     title: duration
-  }, duration)), _react.default.createElement("dd", {
-    className: _styles.default.time,
+  }, duration)), _react["default"].createElement("dd", {
+    className: _styles["default"].time,
     title: startTime
   }, startTime)));
 }
 
 CallItem.propTypes = {
-  call: _propTypes.default.object.isRequired,
-  dateTimeFormatter: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired
+  call: _propTypes["default"].object.isRequired,
+  dateTimeFormatter: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 
 var RecentActivityCalls =
@@ -152,13 +152,13 @@ function (_Component) {
       var callListView = null;
 
       if (!isCallsLoaded) {
-        callListView = _react.default.createElement(_Spinner.default, {
-          className: _styles.default.spinner,
+        callListView = _react["default"].createElement(_Spinner["default"], {
+          className: _styles["default"].spinner,
           ringWidth: 4
         });
       } else if (calls.length > 0) {
         callListView = calls.map(function (call) {
-          return _react.default.createElement(CallItem, {
+          return _react["default"].createElement(CallItem, {
             key: call.id,
             call: call,
             currentLocale: currentLocale,
@@ -166,13 +166,13 @@ function (_Component) {
           });
         });
       } else {
-        callListView = _react.default.createElement("p", {
-          className: _styles.default.noRecords
-        }, _i18n.default.getString('noRecords', currentLocale));
+        callListView = _react["default"].createElement("p", {
+          className: _styles["default"].noRecords
+        }, _i18n["default"].getString('noRecords', currentLocale));
       }
 
-      return _react.default.createElement("div", {
-        className: _styles.default.calls
+      return _react["default"].createElement("div", {
+        className: _styles["default"].calls
       }, callListView);
     }
   }]);
@@ -180,11 +180,11 @@ function (_Component) {
   return RecentActivityCalls;
 }(_react.Component);
 
-exports.default = RecentActivityCalls;
+exports["default"] = RecentActivityCalls;
 RecentActivityCalls.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  calls: _propTypes.default.array.isRequired,
-  isCallsLoaded: _propTypes.default.bool.isRequired,
-  dateTimeFormatter: _propTypes.default.func.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  calls: _propTypes["default"].array.isRequired,
+  isCallsLoaded: _propTypes["default"].bool.isRequired,
+  dateTimeFormatter: _propTypes["default"].func.isRequired
 };
 //# sourceMappingURL=index.js.map

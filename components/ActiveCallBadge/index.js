@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ActiveCallBadge;
+exports["default"] = ActiveCallBadge;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -19,31 +19,31 @@ var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/Dy
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ActiveCallBadge(props) {
-  return _react.default.createElement(_Draggable.default, {
-    className: _styles.default.root,
+  return _react["default"].createElement(_Draggable["default"], {
+    className: _styles["default"].root,
     onClick: props.onClick,
     positionOffsetX: props.offsetX,
     positionOffsetY: props.offsetY,
     updatePositionOffset: props.updatePositionOffset
-  }, _react.default.createElement(_Badge.default, {
-    className: _styles.default.badge,
+  }, _react["default"].createElement(_Badge["default"], {
+    className: _styles["default"].badge,
     name: props.title
-  }, _react.default.createElement("span", {
-    className: _styles.default.activeIcon
-  }, _react.default.createElement("i", {
-    className: _DynamicsFont.default.callHover
+  }, _react["default"].createElement("span", {
+    className: _styles["default"].activeIcon
+  }, _react["default"].createElement("i", {
+    className: _DynamicsFont["default"].callHover
   })), props.title));
 }
 
 ActiveCallBadge.propTypes = {
-  onClick: _propTypes.default.func.isRequired,
-  offsetX: _propTypes.default.number.isRequired,
-  offsetY: _propTypes.default.number.isRequired,
-  updatePositionOffset: _propTypes.default.func.isRequired,
-  title: _propTypes.default.string
+  onClick: _propTypes["default"].func.isRequired,
+  offsetX: _propTypes["default"].number.isRequired,
+  offsetY: _propTypes["default"].number.isRequired,
+  updatePositionOffset: _propTypes["default"].func.isRequired,
+  title: _propTypes["default"].string
 };
 ActiveCallBadge.defaultProps = {
   title: 'Active Call'

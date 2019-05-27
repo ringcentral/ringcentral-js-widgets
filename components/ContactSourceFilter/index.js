@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ContactSourceItem = ContactSourceItem;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -32,9 +32,9 @@ var _ContactFilter = _interopRequireDefault(require("../../assets/images/Contact
 
 var _ContactFilterSolid = _interopRequireDefault(require("../../assets/images/ContactFilterSolid.svg"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -59,19 +59,19 @@ function ContactSourceItem(_ref) {
       sourceLabel = _ref.sourceLabel,
       isSelected = _ref.isSelected,
       onSelect = _ref.onSelect;
-  return _react.default.createElement("div", {
+  return _react["default"].createElement("div", {
     onClick: function onClick() {
       return onSelect(sourceName);
     },
-    className: (0, _classnames.default)(_styles.default.contactSourceItem, isSelected ? _styles.default.selected : '')
+    className: (0, _classnames["default"])(_styles["default"].contactSourceItem, isSelected ? _styles["default"].selected : '')
   }, sourceLabel);
 }
 
 ContactSourceItem.propTypes = {
-  sourceName: _propTypes.default.string.isRequired,
-  sourceLabel: _propTypes.default.string.isRequired,
-  isSelected: _propTypes.default.bool.isRequired,
-  onSelect: _propTypes.default.func.isRequired
+  sourceName: _propTypes["default"].string.isRequired,
+  sourceLabel: _propTypes["default"].string.isRequired,
+  isSelected: _propTypes["default"].bool.isRequired,
+  onSelect: _propTypes["default"].func.isRequired
 };
 
 var ContactSourceFilter =
@@ -158,7 +158,7 @@ function (_Component) {
   }, {
     key: "getString",
     value: function getString(key, locale) {
-      return _i18n.default.getString(key, locale);
+      return _i18n["default"].getString(key, locale);
     }
   }, {
     key: "render",
@@ -171,26 +171,26 @@ function (_Component) {
           contactSourceNames = _this$props.contactSourceNames,
           selectedSourceName = _this$props.selectedSourceName;
       var isAllSource = selectedSourceName === contactSourceNames[0];
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.contactSourceFilter, className),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].contactSourceFilter, className),
         "data-sign": "contactSourceFilterButton",
         onClick: this.togglePanel
-      }, _react.default.createElement("div", {
+      }, _react["default"].createElement("div", {
         "data-sign": "filterIconContainer",
-        className: _styles.default.filterIconContainer,
+        className: _styles["default"].filterIconContainer,
         title: this.getString(selectedSourceName, currentLocale)
-      }, isAllSource ? _react.default.createElement(_ContactFilter.default, {
-        className: (0, _classnames.default)(_styles.default.filterIconNode, _styles.default.iconNoneFill)
-      }) : _react.default.createElement(_ContactFilterSolid.default, {
-        className: _styles.default.filterIconNode
-      })), !this.state.unfold ? null : _react.default.createElement("div", {
-        className: _styles.default.contactSourceList,
+      }, isAllSource ? _react["default"].createElement(_ContactFilter["default"], {
+        className: (0, _classnames["default"])(_styles["default"].filterIconNode, _styles["default"].iconNoneFill)
+      }) : _react["default"].createElement(_ContactFilterSolid["default"], {
+        className: _styles["default"].filterIconNode
+      })), !this.state.unfold ? null : _react["default"].createElement("div", {
+        className: _styles["default"].contactSourceList,
         onClick: function onClick(e) {
           return e.stopPropagation();
         },
         "data-sign": "contactSourceList"
       }, contactSourceNames.map(function (sourceName) {
-        return _react.default.createElement(ContactSourceItem, {
+        return _react["default"].createElement(ContactSourceItem, {
           key: sourceName,
           sourceName: sourceName,
           sourceLabel: _this2.getString(sourceName, currentLocale),
@@ -204,15 +204,15 @@ function (_Component) {
   return ContactSourceFilter;
 }(_react.Component);
 
-exports.default = ContactSourceFilter;
+exports["default"] = ContactSourceFilter;
 ContactSourceFilter.propTypes = {
-  className: _propTypes.default.string,
-  currentLocale: _propTypes.default.string.isRequired,
-  onSourceSelect: _propTypes.default.func,
-  selectedSourceName: _propTypes.default.string,
-  contactSourceNames: _propTypes.default.arrayOf(_propTypes.default.string).isRequired,
-  unfold: _propTypes.default.bool,
-  onUnfoldChange: _propTypes.default.func
+  className: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onSourceSelect: _propTypes["default"].func,
+  selectedSourceName: _propTypes["default"].string,
+  contactSourceNames: _propTypes["default"].arrayOf(_propTypes["default"].string).isRequired,
+  unfold: _propTypes["default"].bool,
+  onUnfoldChange: _propTypes["default"].func
 };
 ContactSourceFilter.defaultProps = {
   className: undefined,

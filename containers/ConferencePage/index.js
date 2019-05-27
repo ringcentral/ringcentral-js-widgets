@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -25,7 +25,7 @@ var _countryNames = _interopRequireDefault(require("../../lib/countryNames"));
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -58,7 +58,7 @@ function mapToProps(_, _ref) {
     return acc;
   }, {}, phoneNumbers);
   var dialInNumbers = (0, _ramda.map)(function (item) {
-    var countryName = _countryNames.default.getString(item.country.isoCode, currentLocale); // only show the provinces of canada
+    var countryName = _countryNames["default"].getString(item.country.isoCode, currentLocale); // only show the provinces of canada
 
 
     return {
@@ -131,6 +131,6 @@ function mapToFunctions(_, _ref3) {
   };
 }
 
-var ConferencePage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConferencePanel.default));
-exports.default = ConferencePage;
+var ConferencePage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConferencePanel["default"]));
+exports["default"] = ConferencePage;
 //# sourceMappingURL=index.js.map

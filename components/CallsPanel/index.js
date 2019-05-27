@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -21,8 +21,6 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
 
-require("core-js/fn/array/find");
-
 var _Header = _interopRequireDefault(require("../Header"));
 
 var _Panel = _interopRequireDefault(require("../Panel"));
@@ -35,7 +33,7 @@ var _CallListV = _interopRequireDefault(require("../CallListV2"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -68,7 +66,7 @@ function (_React$PureComponent) {
     _classCallCheck(this, CallsPanel);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CallsPanel).call(this, props));
-    _this._onResize = (0, _debounce.default)(function () {
+    _this._onResize = (0, _debounce["default"])(function () {
       if (_this._mounted) {
         _this._calculateContentSize();
       }
@@ -78,7 +76,7 @@ function (_React$PureComponent) {
       contentWidth: 0
     };
     _this._mounted = false;
-    _this._listWrapper = _react.default.createRef();
+    _this._listWrapper = _react["default"].createRef();
     return _this;
   }
 
@@ -131,6 +129,7 @@ function (_React$PureComponent) {
           onClickToSms = _this$props.onClickToSms,
           isLoggedContact = _this$props.isLoggedContact,
           disableLinks = _this$props.disableLinks,
+          disableCallButton = _this$props.disableCallButton,
           disableClickToDial = _this$props.disableClickToDial,
           outboundSmsPermission = _this$props.outboundSmsPermission,
           internalSmsPermission = _this$props.internalSmsPermission,
@@ -150,7 +149,10 @@ function (_React$PureComponent) {
           phoneTypeRenderer = _this$props.phoneTypeRenderer,
           phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
           useNewList = _this$props.useNewList;
-      var callsListView = useNewList ? _react.default.createElement(_CallListV.default, {
+      var _this$state = this.state,
+          contentWidth = _this$state.contentWidth,
+          contentHeight = _this$state.contentHeight;
+      var callsListView = useNewList ? _react["default"].createElement(_CallListV["default"], {
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -163,6 +165,7 @@ function (_React$PureComponent) {
         onClickToSms: onClickToSms,
         isLoggedContact: isLoggedContact,
         disableLinks: disableLinks,
+        disableCallButton: disableCallButton,
         disableClickToDial: disableClickToDial,
         outboundSmsPermission: outboundSmsPermission,
         internalSmsPermission: internalSmsPermission,
@@ -179,10 +182,10 @@ function (_React$PureComponent) {
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
-        width: this.state.contentWidth,
-        height: this.state.contentHeight,
+        width: contentWidth,
+        height: contentHeight,
         useNewList: useNewList
-      }) : _react.default.createElement(_CallList.default, {
+      }) : _react["default"].createElement(_CallList["default"], {
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -195,6 +198,7 @@ function (_React$PureComponent) {
         onClickToSms: onClickToSms,
         isLoggedContact: isLoggedContact,
         disableLinks: disableLinks,
+        disableCallButton: disableCallButton,
         disableClickToDial: disableClickToDial,
         outboundSmsPermission: outboundSmsPermission,
         internalSmsPermission: internalSmsPermission,
@@ -212,52 +216,53 @@ function (_React$PureComponent) {
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer
       });
-      var content = showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : callsListView;
-      return _react.default.createElement("div", {
-        className: _styles.default.root,
+      var content = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : callsListView;
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root,
         ref: this._listWrapper
-      }, _react.default.createElement(_Header.default, null, title), _react.default.createElement(_Panel.default, {
-        className: _styles.default.content
+      }, _react["default"].createElement(_Header["default"], null, title), _react["default"].createElement(_Panel["default"], {
+        className: _styles["default"].content
       }, content));
     }
   }]);
 
   return CallsPanel;
-}(_react.default.PureComponent);
+}(_react["default"].PureComponent);
 
-exports.default = CallsPanel;
+exports["default"] = CallsPanel;
 CallsPanel.propTypes = {
-  brand: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  calls: _propTypes.default.arrayOf(_propTypes.default.any).isRequired,
-  areaCode: _propTypes.default.string.isRequired,
-  countryCode: _propTypes.default.string.isRequired,
-  onViewContact: _propTypes.default.func,
-  onCreateContact: _propTypes.default.func,
-  onClickToDial: _propTypes.default.func,
-  onClickToSms: _propTypes.default.func,
-  onLogCall: _propTypes.default.func,
-  isLoggedContact: _propTypes.default.func,
-  disableLinks: _propTypes.default.bool.isRequired,
-  disableClickToDial: _propTypes.default.bool,
-  outboundSmsPermission: _propTypes.default.bool,
-  internalSmsPermission: _propTypes.default.bool,
-  dateTimeFormatter: _propTypes.default.func.isRequired,
-  showSpinner: _propTypes.default.bool,
-  title: _propTypes.default.string,
-  active: _propTypes.default.bool,
-  loggingMap: _propTypes.default.object,
-  webphoneAnswer: _propTypes.default.func,
-  webphoneReject: _propTypes.default.func,
-  webphoneHangup: _propTypes.default.func,
-  webphoneResume: _propTypes.default.func,
-  enableContactFallback: _propTypes.default.bool,
-  autoLog: _propTypes.default.bool,
-  showContactDisplayPlaceholder: _propTypes.default.bool,
-  sourceIcons: _propTypes.default.object,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  useNewList: _propTypes.default.bool
+  brand: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  calls: _propTypes["default"].arrayOf(_propTypes["default"].any).isRequired,
+  areaCode: _propTypes["default"].string.isRequired,
+  countryCode: _propTypes["default"].string.isRequired,
+  onViewContact: _propTypes["default"].func,
+  onCreateContact: _propTypes["default"].func,
+  onClickToDial: _propTypes["default"].func,
+  onClickToSms: _propTypes["default"].func,
+  onLogCall: _propTypes["default"].func,
+  isLoggedContact: _propTypes["default"].func,
+  disableLinks: _propTypes["default"].bool.isRequired,
+  disableCallButton: _propTypes["default"].bool,
+  disableClickToDial: _propTypes["default"].bool,
+  outboundSmsPermission: _propTypes["default"].bool,
+  internalSmsPermission: _propTypes["default"].bool,
+  dateTimeFormatter: _propTypes["default"].func.isRequired,
+  showSpinner: _propTypes["default"].bool,
+  title: _propTypes["default"].string,
+  active: _propTypes["default"].bool,
+  loggingMap: _propTypes["default"].object,
+  webphoneAnswer: _propTypes["default"].func,
+  webphoneReject: _propTypes["default"].func,
+  webphoneHangup: _propTypes["default"].func,
+  webphoneResume: _propTypes["default"].func,
+  enableContactFallback: _propTypes["default"].bool,
+  autoLog: _propTypes["default"].bool,
+  showContactDisplayPlaceholder: _propTypes["default"].bool,
+  sourceIcons: _propTypes["default"].object,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  useNewList: _propTypes["default"].bool
 };
 CallsPanel.defaultProps = {
   onViewContact: undefined,
@@ -265,6 +270,7 @@ CallsPanel.defaultProps = {
   onLogCall: undefined,
   onClickToDial: undefined,
   onClickToSms: undefined,
+  disableCallButton: false,
   disableClickToDial: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,

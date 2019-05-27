@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -39,9 +39,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -123,92 +123,92 @@ function (_Component) {
       var _this2 = this;
 
       var currentLocale = this.props.currentLocale;
-      this.topicOptions = [_i18n.default.getString('bugReport', currentLocale), _i18n.default.getString('featureRequest', currentLocale), _i18n.default.getString('others', currentLocale)];
+      this.topicOptions = [_i18n["default"].getString('bugReport', currentLocale), _i18n["default"].getString('featureRequest', currentLocale), _i18n["default"].getString('others', currentLocale)];
       var selectedTopicIndex = this.topicOptions.findIndex(function (topic) {
         return topic === _this2.props.topic;
       }) > -1 ? this.topicOptions.findIndex(function (topic) {
         return topic === _this2.props.topic;
       }) + 1 : -1;
-      return _react.default.createElement("div", {
-        className: _styles.default.root
-      }, _react.default.createElement(_BackHeader.default, {
+      return _react["default"].createElement("div", {
+        className: _styles["default"].root
+      }, _react["default"].createElement(_BackHeader["default"], {
         onBackClick: this.props.onBackClick,
         buttons: [{
-          label: _react.default.createElement(_Revert.default, {
-            className: _styles.default.rightBtn
+          label: _react["default"].createElement(_Revert["default"], {
+            className: _styles["default"].rightBtn
           }),
-          title: _i18n.default.getString('revert', currentLocale),
+          title: _i18n["default"].getString('revert', currentLocale),
           placement: 'right',
           onClick: this.onRevertClick
         }]
-      }, _i18n.default.getString('feedbackHeader', currentLocale)), _react.default.createElement(_Panel.default, {
-        className: _styles.default.content
-      }, _react.default.createElement("div", {
-        className: _styles.default.instruction
-      }, _react.default.createElement("div", null, _i18n.default.getString('instruction', currentLocale)), _react.default.createElement("div", null, _i18n.default.getString('fillForm', currentLocale), _react.default.createElement("i", null, _i18n.default.getString('send', currentLocale)), _i18n.default.getString('useMailBox', currentLocale), _react.default.createElement("i", null, "integration.service@ringcentral.com."))), _react.default.createElement(_InputField.default, {
-        label: _i18n.default.getString('email', currentLocale),
-        labelHint: _i18n.default.getString('reply', currentLocale)
-      }, _react.default.createElement(_TextInput.default, {
-        placeholder: _i18n.default.getString('emailPlaceHolder', currentLocale),
+      }, _i18n["default"].getString('feedbackHeader', currentLocale)), _react["default"].createElement(_Panel["default"], {
+        className: _styles["default"].content
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].instruction
+      }, _react["default"].createElement("div", null, _i18n["default"].getString('instruction', currentLocale)), _react["default"].createElement("div", null, _i18n["default"].getString('fillForm', currentLocale), _react["default"].createElement("i", null, _i18n["default"].getString('send', currentLocale)), _i18n["default"].getString('useMailBox', currentLocale), _react["default"].createElement("i", null, "integration.service@ringcentral.com."))), _react["default"].createElement(_InputField["default"], {
+        label: _i18n["default"].getString('email', currentLocale),
+        labelHint: _i18n["default"].getString('reply', currentLocale)
+      }, _react["default"].createElement(_TextInput["default"], {
+        placeholder: _i18n["default"].getString('emailPlaceHolder', currentLocale),
         value: this.props.email,
         onChange: this.onEmailChange,
         maxLength: 60
-      })), _react.default.createElement(_InputField.default, {
-        label: _i18n.default.getString('feedbackTopic', currentLocale)
-      }, _react.default.createElement(_DropdownSelect.default, {
-        className: _styles.default.select,
+      })), _react["default"].createElement(_InputField["default"], {
+        label: _i18n["default"].getString('feedbackTopic', currentLocale)
+      }, _react["default"].createElement(_DropdownSelect["default"], {
+        className: _styles["default"].select,
         value: "".concat(selectedTopicIndex),
         options: this.topicOptions,
         dropdownAlign: "left",
-        placeholder: _i18n.default.getString('topicPlaceHolder', currentLocale),
+        placeholder: _i18n["default"].getString('topicPlaceHolder', currentLocale),
         onChange: this.onTopicChange,
         renderValue: function renderValue(idx) {
           return _this2.topicOptions[idx - 1];
         }
-      })), _react.default.createElement(_InputField.default, {
-        label: _i18n.default.getString('subject', currentLocale)
-      }, _react.default.createElement(_TextInput.default, {
-        placeholder: _i18n.default.getString('subjectPlaceHolder', currentLocale),
+      })), _react["default"].createElement(_InputField["default"], {
+        label: _i18n["default"].getString('subject', currentLocale)
+      }, _react["default"].createElement(_TextInput["default"], {
+        placeholder: _i18n["default"].getString('subjectPlaceHolder', currentLocale),
         value: this.props.subject,
         maxLength: 60,
         onChange: this.onSubjectChange
-      })), _react.default.createElement("div", {
-        className: _styles.default.textAreaField
-      }, _react.default.createElement("div", {
-        className: _styles.default.label
-      }, _i18n.default.getString('description', currentLocale)), _react.default.createElement("div", {
-        className: _styles.default.textArea
-      }, _react.default.createElement("textarea", {
-        placeholder: _i18n.default.getString('descriptionPlaceHolder', currentLocale),
+      })), _react["default"].createElement("div", {
+        className: _styles["default"].textAreaField
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].label
+      }, _i18n["default"].getString('description', currentLocale)), _react["default"].createElement("div", {
+        className: _styles["default"].textArea
+      }, _react["default"].createElement("textarea", {
+        placeholder: _i18n["default"].getString('descriptionPlaceHolder', currentLocale),
         value: this.props.description,
         maxLength: 1200,
         onChange: this.onDescriptionChange
-      })))), _react.default.createElement("div", {
-        className: _styles.default.bottom
-      }, _react.default.createElement(_Button.default, {
+      })))), _react["default"].createElement("div", {
+        className: _styles["default"].bottom
+      }, _react["default"].createElement(_Button["default"], {
         onClick: this.onSendClick,
-        className: _styles.default.sendButton
-      }, _i18n.default.getString('send', currentLocale))));
+        className: _styles["default"].sendButton
+      }, _i18n["default"].getString('send', currentLocale))));
     }
   }]);
 
   return FeedbackPanel;
 }(_react.Component);
 
-exports.default = FeedbackPanel;
+exports["default"] = FeedbackPanel;
 FeedbackPanel.propTypes = {
-  brandName: _propTypes.default.string.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  onBackClick: _propTypes.default.func.isRequired,
-  onRevertClick: _propTypes.default.func.isRequired,
-  email: _propTypes.default.string.isRequired,
-  topic: _propTypes.default.string.isRequired,
-  subject: _propTypes.default.string.isRequired,
-  description: _propTypes.default.string.isRequired,
-  onEmailChange: _propTypes.default.func.isRequired,
-  onTopicChange: _propTypes.default.func.isRequired,
-  onSubjectChange: _propTypes.default.func.isRequired,
-  onDescriptionChange: _propTypes.default.func.isRequired,
-  sendFeedback: _propTypes.default.func.isRequired
+  brandName: _propTypes["default"].string.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onBackClick: _propTypes["default"].func.isRequired,
+  onRevertClick: _propTypes["default"].func.isRequired,
+  email: _propTypes["default"].string.isRequired,
+  topic: _propTypes["default"].string.isRequired,
+  subject: _propTypes["default"].string.isRequired,
+  description: _propTypes["default"].string.isRequired,
+  onEmailChange: _propTypes["default"].func.isRequired,
+  onTopicChange: _propTypes["default"].func.isRequired,
+  onSubjectChange: _propTypes["default"].func.isRequired,
+  onDescriptionChange: _propTypes["default"].func.isRequired,
+  sendFeedback: _propTypes["default"].func.isRequired
 };
 //# sourceMappingURL=index.js.map

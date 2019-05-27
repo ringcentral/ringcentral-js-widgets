@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _phoneTypeNames = _interopRequireDefault(require("../../lib/phoneTypeNames")
 
 var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -60,25 +60,25 @@ function ContactInfo(_ref) {
       entityType = _ref.entityType,
       titleEnabled = _ref.titleEnabled,
       phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
-  var phoneSourceName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : _phoneSourceNames.default.getString(entityType);
+  var phoneSourceName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : _phoneSourceNames["default"].getString(entityType);
   var nameTitle = "".concat(name, " ").concat(spliter, " ").concat(phoneSourceName);
-  return _react.default.createElement("div", {
-    className: _styles.default.nameSection,
+  return _react["default"].createElement("div", {
+    className: _styles["default"].nameSection,
     title: titleEnabled && nameTitle
-  }, _react.default.createElement("span", {
-    className: _styles.default.name
-  }, name), _react.default.createElement("span", {
-    className: _styles.default.spliter
-  }, spliter), _react.default.createElement("span", {
-    className: _styles.default.label
+  }, _react["default"].createElement("span", {
+    className: _styles["default"].name
+  }, name), _react["default"].createElement("span", {
+    className: _styles["default"].spliter
+  }, spliter), _react["default"].createElement("span", {
+    className: _styles["default"].label
   }, phoneSourceName));
 }
 
 ContactInfo.propTypes = {
-  name: _propTypes.default.string.isRequired,
-  entityType: _propTypes.default.string.isRequired,
-  titleEnabled: _propTypes.default.bool,
-  phoneSourceNameRenderer: _propTypes.default.func
+  name: _propTypes["default"].string.isRequired,
+  entityType: _propTypes["default"].string.isRequired,
+  titleEnabled: _propTypes["default"].bool,
+  phoneSourceNameRenderer: _propTypes["default"].func
 };
 ContactInfo.defaultProps = {
   titleEnabled: undefined,
@@ -91,24 +91,24 @@ function ContactPhone(_ref2) {
       formatContactPhone = _ref2.formatContactPhone,
       titleEnabled = _ref2.titleEnabled,
       phoneTypeRenderer = _ref2.phoneTypeRenderer;
-  var phoneTypeName = phoneTypeRenderer ? phoneTypeRenderer(phoneType) : _phoneTypeNames.default.getString(phoneType);
+  var phoneTypeName = phoneTypeRenderer ? phoneTypeRenderer(phoneType) : _phoneTypeNames["default"].getString(phoneType);
   var phoneNumberTitle = "".concat(formatContactPhone(phoneNumber), " ").concat(spliter, " ").concat(phoneTypeName);
-  return _react.default.createElement("div", {
-    className: _styles.default.phoneNumberSection,
+  return _react["default"].createElement("div", {
+    className: _styles["default"].phoneNumberSection,
     title: titleEnabled && phoneNumberTitle
-  }, _react.default.createElement("span", null, formatContactPhone(phoneNumber)), _react.default.createElement("span", {
-    className: _styles.default.spliter
-  }, spliter), _react.default.createElement("span", {
-    className: _styles.default.label
+  }, _react["default"].createElement("span", null, formatContactPhone(phoneNumber)), _react["default"].createElement("span", {
+    className: _styles["default"].spliter
+  }, spliter), _react["default"].createElement("span", {
+    className: _styles["default"].label
   }, phoneTypeName));
 }
 
 ContactPhone.propTypes = {
-  phoneType: _propTypes.default.string.isRequired,
-  phoneNumber: _propTypes.default.string.isRequired,
-  formatContactPhone: _propTypes.default.func.isRequired,
-  titleEnabled: _propTypes.default.bool,
-  phoneTypeRenderer: _propTypes.default.func
+  phoneType: _propTypes["default"].string.isRequired,
+  phoneNumber: _propTypes["default"].string.isRequired,
+  formatContactPhone: _propTypes["default"].func.isRequired,
+  titleEnabled: _propTypes["default"].bool,
+  phoneTypeRenderer: _propTypes["default"].func
 };
 ContactPhone.defaultProps = {
   titleEnabled: undefined,
@@ -130,7 +130,7 @@ function ContactItem(_ref3) {
       phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
       ContactInfoRenderer = _ref3.contactInfoRenderer,
       ContactPhoneRenderer = _ref3.contactPhoneRenderer;
-  var className = (0, _classnames.default)(_styles.default.contactItem, active ? _styles.default.active : null);
+  var className = (0, _classnames["default"])(_styles["default"].contactItem, active ? _styles["default"].active : null);
 
   if (!ContactInfoRenderer) {
     ContactInfoRenderer = ContactInfo;
@@ -140,13 +140,13 @@ function ContactItem(_ref3) {
     ContactPhoneRenderer = ContactPhone;
   }
 
-  return _react.default.createElement("li", {
+  return _react["default"].createElement("li", {
     className: className,
     onMouseOver: onHover
-  }, _react.default.createElement("div", {
-    className: _styles.default.clickable,
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].clickable,
     onClick: onClick
-  }, _react.default.createElement(ContactInfoRenderer, {
+  }, _react["default"].createElement(ContactInfoRenderer, {
     currentLocale: currentLocale,
     name: name,
     entityType: entityType,
@@ -156,7 +156,7 @@ function ContactItem(_ref3) {
     phoneTypeRenderer: phoneTypeRenderer,
     phoneSourceNameRenderer: phoneSourceNameRenderer,
     titleEnabled: titleEnabled
-  }), _react.default.createElement(ContactPhoneRenderer, {
+  }), _react["default"].createElement(ContactPhoneRenderer, {
     currentLocale: currentLocale,
     name: name,
     entityType: entityType,
@@ -170,20 +170,20 @@ function ContactItem(_ref3) {
 }
 
 ContactItem.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  onClick: _propTypes.default.func.isRequired,
-  formatContactPhone: _propTypes.default.func.isRequired,
-  name: _propTypes.default.string.isRequired,
-  entityType: _propTypes.default.string.isRequired,
-  phoneType: _propTypes.default.string.isRequired,
-  phoneNumber: _propTypes.default.string.isRequired,
-  active: _propTypes.default.bool.isRequired,
-  onHover: _propTypes.default.func.isRequired,
-  titleEnabled: _propTypes.default.bool,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  contactInfoRenderer: _propTypes.default.func,
-  contactPhoneRenderer: _propTypes.default.func
+  currentLocale: _propTypes["default"].string.isRequired,
+  onClick: _propTypes["default"].func.isRequired,
+  formatContactPhone: _propTypes["default"].func.isRequired,
+  name: _propTypes["default"].string.isRequired,
+  entityType: _propTypes["default"].string.isRequired,
+  phoneType: _propTypes["default"].string.isRequired,
+  phoneNumber: _propTypes["default"].string.isRequired,
+  active: _propTypes["default"].bool.isRequired,
+  onHover: _propTypes["default"].func.isRequired,
+  titleEnabled: _propTypes["default"].bool,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  contactInfoRenderer: _propTypes["default"].func,
+  contactPhoneRenderer: _propTypes["default"].func
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
@@ -254,8 +254,8 @@ function (_Component) {
         return null;
       }
 
-      return _react.default.createElement("ul", {
-        className: (0, _classnames.default)(_styles.default.dropdownList, className),
+      return _react["default"].createElement("ul", {
+        className: (0, _classnames["default"])(_styles["default"].dropdownList, className),
         ref: function ref(c) {
           _this.node = c;
 
@@ -264,7 +264,7 @@ function (_Component) {
           }
         }
       }, items.map(function (item, index) {
-        return _react.default.createElement(ContactItem, {
+        return _react["default"].createElement(ContactItem, {
           currentLocale: currentLocale,
           active: selectedIndex === index,
           name: item.name,
@@ -293,26 +293,26 @@ function (_Component) {
 }(_react.Component);
 
 ContactDropdownList.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  scrollDirection: _propTypes.default.string,
-  visibility: _propTypes.default.bool.isRequired,
-  className: _propTypes.default.string,
-  items: _propTypes.default.arrayOf(_propTypes.default.shape({
-    name: _propTypes.default.string.isRequired,
-    entityType: _propTypes.default.string.isRequired,
-    phoneType: _propTypes.default.string.isRequired,
-    phoneNumber: _propTypes.default.string.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  scrollDirection: _propTypes["default"].string,
+  visibility: _propTypes["default"].bool.isRequired,
+  className: _propTypes["default"].string,
+  items: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    name: _propTypes["default"].string.isRequired,
+    entityType: _propTypes["default"].string.isRequired,
+    phoneType: _propTypes["default"].string.isRequired,
+    phoneNumber: _propTypes["default"].string.isRequired
   })).isRequired,
-  formatContactPhone: _propTypes.default.func.isRequired,
-  addToRecipients: _propTypes.default.func.isRequired,
-  setSelectedIndex: _propTypes.default.func.isRequired,
-  selectedIndex: _propTypes.default.number.isRequired,
-  titleEnabled: _propTypes.default.bool,
-  listRef: _propTypes.default.func,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  contactInfoRenderer: _propTypes.default.func,
-  contactPhoneRenderer: _propTypes.default.func
+  formatContactPhone: _propTypes["default"].func.isRequired,
+  addToRecipients: _propTypes["default"].func.isRequired,
+  setSelectedIndex: _propTypes["default"].func.isRequired,
+  selectedIndex: _propTypes["default"].number.isRequired,
+  titleEnabled: _propTypes["default"].bool,
+  listRef: _propTypes["default"].func,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  contactInfoRenderer: _propTypes["default"].func,
+  contactPhoneRenderer: _propTypes["default"].func
 };
 ContactDropdownList.defaultProps = {
   className: null,
@@ -325,5 +325,5 @@ ContactDropdownList.defaultProps = {
   contactPhoneRenderer: undefined
 };
 var _default = ContactDropdownList;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

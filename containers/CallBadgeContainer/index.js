@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _phoneContext = require("../../lib/phoneContext");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -97,7 +97,7 @@ function (_Component) {
       var isRinging = false;
       var session = this.props.session;
 
-      if (session.direction === _callDirections.default.inbound && session.callStatus === _sessionStatus.default.connecting) {
+      if (session.direction === _callDirections["default"].inbound && session.callStatus === _sessionStatus["default"].connecting) {
         isRinging = true;
       }
 
@@ -123,12 +123,12 @@ function (_Component) {
         return null;
       }
 
-      return _react.default.createElement(_ActiveCallBadge.default, {
+      return _react["default"].createElement(_ActiveCallBadge["default"], {
         onClick: this.onClick,
         offsetX: this.state.badgeOffsetX,
         offsetY: this.state.badgeOffsetY,
         updatePositionOffset: this.updatePositionOffset,
-        title: _i18n.default.getString('activeCall', this.props.currentLocale)
+        title: _i18n["default"].getString('activeCall', this.props.currentLocale)
       });
     }
   }]);
@@ -137,22 +137,22 @@ function (_Component) {
 }(_react.Component);
 
 CallBadge.propTypes = {
-  session: _propTypes.default.shape({
-    id: _propTypes.default.string,
-    direction: _propTypes.default.string,
-    startTime: _propTypes.default.number,
-    isOnMute: _propTypes.default.bool,
-    isOnHold: _propTypes.default.bool,
-    isOnRecord: _propTypes.default.bool,
-    to: _propTypes.default.string,
-    from: _propTypes.default.string
+  session: _propTypes["default"].shape({
+    id: _propTypes["default"].string,
+    direction: _propTypes["default"].string,
+    startTime: _propTypes["default"].number,
+    isOnMute: _propTypes["default"].bool,
+    isOnHold: _propTypes["default"].bool,
+    isOnRecord: _propTypes["default"].bool,
+    to: _propTypes["default"].string,
+    from: _propTypes["default"].string
   }).isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  toggleMinimized: _propTypes.default.func.isRequired,
-  goToCallCtrl: _propTypes.default.func.isRequired,
-  hidden: _propTypes.default.bool.isRequired,
-  defaultOffsetX: _propTypes.default.number,
-  defaultOffsetY: _propTypes.default.number
+  currentLocale: _propTypes["default"].string.isRequired,
+  toggleMinimized: _propTypes["default"].func.isRequired,
+  goToCallCtrl: _propTypes["default"].func.isRequired,
+  hidden: _propTypes["default"].bool.isRequired,
+  defaultOffsetX: _propTypes["default"].number,
+  defaultOffsetY: _propTypes["default"].number
 };
 CallBadge.defaultProps = {
   defaultOffsetX: 0,
@@ -191,5 +191,5 @@ function mapToFunctions(_, _ref2) {
 
 var CallBadgeContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallBadge));
 var _default = CallBadgeContainer;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

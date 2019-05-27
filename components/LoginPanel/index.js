@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -27,9 +27,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -84,41 +84,41 @@ function (_Component) {
           showSignUp = _this$props.showSignUp,
           onSignUpButtonClick = _this$props.onSignUpButtonClick,
           customStyles = _this$props.customStyles;
-      var spinner = showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : null;
-      var versionDisplay = version ? _react.default.createElement("div", {
-        className: _styles.default.versionContainer
-      }, _i18n.default.getString('version', currentLocale), " ", version) : null;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className)
-      }, _react.default.createElement("button", {
+      var spinner = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null;
+      var versionDisplay = version ? _react["default"].createElement("div", {
+        className: _styles["default"].versionContainer
+      }, _i18n["default"].getString('version', currentLocale), " ", version) : null;
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className)
+      }, _react["default"].createElement("button", {
         "data-sign": "loginButton",
-        className: (0, _classnames.default)(_styles.default.loginButton, customStyles),
+        className: (0, _classnames["default"])(_styles["default"].loginButton, customStyles),
         onClick: onLoginButtonClick,
         disabled: disabled
-      }, _i18n.default.getString('loginButton', currentLocale)), showSignUp && _react.default.createElement("button", {
-        className: _styles.default.signUpButton,
+      }, _i18n["default"].getString('loginButton', currentLocale)), showSignUp && _react["default"].createElement("button", {
+        className: _styles["default"].signUpButton,
         onClick: onSignUpButtonClick
-      }, _i18n.default.getString('signupButton', currentLocale)), versionDisplay, spinner, children);
+      }, _i18n["default"].getString('signupButton', currentLocale)), versionDisplay, spinner, children);
     }
   }]);
 
   return LoginPanel;
 }(_react.Component);
 
-exports.default = LoginPanel;
+exports["default"] = LoginPanel;
 LoginPanel.propTypes = {
-  className: _propTypes.default.string,
-  setupOAuth: _propTypes.default.func.isRequired,
-  destroyOAuth: _propTypes.default.func.isRequired,
-  currentLocale: _propTypes.default.string.isRequired,
-  onLoginButtonClick: _propTypes.default.func.isRequired,
-  disabled: _propTypes.default.bool,
-  version: _propTypes.default.string,
-  showSpinner: _propTypes.default.bool,
-  children: _propTypes.default.node,
-  showSignUp: _propTypes.default.bool,
-  onSignUpButtonClick: _propTypes.default.func,
-  customStyles: _propTypes.default.string
+  className: _propTypes["default"].string,
+  setupOAuth: _propTypes["default"].func.isRequired,
+  destroyOAuth: _propTypes["default"].func.isRequired,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onLoginButtonClick: _propTypes["default"].func.isRequired,
+  disabled: _propTypes["default"].bool,
+  version: _propTypes["default"].string,
+  showSpinner: _propTypes["default"].bool,
+  children: _propTypes["default"].node,
+  showSignUp: _propTypes["default"].bool,
+  onSignUpButtonClick: _propTypes["default"].func,
+  customStyles: _propTypes["default"].string
 };
 LoginPanel.defaultProps = {
   className: null,

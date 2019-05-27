@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -27,7 +27,7 @@ var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function DialerPanel(_ref) {
   var currentLocale = _ref.currentLocale,
@@ -68,9 +68,9 @@ function DialerPanel(_ref) {
     }
   };
 
-  return _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.root, className)
-  }, _react.default.createElement(_RecipientsInput.default, {
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].root, className)
+  }, _react["default"].createElement(_RecipientsInput["default"], {
     value: toNumber,
     onChange: onToNumberChange,
     onClean: clearToNumber,
@@ -87,81 +87,81 @@ function DialerPanel(_ref) {
     contactPhoneRenderer: recipientsContactPhoneRenderer,
     titleEnabled: true,
     autoFocus: autoFocus,
-    className: !showFromField ? (0, _classnames.default)(_styles.default.inputField, _styles.default.recipientsField) : null
-  }), showFromField ? _react.default.createElement("div", {
-    className: _styles.default.inputField
-  }, _react.default.createElement(_FromField.default, {
+    className: !showFromField ? (0, _classnames["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
+  }), showFromField ? _react["default"].createElement("div", {
+    className: _styles["default"].inputField
+  }, _react["default"].createElement(_FromField["default"], {
     fromNumber: fromNumber,
     fromNumbers: fromNumbers,
     onChange: changeFromNumber,
     formatPhone: formatPhone,
     currentLocale: currentLocale,
     hidden: !isWebphoneMode
-  })) : null, _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.dialButtons, dialButtonsClassName)
-  }, _react.default.createElement(_DialPad.default, {
-    className: _styles.default.dialPad,
+  })) : null, _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].dialButtons, dialButtonsClassName)
+  }, _react["default"].createElement(_DialPad["default"], {
+    className: _styles["default"].dialPad,
     onButtonOutput: function onButtonOutput(key) {
       onToNumberChange(toNumber + key);
     },
     dialButtonVolume: dialButtonVolume,
     dialButtonMuted: dialButtonMuted
-  }), _react.default.createElement("div", {
-    className: (0, _classnames.default)(_styles.default.callBtnRow, withTabs && _styles.default.callBtnRowWithTabs, inConference && _styles.default.callBtnRowInConference)
-  }, _react.default.createElement("div", {
-    className: _styles.default.callBtn
-  }, _react.default.createElement(_CircleButton.default, {
+  }), _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].callBtnRow, withTabs && _styles["default"].callBtnRowWithTabs, inConference && _styles["default"].callBtnRowInConference)
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].callBtn
+  }, _react["default"].createElement(_CircleButton["default"], {
     dataSign: "callButton",
-    className: (0, _classnames.default)(_styles.default.dialBtn, callButtonDisabled && _styles.default.disabled),
+    className: (0, _classnames["default"])(_styles["default"].dialBtn, callButtonDisabled && _styles["default"].disabled),
     onClick: onCallFunc,
     disabled: callButtonDisabled,
-    icon: _Answer.default,
+    icon: _Answer["default"],
     showBorder: false
-  })))), showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : null, children);
+  })))), showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null, children);
 }
 
 DialerPanel.propTypes = {
-  currentLocale: _propTypes.default.string.isRequired,
-  className: _propTypes.default.string,
-  dialButtonsClassName: _propTypes.default.string,
-  onCallButtonClick: _propTypes.default.func.isRequired,
-  callButtonDisabled: _propTypes.default.bool,
-  isWebphoneMode: _propTypes.default.bool,
-  toNumber: _propTypes.default.string,
-  onToNumberChange: _propTypes.default.func,
-  fromNumber: _propTypes.default.string,
-  fromNumbers: _propTypes.default.arrayOf(_propTypes.default.shape({
-    phoneNumber: _propTypes.default.string,
-    usageType: _propTypes.default.string
+  currentLocale: _propTypes["default"].string.isRequired,
+  className: _propTypes["default"].string,
+  dialButtonsClassName: _propTypes["default"].string,
+  onCallButtonClick: _propTypes["default"].func.isRequired,
+  callButtonDisabled: _propTypes["default"].bool,
+  isWebphoneMode: _propTypes["default"].bool,
+  toNumber: _propTypes["default"].string,
+  onToNumberChange: _propTypes["default"].func,
+  fromNumber: _propTypes["default"].string,
+  fromNumbers: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string,
+    usageType: _propTypes["default"].string
   })),
-  changeFromNumber: _propTypes.default.func,
-  formatPhone: _propTypes.default.func,
-  showSpinner: _propTypes.default.bool,
-  dialButtonVolume: _propTypes.default.number,
-  dialButtonMuted: _propTypes.default.bool,
-  searchContact: _propTypes.default.func.isRequired,
-  searchContactList: _propTypes.default.arrayOf(_propTypes.default.shape({
-    name: _propTypes.default.string.isRequired,
-    entityType: _propTypes.default.string.isRequired,
-    phoneType: _propTypes.default.string.isRequired,
-    phoneNumber: _propTypes.default.string.isRequired
+  changeFromNumber: _propTypes["default"].func,
+  formatPhone: _propTypes["default"].func,
+  showSpinner: _propTypes["default"].bool,
+  dialButtonVolume: _propTypes["default"].number,
+  dialButtonMuted: _propTypes["default"].bool,
+  searchContact: _propTypes["default"].func.isRequired,
+  searchContactList: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    name: _propTypes["default"].string.isRequired,
+    entityType: _propTypes["default"].string.isRequired,
+    phoneType: _propTypes["default"].string.isRequired,
+    phoneNumber: _propTypes["default"].string.isRequired
   })).isRequired,
-  recipient: _propTypes.default.shape({
-    phoneNumber: _propTypes.default.string.isRequired,
-    name: _propTypes.default.string
+  recipient: _propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string.isRequired,
+    name: _propTypes["default"].string
   }),
-  clearToNumber: _propTypes.default.func.isRequired,
-  setRecipient: _propTypes.default.func.isRequired,
-  clearRecipient: _propTypes.default.func.isRequired,
-  phoneTypeRenderer: _propTypes.default.func,
-  phoneSourceNameRenderer: _propTypes.default.func,
-  recipientsContactInfoRenderer: _propTypes.default.func,
-  recipientsContactPhoneRenderer: _propTypes.default.func,
-  autoFocus: _propTypes.default.bool,
-  showFromField: _propTypes.default.bool,
-  children: _propTypes.default.node,
-  withTabs: _propTypes.default.bool,
-  inConference: _propTypes.default.bool
+  clearToNumber: _propTypes["default"].func.isRequired,
+  setRecipient: _propTypes["default"].func.isRequired,
+  clearRecipient: _propTypes["default"].func.isRequired,
+  phoneTypeRenderer: _propTypes["default"].func,
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  recipientsContactInfoRenderer: _propTypes["default"].func,
+  recipientsContactPhoneRenderer: _propTypes["default"].func,
+  autoFocus: _propTypes["default"].bool,
+  showFromField: _propTypes["default"].bool,
+  children: _propTypes["default"].node,
+  withTabs: _propTypes["default"].bool,
+  inConference: _propTypes["default"].bool
 };
 DialerPanel.defaultProps = {
   className: null,
@@ -195,5 +195,5 @@ DialerPanel.defaultProps = {
   inConference: false
 };
 var _default = DialerPanel;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

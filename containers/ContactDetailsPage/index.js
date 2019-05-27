@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -19,6 +19,8 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.array.find");
 
 var _reactRedux = require("react-redux");
@@ -31,7 +33,7 @@ var _ContactDetailsView = _interopRequireDefault(require("../../components/Conta
 
 var _phoneContext = require("../../lib/phoneContext");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -43,10 +45,15 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       contactDetails = _ref$phone.contactDetails,
       contactSearch = _ref$phone.contactSearch,
-      rolesAndPermissions = _ref$phone.rolesAndPermissions;
+      rolesAndPermissions = _ref$phone.rolesAndPermissions,
+      auth = _ref$phone.auth,
+      audioSettings = _ref$phone.audioSettings,
+      webphone = _ref$phone.webphone,
+      callingSettings = _ref$phone.callingSettings;
   return {
     currentLocale: locale.currentLocale,
     contactItem: contactDetails.contact,
+    disableCallButton: auth.ready && audioSettings.ready && webphone && webphone.ready && auth.loggedIn && callingSettings.isWebphoneMode && (!audioSettings.userMedia || !webphone.connected),
     showSpinner: !(locale.ready && contactSearch.ready && contactDetails.ready && rolesAndPermissions.ready),
     outboundSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.OutboundSMS),
     internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS)
@@ -84,7 +91,7 @@ function mapToFunctions(_, _ref2) {
       var isE164Number = (0, _phoneNumber.isE164)(cleanedNumber);
 
       if (isE164Number) {
-        var formatedNumber = (0, _formatNumber2.default)({
+        var formatedNumber = (0, _formatNumber2["default"])({
           phoneNumber: phoneNumber,
           countryCode: regionSettings.countryCode
         });
@@ -167,7 +174,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ContactDetailsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactDetailsView.default));
+var ContactDetailsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactDetailsView["default"]));
 var _default = ContactDetailsPage;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map
