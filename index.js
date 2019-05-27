@@ -8,31 +8,31 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function get() {
-    return _localeLoader.default;
+    return _localeLoader["default"];
   }
 });
 Object.defineProperty(exports, "exportLocale", {
   enumerable: true,
   get: function get() {
-    return _exportLocale.default;
+    return _exportLocale["default"];
   }
 });
 Object.defineProperty(exports, "importLocale", {
   enumerable: true,
   get: function get() {
-    return _importLocale.default;
+    return _importLocale["default"];
   }
 });
 Object.defineProperty(exports, "consolidateLocale", {
   enumerable: true,
   get: function get() {
-    return _consolidateLocale.default;
+    return _consolidateLocale["default"];
   }
 });
 Object.defineProperty(exports, "transformLoader", {
   enumerable: true,
   get: function get() {
-    return _transformLoader.default;
+    return _transformLoader["default"];
   }
 });
 
@@ -46,5 +46,5 @@ var _consolidateLocale = _interopRequireDefault(require("./lib/consolidateLocale
 
 var _transformLoader = _interopRequireDefault(require("./lib/transformLoader"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 //# sourceMappingURL=index.js.map
