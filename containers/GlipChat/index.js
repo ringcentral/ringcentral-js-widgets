@@ -5,9 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
@@ -25,7 +27,7 @@ var _withPhone = _interopRequireDefault(require("ringcentral-widgets/lib/withPho
 
 var _GlipChatPanel = _interopRequireDefault(require("../../components/GlipChatPanel"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -62,15 +64,15 @@ function getAtRender(_ref) {
       }
     };
 
-    return _react.default.createElement("a", {
+    return _react["default"].createElement("a", {
       href: "#".concat(id),
       onClick: onClickAtLink
     }, "@", name);
   };
 
   AtRender.propTypes = {
-    id: _propTypes.default.string.isRequired,
-    type: _propTypes.default.string.isRequired
+    id: _propTypes["default"].string.isRequired,
+    type: _propTypes["default"].string.isRequired
   };
   return AtRender;
 }
@@ -190,7 +192,7 @@ function mapToFunctions(_, _ref4) {
   };
 }
 
-var GlipChatPage = (0, _withPhone.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_GlipChatPanel.default));
+var GlipChatPage = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_GlipChatPanel["default"]));
 var _default = GlipChatPage;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

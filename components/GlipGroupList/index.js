@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,9 +25,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _GlipGroupItem = _interopRequireDefault(require("../GlipGroupItem"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -64,21 +64,21 @@ function (_PureComponent) {
           key = _ref.key,
           style = _ref.style;
       var group = _this.props.groups[index];
-      return _react.default.createElement("div", {
+      return _react["default"].createElement("div", {
         key: key,
         style: style
-      }, _react.default.createElement(_GlipGroupItem.default, {
+      }, _react["default"].createElement(_GlipGroupItem["default"], {
         group: group,
         active: group.id === _this.props.currentGroupId,
         onSelectGroup: function onSelectGroup() {
           _this.props.onSelectGroup(group.id);
         },
-        className: _styles.default.item
+        className: _styles["default"].item
       }));
     };
 
     _this._rowHeight = 75;
-    _this._list = _react.default.createRef();
+    _this._list = _react["default"].createRef();
     return _this;
   }
 
@@ -99,7 +99,7 @@ function (_PureComponent) {
           width = _this$props.width,
           height = _this$props.height,
           className = _this$props.className;
-      return _react.default.createElement(_reactVirtualized.List, {
+      return _react["default"].createElement(_reactVirtualized.List, {
         ref: this._list,
         className: className,
         width: width,
@@ -114,14 +114,14 @@ function (_PureComponent) {
   return GlipGroupList;
 }(_react.PureComponent);
 
-exports.default = GlipGroupList;
+exports["default"] = GlipGroupList;
 GlipGroupList.propTypes = {
-  className: _propTypes.default.string,
-  groups: _propTypes.default.array,
-  onSelectGroup: _propTypes.default.func.isRequired,
-  currentGroupId: _propTypes.default.string,
-  width: _propTypes.default.number.isRequired,
-  height: _propTypes.default.number.isRequired
+  className: _propTypes["default"].string,
+  groups: _propTypes["default"].array,
+  onSelectGroup: _propTypes["default"].func.isRequired,
+  currentGroupId: _propTypes["default"].string,
+  width: _propTypes["default"].number.isRequired,
+  height: _propTypes["default"].number.isRequired
 };
 GlipGroupList.defaultProps = {
   className: undefined,

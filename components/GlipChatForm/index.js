@@ -4,10 +4,12 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
+require("core-js/modules/es6.object.to-string");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -55,9 +57,9 @@ var _upload = _interopRequireDefault(require("../../assets/images/upload.png"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -257,13 +259,13 @@ function (_Component) {
     key: "_getSuggestions",
     value: function _getSuggestions(suggestions) {
       return suggestions.map(function (suggestion) {
-        return _react.default.createElement(_rcEditorMention.Nav, {
+        return _react["default"].createElement(_rcEditorMention.Nav, {
           style: {
             height: 34
           },
           value: "[".concat(suggestion.email, "]"),
           key: suggestion.id
-        }, _react.default.createElement("span", null, suggestion.firstName, " ", suggestion.lastName));
+        }, _react["default"].createElement("span", null, suggestion.firstName, " ", suggestion.lastName));
       });
     }
   }, {
@@ -288,49 +290,49 @@ function (_Component) {
           height = _this$props.height;
       var noFoundString = 'No found.'; // TODO: i18n after string confirmed
 
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className),
         style: {
           height: height
         }
-      }, _react.default.createElement("div", {
-        className: _styles.default.tools
-      }, _react.default.createElement(_rcTooltip.default, {
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].tools
+      }, _react["default"].createElement(_rcTooltip["default"], {
         placement: "top",
         trigger: "click",
-        arrowContent: _react.default.createElement("div", {
+        arrowContent: _react["default"].createElement("div", {
           className: "rc-tooltip-arrow-inner"
         }),
-        overlayClassName: _styles.default.emojisTooltip,
-        overlay: _react.default.createElement("div", {
+        overlayClassName: _styles["default"].emojisTooltip,
+        overlay: _react["default"].createElement("div", {
           style: {
             width: 250,
             height: 200
           }
-        }, _react.default.createElement(_EmojiSelect.default, {
+        }, _react["default"].createElement(_EmojiSelect["default"], {
           onSelect: this._onSelectEmoji
         }))
-      }, _react.default.createElement("img", {
+      }, _react["default"].createElement("img", {
         alt: "emoji",
-        src: _emoji.default,
-        className: _styles.default.emoji
-      })), _react.default.createElement("label", {
-        className: _styles.default.file
-      }, _react.default.createElement("img", {
+        src: _emoji["default"],
+        className: _styles["default"].emoji
+      })), _react["default"].createElement("label", {
+        className: _styles["default"].file
+      }, _react["default"].createElement("img", {
         alt: "emoji",
-        src: _upload.default
-      }), _react.default.createElement("input", {
+        src: _upload["default"]
+      }), _react["default"].createElement("input", {
         type: "file",
         onChange: this._onSelectFile
-      }))), _react.default.createElement("form", {
+      }))), _react["default"].createElement("form", {
         onSubmit: this._onSubmit
-      }, _react.default.createElement(_rcEditorMention.default, {
+      }, _react["default"].createElement(_rcEditorMention["default"], {
         style: {
           width: '100%',
           height: height - 35,
           lineHeight: '18px'
         },
-        className: _styles.default.mentionInput,
+        className: _styles["default"].mentionInput,
         ref: function ref(input) {
           _this2._metionInput = input;
         },
@@ -345,9 +347,9 @@ function (_Component) {
         multiLines: true,
         mode: "immutable",
         onKeyDown: this._onTextAreaKeyDown
-      }), _react.default.createElement("input", {
+      }), _react["default"].createElement("input", {
         type: "submit",
-        className: _styles.default.submit
+        className: _styles["default"].submit
       })));
     }
   }]);
@@ -355,17 +357,17 @@ function (_Component) {
   return GlipChatForm;
 }(_react.Component);
 
-exports.default = GlipChatForm;
+exports["default"] = GlipChatForm;
 GlipChatForm.propTypes = {
-  textValue: _propTypes.default.string,
-  className: _propTypes.default.string,
-  onTextChange: _propTypes.default.func,
-  onSubmit: _propTypes.default.func.isRequired,
-  onUploadFile: _propTypes.default.func.isRequired,
-  placeholder: _propTypes.default.string,
-  groupId: _propTypes.default.string,
-  members: _propTypes.default.array,
-  height: _propTypes.default.number
+  textValue: _propTypes["default"].string,
+  className: _propTypes["default"].string,
+  onTextChange: _propTypes["default"].func,
+  onSubmit: _propTypes["default"].func.isRequired,
+  onUploadFile: _propTypes["default"].func.isRequired,
+  placeholder: _propTypes["default"].string,
+  groupId: _propTypes["default"].string,
+  members: _propTypes["default"].array,
+  height: _propTypes["default"].number
 };
 GlipChatForm.defaultProps = {
   className: undefined,

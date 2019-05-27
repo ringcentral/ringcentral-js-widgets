@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -31,9 +33,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _GlipPostItem = _interopRequireDefault(require("../GlipPostItem"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -199,19 +201,19 @@ function (_PureComponent) {
           atRender = _this$props.atRender,
           viewProfile = _this$props.viewProfile;
       var lastDate;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className),
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className),
         ref: function ref(list) {
           _this2._listRef = list;
         },
         onScroll: this._onScroll
-      }, this.state.loadingNextPage ? _react.default.createElement("div", {
-        className: _styles.default.loading
+      }, this.state.loadingNextPage ? _react["default"].createElement("div", {
+        className: _styles["default"].loading
       }, "Loading...") : null, posts.map(function (post) {
         var date = new Date(post.creationTime);
         var time = date - lastDate < 60 * 1000 && date.getMinutes() === lastDate.getMinutes() ? null : dateTimeFormatter(post.creationTime);
         lastDate = date;
-        return _react.default.createElement(_GlipPostItem.default, {
+        return _react["default"].createElement(_GlipPostItem["default"], {
           post: post,
           key: post.id,
           creationTime: time,
@@ -226,16 +228,16 @@ function (_PureComponent) {
   return GlipPostList;
 }(_react.PureComponent);
 
-exports.default = GlipPostList;
+exports["default"] = GlipPostList;
 GlipPostList.propTypes = {
-  className: _propTypes.default.string,
-  posts: _propTypes.default.array,
-  groupId: _propTypes.default.string,
-  showName: _propTypes.default.bool,
-  dateTimeFormatter: _propTypes.default.func.isRequired,
-  viewProfile: _propTypes.default.func.isRequired,
-  loadNextPage: _propTypes.default.func.isRequired,
-  atRender: _propTypes.default.func
+  className: _propTypes["default"].string,
+  posts: _propTypes["default"].array,
+  groupId: _propTypes["default"].string,
+  showName: _propTypes["default"].bool,
+  dateTimeFormatter: _propTypes["default"].func.isRequired,
+  viewProfile: _propTypes["default"].func.isRequired,
+  loadNextPage: _propTypes["default"].func.isRequired,
+  atRender: _propTypes["default"].func
 };
 GlipPostList.defaultProps = {
   className: undefined,

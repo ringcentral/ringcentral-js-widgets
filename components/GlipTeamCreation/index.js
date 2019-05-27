@@ -3,13 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -39,9 +41,9 @@ var _TextInput = _interopRequireDefault(require("ringcentral-widgets/components/
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -250,7 +252,7 @@ function (_Component) {
       } // TODO: update title message with i18n
 
 
-      return _react.default.createElement(_Modal.default, {
+      return _react["default"].createElement(_Modal["default"], {
         onConfirm: this.onConfirm,
         onCancel: this.onCancel,
         currentLocale: "en-US",
@@ -258,44 +260,44 @@ function (_Component) {
         title: "Create Team",
         textCancel: "Close",
         textConfirm: this.state.creating ? 'Creating' : 'Create'
-      }, this.state.error ? _react.default.createElement("div", {
-        className: _styles.default.errorMessage
-      }, this.state.error) : null, _react.default.createElement(_TextInput.default, {
-        className: _styles.default.teamName,
+      }, this.state.error ? _react["default"].createElement("div", {
+        className: _styles["default"].errorMessage
+      }, this.state.error) : null, _react["default"].createElement(_TextInput["default"], {
+        className: _styles["default"].teamName,
         value: this.state.teamName,
         onChange: this.updateTeamName,
         placeholder: "Team name"
-      }), _react.default.createElement(_SearchInput.default, {
-        className: _styles.default.searchInput,
+      }), _react["default"].createElement(_SearchInput["default"], {
+        className: _styles["default"].searchInput,
         value: this.props.searchFilter,
         onChange: this.updateSeachString,
         placeholder: "Search and add people.."
-      }), _react.default.createElement("div", {
-        className: _styles.default.selectedContacts
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].selectedContacts
       }, this.state.selectedContacts.map(function (contact) {
-        return _react.default.createElement("span", {
-          className: _styles.default.selectedContactItem,
+        return _react["default"].createElement("span", {
+          className: _styles["default"].selectedContactItem,
           key: contact.email
-        }, contact.name, _react.default.createElement("span", {
-          className: _styles.default.closeIcon,
+        }, contact.name, _react["default"].createElement("span", {
+          className: _styles["default"].closeIcon,
           onClick: function onClick() {
             return _this2.removeContact(contact.email);
           }
         }, "x"));
-      })), _react.default.createElement("div", {
-        className: _styles.default.contacts
+      })), _react["default"].createElement("div", {
+        className: _styles["default"].contacts
       }, contacts.map(function (contact) {
-        return _react.default.createElement("div", {
-          className: _styles.default.contactItem,
+        return _react["default"].createElement("div", {
+          className: _styles["default"].contactItem,
           key: contact.email || contact.emails && contact.emails[0],
           onClick: function onClick() {
             return _this2.addContact(contact);
           }
-        }, _react.default.createElement("div", {
-          className: _styles.default.contactName,
+        }, _react["default"].createElement("div", {
+          className: _styles["default"].contactName,
           title: contact.name
-        }, contact.name), _react.default.createElement("div", {
-          className: _styles.default.contactEmail,
+        }, contact.name), _react["default"].createElement("div", {
+          className: _styles["default"].contactEmail,
           title: contact.email || contact.emails && contact.emails[0]
         }, contact.email || contact.emails && contact.emails[0]));
       })));
@@ -305,13 +307,13 @@ function (_Component) {
   return GlipTeamCreationModal;
 }(_react.Component);
 
-exports.default = GlipTeamCreationModal;
+exports["default"] = GlipTeamCreationModal;
 GlipTeamCreationModal.propTypes = {
-  show: _propTypes.default.bool.isRequired,
-  closeModal: _propTypes.default.func.isRequired,
-  createTeam: _propTypes.default.func.isRequired,
-  updateFilter: _propTypes.default.func.isRequired,
-  searchFilter: _propTypes.default.string.isRequired,
-  filteredContacts: _propTypes.default.array.isRequired
+  show: _propTypes["default"].bool.isRequired,
+  closeModal: _propTypes["default"].func.isRequired,
+  createTeam: _propTypes["default"].func.isRequired,
+  updateFilter: _propTypes["default"].func.isRequired,
+  searchFilter: _propTypes["default"].string.isRequired,
+  filteredContacts: _propTypes["default"].array.isRequired
 };
 //# sourceMappingURL=index.js.map

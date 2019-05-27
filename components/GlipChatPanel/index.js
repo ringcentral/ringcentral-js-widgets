@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -33,9 +33,9 @@ var _GlipChatForm = _interopRequireDefault(require("../GlipChatForm"));
 
 var _GlipGroupName = _interopRequireDefault(require("../GlipGroupName"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -103,31 +103,31 @@ function (_Component) {
           loadNextPage = _this$props.loadNextPage,
           onBackClick = _this$props.onBackClick,
           mobile = _this$props.mobile;
-      var spinner = showSpinner ? _react.default.createElement(_SpinnerOverlay.default, null) : null; // TODO: update alt with i18n
+      var spinner = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null; // TODO: update alt with i18n
 
-      var backIcon = onBackClick ? _react.default.createElement("img", {
-        src: _left_arrow.default,
+      var backIcon = onBackClick ? _react["default"].createElement("img", {
+        src: _left_arrow["default"],
         alt: "Back",
-        className: _styles.default.backIcon,
+        className: _styles["default"].backIcon,
         onClick: onBackClick
       }) : null;
-      return _react.default.createElement("div", {
-        className: (0, _classnames.default)(_styles.default.root, className)
-      }, _react.default.createElement("div", {
-        className: _styles.default.header,
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].root, className)
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].header,
         style: {
           height: this.state.headerHeight,
           lineHeight: "".concat(this.state.headerHeight, "px")
         }
-      }, backIcon, _react.default.createElement(_GlipGroupName.default, {
+      }, backIcon, _react["default"].createElement(_GlipGroupName["default"], {
         group: group,
         showNumber: true
-      })), _react.default.createElement("div", {
-        className: _styles.default.content,
+      })), _react["default"].createElement("div", {
+        className: _styles["default"].content,
         style: {
           height: "calc(100% - ".concat(this.state.inputHeight + this.state.headerHeight, "px)")
         }
-      }, _react.default.createElement(_GlipPostList.default, {
+      }, _react["default"].createElement(_GlipPostList["default"], {
         posts: posts,
         atRender: atRender,
         groupId: group.id,
@@ -135,8 +135,8 @@ function (_Component) {
         dateTimeFormatter: dateTimeFormatter,
         viewProfile: viewProfile,
         loadNextPage: loadNextPage
-      })), _react.default.createElement(_GlipChatForm.default, {
-        className: _styles.default.inputArea,
+      })), _react["default"].createElement(_GlipChatForm["default"], {
+        className: _styles["default"].inputArea,
         height: this.state.inputHeight,
         textValue: textValue,
         onTextChange: updateText,
@@ -152,24 +152,24 @@ function (_Component) {
   return GlipChatPage;
 }(_react.Component);
 
-exports.default = GlipChatPage;
+exports["default"] = GlipChatPage;
 GlipChatPage.propTypes = {
-  className: _propTypes.default.string,
-  group: _propTypes.default.object,
-  posts: _propTypes.default.array,
-  groupId: _propTypes.default.string,
-  textValue: _propTypes.default.string,
-  showSpinner: _propTypes.default.bool,
-  loadGroup: _propTypes.default.func.isRequired,
-  updateText: _propTypes.default.func.isRequired,
-  createPost: _propTypes.default.func.isRequired,
-  uploadFile: _propTypes.default.func.isRequired,
-  dateTimeFormatter: _propTypes.default.func.isRequired,
-  atRender: _propTypes.default.func,
-  onBackClick: _propTypes.default.func,
-  viewProfile: _propTypes.default.func.isRequired,
-  loadNextPage: _propTypes.default.func.isRequired,
-  mobile: _propTypes.default.bool
+  className: _propTypes["default"].string,
+  group: _propTypes["default"].object,
+  posts: _propTypes["default"].array,
+  groupId: _propTypes["default"].string,
+  textValue: _propTypes["default"].string,
+  showSpinner: _propTypes["default"].bool,
+  loadGroup: _propTypes["default"].func.isRequired,
+  updateText: _propTypes["default"].func.isRequired,
+  createPost: _propTypes["default"].func.isRequired,
+  uploadFile: _propTypes["default"].func.isRequired,
+  dateTimeFormatter: _propTypes["default"].func.isRequired,
+  atRender: _propTypes["default"].func,
+  onBackClick: _propTypes["default"].func,
+  viewProfile: _propTypes["default"].func.isRequired,
+  loadNextPage: _propTypes["default"].func.isRequired,
+  mobile: _propTypes["default"].bool
 };
 GlipChatPage.defaultProps = {
   className: undefined,

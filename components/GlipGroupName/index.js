@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = GlipGroupName;
+exports["default"] = GlipGroupName;
 
 require("core-js/modules/es6.array.map");
 
@@ -17,7 +17,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function GlipGroupName(_ref) {
   var group = _ref.group,
@@ -45,12 +45,12 @@ function GlipGroupName(_ref) {
     number = " (".concat(group.members.length, ")");
   }
 
-  return _react.default.createElement("span", null, name, number);
+  return _react["default"].createElement("span", null, name, number);
 }
 
 GlipGroupName.propTypes = {
-  group: _propTypes.default.object.isRequired,
-  showNumber: _propTypes.default.bool
+  group: _propTypes["default"].object.isRequired,
+  showNumber: _propTypes["default"].bool
 };
 GlipGroupName.defaultProps = {
   showNumber: false
