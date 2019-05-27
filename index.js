@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.RUNTIME = exports.PSEUDO_LOCALE = exports.DEFAULT_LOCALE = void 0;
+exports["default"] = exports.RUNTIME = exports.PSEUDO_LOCALE = exports.DEFAULT_LOCALE = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,13 +25,15 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.set");
 
 var _toPseudoString = _interopRequireDefault(require("./lib/toPseudoString"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -117,8 +119,8 @@ function _setLocale() {
             _context5.prev = 19;
             _context5.prev = 20;
 
-            if (!_iteratorNormalCompletion && _iterator.return != null) {
-              _iterator.return();
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
             }
 
           case 22:
@@ -287,7 +289,7 @@ function () {
       var locale = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : RUNTIME.locale;
 
       if (locale === PSEUDO_LOCALE) {
-        return (0, _toPseudoString.default)({
+        return (0, _toPseudoString["default"])({
           str: this._getString(key, RUNTIME.defaultLocale),
           padRatio: RUNTIME.padRatio
         });
@@ -340,5 +342,5 @@ function () {
   return I18n;
 }();
 
-exports.default = I18n;
+exports["default"] = I18n;
 //# sourceMappingURL=index.js.map
