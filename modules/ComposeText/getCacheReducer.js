@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getSenderNumberReducer = getSenderNumberReducer;
-exports.default = getCacheReducer;
+exports["default"] = getCacheReducer;
 
 var _redux = require("redux");
 

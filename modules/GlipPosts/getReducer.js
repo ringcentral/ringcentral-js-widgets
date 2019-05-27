@@ -10,7 +10,7 @@ exports.getGlipPostsInputsReducer = getGlipPostsInputsReducer;
 exports.getGlipPostsReadTimeReducer = getGlipPostsReadTimeReducer;
 exports.getGlipPostsPageInfoReducer = getGlipPostsPageInfoReducer;
 exports.getGlipPostsFetchTimeReducer = getGlipPostsFetchTimeReducer;
-exports.default = getGlipPostsReducer;
+exports["default"] = getGlipPostsReducer;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -22,15 +22,17 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -48,7 +50,7 @@ var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModul
 
 var _status = _interopRequireDefault(require("./status"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -64,18 +66,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function getGlipPostsStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status["default"].idle;
 
     var _ref = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref.type;
 
     switch (type) {
       case types.fetch:
-        return _status.default.fetching;
+        return _status["default"].fetching;
 
       case types.fetchError:
       case types.fetchSuccess:
-        return _status.default.idle;
+        return _status["default"].idle;
 
       default:
         return state;
@@ -85,18 +87,18 @@ function getGlipPostsStatusReducer(types) {
 
 function getGlipPostsCreateStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status["default"].idle;
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref2.type;
 
     switch (type) {
       case types.create:
-        return _status.default.creating;
+        return _status["default"].creating;
 
       case types.createError:
       case types.createSuccess:
-        return _status.default.idle;
+        return _status["default"].idle;
 
       default:
         return state;
@@ -155,7 +157,7 @@ function getGlipPostsStoreReducer(types) {
           newState[groupId] = newPosts;
         } else if (isSendByMe) {
           oldPostIndex = newPosts.findIndex(function (p) {
-            return p.creatorId === record.creatorId && p.text === record.text && p.sendStatus === _status.default.creating;
+            return p.creatorId === record.creatorId && p.text === record.text && p.sendStatus === _status["default"].creating;
           });
 
           if (oldPostIndex === -1) {
@@ -288,7 +290,7 @@ function getGlipPostsFetchTimeReducer(types) {
 function getGlipPostsReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return (0, _redux.combineReducers)(_objectSpread({}, reducers, {
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     fetchStatus: getGlipPostsStatusReducer(types),
     glipPostsStore: getGlipPostsStoreReducer(types),
     createStatus: getGlipPostsCreateStatusReducer(types),

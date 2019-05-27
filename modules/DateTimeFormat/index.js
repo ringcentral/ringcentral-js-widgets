@@ -3,21 +3,23 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -45,7 +47,7 @@ var _getProxyReducer = _interopRequireDefault(require("./getProxyReducer"));
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -102,11 +104,11 @@ function (_RcModule) {
     _classCallCheck(this, DateTimeFormat);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(DateTimeFormat).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
-    _this._locale = (0, _ensureExist.default)(locale, 'locale');
-    _this._reducer = (0, _getDateTimeFormatReducer.default)(_this.actionTypes);
-    _this._proxyReducer = (0, _getProxyReducer.default)(_this.actionTypes);
+    _this._locale = (0, _ensureExist["default"])(locale, 'locale');
+    _this._reducer = (0, _getDateTimeFormatReducer["default"])(_this.actionTypes);
+    _this._proxyReducer = (0, _getProxyReducer["default"])(_this.actionTypes);
     _this._formatters = {};
     return _this;
   }
@@ -130,7 +132,7 @@ function (_RcModule) {
         });
 
         if (!this._defaultFormatter) {
-          this._defaultFormatter = (0, _getIntlDateTimeFormatter.default)();
+          this._defaultFormatter = (0, _getIntlDateTimeFormatter["default"])();
         }
 
         this.store.dispatch({
@@ -167,7 +169,7 @@ function (_RcModule) {
           });
 
           if (!_this3._defaultFormatter) {
-            _this3._defaultFormatter = (0, _getIntlDateTimeFormatter.default)();
+            _this3._defaultFormatter = (0, _getIntlDateTimeFormatter["default"])();
           }
 
           _this3.store.dispatch({
@@ -258,6 +260,6 @@ function (_RcModule) {
   }]);
 
   return DateTimeFormat;
-}(_RcModule2.default)) || _class);
-exports.default = DateTimeFormat;
+}(_RcModule2["default"])) || _class);
+exports["default"] = DateTimeFormat;
 //# sourceMappingURL=index.js.map

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.from");
 
@@ -18,8 +18,6 @@ require("core-js/modules/es6.object.define-property");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.regexp.match");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -48,6 +46,8 @@ require("regenerator-runtime/runtime");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es7.object.values");
 
@@ -97,7 +97,7 @@ var _getConferenceCallReducer = _interopRequireDefault(require("./getConferenceC
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -133,15 +133,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_TIMEOUT = 30000; // time out for conferencing session being accepted.
 
@@ -155,7 +155,7 @@ var _lastCallInfo;
 
 function ascendSortParties(parties) {
   return parties.filter(function (party) {
-    return party.conferenceRole.toLowerCase() !== _conferenceRole.default.host;
+    return party.conferenceRole.toLowerCase() !== _conferenceRole["default"].host;
   }).sort(function (last, next) {
     return +last.id.split('-')[1] - +next.id.split('-')[1];
   });
@@ -175,6 +175,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     optional: true
   }, {
     dep: 'ConferenceCallOptions',
+    optional: true
+  }, {
+    dep: 'AvailabilityMonitor',
     optional: true
   }]
 }), _dec(_class = (_class2 = (_temp =
@@ -202,37 +205,39 @@ function (_RcModule) {
         contactMatcher = _ref.contactMatcher,
         webphone = _ref.webphone,
         connectivityMonitor = _ref.connectivityMonitor,
+        availabilityMonitor = _ref.availabilityMonitor,
         _ref$pulling = _ref.pulling,
         pulling = _ref$pulling === void 0 ? true : _ref$pulling,
         _ref$capacity = _ref.capacity,
         capacity = _ref$capacity === void 0 ? MAXIMUM_CAPACITY : _ref$capacity,
         _ref$timeout = _ref.timeout,
         timeout = _ref$timeout === void 0 ? DEFAULT_TIMEOUT : _ref$timeout,
-        options = _objectWithoutProperties(_ref, ["auth", "alert", "call", "callingSettings", "client", "rolesAndPermissions", "contactMatcher", "webphone", "connectivityMonitor", "pulling", "capacity", "timeout"]);
+        options = _objectWithoutProperties(_ref, ["auth", "alert", "call", "callingSettings", "client", "rolesAndPermissions", "contactMatcher", "webphone", "connectivityMonitor", "availabilityMonitor", "pulling", "capacity", "timeout"]);
 
     _classCallCheck(this, ConferenceCall);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ConferenceCall).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
-    _initializerDefineProperty(_this, "lastCallInfo", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "lastCallInfo", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "partyProfiles", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "partyProfiles", _descriptor2, _assertThisInitialized(_this));
 
-    _this._eventEmitter = new _events.default();
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
-    _this._alert = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, alert, 'alert');
-    _this._call = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, call, 'call');
-    _this._callingSettings = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, callingSettings, 'callingSettings');
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client'); // in order to run the integeration test, we need it to be optional
+    _this._eventEmitter = new _events["default"]();
+    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
+    _this._call = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, call, 'call');
+    _this._availabilityMonitor = availabilityMonitor;
+    _this._callingSettings = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callingSettings, 'callingSettings');
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client'); // in order to run the integeration test, we need it to be optional
 
     _this._webphone = webphone;
     _this._connectivityMonitor = connectivityMonitor;
     _this._contactMatcher = contactMatcher;
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions'); // we need the constructed actions
+    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions'); // we need the constructed actions
 
-    _this._reducer = (0, _getConferenceCallReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getConferenceCallReducer["default"])(_this.actionTypes);
     _this._ttl = DEFAULT_TTL;
     _this._timout = timeout;
     _this._timers = {};
@@ -365,7 +370,7 @@ function (_RcModule) {
                   this._webphone.hangup(conferenceData.sessionId); // Help server to do the GC, and we don't care the whether it's successful or not
 
 
-                  this._client.service.platform().delete("/account/~/telephony/sessions/".concat(id));
+                  this._client.service.platform()["delete"]("/account/~/telephony/sessions/".concat(id));
 
                   this.store.dispatch({
                     type: this.actionTypes.terminateConferenceSucceeded,
@@ -382,7 +387,7 @@ function (_RcModule) {
 
               case 7:
                 _context3.next = 9;
-                return this._client.service.platform().delete("/account/~/telephony/sessions/".concat(id));
+                return this._client.service.platform()["delete"]("/account/~/telephony/sessions/".concat(id));
 
               case 9:
                 this.store.dispatch({
@@ -398,9 +403,11 @@ function (_RcModule) {
                 _context3.prev = 12;
                 _context3.t0 = _context3["catch"](2);
 
-                this._alert.warning({
-                  message: _conferenceCallErrors.default.terminateConferenceFailed
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context3.t0)) {
+                  this._alert.warning({
+                    message: _conferenceCallErrors["default"].terminateConferenceFailed
+                  });
+                }
 
                 this.store.dispatch({
                   type: this.actionTypes.terminateConferenceFailed,
@@ -464,7 +471,7 @@ function (_RcModule) {
                 }
 
                 this._alert.danger({
-                  message: _conferenceCallErrors.default.modeError,
+                  message: _conferenceCallErrors["default"].modeError,
                   ttl: 0
                 });
 
@@ -479,19 +486,15 @@ function (_RcModule) {
                   sessionId: sessionId
                 });
                 _context4.prev = 8;
-                _context4.next = 11;
-                return this._getProfile(webphoneSession.id);
-
-              case 11:
-                partyProfile = _context4.sent;
-                _context4.next = 14;
+                partyProfile = this._getProfile(webphoneSession.id);
+                _context4.next = 12;
                 return this._client.service.platform().post("/account/~/telephony/sessions/".concat(id, "/parties/bring-in"), webphoneSession.partyData);
 
-              case 14:
-                _context4.next = 16;
+              case 12:
+                _context4.next = 14;
                 return this.updateConferenceStatus(id);
 
-              case 16:
+              case 14:
                 newConference = _context4.sent;
                 conference = newConference.conference;
 
@@ -509,8 +512,8 @@ function (_RcModule) {
                 });
                 return _context4.abrupt("return", id);
 
-              case 23:
-                _context4.prev = 23;
+              case 21:
+                _context4.prev = 21;
                 _context4.t0 = _context4["catch"](8);
                 this.store.dispatch({
                   type: this.actionTypes.bringInConferenceFailed,
@@ -518,21 +521,21 @@ function (_RcModule) {
                 });
 
                 if (propagete) {
-                  _context4.next = 28;
+                  _context4.next = 26;
                   break;
                 }
 
                 return _context4.abrupt("return", null);
 
-              case 28:
+              case 26:
                 throw _context4.t0;
 
-              case 29:
+              case 27:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee3, this, [[8, 23]]);
+        }, _callee3, this, [[8, 21]]);
       }));
 
       function bringInToConference(_x3, _x4) {
@@ -563,7 +566,7 @@ function (_RcModule) {
                 });
                 _context5.prev = 1;
                 _context5.next = 4;
-                return this._client.service.platform().delete("/account/~/telephony/sessions/".concat(id, "/parties/").concat(partyId));
+                return this._client.service.platform()["delete"]("/account/~/telephony/sessions/".concat(id, "/parties/").concat(partyId));
 
               case 4:
                 _context5.next = 6;
@@ -581,9 +584,11 @@ function (_RcModule) {
                 _context5.prev = 9;
                 _context5.t0 = _context5["catch"](1);
 
-                this._alert.warning({
-                  message: _conferenceCallErrors.default.removeFromConferenceFailed
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context5.t0)) {
+                  this._alert.warning({
+                    message: _conferenceCallErrors["default"].removeFromConferenceFailed
+                  });
+                }
 
                 this.store.dispatch({
                   type: this.actionTypes.removeFromConferenceFailed,
@@ -633,7 +638,7 @@ function (_RcModule) {
                 }
 
                 this._alert.danger({
-                  message: _conferenceCallErrors.default.modeError,
+                  message: _conferenceCallErrors["default"].modeError,
                   ttl: 0
                 });
 
@@ -647,7 +652,7 @@ function (_RcModule) {
 
                 if (!propagate) {
                   this._alert.danger({
-                    message: _permissionsMessages.default.insufficientPrivilege,
+                    message: _permissionsMessages["default"].insufficientPrivilege,
                     ttl: 0
                   });
                 }
@@ -655,14 +660,14 @@ function (_RcModule) {
                 return _context6.abrupt("return", null);
 
               case 7:
-                if (!(!this._callingSettings.callingMode === _callingModes.default.webphone)) {
+                if (!(!this._callingSettings.callingMode === _callingModes["default"].webphone)) {
                   _context6.next = 10;
                   break;
                 }
 
                 if (!propagate) {
                   this._alert.danger({
-                    message: _conferenceCallErrors.default.modeError,
+                    message: _conferenceCallErrors["default"].modeError,
                     ttl: 0
                   });
                 }
@@ -739,7 +744,7 @@ function (_RcModule) {
                 }
 
                 this._alert.warning({
-                  message: _conferenceCallErrors.default.bringInFailed
+                  message: _conferenceCallErrors["default"].bringInFailed
                 });
 
                 return _context7.abrupt("return");
@@ -803,7 +808,7 @@ function (_RcModule) {
                   }
 
                   _this3._alert.warning({
-                    message: _conferenceCallErrors.default.bringInFailed
+                    message: _conferenceCallErrors["default"].bringInFailed
                   });
 
                   _this3.store.dispatch({
@@ -846,9 +851,11 @@ function (_RcModule) {
                   this.terminateConference(conferenceState.conference.id);
                 }
 
-                this._alert.warning({
-                  message: _conferenceCallErrors.default.bringInFailed
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context7.t0)) {
+                  this._alert.warning({
+                    message: _conferenceCallErrors["default"].bringInFailed
+                  });
+                }
 
               case 30:
                 if (!sipInstances || conferenceId === null) {
@@ -912,7 +919,7 @@ function (_RcModule) {
 
       if (conferenceData) {
         return ascendSortParties(conferenceData.conference.parties).reduce(function (accum, party, idx) {
-          if (party.status.code.toLowerCase() !== _partyStatusCode.default.disconnected) {
+          if (party.status.code.toLowerCase() !== _partyStatusCode["default"].disconnected) {
             // 0 position is the host
             accum.push({
               idx: idx,
@@ -939,7 +946,7 @@ function (_RcModule) {
 
       if (conferenceData) {
         return conferenceData.conference.parties.filter(function (p) {
-          return p.status.code.toLowerCase() !== _partyStatusCode.default.disconnected;
+          return p.status.code.toLowerCase() !== _partyStatusCode["default"].disconnected;
         });
       }
 
@@ -1137,19 +1144,19 @@ function (_RcModule) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._auth.ready && this._alert.ready && this._callingSettings.ready && this._call.ready && this._rolesAndPermissions.ready && this._connectivityMonitor.ready && this.pending;
+      return this._auth.loggedIn && this._auth.ready && this._alert.ready && this._callingSettings.ready && this._call.ready && this._rolesAndPermissions.ready && this._connectivityMonitor.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._auth.ready || !this._alert.ready || !this._callingSettings.ready || !this._call.ready || !this._rolesAndPermissions.ready || !this._connectivityMonitor.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._auth.ready || !this._alert.ready || !this._callingSettings.ready || !this._call.ready || !this._rolesAndPermissions.ready || !this._connectivityMonitor.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
     }
   }, {
     key: "_checkPermission",
     value: function _checkPermission() {
       if (!this._rolesAndPermissions.hasConferenceCallPermission) {
         this._alert.danger({
-          message: _permissionsMessages.default.insufficientPrivilege,
+          message: _permissionsMessages["default"].insufficientPrivilege,
           ttl: 0
         });
 
@@ -1251,8 +1258,8 @@ function (_RcModule) {
                 _context11.prev = 23;
                 _context11.prev = 24;
 
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
                 }
 
               case 26:
@@ -1410,7 +1417,7 @@ function (_RcModule) {
                 }
 
                 this._alert.warning({
-                  message: _conferenceCallErrors.default.makeConferenceFailed
+                  message: _conferenceCallErrors["default"].makeConferenceFailed
                 });
 
                 return _context12.abrupt("return", null);
@@ -1434,102 +1441,54 @@ function (_RcModule) {
     }()
   }, {
     key: "_getProfile",
-    value: function () {
-      var _getProfile2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee12(sessionId) {
-        var session, to, contactMatch, from, fromNumber, direction, toUserName, avatarUrl, rcId, partyNumber, calleeType, contactMapping, contact, nameMatches;
-        return regeneratorRuntime.wrap(function _callee12$(_context13) {
-          while (1) {
-            switch (_context13.prev = _context13.next) {
-              case 0:
-                if (this._contactMatcher) {
-                  _context13.next = 2;
-                  break;
-                }
+    value: function _getProfile(sessionId) {
+      var session = this._webphone.sessions.find(function (session) {
+        return session.id === sessionId;
+      });
 
-                return _context13.abrupt("return", null);
+      var rcId;
+      var avatarUrl;
+      var calleeType = _calleeTypes["default"].unknown;
+      var partyName = session.direction === _callDirections["default"].outbound ? session.toUserName : session.fromUserName;
+      var partyNumber = session.direction === _callDirections["default"].outbound ? session.to : session.from;
+      var matchedContact = session.contactMatch;
 
-              case 2:
-                session = this._webphone.sessions.find(function (session) {
-                  return session.id === sessionId;
-                });
-                to = session.to, contactMatch = session.contactMatch, from = session.from, fromNumber = session.fromNumber, direction = session.direction;
-                toUserName = session.toUserName;
-                calleeType = _calleeTypes.default.contacts;
+      if (!matchedContact && this._contactMatcher) {
+        var nameMatches = this._contactMatcher.dataMapping[partyNumber];
 
-                if (direction === _callDirections.default.outbound) {
-                  partyNumber = to;
-                } else {
-                  partyNumber = fromNumber;
-                } // HACK: refresh the cache
-
-
-                _context13.next = 9;
-                return this._contactMatcher.match({
-                  queries: [partyNumber],
-                  ignoreCache: true
-                });
-
-              case 9:
-                if (this._contactMatcher && this._contactMatcher.dataMapping) {
-                  contactMapping = this._contactMatcher.dataMapping;
-                  contact = contactMatch;
-
-                  if (direction === _callDirections.default.outbound) {
-                    nameMatches = contactMapping && contactMapping[to] || [];
-                  } else {
-                    nameMatches = contactMapping && contactMapping[from] || [];
-                  }
-
-                  if (!contact) {
-                    contact = nameMatches && nameMatches[0];
-                  }
-
-                  if (contact) {
-                    avatarUrl = contact.profileImageUrl;
-                    toUserName = contact.name;
-                    rcId = contact.id;
-                  } else {
-                    calleeType = _calleeTypes.default.unknown;
-                  }
-                }
-
-                return _context13.abrupt("return", {
-                  avatarUrl: avatarUrl,
-                  toUserName: toUserName,
-                  partyNumber: partyNumber,
-                  rcId: rcId,
-                  calleeType: calleeType
-                });
-
-              case 11:
-              case "end":
-                return _context13.stop();
-            }
-          }
-        }, _callee12, this);
-      }));
-
-      function _getProfile(_x8) {
-        return _getProfile2.apply(this, arguments);
+        if (nameMatches && nameMatches.length) {
+          matchedContact = nameMatches[0];
+        }
       }
 
-      return _getProfile;
-    }()
+      if (matchedContact) {
+        rcId = matchedContact.id;
+        avatarUrl = matchedContact.profileImageUrl;
+        partyName = matchedContact.name;
+        calleeType = _calleeTypes["default"].contacts;
+      }
+
+      return {
+        rcId: rcId,
+        avatarUrl: avatarUrl,
+        partyName: partyName,
+        partyNumber: partyNumber,
+        calleeType: calleeType
+      };
+    }
   }, {
     key: "parseMergingSessions",
     value: function () {
       var _parseMergingSessions = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee13(_ref6) {
+      regeneratorRuntime.mark(function _callee12(_ref6) {
         var _this7 = this;
 
-        var sessionId, sessionIdToMergeWith, session, sessionToMergeWith, webphoneSessions, _i, _session, conferenceState, conferenceSession;
+        var sessionId, sessionIdToMergeWith, session, sessionToMergeWith, webphoneSessions, _i, _webphoneSessions, _session, conferenceState, conferenceSession;
 
-        return regeneratorRuntime.wrap(function _callee13$(_context14) {
+        return regeneratorRuntime.wrap(function _callee12$(_context13) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 sessionId = _ref6.sessionId, sessionIdToMergeWith = _ref6.sessionIdToMergeWith;
                 session = (0, _ramda.find)(function (x) {
@@ -1539,33 +1498,33 @@ function (_RcModule) {
                   return x.id === (sessionIdToMergeWith || _this7.mergingPair.fromSessionId);
                 }, this._webphone.sessions);
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _i = 0;
+                _i = 0, _webphoneSessions = webphoneSessions;
 
               case 5:
-                if (!(_i < webphoneSessions.length)) {
-                  _context14.next = 12;
+                if (!(_i < _webphoneSessions.length)) {
+                  _context13.next = 12;
                   break;
                 }
 
-                _session = webphoneSessions[_i];
+                _session = _webphoneSessions[_i];
 
                 if (this.validateCallRecording(_session)) {
-                  _context14.next = 9;
+                  _context13.next = 9;
                   break;
                 }
 
-                return _context14.abrupt("return", null);
+                return _context13.abrupt("return", null);
 
               case 9:
                 _i++;
-                _context14.next = 5;
+                _context13.next = 5;
                 break;
 
               case 12:
                 conferenceState = Object.values(this.conferences)[0];
 
                 if (!conferenceState) {
-                  _context14.next = 17;
+                  _context13.next = 17;
                   break;
                 }
 
@@ -1574,27 +1533,27 @@ function (_RcModule) {
                 }, this._webphone.sessions);
 
                 if (this.validateCallRecording(conferenceSession)) {
-                  _context14.next = 17;
+                  _context13.next = 17;
                   break;
                 }
 
-                return _context14.abrupt("return", null);
+                return _context13.abrupt("return", null);
 
               case 17:
-                return _context14.abrupt("return", {
+                return _context13.abrupt("return", {
                   session: session,
                   sessionToMergeWith: sessionToMergeWith
                 });
 
               case 18:
               case "end":
-                return _context14.stop();
+                return _context13.stop();
             }
           }
-        }, _callee13, this);
+        }, _callee12, this);
       }));
 
-      function parseMergingSessions(_x9) {
+      function parseMergingSessions(_x8) {
         return _parseMergingSessions.apply(this, arguments);
       }
 
@@ -1605,33 +1564,33 @@ function (_RcModule) {
     value: function () {
       var _mergeSessions = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee14(_ref7) {
+      regeneratorRuntime.mark(function _callee13(_ref7) {
         var session, sessionToMergeWith, webphoneSessions, conferenceData, currentConferenceSession, isCurrentConferenceOnhold;
-        return regeneratorRuntime.wrap(function _callee14$(_context15) {
+        return regeneratorRuntime.wrap(function _callee13$(_context14) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 session = _ref7.session, sessionToMergeWith = _ref7.sessionToMergeWith;
                 this.setMergeParty({
                   toSessionId: session.id
                 });
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _context15.next = 5;
+                _context14.next = 5;
                 return this.mergeToConference(webphoneSessions);
 
               case 5:
                 conferenceData = Object.values(this.conferences)[0];
 
                 if (conferenceData) {
-                  _context15.next = 10;
+                  _context14.next = 10;
                   break;
                 }
 
-                _context15.next = 9;
+                _context14.next = 9;
                 return this._webphone.resume(session.id);
 
               case 9:
-                return _context15.abrupt("return", null);
+                return _context14.abrupt("return", null);
 
               case 10:
                 currentConferenceSession = (0, _ramda.find)(function (x) {
@@ -1643,17 +1602,17 @@ function (_RcModule) {
                   this._webphone.resume(conferenceData.sessionId);
                 }
 
-                return _context15.abrupt("return", conferenceData);
+                return _context14.abrupt("return", conferenceData);
 
               case 14:
               case "end":
-                return _context15.stop();
+                return _context14.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee13, this);
       }));
 
-      function mergeSessions(_x10) {
+      function mergeSessions(_x9) {
         return _mergeSessions.apply(this, arguments);
       }
 
@@ -1664,7 +1623,7 @@ function (_RcModule) {
     value: function validateCallRecording(session) {
       if ((0, _webphoneHelper.isRecording)(session)) {
         this._alert.warning({
-          message: _conferenceCallErrors.default.callIsRecording
+          message: _conferenceCallErrors["default"].callIsRecording
         });
 
         return false;
@@ -1730,7 +1689,7 @@ function (_RcModule) {
   }]);
 
   return ConferenceCall;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateConferenceStatus", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateConferenceStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "terminateConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "terminateConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "bringInToConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "bringInToConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeFromConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "removeFromConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "makeConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mergeToConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "mergeToConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setMergeParty", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setMergeParty"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeMergingPair", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "closeMergingPair"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startPollingConferenceStatus", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "startPollingConferenceStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "loadConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_hookConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_hookConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeToConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeToConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_makeConference", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_makeConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_getProfile", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_getProfile"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "parseMergingSessions", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "parseMergingSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mergeSessions", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "mergeSessions"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "lastCallInfo", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateConferenceStatus", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateConferenceStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "terminateConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "terminateConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "bringInToConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "bringInToConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeFromConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "removeFromConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mergeToConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "mergeToConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setMergeParty", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setMergeParty"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeMergingPair", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "closeMergingPair"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startPollingConferenceStatus", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startPollingConferenceStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_hookConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_hookConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeToConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeToConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_makeConference", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_makeConference"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "parseMergingSessions", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "parseMergingSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mergeSessions", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "mergeSessions"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "lastCallInfo", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1749,71 +1708,90 @@ function (_RcModule) {
         return _lastCallInfo;
       }
 
-      var lastCall = sessions.find(function (session) {
+      var sessionName;
+      var sessionNumber;
+      var sessionStatus;
+      var matchedContact;
+      var fromSession = sessions.find(function (session) {
         return session.id === fromSessionId;
       });
-      var toMatches = lastCall && _this8._contactMatcher.dataMapping && _this8._contactMatcher.dataMapping[lastCall.to] || [];
+
+      if (fromSession) {
+        sessionName = fromSession.direction === _callDirections["default"].outbound ? fromSession.toUserName : fromSession.fromUserName;
+        sessionNumber = fromSession.direction === _callDirections["default"].outbound ? fromSession.to : fromSession.from;
+        sessionStatus = fromSession.callStatus;
+        matchedContact = fromSession.contactMatch;
+
+        if (!matchedContact && _this8._contactMatcher) {
+          var nameMatches = _this8._contactMatcher.dataMapping[sessionNumber];
+
+          if (nameMatches && nameMatches.length) {
+            matchedContact = nameMatches[0];
+          }
+        }
+      }
+
       var lastCalleeType;
 
-      if (lastCall) {
-        if (toMatches.length) {
-          lastCalleeType = _calleeTypes.default.contacts;
-        } else if (_this8.isConferenceSession(lastCall.id)) {
-          lastCalleeType = _calleeTypes.default.conference;
+      if (fromSession) {
+        if (matchedContact) {
+          lastCalleeType = _calleeTypes["default"].contacts;
+        } else if (_this8.isConferenceSession(fromSession.id)) {
+          lastCalleeType = _calleeTypes["default"].conference;
         } else {
-          lastCalleeType = _calleeTypes.default.unknown;
+          lastCalleeType = _calleeTypes["default"].unknown;
         }
       } else if (_fromSessionId === fromSessionId && _lastCallInfo && _lastCallInfo.calleeType) {
         _lastCallInfo = _objectSpread({}, _lastCallInfo, {
-          status: _sessionStatus.default.finished
+          status: _sessionStatus["default"].finished
         });
         return _lastCallInfo;
       } else {
         return {
-          calleeType: _calleeTypes.default.unknown
+          calleeType: _calleeTypes["default"].unknown
         };
       }
 
       var partiesAvatarUrls = null;
 
-      if (lastCalleeType === _calleeTypes.default.conference) {
+      if (lastCalleeType === _calleeTypes["default"].conference) {
         partiesAvatarUrls = (partyProfiles || []).map(function (profile) {
           return profile.avatarUrl;
         });
       }
 
       switch (lastCalleeType) {
-        case _calleeTypes.default.conference:
+        case _calleeTypes["default"].conference:
           _lastCallInfo = {
-            calleeType: _calleeTypes.default.conference,
+            calleeType: _calleeTypes["default"].conference,
             avatarUrl: partiesAvatarUrls[0],
             extraNum: partiesAvatarUrls.length - 1,
             name: null,
             phoneNumber: null,
-            status: lastCall.callStatus,
+            status: sessionStatus,
             lastCallContact: null
           };
           break;
 
-        case _calleeTypes.default.contacts:
+        case _calleeTypes["default"].contacts:
           _lastCallInfo = {
-            calleeType: _calleeTypes.default.contacts,
-            avatarUrl: toMatches[0].profileImageUrl,
-            name: toMatches[0].name,
-            status: lastCall.callStatus,
-            phoneNumber: lastCall.to,
+            calleeType: _calleeTypes["default"].contacts,
+            avatarUrl: matchedContact.profileImageUrl,
+            name: matchedContact.name,
+            status: sessionStatus,
+            phoneNumber: sessionNumber,
             extraNum: 0,
-            lastCallContact: toMatches[0]
+            lastCallContact: matchedContact
           };
           break;
 
         default:
           _lastCallInfo = {
-            calleeType: _calleeTypes.default.unknown,
+            calleeType: _calleeTypes["default"].unknown,
             avatarUrl: null,
-            name: null,
-            status: lastCall ? lastCall.callStatus : null,
-            phoneNumber: lastCall.to,
+            name: sessionName,
+            status: sessionStatus,
+            phoneNumber: sessionNumber,
             extraNum: 0,
             lastCallContact: null
           };
@@ -1845,5 +1823,5 @@ function (_RcModule) {
     }];
   }
 })), _class2)) || _class);
-exports.default = ConferenceCall;
+exports["default"] = ConferenceCall;
 //# sourceMappingURL=index.js.map

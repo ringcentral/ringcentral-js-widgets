@@ -3,19 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -33,7 +35,7 @@ var _DataMatcher2 = _interopRequireDefault(require("../../lib/DataMatcher"));
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -74,6 +76,6 @@ function (_DataMatcher) {
   }
 
   return ActivityMatcher;
-}(_DataMatcher2.default)) || _class);
-exports.default = ActivityMatcher;
+}(_DataMatcher2["default"])) || _class);
+exports["default"] = ActivityMatcher;
 //# sourceMappingURL=index.js.map

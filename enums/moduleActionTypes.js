@@ -9,7 +9,7 @@ exports.moduleActionTypes = void 0;
 
 var _Enum = _interopRequireDefault(require("../lib/Enum"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * @typedef {Object} ModuleActionTypes
@@ -22,6 +22,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * @type {ModuleActionTypes}
  */
-var moduleActionTypes = new _Enum.default(['init', 'initSuccess', 'reset', 'resetSuccess']);
+var moduleActionTypes = new _Enum["default"](['init', 'initSuccess', 'reset', 'resetSuccess']);
 exports.moduleActionTypes = moduleActionTypes;
 //# sourceMappingURL=moduleActionTypes.js.map

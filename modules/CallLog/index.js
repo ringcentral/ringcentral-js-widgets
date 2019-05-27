@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.processData = processData;
 exports.getISODateFrom = getISODateFrom;
 exports.getISODateTo = getISODateTo;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -22,7 +22,11 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -35,8 +39,6 @@ require("core-js/modules/es6.array.map");
 require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -76,9 +78,9 @@ var _selector = require("../../lib/selector");
 
 var _dec, _class, _class2, _descriptor, _temp;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -106,13 +108,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
@@ -135,7 +137,7 @@ function processData(data) {
 }
 
 function getISODateFrom(daySpan) {
-  var d = (0, _getDateFrom.default)(daySpan);
+  var d = (0, _getDateFrom["default"])(daySpan);
   return d.toISOString();
 }
 
@@ -221,7 +223,7 @@ function (_Pollable) {
     _classCallCheck(this, CallLog);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CallLog).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
     _this._subscriptionHandler =
@@ -242,7 +244,7 @@ function (_Pollable) {
 
                 ownerId = _this._auth.ownerId;
                 _context.next = 4;
-                return (0, _sleep.default)(SYNC_DELAY);
+                return (0, _sleep["default"])(SYNC_DELAY);
 
               case 4:
                 if (ownerId === _this._auth.ownerId && (!_this._storage || !_this._tabManager || _this._tabManager.active)) {
@@ -271,7 +273,7 @@ function (_Pollable) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._extensionPhoneNumber || _this._extensionPhoneNumber.ready) && (!_this._extensionInfo || _this._extensionInfo.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses.default.pending)) {
+              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._extensionPhoneNumber || _this._extensionPhoneNumber.ready) && (!_this._extensionInfo || _this._extensionInfo.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses["default"].pending)) {
                 _context2.next = 9;
                 break;
               }
@@ -330,7 +332,7 @@ function (_Pollable) {
       }, _callee2);
     }));
 
-    _initializerDefineProperty(_this, "calls", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "calls", _descriptor, _assertThisInitialized(_this));
 
     _this._auth = auth;
     _this._client = client;
@@ -355,7 +357,7 @@ function (_Pollable) {
     _this._polling = polling;
 
     if (_this._storage) {
-      _this._reducer = (0, _getCallLogReducer.default)(_this.actionTypes);
+      _this._reducer = (0, _getCallLogReducer["default"])(_this.actionTypes);
 
       _this._storage.registerReducer({
         key: _this._callLogStorageKey,
@@ -366,7 +368,7 @@ function (_Pollable) {
         })
       });
     } else {
-      _this._reducer = (0, _getCallLogReducer.default)(_this.actionTypes, {
+      _this._reducer = (0, _getCallLogReducer["default"])(_this.actionTypes, {
         data: (0, _getCallLogReducer.getDataReducer)(_this.actionTypes),
         token: (0, _getCallLogReducer.getTokenReducer)(_this.actionTypes),
         timestamp: (0, _getCallLogReducer.getTimestampReducer)(_this.actionTypes)
@@ -389,7 +391,7 @@ function (_Pollable) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 if (this._subscription) {
-                  this._subscription.subscribe(_subscriptionFilters.default.detailedPresence);
+                  this._subscription.subscribe(_subscriptionFilters["default"].detailedPresence);
                 }
 
                 if (!((!this._tabManager || this._tabManager.active) && (!this.timestamp || Date.now() - this.timestamp > this.refreshLock))) {
@@ -455,7 +457,7 @@ function (_Pollable) {
                 perPageParam = this._isLimitList ? {
                   perPage: this._listRecordCount
                 } : {};
-                return _context4.abrupt("return", (0, _fetchList.default)(function (params) {
+                return _context4.abrupt("return", (0, _fetchList["default"])(function (params) {
                   return _this2._client.account().extension().callLog().list(_objectSpread({}, params, {
                     dateFrom: dateFrom,
                     dateTo: dateTo
@@ -494,7 +496,7 @@ function (_Pollable) {
                 });
                 _context5.next = 5;
                 return this._client.account().extension().callLogSync().list({
-                  syncType: _syncTypes.default.iSync,
+                  syncType: _syncTypes["default"].iSync,
                   syncToken: this.token
                 });
 
@@ -567,7 +569,7 @@ function (_Pollable) {
                 _context6.next = 6;
                 return this._client.account().extension().callLogSync().list({
                   recordCount: RECORD_COUNT,
-                  syncType: _syncTypes.default.fSync,
+                  syncType: _syncTypes["default"].fSync,
                   dateFrom: dateFrom
                 });
 
@@ -660,7 +662,7 @@ function (_Pollable) {
               case 0:
                 ownerId = this._auth.ownerId;
                 _context7.prev = 1;
-                shouldFSync = syncType === _syncTypes.default.fSync;
+                shouldFSync = syncType === _syncTypes["default"].fSync;
 
                 if (shouldFSync) {
                   _context7.next = 12;
@@ -725,7 +727,8 @@ function (_Pollable) {
       }
 
       return _sync;
-    }()
+    }() // TODO: this.token: iSync or fSync depends on token???
+
   }, {
     key: "sync",
     value: function () {
@@ -740,7 +743,7 @@ function (_Pollable) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                syncType = _args10.length > 0 && _args10[0] !== undefined ? _args10[0] : this.token ? _syncTypes.default.iSync : _syncTypes.default.fSync;
+                syncType = _args10.length > 0 && _args10[0] !== undefined ? _args10[0] : this.token ? _syncTypes["default"].iSync : _syncTypes["default"].fSync;
 
                 if (this._promise) {
                   _context10.next = 4;
@@ -775,7 +778,7 @@ function (_Pollable) {
                                 switch (_context8.prev = _context8.next) {
                                   case 0:
                                     _context8.next = 2;
-                                    return (0, _sleep.default)(300);
+                                    return (0, _sleep["default"])(300);
 
                                   case 2:
                                     return _context8.abrupt("return", _this3._sync(syncType));
@@ -829,7 +832,7 @@ function (_Pollable) {
   }, {
     key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.ready;
+      return this.state.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "data",
@@ -897,7 +900,7 @@ function (_Pollable) {
   }]);
 
   return CallLog;
-}(_Pollable2.default), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
+}(_Pollable2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -910,15 +913,15 @@ function (_Pollable) {
       // TODO make sure removeDuplicateIntermediateCalls is necessary here
       var calls = (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data.filter(function (call) {
         return (// [RCINT-3472] calls with result === 'stopped' seems to be useless
-          call.result !== _callResults.default.stopped && // [RCINT-51111] calls with result === 'busy'
-          call.result !== _callResults.default.busy && // [RCINT-6839]
+          call.result !== _callResults["default"].stopped && // [RCINT-51111] calls with result === 'busy'
+          call.result !== _callResults["default"].busy && // [RCINT-6839]
           // Call processing result is undefined
-          call.result !== _callResults.default.unknown && // Outgoing fax sending has failed
-          call.result !== _callResults.default.faxSendError && // Incoming fax has failed to be received
-          call.result !== _callResults.default.faxReceiptError && // Outgoing fax has failed because of no answer
-          call.result !== _callResults.default.callFailed && // Outgoing fax sending has been stopped
-          call.result !== _callResults.default.stopped && // Error Internal error occurred when receiving fax
-          call.result !== _callResults.default.faxReceipt
+          call.result !== _callResults["default"].unknown && // Outgoing fax sending has failed
+          call.result !== _callResults["default"].faxSendError && // Incoming fax has failed to be received
+          call.result !== _callResults["default"].faxReceiptError && // Outgoing fax has failed because of no answer
+          call.result !== _callResults["default"].callFailed && // Outgoing fax sending has been stopped
+          call.result !== _callResults["default"].stopped && // Error Internal error occurred when receiving fax
+          call.result !== _callResults["default"].faxReceipt
         );
       }))).map(function (call) {
         // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
@@ -930,7 +933,7 @@ function (_Pollable) {
         var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this4.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
         var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this4._extensionInfo.data.extensionNumber;
 
-        if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions.default.ringOutWeb || call.action === _callActions.default.ringOutPC || call.action === _callActions.default.ringOutMobile) && !isOutBoundCompanyNumber && !isOutBoundFromSelfExtNumber) {
+        if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions["default"].ringOutWeb || call.action === _callActions["default"].ringOutPC || call.action === _callActions["default"].ringOutMobile) && !isOutBoundCompanyNumber && !isOutBoundFromSelfExtNumber) {
           return _objectSpread({}, call, {
             from: call.to,
             to: call.from
@@ -947,6 +950,6 @@ function (_Pollable) {
       return calls;
     }];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_iSync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_iSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fSync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
-exports.default = CallLog;
+}), _applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_iSync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_iSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fSync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_fSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
+exports["default"] = CallLog;
 //# sourceMappingURL=index.js.map

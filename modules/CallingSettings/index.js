@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -19,15 +19,17 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.sort");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -51,6 +53,8 @@ var _mapOptionToMode = _interopRequireDefault(require("./mapOptionToMode"));
 
 var _callingOptions = _interopRequireDefault(require("./callingOptions"));
 
+var _callingModes = _interopRequireDefault(require("./callingModes"));
+
 var _callingSettingsMessages = _interopRequireDefault(require("./callingSettingsMessages"));
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
@@ -61,7 +65,7 @@ var _selector = require("../../lib/selector");
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -89,15 +93,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var CallingSettings = (
 /**
@@ -147,23 +151,25 @@ function (_RcModule) {
         tabManager = _ref.tabManager,
         onFirstLogin = _ref.onFirstLogin,
         webphone = _ref.webphone,
-        options = _objectWithoutProperties(_ref, ["alert", "brand", "extensionInfo", "extensionPhoneNumber", "forwardingNumber", "storage", "rolesAndPermissions", "tabManager", "onFirstLogin", "webphone"]);
+        _ref$emergencyCallAva = _ref.emergencyCallAvailable,
+        emergencyCallAvailable = _ref$emergencyCallAva === void 0 ? false : _ref$emergencyCallAva,
+        options = _objectWithoutProperties(_ref, ["alert", "brand", "extensionInfo", "extensionPhoneNumber", "forwardingNumber", "storage", "rolesAndPermissions", "tabManager", "onFirstLogin", "webphone", "emergencyCallAvailable"]);
 
     _classCallCheck(this, CallingSettings);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CallingSettings).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
-    _initializerDefineProperty(_this, "callWithOptions", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "callWithOptions", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "myPhoneNumbers", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "myPhoneNumbers", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "otherPhoneNumbers", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "otherPhoneNumbers", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "availableNumbers", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "availableNumbers", _descriptor4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "fromNumbers", _descriptor5, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "fromNumbers", _descriptor5, _assertThisInitialized(_this));
 
     _this._alert = alert;
     _this._brand = brand;
@@ -175,6 +181,7 @@ function (_RcModule) {
     _this._tabManager = tabManager;
     _this._webphone = webphone;
     _this._storageKey = 'callingSettingsData';
+    _this._emergencyCallAvailable = emergencyCallAvailable;
     _this._onFirstLogin = onFirstLogin;
 
     _this._storage.registerReducer({
@@ -309,7 +316,9 @@ function (_RcModule) {
                     timestamp: Date.now()
                   });
 
-                  this._warningEmergencyCallingNotAvailable();
+                  if (!this._emergencyCallAvailable) {
+                    this._warningEmergencyCallingNotAvailable();
+                  }
 
                   if (typeof this._onFirstLogin === 'function') {
                     this._onFirstLogin();
@@ -421,7 +430,7 @@ function (_RcModule) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.setData,
-                  callWith: _callingOptions.default.softphone,
+                  callWith: _callingOptions["default"].softphone,
                   timestamp: Date.now()
                 });
 
@@ -459,7 +468,7 @@ function (_RcModule) {
 
               case 3:
                 this._alert.danger({
-                  message: _callingSettingsMessages.default.webphonePermissionRemoved,
+                  message: _callingSettingsMessages["default"].webphonePermissionRemoved,
                   ttl: 0
                 });
 
@@ -477,7 +486,7 @@ function (_RcModule) {
 
               case 9:
                 this._alert.danger({
-                  message: _callingSettingsMessages.default.permissionChanged,
+                  message: _callingSettingsMessages["default"].permissionChanged,
                   ttl: 0
                 });
 
@@ -488,13 +497,13 @@ function (_RcModule) {
                 if (this._hasPhoneNumberChanged()) {
                   this.store.dispatch({
                     type: this.actionTypes.setData,
-                    callWith: _callingOptions.default.myphone,
+                    callWith: _callingOptions["default"].myphone,
                     myLocation: this._myPhoneNumbers[0],
                     timestamp: Date.now()
                   });
 
                   this._alert.danger({
-                    message: _callingSettingsMessages.default.phoneNumberChanged,
+                    message: _callingSettingsMessages["default"].phoneNumberChanged,
                     ttl: 0
                   });
                 }
@@ -516,17 +525,17 @@ function (_RcModule) {
   }, {
     key: "_hasWebphonePermissionRemoved",
     value: function _hasWebphonePermissionRemoved() {
-      return !(this._webphoneEnabled && this._webphone) && this.callWith === _callingOptions.default.browser;
+      return !(this._webphoneEnabled && this._webphone) && this.callWith === _callingOptions["default"].browser;
     }
   }, {
     key: "_hasPermissionChanged",
     value: function _hasPermissionChanged() {
-      return !this._ringoutEnabled && (this.callWith === _callingOptions.default.myphone || this.callWith === _callingOptions.default.otherphone || this.callWith === _callingOptions.default.customphone);
+      return !this._ringoutEnabled && (this.callWith === _callingOptions["default"].myphone || this.callWith === _callingOptions["default"].otherphone || this.callWith === _callingOptions["default"].customphone);
     }
   }, {
     key: "_hasPhoneNumberChanged",
     value: function _hasPhoneNumberChanged() {
-      return this.callWith === _callingOptions.default.otherphone && this._otherPhoneNumbers.indexOf(this.myLocation) === -1 || this.callWith === _callingOptions.default.myphone && this._myPhoneNumbers.indexOf(this.myLocation) === -1;
+      return this.callWith === _callingOptions["default"].otherphone && this._otherPhoneNumbers.indexOf(this.myLocation) === -1 || this.callWith === _callingOptions["default"].myphone && this._myPhoneNumbers.indexOf(this.myLocation) === -1;
     }
   }, {
     key: "_warningEmergencyCallingNotAvailable",
@@ -538,9 +547,9 @@ function (_RcModule) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                if (this.callWith === _callingOptions.default.browser) {
+                if (this.callWith === _callingOptions["default"].browser) {
                   this._alert.info({
-                    message: _callingSettingsMessages.default.emergencyCallingNotAvailable,
+                    message: _callingSettingsMessages["default"].emergencyCallingNotAvailable,
                     ttl: 0
                   });
                 }
@@ -581,16 +590,18 @@ function (_RcModule) {
                 });
 
                 if (withPrompt) {
-                  if (this.callWith === _callingOptions.default.softphone) {
+                  if (this.callWith === _callingOptions["default"].softphone) {
                     this._alert.info({
-                      message: _callingSettingsMessages.default.saveSuccessWithSoftphone
+                      message: _callingSettingsMessages["default"].saveSuccessWithSoftphone
                     });
                   } else {
                     this._alert.info({
-                      message: _callingSettingsMessages.default.saveSuccess
+                      message: _callingSettingsMessages["default"].saveSuccess
                     });
 
-                    this._warningEmergencyCallingNotAvailable();
+                    if (!this._emergencyCallAvailable) {
+                      this._warningEmergencyCallingNotAvailable();
+                    }
                   }
                 }
 
@@ -621,12 +632,12 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.ready;
+      return this.state.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "pending",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.pending;
+      return this.state.status === _moduleStatuses["default"].pending;
     }
   }, {
     key: "callWith",
@@ -636,7 +647,7 @@ function (_RcModule) {
   }, {
     key: "callingMode",
     get: function get() {
-      return (0, _mapOptionToMode.default)(this.callWith);
+      return (0, _mapOptionToMode["default"])(this.callWith);
     }
   }, {
     key: "ringoutPrompt",
@@ -654,6 +665,11 @@ function (_RcModule) {
       return this.data.timestamp;
     }
   }, {
+    key: "isWebphoneMode",
+    get: function get() {
+      return this.callingMode === _callingModes["default"].webphone;
+    }
+  }, {
     key: "fromNumber",
     get: function get() {
       return this.data.fromNumber;
@@ -661,7 +677,7 @@ function (_RcModule) {
   }]);
 
   return CallingSettings;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -678,25 +694,25 @@ function (_RcModule) {
       return _this3._extensionPhoneNumber.numbers.length > 0;
     }, function (ringoutEnabled, webphoneEnabled, hasOtherPhone, hasExtensionPhoneNumber) {
       if (!hasExtensionPhoneNumber) {
-        return [_callingOptions.default.softphone];
+        return [_callingOptions["default"].softphone];
       }
 
       var callWithOptions = [];
 
       if (_this3._webphone && webphoneEnabled) {
-        callWithOptions.push(_callingOptions.default.browser);
+        callWithOptions.push(_callingOptions["default"].browser);
       }
 
-      callWithOptions.push(_callingOptions.default.softphone);
+      callWithOptions.push(_callingOptions["default"].softphone);
 
       if (ringoutEnabled) {
-        callWithOptions.push(_callingOptions.default.myphone);
+        callWithOptions.push(_callingOptions["default"].myphone);
 
         if (hasOtherPhone) {
-          callWithOptions.push(_callingOptions.default.otherphone);
+          callWithOptions.push(_callingOptions["default"].otherphone);
         }
 
-        callWithOptions.push(_callingOptions.default.customphone);
+        callWithOptions.push(_callingOptions["default"].customphone);
       }
 
       return callWithOptions;
@@ -771,7 +787,7 @@ function (_RcModule) {
     }, function (myPhoneNumbers, otherPhoneNumbers) {
       var _ref3;
 
-      return _ref3 = {}, _defineProperty(_ref3, _callingOptions.default.myphone, myPhoneNumbers), _defineProperty(_ref3, _callingOptions.default.otherphone, otherPhoneNumbers), _ref3;
+      return _ref3 = {}, _defineProperty(_ref3, _callingOptions["default"].myphone, myPhoneNumbers), _defineProperty(_ref3, _callingOptions["default"].otherphone, otherPhoneNumbers), _ref3;
     }];
   }
 }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "fromNumbers", [_selector.selector], {
@@ -785,11 +801,12 @@ function (_RcModule) {
       return _this7._extensionPhoneNumber.callerIdNumbers;
     }, function (phoneNumbers) {
       return phoneNumbers.sort(function (firstItem, lastItem) {
-        if (firstItem.usageType === 'DirectNumber') return -1;else if (lastItem.usageType === 'DirectNumber') return 1;else if (firstItem.usageType === 'MainCompanyNumber') return -1;else if (lastItem.usageType === 'MainCompanyNumber') return 1;else if (firstItem.usageType < lastItem.usageType) return -1;else if (firstItem.usageType > lastItem.usageType) return 1;
+        if (firstItem.usageType === 'DirectNumber') return -1;
+        if (lastItem.usageType === 'DirectNumber') return 1;else if (firstItem.usageType === 'MainCompanyNumber') return -1;else if (lastItem.usageType === 'MainCompanyNumber') return 1;else if (firstItem.usageType < lastItem.usageType) return -1;else if (firstItem.usageType > lastItem.usageType) return 1;
         return 0;
       });
     }];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype)), _class2)) || _class);
-exports.default = CallingSettings;
+}), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype)), _class2)) || _class);
+exports["default"] = CallingSettings;
 //# sourceMappingURL=index.js.map

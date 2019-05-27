@@ -5,7 +5,7 @@ require("core-js/modules/es6.array.find");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.MultipartMessageMaxLength = exports.MessageMaxLength = void 0;
+exports["default"] = exports.MultipartMessageMaxLength = exports.MessageMaxLength = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -19,6 +19,8 @@ require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.string.starts-with");
@@ -29,13 +31,13 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.filter");
 
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -69,7 +71,7 @@ var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -101,7 +103,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var MessageMaxLength = 1000;
 exports.MessageMaxLength = MessageMaxLength;
@@ -114,7 +116,10 @@ var SENDING_THRESHOLD = 30;
  */
 
 var MessageSender = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'ExtensionInfo', 'ExtensionPhoneNumber', 'NumberValidate']
+  deps: ['Alert', 'Client', 'ExtensionInfo', 'ExtensionPhoneNumber', 'NumberValidate', {
+    dep: 'AvailabilityMonitor',
+    optional: true
+  }]
 }), _dec(_class = (_class2 =
 /*#__PURE__*/
 function (_RcModule) {
@@ -137,20 +142,22 @@ function (_RcModule) {
         extensionInfo = _ref.extensionInfo,
         extensionPhoneNumber = _ref.extensionPhoneNumber,
         numberValidate = _ref.numberValidate,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "extensionInfo", "extensionPhoneNumber", "numberValidate"]);
+        availabilityMonitor = _ref.availabilityMonitor,
+        options = _objectWithoutProperties(_ref, ["alert", "client", "extensionInfo", "extensionPhoneNumber", "numberValidate", "availabilityMonitor"]);
 
     _classCallCheck(this, MessageSender);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MessageSender).call(this, _objectSpread({}, options, {
-      actionTypes: _messageSenderActionTypes.default
+      actionTypes: _messageSenderActionTypes["default"]
     })));
     _this._alert = alert;
     _this._client = client;
     _this._extensionPhoneNumber = extensionPhoneNumber;
     _this._extensionInfo = extensionInfo;
-    _this._reducer = (0, _getMessageSenderReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getMessageSenderReducer["default"])(_this.actionTypes);
     _this._numberValidate = numberValidate;
-    _this._eventEmitter = new _events.default();
+    _this._availabilityMonitor = availabilityMonitor;
+    _this._eventEmitter = new _events["default"]();
     return _this;
   }
 
@@ -175,7 +182,7 @@ function (_RcModule) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._extensionPhoneNumber.ready && this._extensionInfo.ready && !this.ready;
+      return this._extensionPhoneNumber.ready && this._extensionInfo.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && !this.ready;
     }
   }, {
     key: "_initModuleStatus",
@@ -187,7 +194,7 @@ function (_RcModule) {
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._extensionPhoneNumber.ready || !this._extensionInfo.ready) && this.ready;
+      return (!this._extensionPhoneNumber.ready || !this._extensionInfo.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
     }
   }, {
     key: "_resetModuleStatus",
@@ -213,20 +220,20 @@ function (_RcModule) {
   }, {
     key: "_validateText",
     value: function _validateText(text, multipart) {
-      if ((0, _isBlank.default)(text)) {
-        this._alertWarning(_messageSenderMessages.default.textEmpty);
+      if ((0, _isBlank["default"])(text)) {
+        this._alertWarning(_messageSenderMessages["default"].textEmpty);
 
         return false;
       }
 
       if (!multipart && text.length > MessageMaxLength) {
-        this._alertWarning(_messageSenderMessages.default.textTooLong);
+        this._alertWarning(_messageSenderMessages["default"].textTooLong);
 
         return false;
       }
 
       if (multipart && text.length > MultipartMessageMaxLength) {
-        this._alertWarning(_messageSenderMessages.default.multipartTextTooLong);
+        this._alertWarning(_messageSenderMessages["default"].multipartTextTooLong);
 
         return false;
       }
@@ -237,7 +244,7 @@ function (_RcModule) {
     key: "_validateToNumbersIsEmpty",
     value: function _validateToNumbersIsEmpty(toNumbers) {
       if (toNumbers.length === 0) {
-        this._alertWarning(_messageSenderMessages.default.recipientsEmpty);
+        this._alertWarning(_messageSenderMessages["default"].recipientsEmpty);
 
         return true;
       }
@@ -249,7 +256,7 @@ function (_RcModule) {
     value: function _validateSenderNumber(senderNumber) {
       var validateResult = true;
 
-      if ((0, _isBlank.default)(senderNumber)) {
+      if ((0, _isBlank["default"])(senderNumber)) {
         validateResult = false;
       }
 
@@ -272,7 +279,7 @@ function (_RcModule) {
           type: this.actionTypes.validateError
         });
 
-        this._alertWarning(_messageSenderMessages.default.senderNumberInvalid);
+        this._alertWarning(_messageSenderMessages["default"].senderNumberInvalid);
       }
 
       return validateResult;
@@ -283,10 +290,10 @@ function (_RcModule) {
       var _this3 = this;
 
       errors.forEach(function (error) {
-        var message = _messageSenderMessages.default[error.type];
+        var message = _messageSenderMessages["default"][error.type];
 
         if (!_this3._alertWarning(message)) {
-          _this3._alertWarning(_messageSenderMessages.default.recipientNumberInvalids);
+          _this3._alertWarning(_messageSenderMessages["default"].recipientNumberInvalids);
         }
       });
     }
@@ -364,7 +371,7 @@ function (_RcModule) {
                   break;
                 }
 
-                this._alertWarning(_messageSenderMessages.default.notAnExtension);
+                this._alertWarning(_messageSenderMessages["default"].notAnExtension);
 
                 this.store.dispatch({
                   type: this.actionTypes.validateError
@@ -398,8 +405,8 @@ function (_RcModule) {
                 _context.prev = 38;
                 _context.prev = 39;
 
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
                 }
 
               case 41:
@@ -450,7 +457,7 @@ function (_RcModule) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 fromNumber = _ref2.fromNumber, toNumbers = _ref2.toNumbers, text = _ref2.text, replyOnMessageId = _ref2.replyOnMessageId, _ref2$multipart = _ref2.multipart, multipart = _ref2$multipart === void 0 ? false : _ref2$multipart;
-                eventId = _uuid.default.v4();
+                eventId = _uuid["default"].v4();
 
                 if (this._validateText(text, multipart)) {
                   _context2.next = 4;
@@ -509,7 +516,7 @@ function (_RcModule) {
                   type: this.actionTypes.send
                 });
                 responses = [];
-                chunks = multipart ? (0, _chunkMessage.default)(text, MessageMaxLength) : [text];
+                chunks = multipart ? (0, _chunkMessage["default"])(text, MessageMaxLength) : [text];
                 total = (phoneNumbers.length + 1) * chunks.length;
                 shouldSleep = total > SENDING_THRESHOLD;
 
@@ -538,7 +545,7 @@ function (_RcModule) {
                 }
 
                 _context2.next = 33;
-                return (0, _sleep.default)(2000);
+                return (0, _sleep["default"])(2000);
 
               case 33:
                 _context2.next = 35;
@@ -571,8 +578,8 @@ function (_RcModule) {
                 _context2.prev = 46;
                 _context2.prev = 47;
 
-                if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-                  _iterator2.return();
+                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                  _iterator2["return"]();
                 }
 
               case 49:
@@ -630,7 +637,7 @@ function (_RcModule) {
                 }
 
                 _context2.next = 72;
-                return (0, _sleep.default)(2000);
+                return (0, _sleep["default"])(2000);
 
               case 72:
                 _context2.next = 74;
@@ -663,8 +670,8 @@ function (_RcModule) {
                 _context2.prev = 85;
                 _context2.prev = 86;
 
-                if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-                  _iterator4.return();
+                if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+                  _iterator4["return"]();
                 }
 
               case 88:
@@ -702,8 +709,8 @@ function (_RcModule) {
                 _context2.prev = 102;
                 _context2.prev = 103;
 
-                if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-                  _iterator3.return();
+                if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+                  _iterator3["return"]();
                 }
 
               case 105:
@@ -872,24 +879,24 @@ function (_RcModule) {
             // 101 : "Parameter [to.extensionNumber] value is invalid"
             // 101 : "Parameter [to.phoneNumber] value is invalid"
             // 102 : "Resource for parameter [to] is not found"
-            _this4._alertWarning(_messageSenderMessages.default.recipientNumberInvalids);
+            _this4._alertWarning(_messageSenderMessages["default"].recipientNumberInvalids);
 
             return null;
           }
 
           if (err.errorCode === 'MSG-246') {
             // MSG-246 : "Sending SMS from/to extension numbers is not available"
-            _this4._alertWarning(_messageSenderMessages.default.notSmsToExtension);
+            _this4._alertWarning(_messageSenderMessages["default"].notSmsToExtension);
           }
 
           if (err.errorCode === 'MSG-240') {
             // MSG-240 : "International SMS is not supported"
-            _this4._alertWarning(_messageSenderMessages.default.internationalSMSNotSupported);
+            _this4._alertWarning(_messageSenderMessages["default"].internationalSMSNotSupported);
           }
 
           if (err.errorCode === 'CMN-408') {
             // MSG-240 : "In order to call this API endpoint, user needs to have [InternalSMS] permission for requested resource."
-            _this4._alertWarning(_messageSenderMessages.default.noInternalSMSPermission);
+            _this4._alertWarning(_messageSenderMessages["default"].noInternalSMSPermission);
           }
 
           return null;
@@ -898,7 +905,11 @@ function (_RcModule) {
         return;
       }
 
-      this._alertWarning(_messageSenderMessages.default.sendError);
+      if (this._availabilityMonitor && this._availabilityMonitor.checkIfHAError(error)) {
+        return null;
+      }
+
+      this._alertWarning(_messageSenderMessages["default"].sendError);
     }
   }, {
     key: "on",
@@ -918,12 +929,12 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.status === _moduleStatuses.default.ready;
+      return this.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "idle",
     get: function get() {
-      return this.sendStatus === _messageSenderStatus.default.idle;
+      return this.sendStatus === _messageSenderStatus["default"].idle;
     }
   }, {
     key: "senderNumbersList",
@@ -933,6 +944,6 @@ function (_RcModule) {
   }]);
 
   return MessageSender;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "_validateToNumbers", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateToNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "send", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendSms", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendSms"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendPager", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendPager"), _class2.prototype)), _class2)) || _class);
-exports.default = MessageSender;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "_validateToNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateToNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "send", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendSms", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendSms"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendPager", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendPager"), _class2.prototype)), _class2)) || _class);
+exports["default"] = MessageSender;
 //# sourceMappingURL=index.js.map

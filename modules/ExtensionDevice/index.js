@@ -3,19 +3,23 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -25,15 +29,11 @@ require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
-require("core-js/modules/web.dom.iterable");
-
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.map");
 
 require("regenerator-runtime/runtime");
-
-require("core-js/fn/array/find");
 
 var _di = require("../../lib/di");
 
@@ -45,7 +45,7 @@ var _removeUri = _interopRequireDefault(require("../../lib/removeUri"));
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -116,14 +116,14 @@ function (_DataFetcher) {
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.next = 2;
-                  return (0, _fetchList.default)(function (params) {
+                  return (0, _fetchList["default"])(function (params) {
                     return client.account().extension().device().list(params);
                   });
 
                 case 2:
                   _context.t0 = function (device) {
-                    return _objectSpread({}, (0, _removeUri.default)(device), {
-                      extension: (0, _removeUri.default)(device.extension)
+                    return _objectSpread({}, (0, _removeUri["default"])(device), {
+                      extension: (0, _removeUri["default"])(device.extension)
                     });
                   };
 
@@ -187,6 +187,6 @@ function (_DataFetcher) {
   }]);
 
   return ExtensionDevice;
-}(_DataFetcher2.default)) || _class);
-exports.default = ExtensionDevice;
+}(_DataFetcher2["default"])) || _class);
+exports["default"] = ExtensionDevice;
 //# sourceMappingURL=index.js.map

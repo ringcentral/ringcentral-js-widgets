@@ -29,6 +29,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.regexp.split");
@@ -49,7 +51,7 @@ var _utils = require("../../lib/di/utils/utils");
 
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -150,14 +152,14 @@ function normalizeSession(session) {
     fromUserName: session.request.from.displayName,
     startTime: session.startTime && new Date(session.startTime).getTime(),
     creationTime: session.__rc_creationTime,
-    isOnHold: !!session.onLocalHold(),
+    isOnHold: !!session.localHold,
     isOnMute: !!session.__rc_isOnMute,
     isOnFlip: !!session.__rc_isOnFlip,
     isOnTransfer: !!session.__rc_isOnTransfer,
     isToVoicemail: !!session.__rc_isToVoicemail,
     isForwarded: !!session.__rc_isForwarded,
     isReplied: !!session.__rc_isReplied,
-    recordStatus: session.__rc_recordStatus || _recordStatus.default.idle,
+    recordStatus: session.__rc_recordStatus || _recordStatus["default"].idle,
     contactMatch: session.__rc_contactMatch,
     minimized: !!session.__rc_minimized,
     partyData: session.__rc_partyData || null,
@@ -168,7 +170,7 @@ function normalizeSession(session) {
 }
 
 function isRing(session) {
-  return !!(session && session.direction === _callDirections.default.inbound && session.callStatus === _sessionStatus.default.connecting);
+  return !!(session && session.direction === _callDirections["default"].inbound && session.callStatus === _sessionStatus["default"].connecting);
 }
 
 function isOnHold(session) {
@@ -200,6 +202,6 @@ function isConferenceSession(session) {
 }
 
 function isRecording(session) {
-  return !!(session && (session.recordStatus === _recordStatus.default.pending || session.recordStatus === _recordStatus.default.recording));
+  return !!(session && (session.recordStatus === _recordStatus["default"].pending || session.recordStatus === _recordStatus["default"].recording));
 }
 //# sourceMappingURL=webphoneHelper.js.map

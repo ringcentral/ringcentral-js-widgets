@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getHasAutoPromptedReducer = getHasAutoPromptedReducer;
-exports.default = getStorageReducer;
+exports["default"] = getStorageReducer;
 
 var _redux = require("redux");
 

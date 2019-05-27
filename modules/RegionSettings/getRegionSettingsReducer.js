@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getCountryCodeReducer = getCountryCodeReducer;
 exports.getAreaCodeReducer = getAreaCodeReducer;
-exports.default = getRegionSettingsReducer;
+exports["default"] = getRegionSettingsReducer;
 
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getCountryCodeReducer(types) {
   return function () {
@@ -45,7 +45,7 @@ function getAreaCodeReducer(types) {
 
 function getRegionSettingsReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types)
+    status: (0, _getModuleStatusReducer["default"])(types)
   });
 }
 //# sourceMappingURL=getRegionSettingsReducer.js.map

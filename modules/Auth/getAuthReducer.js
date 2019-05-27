@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getLoginStatusReducer = getLoginStatusReducer;
 exports.getTokenReducer = getTokenReducer;
 exports.getFreshLoginReducer = getFreshLoginReducer;
-exports.default = getAuthReducer;
+exports["default"] = getAuthReducer;
 
 var _redux = require("redux");
 
@@ -16,7 +16,7 @@ var _loginStatus = _interopRequireDefault(require("./loginStatus"));
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getLoginStatusReducer(types) {
   return function () {
@@ -29,30 +29,30 @@ function getLoginStatusReducer(types) {
 
     switch (type) {
       case types.login:
-        return _loginStatus.default.loggingIn;
+        return _loginStatus["default"].loggingIn;
 
       case types.loginSuccess:
       case types.refreshSuccess:
       case types.cancelLogout:
-        return _loginStatus.default.loggedIn;
+        return _loginStatus["default"].loggedIn;
 
       case types.loginError:
       case types.logoutSuccess:
       case types.logoutError:
-        return _loginStatus.default.notLoggedIn;
+        return _loginStatus["default"].notLoggedIn;
 
       case types.refreshError:
-        return refreshTokenValid ? state : _loginStatus.default.notLoggedIn;
+        return refreshTokenValid ? state : _loginStatus["default"].notLoggedIn;
 
       case types.logout:
-        return _loginStatus.default.loggingOut;
+        return _loginStatus["default"].loggingOut;
 
       case types.beforeLogout:
-        return _loginStatus.default.beforeLogout;
+        return _loginStatus["default"].beforeLogout;
 
       case types.initSuccess:
       case types.tabSync:
-        return loggedIn ? _loginStatus.default.loggedIn : _loginStatus.default.notLoggedIn;
+        return loggedIn ? _loginStatus["default"].loggedIn : _loginStatus["default"].notLoggedIn;
 
       default:
         return state;
@@ -142,7 +142,7 @@ function getFreshLoginReducer(types) {
 
 function getAuthReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     loginStatus: getLoginStatusReducer(types),
     freshLogin: getFreshLoginReducer(types),
     token: getTokenReducer(types)

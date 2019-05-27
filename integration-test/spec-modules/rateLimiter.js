@@ -5,9 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
@@ -17,7 +19,7 @@ var _HelpUtil = require("../utils/HelpUtil");
 
 var _WaitUtil = require("../utils/WaitUtil");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -92,7 +94,7 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
                         case 0:
                           rateLimiter._requestErrorHandler(new Error('Request rate exceeded'));
 
-                          expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _errorMessages.default.rateLimitReached)).to.not.equal(undefined);
+                          expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _errorMessages["default"].rateLimitReached)).to.not.equal(undefined);
 
                         case 2:
                         case "end":
@@ -113,5 +115,5 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
   })));
 };
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=rateLimiter.js.map

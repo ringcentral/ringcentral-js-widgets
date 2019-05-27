@@ -6,15 +6,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getContactSearchReducer = getContactSearchReducer;
-exports.default = getCacheReducer;
+exports["default"] = getCacheReducer;
 
 require("core-js/modules/es6.date.now");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 

@@ -9,13 +9,13 @@ exports.getChangeCounterReducer = getChangeCounterReducer;
 exports.getServerReducer = getServerReducer;
 exports.getRecordingHostReducer = getRecordingHostReducer;
 exports.getEnabledReducer = getEnabledReducer;
-exports.default = getEnvironmentReducer;
+exports["default"] = getEnvironmentReducer;
 
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getChangeCounterReducer(types) {
   return function () {
@@ -75,7 +75,7 @@ function getEnabledReducer(types) {
 
 function getEnvironmentReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     changeCounter: getChangeCounterReducer(types)
   });
 }

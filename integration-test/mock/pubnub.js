@@ -18,7 +18,7 @@ require("core-js/modules/web.dom.iterable");
 
 var _pubnub = _interopRequireDefault(require("pubnub"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -37,7 +37,7 @@ function () {
     _classCallCheck(this, MockedPubNub);
 
     this._subscribeKey = subscribeKey;
-    this._realPubnub = new _pubnub.default({
+    this._realPubnub = new _pubnub["default"]({
       subscribeKey: subscribeKey
     });
     this.encrypt = this._realPubnub.encrypt;
@@ -95,8 +95,8 @@ function () {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
           }
         } finally {
           if (_didIteratorError) {
@@ -128,8 +128,8 @@ function () {
 }();
 
 exports.MockedPubNub = MockedPubNub;
-MockedPubNub.OPERATIONS = _pubnub.default.OPERATIONS;
-MockedPubNub.CATEGORIES = _pubnub.default.CATEGORIES;
+MockedPubNub.OPERATIONS = _pubnub["default"].OPERATIONS;
+MockedPubNub.CATEGORIES = _pubnub["default"].CATEGORIES;
 
 function getLastPubnub() {
   return pubnubs[pubnubs.length - 1];

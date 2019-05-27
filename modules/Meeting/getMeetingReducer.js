@@ -1,9 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.array.filter");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +7,17 @@ exports.getMeetingInfoReducer = getMeetingInfoReducer;
 exports.getMeetingSchedulingStatusReducer = getMeetingSchedulingStatusReducer;
 exports.getMeetingUpdatingStatusReducer = getMeetingUpdatingStatusReducer;
 exports.getMeetingStorageReducer = getMeetingStorageReducer;
-exports.default = void 0;
+exports["default"] = void 0;
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -20,6 +26,8 @@ require("core-js/modules/es6.array.from");
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -37,7 +45,11 @@ var _scheduleStatus = _interopRequireDefault(require("./scheduleStatus"));
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -71,20 +83,20 @@ function getMeetingInfoReducer(types) {
 
 function getMeetingSchedulingStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _scheduleStatus.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _scheduleStatus["default"].idle;
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref2.type;
 
     switch (type) {
       case types.initScheduling:
-        return _scheduleStatus.default.scheduling;
+        return _scheduleStatus["default"].scheduling;
 
       case types.scheduled:
-        return _scheduleStatus.default.scheduled;
+        return _scheduleStatus["default"].scheduled;
 
       case types.resetScheduling:
-        return _scheduleStatus.default.idle;
+        return _scheduleStatus["default"].idle;
 
       default:
         return state;
@@ -144,14 +156,14 @@ function getMeetingStorageReducer(types) {
   };
 }
 
-var _default = function _default(types) {
-  return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+var _default = function _default(types, reducers) {
+  return (0, _redux.combineReducers)(_objectSpread({}, reducers, {
+    status: (0, _getModuleStatusReducer["default"])(types),
     meeting: getMeetingInfoReducer(types),
     schedulingStatus: getMeetingSchedulingStatusReducer(types),
     updatingStatus: getMeetingUpdatingStatusReducer(types)
-  });
+  }));
 };
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=getMeetingReducer.js.map

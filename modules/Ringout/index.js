@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -23,11 +23,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -53,7 +55,7 @@ var _ringoutErrors = _interopRequireDefault(require("./ringoutErrors"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -85,7 +87,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_MONITOR_INTERVAL = 2500;
 var DEFAULT_TIME_BETWEEN_CALLS = 10000;
@@ -131,12 +133,12 @@ function (_RcModule) {
     _classCallCheck(this, Ringout);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Ringout).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
     _this._auth = auth;
     _this._client = client;
     _this._contactMatcher = contactMatcher;
-    _this._reducer = (0, _getRingoutReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getRingoutReducer["default"])(_this.actionTypes);
     _this._monitorInterval = monitorInterval;
     _this._timeBetweenCalls = timeBetweenCalls;
     return _this;
@@ -172,7 +174,7 @@ function (_RcModule) {
               case 0:
                 fromNumber = _ref2.fromNumber, toNumber = _ref2.toNumber, prompt = _ref2.prompt;
 
-                if (!(this.status === _moduleStatuses.default.ready)) {
+                if (!(this.status === _moduleStatuses["default"].ready)) {
                   _context.next = 23;
                   break;
                 }
@@ -224,7 +226,7 @@ function (_RcModule) {
                   type: this.actionTypes.connectError
                 });
 
-                if (!(_context.t0.message !== _ringoutErrors.default.pollingCancelled)) {
+                if (!(_context.t0.message !== _ringoutErrors["default"].pollingCancelled)) {
                   _context.next = 21;
                   break;
                 }
@@ -277,11 +279,11 @@ function (_RcModule) {
                   break;
                 }
 
-                throw new Error(_ringoutErrors.default.pollingCancelled);
+                throw new Error(_ringoutErrors["default"].pollingCancelled);
 
               case 6:
                 _context2.next = 8;
-                return (0, _sleep.default)(this._monitorInterval);
+                return (0, _sleep["default"])(this._monitorInterval);
 
               case 8:
                 _context2.next = 10;
@@ -298,7 +300,7 @@ function (_RcModule) {
                   break;
                 }
 
-                throw new Error(_ringoutErrors.default.firstLegConnectFailed);
+                throw new Error(_ringoutErrors["default"].firstLegConnectFailed);
 
               case 15:
               case "end":
@@ -327,7 +329,7 @@ function (_RcModule) {
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return this._client.account().extension().ringOut(ringoutId).get().catch(function (error) {
+                return this._client.account().extension().ringOut(ringoutId).get()["catch"](function (error) {
                   if (error && error.apiResponse && error.apiResponse._response && error.apiResponse._response.status === 404) {
                     callStatus = 'Success';
                   }
@@ -340,7 +342,7 @@ function (_RcModule) {
               case 7:
                 _context3.prev = 7;
                 _context3.t0 = _context3["catch"](0);
-                exception = new Error(_ringoutErrors.default.pollingFailed);
+                exception = new Error(_ringoutErrors["default"].pollingFailed);
                 exception.error = _context3.t0;
                 throw exception;
 
@@ -371,11 +373,11 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.ready;
+      return this.state.status === _moduleStatuses["default"].ready;
     }
   }]);
 
   return Ringout;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_monitorRingout", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_monitorRingout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchRingoutStatus", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchRingoutStatus"), _class2.prototype)), _class2)) || _class);
-exports.default = Ringout;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_monitorRingout", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_monitorRingout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchRingoutStatus", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchRingoutStatus"), _class2.prototype)), _class2)) || _class);
+exports["default"] = Ringout;
 //# sourceMappingURL=index.js.map

@@ -21,9 +21,13 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -39,7 +43,7 @@ var _dndStatus = _interopRequireDefault(require("./dndStatus"));
 
 var _callLogHelpers = require("../../lib/callLogHelpers");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -121,7 +125,7 @@ function getLastNotDisturbDndStatusReducer(types) {
       case types.fetchSuccess:
       case types.updateSuccess:
       case types.update:
-        if (lastDndStatus !== _dndStatus.default.doNotAcceptAnyCalls && lastDndStatus !== dndStatus) {
+        if (lastDndStatus !== _dndStatus["default"].doNotAcceptAnyCalls && lastDndStatus !== dndStatus) {
           return lastDndStatus;
         }
 
@@ -310,6 +314,7 @@ function getDataReducer(types) {
     presenceStatus: getPresenceStatusReducer(types),
     userStatus: getUserStatusReducer(types),
     telephonyStatus: getTelephonyStatusReducer(types),
+    meetingStatus: getMeetingStatusReducer(types),
     activeCalls: getActiveCallsReducer(types),
     lastDndStatus: getLastNotDisturbDndStatusReducer(types)
   });

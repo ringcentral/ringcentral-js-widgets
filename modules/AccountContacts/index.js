@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -25,17 +25,19 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.date.now");
 
@@ -67,7 +69,7 @@ var _getReducer = _interopRequireDefault(require("./getReducer"));
 
 var _dec, _class, _class2, _descriptor, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -95,15 +97,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var MaximumBatchGetPresence = 30;
 var DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
@@ -162,18 +164,18 @@ function (_RcModule) {
     _classCallCheck(this, AccountContacts);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AccountContacts).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
-    _initializerDefineProperty(_this, "directoryContacts", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "directoryContacts", _descriptor, _assertThisInitialized(_this));
 
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-    _this._companyContacts = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, companyContacts, 'companyContacts');
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
+    _this._companyContacts = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, companyContacts, 'companyContacts');
     _this._ttl = ttl;
     _this._avatarTtl = avatarTtl;
     _this._presenceTtl = presenceTtl;
     _this._avatarQueryInterval = avatarQueryInterval;
-    _this._reducer = (0, _getReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
     return _this;
   }
 
@@ -561,7 +563,7 @@ function (_RcModule) {
   }]);
 
   return AccountContacts;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -586,7 +588,7 @@ function (_RcModule) {
           hasProfileImage: !!item.profileImage,
           phoneNumbers: [{
             phoneNumber: item.extensionNumber,
-            phoneType: _phoneTypes.default.extension
+            phoneType: _phoneTypes["default"].extension
           }],
           profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
           presence: presences[id] && presences[id].presence,
@@ -595,7 +597,7 @@ function (_RcModule) {
 
         contact.name = item.name ? item.name : "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
 
-        if ((0, _isBlank.default)(contact.extensionNumber)) {
+        if ((0, _isBlank["default"])(contact.extensionNumber)) {
           return result;
         }
 
@@ -603,7 +605,7 @@ function (_RcModule) {
           item.phoneNumbers.forEach(function (phone) {
             if (phone.type) {
               contact.phoneNumbers.push(_objectSpread({}, phone, {
-                phoneType: _phoneTypes.default.direct
+                phoneType: _phoneTypes["default"].direct
               }));
             }
           });
@@ -615,5 +617,5 @@ function (_RcModule) {
     }];
   }
 })), _class2)) || _class);
-exports.default = AccountContacts;
+exports["default"] = AccountContacts;
 //# sourceMappingURL=index.js.map

@@ -5,7 +5,7 @@ require("core-js/modules/es6.array.find");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.MeetingErrors = exports.getDefaultMeetingSettings = exports.MeetingType = exports.UTC_TIMEZONE_ID = void 0;
+exports["default"] = exports.MeetingErrors = exports.getDefaultMeetingSettings = exports.MeetingType = exports.UTC_TIMEZONE_ID = void 0;
 
 require("core-js/modules/es6.array.is-array");
 
@@ -32,6 +32,8 @@ require("core-js/modules/es6.promise");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -67,9 +69,9 @@ var _getMeetingReducer = _interopRequireWildcard(require("./getMeetingReducer"))
 
 var _dec, _class, _class2;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -103,7 +105,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -186,6 +188,9 @@ function () {
 exports.MeetingErrors = MeetingErrors;
 var Meeting = (_dec = (0, _di.Module)({
   deps: ['Alert', 'Client', 'ExtensionInfo', 'Storage', {
+    dep: 'AvailabilityMonitor',
+    optional: true
+  }, {
     dep: 'MeetingOptions',
     optional: true
   }]
@@ -201,18 +206,21 @@ function (_RcModule) {
         client = _ref.client,
         extensionInfo = _ref.extensionInfo,
         storage = _ref.storage,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "extensionInfo", "storage"]);
+        availabilityMonitor = _ref.availabilityMonitor,
+        reducers = _ref.reducers,
+        options = _objectWithoutProperties(_ref, ["alert", "client", "extensionInfo", "storage", "availabilityMonitor", "reducers"]);
 
     _classCallCheck(this, Meeting);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Meeting).call(this, _objectSpread({}, options, {
-      actionTypes: options.actionTypes || _actionTypes.default
+      actionTypes: options.actionTypes || _actionTypes["default"]
     })));
     _this._alert = alert;
     _this._client = client;
     _this._extensionInfo = extensionInfo;
     _this._storage = storage;
-    _this._reducer = (0, _getMeetingReducer.default)(_this.actionTypes);
+    _this._availabilityMonitor = availabilityMonitor;
+    _this._reducer = (0, _getMeetingReducer["default"])(_this.actionTypes);
     _this._lastMeetingSettingKey = 'lastMeetingSetting';
 
     _this._storage.registerReducer({
@@ -244,7 +252,7 @@ function (_RcModule) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._alert.ready && this._storage.ready && this._extensionInfo.ready && this.pending;
+      return this._alert.ready && this._storage.ready && this._extensionInfo.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
     }
   }, {
     key: "_init",
@@ -317,7 +325,7 @@ function (_RcModule) {
             _ref3$location = _ref3.location,
             location = _ref3$location === void 0 ? '' : _ref3$location,
             country = _ref3.country;
-        var filterFormattedNumber = (0, _format2.default)({
+        var filterFormattedNumber = (0, _format2["default"])({
           phoneNumber: phoneNumber,
           countryCode: country.isoCode,
           type: _format2.formatTypes.international
@@ -420,7 +428,7 @@ function (_RcModule) {
                 if (isAlertSuccess) {
                   setTimeout(function () {
                     _this3._alert.info({
-                      message: _meetingStatus.default.scheduledSuccess
+                      message: _meetingStatus["default"].scheduledSuccess
                     });
                   }, 50);
                 }
@@ -463,8 +471,8 @@ function (_RcModule) {
                 _context.prev = 44;
                 _context.prev = 45;
 
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
                 }
 
               case 47:
@@ -493,14 +501,14 @@ function (_RcModule) {
 
                   if (errorCode === 'InsufficientPermissions' && permissionName) {
                     this._alert.danger({
-                      message: _meetingStatus.default.insufficientPermissions,
+                      message: _meetingStatus["default"].insufficientPermissions,
                       payload: {
                         permissionName: permissionName
                       }
                     });
                   } else {
                     this._alert.danger({
-                      message: _meetingStatus.default.internalError
+                      message: _meetingStatus["default"].internalError
                     });
                   }
                 }
@@ -639,13 +647,13 @@ function (_RcModule) {
 
               case 24:
                 // Reload meeting info
-                this._initMeeting(); // Notify user the meeting has been scheduled
+                this._initMeeting(); // Notify user the meeting has been updated
 
 
                 if (isAlertSuccess) {
                   setTimeout(function () {
                     _this4._alert.info({
-                      message: _meetingStatus.default.updatedSuccess
+                      message: _meetingStatus["default"].updatedSuccess
                     });
                   }, 50);
                 }
@@ -689,8 +697,8 @@ function (_RcModule) {
                 _context3.prev = 44;
                 _context3.prev = 45;
 
-                if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-                  _iterator2.return();
+                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                  _iterator2["return"]();
                 }
 
               case 47:
@@ -719,14 +727,14 @@ function (_RcModule) {
 
                   if (errorCode === 'InsufficientPermissions' && permissionName) {
                     this._alert.danger({
-                      message: _meetingStatus.default.insufficientPermissions,
+                      message: _meetingStatus["default"].insufficientPermissions,
                       payload: {
                         permissionName: permissionName
                       }
                     });
                   } else {
                     this._alert.danger({
-                      message: _meetingStatus.default.internalError
+                      message: _meetingStatus["default"].internalError
                     });
                   }
                 }
@@ -800,7 +808,7 @@ function (_RcModule) {
         if (schedule.startTime) {
           // Format selected startTime to utc standard time
           // Timezone information is not included here
-          _schedule.startTime = _moment.default.utc(schedule.startTime).format();
+          _schedule.startTime = _moment["default"].utc(schedule.startTime).format();
         }
 
         formatted.schedule = _schedule;
@@ -818,7 +826,7 @@ function (_RcModule) {
     key: "_validate",
     value: function _validate(meeting) {
       if (!meeting) {
-        throw new MeetingErrors(_meetingStatus.default.invalidMeetingInfo);
+        throw new MeetingErrors(_meetingStatus["default"].invalidMeetingInfo);
       }
 
       var topic = meeting.topic,
@@ -828,16 +836,16 @@ function (_RcModule) {
       var errors = new MeetingErrors();
 
       if (topic.length <= 0) {
-        errors.push(_meetingStatus.default.emptyTopic);
+        errors.push(_meetingStatus["default"].emptyTopic);
       }
 
       if (_requireMeetingPassword && (!password || password.length <= 0)) {
-        errors.push(_meetingStatus.default.noPassword);
+        errors.push(_meetingStatus["default"].noPassword);
       }
 
       if (schedule) {
         if (schedule.durationInMinutes < 0) {
-          errors.push(_meetingStatus.default.durationIncorrect);
+          errors.push(_meetingStatus["default"].durationIncorrect);
         }
       }
 
@@ -865,7 +873,12 @@ function (_RcModule) {
   }, {
     key: "isScheduling",
     get: function get() {
-      return this.state.schedulingStatus === _scheduleStatus.default.scheduling;
+      return this.state.schedulingStatus === _scheduleStatus["default"].scheduling;
+    }
+  }, {
+    key: "isUpdating",
+    get: function get() {
+      return this.meeting && this.meeting.id && this._isUpdating(this.meeting.id);
     }
   }, {
     key: "status",
@@ -875,6 +888,6 @@ function (_RcModule) {
   }]);
 
   return Meeting;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
-exports.default = Meeting;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
+exports["default"] = Meeting;
 //# sourceMappingURL=index.js.map

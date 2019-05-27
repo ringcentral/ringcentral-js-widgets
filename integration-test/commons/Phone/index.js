@@ -4,11 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createPhone = createPhone;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -18,9 +16,13 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -146,7 +148,7 @@ var _BlockedNumber = _interopRequireDefault(require("../../../modules/BlockedNum
 
 var _dec2, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -175,7 +177,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     provide: 'Client',
     useFactory: function useFactory(_ref2) {
       var sdkConfig = _ref2.sdkConfig;
-      return new _ringcentralClient.default(new _ringcentral.default(sdkConfig));
+      return new _ringcentralClient["default"](new _ringcentral["default"](sdkConfig));
     },
     deps: [{
       dep: 'SdkConfig',
@@ -183,127 +185,127 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     }]
   }, {
     provide: 'Alert',
-    useClass: _Alert.default
+    useClass: _Alert["default"]
   }, {
     provide: 'Brand',
-    useClass: _Brand.default
+    useClass: _Brand["default"]
   }, {
     provide: 'Softphone',
-    useClass: _Softphone.default
+    useClass: _Softphone["default"]
   }, {
     provide: 'Locale',
-    useClass: _Locale.default
+    useClass: _Locale["default"]
   }, {
     provide: 'DateTimeFormat',
-    useClass: _DateTimeFormat.default
+    useClass: _DateTimeFormat["default"]
   }, {
     provide: 'TabManager',
-    useClass: _TabManager.default
+    useClass: _TabManager["default"]
   }, {
     provide: 'GlobalStorage',
-    useClass: _GlobalStorage.default
+    useClass: _GlobalStorage["default"]
   }, {
     provide: 'LocaleSettings',
-    useClass: _LocaleSettings.default
+    useClass: _LocaleSettings["default"]
   }, {
     provide: 'Environment',
-    useClass: _Environment.default
+    useClass: _Environment["default"]
   }, {
     provide: 'Auth',
-    useClass: _Auth.default
+    useClass: _Auth["default"]
   }, {
     provide: 'Ringout',
-    useClass: _Ringout.default
+    useClass: _Ringout["default"]
   }, {
     provide: 'ConnectivityMonitor',
-    useClass: _ConnectivityMonitor.default
+    useClass: _ConnectivityMonitor["default"]
   }, {
     provide: 'RateLimiter',
-    useClass: _RateLimiter.default
+    useClass: _RateLimiter["default"]
   }, {
     provide: 'Storage',
-    useClass: _Storage.default
+    useClass: _Storage["default"]
   }, {
     provide: 'AudioSettings',
-    useClass: _AudioSettings.default
+    useClass: _AudioSettings["default"]
   }, {
     provide: 'CompanyContacts',
-    useClass: _CompanyContacts.default
+    useClass: _CompanyContacts["default"]
   }, {
     provide: 'AccountInfo',
-    useClass: _AccountInfo.default
+    useClass: _AccountInfo["default"]
   }, {
     provide: 'ExtensionDevice',
-    useClass: _ExtensionDevice.default
+    useClass: _ExtensionDevice["default"]
   }, {
     provide: 'ExtensionInfo',
-    useClass: _ExtensionInfo.default
+    useClass: _ExtensionInfo["default"]
   }, {
     provide: 'RolesAndPermissions',
-    useClass: _RolesAndPermissions.default
+    useClass: _RolesAndPermissions["default"]
   }, {
     provide: 'DialingPlan',
-    useClass: _DialingPlan.default
+    useClass: _DialingPlan["default"]
   }, {
     provide: 'ExtensionPhoneNumber',
-    useClass: _ExtensionPhoneNumber.default
+    useClass: _ExtensionPhoneNumber["default"]
   }, {
     provide: 'ForwardingNumber',
-    useClass: _ForwardingNumber.default
+    useClass: _ForwardingNumber["default"]
   }, {
     provide: 'RegionSettings',
-    useClass: _RegionSettings.default
+    useClass: _RegionSettings["default"]
   }, {
     provide: 'NumberValidate',
-    useClass: _NumberValidate.default
+    useClass: _NumberValidate["default"]
   }, {
     provide: 'CallingSettings',
-    useClass: _CallingSettings.default
+    useClass: _CallingSettings["default"]
   }, {
     provide: 'Call',
-    useClass: _Call.default
+    useClass: _Call["default"]
   }, {
     provide: 'Subscription',
-    useClass: _Subscription.default
+    useClass: _Subscription["default"]
   }, {
     provide: 'ActiveCalls',
-    useClass: _ActiveCalls.default
+    useClass: _ActiveCalls["default"]
   }, {
     provide: 'Presence',
-    useClass: _Presence.default
+    useClass: _Presence["default"]
   }, {
     provide: 'MessageSender',
-    useClass: _MessageSender.default
+    useClass: _MessageSender["default"]
   }, {
     provide: 'ComposeText',
-    useClass: _ComposeText.default
+    useClass: _ComposeText["default"]
   }, {
     provide: 'MessageStore',
-    useClass: _MessageStore.default
+    useClass: _MessageStore["default"]
   }, {
     provide: 'Conversations',
-    useClass: _Conversations.default
+    useClass: _Conversations["default"]
   }, {
     provide: 'Conference',
-    useClass: _Conference.default
+    useClass: _Conference["default"]
   }, {
     provide: 'CallLog',
-    useClass: _CallLog.default
+    useClass: _CallLog["default"]
   }, {
     provide: 'CallHistory',
-    useClass: _CallHistory.default
+    useClass: _CallHistory["default"]
   }, {
     provide: 'AccountContacts',
-    useClass: _AccountContacts.default
+    useClass: _AccountContacts["default"]
   }, {
     provide: 'AddressBook',
-    useClass: _AddressBook.default
+    useClass: _AddressBook["default"]
   }, {
     provide: 'Contacts',
-    useClass: _Contacts.default
+    useClass: _Contacts["default"]
   }, {
     provide: 'QuickAccess',
-    useClass: _QuickAccess.default
+    useClass: _QuickAccess["default"]
   }, {
     provide: 'ContactSources',
     deps: ['AddressBook', 'AccountContacts'],
@@ -314,34 +316,34 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     }
   }, {
     provide: 'ContactDetails',
-    useClass: _ContactDetails.default
+    useClass: _ContactDetails["default"]
   }, {
     provide: 'ContactMatcher',
-    useClass: _ContactMatcher.default
+    useClass: _ContactMatcher["default"]
   }, {
     provide: 'RecentMessages',
-    useClass: _RecentMessages.default
+    useClass: _RecentMessages["default"]
   }, {
     provide: 'RecentCalls',
-    useClass: _RecentCalls.default
+    useClass: _RecentCalls["default"]
   }, {
     provide: 'Meeting',
-    useClass: _Meeting.default
+    useClass: _Meeting["default"]
   }, {
     provide: 'Webphone',
-    useClass: _Webphone.default
+    useClass: _Webphone["default"]
   }, {
     provide: 'ContactSearch',
-    useClass: _ContactSearch.default
+    useClass: _ContactSearch["default"]
   }, {
     provide: 'CallMonitor',
-    useClass: _CallMonitor.default
+    useClass: _CallMonitor["default"]
   }, {
     provide: 'UserGuide',
-    useClass: _UserGuide.default
+    useClass: _UserGuide["default"]
   }, {
     provide: 'ActiveCallControl',
-    useClass: _ActiveCallControl.default
+    useClass: _ActiveCallControl["default"]
   }, {
     provide: 'StorageOptions',
     useValue: {
@@ -366,7 +368,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     spread: true
   }, {
     provide: 'ConferenceCall',
-    useClass: _ConferenceCall.default
+    useClass: _ConferenceCall["default"]
   }, // {
   // provide: 'ConferenceCallOptions',
   // useValue: {
@@ -376,10 +378,10 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
   // },
   {
     provide: 'AvailabilityMonitor',
-    useClass: _AvailabilityMonitor.default
+    useClass: _AvailabilityMonitor["default"]
   }, {
     provide: 'BlockedNumber',
-    useClass: _BlockedNumber.default
+    useClass: _BlockedNumber["default"]
   }]
 }), _dec2(_class2 =
 /*#__PURE__*/
@@ -575,7 +577,7 @@ function (_RcModule) {
   _createClass(BasePhone, [{
     key: "_normalizeNumber",
     value: function _normalizeNumber(phoneNumber) {
-      return (0, _normalizeNumber2.default)({
+      return (0, _normalizeNumber2["default"])({
         phoneNumber: phoneNumber,
         countryCode: this.regionSettings.countryCode,
         areaCode: this.regionSettings.areaCode
@@ -646,8 +648,8 @@ function (_RcModule) {
   }]);
 
   return BasePhone;
-}(_RcModule2.default)) || _class2);
-exports.default = BasePhone;
+}(_RcModule2["default"])) || _class2);
+exports["default"] = BasePhone;
 
 function createPhone(_ref) {
   var _dec, _class;

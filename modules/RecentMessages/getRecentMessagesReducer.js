@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getContactsReducer = getContactsReducer;
 exports.getMessagesReducer = getMessagesReducer;
 exports.getMessageStatusReducer = getMessageStatusReducer;
-exports.default = getRecentMessagesReducer;
+exports["default"] = getRecentMessagesReducer;
 
 require("core-js/modules/es6.array.index-of");
 
@@ -14,15 +14,17 @@ require("core-js/modules/es6.number.constructor");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -36,7 +38,7 @@ var _messageStatus = _interopRequireDefault(require("./messageStatus"));
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -66,8 +68,9 @@ function getContactsReducer(types) {
     if (type === types.loadSuccess) {
       return _objectSpread({}, state, _defineProperty({}, sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId, contact));
     } else if (type === types.loadReset) {
-      var _ = state[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId],
-          rest = _objectWithoutProperties(state, [sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId].map(_toPropertyKey));
+      var _ref2 = sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId,
+          _ = state[_ref2],
+          rest = _objectWithoutProperties(state, [_ref2].map(_toPropertyKey));
 
       return rest;
     }
@@ -80,19 +83,20 @@ function getMessagesReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref2.type,
-        contact = _ref2.contact,
-        messages = _ref2.messages,
-        sessionId = _ref2.sessionId;
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type,
+        contact = _ref3.contact,
+        messages = _ref3.messages,
+        sessionId = _ref3.sessionId;
 
     var contactId = String(contact && contact.id);
 
     if (type === types.loadSuccess) {
       return _objectSpread({}, state, _defineProperty({}, sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId, messages));
     } else if (type === types.loadReset) {
-      var _ = state[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId],
-          rest = _objectWithoutProperties(state, [sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId].map(_toPropertyKey));
+      var _ref4 = sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId,
+          _ = state[_ref4],
+          rest = _objectWithoutProperties(state, [_ref4].map(_toPropertyKey));
 
       return rest;
     }
@@ -105,16 +109,16 @@ function getMessageStatusReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref3.type;
+    var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref5.type;
 
     switch (type) {
       case types.initLoad:
-        return _messageStatus.default.loading;
+        return _messageStatus["default"].loading;
 
       case types.loadReset:
       case types.loadSuccess:
-        return _messageStatus.default.loaded;
+        return _messageStatus["default"].loaded;
 
       default:
         return state;
@@ -124,7 +128,7 @@ function getMessageStatusReducer(types) {
 
 function getRecentMessagesReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     contacts: getContactsReducer(types),
     messages: getMessagesReducer(types),
     messageStatus: getMessageStatusReducer(types)

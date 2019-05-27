@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.DefaultMinimalSearchLength = void 0;
+exports["default"] = exports.DefaultMinimalSearchLength = void 0;
 
 require("core-js/modules/es6.regexp.to-string");
 
@@ -47,6 +47,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
@@ -73,7 +75,7 @@ var _getCacheReducer = _interopRequireDefault(require("./getCacheReducer"));
 
 var _dec, _class, _class2, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -113,7 +115,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DefaultMinimalSearchLength = 3;
 /**
@@ -160,9 +162,9 @@ function (_RcModule) {
     _classCallCheck(this, ContactSearch);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ContactSearch).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
-    _this.debouncedSearch = (0, _debounce.default)(_this.search, 800, false);
+    _this.debouncedSearch = (0, _debounce["default"])(_this.search, 800, false);
     _this._auth = auth;
     _this._storage = storage;
     _this._storageKey = storageKey;
@@ -174,15 +176,15 @@ function (_RcModule) {
     _this._searchIds = {};
 
     if (_this._storage) {
-      _this._reducer = (0, _getContactSearchReducer.default)(_this.actionTypes);
+      _this._reducer = (0, _getContactSearchReducer["default"])(_this.actionTypes);
 
       _this._storage.registerReducer({
         key: _this._storageKey,
-        reducer: (0, _getCacheReducer.default)(_this.actionTypes)
+        reducer: (0, _getCacheReducer["default"])(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getContactSearchReducer.default)(_this.actionTypes, {
-        cache: (0, _getCacheReducer.default)(_this.actionTypes)
+      _this._reducer = (0, _getContactSearchReducer["default"])(_this.actionTypes, {
+        cache: (0, _getCacheReducer["default"])(_this.actionTypes)
       });
     }
 
@@ -212,12 +214,12 @@ function (_RcModule) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loginStatus === _loginStatus.default.loggedIn && (!this._storage || this._storage.ready) && this._readyCheck() && !this.ready;
+      return this._auth.loginStatus === _loginStatus["default"].loggedIn && (!this._storage || this._storage.ready) && this._readyCheck() && !this.ready;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (this._auth.loginStatus !== _loginStatus.default.loggedIn || this._storage && !this._storage.ready) && this.ready;
+      return (this._auth.loginStatus !== _loginStatus["default"].loggedIn || this._storage && !this._storage.ready) && this.ready;
     }
   }, {
     key: "_initModuleStatus",
@@ -297,7 +299,7 @@ function (_RcModule) {
       regeneratorRuntime.mark(function _callee2(_ref3) {
         var _this3 = this;
 
-        var searchString, searchOnSources, _i, sourceName;
+        var searchString, searchOnSources, _i, _searchOnSources, sourceName;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -346,15 +348,15 @@ function (_RcModule) {
                   }, _callee);
                 })), this._ttl);
                 searchOnSources = Array.from(this._searchSources.keys());
-                _i = 0;
+                _i = 0, _searchOnSources = searchOnSources;
 
               case 8:
-                if (!(_i < searchOnSources.length)) {
+                if (!(_i < _searchOnSources.length)) {
                   _context2.next = 15;
                   break;
                 }
 
-                sourceName = searchOnSources[_i];
+                sourceName = _searchOnSources[_i];
                 _context2.next = 12;
                 return this._searchSource({
                   searchOnSources: searchOnSources,
@@ -401,7 +403,7 @@ function (_RcModule) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 searchOnSources = _ref5.searchOnSources, sourceName = _ref5.sourceName, searchString = _ref5.searchString;
-                searchId = _uuid.default.v4();
+                searchId = _uuid["default"].v4();
                 this._searchIds[sourceName] = searchId;
                 this.store.dispatch({
                   type: this.actionTypes.search
@@ -531,8 +533,8 @@ function (_RcModule) {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
           }
         } finally {
           if (_didIteratorError) {
@@ -610,6 +612,6 @@ function (_RcModule) {
   }]);
 
   return ContactSearch;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "search", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "search"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_searchSource", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_searchSource"), _class2.prototype)), _class2)) || _class);
-exports.default = ContactSearch;
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "search", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "search"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_searchSource", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_searchSource"), _class2.prototype)), _class2)) || _class);
+exports["default"] = ContactSearch;
 //# sourceMappingURL=index.js.map

@@ -10,6 +10,8 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -22,9 +24,9 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.promise");
 
-require("core-js/modules/es6.array.find");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/fn/array/find");
+require("core-js/modules/es6.array.find");
 
 var _WaitUtil = require("./WaitUtil");
 
@@ -62,15 +64,11 @@ function _ensureLogin() {
             return auth.login(_objectSpread({}, account));
 
           case 2:
-            _context.next = 4;
-            return (0, _WaitUtil.waitUntilNotNull)(function () {
+            return _context.abrupt("return", (0, _WaitUtil.waitUntilNotNull)(function () {
               return auth.ownerId;
-            }, 'Login Success', 6);
+            }, 'Login Success', 6));
 
-          case 4:
-            return _context.abrupt("return", _context.sent);
-
-          case 5:
+          case 3:
           case "end":
             return _context.stop();
         }

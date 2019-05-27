@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getMessagesReducer = getMessagesReducer;
-exports.default = getAlertReducer;
+exports["default"] = getAlertReducer;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -15,6 +15,8 @@ require("core-js/modules/es6.array.from");
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,8 +33,6 @@ require("core-js/modules/es6.array.filter");
 require("core-js/modules/es6.array.find");
 
 var _redux = require("redux");
-
-require("core-js/fn/array/find");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -60,7 +60,7 @@ function getMessagesReducer(types) {
     switch (type) {
       case types.alert:
         if (!allowDuplicates && state.find(function (item) {
-          return item.message === message;
+          return item.message === message && item.level === level;
         })) {
           return state;
         }

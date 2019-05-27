@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getSearchFilterReducer = getSearchFilterReducer;
 exports.getSourceFilterReducer = getSourceFilterReducer;
-exports.default = getContactsReducer;
+exports["default"] = getContactsReducer;
 
 var _redux = require("redux");
 
@@ -15,7 +15,7 @@ var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModul
 
 var _contactHelper = require("../../lib/contactHelper");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getSearchFilterReducer(types) {
   return function () {
@@ -69,7 +69,7 @@ function getSourceFilterReducer(types) {
 
 function getContactsReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     searchFilter: getSearchFilterReducer(types),
     sourceFilter: getSourceFilterReducer(types)
   });

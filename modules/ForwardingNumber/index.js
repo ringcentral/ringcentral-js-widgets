@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -19,11 +19,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -49,7 +51,7 @@ var _removeUri = _interopRequireDefault(require("../../lib/removeUri"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -77,13 +79,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
@@ -130,14 +132,14 @@ function (_DataFetcher) {
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.next = 2;
-                  return (0, _fetchList.default)(function (params) {
+                  return (0, _fetchList["default"])(function (params) {
                     return _this._client.account().extension().forwardingNumber().list(params);
                   });
 
                 case 2:
                   lists = _context.sent;
                   return _context.abrupt("return", lists.map(function (number) {
-                    return (0, _removeUri.default)(number);
+                    return (0, _removeUri["default"])(number);
                   }));
 
                 case 4:
@@ -163,13 +165,13 @@ function (_DataFetcher) {
       cleanOnReset: true
     }, options)));
 
-    _initializerDefineProperty(_this, "numbers", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "numbers", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "flipNumbers", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "flipNumbers", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "forwardingNumbers", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "forwardingNumbers", _descriptor3, _assertThisInitialized(_this));
 
-    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
+    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
@@ -186,7 +188,7 @@ function (_DataFetcher) {
   }]);
 
   return ForwardingNumber;
-}(_DataFetcher2.default), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "numbers", [_selector.selector], {
+}(_DataFetcher2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "numbers", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -230,5 +232,5 @@ function (_DataFetcher) {
     }];
   }
 })), _class2)) || _class);
-exports.default = ForwardingNumber;
+exports["default"] = ForwardingNumber;
 //# sourceMappingURL=index.js.map

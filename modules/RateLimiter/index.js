@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -23,17 +23,21 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.now");
+
+var _ramda = require("ramda");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -51,9 +55,9 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2, _temp;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -85,7 +89,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_THROTTLE_DURATION = 61 * 1000;
 var DEFAULT_ALERT_TTL = 5 * 1000;
@@ -130,12 +134,12 @@ function (_RcModule) {
     _classCallCheck(this, RateLimiter);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RateLimiter).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
     _this._beforeRequestHandler = function () {
       if (_this.throttling) {
-        throw new Error(_errorMessages.default.rateLimitReached);
+        throw new Error(_errorMessages["default"].rateLimitReached);
       }
     };
 
@@ -148,20 +152,24 @@ function (_RcModule) {
     };
 
     _this._requestErrorHandler = function (apiResponse) {
-      if (apiResponse instanceof Error && apiResponse.message === 'Request rate exceeded') {
-        var wasThrottling = _this.throttling;
-
-        _this.store.dispatch({
-          type: _this.actionTypes.startThrottle,
-          timestamp: Date.now()
-        });
-
-        if (!wasThrottling) {
-          _this.showAlert();
-        }
-
-        setTimeout(_this._checkTimestamp, _this._throttleDuration);
+      if (!(apiResponse instanceof Error) || apiResponse.message !== 'Request rate exceeded') {
+        return;
       }
+
+      var wasThrottling = _this.throttling;
+
+      _this.store.dispatch({
+        type: _this.actionTypes.startThrottle,
+        timestamp: Date.now()
+      });
+
+      if (!wasThrottling) {
+        _this.showAlert();
+      } // Get `retry-after` from response headers first
+
+
+      _this._throttleDuration = (0, _ramda.pathOr)(DEFAULT_THROTTLE_DURATION, ['apiResponse', '_response', 'headers', 'retry-after'], apiResponse);
+      setTimeout(_this._checkTimestamp, _this._throttleDuration);
     };
 
     _this._alert = alert;
@@ -170,7 +178,7 @@ function (_RcModule) {
     _this._storage = globalStorage;
     _this._throttleDuration = throttleDuration;
     _this._storageKey = 'rateLimiterTimestamp';
-    _this._reducer = (0, _getRateLimiterReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getRateLimiterReducer["default"])(_this.actionTypes);
 
     _this._storage.registerReducer({
       key: _this._storageKey,
@@ -216,6 +224,10 @@ function (_RcModule) {
         }, _callee);
       })));
     }
+    /**
+     * If the app is throttling, an incoming request will lead to an exception
+     */
+
   }, {
     key: "showAlert",
     value: function () {
@@ -226,15 +238,21 @@ function (_RcModule) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (this.throttling && this._alert) {
-                  this._alert.danger({
-                    message: _errorMessages.default.rateLimitReached,
-                    ttl: DEFAULT_ALERT_TTL,
-                    allowDuplicates: false
-                  });
+                if (!(!this.throttling || !this._alert)) {
+                  _context2.next = 2;
+                  break;
                 }
 
-              case 1:
+                return _context2.abrupt("return");
+
+              case 2:
+                this._alert.warning({
+                  message: _errorMessages["default"].rateLimitReached,
+                  ttl: DEFAULT_THROTTLE_DURATION,
+                  allowDuplicates: false
+                });
+
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -257,7 +275,8 @@ function (_RcModule) {
         this._unbindHandlers();
       }
 
-      var client = this._client.service.platform().client();
+      var client = this._client.service.platform().client(); // TODO: Bind the `rateLimitError` event instead
+
 
       client.on(client.events.requestError, this._requestErrorHandler);
       client.on(client.events.beforeRequest, this._beforeRequestHandler);
@@ -288,6 +307,10 @@ function (_RcModule) {
     get: function get() {
       return this._throttleDuration;
     }
+    /**
+     * Is in throttling status
+     */
+
   }, {
     key: "throttling",
     get: function get() {
@@ -296,11 +319,11 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.ready;
+      return this.state.status === _moduleStatuses["default"].ready;
     }
   }]);
 
   return RateLimiter;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype)), _class2)) || _class);
-exports.default = RateLimiter;
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype)), _class2)) || _class);
+exports["default"] = RateLimiter;
 //# sourceMappingURL=index.js.map

@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -41,6 +41,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.reduce");
@@ -67,7 +69,7 @@ var _messageHelper = require("../../lib/messageHelper");
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -93,13 +95,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var RecentMessages = (
 /**
@@ -131,11 +133,11 @@ function (_RcModule) {
     _classCallCheck(this, RecentMessages);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RecentMessages).call(this, _objectSpread({
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     }, options)));
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-    _this._messageStore = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, messageStore, 'messageStore');
-    _this._reducer = (0, _getRecentMessagesReducer.default)(_this.actionTypes);
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
+    _this._messageStore = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, messageStore, 'messageStore');
+    _this._reducer = (0, _getRecentMessagesReducer["default"])(_this.actionTypes);
 
     _this.addSelector('unreadMessageCounts', function () {
       return _this.messages;
@@ -179,13 +181,11 @@ function (_RcModule) {
           //   this.getMessages(contact, false, true);
           // }
 
-          var _arr = Object.keys(this.contacts);
-
-          for (var _i = 0; _i < _arr.length; _i++) {
-            var key = _arr[_i];
+          for (var _i = 0, _Object$keys = Object.keys(this.contacts); _i < _Object$keys.length; _i++) {
+            var _key = _Object$keys[_i];
             this.getMessages({
-              currentContact: this.contacts[key],
-              sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
+              currentContact: this.contacts[_key],
+              sessionId: _key.indexOf('-') > -1 ? _key.split('-')[1] : null,
               fromLocale: false,
               forceUpdate: true
             });
@@ -300,7 +300,7 @@ function (_RcModule) {
                 fromLocal = _args2.length > 2 ? _args2[2] : undefined;
                 daySpan = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 60;
                 length = _args2.length > 4 && _args2[4] !== undefined ? _args2[4] : 5;
-                dateFrom = (0, _getDateFrom.default)(daySpan);
+                dateFrom = (0, _getDateFrom["default"])(daySpan);
                 recentMessages = this._getLocalRecentMessages(currentContact, conversations, dateFrom, length); // If we could not find enough recent messages,
                 // we need to search for messages on server.
 
@@ -360,8 +360,8 @@ function (_RcModule) {
       var recentMessages = [];
       var matches;
 
-      for (var i = conversations.length - 1; i >= 0; i -= 1) {
-        var conversation = conversations[i];
+      for (var _i2 = conversations.length - 1; _i2 >= 0; _i2 -= 1) {
+        var conversation = conversations[_i2];
         var messageList = this._messageStore.conversationStore[conversation.conversationId] || [];
         matches = phoneNumbers.find(this._filterPhoneNumber(conversation)); // Check if message is within certain days
 
@@ -424,7 +424,7 @@ function (_RcModule) {
       }, []); // TODO: Because we need to navigate to the message page,
       // So we may need to push new messages to messageStore
 
-      return (0, _concurrentExecute.default)(recentMessagesPromise, 5, 500).then(this._flattenToMessageRecords).then(this._markAsRemoteMessage).then(function (messages) {
+      return (0, _concurrentExecute["default"])(recentMessagesPromise, 5, 500).then(this._flattenToMessageRecords).then(this._markAsRemoteMessage).then(function (messages) {
         return _this3._sortMessages(messages);
       });
     }
@@ -496,7 +496,7 @@ function (_RcModule) {
   }, {
     key: "isMessagesLoaded",
     get: function get() {
-      return this.state.messageStatus === _messageStatus.default.loaded;
+      return this.state.messageStatus === _messageStatus["default"].loaded;
     }
   }, {
     key: "status",
@@ -506,6 +506,6 @@ function (_RcModule) {
   }]);
 
   return RecentMessages;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "getMessages", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getMessages"), _class2.prototype)), _class2)) || _class);
-exports.default = RecentMessages;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "getMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMessages"), _class2.prototype)), _class2)) || _class);
+exports["default"] = RecentMessages;
 //# sourceMappingURL=index.js.map

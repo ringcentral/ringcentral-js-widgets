@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getupdatePageReducer = getupdatePageReducer;
-exports.default = getQuickAccessrReducer;
+exports["default"] = getQuickAccessrReducer;
 
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getupdatePageReducer(types) {
   return function () {
@@ -33,7 +33,7 @@ function getupdatePageReducer(types) {
 
 function getQuickAccessrReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     entered: getupdatePageReducer(types)
   });
 }

@@ -19,6 +19,8 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
@@ -55,7 +57,7 @@ function getDataReducer(types) {
           return item.id === contact.id;
         }, state)), [contact]);
 
-      case types.delete:
+      case types["delete"]:
         return (0, _ramda.reject)(function (item) {
           return item.id === contact.id;
         }, state);
@@ -137,7 +139,7 @@ function getTimestampReducer(types) {
     switch (type) {
       case types.fetchSuccess:
       case types.upsert:
-      case types.delete:
+      case types["delete"]:
         return timestamp;
 
       case types.resetSuccess:

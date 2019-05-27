@@ -3,13 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -44,7 +42,8 @@ function () {
       });
 
       this._client.on(this._client.events.requestError, function (error) {
-        console.error(error);
+        console.error(error.apiResponse.json());
+        console.error(error.apiResponse._response.status);
       });
     }
   }, {
@@ -81,7 +80,7 @@ function () {
   return ClientHistoryRequest;
 }();
 
-exports.default = ClientHistoryRequest;
+exports["default"] = ClientHistoryRequest;
 ClientHistoryRequest.endPoints = {
   callLog: '/account/~/extension/~/call-log',
   dialingPlan: '/account/~/dialing-plan',

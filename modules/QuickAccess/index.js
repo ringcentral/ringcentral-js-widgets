@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -23,11 +23,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -45,7 +47,7 @@ var _getQuickAccessReducer = _interopRequireDefault(require("./getQuickAccessRed
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -77,7 +79,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var QuickAccess = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Storage', 'Webphone']
@@ -96,11 +98,11 @@ function (_RcModule) {
     _classCallCheck(this, QuickAccess);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(QuickAccess).call(this, _objectSpread({
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     }, options)));
     _this._auth = auth;
     _this._webphone = webphone;
-    _this._reducer = (0, _getQuickAccessReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getQuickAccessReducer["default"])(_this.actionTypes);
     return _this;
   }
 
@@ -225,6 +227,6 @@ function (_RcModule) {
   }]);
 
   return QuickAccess;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "enter", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "enter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "exit", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "exit"), _class2.prototype)), _class2)) || _class);
-exports.default = QuickAccess;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "enter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "enter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "exit", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "exit"), _class2.prototype)), _class2)) || _class);
+exports["default"] = QuickAccess;
 //# sourceMappingURL=index.js.map

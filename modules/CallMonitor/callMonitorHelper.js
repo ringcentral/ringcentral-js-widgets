@@ -15,12 +15,12 @@ require("core-js/modules/es6.array.filter");
 
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getSessionStartTime(session) {
   var webphoneStartTime;
 
-  if (session.direction === _callDirections.default.inbound) {
+  if (session.direction === _callDirections["default"].inbound) {
     webphoneStartTime = session.creationTime;
   } else {
     webphoneStartTime = session.startTime || session.creationTime;
@@ -73,11 +73,11 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
       return session.id.indexOf(callItem.id) === 0;
     }
 
-    if (session.direction === _callDirections.default.inbound && callItem.sipData.remoteUri.indexOf(session.from) === -1) {
+    if (session.direction === _callDirections["default"].inbound && callItem.sipData.remoteUri.indexOf(session.from) === -1) {
       return false;
     }
 
-    if (session.direction === _callDirections.default.outbound && callItem.sipData.remoteUri.indexOf(session.to) === -1) {
+    if (session.direction === _callDirections["default"].outbound && callItem.sipData.remoteUri.indexOf(session.to) === -1) {
       return false;
     } // 16000 is from experience in test.
     // there is delay bettween active call created and webphone session created

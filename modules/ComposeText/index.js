@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -23,11 +23,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -57,7 +59,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -89,7 +91,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var ComposeText = (
 /**
@@ -136,15 +138,15 @@ function (_RcModule) {
     _classCallCheck(this, ComposeText);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ComposeText).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
     _this._alert = alert;
     _this._auth = auth;
     _this._storage = storage;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._storageKey = 'composeText';
-    _this._reducer = (0, _getComposeTextReducer.default)(_this.actionTypes);
-    _this._cacheReducer = (0, _getCacheReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getComposeTextReducer["default"])(_this.actionTypes);
+    _this._cacheReducer = (0, _getCacheReducer["default"])(_this.actionTypes);
     _this._messageSender = messageSender;
     _this._numberValidate = numberValidate;
     _this._contactSearch = contactSearch; // this._conversations = conversations;
@@ -248,7 +250,7 @@ function (_RcModule) {
     key: "_alertWarning",
     value: function _alertWarning(message) {
       if (message) {
-        var ttlConfig = message !== _messageSenderMessages.default.noAreaCode ? {
+        var ttlConfig = message !== _messageSenderMessages["default"].noAreaCode ? {
           ttl: 0
         } : null;
 
@@ -273,11 +275,11 @@ function (_RcModule) {
       if (!validateResult.result) {
         var error = validateResult.errors[0];
 
-        if (error && this._alertWarning(_messageSenderMessages.default[error.type])) {
+        if (error && this._alertWarning(_messageSenderMessages["default"][error.type])) {
           return false;
         }
 
-        this._alertWarning(_messageSenderMessages.default.recipientNumberInvalids);
+        this._alertWarning(_messageSenderMessages["default"].recipientNumberInvalids);
 
         return false;
       }
@@ -288,7 +290,7 @@ function (_RcModule) {
     key: "_validateIsOnlyPager",
     value: function _validateIsOnlyPager(phoneNumber) {
       if (phoneNumber.length >= 7 && this._rolesAndPermissions.onlyPagerPermission) {
-        this._alertWarning(_messageSenderMessages.default.noSMSPermission);
+        this._alertWarning(_messageSenderMessages["default"].noSMSPermission);
 
         return true;
       }
@@ -313,7 +315,7 @@ function (_RcModule) {
                 });
                 typingToNumber = this.typingToNumber;
 
-                if ((0, _isBlank.default)(typingToNumber)) {
+                if ((0, _isBlank["default"])(typingToNumber)) {
                   _context.next = 10;
                   break;
                 }
@@ -395,7 +397,7 @@ function (_RcModule) {
                   break;
                 }
 
-                this._alertWarning(_messageSenderMessages.default.recipientNumberInvalids);
+                this._alertWarning(_messageSenderMessages["default"].recipientNumberInvalids);
 
                 return _context3.abrupt("return");
 
@@ -530,7 +532,7 @@ function (_RcModule) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                if (!(0, _isBlank.default)(number.phoneNumber)) {
+                if (!(0, _isBlank["default"])(number.phoneNumber)) {
                   _context7.next = 2;
                   break;
                 }
@@ -610,7 +612,7 @@ function (_RcModule) {
                   break;
                 }
 
-                this._alertWarning(_messageSenderMessages.default.textTooLong);
+                this._alertWarning(_messageSenderMessages["default"].textTooLong);
 
                 return _context9.abrupt("return");
 
@@ -673,7 +675,7 @@ function (_RcModule) {
             switch (_context11.prev = _context11.next) {
               case 0:
                 this._alert.warning({
-                  message: _messageSenderMessages.default.sending,
+                  message: _messageSenderMessages["default"].sending,
                   ttl: 0
                 });
 
@@ -703,7 +705,7 @@ function (_RcModule) {
             switch (_context12.prev = _context12.next) {
               case 0:
                 alertMessage = this._alert.messages.find(function (m) {
-                  return m.message === _messageSenderMessages.default.sending;
+                  return m.message === _messageSenderMessages["default"].sending;
                 });
 
                 if (alertMessage && alertMessage.id) {
@@ -737,7 +739,7 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.status === _moduleStatuses.default.ready;
+      return this.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "senderNumber",
@@ -767,6 +769,6 @@ function (_RcModule) {
   }]);
 
   return ComposeText;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "send", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSenderNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSenderNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypingToNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onToNumberMatch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onToNumberMatch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addToRecipients", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "addToRecipients"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cleanTypingToNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "cleanTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addToNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "addToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeToNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "removeToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clean", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "clean"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alertMessageSending", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "alertMessageSending"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissMessageSending", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissMessageSending"), _class2.prototype)), _class2)) || _class);
-exports.default = ComposeText;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "send", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSenderNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSenderNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypingToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onToNumberMatch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onToNumberMatch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addToRecipients", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "addToRecipients"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cleanTypingToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "cleanTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "addToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "removeToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clean", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clean"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alertMessageSending", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alertMessageSending"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissMessageSending", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissMessageSending"), _class2.prototype)), _class2)) || _class);
+exports["default"] = ComposeText;
 //# sourceMappingURL=index.js.map

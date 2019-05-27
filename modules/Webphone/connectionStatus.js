@@ -5,13 +5,19 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _default = new _Enum.default(['connecting', 'connected', 'disconnecting', 'disconnected', 'connectFailed', 'active', 'idle'], 'connectionStatus');
+var _default = new _Enum["default"](['connecting', // status by first 3 connect
+'connected', // registered
+'reconnecting', //  status after last connect failed
+'disconnecting', // status by user disconnect
+'disconnected', // status by user disconnect
+'connectFailed', // status when connect failed (retry time <=2)
+'connectError'], 'connectionStatus');
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=connectionStatus.js.map

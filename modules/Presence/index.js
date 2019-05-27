@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -15,11 +15,11 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -42,6 +42,8 @@ require("core-js/modules/es6.array.filter");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -77,7 +79,7 @@ var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -111,6 +113,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
@@ -121,11 +125,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var presenceRegExp = /.*\/presence(\?.*)?/;
 var detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
@@ -177,7 +179,7 @@ function (_DataFetcher) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  endpoint = _this._detailed ? _subscriptionFilters.default.detailedPresence : _subscriptionFilters.default.presence;
+                  endpoint = _this._detailed ? _subscriptionFilters["default"].detailedPresence : _subscriptionFilters["default"].presence;
                   _context.next = 3;
                   return _this._client.service.platform().get(endpoint);
 
@@ -199,7 +201,7 @@ function (_DataFetcher) {
 
         return fetchFunction;
       }(),
-      subscriptionFilters: [detailed ? _subscriptionFilters.default.detailedPresence : _subscriptionFilters.default.presence],
+      subscriptionFilters: [detailed ? _subscriptionFilters["default"].detailedPresence : _subscriptionFilters["default"].presence],
       subscriptionHandler: function subscriptionHandler(message) {
         var regExp = _this._detailed ? detailedPresenceRegExp : presenceRegExp;
 
@@ -240,16 +242,16 @@ function (_DataFetcher) {
       }
     })));
 
-    _initializerDefineProperty(_this, "activeCalls", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "activeCalls", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "calls", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "calls", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "sessionIdList", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "sessionIdList", _descriptor3, _assertThisInitialized(_this));
 
     _this._detailed = true;
-    _this._connectivityMonitor = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, connectivityMonitor, 'connectivityMonitor');
-    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
-    _this._fetchRemainingCalls = (0, _debounce.default)(function () {
+    _this._connectivityMonitor = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, connectivityMonitor, 'connectivityMonitor');
+    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
+    _this._fetchRemainingCalls = (0, _debounce["default"])(function () {
       return _this.fetchData();
     }, fetchRemainingDelay);
     return _this;
@@ -364,8 +366,8 @@ function (_DataFetcher) {
         userStatus: userStatusParams
       };
 
-      if (params.dndStatus !== _dndStatus.default.takeAllCalls && params.dndStatus !== _dndStatus.default.doNotAcceptDepartmentCalls) {
-        params.dndStatus = this.lastNotDisturbDndStatus || _dndStatus.default.takeAllCalls;
+      if (params.dndStatus !== _dndStatus["default"].takeAllCalls && params.dndStatus !== _dndStatus["default"].doNotAcceptDepartmentCalls) {
+        params.dndStatus = this.lastNotDisturbDndStatus || _dndStatus["default"].takeAllCalls;
       }
 
       return params;
@@ -381,7 +383,7 @@ function (_DataFetcher) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!(this.userStatus === _presenceStatus.default.available && this.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls)) {
+                if (!(this.userStatus === _presenceStatus["default"].available && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
                   _context5.next = 2;
                   break;
                 }
@@ -389,7 +391,7 @@ function (_DataFetcher) {
                 return _context5.abrupt("return");
 
               case 2:
-                params = this._getUpdateStatusParams(_presenceStatus.default.available);
+                params = this._getUpdateStatusParams(_presenceStatus["default"].available);
                 _context5.next = 5;
                 return this._update(params);
 
@@ -418,7 +420,7 @@ function (_DataFetcher) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (!(this.userStatus === _presenceStatus.default.busy && this.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls)) {
+                if (!(this.userStatus === _presenceStatus["default"].busy && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
                   _context6.next = 2;
                   break;
                 }
@@ -426,7 +428,7 @@ function (_DataFetcher) {
                 return _context6.abrupt("return");
 
               case 2:
-                params = this._getUpdateStatusParams(_presenceStatus.default.busy);
+                params = this._getUpdateStatusParams(_presenceStatus["default"].busy);
                 _context6.next = 5;
                 return this._update(params);
 
@@ -455,7 +457,7 @@ function (_DataFetcher) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                if (!(this.dndStatus === _dndStatus.default.doNotAcceptAnyCalls)) {
+                if (!(this.dndStatus === _dndStatus["default"].doNotAcceptAnyCalls)) {
                   _context7.next = 2;
                   break;
                 }
@@ -464,8 +466,8 @@ function (_DataFetcher) {
 
               case 2:
                 params = {
-                  dndStatus: _dndStatus.default.doNotAcceptAnyCalls,
-                  userStatus: _presenceStatus.default.busy
+                  dndStatus: _dndStatus["default"].doNotAcceptAnyCalls,
+                  userStatus: _presenceStatus["default"].busy
                 };
                 _context7.next = 5;
                 return this._update(params);
@@ -495,7 +497,7 @@ function (_DataFetcher) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                if (!(this.userStatus === _presenceStatus.default.offline && this.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls)) {
+                if (!(this.userStatus === _presenceStatus["default"].offline && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
                   _context8.next = 2;
                   break;
                 }
@@ -503,7 +505,7 @@ function (_DataFetcher) {
                 return _context8.abrupt("return");
 
               case 2:
-                params = this._getUpdateStatusParams(_presenceStatus.default.offline);
+                params = this._getUpdateStatusParams(_presenceStatus["default"].offline);
                 _context8.next = 5;
                 return this._update(params);
 
@@ -532,7 +534,7 @@ function (_DataFetcher) {
             switch (_context9.prev = _context9.next) {
               case 0:
                 _context9.t0 = presenceData;
-                _context9.next = _context9.t0 === _presenceStatus.default.available ? 3 : _context9.t0 === _presenceStatus.default.busy ? 6 : _context9.t0 === _dndStatus.default.doNotAcceptAnyCalls ? 9 : _context9.t0 === _presenceStatus.default.offline ? 12 : 15;
+                _context9.next = _context9.t0 === _presenceStatus["default"].available ? 3 : _context9.t0 === _presenceStatus["default"].busy ? 6 : _context9.t0 === _dndStatus["default"].doNotAcceptAnyCalls ? 9 : _context9.t0 === _presenceStatus["default"].offline ? 12 : 15;
                 break;
 
               case 3:
@@ -599,10 +601,10 @@ function (_DataFetcher) {
                   userStatus: this.userStatus
                 };
 
-                if (this.dndStatus === _dndStatus.default.takeAllCalls) {
-                  params.dndStatus = _dndStatus.default.doNotAcceptDepartmentCalls;
-                } else if (this.dndStatus === _dndStatus.default.doNotAcceptDepartmentCalls) {
-                  params.dndStatus = _dndStatus.default.takeAllCalls;
+                if (this.dndStatus === _dndStatus["default"].takeAllCalls) {
+                  params.dndStatus = _dndStatus["default"].doNotAcceptDepartmentCalls;
+                } else if (this.dndStatus === _dndStatus["default"].doNotAcceptDepartmentCalls) {
+                  params.dndStatus = _dndStatus["default"].takeAllCalls;
                 }
 
                 if (!params.dndStatus) {
@@ -642,7 +644,7 @@ function (_DataFetcher) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_get(_getPrototypeOf(Presence.prototype), "_actionTypes", this))), _toConsumableArray((0, _actionTypeGenerator.actionTypeGenerator)('update')), ['notification']), this._name);
+      return new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_get(_getPrototypeOf(Presence.prototype), "_actionTypes", this))), _toConsumableArray((0, _actionTypeGenerator.actionTypeGenerator)('update')), ['notification']), this._name);
     }
   }, {
     key: "data",
@@ -680,29 +682,34 @@ function (_DataFetcher) {
       return this.data.presenceStatus;
     }
   }, {
+    key: "meetingStatus",
+    get: function get() {
+      return this.data.meetingStatus;
+    }
+  }, {
     key: "presenceOption",
     get: function get() {
       // available
-      if (this.data.userStatus === _presenceStatus.default.available && this.data.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
-        return _presenceStatus.default.available;
+      if (this.data.userStatus === _presenceStatus["default"].available && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
+        return _presenceStatus["default"].available;
       } // busy
 
 
-      if (this.data.userStatus === _presenceStatus.default.busy && this.data.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
-        return _presenceStatus.default.busy;
+      if (this.data.userStatus === _presenceStatus["default"].busy && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
+        return _presenceStatus["default"].busy;
       } // doNotDisturb
 
 
-      if (this.data.dndStatus === _dndStatus.default.doNotAcceptAnyCalls) {
-        return _dndStatus.default.doNotAcceptAnyCalls;
+      if (this.data.dndStatus === _dndStatus["default"].doNotAcceptAnyCalls) {
+        return _dndStatus["default"].doNotAcceptAnyCalls;
       } // invisible
 
 
-      if (this.data.userStatus === _presenceStatus.default.offline && this.data.dndStatus !== _dndStatus.default.doNotAcceptAnyCalls) {
-        return _presenceStatus.default.offline;
+      if (this.data.userStatus === _presenceStatus["default"].offline && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
+        return _presenceStatus["default"].offline;
       }
 
-      return _presenceStatus.default.available;
+      return _presenceStatus["default"].available;
     }
   }, {
     key: "_hasPermission",
@@ -712,7 +719,7 @@ function (_DataFetcher) {
   }]);
 
   return Presence;
-}(_DataFetcher2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_update", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_update"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeCalls", [_selector.selector], {
+}(_DataFetcher2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_update"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -756,5 +763,5 @@ function (_DataFetcher) {
     }];
   }
 })), _class2)) || _class);
-exports.default = Presence;
+exports["default"] = Presence;
 //# sourceMappingURL=index.js.map

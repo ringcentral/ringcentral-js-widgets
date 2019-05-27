@@ -17,7 +17,7 @@ var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getCallWithReducer(types) {
   return function () {
@@ -95,7 +95,7 @@ function getFromNumberReducer(types) {
 
 function getCallingSettingsReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types)
+    status: (0, _getModuleStatusReducer["default"])(types)
   });
 }
 

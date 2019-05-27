@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -12,6 +12,8 @@ require("core-js/modules/es6.array.filter");
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -27,9 +29,9 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("regenerator-runtime/runtime");
-
 require("core-js/modules/web.dom.iterable");
+
+require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -45,7 +47,7 @@ var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -179,7 +181,7 @@ function (_DataFetcher) {
 
                 case 2:
                   _this._alert.danger({
-                    message: _permissionsMessages.default.insufficientPrivilege,
+                    message: _permissionsMessages["default"].insufficientPrivilege,
                     ttl: 0
                   });
 
@@ -203,8 +205,8 @@ function (_DataFetcher) {
     })));
     _this._isCRM = !!isCRM;
     _this._flag = flag || 'SalesForce';
-    _this._alert = (0, _ensureExist.default)(alert, 'alert');
-    _this._extensionInfo = (0, _ensureExist.default)(extensionInfo, 'extensionInfo');
+    _this._alert = (0, _ensureExist["default"])(alert, 'alert');
+    _this._extensionInfo = (0, _ensureExist["default"])(extensionInfo, 'extensionInfo');
     _this._onDataReadyHandler = [];
 
     _this.addSelector('permissions', function () {
@@ -256,8 +258,8 @@ function (_DataFetcher) {
                 _context3.prev = 12;
                 _context3.prev = 13;
 
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
                 }
 
               case 15:
@@ -281,7 +283,7 @@ function (_DataFetcher) {
                 return _get(_getPrototypeOf(RolesAndPermissions.prototype), "_onStateChange", this).call(this);
 
               case 22:
-                if (!(this.ready && this._auth.loginStatus === _loginStatus.default.loggedIn && this._isCRM && this.tierEnabled !== null && !this.tierEnabled)) {
+                if (!(this.ready && this._auth.loginStatus === _loginStatus["default"].loggedIn && this._isCRM && this.tierEnabled !== null && !this.tierEnabled)) {
                   _context3.next = 26;
                   break;
                 }
@@ -291,12 +293,12 @@ function (_DataFetcher) {
 
               case 25:
                 this._alert.danger({
-                  message: _permissionsMessages.default.invalidTier,
+                  message: _permissionsMessages["default"].invalidTier,
                   ttl: 0
                 });
 
               case 26:
-                if (!(this.ready && this._auth.loginStatus === _loginStatus.default.loggedIn && !this.permissions.ReadUserInfo)) {
+                if (!(this.ready && this._auth.loginStatus === _loginStatus["default"].loggedIn && !this.permissions.ReadUserInfo)) {
                   _context3.next = 31;
                   break;
                 }
@@ -308,7 +310,7 @@ function (_DataFetcher) {
               case 30:
                 if (hasPermissions) {
                   this._alert.danger({
-                    message: _permissionsMessages.default.insufficientPrivilege,
+                    message: _permissionsMessages["default"].insufficientPrivilege,
                     ttl: 0
                   });
                 }
@@ -446,6 +448,6 @@ function (_DataFetcher) {
   }]);
 
   return RolesAndPermissions;
-}(_DataFetcher2.default)) || _class);
-exports.default = RolesAndPermissions;
+}(_DataFetcher2["default"])) || _class);
+exports["default"] = RolesAndPermissions;
 //# sourceMappingURL=index.js.map

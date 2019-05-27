@@ -16,6 +16,8 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
@@ -52,7 +54,7 @@ function getDataReducer(types) {
       case types.add:
         return Array.isArray(state) ? [].concat(_toConsumableArray(state), [data]) : null;
 
-      case types.delete:
+      case types["delete"]:
         return Array.isArray(state) ? state.filter(function (item) {
           return item.id !== id;
         }) : null;
@@ -84,7 +86,7 @@ function getTimestampReducer(types) {
     switch (type) {
       case types.fetchSuccess:
       case types.add:
-      case types.delete:
+      case types["delete"]:
         return timestamp;
 
       case types.resetSuccess:

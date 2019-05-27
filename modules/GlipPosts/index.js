@@ -3,17 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -26,8 +30,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("core-js/modules/es6.regexp.replace");
 
 require("core-js/modules/es6.date.now");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -53,9 +55,9 @@ var _status = _interopRequireDefault(require("./status"));
 
 var _dec, _class;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -81,11 +83,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var glipPostsRegExp = /glip\/posts$/;
 var glipGroupRegExp = /glip\/groups$/;
@@ -126,13 +128,13 @@ function (_RcModule) {
     _classCallCheck(this, GlipPosts);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipPosts).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
-    _this._reducer = (0, _getReducer.default)(_this.actionTypes);
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions');
-    _this._subscription = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, subscription, 'subscription');
+    _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
+    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._subscription = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, subscription, 'subscription');
     _this._fetchPromises = {};
     _this._lastMessage = null;
     _this._loadTtl = loadTtl;
@@ -475,7 +477,7 @@ function (_RcModule) {
                 text = this.postInputs[groupId] && this.postInputs[groupId].text;
                 mentions = this.postInputs[groupId] && this.postInputs[groupId].mentions;
 
-                if (!((0, _isBlank.default)(text) || !groupId)) {
+                if (!((0, _isBlank["default"])(text) || !groupId)) {
                   _context7.next = 5;
                   break;
                 }
@@ -498,7 +500,7 @@ function (_RcModule) {
                   id: fakeId,
                   groupId: groupId,
                   creatorId: this._auth.ownerId,
-                  sendStatus: _status.default.creating,
+                  sendStatus: _status["default"].creating,
                   creationTime: "".concat(new Date(Date.now())),
                   text: text,
                   type: 'TextMessage'
@@ -533,7 +535,7 @@ function (_RcModule) {
               case 17:
                 _context7.prev = 17;
                 _context7.t0 = _context7["catch"](8);
-                fakeRecord.sendStatus = _status.default.createError;
+                fakeRecord.sendStatus = _status["default"].createError;
                 this.store.dispatch({
                   type: this.actionTypes.createError,
                   record: fakeRecord,
@@ -646,7 +648,7 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.status === _moduleStatuses.default.ready;
+      return this.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "postInputs",
@@ -676,6 +678,6 @@ function (_RcModule) {
   }]);
 
   return GlipPosts;
-}(_RcModule2.default)) || _class);
-exports.default = GlipPosts;
+}(_RcModule2["default"])) || _class);
+exports["default"] = GlipPosts;
 //# sourceMappingURL=index.js.map

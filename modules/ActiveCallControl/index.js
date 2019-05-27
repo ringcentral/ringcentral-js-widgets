@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -30,6 +30,8 @@ require("core-js/modules/es6.array.for-each");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.date.now");
 
@@ -59,7 +61,7 @@ var _callControlError = _interopRequireDefault(require("./callControlError"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -87,13 +89,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
@@ -112,6 +114,9 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     optional: true
   }, {
     dep: 'ActiveCallControlOptions',
+    optional: true
+  }, {
+    dep: 'AvailabilityMonitor',
     optional: true
   }]
 }), _dec(_class = (_class2 = (_temp =
@@ -134,6 +139,7 @@ function (_Pollable) {
         subscription = _ref.subscription,
         connectivityMonitor = _ref.connectivityMonitor,
         rolesAndPermissions = _ref.rolesAndPermissions,
+        availabilityMonitor = _ref.availabilityMonitor,
         tabManager = _ref.tabManager,
         callMonitor = _ref.callMonitor,
         _ref$polling = _ref.polling,
@@ -143,21 +149,21 @@ function (_Pollable) {
         alert = _ref.alert,
         numberValidate = _ref.numberValidate,
         accountInfo = _ref.accountInfo,
-        options = _objectWithoutProperties(_ref, ["client", "auth", "ttl", "timeToRetry", "storage", "subscription", "connectivityMonitor", "rolesAndPermissions", "tabManager", "callMonitor", "polling", "disableCache", "alert", "numberValidate", "accountInfo"]);
+        options = _objectWithoutProperties(_ref, ["client", "auth", "ttl", "timeToRetry", "storage", "subscription", "connectivityMonitor", "rolesAndPermissions", "availabilityMonitor", "tabManager", "callMonitor", "polling", "disableCache", "alert", "numberValidate", "accountInfo"]);
 
     _classCallCheck(this, ActiveCallControl);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ActiveCallControl).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
-    _initializerDefineProperty(_this, "callPartyIdMap", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "callPartyIdMap", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "recordingId", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "recordingId", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "activeSession", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "activeSession", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "activeSessions", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "activeSessions", _descriptor4, _assertThisInitialized(_this));
 
     _this._client = client;
 
@@ -165,14 +171,15 @@ function (_Pollable) {
       _this._storage = storage;
     }
 
-    _this._subscription = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, subscription, 'subscription');
-    _this._connectivityMonitor = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, connectivityMonitor, 'connectivityMonitor');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions');
-    _this._callMonitor = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, callMonitor, 'callMonitor');
+    _this._subscription = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, subscription, 'subscription');
+    _this._connectivityMonitor = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, connectivityMonitor, 'connectivityMonitor');
+    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._availabilityMonitor = availabilityMonitor;
+    _this._callMonitor = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callMonitor, 'callMonitor');
     _this._tabManager = tabManager;
     _this._ttl = ttl;
     _this._timeToRetry = timeToRetry;
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
+    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
     _this._promise = null;
     _this._lastSubscriptionMessage = null;
     _this._storageKey = storageKey;
@@ -182,15 +189,15 @@ function (_Pollable) {
     _this._accountInfo = accountInfo;
 
     if (_this._storage) {
-      _this._reducer = (0, _getActiveCallControlReducer.default)(_this.actionTypes);
+      _this._reducer = (0, _getActiveCallControlReducer["default"])(_this.actionTypes);
 
       _this._storage.registerReducer({
         key: _this._storageKey,
-        reducer: (0, _getDataReducer.default)(_this.actionTypes)
+        reducer: (0, _getDataReducer["default"])(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getActiveCallControlReducer.default)(_this.actionTypes, {
-        data: (0, _getDataReducer.default)(_this.actionTypes)
+      _this._reducer = (0, _getActiveCallControlReducer["default"])(_this.actionTypes, {
+        data: (0, _getDataReducer["default"])(_this.actionTypes)
       });
     }
 
@@ -261,12 +268,12 @@ function (_Pollable) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loggedIn && (!this._storage || this._storage.ready) && this._subscription.ready && this._connectivityMonitor.ready && this._callMonitor.ready && (!this._tabManager || this._tabManager.ready) && this._rolesAndPermissions.ready && this.pending;
+      return this._auth.loggedIn && (!this._storage || this._storage.ready) && this._subscription.ready && this._connectivityMonitor.ready && this._callMonitor.ready && (!this._tabManager || this._tabManager.ready) && this._rolesAndPermissions.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !!this._storage && !this._storage.ready || !this._subscription.ready || !!this._tabManager && !this._tabManager.ready || !this._connectivityMonitor.ready || !this._callMonitor.ready || !this._rolesAndPermissions.ready) && this.ready;
+      return (!this._auth.loggedIn || !!this._storage && !this._storage.ready || !this._subscription.ready || !!this._tabManager && !this._tabManager.ready || !this._connectivityMonitor.ready || !this._callMonitor.ready || !this._rolesAndPermissions.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
     }
   }, {
     key: "_resetModuleStatus",
@@ -657,11 +664,11 @@ function (_Pollable) {
 
                 if ((0, _helpers.confictError)(_context8.t0)) {
                   this._alert.warning({
-                    message: _callControlError.default.muteConflictError
+                    message: _callControlError["default"].muteConflictError
                   });
-                } else {
+                } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context8.t0)) {
                   this._alert.warning({
-                    message: _callControlError.default.generalError
+                    message: _callControlError["default"].generalError
                   });
                 }
 
@@ -722,11 +729,11 @@ function (_Pollable) {
 
                 if ((0, _helpers.confictError)(_context9.t0)) {
                   this._alert.warning({
-                    message: _callControlError.default.unMuteConflictError
+                    message: _callControlError["default"].unMuteConflictError
                   });
-                } else {
+                } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context9.t0)) {
                   this._alert.warning({
-                    message: _callControlError.default.generalError
+                    message: _callControlError["default"].generalError
                   });
                 }
 
@@ -873,7 +880,7 @@ function (_Pollable) {
                 activeSession = this.getActiveSession(sessionId);
                 url = (0, _helpers.requestURI)(activeSession).hangUp;
                 _context12.next = 6;
-                return this._client.service._platform.delete(url);
+                return this._client.service._platform["delete"](url);
 
               case 6:
                 if (typeof this._onCallEndFunc === 'function') {
@@ -891,9 +898,11 @@ function (_Pollable) {
                 _context12.prev = 10;
                 _context12.t0 = _context12["catch"](1);
 
-                this._alert.warning({
-                  message: _callControlError.default.generalError
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context12.t0)) {
+                  this._alert.warning({
+                    message: _callControlError["default"].generalError
+                  });
+                }
 
                 this.store.dispatch({
                   type: this.actionTypes.hangUpError
@@ -946,9 +955,11 @@ function (_Pollable) {
                 _context13.prev = 9;
                 _context13.t0 = _context13["catch"](1);
 
-                this._alert.warning({
-                  message: _callControlError.default.generalError
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context13.t0)) {
+                  this._alert.warning({
+                    message: _callControlError["default"].generalError
+                  });
+                }
 
                 this.store.dispatch({
                   type: this.actionTypes.rejectError
@@ -1003,11 +1014,11 @@ function (_Pollable) {
 
                 if ((0, _helpers.confictError)(_context14.t0)) {
                   this._alert.warning({
-                    message: _callControlError.default.holdConflictError
+                    message: _callControlError["default"].holdConflictError
                   });
-                } else {
+                } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context14.t0)) {
                   this._alert.warning({
-                    message: _callControlError.default.generalError
+                    message: _callControlError["default"].generalError
                   });
                 }
 
@@ -1064,11 +1075,11 @@ function (_Pollable) {
 
                 if ((0, _helpers.confictError)(_context15.t0)) {
                   this._alert.warning({
-                    message: _callControlError.default.unHoldConflictError
+                    message: _callControlError["default"].unHoldConflictError
                   });
-                } else {
+                } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context15.t0)) {
                   this._alert.warning({
-                    message: _callControlError.default.generalError
+                    message: _callControlError["default"].generalError
                   });
                 }
 
@@ -1122,12 +1133,14 @@ function (_Pollable) {
                 }
 
                 validatedResult.errors.forEach(function (error) {
-                  _this4._alert.warning({
-                    message: _callErrors.default[error.type],
-                    payload: {
-                      phoneNumber: error.phoneNumber
-                    }
-                  });
+                  if (!_this4._availabilityMonitor || !_this4._availabilityMonitor.checkIfHAError(error)) {
+                    _this4._alert.warning({
+                      message: _callErrors["default"][error.type],
+                      payload: {
+                        phoneNumber: error.phoneNumber
+                      }
+                    });
+                  }
                 });
                 this.store.dispatch({
                   type: this.actionTypes.transferError
@@ -1158,9 +1171,11 @@ function (_Pollable) {
                 _context16.prev = 19;
                 _context16.t0 = _context16["catch"](1);
 
-                this._alert.warning({
-                  message: _callControlError.default.generalError
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context16.t0)) {
+                  this._alert.warning({
+                    message: _callControlError["default"].generalError
+                  });
+                }
 
                 this.store.dispatch({
                   type: this.actionTypes.transferError
@@ -1396,12 +1411,12 @@ function (_Pollable) {
   }, {
     key: "ready",
     get: function get() {
-      return this.status === _moduleStatuses.default.ready;
+      return this.status === _moduleStatuses["default"].ready;
     }
   }]);
 
   return ActiveCallControl;
-}(_Pollable2.default), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "callPartyIdMap", [_selector.selector], {
+}(_Pollable2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "callPartyIdMap", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1482,5 +1497,5 @@ function (_Pollable) {
     }];
   }
 })), _class2)) || _class);
-exports.default = ActiveCallControl;
+exports["default"] = ActiveCallControl;
 //# sourceMappingURL=index.js.map

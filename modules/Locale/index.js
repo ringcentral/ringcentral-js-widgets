@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -15,13 +15,13 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -38,6 +38,8 @@ require("core-js/modules/es6.array.for-each");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -71,9 +73,9 @@ var _proxyActionTypes = _interopRequireDefault(require("../../enums/proxyActionT
 
 var _dec, _class, _class2;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -113,7 +115,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var Locale = (
 /**
@@ -350,10 +352,10 @@ function (_RcModule) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return _i18n.default.setLocale(locale);
+                return _i18n["default"].setLocale(locale);
 
               case 2:
-                _formatMessage.default.setup({
+                _formatMessage["default"].setup({
                   locale: this.currentLocale === _i18n.PSEUDO_LOCALE ? _i18n.DEFAULT_LOCALE : this.currentLocale
                 });
 
@@ -431,13 +433,13 @@ function (_RcModule) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum.default([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), _toConsumableArray(Object.keys(_proxyActionTypes.default)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
+      return new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), _toConsumableArray(Object.keys(_proxyActionTypes["default"])), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
     }
   }, {
     key: "reducer",
     get: function get() {
       return (0, _redux.combineReducers)({
-        status: (0, _getModuleStatusReducer.default)(this.actionTypes),
+        status: (0, _getModuleStatusReducer["default"])(this.actionTypes),
         currentLocale: (0, _reducers.getCurrentLocaleReducer)(this.actionTypes),
         debugMode: (0, _reducers.getToggleDebugMode)(this.actionTypes)
       });
@@ -446,7 +448,7 @@ function (_RcModule) {
     key: "proxyReducer",
     get: function get() {
       return (0, _redux.combineReducers)({
-        status: (0, _getProxyStatusReducer.default)(this.actionTypes),
+        status: (0, _getProxyStatusReducer["default"])(this.actionTypes),
         proxyLocale: (0, _reducers.getProxyLocaleReducer)(this.actionTypes)
       });
     }
@@ -458,7 +460,7 @@ function (_RcModule) {
   }, {
     key: "browserLocale",
     get: function get() {
-      return (0, _detectBrowserLocale.default)(this._defaultLocale);
+      return (0, _detectBrowserLocale["default"])(this._defaultLocale);
     }
   }, {
     key: "status",
@@ -478,6 +480,6 @@ function (_RcModule) {
   }]);
 
   return Locale;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "toggleDebugMode", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLocale", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setLocale"), _class2.prototype)), _class2)) || _class);
-exports.default = Locale;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "toggleDebugMode", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLocale", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setLocale"), _class2.prototype)), _class2)) || _class);
+exports["default"] = Locale;
 //# sourceMappingURL=index.js.map

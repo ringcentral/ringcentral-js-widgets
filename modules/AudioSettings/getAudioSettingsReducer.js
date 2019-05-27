@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getUserMediaReducer = getUserMediaReducer;
-exports.default = getCallingSettingsReducer;
+exports["default"] = getCallingSettingsReducer;
 
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getAvailableDevicesReducer(types) {
   return function () {
@@ -59,7 +59,7 @@ function getUserMediaReducer(types) {
 
 function getCallingSettingsReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     availableDevices: getAvailableDevicesReducer(types),
     userMedia: getUserMediaReducer(types)
   });

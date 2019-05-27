@@ -3,9 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.keys");
 
@@ -21,6 +23,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
@@ -35,9 +39,9 @@ var mock = _interopRequireWildcard(require("../mock"));
 
 var _permissionsMessages = _interopRequireDefault(require("../../modules/RolesAndPermissions/permissionsMessages"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -56,7 +60,7 @@ var _default = function _default(auth, client, accountInfo, account, alert) {
     this.timeout(20000);
     mock.mockClient(client);
     var isLoginSuccess;
-    var clientHistoryRequest = new _ClientHistoryRequest.default(new Map(), client);
+    var clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
     afterEach(
     /*#__PURE__*/
     _asyncToGenerator(
@@ -150,7 +154,7 @@ var _default = function _default(auth, client, accountInfo, account, alert) {
 
             case 7:
               expect(auth.loggedIn).equal(false);
-              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _permissionsMessages.default.insufficientPrivilege)).to.not.equal(undefined);
+              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _permissionsMessages["default"].insufficientPrivilege)).to.not.equal(undefined);
 
             case 9:
             case "end":
@@ -162,5 +166,5 @@ var _default = function _default(auth, client, accountInfo, account, alert) {
   });
 };
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=accountInfo.js.map

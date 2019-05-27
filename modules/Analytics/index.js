@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -15,13 +15,13 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.keys");
 
@@ -37,11 +37,13 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.regexp.split");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es7.object.values");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es7.object.values");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -67,7 +69,7 @@ var _callingModes = _interopRequireDefault(require("../CallingSettings/callingMo
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -195,7 +197,7 @@ function (_RcModule) {
     _classCallCheck(this, Analytics);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Analytics).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     }))); // config
 
     _this._analyticsKey = analyticsKey;
@@ -219,7 +221,7 @@ function (_RcModule) {
     _this._userGuide = userGuide;
     _this._webphone = webphone; // init
 
-    _this._reducer = (0, _getAnalyticsReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getAnalyticsReducer["default"])(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
     _this._trackList = INIT_TRACK_LIST;
     return _this;
@@ -332,7 +334,7 @@ function (_RcModule) {
                 }
 
                 _context2.next = 3;
-                return (0, _sleep.default)(300);
+                return (0, _sleep["default"])(300);
 
               case 3:
                 this.lastActions.forEach(function (action) {
@@ -407,7 +409,7 @@ function (_RcModule) {
     key: "_callAttempt",
     value: function _callAttempt(action) {
       if (this._call && this._call.actionTypes.connect === action.type) {
-        if (action.callSettingMode === _callingModes.default.webphone) {
+        if (action.callSettingMode === _callingModes["default"].webphone) {
           this.track('Call Attempt WebRTC');
         } else {
           this.track('Call Attempt', {
@@ -420,7 +422,7 @@ function (_RcModule) {
     key: "_callConnected",
     value: function _callConnected(action) {
       if (this._call && this._call.actionTypes.connectSuccess === action.type) {
-        if (action.callSettingMode === _callingModes.default.webphone) {
+        if (action.callSettingMode === _callingModes["default"].webphone) {
           this.track('Outbound WebRTC Call Connected');
         } else {
           this.track('Outbound Call Connected', {
@@ -512,10 +514,10 @@ function (_RcModule) {
       if (this._router && this._router.actionTypes.locationChange === action.type) {
         var path = action.payload && action.payload.pathname;
 
-        var target = this._getTrackTarget(path);
+        var _target = this._getTrackTarget(path);
 
-        if (target) {
-          this.trackNavigation(_objectSpread({}, target));
+        if (_target) {
+          this.trackNavigation(_objectSpread({}, _target));
         }
       }
     }
@@ -809,16 +811,16 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.status === _moduleStatuses.default.ready;
+      return this.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "pending",
     get: function get() {
-      return this.status === _moduleStatuses.default.pending;
+      return this.status === _moduleStatuses["default"].pending;
     }
   }]);
 
   return Analytics;
-}(_RcModule2.default)) || _class);
-exports.default = Analytics;
+}(_RcModule2["default"])) || _class);
+exports["default"] = Analytics;
 //# sourceMappingURL=index.js.map

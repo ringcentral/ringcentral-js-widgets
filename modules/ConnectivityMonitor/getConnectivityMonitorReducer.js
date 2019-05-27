@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getConnectivityReducer = getConnectivityReducer;
-exports.default = getConnectivityMonitorReducer;
+exports["default"] = getConnectivityMonitorReducer;
 
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getConnectivityReducer(types) {
   return function () {
@@ -36,7 +36,7 @@ function getConnectivityReducer(types) {
 
 function getConnectivityMonitorReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     connectivity: getConnectivityReducer(types)
   });
 }

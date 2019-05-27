@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
-require("core-js/modules/es6.array.filter");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -37,9 +37,9 @@ var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"))
 
 var _extensionInfo = _interopRequireDefault(require("../mock/data/extensionInfo"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -105,8 +105,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                           while (1) {
                             switch (_context2.prev = _context2.next) {
                               case 0:
-                                expect(callingSettings.callWith).to.equals(_callingOptions.default.softphone);
-                                expect(callingSettings.callingMode).to.equals(_callingModes.default.softphone);
+                                expect(callingSettings.callWith).to.equals(_callingOptions["default"].softphone);
+                                expect(callingSettings.callingMode).to.equals(_callingModes["default"].softphone);
 
                               case 2:
                               case "end":
@@ -127,10 +127,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                               switch (_context3.prev = _context3.next) {
                                 case 0:
                                   callingSettings.setData({
-                                    callWith: _callingOptions.default.myphone
+                                    callWith: _callingOptions["default"].myphone
                                   });
-                                  expect(callingSettings.callWith).to.equals(_callingOptions.default.myphone);
-                                  expect(callingSettings.callingMode).to.equals(_callingModes.default.ringout);
+                                  expect(callingSettings.callWith).to.equals(_callingOptions["default"].myphone);
+                                  expect(callingSettings.callingMode).to.equals(_callingModes["default"].ringout);
 
                                 case 3:
                                 case "end":
@@ -149,10 +149,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                               switch (_context4.prev = _context4.next) {
                                 case 0:
                                   callingSettings.setData({
-                                    callWith: _callingOptions.default.otherphone
+                                    callWith: _callingOptions["default"].otherphone
                                   });
-                                  expect(callingSettings.callWith).to.equals(_callingOptions.default.otherphone);
-                                  expect(callingSettings.callingMode).to.equals(_callingModes.default.ringout);
+                                  expect(callingSettings.callWith).to.equals(_callingOptions["default"].otherphone);
+                                  expect(callingSettings.callingMode).to.equals(_callingModes["default"].ringout);
 
                                 case 3:
                                 case "end":
@@ -171,10 +171,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                               switch (_context5.prev = _context5.next) {
                                 case 0:
                                   callingSettings.setData({
-                                    callWith: _callingOptions.default.customphone
+                                    callWith: _callingOptions["default"].customphone
                                   });
-                                  expect(callingSettings.callWith).to.equals(_callingOptions.default.customphone);
-                                  expect(callingSettings.callingMode).to.equals(_callingModes.default.ringout);
+                                  expect(callingSettings.callWith).to.equals(_callingOptions["default"].customphone);
+                                  expect(callingSettings.callingMode).to.equals(_callingModes["default"].ringout);
 
                                 case 3:
                                 case "end":
@@ -273,9 +273,9 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 switch (_context9.prev = _context9.next) {
                                   case 0:
                                     callingSettings.setData({
-                                      callWith: _callingOptions.default.softphone
+                                      callWith: _callingOptions["default"].softphone
                                     }, true);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccessWithSoftphone)).to.not.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccessWithSoftphone)).to.not.equal(undefined);
 
                                   case 2:
                                   case "end":
@@ -294,9 +294,9 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 switch (_context10.prev = _context10.next) {
                                   case 0:
                                     callingSettings.setData({
-                                      callWith: _callingOptions.default.otherphone
+                                      callWith: _callingOptions["default"].otherphone
                                     }, true);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccess)).to.not.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccess)).to.not.equal(undefined);
 
                                   case 2:
                                   case "end":
@@ -315,9 +315,9 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 switch (_context11.prev = _context11.next) {
                                   case 0:
                                     callingSettings.setData({
-                                      callWith: _callingOptions.default.myphone
+                                      callWith: _callingOptions["default"].myphone
                                     }, true);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccess)).to.not.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccess)).to.not.equal(undefined);
 
                                   case 2:
                                   case "end":
@@ -336,9 +336,9 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 switch (_context12.prev = _context12.next) {
                                   case 0:
                                     callingSettings.setData({
-                                      callWith: _callingOptions.default.customphone
+                                      callWith: _callingOptions["default"].customphone
                                     }, true);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccess)).to.not.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccess)).to.not.equal(undefined);
 
                                   case 2:
                                   case "end":
@@ -359,10 +359,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 switch (_context13.prev = _context13.next) {
                                   case 0:
                                     callingSettings.setData({
-                                      callWith: _callingOptions.default.softphone
+                                      callWith: _callingOptions["default"].softphone
                                     }, false);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccess)).to.equal(undefined);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccessWithSoftphone)).to.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccess)).to.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccessWithSoftphone)).to.equal(undefined);
 
                                   case 3:
                                   case "end":
@@ -381,10 +381,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 switch (_context14.prev = _context14.next) {
                                   case 0:
                                     callingSettings.setData({
-                                      callWith: _callingOptions.default.myphone
+                                      callWith: _callingOptions["default"].myphone
                                     }, false);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccess)).to.equal(undefined);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccessWithSoftphone)).to.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccess)).to.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccessWithSoftphone)).to.equal(undefined);
 
                                   case 3:
                                   case "end":
@@ -403,10 +403,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 switch (_context15.prev = _context15.next) {
                                   case 0:
                                     callingSettings.setData({
-                                      callWith: _callingOptions.default.otherphone
+                                      callWith: _callingOptions["default"].otherphone
                                     }, false);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccess)).to.equal(undefined);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccessWithSoftphone)).to.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccess)).to.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccessWithSoftphone)).to.equal(undefined);
 
                                   case 3:
                                   case "end":
@@ -425,10 +425,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 switch (_context16.prev = _context16.next) {
                                   case 0:
                                     callingSettings.setData({
-                                      callWith: _callingOptions.default.customphone
+                                      callWith: _callingOptions["default"].customphone
                                     }, false);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccess)).to.equal(undefined);
-                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages.default.saveSuccessWithSoftphone)).to.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccess)).to.equal(undefined);
+                                    expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _callingSettingsMessages["default"].saveSuccessWithSoftphone)).to.equal(undefined);
 
                                   case 3:
                                   case "end":
@@ -452,7 +452,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 case 0:
                                   this.timeout(20000);
                                   callingSettings.setData({
-                                    callWith: _callingOptions.default.customphone,
+                                    callWith: _callingOptions["default"].customphone,
                                     myLocation: '456',
                                     ringoutPrompt: '456'
                                   });
@@ -460,7 +460,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   _context17.next = 5;
                                   return (0, _WaitUtil.waitUntilEqual)(function () {
                                     return auth.loginStatus;
-                                  }, 'LoginStatus', _loginStatus.default.notLoggedIn, 3);
+                                  }, 'LoginStatus', _loginStatus["default"].notLoggedIn, 3);
 
                                 case 5:
                                   mock.restore();
@@ -471,8 +471,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 case 9:
                                   expect(callingSettings.ringoutPrompt).to.equals('456');
                                   expect(callingSettings.myLocation).to.equals('456');
-                                  expect(callingSettings.callWith).to.equals(_callingOptions.default.customphone);
-                                  expect(callingSettings.callingMode).to.equals(_callingModes.default.ringout);
+                                  expect(callingSettings.callWith).to.equals(_callingOptions["default"].customphone);
+                                  expect(callingSettings.callingMode).to.equals(_callingModes["default"].ringout);
 
                                 case 13:
                                 case "end":
@@ -539,7 +539,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         mockAuthzProfile: false
                       });
                       mock.authzProfile({
-                        permissions: _authzProfile.default.permissions.filter(function (p) {
+                        permissions: _authzProfile["default"].permissions.filter(function (p) {
                           return p.permission.id !== 'ReadUserPhoneNumbers';
                         })
                       });
@@ -547,8 +547,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                       return (0, _HelpUtil.ensureLogin)(auth, account);
 
                     case 5:
-                      expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions.default.softphone]);
-                      expect(callingSettings.callingMode).to.equals(_callingModes.default.softphone);
+                      expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions["default"].softphone]);
+                      expect(callingSettings.callingMode).to.equals(_callingModes["default"].softphone);
 
                     case 7:
                     case "end":
@@ -571,7 +571,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         mockExtensionInfo: false
                       });
                       mock.extensionInfo({
-                        serviceFeatures: _extensionInfo.default.serviceFeatures.filter(function (p) {
+                        serviceFeatures: _extensionInfo["default"].serviceFeatures.filter(function (p) {
                           return p.featureName !== 'WebPhone';
                         }).concat({
                           featureName: "WebPhone",
@@ -582,7 +582,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                       return (0, _HelpUtil.ensureLogin)(auth, account);
 
                     case 5:
-                      expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions.default.softphone, _callingOptions.default.myphone, _callingOptions.default.otherphone, _callingOptions.default.customphone]);
+                      expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions["default"].softphone, _callingOptions["default"].myphone, _callingOptions["default"].otherphone, _callingOptions["default"].customphone]);
 
                     case 6:
                     case "end":
@@ -601,5 +601,5 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
   })));
 };
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=callingSettings.js.map

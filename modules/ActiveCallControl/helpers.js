@@ -13,9 +13,13 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -31,20 +35,20 @@ var _callDirections = _interopRequireDefault(require("../../enums/callDirections
 
 var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function isHangUp(code) {
-  return code === _callResults.default.disconnected;
+  return code === _callResults["default"].disconnected;
 }
 
 function isReject(_ref) {
   var direction = _ref.direction,
       code = _ref.code;
-  return direction === _callDirections.default.inbound && (code === _activeCallControlStatus.default.setUp || code === _activeCallControlStatus.default.proceeding);
+  return direction === _callDirections["default"].inbound && (code === _activeCallControlStatus["default"].setUp || code === _activeCallControlStatus["default"].proceeding);
 }
 
 function normalizeSession(_ref2) {
@@ -88,7 +92,7 @@ function normalizeSession(_ref2) {
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
-    recordStatus: isOnRecording ? _recordStatus.default.recording : _recordStatus.default.idle,
+    recordStatus: isOnRecording ? _recordStatus["default"].recording : _recordStatus["default"].idle,
     removed: false,
     isReject: isReject
   };

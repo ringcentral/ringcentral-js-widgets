@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getAutoLogReducer = getAutoLogReducer;
-exports.default = getDataReducer;
+exports["default"] = getDataReducer;
 
 var _redux = require("redux");
 

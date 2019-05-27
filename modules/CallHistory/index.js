@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -15,11 +15,11 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -29,7 +29,11 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -46,8 +50,6 @@ require("core-js/modules/es6.string.trim");
 require("core-js/modules/es6.date.now");
 
 require("core-js/modules/es6.array.map");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -81,9 +83,9 @@ var _selector = require("../../lib/selector");
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -119,15 +121,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var CallHistory = ( // const DEBOUNDCE_THRESHOLD = 800;
 // const DEBOUNDCE_IMMEDIATE = false;
@@ -186,28 +188,28 @@ function (_RcModule) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CallHistory).call(this, _objectSpread({}, options)));
 
-    _initializerDefineProperty(_this, "normalizedCalls", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "normalizedCalls", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "calls", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "calls", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "latestCalls", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "latestCalls", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "uniqueNumbers", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "uniqueNumbers", _descriptor4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "sessionIds", _descriptor5, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "sessionIds", _descriptor5, _assertThisInitialized(_this));
 
-    _this._accountInfo = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, accountInfo, 'accountInfo');
-    _this._callLog = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, callLog, 'callLog');
+    _this._accountInfo = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, accountInfo, 'accountInfo');
+    _this._callLog = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callLog, 'callLog');
     _this._storage = storage;
     _this._activityMatcher = activityMatcher;
     _this._contactMatcher = contactMatcher;
     _this._callMonitor = callMonitor;
     _this._tabManager = tabManager;
     _this._locale = locale;
-    _this._debouncedSearch = (0, _debounce.default)(_this.callsSearch, 230, false);
+    _this._debouncedSearch = (0, _debounce["default"])(_this.callsSearch, 230, false);
 
     if (_this._storage) {
-      _this._reducer = (0, _getCallHistoryReducer.default)(_this.actionTypes);
+      _this._reducer = (0, _getCallHistoryReducer["default"])(_this.actionTypes);
       _this._endedCallsStorageKey = 'callHistoryEndedCalls';
 
       _this._storage.registerReducer({
@@ -215,7 +217,7 @@ function (_RcModule) {
         reducer: (0, _getCallHistoryReducer.getEndedCallsReducer)(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getCallHistoryReducer.default)(_this.actionTypes, {
+      _this._reducer = (0, _getCallHistoryReducer["default"])(_this.actionTypes, {
         endedCalls: (0, _getCallHistoryReducer.getEndedCallsReducer)(_this.actionTypes)
       });
     }
@@ -511,7 +513,7 @@ function (_RcModule) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return _actionTypes.default;
+      return _actionTypes["default"];
     }
   }, {
     key: "status",
@@ -521,12 +523,12 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.ready;
+      return this.state.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "pending",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.pending;
+      return this.state.status === _moduleStatuses["default"].pending;
     }
   }, {
     key: "filterCalls",
@@ -554,7 +556,7 @@ function (_RcModule) {
   }]);
 
   return CallHistory;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "normalizedCalls", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "normalizedCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -570,7 +572,7 @@ function (_RcModule) {
         var callFrom = _objectSpread({}, call.from);
 
         if (callFrom.phoneNumber) {
-          callFrom.phoneNumber = (0, _normalizeNumber.default)({
+          callFrom.phoneNumber = (0, _normalizeNumber["default"])({
             phoneNumber: callFrom.phoneNumber,
             countryCode: countryCode
           });
@@ -579,7 +581,7 @@ function (_RcModule) {
         var callTo = _objectSpread({}, call.to);
 
         if (callTo.phoneNumber) {
-          callTo.phoneNumber = (0, _normalizeNumber.default)({
+          callTo.phoneNumber = (0, _normalizeNumber["default"])({
             phoneNumber: callTo.phoneNumber,
             countryCode: countryCode
           });
@@ -646,7 +648,7 @@ function (_RcModule) {
       return [].concat(_toConsumableArray(filteredEndedCalls), _toConsumableArray(calls)).sort(_callLogHelpers.sortByStartTime);
     }];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "debouncedSearch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "debouncedSearch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsSearch", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "callsSearch"), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "latestCalls", [_selector.selector], {
+}), _applyDecoratedDescriptor(_class2.prototype, "debouncedSearch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "debouncedSearch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsSearch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "callsSearch"), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "latestCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -735,5 +737,5 @@ function (_RcModule) {
     }];
   }
 })), _class2)) || _class);
-exports.default = CallHistory;
+exports["default"] = CallHistory;
 //# sourceMappingURL=index.js.map

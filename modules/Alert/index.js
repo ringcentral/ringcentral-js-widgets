@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -21,11 +21,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -55,7 +57,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -87,7 +89,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var Alert = (
 /**
@@ -134,7 +136,7 @@ function (_RcModule) {
       }
     };
 
-    _this._reducer = (0, _getAlertReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getAlertReducer["default"])(_this.actionTypes);
     _this._ttl = ttl;
     return _this;
   }
@@ -167,7 +169,7 @@ function (_RcModule) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                message = _ref2.message, payload = _ref2.payload, _ref2$level = _ref2.level, level = _ref2$level === void 0 ? _alertLevels.default.info : _ref2$level, _ref2$ttl = _ref2.ttl, ttl = _ref2$ttl === void 0 ? this._ttl : _ref2$ttl, _ref2$allowDuplicates = _ref2.allowDuplicates, allowDuplicates = _ref2$allowDuplicates === void 0 ? true : _ref2$allowDuplicates;
+                message = _ref2.message, payload = _ref2.payload, _ref2$level = _ref2.level, level = _ref2$level === void 0 ? _alertLevels["default"].info : _ref2$level, _ref2$ttl = _ref2.ttl, ttl = _ref2$ttl === void 0 ? this._ttl : _ref2$ttl, _ref2$allowDuplicates = _ref2.allowDuplicates, allowDuplicates = _ref2$allowDuplicates === void 0 ? true : _ref2$allowDuplicates;
                 this.store.dispatch({
                   type: this.actionTypes.alert,
                   message: message,
@@ -175,7 +177,7 @@ function (_RcModule) {
                   level: level,
                   ttl: ttl,
                   allowDuplicates: allowDuplicates,
-                  id: _uuid.default.v4(),
+                  id: _uuid["default"].v4(),
                   timestamp: Date.now()
                 });
 
@@ -209,7 +211,7 @@ function (_RcModule) {
     key: "danger",
     value: function danger(options) {
       this.alert(_objectSpread({}, options, {
-        level: _alertLevels.default.danger
+        level: _alertLevels["default"].danger
       }));
     }
     /**
@@ -224,7 +226,7 @@ function (_RcModule) {
     key: "warning",
     value: function warning(options) {
       this.alert(_objectSpread({}, options, {
-        level: _alertLevels.default.warning
+        level: _alertLevels["default"].warning
       }));
     }
     /**
@@ -239,7 +241,7 @@ function (_RcModule) {
     key: "info",
     value: function info(options) {
       this.alert(_objectSpread({}, options, {
-        level: _alertLevels.default.info
+        level: _alertLevels["default"].info
       }));
     }
     /**
@@ -254,7 +256,7 @@ function (_RcModule) {
     key: "success",
     value: function success(options) {
       this.alert(_objectSpread({}, options, {
-        level: _alertLevels.default.success
+        level: _alertLevels["default"].success
       }));
     }
     /**
@@ -328,12 +330,12 @@ function (_RcModule) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return _actionTypes.default;
+      return _actionTypes["default"];
     }
   }, {
     key: "status",
     get: function get() {
-      return _moduleStatuses.default.ready;
+      return _moduleStatuses["default"].ready;
     } // eslint-disable-next-line class-methods-use-this
 
   }, {
@@ -354,6 +356,6 @@ function (_RcModule) {
   }]);
 
   return Alert;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype)), _class2)) || _class);
-exports.default = Alert;
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype)), _class2)) || _class);
+exports["default"] = Alert;
 //# sourceMappingURL=index.js.map

@@ -5,13 +5,15 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -31,9 +33,9 @@ var _dialingPlan = _interopRequireDefault(require("../mock/data/dialingPlan"));
 
 var _extensionInfo = _interopRequireDefault(require("../mock/data/extensionInfo"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -54,7 +56,7 @@ var _default = function _default(auth, client, regionSettings, account) {
           case 0:
             this.timeout(20000);
             mock.mockClient(client);
-            clientHistoryRequest = new _ClientHistoryRequest.default(new Map(), client);
+            clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
             before(
             /*#__PURE__*/
             _asyncToGenerator(
@@ -99,7 +101,7 @@ var _default = function _default(auth, client, regionSettings, account) {
 
                     case 3:
                       expect(regionSettings.availableCountries).to.have.length.above(0);
-                      expect(regionSettings.countryCode).to.equal(_extensionInfo.default.regionalSettings.homeCountry.isoCode);
+                      expect(regionSettings.countryCode).to.equal(_extensionInfo["default"].regionalSettings.homeCountry.isoCode);
                       expect(regionSettings.showReginSetting).to.equal(true);
 
                     case 6:
@@ -110,7 +112,7 @@ var _default = function _default(auth, client, regionSettings, account) {
               }, _callee2);
             })));
             it('Record fetched from SDK should be the same as RawData', function () {
-              expect(regionSettings.availableCountries.length).to.equal(_dialingPlan.default.records.length);
+              expect(regionSettings.availableCountries.length).to.equal(_dialingPlan["default"].records.length);
             });
 
           case 6:
@@ -122,5 +124,5 @@ var _default = function _default(auth, client, regionSettings, account) {
   })));
 };
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=regionSetting.js.map

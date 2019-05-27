@@ -5,11 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _HashMap = _interopRequireDefault(require("../lib/HashMap"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * @typedef ExtensionTypes
@@ -33,7 +33,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * @type {ExtensionTypes}
  */
-var extensionTypes = new _HashMap.default({
+var extensionTypes = new _HashMap["default"]({
   announcement: 'Announcement',
   applicationExtension: 'ApplicationExtension',
   bot: 'Bot',
@@ -50,5 +50,5 @@ var extensionTypes = new _HashMap.default({
   voicemail: 'Voicemail'
 });
 var _default = extensionTypes;
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=extensionTypes.js.map

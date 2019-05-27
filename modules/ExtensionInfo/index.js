@@ -3,19 +3,23 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -28,8 +32,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("core-js/modules/es6.array.is-array");
 
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -45,7 +47,7 @@ var _permissionsMessages = _interopRequireDefault(require("../RolesAndPermission
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -96,7 +98,7 @@ function extractData(info) {
       serviceFeatures[f.featureName].reason = f.reason;
     }
   });
-  var output = (0, _jsonMask.default)(info, DEFAULT_MASK);
+  var output = (0, _jsonMask["default"])(info, DEFAULT_MASK);
   output.serviceFeatures = serviceFeatures;
   return output;
 }
@@ -147,7 +149,7 @@ function (_DataFetcher) {
       ttl: ttl,
       polling: polling,
       timeToRetry: timeToRetry,
-      subscriptionFilters: [_subscriptionFilters.default.extensionInfo],
+      subscriptionFilters: [_subscriptionFilters["default"].extensionInfo],
       subscriptionHandler: function () {
         var _subscriptionHandler = _asyncToGenerator(
         /*#__PURE__*/
@@ -218,7 +220,7 @@ function (_DataFetcher) {
                 case 2:
                   if (_this._alert) {
                     _this._alert.danger({
-                      message: _permissionsMessages.default.insufficientPrivilege,
+                      message: _permissionsMessages["default"].insufficientPrivilege,
                       ttl: 0
                     });
                   }
@@ -330,6 +332,6 @@ function (_DataFetcher) {
   }]);
 
   return ExtensionInfo;
-}(_DataFetcher2.default)) || _class);
-exports.default = ExtensionInfo;
+}(_DataFetcher2["default"])) || _class);
+exports["default"] = ExtensionInfo;
 //# sourceMappingURL=index.js.map

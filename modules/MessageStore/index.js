@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -22,6 +22,8 @@ require("core-js/modules/es6.array.map");
 require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -75,9 +77,9 @@ var _debounce = _interopRequireDefault(require("../../lib/debounce"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _temp;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -105,15 +107,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
 var DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
@@ -139,13 +141,13 @@ function getSyncParams(_ref) {
   if (syncToken) {
     return {
       syncToken: syncToken,
-      syncType: _syncTypes.default.iSync
+      syncType: _syncTypes["default"].iSync
     };
   }
 
   var params = {
     recordCountPerConversation: conversationLoadLength,
-    syncType: _syncTypes.default.fSync
+    syncType: _syncTypes["default"].fSync
   };
 
   if (recordCount) {
@@ -227,31 +229,31 @@ function (_Pollable) {
     _classCallCheck(this, MessageStore);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MessageStore).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
-    _this._debouncedSetConversationAsRead = (0, _debounce.default)(_this._setConversationAsRead, 500, true);
+    _this._debouncedSetConversationAsRead = (0, _debounce["default"])(_this._setConversationAsRead, 500, true);
 
-    _initializerDefineProperty(_this, "allConversations", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "allConversations", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "textConversations", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "textConversations", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "textUnreadCounts", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "textUnreadCounts", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "faxMessages", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "faxMessages", _descriptor4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "faxUnreadCounts", _descriptor5, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "faxUnreadCounts", _descriptor5, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "voicemailMessages", _descriptor6, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "voicemailMessages", _descriptor6, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "voiceUnreadCounts", _descriptor7, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "voiceUnreadCounts", _descriptor7, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "unreadCounts", _descriptor8, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "unreadCounts", _descriptor8, _assertThisInitialized(_this));
 
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
-    _this._alert = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, alert, 'alert');
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-    _this._subscription = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, subscription, 'subscription');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
+    _this._subscription = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, subscription, 'subscription');
+    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
 
     if (!disableCache) {
       _this._storage = storage;
@@ -271,15 +273,15 @@ function (_Pollable) {
     _this._daySpan = daySpan;
 
     if (_this._storage) {
-      _this._reducer = (0, _getReducer.default)(_this.actionTypes);
+      _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
 
       _this._storage.registerReducer({
         key: _this._dataStorageKey,
-        reducer: (0, _getDataReducer.default)(_this.actionTypes)
+        reducer: (0, _getDataReducer["default"])(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getReducer.default)(_this.actionTypes, {
-        data: (0, _getDataReducer.default)(_this.actionTypes, false)
+      _this._reducer = (0, _getReducer["default"])(_this.actionTypes, {
+        data: (0, _getDataReducer["default"])(_this.actionTypes, false)
       });
     }
 
@@ -379,7 +381,7 @@ function (_Pollable) {
   }, {
     key: "_isDataReady",
     value: function _isDataReady() {
-      return this.status === _moduleStatuses.default.initializing && this.syncInfo !== null;
+      return this.status === _moduleStatuses["default"].initializing && this.syncInfo !== null;
     }
   }, {
     key: "_init",
@@ -525,7 +527,7 @@ function (_Pollable) {
 
               case 10:
                 _context4.next = 12;
-                return (0, _sleep.default)(500);
+                return (0, _sleep["default"])(500);
 
               case 12:
                 olderDateTo = new Date(records[records.length - 1].creationTime);
@@ -904,8 +906,8 @@ function (_Pollable) {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
           }
         } finally {
           if (_didIteratorError) {
@@ -1002,7 +1004,7 @@ function (_Pollable) {
             switch (_context10.prev = _context10.next) {
               case 0:
                 _context10.next = 2;
-                return this._client.account().extension().messageStore(messageId).delete();
+                return this._client.account().extension().messageStore(messageId)["delete"]();
 
               case 2:
                 response = _context10.sent;
@@ -1180,7 +1182,7 @@ function (_Pollable) {
                 }
 
                 _context12.next = 22;
-                return (0, _sleep.default)(1300);
+                return (0, _sleep["default"])(1300);
 
               case 22:
                 if (!(ownerId !== this._auth.ownerId)) {
@@ -1314,9 +1316,11 @@ function (_Pollable) {
                 _context14.t0 = _context14["catch"](6);
                 console.error(_context14.t0);
 
-                this._alert.warning({
-                  message: _errors.default.readFailed
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context14.t0)) {
+                  this._alert.warning({
+                    message: _errors["default"].readFailed
+                  });
+                }
 
               case 20:
                 return _context14.abrupt("return", null);
@@ -1376,9 +1380,11 @@ function (_Pollable) {
                 _context15.t0 = _context15["catch"](1);
                 console.error(_context15.t0);
 
-                this._alert.warning({
-                  message: _errors.default.unreadFailed
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context15.t0)) {
+                  this._alert.warning({
+                    message: _errors["default"].unreadFailed
+                  });
+                }
 
               case 12:
               case "end":
@@ -1471,9 +1477,11 @@ function (_Pollable) {
                 _context17.t0 = _context17["catch"](6);
                 console.error(_context17.t0);
 
-                this._alert.warning({
-                  message: _errors.default.deleteFailed
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context17.t0)) {
+                  this._alert.warning({
+                    message: _errors["default"].deleteFailed
+                  });
+                }
 
               case 16:
               case "end":
@@ -1509,7 +1517,7 @@ function (_Pollable) {
               case 2:
                 _context18.prev = 2;
                 _context18.next = 5;
-                return this._client.account().extension().messageStore().delete({
+                return this._client.account().extension().messageStore()["delete"]({
                   conversationId: conversationId
                 });
 
@@ -1526,9 +1534,11 @@ function (_Pollable) {
                 _context18.t0 = _context18["catch"](2);
                 console.error(_context18.t0);
 
-                this._alert.warning({
-                  message: _errors.default.deleteFailed
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context18.t0)) {
+                  this._alert.warning({
+                    message: _errors["default"].deleteFailed
+                  });
+                }
 
               case 12:
               case "end":
@@ -1611,7 +1621,7 @@ function (_Pollable) {
   }]);
 
   return MessageStore;
-}(_Pollable2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pushMessages", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "pushMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "readMessages", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "readMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unreadMessage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "unreadMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onUnmarkMessages", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onUnmarkMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversationMessages", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversationMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversation", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_selector.selector], {
+}(_Pollable2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pushMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "pushMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "readMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "readMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unreadMessage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unreadMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onUnmarkMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onUnmarkMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversationMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversationMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1755,5 +1765,5 @@ function (_Pollable) {
     }];
   }
 })), _class2)) || _class);
-exports.default = MessageStore;
+exports["default"] = MessageStore;
 //# sourceMappingURL=index.js.map

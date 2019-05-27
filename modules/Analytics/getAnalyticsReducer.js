@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getLastAction = getLastAction;
-exports.default = getAnalyticsReducer;
+exports["default"] = getAnalyticsReducer;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -15,6 +15,8 @@ require("core-js/modules/es6.array.from");
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -28,7 +30,7 @@ var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -53,7 +55,7 @@ function getLastAction(types) {
 
 function getAnalyticsReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     lastAction: getLastAction(types)
   });
 }

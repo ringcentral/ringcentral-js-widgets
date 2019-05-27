@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getLogId = getLogId;
 exports.conversationLogIdentityFunction = conversationLogIdentityFunction;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.from");
 
@@ -15,11 +15,11 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -53,6 +53,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es7.object.values");
 
 require("core-js/modules/es6.array.reduce");
@@ -77,7 +79,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -109,6 +111,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
@@ -119,9 +123,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function getLogId(_ref) {
   var conversationId = _ref.conversationId,
@@ -196,17 +198,17 @@ function (_LoggerBase) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ConversationLogger).call(this, _objectSpread({}, options, {
       name: 'conversationLogger',
-      actionTypes: _actionTypes.default,
+      actionTypes: _actionTypes["default"],
       identityFunction: conversationLogIdentityFunction
     })));
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
-    _this._contactMatcher = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, contactMatcher, 'contactMatcher');
-    _this._conversationMatcher = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, conversationMatcher, 'conversationMatcher');
-    _this._dateTimeFormat = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, dateTimeFormat, 'dateTimeFormat');
-    _this._extensionInfo = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, extensionInfo, 'extensionInfo');
-    _this._messageStore = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, messageStore, 'messageStore');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions');
-    _this._storage = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, storage, 'storage');
+    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._contactMatcher = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, contactMatcher, 'contactMatcher');
+    _this._conversationMatcher = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, conversationMatcher, 'conversationMatcher');
+    _this._dateTimeFormat = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, dateTimeFormat, 'dateTimeFormat');
+    _this._extensionInfo = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, extensionInfo, 'extensionInfo');
+    _this._messageStore = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, messageStore, 'messageStore');
+    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._storage = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, storage, 'storage');
     _this._tabManager = tabManager;
     _this._isLoggedContact = isLoggedContact;
     _this._formatDateTime = formatDateTime;
@@ -220,7 +222,7 @@ function (_LoggerBase) {
 
     _this._storage.registerReducer({
       key: _this._storageKey,
-      reducer: (0, _getDataReducer.default)(_this.actionTypes)
+      reducer: (0, _getDataReducer["default"])(_this.actionTypes)
     });
 
     _this.addSelector('conversationLogMap', function () {
@@ -359,7 +361,7 @@ function (_LoggerBase) {
               case 0:
                 ownerId = this._auth.ownerId;
                 _context2.next = 3;
-                return (0, _sleep.default)(300);
+                return (0, _sleep["default"])(300);
 
               case 3:
                 if (!(ownerId !== this._auth.ownerId)) {
@@ -481,7 +483,7 @@ function (_LoggerBase) {
                 break;
 
               case 8:
-                if (!(this.autoLog && conversation.type === _messageTypes.default.sms)) {
+                if (!(this.autoLog && conversation.type === _messageTypes["default"].sms)) {
                   _context3.next = 24;
                   break;
                 }
@@ -777,6 +779,6 @@ function (_LoggerBase) {
   }]);
 
   return ConversationLogger;
-}(_LoggerBase2.default), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logConversation", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "logConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype)), _class2)) || _class);
-exports.default = ConversationLogger;
+}(_LoggerBase2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype)), _class2)) || _class);
+exports["default"] = ConversationLogger;
 //# sourceMappingURL=index.js.map

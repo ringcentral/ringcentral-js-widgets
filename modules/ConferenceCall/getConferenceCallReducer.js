@@ -8,7 +8,7 @@ exports.getMakeConferenceCallReducer = getMakeConferenceCallReducer;
 exports.getMergingStatusReducer = getMergingStatusReducer;
 exports.getMergingPairReducer = getMergingPairReducer;
 exports.getCurrentConferenceIdReducer = getCurrentConferenceIdReducer;
-exports.default = getConferenceCallReducer;
+exports["default"] = getConferenceCallReducer;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -20,17 +20,19 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -42,7 +44,7 @@ var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModul
 
 var _conferenceCallStatus = _interopRequireDefault(require("./conferenceCallStatus"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -58,7 +60,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function getConferenceCallStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _conferenceCallStatus.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _conferenceCallStatus["default"].idle;
 
     var _ref = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref.type;
@@ -70,7 +72,7 @@ function getConferenceCallStatusReducer(types) {
       case types.bringInConference:
       case types.removeFromConference:
       case types.getParty:
-        return _conferenceCallStatus.default.requesting;
+        return _conferenceCallStatus["default"].requesting;
 
       case types.makeConferenceSucceeded:
       case types.makeConferenceFailed:
@@ -85,7 +87,7 @@ function getConferenceCallStatusReducer(types) {
       case types.getPartySucceeded:
       case types.getPartyFailed:
       case types.resetSuccess:
-        return _conferenceCallStatus.default.idle;
+        return _conferenceCallStatus["default"].idle;
 
       default:
         return state;
@@ -221,7 +223,7 @@ function getCurrentConferenceIdReducer(types) {
 
 function getConferenceCallReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     conferences: getMakeConferenceCallReducer(types),
     conferenceCallStatus: getConferenceCallStatusReducer(types),
     isMerging: getMergingStatusReducer(types),

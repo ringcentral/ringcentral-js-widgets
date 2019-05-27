@@ -15,7 +15,7 @@ exports.getMessageTextsReducer = getMessageTextsReducer;
 exports.getConversationStatusReducer = getConversationStatusReducer;
 exports.getCorrespondentMatch = getCorrespondentMatch;
 exports.getCorrespondentResponse = getCorrespondentResponse;
-exports.default = getReducer;
+exports["default"] = getReducer;
 
 require("core-js/modules/es6.array.for-each");
 
@@ -32,6 +32,8 @@ require("core-js/modules/es6.array.from");
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -57,7 +59,7 @@ var _messageHelper = require("../../lib/messageHelper");
 
 var _status = _interopRequireDefault(require("./status"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -97,7 +99,7 @@ function getSearchInputReducer(types) {
 
 function getTypeFilterReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _messageTypes.default.all;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _messageTypes["default"].all;
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref2.type,
@@ -108,7 +110,7 @@ function getTypeFilterReducer(types) {
         return typeFilter;
 
       case types.resetSuccess:
-        return _messageTypes.default.all;
+        return _messageTypes["default"].all;
 
       default:
         return state;
@@ -148,21 +150,21 @@ function getOldConversationsReducer(types) {
 
 function getFetchConversationsStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status["default"].idle;
 
     var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref4.type;
 
     switch (type) {
       case types.fetchOldConverstaions:
-        return _status.default.fetching;
+        return _status["default"].fetching;
 
       case types.fetchOldConverstaionsSuccess:
       case types.fetchOldConverstaionsError:
       case types.resetSuccess:
       case types.updateTypeFilter:
       case types.initSuccess:
-        return _status.default.idle;
+        return _status["default"].idle;
 
       default:
         return state;
@@ -244,21 +246,21 @@ function getOldMessagesReducer(types) {
 
 function getFetchMessagesStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status["default"].idle;
 
     var _ref8 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref8.type;
 
     switch (type) {
       case types.fetchOldMessages:
-        return _status.default.fetching;
+        return _status["default"].fetching;
 
       case types.fetchOldMessagesSuccess:
       case types.fetchOldMessagesError:
       case types.updateCurrentConversationId:
       case types.resetSuccess:
       case types.initSuccess:
-        return _status.default.idle;
+        return _status["default"].idle;
 
       default:
         return state;
@@ -300,18 +302,18 @@ function getMessageTextsReducer(types) {
 
 function getConversationStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status["default"].idle;
 
     var _ref10 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref10.type;
 
     switch (type) {
       case types.reply:
-        return _status.default.pushing;
+        return _status["default"].pushing;
 
       case types.replySuccess:
       case types.replyError:
-        return _status.default.idle;
+        return _status["default"].idle;
 
       default:
         return state;
@@ -397,7 +399,7 @@ function getCorrespondentResponse(types) {
 
 function getReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     searchInput: getSearchInputReducer(types),
     typeFilter: getTypeFilterReducer(types),
     oldConversations: getOldConversationsReducer(types),

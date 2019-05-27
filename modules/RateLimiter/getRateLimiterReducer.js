@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getTimestampReducer = getTimestampReducer;
-exports.default = getRateLimiterReducer;
+exports["default"] = getRateLimiterReducer;
 
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getTimestampReducer(types) {
   return function () {
@@ -37,7 +37,7 @@ function getTimestampReducer(types) {
 
 function getRateLimiterReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types)
+    status: (0, _getModuleStatusReducer["default"])(types)
   });
 }
 //# sourceMappingURL=getRateLimiterReducer.js.map

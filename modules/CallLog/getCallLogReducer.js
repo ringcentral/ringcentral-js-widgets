@@ -6,9 +6,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.getDataReducer = getDataReducer;
 exports.getTokenReducer = getTokenReducer;
 exports.getTimestampReducer = getTimestampReducer;
-exports.default = getCallLogReducer;
+exports["default"] = getCallLogReducer;
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -17,8 +23,6 @@ require("core-js/modules/es6.object.define-property");
 require("core-js/modules/es6.array.sort");
 
 require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -34,7 +38,7 @@ var _removeUri = _interopRequireDefault(require("../../lib/removeUri"));
 
 var _callActions = _interopRequireDefault(require("../../enums/callActions"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -47,8 +51,8 @@ function processRecords() {
   var output = [];
 
   function processCall(call) {
-    if (!ids[call.id] && call.action !== _callActions.default.findMe) {
-      output.push((0, _callLogHelpers.normalizeStartTime)((0, _removeUri.default)(call)));
+    if (!ids[call.id] && call.action !== _callActions["default"].findMe) {
+      output.push((0, _callLogHelpers.normalizeStartTime)((0, _removeUri["default"])(call)));
       ids[call.id] = true;
     }
   }
@@ -73,7 +77,7 @@ function getDataReducer(types) {
     switch (type) {
       case types.init:
         {
-          var cutOffTime = (0, _getDateFrom.default)(daySpan).getTime();
+          var cutOffTime = (0, _getDateFrom["default"])(daySpan).getTime();
           return state.filter(function (call) {
             return call.startTime > cutOffTime;
           });
@@ -85,7 +89,7 @@ function getDataReducer(types) {
           var indexMap = {};
           var newState = [];
 
-          var _cutOffTime = (0, _getDateFrom.default)(daySpan).getTime(); // filter old calls
+          var _cutOffTime = (0, _getDateFrom["default"])(daySpan).getTime(); // filter old calls
 
 
           state.forEach(function (call) {
@@ -169,7 +173,7 @@ function getTimestampReducer(types) {
 function getCallLogReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return (0, _redux.combineReducers)(_objectSpread({}, reducers, {
-    status: (0, _getModuleStatusReducer.default)(types)
+    status: (0, _getModuleStatusReducer["default"])(types)
   }));
 }
 //# sourceMappingURL=getCallLogReducer.js.map

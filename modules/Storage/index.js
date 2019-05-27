@@ -3,17 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -29,6 +29,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("regenerator-runtime/runtime");
 
 var _di = require("../../lib/di");
@@ -41,7 +43,7 @@ var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -131,13 +133,13 @@ function (_StorageBase) {
       _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee() {
-        var storageKey, key, currentData, _key;
+        var storageKey, _key, currentData, _key2;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this2._auth.loginStatus === _loginStatus.default.loggedIn && (!_this2._tabManager || _this2._tabManager.ready) && _this2.pending)) {
+                if (!(_this2._auth.loginStatus === _loginStatus["default"].loggedIn && (!_this2._tabManager || _this2._tabManager.ready) && _this2.pending)) {
                   _context.next = 21;
                   break;
                 }
@@ -163,16 +165,16 @@ function (_StorageBase) {
                   break;
                 }
 
-                key = _context.t1.value;
+                _key = _context.t1.value;
 
-                if (_this2._reducers[key]) {
+                if (_this2._reducers[_key]) {
                   _context.next = 14;
                   break;
                 }
 
-                delete storedData[key];
+                delete storedData[_key];
                 _context.next = 14;
-                return _this2._storage.removeItem(key);
+                return _this2._storage.removeItem(_key);
 
               case 14:
                 _context.next = 8;
@@ -234,15 +236,15 @@ function (_StorageBase) {
                 }
 
               case 22:
-                if (_this2.status === _moduleStatuses.default.ready && (!_this2._disableAllowInactiveTabsWrite || !_this2._tabManager || _this2._tabManager.active)) {
+                if (_this2.status === _moduleStatuses["default"].ready && (!_this2._disableAllowInactiveTabsWrite || !_this2._tabManager || _this2._tabManager.active)) {
                   // save new data to storage when changed
                   currentData = _this2.data;
 
-                  for (_key in currentData) {
-                    if (storedData[_key] !== currentData[_key]) {
-                      _this2._storage.setItem(_key, currentData[_key]);
+                  for (_key2 in currentData) {
+                    if (storedData[_key2] !== currentData[_key2]) {
+                      _this2._storage.setItem(_key2, currentData[_key2]);
 
-                      storedData[_key] = currentData[_key];
+                      storedData[_key2] = currentData[_key2];
                     }
                   }
                 }
@@ -258,6 +260,6 @@ function (_StorageBase) {
   }]);
 
   return Storage;
-}(_StorageBase2.default)) || _class);
-exports.default = Storage;
+}(_StorageBase2["default"])) || _class);
+exports["default"] = Storage;
 //# sourceMappingURL=index.js.map

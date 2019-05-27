@@ -7,15 +7,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getProfileImagesReducer = getProfileImagesReducer;
 exports.getContactPresencesReducer = getContactPresencesReducer;
-exports.default = getContactsReducer;
+exports["default"] = getContactsReducer;
 
 require("core-js/modules/es6.date.now");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -23,7 +25,7 @@ var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getProfileImagesReducer(types) {
   return function () {
@@ -106,7 +108,7 @@ function getContactPresencesReducer(types) {
 
 function getContactsReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     profileImages: getProfileImagesReducer(types),
     presences: getContactPresencesReducer(types)
   });

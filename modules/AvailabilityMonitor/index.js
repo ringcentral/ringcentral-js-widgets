@@ -3,23 +3,23 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.STATUS_END_POINT = exports.HEALTH_CHECK_INTERVAL = void 0;
+exports["default"] = exports.STATUS_END_POINT = exports.HEALTH_CHECK_INTERVAL = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.for-each");
 
-require("core-js/modules/es6.array.filter");
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -29,11 +29,19 @@ require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.map");
+
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.function.bind");
 
 var _ramda = require("ramda");
 
 var _di = require("../../lib/di");
+
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
@@ -43,13 +51,15 @@ var _availabilityMonitorReducer = _interopRequireDefault(require("./availability
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
+var _availabilityStatus = _interopRequireDefault(require("./availabilityStatus"));
+
 var _availabilityMonitorHelper = require("./availabilityMonitorHelper");
 
 var _errorMessages = _interopRequireDefault(require("./errorMessages"));
 
 var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -75,23 +85,18 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 // Constants
-var HEALTH_CHECK_INTERVAL = 5 * 1000;
+var HEALTH_CHECK_INTERVAL = 60 * 1000;
 exports.HEALTH_CHECK_INTERVAL = HEALTH_CHECK_INTERVAL;
 var STATUS_END_POINT = '/restapi/v1.0/status';
 /**
- * TODO: Deal with `RateLimitor` in offline mode.
- * TODO: App initial errors.
- * TODO: When WebRTC met HA error.
- * TODO: Api match problems, the way finding *High* or *Limited* api is not working correctly.
- *
- * @class
+ * @class AvailabilityMonitor
  * @description Connectivity monitor module
  */
 
@@ -131,16 +136,19 @@ function (_RcModule) {
     _classCallCheck(this, AvailabilityMonitor);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AvailabilityMonitor).call(this, _objectSpread({
-      actionTypes: _actionTypes.default,
+      actionTypes: _actionTypes["default"],
       enabled: enabled
     }, options)));
     _this._enabled = enabled;
-    _this._alert = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, alert, 'alert');
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
+    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
     _this._environment = environment;
     _this._lastEnvironmentCounter = 0;
     _this._healthRetryTime = HEALTH_CHECK_INTERVAL;
-    _this._reducer = (0, _availabilityMonitorReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _availabilityMonitorReducer["default"])(_this.actionTypes); // auto bind this
+
+    _this._beforeRequestHandler = (_context = _assertThisInitialized(_this), _this._beforeRequestHandler).bind(_context);
+    _this._requestErrorHandler = (_context = _assertThisInitialized(_this), _this._requestErrorHandler).bind(_context);
     return _this;
   }
 
@@ -193,13 +201,9 @@ function (_RcModule) {
 
       var client = this._client.service.platform().client();
 
-      client.on(client.events.beforeRequest, function (params) {
-        _this3._beforeRequestHandler(params);
-      }); // !TODO: in other modules, when they catch error first check if app is in HA mode.
+      client.on(client.events.beforeRequest, this._beforeRequestHandler); // TODO: in other modules, when they catch error first check if app is in HA mode.
 
-      client.on(client.events.requestError, function (params) {
-        _this3._requestErrorHandler(params);
-      });
+      client.on(client.events.requestError, this._requestErrorHandler);
 
       this._unbindHandlers = function () {
         client.removeListener(client.events.beforeRequest, _this3._beforeRequestHandler);
@@ -210,7 +214,7 @@ function (_RcModule) {
   }, {
     key: "_beforeRequestHandler",
     value: function _beforeRequestHandler(params) {
-      if (!this.isLimitedAvailabilityMode) {
+      if (!this.isLimitedAvailabilityMode || !this._enabled) {
         return;
       }
 
@@ -219,8 +223,7 @@ function (_RcModule) {
 
       if (!requestUrl || !requestMethod) {
         return;
-      } // TODO: the `extractUrl` method might not work with some urls
-      // In the limited availability mode, should not block status check api
+      } // In the limited availability mode, should not block status check api
       // or highly availability api.
 
 
@@ -233,7 +236,7 @@ function (_RcModule) {
         return;
       }
 
-      throw new Error(_errorMessages.default.serviceLimited);
+      throw new Error(_errorMessages["default"].serviceLimited);
     }
     /**
      * Check if app can enter LA mode.
@@ -251,6 +254,7 @@ function (_RcModule) {
         return;
       }
 
+      this.showAlert(_errorMessages["default"].serviceLimited);
       var retryAfter = (0, _ramda.pathOr)(-1, ['apiResponse', '_response', 'headers', 'retryAfter'], error);
 
       if (retryAfter > 0) {
@@ -282,7 +286,7 @@ function (_RcModule) {
                 this.store.dispatch({
                   type: this.actionTypes.limitedMode
                 });
-                this.timeout = setTimeout(
+                this._limitedTimeout = setTimeout(
                 /*#__PURE__*/
                 _asyncToGenerator(
                 /*#__PURE__*/
@@ -291,11 +295,10 @@ function (_RcModule) {
                     while (1) {
                       switch (_context2.prev = _context2.next) {
                         case 0:
-                          console.log('this._healthRetryTime', _this4._healthRetryTime);
-                          _context2.next = 3;
+                          _context2.next = 2;
                           return _this4._intervalHealthCheck();
 
-                        case 3:
+                        case 2:
                         case "end":
                           return _context2.stop();
                       }
@@ -320,8 +323,6 @@ function (_RcModule) {
   }, {
     key: "_switchToNormalMode",
     value: function _switchToNormalMode() {
-      console.log('swith to normal mode');
-
       if (!this.isLimitedAvailabilityMode) {
         return;
       }
@@ -329,6 +330,41 @@ function (_RcModule) {
       this.store.dispatch({
         type: this.actionTypes.normalMode
       });
+
+      this._clearTimeout(this._normalTimeout);
+
+      this._clearTimeout(this._limitedTimeout);
+
+      if (!this._alert) {
+        return;
+      } // dismiss disconnected alerts if found
+
+
+      var alertIds = this._alert.messages.filter(function (m) {
+        return m.message === _errorMessages["default"].serviceLimited;
+      }) // eslint-disable-line arrow-parens
+      .map(function (m) {
+        return m.id;
+      }); // eslint-disable-line arrow-parens
+
+
+      if (alertIds.length) {
+        this._alert.dismiss(alertIds);
+      }
+    }
+    /**
+     * Clear timeout handler when it's not needed
+     */
+
+  }, {
+    key: "_clearTimeout",
+    value: function _clearTimeout(timeoutHandler) {
+      if (!timeoutHandler) {
+        return;
+      }
+
+      clearTimeout(timeoutHandler);
+      timeoutHandler = null;
     }
   }, {
     key: "_getStatus",
@@ -381,42 +417,35 @@ function (_RcModule) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                console.log('should randomize the health check');
+                this._clearTimeout(this._limitedTimeout);
 
-                if (this.timeout) {
-                  clearTimeout(this.timeout);
-                }
-
-                _context6.next = 4;
+                _context6.next = 3;
                 return this._getStatus();
 
-              case 4:
+              case 3:
                 response = _context6.sent;
-                retryAfter = (0, _ramda.pathOr)(-1, ['headers', 'retryAfter'], response);
-                console.log('response', response);
+                retryAfter = (0, _ramda.pathOr)(0, ['headers', 'retryAfter'], response);
 
                 if (!(response && response.status === 200)) {
-                  _context6.next = 14;
+                  _context6.next = 9;
                   break;
                 }
 
-                console.log('platform recover');
                 waitingTime = (0, _availabilityMonitorHelper.generateRandomNumber)(); // Generate random seconds (0 ~ 3000)
 
-                setTimeout(function () {
+                this._normalTimeout = setTimeout(function () {
                   _this5._switchToNormalMode();
                 }, waitingTime);
                 return _context6.abrupt("return");
 
-              case 14:
+              case 9:
                 if (retryAfter > 0) {
                   this._healthRetryTime = retryAfter;
                 } else {
                   this._healthRetryTime = HEALTH_CHECK_INTERVAL;
                 }
 
-              case 15:
-                this.timeout = setTimeout(
+                this._limitedTimeout = setTimeout(
                 /*#__PURE__*/
                 _asyncToGenerator(
                 /*#__PURE__*/
@@ -436,7 +465,7 @@ function (_RcModule) {
                   }, _callee4);
                 })), this._healthRetryTime);
 
-              case 16:
+              case 11:
               case "end":
                 return _context6.stop();
             }
@@ -451,51 +480,42 @@ function (_RcModule) {
       return _intervalHealthCheck;
     }()
   }, {
-    key: "_showAlert",
-    value: function _showAlert(errorLevel, message) {
-      if (errorLevel === 'success') {
-        this._alert.success({
-          message: message
-        });
-      } else if (errorLevel === 'warning') {
-        this._alert.warning({
-          message: message
-        });
-      } else if (errorLevel === 'danger') {
-        this._alert.danger({
-          message: message
-        });
-      } else if (errorLevel === 'info') {
-        this._alert.info({
-          message: message
-        });
-      }
-    }
-  }, {
-    key: "handleInitialError",
-
-    /**
-     * Handle app initial errors
-     *
-     * @param {*} error
-     * @returns
-     * @memberof AvailabilityMonitor
-     */
-    value: function handleInitialError(error) {
-      if ((0, _availabilityMonitorHelper.isHAError)(error) || !this._enabled) {
+    key: "showAlert",
+    value: function showAlert(message) {
+      if (!this._alert) {
         return;
       }
 
-      this._showAlert('danger', _errorMessages.default.appInitialError); // TODO: Need corresponde action to switch APP state back to normal
-      // this.store.dispatch({
-      //   type: this.actionTypes.appInitialError,
-      // });
+      this._alert.warning({
+        message: message,
+        allowDuplicates: false
+      });
+    }
+    /**
+     * Check if the error is Survival Mode error,
+     * Or if app is already in Survival Mode and current request is blocked with an error.
+     */
 
+  }, {
+    key: "checkIfHAError",
+    value: function checkIfHAError(error) {
+      var errMessage = (0, _ramda.pathOr)(null, ['message'], error);
+      return (0, _availabilityMonitorHelper.isHAError)(error) || errMessage === _errorMessages["default"].serviceLimited;
     }
   }, {
     key: "status",
     get: function get() {
       return this.state.status;
+    }
+  }, {
+    key: "ready",
+    get: function get() {
+      return this.state.status === _moduleStatuses["default"].ready;
+    }
+  }, {
+    key: "pending",
+    get: function get() {
+      return this.state.status === _moduleStatuses["default"].pending;
     }
     /**
      * Is App in limited mode
@@ -507,7 +527,7 @@ function (_RcModule) {
   }, {
     key: "isLimitedAvailabilityMode",
     get: function get() {
-      return this.state.isLimitedAvailabilityMode;
+      return this.state.isLimitedAvailabilityMode.mode === _availabilityStatus["default"].LIMITED;
     }
   }, {
     key: "isAppInitialErrorMode",
@@ -517,6 +537,6 @@ function (_RcModule) {
   }]);
 
   return AvailabilityMonitor;
-}(_RcModule2.default)) || _class);
-exports.default = AvailabilityMonitor;
+}(_RcModule2["default"])) || _class);
+exports["default"] = AvailabilityMonitor;
 //# sourceMappingURL=index.js.map

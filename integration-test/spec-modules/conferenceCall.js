@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -18,6 +18,8 @@ require("regenerator-runtime/runtime");
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -37,9 +39,9 @@ var _conferenceCallStatus = _interopRequireDefault(require("../../modules/Confer
 
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -49,14 +51,14 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
   describe('ConferenceCall:', function () {
     this.timeout(20000);
     mock.mockClient(client);
-    var clientHistoryRequest = new _ClientHistoryRequest.default(new Map(), client);
+    var clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
     var isLoginSuccess;
     describe('Should Init Successfully with Default Setting', function () {
       it('Should Have Empty Records of Conferences By Default', function () {
         expect(conferenceCall.state.conferences).to.be.an('object').that.is.empty;
       });
       it('Should Be Idle By Default', function () {
-        expect(conferenceCall.state.conferenceCallStatus).to.equal(_conferenceCallStatus.default.idle);
+        expect(conferenceCall.state.conferenceCallStatus).to.equal(_conferenceCallStatus["default"].idle);
       });
     });
     describe('Should Update Conference Successfully', function () {
@@ -132,7 +134,7 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
 
               case 2:
                 sessionData = _context3.sent;
-                rawRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest.default.endPoints.conferenceCall);
+                rawRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest["default"].endPoints.conferenceCall);
                 expect(JSON.stringify(sessionData)).to.equal(JSON.stringify(rawRequest.session)); // FIXME: because we are unable to mock sip.js instance, so skip the session assertation below:        
                 // expect(conferenceCall.conferences).to.have.key(rawRequest.session.id);
 
@@ -144,7 +146,7 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
         }, _callee3);
       })));
       it('Should Not Have Failure Alert', function () {
-        Object.values(_conferenceCallErrors.default).forEach(function (err) {
+        Object.values(_conferenceCallErrors["default"]).forEach(function (err) {
           expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, err)).to.equal(undefined);
         });
       });
@@ -209,7 +211,7 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
 
                         mock.mockForbidden({
                           method: 'POST',
-                          path: _ClientHistoryRequest.default.endPoints.conferenceCall
+                          path: _ClientHistoryRequest["default"].endPoints.conferenceCall
                         });
                         mock.numberParse({}, 'US');
 
@@ -243,7 +245,7 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
                 }, _callee6);
               })));
               it('Should Have A Failure Alert', function () {
-                expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _conferenceCallErrors.default.makeConferenceFailed)).to.not.equal(undefined);
+                expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _conferenceCallErrors["default"].makeConferenceFailed)).to.not.equal(undefined);
               });
               it('Should Not Bring Session into Non-existent Conference',
               /*#__PURE__*/
@@ -257,7 +259,7 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
                         _context7.prev = 0;
                         _context7.next = 3;
                         return conferenceCall.bringInToConference(Math.random(), {
-                          direction: _callDirections.default.outbound
+                          direction: _callDirections["default"].outbound
                         });
 
                       case 3:
@@ -269,7 +271,7 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
                         _context7.t0 = _context7["catch"](0);
 
                       case 7:
-                        expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _conferenceCallErrors.default.makeConferenceFailed)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _conferenceCallErrors["default"].makeConferenceFailed)).to.not.equal(undefined);
 
                       case 8:
                       case "end":
@@ -289,5 +291,5 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
   });
 };
 
-exports.default = _default;
+exports["default"] = _default;
 //# sourceMappingURL=conferenceCall.js.map

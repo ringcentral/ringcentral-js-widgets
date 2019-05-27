@@ -5,17 +5,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getGlipPersonsStatusReducer = getGlipPersonsStatusReducer;
 exports.getGlipPersonStoreReducer = getGlipPersonStoreReducer;
-exports.default = getGlipPostsReducer;
+exports["default"] = getGlipPostsReducer;
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -25,7 +29,7 @@ var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModul
 
 var _status = _interopRequireDefault(require("./status"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -33,19 +37,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function getGlipPersonsStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _status["default"].idle;
 
     var _ref = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref.type;
 
     switch (type) {
       case types.fetch:
-        return _status.default.fetching;
+        return _status["default"].fetching;
 
       case types.fetchError:
       case types.fetchSuccess:
       case types.batchFetchSuccess:
-        return _status.default.idle;
+        return _status["default"].idle;
 
       default:
         return state;
@@ -92,7 +96,7 @@ function getGlipPersonStoreReducer(types) {
 function getGlipPostsReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return (0, _redux.combineReducers)(_objectSpread({}, reducers, {
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     glipPostsStatus: getGlipPersonsStatusReducer(types)
   }));
 }

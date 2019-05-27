@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -24,6 +24,8 @@ require("regenerator-runtime/runtime");
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -65,9 +67,9 @@ var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _temp;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -91,15 +93,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -201,8 +203,8 @@ function searchPosts(searchFilter, posts) {
     _iteratorError = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
       }
     } finally {
       if (_didIteratorError) {
@@ -291,31 +293,31 @@ function (_Pollable) {
     _classCallCheck(this, GlipGroups);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipGroups).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
-    _initializerDefineProperty(_this, "allGroups", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "allGroups", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "filteredGroups", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "filteredGroups", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "groups", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "groups", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "uniqueMemberIds", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "uniqueMemberIds", _descriptor4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "groupMemberIds", _descriptor5, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "groupMemberIds", _descriptor5, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "currentGroup", _descriptor6, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "currentGroup", _descriptor6, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "currentGroupPosts", _descriptor7, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "currentGroupPosts", _descriptor7, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "groupsWithUnread", _descriptor8, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "groupsWithUnread", _descriptor8, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "unreadCounts", _descriptor9, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "unreadCounts", _descriptor9, _assertThisInitialized(_this));
 
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-    _this._subscription = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, subscription, 'subscription');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
+    _this._subscription = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, subscription, 'subscription');
+    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
     _this._connectivityMonitor = connectivityMonitor;
     _this._glipPersons = glipPersons;
     _this._glipPosts = glipPosts;
@@ -340,7 +342,7 @@ function (_Pollable) {
     _this._timestampStorageKey = 'glipGroupsTimestamp';
 
     if (_this._storage) {
-      _this._reducer = (0, _getReducer.default)(_this.actionTypes);
+      _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
 
       _this._storage.registerReducer({
         key: _this._dataStorageKey,
@@ -352,7 +354,7 @@ function (_Pollable) {
         reducer: (0, _getReducer.getTimestampReducer)(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getReducer.default)(_this.actionTypes, {
+      _this._reducer = (0, _getReducer["default"])(_this.actionTypes, {
         timestamp: (0, _getReducer.getTimestampReducer)(_this.actionTypes),
         data: (0, _getReducer.getDataReducer)(_this.actionTypes)
       });
@@ -582,7 +584,7 @@ function (_Pollable) {
   }, {
     key: "_isDataReady",
     value: function _isDataReady() {
-      return this.status === _moduleStatuses.default.initializing && this.timestamp !== null;
+      return this.status === _moduleStatuses["default"].initializing && this.timestamp !== null;
     }
   }, {
     key: "_init",
@@ -714,7 +716,7 @@ function (_Pollable) {
                 }
 
                 _context5.next = 16;
-                return (0, _sleep.default)(this._preloadPostsDelayTtl);
+                return (0, _sleep["default"])(this._preloadPostsDelayTtl);
 
               case 16:
                 if (!(!this._glipPosts.postsMap[group.id] || force)) {
@@ -749,8 +751,8 @@ function (_Pollable) {
                 _context5.prev = 29;
                 _context5.prev = 30;
 
-                if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-                  _iterator2.return();
+                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                  _iterator2["return"]();
                 }
 
               case 32:
@@ -1097,12 +1099,12 @@ function (_Pollable) {
   }, {
     key: "ready",
     get: function get() {
-      return this.status === _moduleStatuses.default.ready;
+      return this.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "pending",
     get: function get() {
-      return this.status === _moduleStatuses.default.pending;
+      return this.status === _moduleStatuses["default"].pending;
     }
   }, {
     key: "ttl",
@@ -1122,7 +1124,7 @@ function (_Pollable) {
   }]);
 
   return GlipGroups;
-}(_Pollable2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCurrentGroupId", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCurrentGroupId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startChat", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "startChat"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allGroups", [_selector.selector], {
+}(_Pollable2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCurrentGroupId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCurrentGroupId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startChat", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startChat"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allGroups", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1162,7 +1164,7 @@ function (_Pollable) {
     }, function (allGroups, searchFilter) {
       var postsMap = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-      if ((0, _isBlank.default)(searchFilter)) {
+      if ((0, _isBlank["default"])(searchFilter)) {
         return allGroups;
       }
 
@@ -1318,5 +1320,5 @@ function (_Pollable) {
     }];
   }
 })), _class2)) || _class);
-exports.default = GlipGroups;
+exports["default"] = GlipGroups;
 //# sourceMappingURL=index.js.map

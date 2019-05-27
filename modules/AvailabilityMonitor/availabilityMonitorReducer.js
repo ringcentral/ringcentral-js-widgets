@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.isLimitedAvailabilityModeReducer = isLimitedAvailabilityModeReducer;
 exports.isAppInitialErrorModeReducer = isAppInitialErrorModeReducer;
-exports.default = AvailabilityMonitorReducer;
+exports["default"] = AvailabilityMonitorReducer;
 
 var _redux = require("redux");
 
@@ -15,12 +15,12 @@ var _availabilityStatus = _interopRequireDefault(require("./availabilityStatus")
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function isLimitedAvailabilityModeReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-      mode: _availabilityStatus.default.NORMAL
+      mode: _availabilityStatus["default"].NORMAL
     };
 
     var _ref = arguments.length > 1 ? arguments[1] : undefined,
@@ -30,14 +30,14 @@ function isLimitedAvailabilityModeReducer(types) {
       case types.limitedMode:
         {
           return {
-            mode: _availabilityStatus.default.LIMITED
+            mode: _availabilityStatus["default"].LIMITED
           };
         }
 
       case types.normalMode:
         {
           return {
-            mode: _availabilityStatus.default.NORMAL
+            mode: _availabilityStatus["default"].NORMAL
           };
         }
 
@@ -50,7 +50,7 @@ function isLimitedAvailabilityModeReducer(types) {
 function isAppInitialErrorModeReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-      mode: _availabilityStatus.default.NORMAL
+      mode: _availabilityStatus["default"].NORMAL
     };
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
@@ -60,14 +60,14 @@ function isAppInitialErrorModeReducer(types) {
       case types.appInitialError:
         {
           return {
-            mode: _availabilityStatus.default.APP_INITIAL_ERROR
+            mode: _availabilityStatus["default"].APP_INITIAL_ERROR
           };
         }
 
       case types.normalMode:
         {
           return {
-            mode: _availabilityStatus.default.NORMAL
+            mode: _availabilityStatus["default"].NORMAL
           };
         }
 
@@ -79,7 +79,7 @@ function isAppInitialErrorModeReducer(types) {
 
 function AvailabilityMonitorReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     isLimitedAvailabilityMode: isLimitedAvailabilityModeReducer(types),
     isAppInitialError: isAppInitialErrorModeReducer(types)
   });

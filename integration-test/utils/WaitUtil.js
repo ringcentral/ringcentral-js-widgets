@@ -12,6 +12,8 @@ exports.waitInSeconds = waitInSeconds;
 
 require("core-js/modules/es6.promise");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.date.now");
 
 function isTimeOut(startTime, timeoutInSeconds) {
@@ -43,6 +45,7 @@ function waitUntilNotNull(source, checkItem, timeoutInSeconds) {
 }
 
 function waitUntilEqual(source, checkItem, expect, timeoutInSeconds) {
+  var retryTtl = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 500;
   var startTime = Date.now();
   return new Promise(function (resolve) {
     var timer = setInterval(function () {
@@ -62,7 +65,7 @@ function waitUntilEqual(source, checkItem, expect, timeoutInSeconds) {
       } catch (e) {
         console.error(e);
       }
-    }, 500);
+    }, retryTtl);
   });
 }
 

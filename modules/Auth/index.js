@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.from");
 
@@ -43,6 +43,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.set");
@@ -69,7 +71,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -109,14 +111,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-var Auth = (
+var LoginStatusChangeEvent = 'loginStatusChange';
 /**
  * @class
  * @description Authentication module
  */
-_dec = (0, _di.Module)({
+
+var Auth = (_dec = (0, _di.Module)({
   deps: ['Client', 'Alert', 'Brand', 'Locale', {
     dep: 'TabManager',
     optional: true
@@ -166,16 +169,16 @@ function (_RcModule) {
     _classCallCheck(this, Auth);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Auth).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
-    _this._client = (0, _ensureExist.default)(client, 'client');
-    _this._alert = (0, _ensureExist.default)(alert, 'alert');
-    _this._brand = (0, _ensureExist.default)(brand, 'brand');
-    _this._locale = (0, _ensureExist.default)(locale, 'locale');
+    _this._client = (0, _ensureExist["default"])(client, 'client');
+    _this._alert = (0, _ensureExist["default"])(alert, 'alert');
+    _this._brand = (0, _ensureExist["default"])(brand, 'brand');
+    _this._locale = (0, _ensureExist["default"])(locale, 'locale');
     _this._tabManager = tabManager;
     _this._environment = environment;
     _this._connectivityMonitor = connectivityMonitor;
-    _this._reducer = (0, _getAuthReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getAuthReducer["default"])(_this.actionTypes);
     _this._beforeLogoutHandlers = new Set();
     _this._afterLoggedInHandlers = new Set();
     _this._proxyFrame = null;
@@ -287,8 +290,8 @@ function (_RcModule) {
                   _context3.prev = 19;
                   _context3.prev = 20;
 
-                  if (!_iteratorNormalCompletion && _iterator.return != null) {
-                    _iterator.return();
+                  if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                    _iterator["return"]();
                   }
 
                 case 22:
@@ -328,7 +331,7 @@ function (_RcModule) {
 
         if (error) {
           _this2._alert.danger({
-            message: _authMessages.default.loginError,
+            message: _authMessages["default"].loginError,
             payload: error
           });
         }
@@ -350,7 +353,7 @@ function (_RcModule) {
 
         if (error) {
           _this2._alert.danger({
-            message: _authMessages.default.logoutError,
+            message: _authMessages["default"].logoutError,
             payload: error
           });
         }
@@ -381,7 +384,7 @@ function (_RcModule) {
 
         if (!refreshTokenValid && _this2._client.service.platform().auth().data().access_token !== '') {
           _this2._alert.danger({
-            message: _authMessages.default.sessionExpired,
+            message: _authMessages["default"].sessionExpired,
             payload: error,
             ttl: 0
           }); // clean the cache so the error doesn't show again
@@ -425,7 +428,7 @@ function (_RcModule) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!(_this3.status === _moduleStatuses.default.pending && _this3._locale.ready && (!_this3._tabManager || _this3._tabManager.ready) && (!_this3._environment || _this3._environment.ready))) {
+                if (!(_this3.status === _moduleStatuses["default"].pending && _this3._locale.ready && (!_this3._tabManager || _this3._tabManager.ready) && (!_this3._environment || _this3._environment.ready))) {
                   _context4.next = 8;
                   break;
                 }
@@ -451,11 +454,11 @@ function (_RcModule) {
 
               case 8:
                 if (_this3._tabManager && _this3._tabManager.ready && _this3.ready) {
-                  if (loggedIn && _this3.loginStatus === _loginStatus.default.notLoggedIn || !loggedIn && _this3.loginStatus === _loginStatus.default.loggedIn) {
+                  if (loggedIn && _this3.loginStatus === _loginStatus["default"].notLoggedIn || !loggedIn && _this3.loginStatus === _loginStatus["default"].loggedIn) {
                     loggedIn = !loggedIn;
 
-                    _this3._tabManager.send('loginStatusChange', loggedIn);
-                  } else if (_this3._tabManager.event && _this3._tabManager.event.name === 'loginStatusChange' && _this3._tabManager.event.args[0] !== loggedIn) {
+                    _this3._tabManager.send(LoginStatusChangeEvent, loggedIn);
+                  } else if (_this3._tabManager.event && _this3._tabManager.event.name === LoginStatusChangeEvent && _this3._tabManager.event.args[0] !== loggedIn) {
                     /* eslint { "prefer-destructuring": 0 } */
                     loggedIn = _this3._tabManager.event.args[0];
 
@@ -614,10 +617,15 @@ function (_RcModule) {
                 });
                 handlers = _toConsumableArray(this._beforeLogoutHandlers);
                 _context8.prev = 3;
+
+                if (this._tabManager && this._tabManager.ready) {
+                  this._tabManager.send(LoginStatusChangeEvent, false);
+                }
+
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context8.prev = 7;
+                _context8.prev = 8;
                 _loop2 =
                 /*#__PURE__*/
                 regeneratorRuntime.mark(function _loop2() {
@@ -649,7 +657,7 @@ function (_RcModule) {
                           result = _context7.sent;
 
                           if (!result) {
-                            _context7.next = 7;
+                            _context7.next = 8;
                             break;
                           }
 
@@ -657,11 +665,15 @@ function (_RcModule) {
                             type: _this4.actionTypes.cancelLogout
                           });
 
+                          if (_this4._tabManager && _this4._tabManager.ready) {
+                            _this4._tabManager.send(LoginStatusChangeEvent, true);
+                          }
+
                           return _context7.abrupt("return", {
                             v: Promise.reject(result)
                           });
 
-                        case 7:
+                        case 8:
                         case "end":
                           return _context7.stop();
                       }
@@ -670,83 +682,83 @@ function (_RcModule) {
                 });
                 _iterator2 = handlers[Symbol.iterator]();
 
-              case 10:
+              case 11:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context8.next = 18;
+                  _context8.next = 19;
                   break;
                 }
 
-                return _context8.delegateYield(_loop2(), "t0", 12);
+                return _context8.delegateYield(_loop2(), "t0", 13);
 
-              case 12:
+              case 13:
                 _ret = _context8.t0;
 
                 if (!(_typeof(_ret) === "object")) {
-                  _context8.next = 15;
+                  _context8.next = 16;
                   break;
                 }
 
                 return _context8.abrupt("return", _ret.v);
 
-              case 15:
+              case 16:
                 _iteratorNormalCompletion2 = true;
-                _context8.next = 10;
+                _context8.next = 11;
                 break;
 
-              case 18:
-                _context8.next = 24;
+              case 19:
+                _context8.next = 25;
                 break;
 
-              case 20:
-                _context8.prev = 20;
-                _context8.t1 = _context8["catch"](7);
+              case 21:
+                _context8.prev = 21;
+                _context8.t1 = _context8["catch"](8);
                 _didIteratorError2 = true;
                 _iteratorError2 = _context8.t1;
 
-              case 24:
-                _context8.prev = 24;
+              case 25:
                 _context8.prev = 25;
+                _context8.prev = 26;
 
-                if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-                  _iterator2.return();
+                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                  _iterator2["return"]();
                 }
 
-              case 27:
-                _context8.prev = 27;
+              case 28:
+                _context8.prev = 28;
 
                 if (!_didIteratorError2) {
-                  _context8.next = 30;
+                  _context8.next = 31;
                   break;
                 }
 
                 throw _iteratorError2;
 
-              case 30:
-                return _context8.finish(27);
-
               case 31:
-                return _context8.finish(24);
+                return _context8.finish(28);
 
               case 32:
-                _context8.next = 37;
+                return _context8.finish(25);
+
+              case 33:
+                _context8.next = 38;
                 break;
 
-              case 34:
-                _context8.prev = 34;
+              case 35:
+                _context8.prev = 35;
                 _context8.t2 = _context8["catch"](3);
 
                 this._alert.danger({
-                  message: _authMessages.default.beforeLogoutError,
+                  message: _authMessages["default"].beforeLogoutError,
                   payload: _context8.t2
                 });
 
-              case 37:
+              case 38:
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
 
                 if (!this.isImplicit) {
-                  _context8.next = 42;
+                  _context8.next = 43;
                   break;
                 }
 
@@ -757,15 +769,15 @@ function (_RcModule) {
                 });
                 return _context8.abrupt("return", null);
 
-              case 42:
+              case 43:
                 return _context8.abrupt("return", this._client.service.platform().logout());
 
-              case 43:
+              case 44:
               case "end":
                 return _context8.stop();
             }
           }
-        }, _callee6, this, [[3, 34], [7, 20, 24, 32], [25,, 27, 31]]);
+        }, _callee6, this, [[3, 35], [8, 21, 25, 33], [26,, 28, 32]]);
       }));
 
       function logout() {
@@ -799,7 +811,7 @@ function (_RcModule) {
   }, {
     key: "removeBeforeLogoutHandler",
     value: function removeBeforeLogoutHandler(handler) {
-      this._beforeLogoutHandlers.delete(handler);
+      this._beforeLogoutHandlers["delete"](handler);
     }
   }, {
     key: "addAfterLoggedInHandler",
@@ -809,7 +821,7 @@ function (_RcModule) {
       this._afterLoggedInHandlers.add(handler);
 
       return function () {
-        _this6._afterLoggedInHandlers.delete(handler);
+        _this6._afterLoggedInHandlers["delete"](handler);
       };
     }
   }, {
@@ -886,7 +898,7 @@ function (_RcModule) {
                 return this._client.service.platform().loggedIn();
 
               case 2:
-                return _context10.abrupt("return", this.state.loginStatus === _loginStatus.default.loggedIn);
+                return _context10.abrupt("return", this.state.loginStatus === _loginStatus["default"].loggedIn);
 
               case 3:
               case "end":
@@ -905,7 +917,7 @@ function (_RcModule) {
   }, {
     key: "redirectUri",
     get: function get() {
-      return _url.default.resolve(window.location.href, this._redirectUri);
+      return _url["default"].resolve(window.location.href, this._redirectUri);
     }
   }, {
     key: "proxyUri",
@@ -940,7 +952,7 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.ready;
+      return this.state.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "loginStatus",
@@ -955,12 +967,12 @@ function (_RcModule) {
   }, {
     key: "loggedIn",
     get: function get() {
-      return this.state.loginStatus === _loginStatus.default.loggedIn || this.state.loginStatus === _loginStatus.default.beforeLogout;
+      return this.state.loginStatus === _loginStatus["default"].loggedIn || this.state.loginStatus === _loginStatus["default"].beforeLogout;
     }
   }, {
     key: "notLoggedIn",
     get: function get() {
-      return this.state.loginStatus === _loginStatus.default.notLoggedIn;
+      return this.state.loginStatus === _loginStatus["default"].notLoggedIn;
     }
   }, {
     key: "isImplicit",
@@ -970,6 +982,6 @@ function (_RcModule) {
   }]);
 
   return Auth;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "login", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
-exports.default = Auth;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "login", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
+exports["default"] = Auth;
 //# sourceMappingURL=index.js.map

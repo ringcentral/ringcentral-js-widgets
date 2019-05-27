@@ -9,7 +9,7 @@ exports.getCallStatusReducer = getCallStatusReducer;
 exports.getToNumberEntitiesReducer = getToNumberEntitiesReducer;
 exports.getLastPhoneNumberReducer = getLastPhoneNumberReducer;
 exports.getLastRecipientReducer = getLastRecipientReducer;
-exports.default = getCallReducer;
+exports["default"] = getCallReducer;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -18,6 +18,8 @@ require("core-js/modules/es6.array.from");
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -33,7 +35,7 @@ var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModul
 
 var _callStatus = _interopRequireDefault(require("./callStatus"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -45,18 +47,18 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function getCallStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _callStatus.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _callStatus["default"].idle;
 
     var _ref = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref.type;
 
     switch (type) {
       case types.connect:
-        return _callStatus.default.connecting;
+        return _callStatus["default"].connecting;
 
       case types.connectSuccess:
       case types.connectError:
-        return _callStatus.default.idle;
+        return _callStatus["default"].idle;
 
       default:
         return state;
@@ -128,7 +130,7 @@ function getLastRecipientReducer(types) {
 
 function getCallReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     callStatus: getCallStatusReducer(types),
     toNumberEntities: getToNumberEntitiesReducer(types)
   });

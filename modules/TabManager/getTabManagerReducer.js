@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getEventReducer = getEventReducer;
 exports.getActiveReducer = getActiveReducer;
-exports.default = getTabManagerReducer;
+exports["default"] = getTabManagerReducer;
 
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getEventReducer(types) {
   return function () {
@@ -56,7 +56,7 @@ function getActiveReducer(types) {
 
 function getTabManagerReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     active: getActiveReducer(types),
     event: getEventReducer(types)
   });

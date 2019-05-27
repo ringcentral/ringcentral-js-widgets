@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.DefaultContactListPageSize = void 0;
+exports["default"] = exports.DefaultContactListPageSize = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -43,6 +43,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
@@ -67,7 +69,7 @@ var _getContactsReducer = _interopRequireDefault(require("./getContactsReducer")
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -95,15 +97,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DefaultContactListPageSize = 20;
 /**
@@ -143,19 +145,19 @@ function (_RcModule) {
     _classCallCheck(this, Contacts);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Contacts).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
-    _initializerDefineProperty(_this, "sourceNames", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "sourceNames", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "allContacts", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "allContacts", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "contactGroups", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "contactGroups", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "filteredContacts", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "filteredContacts", _descriptor4, _assertThisInitialized(_this));
 
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
-    _this._reducer = (0, _getContactsReducer.default)(_this.actionTypes);
+    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._reducer = (0, _getContactsReducer["default"])(_this.actionTypes);
     _this._contactSources = new Map();
     _this._sourcesLastStatus = new Map();
     _this._sourcesUpdatedAt = Date.now();
@@ -174,8 +176,8 @@ function (_RcModule) {
       _iteratorError = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-          _iterator.return();
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
         }
       } finally {
         if (_didIteratorError) {
@@ -282,10 +284,8 @@ function (_RcModule) {
     value: function _checkSourceUpdated() {
       var updated = false;
 
-      var _arr = Array.from(this._contactSources.keys());
-
-      for (var _i = 0; _i < _arr.length; _i++) {
-        var sourceName = _arr[_i];
+      for (var _i = 0, _Array$from = Array.from(this._contactSources.keys()); _i < _Array$from.length; _i++) {
+        var sourceName = _Array$from[_i];
 
         var source = this._contactSources.get(sourceName);
 
@@ -312,10 +312,8 @@ function (_RcModule) {
     value: function matchPhoneNumber(phoneNumber) {
       var result = [];
 
-      var _arr2 = Array.from(this._contactSources.keys());
-
-      for (var _i2 = 0; _i2 < _arr2.length; _i2++) {
-        var sourceName = _arr2[_i2];
+      for (var _i2 = 0, _Array$from2 = Array.from(this._contactSources.keys()); _i2 < _Array$from2.length; _i2++) {
+        var sourceName = _Array$from2[_i2];
 
         var source = this._contactSources.get(sourceName);
 
@@ -453,38 +451,37 @@ function (_RcModule) {
       var _sync = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee3() {
-        var _arr3, _i3, sourceName, source;
+        var _i3, _Array$from3, sourceName, source;
 
         return regeneratorRuntime.wrap(function _callee3$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _arr3 = Array.from(this._contactSources.keys());
-                _i3 = 0;
+                _i3 = 0, _Array$from3 = Array.from(this._contactSources.keys());
 
-              case 2:
-                if (!(_i3 < _arr3.length)) {
-                  _context4.next = 11;
+              case 1:
+                if (!(_i3 < _Array$from3.length)) {
+                  _context4.next = 10;
                   break;
                 }
 
-                sourceName = _arr3[_i3];
+                sourceName = _Array$from3[_i3];
                 source = this._contactSources.get(sourceName);
 
                 if (!(typeof source.sync === 'function')) {
-                  _context4.next = 8;
+                  _context4.next = 7;
                   break;
                 }
 
-                _context4.next = 8;
+                _context4.next = 7;
                 return source.sync();
 
-              case 8:
+              case 7:
                 _i3++;
-                _context4.next = 2;
+                _context4.next = 1;
                 break;
 
-              case 11:
+              case 10:
               case "end":
                 return _context4.stop();
             }
@@ -508,10 +505,8 @@ function (_RcModule) {
     get: function get() {
       var ready = true;
 
-      var _arr4 = Array.from(this._contactSources.keys());
-
-      for (var _i4 = 0; _i4 < _arr4.length; _i4++) {
-        var sourceName = _arr4[_i4];
+      for (var _i4 = 0, _Array$from4 = Array.from(this._contactSources.keys()); _i4 < _Array$from4.length; _i4++) {
+        var sourceName = _Array$from4[_i4];
 
         var source = this._contactSources.get(sourceName);
 
@@ -557,7 +552,7 @@ function (_RcModule) {
   }]);
 
   return Contacts;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -571,10 +566,8 @@ function (_RcModule) {
     }, function () {
       var names = [_contactHelper.AllContactSourceName];
 
-      var _arr5 = Array.from(_this4._contactSources.keys());
-
-      for (var _i5 = 0; _i5 < _arr5.length; _i5++) {
-        var sourceName = _arr5[_i5];
+      for (var _i5 = 0, _Array$from5 = Array.from(_this4._contactSources.keys()); _i5 < _Array$from5.length; _i5++) {
+        var sourceName = _Array$from5[_i5];
 
         var source = _this4._contactSources.get(sourceName);
 
@@ -598,10 +591,8 @@ function (_RcModule) {
     }, function () {
       var contacts = [];
 
-      var _arr6 = Array.from(_this5._contactSources.keys());
-
-      for (var _i6 = 0; _i6 < _arr6.length; _i6++) {
-        var sourceName = _arr6[_i6];
+      for (var _i6 = 0, _Array$from6 = Array.from(_this5._contactSources.keys()); _i6 < _Array$from6.length; _i6++) {
+        var sourceName = _Array$from6[_i6];
 
         var source = _this5._contactSources.get(sourceName);
 
@@ -642,11 +633,11 @@ function (_RcModule) {
     }, function (searchFilter, sourceFilter) {
       var contacts;
 
-      if ((0, _isBlank.default)(searchFilter) && (sourceFilter === _contactHelper.AllContactSourceName || (0, _isBlank.default)(sourceFilter))) {
+      if ((0, _isBlank["default"])(searchFilter) && (sourceFilter === _contactHelper.AllContactSourceName || (0, _isBlank["default"])(sourceFilter))) {
         return _this7.allContacts;
       }
 
-      if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank.default)(sourceFilter)) {
+      if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank["default"])(sourceFilter)) {
         var source = _this7._contactSources.get(sourceFilter);
 
         if (source && source.sourceReady) {
@@ -659,7 +650,7 @@ function (_RcModule) {
         contacts = _this7.allContacts;
       }
 
-      if (!(0, _isBlank.default)(searchFilter)) {
+      if (!(0, _isBlank["default"])(searchFilter)) {
         contacts = (0, _contactHelper.filterContacts)(contacts, searchFilter);
       }
 
@@ -667,5 +658,5 @@ function (_RcModule) {
     }];
   }
 })), _class2)) || _class);
-exports.default = Contacts;
+exports["default"] = Contacts;
 //# sourceMappingURL=index.js.map

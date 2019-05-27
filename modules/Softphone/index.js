@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -23,11 +23,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -49,7 +51,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -81,7 +83,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var Softphone = (
 /**
@@ -122,13 +124,13 @@ function (_RcModule) {
     _classCallCheck(this, Softphone);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Softphone).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
     _this._brand = brand;
     _this._extensionMode = extensionMode;
     _this._callHandler = callHandler;
     _this._contactMatcher = contactMatcher;
-    _this._reducer = (0, _getSoftphoneReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getSoftphoneReducer["default"])(_this.actionTypes);
     return _this;
   }
 
@@ -208,12 +210,12 @@ function (_RcModule) {
                 frame.style.display = 'none';
                 document.body.appendChild(frame);
                 _context.next = 24;
-                return (0, _sleep.default)(100);
+                return (0, _sleep["default"])(100);
 
               case 24:
                 frame.contentWindow.location.href = uri;
                 _context.next = 27;
-                return (0, _sleep.default)(300);
+                return (0, _sleep["default"])(300);
 
               case 27:
                 document.body.removeChild(frame);
@@ -272,7 +274,7 @@ function (_RcModule) {
   }, {
     key: "status",
     get: function get() {
-      return _moduleStatuses.default.ready;
+      return _moduleStatuses["default"].ready;
     }
   }, {
     key: "connectingPhoneNumber",
@@ -287,6 +289,6 @@ function (_RcModule) {
   }]);
 
   return Softphone;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype)), _class2)) || _class);
-exports.default = Softphone;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype)), _class2)) || _class);
+exports["default"] = Softphone;
 //# sourceMappingURL=index.js.map

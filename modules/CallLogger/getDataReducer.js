@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getLogOnRingingReducer = getLogOnRingingReducer;
 exports.getAutoLogReducer = getAutoLogReducer;
 exports.getTransferredCallsReducer = getTransferredCallsReducer;
-exports.default = getDataReducer;
+exports["default"] = getDataReducer;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -17,6 +17,8 @@ require("core-js/modules/es6.array.from");
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 

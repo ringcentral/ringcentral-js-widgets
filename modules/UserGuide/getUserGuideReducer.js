@@ -9,13 +9,13 @@ exports.getGuidesReducer = getGuidesReducer;
 exports.getFirstLoginReducer = getFirstLoginReducer;
 exports.getCarouselState = getCarouselState;
 exports.getPreLoadImageStatus = getPreLoadImageStatus;
-exports.default = getUserGuideReducer;
+exports["default"] = getUserGuideReducer;
 
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getGuidesReducer(types) {
   return function () {
@@ -92,7 +92,7 @@ function getPreLoadImageStatus(types) {
 
 function getUserGuideReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     carouselState: getCarouselState(types),
     firstLogin: getFirstLoginReducer(types),
     preLoadImageStatus: getPreLoadImageStatus(types)

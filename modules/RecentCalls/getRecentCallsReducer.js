@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getCallsReducer = getCallsReducer;
 exports.getCallStatusReducer = getCallStatusReducer;
-exports.default = getRecentCallsReducer;
+exports["default"] = getRecentCallsReducer;
 
 require("core-js/modules/es6.array.index-of");
 
@@ -13,15 +13,17 @@ require("core-js/modules/es6.number.constructor");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -35,7 +37,7 @@ var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModul
 
 var _callStatus = _interopRequireDefault(require("./callStatus"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -66,8 +68,9 @@ function getCallsReducer(types) {
     if (type === types.loadSuccess) {
       return _objectSpread({}, state, _defineProperty({}, sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId, calls));
     } else if (type === types.loadReset) {
-      var _ = state[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId],
-          rest = _objectWithoutProperties(state, [sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId].map(_toPropertyKey));
+      var _ref2 = sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId,
+          _ = state[_ref2],
+          rest = _objectWithoutProperties(state, [_ref2].map(_toPropertyKey));
 
       return rest;
     }
@@ -80,16 +83,16 @@ function getCallStatusReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref2.type;
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type;
 
     switch (type) {
       case types.initLoad:
-        return _callStatus.default.loading;
+        return _callStatus["default"].loading;
 
       case types.loadReset:
       case types.loadSuccess:
-        return _callStatus.default.loaded;
+        return _callStatus["default"].loaded;
 
       default:
         return state;
@@ -99,7 +102,7 @@ function getCallStatusReducer(types) {
 
 function getRecentCallsReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     calls: getCallsReducer(types),
     callStatus: getCallStatusReducer(types)
   });

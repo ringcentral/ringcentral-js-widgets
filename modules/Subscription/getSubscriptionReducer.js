@@ -9,9 +9,7 @@ exports.getCachedSubscriptionReducer = getCachedSubscriptionReducer;
 exports.getSubscriptionStatusReducer = getSubscriptionStatusReducer;
 exports.getMessageReducer = getMessageReducer;
 exports.getFiltersReducer = getFiltersReducer;
-exports.default = getSubscriptionReducer;
-
-require("core-js/modules/web.dom.iterable");
+exports["default"] = getSubscriptionReducer;
 
 require("core-js/modules/es6.array.for-each");
 
@@ -23,7 +21,7 @@ var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModul
 
 var _subscriptionStatus = _interopRequireDefault(require("./subscriptionStatus"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getCachedSubscriptionReducer(types) {
   return function () {
@@ -51,28 +49,28 @@ function getCachedSubscriptionReducer(types) {
 
 function getSubscriptionStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _subscriptionStatus.default.notSubscribed;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _subscriptionStatus["default"].notSubscribed;
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref2.type;
 
     switch (type) {
       case types.subscribe:
-        return _subscriptionStatus.default.subscribing;
+        return _subscriptionStatus["default"].subscribing;
 
       case types.subscribeSuccess:
       case types.renewSuccess:
-        return _subscriptionStatus.default.subscribed;
+        return _subscriptionStatus["default"].subscribed;
 
       case types.renewError:
       case types.resetSuccess:
       case types.removeSuccess:
       case types.removeError:
       case types.subscribeError:
-        return _subscriptionStatus.default.notSubscribed;
+        return _subscriptionStatus["default"].notSubscribed;
 
       case types.remove:
-        return _subscriptionStatus.default.unsubscribing;
+        return _subscriptionStatus["default"].unsubscribing;
 
       default:
         return state;
@@ -146,7 +144,7 @@ function getFiltersReducer(types) {
 
 function getSubscriptionReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     message: getMessageReducer(types),
     filters: getFiltersReducer(types),
     subscriptionStatus: getSubscriptionStatusReducer(types)

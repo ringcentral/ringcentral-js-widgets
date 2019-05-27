@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_TIME_TO_RETRY = void 0;
+exports["default"] = exports.DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_TIME_TO_RETRY = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -19,11 +19,11 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -36,6 +36,8 @@ require("core-js/modules/es6.function.bind");
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("isomorphic-fetch");
 
@@ -57,7 +59,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -79,13 +81,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -167,20 +169,20 @@ function (_RcModule) {
     _classCallCheck(this, ConnectivityMonitor);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ConnectivityMonitor).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
     _this._alert = alert;
-    _this._client = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context2, client, 'client');
+    _this._client = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, client, 'client');
     _this._environment = environment;
     _this._timeToRetry = timeToRetry;
     _this._heartBeatInterval = heartBeatInterval;
-    _this._reducer = (0, _getConnectivityMonitorReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getConnectivityMonitorReducer["default"])(_this.actionTypes);
     _this._retryTimeoutId = null;
     _this._lastEnvironmentCounter = 0; // auto bind this
 
-    _this._beforeRequestHandler = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _this._beforeRequestHandler).bind(_context2);
-    _this._requestSuccessHandler = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _this._requestSuccessHandler).bind(_context2);
-    _this._requestErrorHandler = (_context2 = _assertThisInitialized(_assertThisInitialized(_this)), _this._requestErrorHandler).bind(_context2);
+    _this._beforeRequestHandler = (_context2 = _assertThisInitialized(_this), _this._beforeRequestHandler).bind(_context2);
+    _this._requestSuccessHandler = (_context2 = _assertThisInitialized(_this), _this._requestSuccessHandler).bind(_context2);
+    _this._requestErrorHandler = (_context2 = _assertThisInitialized(_this), _this._requestErrorHandler).bind(_context2);
     _this._checkConnectionFunc =
     /*#__PURE__*/
     _asyncToGenerator(
@@ -268,7 +270,7 @@ function (_RcModule) {
         if (this._alert) {
           // dismiss disconnected alerts if found
           var alertIds = this._alert.messages.filter(function (m) {
-            return m.message === _connectivityMonitorMessages.default.disconnected;
+            return m.message === _connectivityMonitorMessages["default"].disconnected;
           }).map(function (m) {
             return m.id;
           });
@@ -293,7 +295,7 @@ function (_RcModule) {
               case 0:
                 if (!this.connectivity && this._alert) {
                   this._alert.danger({
-                    message: _connectivityMonitorMessages.default.disconnected,
+                    message: _connectivityMonitorMessages["default"].disconnected,
                     allowDuplicates: false
                   });
                 }
@@ -315,16 +317,18 @@ function (_RcModule) {
   }, {
     key: "_requestErrorHandler",
     value: function _requestErrorHandler(error) {
-      if (!error.apiResponse || !error.apiResponse._response) {
-        if (this.connectivity) {
-          this.store.dispatch({
-            type: this.actionTypes.connectFail
-          });
-          this.showAlert();
-        }
-
-        this._retry();
+      if (error.apiResponse) {
+        return;
       }
+
+      if (this.connectivity) {
+        this.store.dispatch({
+          type: this.actionTypes.connectFail
+        });
+        this.showAlert();
+      }
+
+      this._retry();
     }
   }, {
     key: "_bindHandlers",
@@ -422,12 +426,12 @@ function (_RcModule) {
   }, {
     key: "ready",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.ready;
+      return this.state.status === _moduleStatuses["default"].ready;
     }
   }, {
     key: "pending",
     get: function get() {
-      return this.state.status === _moduleStatuses.default.pending;
+      return this.state.status === _moduleStatuses["default"].pending;
     }
   }, {
     key: "connectivity",
@@ -437,6 +441,6 @@ function (_RcModule) {
   }]);
 
   return ConnectivityMonitor;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkConnection", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkConnection"), _class2.prototype)), _class2)) || _class);
-exports.default = ConnectivityMonitor;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkConnection", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkConnection"), _class2.prototype)), _class2)) || _class);
+exports["default"] = ConnectivityMonitor;
 //# sourceMappingURL=index.js.map

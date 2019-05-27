@@ -10,7 +10,7 @@ exports.getTypingToNumber = getTypingToNumber;
 exports.getToNumberEntityReducer = getToNumberEntityReducer;
 exports.getToNumbers = getToNumbers;
 exports.getMessageText = getMessageText;
-exports.default = getComposeTextReducer;
+exports["default"] = getComposeTextReducer;
 
 require("core-js/modules/es6.array.filter");
 
@@ -18,13 +18,11 @@ require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.array.find-index");
 
-require("core-js/fn/array/find");
-
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getSenderNumber(types) {
   return function () {
@@ -161,7 +159,7 @@ function getMessageText(types) {
 
 function getComposeTextReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     senderNumber: getSenderNumber(types),
     typingToNumber: getTypingToNumber(types),
     toNumbers: getToNumbers(types),

@@ -9,7 +9,7 @@ exports.getEmailReducer = getEmailReducer;
 exports.getTopicReducer = getTopicReducer;
 exports.getSubjectReducer = getSubjectReducer;
 exports.getDescriptionReducer = getDescriptionReducer;
-exports.default = getCacheReducer;
+exports["default"] = getCacheReducer;
 
 var _redux = require("redux");
 

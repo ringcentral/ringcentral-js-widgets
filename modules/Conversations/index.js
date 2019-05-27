@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -17,7 +17,11 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
@@ -42,8 +46,6 @@ require("core-js/modules/es6.date.to-iso-string");
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.now");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -79,7 +81,7 @@ var _status = _interopRequireDefault(require("./status"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -107,15 +109,15 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function mergeMessages(messages, oldMessages) {
   var tmp = {};
@@ -156,12 +158,12 @@ function getUniqueNumbers(conversations) {
   }
 
   conversations.forEach(function (message) {
-    if (message.from && message.direction === _messageDirection.default.inbound) {
+    if (message.from && message.direction === _messageDirection["default"].inbound) {
       var fromNumber = message.from.phoneNumber || message.from.extensionNumber;
       addIfNotExist(fromNumber);
     }
 
-    if (message.to && message.to.length > 0 && message.direction === _messageDirection.default.outbound) {
+    if (message.to && message.to.length > 0 && message.direction === _messageDirection["default"].outbound) {
       message.to.forEach(function (toNumber) {
         if (!toNumber) {
           return;
@@ -224,42 +226,42 @@ function (_RcModule) {
     _classCallCheck(this, Conversations);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Conversations).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
 
-    _initializerDefineProperty(_this, "allConversations", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "allConversations", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "uniqueNumbers", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "uniqueNumbers", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "allUniqueNumbers", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "allUniqueNumbers", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "effectiveSearchString", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "effectiveSearchString", _descriptor4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "typeFilteredConversations", _descriptor5, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "typeFilteredConversations", _descriptor5, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "formatedConversations", _descriptor6, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "formatedConversations", _descriptor6, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "filteredConversations", _descriptor7, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "filteredConversations", _descriptor7, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "pagingConversations", _descriptor8, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "pagingConversations", _descriptor8, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "earliestTime", _descriptor9, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "earliestTime", _descriptor9, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "currentConversation", _descriptor10, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "currentConversation", _descriptor10, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "messageText", _descriptor11, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "messageText", _descriptor11, _assertThisInitialized(_this));
 
-    _this._auth = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, auth, 'auth');
-    _this._alert = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, alert, 'alert');
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-    _this._messageSender = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, messageSender, 'messageSender');
-    _this._extensionInfo = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, extensionInfo, 'extensionInfo');
-    _this._messageStore = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, messageStore, 'messageStore');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
+    _this._messageSender = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, messageSender, 'messageSender');
+    _this._extensionInfo = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, extensionInfo, 'extensionInfo');
+    _this._messageStore = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, messageStore, 'messageStore');
+    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
     _this._contactMatcher = contactMatcher;
     _this._conversationLogger = conversationLogger;
     _this._regionSettings = regionSettings;
-    _this._reducer = (0, _getReducer.default)(_this.actionTypes);
+    _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
     _this._promise = null;
     _this._lastProcessedNumbers = null;
     _this._perPage = perPage;
@@ -488,9 +490,9 @@ function (_RcModule) {
                   dateTo: dateTo.toISOString()
                 };
 
-                if (typeFilter === _messageTypes.default.text) {
-                  params.messageType = [_messageTypes.default.sms, _messageTypes.default.pager];
-                } else if (typeFilter && typeFilter !== '' && typeFilter !== _messageTypes.default.all) {
+                if (typeFilter === _messageTypes["default"].text) {
+                  params.messageType = [_messageTypes["default"].sms, _messageTypes["default"].pager];
+                } else if (typeFilter && typeFilter !== '' && typeFilter !== _messageTypes["default"].all) {
                   params.messageType = typeFilter;
                 }
 
@@ -820,7 +822,7 @@ function (_RcModule) {
     key: "_alertWarning",
     value: function _alertWarning(message) {
       if (message) {
-        var ttlConfig = message !== _messageSenderMessages.default.noAreaCode ? {
+        var ttlConfig = message !== _messageSenderMessages["default"].noAreaCode ? {
           ttl: 0
         } : null;
 
@@ -848,7 +850,7 @@ function (_RcModule) {
                   break;
                 }
 
-                return _context10.abrupt("return", this._alertWarning(_messageSenderMessages.default.textTooLong));
+                return _context10.abrupt("return", this._alertWarning(_messageSenderMessages["default"].textTooLong));
 
               case 2:
                 return _context10.abrupt("return", this.store.dispatch({
@@ -1103,7 +1105,7 @@ function (_RcModule) {
           countryCode = _this$_regionSettings.countryCode,
           areaCode = _this$_regionSettings.areaCode;
       var formattedCorrespondentMatch = this.correspondentMatch.map(function (item) {
-        var formatted = (0, _normalizeNumber.default)({
+        var formatted = (0, _normalizeNumber["default"])({
           phoneNumber: item.phoneNumber,
           countryCode: countryCode,
           areaCode: areaCode
@@ -1175,17 +1177,17 @@ function (_RcModule) {
   }, {
     key: "loadingOldConversations",
     get: function get() {
-      return this.fetchConversationsStatus === _status.default.fetching;
+      return this.fetchConversationsStatus === _status["default"].fetching;
     }
   }, {
     key: "loadingOldMessages",
     get: function get() {
-      return this.fetchMessagesStatus === _status.default.fetching;
+      return this.fetchMessagesStatus === _status["default"].fetching;
     }
   }, {
     key: "pushing",
     get: function get() {
-      return this.state.conversationStatus === _status.default.pushing;
+      return this.state.conversationStatus === _status["default"].pushing;
     }
   }, {
     key: "_hasPermission",
@@ -1205,7 +1207,7 @@ function (_RcModule) {
   }]);
 
   return Conversations;
-}(_RcModule2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypeFilter", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypeFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldConversations", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetCurrentPage", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "resetCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadConversation", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "loadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unloadConversation", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "unloadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldMessages", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyToReceivers", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "replyToReceivers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteCoversation", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteCoversation"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypeFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypeFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldConversations", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetCurrentPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unloadConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unloadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyToReceivers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyToReceivers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteCoversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteCoversation"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1290,13 +1292,13 @@ function (_RcModule) {
       return _this8.typeFilter;
     }, function (allConversations, typeFilter) {
       switch (typeFilter) {
-        case _messageTypes.default.text:
+        case _messageTypes["default"].text:
           return allConversations.filter(_messageHelper.messageIsTextMessage);
 
-        case _messageTypes.default.voiceMail:
+        case _messageTypes["default"].voiceMail:
           return allConversations.filter(_messageHelper.messageIsVoicemail);
 
-        case _messageTypes.default.fax:
+        case _messageTypes["default"].fax:
           return allConversations.filter(_messageHelper.messageIsFax);
 
         default:
@@ -1367,7 +1369,7 @@ function (_RcModule) {
 
         var mmsAttachment = null;
 
-        if ((0, _messageHelper.messageIsTextMessage)(message) && (0, _isBlank.default)(message.subject) && _this9._showMMSAttachment) {
+        if ((0, _messageHelper.messageIsTextMessage)(message) && (0, _isBlank["default"])(message.subject) && _this9._showMMSAttachment) {
           mmsAttachment = (0, _messageHelper.getMMSAttachment)(message);
         }
 
@@ -1410,10 +1412,10 @@ function (_RcModule) {
       var searchNumber = effectiveSearchString.replace(cleanRegex, '');
       conversations.forEach(function (message) {
         if (searchNumber === effectiveSearchString) {
-          var cleanedNumber = (0, _cleanNumber.default)(effectiveSearchString);
+          var cleanedNumber = (0, _cleanNumber["default"])(effectiveSearchString);
 
           if (message.correspondents.find(function (contact) {
-            return (0, _cleanNumber.default)(contact.phoneNumber || contact.extensionNumber || '').indexOf(cleanedNumber) > -1;
+            return (0, _cleanNumber["default"])(contact.phoneNumber || contact.extensionNumber || '').indexOf(cleanedNumber) > -1;
           })) {
             // match by phoneNumber or extensionNumber
             searchResults.push(_objectSpread({}, message, {
@@ -1582,5 +1584,5 @@ function (_RcModule) {
     }];
   }
 })), _class2)) || _class);
-exports.default = Conversations;
+exports["default"] = Conversations;
 //# sourceMappingURL=index.js.map

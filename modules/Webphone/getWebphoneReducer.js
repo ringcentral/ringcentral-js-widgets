@@ -14,7 +14,7 @@ exports.getActiveSessionIdReducer = getActiveSessionIdReducer;
 exports.getRingSessionIdReducer = getRingSessionIdReducer;
 exports.getLastEndedSessionsReducer = getLastEndedSessionsReducer;
 exports.getSessionsReducer = getSessionsReducer;
-exports.default = getWebphoneReducer;
+exports["default"] = getWebphoneReducer;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -24,15 +24,17 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.find");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -50,7 +52,7 @@ var _sessionStatus = _interopRequireDefault(require("./sessionStatus"));
 
 var _webphoneHelper = require("./webphoneHelper");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -74,28 +76,39 @@ function getVideoElementPreparedReducer(types) {
 
 function getConnectionStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _connectionStatus.default.disconnected;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref2.type;
 
     switch (type) {
       case types.connect:
+        // trigger by first 3 connect from disconnected or connectFailed status
+        return _connectionStatus["default"].connecting;
+
       case types.reconnect:
-        return _connectionStatus.default.connecting;
+        // trigger by connect from connectError status
+        return _connectionStatus["default"].reconnecting;
 
       case types.registered:
-        return _connectionStatus.default.connected;
+        // trigger when register success
+        return _connectionStatus["default"].connected;
 
-      case types.unregistered:
-        return _connectionStatus.default.disconnected;
-
-      case types.disconnect:
-        return _connectionStatus.default.disconnecting;
+      case types.connectFailed:
+        // trigger when connect failed (retry time <=2)
+        return _connectionStatus["default"].connectFailed;
 
       case types.connectError:
-      case types.registrationFailed:
-        return _connectionStatus.default.connectFailed;
+        // trigger when connect failed (retry time > 2)
+        return _connectionStatus["default"].connectError;
+
+      case types.unregistered:
+        // trigger by user disconnect success
+        return _connectionStatus["default"].disconnected;
+
+      case types.disconnect:
+        // trigger by user disconnect
+        return _connectionStatus["default"].disconnecting;
 
       default:
         return state;
@@ -114,7 +127,7 @@ function getErrorCodeReducer(types) {
 
     switch (type) {
       case types.connectError:
-      case types.registrationFailed:
+      case types.connectFailed:
         return errorCode;
 
       case types.registered:
@@ -137,7 +150,7 @@ function getStatusCodeReducer(types) {
 
     switch (type) {
       case types.connectError:
-      case types.registrationFailed:
+      case types.connectFailed:
         return statusCode;
 
       case types.registered:
@@ -154,15 +167,20 @@ function getConnectRetryCountsReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
     var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref5.type;
+        type = _ref5.type,
+        retryCounts = _ref5.retryCounts;
 
     switch (type) {
+      case types.connect:
       case types.reconnect:
         return state + 1;
 
-      case types.resetRetryCounts:
+      case types.unregistered:
       case types.registered:
         return 0;
+
+      case types.setRetryCounts:
+        return retryCounts;
 
       default:
         return state;
@@ -359,7 +377,7 @@ function getSessionsReducer(types) {
           var _needUpdate2 = false;
           state.forEach(function (session) {
             if (session.cached) {
-              session.callStatus = _sessionStatus.default.onHold;
+              session.callStatus = _sessionStatus["default"].onHold;
               session.isOnHold = true;
               _needUpdate2 = true;
             }
@@ -378,7 +396,7 @@ function getSessionsReducer(types) {
 
 function getWebphoneReducer(types) {
   return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer.default)(types),
+    status: (0, _getModuleStatusReducer["default"])(types),
     videoElementPrepared: getVideoElementPreparedReducer(types),
     connectionStatus: getConnectionStatusReducer(types),
     connectRetryCounts: getConnectRetryCountsReducer(types),

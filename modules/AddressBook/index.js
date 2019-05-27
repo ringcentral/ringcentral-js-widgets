@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
@@ -33,11 +33,15 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -61,9 +65,9 @@ var _getAddressBookReducer = _interopRequireWildcard(require("./getAddressBookRe
 
 var _dec, _class, _class2;
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -95,7 +99,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var CONTACTS_PER_PAGE = 250;
 var DEFAULT_TTL = 30 * 60 * 1000;
@@ -115,9 +119,9 @@ function getSyncParams(syncToken, pageId) {
 
   if (syncToken) {
     query.syncToken = syncToken;
-    query.syncType = _syncTypes.default.iSync;
+    query.syncType = _syncTypes["default"].iSync;
   } else {
-    query.syncType = _syncTypes.default.fSync;
+    query.syncType = _syncTypes["default"].fSync;
   }
 
   if (pageId) {
@@ -181,7 +185,7 @@ function (_Pollable) {
     _classCallCheck(this, AddressBook);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AddressBook).call(this, _objectSpread({}, options, {
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     })));
     _this._client = client;
 
@@ -201,7 +205,7 @@ function (_Pollable) {
     _this._addressBookStorageKey = 'addressBookContactsList';
 
     if (_this._storage) {
-      _this._reducer = (0, _getAddressBookReducer.default)(_this.actionTypes);
+      _this._reducer = (0, _getAddressBookReducer["default"])(_this.actionTypes);
 
       _this._storage.registerReducer({
         key: _this._syncTokenStorageKey,
@@ -218,7 +222,7 @@ function (_Pollable) {
         reducer: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getAddressBookReducer.default)(_this.actionTypes, {
+      _this._reducer = (0, _getAddressBookReducer["default"])(_this.actionTypes, {
         contactList: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes),
         syncToken: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes),
         syncTimestamp: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
@@ -360,7 +364,7 @@ function (_Pollable) {
     value: function _isDataReady() {
       // only turns ready when data has been fetched
       // (could be from other tabs)
-      return this.status === _moduleStatuses.default.initializing && this.syncTime !== null;
+      return this.status === _moduleStatuses["default"].initializing && this.syncTime !== null;
     }
   }, {
     key: "_initAddressBook",
@@ -615,7 +619,7 @@ function (_Pollable) {
 
               case 6:
                 _context6.next = 8;
-                return (0, _sleep.default)(1000);
+                return (0, _sleep["default"])(1000);
 
               case 8:
                 _context6.next = 10;
@@ -817,6 +821,6 @@ function (_Pollable) {
   }]);
 
   return AddressBook;
-}(_Pollable2.default), (_applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_syncAddressBookApi", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "_syncAddressBookApi"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
-exports.default = AddressBook;
+}(_Pollable2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_syncAddressBookApi", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_syncAddressBookApi"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
+exports["default"] = AddressBook;
 //# sourceMappingURL=index.js.map

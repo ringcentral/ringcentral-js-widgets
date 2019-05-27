@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -21,11 +21,13 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -63,7 +65,7 @@ var _concurrentExecute = _interopRequireDefault(require("../../lib/concurrentExe
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -89,13 +91,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var RecentCalls = (
 /**
@@ -127,11 +129,11 @@ function (_RcModule) {
     _classCallCheck(this, RecentCalls);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RecentCalls).call(this, _objectSpread({
-      actionTypes: _actionTypes.default
+      actionTypes: _actionTypes["default"]
     }, options)));
-    _this._client = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, client, 'client');
-    _this._callHistory = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, callHistory, 'callHistory');
-    _this._reducer = (0, _getRecentCallsReducer.default)(_this.actionTypes);
+    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
+    _this._callHistory = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callHistory, 'callHistory');
+    _this._reducer = (0, _getRecentCallsReducer["default"])(_this.actionTypes);
     return _this;
   }
 
@@ -259,7 +261,7 @@ function (_RcModule) {
                 calls = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
                 daySpan = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : 60;
                 length = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 5;
-                dateFrom = (0, _getDateFrom.default)(daySpan);
+                dateFrom = (0, _getDateFrom["default"])(daySpan);
                 recentCalls = this._getLocalRecentCalls(currentContact, calls, dateFrom); // If we could not find enough recent calls,
                 // we need to search for calls on server.
 
@@ -367,7 +369,7 @@ function (_RcModule) {
 
         return acc.concat(promise);
       }, []);
-      return (0, _concurrentExecute.default)(recentCallsPromises, 5, 500).then(this._flattenToRecords);
+      return (0, _concurrentExecute["default"])(recentCallsPromises, 5, 500).then(this._flattenToRecords);
     }
   }, {
     key: "_fetchCallLogList",
@@ -410,7 +412,7 @@ function (_RcModule) {
   }, {
     key: "isCallsLoaded",
     get: function get() {
-      return this.state.callStatus === _callStatus.default.loaded;
+      return this.state.callStatus === _callStatus["default"].loaded;
     }
   }, {
     key: "status",
@@ -420,6 +422,6 @@ function (_RcModule) {
   }]);
 
   return RecentCalls;
-}(_RcModule2.default), (_applyDecoratedDescriptor(_class2.prototype, "getCalls", [_background.default], Object.getOwnPropertyDescriptor(_class2.prototype, "getCalls"), _class2.prototype)), _class2)) || _class);
-exports.default = RecentCalls;
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "getCalls", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getCalls"), _class2.prototype)), _class2)) || _class);
+exports["default"] = RecentCalls;
 //# sourceMappingURL=index.js.map

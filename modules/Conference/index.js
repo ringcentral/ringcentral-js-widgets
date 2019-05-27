@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -25,11 +25,13 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -53,7 +55,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -89,7 +91,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(callingCode,id,isoCode,name),phoneNumber,location),allowJoinBeforeHost';
 /**
@@ -99,6 +101,9 @@ var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(ca
 
 var Conference = (_dec = (0, _di.Module)({
   deps: ['Alert', 'Client', 'Storage', 'RegionSettings', 'RolesAndPermissions', {
+    dep: 'AvailabilityMonitor',
+    optional: true
+  }, {
     dep: 'ConferenceOptions',
     optional: true
   }]
@@ -121,7 +126,8 @@ function (_DataFetcher) {
         regionSettings = _ref.regionSettings,
         storage = _ref.storage,
         rolesAndPermissions = _ref.rolesAndPermissions,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "regionSettings", "storage", "rolesAndPermissions"]);
+        availabilityMonitor = _ref.availabilityMonitor,
+        options = _objectWithoutProperties(_ref, ["alert", "client", "regionSettings", "storage", "rolesAndPermissions", "availabilityMonitor"]);
 
     _classCallCheck(this, Conference);
 
@@ -135,7 +141,7 @@ function (_DataFetcher) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.t0 = _jsonMask.default;
+                  _context.t0 = _jsonMask["default"];
                   _context.next = 3;
                   return client.account().extension().conferencing().get();
 
@@ -166,21 +172,22 @@ function (_DataFetcher) {
     _this._savedStorageKey = 'conferenceSaveCurrentSettings';
     _this._regionSetting = regionSettings;
     _this._rolesAndPermissions = rolesAndPermissions;
+    _this._availabilityMonitor = availabilityMonitor;
     _this._lastCountryCode = null;
 
     _this._storage.registerReducer({
       key: _this._dialInNumberStorageKey,
-      reducer: (0, _createSimpleReducer.default)(_this.actionTypes.updateDialInNumber, 'dialInNumber')
+      reducer: (0, _createSimpleReducer["default"])(_this.actionTypes.updateDialInNumber, 'dialInNumber')
     });
 
     _this._storage.registerReducer({
       key: _this._additionalNumbersStorageKey,
-      reducer: (0, _createSimpleReducer.default)(_this.actionTypes.updateAdditionalNumbers, 'additionalNumbers')
+      reducer: (0, _createSimpleReducer["default"])(_this.actionTypes.updateAdditionalNumbers, 'additionalNumbers')
     });
 
     _this._storage.registerReducer({
       key: _this._savedStorageKey,
-      reducer: (0, _createSimpleReducer.default)(_this.actionTypes.updateSaveCurrentSettings, '_saved')
+      reducer: (0, _createSimpleReducer["default"])(_this.actionTypes.updateSaveCurrentSettings, '_saved')
     });
 
     return _this;
@@ -235,7 +242,7 @@ function (_DataFetcher) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return _get(_getPrototypeOf(Conference.prototype), "_shouldInit", this).call(this) && this._rolesAndPermissions.ready && this._alert.ready;
+      return _get(_getPrototypeOf(Conference.prototype), "_shouldInit", this).call(this) && this._rolesAndPermissions.ready && this._alert.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready);
     }
   }, {
     key: "updateEnableJoinBeforeHost",
@@ -268,9 +275,11 @@ function (_DataFetcher) {
                 _context3.prev = 8;
                 _context3.t0 = _context3["catch"](0);
 
-                this._alert.warning({
-                  message: _callControlError.default.generalError
-                });
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context3.t0)) {
+                  this._alert.warning({
+                    message: _callControlError["default"].generalError
+                  });
+                }
 
                 return _context3.abrupt("return", null);
 
@@ -336,7 +345,7 @@ function (_DataFetcher) {
   }, {
     key: "_actionTypes",
     get: function get() {
-      return _actionTypes.default;
+      return _actionTypes["default"];
     }
   }, {
     key: "additionalNumbers",
@@ -361,6 +370,6 @@ function (_DataFetcher) {
   }]);
 
   return Conference;
-}(_DataFetcher2.default), (_applyDecoratedDescriptor(_class2.prototype, "updateEnableJoinBeforeHost", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateEnableJoinBeforeHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateDialInNumber", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateDialInNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateAdditionalNumbers", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateAdditionalNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSaveCurrentSettings", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSaveCurrentSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onInviteWithText", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onInviteWithText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onJoinAsHost", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "onJoinAsHost"), _class2.prototype)), _class2)) || _class);
-exports.default = Conference;
+}(_DataFetcher2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "updateEnableJoinBeforeHost", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateEnableJoinBeforeHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateDialInNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateDialInNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateAdditionalNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateAdditionalNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSaveCurrentSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSaveCurrentSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onInviteWithText", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onInviteWithText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onJoinAsHost", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onJoinAsHost"), _class2.prototype)), _class2)) || _class);
+exports["default"] = Conference;
 //# sourceMappingURL=index.js.map

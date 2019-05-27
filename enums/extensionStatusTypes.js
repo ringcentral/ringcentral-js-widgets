@@ -9,7 +9,7 @@ exports.extensionStatusTypes = void 0;
 
 var _HashMap = _interopRequireDefault(require("../lib/HashMap"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * @typedef ExtensionStatusTypes
@@ -22,7 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * @type {ExtensionStatusTypes}
  */
-var extensionStatusTypes = new _HashMap.default({
+var extensionStatusTypes = new _HashMap["default"]({
   enabled: 'Enabled',
   notActivated: 'NotActivated',
   disabled: 'Disabled'

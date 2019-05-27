@@ -4,15 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.callIdentityFunction = callIdentityFunction;
-exports.default = void 0;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -26,15 +26,17 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.assign");
 
 require("core-js/modules/es6.array.find-index");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -68,7 +70,7 @@ var _selector = require("../../lib/selector");
 
 var _dec, _class, _class2, _descriptor, _temp;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -94,6 +96,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
@@ -104,11 +108,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 /**
  * @function
@@ -171,24 +173,24 @@ function (_LoggerBase) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CallLogger).call(this, _objectSpread({}, options, {
       name: 'callLogger',
-      actionTypes: _actionTypes.default,
-      getDataReducer: _getDataReducer.default,
+      actionTypes: _actionTypes["default"],
+      getDataReducer: _getDataReducer["default"],
       identityFunction: callIdentityFunction
     })));
 
-    _initializerDefineProperty(_this, "transferredCallsMap", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "transferredCallsMap", _descriptor, _assertThisInitialized(_this));
 
-    _this._storage = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, storage, 'storage');
-    _this._callMonitor = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, callMonitor, 'callMonitor');
-    _this._contactMatcher = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, contactMatcher, 'contactMatcher');
-    _this._activityMatcher = (_context = _assertThisInitialized(_assertThisInitialized(_this)), _ensureExist.default).call(_context, activityMatcher, 'activityMatcher');
+    _this._storage = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, storage, 'storage');
+    _this._callMonitor = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callMonitor, 'callMonitor');
+    _this._contactMatcher = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, contactMatcher, 'contactMatcher');
+    _this._activityMatcher = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, activityMatcher, 'activityMatcher');
     _this._callHistory = callHistory;
     _this._tabManager = tabManager;
     _this._storageKey = "".concat(_this._name, "Data");
 
     _this._storage.registerReducer({
       key: _this._storageKey,
-      reducer: (0, _getDataReducer.default)(_this.actionTypes, initialState)
+      reducer: (0, _getDataReducer["default"])(_this.actionTypes, initialState)
     });
 
     _this._lastProcessedCalls = null;
@@ -603,7 +605,7 @@ function (_LoggerBase) {
             });
 
             if (oldCallIndex === -1) {
-              _this2._onNewCall(call, _callLoggerTriggerTypes.default.presenceUpdate);
+              _this2._onNewCall(call, _callLoggerTriggerTypes["default"].presenceUpdate);
             } else {
               var oldCall = oldCalls[oldCallIndex];
               oldCalls.splice(oldCallIndex, 1);
@@ -612,7 +614,7 @@ function (_LoggerBase) {
                 _this2._onCallUpdated(_objectSpread({}, call, {
                   isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
                   transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-                }), _callLoggerTriggerTypes.default.presenceUpdate);
+                }), _callLoggerTriggerTypes["default"].presenceUpdate);
               }
 
               if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
@@ -626,7 +628,7 @@ function (_LoggerBase) {
                   isTransferredCall: true,
                   transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber,
                   phoneNumberUpdated: true
-                }), _callLoggerTriggerTypes.default.presenceUpdate);
+                }), _callLoggerTriggerTypes["default"].presenceUpdate);
               }
             }
           });
@@ -634,7 +636,7 @@ function (_LoggerBase) {
             _this2._onCallUpdated(_objectSpread({}, call, {
               isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
               transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-            }), _callLoggerTriggerTypes.default.presenceUpdate);
+            }), _callLoggerTriggerTypes["default"].presenceUpdate);
           });
         }
 
@@ -659,7 +661,7 @@ function (_LoggerBase) {
                 _this2._onCallUpdated(_objectSpread({}, callInfo, {
                   isTransferredCall: !!_this2.transferredCallsMap[callInfo.sessionId],
                   transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-                }), _callLoggerTriggerTypes.default.callLogSync);
+                }), _callLoggerTriggerTypes["default"].callLogSync);
               }
             }
           });
@@ -776,7 +778,7 @@ function (_LoggerBase) {
   }]);
 
   return CallLogger;
-}(_LoggerBase2.default), _temp), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logCall", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "logCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogOnRinging", [_proxify.default], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogOnRinging"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "transferredCallsMap", [_selector.selector], {
+}(_LoggerBase2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogOnRinging", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogOnRinging"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "transferredCallsMap", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -792,5 +794,5 @@ function (_LoggerBase) {
     }];
   }
 })), _class2)) || _class);
-exports.default = CallLogger;
+exports["default"] = CallLogger;
 //# sourceMappingURL=index.js.map
