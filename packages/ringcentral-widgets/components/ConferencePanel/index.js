@@ -11,27 +11,7 @@ import LinkLine from '../LinkLine';
 import MeetingSection from '../MeetingSection';
 import i18n from './i18n';
 import styles from './styles.scss';
-
-// TODO Move to a separate folder.
-function CheckBox({ checked, onChange }) {
-  const className = classNames(styles.checkbox, checked ? styles.checked : '');
-  return (
-    <div
-      className={className}
-      onClick={() => onChange && onChange(!checked)}>
-      ✓
-    </div>
-  );
-}
-
-CheckBox.propTypes = {
-  checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func
-};
-
-CheckBox.defaultProps = {
-  onChange: null
-};
+import CheckBox from '../CheckBox';
 
 function DialInNumberItem({ region, formattedPhoneNumber }) {
   return (
@@ -69,7 +49,7 @@ function DialInNumberList({ dialInNumbers, selected, onChange }) {
             onClick={selectChange}
             title={e.region}
           >
-            <CheckBox className={styles.checkbox} checked={checked} />
+            <CheckBox checked={checked} type="checkbox" />
             <div className={styles.region}>{e.region}</div>
             <div className={styles.phoneNumber}>{e.formattedPhoneNumber}</div>
           </li>
@@ -89,19 +69,23 @@ function formatPin(number) {
 }
 
 const dialInNumbersLinks = {
-  att: 'https://rcconf.net/1L06Hd5', // att reuse rc brand
+  att: 'https://ringcentr.al/2L14jqL', // att reuse rc brand
   bt: 'https://www.btcloudphone.bt.com/conferencing',
-  rc: 'https://rcconf.net/1L06Hd5',
+  rc: 'https://ringcentr.al/2L14jqL',
   telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions',
 };
 
 class ConferencePanel extends Component {
   constructor(props) {
     super(props);
+    const { dialInNumber, additionalNumbers } = this.props;
     this.state = {
       dialInNumbers: this.formatDialInNumbers(props),
       showAdditionalNumberList: false,
-      mainCtrlOverlapped: false
+      mainCtrlOverlapped: false,
+      dialInNumber,
+      additionalNumbers,
+      saveAsDefault: false,
     };
   }
 
@@ -132,12 +116,26 @@ class ConferencePanel extends Component {
 
   inviteTxt = () => {
     const {
-      dialInNumber, additionalNumbers, participantCode, brand
+      participantCode,
+      brand,
+      showSaveAsDefault,
+      updateDialInNumber,
+      updateAdditionalNumbers,
     } = this.props;
-    const { dialInNumbers } = this.state;
-    const formattedDialInNumber = dialInNumbers.find(
+    let { dialInNumber, additionalNumbers, } = this.props;
+    const { dialInNumbers, saveAsDefault } = this.state;
+    if (showSaveAsDefault) {
+      dialInNumber = this.state.dialInNumber;
+      additionalNumbers = this.state.additionalNumbers;
+      if (saveAsDefault) {
+        updateDialInNumber(dialInNumber);
+        updateAdditionalNumbers(additionalNumbers);
+      }
+    }
+    dialInNumber = dialInNumbers.find(
       e => e.phoneNumber === dialInNumber
-    ).formattedPhoneNumber;
+    ) || dialInNumbers[0];
+    const formattedDialInNumber = dialInNumber.formattedPhoneNumber;
     const additionalNumbersTxt = additionalNumbers.map(p => dialInNumbers.find(obj => obj.phoneNumber === p)
     ).map(fmt => `${fmt.region}  ${fmt.formattedPhoneNumber}`)
       .join('\n');
@@ -169,6 +167,12 @@ class ConferencePanel extends Component {
     const txt = this.inviteTxt();
     if (txt) {
       this.props.inviteWithText(txt);
+    }
+    const { showSaveAsDefault, updateDialInNumber, updateAdditionalNumbers } = this.props;
+    const { saveAsDefault, dialInNumber, additionalNumbers } = this.state;
+    if (showSaveAsDefault && saveAsDefault) {
+      updateDialInNumber(dialInNumber);
+      updateAdditionalNumbers(additionalNumbers);
     }
   };
 
@@ -213,11 +217,6 @@ class ConferencePanel extends Component {
       currentLocale,
       hostCode,
       participantCode,
-      dialInNumber,
-      additionalNumbers,
-      updateDialInNumber,
-      updateAdditionalNumbers,
-      joinAsHost,
       allowJoinBeforeHost,
       additionalButtons,
       onAllowJoinBeforeHostChange,
@@ -227,12 +226,42 @@ class ConferencePanel extends Component {
       showEnableJoinBeforeHost = true,
       recipientsSection,
       bottomClassName,
+      showSaveAsDefault,
+    } = this.props;
+    let {
+      dialInNumber,
+      additionalNumbers,
+      updateDialInNumber,
+      updateAdditionalNumbers,
+      joinAsHost,
     } = this.props;
     const {
       dialInNumbers,
       showAdditionalNumberList,
-      mainCtrlOverlapped
+      mainCtrlOverlapped,
+      saveAsDefault,
     } = this.state;
+    // if user checked the save as defautlt
+    if (showSaveAsDefault) {
+      dialInNumber = this.state.dialInNumber;
+      additionalNumbers = this.state.additionalNumbers;
+      updateDialInNumber = (dialInNumber) => {
+        this.setState({ dialInNumber });
+      };
+      updateAdditionalNumbers = (additionalNumbers) => {
+        this.setState({ additionalNumbers });
+      };
+      joinAsHost = () => {
+        this.props.joinAsHost();
+        if (saveAsDefault) {
+          this.props.updateDialInNumber(dialInNumber);
+          this.props.updateAdditionalNumbers(additionalNumbers);
+        }
+      };
+    }
+    const onSaveAsDefaultChange = (checked) => {
+      this.setState({ saveAsDefault: checked });
+    };
     if (showAdditionalNumberList) {
       return (
         <div className={styles.selectNumberPage}>
@@ -349,6 +378,17 @@ class ConferencePanel extends Component {
           </Button>
         </div>
         <div className={bottomClass.join(' ')}>
+          {
+            showSaveAsDefault && (
+              <CheckBox
+                checked={saveAsDefault}
+                onChecked={onSaveAsDefaultChange}
+                type="checkbox"
+              >
+                {i18n.getString('saveAsDefault', currentLocale)}
+              </CheckBox>
+            )
+          }
           {additionalButtons.map(
             Btn => (
               <Btn
@@ -410,6 +450,7 @@ ConferencePanel.propTypes = {
   brand: PropTypes.object.isRequired,
   recipientsSection: PropTypes.node,
   bottomClassName: PropTypes.string,
+  showSaveAsDefault: PropTypes.bool,
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],
@@ -418,6 +459,7 @@ ConferencePanel.defaultProps = {
   showJoinAsHost: true,
   showEnableJoinBeforeHost: true,
   bottomClassName: null,
+  showSaveAsDefault: false,
 };
 
 export default ConferencePanel;

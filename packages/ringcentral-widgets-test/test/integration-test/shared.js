@@ -24,7 +24,7 @@ const apiConfig = {
 
 SimulateWindowObject();
 const getPhone = async ({
-  shouldMockForLogin = true, mockUpdateConference = true, shouldMockWebphone = true, ...options
+  shouldMockForLogin = true, shouldMockWebphone = true, ...options
 } = {}) => {
   jest.mock('pubnub');
   jest.mock('ringcentral-web-phone');
@@ -66,10 +66,10 @@ const getPhone = async ({
 };
 
 export const getWrapper = async ({
-  shouldMockForLogin = true, mockUpdateConference = true, shouldMockWebphone = true, ...options
+  shouldMockForLogin = true, shouldMockWebphone = true, ...options
 } = {}) => {
   const phone = await getPhone({
-    shouldMockForLogin, mockUpdateConference, shouldMockWebphone, ...options
+    shouldMockForLogin, shouldMockWebphone, ...options
   });
   return mount(<App phone={phone} />);
 };

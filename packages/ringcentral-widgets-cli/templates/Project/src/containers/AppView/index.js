@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
-import OfflineModeBadge from 'ringcentral-widgets/components/OfflineModeBadge';
 import Environment from 'ringcentral-widgets/components/Environment';
 
 import styles from './styles.scss';
@@ -13,17 +12,12 @@ function AppView(props) {
     <div className={styles.root}>
       {props.children}
 
-      <OfflineModeBadge
-        offline={props.offline}
-        showOfflineAlert={props.showOfflineAlert}
-        currentLocale={props.currentLocale}
-      />
       <Environment
         server={props.server}
         enabled={props.enabled}
         onSetData={props.onSetData}
         redirectUri={props.redirectUri}
-        recordingHost={''}
+        recordingHost=""
       />
     </div>
   );
@@ -34,10 +28,6 @@ AppView.propTypes = {
   server: PropTypes.string,
   enabled: PropTypes.bool,
   onSetData: PropTypes.func,
-  currentLocale: PropTypes.string.isRequired,
-  offline: PropTypes.bool.isRequired,
-  showOfflineAlert: PropTypes.func.isRequired,
-  redirectUri: PropTypes.string.isRequired,
 };
 
 AppView.defaultProps = {
@@ -51,32 +41,19 @@ AppView.defaultProps = {
 
 export default withPhone(connect((_, {
   phone: {
-    locale,
     oAuth,
     environment,
-    connectivityMonitor,
   }
 }) => ({
-  currentLocale: locale.currentLocale,
   server: environment.server,
   enabled: environment.enabled,
-  offline: (
-    !connectivityMonitor.connectivity ||
-    oAuth.proxyRetryCount > 0
-  ),
   redirectUri: oAuth.redirectUri
 }), (_, {
   phone: {
     environment,
-    connectivityMonitor,
-    rateLimiter,
   },
 }) => ({
-  onSetData: (options) => {
+  onSetData(options) {
     environment.setData(options);
-  },
-  showOfflineAlert: () => {
-    rateLimiter.showAlert();
-    connectivityMonitor.showAlert();
   },
 }))(AppView));

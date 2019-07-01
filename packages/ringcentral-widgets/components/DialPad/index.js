@@ -26,9 +26,11 @@ export default function DialPad({
   alternativeTimeout,
   dialButtonVolume,
   dialButtonMuted,
+  dataSign
 }) {
+  dataSign= typeof dataSign !=='undefined' ? dataSign: '';
   return (
-    <div className={classnames(styles.root, className)}>
+    <div data-sign={`${dataSign}DialPad`} className={classnames(styles.root, className)}>
       {keyConfig.map((row, rowIdx) => (
         <div key={rowIdx} className={styles.row}>
           {row.map((btn) => {
@@ -64,6 +66,7 @@ DialPad.propTypes = {
   alternativeTimeout: PropTypes.number,
   dialButtonVolume: PropTypes.number,
   dialButtonMuted: PropTypes.bool,
+  dataSign: PropTypes.string
 };
 
 DialPad.defaultProps = {

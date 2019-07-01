@@ -2,7 +2,9 @@ import { all, find } from 'ramda';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import Tooltip from 'rc-tooltip';
 
+import InfoIcon from '../../assets/images/Info.svg';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -14,6 +16,8 @@ import Select from '../DropdownSelect';
 import Button from '../Button';
 import SaveButton from '../SaveButton';
 import IconLine from '../IconLine';
+
+const TooltipCom = typeof Tooltip === 'function' ? Tooltip : Tooltip.default;
 
 export default class AudioSettingsPanel extends Component {
   constructor(props) {
@@ -28,6 +32,7 @@ export default class AudioSettingsPanel extends Component {
       outputDeviceId: props.outputDeviceId,
     };
   }
+
   componentWillReceiveProps(newProps) {
     if (newProps.dialButtonVolume !== this.props.dialButtonVolume) {
       this.setState({
@@ -71,6 +76,19 @@ export default class AudioSettingsPanel extends Component {
       });
     }
   }
+
+  componentDidMount() {
+    if (!this.props.userMedia) {
+      return;
+    }
+    if (
+      this.props.availableInputDevices.length > 0 &&
+      this.props.availableInputDevices[0].label === ''
+    ) {
+      this.props.checkUserMedia();
+    }
+  }
+
   onSave = () => {
     if (typeof this.props.onSave === 'function') {
       const {
@@ -93,6 +111,7 @@ export default class AudioSettingsPanel extends Component {
       });
     }
   }
+
   onReset = () => {
     const {
       dialButtonVolume,
@@ -113,60 +132,84 @@ export default class AudioSettingsPanel extends Component {
       outputDeviceId,
     });
   }
+
   onDialButtonVolumeChange = (dialButtonVolume) => {
     this.setState({
       dialButtonVolume,
     });
   }
+
   onDialButtonMutedChange = (dialButtonMuted) => {
     this.setState({
       dialButtonMuted,
     });
   }
+
   onRingtoneVolumeChange = (ringtoneVolume) => {
     this.setState({
       ringtoneVolume,
     });
   }
+
   onRingtoneMutedChange = (ringtoneMuted) => {
     this.setState({
       ringtoneMuted,
     });
   }
+
   onCallVolumeChange = (callVolume) => {
     this.setState({
       callVolume,
     });
   }
+
   onOutputDeviceIdChange = (device) => {
     this.setState({
       outputDeviceId: device.deviceId,
     });
   }
+
   onInputDeviceIdChange = (device) => {
     this.setState({
       inputDeviceId: device.deviceId,
     });
   }
-  renderDeviceOption(device) {
-    return device.label;
+
+  renderDeviceOption = (device) => {
+    return device.label || i18n.getString('noLabel', this.props.currentLocale);
   }
+
   renderDeviceValue(device) {
     return device.deviceId;
   }
+
   renderOutputDevice = (value) => {
+    if (value === null) {
+      return i18n.getString('noDevice', this.props.currentLocale);
+    }
     const device = find(
       device => device.deviceId === value,
       this.props.availableOutputDevices
     );
-    return device && device.label || value;
+    return device && device.label || i18n.getString('noLabel', this.props.currentLocale);
   }
+
   renderInputDevice = (value) => {
+    if (value === null) {
+      return i18n.getString('noDevice', this.props.currentLocale);
+    }
     const device = find(
       device => device.deviceId === value,
       this.props.availableInputDevices
     );
-    return device && device.label || value;
+    return device && device.label || i18n.getString('noLabel', this.props.currentLocale);
+  }
+
+  isNoLabel() {
+    if (this.props.availableInputDevices.length) {
+      return this.props.availableInputDevices[0].label === '';
+    }
+    return false;
   }
 
   render() {
@@ -230,17 +273,34 @@ export default class AudioSettingsPanel extends Component {
     //       </InputField>
     //     </div>
     //   ) : null;
-
+    const outputTooltip = HTMLMediaElement.prototype.setSinkId ? null : (
+      <TooltipCom
+        placement="bottom"
+        trigger="click"
+        align={{
+          offset: [0, 47],
+        }}
+        overlay={i18n.getString('notSetSinkIdTip', currentLocale)}
+        arrowContent={<div className="rc-tooltip-arrow-inner" />}
+        getTooltipContainer={() => this.outputTooltipContainner}
+      >
+        <InfoIcon width={14} height={14} className={styles.infoIcon} />
+      </TooltipCom>
+    );
     const outputDevice = supportDevices ? (
       <InputField
-        label={i18n.getString('outputDevice', currentLocale)}
+        label={(
+          <span>
+            {i18n.getString('outputDevice', currentLocale)}
+            {outputTooltip}
+          </span>
+        )}
         noBorder>
         <Select
           className={styles.select}
           disabled={outputDeviceDisabled}
           value={
-            availableOutputDevices.length ? outputDeviceId :
-              i18n.getString('noDevice', currentLocale)
+            availableOutputDevices.length ? outputDeviceId : null
           }
           onChange={this.onOutputDeviceIdChange}
           options={availableOutputDevices}
@@ -250,19 +310,42 @@ export default class AudioSettingsPanel extends Component {
           renderValue={this.renderOutputDevice}
           titleEnabled
         />
+        <div
+          className={styles.tooltipContainner}
+          ref={(tooltipContainner) => {
+            this.outputTooltipContainner = tooltipContainner;
+          }}
+        />
       </InputField>
     ) : null;
-
+    const inputTooltip = this.isNoLabel() ? (
+      <TooltipCom
+        placement="bottom"
+        trigger="click"
+        align={{
+          offset: [0, 47],
+        }}
+        overlay={i18n.getString('noLabelTip', currentLocale)}
+        arrowContent={<div className="rc-tooltip-arrow-inner" />}
+        getTooltipContainer={() => this.inputTooltipContainner}
+      >
+        <InfoIcon width={14} height={14} className={styles.infoIcon} />
+      </TooltipCom>
+    ) : null;
     const inputDevice = supportDevices ? (
       <InputField
-        label={i18n.getString('inputDevice', currentLocale)}
+        label={(
+          <span>
+            {i18n.getString('inputDevice', currentLocale)}
+            {inputTooltip}
+          </span>
+        )}
         noBorder>
         <Select
           className={styles.select}
           disabled={inputDeviceDisabled}
           value={
-            availableInputDevices.length ? inputDeviceId :
-              i18n.getString('noDevice', currentLocale)
+            availableInputDevices.length ? inputDeviceId : null
           }
           onChange={this.onInputDeviceIdChange}
           options={availableInputDevices}
@@ -271,6 +354,12 @@ export default class AudioSettingsPanel extends Component {
           valueFunction={this.renderDeviceValue}
           renderValue={this.renderInputDevice}
           titleEnabled
+        />
+        <div
+          className={styles.tooltipContainner}
+          ref={(tooltipContainner) => {
+            this.inputTooltipContainner = tooltipContainner;
+          }}
         />
       </InputField>
     ) : null;

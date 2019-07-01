@@ -145,7 +145,7 @@ export default class ConversationsPanel extends Component {
       i18n.getString('noSearchResults', currentLocale) :
       i18n.getString('noMessages', currentLocale);
     return (
-      <div
+      <div data-sign="messageList" 
         className={classnames(
           styles.content,
           showTitle && styles.contentWithHeader

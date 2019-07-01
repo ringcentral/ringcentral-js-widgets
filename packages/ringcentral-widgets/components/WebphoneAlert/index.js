@@ -24,6 +24,8 @@ const webphoneErrorList = [
   webphoneErrors.serverTimeout,
   webphoneErrors.internalServerError,
   webphoneErrors.unknownError,
+  webphoneErrors.provisionUpdate,
+  webphoneErrors.serverConnecting,
 ];
 
 export default function WebphoneAlert(props) {
@@ -48,20 +50,35 @@ export default function WebphoneAlert(props) {
   ) {
     const { payload: { statusCode, isConnecting = false } = {} } = props.message;
     // sipProvisionError does not have statusCode
-    const stub = statusCode ? (
-      <FormattedMessage
-        message={i18n.getString('errorCode', props.currentLocale)}
-        values={{ errorCode: statusCode }}
-      />
-    ) : i18n.getString('occurs', props.currentLocale);
-    const subject = isConnecting ? i18n.getString('webphoneRegistering', props.currentLocale) :
-      i18n.getString('webphoneUnavailable', props.currentLocale);
-    view = (
-      <FormattedMessage
-        message={subject}
-        values={{ error: stub, brandName: props.brand.name }}
-      />
-    );
+    if (statusCode && isConnecting) {
+      view = (
+        <FormattedMessage
+          message={i18n.getString('registeringWithStatusCode', props.currentLocale)}
+          values={{ errorCode: statusCode, brandName: props.brand.name }}
+        />
+      );
+    } else if (statusCode) {
+      view = (
+        <FormattedMessage
+          message={i18n.getString('failWithStatusCode', props.currentLocale)}
+          values={{ errorCode: statusCode, brandName: props.brand.name }}
+        />
+      );
+    } else if (isConnecting) {
+      view = (
+        <FormattedMessage
+          message={i18n.getString('registeringWithoutStatusCode', props.currentLocale)}
+          values={{ brandName: props.brand.name }}
+        />
+      );
+    } else {
+      view = (
+        <FormattedMessage
+          message={i18n.getString('failWithoutStatusCode', props.currentLocale)}
+          values={{ brandName: props.brand.name }}
+        />
+      );
+    }
   } else if (message === webphoneErrors.checkDLError) {
     view = (
       <FormattedMessage

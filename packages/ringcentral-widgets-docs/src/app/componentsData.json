@@ -13134,46 +13134,6 @@
   },
   {
     "description": "",
-    "displayName": "OfflineModeBadge",
-    "methods": [],
-    "props": {
-      "offline": {
-        "type": {
-          "name": "bool"
-        },
-        "required": true,
-        "description": ""
-      },
-      "showOfflineAlert": {
-        "type": {
-          "name": "func"
-        },
-        "required": true,
-        "description": ""
-      },
-      "currentLocale": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": ""
-      },
-      "className": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      }
-    },
-    "name": "OfflineModeBadge"
-  },
-  {
-    "description": "",
     "displayName": "Panel",
     "methods": [],
     "props": {
@@ -16454,7 +16414,7 @@
   },
   {
     "description": "",
-    "displayName": "WebphoneBadge",
+    "displayName": "ConnectivityBadge",
     "methods": [],
     "props": {
       "className": {
@@ -16465,6 +16425,24 @@
         "description": "",
         "defaultValue": {
           "value": "null",
+          "computed": false
+        }
+      },
+      "mode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "webphoneConnecting": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": false,
           "computed": false
         }
       },
@@ -16485,8 +16463,19 @@
           "value": "() => {}",
           "computed": false
         }
+      },
+      "showBadgeAlert": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => {}",
+          "computed": false
+        }
       }
     },
-    "name": "WebphoneBadge"
+    "name": "ConnectivityBadge"
   }
 ]

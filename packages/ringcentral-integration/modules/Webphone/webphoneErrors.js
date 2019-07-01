@@ -21,4 +21,6 @@ export default new Enum([
   'internalServerError',
   'sipProvisionError',
   'unknownError',
+  'provisionUpdate',
+  'serverConnecting',
 ], 'webphone');

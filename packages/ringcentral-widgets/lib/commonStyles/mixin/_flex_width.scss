@@ -1,0 +1,10 @@
+@mixin flex_width($width) {
+  flex: 1 1 $width;
+  @if $width !=auto {
+    max-width: $width;
+    min-width: $width;
+  } @else {
+    max-width: initial;
+    min-width: initial;
+  }
+}

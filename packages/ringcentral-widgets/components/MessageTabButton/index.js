@@ -15,9 +15,9 @@ function NavigationButton({
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
-      notice = <div className={styles.notices}>99+</div>;
+      notice = <div data-sign='noticeCounts' className={styles.notices}>99+</div>;
     } else {
-      notice = <div className={styles.notice}>{noticeCounts}</div>;
+      notice = <div data-sign='noticeCounts' className={styles.notice}>{noticeCounts}</div>;
     }
   }
   return (

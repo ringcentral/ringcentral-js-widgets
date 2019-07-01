@@ -23,7 +23,7 @@ import Storage from 'ringcentral-integration/modules/Storage';
 
 import OAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
-
+import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager';
 
 // user Dependency Injection with decorator to create a phone class
 // https://github.com/ringcentral/ringcentral-js-integration-commons/blob/master/docs/dependency-injection.md
@@ -34,6 +34,7 @@ import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
     { provide: 'Locale', useClass: Locale },
     { provide: 'GlobalStorage', useClass: GlobalStorage },
     { provide: 'ConnectivityMonitor', useClass: ConnectivityMonitor },
+    { provide: 'ConnectivityManager', useClass: ConnectivityManager },
     { provide: 'Auth', useClass: Auth },
     { provide: 'OAuth', useClass: OAuth },
     { provide: 'Storage', useClass: Storage },

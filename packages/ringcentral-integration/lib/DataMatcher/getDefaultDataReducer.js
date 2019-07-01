@@ -10,7 +10,8 @@ export default function getDefaultDataReducer(actionTypes) {
     shouldCleanUpAll = false,
   }) => {
     switch (type) {
-      case actionTypes.matchSuccess: {
+      case actionTypes.matchSuccess:
+      case actionTypes.insertMatchEntries: {
         const newState = { ...state };
         queries.forEach((query) => {
           if (data[query] && data[query].length) {

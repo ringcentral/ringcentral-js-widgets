@@ -16,7 +16,8 @@ export default {
   language: "Lingua",
   feedback: "Feedback",
   userGuide: "Novità",
-  quickAccess: "Impostazione accesso rapido"
+  quickAccess: "Impostazione accesso rapido",
+  msteamsSetting: "Impostazioni di Microsoft Teams"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -37,3 +38,4 @@ export default {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@

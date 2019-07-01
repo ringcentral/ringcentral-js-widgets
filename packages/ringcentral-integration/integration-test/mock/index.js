@@ -146,7 +146,7 @@ export function tokenRefresh(failure) {
   }
 }
 
-export function presence(id, mockResponse = {}) {
+export function presence(id, mockResponse = {}, isOnce = false) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/${id}/presence`,
     body: {
@@ -163,7 +163,8 @@ export function presence(id, mockResponse = {}) {
       dndStatus: 'TakeAllCalls',
       extensionId: id,
       ...mockResponse
-    }
+    },
+    isOnce,
   });
 }
 
@@ -210,12 +211,14 @@ export function conferenceCallBringIn(id, mockResponse = {}) {
     isOnce: false,
   });
 }
+
 export function removeFromConference(id, partyId) {
   mockApi({
     method: 'DELETE',
     path: `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/${partyId}`
   });
 }
+
 export function extensionList(mockResponse = {}) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension?`,
@@ -225,6 +228,7 @@ export function extensionList(mockResponse = {}) {
     }
   });
 }
+
 export function companyContactList(mockResponse = {}) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/directory/contacts?`,
@@ -234,6 +238,7 @@ export function companyContactList(mockResponse = {}) {
     }
   });
 }
+
 export function accountInfo(mockResponse = {}) {
   mockApi({
     path: '/restapi/v1.0/account/~',
@@ -254,7 +259,7 @@ export function apiInfo(mockResponse = {}) {
   });
 }
 
-export function messageSync(mockResponse = {}, isOnce = true) {
+export function messageSync(mockResponse = {}, isOnce = false) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-sync`,
     body: {
@@ -391,6 +396,7 @@ export function sms(mockResponse = {}) {
     }
   });
 }
+
 export function addressBook(mockResponse = {}) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/address-book-sync`,
@@ -408,7 +414,6 @@ export function addressBook(mockResponse = {}) {
     isOnce: false,
   });
 }
-
 
 export function callLog(mockResponse = {}) {
   mockApi({
@@ -618,6 +623,7 @@ export function ringOutUpdate(mockResponse = {}) {
     }
   });
 }
+
 export function meeting(mockResponse = {}) {
   mockApi({
     method: 'POST',
@@ -629,6 +635,7 @@ export function meeting(mockResponse = {}) {
     isOnce: false
   });
 }
+
 export function serviceInfo(mockResponse = {}) {
   mockApi({
     method: 'GET',
@@ -640,6 +647,7 @@ export function serviceInfo(mockResponse = {}) {
     isOnce: false
   });
 }
+
 export function recentActivity(mockResponse = {}, isOnce = false) {
   mockApi({
     method: 'GET',
@@ -659,9 +667,10 @@ export function mockForLogin({
   mockMessageSync = true,
   mockConferencing = true,
   mockActiveCalls = true,
-  mockUpdateConference = false,
+  mockUpdateConference = true,
   mockNumberParser = true,
   mockRecentActivity = true,
+  mockMessageSyncOnce = false,
   ...params
 } = {}) {
   authentication();
@@ -688,7 +697,7 @@ export function mockForLogin({
   messageList(params.messageListData);
 
   if (mockMessageSync) {
-    messageSync(params.messageSyncData);
+    messageSync(params.messageSyncData, mockMessageSyncOnce);
   }
   phoneNumber(params.phoneNumberData);
   subscription(params.subscriptionData);

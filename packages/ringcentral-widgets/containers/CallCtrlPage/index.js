@@ -20,6 +20,7 @@ function mapToProps(_, {
     conferenceCall,
     callingSettings,
     rolesAndPermissions,
+    connectivityManager,
   },
   params,
   children,
@@ -81,6 +82,8 @@ function mapToProps(_, {
     }
   }
 
+  const disableLinks = !!(connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode);
+
   return {
     brand: brand.fullName,
     nameMatches,
@@ -100,6 +103,7 @@ function mapToProps(_, {
     children,
     isOnConference,
     isWebRTC,
+    disableLinks,
     isConferenceCallOverload,
   };
 }

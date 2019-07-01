@@ -16,12 +16,20 @@ function getOutputDeviceIdReducer(types) {
         ) {
           return state;
         }
+        // For Firefox, don't have default device id
+        if (state === 'default') {
+          const firstDevice = find(device => (device.kind === 'audiooutput'), devices);
+          if (firstDevice) {
+            return firstDevice.deviceId;
+          }
+        }
         return 'default';
       default:
         return state;
     }
   };
 }
+
 function getInputDeviceIdReducer(types) {
   return (state = 'default', { type, devices = [], inputDeviceId = state }) => {
     switch (type) {
@@ -36,6 +44,13 @@ function getInputDeviceIdReducer(types) {
           ), devices)
         ) {
           return state;
+        }
+        // For Firefox, don't have default device id
+        if (state === 'default') {
+          const firstDevice = find(device => (device.kind === 'audioinput'), devices);
+          if (firstDevice) {
+            return firstDevice.deviceId;
+          }
         }
         return 'default';
       default:

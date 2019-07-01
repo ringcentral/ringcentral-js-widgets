@@ -113,11 +113,11 @@ function getActiveSessionsStatusReducer(types) {
     switch (type) {
       case types.updateActiveSessions: {
         let newState = null;
-        for (const sessionId in activeSessionsMap) {
+        for (const sessionIdKey in activeSessionsMap) {
           if (sessionId) {
             newState = updateActiveSessionStatus({
               state,
-              party: activeSessionsMap[sessionId],
+              party: activeSessionsMap[sessionIdKey],
               sessionId
             });
           }

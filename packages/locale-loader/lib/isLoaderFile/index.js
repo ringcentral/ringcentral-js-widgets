@@ -8,4 +8,3 @@ export default function isLoaderFile(content) {
 export function noChunks(content) {
   return noChunkRegExp.test(content);
 }
-

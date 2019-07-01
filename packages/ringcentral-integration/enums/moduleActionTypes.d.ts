@@ -1,8 +1,8 @@
-export declare const moduleActionTypes: ModuleActionTypes;
-declare type ModuleActionTypes = {
+export declare const moduleActionTypes: IModuleActionTypes;
+export declare interface IModuleActionTypes {
     init: string;
     initSuccess: string;
     reset: string;
     resetSuccess: string;
-};
+}
 export {};

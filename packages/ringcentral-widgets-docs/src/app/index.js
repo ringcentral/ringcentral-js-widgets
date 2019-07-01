@@ -28,6 +28,6 @@ render(
       <Route path="/styles/dropdown" component={DropdownPage} />
       <ComponentRoutes />
     </MainView>
-  </Router>
-  , document.getElementById('app'));
-
+  </Router>,
+  document.getElementById('app')
+);

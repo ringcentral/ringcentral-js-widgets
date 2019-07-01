@@ -14,12 +14,11 @@ import getReducer from './getReducer';
     'CallingSettings',
     { dep: 'AudioSettings', optional: true },
     'CallingSettings',
-    'ConnectivityMonitor',
+    'ConnectivityManager',
     { dep: 'ContactSearch', optional: true },
     'Locale',
     'RateLimiter',
     'RegionSettings',
-    { dep: 'Webphone', optional: true },
     'Alert',
     'Call',
     { dep: 'ConferenceCall', optional: true },
@@ -33,12 +32,11 @@ export default class DialerUI extends RcUIModule {
     call,
     callingSettings,
     conferenceCall,
-    connectivityMonitor,
+    connectivityManager,
     contactSearch,
     locale,
     rateLimiter,
     regionSettings,
-    webphone,
     ...options
   }) {
     super({
@@ -49,12 +47,11 @@ export default class DialerUI extends RcUIModule {
     this._call = call;
     this._callingSettings = callingSettings;
     this._conferenceCall = conferenceCall;
-    this._connectivityMonitor = connectivityMonitor;
+    this._connectivityManager = connectivityManager;
     this._contactSearch = contactSearch;
     this._locale = locale;
     this._rateLimiter = rateLimiter;
     this._regionSettings = regionSettings;
-    this._webphone = webphone;
     this._reducer = getReducer(this.actionTypes);
     this._callHooks = [];
   }
@@ -184,34 +181,13 @@ export default class DialerUI extends RcUIModule {
     return this.state.recipient;
   }
 
-  get isWebphoneMode() {
-    return this._callingSettings.callingMode === callingModes.webphone;
-  }
-
-  get isWebphoneDisconnected() {
-    return this.isWebphoneMode && !this._webphone.connected;
-  }
-
-  get isWebphoneConnecting() {
-    return this.isWebphoneMode && (
-      !this._webphone.ready ||
-      this._webphone.connectionStatus === null ||
-      this._webphone.connecting ||
-      this._webphone.connectFailed
-    );
-  }
-
-  get isAudioNotEnabled() {
-    return this.isWebphoneMode && !this._audioSettings.userMedia;
-  }
-
   get isCallButtonDisabled() {
     return (
       !this._call.isIdle ||
-      !this._connectivityMonitor.connectivity ||
-      this._rateLimiter.throttling ||
-      this.isWebphoneDisconnected ||
-      this.isAudioNotEnabled
+      this._connectivityManager.isOfflineMode ||
+      this._connectivityManager.isWebphoneUnavailableMode ||
+      this._connectivityManager.isWebphoneInitializing ||
+      this._rateLimiter.throttling
     );
   }
 
@@ -220,9 +196,9 @@ export default class DialerUI extends RcUIModule {
       this._call.ready &&
       this._callingSettings.ready &&
       this._locale.ready &&
-      this._connectivityMonitor.ready &&
+      this._connectivityManager.ready &&
       (!this._audioSettings || this._audioSettings.ready) &&
-      !this.isWebphoneConnecting
+      !this._connectivityManager.isWebphoneInitializing
     );
   }
 
@@ -236,7 +212,7 @@ export default class DialerUI extends RcUIModule {
     return {
       currentLocale: this._locale.currentLocale,
       callingMode: this._callingSettings.callingMode,
-      isWebphoneMode: this.isWebphoneMode,
+      isWebphoneMode: this._callingSettings.isWebphoneMode,
       callButtonDisabled: this.isCallButtonDisabled,
       fromNumber: this._callingSettings.fromNumber,
       fromNumbers: this._callingSettings.fromNumbers,

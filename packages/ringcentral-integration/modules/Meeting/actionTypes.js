@@ -14,4 +14,5 @@ export default new Enum([
   'initUpdating',
   'updated',
   'resetUpdating',
+  'saveAsDefaultSetting',
 ], 'meeting');

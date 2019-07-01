@@ -5,6 +5,7 @@ import createSimpleReducer from '../../lib/createSimpleReducer';
 import callControlError from '../ActiveCallControl/callControlError';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
+import { updateJoinBeforeHost, getConferenceInfo, formatDialInNumbers } from './conferenceHelper';
 
 const DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(callingCode,id,isoCode,name),phoneNumber,location),allowJoinBeforeHost';
 
@@ -19,6 +20,8 @@ const DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(
     'Storage',
     'RegionSettings',
     'RolesAndPermissions',
+    'ExtensionInfo',
+    'Locale',
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'ConferenceOptions', optional: true }
   ]
@@ -37,12 +40,15 @@ export default class Conference extends DataFetcher {
     storage,
     rolesAndPermissions,
     availabilityMonitor,
+    showSaveAsDefault,
+    extensionInfo,
+    locale,
     ...options
   }) {
     super({
       client,
       fetchFunction: async () => mask(
-        await client.account().extension().conferencing().get(),
+        await getConferenceInfo(client),
         DEFAULT_MASK,
       ),
       storage,
@@ -52,10 +58,13 @@ export default class Conference extends DataFetcher {
     this._dialInNumberStorageKey = 'conferenceDialInNumber';
     this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
     this._savedStorageKey = 'conferenceSaveCurrentSettings';
-    this._regionSetting = regionSettings;
+    this._regionSettings = regionSettings;
     this._rolesAndPermissions = rolesAndPermissions;
     this._availabilityMonitor = availabilityMonitor;
     this._lastCountryCode = null;
+    this._showSaveAsDefault = showSaveAsDefault;
+    this._extensionInfo = extensionInfo;
+    this._locale = locale;
     this._storage.registerReducer({
       key: this._dialInNumberStorageKey,
       reducer: createSimpleReducer(this.actionTypes.updateDialInNumber, 'dialInNumber'),
@@ -82,15 +91,16 @@ export default class Conference extends DataFetcher {
     super._onStateChange();
     if (
       !this.data ||
-      !this._regionSetting.ready ||
-      this._lastCountryCode === this._regionSetting.countryCode) {
+      !this._regionSettings.ready ||
+      this._lastCountryCode === this._regionSettings.countryCode) {
       return;
     }
-    this._lastCountryCode = this._regionSetting.countryCode;
+    this._lastCountryCode = this._regionSettings.countryCode;
     const matchedPhoneNumber = this.data.phoneNumbers.find(
       e => e.country.isoCode === this._lastCountryCode
     );
-    if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber) {
+    if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber &&
+       !this._showSaveAsDefault) {
       this.updateDialInNumber(matchedPhoneNumber.phoneNumber);
     }
   }
@@ -99,14 +109,16 @@ export default class Conference extends DataFetcher {
     return super._shouldInit() &&
       this._rolesAndPermissions.ready &&
       this._alert.ready &&
-      (!this._availabilityMonitor || this._availabilityMonitor.ready);
+      (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
+      this._extensionInfo.ready &&
+      this._locale.ready &&
+      this._regionSettings.ready;
   }
 
   @proxify
   async updateEnableJoinBeforeHost(allowJoinBeforeHost) {
     try {
-      const data = await this._client.account().extension().conferencing()
-        .put({ allowJoinBeforeHost });
+      const data = await updateJoinBeforeHost(this.client, allowJoinBeforeHost);
       this._store.dispatch({ type: this.actionTypes.fetchSuccess, data });
       return data;
     } catch (error) {
@@ -149,6 +161,32 @@ export default class Conference extends DataFetcher {
     });
   }
 
+  @proxify
+  getDefaultSettings(countryNames) {
+    if (!countryNames || typeof countryNames !== 'object') {
+      console.log('please privide the countryNames I18n object');
+      return;
+    }
+    const dialInNumbers = formatDialInNumbers({
+      currentLocale: this._locale.currentLocale,
+      areaCode: this._regionSettings.areaCode,
+      countryCode: this._regionSettings.countryCode,
+      phoneNumbers: this.data.phoneNumbers,
+      countryNames,
+    });
+    return {
+      dialInNumbers,
+      phoneNumber: this.data.phoneNumber,
+      dialInNumber: this.dialInNumber || '',
+      _saved: this._saved || false,
+      additionalNumbers: this.additionalNumbers,
+      allowJoinBeforeHost: this.data.allowJoinBeforeHost,
+      currentLocale: this._locale.currentLocale,
+      participantCode: this.data.participantCode,
+      extensionName: this._extensionInfo.info.name || '',
+    };
+  }
+
   get additionalNumbers() {
     return this._storage.getItem(this._additionalNumbersStorageKey) || [];
   }
@@ -164,5 +202,9 @@ export default class Conference extends DataFetcher {
 
   get _hasPermission() {
     return !!this._rolesAndPermissions.permissions.OrganizeConference;
+  }
+
+  get showSaveAsDefault() {
+    return this._showSaveAsDefault || false;
   }
 }

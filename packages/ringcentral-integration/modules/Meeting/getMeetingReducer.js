@@ -59,6 +59,26 @@ export function getMeetingStorageReducer(types) {
   };
 }
 
+export function getDefaultMeetingSettingReducer(types) {
+  return (state = {}, { type, meeting = null }) => {
+    switch (type) {
+      case types.saveAsDefaultSetting: {
+        return meeting ? {
+          startHostVideo: meeting.startHostVideo,
+          startParticipantsVideo: meeting.startParticipantsVideo,
+          allowJoinBeforeHost: meeting.allowJoinBeforeHost,
+          audioOptions: meeting.audioOptions,
+          _saved: meeting._saved,
+          password: meeting.password,
+          _requireMeetingPassword: meeting._requireMeetingPassword,
+        } : {};
+      }
+      default:
+        return state;
+    }
+  };
+}
+
 export default (types, reducers) => combineReducers({
   ...reducers,
   status: getModuleStatusReducer(types),

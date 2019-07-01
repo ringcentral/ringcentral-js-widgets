@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import connectivityMonitorMessages from
-  'ringcentral-integration/modules/ConnectivityMonitor/connectivityMonitorMessages';
+import connectivityTypes from
+  'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
 import i18n from './i18n';
 
 export default function ConnectivityAlert({
@@ -25,5 +25,10 @@ ConnectivityAlert.propTypes = {
 };
 
 ConnectivityAlert.handleMessage = ({ message }) => (
-  message === connectivityMonitorMessages.disconnected
+  message === connectivityTypes.networkLoss ||
+  message === connectivityTypes.offline ||
+  message === connectivityTypes.serverUnavailable ||
+  message === connectivityTypes.voipOnly ||
+  message === connectivityTypes.survival ||
+  message === connectivityTypes.webphoneUnavailable
 );

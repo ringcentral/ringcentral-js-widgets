@@ -51,6 +51,20 @@ describe('getDefaultDataReducer', () => {
           },
         },
       });
+      expect(reducer({}, {
+        type: actionTypes.insertMatchEntries,
+        data,
+        name,
+        queries: ['foo'],
+        timestamp: now,
+      })).to.deep.equal({
+        foo: {
+          [name]: {
+            data: data.foo,
+            _t: now,
+          },
+        },
+      });
     });
     it('should mark an entry with timestamp if match is not found', () => {
       const data = {
@@ -60,6 +74,20 @@ describe('getDefaultDataReducer', () => {
       const now = Date.now();
       expect(reducer({}, {
         type: actionTypes.matchSuccess,
+        data,
+        name,
+        queries: ['foo'],
+        timestamp: now,
+      })).to.deep.equal({
+        foo: {
+          [name]: {
+            _t: now,
+            data: [],
+          },
+        },
+      });
+      expect(reducer({}, {
+        type: actionTypes.insertMatchEntries,
         data,
         name,
         queries: ['foo'],

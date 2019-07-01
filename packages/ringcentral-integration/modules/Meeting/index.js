@@ -9,39 +9,12 @@ import background from '../../lib/background';
 import actionTypes from './actionTypes';
 import scheduleStatus from './scheduleStatus';
 import meetingStatus from './meetingStatus';
-import getMeetingReducer, { getMeetingStorageReducer } from './getMeetingReducer';
+import getMeetingReducer, {
+  getMeetingStorageReducer,
+  getDefaultMeetingSettingReducer,
+} from './getMeetingReducer';
+import { UTC_TIMEZONE_ID, MeetingType, getDefaultMeetingSettings } from './meetingHelper';
 
-export const UTC_TIMEZONE_ID = '1';
-export const MeetingType = {
-  SCHEDULED: 'Scheduled',
-  RECURRING: 'Recurring',
-  INSTANT: 'Instant',
-};
-
-// Basic default meeting type information
-export const getDefaultMeetingSettings = (extensionName, startTime) => ({
-  topic: `${extensionName}'s Meeting`,
-  meetingType: MeetingType.SCHEDULED,
-  password: null,
-  schedule: {
-    startTime,
-    durationInMinutes: 60,
-    timeZone: {
-      id: UTC_TIMEZONE_ID
-    }
-  },
-  host: {
-    id: null,
-  },
-  allowJoinBeforeHost: false,
-  startHostVideo: false,
-  startParticipantsVideo: false,
-  audioOptions: ['Phone', 'ComputerAudio'],
-  _requireMeetingPassword: false,
-  _showDate: false,
-  _showTime: false,
-  _saved: false,
-});
 
 export class MeetingErrors {
   constructor(type) {
@@ -62,6 +35,8 @@ export class MeetingErrors {
   }
 }
 
+export { UTC_TIMEZONE_ID, MeetingType, getDefaultMeetingSettings };
+
 @Module({
   deps: [
     'Alert',
@@ -80,6 +55,7 @@ export default class Meeting extends RcModule {
     storage,
     availabilityMonitor,
     reducers,
+    showSaveAsDefault,
     ...options
   }) {
     super({
@@ -91,12 +67,20 @@ export default class Meeting extends RcModule {
     this._extensionInfo = extensionInfo;
     this._storage = storage;
     this._availabilityMonitor = availabilityMonitor;
-    this._reducer = getMeetingReducer(this.actionTypes);
+    this._reducer = getMeetingReducer(this.actionTypes, reducers);
     this._lastMeetingSettingKey = 'lastMeetingSetting';
+    this._defaultMeetingSettingKey = 'defaultMeetingSetting';
+    this._showSaveAsDefault = showSaveAsDefault;
     this._storage.registerReducer({
       key: this._lastMeetingSettingKey,
       reducer: getMeetingStorageReducer(this.actionTypes)
     });
+    if (this._showSaveAsDefault) {
+      this._storage.registerReducer({
+        key: this._defaultMeetingSettingKey,
+        reducer: getDefaultMeetingSettingReducer(this.actionTypes)
+      });
+    }
   }
 
   initialize() {
@@ -125,6 +109,13 @@ export default class Meeting extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.initSuccess
     });
+    if (!Object.keys(this.defaultMeetingSetting).length) {
+      const extensionName = this._extensionInfo.info.name || '';
+      const now = new Date();
+      const startTime = now.setHours(now.getHours() + 1, 0, 0);
+      const meeting = getDefaultMeetingSettings(extensionName, startTime);
+      this._saveAsDefaultSetting(meeting);
+    }
   }
 
   _shouldReset() {
@@ -132,7 +123,8 @@ export default class Meeting extends RcModule {
       (
         !this._alert.ready ||
         !this._storage.ready ||
-        !this._extensionInfo.ready
+        !this._extensionInfo.ready ||
+        (this._availabilityMonitor && !this._availabilityMonitor.ready)
       ) &&
       this.ready
     );
@@ -162,14 +154,25 @@ export default class Meeting extends RcModule {
     const extensionName = this._extensionInfo.info.name || '';
     const now = new Date();
     const startTime = now.setHours(now.getHours() + 1, 0, 0);
-    this.store.dispatch({
-      type: this.actionTypes.updateMeeting,
-      meeting: {
-        ...getDefaultMeetingSettings(extensionName, startTime),
-        // Load last meeting settings
-        ...this.lastMeetingInfo
-      }
-    });
+    if (this._showSaveAsDefault) {
+      this.store.dispatch({
+        type: this.actionTypes.updateMeeting,
+        meeting: {
+          ...getDefaultMeetingSettings(extensionName, startTime),
+          // Load saved default meeting settings
+          ...this.defaultMeetingSetting,
+        }
+      });
+    } else {
+      this.store.dispatch({
+        type: this.actionTypes.updateMeeting,
+        meeting: {
+          ...getDefaultMeetingSettings(extensionName, startTime),
+          // Load last meeting settings
+          ...this.lastMeetingInfo,
+        }
+      });
+    }
   }
 
   @proxify
@@ -210,7 +213,9 @@ export default class Meeting extends RcModule {
       // Validate meeting
       this._validate(meeting);
       const formattedMeeting = this._format(meeting);
-
+      if (this._showSaveAsDefault && meeting.saveAsDefault) {
+        this._saveAsDefaultSetting(meeting);
+      }
       const [resp, serviceInfo] = await Promise.all([
         this._client
           .account()
@@ -274,10 +279,9 @@ export default class Meeting extends RcModule {
               permissionName,
             },
           });
-        } else {
-          this._alert.danger({
-            message: meetingStatus.internalError,
-          });
+        } else if (!this._availabilityMonitor ||
+            !this._availabilityMonitor.checkIfHAError(errors)) {
+          this._alert.danger({ message: meetingStatus.internalError });
         }
       }
       return null;
@@ -305,7 +309,9 @@ export default class Meeting extends RcModule {
       // Validate meeting
       this._validate(meeting);
       const formattedMeeting = this._format(meeting);
-
+      if (this._showSaveAsDefault && meeting.saveAsDefault) {
+        this._saveAsDefaultSetting(meeting);
+      }
       const [resp, serviceInfo] = await Promise.all([
         this._client
           .account()
@@ -371,10 +377,9 @@ export default class Meeting extends RcModule {
               permissionName,
             },
           });
-        } else {
-          this._alert.danger({
-            message: meetingStatus.internalError,
-          });
+        } else if (!this._availabilityMonitor ||
+            !this._availabilityMonitor.checkIfHAError(errors)) {
+          this._alert.danger({ message: meetingStatus.internalError });
         }
       }
       return null;
@@ -388,6 +393,7 @@ export default class Meeting extends RcModule {
     return this.state.updatingStatus &&
       find(obj => obj.meetingId === meetingId, this.state.updatingStatus);
   }
+
 
   /**
    * Format meeting information.
@@ -411,10 +417,8 @@ export default class Meeting extends RcModule {
       startHostVideo,
       startParticipantsVideo,
       audioOptions,
+      password,
     };
-    if (password) {
-      formatted.password = password;
-    }
     // Recurring meetings do not have schedule info
     if (meetingType !== MeetingType.RECURRING) {
       const _schedule = {
@@ -463,6 +467,17 @@ export default class Meeting extends RcModule {
     }
   }
 
+  _saveAsDefaultSetting(meeting) {
+    const formattedMeeting = this._format(meeting);
+    this.store.dispatch({
+      type: this.actionTypes.saveAsDefaultSetting,
+      meeting: {
+        ...formattedMeeting,
+        _saved: meeting.notShowAgain,
+      },
+    });
+  }
+
   get extensionInfo() {
     return this._extensionInfo.info;
   }
@@ -486,5 +501,13 @@ export default class Meeting extends RcModule {
 
   get status() {
     return this.state.status;
+  }
+
+  get defaultMeetingSetting() {
+    return this._storage.getItem(this._defaultMeetingSettingKey) || {};
+  }
+
+  get showSaveAsDefault() {
+    return this._showSaveAsDefault || false;
   }
 }

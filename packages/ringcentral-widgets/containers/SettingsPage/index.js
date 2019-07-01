@@ -25,6 +25,7 @@ function mapToProps(_, {
   showFeedback = true,
   showUserGuide = true,
   showPresenceSettings = true,
+  showMsteamsSettings = false,
   showQuickAccess = false,
   params,
 }) {
@@ -100,6 +101,7 @@ function mapToFunctions(_, {
   callingSettingsUrl = '/settings/calling',
   audioSettingsUrl = '/settings/audio',
   feedbackSettingsUrl = '/settings/feedback',
+  msteamsSettingsUrl = '/settings/msteams'
 }) {
   return {
     async onLogoutButtonClick() {
@@ -116,6 +118,9 @@ function mapToFunctions(_, {
     },
     onFeedbackSettingsLinkClick() {
       routerInteraction.push(feedbackSettingsUrl);
+    },
+    onMsteamsSettingsLinkClick() {
+      routerInteraction.push(msteamsSettingsUrl);
     },
     onUserGuideClick() {
       userGuide.start();

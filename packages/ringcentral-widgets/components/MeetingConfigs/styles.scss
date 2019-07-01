@@ -9,15 +9,26 @@
   display: none;
 }
 
-:global [class*=styles_datePicker] .rw-datetime-picker input.rw-widget-input {
-  display: block;
-  position: absolute;
-  top: -9999px;
+:global [class*='styles_datePicker'],
+:global [class*='styles_timePicker'] {
+  .rw-datetime-picker input.rw-widget-input {
+    display: block;
+    position: absolute;
+    top: -9999px;
+  }
 }
 
-:global .rw-widget>.rw-widget-container,
-:global .rw-state-focus>.rw-widget-container,
-:global .rw-state-focus>.rw-widget-container:hover {
+:global [class*='styles_timePicker'] .rw-datetime-picker {
+  position: absolute;
+  width: 100%;
+  .rw-list-option {
+    text-align: left;
+  }
+}
+
+:global .rw-widget > .rw-widget-container,
+:global .rw-state-focus > .rw-widget-container,
+:global .rw-state-focus > .rw-widget-container:hover {
   border: none;
   box-shadow: none;
 }
@@ -27,8 +38,7 @@
 }
 
 :global .rw-datetime-picker .rw-select,
-:global .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button
-{
+:global .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button {
   display: none;
 }
 
@@ -49,9 +59,16 @@
   padding-left: 0;
   color: $primary-color;
 }
-:global .rw-cell.rw-state-selected, :global .rw-cell.rw-state-selected:hover {
+:global .rw-cell.rw-state-selected,
+:global .rw-cell.rw-state-selected:hover {
   background-color: $primary-color;
   border: 1px solid $primary-color;
+}
+
+:global .rw-list-option.rw-state-selected,
+:global .rw-list-option.rw-state-selected:hover {
+  background-color: $primary-color;
+  border-color: $primary-color;
 }
 
 .scroll {
@@ -87,7 +104,7 @@
   align-items: center;
 }
 
-.inline{
+.inline {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -95,7 +112,7 @@
 }
 
 .input {
-  outline:none;
+  outline: none;
   margin-left: 10px;
   flex-shrink: 1;
   width: 100%;
@@ -160,6 +177,7 @@
 }
 
 .timeText {
+  display: none;
   font-size: 13px;
   position: relative;
   color: $primary-color;
@@ -181,6 +199,9 @@
   display: flex;
   width: 63px;
   margin-left: -5px;
+  &.useTimePicker {
+    width: 80px;
+  }
 }
 
 .timeInput {
@@ -193,7 +214,7 @@
   color: $primary-color;
 }
 
-@supports (-ms-ime-align:auto) {
+@supports (-ms-ime-align: auto) {
   .timeInput {
     width: 16px;
   }

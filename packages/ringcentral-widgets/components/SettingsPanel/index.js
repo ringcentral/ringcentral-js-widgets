@@ -66,6 +66,8 @@ export default function SettingsPanel({
   isCallQueueMember,
   showPresenceSettings,
   openPresenceSettings,
+  showMsteamsSettings,
+  onMsteamsSettingsLinkClick,
   showFeedback,
   showQuickAccess,
   showUserGuide,
@@ -75,6 +77,8 @@ export default function SettingsPanel({
   saveLocale,
   clickToDialTitle,
   versionContainer,
+  autoLogTitle,
+  autoLogSMSTitle,
 }) {
   if (showSpinner) {
     return (
@@ -160,6 +164,12 @@ export default function SettingsPanel({
       />
     ) :
     null;
+  const msteamsSettings = showMsteamsSettings && (
+    <LinkLine
+      onClick={onMsteamsSettingsLinkClick}>
+      {i18n.getString('msteamsSetting', currentLocale)}
+    </LinkLine>
+  );
   let clickToDialText;
   if (outboundSMS && clickToDialPermissions) {
     clickToDialText = i18n.getString('clickToDialSMS', currentLocale);
@@ -198,7 +208,7 @@ export default function SettingsPanel({
 )}
     >
       <span className={classnames(disableAutoLogEnabled && styles.disableText)}>
-        {i18n.getString('autoLogCalls', currentLocale)}
+        {autoLogTitle || i18n.getString('autoLogCalls', currentLocale)}
       </span>
     </IconLine>
   ) :
@@ -223,12 +233,13 @@ export default function SettingsPanel({
     <IconLine
       icon={(
         <Switch
+          dataSign="AutoLogSMS"
           checked={autoLogSMSEnabled}
           onChange={onAutoLogSMSChange}
         />
-)}
+      )}
     >
-      {i18n.getString('autoLogSMS', currentLocale)}
+      {autoLogSMSTitle || i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
   ) : null;
   const header = showHeader ? (
@@ -264,6 +275,7 @@ export default function SettingsPanel({
         {region}
         {audio}
         {presenceSetting}
+        {msteamsSettings}
         {children}
         {autoLog}
         {autoLogNotes}
@@ -346,6 +358,8 @@ SettingsPanel.propTypes = {
   toggleAcceptCallQueueCalls: PropTypes.func,
   openPresenceSettings: PropTypes.bool,
   showPresenceSettings: PropTypes.bool,
+  showMsteamsSettings: PropTypes.bool,
+  onMsteamsSettingsLinkClick: PropTypes.func,
   showFeedback: PropTypes.bool,
   showQuickAccess: PropTypes.bool,
   additional: PropTypes.node,
@@ -359,6 +373,8 @@ SettingsPanel.propTypes = {
   clickToDialTitle: PropTypes.string,
   versionContainer: PropTypes.node,
   onReportLinkClick: PropTypes.func,
+  autoLogTitle: PropTypes.string,
+  autoLogSMSTitle: PropTypes.string,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -397,6 +413,8 @@ SettingsPanel.defaultProps = {
   toggleAcceptCallQueueCalls: () => null,
   openPresenceSettings: false,
   showPresenceSettings: true,
+  showMsteamsSettings: false,
+  onMsteamsSettingsLinkClick: () => null,
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,
@@ -407,4 +425,6 @@ SettingsPanel.defaultProps = {
   clickToDialTitle: null,
   versionContainer: null,
   onReportLinkClick: () => null,
+  autoLogTitle: undefined,
+  autoLogSMSTitle: undefined,
 };

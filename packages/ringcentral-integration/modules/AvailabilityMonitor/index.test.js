@@ -7,9 +7,7 @@ import { createStore } from 'redux';
 import AvailabilityMonitor, { STATUS_END_POINT } from './';
 import { PRESENCE_REG_EXP } from './availabilityMonitorHelper';
 import actionTypes from './actionTypes';
-import availability from './availabilityStatus';
 import getAvailabilityMonitorReducer from './availabilityMonitorReducer';
-import errorMessages from './errorMessages';
 
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
@@ -35,9 +33,10 @@ describe('AvailabilityMonitor unit test', async () => {
       '_bindHandlers',
       '_beforeRequestHandler',
       '_requestErrorHandler',
-      '_switchToLimitedAvailabilityMode',
+      '_switchToLimitedMode',
+      '_switchToVoIPOnlyMode',
       '_switchToNormalMode',
-      '_intervalHealthCheck',
+      '_healthCheck',
     ].forEach((key) => {
       if (!availabilityMonitor[key]) {
         console.error('==>before key ', key);
@@ -247,39 +246,44 @@ describe('AvailabilityMonitor unit test', async () => {
       availabilityMonitor._enabled = true;
     });
     it('should not switch to limited availability mode when error is undefined', () => {
-      sinon.stub(availabilityMonitor, '_switchToLimitedAvailabilityMode');
+      sinon.stub(availabilityMonitor, '_switchToLimitedMode');
+      sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler();
       sinon.assert.notCalled(
-        availabilityMonitor._switchToLimitedAvailabilityMode,
+        availabilityMonitor._switchToLimitedMode,
       );
     });
     it('should not switch to limited availability mode when error.apiResponse is undefined', () => {
-      sinon.stub(availabilityMonitor, '_switchToLimitedAvailabilityMode');
+      sinon.stub(availabilityMonitor, '_switchToLimitedMode');
+      sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({ apiResponse: undefined });
       sinon.assert.notCalled(
-        availabilityMonitor._switchToLimitedAvailabilityMode,
+        availabilityMonitor._switchToLimitedMode,
       );
     });
     it('should not switch to limited availability mode when error.apiResponse._response is undefined', () => {
-      sinon.stub(availabilityMonitor, '_switchToLimitedAvailabilityMode');
+      sinon.stub(availabilityMonitor, '_switchToLimitedMode');
+      sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
         apiResponse: { _response: undefined, _json: {} },
       });
       sinon.assert.notCalled(
-        availabilityMonitor._switchToLimitedAvailabilityMode,
+        availabilityMonitor._switchToLimitedMode,
       );
     });
     it('should not switch to limited availability mode when error.apiResponse._json is undefined', () => {
-      sinon.stub(availabilityMonitor, '_switchToLimitedAvailabilityMode');
+      sinon.stub(availabilityMonitor, '_switchToLimitedMode');
+      sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
         apiResponse: { _response: {}, _json: undefined },
       });
       sinon.assert.notCalled(
-        availabilityMonitor._switchToLimitedAvailabilityMode,
+        availabilityMonitor._switchToLimitedMode,
       );
     });
     it('should not switch to limited availability mode when status is not 503', () => {
-      sinon.stub(availabilityMonitor, '_switchToLimitedAvailabilityMode');
+      sinon.stub(availabilityMonitor, '_switchToLimitedMode');
+      sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
         apiResponse: {
           _json: {
@@ -289,11 +293,12 @@ describe('AvailabilityMonitor unit test', async () => {
         },
       });
       sinon.assert.notCalled(
-        availabilityMonitor._switchToLimitedAvailabilityMode,
+        availabilityMonitor._switchToLimitedMode,
       );
     });
     it('should not switch to limited availability mode when error code is not CMN-211', () => {
-      sinon.stub(availabilityMonitor, '_switchToLimitedAvailabilityMode');
+      sinon.stub(availabilityMonitor, '_switchToLimitedMode');
+      sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
         apiResponse: {
           _json: {
@@ -303,11 +308,12 @@ describe('AvailabilityMonitor unit test', async () => {
         },
       });
       sinon.assert.notCalled(
-        availabilityMonitor._switchToLimitedAvailabilityMode,
+        availabilityMonitor._switchToLimitedMode,
       );
     });
     it('should switch to limited availability mode when status is 503 and error code is CMN-211', () => {
-      sinon.stub(availabilityMonitor, '_switchToLimitedAvailabilityMode');
+      sinon.stub(availabilityMonitor, '_switchToLimitedMode');
+      sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
         apiResponse: {
           _json: {
@@ -319,7 +325,7 @@ describe('AvailabilityMonitor unit test', async () => {
         }
       });
       sinon.assert.calledOnce(
-        availabilityMonitor._switchToLimitedAvailabilityMode,
+        availabilityMonitor._switchToLimitedMode,
       );
     });
   });

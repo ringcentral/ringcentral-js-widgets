@@ -269,7 +269,7 @@ class ConversationPanel extends Component {
           />
           <a
             onClick={() => this.props.goBack()}
-            className={styles.backButton}
+            data-sign="backButton" className={styles.backButton}
           >
             <span className={dynamicsFont.arrow} />
           </a>

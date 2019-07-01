@@ -43,7 +43,7 @@ class CopyToClipboard extends Component {
           defaultValue={copiedText} />
         {
           CustomButton ? (
-            <CustomButton {...this.props} />
+            <CustomButton {...this.props} executeCopy={() => this.executeCopy()} />
           ) : (
             <Button
               disabled={disabled}
@@ -68,7 +68,7 @@ CopyToClipboard.propTypes = {
   disabled: PropTypes.bool,
   copiedText: PropTypes.string,
   buttonText: PropTypes.string,
-  button: PropTypes.node,
+  button: PropTypes.oneOfType([ PropTypes.node, PropTypes.func ]),
 };
 
 CopyToClipboard.defaultProps = {

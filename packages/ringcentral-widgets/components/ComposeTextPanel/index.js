@@ -36,6 +36,7 @@ class ComposeTextPanel extends Component {
       this.props.removeToNumber({ phoneNumber });
     };
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.messageText !== this.state.messageText) {
       this.setState({
@@ -48,14 +49,21 @@ class ComposeTextPanel extends Component {
     return this.props.senderNumbers.length > 0;
   }
 
+  hasPersonalRecipient() {
+    return this.props.toNumbers.some(x => x && x.type !== 'company');
+  }
+
+  showAlert() {
+    return !this.hasSenderNumbers() && this.props.outboundSMS && this.hasPersonalRecipient();
+  }
+
   render() {
     return (
       <div className={classnames(styles.root, this.props.className)}>
         {this.props.showSpinner ? <SpinnerOverlay /> : null}
         <NoSenderAlert
           currentLocale={this.props.currentLocale}
-          outboundSMS={this.props.outboundSMS}
-          hasSenderNumbers={this.hasSenderNumbers()}
+          showAlert={this.showAlert()}
           brand={this.props.brand}
         />
         <RecipientsInput

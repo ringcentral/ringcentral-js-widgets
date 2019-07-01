@@ -11,7 +11,7 @@ import SettingsPage from 'ringcentral-widgets/containers/SettingsPage';
 import WelcomePage from 'ringcentral-widgets/containers/WelcomePage';
 
 import AlertContainer from 'ringcentral-widgets/containers/AlertContainer';
-
+import ConnectivityBadgeContainer from 'ringcentral-widgets/containers/ConnectivityBadgeContainer’;
 import MainView from '../MainView';
 import AppView from '../AppView';
 
@@ -30,6 +30,7 @@ export default function App({
                 hostingUrl={hostingUrl}
               >
                 {routerProps.children}
+                <ConnectivityBadgeContainer />
               </AppView>
             )} >
             <Route

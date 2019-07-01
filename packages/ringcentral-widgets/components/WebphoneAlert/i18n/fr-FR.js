@@ -1,8 +1,6 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 export default {
-  [webphoneErrors.connectFailed]: "Échec de la connexion avec le serveur du téléphone Web.",
   [webphoneErrors.connected]: "Web phone enregistré.",
-  [webphoneErrors.browserNotSupported]: "Appeler avec un navigateur est pris en charge uniquement sur Chrome.",
   [webphoneErrors.webphoneCountOverLimit]: "Il est possible d'enregistrer jusqu'à 5 appels.",
   [webphoneErrors.noOutboundCallWithoutDL]: "Votre extension n'est actuellement pas autorisée à passer des appels sortants via un navigateur, veuillez contacter votre représentant de compte pour une mise à niveau.",
   [webphoneErrors.toVoiceMailError]: "Impossible de joindre la messagerie vocale à cause d'une erreur interne",
@@ -14,7 +12,6 @@ export default {
   [webphoneErrors.transferError]: "Impossible de transférer l'appel. Veuillez réessayer plus tard.",
 };
 
-// @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@
 // @key: @#@"[webphoneErrors.browserNotSupported]"@#@ @source: @#@"Calling with browser is only supported on Chrome."@#@
 // @key: @#@"[webphoneErrors.webphoneCountOverLimit]"@#@ @source: @#@"A maximum of 5 web phones could be registered."@#@
@@ -26,6 +23,3 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
-// @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
-// @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
-// @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@

@@ -8,7 +8,6 @@ import ensureExist from '../../lib/ensureExist';
 import RcModule from '../../lib/RcModule';
 import getAvailabilityModeReducer from './availabilityMonitorReducer';
 import actionTypes from './actionTypes';
-import availabilityStatus from './availabilityStatus';
 import {
   extractUrl,
   isHAError,
@@ -16,10 +15,12 @@ import {
   isHAEnabledAPI,
 } from './availabilityMonitorHelper';
 import errorMessages from './errorMessages';
+import throttle from '../../lib/throttle';
 
 // Constants
 export const HEALTH_CHECK_INTERVAL = 60 * 1000;
 export const STATUS_END_POINT = '/restapi/v1.0/status';
+const DEFAULT_TIME = 0;
 
 /**
  * @class AvailabilityMonitor
@@ -27,7 +28,6 @@ export const STATUS_END_POINT = '/restapi/v1.0/status';
  */
 @Module({
   deps: [
-    'Alert',
     'Client',
     { dep: 'Environment', optional: true },
     { dep: 'AvailabilityMonitorOptions', optional: true },
@@ -37,11 +37,12 @@ export default class AvailabilityMonitor extends RcModule {
   /**
    * @constructor
    * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
    * @param {Client} params.client - client module instance
    * @param {Environment} params.environment - environment module instance
    */
-  constructor({ alert, client, environment, enabled = false, ...options }) {
+  constructor({
+    alert, client, environment, enabled = false, ...options
+  }) {
     super({
       actionTypes,
       enabled,
@@ -49,7 +50,6 @@ export default class AvailabilityMonitor extends RcModule {
     });
 
     this._enabled = enabled;
-    this._alert = this::ensureExist(alert, 'alert');
     this._client = this::ensureExist(client, 'client');
     this._environment = environment;
     this._lastEnvironmentCounter = 0;
@@ -59,11 +59,17 @@ export default class AvailabilityMonitor extends RcModule {
     // auto bind this
     this._beforeRequestHandler = this::this._beforeRequestHandler;
     this._requestErrorHandler = this::this._requestErrorHandler;
+    this._refreshErrorHandler = this::this._refreshErrorHandler;
+    this._refreshSuccessHandler = this::this._refreshSuccessHandler;
+    this._switchToNormalMode = this::this._switchToNormalMode;
+    this._switchToVoIPOnlyMode = this::this._switchToVoIPOnlyMode;
+    this._randomTime = DEFAULT_TIME;
+    this._limitedTimeout = null;
+    this._normalTimeout = null;
   }
 
   _shouldInit() {
-    return !!(this.pending &&
-      (!this._environment || this._environment.ready));
+    return !!(this.pending && (!this._environment || this._environment.ready));
   }
 
   _shouldRebindHandlers() {
@@ -100,14 +106,25 @@ export default class AvailabilityMonitor extends RcModule {
     }
 
     const client = this._client.service.platform().client();
-    client.on(client.events.beforeRequest, this._beforeRequestHandler);
+    const platform = this._client.service.platform();
 
     // TODO: in other modules, when they catch error first check if app is in HA mode.
+    client.on(client.events.beforeRequest, this._beforeRequestHandler);
     client.on(client.events.requestError, this._requestErrorHandler);
+    platform.addListener(platform.events.loginSuccess, this._switchToNormalMode);
+    platform.addListener(platform.events.logoutSuccess, this._switchToNormalMode);
+    platform.addListener(platform.events.logoutError, this._switchToNormalMode);
+    platform.addListener(platform.events.refreshError, this._refreshErrorHandler);
+    platform.addListener(platform.events.refreshSuccess, this._refreshSuccessHandler);
 
     this._unbindHandlers = () => {
       client.removeListener(client.events.beforeRequest, this._beforeRequestHandler);
       client.removeListener(client.events.requestError, this._requestErrorHandler);
+      platform.removeListener(platform.events.loginSuccess, this._switchToNormalMode);
+      platform.removeListener(platform.events.logoutSuccess, this._switchToNormalMode);
+      platform.removeListener(platform.events.logoutError, this._switchToNormalMode);
+      platform.removeListener(platform.events.refreshError, this._refreshErrorHandler);
+      platform.removeListener(platform.events.refreshSuccess, this._refreshSuccessHandler);
       this._unbindHandlers = null;
     };
   }
@@ -137,6 +154,25 @@ export default class AvailabilityMonitor extends RcModule {
   }
 
   /**
+   * Retrieve retry after value from repsonse headers
+   * @param {*} headers
+   */
+  _retrieveRetryAfter(headers) {
+    try {
+      let retryAfter = parseFloat(headers.get('Retry-After') || -1);
+      if (retryAfter < 0) {
+        const h = pathOr({}, ['_headers', 'retry-after'], headers) || -1;
+        retryAfter = Array.isArray(h) ? parseFloat(h[0]) : -1;
+        // retryAfter = h['retry-after'] || -1;
+      }
+
+      return Number.isNaN(retryAfter) ? -1 : retryAfter;
+    } catch (error) {
+      return -1;
+    }
+  }
+
+  /**
    * Check if app can enter LA mode.
    * If this module is not enabled, just return.
    *
@@ -144,38 +180,87 @@ export default class AvailabilityMonitor extends RcModule {
    * @memberof AvailabilityMonitor
    */
   _requestErrorHandler(error) {
-    if (!isHAError(error) || !this._enabled) {
-      // TODO: Request url included in initial api when app is in initial. If true enter initial error.
+    const requestUrl = pathOr('', ['apiResponse', '_request', 'url'], error);
+    const extractedUrl = extractUrl({
+      url: requestUrl,
+    });
+
+    // If app is in Limited Mode and staus API met a status which is not 200 nor 503
+    if (
+      this.isLimitedAvailabilityMode &&
+      extractedUrl === STATUS_END_POINT &&
+      !isHAError(error)
+    ) {
+      if (!this.hasLimitedStatusError) {
+        this.store.dispatch({
+          type: this.actionTypes.limitedModeStatusError,
+        });
+      }
       return;
     }
 
-    this.showAlert(errorMessages.serviceLimited);
-
-    const retryAfter = pathOr(
-      -1,
-      ['apiResponse', '_response', 'headers', 'retryAfter'],
-      error,
-    );
-
-    if (retryAfter > 0) {
-      this._healthRetryTime = retryAfter;
+    if (!isHAError(error) || !this._enabled) {
+      return;
     }
 
-    this._switchToLimitedAvailabilityMode();
+    const headers = pathOr({}, ['apiResponse', '_response', 'headers'], error);
+    const retryAfter = this._retrieveRetryAfter(headers);
+
+    if (retryAfter > 0) {
+      // Retry-After unit is secons, make it mili-secons
+      this._healthRetryTime = retryAfter * 1000;
+    } else {
+      this._healthRetryTime = HEALTH_CHECK_INTERVAL;
+    }
+
+    this._switchToLimitedMode();
+    this._retry();
   }
 
-  async _switchToLimitedAvailabilityMode() {
-    if (this.isLimitedAvailabilityMode) {
+  _refreshErrorHandler(error) {
+    const isOffline = (error.message === 'Failed to fetch' ||
+      error.message === 'The Internet connection appears to be offline.' ||
+      error.message === 'NetworkError when attempting to fetch resource.' ||
+      error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.');
+
+    const platform = this._client.service.platform();
+    const RES_STATUS = error.apiResponse && error.apiResponse._response &&
+      error.apiResponse._response.status || null;
+    const refreshTokenValid = (isOffline || RES_STATUS >= 500) &&
+      platform.auth().refreshTokenValid();
+    if (refreshTokenValid) {
+      this._switchToVoIPOnlyMode();
+    }
+  }
+
+  _refreshSuccessHandler() {
+    if (this.isVoIPOnlyMode) {
+      this.store.dispatch({
+        type: this.actionTypes.VoIPOnlyReset,
+      });
+    }
+  }
+
+  _switchToVoIPOnlyMode() {
+    if (this.isVoIPOnlyMode) {
+      return;
+    }
+
+    this._healthRetryTime = HEALTH_CHECK_INTERVAL;
+    this.store.dispatch({
+      type: this.actionTypes.VoIPOnlyMode,
+    });
+    this._retry();
+  }
+
+  _switchToLimitedMode() {
+    if (this.isLimitedMode) {
       return;
     }
 
     this.store.dispatch({
       type: this.actionTypes.limitedMode,
     });
-
-    this._limitedTimeout = setTimeout(async () => {
-      await this._intervalHealthCheck();
-    }, this._healthRetryTime);
   }
 
   _switchToNormalMode() {
@@ -187,78 +272,71 @@ export default class AvailabilityMonitor extends RcModule {
       type: this.actionTypes.normalMode,
     });
 
-    this._clearTimeout(this._normalTimeout);
-    this._clearTimeout(this._limitedTimeout);
+    this._clearLimitedTimeout();
+    this._clearNormalTimeout();
+  }
 
-    if (!this._alert) {
-      return;
-    }
-    // dismiss disconnected alerts if found
-    const alertIds = this._alert.messages
-      .filter((m) => m.message === errorMessages.serviceLimited) // eslint-disable-line arrow-parens
-      .map((m) => m.id); // eslint-disable-line arrow-parens
-    if (alertIds.length) {
-      this._alert.dismiss(alertIds);
+  _clearLimitedTimeout() {
+    if (this._limitedTimeout) {
+      clearTimeout(this._limitedTimeout);
+      this._limitedTimeout = null;
     }
   }
 
-  /**
-   * Clear timeout handler when it's not needed
-   */
-  _clearTimeout(timeoutHandler) {
-    if (!timeoutHandler) {
-      return;
+  _clearNormalTimeout() {
+    if (this._normalTimeout) {
+      clearTimeout(this._normalTimeout);
+      this._normalTimeout = null;
     }
-
-    clearTimeout(timeoutHandler);
-    timeoutHandler = null;
   }
 
   async _getStatus() {
-    const res = await this._client.service.platform().get('/status');
+    const res = await this._client.service.platform().get('/status', null, { skipAuthCheck: true });
     return res && res.response();
   }
 
+  _retry() {
+    if (!this._limitedTimeout) {
+      this._limitedTimeout = setTimeout(() => {
+        this._clearLimitedTimeout();
+        this._healthCheck();
+      }, this._healthRetryTime);
+    }
+  }
+
   /**
-   * Keep retrying with different intervals
+   * Inner method of health checking
    * @returns
    * @memberof AvailabilityMonitor
    */
-  async _intervalHealthCheck() {
-    this._clearTimeout(this._limitedTimeout);
-
-    const response = await this._getStatus();
-    const retryAfter = pathOr(0, ['headers', 'retryAfter'], response);
-
-    if (response && response.status === 200) {
-      const waitingTime = generateRandomNumber(); // Generate random seconds (0 ~ 3000)
-      this._normalTimeout = setTimeout(() => {
-        this._switchToNormalMode();
-      }, waitingTime);
-
+  async _healthCheck() {
+    try {
+      const response = await this._getStatus();
+      if (!response || response.status !== 200) {
+        return;
+      }
+    } catch (err) {
+      console.error('error from request of /restapi/v1.0/status.');
       return;
     }
-
-    if (retryAfter > 0) {
-      this._healthRetryTime = retryAfter;
-    } else {
-      this._healthRetryTime = HEALTH_CHECK_INTERVAL;
-    }
-
-    this._limitedTimeout = setTimeout(async () => {
-      await this._intervalHealthCheck();
-    }, this._healthRetryTime);
+    this._randomTime = this._randomTime || generateRandomNumber(); // Generate random seconds (1 ~ 121)
+    this._normalTimeout = setTimeout(() => {
+      this._clearNormalTimeout();
+      this._switchToNormalMode();
+    }, this._randomTime * 1000);
   }
 
-  showAlert(message) {
-    if (!this._alert) {
-      return;
+  /**
+   * Health check with status API
+   */
+  async healthCheck() {
+    if (!this._throttledHealthCheck) {
+      this._throttledHealthCheck = throttle(async () => {
+        await this._healthCheck();
+      });
     }
 
-    this._alert.warning({
-      message,
-      allowDuplicates: false,
-    });
+    this._throttledHealthCheck();
   }
 
   /**
@@ -267,6 +345,7 @@ export default class AvailabilityMonitor extends RcModule {
    */
   checkIfHAError(error) {
     const errMessage = pathOr(null, ['message'], error);
+
     return isHAError(error) || errMessage === errorMessages.serviceLimited;
   }
 
@@ -282,6 +361,14 @@ export default class AvailabilityMonitor extends RcModule {
     return this.state.status === moduleStatuses.pending;
   }
 
+  get isVoIPOnlyMode() {
+    return this.state.isVoIPOnlyMode;
+  }
+
+  get isLimitedMode() {
+    return this.state.isLimitedMode;
+  }
+
   /**
    * Is App in limited mode
    *
@@ -289,12 +376,13 @@ export default class AvailabilityMonitor extends RcModule {
    * @memberof AvailabilityMonitor
    */
   get isLimitedAvailabilityMode() {
-    return (
-      this.state.isLimitedAvailabilityMode.mode === availabilityStatus.LIMITED
-    );
+    return this.isLimitedMode || this.isVoIPOnlyMode;
   }
 
-  get isAppInitialErrorMode() {
-    return this.state.isAppInitialError;
+  /**
+   * When App is in Limited Mode and Status check met a non-503 error
+   */
+  get hasLimitedStatusError() {
+    return this.state.hasLimitedStatusError;
   }
 }

@@ -5,6 +5,7 @@ import { Router, Route } from 'react-router';
 import sleep from 'ringcentral-integration/lib/sleep';
 
 import AlertContainer from 'ringcentral-widgets/containers/AlertContainer';
+import ConnectivityBadgeContainer from 'ringcentral-widgets/containers/ConnectivityBadgeContainer';
 import WelcomePage from 'ringcentral-widgets/containers/WelcomePage';
 import CallingSettingsPage from 'ringcentral-widgets/containers/CallingSettingsPage';
 import RegionSettingsPage from 'ringcentral-widgets/containers/RegionSettingsPage';
@@ -94,6 +95,7 @@ export default function App({
                   />
                 </IncomingCallPage>
                 <UserGuidePage />
+                <ConnectivityBadgeContainer />
               </AppView>
             )} >
             <Route

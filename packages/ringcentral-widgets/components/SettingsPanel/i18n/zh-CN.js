@@ -16,7 +16,8 @@ export default {
   language: "语言",
   feedback: "反馈",
   userGuide: "新功能",
-  quickAccess: "快速访问设置"
+  quickAccess: "快速访问设置",
+  msteamsSetting: "Microsoft Teams 设置"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -37,3 +38,4 @@ export default {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@

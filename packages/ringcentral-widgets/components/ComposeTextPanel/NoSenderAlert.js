@@ -9,7 +9,7 @@ export default class NoSenderAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAlert: !props.hasSenderNumbers && this.props.outboundSMS,
+      showAlert: props.showAlert,
     };
     this.onDismissAlert = () => {
       this.setState({
@@ -25,6 +25,15 @@ export default class NoSenderAlert extends Component {
       }
     ];
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.showAlert !== this.state.showAlert) {
+      this.setState({
+        showAlert: nextProps.showAlert,
+      });
+    }
+  }
+
   render() {
     return this.state.showAlert ? (
       <AlertDisplay
@@ -40,8 +49,7 @@ export default class NoSenderAlert extends Component {
 
 NoSenderAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
-  outboundSMS: PropTypes.bool.isRequired,
-  hasSenderNumbers: PropTypes.bool.isRequired,
+  showAlert: PropTypes.bool.isRequired,
   brand: PropTypes.string,
 };
 

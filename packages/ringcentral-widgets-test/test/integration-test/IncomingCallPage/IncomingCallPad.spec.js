@@ -462,8 +462,8 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     expect(messages).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          level: 'info',
-          message: 'callingSettingsMessages-emergencyCallingNotAvailable'
+          level: 'warning',
+          message: 'callErrors-noToNumber'
         })
       ])
     );

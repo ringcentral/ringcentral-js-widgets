@@ -226,8 +226,7 @@ export default class AdapterModuleCoreBase extends RcModule {
 
   @proxify
   async _onPresenceItemClicked(presenceData) {
-    console.log('presenceData', presenceData);
-    await this._presence.setPresence(presenceData)
+    await this._presence.setPresence(presenceData);
   }
 
   @proxify

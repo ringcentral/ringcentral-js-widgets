@@ -28,11 +28,10 @@ const RETRY_INTERVALS = [
     'Auth',
     'Client',
     'Subscription',
-    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
-    { dep: 'DataFetcherOptions', optional: true }
-  ]
+    { dep: 'DataFetcherOptions', optional: true },
+  ],
 })
 export default class DataFetcher extends Pollable {
   constructor({
@@ -41,7 +40,6 @@ export default class DataFetcher extends Pollable {
     storage,
     subscription,
     tabManager,
-    availabilityMonitor,
     timeToRetry = DEFAULT_RETRY,
     ttl = DEFAULT_TTL,
     pollingInterval = ttl,
@@ -70,7 +68,6 @@ export default class DataFetcher extends Pollable {
     this._storage = storage;
     this._subscription = subscription;
     this._tabManager = tabManager;
-    this._availabilityMonitor = availabilityMonitor;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
     this._polling = polling;
@@ -129,13 +126,13 @@ export default class DataFetcher extends Pollable {
       } else {
         this.store.dispatch({
           type: this.actionTypes.initSuccess,
-          hasPermission: false
+          hasPermission: false,
         });
       }
     } else if (this._isDataReady()) {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
-        hasPermission: this._hasPermission
+        hasPermission: this._hasPermission,
       });
     } else if (this._shouldReset()) {
       this._clearTimeout();
@@ -161,13 +158,11 @@ export default class DataFetcher extends Pollable {
 
   _shouldReset() {
     return !!(
-      (
-        !this._auth.loggedIn ||
+      (!this._auth.loggedIn ||
         (this._storage && !this._storage.ready) ||
         (this._readyCheckFn && !this._readyCheckFn()) ||
         (this._subscription && !this._subscription.ready) ||
-        (this._tabManager && !this._tabManager.ready)
-      ) &&
+        (this._tabManager && !this._tabManager.ready)) &&
       !this.pending
     );
   }
@@ -186,11 +181,9 @@ export default class DataFetcher extends Pollable {
   _shouldFetch() {
     return (
       (!this._tabManager || this._tabManager.active) &&
-      (
-        this._auth.isFreshLogin ||
+      (this._auth.isFreshLogin ||
         !this.timestamp ||
-        Date.now() - this.timestamp > this.ttl
-      )
+        Date.now() - this.timestamp > this.ttl)
     );
   }
 
@@ -211,9 +204,6 @@ export default class DataFetcher extends Pollable {
         await this.fetchData();
       } catch (e) {
         console.error('fetchData error:', e);
-        if (this._availabilityMonitor) {
-          this._availabilityMonitor.handleInitialError(e);
-        }
         this._retry();
       }
     } else if (this._polling) {
@@ -231,9 +221,10 @@ export default class DataFetcher extends Pollable {
   get data() {
     if (!this._disableCache && this._storage) {
       return (
-        this._storage.getItem(this._storageKey) &&
-        this._storage.getItem(this._storageKey).data
-      ) || null;
+        (this._storage.getItem(this._storageKey) &&
+          this._storage.getItem(this._storageKey).data) ||
+        null
+      );
     }
     return this.state.data;
   }
@@ -241,9 +232,10 @@ export default class DataFetcher extends Pollable {
   get timestamp() {
     if (!this._disableCache && this._storage) {
       return (
-        this._storage.getItem(this._storageKey) &&
-        this._storage.getItem(this._storageKey).timestamp
-      ) || null;
+        (this._storage.getItem(this._storageKey) &&
+          this._storage.getItem(this._storageKey).timestamp) ||
+        null
+      );
     }
     return this.state.timestamp;
   }

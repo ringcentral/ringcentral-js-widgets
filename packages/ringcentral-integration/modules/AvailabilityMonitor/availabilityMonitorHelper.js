@@ -10,6 +10,10 @@ export const HA_ERROR_CODE = 'CMN-211';
 export const HA_ERROR_STATUS = 503;
 
 export function extractUrl({ url }) {
+  if (url === '') {
+    return '';
+  }
+
   const filteredUrl =
     (url.match(/\/restapi(.*)/gi) && url.match(/\/restapi(.*)/gi)[0]) || '';
   const splitUrl = filteredUrl.split('?')[0] || '';
@@ -41,13 +45,13 @@ export function isHAError(error) {
 }
 
 /**
- * Generate 0 ~ 3000 seconds
+ * Generate 1 ~ 120 seconds
  *
  * @export
- * @returns 0 ~ 3000 seconds
+ * @returns 1 ~ 120 seconds
  */
-export function generateRandomNumber() {
-  return Math.floor(Math.random() * 3000);
+export function generateRandomNumber(max = 120, min = 1) {
+  return Math.random() * (max - min) + min;
 }
 
 /**
@@ -80,7 +84,8 @@ export function isHAEnabledAPI({ url, method }) {
     console.error(
       `url: ${url} method: ${method} is not set in high or limited available API`,
     );
-    return false;
+    // If a core API is not in the list, the request should be launched.
+    return true;
   }
 
   return (condition === availability.HIGH);

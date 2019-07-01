@@ -151,13 +151,15 @@ export default class TransferPanel extends PureComponent {
           autoFocus={autoFocus}
         />
         <div className={styles.padContainer}>
-          <DialPad
+          <DialPad 
+            dataSign="transfer"
             className={styles.dialPad}
             onButtonOutput={this.onButtonOutput}
           />
           <div className={styles.buttonRow}>
             <div className={styles.button}>
               <CircleButton
+                dataSign= "transferBtn"
                 className={isOnTransfer ? styles.disabled : undefined}
                 onClick={this.onTransfer}
                 icon={TransferIcon}

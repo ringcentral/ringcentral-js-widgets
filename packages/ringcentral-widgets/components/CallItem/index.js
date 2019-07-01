@@ -415,7 +415,7 @@ export default class CallItem extends Component {
 
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
-        <div className={styles.wrapper}>
+        <div data-sign="calls_item_wrapper" className={styles.wrapper}>
           <CallIcon
             direction={direction}
             ringing={ringing}
