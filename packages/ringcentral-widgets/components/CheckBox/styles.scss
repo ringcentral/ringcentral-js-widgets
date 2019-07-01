@@ -1,6 +1,7 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size.scss';
-@import '~ringcentral-widgets/lib/commonStyles/fonts';
+@import '../../lib/commonStyles/fonts.scss';
+
 $circle: 14px;
 $baseSize: $circle + 2px;
 
