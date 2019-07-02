@@ -1,8 +1,6 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 export default {
-  [webphoneErrors.connectFailed]: "ウェブ電話サーバーとの接続が失敗しました。",
   [webphoneErrors.connected]: "ウェブ電話は登録されています。",
-  [webphoneErrors.browserNotSupported]: "ブラウザーを使用した通話は、Chromeのみでサポートされています。",
   [webphoneErrors.webphoneCountOverLimit]: "登録できるウェブ電話は最大5台です。",
   [webphoneErrors.noOutboundCallWithoutDL]: "お使いの内線は、現在、ブラウザーを使用した通話発信を許可されていません。アップグレードについてアカウント担当者にお問い合わせください。",
   [webphoneErrors.toVoiceMailError]: "内部エラーにより、通話をボイスメールに送信できません",
@@ -14,7 +12,6 @@ export default {
   [webphoneErrors.transferError]: "通話を転送できません。後でもう一度やり直してください。",
 };
 
-// @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@
 // @key: @#@"[webphoneErrors.browserNotSupported]"@#@ @source: @#@"Calling with browser is only supported on Chrome."@#@
 // @key: @#@"[webphoneErrors.webphoneCountOverLimit]"@#@ @source: @#@"A maximum of 5 web phones could be registered."@#@
@@ -26,6 +23,3 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
-// @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
-// @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
-// @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@

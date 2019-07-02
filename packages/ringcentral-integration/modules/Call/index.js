@@ -92,7 +92,6 @@ export default class Call extends RcModule {
     this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._internationalCheck = internationalCheck;
     this._availabilityMonitor = availabilityMonitor;
-
     this._callSettingMode = null;
     this._permissionCheck = permissionCheck;
 

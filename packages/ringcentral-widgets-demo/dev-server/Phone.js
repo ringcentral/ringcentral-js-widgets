@@ -63,9 +63,11 @@ import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
+import ConferenceUI from 'ringcentral-widgets/modules/ConferenceUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 import AudioSettingsUI from 'ringcentral-widgets/modules/AudioSettingsUI';
 import CallingSettingsUI from 'ringcentral-widgets/modules/CallingSettingsUI';
+import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager';
 
 import normalizeNumber from 'ringcentral-integration/lib/normalizeNumber';
 import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
@@ -94,6 +96,7 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'OAuth', useExisting: 'ProxyFrameOAuth' },
     { provide: 'Ringout', useClass: Ringout },
     { provide: 'ConnectivityMonitor', useClass: ConnectivityMonitor },
+    { provide: 'ConnectivityManager', useClass: ConnectivityManager },
     { provide: 'RateLimiter', useClass: RateLimiter },
     { provide: 'Storage', useClass: Storage },
     { provide: 'AudioSettings', useClass: AudioSettings },
@@ -143,6 +146,7 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
     { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
+    { provide: 'ConferenceUI', useClass: ConferenceUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
     { provide: 'ActiveCallControl', useClass: ActiveCallControl },
@@ -529,6 +533,8 @@ export function createPhone({
         provide: 'SdkConfig',
         useValue: {
           ...apiConfig,
+          appName: 'Widgets Demo App',
+          appVersion: 'N/A',
           cachePrefix: 'sdk-rc',
           clearCacheOnRefreshError: false,
         },
@@ -538,6 +544,8 @@ export function createPhone({
         useValue: {
           sdkConfig: {
             ...apiConfig,
+            appName: 'Widgets Demo App',
+            appVersion: 'N/A',
             cachePrefix: 'sdk-rc',
             clearCacheOnRefreshError: false,
           },

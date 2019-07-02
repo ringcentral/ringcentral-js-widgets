@@ -94,7 +94,6 @@ import MessageTabButtonPage from './Components/MessageTabButton';
 import ModalPage from './Components/Modal';
 import MultiCallAnswerButtonPage from './Components/MultiCallAnswerButton';
 import NavigationBarPage from './Components/NavigationBar';
-import OfflineModeBadgePage from './Components/OfflineModeBadge';
 import PanelPage from './Components/Panel';
 import PresenceItemPage from './Components/PresenceItem';
 import PresenceSettingSectionPage from './Components/PresenceSettingSection';
@@ -129,7 +128,7 @@ import TransferPanelPage from './Components/TransferPanel';
 import UserGuidePage from './Components/UserGuide';
 import VoicemailPlayerPage from './Components/VoicemailPlayer';
 import WebphoneAlertPage from './Components/WebphoneAlert';
-import WebphoneBadgePage from './Components/WebphoneBadge';
+import ConnectivityBadgePage from './Components/ConnectivityBadge';
 
 const Routes = () => (
   <div>
@@ -226,7 +225,6 @@ const Routes = () => (
     <Route path="/components/Modal" component={ModalPage} />
     <Route path="/components/MultiCallAnswerButton" component={MultiCallAnswerButtonPage} />
     <Route path="/components/NavigationBar" component={NavigationBarPage} />
-    <Route path="/components/OfflineModeBadge" component={OfflineModeBadgePage} />
     <Route path="/components/Panel" component={PanelPage} />
     <Route path="/components/PresenceItem" component={PresenceItemPage} />
     <Route path="/components/PresenceSettingSection" component={PresenceSettingSectionPage} />
@@ -261,7 +259,7 @@ const Routes = () => (
     <Route path="/components/UserGuide" component={UserGuidePage} />
     <Route path="/components/VoicemailPlayer" component={VoicemailPlayerPage} />
     <Route path="/components/WebphoneAlert" component={WebphoneAlertPage} />
-    <Route path="/components/WebphoneBadge" component={WebphoneBadgePage} />
+    <Route path="/components/ConnectivityBadge" component={ConnectivityBadgePage} />
   </div>
 );
 

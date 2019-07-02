@@ -452,9 +452,10 @@ export default class MessageItem extends Component {
         }
       )
       : null;
+    const msgItem= `${type}MessageItem`;
     return (
-      <div data-sign="messageItem" data-id={conversationId} className={styles.root} onClick={this.onClickItem}>
-        <div
+      <div data-sign={msgItem} data-id={conversationId} className={styles.root} onClick={this.onClickItem}>
+        <div data-sign="unread"
           className={classnames(
             styles.wrapper,
             unreadCounts && styles.unread
@@ -501,11 +502,11 @@ export default class MessageItem extends Component {
               phoneSourceNameRenderer={phoneSourceNameRenderer}
             />
             <div className={styles.detailsWithTime}>
-              <div className={styles.details} title={detail}>
+              <div data-sign="msgDetail" className={styles.details} title={detail}>
                 {detail}
               </div>
               <div className={styles.separatrix}>|</div>
-              <div className={styles.creationTime}>
+              <div data-sign="msgCreateTime" className={styles.creationTime}>
                 {this.dateTimeFormatter(creationTime)}
               </div>
             </div>

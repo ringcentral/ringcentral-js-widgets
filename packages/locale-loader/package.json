@@ -27,11 +27,11 @@
     "@babel/core": "^7.3.4",
     "@ringcentral-integration/babel-settings": "*",
     "babel-jest": "^24.5.0",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
-    "jest": "^24.5.0",
-    "jest-junit": "^6.0.0"
+    "jest": "^24.7.1",
+    "jest-junit": "^6.3.0"
   },
   "dependencies": {
     "@babel/generator": "^7.3.4",
@@ -43,7 +43,7 @@
     "inquirer": "^6.0.0",
     "loader-utils": "^1.1.0",
     "ramda": "^0.25.0",
-    "through2": "^2.0.0",
+    "through2": "^2.0.5",
     "xml-js": "^1.6.2"
   },
   "jest": {

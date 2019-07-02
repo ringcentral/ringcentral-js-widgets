@@ -30,6 +30,7 @@ export default class AudioSettingsUI extends RcUIModule {
     this._routerInteraction = routerInteraction;
     this._webphone = webphone;
   }
+
   getUIProps() {
     return {
       currentLocale: this._locale.currentLocale,

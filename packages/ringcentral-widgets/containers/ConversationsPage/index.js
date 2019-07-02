@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import MessagesPanel from '../../components/ConversationsPanel';
 import { withPhone } from '../../lib/phoneContext';
+import callingSettings from '../../../ringcentral-integration/integration-test/spec-modules/callingSettings';
 
 export function mapToProps(_, {
   phone: {
@@ -16,10 +17,7 @@ export function mapToProps(_, {
     connectivityMonitor,
     rateLimiter,
     messageStore,
-    auth,
-    audioSettings,
-    webphone,
-    callingSettings,
+    connectivityManager,
   },
   showTitle = false,
   enableContactFallback = false,
@@ -41,18 +39,15 @@ export function mapToProps(_, {
     conversations: conversations.pagingConversations,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    disableLinks: (
-      !connectivityMonitor.connectivity ||
-      rateLimiter.throttling
-    ),
+    disableLinks:
+      connectivityManager.isOfflineMode ||
+      connectivityManager.isVoipOnlyMode ||
+      rateLimiter.throttling,
     disableCallButton:
-      auth.ready &&
-      audioSettings.ready &&
-      webphone && webphone.ready &&
-      auth.loggedIn &&
-      (callingSettings.isWebphoneMode &&
-        (!audioSettings.userMedia || !webphone.connected)
-      ),
+      connectivityManager.isOfflineMode ||
+      connectivityManager.isWebphoneUnavailableMode ||
+      connectivityManager.isWebphoneInitializing ||
+      rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
     outboundSmsPermission: !!(
       permissions &&

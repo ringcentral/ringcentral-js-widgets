@@ -4,7 +4,8 @@ import { Module } from '../../lib/di';
 import actionTypes from './actionTypes';
 import moduleStatuses from '../../enums/moduleStatuses';
 import getConnectivityMonitorReducer from './getConnectivityMonitorReducer';
-import connectivityMonitorMessages from './connectivityMonitorMessages';
+import rateLimiterErrorMessage from '../RateLimiter/errorMessages';
+import availabilityErrorMessages from '../AvailabilityMonitor/errorMessages';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 
@@ -21,7 +22,6 @@ async function defaultCheckConnectionFn() {
  */
 @Module({
   deps: [
-    'Alert',
     'Client',
     { dep: 'Environment', optional: true },
     { dep: 'ConnectivityMonitorOptions', optional: true }
@@ -31,7 +31,6 @@ export default class ConnectivityMonitor extends RcModule {
   /**
    * @constructor
    * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
    * @param {Client} params.client - client module instance
    * @param {Environment} params.environment - environment module instance
    * @param {Number} params.timeToRetry - time to Retry
@@ -39,7 +38,6 @@ export default class ConnectivityMonitor extends RcModule {
    * @param {Function} params.checkConnectionFunc - function to check network
    */
   constructor({
-    alert,
     client,
     environment,
     timeToRetry = DEFAULT_TIME_TO_RETRY,
@@ -51,7 +49,6 @@ export default class ConnectivityMonitor extends RcModule {
       ...options,
       actionTypes,
     });
-    this._alert = alert;
     this._client = this::ensureExist(client, 'client');
     this._environment = environment;
     this._timeToRetry = timeToRetry;
@@ -61,9 +58,9 @@ export default class ConnectivityMonitor extends RcModule {
     this._lastEnvironmentCounter = 0;
 
     // auto bind this
-    this._beforeRequestHandler = this::this._beforeRequestHandler;
     this._requestSuccessHandler = this::this._requestSuccessHandler;
     this._requestErrorHandler = this::this._requestErrorHandler;
+    this._networkErrorHandler = this::this._networkErrorHandler;
 
     this._checkConnectionFunc = async () => {
       try {
@@ -104,48 +101,38 @@ export default class ConnectivityMonitor extends RcModule {
     this.store.subscribe(() => this._onStateChange());
   }
 
-  _beforeRequestHandler() {
-    this._clearTimeout();
-  }
-
-  _requestSuccessHandler() {
+  _requestSuccessHandler(res) {
     if (!this.connectivity) {
       this.store.dispatch({
         type: this.actionTypes.connectSuccess,
       });
-      if (this._alert) {
-        // dismiss disconnected alerts if found
-        const alertIds = this._alert.messages.filter(m => (
-          m.message === connectivityMonitorMessages.disconnected
-        )).map(m => m.id);
-        if (alertIds.length) {
-          this._alert.dismiss(alertIds);
-        }
+    }
+    this._retry();
+  }
+
+  _requestErrorHandler(error) {
+    if (error.message &&
+      (
+        error.message === rateLimiterErrorMessage.rateLimitReached ||
+        error.message === availabilityErrorMessages.serviceLimited
+      )
+    ) return;
+
+    if (!error.apiResponse || !error.apiResponse._response) {
+      if (this.connectivity) {
+        this.store.dispatch({
+          type: this.actionTypes.connectFail,
+        });
       }
     }
     this._retry();
   }
 
-  @proxify
-  async showAlert() {
-    if (!this.connectivity && this._alert) {
-      this._alert.danger({
-        message: connectivityMonitorMessages.disconnected,
-        allowDuplicates: false,
-      });
-    }
-  }
-
-  _requestErrorHandler(error) {
-    if (error.apiResponse) {
-      return;
-    }
-
-    if (this.connectivity) {
+  _networkErrorHandler() {
+    if (!this.networkLoss) {
       this.store.dispatch({
-        type: this.actionTypes.connectFail,
+        type: this.actionTypes.networkLoss,
       });
-      this.showAlert();
     }
     this._retry();
   }
@@ -158,13 +145,13 @@ export default class ConnectivityMonitor extends RcModule {
     client.on(client.events.requestSuccess, this._requestSuccessHandler);
     client.on(client.events.requestError, this._requestErrorHandler);
     if (typeof window !== 'undefined') {
-      window.addEventListener('offline', this._requestErrorHandler);
+      window.addEventListener('offline', this._networkErrorHandler);
     }
     this._unbindHandlers = () => {
       client.removeListener(client.events.requestSuccess, this._requestSuccessHandler);
       client.removeListener(client.events.requestError, this._requestErrorHandler);
       if (typeof window !== 'undefined') {
-        window.removeEventListener('offline', this._requestErrorHandler);
+        window.removeEventListener('offline', this._networkErrorHandler);
       }
       this._unbindHandlers = null;
     };
@@ -208,5 +195,9 @@ export default class ConnectivityMonitor extends RcModule {
 
   get connectivity() {
     return this.state.connectivity;
+  }
+
+  get networkLoss() {
+    return this.state.networkLoss;
   }
 }

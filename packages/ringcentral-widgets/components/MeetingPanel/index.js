@@ -25,8 +25,8 @@ function MeetingPanel(props) {
     audioOptionToggle,
     onOK,
     init,
+    showSaveAsDefault,
   } = props;
-
   return (
     <div className={styles.meetingPanel}>
       {!hidden ? (
@@ -59,7 +59,10 @@ function MeetingPanel(props) {
             const opener = (openNewWindow && isSafari()) ? window.open() : null;
             await invite(meeting, opener);
           }
-        }} />
+        }}
+        update={update}
+        showSaveAsDefault={showSaveAsDefault}
+      />
       )
       }
     </div>
@@ -84,6 +87,7 @@ MeetingPanel.propTypes = {
   passwordPlaceholderEnable: PropTypes.bool,
   audioOptionToggle: PropTypes.bool,
   onOK: PropTypes.func,
+  showSaveAsDefault: PropTypes.bool,
 };
 
 MeetingPanel.defaultProps = {
@@ -100,6 +104,7 @@ MeetingPanel.defaultProps = {
   audioOptionToggle: false,
   onOK: undefined,
   scheduleButton: undefined,
+  showSaveAsDefault: false,
 };
 
 export default MeetingPanel;

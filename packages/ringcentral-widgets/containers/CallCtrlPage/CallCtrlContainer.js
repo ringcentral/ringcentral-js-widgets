@@ -98,6 +98,7 @@ class CallCtrlContainer extends Component {
     const {
       lastCallInfo,
       isWebRTC,
+      disableLinks,
       isConferenceCallOverload,
       session,
       hasConferenceCall,
@@ -105,7 +106,7 @@ class CallCtrlContainer extends Component {
 
     // const isInboundCall = session.direction === callDirections.inbound;
     // const isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
-    const isMergeAndAddDisabled = !isWebRTC || !session.partyData;
+    const isMergeAndAddDisabled = !isWebRTC || !session.partyData || disableLinks;
 
     let mergeDisabled = isMergeAndAddDisabled;
     let addDisabled = isMergeAndAddDisabled;
@@ -369,6 +370,7 @@ CallCtrlContainer.propTypes = {
   getInitialLayout: PropTypes.func,
   closeMergingPair: PropTypes.func,
   isWebRTC: PropTypes.bool,
+  disableLinks: PropTypes.bool,
   isConferenceCallOverload: PropTypes.bool,
   afterHideMergeConfirm: PropTypes.func,
   afterConfirmMerge: PropTypes.func,
@@ -398,6 +400,7 @@ CallCtrlContainer.defaultProps = {
   layout: callCtrlLayouts.normalCtrl,
   closeMergingPair: null,
   isWebRTC: false,
+  disableLinks: false,
   isConferenceCallOverload: false,
   afterHideMergeConfirm: () => null,
   afterConfirmMerge: () => null,

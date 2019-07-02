@@ -116,13 +116,17 @@ export function getActiveCallsReducer(types) {
     type,
     timestamp,
     data: {
-      activeCalls = [],
+      activeCalls,
       totalActiveCalls = 0,
     } = {},
   }) => {
     switch (type) {
       case types.fetchSuccess:
       case types.notification: {
+        if (!activeCalls) {
+          return state;
+        }
+
         if (activeCalls.length < totalActiveCalls) {
           return state;
         }

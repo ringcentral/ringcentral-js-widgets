@@ -1,15 +1,14 @@
 import { combineReducers } from 'redux';
-import AvailabilityStatus from './availabilityStatus';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
-export function isLimitedAvailabilityModeReducer(types) {
-  return (state = { mode: AvailabilityStatus.NORMAL }, { type }) => {
+export function hasLimitedStatusErrorReducer(types) {
+  return (state = false, { type }) => {
     switch (type) {
-      case types.limitedMode: {
-        return { mode: AvailabilityStatus.LIMITED };
+      case types.limitedModeStatusError: {
+        return true;
       }
       case types.normalMode: {
-        return { mode: AvailabilityStatus.NORMAL };
+        return false;
       }
       default:
         return state;
@@ -17,14 +16,32 @@ export function isLimitedAvailabilityModeReducer(types) {
   };
 }
 
-export function isAppInitialErrorModeReducer(types) {
-  return (state = { mode: AvailabilityStatus.NORMAL }, { type }) => {
+export function isLimitedModeReducer(types) {
+  return (state = false, { type }) => {
     switch (type) {
-      case types.appInitialError: {
-        return { mode: AvailabilityStatus.APP_INITIAL_ERROR };
+      case types.limitedMode: {
+        return true;
       }
       case types.normalMode: {
-        return { mode: AvailabilityStatus.NORMAL };
+        return false;
+      }
+      default:
+        return state;
+    }
+  };
+}
+
+export function isVoIPOnlyModeReducer(types) {
+  return (state = false, { type }) => {
+    switch (type) {
+      case types.VoIPOnlyMode: {
+        return true;
+      }
+      case types.VoIPOnlyReset: {
+        return false;
+      }
+      case types.normalMode: {
+        return false;
       }
       default:
         return state;
@@ -35,7 +52,8 @@ export function isAppInitialErrorModeReducer(types) {
 export default function AvailabilityMonitorReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
-    isLimitedAvailabilityMode: isLimitedAvailabilityModeReducer(types),
-    isAppInitialError: isAppInitialErrorModeReducer(types),
+    hasLimitedStatusError: hasLimitedStatusErrorReducer(types),
+    isLimitedMode: isLimitedModeReducer(types),
+    isVoIPOnlyMode: isVoIPOnlyModeReducer(types),
   });
 }

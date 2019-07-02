@@ -72,6 +72,8 @@ module.exports = {
     'no-shadow': 0,
     'no-underscore-dangle': 0,
     'no-unused-vars': 1,
+    'object-curly-newline': 0,
+    'object-curly-spacing': ['error', 'always'],
     'react/destructuring-assignment': 1,
     'react/sort-comp': 0,
     'react/forbid-prop-types': 0,
@@ -84,11 +86,11 @@ module.exports = {
         extensions: ['.js', '.jsx'],
       },
     ],
-    "react/no-array-index-key": 0,
-    "react/require-default-props": 1,
-    "no-mixed-operators": 0,
-    "react/no-did-mount-set-state": 0, // dom size detection after mount may require setState in didMount
-    "consistent-return": 0,
+    'react/no-array-index-key': 0,
+    'react/require-default-props': 1,
+    'no-mixed-operators': 0,
+    'react/no-did-mount-set-state': 0, // dom size detection after mount may require setState in didMount
+    'consistent-return': 0,
   },
   overrides: [
     {

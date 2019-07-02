@@ -107,21 +107,21 @@ describe('availabilityMonitorHelper', () => {
   });
 
   describe('Generate random number', () => {
-    it('Test generate random time between 0 ~ 3000 seconds', () => {
+    it('Test generate random time between 0 ~ 121 seconds', () => {
       const randomTime = generateRandomNumber();
 
-      expect(randomTime).to.gte(0);
-      expect(randomTime).to.lt(3000);
+      expect(randomTime).to.gt(0);
+      expect(randomTime).to.lt(121);
 
       const randomTime2 = generateRandomNumber();
 
-      expect(randomTime2).to.gte(0);
-      expect(randomTime2).to.lt(3000);
+      expect(randomTime2).to.gt(0);
+      expect(randomTime2).to.lt(121);
 
       const randomTime3 = generateRandomNumber();
 
-      expect(randomTime3).to.gte(0);
-      expect(randomTime3).to.lt(3000);
+      expect(randomTime3).to.gt(0);
+      expect(randomTime3).to.lt(121);
     });
   });
 

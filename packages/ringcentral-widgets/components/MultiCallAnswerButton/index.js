@@ -17,7 +17,7 @@ export default function MultiCallAnswerButton(props) {
     props.isEndOtherCall ? styles.endButton : ''
   );
   const text = props.title.split('\n').map((line, index) => (
-    <tspan dy={index ? '1.1em' : 0} x="250" key={line}>
+    <tspan dy={index ? '1.1em' : 0} x="250" key={line} data-sign={line.replace(' ', '_')}>
       {line}
     </tspan>
   ));
@@ -48,6 +48,7 @@ export default function MultiCallAnswerButton(props) {
         showBorder={false}
         onClick={props.onClick}
         icon={AnswerIcon}
+        dataSign={props.dataSign}
       />
       <text
         className={styles.buttonTitle}

@@ -63,7 +63,7 @@ export function ClickToDialButton({
       className={classnames(styles.button, styles.clickToDialButton, className)}
       onClick={onClickToDial}
       dataSign={title}
-      disabled={disableLinks || disableCallButton || disableClickToDial || !phoneNumber}>
+      disabled={ disableCallButton || disableClickToDial || !phoneNumber}>
       <span
         className={dynamicsFont.call}
         title={title} />

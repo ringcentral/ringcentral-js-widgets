@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import i18n from './i18n';
 import Button from '../Button';
+import CheckBox from '../CheckBox';
 
 export default class MeetingScheduleButton extends PureComponent {
   static propTypes = {
@@ -13,6 +14,8 @@ export default class MeetingScheduleButton extends PureComponent {
     disabled: PropTypes.bool,
     onClick: PropTypes.func.isRequired,
     brand: PropTypes.string,
+    showSaveAsDefault: PropTypes.bool,
+    update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -21,6 +24,8 @@ export default class MeetingScheduleButton extends PureComponent {
     disabled: false,
     brand: undefined,
     currentLocale: undefined,
+    showSaveAsDefault: false,
+    update() {}
   }
 
   getI18nButtonString() {
@@ -38,7 +43,9 @@ export default class MeetingScheduleButton extends PureComponent {
       meeting,
       onClick,
       brand,
-      currentLocale
+      currentLocale,
+      showSaveAsDefault,
+      update,
     } = this.props;
     return (
       <div
@@ -48,6 +55,21 @@ export default class MeetingScheduleButton extends PureComponent {
             <div className={styles.actionPrompt}>
               { this.getI18nPromptString() }
             </div>
+          ) : null
+        }
+        {
+          showSaveAsDefault ? (
+            <CheckBox
+              checked={meeting.saveAsDefault}
+              onChecked={
+                () => update({
+                  ...meeting,
+                  saveAsDefault: !meeting.saveAsDefault
+                })}
+              type="checkbox"
+              className={styles.notShowAgain}>
+              { i18n.getString('saveAsDefault', currentLocale) }
+            </CheckBox>
           ) : null
         }
         <Button

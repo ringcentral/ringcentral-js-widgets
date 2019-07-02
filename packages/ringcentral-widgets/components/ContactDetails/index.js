@@ -54,6 +54,8 @@ export default class ContactDetails extends PureComponent {
   };
 
   onClickToSMS = (contact, phoneNumber) => {
+    if (this.props.disableLinks) return;
+
     this.props.onClickToSMS({
       ...contact,
       phoneNumber
@@ -148,6 +150,7 @@ export default class ContactDetails extends PureComponent {
   getListItem({
     showCallBtn,
     showTextBtn,
+    disableLinks,
     disableCallButton,
     key,
     number,
@@ -166,7 +169,7 @@ export default class ContactDetails extends PureComponent {
     return (
       <li key={key}>
         <div className={styles.number}>
-          <span title={displayedPhoneNumber}>{displayedPhoneNumber}</span>
+          <span data-sign="contactNumber" title={displayedPhoneNumber}>{displayedPhoneNumber}</span>
         </div>
         <div className={styles.menu}>
           {showCallBtn ?
@@ -186,6 +189,9 @@ export default class ContactDetails extends PureComponent {
           {showTextBtn ?
             (
               <button
+                className={classnames(
+                  disableLinks && styles.disabled
+                )}
                 title={i18n.getString('text', currentLocale)}
                 onClick={() => this.onClickToSMS(contactItem, number)}
             >
@@ -200,7 +206,7 @@ export default class ContactDetails extends PureComponent {
   }
 
   getPhoneSections() {
-    const { contactItem, currentLocale, disableCallButton } = this.props;
+    const { contactItem, currentLocale, disableLinks, disableCallButton } = this.props;
     const { phoneNumbers, phoneMaps, schema } = contactItem;
     if (!phoneNumbers.length) {
       return null;
@@ -219,6 +225,7 @@ export default class ContactDetails extends PureComponent {
                       phoneNumberElm => this.getListItem({
                         showCallBtn: this.props.internalSmsPermission,
                         showTextBtn: this.props.onClickToDial,
+                        disableLinks,
                         disableCallButton,
                         key: phoneNumberElm.phoneNumber,
                         number: phoneNumberElm.phoneNumber,
@@ -253,6 +260,7 @@ export default class ContactDetails extends PureComponent {
                       phoneNumberElm => this.getListItem({
                         showCallBtn: this.props.onClickToDial,
                         showTextBtn: this.props.outboundSmsPermission,
+                        disableLinks,
                         disableCallButton,
                         key: phoneNumberElm.phoneNumber,
                         number: phoneNumberElm.phoneNumber,
@@ -335,6 +343,7 @@ ContactDetails.propTypes = {
   formatNumber: PropTypes.func.isRequired,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
+  disableLinks: PropTypes.bool,
   disableCallButton: PropTypes.bool,
 };
 
@@ -345,5 +354,6 @@ ContactDetails.defaultProps = {
   sourceNodeRenderer: () => null,
   outboundSmsPermission: false,
   internalSmsPermission: false,
+  disableLinks: false,
   disableCallButton: false,
 };

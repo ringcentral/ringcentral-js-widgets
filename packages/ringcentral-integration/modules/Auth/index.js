@@ -8,6 +8,7 @@ import authMessages from './authMessages';
 import moduleStatuses from '../../enums/moduleStatuses';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
+
 const LoginStatusChangeEvent = 'loginStatusChange';
 
 /**
@@ -23,7 +24,6 @@ const LoginStatusChangeEvent = 'loginStatusChange';
     { dep: 'TabManager', optional: true },
     { dep: 'Environment', optional: true },
     { dep: 'AuthOptions', optional: true },
-    { dep: 'ConnectivityMonitor', optional: true },
   ]
 })
 export default class Auth extends RcModule {
@@ -36,7 +36,6 @@ export default class Auth extends RcModule {
    * @param {Locale} params.locale - locale module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    * @param {environment} params.Environment - environment module instance
-   * @param {connectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
    * @param {String} params.redirectUri - redirect uri
    * @param {String} params.proxyUri - proxyUri module instance
    * @param {Number} params.defaultProxyRetry - default proxy retry time 5000
@@ -48,7 +47,6 @@ export default class Auth extends RcModule {
     locale,
     tabManager,
     environment,
-    connectivityMonitor,
     ...options
   } = {}) {
     super({
@@ -61,7 +59,6 @@ export default class Auth extends RcModule {
     this._locale = ensureExist(locale, 'locale');
     this._tabManager = tabManager;
     this._environment = environment;
-    this._connectivityMonitor = connectivityMonitor;
     this._reducer = getAuthReducer(this.actionTypes);
     this._beforeLogoutHandlers = new Set();
     this._afterLoggedInHandlers = new Set();
@@ -70,6 +67,7 @@ export default class Auth extends RcModule {
     this._unbindEvents = null;
     this._lastEnvironmentCounter = 0;
   }
+
   _bindEvents() {
     if (this._unbindEvents) this._unbindEvents();
 
@@ -136,19 +134,18 @@ export default class Auth extends RcModule {
       error.message === 'The Internet connection appears to be offline.' ||
       error.message === 'NetworkError when attempting to fetch resource.' ||
       error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.');
-      if (
-        this._connectivityMonitor &&
-        this._connectivityMonitor.ready &&
-        this._connectivityMonitor.connectivity === false
-      ) { isOffline = true; }
 
-      const refreshTokenValid = isOffline && platform.auth().refreshTokenValid();
+      let res_status = error.apiResponse && error.apiResponse._response &&
+        error.apiResponse._response.status || null;
+      const refreshTokenValid = (isOffline || res_status >= 500) &&
+        platform.auth().refreshTokenValid();
       this.store.dispatch({
         type: this.actionTypes.refreshError,
         error,
         refreshTokenValid,
       });
-      if (!refreshTokenValid && this._client.service.platform().auth().data().access_token !== '') {
+
+      if (!refreshTokenValid && platform.auth().data().access_token !== '') {
         this._alert.danger({
           message: authMessages.sessionExpired,
           payload: error,
@@ -175,6 +172,7 @@ export default class Auth extends RcModule {
       client.removeListener(client.events.requestError, onRequestError);
     };
   }
+
   initialize() {
     let loggedIn;
     this.store.subscribe(async () => {
@@ -323,6 +321,7 @@ export default class Auth extends RcModule {
       owner_id: ownerId,
     });
   }
+
   /**
    * @function
    * @param {String} options.redirectUri
@@ -358,7 +357,7 @@ export default class Auth extends RcModule {
     });
     const handlers = [...this._beforeLogoutHandlers];
     try {
-      if (this._tabManager && this._tabManager.ready) { 
+      if (this._tabManager && this._tabManager.ready) {
         this._tabManager.send(LoginStatusChangeEvent, false);
       }
       for (const handler of handlers) {

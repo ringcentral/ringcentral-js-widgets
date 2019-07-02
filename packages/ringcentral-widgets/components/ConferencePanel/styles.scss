@@ -182,19 +182,3 @@
   }
 }
 
-.checkbox {
-  width: 13px;
-  height: 13px;
-  font-size: 13px;
-  line-height: 13px;
-  color: $snow;
-  text-align: center;
-  user-select: none;
-  background: transparent;
-  border: solid 1px $silver;
-}
-
-.checkbox.checked {
-  background: $primary-color;
-  border: solid 1px $primary-color;
-}

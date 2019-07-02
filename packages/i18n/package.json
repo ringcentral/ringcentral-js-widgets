@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/i18n",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple I18n implementation used in RingCentral Integration projects.",
   "main": "index.js",
   "repository": {
@@ -22,10 +22,10 @@
     "babel-jest": "^24.5.0",
     "faker": "^4.1.0",
     "fs-extra": "^7.0.1",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
-    "jest": "^24.5.0"
+    "jest": "^24.7.1"
   },
   "scripts": {
     "test": "jest",

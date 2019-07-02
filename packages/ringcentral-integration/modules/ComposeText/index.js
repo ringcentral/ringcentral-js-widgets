@@ -23,8 +23,8 @@ import proxify from '../../lib/proxy/proxify';
     'RolesAndPermissions',
     // { dep: 'Conversations', optional: true },
     { dep: 'ContactSearch', optional: true },
-    { dep: 'ComposeTextOptions', optional: true }
-  ]
+    { dep: 'ComposeTextOptions', optional: true },
+  ],
 })
 export default class ComposeText extends RcModule {
   /**
@@ -66,7 +66,10 @@ export default class ComposeText extends RcModule {
     // this._conversations = conversations;
     this._lastContactSearchResult = [];
     this.senderNumbersList = [];
-    storage.registerReducer({ key: this._storageKey, reducer: this._cacheReducer });
+    storage.registerReducer({
+      key: this._storageKey,
+      reducer: this._cacheReducer,
+    });
   }
 
   initialize() {
@@ -74,9 +77,7 @@ export default class ComposeText extends RcModule {
   }
 
   _onStateChange() {
-    if (
-      this._shouldInit()
-    ) {
+    if (this._shouldInit()) {
       this.senderNumbersList = this._messageSender.senderNumbersList;
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
@@ -85,18 +86,15 @@ export default class ComposeText extends RcModule {
         this.clean();
       }
       this._initSenderNumber();
-    } else if (
-      this._shouldHandleRecipient()
-    ) {
+    } else if (this._shouldHandleRecipient()) {
       this._handleRecipient();
-    } else if (
-      this._shouldReset()
-    ) {
+    } else if (this._shouldReset()) {
       this._resetModuleStatus();
     }
     if (
       this.ready &&
-      this._messageSender.senderNumbersList.length !== this.senderNumbersList.length
+      this._messageSender.senderNumbersList.length !==
+        this.senderNumbersList.length
     ) {
       this.senderNumbersList = this._messageSender.senderNumbersList;
       this._initSenderNumber();
@@ -104,20 +102,11 @@ export default class ComposeText extends RcModule {
   }
 
   _shouldInit() {
-    return (
-      this._messageSender.ready &&
-      this._auth.ready &&
-      !this.ready
-    );
+    return this._messageSender.ready && this._auth.ready && !this.ready;
   }
 
   _shouldReset() {
-    return (
-      (
-        !this._messageSender.ready
-      ) &&
-      this.ready
-    );
+    return !this._messageSender.ready && this.ready;
   }
 
   _shouldHandleRecipient() {
@@ -143,16 +132,16 @@ export default class ComposeText extends RcModule {
     } else {
       this.updateSenderNumber(
         this._messageSender.senderNumbersList[0] &&
-        this._messageSender.senderNumbersList[0].phoneNumber
+          this._messageSender.senderNumbersList[0].phoneNumber,
       );
     }
   }
 
   _handleRecipient() {
-    const dummy = this.toNumbers.find(toNumber => !toNumber.entityType);
+    const dummy = this.toNumbers.find((toNumber) => !toNumber.entityType);
     if (dummy) {
       const recipient = this._contactSearch.searchResult.find(
-        item => item.id === dummy.id
+        (item) => item.id === dummy.id,
       );
       if (recipient) {
         this.addToNumber(recipient);
@@ -163,11 +152,12 @@ export default class ComposeText extends RcModule {
 
   _alertWarning(message) {
     if (message) {
-      const ttlConfig = message !== messageSenderMessages.noAreaCode
-        ? { ttl: 0 } : null;
+      const ttlConfig =
+        message !== messageSenderMessages.noAreaCode ? { ttl: 0 } : null;
       this._alert.warning({
         message,
-        ...ttlConfig
+        allowDuplicates: false,
+        ...ttlConfig,
       });
       return true;
     }
@@ -205,7 +195,7 @@ export default class ComposeText extends RcModule {
   async send() {
     const text = this.messageText;
     const fromNumber = this.senderNumber;
-    const toNumbers = this.toNumbers.map(number => number.phoneNumber);
+    const toNumbers = this.toNumbers.map((number) => number.phoneNumber);
     const { typingToNumber } = this;
     if (!isBlank(typingToNumber)) {
       if (this._validatePhoneNumber(typingToNumber)) {
@@ -222,7 +212,7 @@ export default class ComposeText extends RcModule {
   async updateSenderNumber(number) {
     this.store.dispatch({
       type: this.actionTypes.updateSenderNumber,
-      number: (number || ''),
+      number: number || '',
     });
   }
 
@@ -313,9 +303,9 @@ export default class ComposeText extends RcModule {
 
   @proxify
   async dismissMessageSending() {
-    const alertMessage = this._alert.messages.find(m => (
-      m.message === messageSenderMessages.sending
-    ));
+    const alertMessage = this._alert.messages.find(
+      (m) => m.message === messageSenderMessages.sending,
+    );
     if (alertMessage && alertMessage.id) {
       this._alert.dismiss(alertMessage.id);
     }

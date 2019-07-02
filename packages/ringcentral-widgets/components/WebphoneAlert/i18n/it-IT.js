@@ -1,8 +1,6 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 export default {
-  [webphoneErrors.connectFailed]: "Connessione al server di telefonia web non riuscita.",
   [webphoneErrors.connected]: "Telefono web registrato.",
-  [webphoneErrors.browserNotSupported]: "Le chiamate da browser sono supportate solo in Chrome.",
   [webphoneErrors.webphoneCountOverLimit]: "È possibile registrare fino a 5 telefoni web.",
   [webphoneErrors.noOutboundCallWithoutDL]: "Con questo interno non è attualmente consentito effettuare chiamate in uscita con il browser. Contatta il rappresentante dell'account per un aggiornamento",
   [webphoneErrors.toVoiceMailError]: "Impossibile inviare la chiamata alla segreteria telefonica a causa di un errore interno",
@@ -14,7 +12,6 @@ export default {
   [webphoneErrors.transferError]: "Impossibile trasferire la chiamata. Riprova più tardi.",
 };
 
-// @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@
 // @key: @#@"[webphoneErrors.browserNotSupported]"@#@ @source: @#@"Calling with browser is only supported on Chrome."@#@
 // @key: @#@"[webphoneErrors.webphoneCountOverLimit]"@#@ @source: @#@"A maximum of 5 web phones could be registered."@#@
@@ -26,6 +23,3 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
-// @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
-// @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
-// @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@

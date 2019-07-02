@@ -15,7 +15,7 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "private": false,
   "dependencies": {
-    "libphonenumber-js": "^1.3.0",
+    "libphonenumber-js": "^1.7.12",
     "ramda": "^0.25.0"
   },
   "peerDependencies": {},
@@ -23,11 +23,11 @@
     "@ringcentral-integration/babel-settings": "*",
     "babel-jest": "^24.5.0",
     "fs-extra": "^7.0.1",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
-    "jest": "^24.5.0",
-    "jest-junit": "^6.0.0"
+    "jest": "^24.7.1",
+    "jest-junit": "^6.3.0"
   },
   "scripts": {
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",

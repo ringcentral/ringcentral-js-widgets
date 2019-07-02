@@ -226,7 +226,6 @@ export default class CallsListPanel extends Component {
       onDiscardNotification,
       notificationContainerStyles,
     } = this.props;
-
     return (
       <div>
         <InsideModal

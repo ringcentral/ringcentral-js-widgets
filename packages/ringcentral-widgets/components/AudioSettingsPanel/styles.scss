@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/full-size.scss';
 @import '../../lib/commonStyles/layout.scss';
+@import '../../lib/commonStyles/colors.scss';
 
 .root {
   @include full-size;
@@ -19,4 +20,21 @@
   border: 1px solid #a6a6a6;
   border-radius: 2px;
   height: 100%;
+}
+
+.tooltipContainner {
+  width: 100%;
+  height: 1px;
+  :global .rc-tooltip {
+    opacity: 1;
+    left: 0!important;
+  }
+}
+
+.infoIcon {
+  margin-left: 6px;
+  vertical-align: bottom;
+  path {
+    fill: $ash;
+  }
 }

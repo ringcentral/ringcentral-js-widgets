@@ -29,6 +29,7 @@ function mapToProps(_, {
     showDuration,
     showRecurringMeeting,
     openNewWindow,
+    showSaveAsDefault: meeting.showSaveAsDefault,
   };
 }
 

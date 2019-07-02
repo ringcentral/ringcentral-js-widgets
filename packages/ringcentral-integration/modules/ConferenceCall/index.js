@@ -48,23 +48,22 @@ function ascendSortParties(parties) {
     'RolesAndPermissions',
     {
       dep: 'ContactMatcher',
-      optional: true
+      optional: true,
     },
     {
       dep: 'Webphone',
-      optional: true
-    },
-    {
-      dep: 'ConferenceCallOptions',
-      optional: true
+      optional: true,
     },
     {
       dep: 'AvailabilityMonitor',
-      optional: true
+      optional: true,
+    },
+    {
+      dep: 'ConferenceCallOptions',
+      optional: true,
     },
   ]
 })
-
 export default class ConferenceCall extends RcModule {
   /**
    * @constructor
@@ -81,8 +80,8 @@ export default class ConferenceCall extends RcModule {
     rolesAndPermissions,
     contactMatcher,
     webphone,
-    connectivityMonitor,
     availabilityMonitor,
+    connectivityMonitor,
     pulling = true,
     capacity = MAXIMUM_CAPACITY,
     timeout = DEFAULT_TIMEOUT,
@@ -118,7 +117,9 @@ export default class ConferenceCall extends RcModule {
     let res = !!this.findConferenceWithSession(sessionId);
 
     if (this.isMerging && !res) {
-      const session = this._webphone.sessions.find(session => session.id === sessionId);
+      const session = this._webphone.sessions.find(
+        (session) => session.id === sessionId,
+      );
       res = isConferenceSession(session);
     }
 
@@ -126,7 +127,9 @@ export default class ConferenceCall extends RcModule {
   }
 
   findConferenceWithSession(sessionId) {
-    return Object.values(this.conferences).find(c => c.sessionId === sessionId);
+    return Object.values(this.conferences).find(
+      (c) => c.sessionId === sessionId,
+    );
   }
 
   /**
@@ -140,15 +143,14 @@ export default class ConferenceCall extends RcModule {
       conference: this.state.conferences[id],
     });
     try {
-      const rawResponse = await this._client.service.platform()
+      const rawResponse = await this._client.service
+        .platform()
         .get(`/account/~/telephony/sessions/${id}`);
       const response = rawResponse.json();
       const storedconference = this.state.conferences[response.id];
       const conference = Object.assign({}, storedconference.conference);
       conference.parties = response.parties;
-      const {
-        sessionId
-      } = storedconference;
+      const { sessionId } = storedconference;
       this.store.dispatch({
         type: this.actionTypes.updateConferenceSucceeded,
         conference,
@@ -159,7 +161,7 @@ export default class ConferenceCall extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.updateConferenceFailed,
         conference: this.state.conferences[id],
-        message: e.toString()
+        message: e.toString(),
       });
       // need to propagate to out side try...catch block
       throw e;
@@ -186,7 +188,8 @@ export default class ConferenceCall extends RcModule {
         if (conferenceData) {
           this._webphone.hangup(conferenceData.sessionId);
           // Help server to do the GC, and we don't care the whether it's successful or not
-          this._client.service.platform()
+          this._client.service
+            .platform()
             .delete(`/account/~/telephony/sessions/${id}`);
           this.store.dispatch({
             type: this.actionTypes.terminateConferenceSucceeded,
@@ -198,7 +201,8 @@ export default class ConferenceCall extends RcModule {
           });
         }
       } else {
-        await this._client.service.platform()
+        await this._client.service
+          .platform()
           .delete(`/account/~/telephony/sessions/${id}`);
         this.store.dispatch({
           type: this.actionTypes.terminateConferenceSucceeded,
@@ -214,7 +218,7 @@ export default class ConferenceCall extends RcModule {
 
       this.store.dispatch({
         type: this.actionTypes.terminateConferenceFailed,
-        message: e.toString()
+        message: e.toString(),
       });
     } finally {
       // eslint-disable-next-line no-unsafe-finally
@@ -235,11 +239,11 @@ export default class ConferenceCall extends RcModule {
   async bringInToConference(id, webphoneSession, propagete = false) {
     const conferenceState = this.state.conferences[id];
     if (
-      !conferenceState
-      || !this.ready
-      || !webphoneSession
-      || this.isOverload(id)
-      || !this._connectivityMonitor.connectivity
+      !conferenceState ||
+      !this.ready ||
+      !webphoneSession ||
+      this.isOverload(id) ||
+      !this._connectivityMonitor.connectivity
     ) {
       this._alert.danger({
         message: conferenceCallErrors.modeError,
@@ -265,7 +269,9 @@ export default class ConferenceCall extends RcModule {
 
       if (partyProfile) {
         const conferenceState = this.state.conferences[id];
-        const newParties = ascendSortParties(conferenceState.conference.parties);
+        const newParties = ascendSortParties(
+          conferenceState.conference.parties,
+        );
         partyProfile.id = newParties[newParties.length - 1].id;
       }
 
@@ -280,7 +286,7 @@ export default class ConferenceCall extends RcModule {
     } catch (e) {
       this.store.dispatch({
         type: this.actionTypes.bringInConferenceFailed,
-        message: e.toString()
+        message: e.toString(),
       });
       if (!propagete) {
         return null;
@@ -302,7 +308,8 @@ export default class ConferenceCall extends RcModule {
     });
 
     try {
-      await this._client.service.platform()
+      await this._client.service
+        .platform()
         .delete(`/account/~/telephony/sessions/${id}/parties/${partyId}`);
       await this.updateConferenceStatus(id);
       this.store.dispatch({
@@ -318,7 +325,7 @@ export default class ConferenceCall extends RcModule {
 
       this.store.dispatch({
         type: this.actionTypes.removeFromConferenceFailed,
-        message: e.toString()
+        message: e.toString(),
       });
     } finally {
       // eslint-disable-next-line no-unsafe-finally
@@ -375,8 +382,8 @@ export default class ConferenceCall extends RcModule {
   @proxify
   async mergeToConference(webphoneSessions = []) {
     webphoneSessions = webphoneSessions
-      .filter(session => !!session)
-      .filter(session => !this.isConferenceSession(session.id));
+      .filter((session) => !!session)
+      .filter((session) => !this.isConferenceSession(session.id));
 
     if (!webphoneSessions.length) {
       this._alert.warning({
@@ -397,13 +404,14 @@ export default class ConferenceCall extends RcModule {
        * we cannot sure the merging process is over when
        * the function's procedure has finshed.
        */
-      sipInstances = webphoneSessions
-        .map(webphoneSession => this._webphone._sessions.get(webphoneSession.id));
+      sipInstances = webphoneSessions.map((webphoneSession) =>
+        this._webphone._sessions.get(webphoneSession.id),
+      );
       /**
        * HACK: we need to preserve the merging session in prevent the glitch of
        * the call control page.
        */
-      const sessionIds = webphoneSessions.map(x => x.id);
+      const sessionIds = webphoneSessions.map((x) => x.id);
       this._webphone.setSessionCaching(sessionIds);
 
       const pSips = sipInstances.map((instance) => {
@@ -415,15 +423,22 @@ export default class ConferenceCall extends RcModule {
         return p;
       });
 
-      await Promise.all([this._mergeToConference(webphoneSessions), ...pSips])
-        .then(() => {
+      await Promise.all([
+        this._mergeToConference(webphoneSessions),
+        ...pSips,
+      ]).then(
+        () => {
           this.store.dispatch({
             type: this.actionTypes.mergeSucceeded,
           });
           const conferenceState = Object.values(this.conferences)[0];
 
-          this._eventEmitter.emit(this.actionTypes.mergeSucceeded, conferenceState);
-        }, () => {
+          this._eventEmitter.emit(
+            this.actionTypes.mergeSucceeded,
+            conferenceState,
+          );
+        },
+        () => {
           const conferenceState = Object.values(this.conferences)[0];
 
           /**
@@ -439,7 +454,8 @@ export default class ConferenceCall extends RcModule {
           this.store.dispatch({
             type: this.actionTypes.mergeFailed,
           });
-        });
+        },
+      );
       this._webphone.clearSessionCaching();
     } else {
       try {
@@ -465,6 +481,7 @@ export default class ConferenceCall extends RcModule {
           });
         }
       }
+
       if (!sipInstances || conferenceId === null) {
         this.store.dispatch({
           type: this.actionTypes.mergeFailed,
@@ -508,14 +525,19 @@ export default class ConferenceCall extends RcModule {
     if (conferenceData) {
       return ascendSortParties(conferenceData.conference.parties)
         .reduce((accum, party, idx) => {
-          if (party.status.code.toLowerCase() !== partyStatusCode.disconnected) {
+          if (
+            party.status.code.toLowerCase() !== partyStatusCode.disconnected
+          ) {
             // 0 position is the host
             accum.push({ idx, party });
           }
           return accum;
         }, [])
-        .map(({ idx, party }) => ({ ...party, ...conferenceData.profiles[idx] }))
-        .filter(i => !!i);
+        .map(({ idx, party }) => ({
+          ...party,
+          ...conferenceData.profiles[idx],
+        }))
+        .filter((i) => !!i);
     }
     return null;
   }
@@ -524,7 +546,7 @@ export default class ConferenceCall extends RcModule {
     const conferenceData = this.conferences[id];
     if (conferenceData) {
       return conferenceData.conference.parties.filter(
-        p => p.status.code.toLowerCase() !== partyStatusCode.disconnected
+        (p) => p.status.code.toLowerCase() !== partyStatusCode.disconnected,
       );
     }
     return null;
@@ -546,15 +568,13 @@ export default class ConferenceCall extends RcModule {
     }
 
     await this.updateConferenceStatus(id);
-    this._timers[id] = setTimeout(
-      async () => {
-        await this.updateConferenceStatus(id);
-        this.stopPollingConferenceStatus(id);
-        if (this.conferences[id]) {
-          this.startPollingConferenceStatus(id);
-        }
-      },
-      this._ttl);
+    this._timers[id] = setTimeout(async () => {
+      await this.updateConferenceStatus(id);
+      this.stopPollingConferenceStatus(id);
+      if (this.conferences[id]) {
+        this.startPollingConferenceStatus(id);
+      }
+    }, this._ttl);
   }
 
   stopPollingConferenceStatus(id) {
@@ -612,7 +632,7 @@ export default class ConferenceCall extends RcModule {
 
   _init() {
     this.store.dispatch({
-      type: this.actionTypes.initSuccess
+      type: this.actionTypes.initSuccess,
     });
   }
 
@@ -626,13 +646,14 @@ export default class ConferenceCall extends RcModule {
 
   _reset() {
     this.store.dispatch({
-      type: this.actionTypes.resetSuccess
+      type: this.actionTypes.resetSuccess,
     });
   }
 
   _shouldInit() {
     return (
-      (this._auth.loggedIn && this._auth.ready) &&
+      this._auth.loggedIn &&
+      this._auth.ready &&
       this._alert.ready &&
       this._callingSettings.ready &&
       this._call.ready &&
@@ -671,20 +692,17 @@ export default class ConferenceCall extends RcModule {
 
   @proxify
   _hookConference(conference, session) {
-    ['accepted'].forEach(
-      evt => session.on(
-        evt,
-        () => this.startPollingConferenceStatus(conference.id)
-      )
+    ['accepted'].forEach((evt) =>
+      session.on(evt, () => this.startPollingConferenceStatus(conference.id)),
     );
-    ['terminated', 'failed', 'rejected'].forEach(
-      evt => session.on(evt, () => {
+    ['terminated', 'failed', 'rejected'].forEach((evt) =>
+      session.on(evt, () => {
         this.store.dispatch({
           type: this.actionTypes.terminateConferenceSucceeded,
           conference,
         });
         this.stopPollingConferenceStatus(conference.id);
-      })
+      }),
     );
   }
 
@@ -699,7 +717,9 @@ export default class ConferenceCall extends RcModule {
         await this.bringInToConference(conferenceId, webphoneSession, true);
       }
       if (!this.conferences[conferenceId].profiles.length) {
-        throw new Error('bring-in operations failed, not all intended parties were brought in');
+        throw new Error(
+          'bring-in operations failed, not all intended parties were brought in',
+        );
       }
       this.startPollingConferenceStatus(conferenceId);
       return conferenceId;
@@ -708,21 +728,31 @@ export default class ConferenceCall extends RcModule {
     let confereceAccepted = false;
     await Promise.race([
       new Promise((resolve, reject) => {
-        const sipSession = this._webphone._sessions.get(this.conferences[id].sessionId);
+        const sipSession = this._webphone._sessions.get(
+          this.conferences[id].sessionId,
+        );
         sipSession.on('accepted', () => {
           confereceAccepted = true;
           resolve();
         });
         sipSession.on('cancel', () => reject(new Error('conferecing cancel')));
         sipSession.on('failed', () => reject(new Error('conferecing failed')));
-        sipSession.on('rejected', () => reject(new Error('conferecing rejected')));
-        sipSession.on('terminated', () => reject(new Error('conferecing terminated')));
+        sipSession.on('rejected', () =>
+          reject(new Error('conferecing rejected')),
+        );
+        sipSession.on('terminated', () =>
+          reject(new Error('conferecing terminated')),
+        );
       }),
       new Promise((resolve, reject) => {
-        setTimeout(() => (
-          confereceAccepted ? resolve() : reject(new Error('conferecing timeout')))
-          , this._timout);
-      })
+        setTimeout(
+          () =>
+            confereceAccepted
+              ? resolve()
+              : reject(new Error('conferecing timeout')),
+          this._timout,
+        );
+      }),
     ]);
     await this._mergeToConference(webphoneSessions);
     return id;
@@ -736,7 +766,8 @@ export default class ConferenceCall extends RcModule {
       });
 
       // TODO: replace with SDK function chaining calls
-      const rawResponse = await this._client.service.platform()
+      const rawResponse = await this._client.service
+        .platform()
         .post('/account/~/telephony/conference', {});
       const response = rawResponse.json();
       const conference = response.session;
@@ -746,8 +777,11 @@ export default class ConferenceCall extends RcModule {
         phoneNumber,
         isConference: true,
       });
-      if (typeof session === 'object' &&
-        Object.prototype.toString.call(session.on).toLowerCase() === '[object function]') {
+      if (
+        typeof session === 'object' &&
+        Object.prototype.toString.call(session.on).toLowerCase() ===
+          '[object function]'
+      ) {
         this._hookConference(conference, session);
 
         this.store.dispatch({
@@ -765,10 +799,11 @@ export default class ConferenceCall extends RcModule {
     } catch (e) {
       this.store.dispatch({
         type: this.actionTypes.makeConferenceFailed,
-        message: e.toString()
+        message: e.toString(),
       });
 
-      if (!propagate) {
+      if (!propagate ||
+        (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(e))) {
         this._alert.warning({
           message: conferenceCallErrors.makeConferenceFailed,
         });
@@ -818,14 +853,11 @@ export default class ConferenceCall extends RcModule {
 
   @proxify
   async parseMergingSessions({ sessionId, sessionIdToMergeWith }) {
-    const session = find(
-      x => x.id === sessionId,
-      this._webphone.sessions
-    );
+    const session = find((x) => x.id === sessionId, this._webphone.sessions);
 
     const sessionToMergeWith = find(
-      x => x.id === (sessionIdToMergeWith || this.mergingPair.fromSessionId),
-      this._webphone.sessions
+      (x) => x.id === (sessionIdToMergeWith || this.mergingPair.fromSessionId),
+      this._webphone.sessions,
     );
 
     const webphoneSessions = sessionToMergeWith
@@ -841,8 +873,8 @@ export default class ConferenceCall extends RcModule {
     const conferenceState = Object.values(this.conferences)[0];
     if (conferenceState) {
       const conferenceSession = find(
-        x => x.id === conferenceState.sessionId,
-        this._webphone.sessions
+        (x) => x.id === conferenceState.sessionId,
+        this._webphone.sessions,
       );
       if (!this.validateCallRecording(conferenceSession)) {
         return null;
@@ -872,8 +904,8 @@ export default class ConferenceCall extends RcModule {
       return null;
     }
     const currentConferenceSession = find(
-      x => x.id === conferenceData.sessionId,
-      this._webphone.sessions
+      (x) => x.id === conferenceData.sessionId,
+      this._webphone.sessions,
     );
     const isCurrentConferenceOnhold = currentConferenceSession.isOnHold;
 
@@ -900,19 +932,19 @@ export default class ConferenceCall extends RcModule {
 
   participantListClickHangupTrack() {
     this.store.dispatch({
-      type: this.actionTypes.participantListClickHangupTrack
+      type: this.actionTypes.participantListClickHangupTrack,
     });
   }
 
   removeParticipantClickCancelTrack() {
     this.store.dispatch({
-      type: this.actionTypes.removeParticipantClickCancelTrack
+      type: this.actionTypes.removeParticipantClickCancelTrack,
     });
   }
 
   removeParticipantClickRemoveTrack() {
     this.store.dispatch({
-      type: this.actionTypes.removeParticipantClickRemoveTrack
+      type: this.actionTypes.removeParticipantClickRemoveTrack,
     });
   }
 
@@ -983,8 +1015,9 @@ export default class ConferenceCall extends RcModule {
           lastCalleeType = calleeTypes.unknown;
         }
       } else if (
-        _fromSessionId === fromSessionId
-        && _lastCallInfo && _lastCallInfo.calleeType
+        _fromSessionId === fromSessionId &&
+        _lastCallInfo &&
+        _lastCallInfo.calleeType
       ) {
         _lastCallInfo = {
           ..._lastCallInfo,
@@ -999,7 +1032,9 @@ export default class ConferenceCall extends RcModule {
 
       let partiesAvatarUrls = null;
       if (lastCalleeType === calleeTypes.conference) {
-        partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
+        partiesAvatarUrls = (partyProfiles || []).map(
+          (profile) => profile.avatarUrl,
+        );
       }
       switch (lastCalleeType) {
         case calleeTypes.conference:
@@ -1039,7 +1074,7 @@ export default class ConferenceCall extends RcModule {
       _fromSessionId = fromSessionId;
       return _lastCallInfo;
     },
-  ]
+  ];
 
   @selector
   partyProfiles = [
@@ -1052,5 +1087,5 @@ export default class ConferenceCall extends RcModule {
       }
       return this.getOnlinePartyProfiles(currentConferenceId);
     },
-  ]
+  ];
 }

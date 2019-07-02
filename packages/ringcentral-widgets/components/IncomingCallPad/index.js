@@ -112,6 +112,7 @@ export default class IncomingCallPad extends Component {
         <MultiCallAnswerButton
           onClick={answerAndEnd}
           title={i18n.getString('answerAndEnd', currentLocale)}
+          dataSign="answerAndEnd"
           className={styles.callButton}
           isEndOtherCall
         />
@@ -123,12 +124,14 @@ export default class IncomingCallPad extends Component {
           iconWidth={274}
           iconX={116}
           showBorder={!this.state.toVoiceMailEnabled}
+          dataSign="toVoicemail"
           className={styles.callButton}
           disabled={!this.state.toVoiceMailEnabled}
         />
         <MultiCallAnswerButton
           onClick={answerAndHold}
           title={i18n.getString('answerAndHold', currentLocale)}
+          dataSign="answerAndHold"
           className={styles.callButton}
           isEndOtherCall={false}
         />
@@ -144,6 +147,7 @@ export default class IncomingCallPad extends Component {
           iconWidth={274}
           iconX={116}
           showBorder={!this.state.toVoiceMailEnabled}
+          dataSign="toVoicemail"
           className={styles.bigCallButton}
           disabled={!this.state.toVoiceMailEnabled}
         />
@@ -201,6 +205,7 @@ export default class IncomingCallPad extends Component {
               iconX={125}
               onClick={() => null}
               title={i18n.getString('forward', currentLocale)}
+              dataSign="forward"
               className={styles.callButton}
             />
           </TooltipCom>

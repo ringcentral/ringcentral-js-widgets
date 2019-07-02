@@ -40,12 +40,12 @@ describe('calling settings', () => {
     expect(saveButton.props().disabled).toEqual(false);
   });
 
-  test('check save run currectly', () => {
+  test('check save run currectly', async () => {
     const saveButton = callingSettings.find(Button).first();
-
     const items = callingSettings.find('.dropdownItem');
     const lastItem = items.at(items.length - 1);
     lastItem.simulate('click');
+
     saveButton.simulate('click');
 
     const store = wrapper.props().phone.store;
@@ -62,7 +62,6 @@ describe('calling settings', () => {
     const firstItem = items.at(0); // Browser
     firstItem.simulate('click');
     saveButton.simulate('click');
-
     const message = store.getState(wrapper).alert.messages.find(item => /emergencyCallingNotAvailable/.test(item.message));
     expect(message).toBeTruthy();
     expect(message.level).toEqual('info');

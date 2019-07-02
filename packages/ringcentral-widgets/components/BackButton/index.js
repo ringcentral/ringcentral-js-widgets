@@ -14,7 +14,7 @@ export default function BackButton({
       {
         showIcon
         ? (
-          <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
+          <i data-sign="backButton" className={classnames(dynamicsFont.arrow, styles.backIcon)} />
         )
         : null
       }

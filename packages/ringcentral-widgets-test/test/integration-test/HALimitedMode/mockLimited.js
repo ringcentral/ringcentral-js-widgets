@@ -6,23 +6,36 @@ import {
 
 const contentType = { 'Content-Type': 'application/json' };
 
+function generateRetryAfter(retryAfter) {
+  const retryAfterHeader = !retryAfter ? {} : { 'Retry-After': retryAfter };
+  return retryAfterHeader;
+}
+
 export class HAMocks {
-  static numberParser() {
+  static numberParser(retryAfter) {
+    const retryAfterHeader = generateRetryAfter(retryAfter);
+
     mockLimited({
       method: 'POST',
       path: `begin:${mockServer}/restapi/v1.0/number-parser/`,
       headers: {
-        retryAfter: 1000,
         ...contentType,
+        ...retryAfterHeader,
       },
       isOnce: false,
     });
   }
 
-  static checkStatus() {
+  static checkStatus(retryAfter) {
+    const retryAfterHeader = generateRetryAfter(retryAfter);
+
     mockApi({
       method: 'GET',
       path: '/restapi/v1.0/status',
+      headers: {
+        ...contentType,
+        ...retryAfterHeader,
+      },
       status: 200,
       isOnce: false,
     });
@@ -31,35 +44,48 @@ export class HAMocks {
   /**
    * Mock limited status check API
    */
-  static limitedStatus() {
+  static limitedStatus(retryAfter) {
+    const retryAfterHeader = generateRetryAfter(retryAfter);
+
     mockLimited({
       method: 'GET',
       path: '/restapi/v1.0/status',
       headers: {
         ...contentType,
+        ...retryAfterHeader,
       },
       isOnce: false,
     });
   }
 
-  static sendSMS() {
+  static sendSMS(retryAfter) {
+    const retryAfterHeader = generateRetryAfter(retryAfter);
+
     mockLimited({
       method: 'POST',
       path: '/restapi/v1.0/account/~/extension/~/sms',
       headers: {
-        retryAfter: 1000,
         ...contentType,
+        ...retryAfterHeader,
       },
       isOnce: false,
     });
   }
 
-  static changePresence(id = '~') {
+  /**
+   * Mock retry-after
+   * @param {*} id 
+   * @param {*} retryAfter type number, unit seconds
+   */
+  static changePresence(id = '~', retryAfter) {
+    const retryAfterHeader = !retryAfter ? {} : { 'Retry-After': retryAfter };
+
     mockLimited({
       path: `/restapi/v1.0/account/~/extension/${id}/presence`,
       method: 'PUT',
       headers: {
         ...contentType,
+        ...retryAfterHeader,
       },
       isOnce: false,
     });

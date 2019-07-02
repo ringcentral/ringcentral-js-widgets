@@ -11,23 +11,22 @@ function mapToProps(_, {
     contactDetails,
     contactSearch,
     rolesAndPermissions,
-    auth,
-    audioSettings,
-    webphone,
-    callingSettings,
+    rateLimiter,
+    connectivityManager,
   },
 }) {
   return {
     currentLocale: locale.currentLocale,
     contactItem: contactDetails.contact,
+    disableLinks:
+      connectivityManager.isOfflineMode ||
+      connectivityManager.isVoipOnlyMode ||
+      rateLimiter.throttling,
     disableCallButton:
-      auth.ready &&
-      audioSettings.ready &&
-      webphone && webphone.ready &&
-      auth.loggedIn &&
-      (callingSettings.isWebphoneMode &&
-        (!audioSettings.userMedia || !webphone.connected)
-      ),
+      connectivityManager.isOfflineMode ||
+      connectivityManager.isWebphoneUnavailableMode ||
+      connectivityManager.isWebphoneInitializing ||
+      rateLimiter.throttling,
     showSpinner: !(
       locale.ready &&
       contactSearch.ready &&

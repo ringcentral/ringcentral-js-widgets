@@ -16,6 +16,10 @@ class Transport {
   removeAllListeners() {}
 
   disconnect() {}
+
+  isConnected() {
+    return true;
+  }
 }
 
 class UserAgent {
@@ -54,6 +58,10 @@ class UserAgent {
       playIncoming() {},
       loadAudio() {},
     };
+  }
+
+  isRegistered() {
+    return true;
   }
 }
 

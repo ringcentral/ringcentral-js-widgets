@@ -24,7 +24,7 @@ export default ({
     });
 
     afterEach(async () => {
-      availabilityMonitor.switchToNormalMode();
+      availabilityMonitor._switchToNormalMode();
       mock.logout();
       await auth.logout();
       localStorage.clear();

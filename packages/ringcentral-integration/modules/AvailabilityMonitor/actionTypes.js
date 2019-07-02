@@ -4,8 +4,10 @@ import { moduleActionTypes } from '../../enums/moduleActionTypes';
 export default new Enum([
   ...Object.keys(moduleActionTypes),
   'normalMode',
+  'VoIPOnlyMode',
+  'VoIPOnlyReset',
   'limitedMode',
-  'appInitialError',
+  'limitedModeStatusError',
   'webRTCUnavailable',
   'sip',
 ], 'availabilityMonitor');

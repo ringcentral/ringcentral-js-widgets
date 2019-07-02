@@ -107,6 +107,7 @@ class ActiveCallDialPad extends Component {
         </div>
         <div className={styles.padContainer}>
           <DialPad
+            dataSign= "keypad"
             className={styles.dialPad}
             onButtonOutput={this.onButtonOutput}
           />

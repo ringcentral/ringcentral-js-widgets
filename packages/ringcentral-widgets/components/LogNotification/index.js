@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
+import callDirections from 'ringcentral-integration/enums/callDirections';
+
+import CircleButton from '../CircleButton';
+import EndIcon from '../../assets/images/End.svg';
+
 import Button from '../Button';
 import LogBasicInfo from '../LogBasicInfo';
 import styles from './styles.scss';
 import i18n from './i18n';
+
 
 export default function LogNotification(
   {
@@ -17,8 +24,62 @@ export default function LogNotification(
     onDiscard,
     onSave,
     onExpand,
+    currentSession,
+    onReject,
+    onHangup,
+    showEndButton,
+    disableLinks,
   }
 ) {
+  let extraButtons = null;
+  if (showEndButton && showLogButton) {
+    let endButton = null;
+    if (currentSession) {
+      const { callStatus, direction } = currentSession;
+      const isInComingCall = (callDirections.inbound === direction &&
+        telephonyStatuses.ringing === callStatus);
+      const endTitle = isInComingCall ? 'reject' : 'hangup';
+      const endAction = isInComingCall ? onReject : onHangup;
+      endButton = (
+        <span title={i18n.getString(endTitle, currentLocale)}>
+          <CircleButton
+            dataSign={endTitle}
+            showBorder={false}
+            icon={EndIcon}
+            onClick={endAction}
+            className={classnames({
+              [styles.hangup]: true,
+              [styles.endButton]: true,
+              [styles.buttonDisabled]: disableLinks
+            })}
+            disabled={disableLinks} />
+        </span>
+      );
+    }
+
+    extraButtons = (
+      <div className={styles.extraButtonBox}>
+        {endButton}
+        <Button
+          disabled={isExpand}
+          className={classnames(styles.expandButtonWithEnd, isExpand && styles.expandDisableButton)}
+          onClick={() => onExpand()}>
+          {i18n.getString('log', currentLocale)}
+        </Button>
+      </div>
+
+    );
+  } else if (showLogButton) {
+    extraButtons = (
+      <Button
+        disabled={isExpand}
+        className={classnames(styles.expandButton, isExpand && styles.expandDisableButton)}
+        onClick={() => onExpand()}>
+        {i18n.getString('log', currentLocale)}
+      </Button>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.basicInfo}>
@@ -27,16 +88,7 @@ export default function LogNotification(
           currentLocale={currentLocale}
           formatPhone={formatPhone}
         />
-        {
-          showLogButton ? (
-            <Button
-              disabled={isExpand}
-              className={classnames(styles.expandButton, isExpand && styles.expandDisableButton)}
-              onClick={() => onExpand()}>
-              {i18n.getString('log', currentLocale)}
-            </Button>
-          ) : null
-        }
+        {extraButtons}
       </div>
       {
         isExpand ? (
@@ -90,6 +142,11 @@ LogNotification.propTypes = {
   onDiscard: PropTypes.func,
   onSave: PropTypes.func,
   onExpand: PropTypes.func,
+  currentSession: PropTypes.object,
+  onReject: PropTypes.func,
+  onHangup: PropTypes.func,
+  showEndButton: PropTypes.bool,
+  disableLinks: PropTypes.bool,
 };
 
 LogNotification.defaultProps = {
@@ -101,4 +158,9 @@ LogNotification.defaultProps = {
   onDiscard: undefined,
   onSave: undefined,
   onExpand: undefined,
+  currentSession: undefined,
+  onReject: () => null,
+  onHangup: () => null,
+  showEndButton: false,
+  disableLinks: false,
 };

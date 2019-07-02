@@ -73,6 +73,8 @@ const registerErrors = [
   webphoneErrors.serverTimeout,
   webphoneErrors.unknownError,
   webphoneErrors.connectFailed,
+  webphoneErrors.provisionUpdate,
+  webphoneErrors.serverConnecting,
 ];
 
 /**
@@ -89,6 +91,7 @@ const registerErrors = [
     'Brand',
     'RegionSettings',
     'AudioSettings',
+    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'ContactMatcher', optional: true },
     { dep: 'WebphoneOptions', optional: true }
@@ -147,6 +150,7 @@ export default class Webphone extends RcModule {
     brand,
     webphoneSDKOptions,
     permissionCheck = true,
+    availabilityMonitor,
     ...options
   }) {
     super({
@@ -167,6 +171,7 @@ export default class Webphone extends RcModule {
     this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._numberValidate = this:: ensureExist(numberValidate, 'numberValidate');
     this._audioSettings = this:: ensureExist(audioSettings, 'audioSettings');
+    this._availabilityMonitor = availabilityMonitor;
     this._contactMatcher = contactMatcher;
     this._tabManager = tabManager;
     this._webphoneSDKOptions = webphoneSDKOptions || {};
@@ -205,7 +210,7 @@ export default class Webphone extends RcModule {
     this._localVideo = null;
     this._sessions = new Map();
     this._reducer = getWebphoneReducer(this.actionTypes);
-    this._needToReconnectAfterSessionEnd = false;
+    this._reconnectAfterSessionEnd = null;
     this._connectTimeout = null;
 
     this.addSelector('sessionPhoneNumbers',
@@ -292,7 +297,9 @@ export default class Webphone extends RcModule {
 
     this._remoteVideo.volume = this._audioSettings.callVolume;
     if (this._audioSettings.supportDevices) {
-      this._remoteVideo.setSinkId(this._audioSettings.outputDeviceId);
+      if (this._remoteVideo.setSinkId && this._audioSettings.outputDeviceId) {
+        this._remoteVideo.setSinkId(this._audioSettings.outputDeviceId);
+      }
     }
 
     this.store.dispatch({
@@ -365,7 +372,8 @@ export default class Webphone extends RcModule {
     ) {
       this._outputDeviceId = this._audioSettings.outputDeviceId;
       if (
-        this._remoteVideo
+        this._remoteVideo &&
+        this._remoteVideo.setSinkId
       ) {
         this._remoteVideo.setSinkId(this._outputDeviceId);
       }
@@ -423,10 +431,14 @@ export default class Webphone extends RcModule {
       return;
     }
     this._webphone.userAgent.stop();
-    this._webphone.userAgent.unregister();
+    if (this._webphone.userAgent.isRegistered()) {
+      this._webphone.userAgent.unregister();
+    }
     this._webphone.userAgent.removeAllListeners();
     this._webphone.userAgent.transport.removeAllListeners();
-    this._webphone.userAgent.transport.disconnect();
+    if (this._webphone.userAgent.transport.isConnected()) {
+      this._webphone.userAgent.transport.disconnect();
+    }
     this._webphone = null;
   }
 
@@ -546,16 +558,26 @@ export default class Webphone extends RcModule {
     // sip provision expired
     this._webphone.userAgent.on('provisionUpdate', () => {
       if (this.sessions.length === 0) {
+        this._alert.warning({
+          message: webphoneErrors.provisionUpdate,
+          allowDuplicates: false,
+        });
         this._connect({ skipTimeout: true, force: true });
         return;
       }
-      this._needToReconnectAfterSessionEnd = true;
+      this._reconnectAfterSessionEnd = {
+        reason: webphoneErrors.provisionUpdate
+      };
     });
     // websocket transport connecting event
     this._webphone.userAgent.transport.on('connecting', () => {
       // reconnecting event
       console.log('web phone connecting event');
       if (this.connected || this.connectError) {
+        this._alert.warning({
+          message: webphoneErrors.serverConnecting,
+          allowDuplicates: false,
+        });
         this.store.dispatch({
           type: this.actionTypes.reconnect,
         });
@@ -573,13 +595,23 @@ export default class Webphone extends RcModule {
         ttl: 0,
       });
     });
+    this._webphone.userAgent.transport.on('transportError', () => {
+      console.log('WebSocket transportError occured');
+    });
+    this._webphone.userAgent.transport.on('wsConnectionError', () => {
+      this.store.dispatch({
+        type: this.actionTypes.connectError,
+      });
+    });
     // Timeout to switch back to primary server
     this._webphone.userAgent.transport.on('switchBackProxy', () => {
       if (this.sessions.length === 0) {
         this._connect({ skipTimeout: true, force: true });
         return;
       }
-      this._needToReconnectAfterSessionEnd = true;
+      this._reconnectAfterSessionEnd = {
+        reason: null,
+      };
     });
   }
 
@@ -684,8 +716,14 @@ export default class Webphone extends RcModule {
   }
 
   _reconnectWebphoneIfNecessaryOnSessionsEmpty() {
-    if (this._needToReconnectAfterSessionEnd && this.sessions.length === 0) {
-      this._needToReconnectAfterSessionEnd = false;
+    if (this._reconnectAfterSessionEnd && this.sessions.length === 0) {
+      if (this._reconnectAfterSessionEnd.reason) {
+        this._alert.warning({
+          message: this._reconnectAfterSessionEnd.reason,
+          allowDuplicates: false,
+        });
+      }
+      this._reconnectAfterSessionEnd = null;
       this._connect({ skipTimeout: true, force: true });
     }
   }
@@ -745,7 +783,7 @@ export default class Webphone extends RcModule {
   _hideConnectingAlert() {
     const alertIds = this._alert.messages.filter((m) => {
       for (let i = 0, len = registerErrors.length; i < len; i++) {
-        if (m.message === registerErrors[i] && m.payload.isConnecting === true) return true;
+        if (m.message === registerErrors[i] && m.payload && m.payload.isConnecting === true) return true;
       }
       return false;
     }).map(m => m.id);
@@ -891,8 +929,10 @@ export default class Webphone extends RcModule {
       session.__rc_callStatus = sessionStatus.connected;
       this._updateSessions();
     });
-    session.on('userMediaFailed', () => {
-      this._audioSettings.onGetUserMediaError();
+    session.on('SessionDescriptionHandler-created', () => {
+      session.sessionDescriptionHandler.on('userMediaFailed', () => {
+        this._audioSettings.onGetUserMediaError();
+      });
     });
   }
 
@@ -1354,13 +1394,20 @@ export default class Webphone extends RcModule {
       });
       return null;
     }
-    const phoneLines = await this._fetchDL();
-    if (phoneLines.length === 0) {
-      this._alert.warning({
-        message: webphoneErrors.noOutboundCallWithoutDL,
-      });
-      return null;
+
+    if (
+      toNumber.length > 6 &&
+      (!this._availabilityMonitor || !this._availabilityMonitor.isVoIPOnlyMode)
+    ) {
+      const phoneLines = await this._fetchDL();
+      if (phoneLines.length === 0) {
+        this._alert.warning({
+          message: webphoneErrors.noOutboundCallWithoutDL,
+        });
+        return null;
+      }
     }
+
     await this._holdOtherSession();
     const session = this._webphone.userAgent.invite(toNumber, {
       sessionDescriptionHandlerOptions: this.acceptOptions.sessionDescriptionHandlerOptions,
@@ -1705,6 +1752,21 @@ export default class Webphone extends RcModule {
 
   get connectError() {
     return this.connectionStatus === connectionStatus.connectError;
+  }
+
+  /*
+   * Together with `CallingSettings` module to check if webphone is
+   * Unavailable.
+   */
+  get isUnavailable() {
+    return (
+      this.ready &&
+      this._auth.loggedIn &&
+      (
+        !this._audioSettings.userMedia ||
+        (this.reconnecting || this.connectError)
+      )
+    );
   }
 
   @selector

@@ -5,4 +5,5 @@ export default new Enum([
   ...Object.keys(moduleActionTypes),
   'connectSuccess',
   'connectFail',
+  'networkLoss',
 ], 'connectivityMonitor');

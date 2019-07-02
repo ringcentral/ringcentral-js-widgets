@@ -169,6 +169,13 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     // spread: true,
     // },
     { provide: 'AvailabilityMonitor', useClass: AvailabilityMonitor },
+    {
+      provide: 'AvailabilityMonitorOptions',
+      useValue: {
+        enabled: true,
+      },
+      spread: true,
+    },
     { provide: 'BlockedNumber', useClass: BlockedNumber }
   ]
 })

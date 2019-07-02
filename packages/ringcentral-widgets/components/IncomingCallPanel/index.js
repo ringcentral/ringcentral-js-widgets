@@ -81,7 +81,7 @@ UserInfo.defaultProps = {
 export default function IncomingCallPanel(props) {
   return (
     <div data-sign="IncomingCallPanel" className={classnames(styles.root, props.className)}>
-      <span className={styles.backButton} onClick={props.onBackButtonClick}>
+      <span data-sign="backButton" className={styles.backButton} onClick={props.onBackButtonClick}>
         <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
       </span>
       <UserInfo

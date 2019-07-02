@@ -1,8 +1,6 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 export default {
-  [webphoneErrors.connectFailed]: "Error al conectar con el servidor de telefonía web.",
   [webphoneErrors.connected]: "Teléfono web registrado.",
-  [webphoneErrors.browserNotSupported]: "Las llamadas con el navegador solo se permiten en Chrome.",
   [webphoneErrors.webphoneCountOverLimit]: "Se han podido registrar 5 teléfonos web en total.",
   [webphoneErrors.noOutboundCallWithoutDL]: "En este momento, su extensión no puede realizar llamadas salientes con el navegador. Póngase en contacto con su representante de cuentas para acceder a una actualización.",
   [webphoneErrors.toVoiceMailError]: "No se puede enviar la llamada al buzón de voz debido a un error interno",
@@ -14,7 +12,6 @@ export default {
   [webphoneErrors.transferError]: "No se puede transferir la llamada. Vuelva a intentarlo más tarde.",
 };
 
-// @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@
 // @key: @#@"[webphoneErrors.browserNotSupported]"@#@ @source: @#@"Calling with browser is only supported on Chrome."@#@
 // @key: @#@"[webphoneErrors.webphoneCountOverLimit]"@#@ @source: @#@"A maximum of 5 web phones could be registered."@#@
@@ -26,6 +23,3 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
-// @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
-// @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
-// @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@

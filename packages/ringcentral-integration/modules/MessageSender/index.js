@@ -1,4 +1,4 @@
-import { find } from 'ramda';
+import { find, pathOr } from 'ramda';
 import EventEmitter from 'events';
 import uuid from 'uuid';
 import RcModule from '../../lib/RcModule';
@@ -155,9 +155,10 @@ export default class MessageSender extends RcModule {
     }
     this.store.dispatch({ type: this.actionTypes.validate });
     if (validateResult) {
-      const isMySenderNumber = find(number => (
-        number.phoneNumber === senderNumber
-      ), this.senderNumbersList);
+      const isMySenderNumber = find(
+        (number) => number.phoneNumber === senderNumber,
+        this.senderNumbersList,
+      );
       if (!isMySenderNumber) {
         validateResult = false;
       }
@@ -186,10 +187,13 @@ export default class MessageSender extends RcModule {
     if (this._validateToNumbersIsEmpty(toNumbers)) {
       return result;
     }
-    const recipientNumbers
-      = toNumbers.filter((item, index, arr) => arr.indexOf(item) === index);
+    const recipientNumbers = toNumbers.filter(
+      (item, index, arr) => arr.indexOf(item) === index,
+    );
     this.store.dispatch({ type: this.actionTypes.validate });
-    const numberValidateResult = await this._numberValidate.validateNumbers(recipientNumbers);
+    const numberValidateResult = await this._numberValidate.validateNumbers(
+      recipientNumbers,
+    );
     if (!numberValidateResult.result) {
       this._alertInvalidRecipientErrors(numberValidateResult.errors);
       this.store.dispatch({ type: this.actionTypes.validateError });
@@ -199,7 +203,10 @@ export default class MessageSender extends RcModule {
     for (const number of numberValidateResult.numbers) {
       if (number.subAddress && number.subAddress.length > 0) {
         if (
-          !this._numberValidate.isCompanyExtension(number.e164, number.subAddress)
+          !this._numberValidate.isCompanyExtension(
+            number.e164,
+            number.subAddress,
+          )
         ) {
           this._alertWarning(messageSenderMessages.notAnExtension);
           this.store.dispatch({ type: this.actionTypes.validateError });
@@ -217,7 +224,11 @@ export default class MessageSender extends RcModule {
 
   @proxify
   async send({
-    fromNumber, toNumbers, text, replyOnMessageId, multipart = false
+    fromNumber,
+    toNumbers,
+    text,
+    replyOnMessageId,
+    multipart = false,
   }) {
     const eventId = uuid.v4();
     if (!this._validateText(text, multipart)) {
@@ -230,8 +241,12 @@ export default class MessageSender extends RcModule {
       }
       const recipientNumbers = validateToNumberResult.numbers;
 
-      const extensionNumbers = recipientNumbers.filter(number => (number.length <= 6));
-      const phoneNumbers = recipientNumbers.filter(number => (number.length > 6));
+      const extensionNumbers = recipientNumbers.filter(
+        (number) => number.length <= 6,
+      );
+      const phoneNumbers = recipientNumbers.filter(
+        (number) => number.length > 6,
+      );
 
       // not validate sender number if recipient is only extension number
       if (phoneNumbers.length > 0) {
@@ -298,7 +313,7 @@ export default class MessageSender extends RcModule {
       });
       this.store.dispatch({
         type: this.actionTypes.sendError,
-        error: 'error'
+        error: 'error',
       });
       this._onSendError(error);
       console.debug('sendComposeText e ', error);
@@ -309,43 +324,50 @@ export default class MessageSender extends RcModule {
   @proxify
   async _sendSms({ fromNumber, toNumber, text }) {
     const toUsers = [{ phoneNumber: toNumber }];
-    const response = await this._client.account().extension().sms().post({
-      from: { phoneNumber: fromNumber },
-      to: toUsers,
-      text,
-    });
+    const response = await this._client
+      .account()
+      .extension()
+      .sms()
+      .post({
+        from: { phoneNumber: fromNumber },
+        to: toUsers,
+        text,
+      });
     return response;
   }
 
   @proxify
   async _sendPager({ toNumbers, text, replyOnMessageId }) {
     const from = { extensionNumber: this._extensionInfo.extensionNumber };
-    const toUsers = toNumbers.map(number => ({ extensionNumber: number }));
+    const toUsers = toNumbers.map((number) => ({ extensionNumber: number }));
     const params = { from, to: toUsers, text };
     if (replyOnMessageId) {
       params.replyOn = replyOnMessageId;
     }
-    const response = await this._client.account().extension().companyPager().post(params);
+    const response = await this._client
+      .account()
+      .extension()
+      .companyPager()
+      .post(params);
     return response;
   }
 
   _onSendError(error) {
     const errResp = error.apiResponse;
     if (
-      errResp && errResp.response &&
+      errResp &&
+      errResp.response &&
       !errResp.response.ok &&
       errResp._json &&
       (errResp._json.errorCode === 'InvalidParameter' ||
-      errResp._json.errorCode === 'InternationalProhibited' ||
-      errResp._json.errorCode === 'CMN-408')
+        errResp._json.errorCode === 'InternationalProhibited' ||
+        errResp._json.errorCode === 'CMN-408')
     ) {
       errResp._json.errors.map((err) => {
         if (
-          (
-            err.errorCode === 'CMN-101' ||
+          (err.errorCode === 'CMN-101' ||
             err.errorCode === 'CMN-102' ||
-            err.errorCode === 'CMN-414'
-          ) &&
+            err.errorCode === 'CMN-414') &&
           err.parameterName.startsWith('to')
         ) {
           // 101 : "Parameter [to.extensionNumber] value is invalid"
@@ -360,12 +382,15 @@ export default class MessageSender extends RcModule {
         }
         if (err.errorCode === 'MSG-240') {
           // MSG-240 : "International SMS is not supported"
-          this._alertWarning(messageSenderMessages.internationalSMSNotSupported);
+          this._alertWarning(
+            messageSenderMessages.internationalSMSNotSupported,
+          );
         }
         if (err.errorCode === 'CMN-408') {
           // MSG-240 : "In order to call this API endpoint, user needs to have [InternalSMS] permission for requested resource."
           this._alertWarning(messageSenderMessages.noInternalSMSPermission);
         }
+
         return null;
       });
       return;

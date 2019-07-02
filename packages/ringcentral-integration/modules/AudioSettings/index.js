@@ -17,10 +17,11 @@ function polyfillGetUserMedia() {
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia;
   if (navigator.mediaDevices.getUserMedia === undefined && navigator.getUserMedia) {
-    navigator.mediaDevices.getUserMedia = constraints =>
+    navigator.mediaDevices.getUserMedia = constraints => (
       new Promise((resolve, reject) => {
         navigator.getUserMedia.call(navigator, constraints, resolve, reject);
-      });
+      })
+    );
   }
 }
 polyfillGetUserMedia();
@@ -118,6 +119,7 @@ export default class AudioSettings extends RcModule {
       this._rolesAndPermissions.ready
     );
   }
+
   _shouldReset() {
     return !!(
       this.ready &&
@@ -128,6 +130,7 @@ export default class AudioSettings extends RcModule {
       )
     );
   }
+
   async _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
@@ -169,7 +172,7 @@ export default class AudioSettings extends RcModule {
       }
       const stream = await this._getUserMediaPromise;
       this._getUserMediaPromise = null;
-      this._onGetUserMediaSuccess();
+      await this._onGetUserMediaSuccess();
       if (typeof stream.getTracks === 'function') {
         stream.getTracks().forEach((track) => {
           track.stop();
@@ -195,7 +198,7 @@ export default class AudioSettings extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.getUserMediaSuccess,
     });
-    this._checkDevices();
+    await this._checkDevices();
   }
 
   @proxify
@@ -246,34 +249,40 @@ export default class AudioSettings extends RcModule {
   get outputDeviceId() {
     return this._storage.getItem(this._storageKey).outputDeviceId;
   }
+
   get outputDevice() {
     return find(device => (
       device.kind === 'audiooutput' &&
       device.deviceId === this.outputDeviceId
     ), this.availableDevices);
   }
+
   get inputDeviceId() {
     return this._storage.getItem(this._storageKey).inputDeviceId;
   }
+
   get inputDevice() {
     return find(device => (
       device.kind === 'audioinput' &&
       device.deviceId === this.inputDeviceId
     ), this.availableDevices);
   }
+
   get supportDevices() {
     return !!(
-      HTMLMediaElement.prototype.setSinkId &&
       navigator.mediaDevices &&
       navigator.mediaDevices.enumerateDevices
     );
   }
+
   get availableDevices() {
     return this.state.availableDevices;
   }
+
   get availableOutputDevices() {
     return this._selectors.availableOutputDevices();
   }
+
   get availableInputDevices() {
     return this._selectors.availableInputDevices();
   }
@@ -285,15 +294,19 @@ export default class AudioSettings extends RcModule {
   get dialButtonVolume() {
     return this.cacheData.dialButtonVolume;
   }
+
   get dialButtonMuted() {
     return this.cacheData.dialButtonMuted;
   }
+
   get ringtoneVolume() {
     return this.cacheData.ringtoneVolume;
   }
+
   get ringtoneMuted() {
     return this.cacheData.ringtoneMuted;
   }
+
   get callVolume() {
     return this.cacheData.callVolume;
   }

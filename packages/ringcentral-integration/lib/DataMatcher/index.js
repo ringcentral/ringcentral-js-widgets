@@ -344,6 +344,20 @@ export default class DataMatcher extends RcModule {
     await Promise.all(promises);
   }
 
+  /**
+   * insert matching result directly
+   */
+  @proxify
+  insertMatching({ name, data, queries }) {
+    this.store.dispatch({
+      type: this.actionTypes.insertMatchEntries,
+      data,
+      queries,
+      name,
+      timestamp: Date.now()
+    });
+  }
+
   get status() {
     return this.state.status;
   }
