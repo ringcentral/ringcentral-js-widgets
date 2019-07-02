@@ -56,6 +56,8 @@ function mapToProps(_, _ref) {
       showUserGuide = _ref$showUserGuide === void 0 ? true : _ref$showUserGuide,
       _ref$showPresenceSett = _ref.showPresenceSettings,
       showPresenceSettings = _ref$showPresenceSett === void 0 ? true : _ref$showPresenceSett,
+      _ref$showMsteamsSetti = _ref.showMsteamsSettings,
+      showMsteamsSettings = _ref$showMsteamsSetti === void 0 ? false : _ref$showMsteamsSetti,
       _ref$showQuickAccess = _ref.showQuickAccess,
       showQuickAccess = _ref$showQuickAccess === void 0 ? false : _ref$showQuickAccess,
       params = _ref.params;
@@ -112,7 +114,9 @@ function mapToFunctions(_, _ref2) {
       _ref2$audioSettingsUr = _ref2.audioSettingsUrl,
       audioSettingsUrl = _ref2$audioSettingsUr === void 0 ? '/settings/audio' : _ref2$audioSettingsUr,
       _ref2$feedbackSetting = _ref2.feedbackSettingsUrl,
-      feedbackSettingsUrl = _ref2$feedbackSetting === void 0 ? '/settings/feedback' : _ref2$feedbackSetting;
+      feedbackSettingsUrl = _ref2$feedbackSetting === void 0 ? '/settings/feedback' : _ref2$feedbackSetting,
+      _ref2$msteamsSettings = _ref2.msteamsSettingsUrl,
+      msteamsSettingsUrl = _ref2$msteamsSettings === void 0 ? '/settings/msteams' : _ref2$msteamsSettings;
   return {
     onLogoutButtonClick: function () {
       var _onLogoutButtonClick = _asyncToGenerator(
@@ -150,6 +154,9 @@ function mapToFunctions(_, _ref2) {
     },
     onFeedbackSettingsLinkClick: function onFeedbackSettingsLinkClick() {
       routerInteraction.push(feedbackSettingsUrl);
+    },
+    onMsteamsSettingsLinkClick: function onMsteamsSettingsLinkClick() {
+      routerInteraction.push(msteamsSettingsUrl);
     },
     onUserGuideClick: function onUserGuideClick() {
       userGuide.start();

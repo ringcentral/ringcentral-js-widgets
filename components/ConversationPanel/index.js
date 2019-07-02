@@ -378,6 +378,7 @@ function (_Component) {
         onClick: function onClick() {
           return _this2.props.goBack();
         },
+        "data-sign": "backButton",
         className: _styles["default"].backButton
       }, _react["default"].createElement("span", {
         className: _DynamicsFont["default"].arrow

@@ -92,6 +92,7 @@ function (_PureComponent) {
           onBackClick = _this$props.onBackClick,
           onClickToSMS = _this$props.onClickToSMS,
           onClickToDial = _this$props.onClickToDial,
+          disableLinks = _this$props.disableLinks,
           disableCallButton = _this$props.disableCallButton,
           onClickMailTo = _this$props.onClickMailTo,
           formatNumber = _this$props.formatNumber,
@@ -105,6 +106,7 @@ function (_PureComponent) {
         contactItem: contactItem,
         onClickToSMS: onClickToSMS,
         onClickToDial: onClickToDial,
+        disableLinks: disableLinks,
         disableCallButton: disableCallButton,
         onClickMailTo: onClickMailTo,
         formatNumber: formatNumber,
@@ -145,6 +147,7 @@ ContactDetailsView.propTypes = {
   children: _propTypes["default"].node,
   outboundSmsPermission: _propTypes["default"].bool,
   internalSmsPermission: _propTypes["default"].bool,
+  disableLinks: _propTypes["default"].bool,
   disableCallButton: _propTypes["default"].bool
 };
 ContactDetailsView.defaultProps = {
@@ -159,6 +162,7 @@ ContactDetailsView.defaultProps = {
   },
   outboundSmsPermission: false,
   internalSmsPermission: false,
+  disableLinks: false,
   disableCallButton: false
 };
 //# sourceMappingURL=index.js.map

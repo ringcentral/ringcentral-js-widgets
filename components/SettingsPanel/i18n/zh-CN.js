@@ -24,7 +24,8 @@ var _default = {
   language: "语言",
   feedback: "反馈",
   userGuide: "新功能",
-  quickAccess: "快速访问设置"
+  quickAccess: "快速访问设置",
+  msteamsSetting: "Microsoft Teams 设置"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -43,6 +44,7 @@ var _default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

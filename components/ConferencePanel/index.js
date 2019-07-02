@@ -65,6 +65,8 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
+var _CheckBox = _interopRequireDefault(require("../CheckBox"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
@@ -91,30 +93,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-// TODO Move to a separate folder.
-function CheckBox(_ref) {
-  var checked = _ref.checked,
-      onChange = _ref.onChange;
-  var className = (0, _classnames["default"])(_styles["default"].checkbox, checked ? _styles["default"].checked : '');
-  return _react["default"].createElement("div", {
-    className: className,
-    onClick: function onClick() {
-      return onChange && onChange(!checked);
-    }
-  }, "\u2713");
-}
-
-CheckBox.propTypes = {
-  checked: _propTypes["default"].bool.isRequired,
-  onChange: _propTypes["default"].func
-};
-CheckBox.defaultProps = {
-  onChange: null
-};
-
-function DialInNumberItem(_ref2) {
-  var region = _ref2.region,
-      formattedPhoneNumber = _ref2.formattedPhoneNumber;
+function DialInNumberItem(_ref) {
+  var region = _ref.region,
+      formattedPhoneNumber = _ref.formattedPhoneNumber;
   return _react["default"].createElement("div", {
     className: _styles["default"].dialInNumberItem,
     title: region
@@ -128,10 +109,10 @@ DialInNumberItem.propTypes = {
   formattedPhoneNumber: _propTypes["default"].string.isRequired
 };
 
-function DialInNumberList(_ref3) {
-  var dialInNumbers = _ref3.dialInNumbers,
-      selected = _ref3.selected,
-      onChange = _ref3.onChange;
+function DialInNumberList(_ref2) {
+  var dialInNumbers = _ref2.dialInNumbers,
+      selected = _ref2.selected,
+      onChange = _ref2.onChange;
 
   if (dialInNumbers.length === 0) {
     return '';
@@ -160,9 +141,9 @@ function DialInNumberList(_ref3) {
       key: e.phoneNumber,
       onClick: selectChange,
       title: e.region
-    }, _react["default"].createElement(CheckBox, {
-      className: _styles["default"].checkbox,
-      checked: checked
+    }, _react["default"].createElement(_CheckBox["default"], {
+      checked: checked,
+      type: "checkbox"
     }), _react["default"].createElement("div", {
       className: _styles["default"].region
     }, e.region), _react["default"].createElement("div", {
@@ -182,10 +163,10 @@ function formatPin(number) {
 }
 
 var dialInNumbersLinks = {
-  att: 'https://rcconf.net/1L06Hd5',
+  att: 'https://ringcentr.al/2L14jqL',
   // att reuse rc brand
   bt: 'https://www.btcloudphone.bt.com/conferencing',
-  rc: 'https://rcconf.net/1L06Hd5',
+  rc: 'https://ringcentr.al/2L14jqL',
   telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions'
 };
 
@@ -236,14 +217,32 @@ function (_Component) {
 
     _this.inviteTxt = function () {
       var _this$props = _this.props,
-          dialInNumber = _this$props.dialInNumber,
-          additionalNumbers = _this$props.additionalNumbers,
           participantCode = _this$props.participantCode,
-          brand = _this$props.brand;
-      var dialInNumbers = _this.state.dialInNumbers;
-      var formattedDialInNumber = dialInNumbers.find(function (e) {
+          brand = _this$props.brand,
+          showSaveAsDefault = _this$props.showSaveAsDefault,
+          updateDialInNumber = _this$props.updateDialInNumber,
+          updateAdditionalNumbers = _this$props.updateAdditionalNumbers;
+      var _this$props2 = _this.props,
+          dialInNumber = _this$props2.dialInNumber,
+          additionalNumbers = _this$props2.additionalNumbers;
+      var _this$state = _this.state,
+          dialInNumbers = _this$state.dialInNumbers,
+          saveAsDefault = _this$state.saveAsDefault;
+
+      if (showSaveAsDefault) {
+        dialInNumber = _this.state.dialInNumber;
+        additionalNumbers = _this.state.additionalNumbers;
+
+        if (saveAsDefault) {
+          updateDialInNumber(dialInNumber);
+          updateAdditionalNumbers(additionalNumbers);
+        }
+      }
+
+      dialInNumber = dialInNumbers.find(function (e) {
         return e.phoneNumber === dialInNumber;
-      }).formattedPhoneNumber;
+      }) || dialInNumbers[0];
+      var formattedDialInNumber = dialInNumber.formattedPhoneNumber;
       var additionalNumbersTxt = additionalNumbers.map(function (p) {
         return dialInNumbers.find(function (obj) {
           return obj.phoneNumber === p;
@@ -280,22 +279,42 @@ function (_Component) {
       if (txt) {
         _this.props.inviteWithText(txt);
       }
+
+      var _this$props3 = _this.props,
+          showSaveAsDefault = _this$props3.showSaveAsDefault,
+          updateDialInNumber = _this$props3.updateDialInNumber,
+          updateAdditionalNumbers = _this$props3.updateAdditionalNumbers;
+      var _this$state2 = _this.state,
+          saveAsDefault = _this$state2.saveAsDefault,
+          dialInNumber = _this$state2.dialInNumber,
+          additionalNumbers = _this$state2.additionalNumbers;
+
+      if (showSaveAsDefault && saveAsDefault) {
+        updateDialInNumber(dialInNumber);
+        updateAdditionalNumbers(additionalNumbers);
+      }
     };
 
+    var _this$props4 = _this.props,
+        _dialInNumber = _this$props4.dialInNumber,
+        _additionalNumbers = _this$props4.additionalNumbers;
     _this.state = {
       dialInNumbers: _this.formatDialInNumbers(props),
       showAdditionalNumberList: false,
-      mainCtrlOverlapped: false
+      mainCtrlOverlapped: false,
+      dialInNumber: _dialInNumber,
+      additionalNumbers: _additionalNumbers,
+      saveAsDefault: false
     };
     return _this;
   }
 
   _createClass(ConferencePanel, [{
     key: "formatDialInNumbers",
-    value: function formatDialInNumbers(_ref4) {
-      var dialInNumbers = _ref4.dialInNumbers,
-          countryCode = _ref4.countryCode,
-          areaCode = _ref4.areaCode;
+    value: function formatDialInNumbers(_ref3) {
+      var dialInNumbers = _ref3.dialInNumbers,
+          countryCode = _ref3.countryCode,
+          areaCode = _ref3.areaCode;
       return dialInNumbers.map(function (e) {
         return _objectSpread({}, e, {
           formattedPhoneNumber: (0, _formatNumber["default"])({
@@ -331,30 +350,66 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _this$props2 = this.props,
-          currentLocale = _this$props2.currentLocale,
-          hostCode = _this$props2.hostCode,
-          participantCode = _this$props2.participantCode,
-          dialInNumber = _this$props2.dialInNumber,
-          additionalNumbers = _this$props2.additionalNumbers,
-          updateDialInNumber = _this$props2.updateDialInNumber,
-          updateAdditionalNumbers = _this$props2.updateAdditionalNumbers,
-          joinAsHost = _this$props2.joinAsHost,
-          allowJoinBeforeHost = _this$props2.allowJoinBeforeHost,
-          additionalButtons = _this$props2.additionalButtons,
-          onAllowJoinBeforeHostChange = _this$props2.onAllowJoinBeforeHostChange,
-          showHelpCommands = _this$props2.showHelpCommands,
-          disableTxtBtn = _this$props2.disableTxtBtn,
-          _this$props2$showJoin = _this$props2.showJoinAsHost,
-          showJoinAsHost = _this$props2$showJoin === void 0 ? true : _this$props2$showJoin,
-          _this$props2$showEnab = _this$props2.showEnableJoinBeforeHost,
-          showEnableJoinBeforeHost = _this$props2$showEnab === void 0 ? true : _this$props2$showEnab,
-          recipientsSection = _this$props2.recipientsSection,
-          bottomClassName = _this$props2.bottomClassName;
-      var _this$state = this.state,
-          dialInNumbers = _this$state.dialInNumbers,
-          showAdditionalNumberList = _this$state.showAdditionalNumberList,
-          mainCtrlOverlapped = _this$state.mainCtrlOverlapped;
+      var _this$props5 = this.props,
+          currentLocale = _this$props5.currentLocale,
+          hostCode = _this$props5.hostCode,
+          participantCode = _this$props5.participantCode,
+          allowJoinBeforeHost = _this$props5.allowJoinBeforeHost,
+          additionalButtons = _this$props5.additionalButtons,
+          onAllowJoinBeforeHostChange = _this$props5.onAllowJoinBeforeHostChange,
+          showHelpCommands = _this$props5.showHelpCommands,
+          disableTxtBtn = _this$props5.disableTxtBtn,
+          _this$props5$showJoin = _this$props5.showJoinAsHost,
+          showJoinAsHost = _this$props5$showJoin === void 0 ? true : _this$props5$showJoin,
+          _this$props5$showEnab = _this$props5.showEnableJoinBeforeHost,
+          showEnableJoinBeforeHost = _this$props5$showEnab === void 0 ? true : _this$props5$showEnab,
+          recipientsSection = _this$props5.recipientsSection,
+          bottomClassName = _this$props5.bottomClassName,
+          showSaveAsDefault = _this$props5.showSaveAsDefault;
+      var _this$props6 = this.props,
+          dialInNumber = _this$props6.dialInNumber,
+          additionalNumbers = _this$props6.additionalNumbers,
+          updateDialInNumber = _this$props6.updateDialInNumber,
+          updateAdditionalNumbers = _this$props6.updateAdditionalNumbers,
+          joinAsHost = _this$props6.joinAsHost;
+      var _this$state3 = this.state,
+          dialInNumbers = _this$state3.dialInNumbers,
+          showAdditionalNumberList = _this$state3.showAdditionalNumberList,
+          mainCtrlOverlapped = _this$state3.mainCtrlOverlapped,
+          saveAsDefault = _this$state3.saveAsDefault; // if user checked the save as defautlt
+
+      if (showSaveAsDefault) {
+        dialInNumber = this.state.dialInNumber;
+        additionalNumbers = this.state.additionalNumbers;
+
+        updateDialInNumber = function updateDialInNumber(dialInNumber) {
+          _this2.setState({
+            dialInNumber: dialInNumber
+          });
+        };
+
+        updateAdditionalNumbers = function updateAdditionalNumbers(additionalNumbers) {
+          _this2.setState({
+            additionalNumbers: additionalNumbers
+          });
+        };
+
+        joinAsHost = function joinAsHost() {
+          _this2.props.joinAsHost();
+
+          if (saveAsDefault) {
+            _this2.props.updateDialInNumber(dialInNumber);
+
+            _this2.props.updateAdditionalNumbers(additionalNumbers);
+          }
+        };
+      }
+
+      var onSaveAsDefaultChange = function onSaveAsDefaultChange(checked) {
+        _this2.setState({
+          saveAsDefault: checked
+        });
+      };
 
       if (showAdditionalNumberList) {
         return _react["default"].createElement("div", {
@@ -417,8 +472,8 @@ function (_Component) {
       }, _react["default"].createElement("div", {
         className: _styles["default"].main,
         onScroll: this.checkOverlap,
-        ref: function ref(_ref5) {
-          _this2.mainCtrl = _ref5;
+        ref: function ref(_ref4) {
+          _this2.mainCtrl = _ref4;
         }
       }, _react["default"].createElement("div", {
         className: _styles["default"].dialInNumber
@@ -493,7 +548,11 @@ function (_Component) {
         className: _styles["default"].section
       }, _i18n["default"].getString('conferenceCommands', currentLocale))), _react["default"].createElement("div", {
         className: bottomClass.join(' ')
-      }, additionalButtons.map(function (Btn) {
+      }, showSaveAsDefault && _react["default"].createElement(_CheckBox["default"], {
+        checked: saveAsDefault,
+        onChecked: onSaveAsDefaultChange,
+        type: "checkbox"
+      }, _i18n["default"].getString('saveAsDefault', currentLocale)), additionalButtons.map(function (Btn) {
         return _react["default"].createElement(Btn, {
           currentLocale: currentLocale,
           dialInNumber: dialInNumber,
@@ -538,7 +597,8 @@ ConferencePanel.propTypes = {
   showEnableJoinBeforeHost: _propTypes["default"].bool,
   brand: _propTypes["default"].object.isRequired,
   recipientsSection: _propTypes["default"].node,
-  bottomClassName: _propTypes["default"].string
+  bottomClassName: _propTypes["default"].string,
+  showSaveAsDefault: _propTypes["default"].bool
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],
@@ -546,7 +606,8 @@ ConferencePanel.defaultProps = {
   recipientsSection: undefined,
   showJoinAsHost: true,
   showEnableJoinBeforeHost: true,
-  bottomClassName: null
+  bottomClassName: null,
+  showSaveAsDefault: false
 };
 var _default = ConferencePanel;
 exports["default"] = _default;

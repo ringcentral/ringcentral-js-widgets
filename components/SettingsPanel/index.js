@@ -91,6 +91,8 @@ function SettingsPanel(_ref) {
       isCallQueueMember = _ref.isCallQueueMember,
       showPresenceSettings = _ref.showPresenceSettings,
       openPresenceSettings = _ref.openPresenceSettings,
+      showMsteamsSettings = _ref.showMsteamsSettings,
+      onMsteamsSettingsLinkClick = _ref.onMsteamsSettingsLinkClick,
       showFeedback = _ref.showFeedback,
       showQuickAccess = _ref.showQuickAccess,
       showUserGuide = _ref.showUserGuide,
@@ -99,7 +101,9 @@ function SettingsPanel(_ref) {
       savedLocale = _ref.savedLocale,
       saveLocale = _ref.saveLocale,
       clickToDialTitle = _ref.clickToDialTitle,
-      versionContainer = _ref.versionContainer;
+      versionContainer = _ref.versionContainer,
+      autoLogTitle = _ref.autoLogTitle,
+      autoLogSMSTitle = _ref.autoLogSMSTitle;
 
   if (showSpinner) {
     return _react["default"].createElement(_SpinnerOverlay["default"], null);
@@ -143,6 +147,11 @@ function SettingsPanel(_ref) {
     toggleAcceptCallQueueCalls: toggleAcceptCallQueueCalls,
     showPresenceSettings: openPresenceSettings
   }) : null;
+
+  var msteamsSettings = showMsteamsSettings && _react["default"].createElement(_LinkLine["default"], {
+    onClick: onMsteamsSettingsLinkClick
+  }, _i18n["default"].getString('msteamsSetting', currentLocale));
+
   var clickToDialText;
 
   if (outboundSMS && clickToDialPermissions) {
@@ -171,7 +180,7 @@ function SettingsPanel(_ref) {
     })
   }, _react["default"].createElement("span", {
     className: (0, _classnames["default"])(disableAutoLogEnabled && _styles["default"].disableText)
-  }, _i18n["default"].getString('autoLogCalls', currentLocale))) : null;
+  }, autoLogTitle || _i18n["default"].getString('autoLogCalls', currentLocale))) : null;
   var autoLogNotes = showAutoLogNotes ? _react["default"].createElement(_IconLine["default"], {
     icon: _react["default"].createElement(_Switch["default"], {
       disable: disableAutoLogNotesEnabled,
@@ -183,10 +192,11 @@ function SettingsPanel(_ref) {
   }, _i18n["default"].getString('autoLogNotes', currentLocale))) : null;
   var autoLogSMS = showAutoLogSMS ? _react["default"].createElement(_IconLine["default"], {
     icon: _react["default"].createElement(_Switch["default"], {
+      dataSign: "AutoLogSMS",
       checked: autoLogSMSEnabled,
       onChange: onAutoLogSMSChange
     })
-  }, _i18n["default"].getString('autoLogSMS', currentLocale)) : null;
+  }, autoLogSMSTitle || _i18n["default"].getString('autoLogSMS', currentLocale)) : null;
   var header = showHeader ? _react["default"].createElement(_Header["default"], null, _i18n["default"].getString('settings', currentLocale)) : null;
   var userGuide = showUserGuide ? _react["default"].createElement(_LinkLine["default"], {
     onClick: onUserGuideClick
@@ -201,7 +211,7 @@ function SettingsPanel(_ref) {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, header, _react["default"].createElement(_Panel["default"], {
     className: (0, _classnames["default"])(_styles["default"].content, showHeader && _styles["default"].contentWithHeader)
-  }, report, locale, calling, region, audio, presenceSetting, children, autoLog, autoLogNotes, autoLogSMS, clickToDial, additional, feedback, quickAccess, userGuide, _react["default"].createElement("section", {
+  }, report, locale, calling, region, audio, presenceSetting, msteamsSettings, children, autoLog, autoLogNotes, autoLogSMS, clickToDial, additional, feedback, quickAccess, userGuide, _react["default"].createElement("section", {
     className: _styles["default"].section
   }, _react["default"].createElement(_Line["default"], {
     noBorder: true
@@ -268,6 +278,8 @@ SettingsPanel.propTypes = {
   toggleAcceptCallQueueCalls: _propTypes["default"].func,
   openPresenceSettings: _propTypes["default"].bool,
   showPresenceSettings: _propTypes["default"].bool,
+  showMsteamsSettings: _propTypes["default"].bool,
+  onMsteamsSettingsLinkClick: _propTypes["default"].func,
   showFeedback: _propTypes["default"].bool,
   showQuickAccess: _propTypes["default"].bool,
   additional: _propTypes["default"].node,
@@ -280,7 +292,9 @@ SettingsPanel.propTypes = {
   showUserGuide: _propTypes["default"].bool,
   clickToDialTitle: _propTypes["default"].string,
   versionContainer: _propTypes["default"].node,
-  onReportLinkClick: _propTypes["default"].func
+  onReportLinkClick: _propTypes["default"].func,
+  autoLogTitle: _propTypes["default"].string,
+  autoLogSMSTitle: _propTypes["default"].string
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -333,6 +347,10 @@ SettingsPanel.defaultProps = {
   },
   openPresenceSettings: false,
   showPresenceSettings: true,
+  showMsteamsSettings: false,
+  onMsteamsSettingsLinkClick: function onMsteamsSettingsLinkClick() {
+    return null;
+  },
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,
@@ -346,6 +364,8 @@ SettingsPanel.defaultProps = {
   versionContainer: null,
   onReportLinkClick: function onReportLinkClick() {
     return null;
-  }
+  },
+  autoLogTitle: undefined,
+  autoLogSMSTitle: undefined
 };
 //# sourceMappingURL=index.js.map

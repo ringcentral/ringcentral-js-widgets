@@ -634,12 +634,14 @@ function (_Component) {
         logConversation: this.logConversation,
         isLogging: isLogging || this.state.isLogging
       }) : null;
+      var msgItem = "".concat(type, "MessageItem");
       return _react["default"].createElement("div", {
-        "data-sign": "messageItem",
+        "data-sign": msgItem,
         "data-id": conversationId,
         className: _styles["default"].root,
         onClick: this.onClickItem
       }, _react["default"].createElement("div", {
+        "data-sign": "unread",
         className: (0, _classnames["default"])(_styles["default"].wrapper, unreadCounts && _styles["default"].unread),
         onClick: this.onClickWrapper
       }, _react["default"].createElement(ConversationIcon, {
@@ -679,11 +681,13 @@ function (_Component) {
       }), _react["default"].createElement("div", {
         className: _styles["default"].detailsWithTime
       }, _react["default"].createElement("div", {
+        "data-sign": "msgDetail",
         className: _styles["default"].details,
         title: detail
       }, detail), _react["default"].createElement("div", {
         className: _styles["default"].separatrix
       }, "|"), _react["default"].createElement("div", {
+        "data-sign": "msgCreateTime",
         className: _styles["default"].creationTime
       }, this.dateTimeFormatter(creationTime)))), extraButton), _react["default"].createElement(_SlideMenu["default"], {
         extended: this.state.extended,

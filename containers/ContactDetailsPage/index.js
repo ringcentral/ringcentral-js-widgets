@@ -46,14 +46,13 @@ function mapToProps(_, _ref) {
       contactDetails = _ref$phone.contactDetails,
       contactSearch = _ref$phone.contactSearch,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
-      auth = _ref$phone.auth,
-      audioSettings = _ref$phone.audioSettings,
-      webphone = _ref$phone.webphone,
-      callingSettings = _ref$phone.callingSettings;
+      rateLimiter = _ref$phone.rateLimiter,
+      connectivityManager = _ref$phone.connectivityManager;
   return {
     currentLocale: locale.currentLocale,
     contactItem: contactDetails.contact,
-    disableCallButton: auth.ready && audioSettings.ready && webphone && webphone.ready && auth.loggedIn && callingSettings.isWebphoneMode && (!audioSettings.userMedia || !webphone.connected),
+    disableLinks: connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode || rateLimiter.throttling,
+    disableCallButton: connectivityManager.isOfflineMode || connectivityManager.isWebphoneUnavailableMode || connectivityManager.isWebphoneInitializing || rateLimiter.throttling,
     showSpinner: !(locale.ready && contactSearch.ready && contactDetails.ready && rolesAndPermissions.ready),
     outboundSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.OutboundSMS),
     internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS)

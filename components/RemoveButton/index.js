@@ -29,6 +29,7 @@ function RemoveButton(props) {
   }
 
   return _react["default"].createElement("span", {
+    "data-sign": "removeBtn",
     className: className,
     onClick: props.visibility ? props.onClick : null
   }, _react["default"].createElement("i", {

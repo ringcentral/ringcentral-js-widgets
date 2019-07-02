@@ -24,7 +24,8 @@ var _default = {
   language: "Language",
   feedback: "Feedback",
   userGuide: "What's New",
-  quickAccess: "Quick Access Setting"
+  quickAccess: "Quick Access Setting",
+  msteamsSetting: 'Microsoft Teams Setting'
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -43,6 +44,7 @@ var _default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

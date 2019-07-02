@@ -34,6 +34,18 @@
   font-size: 12px;
 }
 
+.expandButtonWithEnd {
+  height: 28px;
+  width: 28px;
+  text-align: center;
+  line-height: 28px;
+  border: solid 1px $primary-color;
+  border-radius: 50%;
+  color: $primary-color;
+  font-size: 12px;
+  margin-left: 2px;
+}
+
 .expandDisableButton {
   color: #c7c7c7;
   border-color: #e2e2e2;
@@ -73,4 +85,42 @@
 
 .stayButton {
   @include defaultButton(26px);
+}
+
+
+.extraButtonBox {
+  display: flex;
+  margin-top: 12px;
+}
+.endButton {
+  width: 30px;
+  box-sizing: border-box;
+  height: 30px;
+}
+.hangup {
+  circle {
+    fill: #ff4646;
+  }
+  g,
+  path {
+    fill: #ffffff;
+  }
+}
+.buttonDisabled {
+  circle {
+    fill: $lightgray;
+    stroke: $gray;
+  }
+  path {
+    fill: $primary-color-highlight-solid;
+  }
+  g {
+    cursor: default;
+
+    &:hover {
+      circle {
+        stroke: $gray;
+      }
+    }
+  }
 }

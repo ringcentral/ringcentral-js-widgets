@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/OfflineModeBadge/i18n/en-CA.js"],"names":["offlineMode"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,WAAW,EAAE;AADA,C,EAIf","sourcesContent":["export default {\n  offlineMode: \"Offline Mode\"\n};\n\n// @key: @#@\"offlineMode\"@#@ @source: @#@\"Offline Mode\"@#@\n"],"file":"en-CA.js"}

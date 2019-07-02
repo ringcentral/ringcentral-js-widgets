@@ -150,6 +150,8 @@ function (_PureComponent) {
     };
 
     _this.onClickToSMS = function (contact, phoneNumber) {
+      if (_this.props.disableLinks) return;
+
       _this.props.onClickToSMS(_objectSpread({}, contact, {
         phoneNumber: phoneNumber
       }));
@@ -241,6 +243,7 @@ function (_PureComponent) {
 
       var showCallBtn = _ref2.showCallBtn,
           showTextBtn = _ref2.showTextBtn,
+          disableLinks = _ref2.disableLinks,
           disableCallButton = _ref2.disableCallButton,
           key = _ref2.key,
           number = _ref2.number,
@@ -264,6 +267,7 @@ function (_PureComponent) {
       }, _react["default"].createElement("div", {
         className: _styles["default"].number
       }, _react["default"].createElement("span", {
+        "data-sign": "contactNumber",
         title: displayedPhoneNumber
       }, displayedPhoneNumber)), _react["default"].createElement("div", {
         className: _styles["default"].menu
@@ -276,6 +280,7 @@ function (_PureComponent) {
       }, _react["default"].createElement("i", {
         className: _DynamicsFont["default"].call
       })) : null, showTextBtn ? _react["default"].createElement("button", {
+        className: (0, _classnames["default"])(disableLinks && _styles["default"].disabled),
         title: _i18n["default"].getString('text', currentLocale),
         onClick: function onClick() {
           return _this2.onClickToSMS(contactItem, number);
@@ -292,6 +297,7 @@ function (_PureComponent) {
       var _this$props2 = this.props,
           contactItem = _this$props2.contactItem,
           currentLocale = _this$props2.currentLocale,
+          disableLinks = _this$props2.disableLinks,
           disableCallButton = _this$props2.disableCallButton;
       var phoneNumbers = contactItem.phoneNumbers,
           phoneMaps = contactItem.phoneMaps,
@@ -311,6 +317,7 @@ function (_PureComponent) {
                 return _this3.getListItem({
                   showCallBtn: _this3.props.internalSmsPermission,
                   showTextBtn: _this3.props.onClickToDial,
+                  disableLinks: disableLinks,
                   disableCallButton: disableCallButton,
                   key: phoneNumberElm.phoneNumber,
                   number: phoneNumberElm.phoneNumber,
@@ -340,6 +347,7 @@ function (_PureComponent) {
                 return _this3.getListItem({
                   showCallBtn: _this3.props.onClickToDial,
                   showTextBtn: _this3.props.outboundSmsPermission,
+                  disableLinks: disableLinks,
                   disableCallButton: disableCallButton,
                   key: phoneNumberElm.phoneNumber,
                   number: phoneNumberElm.phoneNumber,
@@ -418,6 +426,7 @@ ContactDetails.propTypes = {
   formatNumber: _propTypes["default"].func.isRequired,
   outboundSmsPermission: _propTypes["default"].bool,
   internalSmsPermission: _propTypes["default"].bool,
+  disableLinks: _propTypes["default"].bool,
   disableCallButton: _propTypes["default"].bool
 };
 ContactDetails.defaultProps = {
@@ -429,6 +438,7 @@ ContactDetails.defaultProps = {
   },
   outboundSmsPermission: false,
   internalSmsPermission: false,
+  disableLinks: false,
   disableCallButton: false
 };
 //# sourceMappingURL=index.js.map

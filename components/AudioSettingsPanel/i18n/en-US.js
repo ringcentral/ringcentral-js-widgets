@@ -17,7 +17,11 @@ var _default = {
   micPermission: 'Microphone Permission',
   noDevice: 'No device',
   checkMicPermission: 'Check Permission',
-  micNoPermissionMessage: 'The app does not have permission to use microphone'
+  micNoPermissionMessage: 'The app does not have permission to use microphone',
+  noLabel: 'Unknown device',
+  notSetSinkIdTip: "Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up.",
+  noLabelTip: "Sorry, your current browser permissions aren't set to allow us to access your audio input devices.",
+  clickHere: 'Click here'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

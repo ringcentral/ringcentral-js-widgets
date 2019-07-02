@@ -98,6 +98,7 @@ function IncomingCallPanel(props) {
     "data-sign": "IncomingCallPanel",
     className: (0, _classnames["default"])(_styles["default"].root, props.className)
   }, _react["default"].createElement("span", {
+    "data-sign": "backButton",
     className: _styles["default"].backButton,
     onClick: props.onBackButtonClick
   }, _react["default"].createElement("i", {

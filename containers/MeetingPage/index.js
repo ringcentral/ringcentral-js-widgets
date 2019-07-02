@@ -47,7 +47,8 @@ function mapToProps(_, _ref) {
     showWhen: showWhen,
     showDuration: showDuration,
     showRecurringMeeting: showRecurringMeeting,
-    openNewWindow: openNewWindow
+    openNewWindow: openNewWindow,
+    showSaveAsDefault: meeting.showSaveAsDefault
   };
 }
 

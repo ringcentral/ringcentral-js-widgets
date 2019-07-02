@@ -207,12 +207,13 @@ function (_Component) {
     value: function disableMergeAndAdd(nextProps, layout) {
       var lastCallInfo = nextProps.lastCallInfo,
           isWebRTC = nextProps.isWebRTC,
+          disableLinks = nextProps.disableLinks,
           isConferenceCallOverload = nextProps.isConferenceCallOverload,
           session = nextProps.session,
           hasConferenceCall = nextProps.hasConferenceCall; // const isInboundCall = session.direction === callDirections.inbound;
       // const isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
 
-      var isMergeAndAddDisabled = !isWebRTC || !session.partyData;
+      var isMergeAndAddDisabled = !isWebRTC || !session.partyData || disableLinks;
       var mergeDisabled = isMergeAndAddDisabled;
       var addDisabled = isMergeAndAddDisabled;
 
@@ -520,6 +521,7 @@ CallCtrlContainer.propTypes = {
   getInitialLayout: _propTypes["default"].func,
   closeMergingPair: _propTypes["default"].func,
   isWebRTC: _propTypes["default"].bool,
+  disableLinks: _propTypes["default"].bool,
   isConferenceCallOverload: _propTypes["default"].bool,
   afterHideMergeConfirm: _propTypes["default"].func,
   afterConfirmMerge: _propTypes["default"].func,
@@ -556,6 +558,7 @@ CallCtrlContainer.defaultProps = {
   layout: _callCtrlLayouts["default"].normalCtrl,
   closeMergingPair: null,
   isWebRTC: false,
+  disableLinks: false,
   isConferenceCallOverload: false,
   afterHideMergeConfirm: function afterHideMergeConfirm() {
     return null;

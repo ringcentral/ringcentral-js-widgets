@@ -5,9 +5,7 @@ require("core-js/modules/es6.array.reduce");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
-
-require("core-js/modules/es6.object.assign");
+exports["default"] = exports.When = void 0;
 
 require("core-js/modules/es6.array.for-each");
 
@@ -27,13 +25,17 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.regexp.replace");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.regexp.split");
 
@@ -94,8 +96,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -209,9 +209,29 @@ var When = function When(_ref4) {
       update = _ref4.update,
       that = _ref4.that,
       onToggle = _ref4.onToggle,
-      minTime = _ref4.minTime;
+      minTime = _ref4.minTime,
+      useTimePicker = _ref4.useTimePicker;
+
+  // The default value of the text input is in the componentDidMount.
+  var formatDisplay = function formatDisplay(Hours, Minutes) {
+    setTimeout(function () {
+      that.minutes.value = "0".concat(Minutes, "0").slice(-3, -1);
+      var currentHours = "0".concat(Hours, "0").slice(-3, -1);
+
+      if (useTimePicker) {
+        if (currentHours > 12) {
+          var convertedHours = +currentHours % 12;
+          that.hours.value = convertedHours.toString().length === 1 ? "0".concat(convertedHours) : convertedHours;
+        }
+      }
+    }, 0);
+  };
 
   var changeTime = function changeTime() {
+    if (useTimePicker) {
+      return;
+    }
+
     setTimeout(function () {
       var allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
 
@@ -235,8 +255,7 @@ var When = function When(_ref4) {
 
         var Minutes = time.getMinutes();
         var Hours = time.getHours();
-        that.minutes.value = "0".concat(Minutes, "0").slice(-3, -1);
-        that.hours.value = "0".concat(Hours, "0").slice(-3, -1);
+        formatDisplay(Hours, Minutes);
       }
     }, 100);
   };
@@ -264,14 +283,25 @@ var When = function When(_ref4) {
     }
   };
 
-  var preventReplay = function preventReplay(isFocus) {
+  var preventDatePickerReplay = function preventDatePickerReplay(isFocus) {
     that.dateBlur = true;
     setTimeout(function () {
-      if (!isFocus) {
+      if (!isFocus && !that.timeBlur) {
         that.topic.focus();
       }
 
       that.dateBlur = false;
+    }, 200);
+  };
+
+  var preventTimePickerReplay = function preventTimePickerReplay(isFocus) {
+    that.timeBlur = true;
+    setTimeout(function () {
+      if (!isFocus && !that.dateBlur) {
+        that.topic.focus();
+      }
+
+      that.timeBlur = false;
     }, 200);
   };
 
@@ -288,7 +318,7 @@ var When = function When(_ref4) {
     time: false,
     value: new Date(meeting.schedule.startTime),
     onChange: function onChange(currentStartTime) {
-      preventReplay(false);
+      preventDatePickerReplay(false);
 
       if (currentStartTime) {
         var date = new Date(meeting.schedule.startTime);
@@ -300,8 +330,7 @@ var When = function When(_ref4) {
           startTime = now;
           var Minutes = new Date().getMinutes();
           var Hours = new Date().getHours();
-          that.minutes.value = "0".concat(Minutes, "0").slice(-3, -1);
-          that.hours.value = "0".concat(Hours, "0").slice(-3, -1);
+          formatDisplay(Hours, Minutes);
         }
 
         update(_objectSpread({}, meeting, {
@@ -312,9 +341,9 @@ var When = function When(_ref4) {
       }
     },
     onBlur: function onBlur() {
-      preventReplay(false);
+      preventDatePickerReplay(false);
     },
-    onToggle: preventReplay,
+    onToggle: preventDatePickerReplay,
     ref: function ref(_ref5) {
       that.date = _ref5;
     },
@@ -339,15 +368,15 @@ var When = function When(_ref4) {
   }))), _react["default"].createElement("div", {
     className: _styles["default"].list
   }, _react["default"].createElement("div", {
-    className: _styles["default"].timePicker
-  }, _react["default"].createElement(_DateTimePicker["default"], _extends({
-    culture: "en",
+    className: (0, _classnames["default"])([_styles["default"].timePicker, useTimePicker && _styles["default"].useTimePicker])
+  }, _react["default"].createElement(_DateTimePicker["default"], {
+    culture: currentLocale,
     date: false,
-    ref: function ref(_ref7) {
-      that.time = _ref7;
-    },
+    step: 15,
     value: new Date(meeting.schedule.startTime),
     onChange: function onChange(startTime) {
+      preventTimePickerReplay(false);
+
       if (startTime) {
         update(_objectSpread({}, meeting, {
           schedule: _objectSpread({}, meeting.schedule, {
@@ -356,17 +385,29 @@ var When = function When(_ref4) {
         }));
       }
     },
+    onBlur: function onBlur() {
+      preventTimePickerReplay(false);
+    },
+    onToggle: preventTimePickerReplay,
+    ref: function ref(_ref7) {
+      that.time = _ref7;
+    },
     format: "hh:mm A"
-  }, minTime)), _react["default"].createElement("div", {
-    className: _styles["default"].timeText
+  }), _react["default"].createElement("div", {
+    className: _styles["default"].timeText,
+    onClick: function onClick() {
+      if (useTimePicker) {
+        onToggle('time');
+      }
+    }
   }, _react["default"].createElement("input", {
     flag: "timeInput",
+    disabled: useTimePicker,
     ref: function ref(_ref9) {
       that.hours = _ref9;
     },
     "data-sign": "timeInputHour",
     className: _styles["default"].timeInput,
-    defaultValue: (0, _moment["default"])(meeting.schedule.startTime).format('HH'),
     onChange: function onChange(_ref8) {
       var target = _ref8.target;
       that.hours.value = target.value.replace(_constants.NO_NUMBER_REGEX, '');
@@ -393,6 +434,7 @@ var When = function When(_ref4) {
     className: _styles["default"].colon
   }, ":"), _react["default"].createElement("input", {
     flag: "timeInput",
+    disabled: useTimePicker,
     ref: function ref(_ref11) {
       that.minutes = _ref11;
     },
@@ -418,13 +460,24 @@ var When = function When(_ref4) {
     onBlur: changeTime,
     maxLength: 2,
     type: "text"
-  }))), _react["default"].createElement("div", {
+  }), useTimePicker && _react["default"].createElement("div", {
+    className: _styles["default"].colon
+  }, (0, _moment["default"])(meeting.schedule.startTime).format('A')))), _react["default"].createElement("div", {
+    ref: function ref(_ref12) {
+      that.TimeIcon = _ref12;
+    },
     className: _styles["default"].timeIcon
   }, _react["default"].createElement(_Time["default"], {
+    onClick: function onClick() {
+      if (useTimePicker) {
+        onToggle('time');
+      }
+    },
     className: _styles["default"].icon
   }))))) : null;
 };
 
+exports.When = When;
 When.propTypes = {
   update: _propTypes["default"].func.isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
@@ -432,14 +485,15 @@ When.propTypes = {
   isRecurring: _propTypes["default"].bool.isRequired,
   that: _propTypes["default"].object.isRequired,
   onToggle: _propTypes["default"].func.isRequired,
-  minTime: _propTypes["default"].object.isRequired
+  minTime: _propTypes["default"].object.isRequired,
+  useTimePicker: _propTypes["default"].bool.isRequired
 };
 
-var Duration = function Duration(_ref12) {
-  var isRecurring = _ref12.isRecurring,
-      currentLocale = _ref12.currentLocale,
-      meeting = _ref12.meeting,
-      update = _ref12.update;
+var Duration = function Duration(_ref13) {
+  var isRecurring = _ref13.isRecurring,
+      currentLocale = _ref13.currentLocale,
+      meeting = _ref13.meeting,
+      update = _ref13.update;
   return !isRecurring ? _react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('duration', currentLocale)
   }, _react["default"].createElement("div", {
@@ -453,8 +507,8 @@ var Duration = function Duration(_ref12) {
     valueField: "value",
     textField: "text",
     value: parseInt(meeting.schedule.durationInMinutes / 60, 10),
-    onChange: function onChange(_ref13) {
-      var value = _ref13.value;
+    onChange: function onChange(_ref14) {
+      var value = _ref14.value;
       var restMinutes = meeting.schedule.durationInMinutes % 60;
       var isMax = value === hoursList.slice(-1)[0].value;
       restMinutes = isMax ? 0 : restMinutes;
@@ -474,8 +528,8 @@ var Duration = function Duration(_ref12) {
     valueField: "value",
     textField: "text",
     value: meeting.schedule.durationInMinutes % 60 || 0,
-    onChange: function onChange(_ref14) {
-      var value = _ref14.value;
+    onChange: function onChange(_ref15) {
+      var value = _ref15.value;
       var restHours = parseInt(meeting.schedule.durationInMinutes / 60, 10);
       var isMax = restHours === hoursList.slice(-1)[0].value;
       var minutes = isMax ? 0 : value;
@@ -496,11 +550,11 @@ Duration.propTypes = {
   isRecurring: _propTypes["default"].bool.isRequired
 };
 
-var RecurringMeeting = function RecurringMeeting(_ref15) {
-  var isRecurring = _ref15.isRecurring,
-      currentLocale = _ref15.currentLocale,
-      update = _ref15.update,
-      meeting = _ref15.meeting;
+var RecurringMeeting = function RecurringMeeting(_ref16) {
+  var isRecurring = _ref16.isRecurring,
+      currentLocale = _ref16.currentLocale,
+      update = _ref16.update,
+      meeting = _ref16.meeting;
   return _react["default"].createElement(_MeetingSection["default"], {
     className: _styles["default"].section
   }, _react["default"].createElement("div", {
@@ -530,10 +584,10 @@ RecurringMeeting.propTypes = {
   isRecurring: _propTypes["default"].bool.isRequired
 };
 
-var Video = function Video(_ref16) {
-  var currentLocale = _ref16.currentLocale,
-      meeting = _ref16.meeting,
-      update = _ref16.update;
+var Video = function Video(_ref17) {
+  var currentLocale = _ref17.currentLocale,
+      meeting = _ref17.meeting,
+      update = _ref17.update;
   return _react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('video', currentLocale),
     withSwitch: true
@@ -574,13 +628,13 @@ Video.propTypes = {
   meeting: _propTypes["default"].object.isRequired
 };
 
-var AudioOptionsCheckbox = function AudioOptionsCheckbox(_ref17) {
-  var update = _ref17.update,
-      meeting = _ref17.meeting,
-      data = _ref17.data;
+var AudioOptionsCheckbox = function AudioOptionsCheckbox(_ref18) {
+  var update = _ref18.update,
+      meeting = _ref18.meeting,
+      data = _ref18.data;
   return _react["default"].createElement(_CheckBox["default"], {
-    onSelect: function onSelect(_ref18) {
-      var key = _ref18.key;
+    onSelect: function onSelect(_ref19) {
+      var key = _ref19.key;
       var audioOptions = key.split('_');
       update(_objectSpread({}, meeting, {
         audioOptions: audioOptions
@@ -599,16 +653,16 @@ AudioOptionsCheckbox.propTypes = {
   data: _propTypes["default"].array.isRequired
 };
 
-var AudioOptionsDropdown = function AudioOptionsDropdown(_ref19) {
-  var update = _ref19.update,
-      meeting = _ref19.meeting,
-      data = _ref19.data;
+var AudioOptionsDropdown = function AudioOptionsDropdown(_ref20) {
+  var update = _ref20.update,
+      meeting = _ref20.meeting,
+      data = _ref20.data;
   return _react["default"].createElement(_DropdownSelect["default"], {
     className: (0, _classnames["default"])(_styles["default"].dropdownSelect),
     iconClassNßame: _styles["default"].dropdownIcon,
     value: meeting.audioOptions.join('_'),
-    onChange: function onChange(_ref20) {
-      var key = _ref20.key;
+    onChange: function onChange(_ref21) {
+      var key = _ref21.key;
       var audioOptions = key.split('_');
       update(_objectSpread({}, meeting, {
         audioOptions: audioOptions
@@ -639,12 +693,12 @@ AudioOptionsDropdown.propTypes = {
   data: _propTypes["default"].array.isRequired
 };
 
-var AudioOptions = function AudioOptions(_ref21) {
-  var currentLocale = _ref21.currentLocale,
-      update = _ref21.update,
-      meeting = _ref21.meeting,
-      data = _ref21.data,
-      audioOptionToggle = _ref21.audioOptionToggle;
+var AudioOptions = function AudioOptions(_ref22) {
+  var currentLocale = _ref22.currentLocale,
+      update = _ref22.update,
+      meeting = _ref22.meeting,
+      data = _ref22.data,
+      audioOptionToggle = _ref22.audioOptionToggle;
   var audioOptions = audioOptionToggle ? _react["default"].createElement(AudioOptionsDropdown, {
     update: update,
     meeting: meeting,
@@ -668,18 +722,20 @@ AudioOptions.propTypes = {
   audioOptionToggle: _propTypes["default"].bool.isRequired
 };
 
-var MeetingOptions = function MeetingOptions(_ref22) {
-  var currentLocale = _ref22.currentLocale,
-      meeting = _ref22.meeting,
-      update = _ref22.update,
-      that = _ref22.that,
-      meetingOptionToggle = _ref22.meetingOptionToggle,
-      passwordPlaceholderEnable = _ref22.passwordPlaceholderEnable;
+var MeetingOptions = function MeetingOptions(_ref23) {
+  var currentLocale = _ref23.currentLocale,
+      meeting = _ref23.meeting,
+      update = _ref23.update,
+      that = _ref23.that,
+      meetingOptionToggle = _ref23.meetingOptionToggle,
+      passwordPlaceholderEnable = _ref23.passwordPlaceholderEnable;
   var passwordPlaceholder = passwordPlaceholderEnable ? _i18n["default"].getString('password', currentLocale) : '';
   return _react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('meetingOptions', currentLocale),
-    className: _styles["default"].meetingOptions,
-    toggle: meetingOptionToggle,
+    className: _styles["default"].meetingOptions // when there is a default meeting password or `allowJoinBeforeHost` toggle opened
+    // then expand the meeting option section
+    ,
+    toggle: meetingOptionToggle || !!meeting.password || meeting.allowJoinBeforeHost,
     withSwitch: true
   }, _react["default"].createElement("div", {
     className: _styles["default"].meetingOptionsDiv
@@ -688,7 +744,7 @@ var MeetingOptions = function MeetingOptions(_ref22) {
   }, _react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].labelLight, _styles["default"].defaultShrink)
   }, _i18n["default"].getString('requirePassword', currentLocale)), _react["default"].createElement(_Switch["default"], {
-    checked: meeting._requireMeetingPassword,
+    checked: meeting._requireMeetingPassword || !!meeting.password,
     onChange: function onChange(_requireMeetingPassword) {
       if (_requireMeetingPassword) {
         setTimeout(function () {
@@ -698,11 +754,11 @@ var MeetingOptions = function MeetingOptions(_ref22) {
 
       update(_objectSpread({}, meeting, {
         _requireMeetingPassword: _requireMeetingPassword,
-        password: null
+        password: ''
       }));
     },
     dataSign: "requirePasswordToggle"
-  })), meeting._requireMeetingPassword ? _react["default"].createElement("div", {
+  })), meeting._requireMeetingPassword || meeting.password ? _react["default"].createElement("div", {
     className: _styles["default"].passwordBox
   }, _react["default"].createElement("div", {
     className: _styles["default"].labelLight
@@ -710,12 +766,12 @@ var MeetingOptions = function MeetingOptions(_ref22) {
     type: "text",
     placeholder: passwordPlaceholder,
     className: _styles["default"].password,
-    ref: function ref(_ref24) {
-      that.password = _ref24;
+    ref: function ref(_ref25) {
+      that.password = _ref25;
     },
     value: meeting.password || '',
-    onChange: function onChange(_ref23) {
-      var target = _ref23.target;
+    onChange: function onChange(_ref24) {
+      var target = _ref24.target;
 
       if (_constants.PASSWORD_REGEX.test(target.value)) {
         update(_objectSpread({}, meeting, {
@@ -782,9 +838,21 @@ function (_Component) {
       var _this2 = this;
 
       setTimeout(function () {
-        if (_this2.hours) _this2.hours.value = (0, _moment["default"])(_this2.props.meeting.schedule.startTime).format('HH');
-        if (_this2.minutes) _this2.minutes.value = (0, _moment["default"])(_this2.props.meeting.schedule.startTime).format('mm');
+        _this2.displayFormat();
       });
+    }
+  }, {
+    key: "displayFormat",
+    value: function displayFormat() {
+      var isAMPM = this.props.useTimePicker ? 'hh' : 'HH';
+
+      if (this.hours) {
+        this.hours.value = (0, _moment["default"])(this.props.meeting.schedule.startTime).format(isAMPM);
+      }
+
+      if (this.minutes) {
+        this.minutes.value = (0, _moment["default"])(this.props.meeting.schedule.startTime).format('mm');
+      }
     }
   }, {
     key: "componentWillReceiveProps",
@@ -803,8 +871,15 @@ function (_Component) {
       }
 
       if (this.props.meeting.schedule && this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime) {
-        if (this.hours) this.hours.value = (0, _moment["default"])(nextProps.meeting.schedule.startTime).format('HH');
-        if (this.minutes) this.minutes.value = (0, _moment["default"])(nextProps.meeting.schedule.startTime).format('mm');
+        var isAMPM = this.props.useTimePicker ? 'hh' : 'HH';
+
+        if (this.hours) {
+          this.hours.value = (0, _moment["default"])(nextProps.meeting.schedule.startTime).format(isAMPM);
+        }
+
+        if (this.minutes) {
+          this.minutes.value = (0, _moment["default"])(nextProps.meeting.schedule.startTime).format('mm');
+        }
       }
     }
   }, {
@@ -822,7 +897,8 @@ function (_Component) {
           showRecurringMeeting = _this$props.showRecurringMeeting,
           meetingOptionToggle = _this$props.meetingOptionToggle,
           passwordPlaceholderEnable = _this$props.passwordPlaceholderEnable,
-          audioOptionToggle = _this$props.audioOptionToggle;
+          audioOptionToggle = _this$props.audioOptionToggle,
+          useTimePicker = _this$props.useTimePicker;
 
       if (!Object.keys(meeting).length) {
         return null;
@@ -860,9 +936,14 @@ function (_Component) {
         key: 'Phone_ComputerAudio',
         text: both
       }];
-      var minTime = new Date(meeting.schedule.startTime) < +new Date() ? {
-        min: new Date()
-      } : {};
+      var minTime = {};
+
+      if (meeting.schedule && meeting.schedule.startTime && new Date(meeting.schedule.startTime) < +new Date()) {
+        minTime = {
+          min: new Date()
+        };
+      }
+
       return _react["default"].createElement("div", {
         className: _styles["default"].scroll
       }, _react["default"].createElement(Topic, {
@@ -877,7 +958,8 @@ function (_Component) {
         update: update,
         that: this,
         onToggle: onToggle,
-        minTime: minTime
+        minTime: minTime,
+        useTimePicker: useTimePicker
       }) : null, showDuration ? _react["default"].createElement(Duration, {
         isRecurring: isRecurring,
         currentLocale: currentLocale,
@@ -923,7 +1005,8 @@ MeetingConfigs.propTypes = {
   showRecurringMeeting: _propTypes["default"].bool,
   meetingOptionToggle: _propTypes["default"].bool,
   passwordPlaceholderEnable: _propTypes["default"].bool,
-  audioOptionToggle: _propTypes["default"].bool
+  audioOptionToggle: _propTypes["default"].bool,
+  useTimePicker: _propTypes["default"].bool
 };
 MeetingConfigs.defaultProps = {
   recipientsSection: undefined,
@@ -932,7 +1015,8 @@ MeetingConfigs.defaultProps = {
   showRecurringMeeting: true,
   meetingOptionToggle: false,
   passwordPlaceholderEnable: false,
-  audioOptionToggle: false
+  audioOptionToggle: false,
+  useTimePicker: false
 };
 var _default = MeetingConfigs;
 exports["default"] = _default;

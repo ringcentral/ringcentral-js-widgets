@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/fonts.scss';
 
 $circle: 14px;
 $baseSize: $circle + 2px;
@@ -59,4 +60,28 @@ $baseSize: $circle + 2px;
   display: inline-block;
   font-size: 13px;
   color: $ash;
+}
+// type checkbox
+.checkboxWrapper {
+  color: $ash;
+  cursor: pointer;
+  line-height: 14px;
+  font-size: $tertiary-font-size;
+}
+
+.checkbox {
+  width: 14px;
+  height: 14px;
+  color: $snow;
+  text-align: center;
+  user-select: none;
+  background: transparent;
+  border: solid 1px $smoke;
+  margin-right: 8px;
+  display: inline-block;
+
+  &.checked {
+    background: $primary-color;
+    border: solid 1px $primary-color;
+  }
 }

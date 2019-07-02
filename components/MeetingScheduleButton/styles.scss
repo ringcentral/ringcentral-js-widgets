@@ -2,7 +2,6 @@
 
 .inviteBox {
   flex-shrink: 0;
-  height: 35px;
   padding: 20px;
   background-color: transparent;
   box-shadow: none;
@@ -59,3 +58,7 @@
   position: absolute;
   width: 100%;
 }
+.notShowAgain {
+  margin-bottom: 10px;
+}
+

@@ -220,6 +220,7 @@ function (_Component) {
 
       var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n["default"].getString('noSearchResults', currentLocale) : _i18n["default"].getString('noMessages', currentLocale);
       return _react["default"].createElement("div", {
+        "data-sign": "messageList",
         className: (0, _classnames["default"])(_styles["default"].content, showTitle && _styles["default"].contentWithHeader)
       }, _react["default"].createElement(_Search["default"], {
         composeTextPermission: composeTextPermission,

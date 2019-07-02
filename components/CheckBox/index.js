@@ -51,50 +51,85 @@ function CheckBox(_ref) {
       textField = _ref.textField,
       className = _ref.className,
       dataSign = _ref.dataSign,
-      props = _objectWithoutProperties(_ref, ["data", "selected", "onSelect", "valueField", "textField", "className", "dataSign"]);
+      type = _ref.type,
+      checked = _ref.checked,
+      onChecked = _ref.onChecked,
+      children = _ref.children,
+      props = _objectWithoutProperties(_ref, ["data", "selected", "onSelect", "valueField", "textField", "className", "dataSign", "type", "checked", "onChecked", "children"]);
 
   var isListObject = !!(textField && valueField);
-  return _react["default"].createElement("div", {
-    className: className,
-    "data-sign": dataSign
-  }, data.map(function (item, key) {
-    var isSelected = selected === (isListObject ? item[valueField] : item);
-    var checkStyle = isSelected ? _styles["default"].selectedCheckButton : null;
 
-    var onClick = function onClick() {
-      return onSelect(item);
-    };
+  switch (type) {
+    case 'radio':
+      {
+        return _react["default"].createElement("div", {
+          className: className,
+          "data-sign": dataSign
+        }, data.map(function (item, key) {
+          var isSelected = selected === (isListObject ? item[valueField] : item);
+          var checkStyle = isSelected ? _styles["default"].selectedCheckButton : null;
 
-    var extraInfo = typeof item.renderExtraInfo === 'function' && isSelected ? item.renderExtraInfo(_objectSpread({}, props)) : null;
-    return _react["default"].createElement("div", {
-      key: key,
-      "data-sign": isSelected ? 'selectedItem' : undefined
-    }, _react["default"].createElement("div", {
-      onClick: onClick,
-      className: (0, _classnames["default"])(_styles["default"].item, item && item.disabled ? _styles["default"].disabled : null)
-    }, _react["default"].createElement("div", {
-      className: (0, _classnames["default"])(_styles["default"].checkButton, checkStyle)
-    }), _react["default"].createElement("div", {
-      className: _styles["default"].text,
-      "data-sign": "text"
-    }, isListObject ? item[textField] : item)), extraInfo);
-  }));
+          var onClick = function onClick() {
+            return onSelect(item);
+          };
+
+          var extraInfo = typeof item.renderExtraInfo === 'function' && isSelected ? item.renderExtraInfo(_objectSpread({}, props)) : null;
+          return _react["default"].createElement("div", {
+            key: key,
+            "data-sign": isSelected ? 'selectedItem' : undefined
+          }, _react["default"].createElement("div", {
+            onClick: onClick,
+            className: (0, _classnames["default"])(_styles["default"].item, item && item.disabled ? _styles["default"].disabled : null)
+          }, _react["default"].createElement("div", {
+            className: (0, _classnames["default"])(_styles["default"].checkButton, checkStyle)
+          }), _react["default"].createElement("div", {
+            className: _styles["default"].text,
+            "data-sign": "text"
+          }, isListObject ? item[textField] : item)), extraInfo);
+        }));
+      }
+
+    case 'checkbox':
+      {
+        var checkboxClassName = (0, _classnames["default"])(_styles["default"].checkbox, checked ? _styles["default"].checked : '');
+        var checkboxWrapperClassNames = (0, _classnames["default"])(_styles["default"].checkboxWrapper, className);
+        return _react["default"].createElement("div", {
+          className: checkboxWrapperClassNames,
+          "data-sign": dataSign,
+          onClick: function onClick() {
+            return onChecked && onChecked(!checked);
+          }
+        }, _react["default"].createElement("div", {
+          className: checkboxClassName
+        }, "\u2713"), children);
+      }
+
+    default:
+      break;
+  }
 }
 
 CheckBox.propTypes = {
   valueField: _propTypes["default"].string,
   textField: _propTypes["default"].string,
-  selected: _propTypes["default"].any.isRequired,
-  data: _propTypes["default"].array.isRequired,
-  onSelect: _propTypes["default"].func.isRequired,
+  selected: _propTypes["default"].any,
+  data: _propTypes["default"].array,
+  onSelect: _propTypes["default"].func,
   className: _propTypes["default"].string,
-  dataSign: _propTypes["default"].string
+  dataSign: _propTypes["default"].string,
+  type: _propTypes["default"].string,
+  onChecked: _propTypes["default"].func
 };
 CheckBox.defaultProps = {
   textField: null,
   valueField: null,
   className: null,
-  dataSign: undefined
+  dataSign: undefined,
+  type: 'radio',
+  onChecked: function onChecked() {},
+  onSelect: function onSelect() {},
+  data: [],
+  selected: null
 };
 var _default = CheckBox;
 exports["default"] = _default;

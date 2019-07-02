@@ -7,7 +7,19 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -27,11 +39,17 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _Button = _interopRequireDefault(require("../Button"));
 
+var _CheckBox = _interopRequireDefault(require("../CheckBox"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -79,12 +97,23 @@ function (_PureComponent) {
           meeting = _this$props.meeting,
           onClick = _this$props.onClick,
           brand = _this$props.brand,
-          currentLocale = _this$props.currentLocale;
+          currentLocale = _this$props.currentLocale,
+          showSaveAsDefault = _this$props.showSaveAsDefault,
+          update = _this$props.update;
       return _react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].inviteBox, !hidden ? _styles["default"].withShadow : _styles["default"].onlyButton)
       }, hidden ? _react["default"].createElement("div", {
         className: _styles["default"].actionPrompt
-      }, this.getI18nPromptString()) : null, _react["default"].createElement(_Button["default"], {
+      }, this.getI18nPromptString()) : null, showSaveAsDefault ? _react["default"].createElement(_CheckBox["default"], {
+        checked: meeting.saveAsDefault,
+        onChecked: function onChecked() {
+          return update(_objectSpread({}, meeting, {
+            saveAsDefault: !meeting.saveAsDefault
+          }));
+        },
+        type: "checkbox",
+        className: _styles["default"].notShowAgain
+      }, _i18n["default"].getString('saveAsDefault', currentLocale)) : null, _react["default"].createElement(_Button["default"], {
         onClick: onClick,
         disabled: disabled,
         className: (0, _classnames["default"])(_styles["default"].button, disabled ? _styles["default"].disabled : null),
@@ -103,13 +132,17 @@ MeetingScheduleButton.propTypes = {
   hidden: _propTypes["default"].bool,
   disabled: _propTypes["default"].bool,
   onClick: _propTypes["default"].func.isRequired,
-  brand: _propTypes["default"].string
+  brand: _propTypes["default"].string,
+  showSaveAsDefault: _propTypes["default"].bool,
+  update: _propTypes["default"].func
 };
 MeetingScheduleButton.defaultProps = {
   meeting: null,
   hidden: false,
   disabled: false,
   brand: undefined,
-  currentLocale: undefined
+  currentLocale: undefined,
+  showSaveAsDefault: false,
+  update: function update() {}
 };
 //# sourceMappingURL=index.js.map

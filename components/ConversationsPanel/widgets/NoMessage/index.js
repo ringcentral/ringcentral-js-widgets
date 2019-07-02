@@ -18,6 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function NoMessages(_ref) {
   var placeholder = _ref.placeholder;
   return _react["default"].createElement("p", {
+    "data-sign": "noMatch",
     className: _style["default"].noMessages
   }, placeholder);
 }

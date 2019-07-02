@@ -59,7 +59,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(NoSenderAlert).call(this, props));
     _this.state = {
-      showAlert: !props.hasSenderNumbers && _this.props.outboundSMS
+      showAlert: props.showAlert
     };
 
     _this.onDismissAlert = function () {
@@ -81,6 +81,15 @@ function (_Component) {
   }
 
   _createClass(NoSenderAlert, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.showAlert !== this.state.showAlert) {
+        this.setState({
+          showAlert: nextProps.showAlert
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return this.state.showAlert ? _react["default"].createElement(_AlertDisplay["default"], {
@@ -99,8 +108,7 @@ function (_Component) {
 exports["default"] = NoSenderAlert;
 NoSenderAlert.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
-  outboundSMS: _propTypes["default"].bool.isRequired,
-  hasSenderNumbers: _propTypes["default"].bool.isRequired,
+  showAlert: _propTypes["default"].bool.isRequired,
   brand: _propTypes["default"].string
 };
 NoSenderAlert.defaultProps = {

@@ -24,7 +24,8 @@ var _default = {
   language: "語言",
   feedback: "意見回饋",
   userGuide: "新功能",
-  quickAccess: "快速存取設定"
+  quickAccess: "快速存取設定",
+  msteamsSetting: "Microsoft Teams 設定"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@

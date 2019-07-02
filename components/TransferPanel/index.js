@@ -185,6 +185,7 @@ function (_PureComponent) {
       }), _react["default"].createElement("div", {
         className: _styles["default"].padContainer
       }, _react["default"].createElement(_DialPad["default"], {
+        dataSign: "transfer",
         className: _styles["default"].dialPad,
         onButtonOutput: this.onButtonOutput
       }), _react["default"].createElement("div", {
@@ -192,6 +193,7 @@ function (_PureComponent) {
       }, _react["default"].createElement("div", {
         className: _styles["default"].button
       }, _react["default"].createElement(_CircleButton["default"], {
+        dataSign: "transferBtn",
         className: isOnTransfer ? _styles["default"].disabled : undefined,
         onClick: this.onTransfer,
         icon: _Transfer["default"],

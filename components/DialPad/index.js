@@ -76,8 +76,11 @@ function DialPad(_ref) {
       onButtonOutput = _ref.onButtonOutput,
       alternativeTimeout = _ref.alternativeTimeout,
       dialButtonVolume = _ref.dialButtonVolume,
-      dialButtonMuted = _ref.dialButtonMuted;
+      dialButtonMuted = _ref.dialButtonMuted,
+      dataSign = _ref.dataSign;
+  dataSign = typeof dataSign !== 'undefined' ? dataSign : '';
   return _react["default"].createElement("div", {
+    "data-sign": "".concat(dataSign, "DialPad"),
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, keyConfig.map(function (row, rowIdx) {
     return _react["default"].createElement("div", {
@@ -112,7 +115,8 @@ DialPad.propTypes = {
   onButtonOutput: _propTypes["default"].func,
   alternativeTimeout: _propTypes["default"].number,
   dialButtonVolume: _propTypes["default"].number,
-  dialButtonMuted: _propTypes["default"].bool
+  dialButtonMuted: _propTypes["default"].bool,
+  dataSign: _propTypes["default"].string
 };
 DialPad.defaultProps = {
   className: undefined,

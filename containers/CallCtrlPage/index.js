@@ -67,6 +67,7 @@ function mapToProps(_, _ref) {
       conferenceCall = _ref$phone.conferenceCall,
       callingSettings = _ref$phone.callingSettings,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
+      connectivityManager = _ref$phone.connectivityManager,
       params = _ref.params,
       children = _ref.children;
   var sessionId = params && params.sessionId;
@@ -115,6 +116,7 @@ function mapToProps(_, _ref) {
     }
   }
 
+  var disableLinks = !!(connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode);
   return {
     brand: brand.fullName,
     nameMatches: nameMatches,
@@ -135,6 +137,7 @@ function mapToProps(_, _ref) {
     children: children,
     isOnConference: isOnConference,
     isWebRTC: isWebRTC,
+    disableLinks: disableLinks,
     isConferenceCallOverload: isConferenceCallOverload
   };
 }

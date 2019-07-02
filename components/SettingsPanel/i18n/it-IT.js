@@ -24,7 +24,8 @@ var _default = {
   language: "Lingua",
   feedback: "Feedback",
   userGuide: "Novità",
-  quickAccess: "Impostazione accesso rapido"
+  quickAccess: "Impostazione accesso rapido",
+  msteamsSetting: "Impostazioni di Microsoft Teams"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -43,6 +44,7 @@ var _default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

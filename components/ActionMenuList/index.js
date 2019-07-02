@@ -123,7 +123,7 @@ function ClickToDialButton(_ref2) {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToDialButton, className),
     onClick: onClickToDial,
     dataSign: title,
-    disabled: disableLinks || disableCallButton || disableClickToDial || !phoneNumber
+    disabled: disableCallButton || disableClickToDial || !phoneNumber
   }, _react["default"].createElement("span", {
     className: _DynamicsFont["default"].call,
     title: title

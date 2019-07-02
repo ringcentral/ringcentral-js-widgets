@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = MultiCallAnswerButton;
 
+require("core-js/modules/es6.regexp.replace");
+
 require("core-js/modules/es6.regexp.split");
 
 require("core-js/modules/es6.array.map");
@@ -36,7 +38,8 @@ function MultiCallAnswerButton(props) {
     return _react["default"].createElement("tspan", {
       dy: index ? '1.1em' : 0,
       x: "250",
-      key: line
+      key: line,
+      "data-sign": line.replace(' ', '_')
     }, line);
   });
   return _react["default"].createElement("svg", {
@@ -62,7 +65,8 @@ function MultiCallAnswerButton(props) {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].answer),
     showBorder: false,
     onClick: props.onClick,
-    icon: _Answer["default"]
+    icon: _Answer["default"],
+    dataSign: props.dataSign
   }), _react["default"].createElement("text", {
     className: _styles["default"].buttonTitle,
     x: "250",

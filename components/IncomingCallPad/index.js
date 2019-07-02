@@ -196,6 +196,7 @@ function (_Component) {
       }, _react["default"].createElement(_MultiCallAnswerButton["default"], {
         onClick: answerAndEnd,
         title: _i18n["default"].getString('answerAndEnd', currentLocale),
+        dataSign: "answerAndEnd",
         className: _styles["default"].callButton,
         isEndOtherCall: true
       }), _react["default"].createElement(_ActiveCallButton["default"], {
@@ -206,11 +207,13 @@ function (_Component) {
         iconWidth: 274,
         iconX: 116,
         showBorder: !this.state.toVoiceMailEnabled,
+        dataSign: "toVoicemail",
         className: _styles["default"].callButton,
         disabled: !this.state.toVoiceMailEnabled
       }), _react["default"].createElement(_MultiCallAnswerButton["default"], {
         onClick: answerAndHold,
         title: _i18n["default"].getString('answerAndHold', currentLocale),
+        dataSign: "answerAndHold",
         className: _styles["default"].callButton,
         isEndOtherCall: false
       }));
@@ -225,6 +228,7 @@ function (_Component) {
         iconWidth: 274,
         iconX: 116,
         showBorder: !this.state.toVoiceMailEnabled,
+        dataSign: "toVoicemail",
         className: _styles["default"].bigCallButton,
         disabled: !this.state.toVoiceMailEnabled
       }), _react["default"].createElement(_ActiveCallButton["default"], {
@@ -282,6 +286,7 @@ function (_Component) {
           return null;
         },
         title: _i18n["default"].getString('forward', currentLocale),
+        dataSign: "forward",
         className: _styles["default"].callButton
       })), _react["default"].createElement(TooltipCom, {
         defaultVisible: false,

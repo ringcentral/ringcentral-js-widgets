@@ -50,7 +50,8 @@ function MeetingPanel(props) {
       passwordPlaceholderEnable = props.passwordPlaceholderEnable,
       audioOptionToggle = props.audioOptionToggle,
       onOK = props.onOK,
-      init = props.init;
+      init = props.init,
+      showSaveAsDefault = props.showSaveAsDefault;
   return _react["default"].createElement("div", {
     className: _styles["default"].meetingPanel
   }, !hidden ? _react["default"].createElement(_MeetingConfigs["default"], {
@@ -102,7 +103,9 @@ function MeetingPanel(props) {
           }
         }
       }, _callee);
-    }))
+    })),
+    update: update,
+    showSaveAsDefault: showSaveAsDefault
   }));
 }
 
@@ -123,7 +126,8 @@ MeetingPanel.propTypes = {
   meetingOptionToggle: _propTypes["default"].bool,
   passwordPlaceholderEnable: _propTypes["default"].bool,
   audioOptionToggle: _propTypes["default"].bool,
-  onOK: _propTypes["default"].func
+  onOK: _propTypes["default"].func,
+  showSaveAsDefault: _propTypes["default"].bool
 };
 MeetingPanel.defaultProps = {
   invite: function invite() {},
@@ -138,7 +142,8 @@ MeetingPanel.defaultProps = {
   passwordPlaceholderEnable: false,
   audioOptionToggle: false,
   onOK: undefined,
-  scheduleButton: undefined
+  scheduleButton: undefined,
+  showSaveAsDefault: false
 };
 var _default = MeetingPanel;
 exports["default"] = _default;

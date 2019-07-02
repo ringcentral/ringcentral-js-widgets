@@ -45,8 +45,6 @@ var _callErrors = _interopRequireDefault(require("ringcentral-integration/module
 
 var _Enum = _interopRequireDefault(require("ringcentral-integration/lib/Enum"));
 
-var _callingModes = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingModes"));
-
 var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
 var _selector = require("ringcentral-integration/lib/selector");
@@ -100,13 +98,10 @@ var DialerUI = (_dec = (0, _di.Module)({
   deps: ['CallingSettings', {
     dep: 'AudioSettings',
     optional: true
-  }, 'CallingSettings', 'ConnectivityMonitor', {
+  }, 'CallingSettings', 'ConnectivityManager', {
     dep: 'ContactSearch',
     optional: true
-  }, 'Locale', 'RateLimiter', 'RegionSettings', {
-    dep: 'Webphone',
-    optional: true
-  }, 'Alert', 'Call', {
+  }, 'Locale', 'RateLimiter', 'RegionSettings', 'Alert', 'Call', {
     dep: 'ConferenceCall',
     optional: true
   }, {
@@ -126,13 +121,12 @@ function (_RcUIModule) {
         call = _ref.call,
         callingSettings = _ref.callingSettings,
         conferenceCall = _ref.conferenceCall,
-        connectivityMonitor = _ref.connectivityMonitor,
+        connectivityManager = _ref.connectivityManager,
         contactSearch = _ref.contactSearch,
         locale = _ref.locale,
         rateLimiter = _ref.rateLimiter,
         regionSettings = _ref.regionSettings,
-        webphone = _ref.webphone,
-        options = _objectWithoutProperties(_ref, ["alert", "audioSettings", "call", "callingSettings", "conferenceCall", "connectivityMonitor", "contactSearch", "locale", "rateLimiter", "regionSettings", "webphone"]);
+        options = _objectWithoutProperties(_ref, ["alert", "audioSettings", "call", "callingSettings", "conferenceCall", "connectivityManager", "contactSearch", "locale", "rateLimiter", "regionSettings"]);
 
     _classCallCheck(this, DialerUI);
 
@@ -145,12 +139,11 @@ function (_RcUIModule) {
     _this._call = call;
     _this._callingSettings = callingSettings;
     _this._conferenceCall = conferenceCall;
-    _this._connectivityMonitor = connectivityMonitor;
+    _this._connectivityManager = connectivityManager;
     _this._contactSearch = contactSearch;
     _this._locale = locale;
     _this._rateLimiter = rateLimiter;
     _this._regionSettings = regionSettings;
-    _this._webphone = webphone;
     _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
     _this._callHooks = [];
     return _this;
@@ -483,7 +476,7 @@ function (_RcUIModule) {
       return {
         currentLocale: this._locale.currentLocale,
         callingMode: this._callingSettings.callingMode,
-        isWebphoneMode: this.isWebphoneMode,
+        isWebphoneMode: this._callingSettings.isWebphoneMode,
         callButtonDisabled: this.isCallButtonDisabled,
         fromNumber: this._callingSettings.fromNumber,
         fromNumbers: this._callingSettings.fromNumbers,
@@ -551,34 +544,14 @@ function (_RcUIModule) {
       return this.state.recipient;
     }
   }, {
-    key: "isWebphoneMode",
-    get: function get() {
-      return this._callingSettings.callingMode === _callingModes["default"].webphone;
-    }
-  }, {
-    key: "isWebphoneDisconnected",
-    get: function get() {
-      return this.isWebphoneMode && !this._webphone.connected;
-    }
-  }, {
-    key: "isWebphoneConnecting",
-    get: function get() {
-      return this.isWebphoneMode && (!this._webphone.ready || this._webphone.connectionStatus === null || this._webphone.connecting || this._webphone.connectFailed);
-    }
-  }, {
-    key: "isAudioNotEnabled",
-    get: function get() {
-      return this.isWebphoneMode && !this._audioSettings.userMedia;
-    }
-  }, {
     key: "isCallButtonDisabled",
     get: function get() {
-      return !this._call.isIdle || !this._connectivityMonitor.connectivity || this._rateLimiter.throttling || this.isWebphoneDisconnected || this.isAudioNotEnabled;
+      return !this._call.isIdle || this._connectivityManager.isOfflineMode || this._connectivityManager.isWebphoneUnavailableMode || this._connectivityManager.isWebphoneInitializing || this._rateLimiter.throttling;
     }
   }, {
     key: "showSpinner",
     get: function get() {
-      return !(this._call.ready && this._callingSettings.ready && this._locale.ready && this._connectivityMonitor.ready && (!this._audioSettings || this._audioSettings.ready) && !this.isWebphoneConnecting);
+      return !(this._call.ready && this._callingSettings.ready && this._locale.ready && this._connectivityManager.ready && (!this._audioSettings || this._audioSettings.ready) && !this._connectivityManager.isWebphoneInitializing);
     }
   }]);
 

@@ -30,10 +30,12 @@ function NavigationButton(_ref) {
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
       notice = _react["default"].createElement("div", {
+        "data-sign": "noticeCounts",
         className: _styles["default"].notices
       }, "99+");
     } else {
       notice = _react["default"].createElement("div", {
+        "data-sign": "noticeCounts",
         className: _styles["default"].notice
       }, noticeCounts);
     }

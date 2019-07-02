@@ -19,6 +19,8 @@ require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.array.some");
+
 require("regenerator-runtime/runtime");
 
 var _react = _interopRequireWildcard(require("react"));
@@ -149,14 +151,25 @@ function (_Component) {
       return this.props.senderNumbers.length > 0;
     }
   }, {
+    key: "hasPersonalRecipient",
+    value: function hasPersonalRecipient() {
+      return this.props.toNumbers.some(function (x) {
+        return x && x.type !== 'company';
+      });
+    }
+  }, {
+    key: "showAlert",
+    value: function showAlert() {
+      return !this.hasSenderNumbers() && this.props.outboundSMS && this.hasPersonalRecipient();
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
       }, this.props.showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null, _react["default"].createElement(_NoSenderAlert["default"], {
         currentLocale: this.props.currentLocale,
-        outboundSMS: this.props.outboundSMS,
-        hasSenderNumbers: this.hasSenderNumbers(),
+        showAlert: this.showAlert(),
         brand: this.props.brand
       }), _react["default"].createElement(_RecipientsInput["default"], {
         value: this.props.typingToNumber,

@@ -24,7 +24,8 @@ var _default = {
   language: "言語",
   feedback: "フィードバック",
   userGuide: "新着情報",
-  quickAccess: "クイックアクセスの設定"
+  quickAccess: "クイックアクセスの設定",
+  msteamsSetting: "Microsoft Teamsの設定"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -43,6 +44,7 @@ var _default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -188,6 +188,7 @@ function (_Component) {
       })), _react["default"].createElement("div", {
         className: _styles["default"].padContainer
       }, _react["default"].createElement(_DialPad["default"], {
+        dataSign: "keypad",
         className: _styles["default"].dialPad,
         onButtonOutput: this.onButtonOutput
       }), _react["default"].createElement("div", {

@@ -25,6 +25,7 @@ function BackButton(_ref) {
   return _react["default"].createElement("span", {
     className: _styles["default"].backButton
   }, showIcon ? _react["default"].createElement("i", {
+    "data-sign": "backButton",
     className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].backIcon)
   }) : null, label ? _react["default"].createElement("span", {
     className: _styles["default"].backLabel

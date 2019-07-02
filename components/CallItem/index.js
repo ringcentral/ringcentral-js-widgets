@@ -607,6 +607,7 @@ function (_Component) {
         className: _styles["default"].root,
         onClick: this.toggleExtended
       }, _react["default"].createElement("div", {
+        "data-sign": "calls_item_wrapper",
         className: _styles["default"].wrapper
       }, _react["default"].createElement(CallIcon, {
         direction: direction,

@@ -23,7 +23,7 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var webphoneErrorList = [_webphoneErrors["default"].connectFailed, _webphoneErrors["default"].toVoiceMailError, _webphoneErrors["default"].connected, _webphoneErrors["default"].muteError, _webphoneErrors["default"].holdError, _webphoneErrors["default"].flipError, _webphoneErrors["default"].recordError, _webphoneErrors["default"].recordDisabled, _webphoneErrors["default"].transferError, _webphoneErrors["default"].noOutboundCallWithoutDL, _webphoneErrors["default"].checkDLError, _webphoneErrors["default"].browserNotSupported, _webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].unknownError];
+var webphoneErrorList = [_webphoneErrors["default"].connectFailed, _webphoneErrors["default"].toVoiceMailError, _webphoneErrors["default"].connected, _webphoneErrors["default"].muteError, _webphoneErrors["default"].holdError, _webphoneErrors["default"].flipError, _webphoneErrors["default"].recordError, _webphoneErrors["default"].recordDisabled, _webphoneErrors["default"].transferError, _webphoneErrors["default"].noOutboundCallWithoutDL, _webphoneErrors["default"].checkDLError, _webphoneErrors["default"].browserNotSupported, _webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].unknownError, _webphoneErrors["default"].provisionUpdate, _webphoneErrors["default"].serverConnecting];
 
 function WebphoneAlert(props) {
   var message = props.message.message;
@@ -48,20 +48,37 @@ function WebphoneAlert(props) {
         _props$message$payloa3 = _props$message$payloa2.isConnecting,
         isConnecting = _props$message$payloa3 === void 0 ? false : _props$message$payloa3; // sipProvisionError does not have statusCode
 
-    var stub = statusCode ? _react["default"].createElement(_FormattedMessage["default"], {
-      message: _i18n["default"].getString('errorCode', props.currentLocale),
-      values: {
-        errorCode: statusCode
-      }
-    }) : _i18n["default"].getString('occurs', props.currentLocale);
-    var subject = isConnecting ? _i18n["default"].getString('webphoneRegistering', props.currentLocale) : _i18n["default"].getString('webphoneUnavailable', props.currentLocale);
-    view = _react["default"].createElement(_FormattedMessage["default"], {
-      message: subject,
-      values: {
-        error: stub,
-        brandName: props.brand.name
-      }
-    });
+    if (statusCode && isConnecting) {
+      view = _react["default"].createElement(_FormattedMessage["default"], {
+        message: _i18n["default"].getString('registeringWithStatusCode', props.currentLocale),
+        values: {
+          errorCode: statusCode,
+          brandName: props.brand.name
+        }
+      });
+    } else if (statusCode) {
+      view = _react["default"].createElement(_FormattedMessage["default"], {
+        message: _i18n["default"].getString('failWithStatusCode', props.currentLocale),
+        values: {
+          errorCode: statusCode,
+          brandName: props.brand.name
+        }
+      });
+    } else if (isConnecting) {
+      view = _react["default"].createElement(_FormattedMessage["default"], {
+        message: _i18n["default"].getString('registeringWithoutStatusCode', props.currentLocale),
+        values: {
+          brandName: props.brand.name
+        }
+      });
+    } else {
+      view = _react["default"].createElement(_FormattedMessage["default"], {
+        message: _i18n["default"].getString('failWithoutStatusCode', props.currentLocale),
+        values: {
+          brandName: props.brand.name
+        }
+      });
+    }
   } else if (message === _webphoneErrors["default"].checkDLError) {
     view = _react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, props.currentLocale),

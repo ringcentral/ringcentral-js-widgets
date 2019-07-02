@@ -1,0 +1,32 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/full-size.scss';
+
+.root {
+  @include full-size;
+}
+.content {
+  @include full-size;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background-color: $snow;
+}
+.block {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid $silver;
+  font-size: 13px;
+  line-height: 15px;
+  color: $night;
+  &:last-of-type {
+    border-bottom: none;
+  }
+  .text {
+    flex: 1 1 auto;
+    margin-right: 22px;
+  }
+  .switch {
+    flex: 1 1 auto;
+  }
+}

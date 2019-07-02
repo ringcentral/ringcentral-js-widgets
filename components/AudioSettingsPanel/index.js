@@ -25,6 +25,10 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
+var _rcTooltip = _interopRequireDefault(require("rc-tooltip"));
+
+var _Info = _interopRequireDefault(require("../../assets/images/Info.svg"));
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
@@ -64,6 +68,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var TooltipCom = typeof _rcTooltip["default"] === 'function' ? _rcTooltip["default"] : _rcTooltip["default"]["default"];
 
 var AudioSettingsPanel =
 /*#__PURE__*/
@@ -163,18 +169,30 @@ function (_Component) {
       });
     };
 
+    _this.renderDeviceOption = function (device) {
+      return device.label || _i18n["default"].getString('noLabel', _this.props.currentLocale);
+    };
+
     _this.renderOutputDevice = function (value) {
+      if (value === null) {
+        return _i18n["default"].getString('noDevice', _this.props.currentLocale);
+      }
+
       var device = (0, _ramda.find)(function (device) {
         return device.deviceId === value;
       }, _this.props.availableOutputDevices);
-      return device && device.label || value;
+      return device && device.label || _i18n["default"].getString('noLabel', _this.props.currentLocale);
     };
 
     _this.renderInputDevice = function (value) {
+      if (value === null) {
+        return _i18n["default"].getString('noDevice', _this.props.currentLocale);
+      }
+
       var device = (0, _ramda.find)(function (device) {
         return device.deviceId === value;
       }, _this.props.availableInputDevices);
-      return device && device.label || value;
+      return device && device.label || _i18n["default"].getString('noLabel', _this.props.currentLocale);
     };
 
     _this.state = {
@@ -241,9 +259,15 @@ function (_Component) {
       }
     }
   }, {
-    key: "renderDeviceOption",
-    value: function renderDeviceOption(device) {
-      return device.label;
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (!this.props.userMedia) {
+        return;
+      }
+
+      if (this.props.availableInputDevices.length > 0 && this.props.availableInputDevices[0].label === '') {
+        this.props.checkUserMedia();
+      }
     }
   }, {
     key: "renderDeviceValue",
@@ -251,8 +275,19 @@ function (_Component) {
       return device.deviceId;
     }
   }, {
+    key: "isNoLabel",
+    value: function isNoLabel() {
+      if (this.props.availableInputDevices.length) {
+        return this.props.availableInputDevices[0].label === '';
+      }
+
+      return false;
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var _this$props2 = this.props,
           currentLocale = _this$props2.currentLocale,
           onBackButtonClick = _this$props2.onBackButtonClick,
@@ -296,13 +331,31 @@ function (_Component) {
       //     </div>
       //   ) : null;
 
+      var outputTooltip = HTMLMediaElement.prototype.setSinkId ? null : _react["default"].createElement(TooltipCom, {
+        placement: "bottom",
+        trigger: "click",
+        align: {
+          offset: [0, 47]
+        },
+        overlay: _i18n["default"].getString('notSetSinkIdTip', currentLocale),
+        arrowContent: _react["default"].createElement("div", {
+          className: "rc-tooltip-arrow-inner"
+        }),
+        getTooltipContainer: function getTooltipContainer() {
+          return _this3.outputTooltipContainner;
+        }
+      }, _react["default"].createElement(_Info["default"], {
+        width: 14,
+        height: 14,
+        className: _styles["default"].infoIcon
+      }));
       var outputDevice = supportDevices ? _react["default"].createElement(_InputField["default"], {
-        label: _i18n["default"].getString('outputDevice', currentLocale),
+        label: _react["default"].createElement("span", null, _i18n["default"].getString('outputDevice', currentLocale), outputTooltip),
         noBorder: true
       }, _react["default"].createElement(_DropdownSelect["default"], {
         className: _styles["default"].select,
         disabled: outputDeviceDisabled,
-        value: availableOutputDevices.length ? outputDeviceId : _i18n["default"].getString('noDevice', currentLocale),
+        value: availableOutputDevices.length ? outputDeviceId : null,
         onChange: this.onOutputDeviceIdChange,
         options: availableOutputDevices,
         dropdownAlign: "left",
@@ -310,14 +363,37 @@ function (_Component) {
         valueFunction: this.renderDeviceValue,
         renderValue: this.renderOutputDevice,
         titleEnabled: true
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].tooltipContainner,
+        ref: function ref(tooltipContainner) {
+          _this3.outputTooltipContainner = tooltipContainner;
+        }
+      })) : null;
+      var inputTooltip = this.isNoLabel() ? _react["default"].createElement(TooltipCom, {
+        placement: "bottom",
+        trigger: "click",
+        align: {
+          offset: [0, 47]
+        },
+        overlay: _i18n["default"].getString('noLabelTip', currentLocale),
+        arrowContent: _react["default"].createElement("div", {
+          className: "rc-tooltip-arrow-inner"
+        }),
+        getTooltipContainer: function getTooltipContainer() {
+          return _this3.inputTooltipContainner;
+        }
+      }, _react["default"].createElement(_Info["default"], {
+        width: 14,
+        height: 14,
+        className: _styles["default"].infoIcon
       })) : null;
       var inputDevice = supportDevices ? _react["default"].createElement(_InputField["default"], {
-        label: _i18n["default"].getString('inputDevice', currentLocale),
+        label: _react["default"].createElement("span", null, _i18n["default"].getString('inputDevice', currentLocale), inputTooltip),
         noBorder: true
       }, _react["default"].createElement(_DropdownSelect["default"], {
         className: _styles["default"].select,
         disabled: inputDeviceDisabled,
-        value: availableInputDevices.length ? inputDeviceId : _i18n["default"].getString('noDevice', currentLocale),
+        value: availableInputDevices.length ? inputDeviceId : null,
         onChange: this.onInputDeviceIdChange,
         options: availableInputDevices,
         dropdownAlign: "left",
@@ -325,6 +401,11 @@ function (_Component) {
         valueFunction: this.renderDeviceValue,
         renderValue: this.renderInputDevice,
         titleEnabled: true
+      }), _react["default"].createElement("div", {
+        className: _styles["default"].tooltipContainner,
+        ref: function ref(tooltipContainner) {
+          _this3.inputTooltipContainner = tooltipContainner;
+        }
       })) : null;
       return _react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, className)

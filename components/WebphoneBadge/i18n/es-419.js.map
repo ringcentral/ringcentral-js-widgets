@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/WebphoneBadge/i18n/es-419.js"],"names":["webphoneUnavailable"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,mBAAmB,EAAE;AADR,C,EAIf","sourcesContent":["export default {\n  webphoneUnavailable: \"El teléfono web no está disponible\"\n};\n\n// @key: @#@\"webphoneUnavailable\"@#@ @source: @#@\"Web Phone Unavailable\"@#@\n"],"file":"es-419.js"}

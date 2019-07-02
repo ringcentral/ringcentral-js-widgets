@@ -23,9 +23,10 @@ var _default = {
   audio: 'Audio',
   language: 'Language',
   feedback: 'Feedback',
-  userGuide: "What\'s New",
+  userGuide: "What's New",
   quickAccess: "Quick Access Setting",
-  report: "Analytics Report"
+  report: "Analytics Report",
+  msteamsSetting: 'Microsoft Teams Setting'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

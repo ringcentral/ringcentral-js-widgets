@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/WebphoneBadge/i18n/ja-JP.js"],"names":["webphoneUnavailable"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,mBAAmB,EAAE;AADR,C,EAIf","sourcesContent":["export default {\n  webphoneUnavailable: \"ウェブ電話は利用不可\"\n};\n\n// @key: @#@\"webphoneUnavailable\"@#@ @source: @#@\"Web Phone Unavailable\"@#@\n"],"file":"ja-JP.js"}
