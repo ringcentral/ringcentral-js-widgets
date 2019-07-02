@@ -26,7 +26,7 @@
     "inquirer": "^6.0.0",
     "loader-utils": "^1.1.0",
     "ramda": "^0.25.0",
-    "through2": "^2.0.0",
+    "through2": "^2.0.5",
     "xml-js": "^1.6.2"
   },
   "ci": {
