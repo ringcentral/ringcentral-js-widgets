@@ -11,7 +11,7 @@ var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _default = new _Enum["default"](['NORMAL', 'HIGH', 'LIMITED', 'WEBRTC_UNAVAILABLE', 'SIP', 'APP_INITIAL_ERROR'], 'availability');
+var _default = new _Enum["default"](['HIGH', 'LIMITED'], 'availability');
 
 exports["default"] = _default;
 //# sourceMappingURL=availabilityStatus.js.map

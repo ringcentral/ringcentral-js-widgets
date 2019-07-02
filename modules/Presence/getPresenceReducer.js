@@ -216,8 +216,7 @@ function getActiveCallsReducer(types) {
         _ref6$data = _ref6.data;
 
     _ref6$data = _ref6$data === void 0 ? {} : _ref6$data;
-    var _ref6$data$activeCall = _ref6$data.activeCalls,
-        activeCalls = _ref6$data$activeCall === void 0 ? [] : _ref6$data$activeCall,
+    var activeCalls = _ref6$data.activeCalls,
         _ref6$data$totalActiv = _ref6$data.totalActiveCalls,
         totalActiveCalls = _ref6$data$totalActiv === void 0 ? 0 : _ref6$data$totalActiv;
 
@@ -225,6 +224,10 @@ function getActiveCallsReducer(types) {
       case types.fetchSuccess:
       case types.notification:
         {
+          if (!activeCalls) {
+            return state;
+          }
+
           if (activeCalls.length < totalActiveCalls) {
             return state;
           }

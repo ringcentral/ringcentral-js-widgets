@@ -41,6 +41,11 @@ exports.HA_ERROR_STATUS = HA_ERROR_STATUS;
 
 function extractUrl(_ref) {
   var url = _ref.url;
+
+  if (url === '') {
+    return '';
+  }
+
   var filteredUrl = url.match(/\/restapi(.*)/gi) && url.match(/\/restapi(.*)/gi)[0] || '';
   var splitUrl = filteredUrl.split('?')[0] || '';
   return splitUrl;
@@ -92,15 +97,17 @@ function isHAError(error) {
   return validHAError;
 }
 /**
- * Generate 0 ~ 3000 seconds
+ * Generate 1 ~ 120 seconds
  *
  * @export
- * @returns 0 ~ 3000 seconds
+ * @returns 1 ~ 120 seconds
  */
 
 
 function generateRandomNumber() {
-  return Math.floor(Math.random() * 3000);
+  var max = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 120;
+  var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  return Math.random() * (max - min) + min;
 }
 /**
  * Get availability level by path of url
@@ -159,8 +166,9 @@ function isHAEnabledAPI(_ref2) {
   var condition = getAvailabilityLevel(filteredUrl, method);
 
   if (!condition) {
-    console.error("url: ".concat(url, " method: ").concat(method, " is not set in high or limited available API"));
-    return false;
+    console.error("url: ".concat(url, " method: ").concat(method, " is not set in high or limited available API")); // If a core API is not in the list, the request should be launched.
+
+    return true;
   }
 
   return condition === _availabilityStatus["default"].HIGH;

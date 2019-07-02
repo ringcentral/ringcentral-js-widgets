@@ -373,9 +373,10 @@ function (_RcModule) {
               case 6:
                 stream = _context5.sent;
                 this._getUserMediaPromise = null;
+                _context5.next = 10;
+                return this._onGetUserMediaSuccess();
 
-                this._onGetUserMediaSuccess();
-
+              case 10:
                 if (typeof stream.getTracks === 'function') {
                   stream.getTracks().forEach(function (track) {
                     track.stop();
@@ -384,21 +385,21 @@ function (_RcModule) {
                   stream.stop();
                 }
 
-                _context5.next = 16;
+                _context5.next = 17;
                 break;
 
-              case 12:
-                _context5.prev = 12;
+              case 13:
+                _context5.prev = 13;
                 _context5.t0 = _context5["catch"](2);
                 this._getUserMediaPromise = null;
                 this.onGetUserMediaError(_context5.t0);
 
-              case 16:
+              case 17:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee4, this, [[2, 12]]);
+        }, _callee4, this, [[2, 13]]);
       }));
 
       function getUserMedia() {
@@ -429,10 +430,10 @@ function (_RcModule) {
                 this.store.dispatch({
                   type: this.actionTypes.getUserMediaSuccess
                 });
+                _context6.next = 5;
+                return this._checkDevices();
 
-                this._checkDevices();
-
-              case 4:
+              case 5:
               case "end":
                 return _context6.stop();
             }
@@ -581,7 +582,7 @@ function (_RcModule) {
   }, {
     key: "supportDevices",
     get: function get() {
-      return !!(HTMLMediaElement.prototype.setSinkId && navigator.mediaDevices && navigator.mediaDevices.enumerateDevices);
+      return !!(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices);
     }
   }, {
     key: "availableDevices",

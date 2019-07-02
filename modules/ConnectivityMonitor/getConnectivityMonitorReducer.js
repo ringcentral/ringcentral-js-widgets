@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getConnectivityReducer = getConnectivityReducer;
+exports.getNetworkLossReducer = getNetworkLossReducer;
 exports["default"] = getConnectivityMonitorReducer;
 
 var _redux = require("redux");
@@ -23,6 +24,7 @@ function getConnectivityReducer(types) {
 
     switch (type) {
       case types.connectFail:
+      case types.networkLoss:
         return false;
 
       case types.connectSuccess:
@@ -34,10 +36,31 @@ function getConnectivityReducer(types) {
   };
 }
 
+function getNetworkLossReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref2.type;
+
+    switch (type) {
+      case types.networkLoss:
+        return true;
+
+      case types.connectSuccess:
+        return false;
+
+      default:
+        return state;
+    }
+  };
+}
+
 function getConnectivityMonitorReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer["default"])(types),
-    connectivity: getConnectivityReducer(types)
+    connectivity: getConnectivityReducer(types),
+    networkLoss: getNetworkLossReducer(types)
   });
 }
 //# sourceMappingURL=getConnectivityMonitorReducer.js.map

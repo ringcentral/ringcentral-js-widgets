@@ -7,6 +7,7 @@ exports.getMeetingInfoReducer = getMeetingInfoReducer;
 exports.getMeetingSchedulingStatusReducer = getMeetingSchedulingStatusReducer;
 exports.getMeetingUpdatingStatusReducer = getMeetingUpdatingStatusReducer;
 exports.getMeetingStorageReducer = getMeetingStorageReducer;
+exports.getDefaultMeetingSettingReducer = getDefaultMeetingSettingReducer;
 exports["default"] = void 0;
 
 require("core-js/modules/es6.array.for-each");
@@ -149,6 +150,35 @@ function getMeetingStorageReducer(types) {
           audioOptions: meeting.audioOptions,
           _saved: meeting._saved
         } : {};
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getDefaultMeetingSettingReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref5.type,
+        _ref5$meeting = _ref5.meeting,
+        meeting = _ref5$meeting === void 0 ? null : _ref5$meeting;
+
+    switch (type) {
+      case types.saveAsDefaultSetting:
+        {
+          return meeting ? {
+            startHostVideo: meeting.startHostVideo,
+            startParticipantsVideo: meeting.startParticipantsVideo,
+            allowJoinBeforeHost: meeting.allowJoinBeforeHost,
+            audioOptions: meeting.audioOptions,
+            _saved: meeting._saved,
+            password: meeting.password,
+            _requireMeetingPassword: meeting._requireMeetingPassword
+          } : {};
+        }
 
       default:
         return state;

@@ -160,7 +160,7 @@ var RETRY_DELAY = 5 * 1000;
 var INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 var extendedControlStatus = new _Enum["default"](['pending', 'playing', 'stopped']);
 var EVENTS = new _Enum["default"](['callRing', 'callStart', 'callEnd', 'callHold', 'callResume', 'beforeCallResume', 'beforeCallEnd', 'callInit']);
-var registerErrors = [_webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].unknownError, _webphoneErrors["default"].connectFailed];
+var registerErrors = [_webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].unknownError, _webphoneErrors["default"].connectFailed, _webphoneErrors["default"].provisionUpdate, _webphoneErrors["default"].serverConnecting];
 /**
  * @constructor
  * @description Web phone module to handle phone interaction with WebRTC.
@@ -168,6 +168,9 @@ var registerErrors = [_webphoneErrors["default"].sipProvisionError, _webphoneErr
 
 var Webphone = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Alert', 'Client', 'NumberValidate', 'RolesAndPermissions', 'Brand', 'RegionSettings', 'AudioSettings', {
+    dep: 'AvailabilityMonitor',
+    optional: true
+  }, {
     dep: 'TabManager',
     optional: true
   }, {
@@ -240,7 +243,8 @@ function (_RcModule) {
         webphoneSDKOptions = _ref.webphoneSDKOptions,
         _ref$permissionCheck = _ref.permissionCheck,
         permissionCheck = _ref$permissionCheck === void 0 ? true : _ref$permissionCheck,
-        options = _objectWithoutProperties(_ref, ["appKey", "appName", "appVersion", "alert", "auth", "client", "rolesAndPermissions", "webphoneLogLevel", "contactMatcher", "numberValidate", "audioSettings", "tabManager", "onCallEnd", "onCallRing", "onCallStart", "onCallResume", "onCallHold", "onCallInit", "onBeforeCallResume", "onBeforeCallEnd", "regionSettings", "brand", "webphoneSDKOptions", "permissionCheck"]);
+        availabilityMonitor = _ref.availabilityMonitor,
+        options = _objectWithoutProperties(_ref, ["appKey", "appName", "appVersion", "alert", "auth", "client", "rolesAndPermissions", "webphoneLogLevel", "contactMatcher", "numberValidate", "audioSettings", "tabManager", "onCallEnd", "onCallRing", "onCallStart", "onCallResume", "onCallHold", "onCallInit", "onBeforeCallResume", "onBeforeCallEnd", "regionSettings", "brand", "webphoneSDKOptions", "permissionCheck", "availabilityMonitor"]);
 
     _classCallCheck(this, Webphone);
 
@@ -263,6 +267,7 @@ function (_RcModule) {
     _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
     _this._numberValidate = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, numberValidate, 'numberValidate');
     _this._audioSettings = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, audioSettings, 'audioSettings');
+    _this._availabilityMonitor = availabilityMonitor;
     _this._contactMatcher = contactMatcher;
     _this._tabManager = tabManager;
     _this._webphoneSDKOptions = webphoneSDKOptions || {};
@@ -308,7 +313,7 @@ function (_RcModule) {
     _this._localVideo = null;
     _this._sessions = new Map();
     _this._reducer = (0, _getWebphoneReducer["default"])(_this.actionTypes);
-    _this._needToReconnectAfterSessionEnd = false;
+    _this._reconnectAfterSessionEnd = null;
     _this._connectTimeout = null;
 
     _this.addSelector('sessionPhoneNumbers', function () {
@@ -410,7 +415,9 @@ function (_RcModule) {
       this._remoteVideo.volume = this._audioSettings.callVolume;
 
       if (this._audioSettings.supportDevices) {
-        this._remoteVideo.setSinkId(this._audioSettings.outputDeviceId);
+        if (this._remoteVideo.setSinkId && this._audioSettings.outputDeviceId) {
+          this._remoteVideo.setSinkId(this._audioSettings.outputDeviceId);
+        }
       }
 
       this.store.dispatch({
@@ -481,7 +488,7 @@ function (_RcModule) {
                 if (this.ready && this._audioSettings.supportDevices && this._outputDeviceId !== this._audioSettings.outputDeviceId) {
                   this._outputDeviceId = this._audioSettings.outputDeviceId;
 
-                  if (this._remoteVideo) {
+                  if (this._remoteVideo && this._remoteVideo.setSinkId) {
                     this._remoteVideo.setSinkId(this._outputDeviceId);
                   }
                 }
@@ -596,13 +603,17 @@ function (_RcModule) {
 
       this._webphone.userAgent.stop();
 
-      this._webphone.userAgent.unregister();
+      if (this._webphone.userAgent.isRegistered()) {
+        this._webphone.userAgent.unregister();
+      }
 
       this._webphone.userAgent.removeAllListeners();
 
       this._webphone.userAgent.transport.removeAllListeners();
 
-      this._webphone.userAgent.transport.disconnect();
+      if (this._webphone.userAgent.transport.isConnected()) {
+        this._webphone.userAgent.transport.disconnect();
+      }
 
       this._webphone = null;
     }
@@ -755,6 +766,11 @@ function (_RcModule) {
 
       this._webphone.userAgent.on('provisionUpdate', function () {
         if (_this3.sessions.length === 0) {
+          _this3._alert.warning({
+            message: _webphoneErrors["default"].provisionUpdate,
+            allowDuplicates: false
+          });
+
           _this3._connect({
             skipTimeout: true,
             force: true
@@ -763,7 +779,9 @@ function (_RcModule) {
           return;
         }
 
-        _this3._needToReconnectAfterSessionEnd = true;
+        _this3._reconnectAfterSessionEnd = {
+          reason: _webphoneErrors["default"].provisionUpdate
+        };
       }); // websocket transport connecting event
 
 
@@ -772,6 +790,11 @@ function (_RcModule) {
         console.log('web phone connecting event');
 
         if (_this3.connected || _this3.connectError) {
+          _this3._alert.warning({
+            message: _webphoneErrors["default"].serverConnecting,
+            allowDuplicates: false
+          });
+
           _this3.store.dispatch({
             type: _this3.actionTypes.reconnect
           });
@@ -791,6 +814,16 @@ function (_RcModule) {
           errorCode: _webphoneErrors["default"].connectFailed,
           ttl: 0
         });
+      });
+
+      this._webphone.userAgent.transport.on('transportError', function () {
+        console.log('WebSocket transportError occured');
+      });
+
+      this._webphone.userAgent.transport.on('wsConnectionError', function () {
+        _this3.store.dispatch({
+          type: _this3.actionTypes.connectError
+        });
       }); // Timeout to switch back to primary server
 
 
@@ -804,7 +837,9 @@ function (_RcModule) {
           return;
         }
 
-        _this3._needToReconnectAfterSessionEnd = true;
+        _this3._reconnectAfterSessionEnd = {
+          reason: null
+        };
       });
     }
   }, {
@@ -1059,8 +1094,15 @@ function (_RcModule) {
   }, {
     key: "_reconnectWebphoneIfNecessaryOnSessionsEmpty",
     value: function _reconnectWebphoneIfNecessaryOnSessionsEmpty() {
-      if (this._needToReconnectAfterSessionEnd && this.sessions.length === 0) {
-        this._needToReconnectAfterSessionEnd = false;
+      if (this._reconnectAfterSessionEnd && this.sessions.length === 0) {
+        if (this._reconnectAfterSessionEnd.reason) {
+          this._alert.warning({
+            message: this._reconnectAfterSessionEnd.reason,
+            allowDuplicates: false
+          });
+        }
+
+        this._reconnectAfterSessionEnd = null;
 
         this._connect({
           skipTimeout: true,
@@ -1174,7 +1216,7 @@ function (_RcModule) {
     value: function _hideConnectingAlert() {
       var alertIds = this._alert.messages.filter(function (m) {
         for (var _i = 0, len = registerErrors.length; _i < len; _i++) {
-          if (m.message === registerErrors[_i] && m.payload.isConnecting === true) return true;
+          if (m.message === registerErrors[_i] && m.payload && m.payload.isConnecting === true) return true;
         }
 
         return false;
@@ -1451,8 +1493,10 @@ function (_RcModule) {
 
         _this6._updateSessions();
       });
-      session.on('userMediaFailed', function () {
-        _this6._audioSettings.onGetUserMediaError();
+      session.on('SessionDescriptionHandler-created', function () {
+        session.sessionDescriptionHandler.on('userMediaFailed', function () {
+          _this6._audioSettings.onGetUserMediaError();
+        });
       });
     }
   }, {
@@ -2765,14 +2809,19 @@ function (_RcModule) {
                 return _context34.abrupt("return", null);
 
               case 4:
-                _context34.next = 6;
+                if (!(toNumber.length > 6 && (!this._availabilityMonitor || !this._availabilityMonitor.isVoIPOnlyMode))) {
+                  _context34.next = 11;
+                  break;
+                }
+
+                _context34.next = 7;
                 return this._fetchDL();
 
-              case 6:
+              case 7:
                 phoneLines = _context34.sent;
 
                 if (!(phoneLines.length === 0)) {
-                  _context34.next = 10;
+                  _context34.next = 11;
                   break;
                 }
 
@@ -2782,11 +2831,11 @@ function (_RcModule) {
 
                 return _context34.abrupt("return", null);
 
-              case 10:
-                _context34.next = 12;
+              case 11:
+                _context34.next = 13;
                 return this._holdOtherSession();
 
-              case 12:
+              case 13:
                 session = this._webphone.userAgent.invite(toNumber, {
                   sessionDescriptionHandlerOptions: this.acceptOptions.sessionDescriptionHandlerOptions,
                   fromNumber: fromNumber,
@@ -2806,7 +2855,7 @@ function (_RcModule) {
 
                 return _context34.abrupt("return", session);
 
-              case 23:
+              case 24:
               case "end":
                 return _context34.stop();
             }
@@ -3299,6 +3348,16 @@ function (_RcModule) {
     key: "connectError",
     get: function get() {
       return this.connectionStatus === _connectionStatus["default"].connectError;
+    }
+    /*
+     * Together with `CallingSettings` module to check if webphone is
+     * Unavailable.
+     */
+
+  }, {
+    key: "isUnavailable",
+    get: function get() {
+      return this.ready && this._auth.loggedIn && (!this._audioSettings.userMedia || this.reconnecting || this.connectError);
     }
   }]);
 

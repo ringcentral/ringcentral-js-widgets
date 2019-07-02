@@ -177,12 +177,12 @@ function getActiveSessionsStatusReducer(types) {
         {
           var newState = null;
 
-          for (var _sessionId2 in activeSessionsMap) {
-            if (_sessionId2) {
+          for (var sessionIdKey in activeSessionsMap) {
+            if (sessionId) {
               newState = updateActiveSessionStatus({
                 state: state,
-                party: activeSessionsMap[_sessionId2],
-                sessionId: _sessionId2
+                party: activeSessionsMap[sessionIdKey],
+                sessionId: sessionId
               });
             }
           }

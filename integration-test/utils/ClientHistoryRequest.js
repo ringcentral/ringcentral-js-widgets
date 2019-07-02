@@ -42,8 +42,8 @@ function () {
       });
 
       this._client.on(this._client.events.requestError, function (error) {
-        console.error(error.apiResponse.json());
-        console.error(error.apiResponse._response.status);
+        console.error(error.apiResponse._request && error.apiResponse.json());
+        console.error(error.apiResponse && error.apiResponse._response && error.apiResponse._response.status);
       });
     }
   }, {

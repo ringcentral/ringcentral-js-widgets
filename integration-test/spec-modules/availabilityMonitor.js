@@ -81,7 +81,8 @@ var _default = function _default(_ref) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              availabilityMonitor.switchToNormalMode();
+              availabilityMonitor._switchToNormalMode();
+
               mock.logout();
               _context2.next = 4;
               return auth.logout();

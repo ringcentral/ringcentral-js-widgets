@@ -174,10 +174,10 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     dep: 'Webphone',
     optional: true
   }, {
-    dep: 'ConferenceCallOptions',
+    dep: 'AvailabilityMonitor',
     optional: true
   }, {
-    dep: 'AvailabilityMonitor',
+    dep: 'ConferenceCallOptions',
     optional: true
   }]
 }), _dec(_class = (_class2 = (_temp =
@@ -204,15 +204,15 @@ function (_RcModule) {
         rolesAndPermissions = _ref.rolesAndPermissions,
         contactMatcher = _ref.contactMatcher,
         webphone = _ref.webphone,
-        connectivityMonitor = _ref.connectivityMonitor,
         availabilityMonitor = _ref.availabilityMonitor,
+        connectivityMonitor = _ref.connectivityMonitor,
         _ref$pulling = _ref.pulling,
         pulling = _ref$pulling === void 0 ? true : _ref$pulling,
         _ref$capacity = _ref.capacity,
         capacity = _ref$capacity === void 0 ? MAXIMUM_CAPACITY : _ref$capacity,
         _ref$timeout = _ref.timeout,
         timeout = _ref$timeout === void 0 ? DEFAULT_TIMEOUT : _ref$timeout,
-        options = _objectWithoutProperties(_ref, ["auth", "alert", "call", "callingSettings", "client", "rolesAndPermissions", "contactMatcher", "webphone", "connectivityMonitor", "availabilityMonitor", "pulling", "capacity", "timeout"]);
+        options = _objectWithoutProperties(_ref, ["auth", "alert", "call", "callingSettings", "client", "rolesAndPermissions", "contactMatcher", "webphone", "availabilityMonitor", "connectivityMonitor", "pulling", "capacity", "timeout"]);
 
     _classCallCheck(this, ConferenceCall);
 
@@ -1411,7 +1411,7 @@ function (_RcModule) {
                   message: _context12.t0.toString()
                 });
 
-                if (propagate) {
+                if (!(!propagate || !this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context12.t0))) {
                   _context12.next = 22;
                   break;
                 }

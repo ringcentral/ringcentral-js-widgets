@@ -5,7 +5,25 @@ require("core-js/modules/es6.array.find");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.MeetingErrors = exports.getDefaultMeetingSettings = exports.MeetingType = exports.UTC_TIMEZONE_ID = void 0;
+Object.defineProperty(exports, "UTC_TIMEZONE_ID", {
+  enumerable: true,
+  get: function get() {
+    return _meetingHelper.UTC_TIMEZONE_ID;
+  }
+});
+Object.defineProperty(exports, "MeetingType", {
+  enumerable: true,
+  get: function get() {
+    return _meetingHelper.MeetingType;
+  }
+});
+Object.defineProperty(exports, "getDefaultMeetingSettings", {
+  enumerable: true,
+  get: function get() {
+    return _meetingHelper.getDefaultMeetingSettings;
+  }
+});
+exports["default"] = exports.MeetingErrors = void 0;
 
 require("core-js/modules/es6.array.is-array");
 
@@ -19,8 +37,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.array.reduce");
 
-require("core-js/modules/es6.object.keys");
-
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es7.symbol.async-iterator");
@@ -29,12 +45,6 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("regenerator-runtime/runtime");
@@ -42,6 +52,14 @@ require("regenerator-runtime/runtime");
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.function.name");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -66,6 +84,8 @@ var _scheduleStatus = _interopRequireDefault(require("./scheduleStatus"));
 var _meetingStatus = _interopRequireDefault(require("./meetingStatus"));
 
 var _getMeetingReducer = _interopRequireWildcard(require("./getMeetingReducer"));
+
+var _meetingHelper = require("./meetingHelper");
 
 var _dec, _class, _class2;
 
@@ -112,44 +132,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var UTC_TIMEZONE_ID = '1';
-exports.UTC_TIMEZONE_ID = UTC_TIMEZONE_ID;
-var MeetingType = {
-  SCHEDULED: 'Scheduled',
-  RECURRING: 'Recurring',
-  INSTANT: 'Instant'
-}; // Basic default meeting type information
-
-exports.MeetingType = MeetingType;
-
-var getDefaultMeetingSettings = function getDefaultMeetingSettings(extensionName, startTime) {
-  return {
-    topic: "".concat(extensionName, "'s Meeting"),
-    meetingType: MeetingType.SCHEDULED,
-    password: null,
-    schedule: {
-      startTime: startTime,
-      durationInMinutes: 60,
-      timeZone: {
-        id: UTC_TIMEZONE_ID
-      }
-    },
-    host: {
-      id: null
-    },
-    allowJoinBeforeHost: false,
-    startHostVideo: false,
-    startParticipantsVideo: false,
-    audioOptions: ['Phone', 'ComputerAudio'],
-    _requireMeetingPassword: false,
-    _showDate: false,
-    _showTime: false,
-    _saved: false
-  };
-};
-
-exports.getDefaultMeetingSettings = getDefaultMeetingSettings;
 
 var MeetingErrors =
 /*#__PURE__*/
@@ -208,7 +190,8 @@ function (_RcModule) {
         storage = _ref.storage,
         availabilityMonitor = _ref.availabilityMonitor,
         reducers = _ref.reducers,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "extensionInfo", "storage", "availabilityMonitor", "reducers"]);
+        showSaveAsDefault = _ref.showSaveAsDefault,
+        options = _objectWithoutProperties(_ref, ["alert", "client", "extensionInfo", "storage", "availabilityMonitor", "reducers", "showSaveAsDefault"]);
 
     _classCallCheck(this, Meeting);
 
@@ -220,13 +203,22 @@ function (_RcModule) {
     _this._extensionInfo = extensionInfo;
     _this._storage = storage;
     _this._availabilityMonitor = availabilityMonitor;
-    _this._reducer = (0, _getMeetingReducer["default"])(_this.actionTypes);
+    _this._reducer = (0, _getMeetingReducer["default"])(_this.actionTypes, reducers);
     _this._lastMeetingSettingKey = 'lastMeetingSetting';
+    _this._defaultMeetingSettingKey = 'defaultMeetingSetting';
+    _this._showSaveAsDefault = showSaveAsDefault;
 
     _this._storage.registerReducer({
       key: _this._lastMeetingSettingKey,
       reducer: (0, _getMeetingReducer.getMeetingStorageReducer)(_this.actionTypes)
     });
+
+    if (_this._showSaveAsDefault) {
+      _this._storage.registerReducer({
+        key: _this._defaultMeetingSettingKey,
+        reducer: (0, _getMeetingReducer.getDefaultMeetingSettingReducer)(_this.actionTypes)
+      });
+    }
 
     return _this;
   }
@@ -260,11 +252,20 @@ function (_RcModule) {
       this.store.dispatch({
         type: this.actionTypes.initSuccess
       });
+
+      if (!Object.keys(this.defaultMeetingSetting).length) {
+        var extensionName = this._extensionInfo.info.name || '';
+        var now = new Date();
+        var startTime = now.setHours(now.getHours() + 1, 0, 0);
+        var meeting = (0, _meetingHelper.getDefaultMeetingSettings)(extensionName, startTime);
+
+        this._saveAsDefaultSetting(meeting);
+      }
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._alert.ready || !this._storage.ready || !this._extensionInfo.ready) && this.ready;
+      return (!this._alert.ready || !this._storage.ready || !this._extensionInfo.ready || this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
     }
   }, {
     key: "_reset",
@@ -294,10 +295,18 @@ function (_RcModule) {
       var extensionName = this._extensionInfo.info.name || '';
       var now = new Date();
       var startTime = now.setHours(now.getHours() + 1, 0, 0);
-      this.store.dispatch({
-        type: this.actionTypes.updateMeeting,
-        meeting: _objectSpread({}, getDefaultMeetingSettings(extensionName, startTime), this.lastMeetingInfo)
-      });
+
+      if (this._showSaveAsDefault) {
+        this.store.dispatch({
+          type: this.actionTypes.updateMeeting,
+          meeting: _objectSpread({}, (0, _meetingHelper.getDefaultMeetingSettings)(extensionName, startTime), this.defaultMeetingSetting)
+        });
+      } else {
+        this.store.dispatch({
+          type: this.actionTypes.updateMeeting,
+          meeting: _objectSpread({}, (0, _meetingHelper.getDefaultMeetingSettings)(extensionName, startTime), this.lastMeetingInfo)
+        });
+      }
     }
   }, {
     key: "update",
@@ -388,10 +397,15 @@ function (_RcModule) {
                 this._validate(meeting);
 
                 formattedMeeting = this._format(meeting);
-                _context.next = 11;
+
+                if (this._showSaveAsDefault && meeting.saveAsDefault) {
+                  this._saveAsDefaultSetting(meeting);
+                }
+
+                _context.next = 12;
                 return Promise.all([this._client.account().extension().meeting().post(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
 
-              case 11:
+              case 12:
                 _ref5 = _context.sent;
                 _ref6 = _slicedToArray(_ref5, 2);
                 resp = _ref6[0];
@@ -413,14 +427,14 @@ function (_RcModule) {
                 };
 
                 if (!(typeof this.scheduledHook === 'function')) {
-                  _context.next = 24;
+                  _context.next = 25;
                   break;
                 }
 
-                _context.next = 24;
+                _context.next = 25;
                 return this.scheduledHook(result, opener);
 
-              case 24:
+              case 25:
                 // Reload meeting info
                 this._initMeeting(); // Notify user the meeting has been scheduled
 
@@ -435,22 +449,22 @@ function (_RcModule) {
 
                 return _context.abrupt("return", result);
 
-              case 29:
-                _context.prev = 29;
+              case 30:
+                _context.prev = 30;
                 _context.t0 = _context["catch"](5);
                 this.store.dispatch({
                   type: this.actionTypes.resetScheduling
                 });
 
                 if (!(_context.t0 instanceof MeetingErrors)) {
-                  _context.next = 54;
+                  _context.next = 55;
                   break;
                 }
 
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context.prev = 36;
+                _context.prev = 37;
 
                 for (_iterator = _context.t0.all[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   error = _step.value;
@@ -458,44 +472,44 @@ function (_RcModule) {
                   this._alert.warning(error);
                 }
 
-                _context.next = 44;
+                _context.next = 45;
                 break;
 
-              case 40:
-                _context.prev = 40;
-                _context.t1 = _context["catch"](36);
+              case 41:
+                _context.prev = 41;
+                _context.t1 = _context["catch"](37);
                 _didIteratorError = true;
                 _iteratorError = _context.t1;
 
-              case 44:
-                _context.prev = 44;
+              case 45:
                 _context.prev = 45;
+                _context.prev = 46;
 
                 if (!_iteratorNormalCompletion && _iterator["return"] != null) {
                   _iterator["return"]();
                 }
 
-              case 47:
-                _context.prev = 47;
+              case 48:
+                _context.prev = 48;
 
                 if (!_didIteratorError) {
-                  _context.next = 50;
+                  _context.next = 51;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 50:
-                return _context.finish(47);
-
               case 51:
-                return _context.finish(44);
+                return _context.finish(48);
 
               case 52:
-                _context.next = 55;
+                return _context.finish(45);
+
+              case 53:
+                _context.next = 56;
                 break;
 
-              case 54:
+              case 55:
                 if (_context.t0 && _context.t0.apiResponse) {
                   _errors$apiResponse$j = _context.t0.apiResponse.json(), errorCode = _errors$apiResponse$j.errorCode, permissionName = _errors$apiResponse$j.permissionName;
 
@@ -506,22 +520,22 @@ function (_RcModule) {
                         permissionName: permissionName
                       }
                     });
-                  } else {
+                  } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context.t0)) {
                     this._alert.danger({
                       message: _meetingStatus["default"].internalError
                     });
                   }
                 }
 
-              case 55:
+              case 56:
                 return _context.abrupt("return", null);
 
-              case 56:
+              case 57:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[5, 29], [36, 40, 44, 52], [45,, 47, 51]]);
+        }, _callee, this, [[5, 30], [37, 41, 45, 53], [46,, 48, 52]]);
       }));
 
       function schedule(_x) {
@@ -612,10 +626,15 @@ function (_RcModule) {
                 this._validate(meeting);
 
                 formattedMeeting = this._format(meeting);
-                _context3.next = 11;
+
+                if (this._showSaveAsDefault && meeting.saveAsDefault) {
+                  this._saveAsDefaultSetting(meeting);
+                }
+
+                _context3.next = 12;
                 return Promise.all([this._client.account().extension().meeting(meetingId).put(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
 
-              case 11:
+              case 12:
                 _ref8 = _context3.sent;
                 _ref9 = _slicedToArray(_ref8, 2);
                 resp = _ref9[0];
@@ -638,14 +657,14 @@ function (_RcModule) {
                 };
 
                 if (!(typeof this.scheduledHook === 'function')) {
-                  _context3.next = 24;
+                  _context3.next = 25;
                   break;
                 }
 
-                _context3.next = 24;
+                _context3.next = 25;
                 return this.scheduledHook(result, opener);
 
-              case 24:
+              case 25:
                 // Reload meeting info
                 this._initMeeting(); // Notify user the meeting has been updated
 
@@ -660,8 +679,8 @@ function (_RcModule) {
 
                 return _context3.abrupt("return", result);
 
-              case 29:
-                _context3.prev = 29;
+              case 30:
+                _context3.prev = 30;
                 _context3.t0 = _context3["catch"](5);
                 this.store.dispatch({
                   type: this.actionTypes.resetUpdating,
@@ -669,14 +688,14 @@ function (_RcModule) {
                 });
 
                 if (!(_context3.t0 instanceof MeetingErrors)) {
-                  _context3.next = 54;
+                  _context3.next = 55;
                   break;
                 }
 
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context3.prev = 36;
+                _context3.prev = 37;
 
                 for (_iterator2 = _context3.t0.all[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                   error = _step2.value;
@@ -684,44 +703,44 @@ function (_RcModule) {
                   this._alert.warning(error);
                 }
 
-                _context3.next = 44;
+                _context3.next = 45;
                 break;
 
-              case 40:
-                _context3.prev = 40;
-                _context3.t1 = _context3["catch"](36);
+              case 41:
+                _context3.prev = 41;
+                _context3.t1 = _context3["catch"](37);
                 _didIteratorError2 = true;
                 _iteratorError2 = _context3.t1;
 
-              case 44:
-                _context3.prev = 44;
+              case 45:
                 _context3.prev = 45;
+                _context3.prev = 46;
 
                 if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
                   _iterator2["return"]();
                 }
 
-              case 47:
-                _context3.prev = 47;
+              case 48:
+                _context3.prev = 48;
 
                 if (!_didIteratorError2) {
-                  _context3.next = 50;
+                  _context3.next = 51;
                   break;
                 }
 
                 throw _iteratorError2;
 
-              case 50:
-                return _context3.finish(47);
-
               case 51:
-                return _context3.finish(44);
+                return _context3.finish(48);
 
               case 52:
-                _context3.next = 55;
+                return _context3.finish(45);
+
+              case 53:
+                _context3.next = 56;
                 break;
 
-              case 54:
+              case 55:
                 if (_context3.t0 && _context3.t0.apiResponse) {
                   _errors$apiResponse$j2 = _context3.t0.apiResponse.json(), errorCode = _errors$apiResponse$j2.errorCode, permissionName = _errors$apiResponse$j2.permissionName;
 
@@ -732,22 +751,22 @@ function (_RcModule) {
                         permissionName: permissionName
                       }
                     });
-                  } else {
+                  } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context3.t0)) {
                     this._alert.danger({
                       message: _meetingStatus["default"].internalError
                     });
                   }
                 }
 
-              case 55:
+              case 56:
                 return _context3.abrupt("return", null);
 
-              case 56:
+              case 57:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[5, 29], [36, 40, 44, 52], [45,, 47, 51]]);
+        }, _callee3, this, [[5, 30], [37, 41, 45, 53], [46,, 48, 52]]);
       }));
 
       function updateMeeting(_x3, _x4) {
@@ -789,19 +808,15 @@ function (_RcModule) {
         allowJoinBeforeHost: allowJoinBeforeHost,
         startHostVideo: startHostVideo,
         startParticipantsVideo: startParticipantsVideo,
-        audioOptions: audioOptions
-      };
+        audioOptions: audioOptions,
+        password: password
+      }; // Recurring meetings do not have schedule info
 
-      if (password) {
-        formatted.password = password;
-      } // Recurring meetings do not have schedule info
-
-
-      if (meetingType !== MeetingType.RECURRING) {
+      if (meetingType !== _meetingHelper.MeetingType.RECURRING) {
         var _schedule = {
           durationInMinutes: schedule.durationInMinutes,
           timeZone: {
-            id: UTC_TIMEZONE_ID
+            id: _meetingHelper.UTC_TIMEZONE_ID
           }
         };
 
@@ -854,6 +869,18 @@ function (_RcModule) {
       }
     }
   }, {
+    key: "_saveAsDefaultSetting",
+    value: function _saveAsDefaultSetting(meeting) {
+      var formattedMeeting = this._format(meeting);
+
+      this.store.dispatch({
+        type: this.actionTypes.saveAsDefaultSetting,
+        meeting: _objectSpread({}, formattedMeeting, {
+          _saved: meeting.notShowAgain
+        })
+      });
+    }
+  }, {
     key: "extensionInfo",
     get: function get() {
       return this._extensionInfo.info;
@@ -884,6 +911,16 @@ function (_RcModule) {
     key: "status",
     get: function get() {
       return this.state.status;
+    }
+  }, {
+    key: "defaultMeetingSetting",
+    get: function get() {
+      return this._storage.getItem(this._defaultMeetingSettingKey) || {};
+    }
+  }, {
+    key: "showSaveAsDefault",
+    get: function get() {
+      return this._showSaveAsDefault || false;
     }
   }]);
 

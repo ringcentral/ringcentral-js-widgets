@@ -7,6 +7,8 @@ exports["default"] = exports.DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_TIME_
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.array.filter");
+
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
@@ -26,10 +28,6 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.function.bind");
 
@@ -51,7 +49,9 @@ var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses
 
 var _getConnectivityMonitorReducer = _interopRequireDefault(require("./getConnectivityMonitorReducer"));
 
-var _connectivityMonitorMessages = _interopRequireDefault(require("./connectivityMonitorMessages"));
+var _errorMessages = _interopRequireDefault(require("../RateLimiter/errorMessages"));
+
+var _errorMessages2 = _interopRequireDefault(require("../AvailabilityMonitor/errorMessages"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
@@ -128,7 +128,7 @@ function _defaultCheckConnectionFn() {
 }
 
 var ConnectivityMonitor = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', {
+  deps: ['Client', {
     dep: 'Environment',
     optional: true
   }, {
@@ -143,7 +143,6 @@ function (_RcModule) {
   /**
    * @constructor
    * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
    * @param {Client} params.client - client module instance
    * @param {Environment} params.environment - environment module instance
    * @param {Number} params.timeToRetry - time to Retry
@@ -155,8 +154,7 @@ function (_RcModule) {
 
     var _this;
 
-    var alert = _ref.alert,
-        client = _ref.client,
+    var client = _ref.client,
         environment = _ref.environment,
         _ref$timeToRetry = _ref.timeToRetry,
         timeToRetry = _ref$timeToRetry === void 0 ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
@@ -164,14 +162,13 @@ function (_RcModule) {
         heartBeatInterval = _ref$heartBeatInterva === void 0 ? DEFAULT_HEART_BEAT_INTERVAL : _ref$heartBeatInterva,
         _ref$checkConnectionF = _ref.checkConnectionFunc,
         checkConnectionFunc = _ref$checkConnectionF === void 0 ? defaultCheckConnectionFn : _ref$checkConnectionF,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "environment", "timeToRetry", "heartBeatInterval", "checkConnectionFunc"]);
+        options = _objectWithoutProperties(_ref, ["client", "environment", "timeToRetry", "heartBeatInterval", "checkConnectionFunc"]);
 
     _classCallCheck(this, ConnectivityMonitor);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ConnectivityMonitor).call(this, _objectSpread({}, options, {
       actionTypes: _actionTypes["default"]
     })));
-    _this._alert = alert;
     _this._client = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, client, 'client');
     _this._environment = environment;
     _this._timeToRetry = timeToRetry;
@@ -180,9 +177,9 @@ function (_RcModule) {
     _this._retryTimeoutId = null;
     _this._lastEnvironmentCounter = 0; // auto bind this
 
-    _this._beforeRequestHandler = (_context2 = _assertThisInitialized(_this), _this._beforeRequestHandler).bind(_context2);
     _this._requestSuccessHandler = (_context2 = _assertThisInitialized(_this), _this._requestSuccessHandler).bind(_context2);
     _this._requestErrorHandler = (_context2 = _assertThisInitialized(_this), _this._requestErrorHandler).bind(_context2);
+    _this._networkErrorHandler = (_context2 = _assertThisInitialized(_this), _this._networkErrorHandler).bind(_context2);
     _this._checkConnectionFunc =
     /*#__PURE__*/
     _asyncToGenerator(
@@ -255,77 +252,38 @@ function (_RcModule) {
       });
     }
   }, {
-    key: "_beforeRequestHandler",
-    value: function _beforeRequestHandler() {
-      this._clearTimeout();
-    }
-  }, {
     key: "_requestSuccessHandler",
-    value: function _requestSuccessHandler() {
+    value: function _requestSuccessHandler(res) {
       if (!this.connectivity) {
         this.store.dispatch({
           type: this.actionTypes.connectSuccess
         });
+      }
 
-        if (this._alert) {
-          // dismiss disconnected alerts if found
-          var alertIds = this._alert.messages.filter(function (m) {
-            return m.message === _connectivityMonitorMessages["default"].disconnected;
-          }).map(function (m) {
-            return m.id;
+      this._retry();
+    }
+  }, {
+    key: "_requestErrorHandler",
+    value: function _requestErrorHandler(error) {
+      if (error.message && (error.message === _errorMessages["default"].rateLimitReached || error.message === _errorMessages2["default"].serviceLimited)) return;
+
+      if (!error.apiResponse || !error.apiResponse._response) {
+        if (this.connectivity) {
+          this.store.dispatch({
+            type: this.actionTypes.connectFail
           });
-
-          if (alertIds.length) {
-            this._alert.dismiss(alertIds);
-          }
         }
       }
 
       this._retry();
     }
   }, {
-    key: "showAlert",
-    value: function () {
-      var _showAlert = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                if (!this.connectivity && this._alert) {
-                  this._alert.danger({
-                    message: _connectivityMonitorMessages["default"].disconnected,
-                    allowDuplicates: false
-                  });
-                }
-
-              case 1:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function showAlert() {
-        return _showAlert.apply(this, arguments);
-      }
-
-      return showAlert;
-    }()
-  }, {
-    key: "_requestErrorHandler",
-    value: function _requestErrorHandler(error) {
-      if (error.apiResponse) {
-        return;
-      }
-
-      if (this.connectivity) {
+    key: "_networkErrorHandler",
+    value: function _networkErrorHandler() {
+      if (!this.networkLoss) {
         this.store.dispatch({
-          type: this.actionTypes.connectFail
+          type: this.actionTypes.networkLoss
         });
-        this.showAlert();
       }
 
       this._retry();
@@ -345,7 +303,7 @@ function (_RcModule) {
       client.on(client.events.requestError, this._requestErrorHandler);
 
       if (typeof window !== 'undefined') {
-        window.addEventListener('offline', this._requestErrorHandler);
+        window.addEventListener('offline', this._networkErrorHandler);
       }
 
       this._unbindHandlers = function () {
@@ -353,7 +311,7 @@ function (_RcModule) {
         client.removeListener(client.events.requestError, _this3._requestErrorHandler);
 
         if (typeof window !== 'undefined') {
-          window.removeEventListener('offline', _this3._requestErrorHandler);
+          window.removeEventListener('offline', _this3._networkErrorHandler);
         }
 
         _this3._unbindHandlers = null;
@@ -364,29 +322,29 @@ function (_RcModule) {
     value: function () {
       var _checkConnection2 = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+      regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context5.prev = 0;
-                _context5.next = 3;
+                _context4.prev = 0;
+                _context4.next = 3;
                 return this._checkConnectionFunc();
 
               case 3:
-                _context5.next = 7;
+                _context4.next = 7;
                 break;
 
               case 5:
-                _context5.prev = 5;
-                _context5.t0 = _context5["catch"](0);
+                _context4.prev = 5;
+                _context4.t0 = _context4["catch"](0);
 
               case 7:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee4, this, [[0, 5]]);
+        }, _callee3, this, [[0, 5]]);
       }));
 
       function _checkConnection() {
@@ -438,9 +396,14 @@ function (_RcModule) {
     get: function get() {
       return this.state.connectivity;
     }
+  }, {
+    key: "networkLoss",
+    get: function get() {
+      return this.state.networkLoss;
+    }
   }]);
 
   return ConnectivityMonitor;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkConnection", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkConnection"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "_checkConnection", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkConnection"), _class2.prototype)), _class2)) || _class);
 exports["default"] = ConnectivityMonitor;
 //# sourceMappingURL=index.js.map

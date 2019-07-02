@@ -35,6 +35,8 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.function.name");
+
 require("core-js/modules/es6.array.find");
 
 require("regenerator-runtime/runtime");
@@ -52,6 +54,8 @@ var _callControlError = _interopRequireDefault(require("../ActiveCallControl/cal
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _conferenceHelper = require("./conferenceHelper");
 
 var _dec, _class, _class2;
 
@@ -100,7 +104,7 @@ var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(ca
  */
 
 var Conference = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'Storage', 'RegionSettings', 'RolesAndPermissions', {
+  deps: ['Alert', 'Client', 'Storage', 'RegionSettings', 'RolesAndPermissions', 'ExtensionInfo', 'Locale', {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -127,7 +131,10 @@ function (_DataFetcher) {
         storage = _ref.storage,
         rolesAndPermissions = _ref.rolesAndPermissions,
         availabilityMonitor = _ref.availabilityMonitor,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "regionSettings", "storage", "rolesAndPermissions", "availabilityMonitor"]);
+        showSaveAsDefault = _ref.showSaveAsDefault,
+        extensionInfo = _ref.extensionInfo,
+        locale = _ref.locale,
+        options = _objectWithoutProperties(_ref, ["alert", "client", "regionSettings", "storage", "rolesAndPermissions", "availabilityMonitor", "showSaveAsDefault", "extensionInfo", "locale"]);
 
     _classCallCheck(this, Conference);
 
@@ -143,7 +150,7 @@ function (_DataFetcher) {
                 case 0:
                   _context.t0 = _jsonMask["default"];
                   _context.next = 3;
-                  return client.account().extension().conferencing().get();
+                  return (0, _conferenceHelper.getConferenceInfo)(client);
 
                 case 3:
                   _context.t1 = _context.sent;
@@ -170,10 +177,13 @@ function (_DataFetcher) {
     _this._dialInNumberStorageKey = 'conferenceDialInNumber';
     _this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
     _this._savedStorageKey = 'conferenceSaveCurrentSettings';
-    _this._regionSetting = regionSettings;
+    _this._regionSettings = regionSettings;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._availabilityMonitor = availabilityMonitor;
     _this._lastCountryCode = null;
+    _this._showSaveAsDefault = showSaveAsDefault;
+    _this._extensionInfo = extensionInfo;
+    _this._locale = locale;
 
     _this._storage.registerReducer({
       key: _this._dialInNumberStorageKey,
@@ -208,7 +218,7 @@ function (_DataFetcher) {
               case 0:
                 _get(_getPrototypeOf(Conference.prototype), "_onStateChange", this).call(this);
 
-                if (!(!this.data || !this._regionSetting.ready || this._lastCountryCode === this._regionSetting.countryCode)) {
+                if (!(!this.data || !this._regionSettings.ready || this._lastCountryCode === this._regionSettings.countryCode)) {
                   _context2.next = 3;
                   break;
                 }
@@ -216,12 +226,12 @@ function (_DataFetcher) {
                 return _context2.abrupt("return");
 
               case 3:
-                this._lastCountryCode = this._regionSetting.countryCode;
+                this._lastCountryCode = this._regionSettings.countryCode;
                 matchedPhoneNumber = this.data.phoneNumbers.find(function (e) {
                   return e.country.isoCode === _this2._lastCountryCode;
                 });
 
-                if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber) {
+                if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber && !this._showSaveAsDefault) {
                   this.updateDialInNumber(matchedPhoneNumber.phoneNumber);
                 }
 
@@ -242,7 +252,7 @@ function (_DataFetcher) {
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return _get(_getPrototypeOf(Conference.prototype), "_shouldInit", this).call(this) && this._rolesAndPermissions.ready && this._alert.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready);
+      return _get(_getPrototypeOf(Conference.prototype), "_shouldInit", this).call(this) && this._rolesAndPermissions.ready && this._alert.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this._extensionInfo.ready && this._locale.ready && this._regionSettings.ready;
     }
   }, {
     key: "updateEnableJoinBeforeHost",
@@ -257,9 +267,7 @@ function (_DataFetcher) {
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return this._client.account().extension().conferencing().put({
-                  allowJoinBeforeHost: allowJoinBeforeHost
-                });
+                return (0, _conferenceHelper.updateJoinBeforeHost)(this.client, allowJoinBeforeHost);
 
               case 3:
                 data = _context3.sent;
@@ -338,6 +346,33 @@ function (_DataFetcher) {
       });
     }
   }, {
+    key: "getDefaultSettings",
+    value: function getDefaultSettings(countryNames) {
+      if (!countryNames || _typeof(countryNames) !== 'object') {
+        console.log('please privide the countryNames I18n object');
+        return;
+      }
+
+      var dialInNumbers = (0, _conferenceHelper.formatDialInNumbers)({
+        currentLocale: this._locale.currentLocale,
+        areaCode: this._regionSettings.areaCode,
+        countryCode: this._regionSettings.countryCode,
+        phoneNumbers: this.data.phoneNumbers,
+        countryNames: countryNames
+      });
+      return {
+        dialInNumbers: dialInNumbers,
+        phoneNumber: this.data.phoneNumber,
+        dialInNumber: this.dialInNumber || '',
+        _saved: this._saved || false,
+        additionalNumbers: this.additionalNumbers,
+        allowJoinBeforeHost: this.data.allowJoinBeforeHost,
+        currentLocale: this._locale.currentLocale,
+        participantCode: this.data.participantCode,
+        extensionName: this._extensionInfo.info.name || ''
+      };
+    }
+  }, {
     key: "_name",
     get: function get() {
       return 'conference';
@@ -367,9 +402,14 @@ function (_DataFetcher) {
     get: function get() {
       return !!this._rolesAndPermissions.permissions.OrganizeConference;
     }
+  }, {
+    key: "showSaveAsDefault",
+    get: function get() {
+      return this._showSaveAsDefault || false;
+    }
   }]);
 
   return Conference;
-}(_DataFetcher2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "updateEnableJoinBeforeHost", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateEnableJoinBeforeHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateDialInNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateDialInNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateAdditionalNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateAdditionalNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSaveCurrentSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSaveCurrentSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onInviteWithText", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onInviteWithText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onJoinAsHost", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onJoinAsHost"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcher2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "updateEnableJoinBeforeHost", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateEnableJoinBeforeHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateDialInNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateDialInNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateAdditionalNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateAdditionalNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSaveCurrentSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSaveCurrentSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onInviteWithText", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onInviteWithText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onJoinAsHost", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onJoinAsHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getDefaultSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getDefaultSettings"), _class2.prototype)), _class2)) || _class);
 exports["default"] = Conference;
 //# sourceMappingURL=index.js.map

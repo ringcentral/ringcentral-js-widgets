@@ -11,7 +11,7 @@ var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _default = new _Enum["default"](['serviceLimited', 'appInitialError'], 'limitedErrorMessages');
+var _default = new _Enum["default"](['serviceLimited'], 'limitedErrorMessages');
 
 exports["default"] = _default;
 //# sourceMappingURL=errorMessages.js.map

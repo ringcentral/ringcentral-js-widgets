@@ -255,7 +255,8 @@ function (_RcModule) {
         } : null;
 
         this._alert.warning(_objectSpread({
-          message: message
+          message: message,
+          allowDuplicates: false
         }, ttlConfig));
 
         return true;

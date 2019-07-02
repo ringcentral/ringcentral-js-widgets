@@ -380,6 +380,12 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     provide: 'AvailabilityMonitor',
     useClass: _AvailabilityMonitor["default"]
   }, {
+    provide: 'AvailabilityMonitorOptions',
+    useValue: {
+      enabled: true
+    },
+    spread: true
+  }, {
     provide: 'BlockedNumber',
     useClass: _BlockedNumber["default"]
   }]

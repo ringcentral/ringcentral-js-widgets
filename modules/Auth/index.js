@@ -129,9 +129,6 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     dep: 'AuthOptions',
     optional: true
-  }, {
-    dep: 'ConnectivityMonitor',
-    optional: true
   }]
 }), _dec(_class = (_class2 =
 /*#__PURE__*/
@@ -147,7 +144,6 @@ function (_RcModule) {
    * @param {Locale} params.locale - locale module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    * @param {environment} params.Environment - environment module instance
-   * @param {connectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
    * @param {String} params.redirectUri - redirect uri
    * @param {String} params.proxyUri - proxyUri module instance
    * @param {Number} params.defaultProxyRetry - default proxy retry time 5000
@@ -163,8 +159,7 @@ function (_RcModule) {
         locale = _ref.locale,
         tabManager = _ref.tabManager,
         environment = _ref.environment,
-        connectivityMonitor = _ref.connectivityMonitor,
-        options = _objectWithoutProperties(_ref, ["client", "alert", "brand", "locale", "tabManager", "environment", "connectivityMonitor"]);
+        options = _objectWithoutProperties(_ref, ["client", "alert", "brand", "locale", "tabManager", "environment"]);
 
     _classCallCheck(this, Auth);
 
@@ -177,7 +172,6 @@ function (_RcModule) {
     _this._locale = (0, _ensureExist["default"])(locale, 'locale');
     _this._tabManager = tabManager;
     _this._environment = environment;
-    _this._connectivityMonitor = connectivityMonitor;
     _this._reducer = (0, _getAuthReducer["default"])(_this.actionTypes);
     _this._beforeLogoutHandlers = new Set();
     _this._afterLoggedInHandlers = new Set();
@@ -369,12 +363,8 @@ function (_RcModule) {
       var onRefreshError = function onRefreshError(error) {
         // user is still considered logged in if the refreshToken is still valid
         var isOffline = error.message === 'Failed to fetch' || error.message === 'The Internet connection appears to be offline.' || error.message === 'NetworkError when attempting to fetch resource.' || error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.';
-
-        if (_this2._connectivityMonitor && _this2._connectivityMonitor.ready && _this2._connectivityMonitor.connectivity === false) {
-          isOffline = true;
-        }
-
-        var refreshTokenValid = isOffline && platform.auth().refreshTokenValid();
+        var res_status = error.apiResponse && error.apiResponse._response && error.apiResponse._response.status || null;
+        var refreshTokenValid = (isOffline || res_status >= 500) && platform.auth().refreshTokenValid();
 
         _this2.store.dispatch({
           type: _this2.actionTypes.refreshError,
@@ -382,7 +372,7 @@ function (_RcModule) {
           refreshTokenValid: refreshTokenValid
         });
 
-        if (!refreshTokenValid && _this2._client.service.platform().auth().data().access_token !== '') {
+        if (!refreshTokenValid && platform.auth().data().access_token !== '') {
           _this2._alert.danger({
             message: _authMessages["default"].sessionExpired,
             payload: error,

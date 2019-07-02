@@ -286,6 +286,7 @@ function tokenRefresh(failure) {
 
 function presence(id) {
   var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var isOnce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   mockApi({
     url: "begin:".concat(mockServer, "/restapi/v1.0/account/~/extension/").concat(id, "/presence"),
     body: _objectSpread({
@@ -301,7 +302,8 @@ function presence(id) {
       userStatus: 'Available',
       dndStatus: 'TakeAllCalls',
       extensionId: id
-    }, mockResponse)
+    }, mockResponse),
+    isOnce: isOnce
   });
 }
 
@@ -382,7 +384,7 @@ function apiInfo() {
 
 function messageSync() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   mockApi({
     url: "begin:".concat(mockServer, "/restapi/v1.0/account/~/extension/~/message-sync"),
     body: _objectSpread({}, _messageSync["default"], mockResponse),
@@ -744,12 +746,14 @@ function mockForLogin() {
       _ref4$mockActiveCalls = _ref4.mockActiveCalls,
       mockActiveCalls = _ref4$mockActiveCalls === void 0 ? true : _ref4$mockActiveCalls,
       _ref4$mockUpdateConfe = _ref4.mockUpdateConference,
-      mockUpdateConference = _ref4$mockUpdateConfe === void 0 ? false : _ref4$mockUpdateConfe,
+      mockUpdateConference = _ref4$mockUpdateConfe === void 0 ? true : _ref4$mockUpdateConfe,
       _ref4$mockNumberParse = _ref4.mockNumberParser,
       mockNumberParser = _ref4$mockNumberParse === void 0 ? true : _ref4$mockNumberParse,
       _ref4$mockRecentActiv = _ref4.mockRecentActivity,
       mockRecentActivity = _ref4$mockRecentActiv === void 0 ? true : _ref4$mockRecentActiv,
-      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity"]);
+      _ref4$mockMessageSync2 = _ref4.mockMessageSyncOnce,
+      mockMessageSyncOnce = _ref4$mockMessageSync2 === void 0 ? false : _ref4$mockMessageSync2,
+      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce"]);
 
   authentication();
   logout();
@@ -781,7 +785,7 @@ function mockForLogin() {
   messageList(params.messageListData);
 
   if (mockMessageSync) {
-    messageSync(params.messageSyncData);
+    messageSync(params.messageSyncData, mockMessageSyncOnce);
   }
 
   phoneNumber(params.phoneNumberData);

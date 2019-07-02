@@ -46,7 +46,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var _default = new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), [// Local meeting related
 'updateMeeting', 'clearMeeting', // Meeting scheduling related
 'initScheduling', 'scheduled', 'resetScheduling', // Meeting updating related
-'initUpdating', 'updated', 'resetUpdating']), 'meeting');
+'initUpdating', 'updated', 'resetUpdating', 'saveAsDefaultSetting']), 'meeting');
 
 exports["default"] = _default;
 //# sourceMappingURL=actionTypes.js.map

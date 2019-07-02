@@ -35,6 +35,17 @@ function getOutputDeviceIdReducer(types) {
           return device.deviceId === state && device.kind === 'audiooutput';
         }, devices)) {
           return state;
+        } // For Firefox, don't have default device id
+
+
+        if (state === 'default') {
+          var firstDevice = (0, _ramda.find)(function (device) {
+            return device.kind === 'audiooutput';
+          }, devices);
+
+          if (firstDevice) {
+            return firstDevice.deviceId;
+          }
         }
 
         return 'default';
@@ -66,6 +77,17 @@ function getInputDeviceIdReducer(types) {
           return device.deviceId === state && device.kind === 'audioinput';
         }, devices)) {
           return state;
+        } // For Firefox, don't have default device id
+
+
+        if (state === 'default') {
+          var firstDevice = (0, _ramda.find)(function (device) {
+            return device.kind === 'audioinput';
+          }, devices);
+
+          if (firstDevice) {
+            return firstDevice.deviceId;
+          }
         }
 
         return 'default';
