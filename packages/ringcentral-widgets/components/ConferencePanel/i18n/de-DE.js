@@ -15,7 +15,8 @@ export default {
   inviteText_att: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen durch {brandName}-Konferenzen bereitgestellt.",
   inviteText_bt: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}",
   inviteText_rc: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen durch {brandName}-Konferenzen bereitgestellt.",
-  inviteText_telus: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}"
+  inviteText_telus: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}",
+  saveAsDefault: "Als Standard speichern"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
@@ -35,3 +36,4 @@ export default {
 // @key: @#@"inviteText_bt"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
 // @key: @#@"inviteText_rc"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@
 // @key: @#@"inviteText_telus"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
+// @key: @#@"saveAsDefault"@#@ @source: @#@"Save as default"@#@

@@ -17,7 +17,8 @@ export default {
   feedback: "Feedback",
   userGuide: "What's New",
   quickAccess: "Quick Access Setting",
-  msteamsSetting: 'Microsoft Teams Setting'
+  report: "Analytics report",
+  msteamsSetting: "Microsoft Teams Setting"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -38,3 +39,5 @@ export default {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
+// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@

@@ -17,6 +17,7 @@ export default {
   feedback: "フィードバック",
   userGuide: "新着情報",
   quickAccess: "クイックアクセスの設定",
+  report: "分析レポート",
   msteamsSetting: "Microsoft Teamsの設定"
 };
 
@@ -38,4 +39,5 @@ export default {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@

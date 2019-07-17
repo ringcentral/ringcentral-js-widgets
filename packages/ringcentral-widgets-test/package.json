@@ -25,8 +25,8 @@
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
     "babel-istanbul": "^0.12.1",
-    "babel-jest": "^24.5.0",
-    "coveralls": "^2.11.15",
+    "babel-jest": "^24.8.0",
+    "coveralls": "^3.0.4",
     "dotenv": "^6.2.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
@@ -34,7 +34,7 @@
     "format-message": "^5.0.0",
     "fs-extra": "^7.0.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^24.7.1",
+    "jest": "^24.8.0",
     "jest-junit": "^6.3.0",
     "moment": "^2.24.0",
     "normalize-css": "^2.3.1",
@@ -73,7 +73,9 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "setupFilesAfterEnv": ["./jest.setup.js"],
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ],
     "reporters": [
       "default",
       "jest-junit"

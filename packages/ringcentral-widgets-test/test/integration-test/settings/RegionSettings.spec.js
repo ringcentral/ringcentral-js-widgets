@@ -28,7 +28,7 @@ const enterAreaCode = async (areaCode) => {
   await input.simulate('change');
 };
 
-describe('region settings', async () => {
+describe('region settings', () => {
   test('initial state', () => {
     expect(regionSettings.find('div.label').first().props().children).toEqual('Region');
   });

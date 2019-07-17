@@ -2,7 +2,7 @@ export default {
   forward: "Renvoi",
   reply: "Répondre",
   ignore: "Ignorer",
-  toVoicemail: "Vers messagerie vocale",
+  toVoicemail: "Vers la msg vocale",
   answer: "Réponse",
   answerAndEnd: "Répondre et\nterminer",
   answerAndHold: "Rép. et mise en att."

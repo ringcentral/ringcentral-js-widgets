@@ -30,6 +30,7 @@ FlatButton.propTypes = {
   disabled: propTypes.bool,
   onClick: propTypes.func,
   children: propTypes.node,
+  dataSign: propTypes.string,
 };
 
 FlatButton.defaultProps = {
@@ -37,6 +38,7 @@ FlatButton.defaultProps = {
   disabled: false,
   onClick: undefined,
   children: undefined,
+  dataSign: ''
 };
 
 export default function Dialog({
@@ -66,7 +68,7 @@ export default function Dialog({
               styles.cancelBtn,
               cancelBtnClassName,
             )}
-            dataSign='cancel'
+            dataSign="cancel"
             onClick={onCancel}
           >
             {textCancel || i18n.getString('cancel', currentLocale)}
@@ -79,7 +81,7 @@ export default function Dialog({
               styles.confirmBtn,
               confirmBtnClassName,
             )}
-            dataSign='confirm'
+            dataSign="confirm"
             onClick={onConfirm}
           >
             {textConfirm || i18n.getString('confirm', currentLocale)}

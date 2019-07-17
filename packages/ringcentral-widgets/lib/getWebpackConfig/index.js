@@ -54,7 +54,19 @@ function getBaseConfig({
           exclude: /fonts/,
           use: [
             'babel-loader',
-            'react-svg-loader'
+            {
+              loader: 'react-svg-loader',
+              options: {
+                jsx: true,
+                svgo: {
+                  plugins: [
+                    {
+                      removeViewBox: false,
+                    },
+                  ],
+                }
+              }
+            }
           ]
         },
         {

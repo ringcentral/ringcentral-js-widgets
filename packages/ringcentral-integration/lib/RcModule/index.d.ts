@@ -28,7 +28,7 @@ declare class RcModule {
   setStore(store): void;
   private _setStore(store): void;
   initialize(): void;
-  private _onStateChange(): any;
+  protected _onStateChange(): any;
   private _initModule(): void;
   create():any;
   status: any;

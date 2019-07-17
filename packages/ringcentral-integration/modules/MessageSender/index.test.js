@@ -478,7 +478,7 @@ describe('MessageSender Unit Test', () => {
     });
   });
 
-  describe('_validateToNumbers', async () => {
+  describe('_validateToNumbers', () => {
     it('should return result false and warning recipientsEmpty', async () => {
       sinon.stub(messageSender, '_alertWarning');
       const toNumbers = [];
@@ -589,7 +589,7 @@ describe('MessageSender Unit Test', () => {
     });
   });
 
-  describe('send', async () => {
+  describe('send', () => {
     it('should return null and warning textEmpty when text is blank', async () => {
       sinon.stub(messageSender, '_alertWarning');
       const toNumbers = ['+1234567890'];

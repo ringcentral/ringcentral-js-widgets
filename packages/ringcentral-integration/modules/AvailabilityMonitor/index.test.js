@@ -12,7 +12,7 @@ import getAvailabilityMonitorReducer from './availabilityMonitorReducer';
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
 
-describe('AvailabilityMonitor unit test', async () => {
+describe('AvailabilityMonitor unit test', () => {
   let availabilityMonitor;
   let store;
   beforeEach(() => {

@@ -280,7 +280,7 @@ describe('fax messages', () => {
       expect(messageItem.find(ContactDisplay).find('.currentName').at(0).text()).toMatch(/^test user$/g);
     });
   });
-  describe('fax messages unread count', async () => {
+  describe('fax messages unread count', () => {
     test('should not show unread count displayed on fax tab when there are 0 unread fax', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;

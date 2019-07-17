@@ -1,5 +1,5 @@
 export default {
-  DirectNumber: "通訊錄",
+  DirectNumber: "直撥",
   MainCompanyNumber: "主",
   CompanyNumber: "公司",
   CompanyFaxNumber: "傳真",

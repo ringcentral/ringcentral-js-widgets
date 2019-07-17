@@ -3,7 +3,7 @@ import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import phoneTypes from '../../../enums/phoneTypes';
 export default {
   [phoneTypes.extension]: "分機",
-  [phoneTypes.direct]: "通訊錄",
+  [phoneTypes.direct]: "直撥",
   [phoneTypes.mobile]: "行動",
   [phoneTypes.home]: "家用",
   [phoneTypes.business]: "商務",

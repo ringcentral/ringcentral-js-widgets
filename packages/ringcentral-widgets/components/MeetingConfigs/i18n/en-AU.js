@@ -6,8 +6,8 @@ export default {
   recurringDescribe: "Please remember to check recurrence or repeat in your calendar invitation to your attendees.",
   video: "Video",
   videoDescribe: "When joining a meeting",
-  host: "Host",
-  participants: "Participant",
+  host: "Host video on",
+  participants: "Participant video on",
   audioOptions: "Audio options",
   voIPOnly: "VoIP only",
   both: "Both",
@@ -27,12 +27,12 @@ export default {
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@
 // @key: @#@"videoDescribe"@#@ @source: @#@"When joining a meeting"@#@
-// @key: @#@"host"@#@ @source: @#@"Host"@#@
-// @key: @#@"participants"@#@ @source: @#@"Participant"@#@
-// @key: @#@"audioOptions"@#@ @source: @#@"Audio Options"@#@
+// @key: @#@"host"@#@ @source: @#@"Host video on"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participant video on"@#@
+// @key: @#@"audioOptions"@#@ @source: @#@"Audio options"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"VoIP Only"@#@
 // @key: @#@"both"@#@ @source: @#@"Both"@#@
-// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting Options"@#@
+// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@

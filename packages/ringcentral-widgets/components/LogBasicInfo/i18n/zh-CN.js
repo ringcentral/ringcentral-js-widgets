@@ -38,7 +38,7 @@ export default {
   [callResults.restrictedNumber]: "限制号码",
   [callResults.wrongNumber]: "错误号码",
   [callResults.stopped]: "已停止",
-  [callResults.suspendedAccount]: "已暂停账户",
+  [callResults.suspendedAccount]: "已暂停帐户",
   [callResults.hangUp]: "已挂断",
   [callResults.HangUp]: "已挂断",
   [callResults.abandoned]: "已放弃",

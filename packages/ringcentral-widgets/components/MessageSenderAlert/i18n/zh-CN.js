@@ -17,10 +17,10 @@ export default {
   [messageSenderMessages.internalError]: "由于内部错误，无法连接：请稍后再试。",
   [messageSenderMessages.notAnExtension]: "分机号不存在。",
   [messageSenderMessages.networkError]: "由于网络问题，无法连接：请稍后再试。",
-  [messageSenderMessages.senderNumberInvalid]: "向公司以外的收件人发送短信需要有效的电话号码，请联系您的管理员添加直拨号码到您的账户。",
+  [messageSenderMessages.senderNumberInvalid]: "向公司以外的收件人发送短信需要有效的电话号码，请联系您的管理员添加直拨号码到您的帐户。",
   [messageSenderMessages.notSmsToExtension]: "无法通过主电话号码发送至分机号。如果您要发送至分机号，请仅输入分机号。",
   [messageSenderMessages.internationalSMSNotSupported]: "不支持向国际电话号码发送短信。",
-  [messageSenderMessages.noInternalSMSPermission]: "您没有权限发送消息。请联系您的 {brand} 账户管理员进行升级。",
+  [messageSenderMessages.noInternalSMSPermission]: "您没有权限发送消息。请联系您的 {brand} 帐户管理员进行升级。",
   [messageSenderMessages.noSMSPermission]: "您没有权限向贵组织以外的收件人发送消息。",
   areaCode: "区号",
   [messageSenderMessages.sending]: "正在发送消息…可能需要几分钟时间完成。"

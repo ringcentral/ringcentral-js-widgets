@@ -10,7 +10,7 @@ import sleep from '../sleep';
 
 chai.use(chaiAsPromised);
 
-describe('DataMatcher', async () => {
+describe('DataMatcher', () => {
   describe('constructor', () => {
     it('should throw if instancized without a "name" property', () => {
       expect(() => (
@@ -448,7 +448,7 @@ describe('DataMatcher', async () => {
     });
   });
 
-  describe('_fetchMatchResult', async () => {
+  describe('_fetchMatchResult', () => {
     it('should return a promise', async () => {
       const instance = new DataMatcher({
         name: 'foo',
@@ -576,7 +576,7 @@ describe('DataMatcher', async () => {
     });
   });
 
-  describe('_matchSource', async () => {
+  describe('_matchSource', () => {
     it('should return a promise', async () => {
       const instance = new DataMatcher({
         name: 'foo',
@@ -850,7 +850,7 @@ describe('DataMatcher', async () => {
       expect(instance._matchPromises.has('bar')).to.equal(false);
     });
   });
-  describe('match', async () => {
+  describe('match', () => {
     it('should call _matchSource for each provider', async () => {
       const instance = new DataMatcher({
         name: 'foo',

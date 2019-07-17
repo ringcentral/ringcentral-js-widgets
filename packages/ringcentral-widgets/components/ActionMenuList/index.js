@@ -1,22 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import Modal from '../Modal';
-import EntityButton from '../EntityButton';
-import EntityModal from '../EntityModal';
-import Button from '../Button';
-import LogButton from '../LogButton';
-import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';
-import CloseIcon from '../../assets/images/CloseIcon.svg';
-import MarkIcon from '../../assets/images/Mark.svg';
-import UnmarkIcon from '../../assets/images/Unmark.svg';
-import PreviewIcon from '../../assets/images/Preview.svg';
-import DownloadIcon from '../../assets/images/Download.svg';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-
-import styles from './styles.scss';
+import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';
+import DownloadIcon from '../../assets/images/Download.svg';
+import MarkIcon from '../../assets/images/Mark.svg';
+import PreviewIcon from '../../assets/images/Preview.svg';
+import UnmarkIcon from '../../assets/images/Unmark.svg';
+import Button from '../Button';
+import EntityButton from '../EntityButton';
+import EntityModal from '../EntityModal';
+import LogButton from '../LogButton';
+import Modal from '../Modal';
 import i18n from './i18n';
+import styles from './styles.scss';
 
 export function ConfirmDeleteModal({
   currentLocale,
@@ -45,8 +43,8 @@ ConfirmDeleteModal.propTypes = {
 };
 
 ConfirmDeleteModal.defaultProps = {
-  onDelete() {},
-  onCancel() {}
+  onDelete() { },
+  onCancel() { }
 };
 
 export function ClickToDialButton({
@@ -63,7 +61,7 @@ export function ClickToDialButton({
       className={classnames(styles.button, styles.clickToDialButton, className)}
       onClick={onClickToDial}
       dataSign={title}
-      disabled={ disableCallButton || disableClickToDial || !phoneNumber}>
+      disabled={disableCallButton || disableClickToDial || !phoneNumber}>
       <span
         className={dynamicsFont.call}
         title={title} />
@@ -100,8 +98,8 @@ export function ClickToSmsButton({
     <Button
       className={classnames(styles.button, styles.clickToSmsButton, className)}
       onClick={onClickToSms}
-      dataSign='clickToSms'
-      disabled={disableLinks || !phoneNumber} >
+      dataSign="clickToSms"
+      disabled={disableLinks || !phoneNumber}>
       <span
         className={dynamicsFont.composeText}
         title={title} />
@@ -156,7 +154,7 @@ DeleteButton.propTypes = {
 DeleteButton.defaultProps = {
   className: undefined,
   title: undefined,
-  openDeleteModal() {},
+  openDeleteModal() { },
 };
 
 export function MarkButton({
@@ -179,7 +177,7 @@ export function MarkButton({
       className={classnames(styles.button, styles.svgBtn, className)}
       onClick={onClick}
       disabled={disabled}
-      dataSign='mark'
+      dataSign="mark"
     >
       <span title={title}>
         <Icon
@@ -267,23 +265,28 @@ export default class ActionMenuList extends Component {
       });
     };
   }
+
   onCreateEnityModal = (entityType) => {
     this.props.onCreateEntity(entityType);
     this.closeEntityModal();
   }
+
   onCancelEntityModal = () => {
     this.closeEntityModal();
   }
+
   openEntityModal = () => {
     this.setState({
       entityModalVisible: true
     });
   }
+
   closeEntityModal = () => {
     this.setState({
       entityModalVisible: false
     });
   }
+
   onDelete = () => {
     this.props.onDelete();
     this.setState({
@@ -291,16 +294,19 @@ export default class ActionMenuList extends Component {
     });
     this.onCloseDeleteModal();
   }
+
   openDeleteModal = () => {
     this.setState({
       deleteModalVisible: true,
     });
   }
+
   onCloseDeleteModal = () => {
     this.setState({
       deleteModalVisible: false,
     });
   }
+
   onCancelDelete = () => {
     this.onCloseDeleteModal();
   }
@@ -310,16 +316,19 @@ export default class ActionMenuList extends Component {
       e.stopPropagation();
     }
   }
+
   onPreview = () => {
     if (this.props.faxAttachment && this.props.faxAttachment.uri) {
       this.props.onPreview(this.props.faxAttachment.uri);
     }
   }
+
   _onDownloadClick = (e) => {
     if (this.props.disableLinks) {
       e.preventDefault();
     }
   }
+
   render() {
     const {
       className,
@@ -377,52 +386,61 @@ export default class ActionMenuList extends Component {
     let entityButton;
     if (externalViewEntity) {
       if (externalHasEntity) {
-        entityButton = (<EntityButton
-          className={styles.button}
-          onViewEntity={externalViewEntity}
-          hasEntity={externalHasEntity}
-          disableLinks={disableLinks}
-          viewEntityTitle={viewEntityTitle}
-        />);
+        entityButton = (
+          <EntityButton
+            className={styles.button}
+            onViewEntity={externalViewEntity}
+            hasEntity={externalHasEntity}
+            disableLinks={disableLinks}
+            viewEntityTitle={viewEntityTitle}
+          />
+        );
       } else if (phoneNumber && onCreateEntity) {
-        entityButton = (<EntityButton
-          className={styles.button}
-          onCreateEntity={this.openEntityModal}
-          hasEntity={externalHasEntity}
-          disableLinks={disableLinks}
-          createEntityTitle={createEntityTitle}
-        />);
+        entityButton = (
+          <EntityButton
+            className={styles.button}
+            onCreateEntity={this.openEntityModal}
+            hasEntity={externalHasEntity}
+            disableLinks={disableLinks}
+            createEntityTitle={createEntityTitle}
+          />
+        );
       } else {
         entityButton = null;
       }
     } else if (hasEntity && onViewEntity) {
-      entityButton = (<EntityButton
-        className={styles.button}
-        onViewEntity={onViewEntity}
-        hasEntity={hasEntity}
-        disableLinks={disableLinks}
-        viewEntityTitle={viewEntityTitle}
-      />);
+      entityButton = (
+        <EntityButton
+          className={styles.button}
+          onViewEntity={onViewEntity}
+          hasEntity={hasEntity}
+          disableLinks={disableLinks}
+          viewEntityTitle={viewEntityTitle}
+        />
+      );
     } else if (!hasEntity && phoneNumber && onCreateEntity) {
-      entityButton = (<EntityButton
-        className={styles.button}
-        onCreateEntity={this.openEntityModal}
-        hasEntity={hasEntity}
-        disableLinks={disableLinks}
-        createEntityTitle={createEntityTitle}
-      />);
+      entityButton = (
+        <EntityButton
+          className={styles.button}
+          onCreateEntity={this.openEntityModal}
+          hasEntity={hasEntity}
+          disableLinks={disableLinks}
+          createEntityTitle={createEntityTitle}
+        />
+      );
     } else {
       entityButton = null;
     }
 
     const entityModal = (!hasEntity && phoneNumber) ?
-      (<EntityModal
-        currentLocale={currentLocale}
-        entities={createEntityTypes}
-        show={this.state.entityModalVisible}
-        onCreate={this.onCreateEnityModal}
-        onCancel={this.onCancelEntityModal}
-      />
+      (
+        <EntityModal
+          currentLocale={currentLocale}
+          entities={createEntityTypes}
+          show={this.state.entityModalVisible}
+          onCreate={this.onCreateEnityModal}
+          onCancel={this.onCancelEntityModal}
+        />
       ) : null;
 
     const clickToDialButton = onClickToDial ?
@@ -492,8 +510,12 @@ export default class ActionMenuList extends Component {
       ) : null;
     const downloadButton = faxAttachment && faxAttachment.uri ?
       (
-        <div className={classnames(styles.button, styles.svgBtn, styles.svgFillIcon,
-          disableLinks ? styles.disabled : null)} >
+        <div className={classnames(
+          styles.button,
+          styles.svgBtn,
+          styles.svgFillIcon,
+          disableLinks ? styles.disabled : null
+        )}>
           <a
             target="_blank"
             download

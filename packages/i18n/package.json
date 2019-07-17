@@ -19,13 +19,13 @@
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^24.5.0",
+    "babel-jest": "^24.8.0",
     "faker": "^4.1.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
-    "jest": "^24.7.1"
+    "jest": "^24.8.0"
   },
   "scripts": {
     "test": "jest",

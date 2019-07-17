@@ -1,19 +1,19 @@
 import { ensureLogin } from '../utils/HelpUtil';
 import { waitInSeconds } from '../utils/WaitUtil';
-import ClientHistoryRequest from '../utils/ClientHistoryRequest';
+// import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import * as mock from '../mock';
 
 const authzProfileBody = require('../mock/data/authzProfile');
 
 export default (auth, client, accountExtension, account) => {
-  describe('AccountExtension:', function () {
+  describe('AccountExtension:', () => {
     this.timeout(20000);
     mock.mockClient(client);
 
     let isLoginSuccess;
-    const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
+    // const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
-    afterEach(async function () {
+    afterEach(async () => {
       await auth.logout();
       await waitInSeconds(1);
     });

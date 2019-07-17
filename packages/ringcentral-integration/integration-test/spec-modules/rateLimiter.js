@@ -3,7 +3,7 @@ import { containsErrorMessage, ensureLogin } from '../utils/HelpUtil';
 import { waitUntilEqual } from '../utils/WaitUtil';
 
 export default (auth, alert, account, client, rateLimiter) => {
-  describe('RateLimiter', async function () {
+  describe('RateLimiter', async () => {
     this.timeout(20000);
     let conditionalDescribe = describe;
     const isLoginSuccess = await ensureLogin(auth, account);
@@ -13,7 +13,7 @@ export default (auth, alert, account, client, rateLimiter) => {
     }
     conditionalDescribe('Should Allow Alert', function() {
       this.timeout(20000);
-      beforeEach(async function () {
+      beforeEach(async () => {
         const isAlertClear = await waitUntilEqual(() => {
           alert.dismissAll();
           return alert.state.messages.length;
@@ -24,7 +24,7 @@ export default (auth, alert, account, client, rateLimiter) => {
         }
       });
       describe('Should Prompt Alerts when rateLimiter occurs', function() {
-        it('Should Prompt Alert of rateLimiter', async function () {
+        it('Should Prompt Alert of rateLimiter', async () => {
           rateLimiter._requestErrorHandler(new Error('Request rate exceeded'));
           expect(containsErrorMessage(alert.state.messages, errorMessages.rateLimitReached)).to.not.equal(undefined);
         });

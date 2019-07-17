@@ -6,7 +6,7 @@ import subscriptionStatus from '../../modules/Subscription/subscriptionStatus';
 import pubnub from 'pubnub';
 
 export default (auth, client, subscription, account) => {
-  describe('Subscription:', function () {
+  describe('Subscription:', () => {
     this.timeout(20000);
     mock.mockClient(client);
 
@@ -43,7 +43,7 @@ export default (auth, client, subscription, account) => {
         console.error('Skip test case as failed to login with credential ', account);
         this.skip();
       }
-      
+
       await waitInSeconds(3);
       expect(subscription.subscriptionStatus).equal(subscriptionStatus.notSubscribed);
       expect(subscription.cachedSubscription).equal(null);

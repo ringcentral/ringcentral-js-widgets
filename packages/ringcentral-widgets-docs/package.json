@@ -40,7 +40,7 @@
     "react-docgen": "^2.20.1",
     "react-dom": "^16.8.6",
     "react-router-dom": "^4.1.1",
-    "react-svg-loader": "^2.1.0",
+    "react-svg-loader": "^3.0.3",
     "ringcentral-integration": "^0.10.6",
     "ringcentral-widgets": "^0.10.6",
     "sass-loader": "^7.1.0",

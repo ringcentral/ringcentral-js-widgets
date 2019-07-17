@@ -7,14 +7,14 @@ import permissionsMessages from '../../modules/RolesAndPermissions/permissionsMe
 const authzProfileBody = require('../mock/data/authzProfile');
 
 export default (auth, client, accountInfo, account, alert) => {
-  describe('AccountInfo:', function () {
+  describe('AccountInfo:', () => {
     this.timeout(20000);
     mock.mockClient(client);
 
     let isLoginSuccess;
     const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
-    afterEach(async function () {
+    afterEach(async () => {
       if (auth.loggedIn) {
         await auth.logout();
       }

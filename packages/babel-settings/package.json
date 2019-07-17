@@ -29,7 +29,7 @@
   },
   "peerDependencies": {
     "@babel/polyfill": "^7.3.4",
-    "babel-jest": "^24.5.0"
+    "babel-jest": "^24.8.0"
   },
   "ci": {
     "ringcentral-js-widgets": "**"

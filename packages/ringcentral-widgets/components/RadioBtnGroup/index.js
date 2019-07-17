@@ -6,20 +6,28 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 function RadioOption(props) {
+  const {
+    currentIndex,
+    selectedIndex,
+    phoneNumber,
+    label,
+    currentLocale,
+    onSelect,
+  } = props;
   let btnClassName = '';
-  if (props.currentIndex === props.selectedIndex) {
+  if (currentIndex === selectedIndex) {
     btnClassName = classnames(styles.radioBtn, styles.active);
   } else {
     btnClassName = styles.radioBtn;
   }
   return (
-    <div className={styles.radioOption} onClick={() => { props.onSelect(props.currentIndex); }}>
+    <div className={styles.radioOption} onClick={() => { onSelect(currentIndex); }}>
       <span className={btnClassName} />
-      <span className={styles.optionNumber}>
-        {props.phoneNumber}
+      <span className={styles.optionNumber} title={phoneNumber}>
+        {phoneNumber}
       </span>
-      <span className={styles.optionLabel} title={props.label}>
-        {i18n.getString(props.label, props.currentLocale)}
+      <span className={styles.optionLabel} title={label}>
+        {i18n.getString(label, currentLocale)}
       </span>
     </div>
   );
@@ -39,33 +47,50 @@ RadioOption.defaultProps = {
 export default class RadioButtonGroup extends Component {
   constructor(props) {
     super(props);
+
+    const {
+      disabled,
+      onRadioSelect,
+      radioOptions,
+    } = props;
     this.state = {
       selectedIndex: 0,
     };
     this.chooseOption = (index) => {
-      if (!this.props.disabled) {
+      if (!disabled) {
         this.setState({
           selectedIndex: index,
         });
-        this.props.onRadioSelect(this.props.radioOptions[index].phoneNumber);
+        onRadioSelect(radioOptions[index].phoneNumber);
       }
     };
   }
+
   render() {
+    const {
+      className,
+      radioOptions,
+      formatPhone,
+      currentLocale,
+    } = this.props;
+
+    const {
+      selectedIndex,
+    } = this.state;
     return (
-      <div className={classnames(styles.root, this.props.className)}>
+      <div className={classnames(styles.root, className)}>
         {
-          this.props.radioOptions.map((number, idx) => (
+          radioOptions.map((number, idx) => (
             <RadioOption
               currentIndex={idx}
-              selectedIndex={this.state.selectedIndex}
+              selectedIndex={selectedIndex}
               key={number.id}
-              phoneNumber={this.props.formatPhone(number.phoneNumber)}
+              phoneNumber={formatPhone(number.phoneNumber)}
               label={number.label}
               onSelect={this.chooseOption}
-              currentLocale={this.props.currentLocale}
+              currentLocale={currentLocale}
             />
-         ))
+          ))
         }
       </div>
     );

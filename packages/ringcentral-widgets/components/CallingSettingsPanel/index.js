@@ -27,7 +27,7 @@ const TooltipCom = typeof Tooltip === 'function' ? Tooltip : Tooltip.default;
 class CallingSettingsContent extends Component {
   constructor(props) {
     super(props);
-    this.defaultRingoutPrompt = props.ringoutPrompt;
+    this.defaultRingoutPrompt = props.defaultRingoutPrompt;
     this.state = {
       callWith: props.callWith,
       ringoutPrompt: props.ringoutPrompt,
@@ -157,7 +157,7 @@ class CallingSettingsContent extends Component {
       ringoutPrompt,
       availableNumbers,
       disabled,
-      searchable
+      locationSearchable
     } = this.props;
 
     const hasChanges = (
@@ -185,7 +185,7 @@ class CallingSettingsContent extends Component {
                 className={classnames(styles.select, styles.locationSelect)}
                 value={this.state.myLocation}
                 onChange={this.onMyLocationChange}
-                searchOption={searchable ?
+                searchOption={locationSearchable ?
                   (option, text) => option.includes(text) :
                   null
                 }
@@ -280,15 +280,17 @@ CallingSettingsContent.propTypes = {
   callWith: PropTypes.string.isRequired,
   myLocation: PropTypes.string.isRequired,
   ringoutPrompt: PropTypes.bool.isRequired,
+  defaultRingoutPrompt: PropTypes.bool,
   availableNumbers: PropTypes.object.isRequired,
   onSave: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  searchable: PropTypes.bool,
+  locationSearchable: PropTypes.bool,
 };
 
 CallingSettingsContent.defaultProps = {
   disabled: false,
-  searchable: false
+  locationSearchable: false,
+  defaultRingoutPrompt: true
 };
 
 export default function CallingSettingsPanel({

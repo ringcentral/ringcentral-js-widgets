@@ -6,4 +6,3 @@ export default new Enum([
   'setData',
   'updateFromNumber',
 ], 'callingSettings');
-

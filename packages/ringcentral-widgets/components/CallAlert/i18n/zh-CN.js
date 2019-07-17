@@ -7,8 +7,8 @@ export default {
   [callErrors.internalError]: "由于内部错误，无法连接：请稍后再试。",
   [callErrors.notAnExtension]: "分机号不存在。",
   [callErrors.networkError]: "由于网络问题，无法连接：请稍后再试。",
-  [callErrors.noInternational]: "您没有权限拨打国际电话。请联系您的 {brand} 账户管理员进行升级。",
-  [callErrors.noRingoutEnable]: "您的分机可以通过桌面应用拨打电话。\n    如果您要切换至其他呼叫选项，\n    请联系您的账户管理员进行升级。",
+  [callErrors.noInternational]: "您没有权限拨打国际电话。请联系您的 {brand} 帐户管理员进行升级。",
+  [callErrors.noRingoutEnable]: "您的分机可以通过桌面应用拨打电话。\n    如果您要切换至其他呼叫选项，\n    请联系您的帐户管理员进行升级。",
   areaCode: "区号",
   telus911: "不支持紧急拨号。"
 };

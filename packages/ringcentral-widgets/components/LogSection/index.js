@@ -101,7 +101,7 @@ export default class LogSection extends Component {
     const {
       renderEditLogSection, currentLocale,
       onSaveCallLog, onUpdateCallLog,
-      currentLog, additionalInfo
+      currentLog, additionalInfo, onCallLogSaved
     } = this.props;
     return renderEditLogSection({
       currentLocale,
@@ -109,6 +109,7 @@ export default class LogSection extends Component {
       onUpdateCallLog,
       currentLog,
       additionalInfo,
+      onCallLogSaved
     });
   }
 
@@ -215,6 +216,7 @@ LogSection.propTypes = {
   showSaveLogBtn: PropTypes.bool,
   showSmallCallControl: PropTypes.bool,
   renderSmallCallContrl: PropTypes.func,
+  onCallLogSaved: PropTypes.func
 };
 
 LogSection.defaultProps = {
@@ -230,4 +232,5 @@ LogSection.defaultProps = {
   renderSmallCallContrl() { },
   showSaveLogBtn: true,
   showSmallCallControl: true,
+  onCallLogSaved: undefined
 };
