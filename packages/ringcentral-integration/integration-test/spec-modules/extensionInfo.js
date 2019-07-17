@@ -5,14 +5,14 @@ import * as mock from '../mock';
 import permissionsMessages from '../../modules/RolesAndPermissions/permissionsMessages';
 
 export default (auth, client, extensionInfo, account, alert) => {
-  describe('ExtensionInfo:', function () {
+  describe('ExtensionInfo:', () => {
     this.timeout(20000);
     mock.mockClient(client);
 
     let isLoginSuccess;
     const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
-    afterEach(async function () {
+    afterEach(async () => {
       if (auth.loggedIn) {
         await auth.logout();
       }

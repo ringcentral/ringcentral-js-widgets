@@ -5,7 +5,7 @@ export default {
   ringCall: "正在振铃通话",
   onHoldCall: "等候接听电话",
   historyCalls: "过去通话",
-  otherDeviceCall: "我的其他设备上的正在进行通话",
+  otherDeviceCall: "我的其他设备上正在进行的通话",
   searchPlaceholder: "搜索..."
 };
 

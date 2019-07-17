@@ -40,7 +40,7 @@
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",
     "identity-obj-proxy": "^3.0.0",
-    "react-svg-loader": "^2.1.0",
+    "react-svg-loader": "^3.0.3",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "yargs": "^11.1.0"
@@ -50,7 +50,7 @@
     "immutable": "^3.7.4",
     "prop-types": "^15.7.2",
     "ramda": "^0.25.0",
-    "rc-editor-mention": "https://github.com/embbnux/editor-mention#release",
+    "rc-editor-mention": "^1.1.13",
     "react-emojione": "^5.0.0",
     "react-markdown": "^3.1.4",
     "react-virtualized": "^9.19.1"

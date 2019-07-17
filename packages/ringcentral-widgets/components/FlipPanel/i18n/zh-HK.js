@@ -1,5 +1,5 @@
 export default {
-  flipHeader: "將通話轉接至……",
+  flipHeader: "將通話轉接至...",
   flip: "翻轉",
   complete: "完成轉接"
 };

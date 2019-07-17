@@ -45,12 +45,12 @@ export function getInviteTxt({
       })
     };
   }, phoneNumbers);
-  dialInNumber = dialInNumbers.find(
-  e => e.phoneNumber === dialInNumber
-) || dialInNumbers[0];
+  dialInNumber = dialInNumbers.find(e => e.phoneNumber === dialInNumber
+  ) || dialInNumbers[0];
   const formattedDialInNumber = dialInNumber.formattedPhoneNumber;
-  const additionalNumbersTxt = additionalNumbers.map(p => dialInNumbers.find(obj => obj.phoneNumber === p)
-  ).map(fmt => `${fmt.region}  ${fmt.formattedPhoneNumber}`)
+  const additionalNumbersTxt = additionalNumbers
+    .map(p => dialInNumbers.find(obj => obj.phoneNumber === p))
+    .map(fmt => `${fmt.region}  ${fmt.formattedPhoneNumber}`)
     .join('\n');
   let additionalNumbersSection = '';
   if (additionalNumbers.length > 0) {

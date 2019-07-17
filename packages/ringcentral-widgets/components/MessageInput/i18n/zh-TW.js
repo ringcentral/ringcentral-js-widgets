@@ -1,8 +1,8 @@
 export default {
   from: "來自",
   to: "至",
-  enterNameOrNumber: "輸入號碼或姓名……",
-  typeMessage: "輸入訊息……",
+  enterNameOrNumber: "輸入號碼或姓名...",
+  typeMessage: "輸入訊息...",
   send: "傳送"
 };
 

@@ -1,13 +1,6 @@
 import { Module } from 'ringcentral-integration/lib/di';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import callErrors from 'ringcentral-integration/modules/Call/callErrors';
-import Enum from 'ringcentral-integration/lib/Enum';
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import { selector } from 'ringcentral-integration/lib/selector';
 import { reduce, map } from 'ramda';
 import RcUIModule from '../../lib/RcUIModule';
-import getReducer from './getReducer';
 import countryNames from '../../lib/countryNames';
 
 @Module({
@@ -111,9 +104,9 @@ export default class ConferenceUI extends RcUIModule {
     };
   }
 
-  getUIFunctions({ enableAutoEnterHostKey=false }) {
+  getUIFunctions({ enableAutoEnterHostKey = false }) {
     return {
-      alert:(msg) => {
+      alert: (msg) => {
         this._alert.warning({ message: msg });
       },
       updateDialInNumber: (dialInNumber) => {

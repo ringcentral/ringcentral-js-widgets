@@ -17,6 +17,7 @@ export default {
   feedback: "意見回饋",
   userGuide: "新功能",
   quickAccess: "快速存取設定",
+  report: "分析報告",
   msteamsSetting: "Microsoft Teams 設定"
 };
 
@@ -38,4 +39,5 @@ export default {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@

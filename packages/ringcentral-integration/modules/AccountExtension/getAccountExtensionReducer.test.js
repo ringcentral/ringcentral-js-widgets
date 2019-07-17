@@ -64,7 +64,7 @@ describe('getTimestampReducer', () => {
   describe('timestampReducer', () => {
     const reducer = getTimestampReducer(actionTypes);
     it('should have initial state of null', () => {
-      expect(reducer(undefined, {})).to.be.null;
+      expect(reducer(undefined, {})).to.be.a('null');
     });
     it('should return original state if type is not recognized', () => {
       const originalState = [];
@@ -89,7 +89,7 @@ describe('getTimestampReducer', () => {
     it('should return null on resetSuccess', () => {
       expect(reducer(Date.now(), {
         type: actionTypes.resetSuccess,
-      })).to.be.null;
+      })).to.be.a('null');
     });
   });
 });

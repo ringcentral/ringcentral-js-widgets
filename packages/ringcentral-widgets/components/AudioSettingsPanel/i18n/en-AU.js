@@ -9,7 +9,11 @@ export default {
   micPermission: "Microphone Permission",
   noDevice: "No device",
   checkMicPermission: "Check Permission",
-  micNoPermissionMessage: "The app does not have permission to use microphone"
+  micNoPermissionMessage: "The app does not have permission to use microphone",
+  noLabel: "Unknown device",
+  notSetSinkIdTip: "Sorry, your current browser permissions are not set to allow us to access your audio output devices.",
+  noLabelTip: "Sorry, your current browser permissions are not set to allow us to access your audio input devices.",
+  clickHere: "Click here"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@
@@ -23,3 +27,7 @@ export default {
 // @key: @#@"noDevice"@#@ @source: @#@"No device"@#@
 // @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
 // @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@
+// @key: @#@"noLabel"@#@ @source: @#@"Unknown device"@#@
+// @key: @#@"notSetSinkIdTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up."@#@
+// @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
+// @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@

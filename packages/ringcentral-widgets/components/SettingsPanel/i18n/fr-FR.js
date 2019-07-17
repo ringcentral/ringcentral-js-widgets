@@ -17,6 +17,7 @@ export default {
   feedback: "Commentaires",
   userGuide: "Nouveautés",
   quickAccess: "Paramètre d'accès rapide",
+  report: "Rapport analytique",
   msteamsSetting: "Paramètres Microsoft Teams"
 };
 
@@ -38,4 +39,5 @@ export default {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@

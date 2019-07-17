@@ -15,7 +15,7 @@ import sleep from '../../lib/sleep';
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
 
-describe('ConnectivityMonitor', async () => {
+describe('ConnectivityMonitor', () => {
   describe('constructor', () => {
     it('should throw if options.client is undefined', () => {
       expect(() => (
@@ -210,7 +210,7 @@ describe('ConnectivityMonitor', async () => {
         sinon.assert.notCalled(instance._bindHandlers);
       });
   });
-  describe('_retry', async () => {
+  describe('_retry', () => {
     it(`should set timeout to call _checkConnection after heartBeatInterval time
     when this.connectivity === true`,
     async () => {

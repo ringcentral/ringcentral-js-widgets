@@ -10,15 +10,15 @@ import extensionInfoBody from '../mock/data/extensionInfo';
 
 
 export default (auth, client, alert, account, callingSettings, extensionPhoneNumber, extensionInfo) => {
-  describe('Calling Settings', async function () {
+  describe('Calling Settings', async () => {
     this.timeout(20000);
     mock.mockClient(client);
     let isLoginSuccess;
 
-    describe('When has permission', async function () {
+    describe('When has permission', async () => {
       this.timeout(20000);
 
-      before(async function () {
+      before(async () => {
         mock.mockForLogin();
         isLoginSuccess = await ensureLogin(auth, account);
         if (!isLoginSuccess) {
@@ -27,28 +27,28 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
         }
       });
 
-      it('Should Be Make Call with Softphone by Default', async function () {
+      it('Should Be Make Call with Softphone by Default', async () => {
         expect(callingSettings.callWith).to.equals(callingOptions.softphone);
         expect(callingSettings.callingMode).to.equals(callingModes.softphone);
       });
 
-      describe('Should Save Calling Mode', function () {
+      describe('Should Save Calling Mode', () => {
         this.timeout(20000);
-        it('Should Save My RingCentral Phone', async function () {
+        it('Should Save My RingCentral Phone', async () => {
           callingSettings.setData({
             callWith: callingOptions.myphone
           });
           expect(callingSettings.callWith).to.equals(callingOptions.myphone);
           expect(callingSettings.callingMode).to.equals(callingModes.ringout);
         });
-        it('Should Save Other Phone', async function () {
+        it('Should Save Other Phone', async () => {
           callingSettings.setData({
             callWith: callingOptions.otherphone
           });
           expect(callingSettings.callWith).to.equals(callingOptions.otherphone);
           expect(callingSettings.callingMode).to.equals(callingModes.ringout);
         });
-        it('Should Save Custom Phone', async function () {
+        it('Should Save Custom Phone', async () => {
           callingSettings.setData({
             callWith: callingOptions.customphone
           });
@@ -57,15 +57,15 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
         });
       });
 
-      describe('Should Save Options in RingOut Mode', function () {
+      describe('Should Save Options in RingOut Mode', () => {
         this.timeout(20000);
-        it('Should Save From Number', async function () {
+        it('Should Save From Number', async () => {
            callingSettings.setData({
             myLocation: '123'
           });
           expect(callingSettings.myLocation).to.equals('123');
         });
-        it('Should Save RingoutPrompt', async function () {
+        it('Should Save RingoutPrompt', async () => {
            callingSettings.setData({
             ringoutPrompt: '123'
           });
@@ -73,9 +73,9 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
         });
       });
 
-      describe('Should Allow Alert', function () {
+      describe('Should Allow Alert', () => {
         this.timeout(20000);
-        beforeEach(async function () {
+        beforeEach(async () => {
           const isAlertClear = await waitUntilEqual(() => {
             alert.dismissAll();
             return alert.state.messages.length;
@@ -85,26 +85,26 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
             this.skip();
           }
         });
-        describe('Should Prompt Alerts when withPrompt Equals True', function () {
-          it('Should Prompt Alert of saveSuccessWithSoftphone', async function () {
+        describe('Should Prompt Alerts when withPrompt Equals True', () => {
+          it('Should Prompt Alert of saveSuccessWithSoftphone', async () => {
             callingSettings.setData({
               callWith: callingOptions.softphone
             }, true);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccessWithSoftphone)).to.not.equal(undefined);
           });
-          it('Should Prompt Alert of saveSuccess when Calling Option is Other Phone', async function () {
+          it('Should Prompt Alert of saveSuccess when Calling Option is Other Phone', async () => {
             callingSettings.setData({
               callWith: callingOptions.otherphone
             }, true);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccess)).to.not.equal(undefined);
           });
-          it('Should Prompt Alert of saveSuccess when Calling Option is My RingCentral Phone', async function () {
+          it('Should Prompt Alert of saveSuccess when Calling Option is My RingCentral Phone', async () => {
             callingSettings.setData({
               callWith: callingOptions.myphone
             }, true);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccess)).to.not.equal(undefined);
           });
-          it('Should Prompt Alert of saveSuccess when Calling Option is Custom Phone', async function () {
+          it('Should Prompt Alert of saveSuccess when Calling Option is Custom Phone', async () => {
             callingSettings.setData({
               callWith: callingOptions.customphone
             }, true);
@@ -113,28 +113,28 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
 
         });
         describe('Should Not Prompt Alerts when withPrompt Equals False', function() {
-          it('Should Not Prompt Alert when Calling Option is Softphone', async function () {
+          it('Should Not Prompt Alert when Calling Option is Softphone', async () => {
             callingSettings.setData({
               callWith: callingOptions.softphone
             }, false);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccess)).to.equal(undefined);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccessWithSoftphone)).to.equal(undefined);
           });
-          it('Should Not Prompt Alert when Calling Option is My RingCentral Phone', async function () {
+          it('Should Not Prompt Alert when Calling Option is My RingCentral Phone', async () => {
             callingSettings.setData({
               callWith: callingOptions.myphone
             }, false);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccess)).to.equal(undefined);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccessWithSoftphone)).to.equal(undefined);
           });
-          it('Should Not Prompt Alert when Calling Option is Other Phone', async function () {
+          it('Should Not Prompt Alert when Calling Option is Other Phone', async () => {
             callingSettings.setData({
               callWith: callingOptions.otherphone
             }, false);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccess)).to.equal(undefined);
             expect(containsErrorMessage(alert.state.messages, callingSettingsMessages.saveSuccessWithSoftphone)).to.equal(undefined);
           });
-          it('Should Not Prompt Alert when Calling Option is Custom Phone', async function () {
+          it('Should Not Prompt Alert when Calling Option is Custom Phone', async () => {
             callingSettings.setData({
               callWith: callingOptions.customphone
             }, false);
@@ -143,9 +143,9 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
           });
         });
       });
-      describe('Should Remember after Logout', function () {
+      describe('Should Remember after Logout', () => {
         this.timeout(20000);
-        it('Should Remember Calling Settings after Re-login', async function () {
+        it('Should Remember Calling Settings after Re-login', async () => {
           this.timeout(20000);
           callingSettings.setData({
             callWith: callingOptions.customphone,
@@ -163,9 +163,9 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
           expect(callingSettings.callingMode).to.equals(callingModes.ringout);
         });
       });
-      describe('Should Have Required Phone Numbers', function () {
+      describe('Should Have Required Phone Numbers', () => {
         this.timeout(20000);
-        it('Should Have My Phone Numbers', async function () {
+        it('Should Have My Phone Numbers', async () => {
           const myPhoneNumbers = extensionPhoneNumber.directNumbers.map(item => item.phoneNumber);
           const { mainCompanyNumber } = extensionPhoneNumber;
           const { extensionNumber } = extensionInfo;

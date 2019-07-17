@@ -3,12 +3,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Tooltip from 'rc-tooltip';
-
+import FormattedMessage from '../FormattedMessage';
 import InfoIcon from '../../assets/images/Info.svg';
-
 import styles from './styles.scss';
 import i18n from './i18n';
-
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import InputField from '../InputField';
@@ -19,7 +17,10 @@ import IconLine from '../IconLine';
 
 const TooltipCom = typeof Tooltip === 'function' ? Tooltip : Tooltip.default;
 
+
 export default class AudioSettingsPanel extends Component {
+  _isFirefox = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +32,8 @@ export default class AudioSettingsPanel extends Component {
       inputDeviceId: props.inputDeviceId,
       outputDeviceId: props.outputDeviceId,
     };
+
+    this._isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
   }
 
   componentWillReceiveProps(newProps) {
@@ -175,8 +178,16 @@ export default class AudioSettingsPanel extends Component {
     });
   }
 
-  renderDeviceOption = (device) => {
-    return device.label || i18n.getString('noLabel', this.props.currentLocale);
+  renderDeviceOption = (device, index) => {
+    const { availableInputDevices, availableOutputDevices, currentLocale } = this.props;
+    const noLabel = i18n.getString('noLabel', currentLocale);
+    if (device.kind === 'audioinput' && availableInputDevices.length > 1) {
+      return device.label || `${noLabel} ${index + 1}`;
+    }
+    if (device.kind === 'audiooutput' && availableOutputDevices.length > 1) {
+      return device.label || `${noLabel} ${index + 1}`;
+    }
+    return device.label || noLabel;
   }
 
   renderDeviceValue(device) {
@@ -184,32 +195,64 @@ export default class AudioSettingsPanel extends Component {
   }
 
   renderOutputDevice = (value) => {
+    const { availableOutputDevices, currentLocale } = this.props;
     if (value === null) {
-      return i18n.getString('noDevice', this.props.currentLocale);
+      return i18n.getString('noDevice', currentLocale);
     }
     const device = find(
       device => device.deviceId === value,
-      this.props.availableOutputDevices
+      availableOutputDevices
     );
-    return device && device.label || i18n.getString('noLabel', this.props.currentLocale);
+    let noLabel = i18n.getString('noLabel', currentLocale);
+    if (availableOutputDevices.length > 1) {
+      const index = availableOutputDevices.indexOf(device);
+      if (index >= 0) {
+        noLabel = `${noLabel} ${index + 1}`;
+      }
+    }
+    return device && device.label || noLabel;
   }
 
   renderInputDevice = (value) => {
+    const { availableInputDevices, currentLocale } = this.props;
     if (value === null) {
-      return i18n.getString('noDevice', this.props.currentLocale);
+      return i18n.getString('noDevice', currentLocale);
     }
     const device = find(
       device => device.deviceId === value,
-      this.props.availableInputDevices
+      availableInputDevices
     );
-    return device && device.label || i18n.getString('noLabel', this.props.currentLocale);
+    let noLabel = i18n.getString('noLabel', currentLocale);
+    if (availableInputDevices.length > 1) {
+      const index = availableInputDevices.indexOf(device);
+      if (index >= 0) {
+        noLabel = `${noLabel} ${index + 1}`;
+      }
+    }
+    return device && device.label || noLabel;
   }
 
   isNoLabel() {
-    if (this.props.availableInputDevices.length) {
-      return this.props.availableInputDevices[0].label === '';
+    const {
+      availableInputDevices,
+    } = this.props;
+
+    let noLabel = false;
+
+    if (availableInputDevices && availableInputDevices.length) {
+      noLabel = availableInputDevices[0].label === '';
+    } else {
+      noLabel = this._isFirefox;
     }
-    return false;
+
+    return noLabel;
+  }
+
+  onOutputDeviceSetupClick(e) {
+    e.preventDefault();
+    // firefox setup output device wiki link
+    window.open(`https://support.ringcentral.com/s/article/13078-Integrations-RingCentral-for-Firefox-Output-Device`,
+      '_blank');
   }
 
   render() {
@@ -249,11 +292,11 @@ export default class AudioSettingsPanel extends Component {
     const permission = !userMedia ? (
       <IconLine
         noBorder
-        icon={
+        icon={(
           <Button onClick={checkUserMedia}>
             {i18n.getString('checkMicPermission')}
           </Button>
-        }>
+        )}>
         {i18n.getString('micNoPermissionMessage')}
       </IconLine>
     ) : null;
@@ -273,6 +316,13 @@ export default class AudioSettingsPanel extends Component {
     //       </InputField>
     //     </div>
     //   ) : null;
+    const clickHereComp = (
+      <a
+        onClick={this.onOutputDeviceSetupClick}
+        className={styles.setupOutputDeviceLink}>
+        {i18n.getString('clickHere', currentLocale)}
+      </a>
+    );
     const outputTooltip = HTMLMediaElement.prototype.setSinkId ? null : (
       <TooltipCom
         placement="bottom"
@@ -280,7 +330,11 @@ export default class AudioSettingsPanel extends Component {
         align={{
           offset: [0, 47],
         }}
-        overlay={i18n.getString('notSetSinkIdTip', currentLocale)}
+        overlay={(
+          <FormattedMessage
+            message={i18n.getString('notSetSinkIdTip', currentLocale)}
+            values={{ clickHereLink: clickHereComp }} />
+        )}
         arrowContent={<div className="rc-tooltip-arrow-inner" />}
         getTooltipContainer={() => this.outputTooltipContainner}
       >

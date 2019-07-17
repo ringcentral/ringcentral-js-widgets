@@ -6,15 +6,15 @@ import * as mock from '../mock';
 const authzProfileBody = require('../mock/data/authzProfile');
 
 export default (auth, client, forwardingNumber, account) => {
-  describe('ForwardingNumber:', function () {
+  describe('ForwardingNumber:', () => {
     this.timeout(20000);
     mock.mockClient(client);
 
     let isLoginSuccess;
     // const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
-    describe('When has ReadUserForwardingFlipNumbers permission', function () {
-      before(async function () {
+    describe('When has ReadUserForwardingFlipNumbers permission', () => {
+      before(async () => {
         mock.restore();
         mock.mockForLogin();
         isLoginSuccess = await ensureLogin(auth, account);
@@ -24,7 +24,7 @@ export default (auth, client, forwardingNumber, account) => {
         }
       });
 
-      after(async function () {
+      after(async () => {
         await auth.logout();
         await waitInSeconds(1);
       });
@@ -48,8 +48,8 @@ export default (auth, client, forwardingNumber, account) => {
       });
     });
 
-    describe("When doesn't have ReadUserForwardingFlipNumbers permission", function () {
-      before(async function () {
+    describe("When doesn't have ReadUserForwardingFlipNumbers permission", () => {
+      before(async () => {
         mock.restore();
         mock.mockForLogin({ mockAuthzProfile: false });
         mock.authzProfile({
@@ -62,7 +62,7 @@ export default (auth, client, forwardingNumber, account) => {
         }
       });
 
-      after(async function () {
+      after(async () => {
         await auth.logout();
         await waitInSeconds(1);
       });

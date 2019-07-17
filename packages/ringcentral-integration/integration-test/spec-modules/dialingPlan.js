@@ -6,14 +6,14 @@ import * as mock from '../mock';
 const authzProfileBody = require('../mock/data/authzProfile');
 
 export default (auth, client, dialingPlan, account) => {
-  describe('DialingPlan:', function () {
+  describe('DialingPlan:', () => {
     this.timeout(20000);
     mock.mockClient(client);
 
     let isLoginSuccess;
     const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
-    afterEach(async function () {
+    afterEach(async () => {
       auth.logout();
       await waitInSeconds(1);
     });

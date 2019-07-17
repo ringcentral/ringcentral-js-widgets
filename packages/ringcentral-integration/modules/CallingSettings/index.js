@@ -58,6 +58,7 @@ export default class CallingSettings extends RcModule {
     onFirstLogin,
     webphone,
     emergencyCallAvailable = false,
+    defaultRingoutPrompt,
     ...options
   }) {
     super({
@@ -77,6 +78,7 @@ export default class CallingSettings extends RcModule {
     this._emergencyCallAvailable = emergencyCallAvailable;
 
     this._onFirstLogin = onFirstLogin;
+    this.initRingoutPrompt = defaultRingoutPrompt;
 
     this._storage.registerReducer({
       key: this._storageKey,
@@ -297,6 +299,10 @@ export default class CallingSettings extends RcModule {
     return this.data.ringoutPrompt;
   }
 
+  get defaultRingoutPrompt() {
+    return this.initRingoutPrompt;
+  }
+
   get myLocation() {
     return this.data.myLocation;
   }
@@ -390,10 +396,10 @@ export default class CallingSettings extends RcModule {
     phoneNumbers => phoneNumbers.sort((firstItem, lastItem) => {
       if (firstItem.usageType === 'DirectNumber') return -1;
       if (lastItem.usageType === 'DirectNumber') return 1;
-      else if (firstItem.usageType === 'MainCompanyNumber') return -1;
-      else if (lastItem.usageType === 'MainCompanyNumber') return 1;
-      else if (firstItem.usageType < lastItem.usageType) return -1;
-      else if (firstItem.usageType > lastItem.usageType) return 1;
+      if (firstItem.usageType === 'MainCompanyNumber') return -1;
+      if (lastItem.usageType === 'MainCompanyNumber') return 1;
+      if (firstItem.usageType < lastItem.usageType) return -1;
+      if (firstItem.usageType > lastItem.usageType) return 1;
       return 0;
     }),
   ]

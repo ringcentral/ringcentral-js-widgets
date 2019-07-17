@@ -16,7 +16,7 @@ const DEFAULT_DEVICE = {
     };
   }
 };
-export default class ScriptTransport extends TransportBase {
+export default class MessageTransport extends TransportBase {
   constructor({
     addReceiver = DEFAULT_DEVICE.addReceiver,
     createEmitter = DEFAULT_DEVICE.createEmitter,
@@ -26,7 +26,7 @@ export default class ScriptTransport extends TransportBase {
   }) {
     super({
       ...options,
-      name: 'ScriptTransport',
+      name: 'MessageTransport',
     });
     this._addReceiver = addReceiver;
     this._createEmitter = createEmitter;

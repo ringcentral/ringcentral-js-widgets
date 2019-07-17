@@ -5,7 +5,7 @@ export default {
   [callingSettingsMessages.permissionChanged]: "您的权限最近已被更改。请前往 {link} 检查您的呼叫选项。",
   [callingSettingsMessages.phoneNumberChanged]: "您的电话号码信息最近已被更改。请前往 {link} 检查您的呼叫选项。",
   link: "设置 > 呼叫",
-  [callingSettingsMessages.webphonePermissionRemoved]: "您的权限已被更改，您无法通过浏览器拨打电话。有关详细信息，请联系您的账户管理员。",
+  [callingSettingsMessages.webphonePermissionRemoved]: "您的权限已被更改，您无法通过浏览器拨打电话。有关详细信息，请联系您的帐户管理员。",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "不支持紧急或特殊服务号码拨号。在紧急情况下，请使用传统有线或无线电话拨打紧急号码。"
 };
 

@@ -35,7 +35,7 @@ describe('CallingSettings Unit Test', () => {
       callingSettings[key].restore();
     });
   });
-  describe('_onStateChange', async () => {
+  describe('_onStateChange', () => {
     it('_init should be called once when _shouldInit is true', async () => {
       sinon.stub(callingSettings, '_shouldInit').callsFake(() => true);
       sinon.stub(callingSettings, '_shouldReset').callsFake(() => false);
@@ -290,7 +290,7 @@ describe('CallingSettings Unit Test', () => {
       5
     );
   });
-  describe('_initFromNumber', async () => {
+  describe('_initFromNumber', () => {
     it('updateFromNumber should be called once when fromNumbers is equal to 0', async () => {
       sinon.stub(callingSettings, 'fromNumber', { get: () => 0 });
       sinon.stub(callingSettings, 'fromNumbers', { get: () => ['123'] });
@@ -306,7 +306,7 @@ describe('CallingSettings Unit Test', () => {
       sinon.assert.notCalled(callingSettings.updateFromNumber);
     });
   });
-  describe('_validateSettings', async () => {
+  describe('_validateSettings', () => {
     it(`setSoftPhoneToCallWith should be called once and should alert danger callingSettingsMessages.webphonePermissionRemoved
     when _hasWebphonePermissionRemoved is true`, async () => {
       sinon.stub(callingSettings, '_hasWebphonePermissionRemoved').callsFake(() => true);

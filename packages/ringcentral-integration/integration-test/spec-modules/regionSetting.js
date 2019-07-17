@@ -6,13 +6,13 @@ import dialingPlanData from '../mock/data/dialingPlan';
 import extensionInfoData from '../mock/data/extensionInfo';
 
 export default (auth, client, regionSettings, account) => {
-  describe('Region Settings:', async function () {
+  describe('Region Settings:', async () => {
     this.timeout(20000);
     mock.mockClient(client);
     let isLoginSuccess;
     const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
-    before(async function () {
+    before(async () => {
       mock.mockForLogin();
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {

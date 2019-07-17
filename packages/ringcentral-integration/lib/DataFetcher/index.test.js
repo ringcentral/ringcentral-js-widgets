@@ -86,7 +86,7 @@ describe('DataFetcher Unit Test', () => {
     });
   });
 
-  describe('_init', async () => {
+  describe('_init', () => {
     it('fetchData should be called once', async () => {
       sinon.stub(dataFetcher, '_shouldFetch').callsFake(() => true);
       dataFetcher._polling = false;
@@ -190,7 +190,7 @@ describe('DataFetcher Unit Test', () => {
       sinon.assert.calledOnce(dataFetcher._subscription.subscribe);
     });
   });
-  describe('_fetchData', async () => {
+  describe('_fetchData', () => {
     it(`_startPolling should be called once when
     _auth.ownerId is equal to ownerId and
     _polling is true`, async () => {
@@ -258,7 +258,7 @@ describe('DataFetcher Unit Test', () => {
       }
     });
   });
-  describe('fetchData', async () => {
+  describe('fetchData', () => {
     it('_fetchData should be called once', async () => {
       dataFetcher._promise = null;
       sinon.stub(dataFetcher, '_fetchData').callsFake(() => 'foo');

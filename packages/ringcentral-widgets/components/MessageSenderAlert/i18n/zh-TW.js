@@ -17,7 +17,7 @@ export default {
   [messageSenderMessages.internalError]: "因為內部錯誤導致無法連線。請稍後再試一次。",
   [messageSenderMessages.notAnExtension]: "分機號碼不存在。",
   [messageSenderMessages.networkError]: "因為網路問題導致無法連線。請稍後再試一次。",
-  [messageSenderMessages.senderNumberInvalid]: "需要用到有效的電話號碼，才能將文字訊息傳送至您公司外的收件者，請聯絡您的管理員，為您的帳號加入直撥號碼。",
+  [messageSenderMessages.senderNumberInvalid]: "需要用到有效的電話號碼，才能將文字訊息傳送至您公司外的收件者，請聯絡您的管理員，為您的帳戶加入直撥號碼。",
   [messageSenderMessages.notSmsToExtension]: "無法使用主要電話號碼傳送至分機號碼。若您希望傳送至分機號碼，請僅輸入分機號碼。",
   [messageSenderMessages.internationalSMSNotSupported]: "不支援對國際電話號碼傳送簡訊。",
   [messageSenderMessages.noInternalSMSPermission]: "您沒有寄送訊息的權限。請聯絡您的 {brand} 帳戶管理員進行升級。",

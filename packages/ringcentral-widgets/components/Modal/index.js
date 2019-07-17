@@ -20,4 +20,3 @@ Modal.propTypes = {
 Modal.defaultProps = {
   onCancel: undefined,
 };
-

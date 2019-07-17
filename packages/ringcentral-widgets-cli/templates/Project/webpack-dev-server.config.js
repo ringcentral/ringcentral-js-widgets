@@ -70,7 +70,19 @@ const config = {
         exclude: /font|src(\/|\\)assets(\/|\\)images/,
         use: [
           'babel-loader',
-          'react-svg-loader',
+          {
+            loader: 'react-svg-loader',
+            options: {
+              jsx: true,
+              svgo: {
+                plugins: [
+                  {
+                    removeViewBox: false,
+                  },
+                ],
+              }
+            }
+          },
         ],
       },
       {

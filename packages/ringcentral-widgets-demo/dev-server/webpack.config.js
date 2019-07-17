@@ -37,7 +37,19 @@ const base = {
         exclude: /node_modules(\/|\\)(?!(ringcentral-widgets))|font/,
         use: [
           'babel-loader',
-          'react-svg-loader'
+          {
+            loader: 'react-svg-loader',
+            options: {
+              jsx: true,
+              svgo: {
+                plugins: [
+                  {
+                    removeViewBox: false,
+                  },
+                ],
+              }
+            }
+          }
         ]
       },
       {

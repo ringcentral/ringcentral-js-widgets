@@ -5,7 +5,7 @@ import { waitUntilEqual, waitInSeconds, waitUntilNotNull, waitUntilObjectSizeGre
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 
 export default (auth, client, account, alert, regionSettings, composeText, messageSender) => {
-  describe('ComposeText', async function () {
+  describe('ComposeText', async () => {
     this.timeout(20000);
     let conditionalDescribe = describe;
     const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
@@ -169,7 +169,7 @@ export default (auth, client, account, alert, regionSettings, composeText, messa
 
     conditionalDescribe('Validation', () => {
       this.timeout(20000);
-      beforeEach(async function () {
+      beforeEach(async () => {
         composeText.clean();
         const isAlertClear = await waitUntilEqual(() => {
           alert.dismissAll();

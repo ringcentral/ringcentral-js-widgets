@@ -49,11 +49,13 @@
     height: 17px;
     overflow: hidden;
     width: calc(60% - 32px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .optionLabel {
     display: inline-block;
-    height: 16px;
+    height: 17px;
     width: 40%;
     color: #666666;
     font-weight: 300;

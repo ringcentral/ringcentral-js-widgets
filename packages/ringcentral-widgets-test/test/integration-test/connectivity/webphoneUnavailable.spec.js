@@ -68,7 +68,7 @@ describe('Webphone badge', () => {
   });
 
   serverErrors.forEach(({ err, msg }) => {
-    describe(`webphone error code ${err}`, async () => {
+    describe(`webphone error code ${err}`, () => {
       beforeAll(async () => {
         wrapper = await getWrapper();
         phone = wrapper.props().phone;

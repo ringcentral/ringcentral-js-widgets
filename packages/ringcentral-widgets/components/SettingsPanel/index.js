@@ -201,6 +201,7 @@ export default function SettingsPanel({
     <IconLine
       icon={(
         <Switch
+          dataSign="AutoLogCall"
           disable={disableAutoLogEnabled}
           checked={autoLogEnabled}
           onChange={onAutoLogChange}
@@ -217,6 +218,7 @@ export default function SettingsPanel({
     <IconLine
       icon={(
         <Switch
+          dataSign="AutoLogNotes"
           disable={disableAutoLogNotesEnabled}
           checked={autoLogNotesEnabled}
           onChange={onAutoLogNotesChange}

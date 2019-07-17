@@ -362,7 +362,7 @@ export const When = (
                   onBlur={changeTime}
                   maxLength={2}
                   type="text" />
-                {useTimePicker && <div className={styles.colon}>{Moment(meeting.schedule.startTime).format('A')}</div>}
+                {useTimePicker && <div className={styles.colon}>{Moment(meeting.schedule.startTime).locale('en').format('A')}</div>}
               </div>
             </div>
             <div

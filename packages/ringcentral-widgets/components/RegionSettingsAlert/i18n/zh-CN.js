@@ -2,7 +2,7 @@ import regionSettingsMessages from 'ringcentral-integration/modules/RegionSettin
 export default {
   region: "地区",
   [regionSettingsMessages.saveSuccess]: "设置已成功保存。",
-  [regionSettingsMessages.dialingPlansChanged]: "您的账户不再支持以前的地区。\n    请验证您的新 {regionSettingsLink}。",
+  [regionSettingsMessages.dialingPlansChanged]: "您的帐户不再支持以前的地区。\n    请验证您的新 {regionSettingsLink}。",
   regionSettings: "地区设置",
   [regionSettingsMessages.areaCodeInvalid]: "请输入有效的区号。"
 };

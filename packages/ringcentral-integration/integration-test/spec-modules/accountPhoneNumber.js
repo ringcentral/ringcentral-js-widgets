@@ -6,14 +6,14 @@ import * as mock from '../mock';
 const authzProfileBody = require('../mock/data/authzProfile');
 
 export default (auth, client, accountPhoneNumber, account) => {
-  describe('AccountPhoneNumber:', function () {
+  describe('AccountPhoneNumber:', () => {
     this.timeout(20000);
     mock.mockClient(client);
 
     let isLoginSuccess;
     const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
-    describe('when there is ReadCompanyPhoneNumbers permission:', function () {
+    describe('when there is ReadCompanyPhoneNumbers permission:', () => {
       before(async function() {
         mock.restore();
         mock.mockForLogin();
@@ -24,7 +24,7 @@ export default (auth, client, accountPhoneNumber, account) => {
         }
       });
 
-      after(async function () {
+      after(async () => {
         await auth.logout();
         await waitInSeconds(1);
       });
@@ -42,7 +42,7 @@ export default (auth, client, accountPhoneNumber, account) => {
       });
     });
 
-    describe("when there isn't ReadCompanyPhoneNumbers permission:", function () {
+    describe("when there isn't ReadCompanyPhoneNumbers permission:", () => {
       before(async function() {
         mock.restore();
         mock.mockForLogin({ mockAuthzProfile: false });
@@ -56,7 +56,7 @@ export default (auth, client, accountPhoneNumber, account) => {
         }
       });
 
-      after(async function () {
+      after(async () => {
         await auth.logout();
         await waitInSeconds(1);
       });

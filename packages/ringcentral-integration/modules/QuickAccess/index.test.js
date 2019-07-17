@@ -19,7 +19,7 @@ describe('QuickAccess Unit Test', () => {
       quickAccess[key].restore();
     });
   });
-  describe('_onStateChange', async () => {
+  describe('_onStateChange', () => {
     it('exit should be called once when this._webphone.ready && this._webphone.ringSession && this._webphone.ringSession !== this._lastRingSession', async () => {
       sinon.stub(quickAccess, 'exit');
       sinon.stub(quickAccess, 'status', {

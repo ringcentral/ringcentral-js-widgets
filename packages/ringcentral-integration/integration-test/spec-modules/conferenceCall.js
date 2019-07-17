@@ -14,7 +14,7 @@ import callDirection from '../../enums/callDirections';
 import sinon from 'sinon';
 
 export default (auth, client, conferenceCall, alert, account) => {
-  describe('ConferenceCall:', function () {
+  describe('ConferenceCall:', () => {
     this.timeout(20000);
     mock.mockClient(client);
     const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
@@ -29,13 +29,13 @@ export default (auth, client, conferenceCall, alert, account) => {
       });
     });
 
-    describe('Should Update Conference Successfully', function () {
-      after(async function () {
+    describe('Should Update Conference Successfully', () => {
+      after(async () => {
         await auth.logout();
         await waitInSeconds(1);
       });
 
-      before(async function () {
+      before(async () => {
         mock.restore();
         mock.mockForLogin({
           mockAuthzProfile: false
@@ -56,7 +56,7 @@ export default (auth, client, conferenceCall, alert, account) => {
         const rawRequest =
           clientHistoryRequest.getRawResponse(ClientHistoryRequest.endPoints.conferenceCall);
         expect(JSON.stringify(sessionData)).to.equal(JSON.stringify(rawRequest.session));
-        // FIXME: because we are unable to mock sip.js instance, so skip the session assertation below:        
+        // FIXME: because we are unable to mock sip.js instance, so skip the session assertation below:
         // expect(conferenceCall.conferences).to.have.key(rawRequest.session.id);
       });
 
@@ -70,13 +70,13 @@ export default (auth, client, conferenceCall, alert, account) => {
       });
     });
 
-    describe('Should Failed to Update Conference', async () => {
-      after(async function () {
+    describe('Should Failed to Update Conference', () => {
+      after(async () => {
         await auth.logout();
         await waitInSeconds(1);
       });
 
-      before(async function () {
+      before(async () => {
         conferenceCall._reset();
         mock.restore();
         mock.mockForLogin({

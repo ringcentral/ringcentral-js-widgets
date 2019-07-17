@@ -118,7 +118,7 @@ export default class Conference extends DataFetcher {
   @proxify
   async updateEnableJoinBeforeHost(allowJoinBeforeHost) {
     try {
-      const data = await updateJoinBeforeHost(this.client, allowJoinBeforeHost);
+      const data = await updateJoinBeforeHost(this._client, allowJoinBeforeHost);
       this._store.dispatch({ type: this.actionTypes.fetchSuccess, data });
       return data;
     } catch (error) {

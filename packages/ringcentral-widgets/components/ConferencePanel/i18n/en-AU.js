@@ -7,6 +7,7 @@ export default {
   selectNumbers: "Select numbers",
   enableJoinBeforeHost: "Enable joining before Host",
   conferenceCommands: "Conference commands",
+  conferenceOptions: "Conference Options",
   inviteWithGCalendar: "Invite with Google Calendar",
   inviteWithText: "Invite by text",
   joinAsHost: "Launch Conference",
@@ -14,7 +15,8 @@ export default {
   inviteText_att: "Please join the {brandName} conference.\n\nDial-in Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing.",
   inviteText_bt: "Please join the {brandName} conference.\n\nDial-in Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}",
   inviteText_rc: "Please join the {brandName} conference.\n\nDial-in Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing.",
-  inviteText_telus: "Please join the {brandName} conference.\n\nDial-in Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"
+  inviteText_telus: "Please join the {brandName} conference.\n\nDial-in Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}",
+  saveAsDefault: "Save as default"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
@@ -25,6 +27,7 @@ export default {
 // @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"conferenceOptions"@#@ @source: @#@"Conference Options"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@
@@ -33,3 +36,4 @@ export default {
 // @key: @#@"inviteText_bt"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
 // @key: @#@"inviteText_rc"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@
 // @key: @#@"inviteText_telus"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
+// @key: @#@"saveAsDefault"@#@ @source: @#@"Save as default"@#@

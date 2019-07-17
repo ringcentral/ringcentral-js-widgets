@@ -19,7 +19,7 @@ export default class CallingSettingsUI extends RcUIModule {
     locale,
     webphone,
     routerInteraction,
-    searchable,
+    locationSearchable,
     ...options
   }) {
     super({ ...options });
@@ -28,7 +28,7 @@ export default class CallingSettingsUI extends RcUIModule {
     this._locale = locale;
     this._webphone = webphone;
     this._routerInteraction = routerInteraction;
-    this.locationSearchable = searchable;
+    this.locationSearchable = locationSearchable;
   }
 
   get showSpinner() {
@@ -49,10 +49,11 @@ export default class CallingSettingsUI extends RcUIModule {
       callWith: this._callingSettings.callWith,
       myLocation: this._callingSettings.myLocation,
       ringoutPrompt: this._callingSettings.ringoutPrompt,
+      defaultRingoutPrompt: this._callingSettings.defaultRingoutPrompt,
       availableNumbers: this._callingSettings.availableNumbers,
       disabled: !!(this._webphone && this._webphone.sessions.length > 0),
       showSpinner: this.showSpinner,
-      searchable: this.locationSearchable
+      locationSearchable: this.locationSearchable,
     };
   }
 

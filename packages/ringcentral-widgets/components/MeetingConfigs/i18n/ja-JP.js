@@ -6,12 +6,12 @@ export default {
   recurringDescribe: "カレンダーの出席依頼で、参加者に定期的または繰り返し確認することを忘れないようにしてください。",
   video: "ビデオ",
   videoDescribe: "会議に参加する場合",
-  host: "ホスト",
-  participants: "参加者",
-  audioOptions: "音声オプション",
+  host: "ホストビデオオン",
+  participants: "参加者ビデオオン",
+  audioOptions: "オーディオオプション",
   voIPOnly: "VoIPのみ",
   both: "両方",
-  meetingOptions: "会議のオプション",
+  meetingOptions: "会議オプション",
   requirePassword: "会議のパスワードを要求する",
   password: "パスワード",
   enableJoinBeforeHost: "ホストより前の参加を可能にする",
@@ -27,12 +27,12 @@ export default {
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@
 // @key: @#@"videoDescribe"@#@ @source: @#@"When joining a meeting"@#@
-// @key: @#@"host"@#@ @source: @#@"Host"@#@
-// @key: @#@"participants"@#@ @source: @#@"Participant"@#@
-// @key: @#@"audioOptions"@#@ @source: @#@"Audio Options"@#@
+// @key: @#@"host"@#@ @source: @#@"Host video on"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participant video on"@#@
+// @key: @#@"audioOptions"@#@ @source: @#@"Audio options"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"VoIP Only"@#@
 // @key: @#@"both"@#@ @source: @#@"Both"@#@
-// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting Options"@#@
+// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@

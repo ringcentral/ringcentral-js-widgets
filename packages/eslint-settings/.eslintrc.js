@@ -91,6 +91,7 @@ module.exports = {
     'no-mixed-operators': 0,
     'react/no-did-mount-set-state': 0, // dom size detection after mount may require setState in didMount
     'consistent-return': 0,
+    'react/jsx-no-target-blank': 0
   },
   overrides: [
     {
