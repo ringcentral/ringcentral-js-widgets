@@ -27,28 +27,35 @@ function getOutputDeviceIdReducer(types) {
 
     switch (type) {
       case types.setData:
-        return outputDeviceId;
+        {
+          return outputDeviceId;
+        }
 
       case types.setAvailableDevices:
       case types.getUserMediaError:
-        if ((0, _ramda.find)(function (device) {
-          return device.deviceId === state && device.kind === 'audiooutput';
-        }, devices)) {
-          return state;
-        } // For Firefox, don't have default device id
+        {
+          var isDeviceExist = (0, _ramda.find)(function (device) {
+            return device.deviceId === state && device.kind === 'audiooutput';
+          }, devices);
+
+          if (isDeviceExist) {
+            return state;
+          } // For Firefox, don't have default device id
 
 
-        if (state === 'default') {
+          var hasDefaultDevice = (0, _ramda.find)(function (device) {
+            return device.deviceId === 'default' && device.kind === 'audiooutput';
+          }, devices);
           var firstDevice = (0, _ramda.find)(function (device) {
             return device.kind === 'audiooutput';
           }, devices);
 
-          if (firstDevice) {
+          if (!hasDefaultDevice && firstDevice) {
             return firstDevice.deviceId;
           }
-        }
 
-        return 'default';
+          return 'default';
+        }
 
       default:
         return state;
@@ -69,28 +76,33 @@ function getInputDeviceIdReducer(types) {
 
     switch (type) {
       case types.setData:
-        return inputDeviceId;
+        {
+          return inputDeviceId;
+        }
 
       case types.setAvailableDevices:
       case types.getUserMediaError:
-        if ((0, _ramda.find)(function (device) {
-          return device.deviceId === state && device.kind === 'audioinput';
-        }, devices)) {
-          return state;
-        } // For Firefox, don't have default device id
+        {
+          if ((0, _ramda.find)(function (device) {
+            return device.deviceId === state && device.kind === 'audioinput';
+          }, devices)) {
+            return state;
+          } // For Firefox, don't have default device id
 
 
-        if (state === 'default') {
+          var hasDefaultDevice = (0, _ramda.find)(function (device) {
+            return device.deviceId === 'default' && device.kind === 'audioinput';
+          }, devices);
           var firstDevice = (0, _ramda.find)(function (device) {
             return device.kind === 'audioinput';
           }, devices);
 
-          if (firstDevice) {
+          if (!hasDefaultDevice && firstDevice) {
             return firstDevice.deviceId;
           }
-        }
 
-        return 'default';
+          return 'default';
+        }
 
       default:
         return state;

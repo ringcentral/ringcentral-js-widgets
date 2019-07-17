@@ -133,7 +133,7 @@ function (_StorageBase) {
       _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee() {
-        var storageKey, _key, currentData, _key2;
+        var storageKey, key, currentData, _key;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -165,16 +165,16 @@ function (_StorageBase) {
                   break;
                 }
 
-                _key = _context.t1.value;
+                key = _context.t1.value;
 
-                if (_this2._reducers[_key]) {
+                if (_this2._reducers[key]) {
                   _context.next = 14;
                   break;
                 }
 
-                delete storedData[_key];
+                delete storedData[key];
                 _context.next = 14;
-                return _this2._storage.removeItem(_key);
+                return _this2._storage.removeItem(key);
 
               case 14:
                 _context.next = 8;
@@ -240,11 +240,11 @@ function (_StorageBase) {
                   // save new data to storage when changed
                   currentData = _this2.data;
 
-                  for (_key2 in currentData) {
-                    if (storedData[_key2] !== currentData[_key2]) {
-                      _this2._storage.setItem(_key2, currentData[_key2]);
+                  for (_key in currentData) {
+                    if (storedData[_key] !== currentData[_key]) {
+                      _this2._storage.setItem(_key, currentData[_key]);
 
-                      storedData[_key2] = currentData[_key2];
+                      storedData[_key] = currentData[_key];
                     }
                   }
                 }

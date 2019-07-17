@@ -19,6 +19,8 @@ var _callErrors = _interopRequireDefault(require("../../modules/Call/callErrors"
 
 var _WaitUtil = require("../utils/WaitUtil");
 
+var _this = void 0;
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -35,7 +37,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
       while (1) {
         switch (_context34.prev = _context34.next) {
           case 0:
-            this.timeout(20000);
+            _this.timeout(20000);
+
             before(
             /*#__PURE__*/
             _asyncToGenerator(
@@ -59,7 +62,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       if (!isLoginSuccess) {
                         console.error('Skip test case as failed to login with credential ', accountWithMultiDP);
-                        this.skip();
+
+                        _this.skip();
                       }
 
                       _context.next = 7;
@@ -70,7 +74,7 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       return _context.stop();
                   }
                 }
-              }, _callee, this);
+              }, _callee);
             })));
             afterEach(
             /*#__PURE__*/
@@ -91,7 +95,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
               }, _callee2);
             })));
             describe('Basic Validation', function () {
-              this.timeout(10000);
+              _this.timeout(10000);
+
               beforeEach(
               /*#__PURE__*/
               _asyncToGenerator(
@@ -235,7 +240,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
               })));
             });
             describe('Validation with US/CA Local Number Format', function () {
-              this.timeout(10000);
+              _this.timeout(10000);
+
               beforeEach(
               /*#__PURE__*/
               _asyncToGenerator(
@@ -257,7 +263,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                         if (!isAlertClear) {
                           console.error('Alert is not cleared after dismissAll');
-                          this.skip();
+
+                          _this.skip();
                         }
 
                       case 4:
@@ -265,7 +272,7 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context7.stop();
                     }
                   }
-                }, _callee7, this);
+                }, _callee7);
               })));
               it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx Format',
               /*#__PURE__*/
@@ -515,7 +522,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
               })));
             });
             describe('Validation with Region Setting', function () {
-              this.timeout(10000);
+              _this.timeout(10000);
+
               beforeEach(
               /*#__PURE__*/
               _asyncToGenerator(
@@ -537,7 +545,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                         if (!isAlertClear) {
                           console.error('Alert is not cleared after dismissAll');
-                          this.skip();
+
+                          _this.skip();
                         }
 
                       case 4:
@@ -545,7 +554,7 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context14.stop();
                     }
                   }
-                }, _callee14, this);
+                }, _callee14);
               })));
               it('Should Alert No AreaCode - Call 7 Digital Number with US Dialing Plan without Area Code',
               /*#__PURE__*/
@@ -1335,7 +1344,7 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
             return _context34.stop();
         }
       }
-    }, _callee34, this);
+    }, _callee34);
   })));
 };
 

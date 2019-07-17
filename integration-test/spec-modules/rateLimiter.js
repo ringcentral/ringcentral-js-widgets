@@ -19,6 +19,8 @@ var _HelpUtil = require("../utils/HelpUtil");
 
 var _WaitUtil = require("../utils/WaitUtil");
 
+var _this = void 0;
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -36,7 +38,8 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            this.timeout(20000);
+            _this.timeout(20000);
+
             conditionalDescribe = describe;
             _context3.next = 4;
             return (0, _HelpUtil.ensureLogin)(auth, account);
@@ -50,6 +53,8 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
             }
 
             conditionalDescribe('Should Allow Alert', function () {
+              var _this2 = this;
+
               this.timeout(20000);
               beforeEach(
               /*#__PURE__*/
@@ -72,7 +77,8 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
 
                         if (!isAlertClear) {
                           console.error('Alert is not cleared after dismissAll');
-                          this.skip();
+
+                          _this2.skip();
                         }
 
                       case 4:
@@ -80,7 +86,7 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
                         return _context.stop();
                     }
                   }
-                }, _callee, this);
+                }, _callee);
               })));
               describe('Should Prompt Alerts when rateLimiter occurs', function () {
                 it('Should Prompt Alert of rateLimiter',
@@ -111,7 +117,7 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
             return _context3.stop();
         }
       }
-    }, _callee3, this);
+    }, _callee3);
   })));
 };
 

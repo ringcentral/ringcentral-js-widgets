@@ -9,31 +9,21 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.promise");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.array.filter");
 
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.map");
 
 var _HelpUtil = require("../utils/HelpUtil");
 
 var _WaitUtil = require("../utils/WaitUtil");
 
-var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
-
 var mock = _interopRequireWildcard(require("../mock"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
+var _this = void 0;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -43,12 +33,11 @@ var authzProfileBody = require('../mock/data/authzProfile');
 
 var _default = function _default(auth, client, accountExtension, account) {
   describe('AccountExtension:', function () {
-    var _this = this;
+    _this.timeout(20000);
 
-    this.timeout(20000);
     mock.mockClient(client);
-    var isLoginSuccess;
-    var clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
+    var isLoginSuccess; // const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
+
     afterEach(
     /*#__PURE__*/
     _asyncToGenerator(

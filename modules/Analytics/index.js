@@ -514,10 +514,10 @@ function (_RcModule) {
       if (this._router && this._router.actionTypes.locationChange === action.type) {
         var path = action.payload && action.payload.pathname;
 
-        var _target = this._getTrackTarget(path);
+        var target = this._getTrackTarget(path);
 
-        if (_target) {
-          this.trackNavigation(_objectSpread({}, _target));
+        if (target) {
+          this.trackNavigation(_objectSpread({}, target));
         }
       }
     }

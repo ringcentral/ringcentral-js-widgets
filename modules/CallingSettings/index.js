@@ -153,7 +153,8 @@ function (_RcModule) {
         webphone = _ref.webphone,
         _ref$emergencyCallAva = _ref.emergencyCallAvailable,
         emergencyCallAvailable = _ref$emergencyCallAva === void 0 ? false : _ref$emergencyCallAva,
-        options = _objectWithoutProperties(_ref, ["alert", "brand", "extensionInfo", "extensionPhoneNumber", "forwardingNumber", "storage", "rolesAndPermissions", "tabManager", "onFirstLogin", "webphone", "emergencyCallAvailable"]);
+        defaultRingoutPrompt = _ref.defaultRingoutPrompt,
+        options = _objectWithoutProperties(_ref, ["alert", "brand", "extensionInfo", "extensionPhoneNumber", "forwardingNumber", "storage", "rolesAndPermissions", "tabManager", "onFirstLogin", "webphone", "emergencyCallAvailable", "defaultRingoutPrompt"]);
 
     _classCallCheck(this, CallingSettings);
 
@@ -183,6 +184,7 @@ function (_RcModule) {
     _this._storageKey = 'callingSettingsData';
     _this._emergencyCallAvailable = emergencyCallAvailable;
     _this._onFirstLogin = onFirstLogin;
+    _this.initRingoutPrompt = defaultRingoutPrompt;
 
     _this._storage.registerReducer({
       key: _this._storageKey,
@@ -655,6 +657,11 @@ function (_RcModule) {
       return this.data.ringoutPrompt;
     }
   }, {
+    key: "defaultRingoutPrompt",
+    get: function get() {
+      return this.initRingoutPrompt;
+    }
+  }, {
     key: "myLocation",
     get: function get() {
       return this.data.myLocation;
@@ -802,7 +809,11 @@ function (_RcModule) {
     }, function (phoneNumbers) {
       return phoneNumbers.sort(function (firstItem, lastItem) {
         if (firstItem.usageType === 'DirectNumber') return -1;
-        if (lastItem.usageType === 'DirectNumber') return 1;else if (firstItem.usageType === 'MainCompanyNumber') return -1;else if (lastItem.usageType === 'MainCompanyNumber') return 1;else if (firstItem.usageType < lastItem.usageType) return -1;else if (firstItem.usageType > lastItem.usageType) return 1;
+        if (lastItem.usageType === 'DirectNumber') return 1;
+        if (firstItem.usageType === 'MainCompanyNumber') return -1;
+        if (lastItem.usageType === 'MainCompanyNumber') return 1;
+        if (firstItem.usageType < lastItem.usageType) return -1;
+        if (firstItem.usageType > lastItem.usageType) return 1;
         return 0;
       });
     }];

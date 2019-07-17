@@ -37,6 +37,8 @@ var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"))
 
 var _extensionInfo = _interopRequireDefault(require("../mock/data/extensionInfo"));
 
+var _this = void 0;
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -56,7 +58,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
       while (1) {
         switch (_context22.prev = _context22.next) {
           case 0:
-            this.timeout(20000);
+            _this.timeout(20000);
+
             mock.mockClient(client);
             describe('When has permission',
             /*#__PURE__*/
@@ -67,7 +70,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                 while (1) {
                   switch (_context19.prev = _context19.next) {
                     case 0:
-                      this.timeout(20000);
+                      _this.timeout(20000);
+
                       before(
                       /*#__PURE__*/
                       _asyncToGenerator(
@@ -86,7 +90,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
 
                                 if (!isLoginSuccess) {
                                   console.error('Skip test case as failed to login with credential ', account);
-                                  this.skip();
+
+                                  _this.skip();
                                 }
 
                               case 5:
@@ -94,7 +99,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 return _context.stop();
                             }
                           }
-                        }, _callee, this);
+                        }, _callee);
                       })));
                       it('Should Be Make Call with Softphone by Default',
                       /*#__PURE__*/
@@ -116,7 +121,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         }, _callee2);
                       })));
                       describe('Should Save Calling Mode', function () {
-                        this.timeout(20000);
+                        _this.timeout(20000);
+
                         it('Should Save My RingCentral Phone',
                         /*#__PURE__*/
                         _asyncToGenerator(
@@ -185,7 +191,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         })));
                       });
                       describe('Should Save Options in RingOut Mode', function () {
-                        this.timeout(20000);
+                        _this.timeout(20000);
+
                         it('Should Save From Number',
                         /*#__PURE__*/
                         _asyncToGenerator(
@@ -230,7 +237,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         })));
                       });
                       describe('Should Allow Alert', function () {
-                        this.timeout(20000);
+                        _this.timeout(20000);
+
                         beforeEach(
                         /*#__PURE__*/
                         _asyncToGenerator(
@@ -252,7 +260,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
 
                                   if (!isAlertClear) {
                                     console.error('Alert is not cleared after dismissAll');
-                                    this.skip();
+
+                                    _this.skip();
                                   }
 
                                 case 4:
@@ -260,7 +269,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context8.stop();
                               }
                             }
-                          }, _callee8, this);
+                          }, _callee8);
                         })));
                         describe('Should Prompt Alerts when withPrompt Equals True', function () {
                           it('Should Prompt Alert of saveSuccessWithSoftphone',
@@ -440,7 +449,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         });
                       });
                       describe('Should Remember after Logout', function () {
-                        this.timeout(20000);
+                        _this.timeout(20000);
+
                         it('Should Remember Calling Settings after Re-login',
                         /*#__PURE__*/
                         _asyncToGenerator(
@@ -450,7 +460,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                             while (1) {
                               switch (_context17.prev = _context17.next) {
                                 case 0:
-                                  this.timeout(20000);
+                                  _this.timeout(20000);
+
                                   callingSettings.setData({
                                     callWith: _callingOptions["default"].customphone,
                                     myLocation: '456',
@@ -479,11 +490,12 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context17.stop();
                               }
                             }
-                          }, _callee17, this);
+                          }, _callee17);
                         })));
                       });
                       describe('Should Have Required Phone Numbers', function () {
-                        this.timeout(20000);
+                        _this.timeout(20000);
+
                         it('Should Have My Phone Numbers',
                         /*#__PURE__*/
                         _asyncToGenerator(
@@ -523,7 +535,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                       return _context19.stop();
                   }
                 }
-              }, _callee19, this);
+              }, _callee19);
             })));
             it('Should only include softphone when ReadUserPhoneNumbers is false',
             /*#__PURE__*/
@@ -597,7 +609,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
             return _context22.stop();
         }
       }
-    }, _callee22, this);
+    }, _callee22);
   })));
 };
 

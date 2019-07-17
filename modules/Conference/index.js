@@ -267,7 +267,7 @@ function (_DataFetcher) {
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return (0, _conferenceHelper.updateJoinBeforeHost)(this.client, allowJoinBeforeHost);
+                return (0, _conferenceHelper.updateJoinBeforeHost)(this._client, allowJoinBeforeHost);
 
               case 3:
                 data = _context3.sent;

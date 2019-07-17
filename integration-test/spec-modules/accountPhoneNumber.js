@@ -33,6 +33,8 @@ var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHisto
 
 var mock = _interopRequireWildcard(require("../mock"));
 
+var _this = void 0;
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -45,13 +47,12 @@ var authzProfileBody = require('../mock/data/authzProfile');
 
 var _default = function _default(auth, client, accountPhoneNumber, account) {
   describe('AccountPhoneNumber:', function () {
-    this.timeout(20000);
+    _this.timeout(20000);
+
     mock.mockClient(client);
     var isLoginSuccess;
     var clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
     describe('when there is ReadCompanyPhoneNumbers permission:', function () {
-      var _this = this;
-
       before(
       /*#__PURE__*/
       _asyncToGenerator(
@@ -154,8 +155,6 @@ var _default = function _default(auth, client, accountPhoneNumber, account) {
       })));
     });
     describe("when there isn't ReadCompanyPhoneNumbers permission:", function () {
-      var _this2 = this;
-
       before(
       /*#__PURE__*/
       _asyncToGenerator(
@@ -224,7 +223,7 @@ var _default = function _default(auth, client, accountPhoneNumber, account) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                _this2.retries(2);
+                _this.retries(2);
 
                 _context7.next = 3;
                 return (0, _WaitUtil.waitInSeconds)(1);
@@ -248,7 +247,7 @@ var _default = function _default(auth, client, accountPhoneNumber, account) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _this2.retries(2);
+                _this.retries(2);
 
                 _context8.next = 3;
                 return (0, _WaitUtil.waitInSeconds)(1);

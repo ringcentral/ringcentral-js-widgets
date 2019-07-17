@@ -33,6 +33,8 @@ var _dialingPlan = _interopRequireDefault(require("../mock/data/dialingPlan"));
 
 var _extensionInfo = _interopRequireDefault(require("../mock/data/extensionInfo"));
 
+var _this = void 0;
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -47,14 +49,13 @@ var _default = function _default(auth, client, regionSettings, account) {
   _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee3() {
-    var _this = this;
-
     var isLoginSuccess, clientHistoryRequest;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            this.timeout(20000);
+            _this.timeout(20000);
+
             mock.mockClient(client);
             clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
             before(
@@ -75,7 +76,8 @@ var _default = function _default(auth, client, regionSettings, account) {
 
                       if (!isLoginSuccess) {
                         console.error('Skip test case as failed to login with credential ', account);
-                        this.skip();
+
+                        _this.skip();
                       }
 
                     case 5:
@@ -83,7 +85,7 @@ var _default = function _default(auth, client, regionSettings, account) {
                       return _context.stop();
                   }
                 }
-              }, _callee, this);
+              }, _callee);
             })));
             it('should be ready in 2 seconds after login',
             /*#__PURE__*/
@@ -120,7 +122,7 @@ var _default = function _default(auth, client, regionSettings, account) {
             return _context3.stop();
         }
       }
-    }, _callee3, this);
+    }, _callee3);
   })));
 };
 

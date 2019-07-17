@@ -31,6 +31,8 @@ var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHisto
 
 var mock = _interopRequireWildcard(require("../mock"));
 
+var _this = void 0;
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -43,13 +45,12 @@ var authzProfileBody = require('../mock/data/authzProfile');
 
 var _default = function _default(auth, client, extensionPhoneNumber, account) {
   describe('ExtensionPhoneNumber:', function () {
-    this.timeout(20000);
+    _this.timeout(20000);
+
     mock.mockClient(client);
     var isLoginSuccess;
     var clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
     describe('When has ReadUserPhoneNumbers permission', function () {
-      var _this = this;
-
       before(
       /*#__PURE__*/
       _asyncToGenerator(
@@ -69,7 +70,8 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
 
                 if (!isLoginSuccess) {
                   console.error('Skip test case as failed to login with credential ', account);
-                  this.skip();
+
+                  _this.skip();
                 }
 
               case 6:
@@ -77,7 +79,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee);
       })));
       after(
       /*#__PURE__*/
@@ -248,8 +250,6 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
       })));
     });
     describe("When doesn't have ReadUserPhoneNumbers permission", function () {
-      var _this2 = this;
-
       before(
       /*#__PURE__*/
       _asyncToGenerator(
@@ -276,7 +276,8 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
 
                 if (!isLoginSuccess) {
                   console.error('Skip test case as failed to login with credential ', account);
-                  this.skip();
+
+                  _this.skip();
                 }
 
               case 7:
@@ -284,7 +285,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 return _context9.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee9);
       })));
       after(
       /*#__PURE__*/
@@ -318,7 +319,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
-                _this2.retries(2);
+                _this.retries(2);
 
                 _context11.next = 3;
                 return (0, _WaitUtil.waitInSeconds)(1);
@@ -342,7 +343,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
-                _this2.retries(2);
+                _this.retries(2);
 
                 _context12.next = 3;
                 return (0, _WaitUtil.waitInSeconds)(1);
@@ -366,7 +367,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
-                _this2.retries(2);
+                _this.retries(2);
 
                 _context13.next = 3;
                 return (0, _WaitUtil.waitInSeconds)(1);
@@ -390,7 +391,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
-                _this2.retries(2);
+                _this.retries(2);
 
                 _context14.next = 3;
                 return (0, _WaitUtil.waitInSeconds)(1);
@@ -414,7 +415,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
           while (1) {
             switch (_context15.prev = _context15.next) {
               case 0:
-                _this2.retries(2);
+                _this.retries(2);
 
                 _context15.next = 3;
                 return (0, _WaitUtil.waitInSeconds)(1);
@@ -438,7 +439,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
           while (1) {
             switch (_context16.prev = _context16.next) {
               case 0:
-                _this2.retries(2);
+                _this.retries(2);
 
                 _context16.next = 3;
                 return (0, _WaitUtil.waitInSeconds)(1);

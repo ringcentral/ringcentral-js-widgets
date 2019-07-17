@@ -39,6 +39,8 @@ var _WaitUtil = require("../utils/WaitUtil");
 
 var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
+var _this = void 0;
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -55,14 +57,13 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
   _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee41() {
-    var _this = this;
-
     var conditionalDescribe, clientHistoryRequest;
     return regeneratorRuntime.wrap(function _callee41$(_context41) {
       while (1) {
         switch (_context41.prev = _context41.next) {
           case 0:
-            this.timeout(20000);
+            _this.timeout(20000);
+
             conditionalDescribe = describe;
             clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
             before(
@@ -1503,7 +1504,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
             return _context41.stop();
         }
       }
-    }, _callee41, this);
+    }, _callee41);
   })));
 };
 

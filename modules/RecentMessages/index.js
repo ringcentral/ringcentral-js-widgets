@@ -182,10 +182,10 @@ function (_RcModule) {
           // }
 
           for (var _i = 0, _Object$keys = Object.keys(this.contacts); _i < _Object$keys.length; _i++) {
-            var _key = _Object$keys[_i];
+            var key = _Object$keys[_i];
             this.getMessages({
-              currentContact: this.contacts[_key],
-              sessionId: _key.indexOf('-') > -1 ? _key.split('-')[1] : null,
+              currentContact: this.contacts[key],
+              sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
               fromLocale: false,
               forceUpdate: true
             });
@@ -360,8 +360,8 @@ function (_RcModule) {
       var recentMessages = [];
       var matches;
 
-      for (var _i2 = conversations.length - 1; _i2 >= 0; _i2 -= 1) {
-        var conversation = conversations[_i2];
+      for (var i = conversations.length - 1; i >= 0; i -= 1) {
+        var conversation = conversations[i];
         var messageList = this._messageStore.conversationStore[conversation.conversationId] || [];
         matches = phoneNumbers.find(this._filterPhoneNumber(conversation)); // Check if message is within certain days
 

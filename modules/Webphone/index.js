@@ -1215,8 +1215,8 @@ function (_RcModule) {
     key: "_hideConnectingAlert",
     value: function _hideConnectingAlert() {
       var alertIds = this._alert.messages.filter(function (m) {
-        for (var _i = 0, len = registerErrors.length; _i < len; _i++) {
-          if (m.message === registerErrors[_i] && m.payload && m.payload.isConnecting === true) return true;
+        for (var i = 0, len = registerErrors.length; i < len; i++) {
+          if (m.message === registerErrors[i] && m.payload && m.payload.isConnecting === true) return true;
         }
 
         return false;
@@ -1240,8 +1240,8 @@ function (_RcModule) {
             switch (_context9.prev = _context9.next) {
               case 0:
                 alertIds = this._alert.messages.filter(function (m) {
-                  for (var _i2 = 0, len = registerErrors.length; _i2 < len; _i2++) {
-                    if (m.message === registerErrors[_i2] && !m.payload.isConnecting) return true;
+                  for (var i = 0, len = registerErrors.length; i < len; i++) {
+                    if (m.message === registerErrors[i] && !m.payload.isConnecting) return true;
                   }
 
                   return false;
@@ -1271,8 +1271,8 @@ function (_RcModule) {
     key: "_hideRegisterErrorAlert",
     value: function _hideRegisterErrorAlert() {
       var alertIds = this._alert.messages.filter(function (m) {
-        for (var _i3 = 0, len = registerErrors.length; _i3 < len; _i3++) {
-          if (m.message === registerErrors[_i3]) return true;
+        for (var i = 0, len = registerErrors.length; i < len; i++) {
+          if (m.message === registerErrors[i]) return true;
         }
 
         return false;
@@ -1349,18 +1349,17 @@ function (_RcModule) {
       var _playExtendedControls2 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee10(session) {
-        var controls, _i4, len;
-
+        var controls, i, len;
         return regeneratorRuntime.wrap(function _callee10$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
                 session.__rc_extendedControlStatus = extendedControlStatus.playing;
                 controls = session.__rc_extendedControls.slice();
-                _i4 = 0, len = controls.length;
+                i = 0, len = controls.length;
 
               case 3:
-                if (!(_i4 < len)) {
+                if (!(i < len)) {
                   _context11.next = 18;
                   break;
                 }
@@ -1370,7 +1369,7 @@ function (_RcModule) {
                   break;
                 }
 
-                if (!(controls[_i4] === ',')) {
+                if (!(controls[i] === ',')) {
                   _context11.next = 10;
                   break;
                 }
@@ -1384,7 +1383,7 @@ function (_RcModule) {
 
               case 10:
                 _context11.next = 12;
-                return this._sendDTMF(controls[_i4], session);
+                return this._sendDTMF(controls[i], session);
 
               case 12:
                 _context11.next = 15;
@@ -1394,7 +1393,7 @@ function (_RcModule) {
                 return _context11.abrupt("return");
 
               case 15:
-                _i4 += 1;
+                i += 1;
                 _context11.next = 3;
                 break;
 
