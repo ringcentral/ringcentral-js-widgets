@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  title: "会议命令",
+  title: "电话会议命令",
   starSharp2Title: "主叫者数量",
   starSharp2Body: "跟踪正在通话的人数",
-  starSharp3Title: "离开会议",
+  starSharp3Title: "离开电话会议",
   starSharp3Body: "让主持人挂断并结束通话",
   starSharp4Title: "菜单",
   starSharp4Body: "收听按键音命令列表",
@@ -22,8 +22,8 @@ var _default = {
   starSharp7Body: "按一次阻止所有主叫者\n再按一次开放通话",
   starSharp8Title: "收听人员进入或退出通话时的声音",
   starSharp8Body: "按 1 次：关闭声音\n按 2 次：进入音开启，退出音关闭\n按 3 次：进入音关闭，退出音开启\n按 4 次：打开声音",
-  star9Title: "录制您的会议",
-  star9Body: "按一次开始录音\n再按一次结束录音"
+  star9Title: "录制您的电话会议",
+  star9Body: "按一次开始录制\n再按一次结束录制"
 }; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@

@@ -17,7 +17,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var _default = (_title$search$compose = {
   title: "訊息",
-  search: "搜尋……",
+  search: "搜尋...",
   composeText: "撰寫簡訊",
   noMessages: "無訊息",
   noSearchResults: "找不到相符的記錄"

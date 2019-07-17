@@ -17,6 +17,8 @@ require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.array.index-of");
+
 var _ramda = require("ramda");
 
 var _react = _interopRequireWildcard(require("react"));
@@ -26,6 +28,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _rcTooltip = _interopRequireDefault(require("rc-tooltip"));
+
+var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 
 var _Info = _interopRequireDefault(require("../../assets/images/Info.svg"));
 
@@ -82,6 +86,7 @@ function (_Component) {
     _classCallCheck(this, AudioSettingsPanel);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AudioSettingsPanel).call(this, props));
+    _this._isFirefox = false;
 
     _this.onSave = function () {
       if (typeof _this.props.onSave === 'function') {
@@ -169,30 +174,75 @@ function (_Component) {
       });
     };
 
-    _this.renderDeviceOption = function (device) {
-      return device.label || _i18n["default"].getString('noLabel', _this.props.currentLocale);
+    _this.renderDeviceOption = function (device, index) {
+      var _this$props2 = _this.props,
+          availableInputDevices = _this$props2.availableInputDevices,
+          availableOutputDevices = _this$props2.availableOutputDevices,
+          currentLocale = _this$props2.currentLocale;
+
+      var noLabel = _i18n["default"].getString('noLabel', currentLocale);
+
+      if (device.kind === 'audioinput' && availableInputDevices.length > 1) {
+        return device.label || "".concat(noLabel, " ").concat(index + 1);
+      }
+
+      if (device.kind === 'audiooutput' && availableOutputDevices.length > 1) {
+        return device.label || "".concat(noLabel, " ").concat(index + 1);
+      }
+
+      return device.label || noLabel;
     };
 
     _this.renderOutputDevice = function (value) {
+      var _this$props3 = _this.props,
+          availableOutputDevices = _this$props3.availableOutputDevices,
+          currentLocale = _this$props3.currentLocale;
+
       if (value === null) {
-        return _i18n["default"].getString('noDevice', _this.props.currentLocale);
+        return _i18n["default"].getString('noDevice', currentLocale);
       }
 
       var device = (0, _ramda.find)(function (device) {
         return device.deviceId === value;
-      }, _this.props.availableOutputDevices);
-      return device && device.label || _i18n["default"].getString('noLabel', _this.props.currentLocale);
+      }, availableOutputDevices);
+
+      var noLabel = _i18n["default"].getString('noLabel', currentLocale);
+
+      if (availableOutputDevices.length > 1) {
+        var index = availableOutputDevices.indexOf(device);
+
+        if (index >= 0) {
+          noLabel = "".concat(noLabel, " ").concat(index + 1);
+        }
+      }
+
+      return device && device.label || noLabel;
     };
 
     _this.renderInputDevice = function (value) {
+      var _this$props4 = _this.props,
+          availableInputDevices = _this$props4.availableInputDevices,
+          currentLocale = _this$props4.currentLocale;
+
       if (value === null) {
-        return _i18n["default"].getString('noDevice', _this.props.currentLocale);
+        return _i18n["default"].getString('noDevice', currentLocale);
       }
 
       var device = (0, _ramda.find)(function (device) {
         return device.deviceId === value;
-      }, _this.props.availableInputDevices);
-      return device && device.label || _i18n["default"].getString('noLabel', _this.props.currentLocale);
+      }, availableInputDevices);
+
+      var noLabel = _i18n["default"].getString('noLabel', currentLocale);
+
+      if (availableInputDevices.length > 1) {
+        var index = availableInputDevices.indexOf(device);
+
+        if (index >= 0) {
+          noLabel = "".concat(noLabel, " ").concat(index + 1);
+        }
+      }
+
+      return device && device.label || noLabel;
     };
 
     _this.state = {
@@ -204,6 +254,7 @@ function (_Component) {
       inputDeviceId: props.inputDeviceId,
       outputDeviceId: props.outputDeviceId
     };
+    _this._isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
     return _this;
   }
 
@@ -277,29 +328,41 @@ function (_Component) {
   }, {
     key: "isNoLabel",
     value: function isNoLabel() {
-      if (this.props.availableInputDevices.length) {
-        return this.props.availableInputDevices[0].label === '';
+      var availableInputDevices = this.props.availableInputDevices;
+      var noLabel = false;
+
+      if (availableInputDevices && availableInputDevices.length) {
+        noLabel = availableInputDevices[0].label === '';
+      } else {
+        noLabel = this._isFirefox;
       }
 
-      return false;
+      return noLabel;
+    }
+  }, {
+    key: "onOutputDeviceSetupClick",
+    value: function onOutputDeviceSetupClick(e) {
+      e.preventDefault(); // firefox setup output device wiki link
+
+      window.open("https://support.ringcentral.com/s/article/13078-Integrations-RingCentral-for-Firefox-Output-Device", '_blank');
     }
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      var _this$props2 = this.props,
-          currentLocale = _this$props2.currentLocale,
-          onBackButtonClick = _this$props2.onBackButtonClick,
-          className = _this$props2.className,
-          availableOutputDevices = _this$props2.availableOutputDevices,
-          availableInputDevices = _this$props2.availableInputDevices,
-          supportDevices = _this$props2.supportDevices,
-          userMedia = _this$props2.userMedia,
-          isWebRTC = _this$props2.isWebRTC,
-          checkUserMedia = _this$props2.checkUserMedia,
-          outputDeviceDisabled = _this$props2.outputDeviceDisabled,
-          inputDeviceDisabled = _this$props2.inputDeviceDisabled;
+      var _this$props5 = this.props,
+          currentLocale = _this$props5.currentLocale,
+          onBackButtonClick = _this$props5.onBackButtonClick,
+          className = _this$props5.className,
+          availableOutputDevices = _this$props5.availableOutputDevices,
+          availableInputDevices = _this$props5.availableInputDevices,
+          supportDevices = _this$props5.supportDevices,
+          userMedia = _this$props5.userMedia,
+          isWebRTC = _this$props5.isWebRTC,
+          checkUserMedia = _this$props5.checkUserMedia,
+          outputDeviceDisabled = _this$props5.outputDeviceDisabled,
+          inputDeviceDisabled = _this$props5.inputDeviceDisabled;
       var _this$state2 = this.state,
           dialButtonVolume = _this$state2.dialButtonVolume,
           dialButtonMuted = _this$state2.dialButtonMuted,
@@ -331,13 +394,23 @@ function (_Component) {
       //     </div>
       //   ) : null;
 
+      var clickHereComp = _react["default"].createElement("a", {
+        onClick: this.onOutputDeviceSetupClick,
+        className: _styles["default"].setupOutputDeviceLink
+      }, _i18n["default"].getString('clickHere', currentLocale));
+
       var outputTooltip = HTMLMediaElement.prototype.setSinkId ? null : _react["default"].createElement(TooltipCom, {
         placement: "bottom",
         trigger: "click",
         align: {
           offset: [0, 47]
         },
-        overlay: _i18n["default"].getString('notSetSinkIdTip', currentLocale),
+        overlay: _react["default"].createElement(_FormattedMessage["default"], {
+          message: _i18n["default"].getString('notSetSinkIdTip', currentLocale),
+          values: {
+            clickHereLink: clickHereComp
+          }
+        }),
         arrowContent: _react["default"].createElement("div", {
           className: "rc-tooltip-arrow-inner"
         }),

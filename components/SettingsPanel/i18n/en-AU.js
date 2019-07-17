@@ -25,7 +25,8 @@ var _default = {
   feedback: "Feedback",
   userGuide: "What's New",
   quickAccess: "Quick Access Setting",
-  msteamsSetting: 'Microsoft Teams Setting'
+  report: "Analytics report",
+  msteamsSetting: "Microsoft Teams Setting"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -44,6 +45,8 @@ var _default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
+// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

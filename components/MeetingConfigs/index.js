@@ -462,7 +462,7 @@ var When = function When(_ref4) {
     type: "text"
   }), useTimePicker && _react["default"].createElement("div", {
     className: _styles["default"].colon
-  }, (0, _moment["default"])(meeting.schedule.startTime).format('A')))), _react["default"].createElement("div", {
+  }, (0, _moment["default"])(meeting.schedule.startTime).locale('en').format('A')))), _react["default"].createElement("div", {
     ref: function ref(_ref12) {
       that.TimeIcon = _ref12;
     },

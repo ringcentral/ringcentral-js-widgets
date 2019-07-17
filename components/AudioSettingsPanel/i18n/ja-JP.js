@@ -17,7 +17,11 @@ var _default = {
   micPermission: "マイクロフォンのアクセス許可",
   noDevice: "デバイスがありません",
   checkMicPermission: "アクセス許可の確認",
-  micNoPermissionMessage: "このアプリには、マイクロフォンを使用するためのアクセス許可がありません"
+  micNoPermissionMessage: "このアプリには、マイクロフォンを使用するためのアクセス許可がありません",
+  noLabel: "不明なデバイス",
+  notSetSinkIdTip: "申し訳ございません。現在のブラウザのアクセス許可は、オーディオ出力デバイスにアクセスできるように設定されていません。{clickHereLink}して設定方法を確認してください。",
+  noLabelTip: "申し訳ございません。現在のブラウザのアクセス許可は、オーディオ入力デバイスにアクセスするように設定されていません。",
+  clickHere: "ここをクリック"
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@
@@ -29,6 +33,10 @@ var _default = {
 // @key: @#@"noDevice"@#@ @source: @#@"No device"@#@
 // @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
 // @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@
+// @key: @#@"noLabel"@#@ @source: @#@"Unknown device"@#@
+// @key: @#@"notSetSinkIdTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up."@#@
+// @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
+// @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  from: "送信元",
+  from: "発信元",
   to: "宛先",
   enterNameOrNumber: "番号または名前の入力...",
   typeMessage: "メッセージの入力...",

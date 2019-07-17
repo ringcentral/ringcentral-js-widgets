@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "登入中……",
+  logging: "登入中...",
   logCall: "記錄通話",
   editLog: "編輯記錄",
   select: "選擇相符",

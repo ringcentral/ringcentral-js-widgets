@@ -193,7 +193,7 @@ function (_Component) {
       });
     };
 
-    _this.defaultRingoutPrompt = props.ringoutPrompt;
+    _this.defaultRingoutPrompt = props.defaultRingoutPrompt;
     _this.state = {
       callWith: props.callWith,
       ringoutPrompt: props.ringoutPrompt,
@@ -257,7 +257,7 @@ function (_Component) {
           ringoutPrompt = _this$props2.ringoutPrompt,
           availableNumbers = _this$props2.availableNumbers,
           disabled = _this$props2.disabled,
-          searchable = _this$props2.searchable;
+          locationSearchable = _this$props2.locationSearchable;
       var hasChanges = this.state.callWith !== callWith || this.state.myLocation !== myLocation || this.state.ringoutPrompt !== ringoutPrompt;
       var availableCallWithNumbers = availableNumbers[this.state.callWith];
       var ringout = this.state.callWith !== _callingOptions["default"].softphone && this.state.callWith !== _callingOptions["default"].browser ? _react["default"].createElement("div", null, _react["default"].createElement("div", {
@@ -269,7 +269,7 @@ function (_Component) {
         className: (0, _classnames["default"])(_styles["default"].select, _styles["default"].locationSelect),
         value: this.state.myLocation,
         onChange: this.onMyLocationChange,
-        searchOption: searchable ? function (option, text) {
+        searchOption: locationSearchable ? function (option, text) {
           return option.includes(text);
         } : null,
         options: availableCallWithNumbers,
@@ -344,14 +344,16 @@ CallingSettingsContent.propTypes = {
   callWith: _propTypes["default"].string.isRequired,
   myLocation: _propTypes["default"].string.isRequired,
   ringoutPrompt: _propTypes["default"].bool.isRequired,
+  defaultRingoutPrompt: _propTypes["default"].bool,
   availableNumbers: _propTypes["default"].object.isRequired,
   onSave: _propTypes["default"].func.isRequired,
   disabled: _propTypes["default"].bool,
-  searchable: _propTypes["default"].bool
+  locationSearchable: _propTypes["default"].bool
 };
 CallingSettingsContent.defaultProps = {
   disabled: false,
-  searchable: false
+  locationSearchable: false,
+  defaultRingoutPrompt: true
 };
 
 function CallingSettingsPanel(_ref) {

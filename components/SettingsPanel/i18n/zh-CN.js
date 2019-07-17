@@ -25,6 +25,7 @@ var _default = {
   feedback: "反馈",
   userGuide: "新功能",
   quickAccess: "快速访问设置",
+  report: "分析报告",
   msteamsSetting: "Microsoft Teams 设置"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
@@ -44,6 +45,7 @@ var _default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;

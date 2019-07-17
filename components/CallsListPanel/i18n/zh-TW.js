@@ -14,7 +14,7 @@ var _default = {
   onHoldCall: "通話等待接通",
   historyCalls: "過去的通話",
   otherDeviceCall: "我的其他裝置上仍有進行中通話",
-  searchPlaceholder: "搜尋……"
+  searchPlaceholder: "搜尋..."
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

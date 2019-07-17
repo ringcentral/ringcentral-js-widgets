@@ -17,7 +17,11 @@ var _default = {
   micPermission: "Autorisation microphone",
   noDevice: "Aucun appareil",
   checkMicPermission: "Vérifier l'autorisation",
-  micNoPermissionMessage: "L'application n'est pas autorisée à utiliser le microphone"
+  micNoPermissionMessage: "L'application n'est pas autorisée à utiliser le microphone",
+  noLabel: "Périphérique inconnu",
+  notSetSinkIdTip: "Désolé, vos autorisations de navigateur actuelles ne sont pas définies pour nous permettre d'accéder à vos périphériques de sortie audio. {clickHereLink} pour modifier les paramètres.",
+  noLabelTip: "Désolé, vos autorisations de navigateur actuelles ne sont pas définies pour nous permettre d'accéder à vos périphériques d'entrée audio.",
+  clickHere: "Cliquez ici"
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@
@@ -29,6 +33,10 @@ var _default = {
 // @key: @#@"noDevice"@#@ @source: @#@"No device"@#@
 // @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
 // @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@
+// @key: @#@"noLabel"@#@ @source: @#@"Unknown device"@#@
+// @key: @#@"notSetSinkIdTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up."@#@
+// @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
+// @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

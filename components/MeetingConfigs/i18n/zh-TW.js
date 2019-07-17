@@ -14,8 +14,8 @@ var _default = {
   recurringDescribe: "請記得確認發送給列席者的行事曆邀請中的定期或重複會議。",
   video: "影像",
   videoDescribe: "加入會議時",
-  host: "主持人",
-  participants: "參與者",
+  host: "主持人視訊開啟",
+  participants: "參與者視訊開啟",
   audioOptions: "音訊選項",
   voIPOnly: "僅網路語音協定 (VoIP)",
   both: "兩者皆是",
@@ -33,12 +33,12 @@ var _default = {
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@
 // @key: @#@"videoDescribe"@#@ @source: @#@"When joining a meeting"@#@
-// @key: @#@"host"@#@ @source: @#@"Host"@#@
-// @key: @#@"participants"@#@ @source: @#@"Participant"@#@
-// @key: @#@"audioOptions"@#@ @source: @#@"Audio Options"@#@
+// @key: @#@"host"@#@ @source: @#@"Host video on"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participant video on"@#@
+// @key: @#@"audioOptions"@#@ @source: @#@"Audio options"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"VoIP Only"@#@
 // @key: @#@"both"@#@ @source: @#@"Both"@#@
-// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting Options"@#@
+// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@

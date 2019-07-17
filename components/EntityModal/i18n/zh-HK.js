@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  account: "帳號",
+  account: "帳戶",
   contact: "通訊錄",
   lead: "主管",
   opportunity: "機會",

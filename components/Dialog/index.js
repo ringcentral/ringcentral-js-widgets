@@ -40,13 +40,15 @@ FlatButton.propTypes = {
   className: _propTypes["default"].string,
   disabled: _propTypes["default"].bool,
   onClick: _propTypes["default"].func,
-  children: _propTypes["default"].node
+  children: _propTypes["default"].node,
+  dataSign: _propTypes["default"].string
 };
 FlatButton.defaultProps = {
   className: undefined,
   disabled: false,
   onClick: undefined,
-  children: undefined
+  children: undefined,
+  dataSign: ''
 };
 
 function Dialog(_ref2) {

@@ -174,6 +174,7 @@ function SettingsPanel(_ref) {
 
   var autoLog = showAutoLog ? _react["default"].createElement(_IconLine["default"], {
     icon: _react["default"].createElement(_Switch["default"], {
+      dataSign: "AutoLogCall",
       disable: disableAutoLogEnabled,
       checked: autoLogEnabled,
       onChange: onAutoLogChange
@@ -183,6 +184,7 @@ function SettingsPanel(_ref) {
   }, autoLogTitle || _i18n["default"].getString('autoLogCalls', currentLocale))) : null;
   var autoLogNotes = showAutoLogNotes ? _react["default"].createElement(_IconLine["default"], {
     icon: _react["default"].createElement(_Switch["default"], {
+      dataSign: "AutoLogNotes",
       disable: disableAutoLogNotesEnabled,
       checked: autoLogNotesEnabled,
       onChange: onAutoLogNotesChange

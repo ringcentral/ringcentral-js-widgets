@@ -85,8 +85,8 @@ function (_RcUIModule) {
         locale = _ref.locale,
         webphone = _ref.webphone,
         routerInteraction = _ref.routerInteraction,
-        searchable = _ref.searchable,
-        options = _objectWithoutProperties(_ref, ["callingSettings", "brand", "locale", "webphone", "routerInteraction", "searchable"]);
+        locationSearchable = _ref.locationSearchable,
+        options = _objectWithoutProperties(_ref, ["callingSettings", "brand", "locale", "webphone", "routerInteraction", "locationSearchable"]);
 
     _classCallCheck(this, CallingSettingsUI);
 
@@ -96,7 +96,7 @@ function (_RcUIModule) {
     _this._locale = locale;
     _this._webphone = webphone;
     _this._routerInteraction = routerInteraction;
-    _this.locationSearchable = searchable;
+    _this.locationSearchable = locationSearchable;
     return _this;
   }
 
@@ -110,10 +110,11 @@ function (_RcUIModule) {
         callWith: this._callingSettings.callWith,
         myLocation: this._callingSettings.myLocation,
         ringoutPrompt: this._callingSettings.ringoutPrompt,
+        defaultRingoutPrompt: this._callingSettings.defaultRingoutPrompt,
         availableNumbers: this._callingSettings.availableNumbers,
         disabled: !!(this._webphone && this._webphone.sessions.length > 0),
         showSpinner: this.showSpinner,
-        searchable: this.locationSearchable
+        locationSearchable: this.locationSearchable
       };
     }
   }, {

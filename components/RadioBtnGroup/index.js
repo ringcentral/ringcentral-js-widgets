@@ -50,9 +50,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function RadioOption(props) {
+  var currentIndex = props.currentIndex,
+      selectedIndex = props.selectedIndex,
+      phoneNumber = props.phoneNumber,
+      label = props.label,
+      currentLocale = props.currentLocale,
+      onSelect = props.onSelect;
   var btnClassName = '';
 
-  if (props.currentIndex === props.selectedIndex) {
+  if (currentIndex === selectedIndex) {
     btnClassName = (0, _classnames["default"])(_styles["default"].radioBtn, _styles["default"].active);
   } else {
     btnClassName = _styles["default"].radioBtn;
@@ -61,16 +67,17 @@ function RadioOption(props) {
   return _react["default"].createElement("div", {
     className: _styles["default"].radioOption,
     onClick: function onClick() {
-      props.onSelect(props.currentIndex);
+      onSelect(currentIndex);
     }
   }, _react["default"].createElement("span", {
     className: btnClassName
   }), _react["default"].createElement("span", {
-    className: _styles["default"].optionNumber
-  }, props.phoneNumber), _react["default"].createElement("span", {
+    className: _styles["default"].optionNumber,
+    title: phoneNumber
+  }, phoneNumber), _react["default"].createElement("span", {
     className: _styles["default"].optionLabel,
-    title: props.label
-  }, _i18n["default"].getString(props.label, props.currentLocale)));
+    title: label
+  }, _i18n["default"].getString(label, currentLocale)));
 }
 
 RadioOption.propTypes = {
@@ -96,17 +103,20 @@ function (_Component) {
     _classCallCheck(this, RadioButtonGroup);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RadioButtonGroup).call(this, props));
+    var disabled = props.disabled,
+        onRadioSelect = props.onRadioSelect,
+        radioOptions = props.radioOptions;
     _this.state = {
       selectedIndex: 0
     };
 
     _this.chooseOption = function (index) {
-      if (!_this.props.disabled) {
+      if (!disabled) {
         _this.setState({
           selectedIndex: index
         });
 
-        _this.props.onRadioSelect(_this.props.radioOptions[index].phoneNumber);
+        onRadioSelect(radioOptions[index].phoneNumber);
       }
     };
 
@@ -118,17 +128,23 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
+      var _this$props = this.props,
+          className = _this$props.className,
+          radioOptions = _this$props.radioOptions,
+          formatPhone = _this$props.formatPhone,
+          currentLocale = _this$props.currentLocale;
+      var selectedIndex = this.state.selectedIndex;
       return _react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
-      }, this.props.radioOptions.map(function (number, idx) {
+        className: (0, _classnames["default"])(_styles["default"].root, className)
+      }, radioOptions.map(function (number, idx) {
         return _react["default"].createElement(RadioOption, {
           currentIndex: idx,
-          selectedIndex: _this2.state.selectedIndex,
+          selectedIndex: selectedIndex,
           key: number.id,
-          phoneNumber: _this2.props.formatPhone(number.phoneNumber),
+          phoneNumber: formatPhone(number.phoneNumber),
           label: number.label,
           onSelect: _this2.chooseOption,
-          currentLocale: _this2.props.currentLocale
+          currentLocale: currentLocale
         });
       }));
     }

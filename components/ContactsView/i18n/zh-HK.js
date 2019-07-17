@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  searchPlaceholder: "搜尋……"
+  searchPlaceholder: "搜尋..."
 }; // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
 
 exports["default"] = _default;

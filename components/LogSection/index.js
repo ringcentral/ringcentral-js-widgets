@@ -176,13 +176,15 @@ function (_Component) {
           onSaveCallLog = _this$props.onSaveCallLog,
           onUpdateCallLog = _this$props.onUpdateCallLog,
           currentLog = _this$props.currentLog,
-          additionalInfo = _this$props.additionalInfo;
+          additionalInfo = _this$props.additionalInfo,
+          onCallLogSaved = _this$props.onCallLogSaved;
       return renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
         onUpdateCallLog: onUpdateCallLog,
         currentLog: currentLog,
-        additionalInfo: additionalInfo
+        additionalInfo: additionalInfo,
+        onCallLogSaved: onCallLogSaved
       });
     }
   }, {
@@ -298,7 +300,8 @@ LogSection.propTypes = {
   onLogBasicInfoClick: _propTypes["default"].func,
   showSaveLogBtn: _propTypes["default"].bool,
   showSmallCallControl: _propTypes["default"].bool,
-  renderSmallCallContrl: _propTypes["default"].func
+  renderSmallCallContrl: _propTypes["default"].func,
+  onCallLogSaved: _propTypes["default"].func
 };
 LogSection.defaultProps = {
   currentLog: {},
@@ -312,6 +315,7 @@ LogSection.defaultProps = {
   onLogBasicInfoClick: function onLogBasicInfoClick() {},
   renderSmallCallContrl: function renderSmallCallContrl() {},
   showSaveLogBtn: true,
-  showSmallCallControl: true
+  showSmallCallControl: true,
+  onCallLogSaved: undefined
 };
 //# sourceMappingURL=index.js.map

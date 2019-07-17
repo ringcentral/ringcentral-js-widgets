@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  account: "账户",
+  account: "帐户",
   contact: "联系人",
   lead: "引导",
   opportunity: "对象",

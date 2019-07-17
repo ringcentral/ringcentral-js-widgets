@@ -17,7 +17,11 @@ var _default = {
   micPermission: "麥克風權限",
   noDevice: "無裝置",
   checkMicPermission: "檢查權限",
-  micNoPermissionMessage: "應用程式沒有使用麥克風的權限"
+  micNoPermissionMessage: "應用程式沒有使用麥克風的權限",
+  noLabel: "未知的裝置",
+  notSetSinkIdTip: "抱歉，您目前的瀏覽器權限未設定為允許存取您的音訊輸出裝置。{clickHereLink}以檢視如何設定。",
+  noLabelTip: "抱歉，您目前的瀏覽器權限未設定為允許存取您的音訊輸入裝置。",
+  clickHere: "按一下此處"
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@
@@ -29,6 +33,10 @@ var _default = {
 // @key: @#@"noDevice"@#@ @source: @#@"No device"@#@
 // @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
 // @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@
+// @key: @#@"noLabel"@#@ @source: @#@"Unknown device"@#@
+// @key: @#@"notSetSinkIdTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up."@#@
+// @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
+// @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

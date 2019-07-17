@@ -25,6 +25,7 @@ var _default = {
   feedback: "Feedback",
   userGuide: "Neuigkeiten",
   quickAccess: "Einstellung für Schnellzugriff",
+  report: "Analysebericht",
   msteamsSetting: "Microsoft Teams-Einstellungen"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
@@ -44,6 +45,7 @@ var _default = {
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
+// @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;

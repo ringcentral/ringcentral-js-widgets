@@ -14,12 +14,12 @@ var _default = {
   recurringDescribe: "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen.",
   video: "Video",
   videoDescribe: "Beim Beitritt zu einem Meeting",
-  host: "Host",
-  participants: "Teilnehmer",
+  host: "Host-Video ein",
+  participants: "Teilnehmer-Video ein",
   audioOptions: "Audio-Optionen",
   voIPOnly: "Nur VoIP",
   both: "Beides",
-  meetingOptions: "Meetingoptionen",
+  meetingOptions: "Besprechungsoptionen",
   requirePassword: "Meetingkennwort erforderlich",
   password: "Kennwort",
   enableJoinBeforeHost: "Beitritt vor Host ermöglichen",
@@ -33,12 +33,12 @@ var _default = {
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@
 // @key: @#@"videoDescribe"@#@ @source: @#@"When joining a meeting"@#@
-// @key: @#@"host"@#@ @source: @#@"Host"@#@
-// @key: @#@"participants"@#@ @source: @#@"Participant"@#@
-// @key: @#@"audioOptions"@#@ @source: @#@"Audio Options"@#@
+// @key: @#@"host"@#@ @source: @#@"Host video on"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participant video on"@#@
+// @key: @#@"audioOptions"@#@ @source: @#@"Audio options"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"VoIP Only"@#@
 // @key: @#@"both"@#@ @source: @#@"Both"@#@
-// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting Options"@#@
+// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@

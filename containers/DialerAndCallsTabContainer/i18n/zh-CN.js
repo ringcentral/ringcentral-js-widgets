@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  dialer: "拨号键盘",
+  dialer: "拨号盘",
   allCalls: "所有通话"
 }; // @key: @#@"dialer"@#@ @source: @#@"Dial Pad"@#@
 // @key: @#@"allCalls"@#@ @source: @#@"All Calls"@#@

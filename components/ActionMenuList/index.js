@@ -27,41 +27,41 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("regenerator-runtime/runtime");
 
-var _react = _interopRequireWildcard(require("react"));
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _classnames = _interopRequireDefault(require("classnames"));
+var _react = _interopRequireWildcard(require("react"));
 
-var _Modal = _interopRequireDefault(require("../Modal"));
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+
+var _DeleteMessageIcon = _interopRequireDefault(require("../../assets/images/DeleteMessageIcon.svg"));
+
+var _Download = _interopRequireDefault(require("../../assets/images/Download.svg"));
+
+var _Mark = _interopRequireDefault(require("../../assets/images/Mark.svg"));
+
+var _Preview = _interopRequireDefault(require("../../assets/images/Preview.svg"));
+
+var _Unmark = _interopRequireDefault(require("../../assets/images/Unmark.svg"));
+
+var _Button = _interopRequireDefault(require("../Button"));
 
 var _EntityButton = _interopRequireDefault(require("../EntityButton"));
 
 var _EntityModal = _interopRequireDefault(require("../EntityModal"));
 
-var _Button = _interopRequireDefault(require("../Button"));
-
 var _LogButton = _interopRequireDefault(require("../LogButton"));
 
-var _DeleteMessageIcon = _interopRequireDefault(require("../../assets/images/DeleteMessageIcon.svg"));
-
-var _Mark = _interopRequireDefault(require("../../assets/images/Mark.svg"));
-
-var _Unmark = _interopRequireDefault(require("../../assets/images/Unmark.svg"));
-
-var _Preview = _interopRequireDefault(require("../../assets/images/Preview.svg"));
-
-var _Download = _interopRequireDefault(require("../../assets/images/Download.svg"));
-
-var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
-
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _Modal = _interopRequireDefault(require("../Modal"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 

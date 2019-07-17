@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   unmute: "取消静音",
   mute: "静音",
-  keypad: "拨号键盘",
+  keypad: "拨号盘",
   hold: "保持",
   onHold: "等候接听",
   park: "寄存",
