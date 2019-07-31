@@ -13,7 +13,7 @@ export default {
   bugReport: "Informe de errores",
   featureRequest: "Solicitud de funciones",
   others: "Otros",
-  subject: "Asunto",
+  subject: "Sujeto",
   subjectPlaceHolder: "Ayúdenos a saber cómo podemos ayudarle",
   description: "Descripción detallada",
   descriptionPlaceHolder: "Incluya la máxima información posible",

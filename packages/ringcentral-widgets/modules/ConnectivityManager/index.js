@@ -103,7 +103,7 @@ export default class ConnectivityManager extends RcModule {
       this._audioSettings.getUserMedia();
     }
     if (this._webphone && this._webphone.ready) {
-      this._webphone.connect();
+      this._webphone.connect({ force: true });
     }
   }
 
@@ -182,7 +182,6 @@ export default class ConnectivityManager extends RcModule {
     return this._callingSettings.isWebphoneMode && (
       !this._webphone.ready ||
       this._webphone.disconnected ||
-      this._webphone.connectionStatus === null ||
       this._webphone.connecting ||
       this._webphone.connectFailed
     );
@@ -205,8 +204,14 @@ export default class ConnectivityManager extends RcModule {
       this._auth.ready &&
       this._auth.loggedIn &&
       this._callingSettings.isWebphoneMode &&
-      (!this._audioSettings.userMedia ||
-        (this._webphone.reconnecting || this._webphone.connectError))
+      (
+        !this._audioSettings.userMedia ||
+        (
+          this._webphone.reconnecting || 
+          this._webphone.connectError ||
+          this._webphone.inactive
+        )
+      )
     );
   }
 

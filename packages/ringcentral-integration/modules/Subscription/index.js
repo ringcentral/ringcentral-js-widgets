@@ -118,6 +118,7 @@ export default class Subscription extends RcModule {
     this._detectSleep();
   }
 
+  // TODO Use SleepDetector module after
   _stopSleepDetection() {
     if (this._sleepTimeout) {
       clearTimeout(this._sleepTimeout);

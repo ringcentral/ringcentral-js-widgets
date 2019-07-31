@@ -212,6 +212,25 @@
   outline: none;
   padding: 0 5px;
   color: $primary-color;
+  box-sizing: content-box;
+}
+
+.useTimePicker {
+  .timeInput {
+    padding: 0;
+    &:first-child {
+      padding: 0 0 0 5px;
+    }
+  }
+}
+
+.useTimePicker {
+  .timeInput {
+    padding: 0;
+    &:first-child {
+      padding: 0 0 0 5px;
+    }
+  }
 }
 
 @supports (-ms-ime-align: auto) {

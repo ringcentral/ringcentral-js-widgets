@@ -35,15 +35,15 @@
 }
 
 .expandButtonWithEnd {
-  height: 28px;
-  width: 28px;
+  height: 24px;
+  width: 24px;
   text-align: center;
-  line-height: 28px;
+  line-height: 22px;
   border: solid 1px $primary-color;
   border-radius: 50%;
   color: $primary-color;
-  font-size: 12px;
-  margin-left: 2px;
+  font-size: 11px;
+  margin-left: 5px;
 }
 
 .expandDisableButton {
@@ -93,9 +93,9 @@
   margin-top: 12px;
 }
 .endButton {
-  width: 30px;
+  width: 25px;
   box-sizing: border-box;
-  height: 30px;
+  height: 25px;
 }
 .hangup {
   circle {

@@ -28,7 +28,7 @@ function getMinutesList(MINUTE_SCALE) {
   return reduce((result) => {
     const index = result.length;
     const value = 60 / MINUTE_SCALE * index;
-    const text = `${(`${value}0`).slice(0, 2)} m.`;
+    const text = `${(`${value}0`).slice(0, 2)} min`;
     return result.concat({
       value,
       text
@@ -42,7 +42,7 @@ function getHoursList(HOUR_SCALE) {
   }
   return reduce((result) => {
     const value = result.length;
-    const text = `${(`0${value}0`).slice(-3, -1)} h.`;
+    const text = `${(`0${value}0`).slice(-3, -1)} hr`;
     return result.concat({
       value,
       text
@@ -218,6 +218,16 @@ export const When = (
       that.timeBlur = false;
     }, 200);
   };
+  let minMinute;
+  if (meeting.schedule && meeting.schedule.startTime && useTimePicker) {
+    const iscurrentDate = Moment(meeting.schedule.startTime).isSame(new Date(), 'day');
+    if (iscurrentDate) {
+      const currentMinute = +Moment().format('mm');
+      const nearlest = Moment().set('minute', Math.ceil(currentMinute / 15) * 15).toDate();
+      minMinute = nearlest;
+    }
+    console.log('prepared minTime', +minMinute);
+  }
 
   return (
     !isRecurring ? (
@@ -304,6 +314,7 @@ export const When = (
                 onToggle={preventTimePickerReplay}
                 ref={(ref) => { that.time = ref; }}
                 format="hh:mm A"
+                min={minMinute}
               />
               <div
                 className={styles.timeText}
@@ -319,6 +330,7 @@ export const When = (
                   ref={(ref) => { that.hours = ref; }}
                   data-sign="timeInputHour"
                   className={styles.timeInput}
+                  defaultValue={Moment(meeting.schedule.startTime).format(useTimePicker ? 'hh' : 'HH')}
                   onChange={({ target }) => {
                     that.hours.value = target.value.replace(NO_NUMBER_REGEX, '');
                     const isSelectionEnd = target.selectionEnd === 2;
@@ -753,17 +765,17 @@ class MeetingConfigs extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.displayFormat();
+      this.displayFormat(this.props.meeting.schedule.startTime);
     });
   }
 
-  displayFormat() {
+  displayFormat(startTime) {
     const isAMPM = this.props.useTimePicker ? 'hh' : 'HH';
     if (this.hours) {
-      this.hours.value = Moment(this.props.meeting.schedule.startTime).format(isAMPM);
+      this.hours.value = Moment(startTime).format(isAMPM);
     }
     if (this.minutes) {
-      this.minutes.value = Moment(this.props.meeting.schedule.startTime).format('mm');
+      this.minutes.value = Moment(startTime).format('mm');
     }
   }
 
@@ -777,16 +789,10 @@ class MeetingConfigs extends Component {
         this.topic.setSelectionRange(selectionStart, selectionEnd);
       });
     }
-    if (this.props.meeting.schedule &&
+    if (this.props.meeting.schedule && nextProps.meeting.schedule &&
       this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime
     ) {
-      const isAMPM = this.props.useTimePicker ? 'hh' : 'HH';
-      if (this.hours) {
-        this.hours.value = Moment(nextProps.meeting.schedule.startTime).format(isAMPM);
-      }
-      if (this.minutes) {
-        this.minutes.value = Moment(nextProps.meeting.schedule.startTime).format('mm');
-      }
+      this.displayFormat(nextProps.meeting.schedule.startTime);
     }
   }
 

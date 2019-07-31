@@ -28,6 +28,7 @@ const RETRY_INTERVALS = [
     'Auth',
     'Client',
     'Subscription',
+    { dep: 'SleepDetector', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'DataFetcherOptions', optional: true },
@@ -39,6 +40,7 @@ export default class DataFetcher extends Pollable {
     client,
     storage,
     subscription,
+    sleepDetector,
     tabManager,
     timeToRetry = DEFAULT_RETRY,
     ttl = DEFAULT_TTL,
@@ -64,6 +66,7 @@ export default class DataFetcher extends Pollable {
     });
     this._auth = this:: ensureExist(auth, 'auth');
     this._client = this:: ensureExist(client, 'client');
+    this._sleepDetector = sleepDetector;
     this._disableCache = disableCache;
     this._storage = storage;
     this._subscription = subscription;
@@ -114,6 +117,15 @@ export default class DataFetcher extends Pollable {
 
   initialize() {
     this.store.subscribe(() => this._onStateChange());
+    if (this._sleepDetector) {
+      this._sleepDetector.on(this._sleepDetector.events.detected, () => this._handleSleepDetected);
+    }
+  }
+
+  _handleSleepDetected() {
+    if (this._shouldFetch()) {
+      this.fetchData();
+    }
   }
 
   async _onStateChange() {

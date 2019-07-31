@@ -12,7 +12,7 @@ export function getVideoElementPreparedReducer(types) {
 }
 
 export function getConnectionStatusReducer(types) {
-  return (state = null, { type }) => {
+  return (state = connectionStatus.disconnected, { type }) => {
     switch (type) {
       case types.connect: // trigger by first 3 connect from disconnected or connectFailed status
         return connectionStatus.connecting;
@@ -26,6 +26,10 @@ export function getConnectionStatusReducer(types) {
         return connectionStatus.connectError;
       case types.unregistered: // trigger by user disconnect success
         return connectionStatus.disconnected;
+      case types.disconnectOnInactive:
+        return connectionStatus.inactiveDisconnecting;
+      case types.unregisteredOnInactive:
+        return connectionStatus.inactive;
       case types.disconnect: // trigger by user disconnect
         return connectionStatus.disconnecting;
       default:
@@ -70,6 +74,7 @@ export function getConnectRetryCountsReducer(types) {
         return state + 1;
       case types.unregistered:
       case types.registered:
+      case types.unregisteredOnInactive:
         return 0;
       case types.setRetryCounts:
         return retryCounts;

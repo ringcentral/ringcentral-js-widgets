@@ -32,6 +32,10 @@ class UserAgent {
     this._events[event] = cb;
   }
 
+  once(event, cb) {
+    this._events[event] = cb;
+  }
+
   trigger(event, ...args) {
     this._events[event](...args);
   }
@@ -46,11 +50,21 @@ class UserAgent {
     });
   }
 
-  stop() {}
+  stop() {
+    setTimeout(() => {
+      this.trigger('unregistered');
+    }, 5);
+  }
 
-  unregister() {}
+  unregister() {
+    setTimeout(() => {
+      this.trigger('unregistered');
+    }, 5);
+  }
 
-  removeAllListeners() {}
+  removeAllListeners() {
+    this._events = {};
+  }
 
   get audioHelper() {
     return {
