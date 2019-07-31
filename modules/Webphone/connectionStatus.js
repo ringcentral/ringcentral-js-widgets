@@ -17,7 +17,9 @@ var _default = new _Enum["default"](['connecting', // status by first 3 connect
 'disconnecting', // status by user disconnect
 'disconnected', // status by user disconnect
 'connectFailed', // status when connect failed (retry time <=2)
-'connectError'], 'connectionStatus');
+'connectError', // status when connect failed (retry time > 2)
+'inactiveDisconnecting', // status when disconnect for inactive
+'inactive'], 'connectionStatus');
 
 exports["default"] = _default;
 //# sourceMappingURL=connectionStatus.js.map

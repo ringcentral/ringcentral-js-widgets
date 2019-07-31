@@ -13,6 +13,14 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.reduce");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -20,12 +28,6 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.regexp.replace");
 
@@ -47,13 +49,15 @@ var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _getReducer = _interopRequireWildcard(require("./getReducer"));
 
 var _status = _interopRequireDefault(require("./status"));
 
-var _dec, _class;
+var _dec, _class, _class2;
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
@@ -89,6 +93,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
 var glipPostsRegExp = /glip\/posts$/;
 var glipGroupRegExp = /glip\/groups$/;
 var subscriptionFilter = '/glip/posts';
@@ -98,7 +104,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
     dep: 'GlipPostsOptions',
     optional: true
   }]
-}), _dec(_class =
+}), _dec(_class = (_class2 =
 /*#__PURE__*/
 function (_RcModule) {
   _inherits(GlipPosts, _RcModule);
@@ -678,6 +684,6 @@ function (_RcModule) {
   }]);
 
   return GlipPosts;
-}(_RcModule2["default"])) || _class);
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "loadPosts", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadPosts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchPosts", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchPosts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "create", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "create"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendFile", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sendFile"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateReadTime", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateReadTime"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updatePostInput", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updatePostInput"), _class2.prototype)), _class2)) || _class);
 exports["default"] = GlipPosts;
 //# sourceMappingURL=index.js.map

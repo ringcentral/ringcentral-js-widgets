@@ -248,6 +248,11 @@ function (_RcModule) {
       return this.state.active;
     }
   }, {
+    key: "id",
+    get: function get() {
+      return this._tabbie.id;
+    }
+  }, {
     key: "event",
     get: function get() {
       return this.state.event;

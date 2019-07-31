@@ -218,7 +218,8 @@ function (_RcModule) {
       this._stopSleepDetection();
 
       this._detectSleep();
-    }
+    } // TODO Use SleepDetector module after
+
   }, {
     key: "_stopSleepDetection",
     value: function _stopSleepDetection() {

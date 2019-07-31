@@ -231,7 +231,7 @@ function (_DataFetcher) {
                   return e.country.isoCode === _this2._lastCountryCode;
                 });
 
-                if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber && !this._showSaveAsDefault) {
+                if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber) {
                   this.updateDialInNumber(matchedPhoneNumber.phoneNumber);
                 }
 

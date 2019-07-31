@@ -76,7 +76,7 @@ function getVideoElementPreparedReducer(types) {
 
 function getConnectionStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _connectionStatus["default"].disconnected;
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref2.type;
@@ -105,6 +105,12 @@ function getConnectionStatusReducer(types) {
       case types.unregistered:
         // trigger by user disconnect success
         return _connectionStatus["default"].disconnected;
+
+      case types.disconnectOnInactive:
+        return _connectionStatus["default"].inactiveDisconnecting;
+
+      case types.unregisteredOnInactive:
+        return _connectionStatus["default"].inactive;
 
       case types.disconnect:
         // trigger by user disconnect
@@ -177,6 +183,7 @@ function getConnectRetryCountsReducer(types) {
 
       case types.unregistered:
       case types.registered:
+      case types.unregisteredOnInactive:
         return 0;
 
       case types.setRetryCounts:
