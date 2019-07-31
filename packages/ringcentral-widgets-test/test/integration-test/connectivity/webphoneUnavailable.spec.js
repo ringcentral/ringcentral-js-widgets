@@ -76,11 +76,11 @@ describe('Webphone badge', () => {
         await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
         mock.fetchDL();
-        await sleep(50);
+        await sleep(100);
         await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
         mock.fetchDL();
-        await sleep(50);
+        await sleep(100);
         await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
         mock.fetchDL();
         phone.webphone._reconnectDelays = phone.webphone._reconnectDelays.map(x => (x * 5000));
@@ -103,7 +103,7 @@ describe('Webphone badge', () => {
       test('Webphone Badge Changed to Connecting status', async () => {
         let badge = wrapper.find(ConnectivityBadge);
         badge.simulate('click');
-        await timeout(100);
+        await timeout(200);
         wrapper.update();
         badge = wrapper.find(ConnectivityBadge);
         expect(badge.text()).toEqual('Connecting');
@@ -112,6 +112,7 @@ describe('Webphone badge', () => {
       test('Web Phone Unavailable Badge disappeared', async () => {
         await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 10, 10);
         phone.webphone._webphone.userAgent.trigger('registered');
+        await timeout(10);
         wrapper.update();
         const badge = wrapper.find(ConnectivityBadge);
         expect(badge.text()).toEqual(null);
