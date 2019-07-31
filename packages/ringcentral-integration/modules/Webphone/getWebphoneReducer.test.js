@@ -51,7 +51,7 @@ describe('Webphone :: getConnectionStatusReducer', () => {
   describe('connectionStatusReducer', () => {
     const reducer = getConnectionStatusReducer(actionTypes);
     it('should have initial state of null', () => {
-      expect(reducer(undefined, {})).to.equal(null);
+      expect(reducer(undefined, {})).to.equal(connectionStatus.disconnected);
     });
 
     it('should return original state when actionTypes is not recognized', () => {

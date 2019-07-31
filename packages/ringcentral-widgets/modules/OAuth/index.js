@@ -1,7 +1,7 @@
 import background from 'ringcentral-integration/lib/background';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import popWindow from 'ringcentral-integration/lib/popWindow';
 import { Module } from 'ringcentral-integration/lib/di';
+import popWindow from 'ringcentral-integration/lib/popWindow';
+import proxify from 'ringcentral-integration/lib/proxy/proxify';
 
 import OAuthBase from '../../lib/OAuthBase';
 
@@ -21,6 +21,7 @@ export default class OAuth extends OAuthBase {
       ...options,
     });
   }
+
   get name() {
     return 'OAuth';
   }
@@ -36,6 +37,7 @@ export default class OAuth extends OAuthBase {
       });
     }
   }
+
   @background
   async destroyOAuth() {
     if (

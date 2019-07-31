@@ -11,7 +11,7 @@ import Button from '../Button';
 import LogBasicInfo from '../LogBasicInfo';
 import styles from './styles.scss';
 import i18n from './i18n';
-
+import callControlI18n from '../SmCallControl/i18n';
 
 export default function LogNotification(
   {
@@ -41,7 +41,7 @@ export default function LogNotification(
       const endTitle = isInComingCall ? 'reject' : 'hangup';
       const endAction = isInComingCall ? onReject : onHangup;
       endButton = (
-        <span title={i18n.getString(endTitle, currentLocale)}>
+        <span title={callControlI18n.getString(endTitle, currentLocale)}>
           <CircleButton
             dataSign={endTitle}
             showBorder={false}

@@ -78,9 +78,6 @@ export default class Tabbie extends EventEmitter {
       window.addEventListener('unload', () => {
         clearInterval(this._gcIntervalId);
         clearInterval(this._heartBeatIntervalId);
-        if (localStorage.getItem(this._mainTabKey) === this.id) {
-          localStorage.removeItem(this._mainTabKey);
-        }
         localStorage.removeItem(this._heartBeatKey);
       });
       if (!document.hidden) {

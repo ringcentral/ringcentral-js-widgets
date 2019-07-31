@@ -1,6 +1,6 @@
 export default {
   mute: 'Mute',
   unmute: 'Unmute',
-  hangup: 'Hangup',
+  hangup: 'Hang up',
   reject: 'Reject',
 };

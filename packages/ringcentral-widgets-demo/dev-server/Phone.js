@@ -298,9 +298,9 @@ export default class BasePhone extends RcModule {
       ].find(path => routerInteraction.currentPath.indexOf(path) === 0);
 
       if (
-        withinCallCtrl
-        && (!currentSession || session.id === currentSession.id)
-        && !ringSession
+        withinCallCtrl &&
+        (!currentSession || session.id === currentSession.id) &&
+        !ringSession
       ) {
         if (!currentSession) {
           routerInteraction.replace('/dialer');
@@ -319,9 +319,9 @@ export default class BasePhone extends RcModule {
       }
 
       if (
-        currentSession
-        && currentSession.id !== session.id
-        && routerInteraction.currentPath === `/calls/active/${session.id}`
+        currentSession &&
+        currentSession.id !== session.id &&
+        routerInteraction.currentPath === `/calls/active/${session.id}`
       ) {
         routerInteraction.replace(`/calls/active/${currentSession.id}`);
         return;
@@ -382,9 +382,9 @@ export default class BasePhone extends RcModule {
     webphone.onBeforeCallEnd((session) => {
       const mergingPair = conferenceCall && conferenceCall.mergingPair;
       if (
-        session
-        && mergingPair
-        && (Object.values(mergingPair).indexOf(session.id) !== -1)
+        session &&
+        mergingPair &&
+        (Object.values(mergingPair).indexOf(session.id) !== -1)
       ) {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();
@@ -402,17 +402,17 @@ export default class BasePhone extends RcModule {
     callMonitor._onRinging = (call) => {
       // auto nav rules
       if (
-        callingSettings.callingMode !== callingModes.webphone // not webRTC mode
-        && routerInteraction.currentPath === '/dialer'
-        && (
+        callingSettings.callingMode !== callingModes.webphone && // not webRTC mode
+        routerInteraction.currentPath === '/dialer' &&
+        (
           // for ringout
-          ringout.ringoutStatus === ringoutStatus.connecting
+          ringout.ringoutStatus === ringoutStatus.connecting ||
           // for softphone
-          || (
-            this._softphoneConnectTime && call && call.to
-            && (new Date() - this._softphoneConnectTime) < 1 * 60 * 1000 // in 1 minute
-            && this._normalizeNumber(call.to.phoneNumber)
-            === this._normalizeNumber(this._softphoneConnectNumber)
+          (
+            this._softphoneConnectTime && call && call.to &&
+            (new Date() - this._softphoneConnectTime) < 1 * 60 * 1000 && // in 1 minute
+            this._normalizeNumber(call.to.phoneNumber) ===
+            this._normalizeNumber(this._softphoneConnectNumber)
           )
         )
       ) {
@@ -425,8 +425,8 @@ export default class BasePhone extends RcModule {
     const phone = this;
     callMonitor._onCallEnded = () => {
       if (
-        routerInteraction.currentPath === '/calls'
-        && !hasActiveCalls(phone)
+        routerInteraction.currentPath === '/calls' &&
+        !hasActiveCalls(phone)
       ) {
         routerInteraction.replace('/dialer');
       }
@@ -446,21 +446,21 @@ export default class BasePhone extends RcModule {
     this.store.subscribe(() => {
       if (this.auth.ready) {
         if (
-          this.routerInteraction.currentPath !== '/'
-          && !this.auth.loggedIn
+          this.routerInteraction.currentPath !== '/' &&
+          !this.auth.loggedIn
         ) {
           this.routerInteraction.push('/');
         } else if (
-          this.routerInteraction.currentPath === '/'
-          && this.auth.loggedIn
-          && rolesAndPermissions.ready
+          this.routerInteraction.currentPath === '/' &&
+          this.auth.loggedIn &&
+          rolesAndPermissions.ready
         ) {
           // Determine default tab
           const showDialPad = rolesAndPermissions.callingEnabled;
           const showCalls = (
-            rolesAndPermissions.callingEnabled
-            && this.callingSettings.ready
-            && this.callingSettings.callWith !== callingOptions.browser
+            rolesAndPermissions.callingEnabled &&
+            this.callingSettings.ready &&
+            this.callingSettings.callWith !== callingOptions.browser
           );
           const showHistory = rolesAndPermissions.permissions.ReadCallLog;
           const showContact = rolesAndPermissions.callingEnabled;
@@ -488,8 +488,8 @@ export default class BasePhone extends RcModule {
             this.routerInteraction.push('/settings');
           }
         } else if (
-          this.routerInteraction.currentPath === '/dialer'
-          && this.softphone.softphoneStatus === softphoneStatus.connecting
+          this.routerInteraction.currentPath === '/dialer' &&
+          this.softphone.softphoneStatus === softphoneStatus.connecting
         ) {
           this._softphoneConnectTime = new Date();
           this._softphoneConnectNumber = this.softphone.connectingPhoneNumber;
@@ -565,6 +565,8 @@ export function createPhone({
           appName: brandConfig.appName,
           appVersion: version,
           webphoneLogLevel: 3,
+          // connectDelay: 2000,
+          // disconnectOnInactive: true,
         },
       },
       {

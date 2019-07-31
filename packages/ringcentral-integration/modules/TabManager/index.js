@@ -63,6 +63,10 @@ export default class TabManager extends RcModule {
     return this.state.active;
   }
 
+  get id() {
+    return this._tabbie.id;
+  }
+
   async ensureActive() {
     return this._tabbie.checkIsMain();
   }

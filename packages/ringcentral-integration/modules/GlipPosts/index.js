@@ -3,6 +3,7 @@ import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
 import ensureExist from '../../lib/ensureExist';
 import isBlank from '../../lib/isBlank';
+import proxify from '../../lib/proxy/proxify';
 
 import actionTypes from './actionTypes';
 import getReducer, { getGlipPostsReadTimeReducer } from './getReducer';
@@ -162,6 +163,7 @@ export default class GlipPosts extends RcModule {
     }
   }
 
+  @proxify
   async loadPosts(groupId, recordCount = 20) {
     const lastPosts = this.postsMap[groupId];
     const fetchTime = this.fetchTimeMap[groupId];
@@ -173,6 +175,7 @@ export default class GlipPosts extends RcModule {
     await this.fetchPosts(groupId, recordCount);
   }
 
+  @proxify
   async fetchPosts(groupId, recordCount = 20, pageToken) {
     if (!groupId) {
       return;
@@ -207,6 +210,7 @@ export default class GlipPosts extends RcModule {
     await promise;
   }
 
+  @proxify
   async loadNextPage(groupId, recordCount) {
     const pageInfo = this.pageInfos[groupId];
     const pageToken = pageInfo && pageInfo.prevPageToken;
@@ -216,6 +220,7 @@ export default class GlipPosts extends RcModule {
     await this.fetchPosts(groupId, recordCount, pageToken);
   }
 
+  @proxify
   async create({ groupId }) {
     let text = this.postInputs[groupId] && this.postInputs[groupId].text;
     const mentions = this.postInputs[groupId] && this.postInputs[groupId].mentions;
@@ -268,6 +273,7 @@ export default class GlipPosts extends RcModule {
     }
   }
 
+  @proxify
   async sendFile({ fileName, groupId, rawFile }) {
     try {
       const platform = this._client.service.platform();
@@ -289,6 +295,7 @@ export default class GlipPosts extends RcModule {
     return null;
   }
 
+  @proxify
   updateReadTime(groupId, time) {
     this.store.dispatch({
       type: this.actionTypes.updateReadTime,
@@ -297,6 +304,7 @@ export default class GlipPosts extends RcModule {
     });
   }
 
+  @proxify
   updatePostInput({ text, groupId, mentions }) {
     this.store.dispatch({
       type: this.actionTypes.updatePostInput,

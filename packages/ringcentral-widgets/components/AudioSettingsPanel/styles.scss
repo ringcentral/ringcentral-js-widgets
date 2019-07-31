@@ -44,3 +44,21 @@
   color: blue;
   cursor: pointer;
 }
+
+.fakeDropdownContainer {
+  border-radius: 2px;
+  height: 100%;
+  color: #797979;
+  position: relative;
+  font-size: 13px;
+  cursor: default;
+  text-transform: none;
+  text-align: left;
+}
+
+.noHeightInputField {
+
+  div:nth-child(2) {
+    height: auto;
+  }
+}

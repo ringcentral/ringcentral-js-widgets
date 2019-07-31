@@ -192,6 +192,7 @@ export default class Analytics extends RcModule {
       this._promise = this._processActions();
     }
   }
+
   async _processActions() {
     if (this.lastActions.length) {
       await sleep(300);
@@ -478,6 +479,7 @@ export default class Analytics extends RcModule {
       this.track('Click Call Item (All Calls)');
     }
   }
+
   _callControlClickAdd(action) {
     if (this._callMonitor
      && this._callMonitor.actionTypes.callControlClickAddTrack === action.type
@@ -575,6 +577,7 @@ export default class Analytics extends RcModule {
       this.track('Click Participant Area (Call Control)');
     }
   }
+
   _callsOnHoldClickHangup(action) {
     if (this._callMonitor
       && this._callMonitor.actionTypes.callsOnHoldClickHangupTrack === action.type

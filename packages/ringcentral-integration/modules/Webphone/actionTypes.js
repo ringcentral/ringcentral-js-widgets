@@ -8,6 +8,8 @@ export default new Enum([
   'connectError',
   'connectFailed',
   'disconnect',
+  'disconnectOnInactive',
+  'unregisteredOnInactive',
   'unregistered',
   'reconnect',
   'setRetryCounts',

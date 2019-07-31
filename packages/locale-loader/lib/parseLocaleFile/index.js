@@ -1,6 +1,6 @@
-import { parse } from 'babylon';
 import { find, forEach } from 'ramda';
-import generate from 'babel-generator';
+import { parse } from '@babel/parser';
+import generate from '@babel/generator';
 import extractAnnotations from '../extractAnnotations';
 
 /* eslint { no-eval: 0 } */

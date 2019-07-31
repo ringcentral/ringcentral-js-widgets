@@ -34,35 +34,30 @@ describe('Webphone badge', () => {
   test('webphone checkDLError(just show alert message)', async () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
-    phone.webphone._disconnect();
+    await phone.webphone.disconnect();
     Object.defineProperty(phone.webphone, '_fetchDL', {
       value() {
         throw new Error('any words');
       }
     });
     await phone.webphone.connect();
+    phone.webphone._webphone.userAgent.trigger('registered');
     wrapper.update();
     const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
     expect(webphoneAlerts.map(x => x.text())).toContain(checkDLErrorMsg);
-    if (phone.webphone.connecting) {
-      phone.webphone._webphone.userAgent._events.registered();
-    }
-    wrapper.update();
     expect(phone.webphone.connected).toBeTruthy();
   });
 
   test('webphone noOutboundCallWithoutDL(just show alert message)', async () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
-    phone.webphone._disconnect();
+    await phone.webphone.disconnect();
     mock.fetchDLWithNoRecord();
     await phone.webphone.connect();
+    phone.webphone._webphone.userAgent.trigger('registered');
     wrapper.update();
     const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
     expect(webphoneAlerts.map(x => x.text())).toContain(noOutboundCallWithoutDLMsg);
-    if (phone.webphone.connecting) {
-      phone.webphone._webphone.userAgent._events.registered();
-    }
     wrapper.update();
     expect(phone.webphone.connected).toBeTruthy();
   });
@@ -73,20 +68,20 @@ describe('Webphone badge', () => {
         wrapper = await getWrapper();
         phone = wrapper.props().phone;
         if (phone.webphone.connected) {
-          phone.webphone._disconnect();
+          await phone.webphone.disconnect();
         }
         mock.fetchDL();
         await phone.webphone.connect();
         phone.webphone._reconnectDelays = phone.webphone._reconnectDelays.map(x => (x / 5000));
-        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 20);
+        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
         mock.fetchDL();
-        await sleep(50);
-        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 20);
+        await sleep(100);
+        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
         mock.fetchDL();
-        await sleep(50);
-        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 20);
+        await sleep(100);
+        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
         mock.fetchDL();
         phone.webphone._reconnectDelays = phone.webphone._reconnectDelays.map(x => (x * 5000));
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
@@ -108,22 +103,23 @@ describe('Webphone badge', () => {
       test('Webphone Badge Changed to Connecting status', async () => {
         let badge = wrapper.find(ConnectivityBadge);
         badge.simulate('click');
-        await timeout(10);
+        await timeout(200);
         wrapper.update();
         badge = wrapper.find(ConnectivityBadge);
         expect(badge.text()).toEqual('Connecting');
       });
 
       test('Web Phone Unavailable Badge disappeared', async () => {
+        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 10, 10);
         phone.webphone._webphone.userAgent.trigger('registered');
+        await timeout(10);
         wrapper.update();
         const badge = wrapper.find(ConnectivityBadge);
         expect(badge.text()).toEqual(null);
       });
 
       test('Alert Message disappeared', async () => {
-        phone.webphone._webphone.userAgent.trigger('registered');
-        await sleep(500);
+        await timeout(1000);
         wrapper.update();
         const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
         expect(webphoneAlerts.map(x => x.text())).not.toContain(msg);
@@ -149,7 +145,7 @@ describe('Webphone badge', () => {
         }
       });
       mock.fetchDL();
-      await phone.webphone._disconnect();
+      await phone.webphone.disconnect();
       await phone.webphone.connect();
     }, 50000);
 
@@ -202,7 +198,6 @@ describe('Webphone badge', () => {
     });
 
     test('Display Web Phone Unavailable Badge', async () => {
-      wrapper.update();
       await timeout(500);
       wrapper.update();
       const badge = wrapper.find(ConnectivityBadge);
@@ -228,6 +223,11 @@ describe('Webphone badge', () => {
       let badge = wrapper.find(ConnectivityBadge);
       badge.simulate('click');
       await timeout(100);
+      wrapper.update();
+      badge = wrapper.find(ConnectivityBadge);
+      expect(badge.text()).toEqual('Connecting');
+      await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
+      phone.webphone._webphone.userAgent.trigger('registered');
       wrapper.update();
       badge = wrapper.find(ConnectivityBadge);
       expect(badge.text()).toEqual(null);
@@ -279,6 +279,7 @@ describe('Webphone badge', () => {
     wrapper.update();
     const badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('Connecting');
+    await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
     phone.webphone._webphone.userAgent.trigger('registered');
     await timeout(10);
     wrapper.update();
@@ -303,6 +304,7 @@ describe('Webphone badge', () => {
     wrapper.update();
     const badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('Connecting');
+    await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
     phone.webphone._webphone.userAgent.trigger('registered');
     await timeout(10);
     wrapper.update();
@@ -319,6 +321,7 @@ describe('Webphone badge', () => {
     expect(badge.text()).toEqual('Connecting');
     const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
     expect(webphoneAlerts.map(x => x.text())).toContain(provisionUpdateMsg);
+    await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
     phone.webphone._webphone.userAgent.trigger('registered');
     await timeout(10);
     wrapper.update();
@@ -343,6 +346,7 @@ describe('Webphone badge', () => {
     wrapper.update();
     const badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('Connecting');
+    await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
     phone.webphone._webphone.userAgent.trigger('registered');
     await timeout(10);
     wrapper.update();

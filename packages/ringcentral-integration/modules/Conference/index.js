@@ -99,8 +99,7 @@ export default class Conference extends DataFetcher {
     const matchedPhoneNumber = this.data.phoneNumbers.find(
       e => e.country.isoCode === this._lastCountryCode
     );
-    if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber &&
-       !this._showSaveAsDefault) {
+    if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber) {
       this.updateDialInNumber(matchedPhoneNumber.phoneNumber);
     }
   }

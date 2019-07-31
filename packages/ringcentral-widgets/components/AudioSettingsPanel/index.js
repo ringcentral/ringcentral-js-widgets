@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Tooltip from 'rc-tooltip';
-import FormattedMessage from '../FormattedMessage';
 import InfoIcon from '../../assets/images/Info.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -248,13 +247,6 @@ export default class AudioSettingsPanel extends Component {
     return noLabel;
   }
 
-  onOutputDeviceSetupClick(e) {
-    e.preventDefault();
-    // firefox setup output device wiki link
-    window.open(`https://support.ringcentral.com/s/article/13078-Integrations-RingCentral-for-Firefox-Output-Device`,
-      '_blank');
-  }
-
   render() {
     const {
       currentLocale,
@@ -316,37 +308,12 @@ export default class AudioSettingsPanel extends Component {
     //       </InputField>
     //     </div>
     //   ) : null;
-    const clickHereComp = (
-      <a
-        onClick={this.onOutputDeviceSetupClick}
-        className={styles.setupOutputDeviceLink}>
-        {i18n.getString('clickHere', currentLocale)}
-      </a>
-    );
-    const outputTooltip = HTMLMediaElement.prototype.setSinkId ? null : (
-      <TooltipCom
-        placement="bottom"
-        trigger="click"
-        align={{
-          offset: [0, 47],
-        }}
-        overlay={(
-          <FormattedMessage
-            message={i18n.getString('notSetSinkIdTip', currentLocale)}
-            values={{ clickHereLink: clickHereComp }} />
-        )}
-        arrowContent={<div className="rc-tooltip-arrow-inner" />}
-        getTooltipContainer={() => this.outputTooltipContainner}
-      >
-        <InfoIcon width={14} height={14} className={styles.infoIcon} />
-      </TooltipCom>
-    );
-    const outputDevice = supportDevices ? (
+
+    const outputDeviceDropdown = supportDevices ? (
       <InputField
         label={(
           <span>
             {i18n.getString('outputDevice', currentLocale)}
-            {outputTooltip}
           </span>
         )}
         noBorder>
@@ -372,6 +339,22 @@ export default class AudioSettingsPanel extends Component {
         />
       </InputField>
     ) : null;
+
+    const outputDevice = this._isFirefox ? (
+      <InputField
+        className={styles.noHeightInputField}
+        label={(
+          <span>
+            {i18n.getString('outputDevice', currentLocale)}
+          </span>
+        )}
+        noBorder>
+        <div className={styles.fakeDropdownContainer}>
+          {i18n.getString('defaultOutputDevice', currentLocale)}
+        </div>
+      </InputField>
+    ) : outputDeviceDropdown;
+
     const inputTooltip = this.isNoLabel() ? (
       <TooltipCom
         placement="bottom"

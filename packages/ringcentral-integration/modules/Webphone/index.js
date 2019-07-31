@@ -44,7 +44,7 @@ const AUTO_RETRIES_DELAY = [
   30 * 60 * 1000,
 ];
 
-const RETRY_DELAY = 5 * 1000;
+const INACTIVE_SLEEP_DELAY = 1000;
 const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 
 const extendedControlStatus = new Enum([
@@ -151,10 +151,14 @@ export default class Webphone extends RcModule {
     webphoneSDKOptions,
     permissionCheck = true,
     availabilityMonitor,
+    disconnectOnInactive = false,
+    connectDelay = 0,
+    prefix,
     ...options
   }) {
     super({
       ...options,
+      prefix,
       actionTypes,
     });
 
@@ -178,6 +182,9 @@ export default class Webphone extends RcModule {
 
     this._permissionCheck = permissionCheck;
     this._reconnectDelays = AUTO_RETRIES_DELAY;
+    this._connectDelay = connectDelay;
+    this._disconnectOnInactive = disconnectOnInactive;
+    this._activeWebphoneKey = `${prefix}-active-webphone-key`;
 
     if (typeof onCallEnd === 'function') {
       this._eventEmitter.on(EVENTS.callEnd, onCallEnd);
@@ -211,6 +218,8 @@ export default class Webphone extends RcModule {
     this._sessions = new Map();
     this._reducer = getWebphoneReducer(this.actionTypes);
     this._reconnectAfterSessionEnd = null;
+    this._disconnectInactiveAfterSessionEnd = false;
+    this._tabActive = false;
     this._connectTimeout = null;
 
     this.addSelector('sessionPhoneNumbers',
@@ -321,9 +330,11 @@ export default class Webphone extends RcModule {
       }
       window.addEventListener('unload', () => {
         this._disconnect();
+        this._removeCurrentInstanceFromActiveWebphone();
       });
     }
     this.store.subscribe(() => this._onStateChange());
+    this._createOtherWebphoneInstanceRegisteredListener();
   }
 
   async _onStateChange() {
@@ -378,6 +389,16 @@ export default class Webphone extends RcModule {
         this._remoteVideo.setSinkId(this._outputDeviceId);
       }
     }
+    if (this.ready &&
+      this._tabManager &&
+      this._tabManager.ready &&
+      this._tabActive !== this._tabManager.active
+    ) {
+      this._tabActive = this._tabManager.active;
+      if (this._tabActive) {
+        this._onTabActive();
+      }
+    }
   }
 
   _shouldInit() {
@@ -426,24 +447,48 @@ export default class Webphone extends RcModule {
     return phoneLines;
   }
 
-  _removeWebphone() {
+  async _removeWebphone() {
     if (!this._webphone || !this._webphone.userAgent) {
       return;
     }
     this._webphone.userAgent.stop();
-    if (this._webphone.userAgent.isRegistered()) {
-      this._webphone.userAgent.unregister();
+    try {
+      await this._waitUnregistered(this._webphone.userAgent);
+    } catch (e) {
+      console.error(e);
     }
     this._webphone.userAgent.removeAllListeners();
     this._webphone.userAgent.transport.removeAllListeners();
     if (this._webphone.userAgent.transport.isConnected()) {
       this._webphone.userAgent.transport.disconnect();
     }
+    if (this._webphone.userAgent.transport.reconnectTimer) {
+      clearTimeout(this._webphone.userAgent.transport.reconnectTimer);
+      this._webphone.userAgent.transport.reconnectTimer = undefined;
+    }
+    if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
+      this._webphone.userAgent.transport.__clearSwitchBackTimer();
+    }
     this._webphone = null;
   }
 
-  _createWebphone(provisionData) {
-    this._removeWebphone();
+  _waitUnregistered(userAgent) {
+    return new Promise((resolve, reject) => {
+      let timeout = setTimeout(() => {
+        timeout = null;
+        reject(new Error('unregistered timeout'));
+      }, 2000);
+      userAgent.once('unregistered', (e) => {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+        resolve(e);
+      });
+    });
+  }
+
+  async _createWebphone(provisionData) {
+    await this._removeWebphone();
     this._webphone = new RingCentralWebphone(provisionData, {
       appKey: this._appKey,
       appName: this._appName,
@@ -471,28 +516,12 @@ export default class Webphone extends RcModule {
     // Webphone userAgent registed event
     this._webphone.userAgent.on('registered', () => {
       if (!this.connected) {
-        this.store.dispatch({
-          type: this.actionTypes.registered,
-        });
-        this._alert.info({
-          message: webphoneErrors.connected,
-        });
-        this._hideRegisterErrorAlert();
+        this._onWebphoneRegistered();
       }
     });
     this._webphone.userAgent.on('unregistered', (e) => {
       console.log('web phone unregistered event', e);
-      if (this.disconnecting) {
-        // user unregister
-        this.store.dispatch({
-          type: this.actionTypes.unregistered,
-        });
-        return;
-      }
-      // unavailable
-      this.store.dispatch({
-        type: this.actionTypes.connectError,
-      });
+      this._onWebphoneUnregistered();
     });
     this._webphone.userAgent.on('registrationFailed', (response, cause) => {
       console.error('Webphone Register Error:', response, cause);
@@ -562,7 +591,7 @@ export default class Webphone extends RcModule {
           message: webphoneErrors.provisionUpdate,
           allowDuplicates: false,
         });
-        this._connect({ skipTimeout: true, force: true });
+        this.connect({ force: true, skipDLCheck: true, skipConnectDelay: true });
         return;
       }
       this._reconnectAfterSessionEnd = {
@@ -606,7 +635,7 @@ export default class Webphone extends RcModule {
     // Timeout to switch back to primary server
     this._webphone.userAgent.transport.on('switchBackProxy', () => {
       if (this.sessions.length === 0) {
-        this._connect({ skipTimeout: true, force: true });
+        this.connect({ skipConnectDelay: true, force: true, skipDLCheck: true });
         return;
       }
       this._reconnectAfterSessionEnd = {
@@ -616,88 +645,99 @@ export default class Webphone extends RcModule {
   }
 
   @proxify
-  async _connect({ skipTimeout = false, force = false } = {}) {
-    // do not connect if it is connecting
-    // do not reconnect when user disconnected
-    // do not connect when connected
-    if (!force && (this.connecting || this.disconnecting || this.connected)) {
-      return;
-    }
-
-    if (this._tabManager && !this._tabManager.active) {
-      // wait until page become active
-      await sleep(RETRY_DELAY);
-      await this._connect({ skipTimeout, force });
-      return;
-    }
+  async _connect() {
     if (!this._auth.loggedIn) {
       return;
     }
-    // when last connect is connect error, use reconnect (will show connecting badge)
-    this.store.dispatch({
-      type: (this.connectError || force) ? this.actionTypes.reconnect : this.actionTypes.connect,
-    });
+    let sipProvision;
+    try {
+      sipProvision = await this._sipProvision();
+    } catch (error) {
+      console.error(error, this.connectRetryCounts);
+      if (
+        error && error.message &&
+        (error.message.indexOf('Feature [WebPhone] is not available') > -1)
+      ) {
+        this._rolesAndPermissions.refreshServiceFeatures();
+        return;
+      }
+      this._onConnectError({
+        errorCode: webphoneErrors.sipProvisionError,
+        statusCode: null,
+        ttl: 0
+      });
+      return;
+    }
+    await this._createWebphone(sipProvision);
+  }
 
-    if (this._connectTimeout) {
-      clearTimeout(this._connectTimeout);
+  async _waitStillTabActive() {
+    if (!this._tabManager || this._tabManager.active) {
+      return;
     }
-    const connectFunc = async () => {
-      if (!this._auth.loggedIn) {
-        return;
-      }
-      let sipProvision;
-      try {
-        sipProvision = await this._sipProvision();
-      } catch (error) {
-        console.error(error, this.connectRetryCounts);
-        if (
-          error && error.message &&
-          (error.message.indexOf('Feature [WebPhone] is not available') > -1)
-        ) {
-          this._rolesAndPermissions.refreshServiceFeatures();
-          return;
-        }
-        this._onConnectError({
-          errorCode: webphoneErrors.sipProvisionError,
-          statusCode: null,
-          ttl: 0
-        });
-        return;
-      }
-      this._createWebphone(sipProvision);
-    };
-    if (skipTimeout) {
-      await connectFunc();
-    } else {
-      this._connectTimeout = setTimeout(() => {
-        this._connectTimeout = null;
-        connectFunc();
-      }, this._getConnectTimeoutTtl());
+    await sleep(INACTIVE_SLEEP_DELAY);
+    await this._waitStillTabActive();
+  }
+
+  _isAvailiableToConnect({ force }) {
+    if (!this.enabled || !this._auth.loggedIn) {
+      return false;
     }
+    // do not connect if it is connecting
+    // do not reconnect when user disconnected
+    if (this.connecting || this.disconnecting || this.inactiveDisconnecting) {
+      return false;
+    }
+    // do not connect when connected unless force
+    if (!force && this.connected) {
+      return false;
+    }
+    return true;
   }
 
   /**
    * connect a web phone.
    */
   @proxify
-  async connect() {
-    if (
-      this._auth.loggedIn &&
-      this.enabled &&
-      (this.connectionStatus === null || this.disconnected || this.connectError)
-    ) {
-      if (!isBrowserSupport()) {
-        this.store.dispatch({
-          type: this.actionTypes.connectError,
-          errorCode: webphoneErrors.browserNotSupported,
-        });
-        this._alert.warning({
-          message: webphoneErrors.browserNotSupported,
-          ttl: 0,
-        });
-        return;
-      }
+  async connect({
+    force = false,
+    skipTimeout = true,
+    skipConnectDelay = false,
+    skipDLCheck = false,
+    skipTabActiveCheck = false,
+  } = {}) {
+    if (!isBrowserSupport()) {
+      this.store.dispatch({
+        type: this.actionTypes.connectError,
+        errorCode: webphoneErrors.browserNotSupported,
+      });
+      this._alert.warning({
+        message: webphoneErrors.browserNotSupported,
+        ttl: 0,
+      });
+      return;
+    }
+    if (!this._isAvailiableToConnect({ force })) {
+      return;
+    }
+    if (!skipTabActiveCheck) {
+      await this._waitStillTabActive();
+    }
+    if (!this._isAvailiableToConnect({ force })) {
+      return;
+    }
+    // when last connect is connect error, use reconnect (will show connecting badge)
+    this.store.dispatch({
+      type: (this.connectError || force) ? this.actionTypes.reconnect : this.actionTypes.connect,
+    });
+    if (!skipConnectDelay && this._connectDelay > 0) {
+      await sleep(this._connectDelay);
+    }
+    if (!skipDLCheck) {
       try {
+        if (!this._auth.loggedIn) {
+          return;
+        }
         const phoneLines = await this._fetchDL();
         if (phoneLines.length === 0) {
           this._alert.warning({
@@ -711,8 +751,21 @@ export default class Webphone extends RcModule {
           allowDuplicates: false,
         });
       }
-      await this._connect({ skipTimeout: true });
     }
+    if (this.disconnected || this.disconnecting || !this._auth.loggedIn) {
+      return;
+    }
+    if (this._connectTimeout) {
+      clearTimeout(this._connectTimeout);
+    }
+    if (force || skipTimeout) {
+      await this._connect();
+      return;
+    }
+    this._connectTimeout = setTimeout(() => {
+      this._connectTimeout = null;
+      this._connect();
+    }, this._getConnectTimeoutTtl());
   }
 
   _reconnectWebphoneIfNecessaryOnSessionsEmpty() {
@@ -724,7 +777,7 @@ export default class Webphone extends RcModule {
         });
       }
       this._reconnectAfterSessionEnd = null;
-      this._connect({ skipTimeout: true, force: true });
+      this.connect({ skipConnectDelay: true, force: true, skipDLCheck: true });
     }
   }
 
@@ -757,7 +810,7 @@ export default class Webphone extends RcModule {
       if (!this.connectError) {
         return;
       }
-      this._connect({ skipTimeout: true });
+      this.connect({ skipConnectDelay: true, force: true, skipDLCheck: true });
       return;
     }
     this.store.dispatch({
@@ -777,7 +830,105 @@ export default class Webphone extends RcModule {
       });
       this._hideConnectFailedAlert();
     }
-    this._connect();
+    this.connect({ skipDLCheck: true, skipConnectDelay: true, skipTimeout: false });
+  }
+
+  _onWebphoneRegistered() {
+    this.store.dispatch({
+      type: this.actionTypes.registered,
+    });
+    this._alert.info({
+      message: webphoneErrors.connected,
+    });
+    this._hideRegisterErrorAlert();
+    this._setCurrentInstanceAsActiveWebphone();
+  }
+
+  _onWebphoneUnregistered() {
+    this._removeCurrentInstanceFromActiveWebphone();
+    if (this.disconnecting || this.inactiveDisconnecting || this.disconnected || this.inactive) {
+      // unregister by our app
+      return;
+    }
+    // unavailable, unregistered by some errors
+    this.store.dispatch({
+      type: this.actionTypes.connectError,
+    });
+  }
+
+  _setCurrentInstanceAsActiveWebphone() {
+    if (this._disconnectOnInactive && this._tabManager) {
+      localStorage.setItem(this._activeWebphoneKey, this._tabManager.id);
+    }
+  }
+
+  _removeCurrentInstanceFromActiveWebphone() {
+    if (this._disconnectOnInactive && this._tabManager) {
+      const activeWebphoneInstance = localStorage.getItem(this._activeWebphoneKey);
+      if (activeWebphoneInstance === this._tabManager.id) {
+        localStorage.removeItem(this._activeWebphoneKey);
+      }
+    }
+  }
+
+  _createOtherWebphoneInstanceRegisteredListener() {
+    if (!this._disconnectOnInactive || !this._tabManager) {
+      return;
+    }
+    // disconnect to inactive when other tabs' web phone connected
+    window.addEventListener('storage', (e) => {
+      if (e.key !== this._activeWebphoneKey) {
+        return;
+      }
+      if (!this.connected || !document.hidden) {
+        return;
+      }
+      if (e.newValue === this._tabManager.id) {
+        return;
+      }
+      if (this.sessions.length === 0) {
+        this._disconnectToInactive();
+        return;
+      }
+      this._disconnectInactiveAfterSessionEnd = true;
+    });
+  }
+
+  async _disconnectToInactive() {
+    this.store.dispatch({
+      type: this.actionTypes.disconnectOnInactive,
+    });
+    await this._removeWebphone();
+    this.store.dispatch({
+      type: this.actionTypes.unregisteredOnInactive,
+    });
+  }
+
+  _makeWebphoneInactiveOnSessionsEmpty() {
+    if (this._disconnectInactiveAfterSessionEnd && this.sessions.length === 0) {
+      this._disconnectInactiveAfterSessionEnd = false;
+      if (!document.hidden) {
+        // set to active
+        if (this._tabManager && this._tabManager.active) {
+          this._setCurrentInstanceAsActiveWebphone();
+        }
+        return;
+      }
+      this._disconnectToInactive();
+    }
+  }
+
+  _onTabActive() {
+    if (!this._disconnectOnInactive) {
+      return;
+    }
+    if (this.connected) {
+      this._setCurrentInstanceAsActiveWebphone();
+      return;
+    }
+    if (this.inactive) {
+      this.connect({ skipDLCheck: true, force: true, skipTabActiveCheck: true });
+    }
   }
 
   _hideConnectingAlert() {
@@ -816,7 +967,7 @@ export default class Webphone extends RcModule {
     }
   }
 
-  _disconnect() {
+  async _disconnect() {
     if (
       this.disconnected ||
       this.disconnecting
@@ -833,7 +984,7 @@ export default class Webphone extends RcModule {
       this._sessions.forEach((session) => {
         this.hangup(session);
       });
-      this._removeWebphone();
+      await this._removeWebphone();
       this._sessions = new Map();
       this._updateSessions();
     }
@@ -844,7 +995,7 @@ export default class Webphone extends RcModule {
 
   @proxify
   async disconnect() {
-    this._disconnect();
+    await this._disconnect();
   }
 
   async _playExtendedControls(session) {
@@ -1544,6 +1695,7 @@ export default class Webphone extends RcModule {
       EVENTS.callEnd, normalizedSession, this.activeSession, this.ringSession
     );
     this._reconnectWebphoneIfNecessaryOnSessionsEmpty();
+    this._makeWebphoneInactiveOnSessionsEmpty();
   }
 
   _onBeforeCallResume(session) {
@@ -1730,6 +1882,14 @@ export default class Webphone extends RcModule {
     return this.connectionStatus === connectionStatus.disconnecting;
   }
 
+  get inactiveDisconnecting() {
+    return this.connectionStatus === connectionStatus.inactiveDisconnecting;
+  }
+
+  get inactive() {
+    return this.connectionStatus === connectionStatus.inactive;
+  }
+
   get connecting() {
     return this.connectionStatus === connectionStatus.connecting;
   }
@@ -1764,7 +1924,7 @@ export default class Webphone extends RcModule {
       this._auth.loggedIn &&
       (
         !this._audioSettings.userMedia ||
-        (this.reconnecting || this.connectError)
+        (this.reconnecting || this.connectError || this.inactive)
       )
     );
   }

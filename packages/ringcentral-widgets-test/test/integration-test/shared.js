@@ -5,6 +5,7 @@ import * as mock from 'ringcentral-integration/integration-test/mock';
 import { ensureLogin } from 'ringcentral-integration/integration-test/utils/HelpUtil';
 import SimulateWindowObject from 'ringcentral-integration/integration-test/utils/SimulateWindowObject';
 import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
+import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
 
 import { createPhone } from 'ringcentral-widgets-demo/dev-server/Phone';
 import App from 'ringcentral-widgets-demo/dev-server/containers/App';
@@ -57,8 +58,9 @@ const getPhone = async ({
       password: 'test'
     });
     if (shouldMockWebphone) {
-      if (phone.webphone.connecting) {
-        phone.webphone._webphone.userAgent._events.registered();
+      await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
+      if (phone.webphone.connecting && phone.webphone._webphone) {
+        phone.webphone._webphone.userAgent.trigger('registered');
       }
     }
   }

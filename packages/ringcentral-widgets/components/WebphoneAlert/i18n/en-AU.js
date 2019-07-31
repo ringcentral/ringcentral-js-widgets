@@ -3,7 +3,7 @@ export default {
   [webphoneErrors.connectFailed]: "Sorry, phone features are currently unavailable. Please retry later. ",
   [webphoneErrors.connected]: "Web phone registered.",
   [webphoneErrors.browserNotSupported]: "Sorry, making calls using this browser is not supported.",
-  [webphoneErrors.webphoneCountOverLimit]: "A maximum of 5 web phones could be registered.",
+  [webphoneErrors.webphoneCountOverLimit]: "A maximum of five web phones can be registered.",
   [webphoneErrors.checkDLError]: "Unable to make outgoing call. Contact {brandName} for support if this error keeps showing.",
   [webphoneErrors.noOutboundCallWithoutDL]: "Your extension is currently not allowed to make outbound calls with browser. Please contact your account representative for an upgrade.",
   [webphoneErrors.provisionUpdate]: "Sorry, something went wrong on our end. We will automatically try to reconnect shortly.",

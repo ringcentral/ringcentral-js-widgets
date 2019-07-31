@@ -51,6 +51,10 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
       return session.id.indexOf(callItem.id) === 0;
     }
 
+    if (!callItem.sipData.remoteUri || callItem.sipData.remoteUri === '') {
+      return false;
+    }
+
     if (
       session.direction === callDirections.inbound &&
       callItem.sipData.remoteUri.indexOf(session.from) === -1
