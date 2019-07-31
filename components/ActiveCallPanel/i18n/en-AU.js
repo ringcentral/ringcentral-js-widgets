@@ -11,7 +11,7 @@ var _default = {
   onHold: "On Hold",
   unknown: "Unknown",
   disconnected: "Disconnected",
-  loading: "Loading ...",
+  loading: "Loading...",
   loadingTimeout: "Loading timeout."
 }; // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@

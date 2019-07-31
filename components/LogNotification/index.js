@@ -29,6 +29,8 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
+var _i18n2 = _interopRequireDefault(require("../SmCallControl/i18n"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -62,7 +64,7 @@ function LogNotification(_ref) {
       var endTitle = isInComingCall ? 'reject' : 'hangup';
       var endAction = isInComingCall ? onReject : onHangup;
       endButton = _react["default"].createElement("span", {
-        title: _i18n["default"].getString(endTitle, currentLocale)
+        title: _i18n2["default"].getString(endTitle, currentLocale)
       }, _react["default"].createElement(_CircleButton["default"], {
         dataSign: endTitle,
         showBorder: false,

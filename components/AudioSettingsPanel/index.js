@@ -29,8 +29,6 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _rcTooltip = _interopRequireDefault(require("rc-tooltip"));
 
-var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
-
 var _Info = _interopRequireDefault(require("../../assets/images/Info.svg"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -340,13 +338,6 @@ function (_Component) {
       return noLabel;
     }
   }, {
-    key: "onOutputDeviceSetupClick",
-    value: function onOutputDeviceSetupClick(e) {
-      e.preventDefault(); // firefox setup output device wiki link
-
-      window.open("https://support.ringcentral.com/s/article/13078-Integrations-RingCentral-for-Firefox-Output-Device", '_blank');
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
@@ -394,36 +385,8 @@ function (_Component) {
       //     </div>
       //   ) : null;
 
-      var clickHereComp = _react["default"].createElement("a", {
-        onClick: this.onOutputDeviceSetupClick,
-        className: _styles["default"].setupOutputDeviceLink
-      }, _i18n["default"].getString('clickHere', currentLocale));
-
-      var outputTooltip = HTMLMediaElement.prototype.setSinkId ? null : _react["default"].createElement(TooltipCom, {
-        placement: "bottom",
-        trigger: "click",
-        align: {
-          offset: [0, 47]
-        },
-        overlay: _react["default"].createElement(_FormattedMessage["default"], {
-          message: _i18n["default"].getString('notSetSinkIdTip', currentLocale),
-          values: {
-            clickHereLink: clickHereComp
-          }
-        }),
-        arrowContent: _react["default"].createElement("div", {
-          className: "rc-tooltip-arrow-inner"
-        }),
-        getTooltipContainer: function getTooltipContainer() {
-          return _this3.outputTooltipContainner;
-        }
-      }, _react["default"].createElement(_Info["default"], {
-        width: 14,
-        height: 14,
-        className: _styles["default"].infoIcon
-      }));
-      var outputDevice = supportDevices ? _react["default"].createElement(_InputField["default"], {
-        label: _react["default"].createElement("span", null, _i18n["default"].getString('outputDevice', currentLocale), outputTooltip),
+      var outputDeviceDropdown = supportDevices ? _react["default"].createElement(_InputField["default"], {
+        label: _react["default"].createElement("span", null, _i18n["default"].getString('outputDevice', currentLocale)),
         noBorder: true
       }, _react["default"].createElement(_DropdownSelect["default"], {
         className: _styles["default"].select,
@@ -442,6 +405,13 @@ function (_Component) {
           _this3.outputTooltipContainner = tooltipContainner;
         }
       })) : null;
+      var outputDevice = this._isFirefox ? _react["default"].createElement(_InputField["default"], {
+        className: _styles["default"].noHeightInputField,
+        label: _react["default"].createElement("span", null, _i18n["default"].getString('outputDevice', currentLocale)),
+        noBorder: true
+      }, _react["default"].createElement("div", {
+        className: _styles["default"].fakeDropdownContainer
+      }, _i18n["default"].getString('defaultOutputDevice', currentLocale))) : outputDeviceDropdown;
       var inputTooltip = this.isNoLabel() ? _react["default"].createElement(TooltipCom, {
         placement: "bottom",
         trigger: "click",

@@ -8,9 +8,9 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   noActiveCalls: "No active calls",
-  currentCall: "Current call",
+  currentCall: "Current Call",
   ringCall: "Ringing Call",
-  onHoldCall: "Call on hold",
+  onHoldCall: "Call on Hold",
   otherDeviceCall: "Ongoing calls on my other devices",
   confirmation: "Confirmation",
   confirmMergeToConference: "Add to conference call?",

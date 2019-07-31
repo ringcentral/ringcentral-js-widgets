@@ -37,11 +37,11 @@ require("regenerator-runtime/runtime");
 
 var _background = _interopRequireDefault(require("ringcentral-integration/lib/background"));
 
-var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+var _di = require("ringcentral-integration/lib/di");
 
 var _popWindow = _interopRequireDefault(require("ringcentral-integration/lib/popWindow"));
 
-var _di = require("ringcentral-integration/lib/di");
+var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
 
 var _OAuthBase2 = _interopRequireDefault(require("../../lib/OAuthBase"));
 

@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = _defineProperty({}, _audioSettingsErrors["default"].userMediaPermission, "Please grant {application} access your audio."); // @key: @#@"[audioSettingsErrors.userMediaPermission]"@#@ @source: @#@"Please grant {application} to access your audio."@#@
+var _default = _defineProperty({}, _audioSettingsErrors["default"].userMediaPermission, "Please grant {application} to access your audio."); // @key: @#@"[audioSettingsErrors.userMediaPermission]"@#@ @source: @#@"Please grant {application} to access your audio."@#@
 
 
 exports["default"] = _default;

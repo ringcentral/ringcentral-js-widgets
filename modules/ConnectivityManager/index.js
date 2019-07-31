@@ -229,7 +229,10 @@ function (_RcModule) {
       }
 
       if (this._webphone && this._webphone.ready) {
-        this._webphone.connect();
+        this._webphone.connect({
+          force: true,
+          skipConnectDelay: true
+        });
       }
     }
   }, {
@@ -300,7 +303,7 @@ function (_RcModule) {
   }, {
     key: "isWebphoneInitializing",
     get: function get() {
-      return this._callingSettings.isWebphoneMode && (!this._webphone.ready || this._webphone.disconnected || this._webphone.connectionStatus === null || this._webphone.connecting || this._webphone.connectFailed);
+      return this._callingSettings.isWebphoneMode && (!this._webphone.ready || this._webphone.disconnected || this._webphone.connecting || this._webphone.connectFailed);
     }
   }, {
     key: "webphoneConnecting",
@@ -310,7 +313,7 @@ function (_RcModule) {
   }, {
     key: "webphoneUnavailable",
     get: function get() {
-      return this._webphone && this._callingSettings && this._audioSettings && this._audioSettings.ready && this._auth.ready && this._auth.loggedIn && this._callingSettings.isWebphoneMode && (!this._audioSettings.userMedia || this._webphone.reconnecting || this._webphone.connectError);
+      return this._webphone && this._callingSettings && this._audioSettings && this._audioSettings.ready && this._auth.ready && this._auth.loggedIn && this._callingSettings.isWebphoneMode && (!this._audioSettings.userMedia || this._webphone.reconnecting || this._webphone.connectError || this._webphone.inactive);
     }
   }, {
     key: "proxyRetryCount",

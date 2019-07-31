@@ -105,7 +105,7 @@ function getMinutesList(MINUTE_SCALE) {
   return (0, _ramda.reduce)(function (result) {
     var index = result.length;
     var value = 60 / MINUTE_SCALE * index;
-    var text = "".concat("".concat(value, "0").slice(0, 2), " m.");
+    var text = "".concat("".concat(value, "0").slice(0, 2), " min");
     return result.concat({
       value: value,
       text: text
@@ -120,7 +120,7 @@ function getHoursList(HOUR_SCALE) {
 
   return (0, _ramda.reduce)(function (result) {
     var value = result.length;
-    var text = "".concat("0".concat(value, "0").slice(-3, -1), " h.");
+    var text = "".concat("0".concat(value, "0").slice(-3, -1), " hr");
     return result.concat({
       value: value,
       text: text
@@ -305,6 +305,20 @@ var When = function When(_ref4) {
     }, 200);
   };
 
+  var minMinute;
+
+  if (meeting.schedule && meeting.schedule.startTime && useTimePicker) {
+    var iscurrentDate = (0, _moment["default"])(meeting.schedule.startTime).isSame(new Date(), 'day');
+
+    if (iscurrentDate) {
+      var currentMinute = +(0, _moment["default"])().format('mm');
+      var nearlest = (0, _moment["default"])().set('minute', Math.ceil(currentMinute / 15) * 15).toDate();
+      minMinute = nearlest;
+    }
+
+    console.log('prepared minTime', +minMinute);
+  }
+
   return !isRecurring ? _react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('when', currentLocale)
   }, _react["default"].createElement("div", {
@@ -392,7 +406,8 @@ var When = function When(_ref4) {
     ref: function ref(_ref7) {
       that.time = _ref7;
     },
-    format: "hh:mm A"
+    format: "hh:mm A",
+    min: minMinute
   }), _react["default"].createElement("div", {
     className: _styles["default"].timeText,
     onClick: function onClick() {
@@ -408,6 +423,7 @@ var When = function When(_ref4) {
     },
     "data-sign": "timeInputHour",
     className: _styles["default"].timeInput,
+    defaultValue: (0, _moment["default"])(meeting.schedule.startTime).format(useTimePicker ? 'hh' : 'HH'),
     onChange: function onChange(_ref8) {
       var target = _ref8.target;
       that.hours.value = target.value.replace(_constants.NO_NUMBER_REGEX, '');
@@ -838,20 +854,20 @@ function (_Component) {
       var _this2 = this;
 
       setTimeout(function () {
-        _this2.displayFormat();
+        _this2.displayFormat(_this2.props.meeting.schedule.startTime);
       });
     }
   }, {
     key: "displayFormat",
-    value: function displayFormat() {
+    value: function displayFormat(startTime) {
       var isAMPM = this.props.useTimePicker ? 'hh' : 'HH';
 
       if (this.hours) {
-        this.hours.value = (0, _moment["default"])(this.props.meeting.schedule.startTime).format(isAMPM);
+        this.hours.value = (0, _moment["default"])(startTime).format(isAMPM);
       }
 
       if (this.minutes) {
-        this.minutes.value = (0, _moment["default"])(this.props.meeting.schedule.startTime).format('mm');
+        this.minutes.value = (0, _moment["default"])(startTime).format('mm');
       }
     }
   }, {
@@ -870,16 +886,8 @@ function (_Component) {
         });
       }
 
-      if (this.props.meeting.schedule && this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime) {
-        var isAMPM = this.props.useTimePicker ? 'hh' : 'HH';
-
-        if (this.hours) {
-          this.hours.value = (0, _moment["default"])(nextProps.meeting.schedule.startTime).format(isAMPM);
-        }
-
-        if (this.minutes) {
-          this.minutes.value = (0, _moment["default"])(nextProps.meeting.schedule.startTime).format('mm');
-        }
+      if (this.props.meeting.schedule && nextProps.meeting.schedule && this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime) {
+        this.displayFormat(nextProps.meeting.schedule.startTime);
       }
     }
   }, {

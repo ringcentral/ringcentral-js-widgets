@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   mute: 'Mute',
   unmute: 'Unmute',
-  hangup: 'Hangup',
+  hangup: 'Hang up',
   reject: 'Reject'
 };
 exports["default"] = _default;

@@ -17,7 +17,7 @@ var _default = {
   micPermission: "Microphone Permission",
   noDevice: "No device",
   checkMicPermission: "Check Permission",
-  micNoPermissionMessage: "The app does not have permission to use microphone",
+  micNoPermissionMessage: "The app does not have permission to use the microphone",
   noLabel: "Unknown device",
   notSetSinkIdTip: "Sorry, your current browser permissions are not set to allow us to access your audio output devices.",
   noLabelTip: "Sorry, your current browser permissions are not set to allow us to access your audio input devices.",
