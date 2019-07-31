@@ -103,27 +103,26 @@ describe('Webphone badge', () => {
       test('Webphone Badge Changed to Connecting status', async () => {
         let badge = wrapper.find(ConnectivityBadge);
         badge.simulate('click');
-        await timeout(10);
+        await timeout(100);
         wrapper.update();
         badge = wrapper.find(ConnectivityBadge);
         expect(badge.text()).toEqual('Connecting');
       });
 
       test('Web Phone Unavailable Badge disappeared', async () => {
-        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
+        await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 10, 10);
         phone.webphone._webphone.userAgent.trigger('registered');
         wrapper.update();
         const badge = wrapper.find(ConnectivityBadge);
         expect(badge.text()).toEqual(null);
       });
 
-      // TODO: unstable test
-      // test('Alert Message disappeared', async () => {
-      //   await timeout(800);
-      //   wrapper.update();
-      //   const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
-      //   expect(webphoneAlerts.map(x => x.text())).not.toContain(msg);
-      // });
+      test('Alert Message disappeared', async () => {
+        await timeout(600);
+        wrapper.update();
+        const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
+        expect(webphoneAlerts.map(x => x.text())).not.toContain(msg);
+      });
 
       test('Enabled Dial Button', async () => {
         wrapper.update();

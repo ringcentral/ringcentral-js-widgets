@@ -103,7 +103,7 @@ export default class ConnectivityManager extends RcModule {
       this._audioSettings.getUserMedia();
     }
     if (this._webphone && this._webphone.ready) {
-      this._webphone.connect({ force: true });
+      this._webphone.connect({ force: true, skipConnectDelay: true });
     }
   }
 
@@ -207,7 +207,7 @@ export default class ConnectivityManager extends RcModule {
       (
         !this._audioSettings.userMedia ||
         (
-          this._webphone.reconnecting || 
+          this._webphone.reconnecting ||
           this._webphone.connectError ||
           this._webphone.inactive
         )
