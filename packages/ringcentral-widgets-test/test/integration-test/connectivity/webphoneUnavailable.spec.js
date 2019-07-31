@@ -118,7 +118,7 @@ describe('Webphone badge', () => {
       });
 
       test('Alert Message disappeared', async () => {
-        await timeout(600);
+        await timeout(1000);
         wrapper.update();
         const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
         expect(webphoneAlerts.map(x => x.text())).not.toContain(msg);
