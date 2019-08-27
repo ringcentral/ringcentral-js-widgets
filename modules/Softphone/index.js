@@ -35,6 +35,8 @@ require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
+var _bowser = _interopRequireDefault(require("bowser"));
+
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _di = require("../../lib/di");
@@ -91,6 +93,7 @@ var Softphone = (
  * @description Softphone module to call softphone
  */
 _dec = (0, _di.Module)({
+  name: 'Softphone',
   deps: ['Brand', {
     dep: 'ContactMatcher',
     optional: true
@@ -135,6 +138,11 @@ function (_RcModule) {
   }
 
   _createClass(Softphone, [{
+    key: "detectPlatform",
+    value: function detectPlatform() {
+      return _bowser["default"].parse(global.navigator && global.navigator.userAgent || 'unknown').platform.type;
+    }
+  }, {
     key: "_onStateChange",
     value: function _onStateChange() {
       /* do nothing */
@@ -172,13 +180,15 @@ function (_RcModule) {
                 break;
 
               case 7:
-                if (!this._extensionMode) {
+                if (!(this._extensionMode || this.detectPlatform() !== 'desktop')) {
                   _context.next = 11;
                   break;
                 }
 
-                // TODO use window.open in extension background, this method will crash chrome when
-                // executed in background page.
+                /**
+                 * 1. Use window.open in extension background scripts to avoid crashing Browsers
+                 * 2. Use window.open in non-desktop platforms
+                 */
                 window.open(uri);
                 _context.next = 28;
                 break;

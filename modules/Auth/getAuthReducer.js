@@ -77,7 +77,8 @@ function getTokenReducer(types) {
           endpointId: token.endpoint_id,
           accessToken: token.access_token,
           expireTime: token.expire_time,
-          expiresIn: token.expires_in
+          expiresIn: token.expires_in,
+          scope: token.scope
         };
 
       case types.loginError:
@@ -100,7 +101,8 @@ function getTokenReducer(types) {
             endpointId: token.endpoint_id,
             accessToken: token.access_token,
             expireTime: token.expire_time,
-            expiresIn: token.expires_in
+            expiresIn: token.expires_in,
+            scope: token.scope
           };
         }
 

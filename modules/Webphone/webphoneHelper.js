@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.isChrome = isChrome;
 exports.isFirefox = isFirefox;
+exports.isEnableMidLinesInSDP = isEnableMidLinesInSDP;
 exports.isWebSocketSupport = isWebSocketSupport;
 exports.isWebRTCSupport = isWebRTCSupport;
 exports.isBrowserSupport = isBrowserSupport;
@@ -87,6 +88,15 @@ function isFirefox() {
 
   var browserUa = environment.navigator.userAgent.toLowerCase();
   return browserUa.indexOf('firefox') > -1 && !isChrome();
+}
+
+function isEnableMidLinesInSDP() {
+  if (!isFirefox()) {
+    return false;
+  }
+
+  var version = parseInt(navigator.userAgent.toLowerCase().match(/firefox\/([0-9]+)/)[1], 10);
+  return version >= 63;
 }
 
 function isWebSocketSupport() {

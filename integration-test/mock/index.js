@@ -51,6 +51,7 @@ exports.ringOutUpdate = ringOutUpdate;
 exports.meeting = meeting;
 exports.serviceInfo = serviceInfo;
 exports.recentActivity = recentActivity;
+exports.videoConfiguration = videoConfiguration;
 exports.mockForLogin = mockForLogin;
 exports.mockServer = void 0;
 
@@ -149,6 +150,8 @@ var _sipProvision = _interopRequireDefault(require("./data/sipProvision"));
 var _fetchDL = _interopRequireDefault(require("./data/fetchDL"));
 
 var _fetchDLWithNoRecord = _interopRequireDefault(require("./data/fetchDLWithNoRecord"));
+
+var _videoConfiguration = _interopRequireDefault(require("./data/videoConfiguration.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -730,6 +733,17 @@ function recentActivity() {
   });
 }
 
+function videoConfiguration() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  mockApi({
+    method: 'GET',
+    url: new RegExp("".concat(mockServer, "/restapi/v1.0/account/~/extension/~/video-configuration")),
+    body: _objectSpread({}, _videoConfiguration["default"], mockResponse),
+    isOnce: isOnce
+  });
+}
+
 function mockForLogin() {
   var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -753,7 +767,9 @@ function mockForLogin() {
       mockRecentActivity = _ref4$mockRecentActiv === void 0 ? true : _ref4$mockRecentActiv,
       _ref4$mockMessageSync2 = _ref4.mockMessageSyncOnce,
       mockMessageSyncOnce = _ref4$mockMessageSync2 === void 0 ? false : _ref4$mockMessageSync2,
-      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce"]);
+      _ref4$mockVideoConfig = _ref4.mockVideoConfiguration,
+      mockVideoConfiguration = _ref4$mockVideoConfig === void 0 ? true : _ref4$mockVideoConfig,
+      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration"]);
 
   authentication();
   logout();
@@ -814,6 +830,10 @@ function mockForLogin() {
 
   if (mockRecentActivity) {
     recentActivity();
+  }
+
+  if (mockVideoConfiguration) {
+    videoConfiguration();
   }
 }
 //# sourceMappingURL=index.js.map

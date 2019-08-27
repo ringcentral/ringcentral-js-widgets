@@ -651,26 +651,30 @@ function (_RcModule) {
                 console.error(_context5.t0);
 
               case 11:
-                this._webphone.userAgent.removeAllListeners();
+                try {
+                  this._webphone.userAgent.removeAllListeners();
 
-                this._webphone.userAgent.transport.removeAllListeners();
+                  this._webphone.userAgent.transport.removeAllListeners();
 
-                if (this._webphone.userAgent.transport.isConnected()) {
-                  this._webphone.userAgent.transport.disconnect();
-                }
+                  if (this._webphone.userAgent.transport.isConnected()) {
+                    this._webphone.userAgent.transport.disconnect();
+                  }
 
-                if (this._webphone.userAgent.transport.reconnectTimer) {
-                  clearTimeout(this._webphone.userAgent.transport.reconnectTimer);
-                  this._webphone.userAgent.transport.reconnectTimer = undefined;
-                }
+                  if (this._webphone.userAgent.transport.reconnectTimer) {
+                    clearTimeout(this._webphone.userAgent.transport.reconnectTimer);
+                    this._webphone.userAgent.transport.reconnectTimer = undefined;
+                  }
 
-                if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
-                  this._webphone.userAgent.transport.__clearSwitchBackTimer();
+                  if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
+                    this._webphone.userAgent.transport.__clearSwitchBackTimer();
+                  }
+                } catch (e) {
+                  console.error(e); // ignore clean listener error
                 }
 
                 this._webphone = null;
 
-              case 17:
+              case 13:
               case "end":
                 return _context5.stop();
             }
@@ -733,7 +737,7 @@ function (_RcModule) {
                     local: this._localVideo
                   },
                   enableQos: (0, _webphoneHelper.isChrome)(),
-                  enableMidLinesInSDP: (0, _webphoneHelper.isFirefox)()
+                  enableMidLinesInSDP: (0, _webphoneHelper.isEnableMidLinesInSDP)()
                 }, this._webphoneSDKOptions));
 
                 this._webphone.userAgent.audioHelper.loadAudio({

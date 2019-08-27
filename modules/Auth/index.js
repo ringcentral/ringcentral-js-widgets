@@ -594,19 +594,34 @@ function (_RcModule) {
       regeneratorRuntime.mark(function _callee6() {
         var _this4 = this;
 
-        var handlers, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _loop2, _iterator2, _step2, _ret;
+        var _ref7,
+            _ref7$dismissAllAlert,
+            dismissAllAlert,
+            handlers,
+            _iteratorNormalCompletion2,
+            _didIteratorError2,
+            _iteratorError2,
+            _loop2,
+            _iterator2,
+            _step2,
+            _ret,
+            _args8 = arguments;
 
         return regeneratorRuntime.wrap(function _callee6$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                this._alert.dismissAll();
+                _ref7 = _args8.length > 0 && _args8[0] !== undefined ? _args8[0] : {}, _ref7$dismissAllAlert = _ref7.dismissAllAlert, dismissAllAlert = _ref7$dismissAllAlert === void 0 ? true : _ref7$dismissAllAlert;
+
+                if (dismissAllAlert) {
+                  this._alert.dismissAll();
+                }
 
                 this.store.dispatch({
                   type: this.actionTypes.beforeLogout
                 });
                 handlers = _toConsumableArray(this._beforeLogoutHandlers);
-                _context8.prev = 3;
+                _context8.prev = 4;
 
                 if (this._tabManager && this._tabManager.ready) {
                   this._tabManager.send(LoginStatusChangeEvent, false);
@@ -615,7 +630,7 @@ function (_RcModule) {
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context8.prev = 8;
+                _context8.prev = 9;
                 _loop2 =
                 /*#__PURE__*/
                 regeneratorRuntime.mark(function _loop2() {
@@ -672,83 +687,83 @@ function (_RcModule) {
                 });
                 _iterator2 = handlers[Symbol.iterator]();
 
-              case 11:
+              case 12:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context8.next = 19;
+                  _context8.next = 20;
                   break;
                 }
 
-                return _context8.delegateYield(_loop2(), "t0", 13);
+                return _context8.delegateYield(_loop2(), "t0", 14);
 
-              case 13:
+              case 14:
                 _ret = _context8.t0;
 
                 if (!(_typeof(_ret) === "object")) {
-                  _context8.next = 16;
+                  _context8.next = 17;
                   break;
                 }
 
                 return _context8.abrupt("return", _ret.v);
 
-              case 16:
+              case 17:
                 _iteratorNormalCompletion2 = true;
-                _context8.next = 11;
+                _context8.next = 12;
                 break;
 
-              case 19:
-                _context8.next = 25;
+              case 20:
+                _context8.next = 26;
                 break;
 
-              case 21:
-                _context8.prev = 21;
-                _context8.t1 = _context8["catch"](8);
+              case 22:
+                _context8.prev = 22;
+                _context8.t1 = _context8["catch"](9);
                 _didIteratorError2 = true;
                 _iteratorError2 = _context8.t1;
 
-              case 25:
-                _context8.prev = 25;
+              case 26:
                 _context8.prev = 26;
+                _context8.prev = 27;
 
                 if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
                   _iterator2["return"]();
                 }
 
-              case 28:
-                _context8.prev = 28;
+              case 29:
+                _context8.prev = 29;
 
                 if (!_didIteratorError2) {
-                  _context8.next = 31;
+                  _context8.next = 32;
                   break;
                 }
 
                 throw _iteratorError2;
 
-              case 31:
-                return _context8.finish(28);
-
               case 32:
-                return _context8.finish(25);
+                return _context8.finish(29);
 
               case 33:
-                _context8.next = 38;
+                return _context8.finish(26);
+
+              case 34:
+                _context8.next = 39;
                 break;
 
-              case 35:
-                _context8.prev = 35;
-                _context8.t2 = _context8["catch"](3);
+              case 36:
+                _context8.prev = 36;
+                _context8.t2 = _context8["catch"](4);
 
                 this._alert.danger({
                   message: _authMessages["default"].beforeLogoutError,
                   payload: _context8.t2
                 });
 
-              case 38:
+              case 39:
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
 
                 if (!this.isImplicit) {
-                  _context8.next = 43;
+                  _context8.next = 44;
                   break;
                 }
 
@@ -759,15 +774,15 @@ function (_RcModule) {
                 });
                 return _context8.abrupt("return", null);
 
-              case 43:
+              case 44:
                 return _context8.abrupt("return", this._client.service.platform().logout());
 
-              case 44:
+              case 45:
               case "end":
                 return _context8.stop();
             }
           }
-        }, _callee6, this, [[3, 35], [8, 21, 25, 33], [26,, 28, 32]]);
+        }, _callee6, this, [[4, 36], [9, 22, 26, 34], [27,, 29, 33]]);
       }));
 
       function logout() {
@@ -819,13 +834,13 @@ function (_RcModule) {
     value: function () {
       var _refreshImplicitToken = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee7(_ref8) {
+      regeneratorRuntime.mark(function _callee7(_ref9) {
         var tokenType, accessToken, expiresIn, endpointId, extensionData, ownerId, platform, newAuthData;
         return regeneratorRuntime.wrap(function _callee7$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                tokenType = _ref8.tokenType, accessToken = _ref8.accessToken, expiresIn = _ref8.expiresIn, endpointId = _ref8.endpointId;
+                tokenType = _ref9.tokenType, accessToken = _ref9.accessToken, expiresIn = _ref9.expiresIn, endpointId = _ref9.endpointId;
                 _context9.prev = 1;
                 _context9.next = 4;
                 return this._client.account().extension().get();
