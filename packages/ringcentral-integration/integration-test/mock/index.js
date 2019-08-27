@@ -34,6 +34,7 @@ import updateConferenceCallBody from './data/updateConference';
 import sipProvisionBody from './data/sipProvision';
 import fetchDLBody from './data/fetchDL';
 import fetchDLWithNoRecordBody from './data/fetchDLWithNoRecord';
+import videoConfigurationBody from './data/videoConfiguration.json';
 
 export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -660,6 +661,18 @@ export function recentActivity(mockResponse = {}, isOnce = false) {
   });
 }
 
+export function videoConfiguration(mockResponse = {}, isOnce = false) {
+  mockApi({
+    method: 'GET',
+    url: new RegExp(`${mockServer}/restapi/v1.0/account/~/extension/~/video-configuration`),
+    body: {
+      ...videoConfigurationBody,
+      ...mockResponse,
+    },
+    isOnce
+  });
+}
+
 export function mockForLogin({
   mockAuthzProfile = true,
   mockExtensionInfo = true,
@@ -671,6 +684,7 @@ export function mockForLogin({
   mockNumberParser = true,
   mockRecentActivity = true,
   mockMessageSyncOnce = false,
+  mockVideoConfiguration = true,
   ...params
 } = {}) {
   authentication();
@@ -720,5 +734,8 @@ export function mockForLogin({
   }
   if (mockRecentActivity) {
     recentActivity();
+  }
+  if (mockVideoConfiguration) {
+    videoConfiguration();
   }
 }

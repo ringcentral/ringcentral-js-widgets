@@ -147,7 +147,7 @@ export default class RcModule {
    * @description Add the desired module to the
    */
   addModule(name, module) {
-    if (this:: Object.prototype.hasOwnProperty(name)) {
+    if (Object.prototype.hasOwnProperty.call(this, name)) {
       throw new Error(`Property '${name}' already exists...`);
     }
     Object.defineProperty(this, name, {
@@ -172,7 +172,7 @@ export default class RcModule {
    */
   @deprecated
   addSelector(name, ...args) {
-    if (this._selectors:: Object.prototype.hasOwnProperty(name)) {
+    if (Object.prototype.hasOwnProperty.call(this._selectors, name)) {
       throw new Error(`Selector '${name}' already exists...`);
     }
     const selector = args.pop();
@@ -218,7 +218,7 @@ export default class RcModule {
     this._store = store;
     for (const subModule in this) {
       if (
-        this:: Object.prototype.hasOwnProperty(subModule) &&
+        Object.prototype.hasOwnProperty.call(this, subModule) &&
           this[subModule] instanceof RcModule
       ) {
         this[subModule]._setStore(store);
@@ -244,7 +244,7 @@ export default class RcModule {
       }
       for (const subModule in this) {
         if (
-          this:: Object.prototype.hasOwnProperty(subModule) &&
+          Object.prototype.hasOwnProperty.call(this, subModule) &&
           this[subModule] instanceof RcModule
         ) {
           this[subModule]._initModule();

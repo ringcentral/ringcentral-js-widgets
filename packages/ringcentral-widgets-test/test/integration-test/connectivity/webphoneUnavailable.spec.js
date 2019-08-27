@@ -7,7 +7,7 @@ import WebphoneAlert from 'ringcentral-widgets/components/WebphoneAlert';
 import AudioSettingsAlert from 'ringcentral-widgets/components/AudioSettingsAlert';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
-import { getWrapper, timeout } from '../shared';
+import { getWrapper, timeout, tearDownWrapper } from '../shared';
 
 describe('Webphone badge', () => {
   /* global jasmine */
@@ -29,6 +29,7 @@ describe('Webphone badge', () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
     expect(phone.webphone.connected).toBeTruthy();
+    tearDownWrapper(wrapper);
   });
 
   test('webphone checkDLError(just show alert message)', async () => {
@@ -46,6 +47,7 @@ describe('Webphone badge', () => {
     const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
     expect(webphoneAlerts.map(x => x.text())).toContain(checkDLErrorMsg);
     expect(phone.webphone.connected).toBeTruthy();
+    tearDownWrapper(wrapper);
   });
 
   test('webphone noOutboundCallWithoutDL(just show alert message)', async () => {
@@ -60,6 +62,7 @@ describe('Webphone badge', () => {
     expect(webphoneAlerts.map(x => x.text())).toContain(noOutboundCallWithoutDLMsg);
     wrapper.update();
     expect(phone.webphone.connected).toBeTruthy();
+    tearDownWrapper(wrapper);
   });
 
   serverErrors.forEach(({ err, msg }) => {
@@ -86,6 +89,8 @@ describe('Webphone badge', () => {
         phone.webphone._reconnectDelays = phone.webphone._reconnectDelays.map(x => (x * 5000));
         phone.webphone._webphone.userAgent.trigger('registrationFailed', { statusCode: err });
       });
+
+      afterAll(() => tearDownWrapper(wrapper));
 
       test('Display Web Phone Unavailable Badge and alert message', async () => {
         wrapper.update();
@@ -115,7 +120,7 @@ describe('Webphone badge', () => {
         await timeout(10);
         wrapper.update();
         const badge = wrapper.find(ConnectivityBadge);
-        expect(badge.text()).toEqual(null);
+        expect(badge.text()).not.toEqual('Web Phone Unavailable');
       });
 
       test('Alert Message disappeared', async () => {
@@ -148,6 +153,8 @@ describe('Webphone badge', () => {
       await phone.webphone.disconnect();
       await phone.webphone.connect();
     }, 50000);
+
+    afterAll(() => tearDownWrapper(wrapper));
 
     test('Display Web Phone Unavailable Badge', async () => {
       phone = wrapper.props().phone;
@@ -230,7 +237,7 @@ describe('Webphone badge', () => {
       phone.webphone._webphone.userAgent.trigger('registered');
       wrapper.update();
       badge = wrapper.find(ConnectivityBadge);
-      expect(badge.text()).toEqual(null);
+      expect(badge.text()).not.toEqual('Web Phone Unavailable');
     });
 
     test('Alert Message disappeared', async () => {
@@ -259,6 +266,7 @@ describe('Webphone badge', () => {
     expect(badge.text()).toEqual('Connecting');
     const webphoneAlerts = wrapper.find(WebphoneAlert) || [];
     expect(webphoneAlerts.map(x => x.text())).toContain(serverConnectingMsg);
+    tearDownWrapper(wrapper);
   });
 
   test('should get unavailable badge when get closed event', async () => {
@@ -269,6 +277,7 @@ describe('Webphone badge', () => {
     wrapper.update();
     const badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('Web Phone Unavailable');
+    tearDownWrapper(wrapper);
   });
 
   test('should reconnect when get switchBackProxy event', async () => {
@@ -284,6 +293,7 @@ describe('Webphone badge', () => {
     await timeout(10);
     wrapper.update();
     expect(phone.webphone.connected).toBeTruthy();
+    tearDownWrapper(wrapper);
   });
 
   test('should reconnect after session ended when get switchBackProxy event', async () => {
@@ -309,6 +319,7 @@ describe('Webphone badge', () => {
     await timeout(10);
     wrapper.update();
     expect(phone.webphone.connected).toBeTruthy();
+    tearDownWrapper(wrapper);
   });
 
   test('should reconnect when get provisionUpdate event', async () => {
@@ -326,6 +337,7 @@ describe('Webphone badge', () => {
     await timeout(10);
     wrapper.update();
     expect(phone.webphone.connected).toBeTruthy();
+    tearDownWrapper(wrapper);
   });
 
   test('should reconnect after session ended when get provisionUpdate event', async () => {
@@ -351,5 +363,6 @@ describe('Webphone badge', () => {
     await timeout(10);
     wrapper.update();
     expect(phone.webphone.connected).toBeTruthy();
+    tearDownWrapper(wrapper);
   });
 });

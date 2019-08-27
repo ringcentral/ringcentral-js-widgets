@@ -4,8 +4,6 @@ import { withPhone } from '../../lib/phoneContext';
 
 import CallsListPanel from '../../components/CallsListPanel';
 
-// TODO it is ActiveCallsPage's function is the same, and remove ActiveCallsPage after migration.
-
 function mapToProps(_, {
   phone: {
     brand,

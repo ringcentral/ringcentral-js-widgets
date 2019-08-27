@@ -8,10 +8,11 @@ import CallingSettingsPage from 'ringcentral-widgets/containers/CallingSettingsP
 import RegionSettingsPage from 'ringcentral-widgets/containers/RegionSettingsPage';
 
 import SettingsPage from 'ringcentral-widgets/containers/SettingsPage';
-import WelcomePage from 'ringcentral-widgets/containers/WelcomePage';
+import LoginPage from 'ringcentral-widgets/containers/LoginPage';
 
 import AlertContainer from 'ringcentral-widgets/containers/AlertContainer';
-import ConnectivityBadgeContainer from 'ringcentral-widgets/containers/ConnectivityBadgeContainer’;
+import ConnectivityBadgeContainer from 'ringcentral-widgets/containers/ConnectivityBadgeContainer';
+
 import MainView from '../MainView';
 import AppView from '../AppView';
 
@@ -36,12 +37,12 @@ export default function App({
             <Route
               path="/"
               component={() => (
-                <WelcomePage>
+                <LoginPage>
                   <AlertContainer
                     callingSettingsUrl="/settings/calling"
                     regionSettingsUrl="/settings/region"
                   />
-                </WelcomePage>
+                </LoginPage>
               )}
             />
             <Route

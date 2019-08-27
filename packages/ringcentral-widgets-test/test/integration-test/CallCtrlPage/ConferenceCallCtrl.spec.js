@@ -3,7 +3,7 @@ import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import { makeOutboundCall, mockConferenceCallEnv, updateConferenceCallEnv } from './helper';
-import { initPhoneWrapper, timeout } from '../shared';
+import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
 import {
   muteFn,
   unmuteFn,
@@ -33,6 +33,7 @@ describe('Prepare', () => {
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    tearDownWrapper(wrapper);
   });
   test('Check buttons in Conference Call Ctrl Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -47,6 +48,7 @@ describe('Prepare', () => {
     expect(buttons.at(5).text()).toEqual('Call Actions');
     const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
     expect(handupButton.props().className).toEqual('stopButton');
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -69,6 +71,7 @@ describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
     muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
     expect(unmuteFn.mock.calls[0]).toEqual([conferenceSession.id]);
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -103,6 +106,7 @@ describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
     expect(unholdFn.mock.calls[0]).toEqual([conferenceSession.id]);
     expect(muteButton.props().disabled).toBe(false);
     expect(recordButton.props().disabled).toBe(false);
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -117,6 +121,7 @@ describe('RCI-2980793 Conference Call Control Page - Hang Up', () => {
     await timeout(100);
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
+    tearDownWrapper(wrapper);
   });
   test('Press "Hand Up" button #2 Direct to call contral page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -130,6 +135,7 @@ describe('RCI-2980793 Conference Call Control Page - Hang Up', () => {
     await timeout(100);
     expect(phone.webphone.sessions).toHaveLength(1);
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -155,6 +161,7 @@ describe('Conference Call Control Page - Record/Stop', () => {
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
       expect(stopRecordFn.mock.calls[0]).toEqual([conferenceSession.id]);
+      tearDownWrapper(wrapper);
     }
   );
 });
@@ -180,6 +187,7 @@ describe('Conference Call Control Page - Add', () => {
         })
       ])
     );
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -202,6 +210,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
     expect(mergeButton.props().title).toEqual('Merge');
     expect(mergeButton.props().disabled).toBe(true);
     expect(mergeButton.find(CircleButton).find('svg').props().className).toContain('buttonDisabled');
+    tearDownWrapper(wrapper);
   });
   test('#4 One of Participants quit Conference Call, Merge button is enabled in Normal Call Ctrl Page:',
     async () => {
@@ -217,6 +226,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
       expect(mergeButton.props().title).toEqual('Merge');
       expect(mergeButton.props().disabled).toBe(false);
       expect(mergeButton.find(CircleButton).find('svg').props().className).not.toContain('buttonDisabled');
+      tearDownWrapper(wrapper);
     }
   );
   test('#5 One of Participants quit Conference Call, Add button is enabled in Conference Call Ctrl Page:',
@@ -232,6 +242,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
       expect(addButton.props().title).toEqual('Add');
       expect(addButton.props().disabled).toBe(false);
       expect(addButton.find(CircleButton).find('svg').props().className).not.toContain('buttonDisabled');
+      tearDownWrapper(wrapper);
     }
   );
 });

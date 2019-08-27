@@ -14,11 +14,21 @@
   .header {
     color: $night;
     // border-bottom: $silver solid 1px;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
     background-color: $egg;
     font-size: 13px;
     padding: 8px 0;
     min-height: 15px;
+    .headerText {
+      max-width: 75%;
+      white-space: nowrap;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .content {
     padding: 15px 10px 0;
@@ -34,7 +44,6 @@
     }
   }
 }
-
 
 .flatBtn {
   font-size: 12px;
@@ -67,7 +76,7 @@
   }
 }
 
-.flatBtn+.flatBtn {
+.flatBtn + .flatBtn {
   margin-left: 10px;
 }
 
@@ -75,7 +84,7 @@
   background-color: $primary-color;
   color: $snow;
   &:hover {
-    opacity: .7;
+    opacity: 0.7;
   }
 }
 

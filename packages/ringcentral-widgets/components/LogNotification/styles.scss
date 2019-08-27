@@ -9,6 +9,7 @@
   border-radius: $buttonHeight/2;
   text-align: center;
   font-size: 12px;
+  @include text-ellipsis;
 }
 
 .container {
@@ -44,6 +45,7 @@
   color: $primary-color;
   font-size: 11px;
   margin-left: 5px;
+  @include text-ellipsis;
 }
 
 .expandDisableButton {

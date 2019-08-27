@@ -70,6 +70,8 @@ function ActiveCallList({
         style={{
           marginBottom: useV2 && title ? '-5px' : null
         }}
+        title={title}
+        data-sign="listTitle"
       >
         {title}
       </div>

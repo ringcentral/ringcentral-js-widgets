@@ -54,20 +54,27 @@ import CallHistory from 'ringcentral-integration/modules/CallHistory';
 import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
 import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
+import MeetingProvider from 'ringcentral-integration/modules/MeetingProvider';
 import Meeting from 'ringcentral-integration/modules/Meeting';
 import LocaleSettings from 'ringcentral-integration/modules/LocaleSettings';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import Analytics from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
+import RCVideo from 'ringcentral-integration/modules/RCVideo';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ConferenceUI from 'ringcentral-widgets/modules/ConferenceUI';
+import MeetingUI from 'ringcentral-widgets/modules/MeetingUI';
+import ContactDetailsUI from 'ringcentral-widgets/modules/ContactDetailsUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 import AudioSettingsUI from 'ringcentral-widgets/modules/AudioSettingsUI';
 import CallingSettingsUI from 'ringcentral-widgets/modules/CallingSettingsUI';
 import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager';
+import VideoUI from 'ringcentral-widgets/modules/VideoUI';
+import ConnectivityBadgeUI from 'ringcentral-widgets/modules/ConnectivityBadgeUI';
+import LoginUI from 'ringcentral-widgets/modules/LoginUI';
 
 import normalizeNumber from 'ringcentral-integration/lib/normalizeNumber';
 import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
@@ -75,7 +82,12 @@ import ringoutStatus from 'ringcentral-integration/modules/Ringout/ringoutStatus
 import softphoneStatus from 'ringcentral-integration/modules/Softphone/softphoneStatus';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import AvailabilityMonitor from 'ringcentral-integration/modules/AvailabilityMonitor';
+import ActiveCallsUI from 'ringcentral-widgets/modules/ActiveCallsUI';
+import SettingsPageUI from 'ringcentral-widgets/modules/SettingsPageUI';
+import ComposeTextUI from 'ringcentral-widgets/modules/ComposeTextUI';
+import FeedbackUI from 'ringcentral-widgets/modules/FeedbackUI';
 import { hashHistory } from 'react-router';
+import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 
 const history = global.process && global.process.release && global.process.release.name === 'node' ?
   undefined :
@@ -83,6 +95,7 @@ const history = global.process && global.process.release && global.process.relea
 @ModuleFactory({
   providers: [
     { provide: 'Alert', useClass: Alert },
+    { provide: 'AlertUI', useClass: AlertUI },
     { provide: 'Brand', useClass: Brand },
     { provide: 'Softphone', useClass: Softphone },
     { provide: 'Locale', useClass: Locale },
@@ -94,9 +107,20 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'Auth', useClass: Auth },
     { provide: 'ProxyFrameOAuth', useClass: ProxyFrameOAuth },
     { provide: 'OAuth', useExisting: 'ProxyFrameOAuth' },
+    // {
+    //   provide: 'OAuthOptions',
+    //   useValue: {
+    //     redirectUri:
+    //       'https://nq4a0ukz22.execute-api.us-west-1.amazonaws.com/production/oauthredirect',
+    //     proxyUri:
+    //       'https://nq4a0ukz22.execute-api.us-west-1.amazonaws.com/production/oauthproxy',
+    //   },
+    //   spread: true,
+    // },
     { provide: 'Ringout', useClass: Ringout },
     { provide: 'ConnectivityMonitor', useClass: ConnectivityMonitor },
     { provide: 'ConnectivityManager', useClass: ConnectivityManager },
+    { provide: 'ConnectivityBadgeUI', useClass: ConnectivityBadgeUI },
     { provide: 'RateLimiter', useClass: RateLimiter },
     { provide: 'Storage', useClass: Storage },
     { provide: 'AudioSettings', useClass: AudioSettings },
@@ -140,13 +164,23 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'ContactMatcher', useClass: ContactMatcher },
     { provide: 'RecentMessages', useClass: RecentMessages },
     { provide: 'RecentCalls', useClass: RecentCalls },
+    { provide: 'MeetingProvider', useClass: MeetingProvider },
     { provide: 'Meeting', useClass: Meeting },
+    { provide: 'RCVideo', useClass: RCVideo },
     { provide: 'Webphone', useClass: Webphone },
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
     { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
     { provide: 'ConferenceUI', useClass: ConferenceUI },
+    { provide: 'VideoUI', useClass: VideoUI },
+    { provide: 'MeetingUI', useClass: MeetingUI },
+    { provide: 'ContactDetailsUI', useClass: ContactDetailsUI },
+    { provide: 'ActiveCallsUI', useClass: ActiveCallsUI },
+    { provide: 'SettingsPageUI', useClass: SettingsPageUI },
+    { provide: 'ComposeTextUI', useClass: ComposeTextUI },
+    { provide: 'FeedbackUI', useClass: FeedbackUI },
+    { provide: 'LoginUI', useClass: LoginUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
     { provide: 'ActiveCallControl', useClass: ActiveCallControl },

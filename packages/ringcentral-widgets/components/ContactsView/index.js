@@ -12,6 +12,9 @@ import ContactItem from '../ContactItem';
 import styles from './styles.scss';
 import i18n from './i18n';
 import AddContactIcon from '../../assets/images/ContactAdd.svg';
+import RefreshContactIcon from '../../assets/images/RetryIcon.svg';
+import RefreshingIcon from '../../assets/images/OvalLoading.svg';
+
 import ContactSourceFilter from '../ContactSourceFilter';
 
 function AddContact({
@@ -20,7 +23,7 @@ function AddContact({
 }) {
   return (
     <div
-      className={classnames(styles.addContact, className)}
+      className={className}
       onClick={onClick}
     >
       <div className={styles.iconContainer}>
@@ -39,6 +42,55 @@ AddContact.defaultProps = {
   className: undefined,
 };
 
+function RefreshContacts({
+  className,
+  onRefresh,
+  refreshing,
+  currentLocale
+}) {
+  let icon = null;
+  let iconWrappClass = null;
+  if (refreshing) {
+    iconWrappClass = styles.refreshingIcon;
+    icon = (
+      <RefreshingIcon
+        className={styles.iconNode}
+        width={12}
+        height={12}
+      />
+    )
+  } else {
+    iconWrappClass = styles.refreshIcon;
+    icon = (
+      <RefreshContactIcon
+        className={styles.iconNode}
+        width={12}
+        height={12}
+      />
+    )
+  }
+  return (
+    <div
+      className={classnames(iconWrappClass, className)}
+      onClick={onRefresh}
+      title={i18n.getString('refresh', currentLocale)}
+    >
+      <div className={styles.iconContainer}>
+        {icon}
+      </div>
+    </div>
+  );
+}
+RefreshContacts.propTypes = {
+  className: PropTypes.string,
+  currentLocale: PropTypes.string.isRequired,
+  onRefresh: PropTypes.func.isRequired,
+  refreshing: PropTypes.bool.isRequired,
+};
+RefreshContacts.defaultProps = {
+  className: undefined,
+};
+
 export default class ContactsView extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +99,7 @@ export default class ContactsView extends Component {
       unfold: false,
       contentHeight: 0,
       contentWidth: 0,
+      refreshing: false,
     };
     this.contactList = React.createRef();
     this.contentWrapper = React.createRef();
@@ -136,6 +189,15 @@ export default class ContactsView extends Component {
     }
   }, 300)
 
+  onRefresh = async () => {
+    if (typeof this.props.onRefresh !== 'function') {
+      return;
+    }
+    this.setState({ refreshing: true });
+    await this.props.onRefresh();
+    this.setState({ refreshing: false });
+  }
+
   search({
     searchSource = this.props.searchSource,
     searchString = this.state.searchString,
@@ -174,19 +236,29 @@ export default class ContactsView extends Component {
       onItemSelect,
       contactSourceFilterRenderer: Filter,
       sourceNodeRenderer,
+      onRefresh,
       children
     } = this.props;
 
+    const showRefresh = typeof onRefresh === 'function';
+    const refreshButton = showRefresh ? (
+      <RefreshContacts
+        className={styles.actionButton}
+        refreshing={this.state.refreshing}
+        onRefresh={this.onRefresh}
+      />
+    ) : null;
     return (
       <div className={styles.root}>
         <div className={styles.actionBar}>
           <SearchInput
             dataSign="contactsSearchInput"
-            className={styles.searchInput}
+            className={classnames(styles.searchInput, showRefresh ? styles.withRefresh : '')}
             value={this.state.searchString || ''}
             onChange={this.onSearchInputChange}
             placeholder={i18n.getString('searchPlaceholder', currentLocale)}
           />
+          {refreshButton}
           <Filter
             className={styles.actionButton}
             currentLocale={currentLocale}
@@ -242,6 +314,7 @@ ContactsView.propTypes = {
   contactSourceFilterRenderer: PropTypes.func,
   sourceNodeRenderer: PropTypes.func,
   onVisitPage: PropTypes.func,
+  onRefresh: PropTypes.func,
   children: PropTypes.node,
 };
 
@@ -254,4 +327,5 @@ ContactsView.defaultProps = {
   sourceNodeRenderer: undefined,
   onVisitPage: undefined,
   children: undefined,
+  onRefresh: undefined,
 };

@@ -68,9 +68,11 @@ export default class Environment extends RcModule {
       reducer: getEnabledReducer(this.actionTypes),
     });
   }
+
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
+
   _onStateChange() {
     if (this._shouldInit()) {
       this._initClientService();
@@ -79,9 +81,11 @@ export default class Environment extends RcModule {
       });
     }
   }
+
   _shouldInit() {
     return this._globalStorage.ready && !this.ready;
   }
+
   _initClientService() {
     if (this.enabled) {
       this._client.service = new SDK({
@@ -90,6 +94,7 @@ export default class Environment extends RcModule {
       });
     }
   }
+
   _changeEnvironment(enabled, server) {
     const newConfig = {
       ...this._sdkConfig,
@@ -117,6 +122,7 @@ export default class Environment extends RcModule {
       environmentChanged,
     });
   }
+
   get status() {
     return this.state.status;
   }

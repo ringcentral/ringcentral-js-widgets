@@ -1,0 +1,41 @@
+.button{
+  display: block;
+  position: relative;
+  font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  font-weight: 400;
+  box-sizing: border-box;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  vertical-align: top;
+  min-width: 80px;
+  height: 32px;
+  user-select: none;
+  outline: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  border-image: initial;
+  text-decoration: none;
+  border-radius: 0px;
+  line-height: 27px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px;
+  color: rgb(0, 120, 215) !important;
+
+  &:hover{
+    background-color: #d1e7f9;
+    color: #004378 !important;
+    border-radius: 5px;
+  }
+
+  .icon{
+    font-size: 17px;
+    margin-right: 6px;
+  }
+}

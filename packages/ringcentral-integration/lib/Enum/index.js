@@ -38,7 +38,7 @@ export function prefixEnum({ enumMap, prefix, base = enumMap }) {
     const definition = {};
     for (const type in base) {
       /* istanbul ignore else */
-      if (base::hasOwnProperty(type)) {
+      if (hasOwnProperty.call(base, type)) {
         definition[type] = `${prefix}-${base[type]}`;
       }
     }

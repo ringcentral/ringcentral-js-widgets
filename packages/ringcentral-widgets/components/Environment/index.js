@@ -67,6 +67,7 @@ class Environment extends Component {
       window.toggleEnv = this.toggleEnv;
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.server !== this.props.server) {
       this.setState({
@@ -84,6 +85,7 @@ class Environment extends Component {
       });
     }
   }
+
   render() {
     if (this.state.hidden) {
       return null;
@@ -118,13 +120,13 @@ class Environment extends Component {
             />
           </Line>
           <IconLine
-            icon={
-              <Switch
+            icon={(
+<Switch
                 dataSign="envToggle"
                 checked={this.state.enabledValue}
                 onChange={this.onToggleEnabled}
               />
-            }
+)}
           >
             Enable
           </IconLine>

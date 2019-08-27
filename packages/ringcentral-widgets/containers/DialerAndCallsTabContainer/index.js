@@ -38,6 +38,7 @@ class TabContentView extends Component {
       ]),
     );
   }
+
   render() {
     if (this.props.showSpinner) {
       return <SpinnerOverlay />;

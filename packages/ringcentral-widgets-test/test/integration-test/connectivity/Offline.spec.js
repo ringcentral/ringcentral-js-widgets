@@ -48,7 +48,7 @@ describe('Network is lost', () => {
     phone.connectivityMonitor._requestSuccessHandler();
     await timeout(500);
     wrapper.update();
-    expect(wrapper.find(ConnectivityBadge).text()).toEqual(null);
+    expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('Offline');
     expect(wrapper.find(ConnectivityAlert).exists()).toBeFalsy();
   });
 });
@@ -88,7 +88,7 @@ describe('Platform is not accessible', () => {
     phone.connectivityMonitor._requestSuccessHandler();
     await timeout(500);
     wrapper.update();
-    expect(wrapper.find(ConnectivityBadge).text()).toEqual(null);
+    expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('Offline');
     expect(wrapper.find(ConnectivityAlert).exists()).toBeFalsy();
   });
 });

@@ -14,7 +14,8 @@
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "start": "yarn gulp devServer",
     "dev-server": "yarn gulp devServer",
-    "build-extension": "yarn gulp demoExtension"
+    "build-extension": "yarn gulp demoExtension",
+    "copy-config": "yarn gulp copyConfig"
   },
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",

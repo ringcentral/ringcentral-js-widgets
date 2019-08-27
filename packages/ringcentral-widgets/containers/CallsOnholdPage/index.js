@@ -7,12 +7,6 @@ import { filter } from 'ramda';
 import withPhone from '../../lib/withPhone';
 import CallsOnholdPanel from '../../components/CallsOnholdPanel';
 
-import {
-  mapToProps as mapToBaseProps,
-  mapToFunctions as mapToBaseFunctions,
-} from '../ActiveCallsPage';
-
-
 class CallsOnholdContainer extends Component {
   static propTypes = {
     calls: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -51,8 +45,7 @@ function mapToProps(_, {
   ...props
 }) {
   const { fromSessionId } = params;
-  const baseProps = mapToBaseProps(_, {
-    phone,
+  const baseProps = phone.activeCallsUI.getUIProps({
     ...props,
   });
 
@@ -77,11 +70,11 @@ function mapToFunctions(_, {
 }) {
   const { fromSessionId } = params;
 
-  const baseProps = mapToBaseFunctions(_, {
+  const baseProps = phone.activeCallsUI.getUIFunctions({
     params,
-    phone,
     ...props,
   });
+
   return {
     ...baseProps,
     async onMerge(sessionId) {

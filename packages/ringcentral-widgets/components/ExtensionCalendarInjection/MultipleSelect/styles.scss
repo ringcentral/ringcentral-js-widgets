@@ -1,0 +1,61 @@
+@import '../../../lib/commonStyles/full-size';
+@import '../../../lib/commonStyles/fonts.scss';
+@import '../../../lib/commonStyles/colors.scss';
+@import '../../../lib/commonStyles/text-ellipsis';
+@import '../commons/mixins';
+@import '../commons/theme';
+
+.root {
+  position: relative;
+  font-size: 13px;
+  color: #797979;
+  padding: 0 10px;
+  border-radius: 0;
+  border-bottom: 1px solid $border-new-color;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+
+  @include dropdownButton();
+
+  &.isOld {
+    border: 1px solid $border-old-color !important;
+
+    .dropdownIcon {
+      color: $ash;
+    }
+  }
+
+  &.google {
+    border: 1px solid $dropdown-google-border-color !important;
+    border-top: inherit;
+    border-left: inherit;
+    border-right: inherit;
+    border-radius: 4px;
+    background-color: #f1f3f4;
+  }
+}
+
+.button {
+  display: flex;
+  position: relative;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  outline: medium none!important;
+  cursor: pointer;
+  text-transform: none;
+  background: transparent;
+  text-align: left;
+  color: $night;
+
+  > .label {
+    color: $ash;
+    width: 100%;
+    font-size: $tertiary-font-size;
+  }
+}
+
+.iconUp {
+  transform: rotate(-180deg);
+}

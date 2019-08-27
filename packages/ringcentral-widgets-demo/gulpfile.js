@@ -3,8 +3,15 @@ import path from 'path';
 import fs from 'fs-extra';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import yargs from 'yargs';
 import devServerConfig from './dev-server/webpack.config';
 import demoExtensionConfig from './demo-extension/webpack.config';
+
+const {
+  argv: {
+    file,
+  }
+} = yargs.string('file');
 
 export function devServer() {
   const compiler = webpack(devServerConfig);
@@ -48,3 +55,12 @@ export const demoExtension = gulp.series(
   demoExtensionClean,
   gulp.parallel(demoExtensionWebpack, demoExtensionCopy),
 );
+
+export async function copyConfig() {
+  if (!(await fs.exists(file))) {
+    console.log(`Error: ${file} does not exist!`);
+  }
+  const dest = path.resolve(__dirname, 'dev-server/api-config.js');
+  await fs.copyFile(file, dest);
+  console.log(`File ${file} copied to ${dest}`);
+}

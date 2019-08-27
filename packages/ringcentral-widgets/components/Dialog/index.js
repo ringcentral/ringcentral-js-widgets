@@ -89,13 +89,16 @@ export default function Dialog({
         ) : null}
       </div>
     );
+  const headText = `${title}` || null;
   return (
     <div
       className={classnames(styles.dialog, className)}
     >
       {showTitle ? (
         <div className={classnames(styles.header, headerClassName)}>
-          {`${title}` || null}
+          <div className={styles.headerText} title={headText}>
+            {headText}
+          </div>
         </div>
       ) : null}
       {showCloseBtn ? (

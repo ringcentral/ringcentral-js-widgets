@@ -142,7 +142,7 @@ describe('getTokenReducer', () => {
       [
         actionTypes.loginSuccess,
         actionTypes.refreshSuccess,
-      ].forEach(type => {
+      ].forEach((type) => {
         expect(reducer(null, {
           type,
           token: {
@@ -151,6 +151,7 @@ describe('getTokenReducer', () => {
             access_token: 'access token',
             expire_time: '1111',
             expires_in: '1234',
+            scope: 'scope',
           },
         })).to.deep.equal({
           endpointId: 'foo',
@@ -158,6 +159,7 @@ describe('getTokenReducer', () => {
           accessToken: 'access token',
           expireTime: '1111',
           expiresIn: '1234',
+          scope: 'scope',
         });
       });
     });
@@ -213,7 +215,7 @@ describe('getTokenReducer', () => {
       [
         actionTypes.initSuccess,
         actionTypes.tabSync,
-      ].forEach(type => {
+      ].forEach((type) => {
         expect(reducer({}, {
           type,
           token: {
@@ -222,6 +224,7 @@ describe('getTokenReducer', () => {
             access_token: 'access token',
             expire_time: '1111',
             expires_in: '1234',
+            scope: 'scope',
           },
         })).to.deep.equal({
           endpointId: 'foo',
@@ -229,6 +232,7 @@ describe('getTokenReducer', () => {
           accessToken: 'access token',
           expireTime: '1111',
           expiresIn: '1234',
+          scope: 'scope',
         });
       });
     });

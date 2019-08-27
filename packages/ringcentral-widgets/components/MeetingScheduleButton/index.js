@@ -36,6 +36,10 @@ export default class MeetingScheduleButton extends PureComponent {
     return i18n.getString('prompt');
   }
 
+  getI18nTermsString() {
+    return i18n.getString('terms');
+  }
+
   render() {
     const {
       hidden,
@@ -54,6 +58,9 @@ export default class MeetingScheduleButton extends PureComponent {
           hidden ? (
             <div className={styles.actionPrompt}>
               { this.getI18nPromptString() }
+              {/* <span>
+                { this.getI18nTermsString() }
+              </span> */}
             </div>
           ) : null
         }

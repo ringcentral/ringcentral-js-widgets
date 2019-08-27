@@ -7,7 +7,7 @@ export default function proxify(prototype, property, descriptor) {
 
   function proxyFn(...args) {
     if (!this._transport) {
-      return this::value(...args);
+      return value.call(this, ...args);
     }
     const functionPath = `${this.modulePath}.${property}`;
     return this._transport.request({

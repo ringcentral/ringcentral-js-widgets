@@ -13,7 +13,8 @@ export default function detectBrowserLocale(defaultLocale = DEFAULT_LOCALE) {
   if (typeof navigator !== 'undefined') {
     if (navigator.languages && navigator.languages.length) {
       return formatLocale(navigator.languages[0]);
-    } else if (navigator.language) {
+    }
+    if (navigator.language) {
       return formatLocale(navigator.language);
     }
   }

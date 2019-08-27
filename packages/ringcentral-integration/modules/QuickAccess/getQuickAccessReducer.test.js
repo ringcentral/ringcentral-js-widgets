@@ -42,15 +42,13 @@ describe('getQuickAccessrReducer', () => {
   it('should return a reducer', () => {
     expect(getQuickAccessrReducer(actionTypes)).to.be.a('function');
   });
-  it('should return a reducer', () => {
-    const reducer = getQuickAccessrReducer(actionTypes);
-    const statusReducer = getModuleStatusReducer(actionTypes);
-    const updatePageReducer = getupdatePageReducer(actionTypes);
-    it('should return combined state', () => {
-      expect(reducer(undefined, {})).to.deep.equal({
-        status: statusReducer(undefined, {}),
-        entered: updatePageReducer(undefined, {}),
-      });
+  const reducer = getQuickAccessrReducer(actionTypes);
+  const statusReducer = getModuleStatusReducer(actionTypes);
+  const updatePageReducer = getupdatePageReducer(actionTypes);
+  it('should return combined state', () => {
+    expect(reducer(undefined, {})).to.deep.equal({
+      status: statusReducer(undefined, {}),
+      entered: updatePageReducer(undefined, {}),
     });
   });
 });

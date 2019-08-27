@@ -61,6 +61,7 @@ export default function LogNotification(
       <div className={styles.extraButtonBox}>
         {endButton}
         <Button
+          tooltip={i18n.getString('log', currentLocale)}
           disabled={isExpand}
           className={classnames(styles.expandButtonWithEnd, isExpand && styles.expandDisableButton)}
           onClick={() => onExpand()}>
@@ -100,6 +101,7 @@ export default function LogNotification(
               {
                 onSave ? (
                   <Button
+                    tooltip={i18n.getString('save', currentLocale)}
                     className={classnames(styles.saveButton, styles.selected)}
                     onClick={() => onSave()}>
                     {i18n.getString('save', currentLocale)}
@@ -109,6 +111,7 @@ export default function LogNotification(
               {
                 onDiscard ? (
                   <Button
+                    tooltip={i18n.getString('discard', currentLocale)}
                     className={styles.discardButton}
                     onClick={() => onDiscard()}>
                     {i18n.getString('discard', currentLocale)}
@@ -118,6 +121,7 @@ export default function LogNotification(
               {
                 onStay ? (
                   <Button
+                    tooltip={i18n.getString('stay', currentLocale)}
                     className={styles.stayButton}
                     onClick={() => onStay()}>
                     {i18n.getString('stay', currentLocale)}

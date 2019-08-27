@@ -65,6 +65,7 @@ export default class ContactSearch extends RcModule {
       });
     }
   }
+
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }

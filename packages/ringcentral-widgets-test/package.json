@@ -17,7 +17,8 @@
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
     "test:showCoverage": "cat ./coverage/lcov.info | coveralls",
-    "test:updateSnapshot": "jest --updateSnapshot"
+    "test:updateSnapshot": "jest --updateSnapshot",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
@@ -34,7 +35,6 @@
     "format-message": "^5.0.0",
     "fs-extra": "^7.0.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^24.8.0",
     "jest-junit": "^6.3.0",
     "moment": "^2.24.0",
     "normalize-css": "^2.3.1",
@@ -64,7 +64,7 @@
     },
     "transform": {
       "loadLocale\\.js$": "<rootDir>/test/__mocks__/loadLocale.js",
-      "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
+      "^.+\\.(t|j)sx?$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     },
     "setupFiles": [
       "<rootDir>/test/support/shim.js",
@@ -83,6 +83,8 @@
   },
   "peerDependencies": {},
   "devDependencies": {
+    "@types/jest": "^24.0.16",
+    "jest": "^24.8.0",
     "react-test-renderer": "^16.8.3"
   },
   "ci": {

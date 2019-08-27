@@ -207,7 +207,7 @@ export default class ConnectivityManager extends RcModule {
       (
         !this._audioSettings.userMedia ||
         (
-          this._webphone.reconnecting ||
+          this._webphone.reconnecting || 
           this._webphone.connectError ||
           this._webphone.inactive
         )

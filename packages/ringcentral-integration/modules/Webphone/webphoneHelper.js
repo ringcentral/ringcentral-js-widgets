@@ -27,6 +27,15 @@ export function isFirefox() {
   return browserUa.indexOf('firefox') > -1 && !isChrome();
 }
 
+export function isEnableMidLinesInSDP() {
+  if (!isFirefox()) {
+    return false;
+  }
+  const version =
+    parseInt(navigator.userAgent.toLowerCase().match(/firefox\/([0-9]+)/)[1], 10);
+  return version >= 63;
+}
+
 export function isWebSocketSupport() {
   return !!(environment && environment.WebSocket);
 }
