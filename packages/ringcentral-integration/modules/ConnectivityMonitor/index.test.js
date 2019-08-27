@@ -56,38 +56,38 @@ describe('ConnectivityMonitor', () => {
     [true, false].forEach((pending) => {
       it(`should return ${pending} when environment module is not used
       and this.pending === ${pending}`,
-      () => {
-        const instance = new ConnectivityMonitor({
-          client: {},
-        });
-        sinon.stub(instance, 'pending', {
-          get() {
-            return pending;
-          },
-        });
-        expect(instance._shouldInit()).to.equal(pending);
-      });
-      [true, false].forEach((environmentReady) => {
-        const result = pending && environmentReady;
-        it(`should return ${result} when environment module is used,
-        this.pending === ${pending},
-        and this._environment.ready === ${environmentReady}`,
         () => {
           const instance = new ConnectivityMonitor({
             client: {},
-            environment: {
-              get ready() {
-                return environmentReady;
-              },
-            },
           });
           sinon.stub(instance, 'pending', {
             get() {
               return pending;
             },
           });
-          expect(instance._shouldInit()).to.equal(result);
+          expect(instance._shouldInit()).to.equal(pending);
         });
+      [true, false].forEach((environmentReady) => {
+        const result = pending && environmentReady;
+        it(`should return ${result} when environment module is used,
+        this.pending === ${pending},
+        and this._environment.ready === ${environmentReady}`,
+          () => {
+            const instance = new ConnectivityMonitor({
+              client: {},
+              environment: {
+                get ready() {
+                  return environmentReady;
+                },
+              },
+            });
+            sinon.stub(instance, 'pending', {
+              get() {
+                return pending;
+              },
+            });
+            expect(instance._shouldInit()).to.equal(result);
+          });
       });
     });
   });
@@ -95,17 +95,17 @@ describe('ConnectivityMonitor', () => {
     [true, false].forEach((ready) => {
       it(`should return false when this.ready === ${ready}
       and environment module is not used`,
-      () => {
-        const instance = new ConnectivityMonitor({
-          client: {},
+        () => {
+          const instance = new ConnectivityMonitor({
+            client: {},
+          });
+          sinon.stub(instance, 'ready', {
+            get() {
+              return ready;
+            },
+          });
+          expect(instance._shouldRebindHandlers()).to.equal(false);
         });
-        sinon.stub(instance, 'ready', {
-          get() {
-            return ready;
-          },
-        });
-        expect(instance._shouldRebindHandlers()).to.equal(false);
-      });
       [true, false].forEach((environmentReady) => {
         [true, false].forEach((counterEqual) => {
           const changeCounter = Math.floor(Math.random() * 10);
@@ -118,26 +118,26 @@ describe('ConnectivityMonitor', () => {
           this._environment.ready === ${environmentReady},
           and this._environment.changeCounter ${counterEqual ? '===' : '!=='}
           this._lastEnvironmentCounter`,
-          () => {
-            const instance = new ConnectivityMonitor({
-              client: {},
-              environment: {
-                get ready() {
-                  return environmentReady;
+            () => {
+              const instance = new ConnectivityMonitor({
+                client: {},
+                environment: {
+                  get ready() {
+                    return environmentReady;
+                  },
+                  get changeCounter() {
+                    return changeCounter;
+                  },
                 },
-                get changeCounter() {
-                  return changeCounter;
+              });
+              sinon.stub(instance, 'ready', {
+                get() {
+                  return ready;
                 },
-              },
+              });
+              instance._lastEnvironmentCounter = lastEnvironmentCounter;
+              expect(instance._shouldRebindHandlers()).to.equal(result);
             });
-            sinon.stub(instance, 'ready', {
-              get() {
-                return ready;
-              },
-            });
-            instance._lastEnvironmentCounter = lastEnvironmentCounter;
-            expect(instance._shouldRebindHandlers()).to.equal(result);
-          });
         });
       });
     });
@@ -145,22 +145,22 @@ describe('ConnectivityMonitor', () => {
   describe('_onStateChange', () => {
     it(`should run _bindHandlers and _retry when _shouldInit() === true,
     and dispatch initSuccess`,
-    () => {
-      const instance = new ConnectivityMonitor({
-        client: {},
+      () => {
+        const instance = new ConnectivityMonitor({
+          client: {},
+        });
+        instance._store = createStore(instance.reducer);
+        sinon.spy(instance._store, 'dispatch');
+        sinon.stub(instance, '_shouldInit').callsFake(() => true);
+        sinon.stub(instance, '_bindHandlers');
+        sinon.stub(instance, '_retry');
+        instance._onStateChange();
+        sinon.assert.calledOnce(instance._bindHandlers);
+        sinon.assert.calledOnce(instance._retry);
+        expect(instance._store.dispatch.args[0][0].type)
+          .to.equal(actionTypes.initSuccess);
+        expect(instance.ready).to.equal(true);
       });
-      instance._store = createStore(instance.reducer);
-      sinon.spy(instance._store, 'dispatch');
-      sinon.stub(instance, '_shouldInit').callsFake(() => true);
-      sinon.stub(instance, '_bindHandlers');
-      sinon.stub(instance, '_retry');
-      instance._onStateChange();
-      sinon.assert.calledOnce(instance._bindHandlers);
-      sinon.assert.calledOnce(instance._retry);
-      expect(instance._store.dispatch.args[0][0].type)
-        .to.equal(actionTypes.initSuccess);
-      expect(instance.ready).to.equal(true);
-    });
     it('should not run _bindHandlers and _retry when _shouldInit() === false',
       () => {
         const instance = new ConnectivityMonitor({
@@ -213,43 +213,43 @@ describe('ConnectivityMonitor', () => {
   describe('_retry', () => {
     it(`should set timeout to call _checkConnection after heartBeatInterval time
     when this.connectivity === true`,
-    async () => {
-      const instance = new ConnectivityMonitor({
-        client: {},
-        timeToRetry: 30,
-        heartBeatInterval: 60,
-      });
-      sinon.stub(instance, '_checkConnection');
-      sinon.stub(instance, 'connectivity', {
-        get() {
-          return true;
-        }
-      });
-      instance._retry();
-      await sleep(40);
-      sinon.assert.notCalled(instance._checkConnection);
-      await sleep(30);
-      sinon.assert.calledOnce(instance._checkConnection);
-    },
+      async () => {
+        const instance = new ConnectivityMonitor({
+          client: {},
+          timeToRetry: 30,
+          heartBeatInterval: 60,
+        });
+        sinon.stub(instance, '_checkConnection');
+        sinon.stub(instance, 'connectivity', {
+          get() {
+            return true;
+          }
+        });
+        instance._retry();
+        await sleep(40);
+        sinon.assert.notCalled(instance._checkConnection);
+        await sleep(30);
+        sinon.assert.calledOnce(instance._checkConnection);
+      },
     );
     it(`should set timeout to call _checkConnection after timeToRetry time
     when this.connectivity === false`,
-    async () => {
-      const instance = new ConnectivityMonitor({
-        client: {},
-        timeToRetry: 30,
-        heartBeatInterval: 60,
-      });
-      sinon.stub(instance, '_checkConnection');
-      sinon.stub(instance, 'connectivity', {
-        get() {
-          return false;
-        }
-      });
-      instance._retry();
-      await sleep(40);
-      sinon.assert.calledOnce(instance._checkConnection);
-    },
+      async () => {
+        const instance = new ConnectivityMonitor({
+          client: {},
+          timeToRetry: 30,
+          heartBeatInterval: 60,
+        });
+        sinon.stub(instance, '_checkConnection');
+        sinon.stub(instance, 'connectivity', {
+          get() {
+            return false;
+          }
+        });
+        instance._retry();
+        await sleep(40);
+        sinon.assert.calledOnce(instance._checkConnection);
+      },
     );
     it('should set timeout to call _checkConnection after t if t is defined',
       async () => {
@@ -286,14 +286,14 @@ describe('ConnectivityMonitor', () => {
   });
 
   describe('_clearTimeout', () => {
-    const _clearTimeout = clearTimeout;
+    const _clearTimeout = global.clearTimeout;
     afterEach(() => {
       // eslint-disable-next-line
-      clearTimeout = _clearTimeout;
+      global.clearTimeout = _clearTimeout;
     });
     it('should call clearTimeout if this._retryTimeoutId !== null', () => {
       // eslint-disable-next-line
-      clearTimeout = sinon.stub();
+      global.clearTimeout = sinon.stub();
       const instance = new ConnectivityMonitor({
         client: {},
       });
@@ -304,7 +304,7 @@ describe('ConnectivityMonitor', () => {
     });
     it('should not call clearTimeout if this._retryTimeoutId === null', () => {
       // eslint-disable-next-line
-      clearTimeout = sinon.stub();
+      global.clearTimeout = sinon.stub();
       const instance = new ConnectivityMonitor({
         client: {},
       });
@@ -374,62 +374,62 @@ describe('ConnectivityMonitor', () => {
   describe('_requestErrorHandler', () => {
     it(`should call _retry if error has no response object
     and this.conectvity === true`,
-    () => {
-      const instance = new ConnectivityMonitor({
-        client: {},
-      });
-      sinon.stub(instance, '_retry');
-      sinon.stub(instance, 'connectivity', {
-        get() {
-          return true;
-        },
-      });
-      instance._store = {
-        dispatch: sinon.stub(),
-      };
-      instance._requestErrorHandler(new Error());
-      sinon.assert.calledOnce(instance._retry);
-    },
+      () => {
+        const instance = new ConnectivityMonitor({
+          client: {},
+        });
+        sinon.stub(instance, '_retry');
+        sinon.stub(instance, 'connectivity', {
+          get() {
+            return true;
+          },
+        });
+        instance._store = {
+          dispatch: sinon.stub(),
+        };
+        instance._requestErrorHandler(new Error());
+        sinon.assert.calledOnce(instance._retry);
+      },
     );
     it(`should call _retry if apiResponse is a fetch error
     and this.conectvity === false`,
-    () => {
-      const instance = new ConnectivityMonitor({
-        client: {},
-      });
-      sinon.stub(instance, '_retry');
-      sinon.stub(instance, 'connectivity', {
-        get() {
-          return false;
-        },
-      });
-      instance._store = {
-        dispatch: sinon.stub(),
-      };
-      instance._requestErrorHandler(new Error());
-      sinon.assert.calledOnce(instance._retry);
-    },
+      () => {
+        const instance = new ConnectivityMonitor({
+          client: {},
+        });
+        sinon.stub(instance, '_retry');
+        sinon.stub(instance, 'connectivity', {
+          get() {
+            return false;
+          },
+        });
+        instance._store = {
+          dispatch: sinon.stub(),
+        };
+        instance._requestErrorHandler(new Error());
+        sinon.assert.calledOnce(instance._retry);
+      },
     );
     it(`should dispatch connectFail
     if apiResponse is a fetch error
     and this.conectvity === true`,
-    () => {
-      const instance = new ConnectivityMonitor({
-        client: {},
-      });
-      sinon.stub(instance, '_retry');
-      sinon.stub(instance, 'connectivity', {
-        get() {
-          return true;
-        },
-      });
-      instance._store = {
-        dispatch: sinon.stub(),
-      };
-      instance._requestErrorHandler(new Error());
-      sinon.assert.calledOnce(instance._store.dispatch);
-      expect(instance._store.dispatch.args[0][0].type === actionTypes.connectFail);
-    },
+      () => {
+        const instance = new ConnectivityMonitor({
+          client: {},
+        });
+        sinon.stub(instance, '_retry');
+        sinon.stub(instance, 'connectivity', {
+          get() {
+            return true;
+          },
+        });
+        instance._store = {
+          dispatch: sinon.stub(),
+        };
+        instance._requestErrorHandler(new Error());
+        sinon.assert.calledOnce(instance._store.dispatch);
+        expect(instance._store.dispatch.args[0][0].type === actionTypes.connectFail);
+      },
     );
   });
 });

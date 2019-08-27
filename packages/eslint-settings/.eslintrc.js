@@ -1,7 +1,18 @@
 const localeSettings = require('@ringcentral-integration/locale-settings');
+const jsRegex = ['**/*.js', '**/*.jsx'];
+const tsRegex = ['**/*.ts', '**/*.tsx'];
+const jsExtensions = ['.js', '.jsx'];
+const tsExtensions = ['.ts', '.tsx'];
+const allExtensions = jsExtensions.concat(tsExtensions);
 
 module.exports = {
-  extends: 'airbnb',
+  extends: [
+    'airbnb',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+    'plugin:prettier/recommended',
+  ],
   parserOptions: {
     ecmaVersion: 7,
     ecmaFeatures: {
@@ -17,6 +28,16 @@ module.exports = {
   },
   globals: {
     $: true,
+  },
+  plugins: [
+    'import'
+  ],
+  settings: {
+    'import/resolver': {
+      'node': {
+        'extensions': allExtensions
+      }
+    }
   },
   rules: {
     'max-len': [
@@ -83,7 +104,7 @@ module.exports = {
     'react/jsx-filename-extension': [
       1,
       {
-        extensions: ['.js', '.jsx'],
+        extensions: allExtensions,
       },
     ],
     'react/no-array-index-key': 0,
@@ -91,7 +112,8 @@ module.exports = {
     'no-mixed-operators': 0,
     'react/no-did-mount-set-state': 0, // dom size detection after mount may require setState in didMount
     'consistent-return': 0,
-    'react/jsx-no-target-blank': 0
+    'react/jsx-no-target-blank': 0,
+    'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }]
   },
   overrides: [
     {
@@ -110,5 +132,41 @@ module.exports = {
         quotes: 0,
       },
     },
+    {
+      files: tsRegex,
+      env: {
+        browser: true
+      },
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        jsx: true,
+        ecmaVersion: 2018,  // Allows for the parsing of modern ECMAScript features
+        sourceType: 'module',  // Allows for the use of imports
+      },
+      plugins: ['@typescript-eslint', 'import'],
+      settings: {
+        'import/extensions': allExtensions,
+        'import/parsers': {
+          '@typescript-eslint/parser': tsExtensions
+         },
+         'import/resolver': {
+             'node': {
+                 'extensions': allExtensions
+             }
+         }
+      },
+      rules: {
+        'react/prop-types': 0,
+        'import/no-unresolved': [2, {commonjs: true, amd: true}],
+        'import/named': 2,
+        'import/namespace': 2,
+        'import/default': 2,
+        'import/export': 2,
+        'arrow-parens': ['error', 'always'],
+        'no-useless-constructor': 'off',
+        '@typescript-eslint/no-useless-constructor': 'error',
+        'object-shorthand': ['error', 'always']
+      }
+    }
   ],
 };

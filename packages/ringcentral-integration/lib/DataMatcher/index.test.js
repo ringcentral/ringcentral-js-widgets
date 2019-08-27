@@ -813,7 +813,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(queries.map(async (query, idx) => {
             await sleep(30);

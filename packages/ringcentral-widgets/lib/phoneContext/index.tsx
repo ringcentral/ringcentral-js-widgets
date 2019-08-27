@@ -1,34 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+export interface PhoneProviderProps<T = any>{
+  phone: T;
+  theme?: any;
+}
 
 const PhoneContext = React.createContext(null);
 export default PhoneContext;
 
-export function PhoneProvider({
+export const PhoneProvider:React.FunctionComponent<PhoneProviderProps> = ({
   phone,
+  theme,
   children,
-}) {
-  return (
-    <PhoneContext.Provider value={phone}>
-      {children}
-    </PhoneContext.Provider>
-  );
-}
-PhoneProvider.propTypes = {
-  phone: PropTypes.object.isRequired,
-  children: PropTypes.node,
-};
-PhoneProvider.defaultProps = {
-  children: null,
-};
+}) => (
+  <PhoneContext.Provider value={phone}>
+    {React.Children.only(children)}
+  </PhoneContext.Provider>
+);
 
 export function withPhone(Comp) {
   function WithPhone(props) {
     return (
       <PhoneContext.Consumer>
         {
-          phone => (
+          (phone) => (
             <Comp
               phone={phone}
               {...props}
@@ -41,16 +37,17 @@ export function withPhone(Comp) {
   return WithPhone;
 }
 
+// router properties
 export function connectModule(fn) {
   return (Comp) => {
     const WithModule = connect(
-      (_, props) => fn(props.phone).getUIProps(props),
-      (_, props) => fn(props.phone).getUIFunctions(props),
+      (_, props: any) => fn(props.phone).getUIProps(props),
+      (_, props: any) => fn(props.phone).getUIFunctions(props),
     )(Comp);
-    return props => (
+    return (props) => (
       <PhoneContext.Consumer>
         {
-          phone => (
+          (phone) => (
             <WithModule
               phone={phone}
               {...props}

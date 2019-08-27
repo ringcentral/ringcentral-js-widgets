@@ -207,7 +207,7 @@ function RingoutButtons({
   if (inComingCall) {
     const rejectTitle = i18n.getString('reject', currentLocale);
     endButton = (
-      <span title={rejectTitle} className={styles.ringoutButton}>
+      <span title={rejectTitle} className={styles.ringoutButton} data-sign="hangup">
         <CircleButton
           disabled={disableLinks}
           className={
@@ -228,7 +228,7 @@ function RingoutButtons({
   } else {
     const hangupTitle = i18n.getString('hangup', currentLocale);
     endButton = (
-      <span title={hangupTitle} className={styles.ringoutButton}>
+      <span title={hangupTitle} className={styles.ringoutButton} data-sign="hangup">
         <CircleButton
           disabled={disableLinks}
           className={
@@ -253,7 +253,7 @@ function RingoutButtons({
     const transferTitle = i18n.getString('transfer', currentLocale);
 
     transferBtn = (
-      <span title={transferTitle} className={styles.ringoutButton}>
+      <span title={transferTitle} className={styles.ringoutButton} data-sign="transfer">
         <CircleButton
           disabled={disableLinks}
           className={

@@ -350,8 +350,10 @@ export default class Auth extends RcModule {
    *  and then proceed to logout from ringcentral.
    */
   @proxify
-  async logout() {
-    this._alert.dismissAll();
+  async logout({ dismissAllAlert = true } = {}) {
+    if (dismissAllAlert) {
+      this._alert.dismissAll();
+    }
     this.store.dispatch({
       type: this.actionTypes.beforeLogout,
     });

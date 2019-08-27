@@ -61,15 +61,15 @@ describe('Softphone', () => {
     it('should be a function', () => {
       expect(getSoftphoneReducer).to.be.a('function');
     });
-    it('should return a reducer', () => {
-      const reducer = getSoftphoneReducer();
-      const softphoneStatusReducer = getSoftphoneStatusReducer();
-      it('should return combined state', () => {
-        expect(reducer(undefined, {}))
-          .to.deep.equal({
-            softphoneStatus: softphoneStatusReducer(undefined, {}),
-          });
-      });
+    const reducer = getSoftphoneReducer(softphoneActionTypes);
+    const softphoneStatusReducer = getSoftphoneStatusReducer(softphoneActionTypes);
+    const connectingPhoneNumberReducer = getConnectingPhoneNumberReducer(softphoneActionTypes);
+    it('should return combined state', () => {
+      expect(reducer(undefined, {}))
+        .to.deep.equal({
+          softphoneStatus: softphoneStatusReducer(undefined, {}),
+          connectingPhoneNumber: connectingPhoneNumberReducer(undefined, {}),
+        });
     });
   });
 });

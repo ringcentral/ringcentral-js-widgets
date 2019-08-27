@@ -70,7 +70,7 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
     await timeout(600);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
-    expect(wrapper.find(ConnectivityBadge).text()).toEqual(null);
+    expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('VoIP Only');
     const connectivityAlert2 = wrapper.find(ConnectivityAlert);
     expect(connectivityAlert2.exists()).toBeFalsy();
   });
@@ -92,7 +92,7 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
     await timeout(600);
     wrapper.update();
 
-    expect(wrapper.find(ConnectivityBadge).text()).toEqual(null);
+    expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('VoIP Only');
     const connectivityAlert2 = wrapper.find(ConnectivityAlert);
     expect(connectivityAlert2.exists()).toBeFalsy();
   });

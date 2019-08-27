@@ -24,17 +24,25 @@ import Storage from 'ringcentral-integration/modules/Storage';
 import OAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager';
+import ConnectivityBadgeUI from 'ringcentral-widgets/modules/ConnectivityBadgeUI';
+import SettingsPageUI from 'ringcentral-widgets/modules/SettingsPageUI';
+import LoginUI from 'ringcentral-widgets/modules/LoginUI';
+import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 
 // user Dependency Injection with decorator to create a phone class
 // https://github.com/ringcentral/ringcentral-js-integration-commons/blob/master/docs/dependency-injection.md
 @ModuleFactory({
   providers: [
     { provide: 'Alert', useClass: Alert },
+    { provide: 'AlertUI', useClass: AlertUI },
     { provide: 'Brand', useClass: Brand },
     { provide: 'Locale', useClass: Locale },
     { provide: 'GlobalStorage', useClass: GlobalStorage },
     { provide: 'ConnectivityMonitor', useClass: ConnectivityMonitor },
     { provide: 'ConnectivityManager', useClass: ConnectivityManager },
+    { provide: 'ConnectivityBadgeUI', useClass: ConnectivityBadgeUI },
+    { provide: 'SettingsPageUI', useClass: SettingsPageUI },
+    { provide: 'LoginUI', useClass: LoginUI },
     { provide: 'Auth', useClass: Auth },
     { provide: 'OAuth', useClass: OAuth },
     { provide: 'Storage', useClass: Storage },
@@ -57,8 +65,7 @@ import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager
     },
     {
       provide: 'Client',
-      useFactory: ({ sdkConfig }) =>
-        new RingCentralClient(new SDK(sdkConfig)),
+      useFactory: ({ sdkConfig }) => new RingCentralClient(new SDK(sdkConfig)),
       deps: [
         { dep: 'SdkConfig', useParam: true, },
       ],

@@ -1,0 +1,8 @@
+.closeButton {
+  cursor: pointer;
+  margin-left: 16px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

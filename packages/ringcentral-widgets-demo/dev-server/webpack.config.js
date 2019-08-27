@@ -3,6 +3,9 @@ import autoprefixer from 'autoprefixer';
 import webpack from 'webpack';
 
 const base = {
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
+  },
   module: {
     rules: [
       {
@@ -11,15 +14,16 @@ const base = {
         use: 'source-map-loader'
       },
       {
-        test: /\.js$/,
-        use: 'babel-loader',
+        test: /\.(js|jsx|ts|tsx)$/,
+        use: [
+          {
+            loader: 'babel-loader'
+          },
+          {
+            loader: '@ringcentral-integration/locale-loader'
+          },
+        ],
         exclude: /node_modules/,
-        // exclude: /node_modules\/(?!(ringcentral-integration|ringcentral-widgets)\/).*/,
-      },
-      {
-        test: /\.js$/,
-        use: '@ringcentral-integration/locale-loader',
-        include: /ringcentral-widgets/,
       },
       {
         test: /\.css$/i,

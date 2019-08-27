@@ -7,6 +7,7 @@ import i18n from './i18n';
 
 function RadioOption(props) {
   const {
+    dataSign,
     currentIndex,
     selectedIndex,
     phoneNumber,
@@ -21,7 +22,7 @@ function RadioOption(props) {
     btnClassName = styles.radioBtn;
   }
   return (
-    <div className={styles.radioOption} onClick={() => { onSelect(currentIndex); }}>
+    <div data-sign={dataSign} className={styles.radioOption} onClick={() => { onSelect(currentIndex); }}>
       <span className={btnClassName} />
       <span className={styles.optionNumber} title={phoneNumber}>
         {phoneNumber}
@@ -39,9 +40,11 @@ RadioOption.propTypes = {
   selectedIndex: PropTypes.number.isRequired,
   onSelect: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  dataSign: PropTypes.string,
 };
 RadioOption.defaultProps = {
-  label: ''
+  label: '',
+  dataSign: '',
 };
 
 export default class RadioButtonGroup extends Component {
@@ -68,6 +71,7 @@ export default class RadioButtonGroup extends Component {
 
   render() {
     const {
+      dataSign,
       className,
       radioOptions,
       formatPhone,
@@ -82,6 +86,7 @@ export default class RadioButtonGroup extends Component {
         {
           radioOptions.map((number, idx) => (
             <RadioOption
+              dataSign={dataSign}
               currentIndex={idx}
               selectedIndex={selectedIndex}
               key={number.id}
@@ -104,4 +109,8 @@ RadioButtonGroup.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onRadioSelect: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  dataSign: PropTypes.string,
+};
+RadioButtonGroup.defaultProps = {
+  dataSign: '',
 };

@@ -81,3 +81,10 @@ export const initPhoneWrapper = async (options = {}) => {
   const phone = wrapper.props().phone;
   return { wrapper, phone };
 };
+
+export const tearDownWrapper = (wrapper) => {
+  global.clientHistoryRequest = null;
+  window.localStorage.clear();
+  mock.restore();
+  wrapper.unmount();
+};

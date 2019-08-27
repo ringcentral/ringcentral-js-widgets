@@ -9,6 +9,7 @@ export default class RcUIModule extends RcModule {
   uiProps() {
     throw Error(`${this.constructor.name}::uiProps is not implemented`);
   }
+
   uiFunctions() {
     throw Error(`${this.constructor.name}::uiFunctions is not implemented`);
   }

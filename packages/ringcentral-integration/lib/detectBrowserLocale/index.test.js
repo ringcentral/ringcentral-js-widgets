@@ -1,14 +1,16 @@
 import { expect } from 'chai';
-import detectDefaultLocale from './';
+import detectDefaultLocale from '.';
 
 describe('detectDefaultLocale', () => {
   it('should be a function', () => {
     expect(detectDefaultLocale).to.be.a('function');
   });
   it('should return default locale of en-US in node', () => {
+    delete global.navigator;
     expect(detectDefaultLocale()).to.equal('en-US');
   });
   it('should accept defaultLocale parameter and use that as default', () => {
+    delete global.navigator;
     expect(detectDefaultLocale('fo-BA')).to.equal('fo-BA');
   });
   it('should use navigator.languages[0] as default if available', () => {

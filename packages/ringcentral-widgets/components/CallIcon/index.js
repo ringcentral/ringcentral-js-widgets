@@ -43,6 +43,7 @@ function CallIcon({
             ringing && styles.ringing,
           )}
           title={title}
+          data-sign="callDirection"
         />
       </div>
     );

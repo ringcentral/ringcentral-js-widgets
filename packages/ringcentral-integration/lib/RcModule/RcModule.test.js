@@ -58,7 +58,7 @@ describe('RcModule', () => {
       describe('actionTypes', () => {
         it('should be undefined if not set in options', () => {
           const module = new RcModule();
-          expect(module.actionTypes).to.be.undefined;
+          expect(module.actionTypes).to.be.null;
         });
         it('should should be prefixed if prefix is set', () => {
           const prefix = uuid.v4();

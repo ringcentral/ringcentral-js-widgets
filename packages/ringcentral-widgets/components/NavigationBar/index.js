@@ -82,6 +82,10 @@ export default class NavigationBar extends Component {
       <nav className={classnames(styles.root, className, directionClass)}>
         {
           tabs.map((tab, index) => {
+            if (typeof tab.view === 'function') {
+              const View = tab.view;
+              return <View key={index} />;
+            }
             let { icon, activeIcon } = tab;
             if (typeof icon === 'function') {
               const Icon = icon;

@@ -11,7 +11,7 @@ import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
 import { MarkButton, PreviewButton } from 'ringcentral-widgets/components/ActionMenuList';
 import EntityButton from 'ringcentral-widgets/components/EntityButton';
 
-import { getWrapper, timeout } from '../shared';
+import { getWrapper, timeout, tearDownWrapper } from '../shared';
 import { mockGenerateMessageApi, mockUpdateMessageStatusApi, mockPubnub } from './helper.js';
 
 let wrapper = null;
@@ -33,6 +33,7 @@ describe('fax messages', () => {
       panel = wrapper.find(ConversationsPanel).first();
       expect(panel).toBeDefined();
       expect(panel.props()).toBeDefined();
+      tearDownWrapper(wrapper);
     });
     test('when have no fax permission should not show fax sub tab', async () => {
       wrapper = await getWrapper();
@@ -50,6 +51,7 @@ describe('fax messages', () => {
         .find(NavigationBar).props().tabs
         .filter(tab => tab.path === messageTypes.fax);
       expect(faxTabs.length).toEqual(0);
+      tearDownWrapper(wrapper);
     });
     test('when have fax permission should show fax sub tab', async () => {
       wrapper = await getWrapper();
@@ -68,6 +70,7 @@ describe('fax messages', () => {
         .find(NavigationBar).props().tabs
         .filter(tab => tab.path === messageTypes.fax);
       expect(faxTabs.length).toEqual(1);
+      tearDownWrapper(wrapper);
     });
     test('when fax message sent before today should display date', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -102,6 +105,7 @@ describe('fax messages', () => {
       wrapper.update();
       const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('.creationTime').text()).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/g);
+      tearDownWrapper(wrapper);
     });
     test('when fax message sent in today should display time', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -133,6 +137,7 @@ describe('fax messages', () => {
       wrapper.update();
       const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('.creationTime').text()).toMatch(/\d\d:\d\d/g);
+      tearDownWrapper(wrapper);
     });
     test('when fax message is received should show received direction', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -170,6 +175,7 @@ describe('fax messages', () => {
       wrapper.update();
       const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('.details').text()).toMatch(/^Fax received/g);
+      tearDownWrapper(wrapper);
     });
     test('when fax message is sent should show show sent direction', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -207,6 +213,7 @@ describe('fax messages', () => {
       wrapper.update();
       const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('.details').text()).toMatch(/^Fax sent/g);
+      tearDownWrapper(wrapper);
     });
     test('when authorize should display google contact in fax list', async () => {
       mock.restore();
@@ -278,6 +285,7 @@ describe('fax messages', () => {
       wrapper.update();
       const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find(ContactDisplay).find('.currentName').at(0).text()).toMatch(/^test user$/g);
+      tearDownWrapper(wrapper);
     });
   });
   describe('fax messages unread count', () => {
@@ -309,6 +317,7 @@ describe('fax messages', () => {
       expect(phone.messageStore.faxUnreadCounts).toEqual(0);
       const notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.length).toEqual(0);
+      tearDownWrapper(wrapper);
     });
     test('should show 3 unread count displayed on fax tab when there are 3 unread fax', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -337,6 +346,7 @@ describe('fax messages', () => {
       panel = wrapper.find(ConversationsPanel);
       const notice = panel.find(NavigationBar).find('.active').find('.notice').at(0);
       expect(notice.text()).toEqual('3');
+      tearDownWrapper(wrapper);
     });
     test('should show 99 unread count displayed on fax tab when there are 99 unread fax', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -367,6 +377,7 @@ describe('fax messages', () => {
       expect(phone.messageStore.faxUnreadCounts).toEqual(99);
       const notice = panel.find(NavigationBar).find('.active').find('.notice').at(0);
       expect(notice.text()).toEqual('99');
+      tearDownWrapper(wrapper);
     });
     test('should show 99+ unread count displayed on fax tab when there are 100 unread fax', async () => {
       wrapper = await getWrapper();
@@ -392,6 +403,7 @@ describe('fax messages', () => {
       panel = wrapper.find(ConversationsPanel);
       const notice = panel.find(NavigationBar).find('.active').find('.notices').at(0);
       expect(notice.text()).toEqual('99+');
+      tearDownWrapper(wrapper);
     });
     test('when click to view unread message the unread count displayed with fax tab should reduce from 1 to null', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -430,6 +442,7 @@ describe('fax messages', () => {
       wrapper.update();
       notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.length).toEqual(0);
+      tearDownWrapper(wrapper);
     });
     test('when mark as unread the unread count displayed with fax tab should add from null to 1', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -476,6 +489,7 @@ describe('fax messages', () => {
       expect(phone.messageStore.faxUnreadCounts).toEqual(1);
       notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.at(0).text()).toEqual('1');
+      tearDownWrapper(wrapper);
     });
     test('when mark as read unread message the unread count displayed with fax tab should reduce from 99+ to 99', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -522,6 +536,7 @@ describe('fax messages', () => {
       expect(phone.messageStore.faxUnreadCounts).toEqual(99);
       notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.at(0).text()).toEqual('99');
+      tearDownWrapper(wrapper);
     });
     test('when mark as unread a read message the unread count displayed with fax tab should add from 99 to 99+', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -576,6 +591,7 @@ describe('fax messages', () => {
       expect(phone.messageStore.faxUnreadCounts).toEqual(100);
       notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notices');
       expect(notice.at(0).text()).toEqual('99+');
+      tearDownWrapper(wrapper);
     });
   });
   describe('fax messages action', () => {
@@ -594,6 +610,7 @@ describe('fax messages', () => {
       mock.restore();
       mock.subscription();
     });
+    afterEach(() => tearDownWrapper(wrapper));
     test('should have preview btn', async () => {
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'read', direction: 'Outbound'

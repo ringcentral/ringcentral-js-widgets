@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import debounce from 'ringcentral-integration/lib/debounce';
 import SpinnerOverlay from '../SpinnerOverlay';
 import ActiveCallItem from '../ActiveCallItem';
 import CallListV2 from '../CallListV2';
@@ -13,6 +14,8 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 // TODO it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
+
+const HEADER_HEIGHT = 38;
 
 function ActiveCallList({
   calls,
@@ -169,14 +172,64 @@ ActiveCallList.defaultProps = {
   readTextPermission: true,
 };
 
-export default class CallsListPanel extends Component {
+export default class CallsListPanel extends React.PureComponent  {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      contentHeight: 0,
+      contentWidth: 0,
+    };
+    this._mounted = false;
+    this._listWrapper = React.createRef();
+  }
+
   componentDidMount() {
+    if (this.props.adaptive){
+      this._mounted = true;
+      this._calculateContentSize();
+      window.addEventListener('resize', this._onResize);
+    }
     if (
       !this.hasCalls(this.props) &&
       typeof this.props.onCallsEmpty === 'function'
     ) {
       this.props.onCallsEmpty();
     }
+  }
+
+  componentWillUnmount() {
+    if (this.props.adaptive){
+    this._mounted = false;
+    window.removeEventListener('resize', this._onResize);
+    }
+  }
+
+  _onResize = debounce(() => {
+    if (this._mounted) {
+      this._calculateContentSize();
+    }
+  }, 300);
+
+  _calculateContentSize() {
+    if (this._listWrapper &&
+      this._listWrapper.current &&
+      this._listWrapper.current.getBoundingClientRect
+    ) {
+      const react = this._listWrapper.current.getBoundingClientRect();
+
+      this.setState({
+        contentHeight: react.bottom - react.top - HEADER_HEIGHT,
+        contentWidth: react.right - react.left,
+      });
+
+      return;
+    }
+
+    this.setState({
+      contentHeight: 0,
+      contentWidth: 0,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -353,7 +406,13 @@ export default class CallsListPanel extends Component {
       externalHasEntity,
       readTextPermission,
       children,
+      adaptive
     } = this.props;
+
+    const {
+      contentWidth,
+      contentHeight,
+    } = this.state;
 
     if (showSpinner) {
       return <SpinnerOverlay />;
@@ -362,8 +421,8 @@ export default class CallsListPanel extends Component {
     const CallsListView = useNewList ?
       (
         <CallListV2
-          width={width}
-          height={height}
+          width={adaptive ? contentWidth : width}
+          height={adaptive ? contentHeight : height}
           brand={brand}
           currentLocale={currentLocale}
           calls={calls}
@@ -501,9 +560,10 @@ export default class CallsListPanel extends Component {
         <div
           className={classnames(styles.list, className)}
         >
-          <div className={styles.listTitle}>
-            {onlyHistory ? null : i18n.getString('historyCalls', currentLocale)}
+        { !onlyHistory && <div className={styles.listTitle}>
+            {i18n.getString('historyCalls', currentLocale)}
           </div>
+        }
           {CallsListView}
         </div>
       );
@@ -520,6 +580,7 @@ export default class CallsListPanel extends Component {
           styles.container,
           onSearchInputChange ? styles.containerWithSearch : null,
         )}
+        ref={this._listWrapper}
       >
         {children}
         {search}
@@ -629,9 +690,11 @@ CallsListPanel.propTypes = {
   readTextPermission: PropTypes.bool,
   children: PropTypes.node,
   onlyHistory: PropTypes.bool,
+  adaptive: PropTypes.bool,
 };
 
 CallsListPanel.defaultProps = {
+  adaptive: false,
   useNewList: false,
   width: 300,
   height: 315,

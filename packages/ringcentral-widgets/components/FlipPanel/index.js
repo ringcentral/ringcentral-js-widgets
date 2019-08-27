@@ -36,12 +36,14 @@ export default class FlipPanel extends Component {
           onBackClick={this.props.isOnFlip ? null : this.props.hideFlipPanel}
           backButton={<BackButton showIcon={!this.props.isOnFlip} />}
         >
-          <span className={styles.headerTitle}>
+          <span data-sign='flipTitle'
+          className={styles.headerTitle}>
             {i18n.getString('flipHeader', this.props.currentLocale)}
           </span>
         </BackHeader>
         <div className={styles.flipContainer}>
           <RadioButtonGroup
+            dataSign={'flipNumber'}
             className={styles.radioGroup}
             radioOptions={this.props.flipNumbers}
             disabled={!this.state.flipEnabled}
@@ -50,7 +52,7 @@ export default class FlipPanel extends Component {
             currentLocale={this.props.currentLocale}
           />
           <div className={styles.buttonGroup}>
-            <div className={styles.button} title={i18n.getString('flip', this.props.currentLocale)}>
+            <div data-sign='flip'className={styles.button} title={i18n.getString('flip', this.props.currentLocale)}>
               <CircleButton
                 disabled={!this.state.flipEnabled}
                 className={
@@ -62,7 +64,7 @@ export default class FlipPanel extends Component {
                 showBorder
               />
             </div>
-            <div className={styles.button} title={i18n.getString('complete', this.props.currentLocale)}>
+            <div data-sign='flipComplete'className={styles.button} title={i18n.getString('complete', this.props.currentLocale)}>
               <CircleButton
                 disabled={!this.props.isOnFlip}
                 className={

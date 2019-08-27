@@ -19,7 +19,7 @@ import * as mock from 'ringcentral-integration/integration-test/mock';
 import forwardingNumberBody from './data/forwardingNumberNoCallFlip';
 import { makeOutboundCall, mockConferenceCallEnv } from './helper';
 import { getInboundCall } from '../../support/callHelper';
-import { initPhoneWrapper, timeout } from '../shared';
+import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
 import {
   muteFn,
   unmuteFn,
@@ -83,6 +83,7 @@ describe('Enter to Current Call Page', () => {
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
     expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${outboundSession.id}`);
+    tearDownWrapper(wrapper);
   });
   test('Answer an inbound call, page should be in Current Call Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -90,6 +91,7 @@ describe('Enter to Current Call Page', () => {
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
     expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${inboundCall.id}`);
+    tearDownWrapper(wrapper);
   });
   test('Make an outbound call, check buttons in Current Call Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -111,6 +113,7 @@ describe('Enter to Current Call Page', () => {
     expect(flipButton.text()).toEqual('Flip');
     const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
     expect(handupButton.props().className).toEqual('stopButton');
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -138,6 +141,7 @@ describe('Current Call Control Page - Hang Up', () => {
     await timeout(100);
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -161,6 +165,7 @@ describe('Current Call Control Page - Keypad', () => {
     zeroDialButton.find('.btnSvgGroup').simulate('mouseup');
     await timeout(100);
     expect(wrapper.find(ActiveCallDialPad).find('input').props().value).toEqual('0+');
+    tearDownWrapper(wrapper);
   });
   test('RCI-1712646 Make an outbound call and keep in active call page, click Keypad and "0"', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -180,6 +185,7 @@ describe('Current Call Control Page - Keypad', () => {
     zeroDialButton.find('.btnSvgGroup').simulate('mouseup');
     await timeout(100);
     expect(wrapper.find(ActiveCallDialPad).find('input').props().value).toEqual('0+');
+    tearDownWrapper(wrapper);
   });
   test('RCI-1712646 Answer an inbound call and keep in active call page, click Keypad and Back', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -193,6 +199,7 @@ describe('Current Call Control Page - Keypad', () => {
     backButton.simulate('click');
     await timeout(100);
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(0);
+    tearDownWrapper(wrapper);
   });
   test('RCI-1712646 Make an outbound call and keep in active call page, click Keypad and Back', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -206,6 +213,7 @@ describe('Current Call Control Page - Keypad', () => {
     backButton.simulate('click');
     await timeout(100);
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(0);
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -232,6 +240,7 @@ describe('Current Call Control Page - Hold/Unhold', () => {
 
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(unholdFn.mock.calls[0]).toEqual([sid111]);
+    tearDownWrapper(wrapper);
   });
   test('RCI-1712647 Make an outbound call and keep in active call page, click Hold/Unhold', async () => {
     let holdButton = null;
@@ -254,6 +263,7 @@ describe('Current Call Control Page - Hold/Unhold', () => {
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(unholdFn.mock.calls[0]).toEqual([outboundSession.id]);
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -279,6 +289,7 @@ describe('Current Call Control Page - Mute/Unmute', () => {
       wrapper.update();
       muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
       expect(muteButton.props().disabled).toBe(false);
+      tearDownWrapper(wrapper);
     }
   );
   test('Make an outbound call then user hold the call, Mute/Unmute should be disabled',
@@ -302,6 +313,7 @@ describe('Current Call Control Page - Mute/Unmute', () => {
       wrapper.update();
       muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
       expect(muteButton.props().disabled).toBe(false);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712648 Answer an inbound call and keep in active call page, click Mute/Unmute', async () => {
@@ -325,6 +337,7 @@ describe('Current Call Control Page - Mute/Unmute', () => {
     muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
     expect(unmuteFn.mock.calls[0]).toEqual([sid111]);
+    tearDownWrapper(wrapper);
   });
   test('RCI-1712648 Make an outbound call and keep in active call page, click Mute/Unmute', async () => {
     let muteButton = null;
@@ -347,6 +360,7 @@ describe('Current Call Control Page - Mute/Unmute', () => {
     muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
     expect(unmuteFn.mock.calls[0]).toEqual([outboundSession.id]);
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -372,6 +386,7 @@ describe('Current Call Control Page - Record/Stop', () => {
       wrapper.update();
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.props().disabled).toBe(false);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712647 Make an outbound call then user hold the call, Record should be disabled',
@@ -395,6 +410,7 @@ describe('Current Call Control Page - Record/Stop', () => {
       wrapper.update();
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.props().disabled).toBe(false);
+      tearDownWrapper(wrapper);
     }
   );
   test('If the outbound call is not accepted, it should be failed to record the call', async () => {
@@ -405,6 +421,7 @@ describe('Current Call Control Page - Record/Stop', () => {
     recordButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     expect(startRecordFn.mock.calls).toHaveLength(0);
+    tearDownWrapper(wrapper);
   });
   test('RCI-1712679 Answer an inbound call and keep in active call page, click Record/Stop',
     async () => {
@@ -428,6 +445,7 @@ describe('Current Call Control Page - Record/Stop', () => {
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
       expect(stopRecordFn.mock.calls[0]).toEqual([sid111]);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712679 Make an outbound call and keep in active call page, click Record/Stop',
@@ -453,6 +471,7 @@ describe('Current Call Control Page - Record/Stop', () => {
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
       expect(stopRecordFn.mock.calls[0]).toEqual([outboundSession.id]);
+      tearDownWrapper(wrapper);
     }
   );
 });
@@ -486,6 +505,7 @@ describe('Current Call Control Page - Merge', () => {
         })
       ])
     );
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -514,6 +534,7 @@ describe('Current Call Control Page - Add', () => {
         })
       ])
     );
+    tearDownWrapper(wrapper);
   });
 });
 
@@ -536,6 +557,7 @@ describe('Current Call Control Page - Transfer', () => {
       transferButton.find('.buttonItem').simulate('click');
       await timeout(100);
       expect(wrapper.find(TransferPanel)).toHaveLength(1);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712674 Make an outbound call and keep in active call page, click Transfer Button',
@@ -548,6 +570,7 @@ describe('Current Call Control Page - Transfer', () => {
       await timeout(10);
       wrapper.update();
       expect(wrapper.find(TransferPanel)).toHaveLength(1);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712674 Check Transfer Panel Page', async () => {
@@ -568,6 +591,7 @@ describe('Current Call Control Page - Transfer', () => {
     expect(panel.find(RecipientsInput).find('input').props().placeholder).toEqual('Enter Name or Number');
     expect(panel.find(DialPad)).toHaveLength(1);
     expect(panel.find(CircleButton).find(TransferIcon)).toHaveLength(1);
+    tearDownWrapper(wrapper);
   });
   test('RCI-1712674 Transfer Panel: click Transfer and Back Button',
     async () => {
@@ -582,6 +606,7 @@ describe('Current Call Control Page - Transfer', () => {
       backButton.simulate('click');
       await timeout(100);
       expect(wrapper.find(TransferPanel)).toHaveLength(0);
+      tearDownWrapper(wrapper);
     }
   );
   test('Transfer Panel: failed to transfer call',
@@ -623,6 +648,7 @@ describe('Current Call Control Page - Transfer', () => {
           })
         ])
       );
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712674 Transfer Panel: success to transfer call, navigates to the page user last viewed',
@@ -644,6 +670,7 @@ describe('Current Call Control Page - Transfer', () => {
       const validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
       expect(transferFn.mock.calls[0]).toContain(validPhoneNumber);
       expect(phone.routerInteraction.currentPath).toEqual('/dialer');
+      tearDownWrapper(wrapper);
     }
   );
 });
@@ -678,6 +705,7 @@ describe('Current Call Control Page - Flip', () => {
       wrapper.update();
       flipButton = await getFlipButton(wrapper);
       expect(flipButton.props().disabled).toBe(false);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712647 Make an outbound call then user hold the call, Flip should be disabled',
@@ -701,6 +729,7 @@ describe('Current Call Control Page - Flip', () => {
       wrapper.update();
       flipButton = await getFlipButton(wrapper);
       expect(flipButton.props().disabled).toBe(false);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712678 if user does not have filp numbers, Flip should be disabled', async () => {
@@ -711,6 +740,7 @@ describe('Current Call Control Page - Flip', () => {
     wrapper.update();
     const flipButton = await getFlipButton(wrapper);
     expect(flipButton.props().disabled).toBe(true);
+    tearDownWrapper(wrapper);
   });
 
   test('RCI-1712678 Answer an inbound call and keep in active call page, click Flip Button',
@@ -722,6 +752,7 @@ describe('Current Call Control Page - Flip', () => {
       flipButton.find('.buttonItem').simulate('click');
       await timeout(100);
       expect(wrapper.find(FlipPanel)).toHaveLength(1);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712678 Make an outbound call and keep in active call page, click Flip Button',
@@ -733,6 +764,7 @@ describe('Current Call Control Page - Flip', () => {
       flipButton.find('.buttonItem').simulate('click');
       await timeout(100);
       expect(wrapper.find(FlipPanel)).toHaveLength(1);
+      tearDownWrapper(wrapper);
     }
   );
   test('RCI-1712678 Check Flip Panel Page', async () => {
@@ -759,6 +791,7 @@ describe('Current Call Control Page - Flip', () => {
     });
     expect(panel.find(CircleButton).find('.btnSvg.flipButton')).toHaveLength(1);
     expect(panel.find(CircleButton).find('.btnSvg.completeButton')).toHaveLength(1);
+    tearDownWrapper(wrapper);
   });
   test('RCI-1712678 Click Flip button in Flip Panel Page', async () => {
     let flipIconButton = null;
@@ -788,5 +821,6 @@ describe('Current Call Control Page - Flip', () => {
     await timeout(10);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
+    tearDownWrapper(wrapper);
   });
 });

@@ -28,6 +28,7 @@ function mapToFunctions(_, {
   },
   onItemSelect,
   onVisitPage,
+  onRefresh,
 }) {
   return {
     getAvatarUrl() {
@@ -46,6 +47,7 @@ function mapToFunctions(_, {
       });
     },
     onVisitPage,
+    onRefresh,
   };
 }
 

@@ -9,9 +9,11 @@ export default class LoginPanel extends Component {
   componentDidMount() {
     this.props.setupOAuth();
   }
+
   componentWillUnmount() {
     this.props.destroyOAuth();
   }
+
   render() {
     const {
       className,

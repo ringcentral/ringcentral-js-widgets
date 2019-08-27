@@ -6,7 +6,7 @@ import sleep from 'ringcentral-integration/lib/sleep';
 
 import AlertContainer from 'ringcentral-widgets/containers/AlertContainer';
 import ConnectivityBadgeContainer from 'ringcentral-widgets/containers/ConnectivityBadgeContainer';
-import WelcomePage from 'ringcentral-widgets/containers/WelcomePage';
+import LoginPage from 'ringcentral-widgets/containers/LoginPage';
 import CallingSettingsPage from 'ringcentral-widgets/containers/CallingSettingsPage';
 import RegionSettingsPage from 'ringcentral-widgets/containers/RegionSettingsPage';
 import AudioSettingsPage from 'ringcentral-widgets/containers/AudioSettingsPage';
@@ -55,8 +55,8 @@ export default function App({
   };
   return (
     <PhoneProvider phone={phone}>
-      <Provider store={phone.store} >
-        <Router history={phone.routerInteraction.history} >
+      <Provider store={phone.store}>
+        <Router history={phone.routerInteraction.history}>
           <Route
             component={routerProps => (
               <AppView>
@@ -65,10 +65,10 @@ export default function App({
                   defaultOffsetX={0}
                   defaultOffsetY={73}
                   hidden={(
-                    routerProps.location.pathname.indexOf('/calls/active') === 0
-                    || routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0
-                    || routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0
-                    || routerProps.location.pathname.indexOf('/conferenceCall/participants') === 0
+                    routerProps.location.pathname.indexOf('/calls/active') === 0 ||
+                    routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0 ||
+                    routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0 ||
+                    routerProps.location.pathname.indexOf('/conferenceCall/participants') === 0
                   )}
                   goToCallCtrl={(sessionId) => {
                     phone.routerInteraction.push(`/calls/active/${sessionId}`);
@@ -97,17 +97,17 @@ export default function App({
                 <UserGuidePage />
                 <ConnectivityBadgeContainer />
               </AppView>
-            )} >
+            )}>
             <Route
               path="/"
               component={() => (
-                <WelcomePage
-                  version={phone.version} >
+                <LoginPage
+                  version={phone.version}>
                   <AlertContainer
                     callingSettingsUrl="/settings/calling"
                     regionSettingsUrl="/settings/region"
                   />
-                </WelcomePage>
+                </LoginPage>
               )}
             />
             <Route
@@ -120,7 +120,7 @@ export default function App({
                     regionSettingsUrl="/settings/region"
                   />
                 </MainView>
-              )} >
+              )}>
               <Route
                 path="/dialer"
                 component={() => (
@@ -249,17 +249,16 @@ export default function App({
                 )} />
               <Route
                 path="/contacts"
-                component={props =>
-                  (!props.location.query.direct
-                    ? (
-                      <ContactsPage
-                        contactSourceFilterRenderer={props => (
-                          <ContactSourceFilter {...props} />
-                        )}
+                component={props => (!props.location.query.direct ?
+                  (
+                    <ContactsPage
+                      contactSourceFilterRenderer={props => (
+                        <ContactSourceFilter {...props} />
+                      )}
                       >
-                        {props.children}
-                      </ContactsPage>
-                    ) : props.children)
+                      {props.children}
+                    </ContactsPage>
+                  ) : props.children)
                 }>
                 <Route
                   path=":contactType/:contactId"

@@ -137,18 +137,16 @@ describe('getTimestampReducer', () => {
   });
 });
 
- describe('getCallingSettingsReducer', () => {
-   it('should be a function', () => {
-     expect(getCallingSettingsReducer).to.be.a('function');
-   });
-   it('should return a reducer', () => {
-     const reducer = getCallingSettingsReducer(actionTypes);
-     const statusReducer = getModuleStatusReducer(actionTypes);
-     it('should return combined state', () => {
-       expect(reducer(undefined, {}))
-        .to.deep.equal({
-          status: statusReducer(undefined, {}),
-        });
-     });
-   })
- });
+describe('getCallingSettingsReducer', () => {
+  it('should be a function', () => {
+    expect(getCallingSettingsReducer).to.be.a('function');
+  });
+  const reducer = getCallingSettingsReducer(actionTypes);
+  const statusReducer = getModuleStatusReducer(actionTypes);
+  it('should return combined state', () => {
+    expect(reducer(undefined, {}))
+      .to.deep.equal({
+        status: statusReducer(undefined, {}),
+      });
+  });
+});

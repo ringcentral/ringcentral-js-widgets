@@ -1,0 +1,79 @@
+@import '../../../lib/commonStyles/fonts';
+@import '../commons/theme';
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px $new-outlook-lr-padding 24px;
+  color: $ash;
+  font-size: 12px;
+
+  label {
+    width: auto;
+  }
+
+  &.oldFooter {
+    padding: $old-outlook-lr-padding;
+  }
+}
+
+.oldUiButton {
+  font-size: $tertiary-font-size;
+  width: 69px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  border: solid 1px $primary-color;
+  background-color: $primary-color;
+  color: $snow;
+
+  &:hover {
+    color: $silver;
+  }
+
+  &.isDisabled {
+    color: $snow !important;
+    background: $smoke;
+    border: 1px solid $smoke;
+    pointer-events: none;
+
+    &:hover {
+      color: $snow;
+    }
+  }
+}
+
+.newUiButton {
+  font-size: 14px;
+  font-family: 'Google Sans',Roboto,Arial,sans-serif;
+  font-weight: 500;
+  padding: 0 24px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  border-radius: 4px;
+  // background-color: #1a73e8;
+  background-color: $primary-color;
+  color: $snow;
+
+  &:active {
+    background-color: rgb(0, 90, 158);
+    color: $snow;
+  }
+
+  &:hover {
+    background-color: rgb(16, 110, 190);
+    color: $snow;
+  }
+
+  &.isDisabled {
+    color: $snow !important;
+    background: $smoke;
+    border: 1px solid $smoke;
+    pointer-events: none;
+
+    &:hover {
+      color: $snow;
+    }
+  }
+}

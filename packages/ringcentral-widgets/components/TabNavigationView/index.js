@@ -37,8 +37,7 @@ function TabNavigationView(props) {
             null
         }
       </div>
-      <div data-sign="tabNavigationView" className={classnames(styles.main, !isVertical && styles.hasMaxHeight)}>
-        {props.children}
+      <div data-sign="tabNavigationView" className={classnames(styles.main, props.tabNavigationViewClassName, !isVertical && styles.hasMaxHeight)}>        {props.children}
       </div>
       {
         navigationPosition === 'bottom' ?
@@ -61,6 +60,7 @@ TabNavigationView.propTypes = {
   tabs: NavigationBar.propTypes.tabs,
   holdReady: PropTypes.bool,
   navBarClassName: PropTypes.string,
+  tabNavigationViewClassName: PropTypes.string,
 };
 
 TabNavigationView.defaultProps = {
@@ -73,6 +73,7 @@ TabNavigationView.defaultProps = {
   tabs: null,
   holdReady: false,
   navBarClassName: undefined,
+  tabNavigationViewClassName: undefined,
 };
 
 export default TabNavigationView;

@@ -1,3 +1,4 @@
+import bowser from 'bowser';
 import sleep from '../../lib/sleep';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
@@ -11,11 +12,12 @@ import proxify from '../../lib/proxy/proxify';
  * @description Softphone module to call softphone
  */
 @Module({
+  name: 'Softphone',
   deps: [
     'Brand',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'SoftphoneOptions', optional: true },
-  ]
+  ],
 })
 export default class Softphone extends RcModule {
   /**
@@ -42,6 +44,12 @@ export default class Softphone extends RcModule {
     this._callHandler = callHandler;
     this._contactMatcher = contactMatcher;
     this._reducer = getSoftphoneReducer(this.actionTypes);
+  }
+
+  detectPlatform() {
+    return bowser.parse(
+      (global.navigator && global.navigator.userAgent) || 'unknown',
+    ).platform.type;
   }
 
   _onStateChange() {
@@ -77,9 +85,11 @@ export default class Softphone extends RcModule {
         command: cmd,
         phoneNumber,
       });
-    } else if (this._extensionMode) {
-      // TODO use window.open in extension background, this method will crash chrome when
-      // executed in background page.
+    } else if (this._extensionMode || this.detectPlatform() !== 'desktop') {
+      /**
+       * 1. Use window.open in extension background scripts to avoid crashing Browsers
+       * 2. Use window.open in non-desktop platforms
+       */
       window.open(uri);
     } else if (window.navigator.msLaunchUri) {
       // to support ie to start the service

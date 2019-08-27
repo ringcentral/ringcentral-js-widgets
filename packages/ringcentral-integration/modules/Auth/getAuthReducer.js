@@ -48,6 +48,7 @@ export function getTokenReducer(types) {
           accessToken: token.access_token,
           expireTime: token.expire_time,
           expiresIn: token.expires_in,
+          scope: token.scope,
         };
       case types.loginError:
       case types.logoutSuccess:
@@ -68,6 +69,7 @@ export function getTokenReducer(types) {
             accessToken: token.access_token,
             expireTime: token.expire_time,
             expiresIn: token.expires_in,
+            scope: token.scope,
           };
         }
         return {};

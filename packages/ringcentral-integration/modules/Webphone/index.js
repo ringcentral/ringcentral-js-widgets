@@ -25,7 +25,7 @@ import Enum from '../../lib/Enum';
 import {
   isBrowserSupport,
   isChrome,
-  isFirefox,
+  isEnableMidLinesInSDP,
   normalizeSession,
   isRing,
   isOnHold,
@@ -457,17 +457,22 @@ export default class Webphone extends RcModule {
     } catch (e) {
       console.error(e);
     }
-    this._webphone.userAgent.removeAllListeners();
-    this._webphone.userAgent.transport.removeAllListeners();
-    if (this._webphone.userAgent.transport.isConnected()) {
-      this._webphone.userAgent.transport.disconnect();
-    }
-    if (this._webphone.userAgent.transport.reconnectTimer) {
-      clearTimeout(this._webphone.userAgent.transport.reconnectTimer);
-      this._webphone.userAgent.transport.reconnectTimer = undefined;
-    }
-    if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
-      this._webphone.userAgent.transport.__clearSwitchBackTimer();
+    try {
+      this._webphone.userAgent.removeAllListeners();
+      this._webphone.userAgent.transport.removeAllListeners();
+      if (this._webphone.userAgent.transport.isConnected()) {
+        this._webphone.userAgent.transport.disconnect();
+      }
+      if (this._webphone.userAgent.transport.reconnectTimer) {
+        clearTimeout(this._webphone.userAgent.transport.reconnectTimer);
+        this._webphone.userAgent.transport.reconnectTimer = undefined;
+      }
+      if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
+        this._webphone.userAgent.transport.__clearSwitchBackTimer();
+      }
+    } catch (e) {
+      console.error(e);
+      // ignore clean listener error
     }
     this._webphone = null;
   }
@@ -503,7 +508,7 @@ export default class Webphone extends RcModule {
         local: this._localVideo,
       },
       enableQos: isChrome(),
-      enableMidLinesInSDP: isFirefox(),
+      enableMidLinesInSDP: isEnableMidLinesInSDP(),
       ...this._webphoneSDKOptions
     });
     this._webphone.userAgent.audioHelper.loadAudio({

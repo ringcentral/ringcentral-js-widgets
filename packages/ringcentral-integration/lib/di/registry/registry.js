@@ -67,7 +67,7 @@ export default class Registry {
   static resolveInheritedModuleFactory(currentClass) {
     const parentClass = getParentClass(currentClass);
     if (!this.providerRegistry.has(currentClass)) return [];
-    else if (this.providerRegistry.resolved(currentClass)) {
+    if (this.providerRegistry.resolved(currentClass)) {
       return this.providerRegistry.get(currentClass).providers;
     }
     const moduleProviderMetadata = this.providerRegistry.get(currentClass);
@@ -94,7 +94,7 @@ export default class Registry {
   static resolveInheritedDependencies(currentClass) {
     const parentClass = getParentClass(currentClass);
     if (!this.moduleRegistry.has(currentClass)) return [];
-    else if (this.moduleRegistry.resolved(currentClass)) {
+    if (this.moduleRegistry.resolved(currentClass)) {
       return this.moduleRegistry.get(currentClass).deps;
     }
     const moduleMetadata = this.moduleRegistry.get(currentClass);
