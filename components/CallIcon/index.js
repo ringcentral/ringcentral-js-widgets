@@ -55,7 +55,8 @@ function CallIcon(_ref) {
       className: _styles["default"].callIcon
     }, _react["default"].createElement("span", {
       className: (0, _classnames["default"])(callIconMap[direction], _styles["default"].activeCall, ringing && _styles["default"].ringing),
-      title: title
+      title: title,
+      "data-sign": "callDirection"
     }));
   }
 

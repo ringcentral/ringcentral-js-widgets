@@ -85,7 +85,9 @@ function ActiveCallList(_ref) {
     className: _styles["default"].listTitle,
     style: {
       marginBottom: useV2 && title ? '-5px' : null
-    }
+    },
+    title: title,
+    "data-sign": "listTitle"
   }, title), calls.map(function (call) {
     var isOnConferenceCall = call.webphoneSession ? isSessionAConferenceCall(call.webphoneSession.id) : isConferenceCall(call); // in case it's an other device call
 

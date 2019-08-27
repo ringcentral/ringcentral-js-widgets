@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
@@ -26,6 +28,8 @@ require("core-js/modules/es6.object.define-property");
 require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.regexp.search");
 
@@ -55,6 +59,10 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _ContactAdd = _interopRequireDefault(require("../../assets/images/ContactAdd.svg"));
 
+var _RetryIcon = _interopRequireDefault(require("../../assets/images/RetryIcon.svg"));
+
+var _OvalLoading = _interopRequireDefault(require("../../assets/images/OvalLoading.svg"));
+
 var _ContactSourceFilter = _interopRequireDefault(require("../ContactSourceFilter"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -62,6 +70,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -87,7 +99,7 @@ function AddContact(_ref) {
   var className = _ref.className,
       onClick = _ref.onClick;
   return _react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].addContact, className),
+    className: className,
     onClick: onClick
   }, _react["default"].createElement("div", {
     className: _styles["default"].iconContainer
@@ -101,6 +113,49 @@ AddContact.propTypes = {
   onClick: _propTypes["default"].func.isRequired
 };
 AddContact.defaultProps = {
+  className: undefined
+};
+
+function RefreshContacts(_ref2) {
+  var className = _ref2.className,
+      onRefresh = _ref2.onRefresh,
+      refreshing = _ref2.refreshing,
+      currentLocale = _ref2.currentLocale;
+  var icon = null;
+  var iconWrappClass = null;
+
+  if (refreshing) {
+    iconWrappClass = _styles["default"].refreshingIcon;
+    icon = _react["default"].createElement(_OvalLoading["default"], {
+      className: _styles["default"].iconNode,
+      width: 12,
+      height: 12
+    });
+  } else {
+    iconWrappClass = _styles["default"].refreshIcon;
+    icon = _react["default"].createElement(_RetryIcon["default"], {
+      className: _styles["default"].iconNode,
+      width: 12,
+      height: 12
+    });
+  }
+
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(iconWrappClass, className),
+    onClick: onRefresh,
+    title: _i18n["default"].getString('refresh', currentLocale)
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].iconContainer
+  }, icon));
+}
+
+RefreshContacts.propTypes = {
+  className: _propTypes["default"].string,
+  currentLocale: _propTypes["default"].string.isRequired,
+  onRefresh: _propTypes["default"].func.isRequired,
+  refreshing: _propTypes["default"].bool.isRequired
+};
+RefreshContacts.defaultProps = {
   className: undefined
 };
 
@@ -132,8 +187,8 @@ function (_Component) {
       };
     };
 
-    _this.onSearchInputChange = function (_ref2) {
-      var value = _ref2.target.value;
+    _this.onSearchInputChange = function (_ref3) {
+      var value = _ref3.target.value;
 
       _this.setState({
         searchString: value
@@ -160,11 +215,48 @@ function (_Component) {
         _this.setState(_objectSpread({}, _this.calculateContentSize()));
       }
     }, 300);
+    _this.onRefresh =
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!(typeof _this.props.onRefresh !== 'function')) {
+                _context.next = 2;
+                break;
+              }
+
+              return _context.abrupt("return");
+
+            case 2:
+              _this.setState({
+                refreshing: true
+              });
+
+              _context.next = 5;
+              return _this.props.onRefresh();
+
+            case 5:
+              _this.setState({
+                refreshing: false
+              });
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
     _this.state = {
       searchString: props.searchString,
       unfold: false,
       contentHeight: 0,
-      contentWidth: 0
+      contentWidth: 0,
+      refreshing: false
     };
     _this.contactList = _react["default"].createRef();
     _this.contentWrapper = _react["default"].createRef();
@@ -217,15 +309,15 @@ function (_Component) {
     }
   }, {
     key: "search",
-    value: function search(_ref3) {
+    value: function search(_ref5) {
       var _this2 = this;
 
-      var _ref3$searchSource = _ref3.searchSource,
-          searchSource = _ref3$searchSource === void 0 ? this.props.searchSource : _ref3$searchSource,
-          _ref3$searchString = _ref3.searchString,
-          searchString = _ref3$searchString === void 0 ? this.state.searchString : _ref3$searchString,
-          _ref3$delay = _ref3.delay,
-          delay = _ref3$delay === void 0 ? 0 : _ref3$delay;
+      var _ref5$searchSource = _ref5.searchSource,
+          searchSource = _ref5$searchSource === void 0 ? this.props.searchSource : _ref5$searchSource,
+          _ref5$searchString = _ref5.searchString,
+          searchString = _ref5$searchString === void 0 ? this.state.searchString : _ref5$searchString,
+          _ref5$delay = _ref5.delay,
+          delay = _ref5$delay === void 0 ? 0 : _ref5$delay;
 
       if (this.props.onSearchContact) {
         if (this._searchTimeoutId) {
@@ -261,18 +353,25 @@ function (_Component) {
           onItemSelect = _this$props.onItemSelect,
           Filter = _this$props.contactSourceFilterRenderer,
           sourceNodeRenderer = _this$props.sourceNodeRenderer,
+          onRefresh = _this$props.onRefresh,
           children = _this$props.children;
+      var showRefresh = typeof onRefresh === 'function';
+      var refreshButton = showRefresh ? _react["default"].createElement(RefreshContacts, {
+        className: _styles["default"].actionButton,
+        refreshing: this.state.refreshing,
+        onRefresh: this.onRefresh
+      }) : null;
       return _react["default"].createElement("div", {
         className: _styles["default"].root
       }, _react["default"].createElement("div", {
         className: _styles["default"].actionBar
       }, _react["default"].createElement(_SearchInput["default"], {
         dataSign: "contactsSearchInput",
-        className: _styles["default"].searchInput,
+        className: (0, _classnames["default"])(_styles["default"].searchInput, showRefresh ? _styles["default"].withRefresh : ''),
         value: this.state.searchString || '',
         onChange: this.onSearchInputChange,
         placeholder: _i18n["default"].getString('searchPlaceholder', currentLocale)
-      }), _react["default"].createElement(Filter, {
+      }), refreshButton, _react["default"].createElement(Filter, {
         className: _styles["default"].actionButton,
         currentLocale: currentLocale,
         contactSourceNames: contactSourceNames,
@@ -323,6 +422,7 @@ ContactsView.propTypes = {
   contactSourceFilterRenderer: _propTypes["default"].func,
   sourceNodeRenderer: _propTypes["default"].func,
   onVisitPage: _propTypes["default"].func,
+  onRefresh: _propTypes["default"].func,
   children: _propTypes["default"].node
 };
 ContactsView.defaultProps = {
@@ -333,6 +433,7 @@ ContactsView.defaultProps = {
   contactSourceFilterRenderer: _ContactSourceFilter["default"],
   sourceNodeRenderer: undefined,
   onVisitPage: undefined,
-  children: undefined
+  children: undefined,
+  onRefresh: undefined
 };
 //# sourceMappingURL=index.js.map

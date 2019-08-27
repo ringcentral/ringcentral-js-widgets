@@ -1,0 +1,20 @@
+@import '../../../lib/commonStyles/fonts';
+@import '../commons/mixins';
+
+.dropdown {
+  @include dropdown();
+}
+
+/* DialInNumberItem */
+.dialInNumberItem {
+  display: flex;
+  color: $ash;
+  height: 100%;
+}
+
+.region {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 1em;
+}

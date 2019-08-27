@@ -165,6 +165,13 @@ function (_Component) {
       return _react["default"].createElement("nav", {
         className: (0, _classnames["default"])(_styles["default"].root, className, directionClass)
       }, tabs.map(function (tab, index) {
+        if (typeof tab.view === 'function') {
+          var View = tab.view;
+          return _react["default"].createElement(View, {
+            key: index
+          });
+        }
+
         var icon = tab.icon,
             activeIcon = tab.activeIcon;
 

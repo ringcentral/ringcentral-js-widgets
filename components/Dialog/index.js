@@ -78,11 +78,15 @@ function Dialog(_ref2) {
     dataSign: "confirm",
     onClick: onConfirm
   }, textConfirm || _i18n["default"].getString('confirm', currentLocale)) : null);
+  var headText = "".concat(title) || null;
   return _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].dialog, className)
   }, showTitle ? _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].header, headerClassName)
-  }, "".concat(title) || null) : null, showCloseBtn ? _react["default"].createElement(_Button["default"], {
+  }, _react["default"].createElement("div", {
+    className: _styles["default"].headerText,
+    title: headText
+  }, headText)) : null, showCloseBtn ? _react["default"].createElement(_Button["default"], {
     dataSign: "closeButton",
     className: _styles["default"].closeBtn,
     onClick: onCancel

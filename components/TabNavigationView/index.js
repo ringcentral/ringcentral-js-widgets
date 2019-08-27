@@ -48,8 +48,8 @@ function TabNavigationView(props) {
     className: _styles["default"].tabContainer
   }, navigationPosition === 'top' || navigationPosition === 'left' ? navBar : null), _react["default"].createElement("div", {
     "data-sign": "tabNavigationView",
-    className: (0, _classnames["default"])(_styles["default"].main, !isVertical && _styles["default"].hasMaxHeight)
-  }, props.children), navigationPosition === 'bottom' ? navBar : null);
+    className: (0, _classnames["default"])(_styles["default"].main, props.tabNavigationViewClassName, !isVertical && _styles["default"].hasMaxHeight)
+  }, "        ", props.children), navigationPosition === 'bottom' ? navBar : null);
 }
 
 TabNavigationView.propTypes = {
@@ -63,7 +63,8 @@ TabNavigationView.propTypes = {
   tabHeight: _propTypes["default"].string,
   tabs: _NavigationBar["default"].propTypes.tabs,
   holdReady: _propTypes["default"].bool,
-  navBarClassName: _propTypes["default"].string
+  navBarClassName: _propTypes["default"].string,
+  tabNavigationViewClassName: _propTypes["default"].string
 };
 TabNavigationView.defaultProps = {
   children: null,
@@ -74,7 +75,8 @@ TabNavigationView.defaultProps = {
   tabHeight: undefined,
   tabs: null,
   holdReady: false,
-  navBarClassName: undefined
+  navBarClassName: undefined,
+  tabNavigationViewClassName: undefined
 };
 var _default = TabNavigationView;
 exports["default"] = _default;

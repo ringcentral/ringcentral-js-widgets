@@ -17,11 +17,13 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.array.map");
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
+
+var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
 
 var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
@@ -45,8 +47,6 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66,6 +66,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 // TODO it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
+var HEADER_HEIGHT = 38;
+
 function ActiveCallList(_ref) {
   var calls = _ref.calls,
       className = _ref.className,
@@ -222,21 +224,69 @@ ActiveCallList.defaultProps = {
 
 var CallsListPanel =
 /*#__PURE__*/
-function (_Component) {
-  _inherits(CallsListPanel, _Component);
+function (_React$PureComponent) {
+  _inherits(CallsListPanel, _React$PureComponent);
 
-  function CallsListPanel() {
+  function CallsListPanel(props) {
+    var _this;
+
     _classCallCheck(this, CallsListPanel);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(CallsListPanel).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallsListPanel).call(this, props));
+    _this._onResize = (0, _debounce["default"])(function () {
+      if (_this._mounted) {
+        _this._calculateContentSize();
+      }
+    }, 300);
+    _this.state = {
+      contentHeight: 0,
+      contentWidth: 0
+    };
+    _this._mounted = false;
+    _this._listWrapper = _react["default"].createRef();
+    return _this;
   }
 
   _createClass(CallsListPanel, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      if (this.props.adaptive) {
+        this._mounted = true;
+
+        this._calculateContentSize();
+
+        window.addEventListener('resize', this._onResize);
+      }
+
       if (!this.hasCalls(this.props) && typeof this.props.onCallsEmpty === 'function') {
         this.props.onCallsEmpty();
       }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      if (this.props.adaptive) {
+        this._mounted = false;
+        window.removeEventListener('resize', this._onResize);
+      }
+    }
+  }, {
+    key: "_calculateContentSize",
+    value: function _calculateContentSize() {
+      if (this._listWrapper && this._listWrapper.current && this._listWrapper.current.getBoundingClientRect) {
+        var react = this._listWrapper.current.getBoundingClientRect();
+
+        this.setState({
+          contentHeight: react.bottom - react.top - HEADER_HEIGHT,
+          contentWidth: react.right - react.left
+        });
+        return;
+      }
+
+      this.setState({
+        contentHeight: 0,
+        contentWidth: 0
+      });
     }
   }, {
     key: "componentWillReceiveProps",
@@ -384,7 +434,11 @@ function (_Component) {
           externalViewEntity = _this$props2.externalViewEntity,
           externalHasEntity = _this$props2.externalHasEntity,
           readTextPermission = _this$props2.readTextPermission,
-          children = _this$props2.children;
+          children = _this$props2.children,
+          adaptive = _this$props2.adaptive;
+      var _this$state = this.state,
+          contentWidth = _this$state.contentWidth,
+          contentHeight = _this$state.contentHeight;
 
       if (showSpinner) {
         return _react["default"].createElement(_SpinnerOverlay["default"], null);
@@ -392,8 +446,8 @@ function (_Component) {
 
       var isShowMessageIcon = readTextPermission && !!onClickToSms;
       var CallsListView = useNewList ? _react["default"].createElement(_CallListV["default"], {
-        width: width,
-        height: height,
+        width: adaptive ? contentWidth : width,
+        height: adaptive ? contentHeight : height,
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -518,16 +572,17 @@ function (_Component) {
 
       var historyCall = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : _react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].list, className)
-      }, _react["default"].createElement("div", {
+      }, !onlyHistory && _react["default"].createElement("div", {
         className: _styles["default"].listTitle
-      }, onlyHistory ? null : _i18n["default"].getString('historyCalls', currentLocale)), CallsListView);
+      }, _i18n["default"].getString('historyCalls', currentLocale)), CallsListView);
 
       var noCalls = otherDeviceCalls.length === 0 && _react["default"].createElement("p", {
         className: _styles["default"].noCalls
       }, _i18n["default"].getString('noCalls', currentLocale));
 
       return _react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].container, onSearchInputChange ? _styles["default"].containerWithSearch : null)
+        className: (0, _classnames["default"])(_styles["default"].container, onSearchInputChange ? _styles["default"].containerWithSearch : null),
+        ref: this._listWrapper
       }, children, search, _react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, currentLog && currentLog.showLog ? _styles["default"].hiddenScroll : '', className),
         ref: this._root
@@ -536,7 +591,7 @@ function (_Component) {
   }]);
 
   return CallsListPanel;
-}(_react.Component);
+}(_react["default"].PureComponent);
 
 exports["default"] = CallsListPanel;
 CallsListPanel.propTypes = {
@@ -608,9 +663,11 @@ CallsListPanel.propTypes = {
   externalHasEntity: _propTypes["default"].func,
   readTextPermission: _propTypes["default"].bool,
   children: _propTypes["default"].node,
-  onlyHistory: _propTypes["default"].bool
+  onlyHistory: _propTypes["default"].bool,
+  adaptive: _propTypes["default"].bool
 };
 CallsListPanel.defaultProps = {
+  adaptive: false,
   useNewList: false,
   width: 300,
   height: 315,

@@ -49,8 +49,6 @@ var _withPhone = _interopRequireDefault(require("../../lib/withPhone"));
 
 var _CallsOnholdPanel = _interopRequireDefault(require("../../components/CallsOnholdPanel"));
 
-var _ActiveCallsPage = require("../ActiveCallsPage");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
@@ -135,9 +133,7 @@ function mapToProps(_, _ref) {
       props = _objectWithoutProperties(_ref, ["phone", "phone", "params"]);
 
   var fromSessionId = params.fromSessionId;
-  var baseProps = (0, _ActiveCallsPage.mapToProps)(_, _objectSpread({
-    phone: phone
-  }, props));
+  var baseProps = phone.activeCallsUI.getUIProps(_objectSpread({}, props));
   return _objectSpread({}, baseProps, {
     calls: callMonitor.calls,
     fromSessionId: fromSessionId
@@ -156,9 +152,8 @@ function mapToFunctions(_, _ref2) {
       props = _objectWithoutProperties(_ref2, ["params", "phone", "phone", "getAvatarUrl"]);
 
   var fromSessionId = params.fromSessionId;
-  var baseProps = (0, _ActiveCallsPage.mapToFunctions)(_, _objectSpread({
-    params: params,
-    phone: phone
+  var baseProps = phone.activeCallsUI.getUIFunctions(_objectSpread({
+    params: params
   }, props));
   return _objectSpread({}, baseProps, {
     onMerge: function () {

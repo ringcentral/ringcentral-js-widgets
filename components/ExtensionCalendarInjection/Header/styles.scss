@@ -1,0 +1,36 @@
+@import '../../../lib/commonStyles/fonts';
+@import '../commons/theme';
+
+.isOldHeader {
+  padding-left: $old-outlook-lr-padding;
+  margin-bottom: 17px;
+  text-align: right;
+
+  .headerTitle {
+    font-weight: 300;
+    font-family: Lato;
+    width: 310px;
+  }
+
+  .headerCloseButton {
+    display: inline-block;
+    padding: 10.3px 10.3px 7.3px 0;
+  }
+}
+
+.header {
+  padding: 24px $new-outlook-lr-padding;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+
+  .headerTitle {
+    font-family: $font-family;
+  }
+}
+
+.headerTitle {
+  font-size: 18px;
+  color: $night;
+  text-align: left;
+}

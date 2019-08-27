@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ExtensionCalendarInjection/constants/meetingEnum.js"],"names":["Enum"],"mappings":";;;;;;;;;AAAA;;;;eAEe,IAAIA,gBAAJ,CAAS,CACtB,WADsB,EAEtB,gBAFsB,CAAT,C","sourcesContent":["import Enum from 'ringcentral-integration/lib/Enum';\n\nexport default new Enum([\n  'videoCall',\n  'conferenceCall',\n]);\n"],"file":"meetingEnum.js"}

@@ -269,7 +269,8 @@ function RingoutButtons(_ref2) {
 
     endButton = _react["default"].createElement("span", {
       title: rejectTitle,
-      className: _styles["default"].ringoutButton
+      className: _styles["default"].ringoutButton,
+      "data-sign": "hangup"
     }, _react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
       className: (0, _classnames7["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].endButton, true), _defineProperty(_classnames2, _styles["default"].disabled, disableLinks), _classnames2)),
@@ -287,7 +288,8 @@ function RingoutButtons(_ref2) {
 
     endButton = _react["default"].createElement("span", {
       title: hangupTitle,
-      className: _styles["default"].ringoutButton
+      className: _styles["default"].ringoutButton,
+      "data-sign": "hangup"
     }, _react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
       className: (0, _classnames7["default"])((_classnames3 = {}, _defineProperty(_classnames3, _styles["default"].endButton, true), _defineProperty(_classnames3, _styles["default"].disabled, disableLinks), _classnames3)),
@@ -309,7 +311,8 @@ function RingoutButtons(_ref2) {
 
     transferBtn = _react["default"].createElement("span", {
       title: transferTitle,
-      className: _styles["default"].ringoutButton
+      className: _styles["default"].ringoutButton,
+      "data-sign": "transfer"
     }, _react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
       className: (0, _classnames7["default"])((_classnames4 = {}, _defineProperty(_classnames4, _styles["default"].transferButton, true), _defineProperty(_classnames4, _styles["default"].disabled, disableLinks), _classnames4)),

@@ -51,13 +51,26 @@
 }
 
 .actionPrompt {
-  color: #2f2f2f;
-  font-size: 13px;
-  text-align: center;
-  margin-top: -55px;
+  color: #212121;
+  font-size: 14px;
+  text-align: left;
+  // top: 65px;
+  margin-top: -63px;
   position: absolute;
-  width: 100%;
+  line-height: 24px;
+  padding: 0 20px;
+  // font-weight: bold;
+  left: 0;
+  span {
+    font-size: 13px;
+    color: #616161;
+    line-height: 20px;
+    font-weight: normal;
+    display: block;
+    margin-top: 16px;
+  }
 }
+
 .notShowAgain {
   margin-bottom: 10px;
 }

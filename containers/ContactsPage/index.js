@@ -44,7 +44,8 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       contacts = _ref2$phone.contacts,
       onItemSelect = _ref2.onItemSelect,
-      onVisitPage = _ref2.onVisitPage;
+      onVisitPage = _ref2.onVisitPage,
+      onRefresh = _ref2.onRefresh;
   return {
     getAvatarUrl: function getAvatarUrl() {
       return null;
@@ -107,7 +108,8 @@ function mapToFunctions(_, _ref2) {
         searchFilter: searchString
       });
     },
-    onVisitPage: onVisitPage
+    onVisitPage: onVisitPage,
+    onRefresh: onRefresh
   };
 }
 

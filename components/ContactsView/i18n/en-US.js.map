@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ContactsView/i18n/en-US.js"],"names":["searchPlaceholder"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,iBAAiB,EAAE;AADN,C","sourcesContent":["export default {\n  searchPlaceholder: 'Search...',\n};\n"],"file":"en-US.js"}
+{"version":3,"sources":["components/ContactsView/i18n/en-US.js"],"names":["searchPlaceholder","refresh"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,iBAAiB,EAAE,WADN;AAEbC,EAAAA,OAAO,EAAE;AAFI,C","sourcesContent":["export default {\n  searchPlaceholder: 'Search...',\n  refresh: 'Refresh',\n};\n"],"file":"en-US.js"}

@@ -1,0 +1,58 @@
+%msIcon{
+  font-family: controlIcons, FabricMDL2Icons;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  speak: none;
+  font-size: 12px;
+  pointer-events: none;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.msIconChevronDown {
+  @extend %msIcon;
+  &:before{
+    // content: '\E70D';
+    content: '';
+    font-family: 'Material Icons Extended';
+    font-size: 20px;
+  }
+}
+
+.msIconCheckMark {
+  @extend %msIcon;
+  &:after{
+    content: '\E73E';
+  }
+}
+
+.msIconCancel {
+  @extend %msIcon;
+  &:after{
+    content: '\E711';
+  }
+}
+
+.msIconCaretSolidDown {
+  @extend %msIcon;
+  &:after{
+    content: '\F08E';
+  }
+}
+
+.msIconSettings{
+  @extend %msIcon;
+  margin-top: 1.5px;
+
+  &:before{
+    content: '\E713';
+  }
+}
+
+.msIconDelete{
+  @extend %msIcon;
+  margin-top: 1px;
+  &:before{
+    content: '\E74D';
+  }
+}

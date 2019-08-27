@@ -89,6 +89,11 @@ function (_PureComponent) {
       return _i18n["default"].getString('prompt');
     }
   }, {
+    key: "getI18nTermsString",
+    value: function getI18nTermsString() {
+      return _i18n["default"].getString('terms');
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,

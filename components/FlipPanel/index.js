@@ -103,10 +103,12 @@ function (_Component) {
           showIcon: !this.props.isOnFlip
         })
       }, _react["default"].createElement("span", {
+        "data-sign": "flipTitle",
         className: _styles["default"].headerTitle
       }, _i18n["default"].getString('flipHeader', this.props.currentLocale))), _react["default"].createElement("div", {
         className: _styles["default"].flipContainer
       }, _react["default"].createElement(_RadioBtnGroup["default"], {
+        dataSign: 'flipNumber',
         className: _styles["default"].radioGroup,
         radioOptions: this.props.flipNumbers,
         disabled: !this.state.flipEnabled,
@@ -116,6 +118,7 @@ function (_Component) {
       }), _react["default"].createElement("div", {
         className: _styles["default"].buttonGroup
       }, _react["default"].createElement("div", {
+        "data-sign": "flip",
         className: _styles["default"].button,
         title: _i18n["default"].getString('flip', this.props.currentLocale)
       }, _react["default"].createElement(_CircleButton["default"], {
@@ -126,6 +129,7 @@ function (_Component) {
         icon: _Flip["default"],
         showBorder: true
       })), _react["default"].createElement("div", {
+        "data-sign": "flipComplete",
         className: _styles["default"].button,
         title: _i18n["default"].getString('complete', this.props.currentLocale)
       }, _react["default"].createElement(_CircleButton["default"], {

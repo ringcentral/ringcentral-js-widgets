@@ -50,7 +50,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function RadioOption(props) {
-  var currentIndex = props.currentIndex,
+  var dataSign = props.dataSign,
+      currentIndex = props.currentIndex,
       selectedIndex = props.selectedIndex,
       phoneNumber = props.phoneNumber,
       label = props.label,
@@ -65,6 +66,7 @@ function RadioOption(props) {
   }
 
   return _react["default"].createElement("div", {
+    "data-sign": dataSign,
     className: _styles["default"].radioOption,
     onClick: function onClick() {
       onSelect(currentIndex);
@@ -86,10 +88,12 @@ RadioOption.propTypes = {
   label: _propTypes["default"].string,
   selectedIndex: _propTypes["default"].number.isRequired,
   onSelect: _propTypes["default"].func.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  dataSign: _propTypes["default"].string
 };
 RadioOption.defaultProps = {
-  label: ''
+  label: '',
+  dataSign: ''
 };
 
 var RadioButtonGroup =
@@ -129,6 +133,7 @@ function (_Component) {
       var _this2 = this;
 
       var _this$props = this.props,
+          dataSign = _this$props.dataSign,
           className = _this$props.className,
           radioOptions = _this$props.radioOptions,
           formatPhone = _this$props.formatPhone,
@@ -138,6 +143,7 @@ function (_Component) {
         className: (0, _classnames["default"])(_styles["default"].root, className)
       }, radioOptions.map(function (number, idx) {
         return _react["default"].createElement(RadioOption, {
+          dataSign: dataSign,
           currentIndex: idx,
           selectedIndex: selectedIndex,
           key: number.id,
@@ -160,6 +166,10 @@ RadioButtonGroup.propTypes = {
   disabled: _propTypes["default"].bool.isRequired,
   formatPhone: _propTypes["default"].func.isRequired,
   onRadioSelect: _propTypes["default"].func.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  dataSign: _propTypes["default"].string
+};
+RadioButtonGroup.defaultProps = {
+  dataSign: ''
 };
 //# sourceMappingURL=index.js.map

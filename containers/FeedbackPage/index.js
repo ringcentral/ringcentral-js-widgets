@@ -5,71 +5,17 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mapToFunctions = mapToFunctions;
-exports.mapToProps = mapToProps;
 exports["default"] = void 0;
-
-require("core-js/modules/es6.function.name");
-
-var _reactRedux = require("react-redux");
-
-var _FeedbackPanel = _interopRequireDefault(require("../../components/FeedbackPanel"));
 
 var _phoneContext = require("../../lib/phoneContext");
 
+var _FeedbackPanel = _interopRequireDefault(require("../../components/FeedbackPanel"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function mapToProps(_, _ref) {
-  var _ref$phone = _ref.phone,
-      locale = _ref$phone.locale,
-      feedback = _ref$phone.feedback,
-      brand = _ref$phone.brand;
-  return {
-    brandName: brand.name,
-    currentLocale: locale.currentLocale,
-    email: feedback.email,
-    topic: feedback.topic,
-    subject: feedback.subject,
-    description: feedback.description
-  };
-}
+var _default = (0, _phoneContext.connectModule)(function (phone) {
+  return phone.feedbackUI;
+})(_FeedbackPanel["default"]);
 
-function mapToFunctions(_, _ref2) {
-  var _ref2$phone = _ref2.phone,
-      feedback = _ref2$phone.feedback,
-      routerInteraction = _ref2$phone.routerInteraction,
-      _sendFeedback = _ref2.sendFeedback;
-  return {
-    onBackClick: function onBackClick() {
-      routerInteraction.goBack();
-    },
-    onEmailChange: function onEmailChange(value) {
-      feedback.updateEmail(value);
-    },
-    onTopicChange: function onTopicChange(value) {
-      feedback.updateTopic(value);
-    },
-    onSubjectChange: function onSubjectChange(value) {
-      feedback.updateSubject(value);
-    },
-    onDescriptionChange: function onDescriptionChange(value) {
-      feedback.updateDescription(value);
-    },
-    onRevertClick: function onRevertClick() {
-      feedback.clean();
-    },
-    sendFeedback: function sendFeedback(mailToUrl) {
-      if (_sendFeedback) {
-        _sendFeedback(mailToUrl);
-
-        return;
-      }
-
-      feedback.sendFeedback(mailToUrl);
-    }
-  };
-}
-
-var FeedbackPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_FeedbackPanel["default"]));
-exports["default"] = FeedbackPage;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

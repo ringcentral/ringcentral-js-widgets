@@ -1,0 +1,11 @@
+@import '../../../lib/commonStyles/colors';
+
+.alert {
+  color: $dark;
+  font-size: 12px;
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

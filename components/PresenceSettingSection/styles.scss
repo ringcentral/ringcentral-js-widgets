@@ -26,6 +26,7 @@ $icon-min-width: 120px;
   display: inline-block;
   width: calc(100% - #{$icon-width});
   max-width: calc(100% - #{$icon-min-width});
+  white-space: nowrap;
 }
 
 .subTitle {
