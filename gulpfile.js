@@ -168,7 +168,7 @@ function copy() {
 }
 
 function preBuild() {
-  return _gulp["default"].src(['./**/*.js', '!./**/*.test.js', '!./test{/**,}', '!./coverage{/**,}', '!./node_modules{/**,}', '!gulpfile.babel.js']).pipe((0, _transformLoader["default"])(_objectSpread({}, _localeSettings["default"]))).pipe(_gulpSourcemaps["default"].init()).pipe((0, _gulpBabel["default"])()).pipe(_gulpSourcemaps["default"].write('.')).pipe(_gulp["default"].dest(BUILD_PATH));
+  return _gulp["default"].src(['./**/*.js', './**/*.ts', './**/*.tsx', '!./**/*.test.js', '!./test{/**,}', '!./coverage{/**,}', '!./node_modules{/**,}', '!gulpfile.babel.js']).pipe((0, _transformLoader["default"])(_objectSpread({}, _localeSettings["default"]))).pipe(_gulpSourcemaps["default"].init()).pipe((0, _gulpBabel["default"])()).pipe(_gulpSourcemaps["default"].write('.')).pipe(_gulp["default"].dest(BUILD_PATH));
 }
 
 var build = _gulp["default"].series(clean, copy, preBuild);
