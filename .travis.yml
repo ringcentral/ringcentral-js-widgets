@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - '8'
   - '10'
 cache: yarn
 before_install:
@@ -15,7 +14,7 @@ jobs:
   include:
     - stage: commons npm release
       if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
-      node_js: "8"
+      node_js: "10"
       script: yarn commons:prepare-release
       before_deploy:
         - cd release/ringcentral-integration
@@ -28,11 +27,11 @@ jobs:
         api_key:
           secure: Cpjded9XcB31vU0VXGlqkJX8jT/xX5diLbxZ7/dMT3g7zpEt5dgxVaWdGXEIN/klxQHrjgE/K2fMUEqtgFb7lbrk8EKgOSU3vy52h/NIgbC4tHE+8A6hoSk8DgbNNjiCZY4DjLS4EiUjbhyYUHog5ri/TPWfmfQW+XiVcWOu61WIzlm0ia0EVI+RcqbRvzf8YKFkVaVvqPu2cvfDPYBfzmn1u32hZtEzZR6VAtJBI0hhpeIj+97BxhgmNt5MmGf+q3ex0YnE0/9Qv74JT5KSUhjOQjGNEUW15GwTpWn083KKVG8RXGHvrtjvOwMVKRE3VVB64urNkOEODFcz1Yy0C0Nsv+EVYgR2F+yUXcwFOYPGPPC/a/7X8l+sxCBtDgZ3LomWSES1pBJvhtNNZt3/mhGaFB5pqBZeDAXCwlm3ysLOri0lcp25oNKdIbAMAl9PQOc5MmTtDX1dQ4XRCxq+GyHqAo3YcK/VX4sGNcCU/4a6fPi4VDyijzT5VQ709PJ4Zva5jc1qX/GFS9gmMgdr2hb5rhM9/M76WoRIaEe8YaxaaElrl5lBQsWY6e6ipGJRVXGh9ESRz5cYev7YqW/4ihzChZRad+VO7dzalWU8Xea56LmDjFuWSKzJTDNNKrNoGDHgMSm6fOlDhxgSFTVSRX6Pnqaf5UGqu2hQcjnK8So=
         on:
-          node: '8'
+          node: '10'
           tags: true
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: commons script release
-      node_js: "8"
+      node_js: "10"
       if: branch = master AND type = push
       script: yarn commons:prepare-release
       deploy:
@@ -41,7 +40,7 @@ jobs:
         script: yarn commons:start-release
     - stage: widgets npm release
       if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
-      node_js: "8"
+      node_js: "10"
       script: yarn widgets:prepare-release
       before_deploy:
         - cd release/ringcentral-widgets
@@ -54,12 +53,12 @@ jobs:
         api_key:
           secure: Cpjded9XcB31vU0VXGlqkJX8jT/xX5diLbxZ7/dMT3g7zpEt5dgxVaWdGXEIN/klxQHrjgE/K2fMUEqtgFb7lbrk8EKgOSU3vy52h/NIgbC4tHE+8A6hoSk8DgbNNjiCZY4DjLS4EiUjbhyYUHog5ri/TPWfmfQW+XiVcWOu61WIzlm0ia0EVI+RcqbRvzf8YKFkVaVvqPu2cvfDPYBfzmn1u32hZtEzZR6VAtJBI0hhpeIj+97BxhgmNt5MmGf+q3ex0YnE0/9Qv74JT5KSUhjOQjGNEUW15GwTpWn083KKVG8RXGHvrtjvOwMVKRE3VVB64urNkOEODFcz1Yy0C0Nsv+EVYgR2F+yUXcwFOYPGPPC/a/7X8l+sxCBtDgZ3LomWSES1pBJvhtNNZt3/mhGaFB5pqBZeDAXCwlm3ysLOri0lcp25oNKdIbAMAl9PQOc5MmTtDX1dQ4XRCxq+GyHqAo3YcK/VX4sGNcCU/4a6fPi4VDyijzT5VQ709PJ4Zva5jc1qX/GFS9gmMgdr2hb5rhM9/M76WoRIaEe8YaxaaElrl5lBQsWY6e6ipGJRVXGh9ESRz5cYev7YqW/4ihzChZRad+VO7dzalWU8Xea56LmDjFuWSKzJTDNNKrNoGDHgMSm6fOlDhxgSFTVSRX6Pnqaf5UGqu2hQcjnK8So=
         on:
-          node: '8'
+          node: '10'
           tags: true
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: widgets script release
       if: branch = master AND type = push
-      node_js: "8"
+      node_js: "10"
       script: yarn widgets:prepare-release
       deploy:
         provider: script
@@ -67,7 +66,7 @@ jobs:
         script: yarn widgets:start-release
     - stage: widgets docs build
       if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
-      node_js: "8"
+      node_js: "10"
       before_deploy:
         - lerna run --scope ringcentral-widgets-docs build --stream
       deploy:
@@ -78,11 +77,11 @@ jobs:
         email: 'integrations@ringcentral.com'
         name: 'RingCentral Integrations Team'
         on:
-          node: '8'
+          node: '10'
           tags: true
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: i18n script release
-      node_js: "8"
+      node_js: "10"
       if: branch = master AND type = push
       script: yarn i18n:prepare-release
       deploy:
@@ -90,7 +89,7 @@ jobs:
         skip_cleanup: true
         script: yarn i18n:start-release
     - stage: locale loader script release
-      node_js: "8"
+      node_js: "10"
       if: branch = master AND type = push
       script: yarn locale-loader:prepare-release
       deploy:
@@ -98,7 +97,7 @@ jobs:
         skip_cleanup: true
         script: yarn locale-loader:start-release
     - stage: phone number script release
-      node_js: "8"
+      node_js: "10"
       if: branch = master AND type = push
       script: yarn phone-number:prepare-release
       deploy:
@@ -107,7 +106,7 @@ jobs:
         script: yarn phone-number:start-release
     - stage: glip widgets script release
       if: branch = master AND type = push
-      node_js: "8"
+      node_js: "10"
       script: yarn glip-widgets:prepare-release
       deploy:
         provider: script

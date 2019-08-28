@@ -56,52 +56,64 @@ function getTestSources() {
 function preCoverage() {
   const testSources = getTestSources();
 
-  return gulp.src([
-    'enums/**/*.js',
-    'lib/**/*.js',
-    'modules/**/*.js',
-    '!./**/*.test.js',
-  ]).pipe(istanbul({
-    includeUntested: testSources.length === 2 && testSources[0] === './**/*.test.js',
-    instrumenter: babelIstanbul.Instrumenter,
-  })).pipe(istanbul.hookRequire());
+  return gulp
+    .src(['enums/**/*.js', 'lib/**/*.js', 'modules/**/*.js', '!./**/*.test.js'])
+    .pipe(
+      istanbul({
+        includeUntested:
+          testSources.length === 2 && testSources[0] === './**/*.test.js',
+        instrumenter: babelIstanbul.Instrumenter,
+      }),
+    )
+    .pipe(istanbul.hookRequire());
 }
 
 function runTest() {
-  return gulp.src(getTestSources())
-    .pipe(mocha({
-      timeout: TIMEOUT,
-      compilers: 'js:@ringcentral-integration/babel-settings/lib/register'
-    }))
+  return gulp
+    .src(getTestSources())
+    .pipe(
+      mocha({
+        timeout: TIMEOUT,
+        compilers: 'js:@ringcentral-integration/babel-settings/lib/register',
+      }),
+    )
     .pipe(istanbul.writeReports());
 }
 
 export const test = gulp.series(preCoverage, runTest);
 
 export function quickTest() {
-  return gulp.src(getTestSources())
-    .pipe(mocha({
+  return gulp.src(getTestSources()).pipe(
+    mocha({
       timeout: TIMEOUT,
-      compilers: 'js:@ringcentral-integration/babel-settings/lib/register'
-    }));
+      compilers: 'js:@ringcentral-integration/babel-settings/lib/register',
+    }),
+  );
 }
-const BUILD_PATH = path.resolve(__dirname, '../../build/ringcentral-integration');
+const BUILD_PATH = path.resolve(
+  __dirname,
+  '../../build/ringcentral-integration',
+);
 
 export function clean() {
   return fs.remove(BUILD_PATH);
 }
 
 export function compile() {
-  return gulp.src([
-    './**/*.js',
-    '!./**/*.test.js',
-    '!./*.js',
-    '!./coverage{/**,}',
-    '!./docs{/**,}',
-    '!./karma{/**,}',
-    '!./junit{/**,}',
-    '!./node_modules{/**,}',
-  ]).pipe(sourcemaps.init())
+  return gulp
+    .src([
+      './**/*.js',
+      './**/*.ts',
+      '!./**/*.d.ts',
+      '!./**/*.test.js',
+      '!./*.js',
+      '!./coverage{/**,}',
+      '!./docs{/**,}',
+      '!./karma{/**,}',
+      '!./junit{/**,}',
+      '!./node_modules{/**,}',
+    ])
+    .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(BUILD_PATH));
@@ -139,25 +151,33 @@ async function getVersionFromTag() {
   return null;
 }
 
-const RELEASE_PATH = path.resolve(__dirname, '../../release/ringcentral-integration');
+const RELEASE_PATH = path.resolve(
+  __dirname,
+  '../../release/ringcentral-integration',
+);
 
 export async function releaseClean() {
-  if (!await fs.exists(RELEASE_PATH)) {
+  if (!(await fs.exists(RELEASE_PATH))) {
     await fs.mkdirp(RELEASE_PATH);
   }
-  const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
+  const files = (await fs.readdir(RELEASE_PATH)).filter(
+    (file) => !/^\./.test(file),
+  );
   for (const file of files) {
     await fs.remove(path.resolve(RELEASE_PATH, file));
   }
 }
 
 export function releaseCopy() {
-  return gulp.src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
+  return gulp
+    .src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
     .pipe(gulp.dest(RELEASE_PATH));
 }
 
 export async function generatePackage() {
-  const packageInfo = JSON.parse(await fs.readFile(path.resolve(__dirname, 'package.json')));
+  const packageInfo = JSON.parse(
+    await fs.readFile(path.resolve(__dirname, 'package.json')),
+  );
   delete packageInfo.scripts;
   packageInfo.main = 'rc-phone.js';
   const version = await getVersionFromTag();
@@ -165,8 +185,12 @@ export async function generatePackage() {
   if (version) {
     packageInfo.version = version;
   }
-  await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
-  gulp.src([path.resolve(__dirname, 'integration-test/mock/data/*.json')])
+  await fs.writeFile(
+    path.resolve(RELEASE_PATH, 'package.json'),
+    JSON.stringify(packageInfo, null, 2),
+  );
+  gulp
+    .src([path.resolve(__dirname, 'integration-test/mock/data/*.json')])
     .pipe(gulp.dest(path.resolve(RELEASE_PATH, 'integration-test/mock/data')));
 }
 
