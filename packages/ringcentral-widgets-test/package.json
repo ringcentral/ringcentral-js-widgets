@@ -18,7 +18,9 @@
     "test:coverage": "yarn test --coverage",
     "test:showCoverage": "cat ./coverage/lcov.info | coveralls",
     "test:updateSnapshot": "jest --updateSnapshot",
-    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
@@ -54,7 +56,8 @@
     "ringcentral-integration": "^0.10.6",
     "ringcentral-widgets": "^0.10.6",
     "ringcentral-widgets-demo": "^0.0.1",
-    "yargs": "^11.1.0"
+    "yargs": "^11.1.0",
+    "snyk": "^1.230.5"
   },
   "jest": {
     "moduleNameMapper": {
@@ -89,5 +92,6 @@
   },
   "ci": {
     "ringcentral-js-widgets": "**"
-  }
+  },
+  "snyk": true
 }
