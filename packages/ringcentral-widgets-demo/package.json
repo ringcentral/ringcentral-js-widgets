@@ -15,7 +15,9 @@
     "start": "yarn gulp devServer",
     "dev-server": "yarn gulp devServer",
     "build-extension": "yarn gulp demoExtension",
-    "copy-config": "yarn gulp copyConfig"
+    "copy-config": "yarn gulp copyConfig",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
@@ -60,7 +62,9 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.29.0",
     "webpack-dev-server": "^3.1.14",
-    "yargs": "^11.1.0"
+    "yargs": "^11.1.0",
+    "snyk": "^1.230.5"
   },
-  "peerDependencies": {}
+  "peerDependencies": {},
+  "snyk": true
 }
