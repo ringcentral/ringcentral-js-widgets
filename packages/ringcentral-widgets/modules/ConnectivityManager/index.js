@@ -18,7 +18,7 @@ import connectivityTypes from './connectivityTypes';
     'OAuth',
     'Auth',
     'ConnectivityMonitor',
-    'AvailabilityMonitor',
+    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'CallingSettings', optional: true },
     { dep: 'AudioSettings', optional: true },
     { dep: 'Webphone', optional: true },
