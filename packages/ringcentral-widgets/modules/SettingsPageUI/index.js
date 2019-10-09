@@ -21,7 +21,10 @@ const DEFAULT_MSTEAMS_SETTINGS_URL = '/settings/msteams';
       dep: 'Version',
       optional: true,
     },
-    'Presence',
+    {
+      dep: 'Presence',
+      optional: true,
+    },
     'AccountInfo',
     'ExtensionInfo',
     'RegionSettings',
