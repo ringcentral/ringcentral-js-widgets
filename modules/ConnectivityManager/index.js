@@ -103,7 +103,10 @@ var ConnectivityManager = (
  * @description Connectivity monitor module
  */
 _dec = (0, _di.Module)({
-  deps: ['Alert', 'OAuth', 'Auth', 'ConnectivityMonitor', 'AvailabilityMonitor', {
+  deps: ['Alert', 'OAuth', 'Auth', 'ConnectivityMonitor', {
+    dep: 'AvailabilityMonitor',
+    optional: true
+  }, {
     dep: 'CallingSettings',
     optional: true
   }, {

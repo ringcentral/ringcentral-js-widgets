@@ -65,7 +65,10 @@ var SettingsPageUI = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Brand', 'Locale', {
     dep: 'Version',
     optional: true
-  }, 'Presence', 'AccountInfo', 'ExtensionInfo', 'RegionSettings', 'RolesAndPermissions', 'RouterInteraction', {
+  }, {
+    dep: 'Presence',
+    optional: true
+  }, 'AccountInfo', 'ExtensionInfo', 'RegionSettings', 'RolesAndPermissions', 'RouterInteraction', {
     dep: 'CallingSettings',
     optional: true
   }, {
