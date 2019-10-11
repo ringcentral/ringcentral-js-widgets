@@ -27,17 +27,22 @@ const config = {
       { from: 'src/www/index.html', to: 'index.html' },
     ]),
   ],
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: 'babel-loader',
+        test: /\.(js|jsx|ts|tsx)$/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: '@ringcentral-integration/locale-loader',
+          },
+        ],
         exclude: /node_modules/,
-      },
-      {
-        test: /\.js$/,
-        use: '@ringcentral-integration/locale-loader',
-        include: /ringcentral-widgets/,
       },
       {
         test: /\.md$/,
@@ -45,14 +50,12 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use:
+          'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
       },
       {
         test: /\.svg/,
@@ -69,15 +72,16 @@ const config = {
                     removeViewBox: false,
                   },
                 ],
-              }
-            }
+              },
+            },
           },
         ],
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
         exclude: /assets(\/|\\)images(\/|\\).+\.svg/,
-        use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        use:
+          'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
       {
         test: /\.sass|\.scss/,
@@ -87,10 +91,8 @@ const config = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [
-                autoprefixer
-              ]
-            }
+              plugins: () => [autoprefixer],
+            },
           },
           {
             loader: 'sass-loader',
@@ -102,7 +104,7 @@ const config = {
         ],
       },
     ],
-  }
+  },
 };
 
 module.exports = config;
