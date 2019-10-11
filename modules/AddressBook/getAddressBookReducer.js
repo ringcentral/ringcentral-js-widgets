@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getSyncStatusReducer = getSyncStatusReducer;
 exports.getContactListReducer = getContactListReducer;
 exports.getSyncTokenReducer = getSyncTokenReducer;
-exports.getSyncTimestampReducer = getSyncTimestampReducer;
+exports.getTimestampReducer = getTimestampReducer;
 exports["default"] = getAddressBookReducer;
 
 require("core-js/modules/es6.symbol");
@@ -136,17 +136,17 @@ function getSyncTokenReducer(types) {
   };
 }
 
-function getSyncTimestampReducer(types) {
+function getTimestampReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
     var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref4.type,
-        syncTime = _ref4.syncTime;
+        timestamp = _ref4.timestamp;
 
     switch (type) {
       case types.syncSuccess:
-        return new Date(syncTime).getTime();
+        return timestamp;
 
       case types.resetSuccess:
       case types.cleanUp:

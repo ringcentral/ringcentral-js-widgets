@@ -7,11 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _Enum = require("../../lib/Enum");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = new _Enum["default"](['invalidMeetingInfo', 'emptyTopic', 'noPassword', 'durationIncorrect', 'insufficientPermissions', 'scheduledSuccess', 'updatedSuccess', 'internalError'], 'meetingStatus');
+var _default = (0, _Enum.createEnum)(['invalidMeetingInfo', 'emptyTopic', 'noPassword', 'durationIncorrect', 'insufficientPermissions', 'scheduledSuccess', 'updatedSuccess', 'internalError'], 'meetingStatus');
 
 exports["default"] = _default;
 //# sourceMappingURL=meetingStatus.js.map

@@ -792,10 +792,10 @@ function (_RcModule) {
       return logout;
     }()
     /**
-    * @function
-    * @param {Function} handler
-    * @returns {Function}
-    */
+     * @function
+     * @param {Function} handler
+     * @returns {Function}
+     */
 
   }, {
     key: "addBeforeLogoutHandler",
@@ -809,9 +809,9 @@ function (_RcModule) {
       };
     }
     /**
-    * @function
-    * @param {Function} handler
-    */
+     * @function
+     * @param {Function} handler
+     */
 
   }, {
     key: "removeBeforeLogoutHandler",

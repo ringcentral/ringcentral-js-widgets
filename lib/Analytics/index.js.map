@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/Analytics/index.js"],"names":[],"mappings":";;;;;;;;;;;;;;AAAA","sourcesContent":["export { default as Segment } from './segment';\n\n"],"file":"index.js"}
+{"version":3,"sources":["lib/Analytics/index.js"],"names":[],"mappings":";;;;;;;;;;;;;;AAAA","sourcesContent":["export { default as Segment } from './segment';\n"],"file":"index.js"}

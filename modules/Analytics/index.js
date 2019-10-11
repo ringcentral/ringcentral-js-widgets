@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.INIT_TRACK_LIST = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -49,6 +49,8 @@ require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.date.to-iso-string");
+
 require("core-js/modules/es6.object.assign");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
@@ -56,6 +58,8 @@ var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 var _di = require("../../lib/di");
 
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+
+var _saveBlob = _interopRequireDefault(require("../../lib/saveBlob"));
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
@@ -109,12 +113,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_mergeCallControlClickMerge', '_mergeCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea', '_accountInfoReady'];
+var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_mergeCallControlClickMerge', '_mergeCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea', '_accountInfoReady', '_schedule']; // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
+
 /**
  * @class
  * @description Analytics module.
  */
 
+exports.INIT_TRACK_LIST = INIT_TRACK_LIST;
 var Analytics = (_dec = (0, _di.Module)({
   deps: [{
     dep: 'Auth',
@@ -164,6 +170,18 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     dep: 'AccountInfo',
     optional: true
+  }, {
+    dep: 'Locale',
+    optional: true
+  }, {
+    dep: 'Meeting',
+    optional: true
+  }, {
+    dep: 'RcVideo',
+    optional: true
+  }, {
+    dep: 'extensionInfo',
+    optional: true
   }]
 }), _dec(_class =
 /*#__PURE__*/
@@ -192,7 +210,15 @@ function (_RcModule) {
         routerInteraction = _ref.routerInteraction,
         userGuide = _ref.userGuide,
         webphone = _ref.webphone,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "accountInfo", "adapter", "auth", "call", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetails", "contacts", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone"]);
+        locale = _ref.locale,
+        meeting = _ref.meeting,
+        rcVideo = _ref.rcVideo,
+        _ref$useLog = _ref.useLog,
+        useLog = _ref$useLog === void 0 ? false : _ref$useLog,
+        _ref$lingerThreshold = _ref.lingerThreshold,
+        lingerThreshold = _ref$lingerThreshold === void 0 ? 1000 : _ref$lingerThreshold,
+        extensionInfo = _ref.extensionInfo,
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "accountInfo", "adapter", "auth", "call", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetails", "contacts", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "useLog", "lingerThreshold", "extensionInfo"]);
 
     _classCallCheck(this, Analytics);
 
@@ -219,11 +245,19 @@ function (_RcModule) {
     _this._messageStore = messageStore;
     _this._router = routerInteraction;
     _this._userGuide = userGuide;
-    _this._webphone = webphone; // init
+    _this._webphone = webphone;
+    _this._locale = locale;
+    _this._meeting = meeting;
+    _this._rcVideo = rcVideo;
+    _this._extensionInfo = extensionInfo; // init
 
     _this._reducer = (0, _getAnalyticsReducer["default"])(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
     _this._trackList = INIT_TRACK_LIST;
+    _this._useLog = useLog;
+    _this._lingerThreshold = lingerThreshold;
+    _this._logs = [];
+    _this._lingerTimeout = null;
     return _this;
   }
 
@@ -251,15 +285,31 @@ function (_RcModule) {
     value: function track(event, _ref3) {
       var properties = Object.assign({}, _ref3);
 
-      var trackProps = _objectSpread({
-        appName: this._appName,
-        appVersion: this._appVersion,
-        brand: this._brandCode
-      }, properties);
+      var trackProps = _objectSpread({}, this.trackProps, properties);
 
       if (this.analytics) {
         this.analytics.track(event, trackProps);
       }
+
+      if (this._useLog) {
+        this._logs.push({
+          timeStamp: new Date().toISOString(),
+          event: event,
+          trackProps: trackProps
+        });
+      }
+    }
+  }, {
+    key: "downloadLogs",
+    value: function downloadLogs() {
+      if (!this._useLog) {
+        return;
+      }
+
+      var blob = new Blob([JSON.stringify(this._logs, null, 2)], {
+        type: 'application/json'
+      });
+      (0, _saveBlob["default"])('logs.json', blob);
     }
   }, {
     key: "trackNavigation",
@@ -272,7 +322,33 @@ function (_RcModule) {
         appVersion: this._appVersion,
         brand: this._brandCode
       };
-      this.track("Navigator Clicked (".concat(eventPostfix, ")"), trackProps);
+      this.track("Navigation: Click/".concat(eventPostfix), trackProps);
+    }
+  }, {
+    key: "trackLinger",
+    value: function trackLinger(_ref5) {
+      var router = _ref5.router,
+          eventPostfix = _ref5.eventPostfix;
+      var trackProps = {
+        router: router,
+        appName: this._appName,
+        appVersion: this._appVersion,
+        brand: this._brandCode
+      };
+      this.track("Navigation: View/".concat(eventPostfix), trackProps);
+    }
+  }, {
+    key: "trackSchedule",
+    value: function trackSchedule(_ref6) {
+      var router = _ref6.router,
+          eventPostfix = _ref6.eventPostfix;
+      var trackProps = {
+        router: router,
+        appName: this._appName,
+        appVersion: this._appVersion,
+        brand: this._brandCode
+      };
+      this.track("Meeting: Click Schedule/".concat(eventPostfix, " schedule page"), trackProps);
     }
   }, {
     key: "_onStateChange",
@@ -511,7 +587,13 @@ function (_RcModule) {
   }, {
     key: "_navigate",
     value: function _navigate(action) {
+      var _this4 = this;
+
       if (this._router && this._router.actionTypes.locationChange === action.type) {
+        if (this._lingerTimeout) {
+          clearTimeout(this._lingerTimeout);
+        }
+
         var path = action.payload && action.payload.pathname;
 
         var target = this._getTrackTarget(path);
@@ -519,6 +601,16 @@ function (_RcModule) {
         if (target) {
           this.trackNavigation(_objectSpread({}, target));
         }
+
+        this._lingerTimeout = setTimeout(function () {
+          if (_this4._router.currentPath !== path) {
+            return;
+          }
+
+          _this4._lingerTimeout = null;
+
+          _this4.trackLinger(_objectSpread({}, target));
+        }, this._lingerThreshold);
       }
     }
   }, {
@@ -623,7 +715,7 @@ function (_RcModule) {
     key: "_showWhatsNew",
     value: function _showWhatsNew(action) {
       if (this._userGuide && this._userGuide.actionTypes.updateCarousel === action.type && action.curIdx === 0 && action.playing) {
-        this.track('What\'s New');
+        this.track("What's New");
       }
     }
   }, {
@@ -785,6 +877,9 @@ function (_RcModule) {
         }, {
           eventPostfix: 'Call Control',
           router: '/calls/active'
+        }, {
+          eventPostfix: 'Transfer',
+          router: '/transfer'
         }];
         return targets.find(function (target) {
           return formatRoute === target.router;
@@ -792,6 +887,13 @@ function (_RcModule) {
       }
 
       return undefined;
+    }
+  }, {
+    key: "_schedule",
+    value: function _schedule(action) {
+      if ((this._meeting && this._meeting.actionTypes.initScheduling === action.type || this._rcVideo && this._rcVideo.actionTypes.initCreating === action.type) && this._router) {
+        this.trackSchedule(this._getTrackTarget(this._router.currentPath));
+      }
     }
   }, {
     key: "analytics",
@@ -817,6 +919,18 @@ function (_RcModule) {
     key: "pending",
     get: function get() {
       return this.status === _moduleStatuses["default"].pending;
+    }
+  }, {
+    key: "trackProps",
+    get: function get() {
+      return {
+        'App Name': this._appName,
+        'App Version': this._appVersion,
+        Brand: this._brandCode,
+        'App Language': this._locale ? this._locale.currentLocale : '',
+        'Browser Language': this._locale ? this._locale.browserLocale : '',
+        'Extension Type': this._extensionInfo ? this._extensionInfo.info.type : ''
+      };
     }
   }]);
 

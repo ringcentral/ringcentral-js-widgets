@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getDataReducer = getDataReducer;
 exports.getTokenReducer = getTokenReducer;
 exports.getTimestampReducer = getTimestampReducer;
+exports.getLocalTimestampReducer = getLocalTimestampReducer;
 exports["default"] = getCallLogReducer;
 
 require("core-js/modules/es6.symbol");
@@ -157,6 +158,29 @@ function getTimestampReducer(types) {
       case types.fSyncSuccess:
       case types.iSyncSuccess:
         return timestamp;
+
+      case types.resetSuccess:
+      case types.clearToken:
+        return null;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getLocalTimestampReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref4.type,
+        localTimestamp = _ref4.localTimestamp;
+
+    switch (type) {
+      case types.fSyncSuccess:
+      case types.iSyncSuccess:
+        return localTimestamp;
 
       case types.resetSuccess:
       case types.clearToken:

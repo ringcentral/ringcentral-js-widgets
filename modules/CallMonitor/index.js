@@ -1,19 +1,17 @@
 "use strict";
 
-require("core-js/modules/es6.array.find-index");
-
 require("core-js/modules/es6.array.map");
 
-require("core-js/modules/es6.array.sort");
-
 require("core-js/modules/es6.array.find");
+
+require("core-js/modules/es6.array.find-index");
+
+require("core-js/modules/es6.array.sort");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -24,6 +22,8 @@ require("core-js/modules/es6.regexp.to-string");
 require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
 
@@ -79,17 +79,13 @@ var _callLogHelpers = require("../../lib/callLogHelpers");
 
 var _webphoneHelper = require("../Webphone/webphoneHelper");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _temp;
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -98,6 +94,10 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -206,29 +206,31 @@ function (_RcModule) {
 
     _initializerDefineProperty(_this, "allCalls", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "calls", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "normalizedCalls", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "activeRingCalls", _descriptor3, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "calls", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "_activeOnHoldCalls", _descriptor4, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "activeRingCalls", _descriptor4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "_activeCurrentCalls", _descriptor5, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "_activeOnHoldCalls", _descriptor5, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "activeOnHoldCalls", _descriptor6, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "_activeCurrentCalls", _descriptor6, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "activeCurrentCalls", _descriptor7, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "activeOnHoldCalls", _descriptor7, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "otherDeviceCalls", _descriptor8, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "activeCurrentCalls", _descriptor8, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "uniqueNumbers", _descriptor9, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "otherDeviceCalls", _descriptor9, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "sessionIds", _descriptor10, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "uniqueNumbers", _descriptor10, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "ringoutRingCalls", _descriptor11, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "sessionIds", _descriptor11, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "ringoutCurrentCalls", _descriptor12, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "ringoutRingCalls", _descriptor12, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "ringoutOnHoldCalls", _descriptor13, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "ringoutCurrentCalls", _descriptor13, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "ringoutOnHoldCalls", _descriptor14, _assertThisInitialized(_this));
 
     _this._call = call;
     _this._conferenceCall = conferenceCall;
@@ -253,70 +255,7 @@ function (_RcModule) {
       reducer: (0, _getCallMonitorReducer.getCallMatchedReducer)(_this.actionTypes)
     });
 
-    var _normalizedCalls;
-
-    _this.addSelector('normalizedCalls', function () {
-      return _this._presence.calls;
-    }, function () {
-      return _this._accountInfo.countryCode;
-    }, function () {
-      return _this._webphone && _this._webphone.sessions;
-    }, function () {
-      return _this._webphone && _this._webphone.cachedSessions;
-    }, function (callsFromPresence, countryCode, sessions, cachedSessions) {
-      // match cached calls
-      var cachedCalls = [];
-
-      if (_normalizedCalls && cachedSessions && cachedSessions.length) {
-        cachedCalls = (0, _ramda.filter)(function (x) {
-          return x.webphoneSession && (0, _ramda.find)(function (i) {
-            return i.id === x.webphoneSession.id;
-          }, cachedSessions);
-        }, _normalizedCalls);
-      } // combine
-
-
-      var combinedCalls = _toConsumableArray(callsFromPresence); // clone
-
-
-      (0, _ramda.forEach)(function (cachedCall) {
-        if (!(0, _ramda.find)(function (x) {
-          return x.id === cachedCall.id;
-        }, callsFromPresence)) {
-          combinedCalls.push(cachedCall);
-        }
-      }, cachedCalls); // mapping and sort
-
-      var theSessions = sessions || [];
-      _normalizedCalls = (0, _ramda.sort)(function (l, r) {
-        return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
-      }, (0, _ramda.map)(function (callItem) {
-        // use account countryCode to normalize number due to API issues [RCINT-3419]
-        var fromNumber = (0, _normalizeNumber["default"])({
-          phoneNumber: callItem.from && callItem.from.phoneNumber,
-          countryCode: countryCode
-        });
-        var toNumber = (0, _normalizeNumber["default"])({
-          phoneNumber: callItem.to && callItem.to.phoneNumber,
-          countryCode: countryCode
-        });
-        var webphoneSession = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(theSessions, callItem);
-        theSessions = (0, _ramda.filter)(function (x) {
-          return x !== webphoneSession;
-        }, theSessions);
-        return _objectSpread({}, callItem, {
-          from: {
-            phoneNumber: fromNumber
-          },
-          to: {
-            phoneNumber: toNumber
-          },
-          startTime: webphoneSession && webphoneSession.startTime || callItem.startTime,
-          webphoneSession: webphoneSession
-        });
-      }, combinedCalls));
-      return _normalizedCalls;
-    });
+    _this._normalizedCalls = null;
 
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
@@ -646,7 +585,9 @@ function (_RcModule) {
   initializer: function initializer() {
     var _this4 = this;
 
-    return [this._selectors.normalizedCalls, function () {
+    return [function () {
+      return _this4.normalizedCalls;
+    }, function () {
       return _this4._contactMatcher && _this4._contactMatcher.dataMapping;
     }, function () {
       return _this4._activityMatcher && _this4._activityMatcher.dataMapping;
@@ -672,7 +613,7 @@ function (_RcModule) {
       return calls;
     }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "normalizedCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -680,9 +621,79 @@ function (_RcModule) {
     var _this5 = this;
 
     return [function () {
-      return _this5.allCalls;
+      return _this5._presence.calls;
     }, function () {
-      return _this5._conferenceCall && _this5._conferenceCall.isMerging;
+      return _this5._accountInfo.countryCode;
+    }, function () {
+      return _this5._webphone && _this5._webphone.sessions;
+    }, function () {
+      return _this5._webphone && _this5._webphone.cachedSessions;
+    }, function (callsFromPresence, countryCode, sessions, cachedSessions) {
+      // match cached calls
+      var cachedCalls = [];
+
+      if (_this5._normalizedCalls && cachedSessions && cachedSessions.length) {
+        cachedCalls = (0, _ramda.filter)(function (x) {
+          return x.webphoneSession && (0, _ramda.find)(function (i) {
+            return i.id === x.webphoneSession.id;
+          }, cachedSessions);
+        }, _this5._normalizedCalls);
+      } // combine
+
+
+      var combinedCalls = _toConsumableArray(callsFromPresence); // clone
+
+
+      (0, _ramda.forEach)(function (cachedCall) {
+        if (!(0, _ramda.find)(function (x) {
+          return x.id === cachedCall.id;
+        }, callsFromPresence)) {
+          combinedCalls.push(cachedCall);
+        }
+      }, cachedCalls); // mapping and sort
+
+      var theSessions = sessions || [];
+      _this5._normalizedCalls = (0, _ramda.sort)(function (l, r) {
+        return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
+      }, (0, _ramda.map)(function (callItem) {
+        // use account countryCode to normalize number due to API issues [RCINT-3419]
+        var fromNumber = (0, _normalizeNumber["default"])({
+          phoneNumber: callItem.from && callItem.from.phoneNumber,
+          countryCode: countryCode
+        });
+        var toNumber = (0, _normalizeNumber["default"])({
+          phoneNumber: callItem.to && callItem.to.phoneNumber,
+          countryCode: countryCode
+        });
+        var webphoneSession = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(theSessions, callItem);
+        theSessions = (0, _ramda.filter)(function (x) {
+          return x !== webphoneSession;
+        }, theSessions);
+        return _objectSpread({}, callItem, {
+          from: {
+            phoneNumber: fromNumber
+          },
+          to: {
+            phoneNumber: toNumber
+          },
+          startTime: webphoneSession && webphoneSession.startTime || callItem.startTime,
+          webphoneSession: webphoneSession
+        });
+      }, combinedCalls));
+      return _this5._normalizedCalls;
+    }];
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "calls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this6 = this;
+
+    return [function () {
+      return _this6.allCalls;
+    }, function () {
+      return _this6._conferenceCall && _this6._conferenceCall.isMerging;
     }, function (calls, isMerging) {
       return (0, _ramda.filter)(function (callItem) {
         // filtering out the conferece during merging
@@ -694,22 +705,7 @@ function (_RcModule) {
       }, calls);
     }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "activeRingCalls", [_selector.selector], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    var _this6 = this;
-
-    return [function () {
-      return _this6.calls;
-    }, function (calls) {
-      return (0, _ramda.filter)(function (callItem) {
-        return callItem.webphoneSession && (0, _webphoneHelper.isRing)(callItem.webphoneSession);
-      }, calls);
-    }];
-  }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "_activeOnHoldCalls", [_selector.selector], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "activeRingCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -720,11 +716,11 @@ function (_RcModule) {
       return _this7.calls;
     }, function (calls) {
       return (0, _ramda.filter)(function (callItem) {
-        return callItem.webphoneSession && (0, _webphoneHelper.isOnHold)(callItem.webphoneSession);
+        return callItem.webphoneSession && (0, _webphoneHelper.isRing)(callItem.webphoneSession);
       }, calls);
     }];
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "_activeCurrentCalls", [_selector.selector], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "_activeOnHoldCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -735,11 +731,11 @@ function (_RcModule) {
       return _this8.calls;
     }, function (calls) {
       return (0, _ramda.filter)(function (callItem) {
-        return callItem.webphoneSession && !(0, _webphoneHelper.isOnHold)(callItem.webphoneSession) && !(0, _webphoneHelper.isRing)(callItem.webphoneSession);
+        return callItem.webphoneSession && (0, _webphoneHelper.isOnHold)(callItem.webphoneSession);
       }, calls);
     }];
   }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "activeOnHoldCalls", [_selector.selector], {
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "_activeCurrentCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -747,14 +743,14 @@ function (_RcModule) {
     var _this9 = this;
 
     return [function () {
-      return _this9._activeOnHoldCalls;
-    }, function () {
-      return _this9._activeCurrentCalls;
-    }, function (_activeOnHoldCalls, _activeCurrentCalls) {
-      return _activeOnHoldCalls.length && !_activeCurrentCalls.length ? _activeOnHoldCalls.slice(1) : _activeOnHoldCalls;
+      return _this9.calls;
+    }, function (calls) {
+      return (0, _ramda.filter)(function (callItem) {
+        return callItem.webphoneSession && !(0, _webphoneHelper.isOnHold)(callItem.webphoneSession) && !(0, _webphoneHelper.isRing)(callItem.webphoneSession);
+      }, calls);
     }];
   }
-}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "activeCurrentCalls", [_selector.selector], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "activeOnHoldCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -762,14 +758,14 @@ function (_RcModule) {
     var _this10 = this;
 
     return [function () {
-      return _this10._activeCurrentCalls;
-    }, function () {
       return _this10._activeOnHoldCalls;
-    }, function (_activeCurrentCalls, _activeOnHoldCalls) {
-      return !_activeCurrentCalls.length && _activeOnHoldCalls.length ? _activeOnHoldCalls.slice(0, 1) : _activeCurrentCalls;
+    }, function () {
+      return _this10._activeCurrentCalls;
+    }, function (_activeOnHoldCalls, _activeCurrentCalls) {
+      return _activeOnHoldCalls.length && !_activeCurrentCalls.length ? _activeOnHoldCalls.slice(1) : _activeOnHoldCalls;
     }];
   }
-}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, "otherDeviceCalls", [_selector.selector], {
+}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, "activeCurrentCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -777,9 +773,24 @@ function (_RcModule) {
     var _this11 = this;
 
     return [function () {
-      return _this11.calls;
+      return _this11._activeCurrentCalls;
     }, function () {
-      return _this11._webphone && _this11._webphone.lastEndedSessions;
+      return _this11._activeOnHoldCalls;
+    }, function (_activeCurrentCalls, _activeOnHoldCalls) {
+      return !_activeCurrentCalls.length && _activeOnHoldCalls.length ? _activeOnHoldCalls.slice(0, 1) : _activeCurrentCalls;
+    }];
+  }
+}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, "otherDeviceCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this12 = this;
+
+    return [function () {
+      return _this12.calls;
+    }, function () {
+      return _this12._webphone && _this12._webphone.lastEndedSessions;
     }, function (calls, lastEndedSessions) {
       return (0, _ramda.reduce)(function (_ref2, callItem) {
         var sessionsCache = _ref2.sessionsCache,
@@ -812,12 +823,16 @@ function (_RcModule) {
       }, calls).res;
     }];
   }
-}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_selector.selector], {
+}), _descriptor10 = _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return [this._selectors.normalizedCalls, function (normalizedCalls) {
+    var _this13 = this;
+
+    return [function () {
+      return _this13.normalizedCalls;
+    }, function (normalizedCalls) {
       var output = [];
       var numberMap = {};
 
@@ -840,37 +855,7 @@ function (_RcModule) {
       return output;
     }];
   }
-}), _descriptor10 = _applyDecoratedDescriptor(_class2.prototype, "sessionIds", [_selector.selector], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    var _this12 = this;
-
-    return [function () {
-      return _this12._presence.calls;
-    }, function (calls) {
-      return (0, _ramda.map)(function (callItem) {
-        return callItem.sessionId;
-      }, calls);
-    }];
-  }
-}), _descriptor11 = _applyDecoratedDescriptor(_class2.prototype, "ringoutRingCalls", [_selector.selector], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    var _this13 = this;
-
-    return [function () {
-      return _this13.otherDeviceCalls;
-    }, function (otherDeviceCalls) {
-      return (0, _ramda.filter)(function (callItem) {
-        return (0, _callLogHelpers.isRingingInboundCall)(callItem);
-      }, otherDeviceCalls);
-    }];
-  }
-}), _descriptor12 = _applyDecoratedDescriptor(_class2.prototype, "ringoutCurrentCalls", [_selector.selector], {
+}), _descriptor11 = _applyDecoratedDescriptor(_class2.prototype, "sessionIds", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -878,14 +863,14 @@ function (_RcModule) {
     var _this14 = this;
 
     return [function () {
-      return _this14.otherDeviceCalls;
-    }, function (otherDeviceCalls) {
-      return (0, _ramda.filter)(function (callItem) {
-        return !(0, _callLogHelpers.isRingingInboundCall)(callItem) && !(0, _callLogHelpers.isOnHold)(callItem);
-      }, otherDeviceCalls);
+      return _this14._presence.calls;
+    }, function (calls) {
+      return (0, _ramda.map)(function (callItem) {
+        return callItem.sessionId;
+      }, calls);
     }];
   }
-}), _descriptor13 = _applyDecoratedDescriptor(_class2.prototype, "ringoutOnHoldCalls", [_selector.selector], {
+}), _descriptor12 = _applyDecoratedDescriptor(_class2.prototype, "ringoutRingCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -894,6 +879,36 @@ function (_RcModule) {
 
     return [function () {
       return _this15.otherDeviceCalls;
+    }, function (otherDeviceCalls) {
+      return (0, _ramda.filter)(function (callItem) {
+        return (0, _callLogHelpers.isRingingInboundCall)(callItem);
+      }, otherDeviceCalls);
+    }];
+  }
+}), _descriptor13 = _applyDecoratedDescriptor(_class2.prototype, "ringoutCurrentCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this16 = this;
+
+    return [function () {
+      return _this16.otherDeviceCalls;
+    }, function (otherDeviceCalls) {
+      return (0, _ramda.filter)(function (callItem) {
+        return !(0, _callLogHelpers.isRingingInboundCall)(callItem) && !(0, _callLogHelpers.isOnHold)(callItem);
+      }, otherDeviceCalls);
+    }];
+  }
+}), _descriptor14 = _applyDecoratedDescriptor(_class2.prototype, "ringoutOnHoldCalls", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this17 = this;
+
+    return [function () {
+      return _this17.otherDeviceCalls;
     }, function (otherDeviceCalls) {
       return (0, _ramda.filter)(function (callItem) {
         return (0, _callLogHelpers.isOnHold)(callItem);

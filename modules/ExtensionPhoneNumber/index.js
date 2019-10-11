@@ -35,6 +35,10 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es7.array.includes");
+
+require("core-js/modules/es6.string.includes");
+
 require("core-js/modules/es6.array.map");
 
 require("regenerator-runtime/runtime");
@@ -52,6 +56,10 @@ var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _selector = require("../../lib/selector");
+
+var _subscriptionHints = _interopRequireDefault(require("../../enums/subscriptionHints"));
+
+var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _temp;
 
@@ -114,7 +122,7 @@ function (_DataFetcher) {
    * @param {Client} params.client - client module instance
    */
   function ExtensionPhoneNumber(_ref) {
-    var _context2;
+    var _context3;
 
     var _this;
 
@@ -126,34 +134,60 @@ function (_DataFetcher) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ExtensionPhoneNumber).call(this, _objectSpread({
       client: client,
-      fetchFunction: function () {
-        var _fetchFunction = _asyncToGenerator(
+      subscriptionFilters: [_subscriptionFilters["default"].extensionInfo],
+      subscriptionHandler: function () {
+        var _subscriptionHandler = _asyncToGenerator(
         /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee() {
+        regeneratorRuntime.mark(function _callee(message) {
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.next = 2;
-                  return (0, _fetchList["default"])(function (params) {
-                    return client.account().extension().phoneNumber().list(params);
-                  });
+                  return _this._subscriptionHandleFn(message);
 
                 case 2:
-                  _context.t0 = function (number) {
-                    return _objectSpread({}, number, {
-                      country: (0, _removeUri["default"])(number.country)
-                    });
-                  };
-
-                  return _context.abrupt("return", _context.sent.map(_context.t0));
-
-                case 4:
                 case "end":
                   return _context.stop();
               }
             }
           }, _callee);
+        }));
+
+        function subscriptionHandler(_x) {
+          return _subscriptionHandler.apply(this, arguments);
+        }
+
+        return subscriptionHandler;
+      }(),
+      fetchFunction: function () {
+        var _fetchFunction = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee2() {
+          return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _context2.next = 2;
+                  return (0, _fetchList["default"])(function (params) {
+                    return client.account().extension().phoneNumber().list(params);
+                  });
+
+                case 2:
+                  _context2.t0 = function (number) {
+                    return _objectSpread({}, number, {
+                      country: (0, _removeUri["default"])(number.country)
+                    });
+                  };
+
+                  return _context2.abrupt("return", _context2.sent.map(_context2.t0));
+
+                case 4:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2);
         }));
 
         function fetchFunction() {
@@ -180,11 +214,43 @@ function (_DataFetcher) {
 
     _initializerDefineProperty(_this, "smsSenderNumbers", _descriptor6, _assertThisInitialized(_this));
 
-    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
+    _this._rolesAndPermissions = (_context3 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context3, rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
   _createClass(ExtensionPhoneNumber, [{
+    key: "_subscriptionHandleFn",
+    value: function () {
+      var _subscriptionHandleFn2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(message) {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (!(message && message.body && message.body.hints && message.body.hints.includes(_subscriptionHints["default"].companyNumbers))) {
+                  _context4.next = 3;
+                  break;
+                }
+
+                _context4.next = 3;
+                return this.fetchData();
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function _subscriptionHandleFn(_x2) {
+        return _subscriptionHandleFn2.apply(this, arguments);
+      }
+
+      return _subscriptionHandleFn;
+    }()
+  }, {
     key: "_name",
     get: function get() {
       return 'extensionPhoneNumber';

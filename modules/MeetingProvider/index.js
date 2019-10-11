@@ -86,7 +86,9 @@ function (_DataFetcher) {
 
     _classCallCheck(this, MeetingProvider);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(MeetingProvider).call(this, _objectSpread({}, options, {
+    return _possibleConstructorReturn(this, _getPrototypeOf(MeetingProvider).call(this, _objectSpread({
+      cleanOnReset: true
+    }, options, {
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator(
         /*#__PURE__*/
@@ -101,10 +103,9 @@ function (_DataFetcher) {
 
                 case 2:
                   data = _context.sent;
-                  console.log('--meeting', data);
                   return _context.abrupt("return", data);
 
-                case 5:
+                case 4:
                 case "end":
                   return _context.stop();
               }

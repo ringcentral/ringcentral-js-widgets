@@ -45,6 +45,8 @@ var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
+var _selector = require("../../lib/selector");
+
 var _di = require("../../lib/di");
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
@@ -57,7 +59,7 @@ var _getStorageReducer = _interopRequireDefault(require("./getStorageReducer"));
 
 var _audioSettingsErrors = _interopRequireDefault(require("./audioSettingsErrors"));
 
-var _dec, _class, _class2;
+var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -66,6 +68,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -90,6 +94,8 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -117,7 +123,7 @@ polyfillGetUserMedia();
 
 var AudioSettings = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Alert', 'Storage', 'RolesAndPermissions']
-}), _dec(_class = (_class2 =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_RcModule) {
   _inherits(AudioSettings, _RcModule);
@@ -138,6 +144,11 @@ function (_RcModule) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AudioSettings).call(this, _objectSpread({}, options, {
       actionTypes: _actionTypes["default"]
     })));
+
+    _initializerDefineProperty(_this, "availableOutputDevices", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "availableInputDevices", _descriptor2, _assertThisInitialized(_this));
+
     _this._storage = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, storage, 'storage');
     _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
     _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
@@ -150,23 +161,6 @@ function (_RcModule) {
     });
 
     _this._reducer = (0, _getAudioSettingsReducer["default"])(_this.actionTypes);
-
-    _this.addSelector('availableOutputDevices', function () {
-      return _this.state.availableDevices;
-    }, function (devices) {
-      return (0, _ramda.filter)(function (device) {
-        return device.kind === 'audiooutput';
-      }, devices);
-    });
-
-    _this.addSelector('availableInputDevices', function () {
-      return _this.state.availableDevices;
-    }, function (devices) {
-      return (0, _ramda.filter)(function (device) {
-        return device.kind === 'audioinput';
-      }, devices);
-    });
-
     return _this;
   }
 
@@ -590,16 +584,6 @@ function (_RcModule) {
       return this.state.availableDevices;
     }
   }, {
-    key: "availableOutputDevices",
-    get: function get() {
-      return this._selectors.availableOutputDevices();
-    }
-  }, {
-    key: "availableInputDevices",
-    get: function get() {
-      return this._selectors.availableInputDevices();
-    }
-  }, {
     key: "cacheData",
     get: function get() {
       return this._storage.getItem(this._storageKey) || {};
@@ -655,6 +639,36 @@ function (_RcModule) {
   }]);
 
   return AudioSettings;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "markAutoPrompted", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "markAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkDevices", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onGetUserMediaSuccess", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onGetUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onGetUserMediaError", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onGetUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "markAutoPrompted", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "markAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkDevices", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onGetUserMediaSuccess", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onGetUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onGetUserMediaError", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onGetUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "availableOutputDevices", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this6 = this;
+
+    return [function () {
+      return _this6.state.availableDevices;
+    }, function (devices) {
+      return (0, _ramda.filter)(function (device) {
+        return device.kind === 'audiooutput';
+      }, devices);
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "availableInputDevices", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this7 = this;
+
+    return [function () {
+      return _this7.state.availableDevices;
+    }, function (devices) {
+      return (0, _ramda.filter)(function (device) {
+        return device.kind === 'audioinput';
+      }, devices);
+    }];
+  }
+})), _class2)) || _class);
 exports["default"] = AudioSettings;
 //# sourceMappingURL=index.js.map

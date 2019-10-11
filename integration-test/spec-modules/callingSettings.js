@@ -586,7 +586,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         serviceFeatures: _extensionInfo["default"].serviceFeatures.filter(function (p) {
                           return p.featureName !== 'WebPhone';
                         }).concat({
-                          featureName: "WebPhone",
+                          featureName: 'WebPhone',
                           enabled: false
                         })
                       });

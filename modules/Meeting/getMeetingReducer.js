@@ -170,13 +170,13 @@ function getDefaultMeetingSettingReducer(types) {
       case types.saveAsDefaultSetting:
         {
           return meeting ? {
-            startHostVideo: meeting.startHostVideo,
-            startParticipantsVideo: meeting.startParticipantsVideo,
-            allowJoinBeforeHost: meeting.allowJoinBeforeHost,
+            startHostVideo: !!meeting.startHostVideo,
+            startParticipantsVideo: !!meeting.startParticipantsVideo,
+            allowJoinBeforeHost: !!meeting.allowJoinBeforeHost,
             audioOptions: meeting.audioOptions,
-            _saved: meeting._saved,
+            _saved: !!meeting._saved,
             password: meeting.password,
-            _requireMeetingPassword: meeting._requireMeetingPassword
+            _requireMeetingPassword: !!meeting._requireMeetingPassword
           } : {};
         }
 

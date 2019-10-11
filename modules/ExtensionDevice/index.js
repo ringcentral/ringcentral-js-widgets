@@ -15,6 +15,14 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.reduce");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -22,12 +30,6 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -37,17 +39,21 @@ require("regenerator-runtime/runtime");
 
 var _di = require("../../lib/di");
 
+var _selector = require("../../lib/selector");
+
 var _fetchList = _interopRequireDefault(require("../../lib/fetchList"));
 
 var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
 
 var _removeUri = _interopRequireDefault(require("../../lib/removeUri"));
 
-var _dec, _class;
+var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -69,13 +75,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
 var ExtensionDevice = (
 /**
@@ -87,7 +97,7 @@ _dec = (0, _di.Module)({
     dep: 'ExtensionDeviceOptions',
     optional: true
   }]
-}), _dec(_class =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_DataFetcher) {
   _inherits(ExtensionDevice, _DataFetcher);
@@ -146,14 +156,43 @@ function (_DataFetcher) {
       cleanOnReset: true
     }, options)));
 
-    _this.addSelector('devices', function () {
-      return _this.data;
-    }, function (data) {
-      return data || [];
-    });
+    _initializerDefineProperty(_this, "devices", _descriptor, _assertThisInitialized(_this));
 
-    _this.addSelector('phoneLines', function () {
-      return _this.devices;
+    _initializerDefineProperty(_this, "phoneLines", _descriptor2, _assertThisInitialized(_this));
+
+    return _this;
+  }
+
+  _createClass(ExtensionDevice, [{
+    key: "_name",
+    get: function get() {
+      return 'extensionDevice';
+    }
+  }]);
+
+  return ExtensionDevice;
+}(_DataFetcher2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "devices", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this2 = this;
+
+    return [function () {
+      return _this2.data;
+    }, function (data) {
+      return data || {};
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "phoneLines", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return [function () {
+      return _this3.devices;
     }, function (devices) {
       var phoneLines = [];
       devices.forEach(function (device) {
@@ -164,29 +203,8 @@ function (_DataFetcher) {
         phoneLines = phoneLines.concat(device.phoneLines);
       });
       return phoneLines;
-    });
-
-    return _this;
+    }];
   }
-
-  _createClass(ExtensionDevice, [{
-    key: "_name",
-    get: function get() {
-      return 'extensionDevice';
-    }
-  }, {
-    key: "devices",
-    get: function get() {
-      return this._selectors.devices();
-    }
-  }, {
-    key: "phoneLines",
-    get: function get() {
-      return this._selectors.phoneLines();
-    }
-  }]);
-
-  return ExtensionDevice;
-}(_DataFetcher2["default"])) || _class);
+})), _class2)) || _class);
 exports["default"] = ExtensionDevice;
 //# sourceMappingURL=index.js.map

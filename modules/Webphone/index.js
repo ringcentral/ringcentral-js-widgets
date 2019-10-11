@@ -39,9 +39,9 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.promise");
 
-require("regenerator-runtime/runtime");
-
 require("core-js/modules/es6.array.for-each");
+
+require("regenerator-runtime/runtime");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -99,7 +99,7 @@ var _webphoneHelper = require("./webphoneHelper");
 
 var _getWebphoneReducer = _interopRequireDefault(require("./getWebphoneReducer"));
 
-var _dec, _class, _class2, _descriptor, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -258,7 +258,19 @@ function (_RcModule) {
       actionTypes: _actionTypes["default"]
     })));
 
-    _initializerDefineProperty(_this, "ringingCallOnView", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "sessionPhoneNumbers", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "activeSession", _descriptor2, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "ringSession", _descriptor3, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "ringSessions", _descriptor4, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "onHoldSessions", _descriptor5, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "cachedSessions", _descriptor6, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "ringingCallOnView", _descriptor7, _assertThisInitialized(_this));
 
     _this._regionSettings = regionSettings;
     _this._brand = brand;
@@ -326,82 +338,19 @@ function (_RcModule) {
     _this._disconnectInactiveAfterSessionEnd = false;
     _this._tabActive = false;
     _this._connectTimeout = null;
-
-    _this.addSelector('sessionPhoneNumbers', function () {
-      return _this.sessions;
-    }, function (sessions) {
-      var outputs = [];
-      sessions.forEach(function (session) {
-        outputs.push(session.to);
-        outputs.push(session.from);
-      });
-      return outputs;
-    });
-
-    _this.addSelector('ringSession', function () {
-      return _this.ringSessionId;
-    }, function () {
-      return _this.sessions;
-    }, function (ringSessionId, sessions) {
-      if (!ringSessionId) {
-        return null;
-      }
-
-      var ringSession = (0, _ramda.find)(function (session) {
-        return session.id === ringSessionId;
-      }, sessions);
-      return ringSession;
-    });
-
-    _this.addSelector('cachedSessions', function () {
-      return _this.sessions;
-    }, function (sessions) {
-      return (0, _ramda.filter)(function (session) {
-        return session.cached;
-      }, sessions);
-    });
-
-    _this.addSelector('activeSession', function () {
-      return _this.activeSessionId;
-    }, function () {
-      return _this.sessions;
-    }, function (activeSessionId, sessions) {
-      if (!activeSessionId) {
-        return null;
-      }
-
-      var activeSession = (0, _ramda.find)(function (session) {
-        return session.id === activeSessionId;
-      }, sessions);
-      return activeSession;
-    });
-
-    _this.addSelector('ringSessions', function () {
-      return _this.sessions;
-    }, function (sessions) {
-      return (0, _ramda.filter)(function (session) {
-        return (0, _webphoneHelper.isRing)(session);
-      }, sessions);
-    });
-
-    _this.addSelector('onHoldSessions', function () {
-      return _this.sessions;
-    }, function (sessions) {
-      return (0, _ramda.filter)(function (session) {
-        return (0, _webphoneHelper.isOnHold)(session);
-      }, sessions);
-    });
+    _this._isFirstRegister = true;
 
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
-        getQueriesFn: _this._selectors.sessionPhoneNumbers,
+        getQueriesFn: function getQueriesFn() {
+          return _this.sessionPhoneNumbers;
+        },
         readyCheckFn: function readyCheckFn() {
           return _this.ready;
         }
       });
     }
 
-    _this._isFirstRegister = true;
     return _this;
   }
 
@@ -1526,7 +1475,7 @@ function (_RcModule) {
     key: "_hideConnectingAlert",
     value: function _hideConnectingAlert() {
       var alertIds = this._alert.messages.filter(function (m) {
-        for (var i = 0, len = registerErrors.length; i < len; i++) {
+        for (var i = 0, len = registerErrors.length; i < len; i += 1) {
           if (m.message === registerErrors[i] && m.payload && m.payload.isConnecting === true) return true;
         }
 
@@ -1551,7 +1500,7 @@ function (_RcModule) {
             switch (_context12.prev = _context12.next) {
               case 0:
                 alertIds = this._alert.messages.filter(function (m) {
-                  for (var i = 0, len = registerErrors.length; i < len; i++) {
+                  for (var i = 0, len = registerErrors.length; i < len; i += 1) {
                     if (m.message === registerErrors[i] && !m.payload.isConnecting) return true;
                   }
 
@@ -1582,7 +1531,7 @@ function (_RcModule) {
     key: "_hideRegisterErrorAlert",
     value: function _hideRegisterErrorAlert() {
       var alertIds = this._alert.messages.filter(function (m) {
-        for (var i = 0, len = registerErrors.length; i < len; i++) {
+        for (var i = 0, len = registerErrors.length; i < len; i += 1) {
           if (m.message === registerErrors[i]) return true;
         }
 
@@ -3423,6 +3372,10 @@ function (_RcModule) {
       var normalizedSession = (0, _ramda.find)(function (x) {
         return x.id === session.id;
       }, this.sessions);
+      this.store.dispatch({
+        type: this.actionTypes.callResume,
+        session: normalizedSession
+      });
 
       this._eventEmitter.emit(EVENTS.callResume, normalizedSession, this.activeSession);
     }
@@ -3566,48 +3519,15 @@ function (_RcModule) {
     get: function get() {
       return this.state.activeSessionId;
     }
-    /**
-     * Current active session(Outbound and InBound that answered)
-     */
-
-  }, {
-    key: "activeSession",
-    get: function get() {
-      return this._selectors.activeSession();
-    }
-    /**
-     * Current ring session(inbound)
-     */
-
-  }, {
-    key: "ringSession",
-    get: function get() {
-      return this._selectors.ringSession();
-    }
   }, {
     key: "sessions",
     get: function get() {
       return this.state.sessions;
     }
   }, {
-    key: "ringSessions",
-    get: function get() {
-      return this._selectors.ringSessions();
-    }
-  }, {
-    key: "onHoldSessions",
-    get: function get() {
-      return this._selectors.onHoldSessions();
-    }
-  }, {
     key: "lastEndedSessions",
     get: function get() {
       return this.state.lastEndedSessions;
-    }
-  }, {
-    key: "cachedSessions",
-    get: function get() {
-      return this._selectors.cachedSessions();
     }
   }, {
     key: "videoElementPrepared",
@@ -3716,7 +3636,7 @@ function (_RcModule) {
   }]);
 
   return Webphone;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "answer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reject", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resume", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forward", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "forward"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "mute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unmute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unmute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unhold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unhold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stopRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "stopRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "park", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "park"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transfer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferWarm", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transferWarm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "flip", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "flip"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hangup", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toVoiceMail", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toVoiceMail"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyWithMessage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyWithMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSessionMatchedContact", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSessionMatchedContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toggleMinimized", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleMinimized"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "ringingCallOnView", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "answer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reject", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resume", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forward", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "forward"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "mute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unmute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unmute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unhold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unhold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stopRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "stopRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "park", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "park"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transfer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferWarm", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transferWarm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "flip", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "flip"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hangup", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toVoiceMail", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toVoiceMail"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyWithMessage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyWithMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSessionMatchedContact", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSessionMatchedContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toggleMinimized", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleMinimized"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sessionPhoneNumbers", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -3724,7 +3644,114 @@ function (_RcModule) {
     var _this17 = this;
 
     return [function () {
-      return _this17.ringSessions;
+      return _this17.sessions;
+    }, function (sessions) {
+      var outputs = [];
+      sessions.forEach(function (session) {
+        outputs.push(session.to);
+        outputs.push(session.from);
+      });
+      return outputs;
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "activeSession", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this18 = this;
+
+    return [function () {
+      return _this18.activeSessionId;
+    }, function () {
+      return _this18.sessions;
+    }, function (activeSessionId, sessions) {
+      if (!activeSessionId) {
+        return null;
+      }
+
+      var activeSession = (0, _ramda.find)(function (session) {
+        return session.id === activeSessionId;
+      }, sessions);
+      return activeSession;
+    }];
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "ringSession", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this19 = this;
+
+    return [function () {
+      return _this19.ringSessionId;
+    }, function () {
+      return _this19.sessions;
+    }, function (ringSessionId, sessions) {
+      if (!ringSessionId) {
+        return null;
+      }
+
+      var ringSession = (0, _ramda.find)(function (session) {
+        return session.id === ringSessionId;
+      }, sessions);
+      return ringSession;
+    }];
+  }
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "ringSessions", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this20 = this;
+
+    return [function () {
+      return _this20.sessions;
+    }, function (sessions) {
+      return (0, _ramda.filter)(function (session) {
+        return (0, _webphoneHelper.isRing)(session);
+      }, sessions);
+    }];
+  }
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "onHoldSessions", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this21 = this;
+
+    return [function () {
+      return _this21.sessions;
+    }, function (sessions) {
+      return (0, _ramda.filter)(function (session) {
+        return (0, _webphoneHelper.isOnHold)(session);
+      }, sessions);
+    }];
+  }
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "cachedSessions", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this22 = this;
+
+    return [function () {
+      return _this22.sessions;
+    }, function (sessions) {
+      return (0, _ramda.filter)(function (session) {
+        return session.cached;
+      }, sessions);
+    }];
+  }
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "ringingCallOnView", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this23 = this;
+
+    return [function () {
+      return _this23.ringSessions;
     }, function (sessions) {
       return (0, _ramda.find)(function (session) {
         return !session.minimized;

@@ -21,16 +21,6 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es6.regexp.replace");
-
-require("core-js/modules/es6.date.to-iso-string");
-
-require("core-js/modules/es6.date.now");
-
-require("regenerator-runtime/runtime");
-
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/web.dom.iterable");
@@ -44,6 +34,16 @@ require("core-js/modules/es6.object.keys");
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es6.regexp.replace");
+
+require("core-js/modules/es6.date.now");
+
+require("regenerator-runtime/runtime");
+
+var _redux = require("redux");
 
 var _di = require("../../lib/di");
 
@@ -59,11 +59,13 @@ var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
+var _selector = require("../../lib/selector");
+
 var _contactHelper = require("../../lib/contactHelper");
 
 var _getAddressBookReducer = _interopRequireWildcard(require("./getAddressBookReducer"));
 
-var _dec, _class, _class2;
+var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
@@ -74,6 +76,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -91,13 +95,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -109,7 +115,7 @@ var DECODE = {
   '&amp;': '&',
   '&bsol;': '\\',
   '&sol;': '/',
-  '&apos;': '\''
+  '&apos;': "'"
 };
 
 function getSyncParams(syncToken, pageId) {
@@ -147,7 +153,7 @@ var AddressBook = (_dec = (0, _di.Module)({
     dep: 'AddressBookOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_Pollable) {
   _inherits(AddressBook, _Pollable);
@@ -187,6 +193,9 @@ function (_Pollable) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AddressBook).call(this, _objectSpread({}, options, {
       actionTypes: _actionTypes["default"]
     })));
+
+    _initializerDefineProperty(_this, "contacts", _descriptor, _assertThisInitialized(_this));
+
     _this._client = client;
 
     if (!disableCache) {
@@ -200,65 +209,26 @@ function (_Pollable) {
     _this._timeToRetry = timeToRetry;
     _this._polling = polling;
     _this._promise = null;
-    _this._syncTokenStorageKey = 'contactsSyncToken';
-    _this._syncTimestampStorageKey = 'contactsSyncTimestamp';
     _this._addressBookStorageKey = 'addressBookContactsList';
 
     if (_this._storage) {
       _this._reducer = (0, _getAddressBookReducer["default"])(_this.actionTypes);
 
       _this._storage.registerReducer({
-        key: _this._syncTokenStorageKey,
-        reducer: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes)
-      });
-
-      _this._storage.registerReducer({
-        key: _this._syncTimestampStorageKey,
-        reducer: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
-      });
-
-      _this._storage.registerReducer({
         key: _this._addressBookStorageKey,
-        reducer: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes)
+        reducer: (0, _redux.combineReducers)({
+          syncToken: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes),
+          timestamp: (0, _getAddressBookReducer.getTimestampReducer)(_this.actionTypes),
+          contactList: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes)
+        })
       });
     } else {
       _this._reducer = (0, _getAddressBookReducer["default"])(_this.actionTypes, {
         contactList: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes),
         syncToken: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes),
-        syncTimestamp: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
+        timestamp: (0, _getAddressBookReducer.getTimestampReducer)(_this.actionTypes)
       });
     }
-
-    _this.addSelector('contacts', function () {
-      return _this.rawContacts;
-    }, function (rawContacts) {
-      var contactsList = [];
-      rawContacts.forEach(function (rawContact) {
-        var contact = _objectSpread({
-          type: _this.sourceName,
-          phoneNumbers: [],
-          emails: []
-        }, rawContact);
-
-        contact.id = "".concat(contact.id);
-        contact.name = "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
-        if (contact.email) contact.emails.push(contact.email);
-        if (contact.email2) contact.emails.push(contact.email2);
-        Object.keys(contact).forEach(function (key) {
-          if (key.toLowerCase().indexOf('phone') === -1) {
-            return;
-          }
-
-          if (typeof contact[key] !== 'string') {
-            return;
-          }
-
-          (0, _contactHelper.addPhoneToContact)(contact, contact[key], key);
-        });
-        contactsList.push(contact);
-      });
-      return contactsList;
-    });
 
     return _this;
   }
@@ -364,7 +334,7 @@ function (_Pollable) {
     value: function _isDataReady() {
       // only turns ready when data has been fetched
       // (could be from other tabs)
-      return this.status === _moduleStatuses["default"].initializing && this.syncTime !== null;
+      return this.status === _moduleStatuses["default"].initializing && this.timestamp !== null;
     }
   }, {
     key: "_initAddressBook",
@@ -472,7 +442,7 @@ function (_Pollable) {
                 result = {
                   records: [],
                   syncInfo: {
-                    syncTime: new Date().toISOString()
+                    syncToken: undefined
                   }
                 };
                 return _context3.abrupt("return", result);
@@ -531,7 +501,7 @@ function (_Pollable) {
                               type: _this3.actionTypes.syncSuccess,
                               records: response.records,
                               syncToken: response.syncInfo.syncToken,
-                              syncTime: response.syncInfo.syncTime
+                              timestamp: Date.now()
                             });
 
                             if (_this3._polling) {
@@ -768,7 +738,7 @@ function (_Pollable) {
     key: "syncToken",
     get: function get() {
       if (this._storage) {
-        return this._storage.getItem(this._syncTokenStorageKey);
+        return this._storage.getItem(this._addressBookStorageKey).syncToken;
       }
 
       return this.state.syncToken;
@@ -777,7 +747,7 @@ function (_Pollable) {
     key: "rawContacts",
     get: function get() {
       if (this._storage) {
-        return this._storage.getItem(this._addressBookStorageKey);
+        return this._storage.getItem(this._addressBookStorageKey).contactList;
       }
 
       return this.state.contactList;
@@ -786,10 +756,10 @@ function (_Pollable) {
     key: "timestamp",
     get: function get() {
       if (this._storage) {
-        return this._storage.getItem(this._syncTimestampStorageKey);
+        return this._storage.getItem(this._addressBookStorageKey).timestamp;
       }
 
-      return this.state.syncTimestamp;
+      return this.state.timestamp;
     }
   }, {
     key: "ttl",
@@ -809,11 +779,6 @@ function (_Pollable) {
     } // interface of contact source
 
   }, {
-    key: "contacts",
-    get: function get() {
-      return this._selectors.contacts();
-    }
-  }, {
     key: "sourceReady",
     get: function get() {
       return this.ready;
@@ -821,6 +786,44 @@ function (_Pollable) {
   }]);
 
   return AddressBook;
-}(_Pollable2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_syncAddressBookApi", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_syncAddressBookApi"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
+}(_Pollable2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_syncAddressBookApi", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_syncAddressBookApi"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "contacts", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this5 = this;
+
+    return [function () {
+      return _this5.rawContacts;
+    }, function (rawContacts) {
+      var contactsList = [];
+      rawContacts.forEach(function (rawContact) {
+        var contact = _objectSpread({
+          type: _this5.sourceName,
+          phoneNumbers: [],
+          emails: []
+        }, rawContact);
+
+        contact.id = "".concat(contact.id);
+        contact.name = "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
+        if (contact.email) contact.emails.push(contact.email);
+        if (contact.email2) contact.emails.push(contact.email2);
+        Object.keys(contact).forEach(function (key) {
+          if (key.toLowerCase().indexOf('phone') === -1) {
+            return;
+          }
+
+          if (typeof contact[key] !== 'string') {
+            return;
+          }
+
+          (0, _contactHelper.addPhoneToContact)(contact, contact[key], key);
+        });
+        contactsList.push(contact);
+      });
+      return contactsList;
+    }];
+  }
+})), _class2)) || _class);
 exports["default"] = AddressBook;
 //# sourceMappingURL=index.js.map

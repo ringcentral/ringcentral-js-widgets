@@ -50,6 +50,7 @@ exports.ringOut = ringOut;
 exports.ringOutUpdate = ringOutUpdate;
 exports.meeting = meeting;
 exports.serviceInfo = serviceInfo;
+exports.meetingProvider = meetingProvider;
 exports.recentActivity = recentActivity;
 exports.videoConfiguration = videoConfiguration;
 exports.mockForLogin = mockForLogin;
@@ -152,6 +153,8 @@ var _fetchDL = _interopRequireDefault(require("./data/fetchDL"));
 var _fetchDLWithNoRecord = _interopRequireDefault(require("./data/fetchDLWithNoRecord"));
 
 var _videoConfiguration = _interopRequireDefault(require("./data/videoConfiguration.json"));
+
+var _meetingProvider = _interopRequireDefault(require("./data/meetingProvider.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -718,6 +721,16 @@ function serviceInfo() {
     method: 'GET',
     url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/service-info"),
     body: _objectSpread({}, _serviceInfo["default"], mockResponse),
+    isOnce: false
+  });
+}
+
+function meetingProvider() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/video-configuration"),
+    body: _objectSpread({}, _meetingProvider["default"], mockResponse),
     isOnce: false
   });
 }

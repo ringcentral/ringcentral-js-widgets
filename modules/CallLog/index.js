@@ -36,13 +36,13 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.map");
 
-require("core-js/modules/es6.date.now");
-
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.date.to-iso-string");
+
+require("core-js/modules/es6.date.now");
 
 var _redux = require("redux");
 
@@ -131,7 +131,7 @@ var SYNC_DELAY = 30 * 1000;
 function processData(data) {
   return {
     records: data.records,
-    timestamp: new Date(data.syncInfo.syncTime).getTime(),
+    timestamp: Date.now(),
     syncToken: data.syncInfo.syncToken
   };
 }
@@ -182,7 +182,7 @@ function (_Pollable) {
    * @param {ExtensionInfo} params.extensionPhoneNumber - extensionPhoneNumber module instance
    * @param {Subscription} params.subscription - subscription module instance
    * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {Number} params.ttl - local cache timestamp
+   * @param {Number} params.ttl - local cache time
    * @param {Number} params.tokenExpiresIn - time for token expire
    * @param {Number} params.timeToRetry - waiting time to retry
    * @param {Number} params.daySpan - day span of call log

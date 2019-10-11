@@ -61,7 +61,9 @@ var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _di = require("../../lib/di");
 
-var _loginStatus = _interopRequireDefault(require("../../modules/Auth/loginStatus"));
+var _selector = require("../../lib/selector");
+
+var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
@@ -73,7 +75,7 @@ var _getContactSearchReducer = _interopRequireDefault(require("./getContactSearc
 
 var _getCacheReducer = _interopRequireDefault(require("./getCacheReducer"));
 
-var _dec, _class, _class2, _temp;
+var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -91,6 +93,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -107,13 +111,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -165,6 +171,9 @@ function (_RcModule) {
       actionTypes: _actionTypes["default"]
     })));
     _this.debouncedSearch = (0, _debounce["default"])(_this.search, 800, false);
+
+    _initializerDefineProperty(_this, "sortedResult", _descriptor, _assertThisInitialized(_this));
+
     _this._auth = auth;
     _this._storage = storage;
     _this._storageKey = storageKey;
@@ -604,14 +613,22 @@ function (_RcModule) {
     get: function get() {
       return this.searching ? this.searching.result : [];
     }
-  }, {
-    key: "sortedResult",
-    get: function get() {
-      return this._quickSort(this.searching);
-    }
   }]);
 
   return ContactSearch;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "search", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "search"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_searchSource", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_searchSource"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "search", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "search"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_searchSource", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_searchSource"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sortedResult", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return [function () {
+      return _this4.searching;
+    }, function (searching) {
+      return _this4._quickSort(searching);
+    }];
+  }
+})), _class2)) || _class);
 exports["default"] = ContactSearch;
 //# sourceMappingURL=index.js.map

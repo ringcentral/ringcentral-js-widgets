@@ -41,6 +41,8 @@ var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _di = require("../../lib/di");
 
+var _selector = require("../../lib/selector");
+
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _getContactDetailsReducer = _interopRequireDefault(require("./getContactDetailsReducer"));
@@ -53,11 +55,13 @@ var _phoneTypes = _interopRequireDefault(require("../../enums/phoneTypes"));
 
 var _phoneTypeHelper = require("../../lib/phoneTypeHelper");
 
-var _dec, _class, _class2;
+var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -75,13 +79,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -90,7 +96,7 @@ var ContactDetails = (_dec = (0, _di.Module)({
     dep: 'ContactDetailsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_RcModule) {
   _inherits(ContactDetails, _RcModule);
@@ -106,47 +112,13 @@ function (_RcModule) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ContactDetails).call(this, _objectSpread({}, options, {
       actionTypes: _actionTypes["default"]
     })));
+
+    _initializerDefineProperty(_this, "currentContact", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "contact", _descriptor2, _assertThisInitialized(_this));
+
     _this._contacts = contacts;
     _this._reducer = (0, _getContactDetailsReducer["default"])(_this.actionTypes);
-
-    _this.addSelector('currentContact', function () {
-      return _this.condition;
-    }, function () {
-      return _this._contacts.allContacts;
-    }, function (condition) {
-      if (condition) {
-        return _this._contacts.find(condition);
-      }
-
-      return null;
-    });
-
-    _this.addSelector('currentSortedContact', function () {
-      return _this.currentContact;
-    }, function (currentContact) {
-      if (!currentContact) return null;
-      var phoneNumbers;
-
-      if (currentContact.rawPhoneNumbers && currentContact.rawPhoneNumbers.length > 0) {
-        phoneNumbers = currentContact.rawPhoneNumbers;
-      } else {
-        phoneNumbers = currentContact.phoneNumbers;
-      }
-
-      var phoneMaps = (0, _ramda.reduce)(function (acc, phoneNumberElm) {
-        acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
-        acc[phoneNumberElm.phoneType].push(phoneNumberElm);
-        return acc;
-      }, {}, phoneNumbers);
-      var schema = (0, _ramda.filter)(function (key) {
-        return !!_phoneTypes["default"][key] && Array.isArray(phoneMaps[key]);
-      }, _phoneTypeHelper.phoneTypeOrder);
-      return _objectSpread({}, currentContact, {
-        schema: schema,
-        phoneMaps: phoneMaps
-      });
-    });
-
     return _this;
   }
 
@@ -234,16 +206,6 @@ function (_RcModule) {
       });
     }
   }, {
-    key: "currentContact",
-    get: function get() {
-      return this._selectors.currentContact();
-    }
-  }, {
-    key: "contact",
-    get: function get() {
-      return this._selectors.currentSortedContact();
-    }
-  }, {
     key: "condition",
     get: function get() {
       return this.state.condition;
@@ -256,6 +218,58 @@ function (_RcModule) {
   }]);
 
   return ContactDetails;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "find", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "find"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clear", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clear"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "find", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "find"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clear", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clear"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "currentContact", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return [function () {
+      return _this3.condition;
+    }, function () {
+      return _this3._contacts.allContacts;
+    }, function (condition) {
+      if (condition) {
+        return _this3._contacts.find(condition);
+      }
+
+      return null;
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "contact", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return [function () {
+      return _this4.currentContact;
+    }, function (currentContact) {
+      if (!currentContact) return null;
+      var phoneNumbers;
+
+      if (currentContact.rawPhoneNumbers && currentContact.rawPhoneNumbers.length > 0) {
+        phoneNumbers = currentContact.rawPhoneNumbers;
+      } else {
+        phoneNumbers = currentContact.phoneNumbers;
+      }
+
+      var phoneMaps = (0, _ramda.reduce)(function (acc, phoneNumberElm) {
+        acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
+        acc[phoneNumberElm.phoneType].push(phoneNumberElm);
+        return acc;
+      }, {}, phoneNumbers);
+      var schema = (0, _ramda.filter)(function (key) {
+        return !!_phoneTypes["default"][key] && Array.isArray(phoneMaps[key]);
+      }, _phoneTypeHelper.phoneTypeOrder);
+      return _objectSpread({}, currentContact, {
+        schema: schema,
+        phoneMaps: phoneMaps
+      });
+    }];
+  }
+})), _class2)) || _class);
 exports["default"] = ContactDetails;
 //# sourceMappingURL=index.js.map

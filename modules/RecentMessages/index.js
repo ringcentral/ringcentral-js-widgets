@@ -25,6 +25,8 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.object.assign");
 
+require("core-js/modules/es6.array.reduce");
+
 require("core-js/modules/es6.array.sort");
 
 require("core-js/modules/es6.array.find");
@@ -45,8 +47,6 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.array.reduce");
-
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
@@ -54,6 +54,8 @@ var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _di = require("../../lib/di");
+
+var _selector = require("../../lib/selector");
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
@@ -67,7 +69,7 @@ var _concurrentExecute = _interopRequireDefault(require("../../lib/concurrentExe
 
 var _messageHelper = require("../../lib/messageHelper");
 
-var _dec, _class, _class2;
+var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -76,6 +78,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -103,6 +107,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
 var RecentMessages = (
 /**
  * @class
@@ -110,7 +116,7 @@ var RecentMessages = (
  */
 _dec = (0, _di.Module)({
   deps: ['Client', 'MessageStore']
-}), _dec(_class = (_class2 =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_RcModule) {
   _inherits(RecentMessages, _RcModule);
@@ -135,21 +141,12 @@ function (_RcModule) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RecentMessages).call(this, _objectSpread({
       actionTypes: _actionTypes["default"]
     }, options)));
+
+    _initializerDefineProperty(_this, "unreadMessageCounts", _descriptor, _assertThisInitialized(_this));
+
     _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
     _this._messageStore = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, messageStore, 'messageStore');
     _this._reducer = (0, _getRecentMessagesReducer["default"])(_this.actionTypes);
-
-    _this.addSelector('unreadMessageCounts', function () {
-      return _this.messages;
-    }, function (messages) {
-      return Object.keys(messages).reduce(function (unreadCounts, contactId) {
-        unreadCounts[contactId] = messages[contactId].reduce(function (acc, cur) {
-          return acc + (cur.readStatus !== 'Read' ? 1 : 0);
-        }, 0);
-        return unreadCounts;
-      }, {});
-    });
-
     _this._prevMessageStoreTimestamp = null;
     return _this;
   }
@@ -489,11 +486,6 @@ function (_RcModule) {
       return this.state.messages;
     }
   }, {
-    key: "unreadMessageCounts",
-    get: function get() {
-      return this._selectors.unreadMessageCounts();
-    }
-  }, {
     key: "isMessagesLoaded",
     get: function get() {
       return this.state.messageStatus === _messageStatus["default"].loaded;
@@ -506,6 +498,24 @@ function (_RcModule) {
   }]);
 
   return RecentMessages;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "getMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMessages"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "unreadMessageCounts", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this5 = this;
+
+    return [function () {
+      return _this5.messages;
+    }, function (messages) {
+      return Object.keys(messages).reduce(function (unreadCounts, contactId) {
+        unreadCounts[contactId] = messages[contactId].reduce(function (acc, cur) {
+          return acc + (cur.readStatus !== 'Read' ? 1 : 0);
+        }, 0);
+        return unreadCounts;
+      }, {});
+    }];
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "getMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMessages"), _class2.prototype)), _class2)) || _class);
 exports["default"] = RecentMessages;
 //# sourceMappingURL=index.js.map

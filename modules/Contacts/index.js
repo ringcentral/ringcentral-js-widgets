@@ -262,15 +262,15 @@ function (_RcModule) {
       }
 
       if (source.getPresence && typeof source.getPresence !== 'function') {
-        throw new Error('Contacts: source\' getPresence must be a function');
+        throw new Error("Contacts: source' getPresence must be a function");
       }
 
       if (source.getProfileImage && typeof source.getProfileImage !== 'function') {
-        throw new Error('Contacts: source\' getProfileImage must be a function');
+        throw new Error("Contacts: source' getProfileImage must be a function");
       }
 
       if (source.matchPhoneNumber && typeof source.matchPhoneNumber !== 'function') {
-        throw new Error('Contacts: source\' matchPhoneNumber must be a function');
+        throw new Error("Contacts: source' matchPhoneNumber must be a function");
       }
 
       this._contactSources.set(source.sourceName, source);
@@ -451,7 +451,11 @@ function (_RcModule) {
       var _sync = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee3() {
-        var _i3, _Array$from3, sourceName, source;
+        var _i3,
+            _Array$from3,
+            sourceName,
+            source,
+            _args3 = arguments;
 
         return regeneratorRuntime.wrap(function _callee3$(_context4) {
           while (1) {
@@ -474,7 +478,7 @@ function (_RcModule) {
                 }
 
                 _context4.next = 7;
-                return source.sync();
+                return source.sync.apply(source, _args3);
 
               case 7:
                 _i3++;

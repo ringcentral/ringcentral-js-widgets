@@ -31,23 +31,23 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es7.object.values");
+
+require("core-js/modules/es6.array.for-each");
+
 require("core-js/modules/es6.regexp.match");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.string.iterator");
-
-require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.sort");
 
-require("core-js/modules/es6.array.for-each");
+require("core-js/modules/es6.array.find");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -55,9 +55,9 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es7.object.values");
+require("core-js/modules/es6.string.iterator");
 
-require("core-js/modules/es6.array.reduce");
+require("regenerator-runtime/runtime");
 
 var _di = require("../../lib/di");
 
@@ -77,15 +77,13 @@ var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _class, _class2;
+var _selector = require("../../lib/selector");
+
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -94,6 +92,12 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -123,6 +127,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function getLogId(_ref) {
@@ -148,7 +154,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     dep: 'ConversationLoggerOptions',
     optional: false
   }]
-}), _dec(_class = (_class2 =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_LoggerBase) {
   _inherits(ConversationLogger, _LoggerBase);
@@ -201,6 +207,13 @@ function (_LoggerBase) {
       actionTypes: _actionTypes["default"],
       identityFunction: conversationLogIdentityFunction
     })));
+
+    _initializerDefineProperty(_this, "conversationLogMap", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "conversationLogIds", _descriptor2, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "uniqueNumbers", _descriptor3, _assertThisInitialized(_this));
+
     _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
     _this._contactMatcher = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, contactMatcher, 'contactMatcher');
     _this._conversationMatcher = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, conversationMatcher, 'conversationMatcher');
@@ -225,98 +238,19 @@ function (_LoggerBase) {
       reducer: (0, _getDataReducer["default"])(_this.actionTypes)
     });
 
-    _this.addSelector('conversationLogMap', function () {
-      return _this._messageStore.conversationStore;
-    }, function () {
-      return _this._extensionInfo.extensionNumber;
-    }, function () {
-      return _this._conversationMatcher.dataMapping;
-    }, function (conversationStore, extensionNumber) {
-      var conversationLogMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      var messages = Object.values(conversationStore).reduce(function (allMessages, messages) {
-        return [].concat(_toConsumableArray(allMessages), _toConsumableArray(messages));
-      }, []);
-      var mapping = {};
-      messages.slice().sort(_messageHelper.sortByDate).forEach(function (message) {
-        var conversationId = message.conversationId;
-
-        var date = _this._formatDateTime({
-          type: 'date',
-          utcTimestamp: message.creationTime
-        });
-
-        if (!mapping[conversationId]) {
-          mapping[conversationId] = {};
-        }
-
-        if (!mapping[conversationId][date]) {
-          var conversationLogId = getLogId({
-            conversationId: conversationId,
-            date: date
-          });
-          mapping[conversationId][date] = _objectSpread({
-            conversationLogId: conversationLogId,
-            conversationId: conversationId,
-            creationTime: message.createTime,
-            // for sorting
-            date: date,
-            type: message.type,
-            messages: [],
-            conversationLogMatches: conversationLogMapping[conversationLogId] || []
-          }, (0, _messageHelper.getNumbersFromMessage)({
-            extensionNumber: extensionNumber,
-            message: message
-          }));
-        }
-
-        mapping[conversationId][date].messages.push(message);
-      });
-      return mapping;
-    });
-
-    _this.addSelector('conversationLogIds', _this._selectors.conversationLogMap, function (conversationLogMap) {
-      var logIds = [];
-      Object.keys(conversationLogMap).forEach(function (conversationId) {
-        Object.keys(conversationLogMap[conversationId]).forEach(function (date) {
-          logIds.push(conversationLogMap[conversationId][date].conversationLogId);
-        });
-      });
-      return logIds;
-    });
-
-    _this.addSelector('uniqueNumbers', _this._selectors.conversationLogMap, function (conversationLogMap) {
-      var output = [];
-      var numberMap = {};
-
-      function addIfNotExist() {
-        var contact = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        var number = contact.phoneNumber || contact.extensionNumber;
-
-        if (number && !numberMap[number]) {
-          output.push(number);
-          numberMap[number] = true;
-        }
-      }
-
-      Object.keys(conversationLogMap).forEach(function (conversationId) {
-        Object.keys(conversationLogMap[conversationId]).forEach(function (date) {
-          var conversation = conversationLogMap[conversationId][date];
-          addIfNotExist(conversation.self);
-          conversation.correspondents.forEach(addIfNotExist);
-        });
-      });
-      return output;
-    });
-
     _this._contactMatcher.addQuerySource({
-      getQueriesFn: _this._selectors.uniqueNumbers,
+      getQueriesFn: function getQueriesFn() {
+        return _this.uniqueNumbers;
+      },
       readyCheckFn: function readyCheckFn() {
         return _this._messageStore.ready && _this._extensionInfo.ready;
       }
     });
 
     _this._conversationMatcher.addQuerySource({
-      getQueriesFn: _this._selectors.conversationLogIds,
+      getQueriesFn: function getQueriesFn() {
+        return _this.conversationLogIds;
+      },
       readyCheckFn: function readyCheckFn() {
         return _this._messageStore.ready && _this._extensionInfo.ready;
       }
@@ -762,16 +696,6 @@ function (_LoggerBase) {
       return this._storage.getItem(this._storageKey).autoLog;
     }
   }, {
-    key: "conversationLogMap",
-    get: function get() {
-      return this._selectors.conversationLogMap();
-    }
-  }, {
-    key: "conversationLogIds",
-    get: function get() {
-      return this._selectors.conversationLogIds();
-    }
-  }, {
     key: "dataMapping",
     get: function get() {
       return this._conversationMatcher.dataMapping;
@@ -779,6 +703,114 @@ function (_LoggerBase) {
   }]);
 
   return ConversationLogger;
-}(_LoggerBase2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype)), _class2)) || _class);
+}(_LoggerBase2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "conversationLogMap", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this7 = this;
+
+    return [function () {
+      return _this7._messageStore.conversationStore;
+    }, function () {
+      return _this7._extensionInfo.extensionNumber;
+    }, function () {
+      return _this7._conversationMatcher.dataMapping;
+    }, function (conversationStore, extensionNumber) {
+      var conversationLogMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var messages = Object.values(conversationStore).reduce(function (allMessages, messages) {
+        return [].concat(_toConsumableArray(allMessages), _toConsumableArray(messages));
+      }, []);
+      var mapping = {};
+      messages.slice().sort(_messageHelper.sortByDate).forEach(function (message) {
+        var conversationId = message.conversationId;
+
+        var date = _this7._formatDateTime({
+          type: 'date',
+          utcTimestamp: message.creationTime
+        });
+
+        if (!mapping[conversationId]) {
+          mapping[conversationId] = {};
+        }
+
+        if (!mapping[conversationId][date]) {
+          var conversationLogId = getLogId({
+            conversationId: conversationId,
+            date: date
+          });
+          mapping[conversationId][date] = _objectSpread({
+            conversationLogId: conversationLogId,
+            conversationId: conversationId,
+            creationTime: message.creationTime,
+            // for sorting
+            date: date,
+            type: message.type,
+            messages: [],
+            conversationLogMatches: conversationLogMapping[conversationLogId] || []
+          }, (0, _messageHelper.getNumbersFromMessage)({
+            extensionNumber: extensionNumber,
+            message: message
+          }));
+        }
+
+        mapping[conversationId][date].messages.push(message);
+      });
+      return mapping;
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "conversationLogIds", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this8 = this;
+
+    return [function () {
+      return _this8.conversationLogMap;
+    }, function (conversationLogMap) {
+      var logIds = [];
+      Object.keys(conversationLogMap).forEach(function (conversationId) {
+        Object.keys(conversationLogMap[conversationId]).forEach(function (date) {
+          logIds.push(conversationLogMap[conversationId][date].conversationLogId);
+        });
+      });
+      return logIds;
+    }];
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this9 = this;
+
+    return [function () {
+      return _this9.conversationLogMap;
+    }, function (conversationLogMap) {
+      var output = [];
+      var numberMap = {};
+
+      function addIfNotExist() {
+        var contact = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var number = contact.phoneNumber || contact.extensionNumber;
+
+        if (number && !numberMap[number]) {
+          output.push(number);
+          numberMap[number] = true;
+        }
+      }
+
+      Object.keys(conversationLogMap).forEach(function (conversationId) {
+        Object.keys(conversationLogMap[conversationId]).forEach(function (date) {
+          var conversation = conversationLogMap[conversationId][date];
+          addIfNotExist(conversation.self);
+          conversation.correspondents.forEach(addIfNotExist);
+        });
+      });
+      return output;
+    }];
+  }
+})), _class2)) || _class);
 exports["default"] = ConversationLogger;
 //# sourceMappingURL=index.js.map

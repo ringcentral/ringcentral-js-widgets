@@ -1468,7 +1468,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           composeText.addToNumber({
                             phoneNumber: '855899001'
                           });
-                          composeText.updateMessageText("test sender");
+                          composeText.updateMessageText('test sender');
                           _context40.prev = 3;
                           _context40.next = 6;
                           return composeText.send();

@@ -209,6 +209,7 @@ function getActiveSessionIdReducer(types) {
     switch (type) {
       case types.callInit:
       case types.callStart:
+      case types.callResume:
         return session.id;
 
       case types.callEnd:
@@ -295,9 +296,9 @@ function getLastEndedSessionsReducer(types) {
         {
           if (
           /**
-          * don't add incoming call that isn't relied by current app
-          *   to end sessions. this call can be answered by other apps
-          */
+           * don't add incoming call that isn't relied by current app
+           *   to end sessions. this call can be answered by other apps
+           */
           !session.startTime && !session.isToVoicemail && !session.isForwarded && !session.isReplied) {
             return state;
           }

@@ -7,9 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.moduleActionTypes = void 0;
 
-var _Enum = _interopRequireDefault(require("../lib/Enum"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _Enum = require("../lib/Enum");
 
 /**
  * @typedef {Object} ModuleActionTypes
@@ -18,10 +16,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * @property {String} reset
  * @property {String} resetSuccess
  */
-
-/**
- * @type {ModuleActionTypes}
- */
-var moduleActionTypes = new _Enum["default"](['init', 'initSuccess', 'reset', 'resetSuccess']);
+var moduleActionTypes = (0, _Enum.createEnum)(['init', 'initSuccess', 'reset', 'resetSuccess']);
 exports.moduleActionTypes = moduleActionTypes;
 //# sourceMappingURL=moduleActionTypes.js.map

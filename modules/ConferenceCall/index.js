@@ -1632,8 +1632,8 @@ function (_RcModule) {
       return true;
     }
     /*
-    * User action track dispatchs
-    * */
+     * User action track dispatchs
+     * */
 
   }, {
     key: "participantListClickHangupTrack",

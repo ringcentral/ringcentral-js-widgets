@@ -206,11 +206,6 @@ function (_DataFetcher) {
       return 'dialingPlan';
     }
   }, {
-    key: "plans",
-    get: function get() {
-      return this._selectors.plans();
-    }
-  }, {
     key: "status",
     get: function get() {
       return this.state.status;
