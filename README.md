@@ -42,7 +42,7 @@ For production build and deploy, please get more information in [here](packages/
 
 ### Tutorials
 
-This is a [demo](https://github.com/embbnux/ringcentral-widgets-demo) and [step-by-step tutorials](https://embbnux.github.io/ringcentral-widgets-demo/) show how to use this library.
+This is a [demo](https://github.com/ringcentral-tutorials/ringcentral-widgets-demo) and [step-by-step tutorials](https://ringcentral-tutorials.github.io/ringcentral-widgets-demo/) show how to use this library.
 
 ## Contribution and Development
 
