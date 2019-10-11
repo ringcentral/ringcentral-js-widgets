@@ -1,11 +1,14 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
 import sinon from 'sinon';
-import {
-  Injector
-} from '../';
+import { Injector } from '../';
 import Registry from '../registry/registry';
-import { ClassProvider, ExistingProvider, ValueProvider, FactoryProvider } from '../provider';
+import {
+  ClassProvider,
+  ExistingProvider,
+  ValueProvider,
+  FactoryProvider,
+} from '../provider';
 
 chai.use(dirtyChai);
 
@@ -36,13 +39,15 @@ describe('Injector', () => {
         const injector = new Injector();
         injector.universalProviders.set(
           'Provider',
-          new ClassProvider('Provider', Provider)
+          new ClassProvider('Provider', Provider),
         );
         injector.universalProviders.set(
           'Exist',
-          new ExistingProvider('Exist', 'Provider')
+          new ExistingProvider('Exist', 'Provider'),
         );
-        injector.resolveModuleProvider(injector.universalProviders.get('Exist'));
+        injector.resolveModuleProvider(
+          injector.universalProviders.get('Exist'),
+        );
         expect(injector.container._map.size).to.equal(2);
         expect(injector.get('Exist')).to.be.an.instanceof(Provider);
       });
@@ -55,13 +60,16 @@ describe('Injector', () => {
         injector.setParent(parentInjector);
         parentInjector.universalProviders.set(
           'Provider',
-          new ClassProvider('Provider', Provider)
+          new ClassProvider('Provider', Provider),
         );
         injector.universalProviders.set(
           'Exist',
-          new ExistingProvider('Exist', 'Provider')
+          new ExistingProvider('Exist', 'Provider'),
         );
-        const func = () => injector.resolveModuleProvider(injector.universalProviders.get('Exist'));
+        const func = () =>
+          injector.resolveModuleProvider(
+            injector.universalProviders.get('Exist'),
+          );
         expect(func).to.throw();
       });
 
@@ -70,13 +78,15 @@ describe('Injector', () => {
         const injector = new Injector();
         injector.universalProviders.set(
           'ValueProvider',
-          new ValueProvider('ValueProvider', val)
+          new ValueProvider('ValueProvider', val),
         );
         injector.universalProviders.set(
           'Exist',
-          new ExistingProvider('Exist', 'ValueProvider')
+          new ExistingProvider('Exist', 'ValueProvider'),
         );
-        injector.resolveModuleProvider(injector.universalProviders.get('Exist'));
+        injector.resolveModuleProvider(
+          injector.universalProviders.get('Exist'),
+        );
         expect(injector.container._map.size).to.equal(2);
         expect(injector.get('Exist')).to.equal(val);
       });
@@ -86,13 +96,15 @@ describe('Injector', () => {
         const injector = new Injector();
         injector.universalProviders.set(
           'FactoryProvider',
-          new ValueProvider('FactoryProvider', func)
+          new ValueProvider('FactoryProvider', func),
         );
         injector.universalProviders.set(
           'Exist',
-          new ExistingProvider('Exist', 'FactoryProvider')
+          new ExistingProvider('Exist', 'FactoryProvider'),
         );
-        injector.resolveModuleProvider(injector.universalProviders.get('Exist'));
+        injector.resolveModuleProvider(
+          injector.universalProviders.get('Exist'),
+        );
         expect(injector.container._map.size).to.equal(2);
         expect(injector.get('Exist')).to.equal(func);
       });
@@ -107,15 +119,15 @@ describe('Injector', () => {
         injector.setParent(parentInjector);
         parentInjector.universalProviders.set(
           'Provider',
-          new ClassProvider('Provider', Provider)
+          new ClassProvider('Provider', Provider),
         );
-        injector.resolveModuleProvider(parentInjector.universalProviders.get('Provider'));
+        injector.resolveModuleProvider(
+          parentInjector.universalProviders.get('Provider'),
+        );
         expect(injector.container.localHas('Provider')).to.be.true();
         expect(parentInjector.container.localHas('Provider')).to.be.true();
-        expect(
-          parentInjector.container.localGet('Provider')
-        ).to.equal(
-          injector.container.localGet('Provider')
+        expect(parentInjector.container.localGet('Provider')).to.equal(
+          injector.container.localGet('Provider'),
         );
       });
     });
@@ -177,7 +189,7 @@ describe('Injector', () => {
         injector.resolveModuleProvider(provider);
         expect(injector.container.get('Config').instance).to.deep.equal({
           spread: true,
-          value: config
+          value: config,
         });
       });
     });
@@ -197,16 +209,13 @@ describe('Injector', () => {
         Registry.registerModule(Dep);
         injector.universalProviders.set(
           'Factory',
-          new FactoryProvider('Factory', dep => ({ dep }), ['Dep'])
+          new FactoryProvider('Factory', (dep) => ({ dep }), ['Dep']),
         );
-        injector.universalProviders.set(
-          'Dep',
-          new ClassProvider('Dep', Dep)
+        injector.universalProviders.set('Dep', new ClassProvider('Dep', Dep));
+        injector.resolveModuleProvider(
+          injector.universalProviders.get('Factory'),
         );
-        injector.resolveModuleProvider(injector.universalProviders.get('Factory'));
-        expect(injector.get('Factory').dep.dep).to.equal(
-          injector.get('Dep')
-        );
+        expect(injector.get('Factory').dep.dep).to.equal(injector.get('Dep'));
       });
 
       it('should support optional deps', () => {
@@ -215,20 +224,16 @@ describe('Injector', () => {
         Registry.registerModule(Dep);
         injector.universalProviders.set(
           'Factory',
-          new FactoryProvider(
-            'Factory',
-            dep => ({ dep }),
-            ['Dep', { dep: 'OptionalDep', optional: true }]
-          )
+          new FactoryProvider('Factory', (dep) => ({ dep }), [
+            'Dep',
+            { dep: 'OptionalDep', optional: true },
+          ]),
         );
-        injector.universalProviders.set(
-          'Dep',
-          new ClassProvider('Dep', Dep)
+        injector.universalProviders.set('Dep', new ClassProvider('Dep', Dep));
+        injector.resolveModuleProvider(
+          injector.universalProviders.get('Factory'),
         );
-        injector.resolveModuleProvider(injector.universalProviders.get('Factory'));
-        expect(injector.get('Factory').dep.dep).to.equal(
-          injector.get('Dep')
-        );
+        expect(injector.get('Factory').dep.dep).to.equal(injector.get('Dep'));
       });
     });
 
@@ -247,7 +252,7 @@ describe('Injector', () => {
         class TestModule {}
         const injector = new Injector();
         Registry.registerModule(TestModule, {
-          deps: ['DependentModule1', 'DependentModule2']
+          deps: ['DependentModule1', 'DependentModule2'],
         });
         const provider = new ClassProvider('TestModule', TestModule);
         sinon.stub(injector, 'resolveDependencies').callsFake(() => null);
@@ -262,11 +267,13 @@ describe('Injector', () => {
         injector.setParent(parentInjector);
 
         Registry.registerModuleFactory(ModuleProvider, {
-          providers: []
+          providers: [],
         });
 
         const provider = new ClassProvider('ModuleProvider', ModuleProvider);
-        sinon.stub(injector, 'resolveModuleFactoryProvider').callsFake(() => null);
+        sinon
+          .stub(injector, 'resolveModuleFactoryProvider')
+          .callsFake(() => null);
         injector.resolveModuleProvider(provider);
         expect(injector.resolveModuleFactoryProvider.calledOnce).to.be.true();
       });
@@ -285,7 +292,11 @@ describe('Injector', () => {
     it('should throw an error when circular dependency is found', () => {
       Injector.pending.add('Test');
       const injector = new Injector();
-      const throws = () => injector.resolveDependencies([{ dep: 'Test', optional: false }], Injector.pending);
+      const throws = () =>
+        injector.resolveDependencies(
+          [{ dep: 'Test', optional: false }],
+          Injector.pending,
+        );
       expect(throws).to.throw();
     });
 
@@ -293,16 +304,18 @@ describe('Injector', () => {
       class FakeProvider {}
       const provider = new ClassProvider('Test', FakeProvider);
       const injector = new Injector();
-      injector.universalProviders.set(
-        'Test',
-        provider
-      );
+      injector.universalProviders.set('Test', provider);
       sinon.stub(injector, 'resolveModuleProvider').callsFake((p) => {
         expect(p).to.equal(provider);
       });
       try {
-        injector.resolveDependencies([{ dep: 'Test', optional: false }], new Set());
-      } catch (e) { /* Ignore */ }
+        injector.resolveDependencies(
+          [{ dep: 'Test', optional: false }],
+          new Set(),
+        );
+      } catch (e) {
+        /* Ignore */
+      }
       expect(injector.resolveModuleProvider.called).to.be.true();
     });
 
@@ -310,24 +323,38 @@ describe('Injector', () => {
       const injector = new Injector();
       const pInjector = new Injector();
       injector.setParent(pInjector);
-      sinon.stub(pInjector, 'resolveModuleProviderForChildren').callsFake(() => {});
+      sinon
+        .stub(pInjector, 'resolveModuleProviderForChildren')
+        .callsFake(() => {});
       try {
-        injector.resolveDependencies([{ dep: 'Test', optional: false }], new Set());
-      } catch (e) { /* Ingore */ }
+        injector.resolveDependencies(
+          [{ dep: 'Test', optional: false }],
+          new Set(),
+        );
+      } catch (e) {
+        /* Ingore */
+      }
       expect(pInjector.resolveModuleProviderForChildren.called).to.be.true();
     });
 
     it('should support optional dependency', () => {
       const injector = new Injector();
-      const deps = injector.resolveDependencies([{ dep: 'Test', optional: true }], new Set());
+      const deps = injector.resolveDependencies(
+        [{ dep: 'Test', optional: true }],
+        new Set(),
+      );
       expect(deps).to.deep.equal({
-        injector
+        injector,
       });
     });
 
     it('should support throw an error when dep is not optional and it can not be found', () => {
       const injector = new Injector();
-      const throws = () => injector.resolveDependencies([{ dep: 'Test', optional: false }], new Set());
+      const throws = () =>
+        injector.resolveDependencies(
+          [{ dep: 'Test', optional: false }],
+          new Set(),
+        );
       expect(throws).to.throw();
     });
 
@@ -338,10 +365,13 @@ describe('Injector', () => {
       p.setInstance(instance);
       const injector = new Injector();
       injector.container.set('Test', p);
-      const deps = injector.resolveDependencies([{ dep: 'Test', optional: true }], new Set());
+      const deps = injector.resolveDependencies(
+        [{ dep: 'Test', optional: true }],
+        new Set(),
+      );
       expect(deps).to.deep.equal({
         injector,
-        test: instance
+        test: instance,
       });
     });
 
@@ -350,14 +380,17 @@ describe('Injector', () => {
       const p = new ValueProvider('Test', val, true);
       p.setInstance({
         spread: true,
-        value: val
+        value: val,
       });
       const injector = new Injector();
       injector.container.set('Test', p);
-      const deps = injector.resolveDependencies([{ dep: 'Test', optional: false }], new Set());
+      const deps = injector.resolveDependencies(
+        [{ dep: 'Test', optional: false }],
+        new Set(),
+      );
       expect(deps).to.deep.equal({
         injector,
-        val: 'val'
+        val: 'val',
       });
     });
 
@@ -380,7 +413,9 @@ describe('Injector', () => {
     it('should resolve module from parent injector', () => {
       const pInjector = new Injector();
       const injector = new Injector();
-      sinon.stub(pInjector, 'resolveModuleProviderForChildren').callsFake(() => {});
+      sinon
+        .stub(pInjector, 'resolveModuleProviderForChildren')
+        .callsFake(() => {});
       injector.setParent(pInjector);
       injector.resolveModuleProviderForChildren('Test');
       expect(pInjector.resolveModuleProviderForChildren.called).to.be.true();
@@ -404,7 +439,9 @@ describe('Injector', () => {
       const injector = new Injector();
       sinon.stub(Injector, 'bootstrap').callsFake(() => instance);
       injector.resolveModuleFactoryProvider(new ClassProvider('Test', T));
-      expect(injector.container.get('Test').getInstance()).to.be.equal(instance);
+      expect(injector.container.get('Test').getInstance()).to.be.equal(
+        instance,
+      );
     });
   });
 
@@ -427,13 +464,13 @@ describe('Injector', () => {
         const injector = new Injector();
         sinon.stub(injector, 'resolveModuleProvider').callsFake(() => null);
         Registry.registerModuleFactory(Test, {
-          providers: [
-            { provide: 'Test', useValue: val }
-          ]
+          providers: [{ provide: 'Test', useValue: val }],
         });
         injector._bootstrap(Test);
         expect(injector.universalProviders.size).to.equal(1);
-        expect(injector.universalProviders.get('Test')).to.be.instanceof(ValueProvider);
+        expect(injector.universalProviders.get('Test')).to.be.instanceof(
+          ValueProvider,
+        );
       });
 
       it('should process Value Provider', () => {
@@ -442,13 +479,13 @@ describe('Injector', () => {
         const injector = new Injector();
         sinon.stub(injector, 'resolveModuleProvider').callsFake(() => null);
         Registry.registerModuleFactory(Test, {
-          providers: [
-            { provide: 'Test', useValue: val }
-          ]
+          providers: [{ provide: 'Test', useValue: val }],
         });
         injector._bootstrap(Test);
         expect(injector.universalProviders.size).to.equal(1);
-        expect(injector.universalProviders.get('Test')).to.be.instanceof(ValueProvider);
+        expect(injector.universalProviders.get('Test')).to.be.instanceof(
+          ValueProvider,
+        );
       });
 
       it('should process Class Provider', () => {
@@ -457,13 +494,13 @@ describe('Injector', () => {
         const injector = new Injector();
         sinon.stub(injector, 'resolveModuleProvider').callsFake(() => null);
         Registry.registerModuleFactory(Test, {
-          providers: [
-            { provide: 'Klass', useClass: Klass }
-          ]
+          providers: [{ provide: 'Klass', useClass: Klass }],
         });
         injector._bootstrap(Test);
         expect(injector.universalProviders.size).to.equal(1);
-        expect(injector.universalProviders.get('Klass')).to.be.instanceof(ClassProvider);
+        expect(injector.universalProviders.get('Klass')).to.be.instanceof(
+          ClassProvider,
+        );
       });
 
       it('should process Existing Provider', () => {
@@ -474,12 +511,14 @@ describe('Injector', () => {
         Registry.registerModuleFactory(Test, {
           providers: [
             { provide: 'Klass', useClass: Klass },
-            { provide: 'ExistingKlass', useExisting: 'Klass' }
-          ]
+            { provide: 'ExistingKlass', useExisting: 'Klass' },
+          ],
         });
         injector._bootstrap(Test);
         expect(injector.universalProviders.size).to.equal(2);
-        expect(injector.universalProviders.get('ExistingKlass')).to.be.instanceof(ExistingProvider);
+        expect(
+          injector.universalProviders.get('ExistingKlass'),
+        ).to.be.instanceof(ExistingProvider);
       });
 
       it('should process Factory Provider', () => {
@@ -488,13 +527,13 @@ describe('Injector', () => {
         const injector = new Injector();
         sinon.stub(injector, 'resolveModuleProvider').callsFake(() => null);
         Registry.registerModuleFactory(Test, {
-          providers: [
-            { provide: 'Factory', useFactory: fn }
-          ]
+          providers: [{ provide: 'Factory', useFactory: fn }],
         });
         injector._bootstrap(Test);
         expect(injector.universalProviders.size).to.equal(1);
-        expect(injector.universalProviders.get('Factory')).to.be.instanceof(FactoryProvider);
+        expect(injector.universalProviders.get('Factory')).to.be.instanceof(
+          FactoryProvider,
+        );
         expect(injector.universalProviders.get('Factory').func).to.equal(fn);
       });
 
@@ -503,9 +542,7 @@ describe('Injector', () => {
         const injector = new Injector();
         sinon.stub(injector, 'resolveModuleProvider').callsFake(() => null);
         Registry.registerModuleFactory(Test, {
-          providers: [
-            { provide: 'Factory' }
-          ]
+          providers: [{ provide: 'Factory' }],
         });
         const throws = () => injector._bootstrap(Test);
         expect(throws).to.throw();
@@ -521,8 +558,8 @@ describe('Injector', () => {
         Registry.registerModuleFactory(Test, {
           providers: [
             { provide: 'A', useClass: A },
-            { provide: 'A', useClass: A }
-          ]
+            { provide: 'A', useClass: A },
+          ],
         });
         injector._bootstrap(Test);
         expect(injector.resolveModuleProvider.calledOnce).to.be.true();
@@ -532,12 +569,12 @@ describe('Injector', () => {
         class A {}
         class Test {}
         const injector = new Injector();
-        sinon.stub(injector, 'resolveModuleFactoryProvider').callsFake(() => null);
+        sinon
+          .stub(injector, 'resolveModuleFactoryProvider')
+          .callsFake(() => null);
         Registry.registerModuleFactory(A, {});
         Registry.registerModuleFactory(Test, {
-          providers: [
-            { provide: 'A', useClass: A },
-          ]
+          providers: [{ provide: 'A', useClass: A }],
         });
         injector._bootstrap(Test);
         expect(injector.resolveModuleFactoryProvider.called).to.be.true();
@@ -563,7 +600,7 @@ describe('Injector', () => {
         providers: [
           { provide: 'A', useClass: A },
           { provide: 'B', useClass: B },
-        ]
+        ],
       });
       sinon.stub(injector, 'resolveModuleProvider').callsFake(() => null);
       injector.container.set('A', p1);

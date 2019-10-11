@@ -29,11 +29,13 @@ export default class ModuleRegistry {
 
   resolve(moduleRef, metadata) {
     if (!this._map.has(moduleRef)) {
-      throw DIError(`Cannot resolve module metadata [${moduleRef}]: module is not found`);
+      throw DIError(
+        `Cannot resolve module metadata [${moduleRef}]: module is not found`,
+      );
     }
     this._map.set(moduleRef, {
       metadata,
-      resolved: true
+      resolved: true,
     });
   }
 

@@ -41,8 +41,7 @@ describe('DateTimeFormat Unit Test', () => {
           sinon.stub(dateTimeFormat, 'pending', {
             get: () => pending,
           });
-          expect(dateTimeFormat._shouldInit())
-            .to.equal(expectedResult);
+          expect(dateTimeFormat._shouldInit()).to.equal(expectedResult);
         });
       });
     });
@@ -61,8 +60,7 @@ describe('DateTimeFormat Unit Test', () => {
           sinon.stub(dateTimeFormat, 'ready', {
             get: () => ready,
           });
-          expect(dateTimeFormat._shouldReset())
-            .to.equal(expectedResult);
+          expect(dateTimeFormat._shouldReset()).to.equal(expectedResult);
         });
       });
     });
@@ -75,7 +73,9 @@ describe('DateTimeFormat Unit Test', () => {
       dateTimeFormat.store.subscribe(checker);
       dateTimeFormat._onStateChange();
       sinon.assert.calledTwice(checker);
-      expect(dateTimeFormat.store.getState().status).to.equal(moduleStatuses.ready);
+      expect(dateTimeFormat.store.getState().status).to.equal(
+        moduleStatuses.ready,
+      );
       expect(dateTimeFormat._defaultFormatter).to.be.a('function');
     });
     it('should reset module when _shouldReset() is true', () => {
@@ -88,7 +88,9 @@ describe('DateTimeFormat Unit Test', () => {
       dateTimeFormat.store.subscribe(checker);
       dateTimeFormat._onStateChange();
       sinon.assert.calledTwice(checker);
-      expect(dateTimeFormat.store.getState().status).to.equal(moduleStatuses.pending);
+      expect(dateTimeFormat.store.getState().status).to.equal(
+        moduleStatuses.pending,
+      );
     });
 
     it('should not do anything else', () => {
@@ -105,7 +107,7 @@ describe('DateTimeFormat Unit Test', () => {
     it('should add formatter function to the module', () => {
       const module = new DateTimeFormat({ locale: {} });
       const name = 'foo';
-      const formatter = () => { };
+      const formatter = () => {};
       module.addFormatter({
         name,
         formatter,
@@ -115,7 +117,7 @@ describe('DateTimeFormat Unit Test', () => {
     [null, undefined, ''].forEach((value) => {
       it(`should throw if name is ${JSON.stringify(value)}`, () => {
         const module = new DateTimeFormat({ locale: {} });
-        const formatter = () => { };
+        const formatter = () => {};
         expect(() => {
           module.addFormatter({
             name: value,
@@ -141,12 +143,12 @@ describe('DateTimeFormat Unit Test', () => {
       const name = 'foo';
       module.addFormatter({
         name,
-        formatter: () => { },
+        formatter: () => {},
       });
       expect(() => {
         module.addFormatter({
           name,
-          formatter: () => { },
+          formatter: () => {},
         });
       }).to.throw();
     });
@@ -221,11 +223,10 @@ describe('DateTimeFormat Unit Test', () => {
       };
       sinon.stub(module, 'formatDateTime');
       module.formatDate(options);
-      expect(module.formatDateTime.args[0][0])
-        .to.deep.equal({
-          ...options,
-          type: 'date',
-        });
+      expect(module.formatDateTime.args[0][0]).to.deep.equal({
+        ...options,
+        type: 'date',
+      });
     });
   });
   describe('formatTime', () => {
@@ -238,11 +239,10 @@ describe('DateTimeFormat Unit Test', () => {
       };
       sinon.stub(module, 'formatDateTime');
       module.formatTime(options);
-      expect(module.formatDateTime.args[0][0])
-        .to.deep.equal({
-          ...options,
-          type: 'time',
-        });
+      expect(module.formatDateTime.args[0][0]).to.deep.equal({
+        ...options,
+        type: 'time',
+      });
     });
   });
 });

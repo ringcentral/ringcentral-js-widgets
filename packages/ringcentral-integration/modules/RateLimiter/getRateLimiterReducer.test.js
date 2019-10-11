@@ -19,20 +19,23 @@ describe('getTimestampReducer', () => {
     });
     it('should return originalState if type is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.timestamp on startThrottle', () => {
       const now = Date.now();
-      expect(reducer(null, {
-        type: actionTypes.startThrottle,
-        timestamp: now,
-      })).to.equal(now);
+      expect(
+        reducer(null, {
+          type: actionTypes.startThrottle,
+          timestamp: now,
+        }),
+      ).to.equal(now);
     });
     it('should return null on stopThrottle', () => {
-      expect(reducer(null, {
-        type: actionTypes.stopThrottle,
-      })).to.null;
+      expect(
+        reducer(null, {
+          type: actionTypes.stopThrottle,
+        }),
+      ).to.null;
     });
   });
 });

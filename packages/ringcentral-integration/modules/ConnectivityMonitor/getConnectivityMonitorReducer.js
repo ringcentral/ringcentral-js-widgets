@@ -28,7 +28,6 @@ export function getNetworkLossReducer(types) {
   };
 }
 
-
 export default function getConnectivityMonitorReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),

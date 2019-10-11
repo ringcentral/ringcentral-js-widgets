@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const WRAPPER = Symbol('wrapper');
+const SELECTORS = Symbol('selectors');
 
 /**
  * @function
@@ -11,17 +11,19 @@ export function selector(prototype, property, { initializer }) {
     configurable: true,
     enumerable: true,
     get() {
-      if (!this[WRAPPER]) {
-        this[WRAPPER] = {};
+      if (!this[SELECTORS]) {
+        this[SELECTORS] = new Map();
       }
-      if (!this[WRAPPER][property]) {
+      if (!this[SELECTORS].has(prototype)) {
+        this[SELECTORS].set(prototype, new Map());
+      }
+      const proto = this[SELECTORS].get(prototype);
+      if (!proto.has(property)) {
         const targetSymbol = Symbol(`${property}-target`);
-
         this[targetSymbol] = createSelector(...this::initializer());
-
-        this[WRAPPER][property] = () => this[targetSymbol]();
+        proto.set(property, () => this[targetSymbol]());
       }
-      return this[WRAPPER][property]();
-    }
+      return proto.get(property)();
+    },
   };
 }

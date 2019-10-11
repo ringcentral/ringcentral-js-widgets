@@ -1,4 +1,3 @@
-
 /**
  * @function
  * @description Decorator function that make the class method run only once.

@@ -20,8 +20,8 @@ const SUPPORTED_LOCALES = {
     'Storage',
     'Webphone',
     'RolesAndPermissions',
-    { dep: 'UserGuideOptions', optional: true }
-  ]
+    { dep: 'UserGuideOptions', optional: true },
+  ],
 })
 export default class UserGuide extends RcModule {
   constructor({
@@ -34,7 +34,7 @@ export default class UserGuide extends RcModule {
   }) {
     super({
       actionTypes,
-      ...options
+      ...options,
     });
     this._auth = auth;
     this._locale = locale;
@@ -72,15 +72,14 @@ export default class UserGuide extends RcModule {
       await this.initUserGuide();
       await this.preLoadImage();
     } else if (
-      this.ready && (
-        !this._auth.ready ||
+      this.ready &&
+      (!this._auth.ready ||
         !this._locale.ready ||
         !this._storage.ready ||
-        !this._rolesAndPermissions.ready
-      )
+        !this._rolesAndPermissions.ready)
     ) {
       this.store.dispatch({
-        type: this.actionTypes.resetSuccess
+        type: this.actionTypes.resetSuccess,
       });
     }
     // When there is an incoming call,
@@ -124,8 +123,10 @@ export default class UserGuide extends RcModule {
   resolveGuides() {
     if (this._context && typeof this._context === 'function') {
       const locales = Object.keys(SUPPORTED_LOCALES);
-      return this._context.keys().sort()
-        .map(key => this._context(key))
+      return this._context
+        .keys()
+        .sort()
+        .map((key) => this._context(key))
         .reduce((prev, curr) => {
           locales.forEach((locale) => {
             if (!prev[locale]) prev[locale] = [];
@@ -142,7 +143,10 @@ export default class UserGuide extends RcModule {
   @proxify
   dismiss() {
     this.updateCarousel({
-      curIdx: 0, entered: false, playing: false, firstLogin: false
+      curIdx: 0,
+      entered: false,
+      playing: false,
+      firstLogin: false,
     });
   }
 
@@ -151,21 +155,24 @@ export default class UserGuide extends RcModule {
     if (guides) {
       this.store.dispatch({
         type: this.actionTypes.loadGuides,
-        guides
+        guides,
       });
     }
   }
 
   @proxify
   async updateCarousel({
-    curIdx, entered, playing, firstLogin = this.state.firstLogin
+    curIdx,
+    entered,
+    playing,
+    firstLogin = this.state.firstLogin,
   }) {
     this.store.dispatch({
       type: this.actionTypes.updateCarousel,
       curIdx,
       entered,
       playing,
-      firstLogin
+      firstLogin,
     });
   }
 
@@ -193,7 +200,7 @@ export default class UserGuide extends RcModule {
       curIdx: 0,
       entered: true,
       playing: true,
-      firstLogin
+      firstLogin,
     });
   }
 

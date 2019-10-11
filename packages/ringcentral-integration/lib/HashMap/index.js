@@ -38,7 +38,11 @@ export default class HashMap {
   static hasValue(map, value) {
     return map[sValueMap].has(value);
   }
-  static fromSet({ set, getKey = defaultGetFunction, getValue = defaultGetFunction }) {
+  static fromSet({
+    set,
+    getKey = defaultGetFunction,
+    getValue = defaultGetFunction,
+  }) {
     const definition = {};
     [...set].forEach((item) => {
       const key = getKey(item);

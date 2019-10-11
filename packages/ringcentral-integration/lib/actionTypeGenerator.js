@@ -1,9 +1,6 @@
 export function actionTypeGenerator(
   action,
-  {
-    useSuccess = true,
-    useError = true
-  } = {}
+  { useSuccess = true, useError = true } = {},
 ) {
   const types = [action];
   if (useSuccess) {

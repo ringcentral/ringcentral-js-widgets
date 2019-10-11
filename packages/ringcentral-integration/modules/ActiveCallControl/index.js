@@ -33,7 +33,7 @@ const subscribeEvent = '/account/~/extension/~/telephony/sessions';
     { dep: 'Storage', optional: true },
     { dep: 'ActiveCallControlOptions', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
-  ]
+  ],
 })
 export default class ActiveCallControl extends Pollable {
   constructor({
@@ -63,15 +63,21 @@ export default class ActiveCallControl extends Pollable {
     if (!disableCache) {
       this._storage = storage;
     }
-    this._subscription = this:: ensureExist(subscription, 'subscription');
-    this._connectivityMonitor = this:: ensureExist(connectivityMonitor, 'connectivityMonitor');
-    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._subscription = this::ensureExist(subscription, 'subscription');
+    this._connectivityMonitor = this::ensureExist(
+      connectivityMonitor,
+      'connectivityMonitor',
+    );
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._availabilityMonitor = availabilityMonitor;
-    this._callMonitor = this:: ensureExist(callMonitor, 'callMonitor');
+    this._callMonitor = this::ensureExist(callMonitor, 'callMonitor');
     this._tabManager = tabManager;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
-    this._auth = this:: ensureExist(auth, 'auth');
+    this._auth = this::ensureExist(auth, 'auth');
     this._promise = null;
     this._lastSubscriptionMessage = null;
     this._storageKey = storageKey;
@@ -109,9 +115,7 @@ export default class ActiveCallControl extends Pollable {
       });
     } else if (this._shouldReset()) {
       this._resetModuleStatus();
-    } else if (
-      this.ready
-    ) {
+    } else if (this.ready) {
       this._subscriptionHandler();
       this._checkConnectivity();
     }
@@ -133,20 +137,17 @@ export default class ActiveCallControl extends Pollable {
 
   _shouldReset() {
     return (
-      (
-        !this._auth.loggedIn ||
+      (!this._auth.loggedIn ||
         (!!this._storage && !this._storage.ready) ||
         !this._subscription.ready ||
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._connectivityMonitor.ready ||
         !this._callMonitor.ready ||
         !this._rolesAndPermissions.ready ||
-        (!!this._availabilityMonitor && !this._availabilityMonitor.ready)
-      ) &&
+        (!!this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
     );
   }
-
 
   _resetModuleStatus() {
     this.store.dispatch({
@@ -154,15 +155,12 @@ export default class ActiveCallControl extends Pollable {
     });
   }
 
-
   get _hasPermission() {
     return this._rolesAndPermissions.ringoutEnabled;
   }
 
   _shouldFetch() {
-    return (
-      !this._tabManager || this._tabManager.active
-    );
+    return !this._tabManager || this._tabManager.active;
   }
 
   async fetchData() {
@@ -190,7 +188,7 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  _startPolling(t = (this.timestamp + this.ttl + 10) - Date.now()) {
+  _startPolling(t = this.timestamp + this.ttl + 10 - Date.now()) {
     this._clearTimeout();
     this._timeoutId = setTimeout(() => {
       this._timeoutId = null;
@@ -246,7 +244,7 @@ export default class ActiveCallControl extends Pollable {
   _subscriptionHandler() {
     if (
       !this.ready ||
-      this._storage && this._tabManager && !this._tabManager.active
+      (this._storage && this._tabManager && !this._tabManager.active)
     ) {
       return;
     }
@@ -258,14 +256,11 @@ export default class ActiveCallControl extends Pollable {
       message.body
     ) {
       this._lastSubscriptionMessage = message;
-      const {
-        sessionId,
-        parties
-      } = message.body;
+      const { sessionId, parties } = message.body;
       this.store.dispatch({
         type: this.actionTypes.updateActiveSessionStatus,
         sessionId,
-        party: parties[0]
+        party: parties[0],
       });
     }
   }
@@ -273,7 +268,7 @@ export default class ActiveCallControl extends Pollable {
   removeActiveSession(sessionId) {
     this.store.dispatch({
       type: this.actionTypes.removeActiveSession,
-      sessionId
+      sessionId,
     });
   }
 
@@ -284,7 +279,6 @@ export default class ActiveCallControl extends Pollable {
       sessionId,
     });
   }
-
 
   _checkConnectivity() {
     if (
@@ -302,7 +296,10 @@ export default class ActiveCallControl extends Pollable {
   async patch({ url = null, query = null, body = null }) {
     try {
       await this._client.service._platform.send({
-        method: 'PATCH', url, query, body
+        method: 'PATCH',
+        url,
+        query,
+        body,
       });
     } catch (error) {
       throw error;
@@ -326,8 +323,8 @@ export default class ActiveCallControl extends Pollable {
       await this.patch({
         url,
         body: {
-          muted: true
-        }
+          muted: true,
+        },
       });
       this.store.dispatch({
         type: this.actionTypes.muteSuccess,
@@ -337,7 +334,10 @@ export default class ActiveCallControl extends Pollable {
         this._alert.warning({
           message: callControlError.muteConflictError,
         });
-      } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      } else if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: callControlError.generalError });
       }
       this.store.dispatch({
@@ -357,8 +357,8 @@ export default class ActiveCallControl extends Pollable {
       await this.patch({
         url,
         body: {
-          muted: false
-        }
+          muted: false,
+        },
       });
       this.store.dispatch({
         type: this.actionTypes.unmuteSuccess,
@@ -368,7 +368,10 @@ export default class ActiveCallControl extends Pollable {
         this._alert.warning({
           message: callControlError.unMuteConflictError,
         });
-      } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      } else if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: callControlError.generalError });
       }
       this.store.dispatch({
@@ -386,7 +389,7 @@ export default class ActiveCallControl extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.startRecord,
         activeSession,
-        response
+        response,
       });
     } catch (error) {
       this.store.dispatch({
@@ -411,12 +414,12 @@ export default class ActiveCallControl extends Pollable {
       this.patch({
         url,
         body: {
-          active: false
-        }
+          active: false,
+        },
       });
       this.store.dispatch({
         type: this.actionTypes.stopRecord,
-        activeSession
+        activeSession,
       });
     } catch (error) {
       throw error;
@@ -440,7 +443,10 @@ export default class ActiveCallControl extends Pollable {
         sessionId,
       });
     } catch (error) {
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: callControlError.generalError });
       }
 
@@ -464,7 +470,10 @@ export default class ActiveCallControl extends Pollable {
         sessionId,
       });
     } catch (error) {
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: callControlError.generalError });
       }
       this.store.dispatch({
@@ -484,14 +493,17 @@ export default class ActiveCallControl extends Pollable {
       await this._client.service._platform.post(url);
       this.store.dispatch({
         type: this.actionTypes.holdSuccess,
-        activeSession
+        activeSession,
       });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
           message: callControlError.holdConflictError,
         });
-      } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      } else if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: callControlError.generalError });
       }
 
@@ -512,16 +524,19 @@ export default class ActiveCallControl extends Pollable {
       await this._client.service._platform.post(url);
       this.store.dispatch({
         type: this.actionTypes.unholdSuccess,
-        activeSession
+        activeSession,
       });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
-          message: callControlError.unHoldConflictError
+          message: callControlError.unHoldConflictError,
         });
-      } else if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      } else if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({
-          message: callControlError.generalError
+          message: callControlError.generalError,
         });
       }
       this.store.dispatch({
@@ -538,10 +553,15 @@ export default class ActiveCallControl extends Pollable {
     try {
       const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).transfer;
-      const validatedResult = await this._numberValidate.validateNumbers([transferNumber]);
+      const validatedResult = await this._numberValidate.validateNumbers([
+        transferNumber,
+      ]);
       if (!validatedResult.result) {
         validatedResult.errors.forEach((error) => {
-          if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+          if (
+            !this._availabilityMonitor ||
+            !this._availabilityMonitor.checkIfHAError(error)
+          ) {
             this._alert.warning({
               message: callErrors[error.type],
               payload: {
@@ -555,19 +575,26 @@ export default class ActiveCallControl extends Pollable {
         });
         return;
       }
-      const validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
+      const validPhoneNumber =
+        validatedResult.numbers[0] && validatedResult.numbers[0].e164;
       let phoneNumber = validPhoneNumber;
       if (validPhoneNumber.indexOf('+') === -1) {
-        phoneNumber = [this._accountInfo.mainCompanyNumber, validPhoneNumber].join('*');
+        phoneNumber = [
+          this._accountInfo.mainCompanyNumber,
+          validPhoneNumber,
+        ].join('*');
       }
       await this._client.service._platform.post(url, {
-        phoneNumber
+        phoneNumber,
       });
       this.store.dispatch({
         type: this.actionTypes.transferSuccess,
       });
     } catch (error) {
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: callControlError.generalError });
       }
       this.store.dispatch({
@@ -586,7 +613,7 @@ export default class ActiveCallControl extends Pollable {
       const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).flip;
       await this._client.service._platform.post(url, {
-        callFlipId: flipValue
+        callFlipId: flipValue,
       });
       this.store.dispatch({
         type: this.actionTypes.flipSuccess,
@@ -612,14 +639,8 @@ export default class ActiveCallControl extends Pollable {
   async getPartyData(sessionId) {
     const activeSession = this.getActiveSession(sessionId);
     const url = requestURI(activeSession).getPartyData;
-    const {
-      telephonySessionId,
-      partyId
-    } = activeSession;
-    if (
-      !telephonySessionId ||
-      !partyId
-    ) {
+    const { telephonySessionId, partyId } = activeSession;
+    if (!telephonySessionId || !partyId) {
       return;
     }
     try {
@@ -636,8 +657,12 @@ export default class ActiveCallControl extends Pollable {
   }
 
   get data() {
-    return (this._storage && this._storage.ready && this._storage.getItem(this._storageKey)) ||
-      this.state;
+    return (
+      (this._storage &&
+        this._storage.ready &&
+        this._storage.getItem(this._storageKey)) ||
+      this.state
+    );
   }
 
   get activeSessionId() {
@@ -658,7 +683,7 @@ export default class ActiveCallControl extends Pollable {
    * a global busy timeout.
    */
   get busy() {
-    return (Date.now() - this.data.busy) < DEFAULT_BUSY_TIMEOUT;
+    return Date.now() - this.data.busy < DEFAULT_BUSY_TIMEOUT;
   }
 
   get timestamp() {
@@ -684,29 +709,27 @@ export default class ActiveCallControl extends Pollable {
   @selector
   callPartyIdMap = [
     () => this._callMonitor.calls,
-    calls => calls.reduce((accumulator, call) => {
-      const {
-        sessionId,
-        partyId
-      } = call;
-      accumulator[sessionId] = partyId;
-      return accumulator;
-    }, {})
-  ]
+    (calls) =>
+      calls.reduce((accumulator, call) => {
+        const { sessionId, partyId } = call;
+        accumulator[sessionId] = partyId;
+        return accumulator;
+      }, {}),
+  ];
 
   @selector
   recordingId = [
     () => this.activeSessionId,
     () => this.recordingIds,
-    (activeSessionId, recordingIds) => recordingIds[activeSessionId]
-  ]
+    (activeSessionId, recordingIds) => recordingIds[activeSessionId],
+  ];
 
   @selector
   activeSession = [
     () => this.activeSessionId,
     () => this.activeSessions,
-    sessionId => this.getActiveSession(sessionId)
-  ]
+    (sessionId) => this.getActiveSession(sessionId),
+  ];
 
   @selector
   activeSessions = [
@@ -714,22 +737,20 @@ export default class ActiveCallControl extends Pollable {
     () => this.activeSessionsStatus,
     (calls, activeSessionsStatus) => {
       const reducer = (accumulator, call) => {
-        const {
-          sessionId,
-          partyId
-        } = call;
+        const { sessionId, partyId } = call;
         const activeSessionStatuses = activeSessionsStatus[sessionId];
-        const activeSessionStatus = activeSessionStatuses && activeSessionStatuses[partyId] || {};
+        const activeSessionStatus =
+          (activeSessionStatuses && activeSessionStatuses[partyId]) || {};
         if (!accumulator[sessionId]) {
           accumulator[sessionId] = {};
         }
         accumulator[sessionId][partyId] = normalizeSession({
           call,
-          activeSessionStatus
+          activeSessionStatus,
         });
         return accumulator;
       };
       return calls.reduce(reducer, {});
-    }
-  ]
+    },
+  ];
 }

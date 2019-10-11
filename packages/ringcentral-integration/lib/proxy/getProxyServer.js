@@ -3,7 +3,12 @@ import baseActionTypes from './baseActionTypes';
 import getProxyServerReducer from './getProxyServerReducer';
 import ensureExist from '../ensureExist';
 
-export default function getProxyServer(createTarget) {
+const defaultVerifyModuleFunc = (module) => module instanceof RcModule;
+
+export default function getProxyServer(
+  createTarget,
+  verifyModuleFunc = defaultVerifyModuleFunc,
+) {
   return class extends RcModule {
     constructor({ transport, ...options }) {
       super({
@@ -14,11 +19,10 @@ export default function getProxyServer(createTarget) {
         ...options,
       });
       this._target._getState = () => this.state.target;
-
       for (const subModule in this._target) {
         if (
           this._target::Object.prototype.hasOwnProperty(subModule) &&
-            this._target[subModule] instanceof RcModule
+          verifyModuleFunc(this._target[subModule])
         ) {
           Object.defineProperty(this, subModule, {
             configurable: false,
@@ -41,34 +45,30 @@ export default function getProxyServer(createTarget) {
         transport.events.request,
         async ({
           requestId,
-          payload: {
-            type,
-            functionPath,
-            args,
-            actionNumber
-          },
+          payload: { type, functionPath, args, actionNumber },
         }) => {
           switch (type) {
-            case this.actionTypes.execute: {
-              const [...pathTokens] = functionPath.split('.').slice(1);
-              const fnName = pathTokens.pop();
-              let target = this._target;
-              pathTokens.forEach((token) => {
-                target = target[token];
-              });
-              try {
-                const result = await target[fnName](...args);
-                transport.response({
-                  requestId,
-                  result,
+            case this.actionTypes.execute:
+              {
+                const [...pathTokens] = functionPath.split('.').slice(1);
+                const fnName = pathTokens.pop();
+                let target = this._target;
+                pathTokens.forEach((token) => {
+                  target = target[token];
                 });
-              } catch (error) {
-                transport.response({
-                  requestId,
-                  error,
-                });
+                try {
+                  const result = await target[fnName](...args);
+                  transport.response({
+                    requestId,
+                    result,
+                  });
+                } catch (error) {
+                  transport.response({
+                    requestId,
+                    error,
+                  });
+                }
               }
-            }
               break;
             case this.actionTypes.sync: {
               if (actionNumber !== this.state.actionNumber) {
@@ -87,7 +87,7 @@ export default function getProxyServer(createTarget) {
             default:
               transport.response({
                 requestId,
-                error: new Error(`Invalid request type '${type}'.`)
+                error: new Error(`Invalid request type '${type}'.`),
               });
               break;
           }

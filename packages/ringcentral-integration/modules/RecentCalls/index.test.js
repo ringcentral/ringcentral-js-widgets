@@ -14,8 +14,8 @@ describe('RecentCalls Unit Test', () => {
     recentCalls = new RecentCalls({
       client: {},
       callHistory: {
-        ready: true
-      }
+        ready: true,
+      },
     });
     recentCalls._store = store;
   });
@@ -24,14 +24,14 @@ describe('RecentCalls Unit Test', () => {
     it('should throw if options.client is undefined', () => {
       expect(() => {
         recentCalls = new RecentCalls({
-          callHistory: {}
+          callHistory: {},
         });
       }).to.throw();
     });
     it('should throw if options.callHistory is undefined', () => {
       expect(() => {
         recentCalls = new RecentCalls({
-          client: {}
+          client: {},
         });
       }).to.throw();
     });
@@ -42,13 +42,15 @@ describe('RecentCalls Unit Test', () => {
       recentCalls = new RecentCalls({
         client: {},
         callHistory: {
-          ready: true
-        }
+          ready: true,
+        },
       });
       recentCalls._store = store;
       const spy = sinon.spy(store, 'dispatch');
       sinon.stub(recentCalls, 'pending', {
-        get() { return true; }
+        get() {
+          return true;
+        },
       });
       recentCalls._onStateChange();
       expect(spy.calledWith({ type: actionTypes.initSuccess }));
@@ -58,13 +60,15 @@ describe('RecentCalls Unit Test', () => {
       recentCalls = new RecentCalls({
         client: {},
         callHistory: {
-          ready: true
-        }
+          ready: true,
+        },
       });
       recentCalls._store = store;
       const spy = sinon.spy(store, 'dispatch');
       sinon.stub(recentCalls, 'pending', {
-        get() { return false; }
+        get() {
+          return false;
+        },
       });
       recentCalls._onStateChange();
       expect(spy.notCalled).to.equal(true);
@@ -74,13 +78,15 @@ describe('RecentCalls Unit Test', () => {
       recentCalls = new RecentCalls({
         client: {},
         callHistory: {
-          ready: false
-        }
+          ready: false,
+        },
       });
       recentCalls._store = store;
       const spy = sinon.spy(store, 'dispatch');
       sinon.stub(recentCalls, 'ready', {
-        get() { return true; }
+        get() {
+          return true;
+        },
       });
       recentCalls._onStateChange();
       expect(spy.calledWith({ type: actionTypes.resetSuccess }));
@@ -90,13 +96,15 @@ describe('RecentCalls Unit Test', () => {
       recentCalls = new RecentCalls({
         client: {},
         callHistory: {
-          ready: false
-        }
+          ready: false,
+        },
       });
       recentCalls._store = store;
       const spy = sinon.stub(store, 'dispatch');
       sinon.stub(recentCalls, 'ready', {
-        get() { return false; }
+        get() {
+          return false;
+        },
       });
       recentCalls._onStateChange();
       expect(spy.notCalled).to.equal(true);
@@ -106,7 +114,9 @@ describe('RecentCalls Unit Test', () => {
   describe('_getRecentCalls', () => {
     it('should not fetch from server if local recent calls is enough', async () => {
       sinon.spy(recentCalls, '_fetchRemoteRecentCalls');
-      sinon.stub(recentCalls, '_getLocalRecentCalls').callsFake(() => [1, 2, 3, 4, 5]);
+      sinon
+        .stub(recentCalls, '_getLocalRecentCalls')
+        .callsFake(() => [1, 2, 3, 4, 5]);
       await recentCalls._getRecentCalls({});
       expect(recentCalls._fetchRemoteRecentCalls.called).to.not.equal(true);
     });
@@ -136,23 +146,26 @@ describe('RecentCalls Unit Test', () => {
   describe('_getLocalRecentCalls', () => {
     it('should only get calls within certain days', async () => {
       sinon.stub(recentCalls, '_filterPhoneNumber').callsFake(() => () => true);
-      const calls = [{
-        startTime: new Date('2017-07-26T06:52:43.515Z').getTime(),
-        to: {},
-        from: {}
-      }, {
-        startTime: new Date('2017-01-26T06:52:43.515Z').getTime(),
-        to: {},
-        from: {}
-      }];
+      const calls = [
+        {
+          startTime: new Date('2017-07-26T06:52:43.515Z').getTime(),
+          to: {},
+          from: {},
+        },
+        {
+          startTime: new Date('2017-01-26T06:52:43.515Z').getTime(),
+          to: {},
+          from: {},
+        },
+      ];
       const contact = {
-        phoneNumbers: [171]
+        phoneNumbers: [171],
       };
       const dateFrom = new Date('2017-02-26T06:52:43.515Z');
       const retval = await recentCalls._getLocalRecentCalls(
         contact,
         calls,
-        dateFrom
+        dateFrom,
       );
       expect(retval).to.have.length(1);
     });
@@ -161,12 +174,16 @@ describe('RecentCalls Unit Test', () => {
   describe('_filterPhoneNumber', () => {
     it('should find all matched phoneNumbers in to and from fields', () => {
       // eslint-disable-next-line
-      const calls = [{ from: { phoneNumber: '+123' }, to: { phoneNumber: '+1' }}, { from: { phoneNumber: '+456' }, to: { phoneNumber: '+1' }}, { from: { phoneNumber: '+1' }, to: { phoneNumber: '+789' } }];
+      const calls = [
+        { from: { phoneNumber: '+123' }, to: { phoneNumber: '+1' } },
+        { from: { phoneNumber: '+456' }, to: { phoneNumber: '+1' } },
+        { from: { phoneNumber: '+1' }, to: { phoneNumber: '+789' } },
+      ];
       const phoneNumbers = [
         { phoneNumber: '+123' },
         { phoneNumber: '+456' },
         { phoneNumber: '+789' },
-        { phoneNumber: '171' }
+        { phoneNumber: '171' },
       ];
       let func;
       const matches = [];
@@ -180,12 +197,16 @@ describe('RecentCalls Unit Test', () => {
 
     it('should find all matched extensionNumber in to and from fields', () => {
       // eslint-disable-next-line
-      const calls = [{ from: { extensionNumber: '+123' }, to: { phoneNumber: '+1' }}, { from: { extensionNumber: '+456' }, to: { phoneNumber: '+1' }}, { from: { phoneNumber: '+1' }, to: { extensionNumber: '+789' } }];
+      const calls = [
+        { from: { extensionNumber: '+123' }, to: { phoneNumber: '+1' } },
+        { from: { extensionNumber: '+456' }, to: { phoneNumber: '+1' } },
+        { from: { phoneNumber: '+1' }, to: { extensionNumber: '+789' } },
+      ];
       const phoneNumbers = [
         { phoneNumber: '+123' },
         { phoneNumber: '+456' },
         { phoneNumber: '+789' },
-        { phoneNumber: '171' }
+        { phoneNumber: '171' },
       ];
       let func;
       const matches = [];
@@ -199,12 +220,16 @@ describe('RecentCalls Unit Test', () => {
 
     it('should find all matched phoneNumber and extensionNumber in to and from fields', () => {
       // eslint-disable-next-line
-      const calls = [{ from: { phoneNumber: '+123' }, to: { phoneNumber: '+1' }}, { from: { phoneNumber: '+456' }, to: { phoneNumber: '+1' }}, { from: { phoneNumber: '+1' }, to: { phoneNumber: '+789' } }];
+      const calls = [
+        { from: { phoneNumber: '+123' }, to: { phoneNumber: '+1' } },
+        { from: { phoneNumber: '+456' }, to: { phoneNumber: '+1' } },
+        { from: { phoneNumber: '+1' }, to: { phoneNumber: '+789' } },
+      ];
       const phoneNumbers = [
         { phoneNumber: '+123' },
         { phoneNumber: '+456' },
         { phoneNumber: '+789' },
-        { phoneNumber: '171' }
+        { phoneNumber: '171' },
       ];
       let func;
       const matches = [];
@@ -219,56 +244,81 @@ describe('RecentCalls Unit Test', () => {
 
   describe('_fetchRemoteRecentCalls', () => {
     it('should send certain number of requests to server', async () => {
-      sinon.stub(recentCalls, '_fetchCallLogList').callsFake(p => () => Promise.resolve(p));
-      sinon.stub(recentCalls, '_flattenToRecords').callsFake(p => p);
+      sinon
+        .stub(recentCalls, '_fetchCallLogList')
+        .callsFake((p) => () => Promise.resolve(p));
+      sinon.stub(recentCalls, '_flattenToRecords').callsFake((p) => p);
       const contact = {
-        phoneNumbers: [{
-          phoneNumber: '123'
-        }, {
-          phoneNumber: '+456'
-        }]
+        phoneNumbers: [
+          {
+            phoneNumber: '123',
+          },
+          {
+            phoneNumber: '+456',
+          },
+        ],
       };
       await recentCalls._fetchRemoteRecentCalls(contact, null, 5);
       expect(recentCalls._fetchCallLogList.callCount).to.equal(2);
     });
 
     it('should send correct parameters', async () => {
-      sinon.stub(recentCalls, '_fetchCallLogList').callsFake(p => () => Promise.resolve(p));
-      sinon.stub(recentCalls, '_flattenToRecords').callsFake(p => p);
+      sinon
+        .stub(recentCalls, '_fetchCallLogList')
+        .callsFake((p) => () => Promise.resolve(p));
+      sinon.stub(recentCalls, '_flattenToRecords').callsFake((p) => p);
       const contact = {
-        phoneNumbers: [{
-          phoneNumber: '+123'
-        }, {
-          phoneNumber: '456'
-        }]
+        phoneNumbers: [
+          {
+            phoneNumber: '+123',
+          },
+          {
+            phoneNumber: '456',
+          },
+        ],
       };
-      const expected = [{
-        dateFrom: 'dateFrom',
-        perPage: 5,
-        type: 'Voice',
-        phoneNumber: '123'
-      },
-      {
-        dateFrom: 'dateFrom',
-        perPage: 5,
-        type: 'Voice',
-        phoneNumber: '456'
-      }];
-      const calls = await recentCalls._fetchRemoteRecentCalls(contact, 'dateFrom', 5);
+      const expected = [
+        {
+          dateFrom: 'dateFrom',
+          perPage: 5,
+          type: 'Voice',
+          phoneNumber: '123',
+        },
+        {
+          dateFrom: 'dateFrom',
+          perPage: 5,
+          type: 'Voice',
+          phoneNumber: '456',
+        },
+      ];
+      const calls = await recentCalls._fetchRemoteRecentCalls(
+        contact,
+        'dateFrom',
+        5,
+      );
       expect(calls).to.deep.equal(expected);
     });
 
     it('should remove plus sign in phoneNumbers', async () => {
-      sinon.stub(recentCalls, '_fetchCallLogList').callsFake(p => () => Promise.resolve(p));
-      sinon.stub(recentCalls, '_flattenToRecords').callsFake(p => p);
+      sinon
+        .stub(recentCalls, '_fetchCallLogList')
+        .callsFake((p) => () => Promise.resolve(p));
+      sinon.stub(recentCalls, '_flattenToRecords').callsFake((p) => p);
       const contact = {
-        phoneNumbers: [{
-          phoneNumber: '+123'
-        }, {
-          phoneNumber: '+456'
-        }]
+        phoneNumbers: [
+          {
+            phoneNumber: '+123',
+          },
+          {
+            phoneNumber: '+456',
+          },
+        ],
       };
-      const calls = await recentCalls._fetchRemoteRecentCalls(contact, 'dateFrom', 5);
+      const calls = await recentCalls._fetchRemoteRecentCalls(
+        contact,
+        'dateFrom',
+        5,
+      );
       expect(calls[0].phoneNumber).to.equal('123');
       expect(calls[1].phoneNumber).to.equal('456');
     });
@@ -281,26 +331,15 @@ describe('RecentCalls Unit Test', () => {
         { records: { id: 1 } },
         { records: { id: 1 } },
       ];
-      const expected = [
-        { id: 1 },
-        { id: 1 },
-        { id: 1 }
-      ];
+      const expected = [{ id: 1 }, { id: 1 }, { id: 1 }];
       const ret = recentCalls._flattenToRecords(calls);
       expect(ret).to.deep.equal(expected);
     });
 
     it('_dedup', () => {
-      const calls = [
-        { id: 1 },
-        { id: 1 },
-        { id: 3 },
-      ];
+      const calls = [{ id: 1 }, { id: 1 }, { id: 3 }];
       const ret = recentCalls._dedup(calls);
-      expect(ret).to.deep.equal([
-        { id: 1 },
-        { id: 3 }
-      ]);
+      expect(ret).to.deep.equal([{ id: 1 }, { id: 3 }]);
     });
   });
 });

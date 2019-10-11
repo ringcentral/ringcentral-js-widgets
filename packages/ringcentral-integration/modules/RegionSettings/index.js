@@ -89,10 +89,7 @@ export default class RegionSettings extends RcModule {
         this.store.dispatch({
           type: this.actionTypes.initSuccess,
         });
-      } else if (
-        !this._storage.ready &&
-        this.ready
-      ) {
+      } else if (!this._storage.ready && this.ready) {
         this.store.dispatch({
           type: this.actionTypes.resetSuccess,
         });
@@ -126,13 +123,13 @@ export default class RegionSettings extends RcModule {
       }
       return (country && [country]) || [];
     },
-  ]
+  ];
 
   _alertSettingsChanged() {
     this._alert.warning({
       allowDuplicates: false,
       message: regionSettingsMessages.dialingPlansChanged,
-      ttl: 0
+      ttl: 0,
     });
   }
 
@@ -141,10 +138,7 @@ export default class RegionSettings extends RcModule {
     let countryCode = this._storage.getItem(this._countryCodeKey);
     if (
       countryCode &&
-      !find(
-        plan => (plan.isoCode === countryCode),
-        this.availableCountries
-      )
+      !find((plan) => plan.isoCode === countryCode, this.availableCountries)
     ) {
       countryCode = null;
       if (this._brand.id === '1210') {
@@ -152,10 +146,11 @@ export default class RegionSettings extends RcModule {
       }
     }
     if (!countryCode) {
-      const country = find(
-        plan => (plan.isoCode === this._extensionInfo.country.isoCode),
-        this.availableCountries,
-      ) || this.availableCountries[0];
+      const country =
+        find(
+          (plan) => plan.isoCode === this._extensionInfo.country.isoCode,
+          this.availableCountries,
+        ) || this.availableCountries[0];
       countryCode = country && country.isoCode;
       this.store.dispatch({
         type: this.actionTypes.setData,
@@ -166,10 +161,7 @@ export default class RegionSettings extends RcModule {
   }
 
   @proxify
-  async setData({
-    areaCode,
-    countryCode,
-  }) {
+  async setData({ areaCode, countryCode }) {
     if (!validateAreaCode(areaCode)) {
       this._alert.danger({
         message: regionSettingsMessages.areaCodeInvalid,
@@ -202,10 +194,11 @@ export default class RegionSettings extends RcModule {
     if (this.availableCountries.length > 1) {
       return true;
     }
-    if (this.availableCountries.length === 1 && (
-      this.availableCountries[0].isoCode === 'US' ||
-      this.availableCountries[0].isoCode === 'CA'
-    )) {
+    if (
+      this.availableCountries.length === 1 &&
+      (this.availableCountries[0].isoCode === 'US' ||
+        this.availableCountries[0].isoCode === 'CA')
+    ) {
       return true;
     }
     return false;

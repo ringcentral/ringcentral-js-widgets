@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { combineReducers } from 'redux';
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
@@ -37,7 +38,7 @@ const SYNC_DELAY = 30 * 1000;
 export function processData(data) {
   return {
     records: data.records,
-    timestamp: new Date(data.syncInfo.syncTime).getTime(),
+    timestamp: Date.now(),
     syncToken: data.syncInfo.syncToken,
   };
 }
@@ -85,7 +86,7 @@ export default class CallLog extends Pollable {
    * @param {ExtensionInfo} params.extensionPhoneNumber - extensionPhoneNumber module instance
    * @param {Subscription} params.subscription - subscription module instance
    * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {Number} params.ttl - local cache timestamp
+   * @param {Number} params.ttl - local cache time
    * @param {Number} params.tokenExpiresIn - time for token expire
    * @param {Number} params.timeToRetry - waiting time to retry
    * @param {Number} params.daySpan - day span of call log
@@ -276,48 +277,50 @@ export default class CallLog extends Pollable {
     () => this.data,
     (data) => {
       // TODO make sure removeDuplicateIntermediateCalls is necessary here
-      const calls = removeInboundRingOutLegs(removeDuplicateIntermediateCalls(data.filter(call => (
-        // [RCINT-3472] calls with result === 'stopped' seems to be useless
-        call.result !== callResults.stopped &&
-        // [RCINT-51111] calls with result === 'busy'
-        call.result !== callResults.busy &&
-        // [RCINT-6839]
-        // Call processing result is undefined
-        call.result !== callResults.unknown &&
-        // Outgoing fax sending has failed
-        call.result !== callResults.faxSendError &&
-        // Incoming fax has failed to be received
-        call.result !== callResults.faxReceiptError &&
-        // Outgoing fax has failed because of no answer
-        call.result !== callResults.callFailed &&
-        // Outgoing fax sending has been stopped
-        call.result !== callResults.stopped &&
-        // Error Internal error occurred when receiving fax
-        call.result !== callResults.faxReceipt
-      )))).map((call) => {
+      const calls = removeInboundRingOutLegs(
+        removeDuplicateIntermediateCalls(
+          data.filter(
+            (call) =>
+              // [RCINT-3472] calls with result === 'stopped' seems to be useless
+              call.result !== callResults.stopped &&
+              // [RCINT-51111] calls with result === 'busy'
+              call.result !== callResults.busy &&
+              // [RCINT-6839]
+              // Call processing result is undefined
+              call.result !== callResults.unknown &&
+              // Outgoing fax sending has failed
+              call.result !== callResults.faxSendError &&
+              // Incoming fax has failed to be received
+              call.result !== callResults.faxReceiptError &&
+              // Outgoing fax has failed because of no answer
+              call.result !== callResults.callFailed &&
+              // Outgoing fax sending has been stopped
+              call.result !== callResults.stopped &&
+              // Error Internal error occurred when receiving fax
+              call.result !== callResults.faxReceipt,
+          ),
+        ),
+      ).map((call) => {
         // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
         // When user use DL number set ringout and the outBound from number must not a oneself company/extension number
         // Call log sync will response tow legs.
         // But user use company plus extension number, call log sync will response only one leg.
         // And the results about `to` and `from` in platform APIs call log sync response is opposite.
         // This is a temporary solution.
-        const isOutBoundCompanyNumber = (
+        const isOutBoundCompanyNumber =
           call.from &&
           call.from.phoneNumber &&
-          this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1
-        );
-        const isOutBoundFromSelfExtNumber = (
+          this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
+        const isOutBoundFromSelfExtNumber =
           call.from &&
           call.from.extensionNumber &&
-          call.from.extensionNumber === this._extensionInfo.data.extensionNumber
-        );
+          call.from.extensionNumber ===
+            this._extensionInfo.data.extensionNumber;
         if (
           isOutbound(call) &&
-          (
-            call.action === callActions.ringOutWeb ||
+          (call.action === callActions.ringOutWeb ||
             call.action === callActions.ringOutPC ||
-            call.action === callActions.ringOutMobile
-          ) &&
+            call.action === callActions.ringOutMobile) &&
           !isOutBoundCompanyNumber &&
           !isOutBoundFromSelfExtNumber
         ) {
@@ -333,8 +336,8 @@ export default class CallLog extends Pollable {
         return calls.slice(0, this._listRecordCount);
       }
       return calls;
-    }
-  ]
+    },
+  ];
 
   get token() {
     if (this._storage) {
@@ -375,11 +378,13 @@ export default class CallLog extends Pollable {
     const perPageParam = this._isLimitList
       ? { perPage: this._listRecordCount }
       : {};
-    return fetchList((params) => this._client
+    return fetchList((params) =>
+      this._client
         .account()
         .extension()
         .callLog()
-        .list({ ...params, dateFrom, dateTo, ...perPageParam }));
+        .list({ ...params, dateFrom, dateTo, ...perPageParam }),
+    );
   }
 
   @proxify

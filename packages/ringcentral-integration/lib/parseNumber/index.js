@@ -1,10 +1,6 @@
 import { parse } from '@ringcentral-integration/phone-number';
 
-export default function parseNumber({
-  phoneNumber,
-  countryCode,
-  areaCode,
-}) {
+export default function parseNumber({ phoneNumber, countryCode, areaCode }) {
   const {
     hasPlus,
     phoneNumber: number,

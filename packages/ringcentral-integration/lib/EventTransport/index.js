@@ -1,7 +1,6 @@
 import uuid from 'uuid';
 import TransportBase from '../TransportBase';
 
-
 export default class EventTransport extends TransportBase {
   constructor(options) {
     super({
@@ -22,15 +21,17 @@ export default class EventTransport extends TransportBase {
       timeoutId = null;
       this._deferred.get(requestId).reject(new Error(this._events.timeout));
     }, this._timeout);
-    promise.then((result) => {
-      if (timeoutId) clearTimeout(timeoutId);
-      this._deferred.delete(requestId);
-      return Promise.resolve(result);
-    }).catch((error) => {
-      if (timeoutId) clearTimeout(timeoutId);
-      this._deferred.delete(requestId);
-      return Promise.reject(error);
-    });
+    promise
+      .then((result) => {
+        if (timeoutId) clearTimeout(timeoutId);
+        this._deferred.delete(requestId);
+        return Promise.resolve(result);
+      })
+      .catch((error) => {
+        if (timeoutId) clearTimeout(timeoutId);
+        this._deferred.delete(requestId);
+        return Promise.reject(error);
+      });
     this.emit(this._events.request, {
       requestId,
       payload,

@@ -6,12 +6,10 @@ import DataMatcher from '../../lib/DataMatcher';
  */
 @Module()
 export default class ActivityMatcher extends DataMatcher {
-  constructor({
-    ...options
-  }) {
+  constructor({ ...options }) {
     super({
       name: 'activityMatcher',
-      ...options
+      ...options,
     });
   }
 }

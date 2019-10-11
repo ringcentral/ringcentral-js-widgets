@@ -56,15 +56,17 @@ export default class ServerTransport extends TransportBase {
       // Ensure tabs are still accessible (may be closed)
       // otherwise, give up pushing messages to that tab at this point
       if (port.sender && port.sender.tab) {
-        return !!this._activeTabs.find(tab => tab && (tab.id === port.sender.tab.id));
+        return !!this._activeTabs.find(
+          (tab) => tab && tab.id === port.sender.tab.id,
+        );
       }
       return false;
     };
     // Since postMessage is really expensive,
     // we only send messages to those ports on active tabs.
     Array.from(this._ports)
-      .filter(port => isOnActiveTabs(port))
-      .forEach(port => port.postMessage(message));
+      .filter((port) => isOnActiveTabs(port))
+      .forEach((port) => port.postMessage(message));
   }
 
   _getActiveTabs() {

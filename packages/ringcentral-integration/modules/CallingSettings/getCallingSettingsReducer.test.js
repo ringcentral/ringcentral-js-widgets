@@ -23,20 +23,23 @@ describe('getCallWithReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.callWith on setData', () => {
       const callWith = 'foo';
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        callWith,
-      })).to.equal(callWith);
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          callWith,
+        }),
+      ).to.equal(callWith);
     });
     it('should return originalState on setData if action.callWith is undefined', () => {
-      expect(reducer('foo', {
-        type: actionTypes.setData,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.setData,
+        }),
+      ).to.equal('foo');
     });
   });
 });
@@ -55,20 +58,23 @@ describe('getMyLocationReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.myLocation on setData', () => {
       const myLocation = 'foo';
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        myLocation,
-      })).to.equal(myLocation);
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          myLocation,
+        }),
+      ).to.equal(myLocation);
     });
     it('should return originalState on setData if action.myLocation is undefined', () => {
-      expect(reducer('foo', {
-        type: actionTypes.setData,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.setData,
+        }),
+      ).to.equal('foo');
     });
   });
 });
@@ -87,20 +93,23 @@ describe('getRingoutPromptReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.ringoutPrompt on setData', () => {
       const ringoutPrompt = 'foo';
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        ringoutPrompt,
-      })).to.equal(ringoutPrompt);
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          ringoutPrompt,
+        }),
+      ).to.equal(ringoutPrompt);
     });
     it('should return originalState on setData if action.ringoutPrompt is undefined', () => {
-      expect(reducer('foo', {
-        type: actionTypes.setData,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.setData,
+        }),
+      ).to.equal('foo');
     });
   });
 });
@@ -119,20 +128,23 @@ describe('getTimestampReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.timestamp on setData', () => {
       const timestamp = 'foo';
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        timestamp,
-      })).to.equal(timestamp);
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          timestamp,
+        }),
+      ).to.equal(timestamp);
     });
     it('should return originalState on setData if action.timestamp is undefined', () => {
-      expect(reducer('foo', {
-        type: actionTypes.setData,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.setData,
+        }),
+      ).to.equal('foo');
     });
   });
 });
@@ -144,9 +156,8 @@ describe('getCallingSettingsReducer', () => {
   const reducer = getCallingSettingsReducer(actionTypes);
   const statusReducer = getModuleStatusReducer(actionTypes);
   it('should return combined state', () => {
-    expect(reducer(undefined, {}))
-      .to.deep.equal({
-        status: statusReducer(undefined, {}),
-      });
+    expect(reducer(undefined, {})).to.deep.equal({
+      status: statusReducer(undefined, {}),
+    });
   });
 });

@@ -132,9 +132,11 @@ export default class RateLimiter extends RcModule {
     }
 
     // Get `retry-after` from response headers first
-    this._throttleDuration = pathOr(DEFAULT_THROTTLE_DURATION,
+    this._throttleDuration = pathOr(
+      DEFAULT_THROTTLE_DURATION,
       ['apiResponse', '_response', 'headers', 'retry-after'],
-      apiResponse);
+      apiResponse,
+    );
 
     setTimeout(this._checkTimestamp, this._throttleDuration);
   };

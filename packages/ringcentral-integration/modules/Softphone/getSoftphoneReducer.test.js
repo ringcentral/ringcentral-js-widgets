@@ -17,18 +17,21 @@ describe('Softphone', () => {
     });
     it('should return original state if actionType is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return idle status if actionType is connectComplete', () => {
-      expect(reducer('foo', {
-        type: softphoneActionTypes.connectComplete,
-      })).to.equal(softphoneStatus.idle);
+      expect(
+        reducer('foo', {
+          type: softphoneActionTypes.connectComplete,
+        }),
+      ).to.equal(softphoneStatus.idle);
     });
     it('should return connecting status if actionType is startToConnect', () => {
-      expect(reducer('foo', {
-        type: softphoneActionTypes.startToConnect,
-      })).to.equal(softphoneStatus.connecting);
+      expect(
+        reducer('foo', {
+          type: softphoneActionTypes.startToConnect,
+        }),
+      ).to.equal(softphoneStatus.connecting);
     });
   });
   describe('getConnectingPhoneNumberReducer', () => {
@@ -41,20 +44,23 @@ describe('Softphone', () => {
     });
     it('should return original state if actionType is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return null if actionType is connectComplete', () => {
-      expect(reducer('foo', {
-        type: softphoneActionTypes.connectComplete,
-      })).to.equal(null);
+      expect(
+        reducer('foo', {
+          type: softphoneActionTypes.connectComplete,
+        }),
+      ).to.equal(null);
     });
     it('should return connecting phone number if actionType is startToConnect', () => {
       const phoneNumber = '123';
-      expect(reducer('foo', {
-        type: softphoneActionTypes.startToConnect,
-        phoneNumber,
-      })).to.equal(phoneNumber);
+      expect(
+        reducer('foo', {
+          type: softphoneActionTypes.startToConnect,
+          phoneNumber,
+        }),
+      ).to.equal(phoneNumber);
     });
   });
   describe('getSoftphoneReducer', () => {
@@ -62,14 +68,17 @@ describe('Softphone', () => {
       expect(getSoftphoneReducer).to.be.a('function');
     });
     const reducer = getSoftphoneReducer(softphoneActionTypes);
-    const softphoneStatusReducer = getSoftphoneStatusReducer(softphoneActionTypes);
-    const connectingPhoneNumberReducer = getConnectingPhoneNumberReducer(softphoneActionTypes);
+    const softphoneStatusReducer = getSoftphoneStatusReducer(
+      softphoneActionTypes,
+    );
+    const connectingPhoneNumberReducer = getConnectingPhoneNumberReducer(
+      softphoneActionTypes,
+    );
     it('should return combined state', () => {
-      expect(reducer(undefined, {}))
-        .to.deep.equal({
-          softphoneStatus: softphoneStatusReducer(undefined, {}),
-          connectingPhoneNumber: connectingPhoneNumberReducer(undefined, {}),
-        });
+      expect(reducer(undefined, {})).to.deep.equal({
+        softphoneStatus: softphoneStatusReducer(undefined, {}),
+        connectingPhoneNumber: connectingPhoneNumberReducer(undefined, {}),
+      });
     });
   });
 });

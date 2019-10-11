@@ -1,9 +1,7 @@
 import Enum from '../../lib/Enum';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default new Enum([
-  ...Object.keys(moduleActionTypes),
-  'initLoad',
-  'loadSuccess',
-  'loadReset'
-], 'recentCalls');
+export default new Enum(
+  [...Object.keys(moduleActionTypes), 'initLoad', 'loadSuccess', 'loadReset'],
+  'recentCalls',
+);

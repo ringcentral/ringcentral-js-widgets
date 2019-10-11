@@ -20,8 +20,8 @@ export function getTransferredCallsReducer(types, opacity = DEFAULT_OPACITY) {
   return (state = [], { type, sessionId, transferredMiddleNumber }) => {
     if (type === types.addTransferredCall) {
       return [
-        ...(state.slice(state.length >= opacity ? 1 : 0, opacity)),
-        { [sessionId]: { transferredMiddleNumber } }
+        ...state.slice(state.length >= opacity ? 1 : 0, opacity),
+        { [sessionId]: { transferredMiddleNumber } },
       ];
     }
     return state;
@@ -33,6 +33,6 @@ export default function getDataReducer(types, initialState = {}) {
   return combineReducers({
     autoLog: getAutoLogReducer(types, initialState.autoLog),
     logOnRinging: getLogOnRingingReducer(types),
-    transferredCallsMap: getTransferredCallsReducer(types)
+    transferredCallsMap: getTransferredCallsReducer(types),
   });
 }

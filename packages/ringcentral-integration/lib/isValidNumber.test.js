@@ -18,7 +18,10 @@ describe('isValidNumber', () => {
       countryCode: 'US',
       areaCode: '',
     };
-    const result = isValidNumber("iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber", regionSettings);
+    const result = isValidNumber(
+      "iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber",
+      regionSettings,
+    );
     expect(result).to.equal(false);
   });
 

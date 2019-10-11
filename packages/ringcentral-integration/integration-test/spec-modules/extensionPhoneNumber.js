@@ -19,7 +19,10 @@ export default (auth, client, extensionPhoneNumber, account) => {
         mock.mockForLogin();
         isLoginSuccess = await ensureLogin(auth, account);
         if (!isLoginSuccess) {
-          console.error('Skip test case as failed to login with credential ', account);
+          console.error(
+            'Skip test case as failed to login with credential ',
+            account,
+          );
           this.skip();
         }
       });
@@ -38,7 +41,9 @@ export default (auth, client, extensionPhoneNumber, account) => {
       it('Should load mainCompanyNumber', async () => {
         this.retries(2);
         await waitInSeconds(1);
-        expect(extensionPhoneNumber.mainCompanyNumber.usageType).equal('MainCompanyNumber');
+        expect(extensionPhoneNumber.mainCompanyNumber.usageType).equal(
+          'MainCompanyNumber',
+        );
       });
 
       it('Should load companyNumbers', async () => {
@@ -71,11 +76,16 @@ export default (auth, client, extensionPhoneNumber, account) => {
         mock.restore();
         mock.mockForLogin({ mockAuthzProfile: false });
         mock.authzProfile({
-          permissions: authzProfileBody.permissions.filter(p => p.permission.id !== 'ReadUserPhoneNumbers')
+          permissions: authzProfileBody.permissions.filter(
+            (p) => p.permission.id !== 'ReadUserPhoneNumbers',
+          ),
         });
         isLoginSuccess = await ensureLogin(auth, account);
         if (!isLoginSuccess) {
-          console.error('Skip test case as failed to login with credential ', account);
+          console.error(
+            'Skip test case as failed to login with credential ',
+            account,
+          );
           this.skip();
         }
       });

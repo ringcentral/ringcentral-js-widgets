@@ -23,8 +23,8 @@ const DEFAULT_LOAD_TTL = 30 * 60 * 1000;
     'Subscription',
     'Storage',
     'RolesAndPermissions',
-    { dep: 'GlipPostsOptions', optional: true }
-  ]
+    { dep: 'GlipPostsOptions', optional: true },
+  ],
 })
 export default class GlipPosts extends RcModule {
   /**
@@ -52,7 +52,10 @@ export default class GlipPosts extends RcModule {
 
     this._client = this::ensureExist(client, 'client');
     this._auth = this::ensureExist(auth, 'auth');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._subscription = this::ensureExist(subscription, 'subscription');
     this._fetchPromises = {};
     this._lastMessage = null;
@@ -108,11 +111,9 @@ export default class GlipPosts extends RcModule {
 
   _shouldReset() {
     return (
-      (
-        !this._auth.loggedIn ||
+      (!this._auth.loggedIn ||
         !this._rolesAndPermissions.ready ||
-        !this._subscription.ready
-      ) &&
+        !this._subscription.ready) &&
       this.ready
     );
   }
@@ -132,16 +133,11 @@ export default class GlipPosts extends RcModule {
     this._lastMessage = message;
     if (
       message &&
-      (
-        glipPostsRegExp.test(message.event) ||
-        glipGroupRegExp.test(message.event)
-      ) &&
+      (glipPostsRegExp.test(message.event) ||
+        glipGroupRegExp.test(message.event)) &&
       message.body
     ) {
-      const {
-        eventType,
-        ...post
-      } = message.body;
+      const { eventType, ...post } = message.body;
       if (eventType.indexOf('Post') !== 0) {
         return;
       }
@@ -153,7 +149,8 @@ export default class GlipPosts extends RcModule {
         groupId: post.groupId,
         record: post,
         oldRecordId: post.id,
-        isSendByMe: (post.creatorId === this._auth.ownerId && eventType === 'PostAdded')
+        isSendByMe:
+          post.creatorId === this._auth.ownerId && eventType === 'PostAdded',
       });
       if (eventType === 'PostAdded' && post.creatorId !== this._auth.ownerId) {
         this._newPostListeners.forEach((listen) => {
@@ -167,9 +164,7 @@ export default class GlipPosts extends RcModule {
   async loadPosts(groupId, recordCount = 20) {
     const lastPosts = this.postsMap[groupId];
     const fetchTime = this.fetchTimeMap[groupId];
-    if (
-      lastPosts && fetchTime && Date.now() - fetchTime < this._loadTtl
-    ) {
+    if (lastPosts && fetchTime && Date.now() - fetchTime < this._loadTtl) {
       return;
     }
     await this.fetchPosts(groupId, recordCount);
@@ -190,7 +185,11 @@ export default class GlipPosts extends RcModule {
           if (pageToken) {
             params.pageToken = pageToken;
           }
-          const response = await this._client.glip().groups(groupId).posts().list(params);
+          const response = await this._client
+            .glip()
+            .groups(groupId)
+            .posts()
+            .list(params);
           this.store.dispatch({
             type: this.actionTypes.fetchSuccess,
             groupId,
@@ -223,7 +222,8 @@ export default class GlipPosts extends RcModule {
   @proxify
   async create({ groupId }) {
     let text = this.postInputs[groupId] && this.postInputs[groupId].text;
-    const mentions = this.postInputs[groupId] && this.postInputs[groupId].mentions;
+    const mentions =
+      this.postInputs[groupId] && this.postInputs[groupId].mentions;
     if (isBlank(text) || !groupId) {
       return;
     }
@@ -232,7 +232,10 @@ export default class GlipPosts extends RcModule {
         if (!mention.matcherId) {
           return;
         }
-        text = text.replace(mention.mention, `![:Person](${mention.matcherId})`);
+        text = text.replace(
+          mention.mention,
+          `![:Person](${mention.matcherId})`,
+        );
       });
     }
     const fakeId = `${Date.now()}`;
@@ -252,9 +255,13 @@ export default class GlipPosts extends RcModule {
         record: fakeRecord,
       });
       this.updatePostInput({ text: '', groupId, mentions: [] });
-      const record = await this._client.glip().groups(groupId).posts().post({
-        text,
-      });
+      const record = await this._client
+        .glip()
+        .groups(groupId)
+        .posts()
+        .post({
+          text,
+        });
       this.store.dispatch({
         type: this.actionTypes.createSuccess,
         groupId,
@@ -285,8 +292,8 @@ export default class GlipPosts extends RcModule {
         {
           headers: {
             'Content-Type': 'application/octet-stream',
-          }
-        }
+          },
+        },
       );
       return response.json();
     } catch (e) {
@@ -300,7 +307,7 @@ export default class GlipPosts extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.updateReadTime,
       groupId,
-      time
+      time,
     });
   }
 

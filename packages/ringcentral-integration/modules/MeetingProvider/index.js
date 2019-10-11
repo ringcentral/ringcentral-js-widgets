@@ -7,24 +7,18 @@ import DataFetcher from '../../lib/DataFetcher';
  * @description: just check meeting provider from RC PLA
  */
 @Module({
-  deps: [
-    'Auth',
-    'Client',
-    'Alert'
-  ]
+  deps: ['Auth', 'Client', 'Alert'],
 })
 export default class MeetingProvider extends DataFetcher {
-  constructor({
-    ...options
-  }) {
+  constructor({ ...options }) {
     super({
+      cleanOnReset: true,
       ...options,
       async fetchFunction() {
         const data = await getMeetingProvider(this._client);
-        console.log('--meeting', data);
         return data;
       },
-      disableCache: true
+      disableCache: true,
     });
   }
 

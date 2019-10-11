@@ -2,7 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
 import EventEmitter from 'events';
-import MessageSender, { MessageMaxLength, MultipartMessageMaxLength } from './index';
+import MessageSender, {
+  MessageMaxLength,
+  MultipartMessageMaxLength,
+} from './index';
 import getMessageSenderReducer from './getMessageSenderReducer';
 import actionTypes from './messageSenderActionTypes';
 import messageSenderMessages from './messageSenderMessages';
@@ -78,40 +81,40 @@ describe('MessageSender Unit Test', () => {
 
       it('Should return true when _extensionPhoneNumber and _extensionInfo is all ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: true
+          ready: true,
         };
         messageSender._extensionInfo = {
-          ready: true
+          ready: true,
         };
         expect(messageSender._shouldInit()).to.equal(true);
       });
 
       it('Should return false when _extensionPhoneNumber and _extensionInfo is all not ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: false
+          ready: false,
         };
         messageSender._extensionInfo = {
-          ready: false
+          ready: false,
         };
         expect(messageSender._shouldInit()).to.equal(false);
       });
 
       it('Should return false when _extensionPhoneNumber is not ready and _extensionInfo is ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: false
+          ready: false,
         };
         messageSender._extensionInfo = {
-          ready: true
+          ready: true,
         };
         expect(messageSender._shouldInit()).to.equal(false);
       });
 
       it('Should return false when _extensionInfo is not ready and _extensionPhoneNumber is ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: true
+          ready: true,
         };
         messageSender._extensionInfo = {
-          ready: false
+          ready: false,
         };
         expect(messageSender._shouldInit()).to.equal(false);
       });
@@ -124,40 +127,40 @@ describe('MessageSender Unit Test', () => {
 
       it('Should return false when _extensionInfo and _extensionPhoneNumber is all ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: true
+          ready: true,
         };
         messageSender._extensionInfo = {
-          ready: true
+          ready: true,
         };
         expect(messageSender._shouldInit()).to.equal(false);
       });
 
       it('Should return false when  _extensionInfo is ready and _extensionPhoneNumber is not ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: false
+          ready: false,
         };
         messageSender._extensionInfo = {
-          ready: true
+          ready: true,
         };
         expect(messageSender._shouldInit()).to.equal(false);
       });
 
       it('Should return false when _extensionPhoneNumber is ready and _extensionInfo is not ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: true
+          ready: true,
         };
         messageSender._extensionInfo = {
-          ready: false
+          ready: false,
         };
         expect(messageSender._shouldInit()).to.equal(false);
       });
 
       it('Should return false when _extensionPhoneNumber and _extensionInfo is all not ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: false
+          ready: false,
         };
         messageSender._extensionInfo = {
-          ready: false
+          ready: false,
         };
         expect(messageSender._shouldInit()).to.equal(false);
       });
@@ -172,40 +175,40 @@ describe('MessageSender Unit Test', () => {
 
       it('Should return true when _extensionPhoneNumber and _extensionInfo all not ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: false
+          ready: false,
         };
         messageSender._extensionInfo = {
-          ready: false
+          ready: false,
         };
         expect(messageSender._shouldReset()).to.equal(true);
       });
 
       it('Should return true when _extensionInfo is ready and _extensionPhoneNumber is not ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: false
+          ready: false,
         };
         messageSender._extensionInfo = {
-          ready: true
+          ready: true,
         };
         expect(messageSender._shouldReset()).to.equal(true);
       });
 
       it('Should return true when _extensionPhoneNumber is ready with _extensionInfo not ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: true
+          ready: true,
         };
         messageSender._extensionInfo = {
-          ready: false
+          ready: false,
         };
         expect(messageSender._shouldReset()).to.equal(true);
       });
 
       it('Should return false when _extensionPhoneNumber and _extensionInfo all ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: true
+          ready: true,
         };
         messageSender._extensionInfo = {
-          ready: true
+          ready: true,
         };
         const resetVal = messageSender._shouldReset();
         expect(resetVal).to.equal(false);
@@ -219,10 +222,10 @@ describe('MessageSender Unit Test', () => {
 
       it('Should return false when _extensionPhoneNumber and _extensionInfo is all ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: true
+          ready: true,
         };
         messageSender._extensionInfo = {
-          ready: true
+          ready: true,
         };
         const resetVal = messageSender._shouldReset();
         expect(resetVal).to.equal(false);
@@ -230,30 +233,30 @@ describe('MessageSender Unit Test', () => {
 
       it('Should return false when _extensionInfo is not ready and _extensionPhoneNumber is ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: true
+          ready: true,
         };
         messageSender._extensionInfo = {
-          ready: false
+          ready: false,
         };
         expect(messageSender._shouldReset()).to.equal(false);
       });
 
       it('Should return false when _extensionPhoneNumber is not ready and _extensionInfo is ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: false
+          ready: false,
         };
         messageSender._extensionInfo = {
-          ready: true
+          ready: true,
         };
         expect(messageSender._shouldReset()).to.equal(false);
       });
 
       it('Should return false when _extensionInfo and _extensionPhoneNumber is all not ready', () => {
         messageSender._extensionPhoneNumber = {
-          ready: false
+          ready: false,
         };
         messageSender._extensionInfo = {
-          ready: false
+          ready: false,
         };
         expect(messageSender._shouldReset()).to.equal(false);
       });
@@ -263,7 +266,7 @@ describe('MessageSender Unit Test', () => {
   describe('_alertWarning', () => {
     it('_alertWarning should return false when message is undefined', () => {
       messageSender._alert = {
-        warning: () => null
+        warning: () => null,
       };
       const result = messageSender._alertWarning();
       expect(result).to.equal(false);
@@ -271,7 +274,7 @@ describe('MessageSender Unit Test', () => {
 
     it('_alertWarning should return false when message is null', () => {
       messageSender._alert = {
-        warning: () => null
+        warning: () => null,
       };
       const result = messageSender._alertWarning(null);
       expect(result).to.equal(false);
@@ -279,7 +282,7 @@ describe('MessageSender Unit Test', () => {
 
     it('_alertWarning should return true', () => {
       messageSender._alert = {
-        warning: () => null
+        warning: () => null,
       };
       const result = messageSender._alertWarning('warning');
       expect(result).to.equal(true);
@@ -298,28 +301,40 @@ describe('MessageSender Unit Test', () => {
     it('should return false and warning textEmpty when text is blank', () => {
       sinon.stub(messageSender, '_alertWarning');
       const result = messageSender._validateText('');
-      sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.textEmpty);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.textEmpty,
+      );
       expect(result).to.equal(false);
     });
 
     it('should return false and warning textEmpty when text is multi space', () => {
       sinon.stub(messageSender, '_alertWarning');
       const result = messageSender._validateText('  ');
-      sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.textEmpty);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.textEmpty,
+      );
       expect(result).to.equal(false);
     });
 
     it('should return false and warning textEmpty when text is null', () => {
       sinon.stub(messageSender, '_alertWarning');
       const result = messageSender._validateText(null);
-      sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.textEmpty);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.textEmpty,
+      );
       expect(result).to.equal(false);
     });
 
     it('should return false and warning textEmpty when text is undefined', () => {
       sinon.stub(messageSender, '_alertWarning');
       const result = messageSender._validateText();
-      sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.textEmpty);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.textEmpty,
+      );
       expect(result).to.equal(false);
     });
 
@@ -327,7 +342,10 @@ describe('MessageSender Unit Test', () => {
       sinon.stub(messageSender, '_alertWarning');
       const text = 'a'.repeat(MessageMaxLength + 1);
       const result = messageSender._validateText(text);
-      sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.textTooLong);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.textTooLong,
+      );
       expect(result).to.equal(false);
     });
 
@@ -335,7 +353,10 @@ describe('MessageSender Unit Test', () => {
       sinon.stub(messageSender, '_alertWarning');
       const text = 'a'.repeat(MultipartMessageMaxLength + 1);
       const result = messageSender._validateText(text, true);
-      sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.multipartTextTooLong);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.multipartTextTooLong,
+      );
       expect(result).to.equal(false);
     });
 
@@ -369,7 +390,10 @@ describe('MessageSender Unit Test', () => {
       sinon.stub(messageSender, '_alertWarning');
       const toNumbers = [];
       const result = messageSender._validateToNumbersIsEmpty(toNumbers);
-      sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.recipientsEmpty);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.recipientsEmpty,
+      );
       expect(result).to.equal(true);
     });
   });
@@ -378,7 +402,9 @@ describe('MessageSender Unit Test', () => {
     it('should return true and not call warning', () => {
       sinon.stub(messageSender, '_alertWarning');
       const senderNumber = '1234567891';
-      sinon.stub(messageSender, 'senderNumbersList', { get: () => [{ phoneNumber: '1234567891' }] });
+      sinon.stub(messageSender, 'senderNumbersList', {
+        get: () => [{ phoneNumber: '1234567891' }],
+      });
       const result = messageSender._validateSenderNumber(senderNumber);
       sinon.assert.notCalled(messageSender._alertWarning);
       expect(result).to.equal(true);
@@ -387,11 +413,13 @@ describe('MessageSender Unit Test', () => {
     it('should return false and warning senderNumberInvalid when senderNumber is blank', () => {
       sinon.stub(messageSender, '_alertWarning');
       const senderNumber = '';
-      sinon.stub(messageSender, 'senderNumbersList', { get: () => [{ phoneNumber: '1234567891' }] });
+      sinon.stub(messageSender, 'senderNumbersList', {
+        get: () => [{ phoneNumber: '1234567891' }],
+      });
       const result = messageSender._validateSenderNumber(senderNumber);
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.senderNumberInvalid
+        messageSenderMessages.senderNumberInvalid,
       );
       expect(result).to.equal(false);
     });
@@ -399,62 +427,64 @@ describe('MessageSender Unit Test', () => {
     it('should return false and warning senderNumberInvalid when senderNumber is null', () => {
       sinon.stub(messageSender, '_alertWarning');
       const senderNumber = null;
-      sinon.stub(messageSender, 'senderNumbersList', { get: () => [{ phoneNumber: '1234567891' }] });
+      sinon.stub(messageSender, 'senderNumbersList', {
+        get: () => [{ phoneNumber: '1234567891' }],
+      });
       const result = messageSender._validateSenderNumber(senderNumber);
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.senderNumberInvalid
+        messageSenderMessages.senderNumberInvalid,
       );
       expect(result).to.equal(false);
     });
 
     it('should return false and warning senderNumberInvalid when senderNumber is undefined', () => {
       sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, 'senderNumbersList', { get: () => [{ phoneNumber: '1234567891' }] });
+      sinon.stub(messageSender, 'senderNumbersList', {
+        get: () => [{ phoneNumber: '1234567891' }],
+      });
       const result = messageSender._validateSenderNumber();
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.senderNumberInvalid
+        messageSenderMessages.senderNumberInvalid,
       );
       expect(result).to.equal(false);
     });
 
     it(`should return false and warning senderNumberInvalid
       when senderNumber is not included in senderNumbersList`, () => {
-        const senderNumber = '123456789';
-        sinon.stub(messageSender, '_alertWarning');
-        sinon.stub(messageSender, 'senderNumbersList', { get: () => [{ phoneNumber: '1234567891' }] });
-        const result = messageSender._validateSenderNumber(senderNumber);
-        sinon.assert.calledWith(
-          messageSender._alertWarning,
-          messageSenderMessages.senderNumberInvalid
-        );
-        expect(result).to.equal(false);
+      const senderNumber = '123456789';
+      sinon.stub(messageSender, '_alertWarning');
+      sinon.stub(messageSender, 'senderNumbersList', {
+        get: () => [{ phoneNumber: '1234567891' }],
       });
+      const result = messageSender._validateSenderNumber(senderNumber);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.senderNumberInvalid,
+      );
+      expect(result).to.equal(false);
+    });
   });
 
   describe('_alertInvalidRecipientErrors', () => {
     it('should return warning noAreaCode', () => {
       sinon.stub(messageSender, '_alertWarning');
-      const errors = [
-        { type: 'noAreaCode' }
-      ];
+      const errors = [{ type: 'noAreaCode' }];
       messageSender._alertInvalidRecipientErrors(errors);
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.noAreaCode
+        messageSenderMessages.noAreaCode,
       );
     });
 
     it('should return warning noToNumber', () => {
       sinon.stub(messageSender, '_alertWarning');
-      const errors = [
-        { type: 'noToNumber' }
-      ];
+      const errors = [{ type: 'noToNumber' }];
       messageSender._alertInvalidRecipientErrors(errors);
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.noToNumber
+        messageSenderMessages.noToNumber,
       );
     });
 
@@ -467,13 +497,11 @@ describe('MessageSender Unit Test', () => {
 
     it('should return warning recipientNumberInvalids', () => {
       sinon.stub(messageSender, '_alertWarning');
-      const errors = [
-        { type: 'aaa' }
-      ];
+      const errors = [{ type: 'aaa' }];
       messageSender._alertInvalidRecipientErrors(errors);
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.recipientNumberInvalids
+        messageSenderMessages.recipientNumberInvalids,
       );
     });
   });
@@ -485,7 +513,7 @@ describe('MessageSender Unit Test', () => {
       const result = await messageSender._validateToNumbers(toNumbers);
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.recipientsEmpty
+        messageSenderMessages.recipientsEmpty,
       );
       expect(result.result).to.equal(false);
     });
@@ -497,9 +525,11 @@ describe('MessageSender Unit Test', () => {
       messageSender._numberValidate = {
         validateNumbers: () => ({
           result: false,
-          errors: [{
-            type: 'noAreaCode',
-          }],
+          errors: [
+            {
+              type: 'noAreaCode',
+            },
+          ],
         }),
       };
       const result = await messageSender._validateToNumbers(toNumbers);
@@ -507,29 +537,30 @@ describe('MessageSender Unit Test', () => {
       expect(result.result).to.equal(false);
     });
 
-
     it(`should return result false and _alertWarning notAnExtension
         if subAddress is not a extension number`, async () => {
-        sinon.stub(messageSender, '_alertWarning');
-        sinon.stub(messageSender, '_alertInvalidRecipientErrors');
-        const toNumbers = ['1234567890*999'];
-        messageSender._numberValidate = {
-          validateNumbers: () => ({
-            result: true,
-            numbers: [{
+      sinon.stub(messageSender, '_alertWarning');
+      sinon.stub(messageSender, '_alertInvalidRecipientErrors');
+      const toNumbers = ['1234567890*999'];
+      messageSender._numberValidate = {
+        validateNumbers: () => ({
+          result: true,
+          numbers: [
+            {
               e164: '+1234567890',
-              subAddress: '999'
-            }]
-          }),
-          isCompanyExtension: () => false,
-        };
-        const result = await messageSender._validateToNumbers(toNumbers);
-        sinon.assert.calledWith(
-          messageSender._alertWarning,
-          messageSenderMessages.notAnExtension
-        );
-        expect(result.result).to.equal(false);
-      });
+              subAddress: '999',
+            },
+          ],
+        }),
+        isCompanyExtension: () => false,
+      };
+      const result = await messageSender._validateToNumbers(toNumbers);
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.notAnExtension,
+      );
+      expect(result.result).to.equal(false);
+    });
 
     it('should return result true if subAddress is a included extension number', async () => {
       sinon.stub(messageSender, '_alertWarning');
@@ -538,10 +569,12 @@ describe('MessageSender Unit Test', () => {
       messageSender._numberValidate = {
         validateNumbers: () => ({
           result: true,
-          numbers: [{
-            e164: '+1234567890',
-            subAddress: '101'
-          }]
+          numbers: [
+            {
+              e164: '+1234567890',
+              subAddress: '101',
+            },
+          ],
         }),
         isCompanyExtension: () => true,
       };
@@ -559,9 +592,11 @@ describe('MessageSender Unit Test', () => {
       messageSender._numberValidate = {
         validateNumbers: () => ({
           result: true,
-          numbers: [{
-            e164: '+1234567890'
-          }]
+          numbers: [
+            {
+              e164: '+1234567890',
+            },
+          ],
         }),
       };
       const result = await messageSender._validateToNumbers(toNumbers);
@@ -577,9 +612,11 @@ describe('MessageSender Unit Test', () => {
       messageSender._numberValidate = {
         validateNumbers: () => ({
           result: true,
-          numbers: [{
-            e164: '+1234567890'
-          }]
+          numbers: [
+            {
+              e164: '+1234567890',
+            },
+          ],
         }),
       };
       const result = await messageSender._validateToNumbers(toNumbers);
@@ -602,7 +639,7 @@ describe('MessageSender Unit Test', () => {
       });
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.textEmpty
+        messageSenderMessages.textEmpty,
       );
       expect(result).to.equal(null);
     });
@@ -619,7 +656,7 @@ describe('MessageSender Unit Test', () => {
       });
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.textTooLong
+        messageSenderMessages.textTooLong,
       );
       expect(result).to.equal(null);
     });
@@ -644,13 +681,15 @@ describe('MessageSender Unit Test', () => {
 
     it('should return null and warning senderNumberInvalid', async () => {
       sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, '_validateToNumbers').callsFake(
-        toNumbers => ({ result: true, numbers: toNumbers })
-      );
+      sinon
+        .stub(messageSender, '_validateToNumbers')
+        .callsFake((toNumbers) => ({ result: true, numbers: toNumbers }));
       const toNumbers = ['+1234567890'];
       const fromNumber = '+11111';
       const text = 'abc';
-      sinon.stub(messageSender, 'senderNumbersList', { get: () => ['1234567891'] });
+      sinon.stub(messageSender, 'senderNumbersList', {
+        get: () => ['1234567891'],
+      });
       const result = await messageSender.send({
         fromNumber,
         toNumbers,
@@ -658,7 +697,7 @@ describe('MessageSender Unit Test', () => {
       });
       sinon.assert.calledWith(
         messageSender._alertWarning,
-        messageSenderMessages.senderNumberInvalid
+        messageSenderMessages.senderNumberInvalid,
       );
       expect(result).to.equal(null);
     });
@@ -666,12 +705,10 @@ describe('MessageSender Unit Test', () => {
     it('should catch error and call _onSendError when sendSms error', async () => {
       sinon.stub(messageSender, '_alertWarning');
       sinon.stub(messageSender, '_onSendError');
-      sinon.stub(messageSender, '_validateToNumbers').callsFake(
-        toNumbers => ({ result: true, numbers: toNumbers })
-      );
-      sinon.stub(messageSender, '_validateSenderNumber').callsFake(
-        () => true
-      );
+      sinon
+        .stub(messageSender, '_validateToNumbers')
+        .callsFake((toNumbers) => ({ result: true, numbers: toNumbers }));
+      sinon.stub(messageSender, '_validateSenderNumber').callsFake(() => true);
       sinon.stub(messageSender, '_sendSms').throws(new Error('error'));
       const toNumbers = ['+1234567890'];
       const fromNumber = '+1234567891';
@@ -682,22 +719,18 @@ describe('MessageSender Unit Test', () => {
           toNumbers,
           text,
         });
-      } catch (error) { }
+      } catch (error) {}
       sinon.assert.calledOnce(messageSender._sendSms);
       sinon.assert.calledOnce(messageSender._onSendError);
     });
 
     it('should call _sendSms and not call _sendPager', async () => {
       sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, '_validateToNumbers').callsFake(
-        toNumbers => ({ result: true, numbers: toNumbers })
-      );
-      sinon.stub(messageSender, '_validateSenderNumber').callsFake(
-        () => true
-      );
-      sinon.stub(messageSender, '_validateText').callsFake(
-        () => true
-      );
+      sinon
+        .stub(messageSender, '_validateToNumbers')
+        .callsFake((toNumbers) => ({ result: true, numbers: toNumbers }));
+      sinon.stub(messageSender, '_validateSenderNumber').callsFake(() => true);
+      sinon.stub(messageSender, '_validateText').callsFake(() => true);
       sinon.stub(messageSender, '_sendPager');
       sinon.stub(messageSender, '_sendSms').callsFake(() => ({ id: '123456' }));
       const toNumbers = ['+1234567890'];
@@ -715,17 +748,15 @@ describe('MessageSender Unit Test', () => {
 
     it('should not call _sendSms and call _sendPager', async () => {
       sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, '_validateToNumbers').callsFake(
-        toNumbers => ({ result: true, numbers: toNumbers })
-      );
-      sinon.stub(messageSender, '_validateSenderNumber').callsFake(
-        () => true
-      );
-      sinon.stub(messageSender, '_validateText').callsFake(
-        () => true
-      );
+      sinon
+        .stub(messageSender, '_validateToNumbers')
+        .callsFake((toNumbers) => ({ result: true, numbers: toNumbers }));
+      sinon.stub(messageSender, '_validateSenderNumber').callsFake(() => true);
+      sinon.stub(messageSender, '_validateText').callsFake(() => true);
       sinon.stub(messageSender, '_sendSms');
-      sinon.stub(messageSender, '_sendPager').callsFake(() => ({ id: '1234567' }));
+      sinon
+        .stub(messageSender, '_sendPager')
+        .callsFake(() => ({ id: '1234567' }));
       const toNumbers = ['1234'];
       const fromNumber = '+1234567891';
       const text = 'abc';
@@ -741,17 +772,15 @@ describe('MessageSender Unit Test', () => {
 
     it('should call _sendSms and _sendPager together', async () => {
       sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, '_validateToNumbers').callsFake(
-        toNumbers => ({ result: true, numbers: toNumbers })
-      );
-      sinon.stub(messageSender, '_validateSenderNumber').callsFake(
-        () => true
-      );
-      sinon.stub(messageSender, '_validateText').callsFake(
-        () => true
-      );
+      sinon
+        .stub(messageSender, '_validateToNumbers')
+        .callsFake((toNumbers) => ({ result: true, numbers: toNumbers }));
+      sinon.stub(messageSender, '_validateSenderNumber').callsFake(() => true);
+      sinon.stub(messageSender, '_validateText').callsFake(() => true);
       sinon.stub(messageSender, '_sendSms').callsFake(() => ({ id: '123456' }));
-      sinon.stub(messageSender, '_sendPager').callsFake(() => ({ id: '1234567' }));
+      sinon
+        .stub(messageSender, '_sendPager')
+        .callsFake(() => ({ id: '1234567' }));
       const toNumbers = ['1234', '+1234567890'];
       const fromNumber = '+1234567891';
       const text = 'abc';
@@ -767,15 +796,11 @@ describe('MessageSender Unit Test', () => {
 
     it('should call _sendSms twice', async () => {
       sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, '_validateToNumbers').callsFake(
-        toNumbers => ({ result: true, numbers: toNumbers })
-      );
-      sinon.stub(messageSender, '_validateSenderNumber').callsFake(
-        () => true
-      );
-      sinon.stub(messageSender, '_validateText').callsFake(
-        () => true
-      );
+      sinon
+        .stub(messageSender, '_validateToNumbers')
+        .callsFake((toNumbers) => ({ result: true, numbers: toNumbers }));
+      sinon.stub(messageSender, '_validateSenderNumber').callsFake(() => true);
+      sinon.stub(messageSender, '_validateText').callsFake(() => true);
       sinon.stub(messageSender, '_sendPager');
       sinon.stub(messageSender, '_sendSms').callsFake(() => ({ id: '123456' }));
       const toNumbers = ['+1234567890', '+1234567892'];
@@ -792,16 +817,14 @@ describe('MessageSender Unit Test', () => {
 
     it('should call _sendPager only once for multiply extensionNumbers', async () => {
       sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, '_validateToNumbers').callsFake(
-        toNumbers => ({ result: true, numbers: toNumbers })
-      );
-      sinon.stub(messageSender, '_validateSenderNumber').callsFake(
-        () => true
-      );
-      sinon.stub(messageSender, '_validateText').callsFake(
-        () => true
-      );
-      sinon.stub(messageSender, '_sendPager').callsFake(() => ({ id: '123456' }));
+      sinon
+        .stub(messageSender, '_validateToNumbers')
+        .callsFake((toNumbers) => ({ result: true, numbers: toNumbers }));
+      sinon.stub(messageSender, '_validateSenderNumber').callsFake(() => true);
+      sinon.stub(messageSender, '_validateText').callsFake(() => true);
+      sinon
+        .stub(messageSender, '_sendPager')
+        .callsFake(() => ({ id: '123456' }));
       const toNumbers = ['1234', '4321'];
       const fromNumber = '+1234567891';
       const text = 'abc';

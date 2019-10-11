@@ -6,7 +6,14 @@ import * as mock from '../mock';
 /** global describe */
 
 export default ({
-  auth, alert, client, presence, availabilityMonitor, messageStore, callLog, account,
+  auth,
+  alert,
+  client,
+  presence,
+  availabilityMonitor,
+  messageStore,
+  callLog,
+  account,
 }) => {
   describe('AvailabilityMonitor:', () => {
     this.timeout(20000);
@@ -18,7 +25,10 @@ export default ({
       mock.mockForLogin();
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
     });
@@ -34,7 +44,7 @@ export default ({
     it('should switch to limited availability mode when user action occurs limited availability error', async () => {
       mock.mockLimited({
         method: 'PUT',
-        path: '/restapi/v1.0/account/~/extension/~/presence'
+        path: '/restapi/v1.0/account/~/extension/~/presence',
       });
       // expect(presence.setBusy).to.throw();
       await presence.setBusy();
@@ -45,7 +55,8 @@ export default ({
       mock.restore();
       mock.mockLimited({
         method: 'GET',
-        url: 'begin:http://whatever/restapi/v1.0/account/~/extension/~/call-log-sync',
+        url:
+          'begin:http://whatever/restapi/v1.0/account/~/extension/~/call-log-sync',
       });
       await callLog._sync('ISync');
       expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
@@ -55,11 +66,12 @@ export default ({
       mock.restore();
       mock.mockLimited({
         method: 'GET',
-        url: 'begin:http://whatever/restapi/v1.0/account/~/extension/~/call-log-sync'
+        url:
+          'begin:http://whatever/restapi/v1.0/account/~/extension/~/call-log-sync',
       });
       mock.mockLimited({
         method: 'GET',
-        path: '/restapi/v1.0/status'
+        path: '/restapi/v1.0/status',
       });
       await callLog._sync('ISync');
       expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
@@ -72,11 +84,12 @@ export default ({
       mock.restore();
       mock.mockLimited({
         method: 'GET',
-        url: 'begin:http://whatever/restapi/v1.0/account/~/extension/~/call-log-sync'
+        url:
+          'begin:http://whatever/restapi/v1.0/account/~/extension/~/call-log-sync',
       });
       mock.mockApi({
         method: 'GET',
-        path: '/restapi/v1.0/status'
+        path: '/restapi/v1.0/status',
       });
       await callLog._sync('ISync');
       expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);

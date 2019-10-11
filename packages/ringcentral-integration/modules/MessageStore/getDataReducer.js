@@ -2,9 +2,10 @@ import { combineReducers } from 'redux';
 import * as messageHelper from '../../lib/messageHelper';
 
 export function getConversationListReducer(types) {
-  return (state = [], {
-    type, records, conversationId, conversationStore, messageIds
-  }) => {
+  return (
+    state = [],
+    { type, records, conversationId, conversationStore, messageIds },
+  ) => {
     const newState = [];
     const stateMap = {};
     switch (type) {
@@ -18,7 +19,7 @@ export function getConversationListReducer(types) {
           state.forEach((oldConversation) => {
             newState.push(oldConversation);
             stateMap[oldConversation.id] = {
-              index: newState.length - 1
+              index: newState.length - 1,
             };
           });
         }
@@ -41,7 +42,9 @@ export function getConversationListReducer(types) {
             // when user deleted a coversation message
             if (isDeleted && message.id === oldConversation.messageId) {
               const oldMessageList = conversationStore[id] || [];
-              const exsitedMessageList = oldMessageList.filter(m => m.id !== message.id);
+              const exsitedMessageList = oldMessageList.filter(
+                (m) => m.id !== message.id,
+              );
               if (exsitedMessageList.length > 0) {
                 newState[stateMap[id].index] = {
                   id,
@@ -67,15 +70,19 @@ export function getConversationListReducer(types) {
             messageId: message.id,
           });
           stateMap[id] = {
-            index: newState.length - 1
+            index: newState.length - 1,
           };
         });
-        return newState.filter(c => !!c).sort(messageHelper.sortByCreationTime);
+        return newState
+          .filter((c) => !!c)
+          .sort(messageHelper.sortByCreationTime);
       case types.deleteConversation:
-        return state.filter(c => c.id !== conversationId);
+        return state.filter((c) => c.id !== conversationId);
 
       case types.sliceConversations:
-        return state.filter(({ messageId }) => messageIds.indexOf(messageId) > -1);
+        return state.filter(
+          ({ messageId }) => messageIds.indexOf(messageId) > -1,
+        );
       case types.resetSuccess:
         return [];
       default:
@@ -85,9 +92,7 @@ export function getConversationListReducer(types) {
 }
 
 export function getConversationStoreReducer(types) {
-  return (state = {}, {
-    type, records, conversationId, messageIds
-  }) => {
+  return (state = {}, { type, records, conversationId, messageIds }) => {
     let newState = {};
     const updatedConversations = {};
     switch (type) {
@@ -106,16 +111,21 @@ export function getConversationStoreReducer(types) {
           const message = messageHelper.normalizeRecord(record);
           const id = message.conversationId;
           const newMessages = newState[id] ? [].concat(newState[id]) : [];
-          const oldMessageIndex = newMessages.findIndex(r => r.id === record.id);
+          const oldMessageIndex = newMessages.findIndex(
+            (r) => r.id === record.id,
+          );
           if (messageHelper.messageIsDeleted(message)) {
-            newState[id] = newMessages.filter(m => m.id !== message.id);
+            newState[id] = newMessages.filter((m) => m.id !== message.id);
             if (newState[id].length === 0) {
               delete newState[id];
             }
             return;
           }
           if (oldMessageIndex > -1) {
-            if (newMessages[oldMessageIndex].lastModifiedTime < message.lastModifiedTime) {
+            if (
+              newMessages[oldMessageIndex].lastModifiedTime <
+              message.lastModifiedTime
+            ) {
               newMessages[oldMessageIndex] = message;
             }
           } else if (messageHelper.messageIsAcceptable(message)) {
@@ -140,7 +150,9 @@ export function getConversationStoreReducer(types) {
         const keys = Object.keys(state);
         return keys.reduce((acc, key) => {
           const messages = state[key];
-          const persist = messages.filter(({ id }) => messageIds.indexOf(id) > -1);
+          const persist = messages.filter(
+            ({ id }) => messageIds.indexOf(id) > -1,
+          );
           if (!persist.length) {
             return acc;
           }

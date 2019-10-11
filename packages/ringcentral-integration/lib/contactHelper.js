@@ -8,7 +8,7 @@ export function addPhoneToContact(contact, phone, type) {
     return;
   }
   const existedPhone = contact.phoneNumbers.find(
-    number => number && number.phoneNumber === phone
+    (number) => number && number.phoneNumber === phone,
   );
   if (existedPhone) {
     existedPhone.phoneType = type;
@@ -103,7 +103,8 @@ export function filterContacts(contacts, searchFilter) {
     if (
       name.toLowerCase().indexOf(searchText) >= 0 ||
       (item.extensionNumber && item.extensionNumber.indexOf(searchText) >= 0) ||
-      (item.phoneNumbers && item.phoneNumbers.find(x => x.phoneNumber.indexOf(searchText) >= 0))
+      (item.phoneNumbers &&
+        item.phoneNumbers.find((x) => x.phoneNumber.indexOf(searchText) >= 0))
     ) {
       return true;
     }
@@ -114,17 +115,15 @@ export function filterContacts(contacts, searchFilter) {
 export function getMatchContacts({ contacts, phoneNumber, entityType }) {
   const result = [];
   contacts.forEach((contact) => {
-    const found = contact.phoneNumbers && contact.phoneNumbers.find(
-      number => (number.phoneNumber === phoneNumber)
-    );
+    const found =
+      contact.phoneNumbers &&
+      contact.phoneNumbers.find((number) => number.phoneNumber === phoneNumber);
     if (!found) {
       return;
     }
     const matchedContact = {
       ...contact,
-      phoneNumbers: [
-        ...contact.phoneNumbers
-      ],
+      phoneNumbers: [...contact.phoneNumbers],
       entityType,
     };
     result.push(matchedContact);

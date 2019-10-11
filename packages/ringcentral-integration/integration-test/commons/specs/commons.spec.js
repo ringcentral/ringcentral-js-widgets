@@ -27,15 +27,25 @@ import runConferenceCallTests from '../../spec-modules/conferenceCall';
 import runAvailabilityMonitorTests from '../../spec-modules/availabilityMonitor';
 
 let phone = getTestPhone();
-runNumValidInCallTests(phone.auth, phone.alert, phone.client, phone.regionSettings, phone.call,
-  multiDialingPlanIncludingUSCAAccount);
+runNumValidInCallTests(
+  phone.auth,
+  phone.alert,
+  phone.client,
+  phone.regionSettings,
+  phone.call,
+  multiDialingPlanIncludingUSCAAccount,
+);
 
 // phone = getTestPhone();
 // runCallLogTests(phone.auth, phone.client, phone.callLog, callLogAccount);
 
 phone = getTestPhone();
-runRegionSettingTests(phone.auth, phone.client, phone.regionSettings,
-  multiDialingPlanIncludingUSCAAccount);
+runRegionSettingTests(
+  phone.auth,
+  phone.client,
+  phone.regionSettings,
+  multiDialingPlanIncludingUSCAAccount,
+);
 
 phone = getTestPhone();
 runCallingSettingsTests(
@@ -65,7 +75,7 @@ runRateLimiterTests(
   phone.alert,
   defaultAccount,
   phone.client,
-  phone.rateLimiter
+  phone.rateLimiter,
 );
 
 phone = getTestPhone();
@@ -90,7 +100,7 @@ runExtensionInfoTests(
   phone.client,
   phone.extensionInfo,
   defaultAccount,
-  phone.alert
+  phone.alert,
 );
 
 phone = getTestPhone();
@@ -99,7 +109,7 @@ runAccountInfoTests(
   phone.client,
   phone.accountInfo,
   defaultAccount,
-  phone.alert
+  phone.alert,
 );
 
 phone = getTestPhone();
@@ -116,7 +126,7 @@ runRolesAndPermissionsTests(
   phone.client,
   phone.rolesAndPermissions,
   defaultAccount,
-  phone.alert
+  phone.alert,
 );
 
 phone = getTestPhone();
@@ -128,12 +138,7 @@ runExtensionPhoneNumberTests(
 );
 
 phone = getTestPhone();
-runPresenceTests(
-  phone.auth,
-  phone.client,
-  phone.presence,
-  defaultAccount,
-);
+runPresenceTests(phone.auth, phone.client, phone.presence, defaultAccount);
 
 phone = getTestPhone();
 runConferenceCallTests(

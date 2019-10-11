@@ -2,48 +2,40 @@ import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../getModuleStatusReducer';
 
 export function createGetDataReducer(cleanOnReset) {
-  return types => (
-    (state = null, {
-      type,
-      data,
-      hasPermission = true
-    }) => {
-      switch (type) {
-        case types.fetchSuccess:
-          return data;
-        case types.initSuccess:
-          if (hasPermission) {
-            return state;
-          }
+  return (types) => (state = null, { type, data, hasPermission = true }) => {
+    switch (type) {
+      case types.fetchSuccess:
+        return data;
+      case types.initSuccess:
+        if (hasPermission) {
+          return state;
+        }
+        return null;
+      case types.resetSuccess:
+        if (cleanOnReset) {
           return null;
-        case types.resetSuccess:
-          if (cleanOnReset) {
-            return null;
-          }
-          return state;
-        default:
-          return state;
-      }
+        }
+        return state;
+      default:
+        return state;
     }
-  );
+  };
 }
 
 export function createGetTimestampReducer(cleanOnReset) {
-  return types => (
-    (state = null, { type, timestamp }) => {
-      switch (type) {
-        case types.fetchSuccess:
-          return timestamp || state;
-        case types.resetSuccess:
-          if (cleanOnReset) {
-            return null;
-          }
-          return state;
-        default:
-          return state;
-      }
+  return (types) => (state = null, { type, timestamp }) => {
+    switch (type) {
+      case types.fetchSuccess:
+        return timestamp || state;
+      case types.resetSuccess:
+        if (cleanOnReset) {
+          return null;
+        }
+        return state;
+      default:
+        return state;
     }
-  );
+  };
 }
 
 export function getRetryCountReducer(types) {

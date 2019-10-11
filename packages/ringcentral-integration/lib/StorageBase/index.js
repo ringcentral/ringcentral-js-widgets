@@ -8,14 +8,13 @@ import moduleStatuses from '../../enums/moduleStatuses';
 
 import getStorageReducer from './getStorageReducer';
 
-
 /**
  * @class
  * @description Alternative implementation of the Storage class.
  *  Allows registeration of reducers so that persisted states can be computed with reducers.
  */
 @Library({
-  deps: [{ dep: 'StorageBaseOptions', optional: true }]
+  deps: [{ dep: 'StorageBaseOptions', optional: true }],
 })
 export default class StorageBase extends RcModule {
   constructor({
@@ -33,7 +32,10 @@ export default class StorageBase extends RcModule {
     });
     this._StorageProvider = StorageProvider;
     this._reducers = {};
-    this._reducer = getStorageReducer({ types: this.actionTypes, reducers: this._reducers });
+    this._reducer = getStorageReducer({
+      types: this.actionTypes,
+      reducers: this._reducers,
+    });
   }
 
   registerReducer({ key, reducer }) {

@@ -29,7 +29,9 @@ export default class ProviderRegistry {
 
   resolve(token, providers) {
     if (!this._map.has(token)) {
-      throw DIError(`Cannot resolve provider metadata [${token}]: providers is not found`);
+      throw DIError(
+        `Cannot resolve provider metadata [${token}]: providers is not found`,
+      );
     }
     this._map.set(token, { providers, resolved: true });
   }

@@ -2,19 +2,12 @@ import { combineReducers } from 'redux';
 import { isHangUp, isReject } from './helpers';
 import activeCallControlStatus from '../../enums/activeCallControlStatus';
 
-
-function updateActiveSessionStatus({
-  state,
-  party,
-  sessionId
-}) {
+function updateActiveSessionStatus({ state, party, sessionId }) {
   const newState = { ...state };
   const {
     muted,
     standAlone,
-    status: {
-      code
-    },
+    status: { code },
     direction,
     id,
   } = party;
@@ -30,24 +23,21 @@ function updateActiveSessionStatus({
       sessionId,
       isOnMute: muted,
       isOnHold: code === activeCallControlStatus.hold,
-      isReject: isReject({ direction, code })
+      isReject: isReject({ direction, code }),
     };
   }
   return newState;
 }
 
 function setActiveSessionStatus(state, activeSession, obj) {
-  const {
-    sessionId,
-    partyId
-  } = activeSession;
+  const { sessionId, partyId } = activeSession;
   const newState = { ...state };
   if (!newState[sessionId]) {
     newState[sessionId] = {};
   }
   newState[sessionId][partyId] = {
     ...newState[sessionId][partyId],
-    ...obj
+    ...obj,
   };
   return newState;
 }
@@ -72,23 +62,18 @@ function getRecordingIdsStatusReducer(types) {
   return (state = {}, { type, activeSession, response }) => {
     switch (type) {
       case types.startRecord: {
-        const {
-          sessionId,
-          partyId
-        } = activeSession;
+        const { sessionId, partyId } = activeSession;
         const newState = { ...state };
         if (!newState[sessionId]) {
           newState[sessionId] = {};
         }
         newState[sessionId][partyId] = {
-          ...response
+          ...response,
         };
         return newState;
       }
       case types.stopRecord: {
-        const {
-          sessionId,
-        } = activeSession;
+        const { sessionId } = activeSession;
         const newState = { ...state };
         if (newState[sessionId]) {
           delete newState[sessionId];
@@ -107,9 +92,10 @@ function getRecordingIdsStatusReducer(types) {
   };
 }
 function getActiveSessionsStatusReducer(types) {
-  return (state = {}, {
-    type, sessionId, party, activeSessionsMap, activeSession
-  }) => {
+  return (
+    state = {},
+    { type, sessionId, party, activeSessionsMap, activeSession },
+  ) => {
     switch (type) {
       case types.updateActiveSessions: {
         let newState = null;
@@ -118,7 +104,7 @@ function getActiveSessionsStatusReducer(types) {
             newState = updateActiveSessionStatus({
               state,
               party: activeSessionsMap[sessionIdKey],
-              sessionId
+              sessionId,
             });
           }
         }
@@ -128,12 +114,14 @@ function getActiveSessionsStatusReducer(types) {
         return updateActiveSessionStatus({
           state,
           party,
-          sessionId
+          sessionId,
         });
       }
       case types.holdSuccess:
       case types.unholdSuccess: {
-        return setActiveSessionStatus(state, activeSession, { isOnHold: type === types.holdSuccess });
+        return setActiveSessionStatus(state, activeSession, {
+          isOnHold: type === types.holdSuccess,
+        });
       }
       case types.rejectSuccess:
       case types.hangUpSuccess:

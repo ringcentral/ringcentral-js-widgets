@@ -23,15 +23,16 @@ describe('Call ::', () => {
     });
     it('should return original state if actionType is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-      .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.number on connect', () => {
       const number = {};
-      expect(reducer(null, {
-        type: actionTypes.connect,
-        phoneNumber: number,
-      })).to.equal(number);
+      expect(
+        reducer(null, {
+          type: actionTypes.connect,
+          phoneNumber: number,
+        }),
+      ).to.equal(number);
     });
   });
   describe('getCallStatusReducer', () => {
@@ -44,22 +45,26 @@ describe('Call ::', () => {
     });
     it('should return original state if actionType is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-      .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return connecting status if actionType is connect', () => {
-      expect(reducer('foo', {
-        type: actionTypes.connect,
-      })).to.equal(callStatus.connecting);
+      expect(
+        reducer('foo', {
+          type: actionTypes.connect,
+        }),
+      ).to.equal(callStatus.connecting);
     });
     it('should return idle status if actionType is connectSuccess or connectError', () => {
-      expect(reducer('foo', {
-        type: actionTypes.connectSuccess,
-      })).to.equal(callStatus.idle);
-      expect(reducer('foo', {
-        type: actionTypes.connectError,
-      })).to.equal(callStatus.idle);
-
+      expect(
+        reducer('foo', {
+          type: actionTypes.connectSuccess,
+        }),
+      ).to.equal(callStatus.idle);
+      expect(
+        reducer('foo', {
+          type: actionTypes.connectError,
+        }),
+      ).to.equal(callStatus.idle);
     });
   });
 });

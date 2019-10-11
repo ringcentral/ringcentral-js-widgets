@@ -20,23 +20,28 @@ describe('getConnectivityReducer', () => {
     });
     it('should return originalState if type is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return true on connectSuccess', () => {
-      expect(reducer(null, {
-        type: actionTypes.connectSuccess,
-      })).to.true;
+      expect(
+        reducer(null, {
+          type: actionTypes.connectSuccess,
+        }),
+      ).to.true;
     });
     it('should return false on connectFail', () => {
-      expect(reducer(null, {
-        type: actionTypes.connectFail,
-      })).to.false;
+      expect(
+        reducer(null, {
+          type: actionTypes.connectFail,
+        }),
+      ).to.false;
     });
     it('should return flase on networkLoss', () => {
-      expect(reducer(null, {
-        type: actionTypes.networkLoss,
-      })).to.false;
+      expect(
+        reducer(null, {
+          type: actionTypes.networkLoss,
+        }),
+      ).to.false;
     });
   });
 });
@@ -55,18 +60,21 @@ describe('getNetworkLossReducer', () => {
     });
     it('should return originalState if type is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return false on connectSuccess', () => {
-      expect(reducer(null, {
-        type: actionTypes.connectSuccess,
-      })).to.false;
+      expect(
+        reducer(null, {
+          type: actionTypes.connectSuccess,
+        }),
+      ).to.false;
     });
     it('should return true on networkLoss', () => {
-      expect(reducer(null, {
-        type: actionTypes.networkLoss,
-      })).to.true;
+      expect(
+        reducer(null, {
+          type: actionTypes.networkLoss,
+        }),
+      ).to.true;
     });
   });
 });

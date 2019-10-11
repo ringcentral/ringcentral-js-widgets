@@ -27,12 +27,14 @@ describe('RcModule', () => {
   describe('prefix', () => {
     it('should be null-like or string', () => {
       const prefixes = [{}, 3, true, []];
-      prefixes.forEach(p => {
+      prefixes.forEach((p) => {
         expect(() => {
           const module = new RcModule({
             prefix: p,
           });
-        }).to.throw('The `prefix` options property must be null, undefined, or a string');
+        }).to.throw(
+          'The `prefix` options property must be null, undefined, or a string',
+        );
       });
       expect(() => {
         const module = new RcModule({
@@ -43,10 +45,7 @@ describe('RcModule', () => {
   });
   describe('actionType', () => {
     it('should be put to `actionTypes` instance property if present', () => {
-      const actionTypes = new Enum([
-        'actionTypeA',
-        'actionTypeB',
-      ]);
+      const actionTypes = new Enum(['actionTypeA', 'actionTypeB']);
       const module = new RcModule({
         actionTypes,
       });
@@ -62,15 +61,14 @@ describe('RcModule', () => {
         });
         it('should should be prefixed if prefix is set', () => {
           const prefix = uuid.v4();
-          const actionTypes = new Enum([
-            'action1',
-            'action2',
-          ]);
+          const actionTypes = new Enum(['action1', 'action2']);
           const module = new RcModule({
             prefix,
             actionTypes,
           });
-          expect(module.actionTypes).to.deep.equal(prefixEnum({ enumMap: actionTypes, prefix }));
+          expect(module.actionTypes).to.deep.equal(
+            prefixEnum({ enumMap: actionTypes, prefix }),
+          );
         });
       });
       describe('reducer', () => {
@@ -164,10 +162,13 @@ describe('RcModule', () => {
         class RootModule extends RcModule {
           constructor(options) {
             super(options);
-            this.addModule('subModule', new RcModule({
-              ...options,
-              getState: () => this.state.sub,
-            }));
+            this.addModule(
+              'subModule',
+              new RcModule({
+                ...options,
+                getState: () => this.state.sub,
+              }),
+            );
             this[REDUCER] = combineReducers({
               sub: this.subModule.reducer,
             });
@@ -194,7 +195,9 @@ describe('RcModule', () => {
       });
       it('should accept a store object', () => {
         const module = new RcModule();
-        expect(() => module.setStore()).to.throw('setStore must accept a store object');
+        expect(() => module.setStore()).to.throw(
+          'setStore must accept a store object',
+        );
         const store = createStore(module.reducer);
         expect(() => module.setStore(store)).to.not.throw;
       });
@@ -207,8 +210,9 @@ describe('RcModule', () => {
         }
         const test = new TestModule();
         const store = createStore(test.reducer);
-        expect(() => test.sub.setStore(store))
-          .to.throw('setStore should only be called on root module');
+        expect(() => test.sub.setStore(store)).to.throw(
+          'setStore should only be called on root module',
+        );
       });
       it('should set store to the subModules as well', () => {
         class TestModule extends RcModule {
@@ -239,8 +243,12 @@ describe('RcModule', () => {
 
         let rootInit = false;
         let subInit = false;
-        test.initialize = () => { rootInit = true; };
-        test.sub.initialize = () => { subInit = true; };
+        test.initialize = () => {
+          rootInit = true;
+        };
+        test.sub.initialize = () => {
+          subInit = true;
+        };
 
         const store = createStore(test.reducer);
         test.setStore(store);
@@ -252,8 +260,9 @@ describe('RcModule', () => {
         const module = new RcModule();
         const store = createStore(module.reducer);
         module.setStore(store);
-        expect(() => module.setStore(store))
-          .to.throw('setStore should only be called once');
+        expect(() => module.setStore(store)).to.throw(
+          'setStore should only be called once',
+        );
       });
     });
     describe('addModule', () => {
@@ -306,8 +315,9 @@ describe('RcModule', () => {
       it('throws when attempting to add selectors of the same name', () => {
         const module = new RcModule();
         module.addSelector('test', () => 'test');
-        expect(() => module.addSelector('test', () => 'test2'))
-          .to.throw("Selector 'test' already exists...");
+        expect(() => module.addSelector('test', () => 'test2')).to.throw(
+          "Selector 'test' already exists...",
+        );
       });
       it('should use reselect for output caching', () => {
         const module = new RcModule();
@@ -315,10 +325,11 @@ describe('RcModule', () => {
         module.addSelector(
           'cachedMessage',
           module.getSelector('test'),
-          message => ({ message }),
+          (message) => ({ message }),
         );
-        expect(module.getSelector('cachedMessage')())
-          .to.equal(module.getSelector('cachedMessage')());
+        expect(module.getSelector('cachedMessage')()).to.equal(
+          module.getSelector('cachedMessage')(),
+        );
       });
     });
   });

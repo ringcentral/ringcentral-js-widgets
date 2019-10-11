@@ -1,3 +1,29 @@
+import format, {
+  formatTypes,
+} from '@ringcentral-integration/phone-number/lib/format';
+
+export function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
+  return dialInNumbers
+    .map(
+      ({ phoneNumber, location = '' }) =>
+        `${phoneNumber},,${meetingId}# ${location}`,
+    )
+    .join('\n    ');
+}
+
+export function getPhoneDialingNumberTpl(dialInNumbers) {
+  return dialInNumbers
+    .map(({ phoneNumber, location = '', country }) => {
+      const filterFormattedNumber = format({
+        phoneNumber,
+        countryCode: country.isoCode,
+        type: formatTypes.international,
+      });
+      return `${filterFormattedNumber}${location}`;
+    })
+    .join('\n    ');
+}
+
 export const UTC_TIMEZONE_ID = '1';
 export const MeetingType = {
   SCHEDULED: 'Scheduled',
@@ -5,7 +31,12 @@ export const MeetingType = {
   INSTANT: 'Instant',
 };
 
-export function getMeetingSettings({ extensionName, startTime, durationInMinutes = 60, topic = '' }) {
+export function getMeetingSettings({
+  extensionName,
+  startTime,
+  durationInMinutes = 60,
+  topic = '',
+}) {
   return {
     topic: topic || `${extensionName}'s Meeting`,
     meetingType: MeetingType.SCHEDULED,
@@ -14,8 +45,8 @@ export function getMeetingSettings({ extensionName, startTime, durationInMinutes
       startTime,
       durationInMinutes,
       timeZone: {
-        id: UTC_TIMEZONE_ID
-      }
+        id: UTC_TIMEZONE_ID,
+      },
     },
     host: {
       id: null,
@@ -37,8 +68,8 @@ export function getDefaultMeetingSettings(extensionName, startTime) {
       startTime,
       durationInMinutes: 60,
       timeZone: {
-        id: UTC_TIMEZONE_ID
-      }
+        id: UTC_TIMEZONE_ID,
+      },
     },
     host: {
       id: null,
@@ -50,6 +81,12 @@ export function getDefaultMeetingSettings(extensionName, startTime) {
     _requireMeetingPassword: false,
     _showDate: false,
     _showTime: false,
-    _saved: false
+    _saved: false,
   };
+}
+
+export function getInitializedStartTime() {
+  const now = new Date();
+  const startTime = now.setHours(now.getHours() + 1, 0, 0);
+  return startTime;
 }

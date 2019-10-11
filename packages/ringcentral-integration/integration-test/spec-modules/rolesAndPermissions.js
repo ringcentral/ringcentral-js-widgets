@@ -27,7 +27,10 @@ export default (auth, client, rolesAndPermissions, account, alert) => {
       mock.mockForLogin();
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
       this.retries(2);
@@ -39,11 +42,16 @@ export default (auth, client, rolesAndPermissions, account, alert) => {
       mock.restore();
       mock.mockForLogin({ mockAuthzProfile: false });
       mock.authzProfile({
-        permissions: authzProfileBody.permissions.filter(p => p.permission.id !== 'ReadExtensions')
+        permissions: authzProfileBody.permissions.filter(
+          (p) => p.permission.id !== 'ReadExtensions',
+        ),
       });
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
       this.retries(2);
@@ -54,15 +62,20 @@ export default (auth, client, rolesAndPermissions, account, alert) => {
     it('Should show insufficientPrivilege when get 403', async () => {
       mock.restore();
       mock.mockForLogin({ mockAuthzProfile: false });
-      mock.mockForbidden({ path: '/restapi/v1.0/account/~/extension/~/authz-profile' });
+      mock.mockForbidden({
+        path: '/restapi/v1.0/account/~/extension/~/authz-profile',
+      });
       await auth.login({
         ...account,
       });
       await waitInSeconds(3);
       expect(auth.loggedIn).equal(false);
-      expect(containsErrorMessage(
-        alert.state.messages, permissionsMessages.insufficientPrivilege
-      )).to.not.equal(undefined);
+      expect(
+        containsErrorMessage(
+          alert.state.messages,
+          permissionsMessages.insufficientPrivilege,
+        ),
+      ).to.not.equal(undefined);
     });
   });
 };

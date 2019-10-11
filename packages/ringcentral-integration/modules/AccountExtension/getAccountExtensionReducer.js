@@ -1,22 +1,20 @@
 export function getDataReducer(types) {
-  return (state = null, { type, data, id, }) => {
+  return (state = null, { type, data, id }) => {
     switch (type) {
       case types.fetchSuccess:
-        return Array.isArray(data) ?
-          data.filter(item => item.status !== 'Disabled') :
-          data;
+        return Array.isArray(data)
+          ? data.filter((item) => item.status !== 'Disabled')
+          : data;
       case types.add:
-        return Array.isArray(state) ?
-          [...state, data] :
-          null;
+        return Array.isArray(state) ? [...state, data] : null;
       case types.delete:
-        return Array.isArray(state) ?
-          state.filter(item => item.id !== id) :
-          null;
+        return Array.isArray(state)
+          ? state.filter((item) => item.id !== id)
+          : null;
       case types.update: {
-        return Array.isArray(state) ?
-          state.filter(item => item.id !== id).concat(data) :
-          null;
+        return Array.isArray(state)
+          ? state.filter((item) => item.id !== id).concat(data)
+          : null;
       }
       case types.resetSuccess:
         return null;

@@ -7,15 +7,10 @@ import {
 } from '../../lib/SleepDetector';
 
 @Module({
-  deps: [
-    { dep: 'SleepDetectorOptions', optional: true },
-  ],
+  deps: [{ dep: 'SleepDetectorOptions', optional: true }],
 })
 export default class SleepDetector extends RcModule {
-  constructor({
-    detectionInterval,
-    detectionThreshold,
-  }) {
+  constructor({ detectionInterval, detectionThreshold }) {
     super();
     this._detector = new Detector({ detectionInterval, detectionThreshold });
   }

@@ -24,18 +24,15 @@ export function getCarouselState(types) {
     state = {
       curIdx: 0,
       entered: false,
-      playing: false
+      playing: false,
     },
-    {
-      type,
-      curIdx,
-      entered,
-      playing
-    }
+    { type, curIdx, entered, playing },
   ) => {
     if (type === types.updateCarousel) {
       return {
-        curIdx, entered, playing
+        curIdx,
+        entered,
+        playing,
       };
     }
     return state;

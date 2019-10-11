@@ -17,26 +17,27 @@ describe('Ringout', () => {
     });
     it('should return original state if actionType is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return idle status if actionType is connectSuccess or connectError', () => {
       [
         ringoutActionTypes.connectSuccess,
         ringoutActionTypes.connectError,
-      ].forEach(type => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(ringoutStatus.idle);
+      ].forEach((type) => {
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(ringoutStatus.idle);
       });
     });
     it('should return connecting status if actionType is startToConnect', () => {
-      [
-        ringoutActionTypes.startToConnect,
-      ].forEach((type) => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(ringoutStatus.connecting);
+      [ringoutActionTypes.startToConnect].forEach((type) => {
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(ringoutStatus.connecting);
       });
     });
   });
@@ -48,11 +49,10 @@ describe('Ringout', () => {
     const moduleStatusReducer = getModuleStatusReducer(ringoutActionTypes);
     const ringoutStatusReducer = getRingoutStatusReducer(ringoutActionTypes);
     it('should return combined state', () => {
-      expect(reducer(undefined, {}))
-        .to.deep.equal({
-          status: moduleStatusReducer(undefined, {}),
-          ringoutStatus: ringoutStatusReducer(undefined, {})
-        });
+      expect(reducer(undefined, {})).to.deep.equal({
+        status: moduleStatusReducer(undefined, {}),
+        ringoutStatus: ringoutStatusReducer(undefined, {}),
+      });
     });
   });
 });

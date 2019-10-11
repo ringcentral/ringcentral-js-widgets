@@ -1,6 +1,7 @@
 import { find, filter } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
+import { selector } from '../../lib/selector';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import actionTypes from './actionTypes';
@@ -16,12 +17,14 @@ function polyfillGetUserMedia() {
     navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia;
-  if (navigator.mediaDevices.getUserMedia === undefined && navigator.getUserMedia) {
-    navigator.mediaDevices.getUserMedia = constraints => (
+  if (
+    navigator.mediaDevices.getUserMedia === undefined &&
+    navigator.getUserMedia
+  ) {
+    navigator.mediaDevices.getUserMedia = (constraints) =>
       new Promise((resolve, reject) => {
         navigator.getUserMedia.call(navigator, constraints, resolve, reject);
-      })
-    );
+      });
   }
 }
 polyfillGetUserMedia();
@@ -31,44 +34,27 @@ polyfillGetUserMedia();
  * @description AudioSettings module.
  */
 @Module({
-  deps: [
-    'Auth',
-    'Alert',
-    'Storage',
-    'RolesAndPermissions',
-  ],
+  deps: ['Auth', 'Alert', 'Storage', 'RolesAndPermissions'],
 })
 export default class AudioSettings extends RcModule {
-  constructor({
-    auth,
-    alert,
-    storage,
-    rolesAndPermissions,
-    ...options
-  }) {
+  constructor({ auth, alert, storage, rolesAndPermissions, ...options }) {
     super({
       ...options,
       actionTypes,
     });
-    this._storage = this:: ensureExist(storage, 'storage');
-    this._auth = this:: ensureExist(auth, 'auth');
-    this._alert = this:: ensureExist(alert, 'alert');
-    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._storage = this::ensureExist(storage, 'storage');
+    this._auth = this::ensureExist(auth, 'auth');
+    this._alert = this::ensureExist(alert, 'alert');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._storageKey = 'audioSettings';
     this._storage.registerReducer({
       key: this._storageKey,
       reducer: getStorageReducer(this.actionTypes),
     });
     this._reducer = getAudioSettingsReducer(this.actionTypes);
-
-    this.addSelector('availableOutputDevices',
-      () => this.state.availableDevices,
-      devices => filter(device => device.kind === 'audiooutput', devices),
-    );
-    this.addSelector('availableInputDevices',
-      () => this.state.availableDevices,
-      devices => filter(device => device.kind === 'audioinput', devices),
-    );
   }
 
   initializeProxy() {
@@ -94,7 +80,7 @@ export default class AudioSettings extends RcModule {
   @proxify
   async markAutoPrompted() {
     this.store.dispatch({
-      type: this.actionTypes.autoPrompted
+      type: this.actionTypes.autoPrompted,
     });
   }
 
@@ -123,11 +109,9 @@ export default class AudioSettings extends RcModule {
   _shouldReset() {
     return !!(
       this.ready &&
-      (
-        !this._auth.ready ||
+      (!this._auth.ready ||
         !this._storage.ready ||
-        !this._rolesAndPermissions.ready
-      )
+        !this._rolesAndPermissions.ready)
     );
   }
 
@@ -158,7 +142,7 @@ export default class AudioSettings extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.setAvailableDevices,
       // TODO formatting for devices info instances and replace JSON APIs.
-      devices: devices.map(d => JSON.parse(JSON.stringify(d))),
+      devices: devices.map((d) => JSON.parse(JSON.stringify(d))),
     });
   }
 
@@ -168,7 +152,9 @@ export default class AudioSettings extends RcModule {
     }
     try {
       if (!this._getUserMediaPromise) {
-        this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({ audio: true });
+        this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
       }
       const stream = await this._getUserMediaPromise;
       this._getUserMediaPromise = null;
@@ -189,7 +175,7 @@ export default class AudioSettings extends RcModule {
   @proxify
   async _onGetUserMediaSuccess() {
     const userMediaAlert = find(
-      item => item.message === audioSettingsErrors.userMediaPermission,
+      (item) => item.message === audioSettingsErrors.userMediaPermission,
       this._alert.messages,
     );
     if (userMediaAlert) {
@@ -251,10 +237,12 @@ export default class AudioSettings extends RcModule {
   }
 
   get outputDevice() {
-    return find(device => (
-      device.kind === 'audiooutput' &&
-      device.deviceId === this.outputDeviceId
-    ), this.availableDevices);
+    return find(
+      (device) =>
+        device.kind === 'audiooutput' &&
+        device.deviceId === this.outputDeviceId,
+      this.availableDevices,
+    );
   }
 
   get inputDeviceId() {
@@ -262,16 +250,16 @@ export default class AudioSettings extends RcModule {
   }
 
   get inputDevice() {
-    return find(device => (
-      device.kind === 'audioinput' &&
-      device.deviceId === this.inputDeviceId
-    ), this.availableDevices);
+    return find(
+      (device) =>
+        device.kind === 'audioinput' && device.deviceId === this.inputDeviceId,
+      this.availableDevices,
+    );
   }
 
   get supportDevices() {
     return !!(
-      navigator.mediaDevices &&
-      navigator.mediaDevices.enumerateDevices
+      navigator.mediaDevices && navigator.mediaDevices.enumerateDevices
     );
   }
 
@@ -279,13 +267,17 @@ export default class AudioSettings extends RcModule {
     return this.state.availableDevices;
   }
 
-  get availableOutputDevices() {
-    return this._selectors.availableOutputDevices();
-  }
+  @selector
+  availableOutputDevices = [
+    () => this.state.availableDevices,
+    (devices) => filter((device) => device.kind === 'audiooutput', devices),
+  ];
 
-  get availableInputDevices() {
-    return this._selectors.availableInputDevices();
-  }
+  @selector
+  availableInputDevices = [
+    () => this.state.availableDevices,
+    (devices) => filter((device) => device.kind === 'audioinput', devices),
+  ];
 
   get cacheData() {
     return this._storage.getItem(this._storageKey) || {};
@@ -319,8 +311,7 @@ export default class AudioSettings extends RcModule {
     // this detection method may not work in the future
     // currently there is no good way to detect this
     return !!(
-      this.availableDevices.length &&
-      this.availableDevices[0].label !== ''
+      this.availableDevices.length && this.availableDevices[0].label !== ''
     );
   }
 

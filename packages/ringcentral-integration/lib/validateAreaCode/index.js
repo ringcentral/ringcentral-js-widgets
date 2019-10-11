@@ -9,5 +9,5 @@ export default function validateAreaCode(code) {
   if (areaCode.length === 0) {
     return true;
   }
-  return (areaCode.length === 3) && areaCode[0] !== '0';
+  return areaCode.length === 3 && areaCode[0] !== '0';
 }

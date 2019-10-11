@@ -15,7 +15,7 @@ const DEFAULT_DISABLE_ALLOW_INACTIVE_TABS_WRITE = false;
     'Auth',
     { dep: 'TabManager', optional: true },
     { dep: 'StorageOptions', optional: true },
-  ]
+  ],
 })
 export default class Storage extends StorageBase {
   /**
@@ -51,8 +51,9 @@ export default class Storage extends StorageBase {
         this.store.dispatch({
           type: this.actionTypes.init,
         });
-        const storageKey =
-          `${this.prefix ? `${this.prefix}-` : ''}storage-${this._auth.ownerId}`;
+        const storageKey = `${this.prefix ? `${this.prefix}-` : ''}storage-${
+          this._auth.ownerId
+        }`;
         this._storage = new this._StorageProvider({
           storageKey,
         });
@@ -83,10 +84,9 @@ export default class Storage extends StorageBase {
         };
         this._storage.on('storage', this._storageHandler);
       } else if (
-        (
-          (!!this._tabManager && !this._tabManager.ready) ||
-          this._auth.notLoggedIn
-        ) && this.ready
+        ((!!this._tabManager && !this._tabManager.ready) ||
+          this._auth.notLoggedIn) &&
+        this.ready
       ) {
         this.store.dispatch({
           type: this.actionTypes.reset,
@@ -108,11 +108,10 @@ export default class Storage extends StorageBase {
         });
       }
       if (
-        this.status === moduleStatuses.ready && (
-          !this._disableAllowInactiveTabsWrite ||
+        this.status === moduleStatuses.ready &&
+        (!this._disableAllowInactiveTabsWrite ||
           !this._tabManager ||
-          this._tabManager.active
-        )
+          this._tabManager.active)
       ) {
         // save new data to storage when changed
         const currentData = this.data;

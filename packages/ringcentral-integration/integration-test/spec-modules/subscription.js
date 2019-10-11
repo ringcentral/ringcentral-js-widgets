@@ -26,26 +26,39 @@ export default (auth, client, subscription, account) => {
       mock.mockForLogin();
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
       this.retries(2);
       await waitInSeconds(3);
-      expect(subscription.subscriptionStatus).equal(subscriptionStatus.subscribed);
+      expect(subscription.subscriptionStatus).equal(
+        subscriptionStatus.subscribed,
+      );
       expect(subscription._subscription).not.equal(null);
     });
     it('Should reset cache subscription to null when subscribe error', async () => {
       mock.restore();
-      mock.mockForbidden({ method: 'POST',url: 'begin:http://whatever/restapi/v1.0/subscription' });
+      mock.mockForbidden({
+        method: 'POST',
+        url: 'begin:http://whatever/restapi/v1.0/subscription',
+      });
       mock.mockForLogin({ mockSubscription: false });
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
 
       await waitInSeconds(3);
-      expect(subscription.subscriptionStatus).equal(subscriptionStatus.notSubscribed);
+      expect(subscription.subscriptionStatus).equal(
+        subscriptionStatus.notSubscribed,
+      );
       expect(subscription.cachedSubscription).equal(null);
     });
   });

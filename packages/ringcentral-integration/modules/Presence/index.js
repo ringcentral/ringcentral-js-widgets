@@ -3,12 +3,8 @@ import { Module } from '../../lib/di';
 import { selector } from '../../lib/selector';
 import Enum from '../../lib/Enum';
 import { actionTypeGenerator } from '../../lib/actionTypeGenerator';
-import {
-  isEnded,
-  removeInboundRingOutLegs,
-} from '../../lib/callLogHelpers';
+import { isEnded, removeInboundRingOutLegs } from '../../lib/callLogHelpers';
 import debounce from '../../lib/debounce';
-
 
 import { getDataReducer } from './getPresenceReducer';
 import subscriptionFilters from '../../enums/subscriptionFilters';
@@ -25,8 +21,8 @@ const detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipDat
     'RolesAndPermissions',
     'ConnectivityMonitor',
     { dep: 'Storage', optional: true },
-    { dep: 'PresenceOptions', optional: true }
-  ]
+    { dep: 'PresenceOptions', optional: true },
+  ],
 })
 export default class Presence extends DataFetcher {
   constructor({
@@ -46,22 +42,21 @@ export default class Presence extends DataFetcher {
       pollingInterval,
       getDataReducer,
       fetchFunction: async () => {
-        const endpoint = this._detailed ?
-          subscriptionFilters.detailedPresence :
-          subscriptionFilters.presence;
-        const data = (await this._client.service.platform()
+        const endpoint = this._detailed
+          ? subscriptionFilters.detailedPresence
+          : subscriptionFilters.presence;
+        const data = (await this._client.service
+          .platform()
           .get(endpoint)).json();
         return data;
       },
       subscriptionFilters: [
-        detailed ?
-          subscriptionFilters.detailedPresence :
-          subscriptionFilters.presence
+        detailed
+          ? subscriptionFilters.detailedPresence
+          : subscriptionFilters.presence,
       ],
       subscriptionHandler: (message) => {
-        const regExp = this._detailed ?
-          detailedPresenceRegExp :
-          presenceRegExp;
+        const regExp = this._detailed ? detailedPresenceRegExp : presenceRegExp;
         if (regExp.test(message.event) && message.body) {
           if (message.body.sequence) {
             if (message.body.sequence < this.sequence) {
@@ -87,15 +82,22 @@ export default class Presence extends DataFetcher {
           }
         }
       },
-      readyCheckFn: () => (
-        this._rolesAndPermissions.ready &&
-        this._connectivityMonitor.ready
-      ),
+      readyCheckFn: () =>
+        this._rolesAndPermissions.ready && this._connectivityMonitor.ready,
     });
     this._detailed = true;
-    this._connectivityMonitor = this::ensureExist(connectivityMonitor, 'connectivityMonitor');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._fetchRemainingCalls = debounce(() => this.fetchData(), fetchRemainingDelay);
+    this._connectivityMonitor = this::ensureExist(
+      connectivityMonitor,
+      'connectivityMonitor',
+    );
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
+    this._fetchRemainingCalls = debounce(
+      () => this.fetchData(),
+      fetchRemainingDelay,
+    );
   }
 
   get _name() {
@@ -103,11 +105,14 @@ export default class Presence extends DataFetcher {
   }
 
   get _actionTypes() {
-    return new Enum([
-      ...Object.keys(super._actionTypes),
-      ...actionTypeGenerator('update'),
-      'notification',
-    ], this._name);
+    return new Enum(
+      [
+        ...Object.keys(super._actionTypes),
+        ...actionTypeGenerator('update'),
+        'notification',
+      ],
+      this._name,
+    );
   }
 
   async _onStateChange() {
@@ -139,14 +144,14 @@ export default class Presence extends DataFetcher {
       const platform = this._client.service.platform();
       const response = await platform.put(
         '/account/~/extension/~/presence',
-        params
+        params,
       );
       const data = response.json();
       if (ownerId === this._auth.ownerId) {
         this.store.dispatch({
           type: this.actionTypes.updateSuccess,
           data,
-          lastDndStatus: this.dndStatus
+          lastDndStatus: this.dndStatus,
         });
       }
     } catch (error) {
@@ -173,8 +178,10 @@ export default class Presence extends DataFetcher {
   }
 
   async setAvailable() {
-    if (this.userStatus === presenceStatus.available &&
-      this.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
+    if (
+      this.userStatus === presenceStatus.available &&
+      this.dndStatus !== dndStatus.doNotAcceptAnyCalls
+    ) {
       return;
     }
     const params = this._getUpdateStatusParams(presenceStatus.available);
@@ -193,14 +200,12 @@ export default class Presence extends DataFetcher {
   }
 
   async setDoNotDisturb() {
-    if (
-      this.dndStatus === dndStatus.doNotAcceptAnyCalls
-    ) {
+    if (this.dndStatus === dndStatus.doNotAcceptAnyCalls) {
       return;
     }
     const params = {
       dndStatus: dndStatus.doNotAcceptAnyCalls,
-      userStatus: presenceStatus.busy
+      userStatus: presenceStatus.busy,
     };
     await this._update(params);
   }
@@ -265,25 +270,20 @@ export default class Presence extends DataFetcher {
   }
 
   @selector
-  activeCalls = [
-    () => this.data.activeCalls,
-    calls => calls || [],
-  ]
+  activeCalls = [() => this.data.activeCalls, (calls) => calls || []];
 
   @selector
   calls = [
     () => this.activeCalls,
-    activeCalls => (
-      removeInboundRingOutLegs(activeCalls)
-        .filter(call => !isEnded(call))
-    ),
-  ]
+    (activeCalls) =>
+      removeInboundRingOutLegs(activeCalls).filter((call) => !isEnded(call)),
+  ];
 
   @selector
   sessionIdList = [
     () => this.calls,
-    calls => calls.map(call => call.sessionId),
-  ]
+    (calls) => calls.map((call) => call.sessionId),
+  ];
 
   get telephonyStatus() {
     return this.data.telephonyStatus;
@@ -296,7 +296,6 @@ export default class Presence extends DataFetcher {
   get lastNotDisturbDndStatus() {
     return this.data.lastNotDisturbDndStatus;
   }
-
 
   get userStatus() {
     return this.data.userStatus;

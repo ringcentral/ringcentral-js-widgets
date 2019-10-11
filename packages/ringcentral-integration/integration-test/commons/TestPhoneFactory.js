@@ -8,7 +8,7 @@ export default function getTestPhone() {
   const testPhone = createPhone({
     apiConfig,
     brandConfig: getBrandConfig(),
-    prefix: uuid.v4()
+    prefix: uuid.v4(),
   });
   const store = createStore(testPhone.reducer);
   testPhone.setStore(store);

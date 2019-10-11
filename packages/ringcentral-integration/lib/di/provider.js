@@ -50,7 +50,7 @@ export class ValueProvider extends Provider {
     this.spread = spread || false;
     this.setInstance({
       value: this.value,
-      spread: this.spread
+      spread: this.spread,
     });
   }
 }

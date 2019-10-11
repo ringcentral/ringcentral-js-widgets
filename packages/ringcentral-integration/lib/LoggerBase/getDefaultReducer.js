@@ -12,7 +12,7 @@ export function getLoggingListReducer(types) {
       }
       case types.logSuccess:
       case types.logError: {
-        return state.filter(item => item !== id);
+        return state.filter((item) => item !== id);
       }
       case types.resetSuccess:
         return [];

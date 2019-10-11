@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   getAutoLogReducer,
   getLogOnRingingReducer,
-  getTransferredCallsReducer
+  getTransferredCallsReducer,
 } from './getDataReducer';
 import actionTypes from './actionTypes';
 
@@ -19,30 +19,40 @@ describe('getAutoLogReducer', () => {
       expect(reducer(undefined, {})).to.equal(true);
     });
     it('should return true when type === setAutoLog and action.autoLog is true', () => {
-      expect(reducer(true, {
-        type: actionTypes.setAutoLog,
-        autoLog: true,
-      })).to.equal(true);
-      expect(reducer(false, {
-        type: actionTypes.setAutoLog,
-        autoLog: true,
-      })).to.equal(true);
+      expect(
+        reducer(true, {
+          type: actionTypes.setAutoLog,
+          autoLog: true,
+        }),
+      ).to.equal(true);
+      expect(
+        reducer(false, {
+          type: actionTypes.setAutoLog,
+          autoLog: true,
+        }),
+      ).to.equal(true);
     });
     it('should return true when type === setAutoLog and action.autoLog is false', () => {
-      expect(reducer(true, {
-        type: actionTypes.setAutoLog,
-        autoLog: false,
-      })).to.equal(false);
-      expect(reducer(false, {
-        type: actionTypes.setAutoLog,
-        autoLog: false,
-      })).to.equal(false);
+      expect(
+        reducer(true, {
+          type: actionTypes.setAutoLog,
+          autoLog: false,
+        }),
+      ).to.equal(false);
+      expect(
+        reducer(false, {
+          type: actionTypes.setAutoLog,
+          autoLog: false,
+        }),
+      ).to.equal(false);
     });
     it('should return originalState for other actionTypes', () => {
       const originalState = {};
-      expect(reducer(originalState, {
-        type: 'foo',
-      })).to.equal(originalState);
+      expect(
+        reducer(originalState, {
+          type: 'foo',
+        }),
+      ).to.equal(originalState);
     });
   });
 });
@@ -59,35 +69,41 @@ describe('getLogOnRingingReducer', () => {
     it('should have initial state of true', () => {
       expect(reducer(undefined, {})).to.equal(true);
     });
-    it('should return true when type === setLogOnRinging and action.logOnRinging is true',
-      () => {
-        expect(reducer(true, {
+    it('should return true when type === setLogOnRinging and action.logOnRinging is true', () => {
+      expect(
+        reducer(true, {
           type: actionTypes.setLogOnRinging,
           logOnRinging: true,
-        })).to.equal(true);
-        expect(reducer(false, {
+        }),
+      ).to.equal(true);
+      expect(
+        reducer(false, {
           type: actionTypes.setLogOnRinging,
           logOnRinging: true,
-        })).to.equal(true);
-      },
-    );
-    it('should return true when type === setLogOnRinging and action.logOnRinging is false',
-      () => {
-        expect(reducer(true, {
+        }),
+      ).to.equal(true);
+    });
+    it('should return true when type === setLogOnRinging and action.logOnRinging is false', () => {
+      expect(
+        reducer(true, {
           type: actionTypes.setLogOnRinging,
           logOnRinging: false,
-        })).to.equal(false);
-        expect(reducer(false, {
+        }),
+      ).to.equal(false);
+      expect(
+        reducer(false, {
           type: actionTypes.setLogOnRinging,
           logOnRinging: false,
-        })).to.equal(false);
-      },
-    );
+        }),
+      ).to.equal(false);
+    });
     it('should return originalState for other actionTypes', () => {
       const originalState = {};
-      expect(reducer(originalState, {
-        type: 'foo',
-      })).to.equal(originalState);
+      expect(
+        reducer(originalState, {
+          type: 'foo',
+        }),
+      ).to.equal(originalState);
     });
   });
 });
@@ -107,33 +123,51 @@ describe('getTransferredCallsReducer', () => {
     });
     it('should return original state when actionType  is not recognized', () => {
       const originalState = [{ 123: true }];
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.deep.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.deep.equal(
+        originalState,
+      );
     });
     it('should add new matcher when actionType is addTransferredCall', () => {
-      const originalState = [{
-        123: true
-      }];
-      expect(reducer(originalState, {
-        type: actionTypes.addTransferredCall,
-        sessionId: '456',
-        transferredMiddleNumber: '101'
-      })).to.deep.equal([{ 123: true }, { 456: { transferredMiddleNumber: '101' } }]);
+      const originalState = [
+        {
+          123: true,
+        },
+      ];
+      expect(
+        reducer(originalState, {
+          type: actionTypes.addTransferredCall,
+          sessionId: '456',
+          transferredMiddleNumber: '101',
+        }),
+      ).to.deep.equal([
+        { 123: true },
+        { 456: { transferredMiddleNumber: '101' } },
+      ]);
     });
     it('should remove oldest matcher when actionType is addTransferredCall andsize of temporary matcher exceed the opacity', () => {
       const originalState = [];
       const opacity = 5;
-      originalState.push({ 1: true }, { 2: true }, { 3: true }, { 4: true }, { 5: true });
+      originalState.push(
+        { 1: true },
+        { 2: true },
+        { 3: true },
+        { 4: true },
+        { 5: true },
+      );
       expect(originalState.length).to.equal(opacity);
-      expect(reducer(originalState, {
-        type: actionTypes.addTransferredCall,
-        sessionId: '456',
-      }).length).to.equal(opacity);
-      expect(reducer(originalState, {
-        type: actionTypes.addTransferredCall,
-        sessionId: '456',
-        transferredMiddleNumber: '101'
-      })[opacity - 1]).to.deep.equal({ 456: { transferredMiddleNumber: '101' } });
+      expect(
+        reducer(originalState, {
+          type: actionTypes.addTransferredCall,
+          sessionId: '456',
+        }).length,
+      ).to.equal(opacity);
+      expect(
+        reducer(originalState, {
+          type: actionTypes.addTransferredCall,
+          sessionId: '456',
+          transferredMiddleNumber: '101',
+        })[opacity - 1],
+      ).to.deep.equal({ 456: { transferredMiddleNumber: '101' } });
     });
   });
 });

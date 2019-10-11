@@ -1,13 +1,20 @@
 import formatNumber from '../../lib/formatNumber';
 
 export async function updateJoinBeforeHost(client, allowJoinBeforeHost) {
-  const data = await client.account().extension().conferencing()
+  const data = await client
+    .account()
+    .extension()
+    .conferencing()
     .put({ allowJoinBeforeHost });
   return data;
 }
 
 export async function getConferenceInfo(client) {
-  const data = await client.account().extension().conferencing().get();
+  const data = await client
+    .account()
+    .extension()
+    .conferencing()
+    .get();
   return data;
 }
 
@@ -27,22 +34,26 @@ export function formatDialInNumbers({
     return acc;
   }, {});
   const dialInNumbers = phoneNumbers.map((item) => {
-    const countryName = countryNames.getString(item.country.isoCode, currentLocale);
+    const countryName = countryNames.getString(
+      item.country.isoCode,
+      currentLocale,
+    );
     // only show the provinces of canada
     return {
-      region: countryCounter[item.country.isoCode] > 1 ?
-        `${countryName}, ${item.location}` :
-        countryName,
-      phoneNumber: item.phoneNumber
+      region:
+        countryCounter[item.country.isoCode] > 1
+          ? `${countryName}, ${item.location}`
+          : countryName,
+      phoneNumber: item.phoneNumber,
     };
   });
-  return dialInNumbers.map(e => ({
+  return dialInNumbers.map((e) => ({
     ...e,
     formattedPhoneNumber: formatNumber({
       phoneNumber: e.phoneNumber,
       countryCode,
       areaCode,
-      international: true
-    })
+      international: true,
+    }),
   }));
 }

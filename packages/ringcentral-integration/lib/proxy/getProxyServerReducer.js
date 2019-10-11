@@ -1,7 +1,11 @@
 import { prefixEnum } from '../Enum';
 import baseActionTypes from './baseActionTypes';
 
-export default function getProxyServerReducer({ moduleReducer, transport, prefix }) {
+export default function getProxyServerReducer({
+  moduleReducer,
+  transport,
+  prefix,
+}) {
   const actionTypes = prefixEnum({ enumMap: baseActionTypes, prefix });
   return (
     state = {

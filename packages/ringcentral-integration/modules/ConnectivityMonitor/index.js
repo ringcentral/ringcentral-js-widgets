@@ -24,8 +24,8 @@ async function defaultCheckConnectionFn() {
   deps: [
     'Client',
     { dep: 'Environment', optional: true },
-    { dep: 'ConnectivityMonitorOptions', optional: true }
-  ]
+    { dep: 'ConnectivityMonitorOptions', optional: true },
+  ],
 })
 export default class ConnectivityMonitor extends RcModule {
   /**
@@ -73,15 +73,16 @@ export default class ConnectivityMonitor extends RcModule {
   }
 
   _shouldInit() {
-    return !!(this.pending &&
-      (!this._environment || this._environment.ready));
+    return !!(this.pending && (!this._environment || this._environment.ready));
   }
 
   _shouldRebindHandlers() {
-    return !!(this.ready &&
+    return !!(
+      this.ready &&
       this._environment &&
       this._environment.ready &&
-      this._environment.changeCounter !== this._lastEnvironmentCounter);
+      this._environment.changeCounter !== this._lastEnvironmentCounter
+    );
   }
 
   _onStateChange() {
@@ -111,12 +112,12 @@ export default class ConnectivityMonitor extends RcModule {
   }
 
   _requestErrorHandler(error) {
-    if (error.message &&
-      (
-        error.message === rateLimiterErrorMessage.rateLimitReached ||
-        error.message === availabilityErrorMessages.serviceLimited
-      )
-    ) return;
+    if (
+      error.message &&
+      (error.message === rateLimiterErrorMessage.rateLimitReached ||
+        error.message === availabilityErrorMessages.serviceLimited)
+    )
+      return;
 
     if (!error.apiResponse || !error.apiResponse._response) {
       if (this.connectivity) {
@@ -148,8 +149,14 @@ export default class ConnectivityMonitor extends RcModule {
       window.addEventListener('offline', this._networkErrorHandler);
     }
     this._unbindHandlers = () => {
-      client.removeListener(client.events.requestSuccess, this._requestSuccessHandler);
-      client.removeListener(client.events.requestError, this._requestErrorHandler);
+      client.removeListener(
+        client.events.requestSuccess,
+        this._requestSuccessHandler,
+      );
+      client.removeListener(
+        client.events.requestError,
+        this._requestErrorHandler,
+      );
       if (typeof window !== 'undefined') {
         window.removeEventListener('offline', this._networkErrorHandler);
       }
@@ -173,7 +180,7 @@ export default class ConnectivityMonitor extends RcModule {
     }
   }
 
-  _retry(t = (this.connectivity ? this._heartBeatInterval : this._timeToRetry)) {
+  _retry(t = this.connectivity ? this._heartBeatInterval : this._timeToRetry) {
     this._clearTimeout();
     this._retryTimeoutId = setTimeout(() => {
       this._retryTimeoutId = null;

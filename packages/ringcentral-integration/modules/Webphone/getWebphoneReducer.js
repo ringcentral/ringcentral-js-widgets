@@ -89,17 +89,18 @@ export function getActiveSessionIdReducer(types) {
     switch (type) {
       case types.callInit:
       case types.callStart:
+      case types.callResume:
         return session.id;
       case types.callEnd: {
         if (session.id !== state) {
           return state;
         }
-        const activeSessions = sessions.filter(x => !isRing(x));
+        const activeSessions = sessions.filter((x) => !isRing(x));
         activeSessions.sort(sortByLastActiveTimeDesc);
         return (activeSessions[0] && activeSessions[0].id) || null;
       }
       case types.clearSessionCaching: {
-        const activeSessions = sessions.filter(x => !x.cached && !isRing(x));
+        const activeSessions = sessions.filter((x) => !x.cached && !isRing(x));
         activeSessions.sort(sortByLastActiveTimeDesc);
         return (activeSessions[0] && activeSessions[0].id) || null;
       }
@@ -121,7 +122,7 @@ export function getRingSessionIdReducer(types) {
         if (session.id !== state) {
           return state;
         }
-        const ringSessions = sessions.filter(x => isRing(x));
+        const ringSessions = sessions.filter((x) => isRing(x));
         return (ringSessions[0] && ringSessions[0].id) || null;
       }
       case types.disconnect:
@@ -138,9 +139,9 @@ export function getLastEndedSessionsReducer(types) {
       case types.callEnd: {
         if (
           /**
-          * don't add incoming call that isn't relied by current app
-          *   to end sessions. this call can be answered by other apps
-          */
+           * don't add incoming call that isn't relied by current app
+           *   to end sessions. this call can be answered by other apps
+           */
           !session.startTime &&
           !session.isToVoicemail &&
           !session.isForwarded &&
@@ -149,7 +150,7 @@ export function getLastEndedSessionsReducer(types) {
           return state;
         }
         const lastSessions = [session].concat(
-          state.filter(x => x.id !== session.id)
+          state.filter((x) => x.id !== session.id),
         );
         return lastSessions.slice(0, 5);
       }
@@ -163,9 +164,9 @@ export function getSessionsReducer(types) {
   return (state = [], { type, sessions, cachingSessionIds }) => {
     switch (type) {
       case types.updateSessions: {
-        const cachedSessions = state.filter(x => x.cached);
+        const cachedSessions = state.filter((x) => x.cached);
         cachedSessions.forEach((cachedSession) => {
-          const session = sessions.find(x => x.id === cachedSession.id);
+          const session = sessions.find((x) => x.id === cachedSession.id);
           if (session) {
             session.cached = true;
           } else {
@@ -178,7 +179,7 @@ export function getSessionsReducer(types) {
       case types.setSessionCaching: {
         let needUpdate = false;
         cachingSessionIds.forEach((sessionId) => {
-          const session = state.find(x => x.id === sessionId);
+          const session = state.find((x) => x.id === sessionId);
           if (session) {
             session.cached = true;
             needUpdate = true;
@@ -195,7 +196,7 @@ export function getSessionsReducer(types) {
           }
         });
         if (needUpdate) {
-          return state.filter(x => !x.removed);
+          return state.filter((x) => !x.removed);
         }
         return state;
       }

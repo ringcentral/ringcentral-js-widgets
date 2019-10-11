@@ -2,12 +2,10 @@ import RcModule from './RcModule';
 import { Library } from './di';
 
 @Library({
-  deps: [{ dep: 'PollableOptions', optional: true }]
+  deps: [{ dep: 'PollableOptions', optional: true }],
 })
 export default class Pollable extends RcModule {
-  constructor({
-    ...options
-  }) {
+  constructor({ ...options }) {
     super({
       ...options,
     });
@@ -38,7 +36,7 @@ export default class Pollable extends RcModule {
     if (this._timeoutId) clearTimeout(this._timeoutId);
   }
 
-  _startPolling(t = (this.timestamp + this.pollingInterval + 10) - Date.now()) {
+  _startPolling(t = this.timestamp + this.pollingInterval + 10 - Date.now()) {
     this._clearTimeout();
     this._timeoutId = setTimeout(() => {
       this._timeoutId = null;

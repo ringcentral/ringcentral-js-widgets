@@ -7,6 +7,7 @@ import messageTypes from '../../enums/messageTypes';
 import { getNumbersFromMessage, sortByDate } from '../../lib/messageHelper';
 import sleep from '../../lib/sleep';
 import proxify from '../../lib/proxy/proxify';
+import { selector } from '../../lib/selector';
 
 export function getLogId({ conversationId, date }) {
   return `${conversationId}/${date}`;
@@ -31,8 +32,8 @@ export function conversationLogIdentityFunction(conversation) {
     'ExtensionInfo',
     'MessageStore',
     'RolesAndPermissions',
-    { dep: 'ConversationLoggerOptions', optional: false }
-  ]
+    { dep: 'ConversationLoggerOptions', optional: false },
+  ],
 })
 export default class ConversationLogger extends LoggerBase {
   /**
@@ -71,14 +72,20 @@ export default class ConversationLogger extends LoggerBase {
       actionTypes,
       identityFunction: conversationLogIdentityFunction,
     });
-    this._auth = this:: ensureExist(auth, 'auth');
-    this._contactMatcher = this:: ensureExist(contactMatcher, 'contactMatcher');
-    this._conversationMatcher = this:: ensureExist(conversationMatcher, 'conversationMatcher');
-    this._dateTimeFormat = this:: ensureExist(dateTimeFormat, 'dateTimeFormat');
-    this._extensionInfo = this:: ensureExist(extensionInfo, 'extensionInfo');
-    this._messageStore = this:: ensureExist(messageStore, 'messageStore');
-    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._storage = this:: ensureExist(storage, 'storage');
+    this._auth = this::ensureExist(auth, 'auth');
+    this._contactMatcher = this::ensureExist(contactMatcher, 'contactMatcher');
+    this._conversationMatcher = this::ensureExist(
+      conversationMatcher,
+      'conversationMatcher',
+    );
+    this._dateTimeFormat = this::ensureExist(dateTimeFormat, 'dateTimeFormat');
+    this._extensionInfo = this::ensureExist(extensionInfo, 'extensionInfo');
+    this._messageStore = this::ensureExist(messageStore, 'messageStore');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
+    this._storage = this::ensureExist(storage, 'storage');
     this._tabManager = tabManager;
     this._isLoggedContact = isLoggedContact;
     this._formatDateTime = formatDateTime;
@@ -93,91 +100,13 @@ export default class ConversationLogger extends LoggerBase {
       reducer: getDataReducer(this.actionTypes),
     });
 
-    this.addSelector('conversationLogMap',
-      () => this._messageStore.conversationStore,
-      () => this._extensionInfo.extensionNumber,
-      () => this._conversationMatcher.dataMapping,
-      (conversationStore, extensionNumber, conversationLogMapping = {}) => {
-        const messages = Object.values(conversationStore)
-          .reduce((allMessages, messages) => [...allMessages, ...messages], []);
-        const mapping = {};
-        messages.slice().sort(sortByDate)
-          .forEach((message) => {
-            const { conversationId } = message;
-            const date = this._formatDateTime({
-              type: 'date',
-              utcTimestamp: message.creationTime,
-            });
-            if (!mapping[conversationId]) {
-              mapping[conversationId] = {};
-            }
-            if (!mapping[conversationId][date]) {
-              const conversationLogId = getLogId({ conversationId, date });
-              mapping[conversationId][date] = {
-                conversationLogId,
-                conversationId,
-                creationTime: message.createTime, // for sorting
-                date,
-                type: message.type,
-                messages: [],
-                conversationLogMatches: conversationLogMapping[conversationLogId] || [],
-                ...getNumbersFromMessage({ extensionNumber, message }),
-              };
-            }
-            mapping[conversationId][date].messages.push(message);
-          });
-        return mapping;
-      },
-    );
-
-    this.addSelector('conversationLogIds',
-      this._selectors.conversationLogMap,
-      (conversationLogMap) => {
-        const logIds = [];
-        Object.keys(conversationLogMap).forEach((conversationId) => {
-          Object.keys(conversationLogMap[conversationId]).forEach((date) => {
-            logIds.push(conversationLogMap[conversationId][date].conversationLogId);
-          });
-        });
-        return logIds;
-      },
-    );
-    this.addSelector('uniqueNumbers',
-      this._selectors.conversationLogMap,
-      (conversationLogMap) => {
-        const output = [];
-        const numberMap = {};
-        function addIfNotExist(contact = {}) {
-          const number = contact.phoneNumber || contact.extensionNumber;
-          if (number && !numberMap[number]) {
-            output.push(number);
-            numberMap[number] = true;
-          }
-        }
-        Object.keys(conversationLogMap).forEach((conversationId) => {
-          Object.keys(conversationLogMap[conversationId]).forEach((date) => {
-            const conversation = conversationLogMap[conversationId][date];
-            addIfNotExist(conversation.self);
-            conversation.correspondents.forEach(addIfNotExist);
-          });
-        });
-        return output;
-      },
-    );
-
     this._contactMatcher.addQuerySource({
-      getQueriesFn: this._selectors.uniqueNumbers,
-      readyCheckFn: () => (
-        this._messageStore.ready &&
-        this._extensionInfo.ready
-      ),
+      getQueriesFn: () => this.uniqueNumbers,
+      readyCheckFn: () => this._messageStore.ready && this._extensionInfo.ready,
     });
     this._conversationMatcher.addQuerySource({
-      getQueriesFn: this._selectors.conversationLogIds,
-      readyCheckFn: () => (
-        this._messageStore.ready &&
-        this._extensionInfo.ready
-      ),
+      getQueriesFn: () => this.conversationLogIds,
+      readyCheckFn: () => this._messageStore.ready && this._extensionInfo.ready,
     });
 
     this._lastProcessedConversationLogMap = null;
@@ -186,7 +115,8 @@ export default class ConversationLogger extends LoggerBase {
   }
 
   _shouldInit() {
-    return this.pending &&
+    return (
+      this.pending &&
       this._contactMatcher.ready &&
       this._conversationMatcher.ready &&
       this._dateTimeFormat.ready &&
@@ -195,12 +125,14 @@ export default class ConversationLogger extends LoggerBase {
       this._rolesAndPermissions.ready &&
       this._storage.ready &&
       (!this._tabManager || this._tabManager.ready) &&
-      this._readyCheckFunction();
+      this._readyCheckFunction()
+    );
   }
+
   _shouldReset() {
-    return this.ready &&
-      (
-        !this._contactMatcher.ready ||
+    return (
+      this.ready &&
+      (!this._contactMatcher.ready ||
         !this._conversationMatcher.ready ||
         !this._dateTimeFormat.ready ||
         !this._extensionInfo.ready ||
@@ -208,9 +140,10 @@ export default class ConversationLogger extends LoggerBase {
         !this._rolesAndPermissions.ready ||
         !this._storage.ready ||
         (this._tabManager && !this._tabManager.ready) ||
-        !this._readyCheckFunction()
-      );
+        !this._readyCheckFunction())
+    );
   }
+
   _onReset() {
     this._lastProcessedConversations = null;
     this._lastAutoLog = null;
@@ -223,21 +156,18 @@ export default class ConversationLogger extends LoggerBase {
     await sleep(300);
     if (ownerId !== this._auth.ownerId) return;
     await Promise.all(
-      this._autoLogQueue.splice(0, 10)
-        .map(conversation => this._processConversationLog({ conversation }))
+      this._autoLogQueue
+        .splice(0, 10)
+        .map((conversation) => this._processConversationLog({ conversation })),
     );
-    if (
-      ownerId === this._auth.ownerId &&
-      this._autoLogQueue.length > 0
-    ) {
+    if (ownerId === this._auth.ownerId && this._autoLogQueue.length > 0) {
       this._autoLogPromise = this._processQueue();
     } else {
       this._autoLogPromise = null;
     }
   }
-  _queueAutoLogConversation({
-    conversation,
-  }) {
+
+  _queueAutoLogConversation({ conversation }) {
     this._autoLogQueue.push(conversation);
     if (!this._autoLogPromise) {
       this._autoLogPromise = this._processQueue();
@@ -245,47 +175,55 @@ export default class ConversationLogger extends LoggerBase {
   }
 
   _getCorrespondentMatches(conversation) {
-    return (conversation.correspondents &&
-      conversation.correspondents.reduce((result, contact) => {
-        const number = contact.phoneNumber || contact.extensionNumber;
-        return number && this._contactMatcher.dataMapping[number] ?
-          result.concat(this._contactMatcher.dataMapping[number]) :
-          result;
-      }, [])) || [];
+    return (
+      (conversation.correspondents &&
+        conversation.correspondents.reduce((result, contact) => {
+          const number = contact.phoneNumber || contact.extensionNumber;
+          return number && this._contactMatcher.dataMapping[number]
+            ? result.concat(this._contactMatcher.dataMapping[number])
+            : result;
+        }, [])) ||
+      []
+    );
   }
+
   getLastMatchedCorrespondentEntity(conversation) {
-    const conversationLog = this.conversationLogMap[conversation.conversationId];
+    const conversationLog = this.conversationLogMap[
+      conversation.conversationId
+    ];
     if (!conversationLog) {
       return null;
     }
     const lastRecord = Object.keys(conversationLog)
-      .map(date => (
-        this.conversationLogMap[conversation.conversationId][date]
-      )).sort(sortByDate).find(item => (
-        item.conversationLogMatches.length > 0
-      ));
+      .map((date) => this.conversationLogMap[conversation.conversationId][date])
+      .sort(sortByDate)
+      .find((item) => item.conversationLogMatches.length > 0);
     if (
       lastRecord &&
       this._conversationMatcher.dataMapping[lastRecord.conversationLogId] &&
       this._conversationMatcher.dataMapping[lastRecord.conversationLogId].length
     ) {
-      const lastActivity = this._conversationMatcher.dataMapping[lastRecord.conversationLogId][0];
+      const lastActivity = this._conversationMatcher.dataMapping[
+        lastRecord.conversationLogId
+      ][0];
       const correspondentMatches = this._getCorrespondentMatches(lastRecord);
-      return correspondentMatches.find(item => (
-        this._isLoggedContact(conversation, lastActivity, item)
-      ));
+      return correspondentMatches.find((item) =>
+        this._isLoggedContact(conversation, lastActivity, item),
+      );
     }
     return null;
   }
-  async _processConversationLog({
-    conversation,
-  }) {
+
+  async _processConversationLog({ conversation }) {
     // await this._conversationMatcher.triggerMatch();
-    await this._conversationMatcher.match({ queries: [conversation.conversationLogId] });
+    await this._conversationMatcher.match({
+      queries: [conversation.conversationLogId],
+    });
     if (
       this._isAutoUpdate &&
       this._conversationMatcher.dataMapping[conversation.conversationLogId] &&
-      this._conversationMatcher.dataMapping[conversation.conversationLogId].length
+      this._conversationMatcher.dataMapping[conversation.conversationLogId]
+        .length
     ) {
       // update conversation
       await this._autoLogConversation({
@@ -306,20 +244,23 @@ export default class ConversationLogger extends LoggerBase {
       addIfNotExist(conversation.self);
       conversation.correspondents.forEach(addIfNotExist);
       await this._contactMatcher.match({ queries: numbers });
-      const selfNumber = conversation.self &&
+      const selfNumber =
+        conversation.self &&
         (conversation.self.phoneNumber || conversation.self.extensionNumber);
-      const selfMatches = (selfNumber &&
-        this._contactMatcher.dataMapping[conversation.self]) || [];
+      const selfMatches =
+        (selfNumber && this._contactMatcher.dataMapping[conversation.self]) ||
+        [];
       const correspondentMatches = this._getCorrespondentMatches(conversation);
 
-      const selfEntity = (selfMatches &&
-        selfMatches.length === 1 &&
-        selfMatches[0]) ||
-        null;
+      const selfEntity =
+        (selfMatches && selfMatches.length === 1 && selfMatches[0]) || null;
 
-      let correspondentEntity = this.getLastMatchedCorrespondentEntity(conversation);
+      let correspondentEntity = this.getLastMatchedCorrespondentEntity(
+        conversation,
+      );
 
-      correspondentEntity = correspondentEntity ||
+      correspondentEntity =
+        correspondentEntity ||
         (correspondentMatches &&
           correspondentMatches.length === 1 &&
           correspondentMatches[0]) ||
@@ -331,10 +272,13 @@ export default class ConversationLogger extends LoggerBase {
       });
     }
   }
+
   accordWithProcessLogRequirement(...rest) {
-    return (!this._accordWithLogRequirement ||
-      this._accordWithLogRequirement(...rest));
+    return (
+      !this._accordWithLogRequirement || this._accordWithLogRequirement(...rest)
+    );
   }
+
   _processConversationLogMap() {
     if (this.ready && this._lastAutoLog !== this.autoLog) {
       this._lastAutoLog = this.autoLog;
@@ -343,33 +287,47 @@ export default class ConversationLogger extends LoggerBase {
         this._lastProcessedConversations = null;
       }
     }
-    if (this.ready && this._lastProcessedConversations !== this.conversationLogMap) {
+    if (
+      this.ready &&
+      this._lastProcessedConversations !== this.conversationLogMap
+    ) {
       this._conversationMatcher.triggerMatch();
       this._contactMatcher.triggerMatch();
       const oldMap = this._lastProcessedConversations || {};
       this._lastProcessedConversations = this.conversationLogMap;
       if (!this._tabManager || this._tabManager.active) {
-        Object.keys(this._lastProcessedConversations).forEach((conversationId) => {
-          Object.keys(this._lastProcessedConversations[conversationId]).forEach((date) => {
-            const conversation = this._lastProcessedConversations[conversationId][date];
-            if (
-              !oldMap[conversationId] ||
-              !oldMap[conversationId][date] ||
-              conversation.messages[0].id !== oldMap[conversationId][date].messages[0].id
-            ) {
-              if (this.accordWithProcessLogRequirement(conversation)) {
-                this._queueAutoLogConversation({
-                  conversation,
-                });
+        Object.keys(this._lastProcessedConversations).forEach(
+          (conversationId) => {
+            Object.keys(
+              this._lastProcessedConversations[conversationId],
+            ).forEach((date) => {
+              const conversation = this._lastProcessedConversations[
+                conversationId
+              ][date];
+              if (
+                !oldMap[conversationId] ||
+                !oldMap[conversationId][date] ||
+                conversation.messages[0].id !==
+                  oldMap[conversationId][date].messages[0].id
+              ) {
+                if (this.accordWithProcessLogRequirement(conversation)) {
+                  this._queueAutoLogConversation({
+                    conversation,
+                  });
+                }
               }
-            }
-          });
-        });
+            });
+          },
+        );
       }
     }
   }
 
-  async _autoLogConversation({ conversation, selfEntity, correspondentEntity }) {
+  async _autoLogConversation({
+    conversation,
+    selfEntity,
+    correspondentEntity,
+  }) {
     await this.log({
       conversation,
       selfEntity,
@@ -384,25 +342,32 @@ export default class ConversationLogger extends LoggerBase {
 
   @proxify
   async logConversation({
-    conversationId, correspondentEntity, redirect, ...options
+    conversationId,
+    correspondentEntity,
+    redirect,
+    ...options
   }) {
     if (this.conversationLogMap[conversationId]) {
-      await Promise.all(Object.keys(this.conversationLogMap[conversationId])
-        .map(date => this.conversationLogMap[conversationId][date])
-        .sort(sortByDate)
-        .map((conversation, idx) => {
-          const queueIndex = this._autoLogQueue
-            .find(item => item.conversationLogId === conversation.conversationLogId);
-          if (queueIndex > -1) {
-            this._autoLogQueue.splice(queueIndex, 1);
-          }
-          return this.log({
-            ...options,
-            conversation,
-            correspondentEntity,
-            redirect: redirect && idx === 0, // only direct on the first item
-          });
-        }));
+      await Promise.all(
+        Object.keys(this.conversationLogMap[conversationId])
+          .map((date) => this.conversationLogMap[conversationId][date])
+          .sort(sortByDate)
+          .map((conversation, idx) => {
+            const queueIndex = this._autoLogQueue.find(
+              (item) =>
+                item.conversationLogId === conversation.conversationLogId,
+            );
+            if (queueIndex > -1) {
+              this._autoLogQueue.splice(queueIndex, 1);
+            }
+            return this.log({
+              ...options,
+              conversation,
+              correspondentEntity,
+              redirect: redirect && idx === 0, // only direct on the first item
+            });
+          }),
+      );
     }
   }
 
@@ -431,13 +396,89 @@ export default class ConversationLogger extends LoggerBase {
     }
   }
 
-  get conversationLogMap() {
-    return this._selectors.conversationLogMap();
-  }
+  @selector
+  conversationLogMap = [
+    () => this._messageStore.conversationStore,
+    () => this._extensionInfo.extensionNumber,
+    () => this._conversationMatcher.dataMapping,
+    (conversationStore, extensionNumber, conversationLogMapping = {}) => {
+      const messages = Object.values(conversationStore).reduce(
+        (allMessages, messages) => [...allMessages, ...messages],
+        [],
+      );
+      const mapping = {};
+      messages
+        .slice()
+        .sort(sortByDate)
+        .forEach((message) => {
+          const { conversationId } = message;
+          const date = this._formatDateTime({
+            type: 'date',
+            utcTimestamp: message.creationTime,
+          });
+          if (!mapping[conversationId]) {
+            mapping[conversationId] = {};
+          }
+          if (!mapping[conversationId][date]) {
+            const conversationLogId = getLogId({ conversationId, date });
+            mapping[conversationId][date] = {
+              conversationLogId,
+              conversationId,
+              creationTime: message.creationTime, // for sorting
+              date,
+              type: message.type,
+              messages: [],
+              conversationLogMatches:
+                conversationLogMapping[conversationLogId] || [],
+              ...getNumbersFromMessage({ extensionNumber, message }),
+            };
+          }
+          mapping[conversationId][date].messages.push(message);
+        });
+      return mapping;
+    },
+  ];
 
-  get conversationLogIds() {
-    return this._selectors.conversationLogIds();
-  }
+  @selector
+  conversationLogIds = [
+    () => this.conversationLogMap,
+    (conversationLogMap) => {
+      const logIds = [];
+      Object.keys(conversationLogMap).forEach((conversationId) => {
+        Object.keys(conversationLogMap[conversationId]).forEach((date) => {
+          logIds.push(
+            conversationLogMap[conversationId][date].conversationLogId,
+          );
+        });
+      });
+      return logIds;
+    },
+  ];
+
+  @selector
+  uniqueNumbers = [
+    () => this.conversationLogMap,
+    (conversationLogMap) => {
+      const output = [];
+      const numberMap = {};
+      function addIfNotExist(contact = {}) {
+        const number = contact.phoneNumber || contact.extensionNumber;
+        if (number && !numberMap[number]) {
+          output.push(number);
+          numberMap[number] = true;
+        }
+      }
+      Object.keys(conversationLogMap).forEach((conversationId) => {
+        Object.keys(conversationLogMap[conversationId]).forEach((date) => {
+          const conversation = conversationLogMap[conversationId][date];
+          addIfNotExist(conversation.self);
+          conversation.correspondents.forEach(addIfNotExist);
+        });
+      });
+      return output;
+    },
+  ];
+
   getConversationLogId(message) {
     if (!message) {
       return;

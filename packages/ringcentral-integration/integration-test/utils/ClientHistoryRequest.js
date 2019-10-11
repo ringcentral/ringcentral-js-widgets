@@ -1,5 +1,4 @@
 export default class ClientHistoryRequest {
-
   static endPoints = {
     callLog: '/account/~/extension/~/call-log',
     dialingPlan: '/account/~/dialing-plan',
@@ -7,7 +6,7 @@ export default class ClientHistoryRequest {
     companyPager: '/restapi/v1.0/account/~/extension/~/company-pager',
     sms: '/restapi/v1.0/account/~/extension/~/sms',
     conferenceCall: '/restapi/v1.0/account/~/telephony/conference',
-  }
+  };
 
   constructor(requestContainer, client) {
     this._requestContainer = requestContainer;
@@ -20,11 +19,23 @@ export default class ClientHistoryRequest {
       this._requestContainer.set(apiResponse._request.url, null);
     });
     this._client.on(this._client.events.requestSuccess, (apiResponse) => {
-      this._requestContainer.set(apiResponse._request.url, JSON.parse(apiResponse._text));
+      this._requestContainer.set(
+        apiResponse._request.url,
+        JSON.parse(apiResponse._text),
+      );
     });
     this._client.on(this._client.events.requestError, (error) => {
-      console.error(error.apiResponse._request && error.apiResponse.headers && error.apiResponse.json && error.apiResponse.json());
-      console.error(error.apiResponse && error.apiResponse._response && error.apiResponse._response.status);
+      console.error(
+        error.apiResponse._request &&
+          error.apiResponse.headers &&
+          error.apiResponse.json &&
+          error.apiResponse.json(),
+      );
+      console.error(
+        error.apiResponse &&
+          error.apiResponse._response &&
+          error.apiResponse._response.status,
+      );
     });
   }
 

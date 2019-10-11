@@ -14,7 +14,7 @@ const DEFAULT_DEVICE = {
       sendTarget.postMessage(message, targetOrigin);
       if (typeof callback === 'function') callback();
     };
-  }
+  },
 };
 export default class MessageTransport extends TransportBase {
   constructor({
@@ -43,13 +43,7 @@ export default class MessageTransport extends TransportBase {
     if (this._origin && event.origin !== this._origin) {
       return;
     }
-    const {
-      type,
-      payload,
-      requestId,
-      result,
-      error,
-    } = event.data;
+    const { type, payload, requestId, result, error } = event.data;
     switch (type) {
       case this._events.push:
         if (payload) {
@@ -77,13 +71,9 @@ export default class MessageTransport extends TransportBase {
       default:
         break;
     }
-  }
+  };
 
-  addListeners({
-    push,
-    response,
-    request,
-  }) {
+  addListeners({ push, response, request }) {
     if (typeof push === 'function') {
       this.on(this._events.push, push);
     }
@@ -112,15 +102,17 @@ export default class MessageTransport extends TransportBase {
       timeout = null;
       this._myRequests.get(requestId).reject(new Error(this._events.timeout));
     }, this._timeout);
-    promise = promise.then((result) => {
-      if (timeout) clearTimeout(timeout);
-      this._myRequests.delete(requestId);
-      return Promise.resolve(result);
-    }).catch((error) => {
-      if (timeout) clearTimeout(timeout);
-      this._myRequests.delete(requestId);
-      return Promise.reject(error);
-    });
+    promise = promise
+      .then((result) => {
+        if (timeout) clearTimeout(timeout);
+        this._myRequests.delete(requestId);
+        return Promise.resolve(result);
+      })
+      .catch((error) => {
+        if (timeout) clearTimeout(timeout);
+        this._myRequests.delete(requestId);
+        return Promise.reject(error);
+      });
     return promise;
   }
 

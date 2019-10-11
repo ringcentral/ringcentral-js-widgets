@@ -22,8 +22,7 @@ describe('getDndStatusReducer', () => {
     });
     it('should return original state if type is not recognized', () => {
       const originalState = [];
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it(`should return action.dndStatus on fetchSuccess, notification,
         update, updateError and updateSuccess`, () => {
@@ -35,18 +34,22 @@ describe('getDndStatusReducer', () => {
         actionTypes.updateError,
       ].forEach((type) => {
         const dndStatus = {};
-        expect(reducer(null, {
-          type,
-          data: { dndStatus },
-        })).to.equal(dndStatus);
+        expect(
+          reducer(null, {
+            type,
+            data: { dndStatus },
+          }),
+        ).to.equal(dndStatus);
       });
     });
     it('should return null on reset', () => {
       const dndStatus = {};
-      expect(reducer(null, {
-        type: actionTypes.reset,
-        data: { dndStatus },
-      })).to.be.null;
+      expect(
+        reducer(null, {
+          type: actionTypes.reset,
+          data: { dndStatus },
+        }),
+      ).to.be.null;
     });
   });
 });
@@ -56,7 +59,9 @@ describe('getLastNotDisturbDndStatusReducer', () => {
     expect(getLastNotDisturbDndStatusReducer).to.be.a('function');
   });
   it('should return a reducer', () => {
-    expect(getLastNotDisturbDndStatusReducer({ types: actionTypes })).to.be.a('function');
+    expect(getLastNotDisturbDndStatusReducer({ types: actionTypes })).to.be.a(
+      'function',
+    );
   });
   describe('lastNotDisturbDndStatusReducer', () => {
     const reducer = getLastNotDisturbDndStatusReducer(actionTypes);
@@ -65,8 +70,7 @@ describe('getLastNotDisturbDndStatusReducer', () => {
     });
     it('should return original state if type is not recognized', () => {
       const originalState = [];
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it(`should return action.lastDndStatus on fetchSuccess, notification,
         update, updateSuccess`, () => {
@@ -78,11 +82,13 @@ describe('getLastNotDisturbDndStatusReducer', () => {
       ].forEach((type) => {
         const dndStatus = {};
         const lastDndStatus = {};
-        expect(reducer(null, {
-          type,
-          data: { dndStatus },
-          lastDndStatus,
-        })).to.equal(lastDndStatus);
+        expect(
+          reducer(null, {
+            type,
+            data: { dndStatus },
+            lastDndStatus,
+          }),
+        ).to.equal(lastDndStatus);
       });
     });
     it(`should return origin state on fetchSuccess, notification,
@@ -96,11 +102,13 @@ describe('getLastNotDisturbDndStatusReducer', () => {
         const dndStatus = {};
         const lastDndStatus = dndStatus;
         const originalState = {};
-        expect(reducer(originalState, {
-          type,
-          data: { dndStatus },
-          lastDndStatus,
-        })).to.equal(originalState);
+        expect(
+          reducer(originalState, {
+            type,
+            data: { dndStatus },
+            lastDndStatus,
+          }),
+        ).to.equal(originalState);
       });
     });
     it(`should return origin state on fetchSuccess, notification,
@@ -114,19 +122,23 @@ describe('getLastNotDisturbDndStatusReducer', () => {
         const dndStatus = {};
         const lastDndStatus = dndStatuses.doNotAcceptAnyCalls;
         const originalState = {};
-        expect(reducer(originalState, {
-          type,
-          data: { dndStatus },
-          lastDndStatus,
-        })).to.equal(originalState);
+        expect(
+          reducer(originalState, {
+            type,
+            data: { dndStatus },
+            lastDndStatus,
+          }),
+        ).to.equal(originalState);
       });
     });
     it('should return null on reset', () => {
       const dndStatus = {};
-      expect(reducer(null, {
-        type: actionTypes.resetSuccess,
-        data: { dndStatus },
-      })).to.be.null;
+      expect(
+        reducer(null, {
+          type: actionTypes.resetSuccess,
+          data: { dndStatus },
+        }),
+      ).to.be.null;
     });
   });
 });
@@ -136,7 +148,9 @@ describe('getPresenceStatusReducer', () => {
     expect(getPresenceStatusReducer).to.be.a('function');
   });
   it('should return a reducer', () => {
-    expect(getPresenceStatusReducer({ types: actionTypes })).to.be.a('function');
+    expect(getPresenceStatusReducer({ types: actionTypes })).to.be.a(
+      'function',
+    );
   });
   describe('presenceStatusReducer', () => {
     const reducer = getPresenceStatusReducer(actionTypes);
@@ -145,8 +159,7 @@ describe('getPresenceStatusReducer', () => {
     });
     it('should return original state if type is not recognized', () => {
       const originalState = [];
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return presenceStatus on fetchSuccess, notification and updateSuccess', () => {
       [
@@ -155,18 +168,22 @@ describe('getPresenceStatusReducer', () => {
         actionTypes.updateSuccess,
       ].forEach((type) => {
         const presenceStatus = {};
-        expect(reducer(null, {
-          type,
-          data: { presenceStatus },
-        })).to.equal(presenceStatus);
+        expect(
+          reducer(null, {
+            type,
+            data: { presenceStatus },
+          }),
+        ).to.equal(presenceStatus);
       });
     });
     it('should return null on reset', () => {
       const presenceStatus = {};
-      expect(reducer(null, {
-        type: actionTypes.reset,
-        data: { presenceStatus },
-      })).to.be.null;
+      expect(
+        reducer(null, {
+          type: actionTypes.reset,
+          data: { presenceStatus },
+        }),
+      ).to.be.null;
     });
   });
 });
@@ -185,8 +202,7 @@ describe('getUserStatusReducer', () => {
     });
     it('should return original state if type is not recognized', () => {
       const originalState = [];
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it(`should return userStatus on fetchSuccess, notification,
         update, updateError and updateSuccess`, () => {
@@ -198,18 +214,22 @@ describe('getUserStatusReducer', () => {
         actionTypes.updateError,
       ].forEach((type) => {
         const userStatus = {};
-        expect(reducer(null, {
-          type,
-          data: { userStatus },
-        })).to.equal(userStatus);
+        expect(
+          reducer(null, {
+            type,
+            data: { userStatus },
+          }),
+        ).to.equal(userStatus);
       });
     });
     it('should return null on reset', () => {
       const userStatus = {};
-      expect(reducer(null, {
-        type: actionTypes.reset,
-        data: { userStatus },
-      })).to.be.null;
+      expect(
+        reducer(null, {
+          type: actionTypes.reset,
+          data: { userStatus },
+        }),
+      ).to.be.null;
     });
   });
 });

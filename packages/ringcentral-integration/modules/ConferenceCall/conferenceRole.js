@@ -1,6 +1,3 @@
 import Enum from '../../lib/Enum';
 
-export default new Enum([
-  'host',
-  'participant',
-]);
+export default new Enum(['host', 'participant']);

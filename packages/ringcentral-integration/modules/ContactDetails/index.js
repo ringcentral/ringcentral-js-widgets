@@ -1,6 +1,7 @@
 import { filter, reduce } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
+import { selector } from '../../lib/selector';
 import actionTypes from './actionTypes';
 import getContactDetailsReducer from './getContactDetailsReducer';
 import proxify from '../../lib/proxy/proxify';
@@ -9,10 +10,7 @@ import phoneTypes from '../../enums/phoneTypes';
 import { phoneTypeOrder } from '../../lib/phoneTypeHelper';
 
 @Module({
-  deps: [
-    'Contacts',
-    { dep: 'ContactDetailsOptions', optional: true }
-  ]
+  deps: ['Contacts', { dep: 'ContactDetailsOptions', optional: true }],
 })
 export default class ContactDetails extends RcModule {
   constructor({ contacts, ...options }) {
@@ -20,41 +18,6 @@ export default class ContactDetails extends RcModule {
 
     this._contacts = contacts;
     this._reducer = getContactDetailsReducer(this.actionTypes);
-
-    this.addSelector(
-      'currentContact',
-      () => this.condition,
-      () => this._contacts.allContacts,
-      (condition) => {
-        if (condition) { return this._contacts.find(condition); }
-        return null;
-      }
-    );
-
-    this.addSelector(
-      'currentSortedContact',
-      () => this.currentContact,
-      (currentContact) => {
-        if (!currentContact) return null;
-        let phoneNumbers;
-        if (currentContact.rawPhoneNumbers && currentContact.rawPhoneNumbers.length > 0) {
-          phoneNumbers = currentContact.rawPhoneNumbers;
-        } else {
-          phoneNumbers = currentContact.phoneNumbers;
-        }
-        const phoneMaps = reduce((acc, phoneNumberElm) => {
-          acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
-          acc[phoneNumberElm.phoneType].push(phoneNumberElm);
-          return acc;
-        }, {}, phoneNumbers);
-
-        const schema = filter(
-          key => (!!phoneTypes[key] && Array.isArray(phoneMaps[key])),
-          phoneTypeOrder,
-        );
-        return { ...currentContact, schema, phoneMaps };
-      }
-    );
   }
 
   initialize() {
@@ -74,17 +37,11 @@ export default class ContactDetails extends RcModule {
   }
 
   _shouldInit() {
-    return (
-      this._contacts.ready &&
-      this.pending
-    );
+    return this._contacts.ready && this.pending;
   }
 
   _shouldReset() {
-    return (
-      !this._contacts.ready &&
-      this.ready
-    );
+    return !this._contacts.ready && this.ready;
   }
 
   /**
@@ -97,15 +54,15 @@ export default class ContactDetails extends RcModule {
       type: this.actionTypes.updateCondition,
       condition: {
         id,
-        type
-      }
+        type,
+      },
     });
   }
 
   @background
   clear() {
     this.store.dispatch({
-      type: this.actionTypes.resetCondition
+      type: this.actionTypes.resetCondition,
     });
   }
 
@@ -135,13 +92,49 @@ export default class ContactDetails extends RcModule {
     });
   }
 
-  get currentContact() {
-    return this._selectors.currentContact();
-  }
+  @selector
+  currentContact = [
+    () => this.condition,
+    () => this._contacts.allContacts,
+    (condition) => {
+      if (condition) {
+        return this._contacts.find(condition);
+      }
+      return null;
+    },
+  ];
 
-  get contact() {
-    return this._selectors.currentSortedContact();
-  }
+  @selector
+  contact = [
+    () => this.currentContact,
+    (currentContact) => {
+      if (!currentContact) return null;
+      let phoneNumbers;
+      if (
+        currentContact.rawPhoneNumbers &&
+        currentContact.rawPhoneNumbers.length > 0
+      ) {
+        phoneNumbers = currentContact.rawPhoneNumbers;
+      } else {
+        phoneNumbers = currentContact.phoneNumbers;
+      }
+      const phoneMaps = reduce(
+        (acc, phoneNumberElm) => {
+          acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
+          acc[phoneNumberElm.phoneType].push(phoneNumberElm);
+          return acc;
+        },
+        {},
+        phoneNumbers,
+      );
+
+      const schema = filter(
+        (key) => !!phoneTypes[key] && Array.isArray(phoneMaps[key]),
+        phoneTypeOrder,
+      );
+      return { ...currentContact, schema, phoneMaps };
+    },
+  ];
 
   get condition() {
     return this.state.condition;

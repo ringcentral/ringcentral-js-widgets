@@ -28,8 +28,8 @@ import { selector } from '../../lib/selector';
     'RolesAndPermissions',
     { dep: 'TabManager', optional: true },
     { dep: 'Webphone', optional: true },
-    { dep: 'CallingSettingsOptions', optional: true }
-  ]
+    { dep: 'CallingSettingsOptions', optional: true },
+  ],
 })
 export default class CallingSettings extends RcModule {
   /**
@@ -126,25 +126,21 @@ export default class CallingSettings extends RcModule {
   _shouldReset() {
     return (
       this.ready &&
-      (
-        !this._storage.ready ||
+      (!this._storage.ready ||
         !this._extensionInfo.ready ||
         !this._extensionPhoneNumber.ready ||
         !this._forwardingNumber.ready ||
-        !this._rolesAndPermissions.ready
-      )
+        !this._rolesAndPermissions.ready)
     );
   }
 
   _shouldValidate() {
     return (
       this.ready &&
-      (
-        this._ringoutEnabled !== this._rolesAndPermissions.ringoutEnabled ||
+      (this._ringoutEnabled !== this._rolesAndPermissions.ringoutEnabled ||
         this._webphoneEnabled !== this._rolesAndPermissions.webphoneEnabled ||
         this._myPhoneNumbers !== this.myPhoneNumbers ||
-        this._otherPhoneNumbers !== this.otherPhoneNumbers
-      )
+        this._otherPhoneNumbers !== this.otherPhoneNumbers)
     );
   }
 
@@ -234,21 +230,18 @@ export default class CallingSettings extends RcModule {
   }
 
   _hasWebphonePermissionRemoved() {
-    return (!(
-      this._webphoneEnabled &&
-      this._webphone
-    ) &&
-      this.callWith === callingOptions.browser);
+    return (
+      !(this._webphoneEnabled && this._webphone) &&
+      this.callWith === callingOptions.browser
+    );
   }
 
   _hasPermissionChanged() {
     return (
       !this._ringoutEnabled &&
-      (
-        this.callWith === callingOptions.myphone ||
+      (this.callWith === callingOptions.myphone ||
         this.callWith === callingOptions.otherphone ||
-        this.callWith === callingOptions.customphone
-      )
+        this.callWith === callingOptions.customphone)
     );
   }
 
@@ -321,7 +314,12 @@ export default class CallingSettings extends RcModule {
     () => this._rolesAndPermissions.webphoneEnabled,
     () => this.otherPhoneNumbers.length > 0,
     () => this._extensionPhoneNumber.numbers.length > 0,
-    (ringoutEnabled, webphoneEnabled, hasOtherPhone, hasExtensionPhoneNumber) => {
+    (
+      ringoutEnabled,
+      webphoneEnabled,
+      hasOtherPhone,
+      hasExtensionPhoneNumber,
+    ) => {
       if (!hasExtensionPhoneNumber) {
         return [callingOptions.softphone];
       }
@@ -339,7 +337,7 @@ export default class CallingSettings extends RcModule {
       }
       return callWithOptions;
     },
-  ]
+  ];
 
   @selector
   myPhoneNumbers = [
@@ -347,14 +345,15 @@ export default class CallingSettings extends RcModule {
     () => this._extensionPhoneNumber.mainCompanyNumber,
     () => this._extensionInfo.extensionNumber,
     (directNumbers, mainCompanyNumber, extensionNumber) => {
-      const myPhoneNumbers = directNumbers.map(item => item.phoneNumber);
+      const myPhoneNumbers = directNumbers.map((item) => item.phoneNumber);
       if (mainCompanyNumber && extensionNumber) {
-        myPhoneNumbers.push(`${mainCompanyNumber.phoneNumber}*${extensionNumber}`);
+        myPhoneNumbers.push(
+          `${mainCompanyNumber.phoneNumber}*${extensionNumber}`,
+        );
       }
       return myPhoneNumbers;
-    }
-  ]
-
+    },
+  ];
 
   @selector
   otherPhoneNumbers = [
@@ -370,11 +369,11 @@ export default class CallingSettings extends RcModule {
         filterMapping[item.phoneNumber] = true;
       });
       return flipNumbers
-        .filter(item => !filterMapping[item.phoneNumber])
+        .filter((item) => !filterMapping[item.phoneNumber])
         .sort((a, b) => (a.label === 'Mobile' && a.label !== b.label ? -1 : 1))
-        .map(item => item.phoneNumber);
-    }
-  ]
+        .map((item) => item.phoneNumber);
+    },
+  ];
 
   @selector
   availableNumbers = [
@@ -384,7 +383,7 @@ export default class CallingSettings extends RcModule {
       [callingOptions.myphone]: myPhoneNumbers,
       [callingOptions.otherphone]: otherPhoneNumbers,
     }),
-  ]
+  ];
 
   get fromNumber() {
     return this.data.fromNumber;
@@ -393,16 +392,17 @@ export default class CallingSettings extends RcModule {
   @selector
   fromNumbers = [
     () => this._extensionPhoneNumber.callerIdNumbers,
-    phoneNumbers => phoneNumbers.sort((firstItem, lastItem) => {
-      if (firstItem.usageType === 'DirectNumber') return -1;
-      if (lastItem.usageType === 'DirectNumber') return 1;
-      if (firstItem.usageType === 'MainCompanyNumber') return -1;
-      if (lastItem.usageType === 'MainCompanyNumber') return 1;
-      if (firstItem.usageType < lastItem.usageType) return -1;
-      if (firstItem.usageType > lastItem.usageType) return 1;
-      return 0;
-    }),
-  ]
+    (phoneNumbers) =>
+      phoneNumbers.sort((firstItem, lastItem) => {
+        if (firstItem.usageType === 'DirectNumber') return -1;
+        if (lastItem.usageType === 'DirectNumber') return 1;
+        if (firstItem.usageType === 'MainCompanyNumber') return -1;
+        if (lastItem.usageType === 'MainCompanyNumber') return 1;
+        if (firstItem.usageType < lastItem.usageType) return -1;
+        if (firstItem.usageType > lastItem.usageType) return 1;
+        return 0;
+      }),
+  ];
 
   @proxify
   async setData({ callWith, myLocation, ringoutPrompt }, withPrompt) {

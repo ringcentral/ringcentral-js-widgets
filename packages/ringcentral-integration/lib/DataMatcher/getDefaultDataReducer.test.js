@@ -7,8 +7,7 @@ describe('getDefaultDataReducer', () => {
     expect(getDefaultDataReducer).to.be.a('function');
   });
   it('should return a reducer', () => {
-    expect(getDefaultDataReducer(actionTypes))
-      .to.be.a('function');
+    expect(getDefaultDataReducer(actionTypes)).to.be.a('function');
   });
   describe('defaultDataReducer', () => {
     const reducer = getDefaultDataReducer(actionTypes);
@@ -17,18 +16,23 @@ describe('getDefaultDataReducer', () => {
     });
     it('should return original state on unhandled actions', () => {
       const originalState = {};
-      expect(reducer(originalState, {
-        type: 'foo',
-      })).to.equal(originalState);
+      expect(
+        reducer(originalState, {
+          type: 'foo',
+        }),
+      ).to.equal(originalState);
     });
     it('should reset to empty object on resetSuccess', () => {
-      expect(reducer(
-        {
-          foo: 'bar',
-        }, {
-          type: actionTypes.resetSuccess,
-        }
-      )).to.deep.equal({});
+      expect(
+        reducer(
+          {
+            foo: 'bar',
+          },
+          {
+            type: actionTypes.resetSuccess,
+          },
+        ),
+      ).to.deep.equal({});
     });
 
     it('should return new state with new data on matchSuccess', () => {
@@ -37,13 +41,18 @@ describe('getDefaultDataReducer', () => {
       };
       const name = 'rogue';
       const now = Date.now();
-      expect(reducer({}, {
-        type: actionTypes.matchSuccess,
-        data,
-        name,
-        queries: ['foo'],
-        timestamp: now,
-      })).to.deep.equal({
+      expect(
+        reducer(
+          {},
+          {
+            type: actionTypes.matchSuccess,
+            data,
+            name,
+            queries: ['foo'],
+            timestamp: now,
+          },
+        ),
+      ).to.deep.equal({
         foo: {
           [name]: {
             data: data.foo,
@@ -51,13 +60,18 @@ describe('getDefaultDataReducer', () => {
           },
         },
       });
-      expect(reducer({}, {
-        type: actionTypes.insertMatchEntries,
-        data,
-        name,
-        queries: ['foo'],
-        timestamp: now,
-      })).to.deep.equal({
+      expect(
+        reducer(
+          {},
+          {
+            type: actionTypes.insertMatchEntries,
+            data,
+            name,
+            queries: ['foo'],
+            timestamp: now,
+          },
+        ),
+      ).to.deep.equal({
         foo: {
           [name]: {
             data: data.foo,
@@ -72,13 +86,18 @@ describe('getDefaultDataReducer', () => {
       };
       const name = 'rogue';
       const now = Date.now();
-      expect(reducer({}, {
-        type: actionTypes.matchSuccess,
-        data,
-        name,
-        queries: ['foo'],
-        timestamp: now,
-      })).to.deep.equal({
+      expect(
+        reducer(
+          {},
+          {
+            type: actionTypes.matchSuccess,
+            data,
+            name,
+            queries: ['foo'],
+            timestamp: now,
+          },
+        ),
+      ).to.deep.equal({
         foo: {
           [name]: {
             _t: now,
@@ -86,13 +105,18 @@ describe('getDefaultDataReducer', () => {
           },
         },
       });
-      expect(reducer({}, {
-        type: actionTypes.insertMatchEntries,
-        data,
-        name,
-        queries: ['foo'],
-        timestamp: now,
-      })).to.deep.equal({
+      expect(
+        reducer(
+          {},
+          {
+            type: actionTypes.insertMatchEntries,
+            data,
+            name,
+            queries: ['foo'],
+            timestamp: now,
+          },
+        ),
+      ).to.deep.equal({
         foo: {
           [name]: {
             _t: now,
@@ -110,12 +134,14 @@ describe('getDefaultDataReducer', () => {
       };
       const ttl = 30;
       const now = Date.now();
-      expect(reducer(state, {
-        type: actionTypes.cleanUp,
-        ttl,
-        timestamp: now,
-        queries: [],
-      })).to.deep.equal({
+      expect(
+        reducer(state, {
+          type: actionTypes.cleanUp,
+          ttl,
+          timestamp: now,
+          queries: [],
+        }),
+      ).to.deep.equal({
         foo: {
           _t: now,
           bar: {},
@@ -132,12 +158,14 @@ describe('getDefaultDataReducer', () => {
         },
       };
       const ttl = 30;
-      expect(reducer(state, {
-        type: actionTypes.cleanUp,
-        ttl,
-        queries: [],
-        timestamp: now,
-      })).to.deep.equal({});
+      expect(
+        reducer(state, {
+          type: actionTypes.cleanUp,
+          ttl,
+          queries: [],
+          timestamp: now,
+        }),
+      ).to.deep.equal({});
     });
     it('should return original state if nothing has changed', () => {
       const state = {
@@ -147,12 +175,14 @@ describe('getDefaultDataReducer', () => {
       };
       const ttl = 30;
       const now = Date.now();
-      expect(reducer(state, {
-        type: actionTypes.cleanUp,
-        ttl,
-        timestamp: now,
-        queries: ['foo'],
-      })).to.equal(state);
+      expect(
+        reducer(state, {
+          type: actionTypes.cleanUp,
+          ttl,
+          timestamp: now,
+          queries: ['foo'],
+        }),
+      ).to.equal(state);
     });
     it('should not remove entry if the marked time is less than ttl', () => {
       const now = Date.now();
@@ -163,12 +193,14 @@ describe('getDefaultDataReducer', () => {
         },
       };
       const ttl = 30;
-      expect(reducer(state, {
-        type: actionTypes.cleanUp,
-        ttl,
-        queries: [],
-        timestamp: now,
-      })).to.equal(state);
+      expect(
+        reducer(state, {
+          type: actionTypes.cleanUp,
+          ttl,
+          queries: [],
+          timestamp: now,
+        }),
+      ).to.equal(state);
     });
     it('should remove timestamp on entries if it is found in queries again', () => {
       const now = Date.now();
@@ -179,12 +211,14 @@ describe('getDefaultDataReducer', () => {
         },
       };
       const ttl = 30;
-      expect(reducer(state, {
-        type: actionTypes.cleanUp,
-        ttl,
-        queries: ['foo'],
-        timestamp: now,
-      })).to.deep.equal({
+      expect(
+        reducer(state, {
+          type: actionTypes.cleanUp,
+          ttl,
+          queries: ['foo'],
+          timestamp: now,
+        }),
+      ).to.deep.equal({
         foo: {
           bar: {},
         },

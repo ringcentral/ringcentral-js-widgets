@@ -47,18 +47,19 @@ export function getToNumbers(types) {
       case types.addToNumber:
         // known entity id eg. from click2SMS
         if (number.id) {
-          const idx = newState.findIndex(item => (
-            number.id === item.id || number.phoneNumber === item.phoneNumber
-          ));
+          const idx = newState.findIndex(
+            (item) =>
+              number.id === item.id || number.phoneNumber === item.phoneNumber,
+          );
           if (idx > -1) {
             // replace old one if found
             newState[idx] = number;
             return newState;
           }
         } else {
-          const oldNumber = newState.find(item => (
-            number.phoneNumber === item.phoneNumber
-          ));
+          const oldNumber = newState.find(
+            (item) => number.phoneNumber === item.phoneNumber,
+          );
           if (oldNumber) {
             return newState;
           }
@@ -66,9 +67,7 @@ export function getToNumbers(types) {
         newState.push(number);
         return newState;
       case types.removeToNumber:
-        return state.filter(item => (
-          item.phoneNumber !== number.phoneNumber
-        ));
+        return state.filter((item) => item.phoneNumber !== number.phoneNumber);
       case types.clean:
         return [];
       default:

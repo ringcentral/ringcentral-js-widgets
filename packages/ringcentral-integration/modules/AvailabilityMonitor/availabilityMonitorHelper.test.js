@@ -41,8 +41,8 @@ describe('availabilityMonitorHelper', () => {
           },
           _response: {
             status: 503,
-          }
-        }
+          },
+        },
       };
 
       expect(isHAError(error)).to.equal(true);
@@ -60,8 +60,8 @@ describe('availabilityMonitorHelper', () => {
           },
           _response: {
             status: haErrorStatus,
-          }
-        }
+          },
+        },
       };
 
       expect(isHAError(error)).to.equal(false);
@@ -79,8 +79,8 @@ describe('availabilityMonitorHelper', () => {
           },
           _response: {
             status: haErrorStatus,
-          }
-        }
+          },
+        },
       };
 
       expect(isHAError(error)).to.equal(false);
@@ -98,8 +98,8 @@ describe('availabilityMonitorHelper', () => {
           },
           _response: {
             status: haErrorStatus,
-          }
-        }
+          },
+        },
       };
 
       expect(isHAError(error)).to.equal(false);

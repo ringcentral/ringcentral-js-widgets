@@ -33,7 +33,7 @@ export default function init() {
         'page',
         'once',
         'off',
-        'on'
+        'on',
       ];
 
       analytics.factory = function factory(method) {

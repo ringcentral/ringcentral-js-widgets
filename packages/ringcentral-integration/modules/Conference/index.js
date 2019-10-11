@@ -5,9 +5,14 @@ import createSimpleReducer from '../../lib/createSimpleReducer';
 import callControlError from '../ActiveCallControl/callControlError';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
-import { updateJoinBeforeHost, getConferenceInfo, formatDialInNumbers } from './conferenceHelper';
+import {
+  updateJoinBeforeHost,
+  getConferenceInfo,
+  formatDialInNumbers,
+} from './conferenceHelper';
 
-const DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(callingCode,id,isoCode,name),phoneNumber,location),allowJoinBeforeHost';
+const DEFAULT_MASK =
+  'phoneNumber,hostCode,participantCode,phoneNumbers(country(callingCode,id,isoCode,name),phoneNumber,location),allowJoinBeforeHost';
 
 /**
  * @class
@@ -23,8 +28,8 @@ const DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(
     'ExtensionInfo',
     'Locale',
     { dep: 'AvailabilityMonitor', optional: true },
-    { dep: 'ConferenceOptions', optional: true }
-  ]
+    { dep: 'ConferenceOptions', optional: true },
+  ],
 })
 export default class Conference extends DataFetcher {
   /**
@@ -47,10 +52,8 @@ export default class Conference extends DataFetcher {
   }) {
     super({
       client,
-      fetchFunction: async () => mask(
-        await getConferenceInfo(client),
-        DEFAULT_MASK,
-      ),
+      fetchFunction: async () =>
+        mask(await getConferenceInfo(client), DEFAULT_MASK),
       storage,
       ...options,
     });
@@ -67,15 +70,24 @@ export default class Conference extends DataFetcher {
     this._locale = locale;
     this._storage.registerReducer({
       key: this._dialInNumberStorageKey,
-      reducer: createSimpleReducer(this.actionTypes.updateDialInNumber, 'dialInNumber'),
+      reducer: createSimpleReducer(
+        this.actionTypes.updateDialInNumber,
+        'dialInNumber',
+      ),
     });
     this._storage.registerReducer({
       key: this._additionalNumbersStorageKey,
-      reducer: createSimpleReducer(this.actionTypes.updateAdditionalNumbers, 'additionalNumbers'),
+      reducer: createSimpleReducer(
+        this.actionTypes.updateAdditionalNumbers,
+        'additionalNumbers',
+      ),
     });
     this._storage.registerReducer({
       key: this._savedStorageKey,
-      reducer: createSimpleReducer(this.actionTypes.updateSaveCurrentSettings, '_saved'),
+      reducer: createSimpleReducer(
+        this.actionTypes.updateSaveCurrentSettings,
+        '_saved',
+      ),
     });
   }
 
@@ -92,36 +104,48 @@ export default class Conference extends DataFetcher {
     if (
       !this.data ||
       !this._regionSettings.ready ||
-      this._lastCountryCode === this._regionSettings.countryCode) {
+      this._lastCountryCode === this._regionSettings.countryCode
+    ) {
       return;
     }
     this._lastCountryCode = this._regionSettings.countryCode;
     const matchedPhoneNumber = this.data.phoneNumbers.find(
-      e => e.country.isoCode === this._lastCountryCode
+      (e) => e.country.isoCode === this._lastCountryCode,
     );
-    if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber) {
+    if (
+      matchedPhoneNumber &&
+      matchedPhoneNumber.phoneNumber !== this.dialInNumber
+    ) {
       this.updateDialInNumber(matchedPhoneNumber.phoneNumber);
     }
   }
 
   _shouldInit() {
-    return super._shouldInit() &&
+    return (
+      super._shouldInit() &&
       this._rolesAndPermissions.ready &&
       this._alert.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this._extensionInfo.ready &&
       this._locale.ready &&
-      this._regionSettings.ready;
+      this._regionSettings.ready
+    );
   }
 
   @proxify
   async updateEnableJoinBeforeHost(allowJoinBeforeHost) {
     try {
-      const data = await updateJoinBeforeHost(this._client, allowJoinBeforeHost);
+      const data = await updateJoinBeforeHost(
+        this._client,
+        allowJoinBeforeHost,
+      );
       this._store.dispatch({ type: this.actionTypes.fetchSuccess, data });
       return data;
     } catch (error) {
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: callControlError.generalError });
       }
 
@@ -131,24 +155,33 @@ export default class Conference extends DataFetcher {
 
   @proxify
   updateDialInNumber(dialInNumber) {
-    this._store.dispatch({ type: this.actionTypes.updateDialInNumber, dialInNumber });
+    this._store.dispatch({
+      type: this.actionTypes.updateDialInNumber,
+      dialInNumber,
+    });
   }
 
   @proxify
   updateAdditionalNumbers(additionalNumbers) {
-    this._store.dispatch({ type: this.actionTypes.updateAdditionalNumbers, additionalNumbers });
+    this._store.dispatch({
+      type: this.actionTypes.updateAdditionalNumbers,
+      additionalNumbers,
+    });
   }
 
   @proxify
   updateSaveCurrentSettings(_saved) {
-    this._store.dispatch({ type: this.actionTypes.updateSaveCurrentSettings, _saved });
+    this._store.dispatch({
+      type: this.actionTypes.updateSaveCurrentSettings,
+      _saved,
+    });
   }
 
   // for track invite with text
   @proxify
   onInviteWithText() {
     this.store.dispatch({
-      type: this.actionTypes.inviteWithText
+      type: this.actionTypes.inviteWithText,
     });
   }
 
@@ -156,7 +189,7 @@ export default class Conference extends DataFetcher {
   @proxify
   onJoinAsHost() {
     this.store.dispatch({
-      type: this.actionTypes.joinAsHost
+      type: this.actionTypes.joinAsHost,
     });
   }
 
@@ -195,8 +228,10 @@ export default class Conference extends DataFetcher {
   }
 
   get dialInNumber() {
-    return this._storage.getItem(this._dialInNumberStorageKey) ||
-      (this.data && this.data.phoneNumber);
+    return (
+      this._storage.getItem(this._dialInNumberStorageKey) ||
+      (this.data && this.data.phoneNumber)
+    );
   }
 
   get _hasPermission() {

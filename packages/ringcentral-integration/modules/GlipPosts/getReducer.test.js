@@ -27,26 +27,26 @@ describe('GlipPosts :: getGlipPostsStatusReducer', () => {
     });
 
     it('should return fetching status on fetch', () => {
-      expect(reducer('foo', {
-        type: actionTypes.fetch,
-      })).to.equal(status.fetching);
+      expect(
+        reducer('foo', {
+          type: actionTypes.fetch,
+        }),
+      ).to.equal(status.fetching);
     });
 
     it('should return idle status on fetchSuccess or fetchError', () => {
-      [
-        actionTypes.fetchSuccess,
-        actionTypes.fetchError,
-      ].forEach((type) => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(status.idle);
+      [actionTypes.fetchSuccess, actionTypes.fetchError].forEach((type) => {
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(status.idle);
       });
     });
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
   });
 });
@@ -65,26 +65,26 @@ describe('GlipPosts :: getGlipPostsCreateStatusReducer', () => {
     });
 
     it('should return creating status on create', () => {
-      expect(reducer('foo', {
-        type: actionTypes.create,
-      })).to.equal(status.creating);
+      expect(
+        reducer('foo', {
+          type: actionTypes.create,
+        }),
+      ).to.equal(status.creating);
     });
 
     it('should return idle status on createError or createSuccess', () => {
-      [
-        actionTypes.createSuccess,
-        actionTypes.createError,
-      ].forEach((type) => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(status.idle);
+      [actionTypes.createSuccess, actionTypes.createError].forEach((type) => {
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(status.idle);
       });
     });
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
   });
 });
@@ -104,23 +104,32 @@ describe('GlipPosts :: getGlipPostsStoreReducer', () => {
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
 
     it('should have empty object of resetSuccess', () => {
-      expect(reducer({ test: 'aaa' }, {
-        type: actionTypes.resetSuccess
-      })).to.deep.equal({});
+      expect(
+        reducer(
+          { test: 'aaa' },
+          {
+            type: actionTypes.resetSuccess,
+          },
+        ),
+      ).to.deep.equal({});
     });
 
     it('should return object with new records when fetch successfully', () => {
-      expect(reducer({}, {
-        type: actionTypes.fetchSuccess,
-        groupId: '1234',
-        records: [{ id: '1' }]
-      })).to.deep.equal({
-        1234: [{ id: '1' }]
+      expect(
+        reducer(
+          {},
+          {
+            type: actionTypes.fetchSuccess,
+            groupId: '1234',
+            records: [{ id: '1' }],
+          },
+        ),
+      ).to.deep.equal({
+        1234: [{ id: '1' }],
       });
     });
 
@@ -130,14 +139,19 @@ describe('GlipPosts :: getGlipPostsStoreReducer', () => {
         actionTypes.createSuccess,
         actionTypes.createError,
       ].forEach((type) => {
-        expect(reducer({
-          1234: [{ id: '1' }]
-        }, {
-          type,
-          record: { id: '2' },
-          groupId: '1234'
-        })).to.deep.equal({
-          1234: [{ id: '2' }, { id: '1' }]
+        expect(
+          reducer(
+            {
+              1234: [{ id: '1' }],
+            },
+            {
+              type,
+              record: { id: '2' },
+              groupId: '1234',
+            },
+          ),
+        ).to.deep.equal({
+          1234: [{ id: '2' }, { id: '1' }],
         });
       });
     });
@@ -148,21 +162,39 @@ describe('GlipPosts :: getGlipPostsStoreReducer', () => {
         actionTypes.createSuccess,
         actionTypes.createError,
       ].forEach((type) => {
-        expect(reducer({
-          1234: [{
-            id: '2', creatorId: '123', text: '111', sendStatus: status.creating
-          }]
-        }, {
-          type,
-          record: {
-            id: '2', creatorId: '123', text: '111', sendStatus: status.creating
-          },
-          groupId: '1234',
-          isSendByMe: true,
-        })).to.deep.equal({
-          1234: [{
-            id: '2', creatorId: '123', text: '111', sendStatus: status.creating
-          }]
+        expect(
+          reducer(
+            {
+              1234: [
+                {
+                  id: '2',
+                  creatorId: '123',
+                  text: '111',
+                  sendStatus: status.creating,
+                },
+              ],
+            },
+            {
+              type,
+              record: {
+                id: '2',
+                creatorId: '123',
+                text: '111',
+                sendStatus: status.creating,
+              },
+              groupId: '1234',
+              isSendByMe: true,
+            },
+          ),
+        ).to.deep.equal({
+          1234: [
+            {
+              id: '2',
+              creatorId: '123',
+              text: '111',
+              sendStatus: status.creating,
+            },
+          ],
         });
       });
     });
@@ -183,32 +215,36 @@ describe('GlipPosts :: getGlipPostsInputsReducer', () => {
     });
 
     it('should return new input map on updatePostInput', () => {
-      expect(reducer({
+      expect(
+        reducer(
+          {
+            1234: {
+              text: 'aaa',
+              mentions: [],
+            },
+          },
+          {
+            type: actionTypes.updatePostInput,
+            groupId: '2222',
+            textValue: 'xxx',
+            mentions: [],
+          },
+        ),
+      ).to.deep.equal({
         1234: {
           text: 'aaa',
-          mentions: []
-        }
-      }, {
-        type: actionTypes.updatePostInput,
-        groupId: '2222',
-        textValue: 'xxx',
-        mentions: []
-      })).to.deep.equal({
-        1234: {
-          text: 'aaa',
-          mentions: []
+          mentions: [],
         },
         2222: {
           text: 'xxx',
-          mentions: []
-        }
+          mentions: [],
+        },
       });
     });
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
   });
 });
@@ -225,7 +261,9 @@ describe('GlipPosts :: getReducer', () => {
     const statusReducer = getModuleStatusReducer(actionTypes);
     const glipPostsStatusReducer = getGlipPostsStatusReducer(actionTypes);
     const glipPostsStoreReducer = getGlipPostsStoreReducer(actionTypes);
-    const glipPostsCreateStatusReducer = getGlipPostsCreateStatusReducer(actionTypes);
+    const glipPostsCreateStatusReducer = getGlipPostsCreateStatusReducer(
+      actionTypes,
+    );
     const glipPostsInputsReducer = getGlipPostsInputsReducer(actionTypes);
     const glipPostsPageInfoReducer = getGlipPostsPageInfoReducer(actionTypes);
     const glipPostsFetchTimeReducer = getGlipPostsFetchTimeReducer(actionTypes);

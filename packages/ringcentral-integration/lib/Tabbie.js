@@ -25,8 +25,9 @@ export default class Tabbie extends EventEmitter {
     ...options
   }) {
     super(options);
-    this._prefix = (prefix && prefix !== '') ? `${prefix}-` : '';
-    this._enabled = typeof window !== 'undefined' &&
+    this._prefix = prefix && prefix !== '' ? `${prefix}-` : '';
+    this._enabled =
+      typeof window !== 'undefined' &&
       typeof document.visibilityState !== 'undefined' &&
       typeof localStorage !== 'undefined';
     this._id = uuid.v4();
@@ -40,7 +41,10 @@ export default class Tabbie extends EventEmitter {
     this._fightTimeout = fightTimeout;
 
     if (this.enabled) {
-      this._heartBeatIntervalId = setInterval(this._heartBeat, heartBeatInterval);
+      this._heartBeatIntervalId = setInterval(
+        this._heartBeat,
+        heartBeatInterval,
+      );
       this._heartBeat();
 
       this._gcIntervalId = setInterval(this._gc, gcInterval);
@@ -58,7 +62,10 @@ export default class Tabbie extends EventEmitter {
           this._heartBeatRegExp.test(e.key) &&
           (!e.newValue || e.newValue === '')
         ) {
-          if (e.key.replace(this._heartBeatRegExp, '') === await this.getMainTabId()) {
+          if (
+            e.key.replace(this._heartBeatRegExp, '') ===
+            (await this.getMainTabId())
+          ) {
             // main tab closed itself, fight to be the main tab
             // or someone gc'ed the main tab
             localStorage.removeItem(this._mainTabKey);
@@ -66,11 +73,13 @@ export default class Tabbie extends EventEmitter {
           }
         } else if (
           this._eventRegExp.test(e.key) &&
-          e.newValue && e.newValue !== ''
+          e.newValue &&
+          e.newValue !== ''
         ) {
           const payload = JSON.parse(e.newValue);
           const [id, event, ...args] = payload;
-          if (id !== this.id) { // ie fires storage event on original
+          if (id !== this.id) {
+            // ie fires storage event on original
             this.emit('event', event, ...args);
           }
         }
@@ -90,20 +99,22 @@ export default class Tabbie extends EventEmitter {
 
   _heartBeat = () => {
     localStorage.setItem(this._heartBeatKey, Date.now());
-  }
+  };
 
   _gc = () => {
     const expiredCut = Date.now() - this._heartBeatExpire;
     this._getHeartBeatKeys().forEach(async (key) => {
       if (localStorage.getItem(key) < expiredCut) {
         localStorage.removeItem(key);
-        if (key.replace(this._heartBeatRegExp, '') === await this.getMainTabId()) {
+        if (
+          key.replace(this._heartBeatRegExp, '') === (await this.getMainTabId())
+        ) {
           // the tab that gc's the main tab will not receive the storage event
           this._fightForMainTab();
         }
       }
     });
-  }
+  };
 
   _getHeartBeatKeys() {
     const { length } = localStorage;
@@ -124,7 +135,7 @@ export default class Tabbie extends EventEmitter {
     // avoid setting mainTabId repeatedly which may result in forced rendering
     const currentMainTabId = localStorage.getItem(this._mainTabKey);
     if (!document.hidden && currentMainTabId !== this.id) this._setAsMainTab();
-  }
+  };
 
   async _fightForMainTab() {
     const originalMainTabId = localStorage.getItem(this._mainTabKey);
@@ -152,7 +163,7 @@ export default class Tabbie extends EventEmitter {
     // assume main if not enabled
     // this is to ensure that modules depending on this would function
     // in node like environments
-    return !this.enabled || (await this.getMainTabId() === this.id);
+    return !this.enabled || (await this.getMainTabId()) === this.id;
   }
 
   get id() {

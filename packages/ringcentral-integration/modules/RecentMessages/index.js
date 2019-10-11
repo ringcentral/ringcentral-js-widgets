@@ -2,6 +2,7 @@ import proxify from '../../lib/proxy/proxify';
 import ensureExist from '../../lib/ensureExist';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
+import { selector } from '../../lib/selector';
 import actionTypes from './actionTypes';
 import messageStatus from './messageStatus';
 import getRecentMessagesReducer from './getRecentMessagesReducer';
@@ -14,7 +15,7 @@ import { sortByDate } from '../../lib/messageHelper';
  * @description Retrieve all recent messages related to a specified contact.
  */
 @Module({
-  deps: ['Client', 'MessageStore']
+  deps: ['Client', 'MessageStore'],
 })
 export default class RecentMessages extends RcModule {
   /**
@@ -23,31 +24,14 @@ export default class RecentMessages extends RcModule {
    * @param {MessageStore} params.messageStore - messageStore module instance
    * @param {Client} params.client - client module instance
    */
-  constructor({
-    client,
-    messageStore,
-    ...options
-  }) {
+  constructor({ client, messageStore, ...options }) {
     super({
       actionTypes,
-      ...options
+      ...options,
     });
-    this._client = this:: ensureExist(client, 'client');
-    this._messageStore = this:: ensureExist(messageStore, 'messageStore');
+    this._client = this::ensureExist(client, 'client');
+    this._messageStore = this::ensureExist(messageStore, 'messageStore');
     this._reducer = getRecentMessagesReducer(this.actionTypes);
-
-    this.addSelector(
-      'unreadMessageCounts',
-      () => this.messages,
-      messages => (
-        Object.keys(messages).reduce((unreadCounts, contactId) => {
-          unreadCounts[contactId] = messages[contactId]
-            .reduce((acc, cur) => acc + (cur.readStatus !== 'Read' ? 1 : 0), 0);
-          return unreadCounts;
-        }, {})
-      )
-    );
-
     this._prevMessageStoreTimestamp = null;
   }
 
@@ -56,23 +40,19 @@ export default class RecentMessages extends RcModule {
   }
 
   _onStateChange() {
-    if (
-      this.pending &&
-      this._messageStore.ready
-    ) {
+    if (this.pending && this._messageStore.ready) {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-    } else if (
-      this.ready &&
-      !this._messageStore.ready
-    ) {
+    } else if (this.ready && !this._messageStore.ready) {
       this.store.dispatch({
-        type: this.actionTypes.resetSuccess
+        type: this.actionTypes.resetSuccess,
       });
     } else if (Object.keys(this.messages).length > 0) {
       // Listen to messageStore state changes
-      if (this._messageStore.updatedTimestamp !== this._prevMessageStoreTimestamp) {
+      if (
+        this._messageStore.updatedTimestamp !== this._prevMessageStoreTimestamp
+      ) {
         this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
         // for (const contact of Object.values(this.contacts)) {
         //   this.getMessages(contact, false, true);
@@ -82,7 +62,7 @@ export default class RecentMessages extends RcModule {
             currentContact: this.contacts[key],
             sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
             fromLocale: false,
-            forceUpdate: true
+            forceUpdate: true,
           });
         }
       }
@@ -97,9 +77,18 @@ export default class RecentMessages extends RcModule {
     return this.state.messages;
   }
 
-  get unreadMessageCounts() {
-    return this._selectors.unreadMessageCounts();
-  }
+  @selector
+  unreadMessageCounts = [
+    () => this.messages,
+    (messages) =>
+      Object.keys(messages).reduce((unreadCounts, contactId) => {
+        unreadCounts[contactId] = messages[contactId].reduce(
+          (acc, cur) => acc + (cur.readStatus !== 'Read' ? 1 : 0),
+          0,
+        );
+        return unreadCounts;
+      }, {}),
+  ];
 
   get isMessagesLoaded() {
     return this.state.messageStatus === messageStatus.loaded;
@@ -107,7 +96,10 @@ export default class RecentMessages extends RcModule {
 
   @proxify
   async getMessages({
-    currentContact, sessionId = null, fromLocal = false, forceUpdate = false
+    currentContact,
+    sessionId = null,
+    fromLocal = false,
+    forceUpdate = false,
   }) {
     // No need to calculate recent messages of the same contact repeatly
     if (!currentContact) {
@@ -122,12 +114,12 @@ export default class RecentMessages extends RcModule {
     }
     this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
     this.store.dispatch({
-      type: this.actionTypes.initLoad
+      type: this.actionTypes.initLoad,
     });
     const messages = await this._getRecentMessages(
       currentContact,
       this._messageStore.textConversations,
-      fromLocal
+      fromLocal,
     );
     this.store.dispatch({
       type: this.actionTypes.loadSuccess,
@@ -141,7 +133,7 @@ export default class RecentMessages extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.loadReset,
       contact,
-      sessionId
+      sessionId,
     });
   }
 
@@ -159,21 +151,28 @@ export default class RecentMessages extends RcModule {
    * @return {Array}
    * @private
    */
-  async _getRecentMessages(currentContact, conversations = [], fromLocal, daySpan = 60, length = 5) {
+  async _getRecentMessages(
+    currentContact,
+    conversations = [],
+    fromLocal,
+    daySpan = 60,
+    length = 5,
+  ) {
     const dateFrom = getDateFrom(daySpan);
     let recentMessages = this._getLocalRecentMessages(
       currentContact,
       conversations,
       dateFrom,
-      length
+      length,
     );
 
     // If we could not find enough recent messages,
     // we need to search for messages on server.
     if (!fromLocal && recentMessages.length < length) {
-      const dateTo = recentMessages.length > 0
-        ? (new Date(recentMessages[recentMessages.length - 1].creationTime))
-        : undefined;
+      const dateTo =
+        recentMessages.length > 0
+          ? new Date(recentMessages[recentMessages.length - 1].creationTime)
+          : undefined;
 
       try {
         // This will always be sorted
@@ -182,8 +181,8 @@ export default class RecentMessages extends RcModule {
             currentContact,
             dateFrom.toISOString(),
             dateTo && dateTo.toISOString(),
-            length
-          )
+            length,
+          ),
         );
       } catch (error) {
         console.error(error);
@@ -209,7 +208,8 @@ export default class RecentMessages extends RcModule {
     let matches;
     for (let i = conversations.length - 1; i >= 0; i -= 1) {
       const conversation = conversations[i];
-      const messageList = this._messageStore.conversationStore[conversation.conversationId] || [];
+      const messageList =
+        this._messageStore.conversationStore[conversation.conversationId] || [];
       matches = phoneNumbers.find(this._filterPhoneNumber(conversation));
       // Check if message is within certain days
       if (!!matches && new Date(conversation.creationTime) > dateFrom) {
@@ -221,12 +221,11 @@ export default class RecentMessages extends RcModule {
   }
 
   _filterPhoneNumber(message) {
-    return ({ phoneNumber }) => (
+    return ({ phoneNumber }) =>
       phoneNumber === message.from.phoneNumber ||
-      !!message.to.find(to => to.phoneNumber === phoneNumber) ||
+      !!message.to.find((to) => to.phoneNumber === phoneNumber) ||
       phoneNumber === message.from.extensionNumber ||
-      !!message.to.find(to => to.extensionNumber === phoneNumber)
-    );
+      !!message.to.find((to) => to.extensionNumber === phoneNumber);
   }
 
   /**
@@ -240,41 +239,52 @@ export default class RecentMessages extends RcModule {
   _fetchRemoteRecentMessages(
     { phoneNumbers },
     dateFrom,
-    dateTo = (new Date()).toISOString(),
-    length
+    dateTo = new Date().toISOString(),
+    length,
   ) {
     const params = {
       dateTo,
       dateFrom,
       messageType: ['SMS', 'Text', 'Pager'],
-      perPage: length
+      perPage: length,
     };
-    const recentMessagesPromise = phoneNumbers.reduce((acc, { phoneNumber }) => {
-      if (phoneNumber) {
-        const promise = this._fetchMessageList(
-          Object.assign({}, params, {
-            phoneNumber
-          })
-        );
-        return acc.concat(promise);
-      }
-      return acc;
-    }, []);
+    const recentMessagesPromise = phoneNumbers.reduce(
+      (acc, { phoneNumber }) => {
+        if (phoneNumber) {
+          const promise = this._fetchMessageList(
+            Object.assign({}, params, {
+              phoneNumber,
+            }),
+          );
+          return acc.concat(promise);
+        }
+        return acc;
+      },
+      [],
+    );
 
     // TODO: Because we need to navigate to the message page,
     // So we may need to push new messages to messageStore
     return concurrentExecute(recentMessagesPromise, 5, 500)
       .then(this._flattenToMessageRecords)
       .then(this._markAsRemoteMessage)
-      .then(messages => this._sortMessages(messages));
+      .then((messages) => this._sortMessages(messages));
   }
 
   _fetchMessageList(params) {
-    return () => this._client.account().extension().messageStore().list(params);
+    return () =>
+      this._client
+        .account()
+        .extension()
+        .messageStore()
+        .list(params);
   }
 
   _countUnreadMessages(messages) {
-    return messages.reduce((acc, cur) => acc + (cur.readStatus !== 'Read' ? 1 : 0), 0);
+    return messages.reduce(
+      (acc, cur) => acc + (cur.readStatus !== 'Read' ? 1 : 0),
+      0,
+    );
   }
 
   _flattenToMessageRecords(allMessages) {
@@ -283,8 +293,8 @@ export default class RecentMessages extends RcModule {
 
   _sortMessages(recentMessages) {
     // Sort by time in descending order
-    return recentMessages.sort((a, b) =>
-      new Date(b.creationTime) - new Date(a.creationTime)
+    return recentMessages.sort(
+      (a, b) => new Date(b.creationTime) - new Date(a.creationTime),
     );
   }
 

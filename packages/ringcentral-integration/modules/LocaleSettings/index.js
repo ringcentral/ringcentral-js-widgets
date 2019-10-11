@@ -21,8 +21,8 @@ import { getSavedLocaleReducer } from './reducers';
   deps: [
     'GlobalStorage',
     'Locale',
-    { dep: 'LocaleSettingsOptions', optional: true }
-  ]
+    { dep: 'LocaleSettingsOptions', optional: true },
+  ],
 })
 export default class LocaleSettings extends RcModule {
   /**
@@ -50,10 +50,10 @@ export default class LocaleSettings extends RcModule {
   }
 
   get _actionTypes() {
-    return new Enum([
-      ...Object.keys(moduleActionTypes),
-      'saveLocale',
-    ], 'localeSettings');
+    return new Enum(
+      [...Object.keys(moduleActionTypes), 'saveLocale'],
+      'localeSettings',
+    );
   }
 
   get reducer() {
@@ -63,11 +63,7 @@ export default class LocaleSettings extends RcModule {
   }
 
   async _onStateChange() {
-    if (
-      this.pending &&
-      this._globalStorage.ready &&
-      this._locale.ready
-    ) {
+    if (this.pending && this._globalStorage.ready && this._locale.ready) {
       this.store.dispatch({
         type: this.actionTypes.init,
       });
@@ -91,10 +87,7 @@ export default class LocaleSettings extends RcModule {
   }
 
   @selector
-  supportedLocales = [
-    () => this._supportedLocales,
-    s => s.slice().sort(),
-  ];
+  supportedLocales = [() => this._supportedLocales, (s) => s.slice().sort()];
 
   @proxify
   async saveLocale(locale) {

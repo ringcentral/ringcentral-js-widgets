@@ -1,8 +1,5 @@
 import { expect } from 'chai';
-import {
-  getCallsReducer,
-  getCallStatusReducer
-} from './getRecentCallsReducer';
+import { getCallsReducer, getCallStatusReducer } from './getRecentCallsReducer';
 import actionTypes from './actionTypes';
 import callStatus from './callStatus';
 
@@ -22,68 +19,76 @@ describe('RecentCalls :: getCallsReducer', () => {
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = { '171': [] };
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
 
     it('should return all calls when new contact is passed in and user is not on a call', () => {
       const state = { '181': [] };
-      expect(reducer(state, {
-        type: actionTypes.loadSuccess,
-        calls: [],
-        contact: { id: '171' },
-      })).to.deep.equal({
+      expect(
+        reducer(state, {
+          type: actionTypes.loadSuccess,
+          calls: [],
+          contact: { id: '171' },
+        }),
+      ).to.deep.equal({
         '181': [],
-        '171': []
+        '171': [],
       });
     });
 
     it('should return all calls when new contact is passed in and user is on a call', () => {
       const state = { '181': [] };
-      expect(reducer(state, {
-        type: actionTypes.loadSuccess,
-        calls: [],
-        contact: { id: '171' },
-        sessionId: '191',
-      })).to.deep.equal({
+      expect(
+        reducer(state, {
+          type: actionTypes.loadSuccess,
+          calls: [],
+          contact: { id: '171' },
+          sessionId: '191',
+        }),
+      ).to.deep.equal({
         '181': [],
-        '171-191': []
+        '171-191': [],
       });
     });
 
     it('call should be removed when reset', () => {
       const state = {
-        '171': []
+        '171': [],
       };
-      expect(reducer(state, {
-        type: actionTypes.loadReset,
-        contact: { id: '171' },
-      })).to.deep.equal({});
+      expect(
+        reducer(state, {
+          type: actionTypes.loadReset,
+          contact: { id: '171' },
+        }),
+      ).to.deep.equal({});
     });
 
     it('call should be removed when reset and user is on a call', () => {
       const state = {
-        '171-191': []
+        '171-191': [],
       };
-      expect(reducer(state, {
-        type: actionTypes.loadReset,
-        contact: { id: '171' },
-        sessionId: '191'
-      })).to.deep.equal({});
+      expect(
+        reducer(state, {
+          type: actionTypes.loadReset,
+          contact: { id: '171' },
+          sessionId: '191',
+        }),
+      ).to.deep.equal({});
     });
 
     it('should return original state when contact is undefined', () => {
       const state = {
-        '171': { id: '171' }
+        '171': { id: '171' },
       };
-      expect(reducer(state, {
-        type: actionTypes.loadReset,
-        contact: undefined
-      })).to.deep.equal(state);
+      expect(
+        reducer(state, {
+          type: actionTypes.loadReset,
+          contact: undefined,
+        }),
+      ).to.deep.equal(state);
     });
   });
 });
-
 
 describe('RecentCalls :: getCallStatusReducer', () => {
   it('getCallStatusReducer should be a function', () => {
@@ -100,19 +105,24 @@ describe('RecentCalls :: getCallStatusReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = actionTypes.initLoad;
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('call status can be set', () => {
-      expect(reducer(null, {
-        type: actionTypes.initLoad,
-      })).to.equal(callStatus.loading);
-      expect(reducer(null, {
-        type: actionTypes.loadReset,
-      })).to.equal(callStatus.loaded);
-      expect(reducer(null, {
-        type: actionTypes.loadSuccess,
-      })).to.equal(callStatus.loaded);
+      expect(
+        reducer(null, {
+          type: actionTypes.initLoad,
+        }),
+      ).to.equal(callStatus.loading);
+      expect(
+        reducer(null, {
+          type: actionTypes.loadReset,
+        }),
+      ).to.equal(callStatus.loaded);
+      expect(
+        reducer(null, {
+          type: actionTypes.loadSuccess,
+        }),
+      ).to.equal(callStatus.loaded);
     });
   });
 });

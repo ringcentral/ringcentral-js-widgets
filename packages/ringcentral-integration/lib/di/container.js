@@ -20,7 +20,9 @@ export default class Container {
 
   set(token, metadata) {
     if (this._map.has(token)) {
-      throw DIError(`Cannot store duplicated provider instance [${token}] to Container`);
+      throw DIError(
+        `Cannot store duplicated provider instance [${token}] to Container`,
+      );
     }
     return this._map.set(token, metadata);
   }

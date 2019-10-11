@@ -24,8 +24,8 @@ export const DefaultContactListPageSize = 20;
   deps: [
     'Auth',
     { dep: 'ContactSources', optional: true },
-    { dep: 'ContactsOptions', optional: true }
-  ]
+    { dep: 'ContactsOptions', optional: true },
+  ],
 })
 export default class Contacts extends RcModule {
   /**
@@ -33,16 +33,12 @@ export default class Contacts extends RcModule {
    * @param {Object} params - params object
    * @param {Auth} params.auth - auth module instance
    */
-  constructor({
-    auth,
-    contactSources = [],
-    ...options
-  }) {
+  constructor({ auth, contactSources = [], ...options }) {
     super({
       ...options,
       actionTypes,
     });
-    this._auth = this:: ensureExist(auth, 'auth');
+    this._auth = this::ensureExist(auth, 'auth');
     this._reducer = getContactsReducer(this.actionTypes);
     this._contactSources = new Map();
     this._sourcesLastStatus = new Map();
@@ -68,21 +64,11 @@ export default class Contacts extends RcModule {
   }
 
   _shouldInit() {
-    return (
-      this._auth.loggedIn &&
-      this.sourceModuleReady &&
-      this.pending
-    );
+    return this._auth.loggedIn && this.sourceModuleReady && this.pending;
   }
 
   _shouldReset() {
-    return (
-      (
-        !this._auth.loggedIn ||
-        !this.sourceModuleReady
-      ) &&
-      this.ready
-    );
+    return (!this._auth.loggedIn || !this.sourceModuleReady) && this.ready;
   }
 
   _resetModuleStatus() {
@@ -92,10 +78,7 @@ export default class Contacts extends RcModule {
   }
 
   @proxify
-  updateFilter({
-    sourceFilter,
-    searchFilter,
-  }) {
+  updateFilter({ sourceFilter, searchFilter }) {
     this.store.dispatch({
       type: this.actionTypes.updateFilter,
       sourceFilter,
@@ -120,16 +103,24 @@ export default class Contacts extends RcModule {
       throw new Error('Contacts: "sourceName" is required in Contacts source.');
     }
     if (this._contactSources.has(source.sourceName)) {
-      throw new Error(`Contacts: A contact source named "${source.sourceName}" already exists`);
+      throw new Error(
+        `Contacts: A contact source named "${source.sourceName}" already exists`,
+      );
     }
     if (source.getPresence && typeof source.getPresence !== 'function') {
-      throw new Error('Contacts: source\' getPresence must be a function');
+      throw new Error("Contacts: source' getPresence must be a function");
     }
-    if (source.getProfileImage && typeof source.getProfileImage !== 'function') {
-      throw new Error('Contacts: source\' getProfileImage must be a function');
+    if (
+      source.getProfileImage &&
+      typeof source.getProfileImage !== 'function'
+    ) {
+      throw new Error("Contacts: source' getProfileImage must be a function");
     }
-    if (source.matchPhoneNumber && typeof source.matchPhoneNumber !== 'function') {
-      throw new Error('Contacts: source\' matchPhoneNumber must be a function');
+    if (
+      source.matchPhoneNumber &&
+      typeof source.matchPhoneNumber !== 'function'
+    ) {
+      throw new Error("Contacts: source' matchPhoneNumber must be a function");
     }
     this._contactSources.set(source.sourceName, source);
     this._sourcesLastStatus.set(source.sourceName, {});
@@ -181,7 +172,7 @@ export default class Contacts extends RcModule {
     const contactId = (id || '').toString();
     const source = this._contactSources.get(type);
     if (source) {
-      return source.contacts.find(x => x.id.toString() === contactId);
+      return source.contacts.find((x) => x.id.toString() === contactId);
     }
     return null;
   }
@@ -207,11 +198,11 @@ export default class Contacts extends RcModule {
   }
 
   @proxify
-  async sync() {
+  async sync(...args) {
     for (const sourceName of Array.from(this._contactSources.keys())) {
       const source = this._contactSources.get(sourceName);
       if (typeof source.sync === 'function') {
-        await source.sync();
+        await source.sync(...args);
       }
     }
   }
@@ -268,8 +259,8 @@ export default class Contacts extends RcModule {
         }
       }
       return names;
-    }
-  ]
+    },
+  ];
 
   @selector
   allContacts = [
@@ -283,18 +274,17 @@ export default class Contacts extends RcModule {
         }
       }
       return contacts;
-    }
-  ]
+    },
+  ];
 
   @selector
   contactGroups = [
     () => this.filteredContacts,
-    filteredContacts => groupByFirstLetterOfName(
-      sortContactItemsByName(
-        uniqueContactItems(filteredContacts)
-      )
-    )
-  ]
+    (filteredContacts) =>
+      groupByFirstLetterOfName(
+        sortContactItemsByName(uniqueContactItems(filteredContacts)),
+      ),
+  ];
 
   @selector
   filteredContacts = [
@@ -324,6 +314,6 @@ export default class Contacts extends RcModule {
         contacts = filterContacts(contacts, searchFilter);
       }
       return contacts;
-    }
-  ]
+    },
+  ];
 }

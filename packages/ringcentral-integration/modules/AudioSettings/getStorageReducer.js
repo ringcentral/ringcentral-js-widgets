@@ -2,24 +2,34 @@ import { combineReducers } from 'redux';
 import { find } from 'ramda';
 
 function getOutputDeviceIdReducer(types) {
-  return (state = 'default', { type, devices = [], outputDeviceId = state }) => {
+  return (
+    state = 'default',
+    { type, devices = [], outputDeviceId = state },
+  ) => {
     switch (type) {
       case types.setData: {
         return outputDeviceId;
       }
       case types.setAvailableDevices:
       case types.getUserMediaError: {
-        const isDeviceExist = find(device => (device.deviceId === state &&
-          device.kind === 'audiooutput'
-        ), devices);
+        const isDeviceExist = find(
+          (device) =>
+            device.deviceId === state && device.kind === 'audiooutput',
+          devices,
+        );
         if (isDeviceExist) {
           return state;
         }
         // For Firefox, don't have default device id
-        const hasDefaultDevice = find(device => (device.deviceId === 'default' &&
-          device.kind === 'audiooutput'
-        ), devices);
-        const firstDevice = find(device => (device.kind === 'audiooutput'), devices);
+        const hasDefaultDevice = find(
+          (device) =>
+            device.deviceId === 'default' && device.kind === 'audiooutput',
+          devices,
+        );
+        const firstDevice = find(
+          (device) => device.kind === 'audiooutput',
+          devices,
+        );
         if (!hasDefaultDevice && firstDevice) {
           return firstDevice.deviceId;
         }
@@ -40,18 +50,24 @@ function getInputDeviceIdReducer(types) {
       case types.setAvailableDevices:
       case types.getUserMediaError: {
         if (
-          find(device => (
-            device.deviceId === state &&
-            device.kind === 'audioinput'
-          ), devices)
+          find(
+            (device) =>
+              device.deviceId === state && device.kind === 'audioinput',
+            devices,
+          )
         ) {
           return state;
         }
         // For Firefox, don't have default device id
-        const hasDefaultDevice = find(device => (device.deviceId === 'default' &&
-          device.kind === 'audioinput'
-        ), devices);
-        const firstDevice = find(device => (device.kind === 'audioinput'), devices);
+        const hasDefaultDevice = find(
+          (device) =>
+            device.deviceId === 'default' && device.kind === 'audioinput',
+          devices,
+        );
+        const firstDevice = find(
+          (device) => device.kind === 'audioinput',
+          devices,
+        );
         if (!hasDefaultDevice && firstDevice) {
           return firstDevice.deviceId;
         }

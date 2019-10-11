@@ -9,7 +9,7 @@ export default function chunkMessage(text, maxLength) {
     return [];
   }
 
-  if (typeof (maxLength) !== 'number') {
+  if (typeof maxLength !== 'number') {
     throw new Error('Should be a integer "maxLength"');
   }
 

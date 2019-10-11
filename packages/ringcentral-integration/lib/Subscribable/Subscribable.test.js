@@ -36,7 +36,9 @@ describe('Subscribable', () => {
         it('should be invoked when trigger function is invoked', () => {
           const sub = new Subscribable();
           let hasRun = false;
-          const testFn = () => { hasRun = true; };
+          const testFn = () => {
+            hasRun = true;
+          };
           sub.subscribe(testFn);
           sub.trigger();
           expect(hasRun).to.be.true;
@@ -50,7 +52,7 @@ describe('Subscribable', () => {
     describe('unsubscribe', () => {
       it('should be able unsubscribe a subscribed function', () => {
         const sub = new Subscribable();
-        const testFn = () => { };
+        const testFn = () => {};
         sub.subscribe(testFn);
         sub.unsubscribe(testFn);
         expect(sub._handlers.has(testFn)).to.be.false;
@@ -59,7 +61,9 @@ describe('Subscribable', () => {
         it('should not be invoke when trigger function is invoked', () => {
           const sub = new Subscribable();
           let hasRun = false;
-          const testFn = () => { hasRun = true; };
+          const testFn = () => {
+            hasRun = true;
+          };
           sub.subscribe(testFn);
           sub.unsubscribe(testFn);
           sub.trigger();

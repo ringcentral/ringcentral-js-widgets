@@ -7,10 +7,7 @@ import ensureExist from '../../lib/ensureExist';
 import { selector } from '../../lib/selector';
 import proxify from '../../lib/proxy/proxify';
 
-import getReducer, {
-  getDataReducer,
-  getTimestampReducer,
-} from './getReducer';
+import getReducer, { getDataReducer, getTimestampReducer } from './getReducer';
 import actionTypes from './actionTypes';
 
 const glipGroupRegExp = /glip\/groups$/;
@@ -40,16 +37,15 @@ function formatGroup(group, personsMap, postsMap = {}, ownerId) {
   const newGroup = {
     ...group,
     detailMembers,
-    updatedTime: (new Date(group.lastModifiedTime)).getTime(),
+    updatedTime: new Date(group.lastModifiedTime).getTime(),
   };
-  const latestPost =
-    postsMap[group.id] && postsMap[group.id][0];
+  const latestPost = postsMap[group.id] && postsMap[group.id][0];
   if (latestPost) {
     newGroup.latestPost = {
       ...latestPost,
       creator: personsMap[latestPost.creatorId],
     };
-    const postCreationTime = (new Date(latestPost.creationTime)).getTime();
+    const postCreationTime = new Date(latestPost.creationTime).getTime();
     if (postCreationTime > newGroup.updatedTime) {
       newGroup.updatedTime = postCreationTime;
     }
@@ -80,7 +76,10 @@ function searchPosts(searchFilter, posts) {
       break;
     }
     if (post.mentions && post.mentions.length > 0) {
-      const mentionNames = post.mentions.map(m => m.name).join(' ').toLowerCase();
+      const mentionNames = post.mentions
+        .map((m) => m.name)
+        .join(' ')
+        .toLowerCase();
       if (mentionNames.indexOf(searchFilter) > -1) {
         result = true;
         break;
@@ -105,8 +104,8 @@ function searchPosts(searchFilter, posts) {
     { dep: 'TabManager', optional: true },
     { dep: 'GlipPersons', optional: true },
     { dep: 'GlipPosts', optional: true },
-    { dep: 'GLipGroupsOptions', optional: true }
-  ]
+    { dep: 'GLipGroupsOptions', optional: true },
+  ],
 })
 export default class GlipGroups extends Pollable {
   /**
@@ -148,7 +147,10 @@ export default class GlipGroups extends Pollable {
     this._auth = this::ensureExist(auth, 'auth');
     this._client = this::ensureExist(client, 'client');
     this._subscription = this::ensureExist(subscription, 'subscription');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._connectivityMonitor = connectivityMonitor;
     this._glipPersons = glipPersons;
     this._glipPosts = glipPosts;
@@ -193,7 +195,7 @@ export default class GlipGroups extends Pollable {
     }
 
     if (this._glipPosts) {
-      this._glipPosts.addNewPostListener(post => this.onNewPost(post));
+      this._glipPosts.addNewPostListener((post) => this.onNewPost(post));
     }
   }
 
@@ -255,8 +257,7 @@ export default class GlipGroups extends Pollable {
 
   _shouldReset() {
     return !!(
-      (
-        !this._auth.loggedIn ||
+      (!this._auth.loggedIn ||
         !this._rolesAndPermissions.ready ||
         (this._storage && !this._storage.ready) ||
         (this._readyCheckFn && !this._readyCheckFn()) ||
@@ -264,8 +265,7 @@ export default class GlipGroups extends Pollable {
         (this._glipPosts && !this._glipPosts.ready) ||
         (this._glipPersons && !this._glipPersons.ready) ||
         (this._connectivityMonitor && !this._connectivityMonitor.ready) ||
-        (this._tabManager && !this._tabManager.ready)
-      ) &&
+        (this._tabManager && !this._tabManager.ready)) &&
       this.ready
     );
   }
@@ -297,10 +297,7 @@ export default class GlipGroups extends Pollable {
       message.body &&
       message.body.eventType
     ) {
-      const {
-        eventType,
-        ...group
-      } = message.body;
+      const { eventType, ...group } = message.body;
       if (eventType.indexOf('Group') !== 0) {
         return;
       }
@@ -323,14 +320,13 @@ export default class GlipGroups extends Pollable {
   }
 
   _shouldFetch() {
-    return (
-      !this._tabManager || this._tabManager.active
-    );
+    return !this._tabManager || this._tabManager.active;
   }
 
   _isDataReady() {
-    return this.status === moduleStatuses.initializing &&
-      this.timestamp !== null;
+    return (
+      this.status === moduleStatuses.initializing && this.timestamp !== null
+    );
   }
 
   async _init() {
@@ -379,7 +375,7 @@ export default class GlipGroups extends Pollable {
         }
       }
       if (!this._glipPosts.readTimeMap[group.id]) {
-        this._glipPosts.updateReadTime(group.id, (Date.now() - (1000 * 3600 * 2)));
+        this._glipPosts.updateReadTime(group.id, Date.now() - 1000 * 3600 * 2);
       }
     }
   }
@@ -409,7 +405,7 @@ export default class GlipGroups extends Pollable {
     });
     if (this._glipPersons) {
       this._glipPersons.loadPersons(
-        this.currentGroup && this.currentGroup.members
+        this.currentGroup && this.currentGroup.members,
       );
     }
     if (!this._glipPosts) {
@@ -423,9 +419,12 @@ export default class GlipGroups extends Pollable {
   }
 
   async _fetchFunction() {
-    const result = await this._client.glip().groups().list({
-      recordCount: this._recordCountPerReq,
-    });
+    const result = await this._client
+      .glip()
+      .groups()
+      .list({
+        recordCount: this._recordCountPerReq,
+      });
     return result;
   }
 
@@ -475,10 +474,13 @@ export default class GlipGroups extends Pollable {
   @proxify
   async startChat(personId) {
     try {
-      const group = await this._client.glip().groups().post({
-        type: 'PrivateChat',
-        members: [this._auth.ownerId, personId]
-      });
+      const group = await this._client
+        .glip()
+        .groups()
+        .post({
+          type: 'PrivateChat',
+          members: [this._auth.ownerId, personId],
+        });
       group.lastModifiedTime = Date.now();
       this.store.dispatch({
         type: this.actionTypes.updateGroup,
@@ -502,32 +504,36 @@ export default class GlipGroups extends Pollable {
   }
 
   async createTeam(name, members, type = 'Team') {
-    const group = await this._client.glip().groups().post({
-      type,
-      name,
-      members,
-      isPublic: true,
-      description: ''
-    });
+    const group = await this._client
+      .glip()
+      .groups()
+      .post({
+        type,
+        name,
+        members,
+        isPublic: true,
+        description: '',
+      });
     return group.id;
   }
 
   @selector
   allGroups = [
     () => this.data,
-    () => (this._glipPersons && this._glipPersons.personsMap),
-    () => (this._glipPosts && this._glipPosts.postsMap),
+    () => this._glipPersons && this._glipPersons.personsMap,
+    () => this._glipPosts && this._glipPosts.postsMap,
     () => this._auth.ownerId,
-    (data, personsMap = {}, postsMap = {}, ownerId) => (data || []).map(
-      group => formatGroup(group, personsMap, postsMap, ownerId)
-    ),
-  ]
+    (data, personsMap = {}, postsMap = {}, ownerId) =>
+      (data || []).map((group) =>
+        formatGroup(group, personsMap, postsMap, ownerId),
+      ),
+  ];
 
   @selector
   filteredGroups = [
     () => this.allGroups,
     () => this.searchFilter,
-    () => (this._glipPosts && this._glipPosts.postsMap),
+    () => this._glipPosts && this._glipPosts.postsMap,
     (allGroups, searchFilter, postsMap = {}) => {
       if (isBlank(searchFilter)) {
         return allGroups;
@@ -540,7 +546,7 @@ export default class GlipGroups extends Pollable {
         }
         if (!name) {
           const groupUsernames = group.detailMembers
-            .map(m => `${m.firstName} ${m.lastName}`)
+            .map((m) => `${m.firstName} ${m.lastName}`)
             .join(' ')
             .toLowerCase();
           if (groupUsernames && groupUsernames.indexOf(filterString) > -1) {
@@ -551,37 +557,31 @@ export default class GlipGroups extends Pollable {
         return result;
       });
     },
-  ]
+  ];
 
   @selector
   groups = [
     () => this.filteredGroups,
     (filteredGroups) => {
-      const sortedGroups =
-        filteredGroups.sort((a, b) => {
-          if (a.updatedTime === b.updatedTime) return 0;
-          return a.updatedTime > b.updatedTime ?
-            -1 :
-            1;
-        });
+      const sortedGroups = filteredGroups.sort((a, b) => {
+        if (a.updatedTime === b.updatedTime) return 0;
+        return a.updatedTime > b.updatedTime ? -1 : 1;
+      });
       return sortedGroups;
     },
-  ]
+  ];
 
   @selector
-  uniqueMemberIds = [
-    () => this.allGroups,
-    getUniqueMemberIds,
-  ]
+  uniqueMemberIds = [() => this.allGroups, getUniqueMemberIds];
 
   @selector
   groupMemberIds = [
     () => this.allGroups,
     (groups) => {
-      const noTeamGroups = groups.filter(g => g.type !== 'Team');
+      const noTeamGroups = groups.filter((g) => g.type !== 'Team');
       return getUniqueMemberIds(noTeamGroups);
     },
-  ]
+  ];
 
   @selector
   currentGroup = [
@@ -589,10 +589,10 @@ export default class GlipGroups extends Pollable {
     () => this.currentGroupId,
     () => (this._glipPersons && this._glipPersons.personsMap) || {},
     (allGroups, currentGroupId, personsMap) => {
-      const group = allGroups.find(g => g.id === currentGroupId) || {};
+      const group = allGroups.find((g) => g.id === currentGroupId) || {};
       return formatGroup(group, personsMap, undefined, this._auth.ownerId);
     },
-  ]
+  ];
 
   @selector
   currentGroupPosts = [
@@ -613,48 +613,48 @@ export default class GlipGroups extends Pollable {
         };
       });
     },
-  ]
+  ];
 
   @selector
   groupsWithUnread = [
     () => this.groups,
     () => (this._glipPosts && this._glipPosts.postsMap) || {},
     () => (this._glipPosts && this._glipPosts.readTimeMap) || {},
-    (groups, postsMap, readTimeMap) => groups.map((group) => {
-      const posts = postsMap[group.id] || [];
-      const readTime = readTimeMap[group.id] || Date.now();
-      return {
-        ...group,
-        unread:
-          posts.filter(post =>
-            (new Date(post.creationTime)).getTime() > readTime &&
-            post.creatorId !== this._auth.ownerId
-          ).length
-      };
-    })
-  ]
+    (groups, postsMap, readTimeMap) =>
+      groups.map((group) => {
+        const posts = postsMap[group.id] || [];
+        const readTime = readTimeMap[group.id] || Date.now();
+        return {
+          ...group,
+          unread: posts.filter(
+            (post) =>
+              new Date(post.creationTime).getTime() > readTime &&
+              post.creatorId !== this._auth.ownerId,
+          ).length,
+        };
+      }),
+  ];
 
   @selector
   unreadCounts = [
     () => this.groupsWithUnread,
-    groups =>
-      groups.reduce((a, b) => a + b.unread, 0)
-  ]
+    (groups) => groups.reduce((a, b) => a + b.unread, 0),
+  ];
 
   get searchFilter() {
     return this.state.searchFilter;
   }
 
   get data() {
-    return this._storage ?
-      this._storage.getItem(this._dataStorageKey) :
-      this.state.data;
+    return this._storage
+      ? this._storage.getItem(this._dataStorageKey)
+      : this.state.data;
   }
 
   get timestamp() {
-    return this._storage ?
-      this._storage.getItem(this._timestampStorageKey) :
-      this.state.timestamp;
+    return this._storage
+      ? this._storage.getItem(this._timestampStorageKey)
+      : this.state.timestamp;
   }
 
   get currentGroupId() {

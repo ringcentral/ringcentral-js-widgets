@@ -10,7 +10,6 @@ export function getupdatePageReducer(types) {
   };
 }
 
-
 export default function getQuickAccessrReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),

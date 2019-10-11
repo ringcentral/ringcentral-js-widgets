@@ -1,9 +1,7 @@
 import { expect } from 'chai';
 import * as messageHelper from './';
 
-const {
-  sortByDate,
-} = messageHelper;
+const { sortByDate } = messageHelper;
 
 describe('filterNumbers', () => {
   it('should return filtered numbers with phoneNumber', () => {
@@ -19,10 +17,7 @@ describe('filterNumbers', () => {
   });
 
   it('should return filtered numbers with extensionNumber', () => {
-    const numbers = [
-      { extensionNumber: '12345' },
-      { extensionNumber: '1234' },
-    ];
+    const numbers = [{ extensionNumber: '12345' }, { extensionNumber: '1234' }];
     const filterNumber = {
       extensionNumber: '1234',
     };
@@ -149,18 +144,30 @@ describe('messageIsAcceptable', () => {
   });
 
   it('should return true when message type is Fax and Inbound', () => {
-    const message = { type: 'Fax', availability: 'Alive', direction: 'Inbound' };
+    const message = {
+      type: 'Fax',
+      availability: 'Alive',
+      direction: 'Inbound',
+    };
     const result = messageHelper.messageIsAcceptable(message);
     expect(result).to.equal(true);
   });
 
   it('should return false when message type is Fax and Queued', () => {
-    const message = { type: 'Fax', direction: 'Outbound', messageStatus: 'Queued' };
+    const message = {
+      type: 'Fax',
+      direction: 'Outbound',
+      messageStatus: 'Queued',
+    };
     const result = messageHelper.messageIsAcceptable(message);
     expect(result).to.equal(false);
   });
   it('should return false when message type is Fax and sending failed', () => {
-    const message = { type: 'Fax', direction: 'Outbound', messageStatus: 'SendingFailed' };
+    const message = {
+      type: 'Fax',
+      direction: 'Outbound',
+      messageStatus: 'SendingFailed',
+    };
     const result = messageHelper.messageIsAcceptable(message);
     expect(result).to.equal(false);
   });
@@ -176,9 +183,11 @@ describe('getMyNumberFromMessage', () => {
     const message = {
       type: 'SMS',
       direction: 'Outbound',
-      to: [{
-        phoneNumber: '+1234567890',
-      }],
+      to: [
+        {
+          phoneNumber: '+1234567890',
+        },
+      ],
       from: { phoneNumber: '+1234567891' },
     };
     const result = messageHelper.getMyNumberFromMessage({
@@ -192,9 +201,11 @@ describe('getMyNumberFromMessage', () => {
     const message = {
       type: 'SMS',
       direction: 'Inbound',
-      to: [{
-        phoneNumber: '+1234567890',
-      }],
+      to: [
+        {
+          phoneNumber: '+1234567890',
+        },
+      ],
       from: { phoneNumber: '+1234567891' },
     };
     const result = messageHelper.getMyNumberFromMessage({
@@ -208,9 +219,11 @@ describe('getMyNumberFromMessage', () => {
     const message = {
       type: 'Pager',
       direction: 'Outbound',
-      to: [{
-        extensionNumber: '12345',
-      }],
+      to: [
+        {
+          extensionNumber: '12345',
+        },
+      ],
       from: { extensionNumber: '1234' },
     };
     const result = messageHelper.getMyNumberFromMessage({
@@ -224,9 +237,11 @@ describe('getMyNumberFromMessage', () => {
     const message = {
       type: 'Pager',
       direction: 'Inbound',
-      to: [{
-        extensionNumber: '1234',
-      }],
+      to: [
+        {
+          extensionNumber: '1234',
+        },
+      ],
       from: { extensionNumber: '12345' },
     };
     const result = messageHelper.getMyNumberFromMessage({
@@ -242,9 +257,11 @@ describe('getRecipientNumbersFromMessage', () => {
     const message = {
       type: 'SMS',
       direction: 'Outbound',
-      to: [{
-        phoneNumber: '+1234567890',
-      }],
+      to: [
+        {
+          phoneNumber: '+1234567890',
+        },
+      ],
       from: { phoneNumber: '+1234567891' },
     };
     const myNumber = { phoneNumber: '+1234567891' };
@@ -259,9 +276,11 @@ describe('getRecipientNumbersFromMessage', () => {
     const message = {
       type: 'SMS',
       direction: 'Inbound',
-      to: [{
-        phoneNumber: '+1234567890',
-      }],
+      to: [
+        {
+          phoneNumber: '+1234567890',
+        },
+      ],
       from: { phoneNumber: '+1234567891' },
     };
     const myNumber = { phoneNumber: '+1234567890' };
@@ -276,9 +295,11 @@ describe('getRecipientNumbersFromMessage', () => {
     const message = {
       type: 'Pager',
       direction: 'Outbound',
-      to: [{
-        extensionNumber: '12345',
-      }],
+      to: [
+        {
+          extensionNumber: '12345',
+        },
+      ],
       from: { extensionNumber: '1234' },
     };
     const myNumber = { extensionNumber: '1234' };
@@ -293,9 +314,11 @@ describe('getRecipientNumbersFromMessage', () => {
     const message = {
       type: 'Pager',
       direction: 'Inbound',
-      to: [{
-        extensionNumber: '1234',
-      }],
+      to: [
+        {
+          extensionNumber: '1234',
+        },
+      ],
       from: { extensionNumber: '12345' },
     };
     const myNumber = { extensionNumber: '1234' };
@@ -310,9 +333,11 @@ describe('getRecipientNumbersFromMessage', () => {
     const message = {
       type: 'Pager',
       direction: 'Inbound',
-      to: [{
-        extensionNumber: '1234',
-      }],
+      to: [
+        {
+          extensionNumber: '1234',
+        },
+      ],
       from: { extensionNumber: '1234' },
     };
     const myNumber = { extensionNumber: '1234' };
@@ -329,9 +354,11 @@ describe('getRecipients', () => {
     const message = {
       type: 'SMS',
       direction: 'Outbound',
-      to: [{
-        phoneNumber: '+1234567890',
-      }],
+      to: [
+        {
+          phoneNumber: '+1234567890',
+        },
+      ],
       from: { phoneNumber: '+1234567891' },
     };
     const result = messageHelper.getRecipients({
@@ -345,9 +372,11 @@ describe('getRecipients', () => {
     const message = {
       type: 'Pager',
       direction: 'Outbound',
-      to: [{
-        extensionNumber: '12345',
-      }],
+      to: [
+        {
+          extensionNumber: '12345',
+        },
+      ],
       from: { extensionNumber: '1234' },
     };
     const result = messageHelper.getRecipients({

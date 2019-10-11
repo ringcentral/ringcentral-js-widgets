@@ -4,8 +4,12 @@ import getProxyClientReducer from './getProxyClientReducer';
 import baseActionTypes from './baseActionTypes';
 import ensureExist from '../ensureExist';
 
+const defaultVerifyModuleFunc = (module) => module instanceof RcModule;
 
-export default function getProxyClient(createTarget) {
+export default function getProxyClient(
+  createTarget,
+  verifyModuleFunc = defaultVerifyModuleFunc,
+) {
   return class extends RcModule {
     constructor({ transport, ...options }) {
       super({
@@ -28,7 +32,7 @@ export default function getProxyClient(createTarget) {
       for (const subModule in this._target) {
         if (
           this._target::Object.prototype.hasOwnProperty(subModule) &&
-            this._target[subModule] instanceof RcModule
+          verifyModuleFunc(this._target[subModule])
         ) {
           Object.defineProperty(this, subModule, {
             configurable: false,
@@ -55,27 +59,30 @@ export default function getProxyClient(createTarget) {
       for (const subModule in target) {
         if (
           target::Object.prototype.hasOwnProperty(subModule) &&
-            target[subModule] instanceof RcModule
+          verifyModuleFunc(target[subModule])
         ) {
-          this._setTransport(target[subModule]);
+          target[subModule]._transport = this._transport;
+          target[subModule]._proxyActionTypes = this.actionTypes;
+          target[subModule]._suppressInit = true;
         }
       }
     }
-
 
     async _sync() {
       try {
         const result = await this._transport.request({
           payload: {
             type: this.actionTypes.sync,
-            actionNumber: this.state.actionNumber
+            actionNumber: this.state.actionNumber,
           },
         });
         this.store.dispatch({
           ...result,
           type: this.actionTypes.sync,
         });
-      } catch (_) { /* Ignore */ }
+      } catch (_) {
+        /* Ignore */
+      }
       this._syncPromise = null;
     }
     sync() {
@@ -96,9 +103,12 @@ export default function getProxyClient(createTarget) {
       for (const subModule in target) {
         if (
           target::Object.prototype.hasOwnProperty(subModule) &&
-            target[subModule] instanceof RcModule
+          verifyModuleFunc(target[subModule]) &&
+          typeof target[subModule].initializeProxy === 'function' &&
+          !target[subModule]._proxyInitialized
         ) {
-          this._initialize(target[subModule]);
+          target[subModule]._proxyInitialized = true;
+          target[subModule].initializeProxy();
         }
       }
     }

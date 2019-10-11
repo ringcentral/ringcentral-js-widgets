@@ -2,7 +2,6 @@ import SymbolMap from 'data-types/symbol-map';
 import uuid from 'uuid';
 import Subscribable from './Subscribable';
 
-
 class MemoryStorage {
   getItem() {
     return this.data;
@@ -13,9 +12,7 @@ class MemoryStorage {
 }
 
 export default class NamedStorage extends Subscribable {
-  constructor({
-    storageKey,
-  }) {
+  constructor({ storageKey }) {
     super();
     if (!storageKey) {
       throw Error('NameLocalStorage must be created with a storage key');
@@ -26,10 +23,7 @@ export default class NamedStorage extends Subscribable {
       this._storageHandler = (event) => {
         if (event.key === this._storageKey) {
           try {
-            const {
-              setter,
-              data,
-            } = JSON.parse(event.newValue);
+            const { setter, data } = JSON.parse(event.newValue);
             if (setter && setter !== this.id) {
               this.trigger(data);
             }
@@ -46,9 +40,7 @@ export default class NamedStorage extends Subscribable {
   }
   getData() {
     try {
-      const {
-        data,
-      } = JSON.parse(this._localStorage.getItem(this._storageKey));
+      const { data } = JSON.parse(this._localStorage.getItem(this._storageKey));
       return data || {};
     } catch (e) {
       /* ignore error */

@@ -11,12 +11,12 @@ describe('concurrentExecute', () => {
   });
 
   it('should work when have odd length of thunks', async () => {
-    const thunks = oddValues.map(v => () => v);
+    const thunks = oddValues.map((v) => () => v);
     const options = {
       delayFn: () => {},
       promise: {
-        all: v => v
-      }
+        all: (v) => v,
+      },
     };
     sinon.spy(options.promise, 'all');
     const result = await concurrentExecute(thunks, 2, 0, options);
@@ -25,12 +25,12 @@ describe('concurrentExecute', () => {
   });
 
   it('should work when have even length of thunks', async () => {
-    const thunks = evenValues.map(v => () => v);
+    const thunks = evenValues.map((v) => () => v);
     const options = {
       delayFn: () => {},
       promise: {
-        all: v => v
-      }
+        all: (v) => v,
+      },
     };
     sinon.spy(options.promise, 'all');
     const result = await concurrentExecute(thunks, 2, 0, options);
@@ -39,10 +39,10 @@ describe('concurrentExecute', () => {
   });
 
   it('should actually be delayed between promise parallel', async () => {
-    const thunks = oddValues.map(v => () => v);
+    const thunks = oddValues.map((v) => () => v);
     const concurrency = 2;
     const promise = {
-      all: v => v
+      all: (v) => v,
     };
     sinon.spy(promise, 'all');
     let callCount = 1;
@@ -51,7 +51,7 @@ describe('concurrentExecute', () => {
         expect(promise.all.callCount).to.equal(callCount);
         callCount += 1;
       },
-      promise
+      promise,
     };
     const result = await concurrentExecute(thunks, concurrency, 1, options);
     expect(result).to.deep.equal(oddValues);

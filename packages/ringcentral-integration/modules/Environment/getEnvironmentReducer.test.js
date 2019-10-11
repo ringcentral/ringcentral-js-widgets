@@ -22,24 +22,30 @@ describe('getChangeCounter', () => {
     });
     it('should increment state when type === setData and enviromentChanged === true', () => {
       [0, 1, 2, 3, 4].forEach((state) => {
-        expect(reducer(state, {
-          type: actionTypes.setData,
-          environmentChanged: true
-        })).to.equal(state + 1);
+        expect(
+          reducer(state, {
+            type: actionTypes.setData,
+            environmentChanged: true,
+          }),
+        ).to.equal(state + 1);
       });
     });
     it('should return originalState when type === setData and environmentChanged === false', () => {
       const originalState = {};
-      expect(reducer(originalState, {
-        type: actionTypes.setData,
-        environmentChanged: false,
-      })).to.equal(originalState);
+      expect(
+        reducer(originalState, {
+          type: actionTypes.setData,
+          environmentChanged: false,
+        }),
+      ).to.equal(originalState);
     });
     it('should return originalState for all other action types', () => {
       const originalState = {};
-      expect(reducer(originalState, {
-        type: 'foo',
-      })).to.equal(originalState);
+      expect(
+        reducer(originalState, {
+          type: 'foo',
+        }),
+      ).to.equal(originalState);
     });
   });
 });
@@ -49,23 +55,29 @@ describe('getServerReducer', () => {
     expect(getServerReducer).to.be.a('function');
   });
   it('should return a reducer', () => {
-    expect(getServerReducer({ types: actionTypes, defaultServer: 'foo' })).to.be.a('function');
+    expect(
+      getServerReducer({ types: actionTypes, defaultServer: 'foo' }),
+    ).to.be.a('function');
   });
   describe('serverReducer', () => {
-    const reducer = getServerReducer({ types: actionTypes, defaultServer: 'foo' });
+    const reducer = getServerReducer({
+      types: actionTypes,
+      defaultServer: 'foo',
+    });
     it('should have initial state of defaultServer', () => {
       expect(reducer(undefined, {})).to.equal('foo');
     });
     it('should return originalState if type is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.server on setData', () => {
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        server: 'bar',
-      })).to.equal('bar');
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          server: 'bar',
+        }),
+      ).to.equal('bar');
     });
   });
 });
@@ -75,27 +87,35 @@ describe('getRecordingHostReducer', () => {
     expect(getRecordingHostReducer).to.be.a('function');
   });
   it('should return a reducer', () => {
-    expect(getRecordingHostReducer({ types: actionTypes, defaultRecordingHost: 'foo' })).to.be.a('function');
+    expect(
+      getRecordingHostReducer({
+        types: actionTypes,
+        defaultRecordingHost: 'foo',
+      }),
+    ).to.be.a('function');
   });
   describe('serverReducer', () => {
-    const reducer = getRecordingHostReducer({ types: actionTypes, defaultRecordingHost: 'foo' });
+    const reducer = getRecordingHostReducer({
+      types: actionTypes,
+      defaultRecordingHost: 'foo',
+    });
     it('should have initial state of defaultRecordingHost', () => {
       expect(reducer(undefined, {})).to.equal('foo');
     });
     it('should return originalState if type is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.recordingHost on setData', () => {
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        recordingHost: 'bar',
-      })).to.equal('bar');
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          recordingHost: 'bar',
+        }),
+      ).to.equal('bar');
     });
   });
 });
-
 
 describe('getEnabledReducer', () => {
   it('should be a function', () => {
@@ -111,18 +131,21 @@ describe('getEnabledReducer', () => {
     });
     it('should return originalState if type is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.enabled on setData', () => {
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        enabled: true,
-      })).to.be.true;
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        enabled: false,
-      })).to.be.false;
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          enabled: true,
+        }),
+      ).to.be.true;
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          enabled: false,
+        }),
+      ).to.be.false;
     });
   });
 });

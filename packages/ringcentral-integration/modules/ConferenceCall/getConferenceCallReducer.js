@@ -3,9 +3,7 @@ import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import conferenceCallStatus from './conferenceCallStatus';
 
 export function getConferenceCallStatusReducer(types) {
-  return (state = conferenceCallStatus.idle, {
-    type
-  }) => {
+  return (state = conferenceCallStatus.idle, { type }) => {
     switch (type) {
       case types.makeConference:
       case types.terminateConference:
@@ -36,16 +34,18 @@ export function getConferenceCallStatusReducer(types) {
   };
 }
 
-
 export function getMakeConferenceCallReducer(types) {
-  return (state = {}, {
-    type,
-    conference, // platform conference session data
-    sessionId, // session id of the conference
-    partyProfile,
-  }) => {
+  return (
+    state = {},
+    {
+      type,
+      conference, // platform conference session data
+      sessionId, // session id of the conference
+      partyProfile,
+    },
+  ) => {
     const res = {
-      ...state
+      ...state,
     };
     switch (type) {
       case types.resetSuccess:
@@ -55,14 +55,14 @@ export function getMakeConferenceCallReducer(types) {
         res[conference.id] = {
           conference,
           sessionId,
-          profiles: (res[conference.id] && res[conference.id].profiles) || []
+          profiles: (res[conference.id] && res[conference.id].profiles) || [],
         };
         return res;
       case types.bringInConferenceSucceeded:
         res[conference.id] = {
           conference,
           sessionId,
-          profiles: [...res[conference.id].profiles, partyProfile]
+          profiles: [...res[conference.id].profiles, partyProfile],
         };
         return res;
       case types.terminateConferenceSucceeded:

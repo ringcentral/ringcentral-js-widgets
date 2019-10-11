@@ -7,5 +7,5 @@ export default new Enum([
   'matchSuccess',
   'matchError',
   'cleanUp',
-  'insertMatchEntries'
+  'insertMatchEntries',
 ]);

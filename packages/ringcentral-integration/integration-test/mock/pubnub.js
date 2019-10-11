@@ -35,7 +35,7 @@ export class MockedPubNub {
     for (const listen of this._listeners) {
       listen.status({
         category: 'PNConnectedCategory',
-        operation: 'PNSubscribeOperation'
+        operation: 'PNSubscribeOperation',
       });
     }
   }
@@ -48,9 +48,9 @@ export class MockedPubNub {
       subscribedChannel: this._channels[0],
       timetoken: '14933652238078468',
       publisher: undefined,
-      message: msg
+      message: msg,
     };
-    this._listeners.forEach(l => l.message(pubnubMsg));
+    this._listeners.forEach((l) => l.message(pubnubMsg));
   }
 }
 

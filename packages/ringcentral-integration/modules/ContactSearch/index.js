@@ -1,7 +1,8 @@
 import uuid from 'uuid';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
-import loginStatus from '../../modules/Auth/loginStatus';
+import { selector } from '../../lib/selector';
+import loginStatus from '../Auth/loginStatus';
 import proxify from '../../lib/proxy/proxify';
 import debounce from '../../lib/debounce';
 import actionTypes from './actionTypes';
@@ -20,7 +21,7 @@ export const DefaultMinimalSearchLength = 3;
     'Storage',
     { dep: 'ContactSearchOptions', optional: true },
     { dep: 'TabManager', optional: true },
-  ]
+  ],
 })
 export default class ContactSearch extends RcModule {
   /**
@@ -57,7 +58,7 @@ export default class ContactSearch extends RcModule {
       this._reducer = getContactSearchReducer(this.actionTypes);
       this._storage.registerReducer({
         key: this._storageKey,
-        reducer: getCacheReducer(this.actionTypes)
+        reducer: getCacheReducer(this.actionTypes),
       });
     } else {
       this._reducer = getContactSearchReducer(this.actionTypes, {
@@ -90,10 +91,8 @@ export default class ContactSearch extends RcModule {
 
   _shouldReset() {
     return (
-      (
-        this._auth.loginStatus !== loginStatus.loggedIn ||
-        (this._storage && !this._storage.ready)
-      ) &&
+      (this._auth.loginStatus !== loginStatus.loggedIn ||
+        (this._storage && !this._storage.ready)) &&
       this.ready
     );
   }
@@ -122,20 +121,24 @@ export default class ContactSearch extends RcModule {
     });
   }
 
-  addSearchSource({
-    sourceName, searchFn, readyCheckFn, formatFn
-  }) {
+  addSearchSource({ sourceName, searchFn, readyCheckFn, formatFn }) {
     if (!sourceName) {
       throw new Error('ContactSearch: "sourceName" is required.');
     }
     if (this._searchSources.has(sourceName)) {
-      throw new Error(`ContactSearch: A search source named "${sourceName}" already exists`);
+      throw new Error(
+        `ContactSearch: A search source named "${sourceName}" already exists`,
+      );
     }
     if (this._searchSourcesCheck.has(sourceName)) {
-      throw new Error(`ContactSearch: A search source check named "${sourceName}" already exists`);
+      throw new Error(
+        `ContactSearch: A search source check named "${sourceName}" already exists`,
+      );
     }
     if (this._searchSourcesFormat.has(sourceName)) {
-      throw new Error(`ContactSearch: A search source format named "${sourceName}" already exists`);
+      throw new Error(
+        `ContactSearch: A search source format named "${sourceName}" already exists`,
+      );
     }
     if (typeof searchFn !== 'function') {
       throw new Error('ContactSearch: searchFn must be a function');
@@ -151,11 +154,15 @@ export default class ContactSearch extends RcModule {
     this._searchSourcesCheck.set(sourceName, readyCheckFn);
   }
 
-  debouncedSearch = debounce(this.search, 800, false)
+  debouncedSearch = debounce(this.search, 800, false);
 
   @proxify
   async search({ searchString }) {
-    if (!this.ready || !searchString || (searchString.length < this._minimalSearchLength)) {
+    if (
+      !this.ready ||
+      !searchString ||
+      searchString.length < this._minimalSearchLength
+    ) {
       this.store.dispatch({
         type: this.actionTypes.prepareSearch,
       });
@@ -221,19 +228,20 @@ export default class ContactSearch extends RcModule {
       const currentPhoneNumber = current.phoneNumber || '';
       const nextName = next.name || '';
       const nextPhoneNumber = next.phoneNumber || '';
-      const isSort = (
+      const isSort =
         currentName.indexOf(searchString) < nextName.indexOf(searchString) ||
-        currentPhoneNumber.indexOf(searchString) < nextPhoneNumber.indexOf(searchString)
-      );
+        currentPhoneNumber.indexOf(searchString) <
+          nextPhoneNumber.indexOf(searchString);
       return isSort;
     });
   }
 
   _searchFromCache({ sourceName, searchString }) {
     const key = `${sourceName}-${searchString}`;
-    const searching = this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
+    const searching =
+      this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
     const now = Date.now();
-    if (searching && (now - searching.timestamp) < this._ttl) {
+    if (searching && now - searching.timestamp < this._ttl) {
       return searching.entities;
     }
     return null;
@@ -274,9 +282,9 @@ export default class ContactSearch extends RcModule {
   }
 
   get cache() {
-    return this._storage ?
-      this._storage.getItem(this._storageKey) :
-      this.state.cache;
+    return this._storage
+      ? this._storage.getItem(this._storageKey)
+      : this.state.cache;
   }
 
   get status() {
@@ -295,7 +303,9 @@ export default class ContactSearch extends RcModule {
     return this.searching ? this.searching.result : [];
   }
 
-  get sortedResult() {
-    return this._quickSort(this.searching);
-  }
+  @selector
+  sortedResult = [
+    () => this.searching,
+    (searching) => this._quickSort(searching),
+  ];
 }

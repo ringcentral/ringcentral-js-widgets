@@ -7,37 +7,33 @@ import proxify from '../../lib/proxy/proxify';
  * @description Contact matcher managing module
  */
 @Module({
-  deps: [{ dep: 'ContactMatcherOptions', optional: true }]
+  deps: [{ dep: 'ContactMatcherOptions', optional: true }],
 })
 export default class ContactMatcher extends DataMatcher {
   /**
    * @constructor
    */
-  constructor({
-    ...options
-  }) {
+  constructor({ ...options }) {
     super({
       name: 'contactMatcher',
-      ...options
+      ...options,
     });
   }
 
   @proxify
-  async hasMatchNumber({
-    phoneNumber,
-    ignoreCache = false,
-  }) {
+  async hasMatchNumber({ phoneNumber, ignoreCache = false }) {
     await this.match({
       queries: [phoneNumber],
       ignoreCache,
     });
-    return !!this.dataMapping[phoneNumber] && this.dataMapping[phoneNumber].length > 0;
+    return (
+      !!this.dataMapping[phoneNumber] &&
+      this.dataMapping[phoneNumber].length > 0
+    );
   }
 
   @proxify
-  async forceMatchBatchNumbers({
-    phoneNumbers,
-  }) {
+  async forceMatchBatchNumbers({ phoneNumbers }) {
     await this.match({
       queries: phoneNumbers,
       ignoreCache: true,
@@ -46,9 +42,7 @@ export default class ContactMatcher extends DataMatcher {
   }
 
   @proxify
-  async forceMatchNumber({
-    phoneNumber,
-  }) {
+  async forceMatchNumber({ phoneNumber }) {
     await this.forceMatchBatchNumbers({
       phoneNumbers: [phoneNumber],
     });

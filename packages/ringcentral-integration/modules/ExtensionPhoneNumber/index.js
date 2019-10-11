@@ -5,7 +5,8 @@ import removeUri from '../../lib/removeUri';
 import DataFetcher from '../../lib/DataFetcher';
 import ensureExist from '../../lib/ensureExist';
 import { selector } from '../../lib/selector';
-
+import subscriptionHints from '../../enums/subscriptionHints';
+import subscriptionFilters from '../../enums/subscriptionFilters';
 
 /**
  * @class
@@ -15,8 +16,8 @@ import { selector } from '../../lib/selector';
   deps: [
     'Client',
     'RolesAndPermissions',
-    { dep: 'ExtensionPhoneNumberOptions', optional: true }
-  ]
+    { dep: 'ExtensionPhoneNumberOptions', optional: true },
+  ],
 })
 export default class ExtensionPhoneNumber extends DataFetcher {
   /**
@@ -24,72 +25,93 @@ export default class ExtensionPhoneNumber extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({
-    client,
-    rolesAndPermissions,
-    ...options
-  }) {
+  constructor({ client, rolesAndPermissions, ...options }) {
     super({
       client,
-      fetchFunction: async () => (await fetchList(params => (
-        client.account().extension().phoneNumber().list(params)
-      ))).map(number => ({
-        ...number,
-        country: removeUri(number.country),
-      })),
+      subscriptionFilters: [subscriptionFilters.extensionInfo],
+      subscriptionHandler: async (message) => {
+        await this._subscriptionHandleFn(message);
+      },
+      fetchFunction: async () =>
+        (await fetchList((params) =>
+          client
+            .account()
+            .extension()
+            .phoneNumber()
+            .list(params),
+        )).map((number) => ({
+          ...number,
+          country: removeUri(number.country),
+        })),
       readyCheckFn: () => this._rolesAndPermissions.ready,
       cleanOnReset: true,
       ...options,
     });
 
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
   }
 
   get _name() {
     return 'extensionPhoneNumber';
   }
 
+  async _subscriptionHandleFn(message) {
+    if (
+      message &&
+      message.body &&
+      message.body.hints &&
+      message.body.hints.includes(subscriptionHints.companyNumbers)
+    ) {
+      await this.fetchData();
+    }
+  }
+
   @selector
-  numbers = [
-    () => this.data,
-    data => data || [],
-  ]
+  numbers = [() => this.data, (data) => data || []];
 
   @selector
   companyNumbers = [
     () => this.numbers,
-    phoneNumbers => phoneNumbers.filter(p => p.usageType === 'CompanyNumber'),
-  ]
+    (phoneNumbers) =>
+      phoneNumbers.filter((p) => p.usageType === 'CompanyNumber'),
+  ];
 
   @selector
   mainCompanyNumber = [
     () => this.numbers,
-    phoneNumbers => find(p => p.usageType === 'MainCompanyNumber', phoneNumbers),
-  ]
+    (phoneNumbers) =>
+      find((p) => p.usageType === 'MainCompanyNumber', phoneNumbers),
+  ];
 
   @selector
   directNumbers = [
     () => this.numbers,
-    phoneNumbers => phoneNumbers.filter(p => p.usageType === 'DirectNumber'),
-  ]
+    (phoneNumbers) =>
+      phoneNumbers.filter((p) => p.usageType === 'DirectNumber'),
+  ];
 
   @selector
   callerIdNumbers = [
     () => this.numbers,
-    phoneNumbers => phoneNumbers.filter(p => (
-      (p.features && p.features.indexOf('CallerId') !== -1) ||
-      (p.usageType === 'ForwardedNumber' && p.status === 'PortedIn')
-    )),
-  ]
+    (phoneNumbers) =>
+      phoneNumbers.filter(
+        (p) =>
+          (p.features && p.features.indexOf('CallerId') !== -1) ||
+          (p.usageType === 'ForwardedNumber' && p.status === 'PortedIn'),
+      ),
+  ];
 
   @selector
   smsSenderNumbers = [
     () => this.numbers,
-    phoneNumbers =>
+    (phoneNumbers) =>
       phoneNumbers.filter(
-        p => (p.features && p.features.indexOf('SmsSender') !== -1)
+        (p) => p.features && p.features.indexOf('SmsSender') !== -1,
       ),
-  ]
+  ];
 
   get _hasPermission() {
     return !!this._rolesAndPermissions.permissions.ReadUserPhoneNumbers;

@@ -6,7 +6,7 @@ import Registry from '../registry/registry';
  */
 export default function Module(metadata) {
   /* eslint-disable */
-  return function (constructor) {
+  return function(constructor) {
     Registry.registerModule(constructor, metadata);
     return constructor;
   };

@@ -2,9 +2,7 @@ import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 export function getProfileImagesReducer(types) {
-  return (state = {}, {
-    type, imageId, imageUrl, ttl
-  }) => {
+  return (state = {}, { type, imageId, imageUrl, ttl }) => {
     switch (type) {
       case types.fetchImageSuccess: {
         const data = {};

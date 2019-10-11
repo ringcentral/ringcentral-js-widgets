@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
 import sleep from '../../lib/sleep';
@@ -5,12 +6,13 @@ import moduleStatuses from '../../enums/moduleStatuses';
 import syncTypes from '../../enums/syncTypes';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
+import { selector } from '../../lib/selector';
 import { addPhoneToContact, getMatchContacts } from '../../lib/contactHelper';
 
 import getAddressBookReducer, {
   getSyncTokenReducer,
   getContactListReducer,
-  getSyncTimestampReducer,
+  getTimestampReducer,
 } from './getAddressBookReducer';
 
 const CONTACTS_PER_PAGE = 250;
@@ -21,7 +23,7 @@ const DECODE = {
   '&amp;': '&',
   '&bsol;': '\\',
   '&sol;': '/',
-  '&apos;': '\''
+  '&apos;': "'",
 };
 
 function getSyncParams(syncToken, pageId) {
@@ -51,8 +53,8 @@ function getSyncParams(syncToken, pageId) {
     'RolesAndPermissions',
     { dep: 'Storage', optional: true },
     { dep: 'TabManager', optional: true },
-    { dep: 'AddressBookOptions', optional: true }
-  ]
+    { dep: 'AddressBookOptions', optional: true },
+  ],
 })
 export default class AddressBook extends Pollable {
   /**
@@ -94,61 +96,24 @@ export default class AddressBook extends Pollable {
     this._timeToRetry = timeToRetry;
     this._polling = polling;
     this._promise = null;
-    this._syncTokenStorageKey = 'contactsSyncToken';
-    this._syncTimestampStorageKey = 'contactsSyncTimestamp';
     this._addressBookStorageKey = 'addressBookContactsList';
     if (this._storage) {
       this._reducer = getAddressBookReducer(this.actionTypes);
       this._storage.registerReducer({
-        key: this._syncTokenStorageKey,
-        reducer: getSyncTokenReducer(this.actionTypes),
-      });
-      this._storage.registerReducer({
-        key: this._syncTimestampStorageKey,
-        reducer: getSyncTimestampReducer(this.actionTypes),
-      });
-      this._storage.registerReducer({
         key: this._addressBookStorageKey,
-        reducer: getContactListReducer(this.actionTypes),
+        reducer: combineReducers({
+          syncToken: getSyncTokenReducer(this.actionTypes),
+          timestamp: getTimestampReducer(this.actionTypes),
+          contactList: getContactListReducer(this.actionTypes),
+        }),
       });
     } else {
       this._reducer = getAddressBookReducer(this.actionTypes, {
         contactList: getContactListReducer(this.actionTypes),
         syncToken: getSyncTokenReducer(this.actionTypes),
-        syncTimestamp: getSyncTimestampReducer(this.actionTypes),
+        timestamp: getTimestampReducer(this.actionTypes),
       });
     }
-
-    this.addSelector(
-      'contacts',
-      () => this.rawContacts,
-      (rawContacts) => {
-        const contactsList = [];
-        rawContacts.forEach((rawContact) => {
-          const contact = {
-            type: this.sourceName,
-            phoneNumbers: [],
-            emails: [],
-            ...rawContact,
-          };
-          contact.id = `${contact.id}`;
-          contact.name = `${contact.firstName || ''} ${contact.lastName || ''}`;
-          if (contact.email) contact.emails.push(contact.email);
-          if (contact.email2) contact.emails.push(contact.email2);
-          Object.keys(contact).forEach((key) => {
-            if (key.toLowerCase().indexOf('phone') === -1) {
-              return;
-            }
-            if (typeof contact[key] !== 'string') {
-              return;
-            }
-            addPhoneToContact(contact, contact[key], key);
-          });
-          contactsList.push(contact);
-        });
-        return contactsList;
-      }
-    );
   }
 
   initialize() {
@@ -191,12 +156,10 @@ export default class AddressBook extends Pollable {
 
   _shouldReset() {
     return (
-      (
-        (!!this._storage && !this._storage.ready) ||
+      ((!!this._storage && !this._storage.ready) ||
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._rolesAndPermissions.ready ||
-        !this._auth.loggedIn
-      ) &&
+        !this._auth.loggedIn) &&
       this.ready
     );
   }
@@ -205,7 +168,7 @@ export default class AddressBook extends Pollable {
     return (
       this._auth.isFreshLogin ||
       !this.timestamp ||
-      (Date.now() - this.timestamp) > this._ttl
+      Date.now() - this.timestamp > this._ttl
     );
   }
 
@@ -219,8 +182,9 @@ export default class AddressBook extends Pollable {
   _isDataReady() {
     // only turns ready when data has been fetched
     // (could be from other tabs)
-    return this.status === moduleStatuses.initializing &&
-      this.syncTime !== null;
+    return (
+      this.status === moduleStatuses.initializing && this.timestamp !== null
+    );
   }
 
   async _initAddressBook() {
@@ -267,8 +231,8 @@ export default class AddressBook extends Pollable {
         const result = {
           records: [],
           syncInfo: {
-            syncTime: (new Date()).toISOString()
-          }
+            syncToken: undefined,
+          },
         };
         return result;
       }
@@ -289,7 +253,7 @@ export default class AddressBook extends Pollable {
             type: this.actionTypes.syncSuccess,
             records: response.records,
             syncToken: response.syncInfo.syncToken,
-            syncTime: response.syncInfo.syncTime,
+            timestamp: Date.now(),
           });
           if (this._polling) {
             this._startPolling();
@@ -391,23 +355,23 @@ export default class AddressBook extends Pollable {
 
   get syncToken() {
     if (this._storage) {
-      return this._storage.getItem(this._syncTokenStorageKey);
+      return this._storage.getItem(this._addressBookStorageKey).syncToken;
     }
     return this.state.syncToken;
   }
 
   get rawContacts() {
     if (this._storage) {
-      return this._storage.getItem(this._addressBookStorageKey);
+      return this._storage.getItem(this._addressBookStorageKey).contactList;
     }
     return this.state.contactList;
   }
 
   get timestamp() {
     if (this._storage) {
-      return this._storage.getItem(this._syncTimestampStorageKey);
+      return this._storage.getItem(this._addressBookStorageKey).timestamp;
     }
-    return this.state.syncTimestamp;
+    return this.state.timestamp;
   }
 
   get ttl() {
@@ -424,9 +388,36 @@ export default class AddressBook extends Pollable {
   }
 
   // interface of contact source
-  get contacts() {
-    return this._selectors.contacts();
-  }
+  @selector
+  contacts = [
+    () => this.rawContacts,
+    (rawContacts) => {
+      const contactsList = [];
+      rawContacts.forEach((rawContact) => {
+        const contact = {
+          type: this.sourceName,
+          phoneNumbers: [],
+          emails: [],
+          ...rawContact,
+        };
+        contact.id = `${contact.id}`;
+        contact.name = `${contact.firstName || ''} ${contact.lastName || ''}`;
+        if (contact.email) contact.emails.push(contact.email);
+        if (contact.email2) contact.emails.push(contact.email2);
+        Object.keys(contact).forEach((key) => {
+          if (key.toLowerCase().indexOf('phone') === -1) {
+            return;
+          }
+          if (typeof contact[key] !== 'string') {
+            return;
+          }
+          addPhoneToContact(contact, contact[key], key);
+        });
+        contactsList.push(contact);
+      });
+      return contactsList;
+    },
+  ];
 
   get sourceReady() {
     return this.ready;

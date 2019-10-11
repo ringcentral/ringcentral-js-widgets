@@ -34,19 +34,22 @@ describe('Conversations :: getSearchInputReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return new input on updateSearchInput', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateSearchInput,
-        input: 'ddd'
-      })).to.equal('ddd');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateSearchInput,
+          input: 'ddd',
+        }),
+      ).to.equal('ddd');
     });
     it('should return empty string on resetSuccess', () => {
-      expect(reducer('foo', {
-        type: actionTypes.resetSuccess,
-      })).to.equal('');
+      expect(
+        reducer('foo', {
+          type: actionTypes.resetSuccess,
+        }),
+      ).to.equal('');
     });
   });
 });
@@ -65,19 +68,22 @@ describe('Conversations :: getTypeFilterReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return new input on updateSearchInput', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateTypeFilter,
-        typeFilter: 'ddd'
-      })).to.equal('ddd');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateTypeFilter,
+          typeFilter: 'ddd',
+        }),
+      ).to.equal('ddd');
     });
     it('should return all on resetSuccess', () => {
-      expect(reducer('foo', {
-        type: actionTypes.resetSuccess,
-      })).to.equal(messageTypes.all);
+      expect(
+        reducer('foo', {
+          type: actionTypes.resetSuccess,
+        }),
+      ).to.equal(messageTypes.all);
     });
   });
 });
@@ -133,31 +139,36 @@ describe('Conversations :: getOldConversationsReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return new array with new record on fetchOldConverstaionsSuccess', () => {
-      expect(reducer([{}], {
-        type: actionTypes.fetchOldConverstaionsSuccess,
-        records: [record]
-      }).length).to.equal(2);
+      expect(
+        reducer([{}], {
+          type: actionTypes.fetchOldConverstaionsSuccess,
+          records: [record],
+        }).length,
+      ).to.equal(2);
     });
     it('should delete conversation on deleteConversation', () => {
-      expect(reducer([{ conversationId: '666' }], {
-        type: actionTypes.deleteConversation,
-        conversationId: '666'
-      }).length).to.equal(0);
+      expect(
+        reducer([{ conversationId: '666' }], {
+          type: actionTypes.deleteConversation,
+          conversationId: '666',
+        }).length,
+      ).to.equal(0);
     });
     it('should return [] on resetSuccess and initSuccess', () => {
       [
         actionTypes.cleanOldConversatioans,
         actionTypes.resetSuccess,
         actionTypes.updateTypeFilter,
-        actionTypes.updateTypeFilter
+        actionTypes.updateTypeFilter,
       ].forEach((type) => {
-        expect(reducer([{}], {
-          type,
-        })).to.deep.equal([]);
+        expect(
+          reducer([{}], {
+            type,
+          }),
+        ).to.deep.equal([]);
       });
     });
   });
@@ -177,13 +188,14 @@ describe('Conversations :: getFetchConversationsStatusReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return fetching on fetchOldConverstaions', () => {
-      expect(reducer('foo', {
-        type: actionTypes.fetchOldConverstaions,
-      })).to.equal(status.fetching);
+      expect(
+        reducer('foo', {
+          type: actionTypes.fetchOldConverstaions,
+        }),
+      ).to.equal(status.fetching);
     });
     it('should return idle on resetSuccess', () => {
       [
@@ -193,9 +205,11 @@ describe('Conversations :: getFetchConversationsStatusReducer', () => {
         actionTypes.updateTypeFilter,
         actionTypes.initSuccess,
       ].forEach((type) => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(status.idle);
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(status.idle);
       });
     });
   });
@@ -215,29 +229,32 @@ describe('Conversations :: getCurrentPageReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should increase page on increaseCurrentPage', () => {
-      [
-        actionTypes.increaseCurrentPage,
-      ].forEach((type) => {
-        expect(reducer(2, {
-          type,
-        })).to.equal(3);
+      [actionTypes.increaseCurrentPage].forEach((type) => {
+        expect(
+          reducer(2, {
+            type,
+          }),
+        ).to.equal(3);
       });
     });
     it('should increase page when isIncreaseCurrentPage parameter is true when fetchOldConverstaionsSuccess', () => {
-      expect(reducer(2, {
-        type: actionTypes.fetchOldConverstaionsSuccess,
-        isIncreaseCurrentPage: true,
-      })).to.equal(3);
+      expect(
+        reducer(2, {
+          type: actionTypes.fetchOldConverstaionsSuccess,
+          isIncreaseCurrentPage: true,
+        }),
+      ).to.equal(3);
     });
     it('should not increase page when isIncreaseCurrentPage parameter is false when fetchOldConverstaionsSuccess', () => {
-      expect(reducer(2, {
-        type: actionTypes.fetchOldConverstaionsSuccess,
-        isIncreaseCurrentPage: false,
-      })).to.equal(2);
+      expect(
+        reducer(2, {
+          type: actionTypes.fetchOldConverstaionsSuccess,
+          isIncreaseCurrentPage: false,
+        }),
+      ).to.equal(2);
     });
     it('should return idle on resetSuccess', () => {
       [
@@ -246,9 +263,11 @@ describe('Conversations :: getCurrentPageReducer', () => {
         actionTypes.resetSuccess,
         actionTypes.resetCurrentPage,
       ].forEach((type) => {
-        expect(reducer(5, {
-          type,
-        })).to.equal(1);
+        expect(
+          reducer(5, {
+            type,
+          }),
+        ).to.equal(1);
       });
     });
   });
@@ -268,23 +287,23 @@ describe('Conversations :: getCurrentConversationIdReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return new conversationId on updateCurrentConversationId', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateCurrentConversationId,
-        conversationId: 'ddd'
-      })).to.equal('ddd');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateCurrentConversationId,
+          conversationId: 'ddd',
+        }),
+      ).to.equal('ddd');
     });
     it('should return null on resetSuccess and initSuccess', () => {
-      [
-        actionTypes.initSuccess,
-        actionTypes.resetSuccess,
-      ].forEach((type) => {
-        expect(reducer('123', {
-          type,
-        })).to.deep.equal(null);
+      [actionTypes.initSuccess, actionTypes.resetSuccess].forEach((type) => {
+        expect(
+          reducer('123', {
+            type,
+          }),
+        ).to.deep.equal(null);
       });
     });
   });
@@ -341,24 +360,27 @@ describe('Conversations :: getOldMessagesReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return new array with new record on fetchOldMessagesSuccess', () => {
-      expect(reducer([{}], {
-        type: actionTypes.fetchOldMessagesSuccess,
-        records: [record]
-      }).length).to.equal(2);
+      expect(
+        reducer([{}], {
+          type: actionTypes.fetchOldMessagesSuccess,
+          records: [record],
+        }).length,
+      ).to.equal(2);
     });
     it('should return [] on resetSuccess and initSuccess', () => {
       [
         actionTypes.updateCurrentConversationId,
         actionTypes.resetSuccess,
-        actionTypes.initSuccess
+        actionTypes.initSuccess,
       ].forEach((type) => {
-        expect(reducer([{}], {
-          type,
-        })).to.deep.equal([]);
+        expect(
+          reducer([{}], {
+            type,
+          }),
+        ).to.deep.equal([]);
       });
     });
   });
@@ -378,13 +400,14 @@ describe('Conversations :: getFetchMessagesStatusReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return fetching on fetchOldMessages', () => {
-      expect(reducer('foo', {
-        type: actionTypes.fetchOldMessages,
-      })).to.equal(status.fetching);
+      expect(
+        reducer('foo', {
+          type: actionTypes.fetchOldMessages,
+        }),
+      ).to.equal(status.fetching);
     });
     it('should return idle on resetSuccess', () => {
       [
@@ -394,9 +417,11 @@ describe('Conversations :: getFetchMessagesStatusReducer', () => {
         actionTypes.resetSuccess,
         actionTypes.initSuccess,
       ].forEach((type) => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(status.idle);
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(status.idle);
       });
     });
   });
@@ -416,24 +441,27 @@ describe('CompostText :: getMessageTextsReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = [{ id: 1, text: '' }];
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should updates the messages array on updateMessageText', () => {
-      expect(reducer([{ conversationId: 1, text: '' }], {
-        type: actionTypes.updateMessageText,
-        text: '12345678',
-        conversationId: 2
-      })).to.deep.equal([
+      expect(
+        reducer([{ conversationId: 1, text: '' }], {
+          type: actionTypes.updateMessageText,
+          text: '12345678',
+          conversationId: 2,
+        }),
+      ).to.deep.equal([
         { conversationId: 2, text: '12345678' },
-        { conversationId: 1, text: '' }
+        { conversationId: 1, text: '' },
       ]);
     });
     it('should return blank string on removeMessageText', () => {
-      expect(reducer([{ conversationId: 1, text: '' }], {
-        type: actionTypes.removeMessageText,
-        conversationId: 1
-      })).to.deep.equal([]);
+      expect(
+        reducer([{ conversationId: 1, text: '' }], {
+          type: actionTypes.removeMessageText,
+          conversationId: 1,
+        }),
+      ).to.deep.equal([]);
     });
   });
 });
@@ -452,22 +480,22 @@ describe('Conversations :: getConversationStatusReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return fetching on reply', () => {
-      expect(reducer('foo', {
-        type: actionTypes.reply,
-      })).to.equal(status.pushing);
+      expect(
+        reducer('foo', {
+          type: actionTypes.reply,
+        }),
+      ).to.equal(status.pushing);
     });
     it('should return idle on resetSuccess and replyError', () => {
-      [
-        actionTypes.replySuccess,
-        actionTypes.replyError,
-      ].forEach((type) => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(status.idle);
+      [actionTypes.replySuccess, actionTypes.replyError].forEach((type) => {
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(status.idle);
       });
     });
   });
@@ -487,10 +515,16 @@ describe('getReducer', () => {
     const typeFilterReducer = getTypeFilterReducer(actionTypes);
     const oldConversationsReducer = getOldConversationsReducer(actionTypes);
     const currentPageReducer = getCurrentPageReducer(actionTypes);
-    const fetchConversationsStatusReducer = getFetchConversationsStatusReducer(actionTypes);
-    const currentConversationIdReducer = getCurrentConversationIdReducer(actionTypes);
+    const fetchConversationsStatusReducer = getFetchConversationsStatusReducer(
+      actionTypes,
+    );
+    const currentConversationIdReducer = getCurrentConversationIdReducer(
+      actionTypes,
+    );
     const oldMessagesReducer = getOldMessagesReducer(actionTypes);
-    const fetchMessagesStatusReducer = getFetchMessagesStatusReducer(actionTypes);
+    const fetchMessagesStatusReducer = getFetchMessagesStatusReducer(
+      actionTypes,
+    );
     const messageTextsReducer = getMessageTextsReducer(actionTypes);
     const conversationStatusReducer = getConversationStatusReducer(actionTypes);
     const correspondentMatchReducer = getCorrespondentMatch(actionTypes);
@@ -503,7 +537,10 @@ describe('getReducer', () => {
         typeFilter: typeFilterReducer(undefined, {}),
         oldConversations: oldConversationsReducer(undefined, {}),
         currentPage: currentPageReducer(undefined, {}),
-        fetchConversationsStatus: fetchConversationsStatusReducer(undefined, {}),
+        fetchConversationsStatus: fetchConversationsStatusReducer(
+          undefined,
+          {},
+        ),
         currentConversationId: currentConversationIdReducer(undefined, {}),
         oldMessages: oldMessagesReducer(undefined, {}),
         fetchMessagesStatus: fetchMessagesStatusReducer(undefined, {}),

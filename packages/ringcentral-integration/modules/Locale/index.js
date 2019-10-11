@@ -10,7 +10,7 @@ import { Module } from '../../lib/di';
 import {
   getCurrentLocaleReducer,
   getProxyLocaleReducer,
-  getToggleDebugMode
+  getToggleDebugMode,
 } from './reducers';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import getProxyStatusReducer from '../../lib/getProxyStatusReducer';
@@ -24,7 +24,7 @@ import proxyActionTypes from '../../enums/proxyActionTypes';
  * @description Locale managing module
  */
 @Module({
-  deps: [{ dep: 'LocaleOptions', optional: true }]
+  deps: [{ dep: 'LocaleOptions', optional: true }],
 })
 export default class Locale extends RcModule {
   /**
@@ -49,15 +49,18 @@ export default class Locale extends RcModule {
   }
 
   get _actionTypes() {
-    return new Enum([
-      ...Object.keys(moduleActionTypes),
-      ...Object.keys(proxyActionTypes),
-      'setLocale',
-      'setLocaleSuccess',
-      'setLocaleError',
-      'syncProxyLocale',
-      'toggleDebugMode',
-    ], 'locale');
+    return new Enum(
+      [
+        ...Object.keys(moduleActionTypes),
+        ...Object.keys(proxyActionTypes),
+        'setLocale',
+        'setLocaleSuccess',
+        'setLocaleError',
+        'syncProxyLocale',
+        'toggleDebugMode',
+      ],
+      'locale',
+    );
   }
 
   get reducer() {
@@ -77,9 +80,7 @@ export default class Locale extends RcModule {
 
   async initialize() {
     await this.setLocale(
-      this._detectBrowser ?
-        this.browserLocale :
-        this._defaultLocale
+      this._detectBrowser ? this.browserLocale : this._defaultLocale,
     );
     this.store.dispatch({
       type: this.actionTypes.initSuccess,
@@ -120,11 +121,9 @@ export default class Locale extends RcModule {
    */
   get currentLocale() {
     return (
-      (
-        this._transport &&
+      (this._transport &&
         this.proxyState &&
-        (this.proxyState.proxyLocale || this._defaultLocale)
-      ) ||
+        (this.proxyState.proxyLocale || this._defaultLocale)) ||
       this.state.currentLocale ||
       this._defaultLocale
     );
@@ -160,7 +159,10 @@ export default class Locale extends RcModule {
   async _setLocale(locale) {
     await I18n.setLocale(locale);
     formatMessage.setup({
-      locale: this.currentLocale === PSEUDO_LOCALE ? DEFAULT_LOCALE : this.currentLocale,
+      locale:
+        this.currentLocale === PSEUDO_LOCALE
+          ? DEFAULT_LOCALE
+          : this.currentLocale,
     });
   }
 

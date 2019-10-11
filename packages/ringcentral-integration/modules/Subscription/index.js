@@ -1,18 +1,16 @@
-import {
-  equals,
-  map,
-} from 'ramda';
+import { equals, map } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import loginStatus from '../Auth/loginStatus';
 import moduleStatuses from '../../enums/moduleStatuses';
-import getSubscriptionReducer, { getCachedSubscriptionReducer, } from './getSubscriptionReducer';
+import getSubscriptionReducer, {
+  getCachedSubscriptionReducer,
+} from './getSubscriptionReducer';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
 import { normalizeEventFilter } from './normalizeEventFilter';
 
 const DEFAULT_TIME_TO_RETRY = 60 * 1000;
-
 
 /**
  * @class
@@ -20,8 +18,11 @@ const DEFAULT_TIME_TO_RETRY = 60 * 1000;
  */
 @Module({
   deps: [
-    'Auth', 'Client', 'Storage', { dep: 'SubscriptionOptions', optional: true }
-  ]
+    'Auth',
+    'Client',
+    'Storage',
+    { dep: 'SubscriptionOptions', optional: true },
+  ],
 })
 export default class Subscription extends RcModule {
   /**
@@ -72,10 +73,8 @@ export default class Subscription extends RcModule {
           type: this.actionTypes.initSuccess,
         });
       } else if (
-        (
-          this._auth.loginStatus === loginStatus.notLoggedIn ||
-          !this._storage.ready
-        ) &&
+        (this._auth.loginStatus === loginStatus.notLoggedIn ||
+          !this._storage.ready) &&
         this.ready
       ) {
         this.reset();
@@ -87,7 +86,6 @@ export default class Subscription extends RcModule {
       }
     });
   }
-
 
   get status() {
     return this.state.status;
@@ -295,7 +293,8 @@ export default class Subscription extends RcModule {
       } catch (error) {
         /* falls through */
       }
-      if (this._subscription) { // check again in case subscription object was removed while waiting
+      if (this._subscription) {
+        // check again in case subscription object was removed while waiting
         this._subscription.reset();
         this._subscription = null;
       }

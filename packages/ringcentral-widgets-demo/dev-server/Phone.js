@@ -61,7 +61,6 @@ import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import Analytics from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
-import RCVideo from 'ringcentral-integration/modules/RCVideo';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
@@ -72,7 +71,6 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 import AudioSettingsUI from 'ringcentral-widgets/modules/AudioSettingsUI';
 import CallingSettingsUI from 'ringcentral-widgets/modules/CallingSettingsUI';
 import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager';
-import VideoUI from 'ringcentral-widgets/modules/VideoUI';
 import ConnectivityBadgeUI from 'ringcentral-widgets/modules/ConnectivityBadgeUI';
 import LoginUI from 'ringcentral-widgets/modules/LoginUI';
 
@@ -89,9 +87,12 @@ import FeedbackUI from 'ringcentral-widgets/modules/FeedbackUI';
 import { hashHistory } from 'react-router';
 import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 
-const history = global.process && global.process.release && global.process.release.name === 'node' ?
-  undefined :
-  hashHistory;
+const history =
+  global.process &&
+  global.process.release &&
+  global.process.release.name === 'node'
+    ? undefined
+    : hashHistory;
 @ModuleFactory({
   providers: [
     { provide: 'Alert', useClass: Alert },
@@ -155,10 +156,10 @@ const history = global.process && global.process.release && global.process.relea
     {
       provide: 'ContactSources',
       deps: ['AddressBook', 'AccountContacts'],
-      useFactory: ({ addressBook, accountContacts }) => ([
+      useFactory: ({ addressBook, accountContacts }) => [
         addressBook,
         accountContacts,
-      ])
+      ],
     },
     { provide: 'ContactDetails', useClass: ContactDetails },
     { provide: 'ContactMatcher', useClass: ContactMatcher },
@@ -166,14 +167,12 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'RecentCalls', useClass: RecentCalls },
     { provide: 'MeetingProvider', useClass: MeetingProvider },
     { provide: 'Meeting', useClass: Meeting },
-    { provide: 'RCVideo', useClass: RCVideo },
     { provide: 'Webphone', useClass: Webphone },
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
     { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
     { provide: 'ConferenceUI', useClass: ConferenceUI },
-    { provide: 'VideoUI', useClass: VideoUI },
     { provide: 'MeetingUI', useClass: MeetingUI },
     { provide: 'ContactDetailsUI', useClass: ContactDetailsUI },
     { provide: 'ActiveCallsUI', useClass: ActiveCallsUI },
@@ -190,7 +189,7 @@ const history = global.process && global.process.release && global.process.relea
         // StorageProvider: LocalForageStorage, // IndexedDB
         disableAllowInactiveTabsWrite: true,
       },
-      spread: true
+      spread: true,
     },
     {
       provide: 'MessageStoreOptions',
@@ -199,7 +198,7 @@ const history = global.process && global.process.release && global.process.relea
         conversationsLoadLength: 10,
         conversationLoadLength: 15,
       },
-      spread: true
+      spread: true,
     },
     {
       provide: 'ConversationsOptions',
@@ -207,7 +206,7 @@ const history = global.process && global.process.release && global.process.relea
         enableLoadOldMessages: true,
         showMMSAttachment: true,
       },
-      spread: true
+      spread: true,
     },
     { provide: 'ConferenceCall', useClass: ConferenceCall },
     { provide: 'AvailabilityMonitor', useClass: AvailabilityMonitor },
@@ -216,7 +215,7 @@ const history = global.process && global.process.release && global.process.relea
       useValue: {
         enabled: true,
       },
-      spread: true
+      spread: true,
     },
     // {
     //   provide: 'ConferenceCallOptions',
@@ -251,8 +250,8 @@ const history = global.process && global.process.release && global.process.relea
     {
       provide: 'Analytics',
       useClass: Analytics,
-    }
-  ]
+    },
+  ],
 })
 export default class BasePhone extends RcModule {
   constructor(options) {
@@ -298,19 +297,22 @@ export default class BasePhone extends RcModule {
         });
         return result;
       },
-      formatFn: entities => entities,
+      formatFn: (entities) => entities,
       readyCheckFn: () => contacts.ready,
     });
     contactMatcher.addSearchProvider({
       name: 'contacts',
-      searchFn: async ({ queries }) => contacts.matchContacts({ phoneNumbers: queries }),
+      searchFn: async ({ queries }) =>
+        contacts.matchContacts({ phoneNumbers: queries }),
       readyCheckFn: () => contacts.ready,
     });
 
     // Webphone configuration
     webphone.onCallEnd((session, currentSession, ringSession) => {
       const callsOnholdReg = /^\/conferenceCall\/callsOnhold\/(.+)\/(.+)$/;
-      const execCallsOnhold = callsOnholdReg.exec(routerInteraction.currentPath);
+      const execCallsOnhold = callsOnholdReg.exec(
+        routerInteraction.currentPath,
+      );
 
       if (execCallsOnhold) {
         const fromSessionIdOfCallsOnhold = execCallsOnhold[2];
@@ -329,7 +331,7 @@ export default class BasePhone extends RcModule {
         '/conferenceCall/dialer/',
         '/conferenceCall/callsOnhold',
         '/conferenceCall/participants',
-      ].find(path => routerInteraction.currentPath.indexOf(path) === 0);
+      ].find((path) => routerInteraction.currentPath.indexOf(path) === 0);
 
       if (
         withinCallCtrl &&
@@ -418,7 +420,7 @@ export default class BasePhone extends RcModule {
       if (
         session &&
         mergingPair &&
-        (Object.values(mergingPair).indexOf(session.id) !== -1)
+        Object.values(mergingPair).indexOf(session.id) !== -1
       ) {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();
@@ -438,17 +440,15 @@ export default class BasePhone extends RcModule {
       if (
         callingSettings.callingMode !== callingModes.webphone && // not webRTC mode
         routerInteraction.currentPath === '/dialer' &&
-        (
-          // for ringout
-          ringout.ringoutStatus === ringoutStatus.connecting ||
+        // for ringout
+        (ringout.ringoutStatus === ringoutStatus.connecting ||
           // for softphone
-          (
-            this._softphoneConnectTime && call && call.to &&
-            (new Date() - this._softphoneConnectTime) < 1 * 60 * 1000 && // in 1 minute
+          (this._softphoneConnectTime &&
+          call &&
+          call.to &&
+          new Date() - this._softphoneConnectTime < 1 * 60 * 1000 && // in 1 minute
             this._normalizeNumber(call.to.phoneNumber) ===
-            this._normalizeNumber(this._softphoneConnectNumber)
-          )
-        )
+              this._normalizeNumber(this._softphoneConnectNumber)))
       ) {
         routerInteraction.push('/calls');
         this._softphoneConnectTime = null;
@@ -479,10 +479,7 @@ export default class BasePhone extends RcModule {
     const { rolesAndPermissions } = this;
     this.store.subscribe(() => {
       if (this.auth.ready) {
-        if (
-          this.routerInteraction.currentPath !== '/' &&
-          !this.auth.loggedIn
-        ) {
+        if (this.routerInteraction.currentPath !== '/' && !this.auth.loggedIn) {
           this.routerInteraction.push('/');
         } else if (
           this.routerInteraction.currentPath === '/' &&
@@ -491,16 +488,16 @@ export default class BasePhone extends RcModule {
         ) {
           // Determine default tab
           const showDialPad = rolesAndPermissions.callingEnabled;
-          const showCalls = (
+          const showCalls =
             rolesAndPermissions.callingEnabled &&
             this.callingSettings.ready &&
-            this.callingSettings.callWith !== callingOptions.browser
-          );
+            this.callingSettings.callWith !== callingOptions.browser;
           const showHistory = rolesAndPermissions.permissions.ReadCallLog;
           const showContact = rolesAndPermissions.callingEnabled;
           const showComposeText = rolesAndPermissions.hasComposeTextPermission;
           const showMessages = rolesAndPermissions.hasReadMessagesPermission;
-          const showConference = rolesAndPermissions.permissions.OrganizeConference;
+          const showConference =
+            rolesAndPermissions.permissions.OrganizeConference;
           const showMeeting = rolesAndPermissions.permissions.Meetings;
           if (showDialPad) {
             this.routerInteraction.push('/dialer');
@@ -549,19 +546,16 @@ export function createPhone({
     providers: [
       {
         provide: 'Client',
-        useFactory: ({ sdkConfig }) => (
-          new RingCentralClient(clientService || new SDK(sdkConfig))
-        ),
-        deps: [
-          { dep: 'SdkConfig', useParam: true, },
-        ],
+        useFactory: ({ sdkConfig }) =>
+          new RingCentralClient(clientService || new SDK(sdkConfig)),
+        deps: [{ dep: 'SdkConfig', useParam: true }],
       },
       {
         provide: 'ModuleOptions',
         useValue: {
-          prefix
+          prefix,
         },
-        spread: true
+        spread: true,
       },
       {
         provide: 'SdkConfig',
@@ -607,8 +601,8 @@ export function createPhone({
         provide: 'Version',
         useFactory: () => version,
       },
-    ]
+    ],
   })
-  class Phone extends BasePhone { }
+  class Phone extends BasePhone {}
   return Phone.create();
 }

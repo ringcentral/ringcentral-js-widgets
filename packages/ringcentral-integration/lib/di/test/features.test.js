@@ -1,12 +1,7 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
 import RcModule from '../../RcModule';
-import {
-  Injector,
-  Module,
-  Library,
-  ModuleFactory
-} from '../';
+import { Injector, Module, Library, ModuleFactory } from '../';
 
 chai.use(dirtyChai);
 
@@ -22,15 +17,11 @@ describe('Dependency Injection Features', () => {
       deps: [
         'MessageStore',
         'ExistingOptions',
-        { dep: 'RecentMessageOptions', optional: true }
-      ]
+        { dep: 'RecentMessageOptions', optional: true },
+      ],
     })
     class RecentMessage {
-      constructor({
-        enabled = false,
-        existingOptions,
-        recentMessageOptions
-      }) {
+      constructor({ enabled = false, existingOptions, recentMessageOptions }) {
         this.enabled = enabled;
         this.existingOptions = existingOptions;
         this.recentMessageOptions = recentMessageOptions;
@@ -41,9 +32,13 @@ describe('Dependency Injection Features', () => {
       providers: [
         { provide: 'MessageStore', useClass: MessageStore },
         { provide: 'RecentMessage', useClass: RecentMessage },
-        { provide: 'RecentMessageOptions', useValue: { enabled: true }, spread: true },
-        { provide: 'ExistingOptions', useExisting: 'RecentMessageOptions' }
-      ]
+        {
+          provide: 'RecentMessageOptions',
+          useValue: { enabled: true },
+          spread: true,
+        },
+        { provide: 'ExistingOptions', useExisting: 'RecentMessageOptions' },
+      ],
     })
     class Root {
       constructor({ messageStore, recentMessage }) {
@@ -54,13 +49,14 @@ describe('Dependency Injection Features', () => {
     const instance = Injector.bootstrap(Root);
     expect(instance.recentMessage).to.be.an.instanceof(RecentMessage);
     expect(instance.recentMessage.enabled).to.be.true();
-    expect(instance.recentMessage.existingOptions)
-      .to.equal(instance.recentMessage.recentMessageOptions);
+    expect(instance.recentMessage.existingOptions).to.equal(
+      instance.recentMessage.recentMessageOptions,
+    );
   });
 
   it('should support spread flag in FactoryProvider', () => {
     @Module({
-      deps: ['Config']
+      deps: ['Config'],
     })
     class Test {
       constructor({ value, config }) {
@@ -72,20 +68,28 @@ describe('Dependency Injection Features', () => {
     @ModuleFactory({
       providers: [
         { provide: 'BasicConfig', useValue: { value: 'value' }, spread: true },
-        { provide: 'DefaultConfig', useFactory: ({ value }) => ({ value }), deps: ['BasicConfig'] }
-      ]
+        {
+          provide: 'DefaultConfig',
+          useFactory: ({ value }) => ({ value }),
+          deps: ['BasicConfig'],
+        },
+      ],
     })
     class BaseClass {}
 
     @ModuleFactory({
       providers: [
         { provide: 'Test', useClass: Test },
-        { provide: 'Config',
-          useFactory: ({ defaultConfig }) => ({ value: defaultConfig.value, config: 'config' }),
+        {
+          provide: 'Config',
+          useFactory: ({ defaultConfig }) => ({
+            value: defaultConfig.value,
+            config: 'config',
+          }),
           deps: ['DefaultConfig'],
-          spread: true
-        }
-      ]
+          spread: true,
+        },
+      ],
     })
     class ChildClass extends BaseClass {
       constructor({ test }) {
@@ -104,15 +108,15 @@ describe('Dependency Injection Features', () => {
     @Module()
     class MessageStore {}
     @Module({
-      deps: ['MessageStore']
+      deps: ['MessageStore'],
     })
     class RecentMessage {}
 
     @ModuleFactory({
       providers: [
         { provide: 'MessageStore', useClass: MessageStore },
-        { provide: 'RecentMessage', useClass: RecentMessage }
-      ]
+        { provide: 'RecentMessage', useClass: RecentMessage },
+      ],
     })
     class Root extends RcModule {}
     const instance = Injector.bootstrap(Root);
@@ -124,7 +128,7 @@ describe('Dependency Injection Features', () => {
     @Module()
     class MessageStore {}
     @Module({
-      deps: ['MessageStore']
+      deps: ['MessageStore'],
     })
     class RecentMessage {
       constructor({ messageStore }) {
@@ -135,33 +139,35 @@ describe('Dependency Injection Features', () => {
     @ModuleFactory({
       providers: [
         { provide: 'MessageStore', useClass: MessageStore },
-        { provide: 'RecentMessage', useClass: RecentMessage }
-      ]
+        { provide: 'RecentMessage', useClass: RecentMessage },
+      ],
     })
     class Root extends RcModule {}
     const instance = Injector.bootstrap(Root);
-    expect(instance.recentMessage.messageStore).to.be.an.instanceof(MessageStore);
+    expect(instance.recentMessage.messageStore).to.be.an.instanceof(
+      MessageStore,
+    );
   });
 
   it('should support useExisting values', () => {
     @ModuleFactory({
-      providers: [
-        { provide: 'Options', useValue: { value: 'value' } }
-      ]
+      providers: [{ provide: 'Options', useValue: { value: 'value' } }],
     })
     class ParentRootModule {}
 
     @ModuleFactory({
       providers: [
-        { provide: 'Options', useValue: { key: 'key' }, spread: true, merge: true },
-        { provide: 'ExistingOptions', useExisting: 'Options' }
-      ]
+        {
+          provide: 'Options',
+          useValue: { key: 'key' },
+          spread: true,
+          merge: true,
+        },
+        { provide: 'ExistingOptions', useExisting: 'Options' },
+      ],
     })
     class TestRootModule extends ParentRootModule {
-      constructor({
-        options,
-        existingOptions
-      }) {
+      constructor({ options, existingOptions }) {
         super();
         this.options = options;
         this.existingOptions = existingOptions;
@@ -173,7 +179,7 @@ describe('Dependency Injection Features', () => {
 
   it('dependency name should be consistent with provider token', () => {
     @Module({
-      deps: ['Module']
+      deps: ['Module'],
     })
     class A {
       constructor({ module }) {
@@ -187,8 +193,8 @@ describe('Dependency Injection Features', () => {
     @ModuleFactory({
       providers: [
         { provide: 'Module', useClass: B },
-        { provide: 'TestModule', useClass: A }
-      ]
+        { provide: 'TestModule', useClass: A },
+      ],
     })
     class Root {
       constructor({ module, testModule }) {
@@ -206,17 +212,17 @@ describe('Dependency Injection Features', () => {
   it('should handle circular dependency', () => {
     function circular() {
       @Module({
-        deps: ['ModuleC']
+        deps: ['ModuleC'],
       })
       class ModuleA {}
 
       @Module({
-        deps: ['ModuleA']
+        deps: ['ModuleA'],
       })
       class ModuleB {}
 
       @Module({
-        deps: ['ModuleB']
+        deps: ['ModuleB'],
       })
       class ModuleC {}
 
@@ -225,7 +231,7 @@ describe('Dependency Injection Features', () => {
           { provide: 'ModuleA', useClass: ModuleA },
           { provide: 'ModuleB', useClass: ModuleB },
           { provide: 'ModuleC', useClass: ModuleC },
-        ]
+        ],
       })
       class RootModule {}
       Injector.bootstrap(RootModule);
@@ -242,8 +248,8 @@ describe('Dependency Injection Features', () => {
     @ModuleFactory({
       providers: [
         { provide: 'FakeModule1', useClass: FakeModule1 },
-        { provide: 'FakeModule', useClass: FakeModule, private: true }
-      ]
+        { provide: 'FakeModule', useClass: FakeModule, private: true },
+      ],
     })
     class RootModule {
       constructor({ fakeModule, fakeModule1 }) {
@@ -259,7 +265,7 @@ describe('Dependency Injection Features', () => {
 
   it('should also inject injector into module', () => {
     @Module({
-      deps: ['FakeModule']
+      deps: ['FakeModule'],
     })
     class TestModule {
       constructor({ injector }) {
@@ -277,8 +283,8 @@ describe('Dependency Injection Features', () => {
     @ModuleFactory({
       providers: [
         { provide: 'FakeModule', useClass: FakeModule },
-        { provide: 'TestModule', useClass: TestModule }
-      ]
+        { provide: 'TestModule', useClass: TestModule },
+      ],
     })
     class RootModule {
       constructor({ fakeModule, testModule }) {
@@ -300,16 +306,12 @@ describe('Dependency Injection Features', () => {
     class ModuleB {}
 
     @ModuleFactory({
-      providers: [
-        { provide: 'ModuleB', useClass: ModuleB },
-      ]
+      providers: [{ provide: 'ModuleB', useClass: ModuleB }],
     })
     class RootModule extends RcModule {}
 
     @ModuleFactory({
-      providers: [
-        { provide: 'ModuleA', useClass: ModuleA },
-      ]
+      providers: [{ provide: 'ModuleA', useClass: ModuleA }],
     })
     class ChildModule extends RootModule {}
     const childModule = Injector.bootstrap(ChildModule);
@@ -320,36 +322,40 @@ describe('Dependency Injection Features', () => {
   it('should support value inheritance', () => {
     @ModuleFactory({
       providers: [
-        { provide: 'Options', useValue: { appKey: 'appKey', appSecret: 'appSecret' } }
-      ]
+        {
+          provide: 'Options',
+          useValue: { appKey: 'appKey', appSecret: 'appSecret' },
+        },
+      ],
     })
     class RootModule extends RcModule {}
 
     @ModuleFactory({
       providers: [
-        { provide: 'Options', useValue: { appKey: 'newAppKey' }, merge: true }
-      ]
+        { provide: 'Options', useValue: { appKey: 'newAppKey' }, merge: true },
+      ],
     })
     class ChildModule extends RootModule {}
     const childModule = Injector.bootstrap(ChildModule);
     expect(childModule.options).to.deep.equal({
       appKey: 'newAppKey',
-      appSecret: 'appSecret'
+      appSecret: 'appSecret',
     });
   });
 
   it('should support value overwrite', () => {
     @ModuleFactory({
       providers: [
-        { provide: 'Options', useValue: { appKey: 'appKey', appSecret: 'appSecret' } }
-      ]
+        {
+          provide: 'Options',
+          useValue: { appKey: 'appKey', appSecret: 'appSecret' },
+        },
+      ],
     })
     class RootModule {}
 
     @ModuleFactory({
-      providers: [
-        { provide: 'Options', useValue: { appKey: 'newAppKey' } }
-      ]
+      providers: [{ provide: 'Options', useValue: { appKey: 'newAppKey' } }],
     })
     class ChildModule extends RootModule {
       constructor({ options }) {
@@ -369,7 +375,7 @@ describe('Dependency Injection Features', () => {
       class ModuleA {}
 
       @Module({
-        deps: ['ModuleA', 'TestModuleOptions']
+        deps: ['ModuleA', 'TestModuleOptions'],
       })
       class TestModule {}
 
@@ -377,7 +383,7 @@ describe('Dependency Injection Features', () => {
         providers: [
           { provide: 'ModuleA', useClass: ModuleA },
           { provide: 'TestModule', useClass: TestModule },
-        ]
+        ],
       })
       class ChildModule {}
       Injector.bootstrap(ChildModule);
@@ -390,10 +396,7 @@ describe('Dependency Injection Features', () => {
     class ModuleA {}
 
     @Module({
-      deps: [
-        'ModuleA',
-        { dep: 'TestModuleOptions', optional: true }
-      ]
+      deps: ['ModuleA', { dep: 'TestModuleOptions', optional: true }],
     })
     class TestModule {}
 
@@ -401,7 +404,7 @@ describe('Dependency Injection Features', () => {
       providers: [
         { provide: 'ModuleA', useClass: ModuleA },
         { provide: 'TestModule', useClass: TestModule },
-      ]
+      ],
     })
     class ChildModule {
       constructor({ testModule }) {
@@ -413,17 +416,12 @@ describe('Dependency Injection Features', () => {
 
   it('should inheritant deps correctly', () => {
     @Module({
-      deps: [
-        { dep: 'ModuleOptions', optional: true }
-      ]
+      deps: [{ dep: 'ModuleOptions', optional: true }],
     })
     class ModuleA {}
 
     @Module({
-      deps: [
-        'ModuleA',
-        { dep: 'TestModuleOptions', optional: true }
-      ]
+      deps: ['ModuleA', { dep: 'TestModuleOptions', optional: true }],
     })
     class TestModule extends ModuleA {
       constructor({ testModuleOptions }) {
@@ -437,7 +435,7 @@ describe('Dependency Injection Features', () => {
         { provide: 'TestModuleOptions', useValue: { key: 'key' } },
         { provide: 'ModuleA', useClass: ModuleA },
         { provide: 'TestModule', useClass: TestModule },
-      ]
+      ],
     })
     class ChildModule {
       constructor({ testModule }) {
@@ -447,7 +445,7 @@ describe('Dependency Injection Features', () => {
     const testModule = Injector.bootstrap(ChildModule).testModule;
     expect(testModule).to.be.an.instanceof(TestModule);
     expect(testModule.testModuleOptions).to.deep.equal({
-      key: 'key'
+      key: 'key',
     });
   });
 
@@ -456,10 +454,7 @@ describe('Dependency Injection Features', () => {
     class ModuleA {}
 
     @Module({
-      deps: [
-        'ModuleA',
-        { dep: 'TestModuleOptions', optional: true }
-      ]
+      deps: ['ModuleA', { dep: 'TestModuleOptions', optional: true }],
     })
     class TestModule {
       constructor({ testModuleOptions }) {
@@ -472,13 +467,13 @@ describe('Dependency Injection Features', () => {
         { provide: 'TestModuleOptions', useValue: { key: 'key' } },
         { provide: 'ModuleA', useClass: ModuleA },
         { provide: 'TestModule', useClass: TestModule },
-      ]
+      ],
     })
     class ChildModule {
       constructor({ testModule }) {
         expect(testModule).to.be.an.instanceof(TestModule);
         expect(testModule.testModuleOptions).to.deep.equal({
-          key: 'key'
+          key: 'key',
         });
       }
     }
@@ -489,7 +484,7 @@ describe('Dependency Injection Features', () => {
     const testConfig = { test: 'test' };
 
     @Library({
-      deps: [{ dep: 'Config', optional: true }]
+      deps: [{ dep: 'Config', optional: true }],
     })
     class TestLibrary {
       constructor({ config }) {
@@ -503,11 +498,13 @@ describe('Dependency Injection Features', () => {
     @ModuleFactory({
       providers: [
         { provide: 'TestModule', useClass: TestModule },
-        { provide: 'Config', useValue: testConfig, private: true }
-      ]
+        { provide: 'Config', useValue: testConfig, private: true },
+      ],
     })
     class TestModuleFactory {
-      constructor({ testModule }) { this.testModule = testModule; }
+      constructor({ testModule }) {
+        this.testModule = testModule;
+      }
     }
     const testFactory = Injector.bootstrap(TestModuleFactory);
     expect(testFactory.testModule.config).to.equal(testConfig);
@@ -515,12 +512,10 @@ describe('Dependency Injection Features', () => {
 
   it('should support hierarchical injector and reverse resolve', () => {
     @Module({
-      deps: ['Utils']
+      deps: ['Utils'],
     })
     class TestModule {
-      constructor({
-        utils
-      }) {
+      constructor({ utils }) {
         this.utils = utils;
       }
     }
@@ -533,14 +528,15 @@ describe('Dependency Injection Features', () => {
     }
 
     @ModuleFactory({
-      providers: [{
-        provide: 'Strings', useClass: Strings
-      }]
+      providers: [
+        {
+          provide: 'Strings',
+          useClass: Strings,
+        },
+      ],
     })
     class Util {
-      constructor({
-        strings
-      }) {
+      constructor({ strings }) {
         this.strings = strings;
       }
     }
@@ -549,13 +545,11 @@ describe('Dependency Injection Features', () => {
       providers: [
         // Utils should be reverse resolved by modules
         { provide: 'TestModule', useClass: TestModule },
-        { provide: 'Utils', useClass: Util, private: true }
-      ]
+        { provide: 'Utils', useClass: Util, private: true },
+      ],
     })
     class Root {
-      constructor({
-        testModule
-      }) {
+      constructor({ testModule }) {
         this.testModule = testModule;
       }
     }
@@ -567,17 +561,23 @@ describe('Dependency Injection Features', () => {
   it('should make sure module will not be affected by decorator', () => {
     @Module()
     class TestModule {
-      test() { return true; }
+      test() {
+        return true;
+      }
     }
 
     @Library()
     class TestLibrary {
-      test() { return true; }
+      test() {
+        return true;
+      }
     }
 
     @ModuleFactory()
     class TestModuleFactory {
-      test() { return true; }
+      test() {
+        return true;
+      }
     }
 
     const tm = new TestModule();

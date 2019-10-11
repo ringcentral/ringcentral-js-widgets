@@ -2,9 +2,7 @@ import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import dirtyChai from 'dirty-chai';
 import sinon from 'sinon';
-import CallLogger, {
-  callIdentityFunction,
-} from './index';
+import CallLogger, { callIdentityFunction } from './index';
 import LoggerBase from '../../lib/LoggerBase';
 import telephonyStatuses from '../../enums/telephonyStatus';
 import { isRinging } from '../../lib/callLogHelpers';

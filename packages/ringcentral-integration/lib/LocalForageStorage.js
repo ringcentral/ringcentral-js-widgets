@@ -5,9 +5,7 @@ import localforage from 'localforage';
 import MemoryStorage from './MemoryStorage';
 
 export default class LocalforageStorage extends EventEmitter {
-  constructor({
-    storageKey,
-  }) {
+  constructor({ storageKey }) {
     super();
     if (!storageKey) {
       throw Error('SynchronizedStorage must be created with a storage key');
@@ -25,7 +23,8 @@ export default class LocalforageStorage extends EventEmitter {
         if (
           event.key !== null &&
           typeof event.key !== 'undefined' &&
-          event.key.substring(0, this._storageSyncKey.length) === this._storageSyncKey
+          event.key.substring(0, this._storageSyncKey.length) ===
+            this._storageSyncKey
         ) {
           try {
             const { setter } = JSON.parse(event.newValue);
@@ -57,7 +56,7 @@ export default class LocalforageStorage extends EventEmitter {
         JSON.stringify({
           timestamp: Date.now(),
           setter: this.id,
-        })
+        }),
       );
     }
   }
@@ -71,8 +70,10 @@ export default class LocalforageStorage extends EventEmitter {
     await this.ready();
     const output = {};
     const keys = await this.getLocalStorageKeys();
-    const promises = keys.map(key =>
-      this.getItem(key).then((data) => { output[key] = data; })
+    const promises = keys.map((key) =>
+      this.getItem(key).then((data) => {
+        output[key] = data;
+      }),
     );
     await Promise.all(promises);
     return output;
@@ -89,10 +90,7 @@ export default class LocalforageStorage extends EventEmitter {
   }
 
   async setItem(key, value) {
-    await this._localforage.setItem(
-      key,
-      { value, setter: this.id },
-    );
+    await this._localforage.setItem(key, { value, setter: this.id });
     try {
       this._updateStorageSyncData(key);
     } catch (error) {

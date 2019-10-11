@@ -11,9 +11,7 @@ import getTabManagerReducer from './getTabManagerReducer';
  */
 @Module()
 export default class TabManager extends RcModule {
-  constructor({
-    ...options
-  }) {
+  constructor({ ...options }) {
     super({
       ...options,
       actionTypes,

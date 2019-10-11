@@ -16,12 +16,7 @@ import { actionTypeGenerator } from '../actionTypeGenerator';
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
 
-const RETRY_INTERVALS = [
-  2 * 1000,
-  5 * 1000,
-  10 * 1000,
-  30 * 1000,
-];
+const RETRY_INTERVALS = [2 * 1000, 5 * 1000, 10 * 1000, 30 * 1000];
 
 @Library({
   deps: [
@@ -64,8 +59,8 @@ export default class DataFetcher extends Pollable {
     super({
       ...options,
     });
-    this._auth = this:: ensureExist(auth, 'auth');
-    this._client = this:: ensureExist(client, 'client');
+    this._auth = this::ensureExist(auth, 'auth');
+    this._client = this::ensureExist(client, 'client');
     this._sleepDetector = sleepDetector;
     this._disableCache = disableCache;
     this._storage = storage;
@@ -108,17 +103,23 @@ export default class DataFetcher extends Pollable {
   }
 
   get _actionTypes() {
-    return new Enum([
-      ...Object.keys(moduleActionTypes),
-      ...actionTypeGenerator('fetch'),
-      'retry',
-    ], this._name);
+    return new Enum(
+      [
+        ...Object.keys(moduleActionTypes),
+        ...actionTypeGenerator('fetch'),
+        'retry',
+      ],
+      this._name,
+    );
   }
 
   initialize() {
     this.store.subscribe(() => this._onStateChange());
     if (this._sleepDetector) {
-      this._sleepDetector.on(this._sleepDetector.events.detected, () => this._handleSleepDetected);
+      this._sleepDetector.on(
+        this._sleepDetector.events.detected,
+        () => this._handleSleepDetected,
+      );
     }
   }
 
@@ -202,9 +203,11 @@ export default class DataFetcher extends Pollable {
   _isDataReady() {
     // only turns ready when data has been fetched
     // (could be from other tabs)
-    return this.status === moduleStatuses.initializing &&
+    return (
+      this.status === moduleStatuses.initializing &&
       this.data !== null &&
-      this.timestamp !== null;
+      this.timestamp !== null
+    );
   }
 
   async _init() {

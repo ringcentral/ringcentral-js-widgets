@@ -21,6 +21,6 @@ export function getRingoutStatusReducer(types) {
 export default function getRingoutReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
-    ringoutStatus: getRingoutStatusReducer(types)
+    ringoutStatus: getRingoutStatusReducer(types),
   });
 }

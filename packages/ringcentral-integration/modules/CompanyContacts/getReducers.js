@@ -1,6 +1,4 @@
-import {
-  reject,
-} from 'ramda';
+import { reject } from 'ramda';
 
 export function getDataReducer(types) {
   return (state = [], { type, data, contact }) => {
@@ -8,15 +6,9 @@ export function getDataReducer(types) {
       case types.fetchSuccess:
         return data;
       case types.upsert:
-        return [
-          ...reject(
-            item => (item.id === contact.id),
-            state,
-          ),
-          contact,
-        ];
+        return [...reject((item) => item.id === contact.id, state), contact];
       case types.delete:
-        return reject(item => (item.id === contact.id), state);
+        return reject((item) => item.id === contact.id, state);
       case types.resetSuccess:
         return [];
       default:
@@ -57,7 +49,6 @@ export function getExtensionTypeFiltersReducer(types, defaultValue = []) {
     }
   };
 }
-
 
 export function getTimestampReducer(types) {
   return (state = null, { type, timestamp }) => {

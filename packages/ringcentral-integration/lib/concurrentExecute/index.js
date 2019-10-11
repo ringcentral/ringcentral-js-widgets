@@ -12,7 +12,7 @@ export default async function concurrentExecute(
   promiseThunks,
   concurrency,
   delay,
-  options = {}
+  options = {},
 ) {
   const { promise = Promise, delayFn = sleep } = options;
   if (!Array.isArray(promiseThunks) || promiseThunks.length <= 0) {
@@ -22,13 +22,13 @@ export default async function concurrentExecute(
     throw new Error('concurrentExecute needs promise thunk');
   }
   if (promiseThunks.length <= concurrency) {
-    return promise.all(promiseThunks.map(_promise => _promise.apply(this)));
+    return promise.all(promiseThunks.map((_promise) => _promise.apply(this)));
   }
   const current = await concurrentExecute(
     promiseThunks.slice(0, concurrency),
     concurrency,
     delay,
-    options
+    options,
   );
   if (delay) {
     await delayFn(delay);
@@ -37,7 +37,7 @@ export default async function concurrentExecute(
     promiseThunks.slice(concurrency),
     concurrency,
     delay,
-    options
+    options,
   );
   return [...current, ...rest];
 }

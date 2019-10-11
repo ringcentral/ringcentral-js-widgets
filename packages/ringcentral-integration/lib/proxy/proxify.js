@@ -1,9 +1,5 @@
 export default function proxify(prototype, property, descriptor) {
-  const {
-    configurable,
-    enumerable,
-    value,
-  } = descriptor;
+  const { configurable, enumerable, value } = descriptor;
 
   function proxyFn(...args) {
     if (!this._transport) {

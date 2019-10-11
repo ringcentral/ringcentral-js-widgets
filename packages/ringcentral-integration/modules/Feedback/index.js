@@ -11,12 +11,8 @@ import proxify from '../../lib/proxy/proxify';
  * @description user feedback module
  */
 @Module({
-  deps: [
-    'Auth',
-    'Storage',
-  ]
+  deps: ['Auth', 'Storage'],
 })
-
 export default class Feedback extends RcModule {
   /**
    * @constructor
@@ -24,21 +20,20 @@ export default class Feedback extends RcModule {
    * @param {Auth} params.auth - auth module instance
    * @param {Storage} params.storage - storage module instance
    */
-  constructor({
-    auth,
-    storage,
-    ...options
-  }) {
+  constructor({ auth, storage, ...options }) {
     super({
       ...options,
-      actionTypes
+      actionTypes,
     });
     this._auth = auth;
     this._storageKey = 'feedback';
     this._storage = storage;
     this._reducer = getFeedbackReducer(this.actionTypes);
     this._cacheReducer = getCacheReducer(this.actionTypes);
-    this._storage.registerReducer({ key: this._storageKey, reducer: this._cacheReducer });
+    this._storage.registerReducer({
+      key: this._storageKey,
+      reducer: this._cacheReducer,
+    });
   }
   initialize() {
     this.store.subscribe(() => this._onStateChange());
@@ -46,11 +41,11 @@ export default class Feedback extends RcModule {
   _onStateChange() {
     if (this._auth.ready && this._storage.ready && !this.ready) {
       this.store.dispatch({
-        type: this.actionTypes.initSuccess
+        type: this.actionTypes.initSuccess,
       });
     } else if ((!this._auth.ready || !this._storage.ready) && this.ready) {
       this.store.dispatch({
-        type: this.actionTypes.resetSuccess
+        type: this.actionTypes.resetSuccess,
       });
     }
   }
@@ -90,7 +85,7 @@ export default class Feedback extends RcModule {
   @proxify
   clean() {
     this.store.dispatch({
-      type: this.actionTypes.clean
+      type: this.actionTypes.clean,
     });
   }
 

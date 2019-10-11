@@ -37,7 +37,9 @@ describe('DataFetcher Unit Test', () => {
     it('_init should be called once when _shouldInit is true', () => {
       sinon.stub(dataFetcher, '_shouldInit').callsFake(() => true);
       sinon.stub(dataFetcher, '_shouldReset').callsFake(() => false);
-      sinon.stub(dataFetcher, '_shouldHandleSubscriptionMessage').callsFake(() => false);
+      sinon
+        .stub(dataFetcher, '_shouldHandleSubscriptionMessage')
+        .callsFake(() => false);
       sinon.stub(dataFetcher, '_init');
       sinon.stub(dataFetcher, '_clearTimeout');
       sinon.stub(dataFetcher, '_processSubscription');
@@ -49,7 +51,9 @@ describe('DataFetcher Unit Test', () => {
     it('_clearTimeout should be called once when _shouldReset is true', () => {
       sinon.stub(dataFetcher, '_shouldInit').callsFake(() => false);
       sinon.stub(dataFetcher, '_shouldReset').callsFake(() => true);
-      sinon.stub(dataFetcher, '_shouldHandleSubscriptionMessage').callsFake(() => false);
+      sinon
+        .stub(dataFetcher, '_shouldHandleSubscriptionMessage')
+        .callsFake(() => false);
       sinon.stub(dataFetcher, '_isDataReady').callsFake(() => false);
       sinon.stub(dataFetcher, '_init');
       sinon.stub(dataFetcher, '_clearTimeout');
@@ -62,7 +66,9 @@ describe('DataFetcher Unit Test', () => {
     it('_processSubscription should be called once when _shouldHandleSubscriptionMessage is true', () => {
       sinon.stub(dataFetcher, '_shouldInit').callsFake(() => false);
       sinon.stub(dataFetcher, '_shouldReset').callsFake(() => false);
-      sinon.stub(dataFetcher, '_shouldHandleSubscriptionMessage').callsFake(() => true);
+      sinon
+        .stub(dataFetcher, '_shouldHandleSubscriptionMessage')
+        .callsFake(() => true);
       sinon.stub(dataFetcher, '_isDataReady').callsFake(() => false);
       sinon.stub(dataFetcher, '_init');
       sinon.stub(dataFetcher, '_clearTimeout');
@@ -75,7 +81,9 @@ describe('DataFetcher Unit Test', () => {
     it('_init and _clearTimeout and _processSubscription should not be called', () => {
       sinon.stub(dataFetcher, '_shouldInit').callsFake(() => false);
       sinon.stub(dataFetcher, '_shouldReset').callsFake(() => false);
-      sinon.stub(dataFetcher, '_shouldHandleSubscriptionMessage').callsFake(() => false);
+      sinon
+        .stub(dataFetcher, '_shouldHandleSubscriptionMessage')
+        .callsFake(() => false);
       sinon.stub(dataFetcher, '_init');
       sinon.stub(dataFetcher, '_clearTimeout');
       sinon.stub(dataFetcher, '_processSubscription');
@@ -95,7 +103,7 @@ describe('DataFetcher Unit Test', () => {
       sinon.stub(dataFetcher, '_retry');
       dataFetcher._subscriptionFilters = false;
       dataFetcher._subscription = {
-        subscribe: sinon.stub().callsFake(() => {})
+        subscribe: sinon.stub().callsFake(() => {}),
       };
       sinon.stub(dataFetcher, '_subscription');
       await dataFetcher._init();
@@ -111,7 +119,7 @@ describe('DataFetcher Unit Test', () => {
       sinon.stub(dataFetcher, '_startPolling');
       sinon.stub(dataFetcher, '_retry');
       dataFetcher._subscription = {
-        subscribe: sinon.stub().callsFake(() => {})
+        subscribe: sinon.stub().callsFake(() => {}),
       };
       dataFetcher._subscriptionFilters = true;
       sinon.stub(dataFetcher, '_subscription');
@@ -128,7 +136,7 @@ describe('DataFetcher Unit Test', () => {
       sinon.stub(dataFetcher, '_startPolling');
       sinon.stub(dataFetcher, '_retry');
       dataFetcher._subscription = {
-        subscribe: sinon.stub().callsFake(() => {})
+        subscribe: sinon.stub().callsFake(() => {}),
       };
       dataFetcher._subscriptionFilters = false;
       sinon.stub(dataFetcher, '_subscription');
@@ -145,7 +153,7 @@ describe('DataFetcher Unit Test', () => {
       sinon.stub(dataFetcher, '_startPolling');
       sinon.stub(dataFetcher, '_retry');
       dataFetcher._subscription = {
-        subscribe: sinon.stub().callsFake(() => {})
+        subscribe: sinon.stub().callsFake(() => {}),
       };
       dataFetcher._subscriptionFilters = true;
       sinon.stub(dataFetcher, '_subscription');
@@ -162,7 +170,7 @@ describe('DataFetcher Unit Test', () => {
       sinon.stub(dataFetcher, '_startPolling');
       sinon.stub(dataFetcher, '_retry');
       dataFetcher._subscription = {
-        subscribe: sinon.stub().callsFake(() => {})
+        subscribe: sinon.stub().callsFake(() => {}),
       };
       dataFetcher._subscriptionFilters = false;
       sinon.stub(dataFetcher, '_subscription');
@@ -179,7 +187,7 @@ describe('DataFetcher Unit Test', () => {
       sinon.stub(dataFetcher, '_startPolling');
       sinon.stub(dataFetcher, '_retry');
       dataFetcher._subscription = {
-        subscribe: sinon.stub().callsFake(() => {})
+        subscribe: sinon.stub().callsFake(() => {}),
       };
       dataFetcher._subscriptionFilters = true;
       sinon.stub(dataFetcher, '_subscription');
@@ -195,7 +203,7 @@ describe('DataFetcher Unit Test', () => {
     _auth.ownerId is equal to ownerId and
     _polling is true`, async () => {
       dataFetcher._auth = {
-        ownerId: '123'
+        ownerId: '123',
       };
       dataFetcher._polling = true;
       dataFetcher._fetchFunction = async () => {};
@@ -210,7 +218,7 @@ describe('DataFetcher Unit Test', () => {
     _auth.ownerId is equal to ownerId and
     _polling is false`, async () => {
       dataFetcher._auth = {
-        ownerId: '123'
+        ownerId: '123',
       };
       dataFetcher._polling = false;
       dataFetcher._fetchFunction = async () => {};
@@ -226,7 +234,7 @@ describe('DataFetcher Unit Test', () => {
     _auth.ownerId is equal to ownerId and
     _polling is false`, async () => {
       dataFetcher._auth = {
-        ownerId: '123'
+        ownerId: '123',
       };
       sinon.stub(dataFetcher, '_fetchFunction').throws(new Error('error'));
       dataFetcher._polling = true;
@@ -244,7 +252,7 @@ describe('DataFetcher Unit Test', () => {
     _auth.ownerId is equal to ownerId and
     _polling is false`, async () => {
       dataFetcher._auth = {
-        ownerId: '123'
+        ownerId: '123',
       };
       sinon.stub(dataFetcher, '_fetchFunction').throws(new Error('error'));
       dataFetcher._polling = false;

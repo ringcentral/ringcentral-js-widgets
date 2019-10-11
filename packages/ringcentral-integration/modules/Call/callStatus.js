@@ -1,6 +1,3 @@
 import Enum from '../../lib/Enum';
 
-export default new Enum([
-  'idle',
-  'connecting',
-], 'callStatus');
+export default new Enum(['idle', 'connecting'], 'callStatus');

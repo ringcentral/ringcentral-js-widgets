@@ -4,7 +4,8 @@ import isNoAreaCode from './isNoAreaCode';
 
 function numberParser(phoneNumbers, regionSettings) {
   const { countryCode, areaCode } = regionSettings;
-  const normalizedNumbers = phoneNumbers.map(phoneNumber => normalizeNumber({ phoneNumber, countryCode, areaCode }),
+  const normalizedNumbers = phoneNumbers.map((phoneNumber) =>
+    normalizeNumber({ phoneNumber, countryCode, areaCode }),
   );
   return normalizedNumbers;
 }

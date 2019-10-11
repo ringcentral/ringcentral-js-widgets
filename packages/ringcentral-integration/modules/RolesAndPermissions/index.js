@@ -1,4 +1,5 @@
 import { Module } from '../../lib/di';
+import { selector } from '../../lib/selector';
 import DataFetcher from '../../lib/DataFetcher';
 import permissionsMessages from './permissionsMessages';
 import loginStatus from '../Auth/loginStatus';
@@ -20,9 +21,11 @@ function extractData(permissions) {
  */
 @Module({
   deps: [
-    'Client', 'Alert', 'ExtensionInfo',
-    { dep: 'RolesAndPermissionsOptions', optional: true }
-  ]
+    'Client',
+    'Alert',
+    'ExtensionInfo',
+    { dep: 'RolesAndPermissionsOptions', optional: true },
+  ],
 })
 export default class RolesAndPermissions extends DataFetcher {
   /**
@@ -48,9 +51,14 @@ export default class RolesAndPermissions extends DataFetcher {
       ...options,
       client,
       ttl,
-      fetchFunction: async () => extractData(
-        await this._client.account().extension().authzProfile().get()
-      ),
+      fetchFunction: async () =>
+        extractData(
+          await this._client
+            .account()
+            .extension()
+            .authzProfile()
+            .get(),
+        ),
       readyCheckFn: () => this._extensionInfo.ready,
       forbiddenHandler: async () => {
         await this._auth.logout();
@@ -67,11 +75,6 @@ export default class RolesAndPermissions extends DataFetcher {
     this._alert = ensureExist(alert, 'alert');
     this._extensionInfo = ensureExist(extensionInfo, 'extensionInfo');
     this._onDataReadyHandler = [];
-    this.addSelector(
-      'permissions',
-      () => this.data,
-      data => data || {},
-    );
   }
 
   get _name() {
@@ -86,7 +89,8 @@ export default class RolesAndPermissions extends DataFetcher {
       }
     }
     await super._onStateChange();
-    if (this.ready &&
+    if (
+      this.ready &&
       this._auth.loginStatus === loginStatus.loggedIn &&
       this._isCRM &&
       this.tierEnabled !== null &&
@@ -103,7 +107,7 @@ export default class RolesAndPermissions extends DataFetcher {
       this._auth.loginStatus === loginStatus.loggedIn &&
       !this.permissions.ReadUserInfo
     ) {
-      const hasPermissions = !!(this.data);
+      const hasPermissions = !!this.data;
       await this._auth.logout();
       if (hasPermissions) {
         this._alert.danger({
@@ -128,9 +132,8 @@ export default class RolesAndPermissions extends DataFetcher {
     return this._extensionInfo.serviceFeatures;
   }
 
-  get permissions() {
-    return this._selectors.permissions();
-  }
+  @selector
+  permissions = [() => this.data, (data) => data || {}];
 
   get ringoutEnabled() {
     return !!(
@@ -163,18 +166,15 @@ export default class RolesAndPermissions extends DataFetcher {
   }
 
   get hasReadCallLogPermission() {
-    return !!(
-      this.ready &&
-      this.permissions &&
-      this.permissions.ReadCallLog
-    );
+    return !!(this.ready && this.permissions && this.permissions.ReadCallLog);
   }
 
   get hasPresencePermission() {
     return !!(
       this.ready &&
       this.callingEnabled &&
-      this.permissions && this.permissions.ReadPresenceStatus
+      this.permissions &&
+      this.permissions.ReadPresenceStatus
     );
   }
 
@@ -189,42 +189,37 @@ export default class RolesAndPermissions extends DataFetcher {
 
   get hasComposeTextPermission() {
     return !!(
-      this.serviceFeatures && (
-        (this.serviceFeatures.Pager && this.serviceFeatures.Pager.enabled) ||
-        (this.serviceFeatures.SMS && this.serviceFeatures.SMS.enabled)
-      )
+      this.serviceFeatures &&
+      ((this.serviceFeatures.Pager && this.serviceFeatures.Pager.enabled) ||
+        (this.serviceFeatures.SMS && this.serviceFeatures.SMS.enabled))
     );
   }
 
   get onlyPagerPermission() {
     return !!(
-      this.serviceFeatures && (
-        (this.serviceFeatures.Pager && this.serviceFeatures.Pager.enabled) &&
-        (this.serviceFeatures.SMS && !this.serviceFeatures.SMS.enabled)
-      )
+      this.serviceFeatures &&
+      (this.serviceFeatures.Pager &&
+        this.serviceFeatures.Pager.enabled &&
+        (this.serviceFeatures.SMS && !this.serviceFeatures.SMS.enabled))
     );
   }
 
   get hasReadMessagesPermission() {
-    return this.ready && (
-      this.readTextPermissions ||
-      this.voicemailPermissions ||
-      this.readFaxPermissions
+    return (
+      this.ready &&
+      (this.readTextPermissions ||
+        this.voicemailPermissions ||
+        this.readFaxPermissions)
     );
   }
 
   get readTextPermissions() {
     return !!(
-      this.serviceFeatures && (
-        (
-          this.serviceFeatures.PagerReceiving &&
-          this.serviceFeatures.PagerReceiving.enabled
-        ) ||
-        (
-          this.serviceFeatures.SMSReceiving &&
-          this.serviceFeatures.SMSReceiving.enabled
-        )
-      )
+      this.serviceFeatures &&
+      ((this.serviceFeatures.PagerReceiving &&
+        this.serviceFeatures.PagerReceiving.enabled) ||
+        (this.serviceFeatures.SMSReceiving &&
+          this.serviceFeatures.SMSReceiving.enabled))
     );
   }
 
@@ -232,19 +227,16 @@ export default class RolesAndPermissions extends DataFetcher {
     return !!(
       this.permissions &&
       this.permissions.Voicemail &&
-      this.serviceFeatures && (
-        this.serviceFeatures.Voicemail &&
-        this.serviceFeatures.Voicemail.enabled
-      )
+      this.serviceFeatures &&
+      (this.serviceFeatures.Voicemail && this.serviceFeatures.Voicemail.enabled)
     );
   }
 
   get readFaxPermissions() {
     return !!(
-      this.serviceFeatures && (
-        this.serviceFeatures.FaxReceiving &&
-        this.serviceFeatures.FaxReceiving.enabled
-      )
+      this.serviceFeatures &&
+      (this.serviceFeatures.FaxReceiving &&
+        this.serviceFeatures.FaxReceiving.enabled)
     );
   }
 
@@ -254,18 +246,14 @@ export default class RolesAndPermissions extends DataFetcher {
 
   get hasConferencingPermission() {
     return !!(
-      this.serviceFeatures && (
-        this.serviceFeatures.Conferencing &&
-        this.serviceFeatures.Conferencing.enabled
-      )
+      this.serviceFeatures &&
+      (this.serviceFeatures.Conferencing &&
+        this.serviceFeatures.Conferencing.enabled)
     );
   }
 
   get hasGlipPermission() {
-    return !!(
-      this.permissions &&
-      this.permissions.Glip
-    );
+    return !!(this.permissions && this.permissions.Glip);
   }
 
   get hasConferenceCallPermission() {

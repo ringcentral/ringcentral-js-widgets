@@ -3,18 +3,17 @@ import callResults from '../../enums/callResults';
 import callDirections from '../../enums/callDirections';
 import activeCallControlStatus from '../../enums/activeCallControlStatus';
 
-
 export function isHangUp(code) {
-  return (code === callResults.disconnected);
+  return code === callResults.disconnected;
 }
 export function isReject({ direction, code }) {
-  return (direction === callDirections.inbound) &&
-    (code === activeCallControlStatus.setUp || code === activeCallControlStatus.proceeding);
+  return (
+    direction === callDirections.inbound &&
+    (code === activeCallControlStatus.setUp ||
+      code === activeCallControlStatus.proceeding)
+  );
 }
-export function normalizeSession({
-  call,
-  activeSessionStatus = {}
-}) {
+export function normalizeSession({ call, activeSessionStatus = {} }) {
   const {
     telephonySessionId,
     partyId,
@@ -26,12 +25,7 @@ export function normalizeSession({
     startTime,
     sessionId,
   } = call;
-  const {
-    isOnMute,
-    isOnHold,
-    isReject,
-    isOnRecording,
-  } = activeSessionStatus;
+  const { isOnMute, isOnHold, isReject, isOnRecording } = activeSessionStatus;
   const formatValue = {
     telephonySessionId,
     partyId,
@@ -65,11 +59,7 @@ export function normalizeSession({
   };
 }
 export function requestURI(activeSession) {
-  const {
-    telephonySessionId,
-    partyId,
-    recordingId
-  } = activeSession;
+  const { telephonySessionId, partyId, recordingId } = activeSession;
   const prefix = `/account/~/telephony/sessions/${telephonySessionId}`;
   return {
     hangUp: `${prefix}`,
@@ -81,12 +71,14 @@ export function requestURI(activeSession) {
     getPartyData: `${prefix}/parties/${partyId}`,
     mute: `${prefix}/parties/${partyId}`,
     record: `${prefix}/parties/${partyId}/recordings`,
-    stopRecord: `${prefix}/parties/${partyId}/recordings/${recordingId}`
+    stopRecord: `${prefix}/parties/${partyId}/recordings/${recordingId}`,
   };
 }
 export function confictError(error) {
   const conflictErrRgx = /409/g;
   const conflictMsgRgx = /Incorrect State/g;
-  return conflictErrRgx.test(error.message) &&
-    conflictMsgRgx.test(error.apiResponse._text);
+  return (
+    conflictErrRgx.test(error.message) &&
+    conflictMsgRgx.test(error.apiResponse._text)
+  );
 }
