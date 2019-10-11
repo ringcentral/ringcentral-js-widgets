@@ -1,4 +1,3 @@
-
 /**
  * @function
  * @description helper function to wrap property descriptors with fn

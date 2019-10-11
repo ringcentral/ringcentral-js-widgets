@@ -8,7 +8,7 @@ import wrapDescriptor from './wrapDescriptor';
 export default function required(prototype, property, descriptor) {
   function throwError() {
     throw new Error(
-      `${prototype.constructor.name} requires ${this.constructor.name}.${property} to be implemented.`
+      `${prototype.constructor.name} requires ${this.constructor.name}.${property} to be implemented.`,
     );
   }
   return wrapDescriptor(descriptor, throwError);
@@ -22,7 +22,7 @@ export default function required(prototype, property, descriptor) {
 required.warn = function warn(prototype, property, descriptor) {
   function warning() {
     console.warn(
-      `${prototype.constructor.name} requires ${this.constructor.name}.${property} to be implemented.`
+      `${prototype.constructor.name} requires ${this.constructor.name}.${property} to be implemented.`,
     );
   }
   return wrapDescriptor(descriptor, warning);

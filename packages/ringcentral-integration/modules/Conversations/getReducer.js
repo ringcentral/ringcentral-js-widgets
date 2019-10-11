@@ -37,7 +37,7 @@ export function getOldConversationsReducer(types) {
       case types.fetchOldConverstaionsSuccess:
         return [].concat(state).concat(records.map(normalizeRecord));
       case types.deleteConversation:
-        return state.filter(c => c.conversationId !== conversationId);
+        return state.filter((c) => c.conversationId !== conversationId);
       case types.cleanOldConversatioans:
       case types.resetSuccess:
       case types.updateTypeFilter:
@@ -135,10 +135,16 @@ export function getMessageTextsReducer(types) {
     switch (type) {
       case types.updateMessageText:
         return [{ conversationId, text }].concat(
-          state.filter(msg => typeof msg === 'object' && msg.conversationId !== conversationId),
+          state.filter(
+            (msg) =>
+              typeof msg === 'object' && msg.conversationId !== conversationId,
+          ),
         );
       case types.removeMessageText:
-        return state.filter(msg => typeof msg === 'object' && msg.conversationId !== conversationId);
+        return state.filter(
+          (msg) =>
+            typeof msg === 'object' && msg.conversationId !== conversationId,
+        );
       case types.resetSuccess:
         return [];
       default:
@@ -161,11 +167,7 @@ export function getConversationStatusReducer(types) {
   };
 }
 export function getCorrespondentMatch(types) {
-  return (state = [], {
-    type,
-    entities = [],
-    entity = {}
-  }) => {
+  return (state = [], { type, entities = [], entity = {} }) => {
     switch (type) {
       case types.addEntities: {
         const newState = [...entities];
@@ -173,8 +175,9 @@ export function getCorrespondentMatch(types) {
       }
       case types.removeEntity: {
         const newState = [...state];
-        const filteredState = newState.filter(item =>
-          (item.rawId !== entity.id && item.id !== entity.id));
+        const filteredState = newState.filter(
+          (item) => item.rawId !== entity.id && item.id !== entity.id,
+        );
         return filteredState;
       }
       default:
@@ -183,11 +186,7 @@ export function getCorrespondentMatch(types) {
   };
 }
 export function getCorrespondentResponse(types) {
-  return (state = {}, {
-    type,
-    responses = [],
-    phoneNumber = ''
-  }) => {
+  return (state = {}, { type, responses = [], phoneNumber = '' }) => {
     switch (type) {
       case types.addResponses: {
         const formatResponses = responses.reduce((accumulator, response) => {
@@ -195,15 +194,13 @@ export function getCorrespondentResponse(types) {
             to,
             from,
             direction,
-            conversation: {
-              id
-            }
+            conversation: { id },
           } = response;
           const number = direction === 'Inbound' ? from : to[0];
           phoneNumber = number.phoneNumber || number.extensionNumber;
           return {
             ...accumulator,
-            [phoneNumber]: id
+            [phoneNumber]: id,
           };
         }, {});
         return formatResponses;
@@ -219,7 +216,6 @@ export function getCorrespondentResponse(types) {
   };
 }
 
-
 export default function getReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
@@ -234,6 +230,6 @@ export default function getReducer(types) {
     messageTexts: getMessageTextsReducer(types),
     conversationStatus: getConversationStatusReducer(types),
     correspondentMatch: getCorrespondentMatch(types),
-    correspondentResponse: getCorrespondentResponse(types)
+    correspondentResponse: getCorrespondentResponse(types),
   });
 }

@@ -1,41 +1,27 @@
 import moment from 'moment';
 import { find } from 'ramda';
-import format, { formatTypes } from '@ringcentral-integration/phone-number/lib/format';
+import Client from 'ringcentral-client';
 
-import RcModule from '../../lib/RcModule';
+import {
+  getDefaultMeetingSettings,
+  getInitializedStartTime,
+  getMobileDialingNumberTpl,
+  getPhoneDialingNumberTpl,
+  MeetingType,
+  UTC_TIMEZONE_ID,
+} from '../../helpers/meetingHelper';
+import background from '../../lib/background';
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
-import background from '../../lib/background';
-import actionTypes from './actionTypes';
-import scheduleStatus from './scheduleStatus';
-import meetingStatus from './meetingStatus';
+import RcModule from '../../lib/RcModule';
+import actionTypes, { MeetingActionTypes } from './actionTypes';
 import getMeetingReducer, {
-  getMeetingStorageReducer,
   getDefaultMeetingSettingReducer,
+  getMeetingStorageReducer,
 } from './getMeetingReducer';
-import { UTC_TIMEZONE_ID, MeetingType, getDefaultMeetingSettings } from './meetingHelper';
-
-
-export class MeetingErrors {
-  constructor(type) {
-    this._errors = [];
-    if (type) this._errors.push({ message: type });
-  }
-
-  push(type) {
-    if (type) this._errors.push({ message: type });
-  }
-
-  get all() {
-    return this._errors;
-  }
-
-  get length() {
-    return this._errors.length;
-  }
-}
-
-export { UTC_TIMEZONE_ID, MeetingType, getDefaultMeetingSettings };
+import { MeetingErrors } from './meetingErrors';
+import meetingStatus from './meetingStatus';
+import scheduleStatus from './scheduleStatus';
 
 @Module({
   deps: [
@@ -44,10 +30,18 @@ export { UTC_TIMEZONE_ID, MeetingType, getDefaultMeetingSettings };
     'ExtensionInfo',
     'Storage',
     { dep: 'AvailabilityMonitor', optional: true },
-    { dep: 'MeetingOptions', optional: true }
-  ]
+    { dep: 'MeetingOptions', optional: true },
+  ],
 })
-export default class Meeting extends RcModule {
+export class Meeting extends RcModule<MeetingActionTypes> {
+  private _alert: any;
+  private _client: Client;
+  private _extensionInfo: any;
+  private _storage: any;
+  private _availabilityMonitor: any;
+  private _lastMeetingSettingKey: any;
+  private _defaultMeetingSettingKey: any;
+  private _showSaveAsDefault: any;
   constructor({
     alert,
     client,
@@ -64,21 +58,21 @@ export default class Meeting extends RcModule {
     });
     this._alert = alert;
     this._client = client;
-    this._extensionInfo = extensionInfo;
     this._storage = storage;
+    this._extensionInfo = extensionInfo;
+    this._showSaveAsDefault = showSaveAsDefault;
     this._availabilityMonitor = availabilityMonitor;
-    this._reducer = getMeetingReducer(this.actionTypes, reducers);
     this._lastMeetingSettingKey = 'lastMeetingSetting';
     this._defaultMeetingSettingKey = 'defaultMeetingSetting';
-    this._showSaveAsDefault = showSaveAsDefault;
+    this._reducer = getMeetingReducer(this.actionTypes, reducers);
     this._storage.registerReducer({
       key: this._lastMeetingSettingKey,
-      reducer: getMeetingStorageReducer(this.actionTypes)
+      reducer: getMeetingStorageReducer(this.actionTypes),
     });
     if (this._showSaveAsDefault) {
       this._storage.registerReducer({
         key: this._defaultMeetingSettingKey,
-        reducer: getDefaultMeetingSettingReducer(this.actionTypes)
+        reducer: getDefaultMeetingSettingReducer(this.actionTypes),
       });
     }
   }
@@ -95,7 +89,7 @@ export default class Meeting extends RcModule {
     }
   }
 
-  _shouldInit() {
+  private _shouldInit() {
     return (
       this._alert.ready &&
       this._storage.ready &&
@@ -105,34 +99,31 @@ export default class Meeting extends RcModule {
     );
   }
 
-  _init() {
+  private _init() {
     this.store.dispatch({
-      type: this.actionTypes.initSuccess
+      type: this.actionTypes.initSuccess,
     });
     if (!Object.keys(this.defaultMeetingSetting).length) {
       const extensionName = this._extensionInfo.info.name || '';
-      const now = new Date();
-      const startTime = now.setHours(now.getHours() + 1, 0, 0);
+      const startTime = getInitializedStartTime();
       const meeting = getDefaultMeetingSettings(extensionName, startTime);
       this._saveAsDefaultSetting(meeting);
     }
   }
 
-  _shouldReset() {
+  private _shouldReset() {
     return (
-      (
-        !this._alert.ready ||
+      (!this._alert.ready ||
         !this._storage.ready ||
         !this._extensionInfo.ready ||
-        (this._availabilityMonitor && !this._availabilityMonitor.ready)
-      ) &&
+        (this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
     );
   }
 
-  _reset() {
+  private _reset() {
     this.store.dispatch({
-      type: this.actionTypes.resetSuccess
+      type: this.actionTypes.resetSuccess,
     });
   }
 
@@ -150,10 +141,9 @@ export default class Meeting extends RcModule {
     this._initMeeting();
   }
 
-  _initMeeting() {
+  private _initMeeting() {
     const extensionName = this._extensionInfo.info.name || '';
-    const now = new Date();
-    const startTime = now.setHours(now.getHours() + 1, 0, 0);
+    const startTime = getInitializedStartTime();
     if (this._showSaveAsDefault) {
       this.store.dispatch({
         type: this.actionTypes.updateMeeting,
@@ -161,7 +151,7 @@ export default class Meeting extends RcModule {
           ...getDefaultMeetingSettings(extensionName, startTime),
           // Load saved default meeting settings
           ...this.defaultMeetingSetting,
-        }
+        },
       });
     } else {
       this.store.dispatch({
@@ -169,8 +159,8 @@ export default class Meeting extends RcModule {
         meeting: {
           ...getDefaultMeetingSettings(extensionName, startTime),
           // Load last meeting settings
-          ...this.lastMeetingInfo,
-        }
+          ...this.lastMeetingSetting,
+        },
       });
     }
   }
@@ -179,36 +169,17 @@ export default class Meeting extends RcModule {
   update(meeting) {
     this.store.dispatch({
       type: this.actionTypes.updateMeeting,
-      meeting
+      meeting,
     });
-  }
-
-  getMobileDialingNumberTpl(dialInNumbers, meetingId) {
-    return dialInNumbers
-      .map(({ phoneNumber, location = '' }) => `${phoneNumber},,${meetingId}# ${location}`)
-      .join('\n    ');
-  }
-
-  getPhoneDialingNumberTpl(dialInNumbers) {
-    return dialInNumbers
-      .map(({ phoneNumber, location = '', country }) => {
-        const filterFormattedNumber = format({
-          phoneNumber,
-          countryCode: country.isoCode,
-          type: formatTypes.international
-        });
-        return `${filterFormattedNumber}${location}`;
-      })
-      .join('\n    ');
   }
 
   @proxify
   async schedule(meeting, { isAlertSuccess = true } = {}, opener) {
-    if (this.isScheduling) return null;
+    if (this.isScheduling) return (this.schedule as any)._promise;
     meeting = meeting || this.meeting;
     try {
       this.store.dispatch({
-        type: this.actionTypes.initScheduling
+        type: this.actionTypes.initScheduling,
       });
       // Validate meeting
       this._validate(meeting);
@@ -216,7 +187,8 @@ export default class Meeting extends RcModule {
       if (this._showSaveAsDefault && meeting.saveAsDefault) {
         this._saveAsDefaultSetting(meeting);
       }
-      const [resp, serviceInfo] = await Promise.all([
+
+      (this.schedule as any)._promise = Promise.all([
         this._client
           .account()
           .extension()
@@ -227,64 +199,44 @@ export default class Meeting extends RcModule {
           .extension()
           .meeting()
           .serviceInfo()
-          .get()
+          .get(),
       ]);
+
+      const [resp, serviceInfo] = await (this.schedule as any)._promise;
 
       this.store.dispatch({
         type: this.actionTypes.scheduled,
         meeting: {
           ...formattedMeeting,
-          _saved: meeting._saved
-        }
+          _saved: meeting._saved,
+        },
       });
-      const mobileDialingNumberTpl = this.getMobileDialingNumberTpl(serviceInfo.dialInNumbers,
-        resp.id);
-      const phoneDialingNumberTpl = this.getPhoneDialingNumberTpl(serviceInfo.dialInNumbers,
-        resp.id);
-      serviceInfo.mobileDialingNumberTpl = mobileDialingNumberTpl;
-      serviceInfo.phoneDialingNumberTpl = phoneDialingNumberTpl;
-      const result = {
-        meeting: resp,
+
+      const result = await this._createDialingNumberTpl(
         serviceInfo,
-        extensionInfo: this.extensionInfo
-      };
-      if (typeof this.scheduledHook === 'function') {
-        await this.scheduledHook(result, opener);
-      }
+        resp,
+        opener,
+      );
+
       // Reload meeting info
       this._initMeeting();
       // Notify user the meeting has been scheduled
       if (isAlertSuccess) {
         setTimeout(() => {
           this._alert.info({
-            message: meetingStatus.scheduledSuccess
+            message: meetingStatus.scheduledSuccess,
           });
         }, 50);
       }
       return result;
     } catch (errors) {
       this.store.dispatch({
-        type: this.actionTypes.resetScheduling
+        type: this.actionTypes.resetScheduling,
       });
-      if (errors instanceof MeetingErrors) {
-        for (const error of errors.all) {
-          this._alert.warning(error);
-        }
-      } else if (errors && errors.apiResponse) {
-        const { errorCode, permissionName } = errors.apiResponse.json();
-        if (errorCode === 'InsufficientPermissions' && permissionName) {
-          this._alert.danger({
-            message: meetingStatus.insufficientPermissions,
-            payload: {
-              permissionName,
-            },
-          });
-        } else if (!this._availabilityMonitor ||
-            !this._availabilityMonitor.checkIfHAError(errors)) {
-          this._alert.danger({ message: meetingStatus.internalError });
-        }
-      }
+      this._errorHandle(errors);
       return null;
+    } finally {
+      delete (this.schedule as any)._promise;
     }
   }
 
@@ -298,8 +250,15 @@ export default class Meeting extends RcModule {
   }
 
   @proxify
-  async updateMeeting(meetingId, meeting, { isAlertSuccess = false } = {}, opener) {
-    if (this._isUpdating(meetingId)) return null;
+  async updateMeeting(
+    meetingId: string,
+    meeting,
+    { isAlertSuccess = false } = {},
+    opener,
+  ) {
+    if (this._isUpdating(meetingId)) {
+      return (this.updateMeeting as any)._promise;
+    }
     meeting = meeting || this.meeting;
     try {
       this.store.dispatch({
@@ -312,7 +271,8 @@ export default class Meeting extends RcModule {
       if (this._showSaveAsDefault && meeting.saveAsDefault) {
         this._saveAsDefaultSetting(meeting);
       }
-      const [resp, serviceInfo] = await Promise.all([
+
+      (this.updateMeeting as any)._promise = Promise.all([
         this._client
           .account()
           .extension()
@@ -323,38 +283,33 @@ export default class Meeting extends RcModule {
           .extension()
           .meeting()
           .serviceInfo()
-          .get()
+          .get(),
       ]);
+
+      const [resp, serviceInfo] = await (this.updateMeeting as any)._promise;
 
       this.store.dispatch({
         type: this.actionTypes.updated,
         meeting: {
           ...formattedMeeting,
-          _saved: meeting._saved
+          _saved: meeting._saved,
         },
         meetingId,
       });
-      const mobileDialingNumberTpl = this.getMobileDialingNumberTpl(serviceInfo.dialInNumbers,
-        resp.id);
-      const phoneDialingNumberTpl = this.getPhoneDialingNumberTpl(serviceInfo.dialInNumbers,
-        resp.id);
-      serviceInfo.mobileDialingNumberTpl = mobileDialingNumberTpl;
-      serviceInfo.phoneDialingNumberTpl = phoneDialingNumberTpl;
-      const result = {
-        meeting: resp,
+
+      const result = await this._createDialingNumberTpl(
         serviceInfo,
-        extensionInfo: this.extensionInfo
-      };
-      if (typeof this.scheduledHook === 'function') {
-        await this.scheduledHook(result, opener);
-      }
+        resp,
+        opener,
+      );
+
       // Reload meeting info
       this._initMeeting();
       // Notify user the meeting has been updated
       if (isAlertSuccess) {
         setTimeout(() => {
           this._alert.info({
-            message: meetingStatus.updatedSuccess
+            message: meetingStatus.updatedSuccess,
           });
         }, 50);
       }
@@ -364,42 +319,74 @@ export default class Meeting extends RcModule {
         type: this.actionTypes.resetUpdating,
         meetingId,
       });
-      if (errors instanceof MeetingErrors) {
-        for (const error of errors.all) {
-          this._alert.warning(error);
-        }
-      } else if (errors && errors.apiResponse) {
-        const { errorCode, permissionName } = errors.apiResponse.json();
-        if (errorCode === 'InsufficientPermissions' && permissionName) {
-          this._alert.danger({
-            message: meetingStatus.insufficientPermissions,
-            payload: {
-              permissionName,
-            },
-          });
-        } else if (!this._availabilityMonitor ||
-            !this._availabilityMonitor.checkIfHAError(errors)) {
-          this._alert.danger({ message: meetingStatus.internalError });
-        }
-      }
-      return null;
+      return this._errorHandle(errors);
+    } finally {
+      delete (this.updateMeeting as any)._promise;
     }
+  }
+
+  private async _createDialingNumberTpl(
+    serviceInfo: any,
+    resp: any,
+    opener: any,
+  ) {
+    serviceInfo.mobileDialingNumberTpl = getMobileDialingNumberTpl(
+      serviceInfo.dialInNumbers,
+      resp.id,
+    );
+    serviceInfo.phoneDialingNumberTpl = getPhoneDialingNumberTpl(
+      serviceInfo.dialInNumbers,
+    );
+    const result = {
+      meeting: resp,
+      serviceInfo,
+      extensionInfo: this.extensionInfo,
+    };
+    if (typeof this.scheduledHook === 'function') {
+      await this.scheduledHook(result, opener);
+    }
+    return result;
+  }
+
+  private _errorHandle(errors: any) {
+    if (errors instanceof MeetingErrors) {
+      for (const error of errors.all) {
+        this._alert.warning(error);
+      }
+    } else if (errors && errors.apiResponse) {
+      const { errorCode, permissionName } = errors.apiResponse.json();
+      if (errorCode === 'InsufficientPermissions' && permissionName) {
+        this._alert.danger({
+          message: meetingStatus.insufficientPermissions,
+          payload: {
+            permissionName,
+          },
+        });
+      } else if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(errors)
+      ) {
+        this._alert.danger({ message: meetingStatus.internalError });
+      }
+    }
+    return null;
   }
 
   /**
    * @param {number} meetingId
    */
   _isUpdating(meetingId) {
-    return this.state.updatingStatus &&
-      find(obj => obj.meetingId === meetingId, this.state.updatingStatus);
+    return (
+      this.state.updatingStatus &&
+      find((obj: any) => obj.meetingId === meetingId, this.state.updatingStatus)
+    );
   }
-
 
   /**
    * Format meeting information.
    * @param {Object} meeting
    */
-  _format(meeting) {
+  private _format(meeting: ScheduleMeetingModel) {
     const {
       topic,
       meetingType,
@@ -410,7 +397,7 @@ export default class Meeting extends RcModule {
       password,
       schedule,
     } = meeting;
-    const formatted = {
+    const formatted: ScheduleMeetingModel = {
       topic,
       meetingType,
       allowJoinBeforeHost,
@@ -421,9 +408,9 @@ export default class Meeting extends RcModule {
     };
     // Recurring meetings do not have schedule info
     if (meetingType !== MeetingType.RECURRING) {
-      const _schedule = {
+      const _schedule: ScheduleModel = {
         durationInMinutes: schedule.durationInMinutes,
-        timeZone: { id: UTC_TIMEZONE_ID }
+        timeZone: { id: UTC_TIMEZONE_ID },
       };
       if (schedule.startTime) {
         // Format selected startTime to utc standard time
@@ -441,15 +428,11 @@ export default class Meeting extends RcModule {
    * @throws
    */
   _validate(meeting) {
+    console.log('meeting', meeting);
     if (!meeting) {
       throw new MeetingErrors(meetingStatus.invalidMeetingInfo);
     }
-    const {
-      topic,
-      password,
-      schedule,
-      _requireMeetingPassword,
-    } = meeting;
+    const { topic, password, schedule, _requireMeetingPassword } = meeting;
     const errors = new MeetingErrors();
     if (topic.length <= 0) {
       errors.push(meetingStatus.emptyTopic);
@@ -486,7 +469,7 @@ export default class Meeting extends RcModule {
     return this.state.meeting;
   }
 
-  get lastMeetingInfo() {
+  get lastMeetingSetting() {
     const state = this._storage.getItem(this._lastMeetingSettingKey);
     return state;
   }
@@ -510,4 +493,21 @@ export default class Meeting extends RcModule {
   get showSaveAsDefault() {
     return this._showSaveAsDefault || false;
   }
+}
+
+export interface ScheduleModel {
+  durationInMinutes: number;
+  timeZone: { id: string };
+  startTime?: string;
+}
+
+export interface ScheduleMeetingModel {
+  topic: string;
+  meetingType: any;
+  allowJoinBeforeHost: any;
+  startHostVideo: any;
+  startParticipantsVideo: any;
+  audioOptions: any;
+  password: any;
+  schedule?: ScheduleModel;
 }

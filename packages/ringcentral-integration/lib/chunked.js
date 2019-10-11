@@ -3,7 +3,7 @@ export default function chunked(array, maxLength) {
     return [];
   }
 
-  if (typeof (maxLength) !== 'number') {
+  if (typeof maxLength !== 'number') {
     throw new Error('Should be a integer "maxLength"');
   }
 
@@ -24,4 +24,3 @@ export default function chunked(array, maxLength) {
 
   return chunks;
 }
-

@@ -24,8 +24,8 @@ const DEFAULT_NO_MATCH_TTL = 30 * 1000;
 @Library({
   deps: [
     { dep: 'Storage', optional: true },
-    { dep: 'DataMatcherOptions', optional: true }
-  ]
+    { dep: 'DataMatcherOptions', optional: true },
+  ],
 })
 export default class DataMatcher extends RcModule {
   constructor({
@@ -62,7 +62,7 @@ export default class DataMatcher extends RcModule {
       this._reducer = getReducer(this.actionTypes);
       this._storage.registerReducer({
         key: this._storageKey,
-        reducer: getDataReducer(this.actionTypes)
+        reducer: getDataReducer(this.actionTypes),
       });
     } else {
       this._reducer = getReducer(this.actionTypes, {
@@ -134,39 +134,33 @@ export default class DataMatcher extends RcModule {
   _shouldReset() {
     return !!(
       this.ready &&
-      (
-        (!!this._storage && !this._storage.ready) ||
-        !this.searchProvidersReady
-      )
+      ((!!this._storage && !this._storage.ready) || !this.searchProvidersReady)
     );
   }
 
   get searchProvidersReady() {
-    return all(
-      ({ readyCheckFn }) => readyCheckFn(),
-      [...this._searchProviders.values()]
-    );
+    return all(({ readyCheckFn }) => readyCheckFn(), [
+      ...this._searchProviders.values(),
+    ]);
   }
 
   addSearchProvider({ name, searchFn, readyCheckFn }) {
     if (!name) {
-      throw new Error(
-        `${this.constructor.name}: "name" is required.`
-      );
+      throw new Error(`${this.constructor.name}: "name" is required.`);
     }
     if (this._searchProviders.has(name)) {
       throw new Error(
-        `${this.constructor.name}: A provider named "${name}" already exists.`
+        `${this.constructor.name}: A provider named "${name}" already exists.`,
       );
     }
     if (typeof searchFn !== 'function') {
       throw new Error(
-        `${this.constructor.name}: "searchFn" must be a function.`
+        `${this.constructor.name}: "searchFn" must be a function.`,
       );
     }
     if (typeof readyCheckFn !== 'function') {
       throw new Error(
-        `${this.constructor.name}: "readyCheckFn" must be a function.`
+        `${this.constructor.name}: "readyCheckFn" must be a function.`,
       );
     }
     this._searchProviders.set(name, {
@@ -178,17 +172,17 @@ export default class DataMatcher extends RcModule {
   addQuerySource({ getQueriesFn, readyCheckFn }) {
     if (typeof getQueriesFn !== 'function') {
       throw new Error(
-        `${this.constructor.name}: "getQueriesFn" must be a function.`
+        `${this.constructor.name}: "getQueriesFn" must be a function.`,
       );
     }
     if (typeof readyCheckFn !== 'function') {
       throw new Error(
-        `${this.constructor.name}: "readyCheckFn" must be a function.`
+        `${this.constructor.name}: "readyCheckFn" must be a function.`,
       );
     }
     if (this._querySources.has(getQueriesFn)) {
       throw new Error(
-        `${this.constructor.name}: this getQueryFn has already been added.`
+        `${this.constructor.name}: this getQueryFn has already been added.`,
       );
     }
     this._querySources.set(getQueriesFn, readyCheckFn);
@@ -205,26 +199,20 @@ export default class DataMatcher extends RcModule {
   }
 
   @proxify
-  async match({
-    queries,
-    ignoreCache = false,
-    ignoreQueue = false,
-  }) {
-    await Promise.all([...this._searchProviders.keys()]
-      .map(name => (
+  async match({ queries, ignoreCache = false, ignoreQueue = false }) {
+    await Promise.all(
+      [...this._searchProviders.keys()].map((name) =>
         this._matchSource({
           name,
           queries,
           ignoreCache,
           ignoreQueue,
-        })
-      )));
+        }),
+      ),
+    );
   }
 
-  async _fetchMatchResult({
-    name,
-    queries,
-  }) {
+  async _fetchMatchResult({ name, queries }) {
     try {
       this.store.dispatch({
         type: this.actionTypes.match,
@@ -234,13 +222,12 @@ export default class DataMatcher extends RcModule {
       const provider = this._searchProviders.get(name);
       if (!provider) {
         throw new Error(
-          `${this.constructor.name}: provider named "${name} does not exist`
+          `${this.constructor.name}: provider named "${name} does not exist`,
         );
       }
-      const promise = provider
-        .searchFn({
-          queries,
-        });
+      const promise = provider.searchFn({
+        queries,
+      });
       this._matchPromises.set(name, {
         promise,
         queries,
@@ -269,12 +256,7 @@ export default class DataMatcher extends RcModule {
   }
 
   @proxify
-  async _matchSource({
-    name,
-    queries,
-    ignoreCache,
-    ignoreQueue,
-  }) {
+  async _matchSource({ name, queries, ignoreCache, ignoreQueue }) {
     const now = Date.now();
     const data = this.data;
     const queuedItems = {};
@@ -296,26 +278,25 @@ export default class DataMatcher extends RcModule {
         queuedItems[item] = true;
       });
     }
-    const filteredQueries = ignoreCache ?
-      queries :
-      filter(
-        query => (
-          !queuedItems[query] &&
-          (
-            !data[query] ||
-            !data[query][name] ||
-            now - data[query][name]._t > this._noMatchTtl
-          )
-        ),
-        queries
-      );
+    const filteredQueries = ignoreCache
+      ? queries
+      : filter(
+          (query) =>
+            !queuedItems[query] &&
+            (!data[query] ||
+              !data[query][name] ||
+              now - data[query][name]._t > this._noMatchTtl),
+          queries,
+        );
 
     if (filteredQueries.length) {
       if (ignoreQueue) {
-        promises.push(this._fetchMatchResult({
-          name,
-          queries: filteredQueries,
-        }));
+        promises.push(
+          this._fetchMatchResult({
+            name,
+            queries: filteredQueries,
+          }),
+        );
       } else if (!matching) {
         matching = this._fetchMatchResult({
           name,
@@ -354,7 +335,7 @@ export default class DataMatcher extends RcModule {
       data,
       queries,
       name,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 
@@ -376,13 +357,10 @@ export default class DataMatcher extends RcModule {
 
   @selector
   _data = [
-    () => (
-      this._storage ?
-        this._storage.getItem(this._storageKey) :
-        this.state.data
-    ),
-    data => (data || {})
-  ]
+    () =>
+      this._storage ? this._storage.getItem(this._storageKey) : this.state.data,
+    (data) => data || {},
+  ];
 
   get dataMapping() {
     return this._dataMapping;
@@ -391,30 +369,30 @@ export default class DataMatcher extends RcModule {
   @selector
   _dataMapping = [
     () => this.data,
-    (data) => {
+    () => this.ready,
+    () => Array.from(this._searchProviders.keys()).length,
+    (data, ready, prividers) => {
+      if (!ready || !prividers) return {};
       const dataMap = {};
-      forEach(
-        (query) => {
-          const queryResult = data[query];
-          if (!queryResult) {
-            return;
+      forEach((query) => {
+        const queryResult = data[query];
+        if (!queryResult) {
+          return;
+        }
+        let matchesList = [];
+        forEach((_providerValue, providerName) => {
+          if (
+            queryResult[providerName] &&
+            queryResult[providerName].data.length > 0
+          ) {
+            matchesList = matchesList.concat(queryResult[providerName].data);
           }
-          let matchesList = [];
-          forEach(
-            (_providerValue, providerName) => {
-              if (queryResult[providerName] && queryResult[providerName].data.length > 0) {
-                matchesList = matchesList.concat(queryResult[providerName].data);
-              }
-            },
-            this._searchProviders
-          );
-          if (matchesList.length > 0) {
-            dataMap[query] = matchesList;
-          }
-        },
-        Object.keys(data)
-      );
+        }, this._searchProviders);
+        if (matchesList.length > 0) {
+          dataMap[query] = matchesList;
+        }
+      }, Object.keys(data));
       return dataMap;
-    }
-  ]
+    },
+  ];
 }

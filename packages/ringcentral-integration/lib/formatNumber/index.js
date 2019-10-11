@@ -21,8 +21,6 @@ export default function formatNumber({
     countryCode,
     areaCode,
     removeExtension,
-    type: international ?
-      formatTypes.international :
-      formatTypes.local,
+    type: international ? formatTypes.international : formatTypes.local,
   });
 }

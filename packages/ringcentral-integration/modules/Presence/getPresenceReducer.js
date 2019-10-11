@@ -42,7 +42,10 @@ export function getMeetingStatusReducer(types) {
 }
 
 export function getLastNotDisturbDndStatusReducer(types) {
-  return (state = null, { type, data: { dndStatus } = {}, lastDndStatus = state }) => {
+  return (
+    state = null,
+    { type, data: { dndStatus } = {}, lastDndStatus = state },
+  ) => {
     switch (type) {
       case types.notification:
       case types.fetchSuccess:
@@ -99,11 +102,10 @@ const removeIntermediateCall = reduce((result, activeCall) => {
   if (
     !isIntermediateCall(activeCall) &&
     !find(
-      item => (
+      (item) =>
         item.sessionId === activeCall.sessionId &&
-        item.direction === activeCall.direction
-      ),
-      result
+        item.direction === activeCall.direction,
+      result,
     )
   ) {
     result.push(activeCall);
@@ -112,14 +114,10 @@ const removeIntermediateCall = reduce((result, activeCall) => {
 });
 
 export function getActiveCallsReducer(types) {
-  return (state = [], {
-    type,
-    timestamp,
-    data: {
-      activeCalls = [],
-      totalActiveCalls = 0,
-    } = {},
-  }) => {
+  return (
+    state = [],
+    { type, timestamp, data: { activeCalls = [], totalActiveCalls = 0 } = {} },
+  ) => {
     switch (type) {
       case types.fetchSuccess:
       case types.notification: {
@@ -127,11 +125,13 @@ export function getActiveCallsReducer(types) {
           return state;
         }
         return map((activeCall) => {
-          const existingCall = state.find(call => (
-            call.sessionId === activeCall.sessionId
-          ));
+          const existingCall = state.find(
+            (call) => call.sessionId === activeCall.sessionId,
+          );
           if (!existingCall) {
-            const normalizedCall = normalizeStartTime(normalizeFromTo(activeCall));
+            const normalizedCall = normalizeStartTime(
+              normalizeFromTo(activeCall),
+            );
             const startTime = normalizedCall.startTime || timestamp;
             const offset = Math.min(timestamp - startTime, 0);
             return {

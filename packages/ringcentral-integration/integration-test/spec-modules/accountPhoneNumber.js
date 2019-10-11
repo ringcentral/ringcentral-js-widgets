@@ -19,7 +19,10 @@ export default (auth, client, accountPhoneNumber, account) => {
         mock.mockForLogin();
         isLoginSuccess = await ensureLogin(auth, account);
         if (!isLoginSuccess) {
-          console.error('Skip test case as failed to login with credential ', account);
+          console.error(
+            'Skip test case as failed to login with credential ',
+            account,
+          );
           this.skip();
         }
       });
@@ -38,7 +41,9 @@ export default (auth, client, accountPhoneNumber, account) => {
       it('Should get extensionToPhoneNumberMap', async () => {
         this.retries(2);
         await waitInSeconds(1);
-        expect(Object.keys(accountPhoneNumber.extensionToPhoneNumberMap).length).equal(2);
+        expect(
+          Object.keys(accountPhoneNumber.extensionToPhoneNumberMap).length,
+        ).equal(2);
       });
     });
 
@@ -47,11 +52,16 @@ export default (auth, client, accountPhoneNumber, account) => {
         mock.restore();
         mock.mockForLogin({ mockAuthzProfile: false });
         mock.authzProfile({
-          permissions: authzProfileBody.permissions.filter(p => p.permission.id !== 'ReadCompanyPhoneNumbers')
+          permissions: authzProfileBody.permissions.filter(
+            (p) => p.permission.id !== 'ReadCompanyPhoneNumbers',
+          ),
         });
         isLoginSuccess = await ensureLogin(auth, account);
         if (!isLoginSuccess) {
-          console.error('Skip test case as failed to login with credential ', account);
+          console.error(
+            'Skip test case as failed to login with credential ',
+            account,
+          );
           this.skip();
         }
       });
@@ -70,7 +80,9 @@ export default (auth, client, accountPhoneNumber, account) => {
       it('Should not get extensionToPhoneNumberMap', async () => {
         this.retries(2);
         await waitInSeconds(1);
-        expect(Object.keys(accountPhoneNumber.extensionToPhoneNumberMap).length).equal(0);
+        expect(
+          Object.keys(accountPhoneNumber.extensionToPhoneNumberMap).length,
+        ).equal(0);
       });
     });
   });

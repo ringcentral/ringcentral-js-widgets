@@ -6,7 +6,9 @@ describe('cleanNumber', () => {
     expect(cleanNumber('6508370092')).to.equal('6508370092');
   });
   it(`should return '' if number is iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber`, () => {
-    expect(cleanNumber("iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber")).to.equal('');
+    expect(
+      cleanNumber("iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber"),
+    ).to.equal('');
   });
 
   it(`should return numeric values with * if number contains numeric values and *`, () => {

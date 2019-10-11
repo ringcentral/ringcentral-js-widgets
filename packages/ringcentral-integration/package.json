@@ -45,7 +45,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-mocha": "^5.0.0",
-    "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-sourcemaps": "^2.6.5",
     "json-loader": "^0.5.4",
     "karma": "^1.3.0",
     "karma-chai": "^0.1.0",
@@ -70,7 +70,7 @@
     "watchify": "^3.7.0",
     "webpack": "^4.29.0",
     "webpack-dev-server": "^3.1.14",
-    "yargs": "^11.1.0"
+    "yargs": "^14.0.0"
   },
   "peerDependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
@@ -87,12 +87,12 @@
     "localforage": "^1.7.3",
     "moment": "^2.24.0",
     "prettier": "^1.7.0",
-    "ramda": "^0.25.0",
-    "redux": "^4.0.1",
+    "ramda": "^0.26.1",
+    "redux": "^4.0.4",
     "reselect": "^2.5.4",
     "ringcentral-web-phone": "^0.7.2",
     "url-loader": "^1.1.2",
-    "uuid": "^3.3.2",
+    "uuid": "^3.3.3",
     "yards": "^0.1.4"
   },
   "ci": {

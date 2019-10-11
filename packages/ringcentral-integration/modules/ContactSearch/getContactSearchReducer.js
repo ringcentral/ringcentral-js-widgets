@@ -25,12 +25,10 @@ export function getSearchingReducer(types) {
     searchString: '',
     result: [],
   };
-  return (state = initialState, {
-    type,
-    searchOnSources,
-    searchString,
-    entities,
-  }) => {
+  return (
+    state = initialState,
+    { type, searchOnSources, searchString, entities },
+  ) => {
     switch (type) {
       case types.searchSuccess:
         if (
@@ -58,7 +56,7 @@ export function getSearchingReducer(types) {
         return {
           searchOnSources,
           searchString,
-          result: entities
+          result: entities,
         };
       case types.resetSuccess:
       case types.prepareSearch:

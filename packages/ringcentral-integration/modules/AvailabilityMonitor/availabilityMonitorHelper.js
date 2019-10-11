@@ -34,11 +34,15 @@ export function isHAError(error) {
   }
 
   // Result from `status` and `errorCode`.
-  let validHAError = (status === HA_ERROR_STATUS && errorCodeIn);
+  let validHAError = status === HA_ERROR_STATUS && errorCodeIn;
   if (!validHAError) {
     // Result from temp error code, expecially for `presence`.
-    const resErrorCode = pathOr(null, ['apiResponse', '_json', 'errorCode'], error);
-    validHAError = (resErrorCode === TMP_HA_ERROR_CODE);
+    const resErrorCode = pathOr(
+      null,
+      ['apiResponse', '_json', 'errorCode'],
+      error,
+    );
+    validHAError = resErrorCode === TMP_HA_ERROR_CODE;
   }
 
   return validHAError;
@@ -88,5 +92,5 @@ export function isHAEnabledAPI({ url, method }) {
     return true;
   }
 
-  return (condition === availability.HIGH);
+  return condition === availability.HIGH;
 }

@@ -18,9 +18,7 @@ export function getGlipPersonsStatusReducer(types) {
 }
 
 export function getGlipPersonStoreReducer(types) {
-  return (state = {}, {
-    type, person, persons
-  }) => {
+  return (state = {}, { type, person, persons }) => {
     let newState;
     switch (type) {
       case types.fetchSuccess:

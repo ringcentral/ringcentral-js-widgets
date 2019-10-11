@@ -19,8 +19,8 @@ const DEFAULT_BATCH_FETCH_DELAY = 500;
     'RolesAndPermissions',
     { dep: 'Storage', optional: true },
     { dep: 'TabManager', optional: true },
-    { dep: 'GlipPersonsOptions', optional: true }
-  ]
+    { dep: 'GlipPersonsOptions', optional: true },
+  ],
 })
 export default class GlipPersons extends RcModule {
   /**
@@ -46,7 +46,10 @@ export default class GlipPersons extends RcModule {
       actionTypes,
     });
 
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._client = this::ensureExist(client, 'client');
     this._auth = this::ensureExist(auth, 'auth');
     this._tabManager = tabManager;
@@ -107,12 +110,10 @@ export default class GlipPersons extends RcModule {
 
   _shouldReset() {
     return (
-      (
-        (this._storage && !this._storage.ready) ||
+      ((this._storage && !this._storage.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
         !this._rolesAndPermissions.ready ||
-        !this._auth.loggedIn
-      ) &&
+        !this._auth.loggedIn) &&
       this.ready
     );
   }
@@ -128,7 +129,10 @@ export default class GlipPersons extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.fetch,
       });
-      const person = await this._client.glip().persons(id).get();
+      const person = await this._client
+        .glip()
+        .persons(id)
+        .get();
       this.store.dispatch({
         type: this.actionTypes.fetchSuccess,
         person,
@@ -197,7 +201,10 @@ export default class GlipPersons extends RcModule {
       return [];
     }
     if (personIds.length === 1) {
-      const response = await this._client.glip().persons(personIds[0]).get();
+      const response = await this._client
+        .glip()
+        .persons(personIds[0])
+        .get();
       return [response];
     }
     const ids = personIds.join(',');
@@ -205,7 +212,9 @@ export default class GlipPersons extends RcModule {
       platform: this._client.service.platform(),
       url: `/glip/persons/${ids}`,
     });
-    const responses = multipartResponse.filter(r => r.ok()).map(x => x.json());
+    const responses = multipartResponse
+      .filter((r) => r.ok())
+      .map((x) => x.json());
     return responses;
   }
 

@@ -14,7 +14,10 @@ export function getEndedCallsReducer(types) {
             ...call,
             duration: Math.floor((timestamp - call.startTime) / 1000),
           };
-          const idx = findIndex(item => item.sessionId === call.sessionId, newState);
+          const idx = findIndex(
+            (item) => item.sessionId === call.sessionId,
+            newState,
+          );
           if (idx > -1) {
             // replace old one if found
             newState[idx] = callWithDuration;
@@ -25,12 +28,14 @@ export function getEndedCallsReducer(types) {
         return newState;
       }
       case types.removeEndedCalls:
-        return state.filter(call => (
-          !endedCalls.find(shouldRemove => shouldRemove.sessionId === call.sessionId) || (
+        return state.filter(
+          (call) =>
+            !endedCalls.find(
+              (shouldRemove) => shouldRemove.sessionId === call.sessionId,
+            ) ||
             // clean current overdue ended call (default clean time: 1day).
-            (new Date()).getTime() - call.startTime > DEFAULT_CLEAN_TIME
-          )
-        ));
+            new Date().getTime() - call.startTime > DEFAULT_CLEAN_TIME,
+        );
       case types.resetSuccess:
         return [];
       default:

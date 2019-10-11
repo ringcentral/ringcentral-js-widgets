@@ -15,8 +15,8 @@ import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
     'Client',
     'RolesAndPermissions',
     'Alert',
-    { dep: 'AccountInfoOptions', optional: true }
-  ]
+    { dep: 'AccountInfoOptions', optional: true },
+  ],
 })
 export default class AccountInfo extends DataFetcher {
   /**
@@ -24,12 +24,7 @@ export default class AccountInfo extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({
-    client,
-    rolesAndPermissions,
-    alert,
-    ...options
-  }) {
+  constructor({ client, rolesAndPermissions, alert, ...options }) {
     super({
       client,
       fetchFunction: async () => client.account().get(),
@@ -37,7 +32,10 @@ export default class AccountInfo extends DataFetcher {
       ...options,
     });
 
-    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._alert = alert;
   }
 
@@ -63,22 +61,16 @@ export default class AccountInfo extends DataFetcher {
   }
 
   @selector
-  info = [
-    () => this.data,
-    data => data || {},
-  ]
+  info = [() => this.data, (data) => data || {}];
 
   @selector
-  serviceInfo = [
-    () => this.info,
-    info => info.serviceInfo || {},
-  ]
+  serviceInfo = [() => this.info, (info) => info.serviceInfo || {}];
 
   @selector
   servicePlan = [
     () => this.serviceInfo,
-    serviceInfo => serviceInfo.servicePlan || {},
-  ]
+    (serviceInfo) => serviceInfo.servicePlan || {},
+  ];
 
   get id() {
     return this.info.id;

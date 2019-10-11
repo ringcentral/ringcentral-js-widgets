@@ -16,34 +16,50 @@ describe('RolesAndPermissions Test', () => {
     sinon.stub(rolesAndPermissions, 'ready').get(() => true);
   });
 
-	describe('callingEnabled', () => {
+  describe('callingEnabled', () => {
     it('should have calling permission when webphone and ringout are enabled', () => {
-      const s1 = sinon.stub(rolesAndPermissions, 'webphoneEnabled').get(() => true);
-      const s2 = sinon.stub(rolesAndPermissions, 'ringoutEnabled').get(() => true);
+      const s1 = sinon
+        .stub(rolesAndPermissions, 'webphoneEnabled')
+        .get(() => true);
+      const s2 = sinon
+        .stub(rolesAndPermissions, 'ringoutEnabled')
+        .get(() => true);
       expect(rolesAndPermissions.callingEnabled).to.equal(true);
       s1.restore();
       s2.restore();
     });
 
     it('should have calling permission when webphone or ringout is enabled', () => {
-      const s1 = sinon.stub(rolesAndPermissions, 'webphoneEnabled').get(() => true);
-      const s2 = sinon.stub(rolesAndPermissions, 'ringoutEnabled').get(() => false);
+      const s1 = sinon
+        .stub(rolesAndPermissions, 'webphoneEnabled')
+        .get(() => true);
+      const s2 = sinon
+        .stub(rolesAndPermissions, 'ringoutEnabled')
+        .get(() => false);
       expect(rolesAndPermissions.callingEnabled).to.equal(true);
       s1.restore();
       s2.restore();
     });
 
     it('should have calling permission when webphone or ringout is enabled', () => {
-      const s1 = sinon.stub(rolesAndPermissions, 'webphoneEnabled').get(() => false);
-      const s2 = sinon.stub(rolesAndPermissions, 'ringoutEnabled').get(() => true);
+      const s1 = sinon
+        .stub(rolesAndPermissions, 'webphoneEnabled')
+        .get(() => false);
+      const s2 = sinon
+        .stub(rolesAndPermissions, 'ringoutEnabled')
+        .get(() => true);
       expect(rolesAndPermissions.callingEnabled).to.equal(true);
       s1.restore();
       s2.restore();
     });
 
     it('should not have calling permission when webphone and ringout are not enabled', () => {
-      const s1 = sinon.stub(rolesAndPermissions, 'webphoneEnabled').get(() => false);
-      const s2 = sinon.stub(rolesAndPermissions, 'ringoutEnabled').get(() => false);
+      const s1 = sinon
+        .stub(rolesAndPermissions, 'webphoneEnabled')
+        .get(() => false);
+      const s2 = sinon
+        .stub(rolesAndPermissions, 'ringoutEnabled')
+        .get(() => false);
       expect(rolesAndPermissions.callingEnabled).to.equal(false);
       s1.restore();
       s2.restore();

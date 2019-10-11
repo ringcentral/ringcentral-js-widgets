@@ -1,4 +1,3 @@
-
 export default class TransportInteractionBase {
   constructor() {
     this._transportEvents = {};
@@ -27,14 +26,14 @@ export default class TransportInteractionBase {
       this._transport.response({
         requestId,
         result: res,
-        error: null
+        error: null,
       });
     } catch (error) {
       console.log(error);
       this._transport.response({
         requestId,
         result: null,
-        error
+        error,
       });
     }
   }

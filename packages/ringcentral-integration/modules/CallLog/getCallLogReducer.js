@@ -1,22 +1,15 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import getDateFrom from '../../lib/getDateFrom';
-import {
-  normalizeStartTime,
-  sortByStartTime,
-} from '../../lib/callLogHelpers';
+import { normalizeStartTime, sortByStartTime } from '../../lib/callLogHelpers';
 import removeUri from '../../lib/removeUri';
 import callActions from '../../enums/callActions';
-
 
 function processRecords(records = [], supplementRecords = []) {
   const ids = {};
   const output = [];
   function processCall(call) {
-    if (
-      !ids[call.id] &&
-      call.action !== callActions.findMe
-    ) {
+    if (!ids[call.id] && call.action !== callActions.findMe) {
       output.push(normalizeStartTime(removeUri(call)));
       ids[call.id] = true;
     }
@@ -27,13 +20,14 @@ function processRecords(records = [], supplementRecords = []) {
 }
 
 export function getDataReducer(types) {
-  return (state = [], {
-    type, records = [], supplementRecords = [], daySpan
-  }) => {
+  return (
+    state = [],
+    { type, records = [], supplementRecords = [], daySpan },
+  ) => {
     switch (type) {
       case types.init: {
         const cutOffTime = getDateFrom(daySpan).getTime();
-        return state.filter(call => call.startTime > cutOffTime);
+        return state.filter((call) => call.startTime > cutOffTime);
       }
       case types.fSyncSuccess:
       case types.iSyncSuccess: {
@@ -90,6 +84,21 @@ export function getTimestampReducer(types) {
       case types.fSyncSuccess:
       case types.iSyncSuccess:
         return timestamp;
+      case types.resetSuccess:
+      case types.clearToken:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getLocalTimestampReducer(types) {
+  return (state = null, { type, localTimestamp }) => {
+    switch (type) {
+      case types.fSyncSuccess:
+      case types.iSyncSuccess:
+        return localTimestamp;
       case types.resetSuccess:
       case types.clearToken:
         return null;

@@ -1,5 +1,8 @@
 import * as R from 'ramda';
-import { isValidNumber, isSameLocalNumber } from '@ringcentral-integration/phone-number';
+import {
+  isValidNumber,
+  isSameLocalNumber,
+} from '@ringcentral-integration/phone-number';
 import HashMap from './HashMap';
 import callActions from '../enums/callActions';
 import callDirections from '../enums/callDirections';
@@ -26,16 +29,15 @@ export function isRingingInboundCall(call) {
 }
 
 const callResultsToMissedMap = HashMap.fromSet({
-  set: Object.keys(callResults).map(key => callResults[key]),
-  getValue: result => (
+  set: Object.keys(callResults).map((key) => callResults[key]),
+  getValue: (result) =>
     [
       callResults.missed,
       callResults.hangUp,
       callResults.busy,
       callResults.voicemail,
       callResults.rejected,
-    ].indexOf(result) > -1
-  ),
+    ].indexOf(result) > -1,
 });
 export function isMissed(call = {}) {
   return !!callResultsToMissedMap[call.result];
@@ -46,8 +48,10 @@ export function hasRingingCalls(calls = []) {
 }
 
 export function isEnded(call = {}) {
-  return call.telephonyStatus === telephonyStatuses.noCall &&
-    call.terminationType === terminationTypes.final;
+  return (
+    call.telephonyStatus === telephonyStatuses.noCall &&
+    call.terminationType === terminationTypes.final
+  );
 }
 
 export function hasEndedCalls(calls) {
@@ -73,15 +77,11 @@ export function isSelfCall(call = {}) {
 
 export function sortBySessionId(a, b) {
   if (a.sessionId === b.sessionId) return 0;
-  return a.sessionId > b.sessionId ?
-    1 :
-    -1;
+  return a.sessionId > b.sessionId ? 1 : -1;
 }
 export function sortByStartTime(a, b) {
   if (a.startTime === b.startTime) return 0;
-  return a.startTime > b.startTime ?
-    -1 :
-    1;
+  return a.startTime > b.startTime ? -1 : 1;
 }
 
 export function normalizeStartTime(call) {
@@ -89,7 +89,7 @@ export function normalizeStartTime(call) {
     ...call,
   };
   if (call.startTime) {
-    result.startTime = (new Date(call.startTime)).getTime();
+    result.startTime = new Date(call.startTime).getTime();
   }
   return result;
 }
@@ -97,12 +97,9 @@ export function normalizeStartTime(call) {
 export function normalizeFromTo(call) {
   return {
     ...call,
-    from: typeof call.from === 'object' ?
-      call.from :
-      { phoneNumber: call.from },
-    to: typeof call.to === 'object' ?
-      call.to :
-      { phoneNumber: call.to },
+    from:
+      typeof call.from === 'object' ? call.from : { phoneNumber: call.from },
+    to: typeof call.to === 'object' ? call.to : { phoneNumber: call.to },
   };
 }
 
@@ -116,27 +113,30 @@ export function areTwoLegs(inbound, outbound) {
       case 4000: {
         // presence
         if (
-          inbound.from && inbound.to &&
-          outbound.from && outbound.to &&
-          isSameLocalNumber(inbound.from.phoneNumber, outbound.to.phoneNumber) &&
+          inbound.from &&
+          inbound.to &&
+          outbound.from &&
+          outbound.to &&
+          isSameLocalNumber(
+            inbound.from.phoneNumber,
+            outbound.to.phoneNumber,
+          ) &&
           isSameLocalNumber(inbound.to.phoneNumber, outbound.from.phoneNumber)
         ) {
           return true;
         }
         // call-log
         if (
-          inbound.from && inbound.to &&
-          outbound.from && outbound.to &&
+          inbound.from &&
+          inbound.to &&
+          outbound.from &&
+          outbound.to &&
           inbound.action === callActions.phoneCall &&
-          (
-            outbound.action === callActions.ringOutWeb ||
+          (outbound.action === callActions.ringOutWeb ||
             outbound.action === callActions.ringOutPC ||
-            outbound.action === callActions.ringOutMobile
-          ) &&
-          (
-            inbound.from.phoneNumber === outbound.from.phoneNumber ||
-            inbound.from.extensionNumber === outbound.from.extensionNumber
-          ) &&
+            outbound.action === callActions.ringOutMobile) &&
+          (inbound.from.phoneNumber === outbound.from.phoneNumber ||
+            inbound.from.extensionNumber === outbound.from.extensionNumber) &&
           inbound.to.phoneNumber === outbound.to.phoneNumber
         ) {
           return true;
@@ -154,7 +154,9 @@ export function removeInboundRingOutLegs(calls) {
   const output = [];
   const outbounds = calls.filter(isOutbound);
   calls.filter(isInbound).forEach((inbound) => {
-    const outboundIndex = outbounds.findIndex(call => areTwoLegs(inbound, call));
+    const outboundIndex = outbounds.findIndex((call) =>
+      areTwoLegs(inbound, call),
+    );
     if (outboundIndex > -1) {
       const outbound = outbounds.splice(outboundIndex, 1)[0];
 
@@ -183,7 +185,10 @@ export function removeInboundRingOutLegs(calls) {
         // https://jira.ringcentral.com/browse/RCINT-3127
         if (
           isValidNumber(inbound.from && inbound.from.phoneNumber) &&
-          isSameLocalNumber(inbound.from.phoneNumber, outbound.to && outbound.to.phoneNumber)
+          isSameLocalNumber(
+            inbound.from.phoneNumber,
+            outbound.to && outbound.to.phoneNumber,
+          )
         ) {
           call.to = {
             ...outbound.to,
@@ -204,7 +209,6 @@ export function removeInboundRingOutLegs(calls) {
   });
   return output.concat(outbounds);
 }
-
 
 export function removeDuplicateIntermediateCalls(calls) {
   const resultCalls = [];
@@ -252,7 +256,7 @@ export function getPhoneNumberMatches(call = {}) {
     from = {},
     // sessionId,
     toMatches,
-    fromMatches
+    fromMatches,
   } = call;
   if (R.isEmpty(call)) {
     return {};
@@ -273,6 +277,6 @@ export function getPhoneNumberMatches(call = {}) {
   // }
   return {
     phoneNumber,
-    matches
+    matches,
   };
 }

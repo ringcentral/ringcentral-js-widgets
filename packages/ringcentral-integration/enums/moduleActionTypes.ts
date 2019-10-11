@@ -1,4 +1,4 @@
-import Enum from '../lib/Enum';
+import { createEnum } from '../lib/Enum';
 
 /**
  * @typedef {Object} ModuleActionTypes
@@ -7,13 +7,16 @@ import Enum from '../lib/Enum';
  * @property {String} reset
  * @property {String} resetSuccess
  */
-
-/**
- * @type {ModuleActionTypes}
- */
-export const moduleActionTypes = new Enum([
+export const moduleActionTypes = createEnum([
   'init',
   'initSuccess',
   'reset',
   'resetSuccess',
 ]);
+
+export interface ModuleActionTypes {
+  init: string;
+  initSuccess: string;
+  reset: string;
+  resetSuccess: string;
+}

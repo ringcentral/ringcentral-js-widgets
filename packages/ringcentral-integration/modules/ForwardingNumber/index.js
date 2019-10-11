@@ -13,8 +13,8 @@ import removeUri from '../../lib/removeUri';
   deps: [
     'Client',
     'RolesAndPermissions',
-    { dep: 'ForwardingNumberOptions', optional: true }
-  ]
+    { dep: 'ForwardingNumberOptions', optional: true },
+  ],
 })
 export default class ForwardingNumber extends DataFetcher {
   /**
@@ -22,25 +22,28 @@ export default class ForwardingNumber extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({
-    client,
-    rolesAndPermissions,
-    ...options
-  }) {
+  constructor({ client, rolesAndPermissions, ...options }) {
     super({
       client,
       fetchFunction: async () => {
-        const lists = await fetchList(params => (
-          this._client.account().extension().forwardingNumber().list(params)
-        ));
-        return lists.map(number => removeUri(number));
+        const lists = await fetchList((params) =>
+          this._client
+            .account()
+            .extension()
+            .forwardingNumber()
+            .list(params),
+        );
+        return lists.map((number) => removeUri(number));
       },
       forbiddenHandler: () => [],
       readyCheckFn: () => this._rolesAndPermissions.ready,
       cleanOnReset: true,
       ...options,
     });
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
   }
 
   get _name() {
@@ -48,26 +51,28 @@ export default class ForwardingNumber extends DataFetcher {
   }
 
   @selector
-  numbers = [
-    () => this.data,
-    data => data || [],
-  ]
+  numbers = [() => this.data, (data) => data || []];
 
   @selector
   flipNumbers = [
     () => this.numbers,
-    phoneNumbers =>
-      phoneNumbers.filter(p => p.features.indexOf('CallFlip') !== -1 && p.phoneNumber)
-  ]
+    (phoneNumbers) =>
+      phoneNumbers.filter(
+        (p) => p.features.indexOf('CallFlip') !== -1 && p.phoneNumber,
+      ),
+  ];
 
   @selector
   forwardingNumbers = [
     () => this.numbers,
-    phoneNumbers =>
-      phoneNumbers.filter(p => p.features.indexOf('CallForwarding') !== -1 && p.phoneNumber)
-  ]
+    (phoneNumbers) =>
+      phoneNumbers.filter(
+        (p) => p.features.indexOf('CallForwarding') !== -1 && p.phoneNumber,
+      ),
+  ];
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.permissions.ReadUserForwardingFlipNumbers;
+    return !!this._rolesAndPermissions.permissions
+      .ReadUserForwardingFlipNumbers;
   }
 }

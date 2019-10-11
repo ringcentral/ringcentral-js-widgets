@@ -15,7 +15,7 @@ describe('detectDefaultLocale', () => {
   });
   it('should use navigator.languages[0] as default if available', () => {
     global.navigator = {
-      languages: ['fo-Ba']
+      languages: ['fo-Ba'],
     };
     expect(detectDefaultLocale()).to.equal('fo-BA');
     delete global.navigator;

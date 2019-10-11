@@ -11,32 +11,28 @@ export default class ClientTransport extends TransportBase {
     });
     this._requests = new Map();
     this._port = chrome.runtime.connect({ name: 'transport' });
-    this._port.onMessage.addListener(({
-      type,
-      payload,
-      requestId,
-      result,
-      error,
-    }) => {
-      switch (type) {
-        case this._events.push:
-          if (payload) {
-            this.emit(this._events.push, payload);
-          }
-          break;
-        case this._events.response:
-          if (requestId && this._requests.has(requestId)) {
-            if (error) {
-              this._requests.get(requestId).reject(new Error(error));
-            } else {
-              this._requests.get(requestId).resolve(result);
+    this._port.onMessage.addListener(
+      ({ type, payload, requestId, result, error }) => {
+        switch (type) {
+          case this._events.push:
+            if (payload) {
+              this.emit(this._events.push, payload);
             }
-          }
-          break;
-        default:
-          break;
-      }
-    });
+            break;
+          case this._events.response:
+            if (requestId && this._requests.has(requestId)) {
+              if (error) {
+                this._requests.get(requestId).reject(new Error(error));
+              } else {
+                this._requests.get(requestId).resolve(result);
+              }
+            }
+            break;
+          default:
+            break;
+        }
+      },
+    );
   }
   async request({ payload }) {
     const requestId = uuid.v4();
@@ -55,15 +51,17 @@ export default class ClientTransport extends TransportBase {
       timeout = null;
       this._requests.get(requestId).reject(new Error(this._events.timeout));
     }, this._timeout);
-    promise = promise.then((result) => {
-      if (timeout) clearTimeout(timeout);
-      this._requests.delete(requestId);
-      return Promise.resolve(result);
-    }).catch((error) => {
-      if (timeout) clearTimeout(timeout);
-      this._requests.delete(requestId);
-      return Promise.reject(error);
-    });
+    promise = promise
+      .then((result) => {
+        if (timeout) clearTimeout(timeout);
+        this._requests.delete(requestId);
+        return Promise.resolve(result);
+      })
+      .catch((error) => {
+        if (timeout) clearTimeout(timeout);
+        this._requests.delete(requestId);
+        return Promise.reject(error);
+      });
     return promise;
   }
 }

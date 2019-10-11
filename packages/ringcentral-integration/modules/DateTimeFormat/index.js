@@ -11,7 +11,7 @@ import getProxyReducer from './getProxyReducer';
  * @description Simple date and time formatting manager.
  */
 @Module({
-  deps: ['Locale', { dep: 'DateTimeFormatOptions', optional: true }]
+  deps: ['Locale', { dep: 'DateTimeFormatOptions', optional: true }],
 })
 export default class DateTimeFormat extends RcModule {
   /**
@@ -19,10 +19,7 @@ export default class DateTimeFormat extends RcModule {
    * @param {Object} params - params object
    * @param {Locale} params.locale - locale module instance
    */
-  constructor({
-    locale,
-    ...options
-  }) {
+  constructor({ locale, ...options }) {
     super({
       ...options,
       actionTypes,
@@ -66,10 +63,7 @@ export default class DateTimeFormat extends RcModule {
   }
   initializeProxy() {
     this.store.subscribe(() => {
-      if (
-        this.proxyPending &&
-        this._locale.proxyReady
-      ) {
+      if (this.proxyPending && this._locale.proxyReady) {
         this.store.dispatch({
           type: this.actionTypes.proxyInit,
         });
@@ -82,15 +76,14 @@ export default class DateTimeFormat extends RcModule {
       }
     });
   }
-  addFormatter({
-    name,
-    formatter,
-  }) {
+  addFormatter({ name, formatter }) {
     if (!name) {
       throw new Error('`name` property cannot be empty.');
     }
     if (this._formatters[name]) {
-      throw new Error(`A formatter with the same name: ${name} already exists.`);
+      throw new Error(
+        `A formatter with the same name: ${name} already exists.`,
+      );
     }
     if (typeof formatter !== 'function') {
       throw new Error('formatter must be a function.');
@@ -117,11 +110,7 @@ export default class DateTimeFormat extends RcModule {
       type,
     });
   }
-  formatDate({
-    name,
-    utcTimestamp,
-    locale,
-  }) {
+  formatDate({ name, utcTimestamp, locale }) {
     return this.formatDateTime({
       name,
       utcTimestamp,
@@ -129,11 +118,7 @@ export default class DateTimeFormat extends RcModule {
       type: 'date',
     });
   }
-  formatTime({
-    name,
-    utcTimestamp,
-    locale,
-  }) {
+  formatTime({ name, utcTimestamp, locale }) {
     return this.formatDateTime({
       name,
       utcTimestamp,

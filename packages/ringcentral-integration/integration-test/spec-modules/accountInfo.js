@@ -26,7 +26,10 @@ export default (auth, client, accountInfo, account, alert) => {
       mock.mockForLogin();
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
       this.retries(2);
@@ -38,16 +41,21 @@ export default (auth, client, accountInfo, account, alert) => {
       mock.restore();
       mock.mockForLogin({ mockAuthzProfile: false });
       mock.authzProfile({
-        permissions: authzProfileBody.permissions.filter(p => p.permission.id !== 'ReadCompanyInfo')
+        permissions: authzProfileBody.permissions.filter(
+          (p) => p.permission.id !== 'ReadCompanyInfo',
+        ),
       });
       await auth.login({
         ...account,
       });
       await waitInSeconds(5);
       expect(auth.loggedIn).equal(false);
-      expect(containsErrorMessage(
-        alert.state.messages, permissionsMessages.insufficientPrivilege
-      )).to.not.equal(undefined);
+      expect(
+        containsErrorMessage(
+          alert.state.messages,
+          permissionsMessages.insufficientPrivilege,
+        ),
+      ).to.not.equal(undefined);
     });
   });
 };

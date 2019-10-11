@@ -3,10 +3,10 @@ import { Library } from '../di';
 import { prefixEnum } from '../Enum';
 import ensureExist from '../ensureExist';
 
-import moduleStatuses from '../../enums/moduleStatuses';
 import baseActionTypes from './baseActionTypes';
 import getDefaultReducer from './getDefaultReducer';
 import proxify from '../proxy/proxify';
+import { selector } from '../selector';
 
 /**
  * @function defaultIdentityFunction
@@ -37,7 +37,7 @@ export function convertListToMap(loggingList) {
  * @description Base class implementation for loggers.
  */
 @Library({
-  deps: [{ dep: 'LoggerBaseOptions', optional: true }]
+  deps: [{ dep: 'LoggerBaseOptions', optional: true }],
 })
 export default class LoggerBase extends RcModule {
   /**
@@ -62,18 +62,19 @@ export default class LoggerBase extends RcModule {
       actionTypes,
     });
     this._name = this::ensureExist(name, 'name');
-    this._identityFunction = this::ensureExist(identityFunction, 'identityFunction');
+    this._identityFunction = this::ensureExist(
+      identityFunction,
+      'identityFunction',
+    );
     this._logFunction = this::ensureExist(logFunction, 'logFunction');
-    this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
+    this._readyCheckFunction = this::ensureExist(
+      readyCheckFunction,
+      'readyCheckFunction',
+    );
 
     this._reducer = getReducer(this.actionTypes);
 
     this._logPromises = new Map();
-
-    this.addSelector('loggingMap',
-      () => this.loggingList,
-      convertListToMap,
-    );
   }
 
   initialize() {
@@ -81,12 +82,11 @@ export default class LoggerBase extends RcModule {
   }
 
   _shouldInit() {
-    return this.pending &&
-      this._readyCheckFunction();
+    return this.pending && this._readyCheckFunction();
   }
+
   _shouldReset() {
-    return this.ready &&
-      !this._readyCheckFunction();
+    return this.ready && !this._readyCheckFunction();
   }
 
   async _onStateChange() {
@@ -119,7 +119,9 @@ export default class LoggerBase extends RcModule {
       throw new Error(`${this.constructor.name}._log: module is not ready.`);
     }
     if (!item) {
-      throw new Error(`${this.constructor.name}._log: options.item is undefined.`);
+      throw new Error(
+        `${this.constructor.name}._log: options.item is undefined.`,
+      );
     }
 
     const id = this._identityFunction(item);
@@ -157,7 +159,9 @@ export default class LoggerBase extends RcModule {
       throw new Error(`${this.constructor.name}.log: module is not ready.`);
     }
     if (!item) {
-      throw new Error(`${this.constructor.name}.log: options.item is undefined.`);
+      throw new Error(
+        `${this.constructor.name}.log: options.item is undefined.`,
+      );
     }
     await this._log({ item, ...options });
   }
@@ -170,7 +174,6 @@ export default class LoggerBase extends RcModule {
     return this.state.loggingList;
   }
 
-  get loggingMap() {
-    return this._selectors.loggingMap();
-  }
+  @selector
+  loggingMap = [() => this.loggingList, convertListToMap];
 }

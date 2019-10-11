@@ -24,39 +24,46 @@ describe('GlipGroups :: getDataReducer', () => {
     });
 
     it('should return records on fetchSuccess', () => {
-      expect(reducer(undefined, {
-        type: actionTypes.fetchSuccess,
-        data: {
-          records: [{ id: 1 }]
-        }
-      })).to.deep.equal([{ id: 1 }]);
+      expect(
+        reducer(undefined, {
+          type: actionTypes.fetchSuccess,
+          data: {
+            records: [{ id: 1 }],
+          },
+        }),
+      ).to.deep.equal([{ id: 1 }]);
     });
 
     it('should return updated records on updateGroup', () => {
-      expect(reducer([{ id: 1 }], {
-        type: actionTypes.updateGroup,
-        group: { id: 1, data: '123' },
-      })).to.deep.equal([{ id: 1, data: '123' }]);
+      expect(
+        reducer([{ id: 1 }], {
+          type: actionTypes.updateGroup,
+          group: { id: 1, data: '123' },
+        }),
+      ).to.deep.equal([{ id: 1, data: '123' }]);
     });
 
     it('should remove record on removeGroup', () => {
-      expect(reducer([{ id: 1 }], {
-        type: actionTypes.removeGroup,
-        group: { id: 1 },
-      })).to.deep.equal([]);
+      expect(
+        reducer([{ id: 1 }], {
+          type: actionTypes.removeGroup,
+          group: { id: 1 },
+        }),
+      ).to.deep.equal([]);
     });
 
     it('should return [] on resetSuccess', () => {
-      expect(reducer([{ id: 1 }], {
-        type: actionTypes.resetSuccess,
-        group: { id: 1 },
-      })).to.deep.equal([]);
+      expect(
+        reducer([{ id: 1 }], {
+          type: actionTypes.resetSuccess,
+          group: { id: 1 },
+        }),
+      ).to.deep.equal([]);
     });
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
   });
 });
@@ -76,21 +83,24 @@ describe('GlipGroups :: getSearchFilterReducer', () => {
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
 
     it('should return searchFilter on updateFilter', () => {
-      expect(reducer(1, {
-        type: actionTypes.updateFilter,
-        searchFilter: 'test',
-      })).to.equal('test');
+      expect(
+        reducer(1, {
+          type: actionTypes.updateFilter,
+          searchFilter: 'test',
+        }),
+      ).to.equal('test');
     });
 
     it('should original state when pageNumber is undefined  on updateFilter', () => {
-      expect(reducer('abc', {
-        type: actionTypes.updateFilter,
-      })).to.equal('abc');
+      expect(
+        reducer('abc', {
+          type: actionTypes.updateFilter,
+        }),
+      ).to.equal('abc');
     });
   });
 });
@@ -110,15 +120,16 @@ describe('GlipGroups :: getCurrentGroupIdReducer', () => {
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
 
     it('should return groupId on updateCurrentGroupId', () => {
-      expect(reducer(1, {
-        type: actionTypes.updateCurrentGroupId,
-        groupId: '123',
-      })).to.equal('123');
+      expect(
+        reducer(1, {
+          type: actionTypes.updateCurrentGroupId,
+          groupId: '123',
+        }),
+      ).to.equal('123');
     });
   });
 });
@@ -138,21 +149,24 @@ describe('GlipGroups :: getTimestampReducer', () => {
 
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
 
     it('should return timestamp on fetchSuccess', () => {
-      expect(reducer(1, {
-        type: actionTypes.fetchSuccess,
-        timestamp: '123',
-      })).to.equal('123');
+      expect(
+        reducer(1, {
+          type: actionTypes.fetchSuccess,
+          timestamp: '123',
+        }),
+      ).to.equal('123');
     });
 
     it('should return null on resetSuccess', () => {
-      expect(reducer(1, {
-        type: actionTypes.resetSuccess,
-      })).to.equal(null);
+      expect(
+        reducer(1, {
+          type: actionTypes.resetSuccess,
+        }),
+      ).to.equal(null);
     });
   });
 });

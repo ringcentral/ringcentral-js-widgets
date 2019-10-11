@@ -23,7 +23,10 @@ export default (auth, client, blockedNumber, account) => {
       mock.mockForLogin();
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
       this.retries(2);
@@ -35,11 +38,16 @@ export default (auth, client, blockedNumber, account) => {
       mock.restore();
       mock.mockForLogin({ mockAuthzProfile: false });
       mock.authzProfile({
-        permissions: authzProfileBody.permissions.filter(p => p.permission.id !== 'ReadBlockedNumbers')
+        permissions: authzProfileBody.permissions.filter(
+          (p) => p.permission.id !== 'ReadBlockedNumbers',
+        ),
       });
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
       this.retries(2);

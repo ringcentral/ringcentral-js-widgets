@@ -7,9 +7,9 @@ export function getDataReducer(types) {
       case types.fetchSuccess:
         return data && data.records;
       case types.updateGroup:
-        return [group].concat(state.filter(g => g.id !== group.id));
+        return [group].concat(state.filter((g) => g.id !== group.id));
       case types.removeGroup:
-        return state.filter(g => g.id !== group.id);
+        return state.filter((g) => g.id !== group.id);
       case types.resetSuccess:
         return [];
       default:

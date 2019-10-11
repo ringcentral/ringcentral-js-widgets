@@ -24,7 +24,7 @@ const LoginStatusChangeEvent = 'loginStatusChange';
     { dep: 'TabManager', optional: true },
     { dep: 'Environment', optional: true },
     { dep: 'AuthOptions', optional: true },
-  ]
+  ],
 })
 export default class Auth extends RcModule {
   /**
@@ -130,15 +130,20 @@ export default class Auth extends RcModule {
     };
     const onRefreshError = (error) => {
       // user is still considered logged in if the refreshToken is still valid
-      let isOffline = (error.message === 'Failed to fetch' ||
-      error.message === 'The Internet connection appears to be offline.' ||
-      error.message === 'NetworkError when attempting to fetch resource.' ||
-      error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.');
+      let isOffline =
+        error.message === 'Failed to fetch' ||
+        error.message === 'The Internet connection appears to be offline.' ||
+        error.message === 'NetworkError when attempting to fetch resource.' ||
+        error.message ===
+          'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.';
 
-      let res_status = error.apiResponse && error.apiResponse._response &&
-        error.apiResponse._response.status || null;
-      const refreshTokenValid = (isOffline || res_status >= 500) &&
-        platform.auth().refreshTokenValid();
+      let res_status =
+        (error.apiResponse &&
+          error.apiResponse._response &&
+          error.apiResponse._response.status) ||
+        null;
+      const refreshTokenValid =
+        (isOffline || res_status >= 500) && platform.auth().refreshTokenValid();
       this.store.dispatch({
         type: this.actionTypes.refreshError,
         error,
@@ -194,10 +199,7 @@ export default class Auth extends RcModule {
           token: loggedIn ? platform.auth().data() : null,
         });
       }
-      if (
-        (this._tabManager && this._tabManager.ready) &&
-        this.ready
-      ) {
+      if (this._tabManager && this._tabManager.ready && this.ready) {
         if (
           (loggedIn && this.loginStatus === loginStatus.notLoggedIn) ||
           (!loggedIn && this.loginStatus === loginStatus.loggedIn)
@@ -214,7 +216,12 @@ export default class Auth extends RcModule {
           this.store.dispatch({
             type: this.actionTypes.tabSync,
             loggedIn,
-            token: loggedIn ? this._client.service.platform().auth().data() : null,
+            token: loggedIn
+              ? this._client.service
+                  .platform()
+                  .auth()
+                  .data()
+              : null,
           });
         }
       }
@@ -291,20 +298,26 @@ export default class Auth extends RcModule {
     accessToken,
     expiresIn,
     endpointId,
-    tokenType
+    tokenType,
   }) {
     this.store.dispatch({
       type: this.actionTypes.login,
     });
     let ownerId;
     if (accessToken) {
-      this._client.service.platform().auth().setData({
-        token_type: tokenType,
-        access_token: accessToken,
-        expires_in: expiresIn,
-        refresh_token_expires_in: expiresIn,
-      });
-      const extensionData = await this._client.account().extension().get();
+      this._client.service
+        .platform()
+        .auth()
+        .setData({
+          token_type: tokenType,
+          access_token: accessToken,
+          expires_in: expiresIn,
+          refresh_token_expires_in: expiresIn,
+        });
+      const extensionData = await this._client
+        .account()
+        .extension()
+        .get();
       ownerId = extensionData.id;
     }
     return this._client.service.platform().login({
@@ -332,7 +345,13 @@ export default class Auth extends RcModule {
    * @description get OAuth page url
    */
   getLoginUrl({
-    redirectUri, state, brandId, display, prompt, force, implicit = false
+    redirectUri,
+    state,
+    brandId,
+    display,
+    prompt,
+    force,
+    implicit = false,
   }) {
     return `${this._client.service.platform().loginUrl({
       redirectUri,
@@ -394,10 +413,10 @@ export default class Auth extends RcModule {
   }
 
   /**
-  * @function
-  * @param {Function} handler
-  * @returns {Function}
-  */
+   * @function
+   * @param {Function} handler
+   * @returns {Function}
+   */
   addBeforeLogoutHandler(handler) {
     this._beforeLogoutHandlers.add(handler);
     return () => {
@@ -406,9 +425,9 @@ export default class Auth extends RcModule {
   }
 
   /**
-  * @function
-  * @param {Function} handler
-  */
+   * @function
+   * @param {Function} handler
+   */
   removeBeforeLogoutHandler(handler) {
     this._beforeLogoutHandlers.delete(handler);
   }
@@ -428,7 +447,10 @@ export default class Auth extends RcModule {
     endpointId,
   }) {
     try {
-      const extensionData = await this._client.account().extension().get();
+      const extensionData = await this._client
+        .account()
+        .extension()
+        .get();
       const ownerId = String(extensionData.id);
       if (ownerId !== String(this.ownerId)) {
         return;
@@ -458,8 +480,10 @@ export default class Auth extends RcModule {
   }
 
   get loggedIn() {
-    return this.state.loginStatus === loginStatus.loggedIn ||
-      this.state.loginStatus === loginStatus.beforeLogout;
+    return (
+      this.state.loginStatus === loginStatus.loggedIn ||
+      this.state.loginStatus === loginStatus.beforeLogout
+    );
   }
 
   get notLoggedIn() {

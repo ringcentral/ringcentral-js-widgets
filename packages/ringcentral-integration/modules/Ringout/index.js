@@ -20,7 +20,7 @@ const DEFAULT_TIME_BETWEEN_CALLS = 10000;
     'Client',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'RingoutOptions', optional: true },
-  ]
+  ],
 })
 export default class Ringout extends RcModule {
   /**
@@ -42,7 +42,7 @@ export default class Ringout extends RcModule {
   }) {
     super({
       ...options,
-      actionTypes
+      actionTypes,
     });
     this._auth = auth;
     this._client = client;
@@ -56,11 +56,11 @@ export default class Ringout extends RcModule {
     this.store.subscribe(() => {
       if (this._auth.loggedIn && !this.ready) {
         this.store.dispatch({
-          type: this.actionTypes.initSuccess
+          type: this.actionTypes.initSuccess,
         });
       } else if (!this._auth.loggedIn && this.ready) {
         this.store.dispatch({
-          type: this.actionTypes.resetSuccess
+          type: this.actionTypes.resetSuccess,
         });
       }
     });
@@ -70,14 +70,18 @@ export default class Ringout extends RcModule {
   async makeCall({ fromNumber, toNumber, prompt }) {
     if (this.status === moduleStatuses.ready) {
       this.store.dispatch({
-        type: this.actionTypes.startToConnect
+        type: this.actionTypes.startToConnect,
       });
       try {
-        const resp = await this._client.account().extension().ringOut().post({
-          from: { phoneNumber: fromNumber },
-          to: { phoneNumber: toNumber },
-          playPrompt: prompt
-        });
+        const resp = await this._client
+          .account()
+          .extension()
+          .ringOut()
+          .post({
+            from: { phoneNumber: fromNumber },
+            to: { phoneNumber: toNumber },
+            playPrompt: prompt,
+          });
 
         if (this._contactMatcher) {
           await this._contactMatcher.forceMatchBatchNumbers({
@@ -89,11 +93,11 @@ export default class Ringout extends RcModule {
         await this._monitorRingout(resp.id, startTime);
 
         this.store.dispatch({
-          type: this.actionTypes.connectSuccess
+          type: this.actionTypes.connectSuccess,
         });
       } catch (e) {
         this.store.dispatch({
-          type: this.actionTypes.connectError
+          type: this.actionTypes.connectError,
         });
         if (e.message !== ringoutErrors.pollingCancelled) {
           throw e;
@@ -123,7 +127,11 @@ export default class Ringout extends RcModule {
   async _fetchRingoutStatus(ringoutId) {
     try {
       let callStatus;
-      const resp = await this._client.account().extension().ringOut(ringoutId).get()
+      const resp = await this._client
+        .account()
+        .extension()
+        .ringOut(ringoutId)
+        .get()
         .catch((error) => {
           if (
             error &&

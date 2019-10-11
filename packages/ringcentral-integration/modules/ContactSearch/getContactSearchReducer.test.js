@@ -23,16 +23,15 @@ describe('ContactSearch :: getContactSearchStatusReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return searching status on search', () => {
-      [
-        actionTypes.search,
-      ].forEach(type => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(contactSearchStatus.searching);
+      [actionTypes.search].forEach((type) => {
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(contactSearchStatus.searching);
       });
     });
     it('should return idle state on prepareSearch, searchSuccess, searchError', () => {
@@ -41,9 +40,11 @@ describe('ContactSearch :: getContactSearchStatusReducer', () => {
         actionTypes.searchSuccess,
         actionTypes.searchError,
       ].forEach((type) => {
-        expect(reducer('foo', {
-          type,
-        })).to.equal(contactSearchStatus.idle);
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(contactSearchStatus.idle);
       });
     });
   });
@@ -64,13 +65,13 @@ describe('getSearchingReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return original state on search', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'search' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'search' })).to.equal(
+        originalState,
+      );
     });
     it('should return initial state on resetSuccess, prepareSearch, reset and searchError', () => {
       [
@@ -79,84 +80,100 @@ describe('getSearchingReducer', () => {
         actionTypes.reset,
         actionTypes.searchError,
       ].forEach((type) => {
-        expect(reducer('foo', {
-          type,
-        })).to.deep.equal(initialState);
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.deep.equal(initialState);
       });
     });
 
     it('should return searchString and result as key on searchSuccess', () => {
       const originalState = {};
-      expect(reducer(originalState, {
-        type: actionTypes.searchSuccess,
-        searchString: '123',
-        entities: [],
-      })).to.include.keys('searchString', 'result');
+      expect(
+        reducer(originalState, {
+          type: actionTypes.searchSuccess,
+          searchString: '123',
+          entities: [],
+        }),
+      ).to.include.keys('searchString', 'result');
     });
     it('should return data with searchString on searchSuccess', () => {
       const originalState = {};
-      expect(reducer(originalState, {
-        type: actionTypes.searchSuccess,
-        searchString: 'test',
-        entities: [],
-      }).searchString).to.equal('test');
+      expect(
+        reducer(originalState, {
+          type: actionTypes.searchSuccess,
+          searchString: 'test',
+          entities: [],
+        }).searchString,
+      ).to.equal('test');
     });
     it('should return data with result on searchSuccess', () => {
       const originalState = {};
-      const entities = [{
-        entityType: 'account',
-        id: '123',
-        name: 'User One',
-        phoneNumber: '12345678',
-        phoneType: 'mobile'
-      }];
-      expect(reducer(originalState, {
-        type: actionTypes.searchSuccess,
-        searchString: 'test',
-        entities,
-      }).result).to.deep.equal(entities);
+      const entities = [
+        {
+          entityType: 'account',
+          id: '123',
+          name: 'User One',
+          phoneNumber: '12345678',
+          phoneType: 'mobile',
+        },
+      ];
+      expect(
+        reducer(originalState, {
+          type: actionTypes.searchSuccess,
+          searchString: 'test',
+          entities,
+        }).result,
+      ).to.deep.equal(entities);
     });
     it('should return data with result concat with same searchString', () => {
       const originalState = {
         searchOnSources: ['testSource'],
         searchString: 'test',
-        result: [{
-          entityType: 'contact',
-          id: '1',
-          name: 'User Zero',
-          phoneNumber: '1234567890',
-          phoneType: 'mobile',
-        }]
+        result: [
+          {
+            entityType: 'contact',
+            id: '1',
+            name: 'User Zero',
+            phoneNumber: '1234567890',
+            phoneType: 'mobile',
+          },
+        ],
       };
-      const entities = [{
-        entityType: 'account',
-        id: '123',
-        name: 'User One',
-        phoneNumber: '12345678',
-        phoneType: 'mobile',
-      }];
+      const entities = [
+        {
+          entityType: 'account',
+          id: '123',
+          name: 'User One',
+          phoneNumber: '12345678',
+          phoneType: 'mobile',
+        },
+      ];
       const expectResult = [
         {
           entityType: 'contact',
           id: '1',
           name: 'User Zero',
           phoneNumber: '1234567890',
-          phoneType: 'mobile'
+          phoneType: 'mobile',
         },
         {
           entityType: 'account',
           id: '123',
           name: 'User One',
           phoneNumber: '12345678',
-          phoneType: 'mobile'
-        }
+          phoneType: 'mobile',
+        },
       ];
-      expect(reducer(originalState, {
-        type: actionTypes.searchSuccess,
-        searchOnSources: ['testSource'],
-        searchString: 'test',
-        entities,
-      }).result).to.deep.equal(expectResult);
+      expect(
+        reducer(originalState, {
+          type: actionTypes.searchSuccess,
+          searchOnSources: ['testSource'],
+          searchString: 'test',
+          entities,
+        }).result,
+      ).to.deep.equal(expectResult);
     });
   });
 });

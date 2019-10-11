@@ -15,15 +15,15 @@ export function isChrome() {
   if (!environment.navigator) {
     return false;
   }
-  const browserUa = environment.navigator.userAgent.toLowerCase()
-  return !!(browserUa.match(/chrom(e|ium)/));
+  const browserUa = environment.navigator.userAgent.toLowerCase();
+  return !!browserUa.match(/chrom(e|ium)/);
 }
 
 export function isFirefox() {
   if (!environment.navigator) {
     return false;
   }
-  const browserUa = environment.navigator.userAgent.toLowerCase()
+  const browserUa = environment.navigator.userAgent.toLowerCase();
   return browserUa.indexOf('firefox') > -1 && !isChrome();
 }
 
@@ -31,8 +31,10 @@ export function isEnableMidLinesInSDP() {
   if (!isFirefox()) {
     return false;
   }
-  const version =
-    parseInt(navigator.userAgent.toLowerCase().match(/firefox\/([0-9]+)/)[1], 10);
+  const version = parseInt(
+    navigator.userAgent.toLowerCase().match(/firefox\/([0-9]+)/)[1],
+    10,
+  );
   return version >= 63;
 }
 
@@ -75,7 +77,7 @@ export function extractHeadersData(session, headers) {
      */
     const data = headers['P-Rc-Api-Ids'][0].raw
       .split(';')
-      .map(sub => sub.split('='))
+      .map((sub) => sub.split('='))
       .reduce((accum, [key, value]) => {
         accum[camelize(key)] = value;
         return accum;
@@ -107,7 +109,7 @@ export function normalizeSession(session) {
     from: session.request.from.uri.user,
     fromNumber: session.__rc_fromNumber,
     fromUserName: session.request.from.displayName,
-    startTime: session.startTime && (new Date(session.startTime)).getTime(),
+    startTime: session.startTime && new Date(session.startTime).getTime(),
     creationTime: session.__rc_creationTime,
     isOnHold: !!session.localHold,
     isOnMute: !!session.__rc_isOnMute,
@@ -156,16 +158,13 @@ export function sortByLastActiveTimeDesc(l, r) {
  * HACK: this function is not very reliable, only use it before the merging complete.
  */
 export function isConferenceSession(session) {
-  return session && session.to &&
-    session.to.indexOf('conf_') === 0;
+  return session && session.to && session.to.indexOf('conf_') === 0;
 }
 
 export function isRecording(session) {
   return !!(
     session &&
-    (
-      session.recordStatus === recordStatus.pending ||
-      session.recordStatus === recordStatus.recording
-    )
+    (session.recordStatus === recordStatus.pending ||
+      session.recordStatus === recordStatus.recording)
   );
 }

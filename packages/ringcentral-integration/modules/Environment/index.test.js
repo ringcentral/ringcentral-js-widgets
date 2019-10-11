@@ -5,7 +5,6 @@ import Environment from './index';
 import getEnvironmentReducer from './getEnvironmentReducer';
 import actionTypes from './actionTypes';
 
-
 describe('Environment Unit Test', () => {
   let environment;
   let store;
@@ -15,9 +14,11 @@ describe('Environment Unit Test', () => {
     store = createStore(getEnvironmentReducer(actionTypes));
     environment._store = store;
     environment._prefixedActionTypes = actionTypes;
-    ['_shouldInit', '_initClientService', '_onStateChange', 'setData'].forEach((key) => {
-      environment[key].restore();
-    });
+    ['_shouldInit', '_initClientService', '_onStateChange', 'setData'].forEach(
+      (key) => {
+        environment[key].restore();
+      },
+    );
   });
 
   describe('_onStateChange', () => {
@@ -39,28 +40,28 @@ describe('Environment Unit Test', () => {
   describe('_shouldInit', () => {
     it(`Should return true when environment is not ready and globalStorage is ready`, () => {
       environment._globalStorage = {
-        ready: true
+        ready: true,
       };
       sinon.stub(environment, 'ready', { get: () => false });
       expect(environment._shouldInit()).to.equal(true);
     });
     it(`Should return false when environment is not ready and globalStorage is not ready`, () => {
       environment._globalStorage = {
-        ready: false
+        ready: false,
       };
       sinon.stub(environment, 'ready', { get: () => false });
       expect(environment._shouldInit()).to.equal(false);
     });
     it(`Should return false when environment is ready and globalStorage is ready`, () => {
       environment._globalStorage = {
-        ready: true
+        ready: true,
       };
       sinon.stub(environment, 'ready', { get: () => true });
       expect(environment._shouldInit()).to.equal(false);
     });
     it(`Should return false when environment is ready and globalStorage is not ready`, () => {
       environment._globalStorage = {
-        ready: false
+        ready: false,
       };
       sinon.stub(environment, 'ready', { get: () => true });
       expect(environment._shouldInit()).to.equal(false);
@@ -72,14 +73,14 @@ describe('Environment Unit Test', () => {
       it('environment is enabled and someone tries to disable it', () => {
         sinon.stub(environment, 'enabled', { get: () => true });
         environment.setData({
-          enabled: false
+          enabled: false,
         });
         sinon.assert.calledOnce(environment._changeEnvironment);
       });
       it('environment is disabled and someone tries to enable it', () => {
         sinon.stub(environment, 'enabled', { get: () => false });
         environment.setData({
-          enabled: true
+          enabled: true,
         });
         sinon.assert.calledOnce(environment._changeEnvironment);
       });
@@ -88,7 +89,7 @@ describe('Environment Unit Test', () => {
         sinon.stub(environment, 'server', { get: () => '123' });
         environment.setData({
           server: '345',
-          enabled: true
+          enabled: true,
         });
         sinon.assert.calledOnce(environment._changeEnvironment);
       });
@@ -99,7 +100,7 @@ describe('Environment Unit Test', () => {
         sinon.stub(environment, 'server', { get: () => '123' });
         environment.setData({
           enabled: true,
-          server: '123'
+          server: '123',
         });
         sinon.assert.notCalled(environment._changeEnvironment);
       });
@@ -108,7 +109,7 @@ describe('Environment Unit Test', () => {
         sinon.stub(environment, 'server', { get: () => '123' });
         environment.setData({
           enabled: false,
-          server: '456'
+          server: '456',
         });
         sinon.assert.notCalled(environment._changeEnvironment);
       });

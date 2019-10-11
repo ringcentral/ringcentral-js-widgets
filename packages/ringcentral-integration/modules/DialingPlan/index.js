@@ -13,8 +13,8 @@ import { selector } from '../../lib/selector';
   deps: [
     'Client',
     'RolesAndPermissions',
-    { dep: 'DialingPlanOptions', optional: true }
-  ]
+    { dep: 'DialingPlanOptions', optional: true },
+  ],
 })
 export default class DialingPlan extends DataFetcher {
   /**
@@ -22,28 +22,31 @@ export default class DialingPlan extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({
-    client,
-    rolesAndPermissions,
-    ...options
-  }) {
+  constructor({ client, rolesAndPermissions, ...options }) {
     super({
       client,
       polling: true,
-      fetchFunction: async () => (await fetchList(async (params) => {
-        const platform = client.service.platform();
-        const response = await platform.get('/account/~/dialing-plan', params);
-        return response.json();
-      })).map(p => ({
-        id: p.id,
-        isoCode: p.isoCode,
-        callingCode: p.callingCode,
-      })),
+      fetchFunction: async () =>
+        (await fetchList(async (params) => {
+          const platform = client.service.platform();
+          const response = await platform.get(
+            '/account/~/dialing-plan',
+            params,
+          );
+          return response.json();
+        })).map((p) => ({
+          id: p.id,
+          isoCode: p.isoCode,
+          callingCode: p.callingCode,
+        })),
       readyCheckFn: () => this._rolesAndPermissions.ready,
       ...options,
     });
 
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
   }
 
   get _name() {
@@ -51,14 +54,7 @@ export default class DialingPlan extends DataFetcher {
   }
 
   @selector
-  plans = [
-    () => this.data,
-    data => data || [],
-  ]
-
-  get plans() {
-    return this._selectors.plans();
-  }
+  plans = [() => this.data, (data) => data || []];
 
   get status() {
     return this.state.status;
@@ -72,4 +68,3 @@ export default class DialingPlan extends DataFetcher {
     return !!this._rolesAndPermissions.permissions.ReadCompanyInfo;
   }
 }
-

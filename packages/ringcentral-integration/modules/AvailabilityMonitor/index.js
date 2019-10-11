@@ -40,9 +40,7 @@ export default class AvailabilityMonitor extends RcModule {
    * @param {Client} params.client - client module instance
    * @param {Environment} params.environment - environment module instance
    */
-  constructor({
-    alert, client, environment, enabled = false, ...options
-  }) {
+  constructor({ alert, client, environment, enabled = false, ...options }) {
     super({
       actionTypes,
       enabled,
@@ -111,20 +109,53 @@ export default class AvailabilityMonitor extends RcModule {
     // TODO: in other modules, when they catch error first check if app is in HA mode.
     client.on(client.events.beforeRequest, this._beforeRequestHandler);
     client.on(client.events.requestError, this._requestErrorHandler);
-    platform.addListener(platform.events.loginSuccess, this._switchToNormalMode);
-    platform.addListener(platform.events.logoutSuccess, this._switchToNormalMode);
+    platform.addListener(
+      platform.events.loginSuccess,
+      this._switchToNormalMode,
+    );
+    platform.addListener(
+      platform.events.logoutSuccess,
+      this._switchToNormalMode,
+    );
     platform.addListener(platform.events.logoutError, this._switchToNormalMode);
-    platform.addListener(platform.events.refreshError, this._refreshErrorHandler);
-    platform.addListener(platform.events.refreshSuccess, this._refreshSuccessHandler);
+    platform.addListener(
+      platform.events.refreshError,
+      this._refreshErrorHandler,
+    );
+    platform.addListener(
+      platform.events.refreshSuccess,
+      this._refreshSuccessHandler,
+    );
 
     this._unbindHandlers = () => {
-      client.removeListener(client.events.beforeRequest, this._beforeRequestHandler);
-      client.removeListener(client.events.requestError, this._requestErrorHandler);
-      platform.removeListener(platform.events.loginSuccess, this._switchToNormalMode);
-      platform.removeListener(platform.events.logoutSuccess, this._switchToNormalMode);
-      platform.removeListener(platform.events.logoutError, this._switchToNormalMode);
-      platform.removeListener(platform.events.refreshError, this._refreshErrorHandler);
-      platform.removeListener(platform.events.refreshSuccess, this._refreshSuccessHandler);
+      client.removeListener(
+        client.events.beforeRequest,
+        this._beforeRequestHandler,
+      );
+      client.removeListener(
+        client.events.requestError,
+        this._requestErrorHandler,
+      );
+      platform.removeListener(
+        platform.events.loginSuccess,
+        this._switchToNormalMode,
+      );
+      platform.removeListener(
+        platform.events.logoutSuccess,
+        this._switchToNormalMode,
+      );
+      platform.removeListener(
+        platform.events.logoutError,
+        this._switchToNormalMode,
+      );
+      platform.removeListener(
+        platform.events.refreshError,
+        this._refreshErrorHandler,
+      );
+      platform.removeListener(
+        platform.events.refreshSuccess,
+        this._refreshSuccessHandler,
+      );
       this._unbindHandlers = null;
     };
   }
@@ -218,16 +249,21 @@ export default class AvailabilityMonitor extends RcModule {
   }
 
   _refreshErrorHandler(error) {
-    const isOffline = (error.message === 'Failed to fetch' ||
+    const isOffline =
+      error.message === 'Failed to fetch' ||
       error.message === 'The Internet connection appears to be offline.' ||
       error.message === 'NetworkError when attempting to fetch resource.' ||
-      error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.');
+      error.message ===
+        'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.';
 
     const platform = this._client.service.platform();
-    const RES_STATUS = error.apiResponse && error.apiResponse._response &&
-      error.apiResponse._response.status || null;
-    const refreshTokenValid = (isOffline || RES_STATUS >= 500) &&
-      platform.auth().refreshTokenValid();
+    const RES_STATUS =
+      (error.apiResponse &&
+        error.apiResponse._response &&
+        error.apiResponse._response.status) ||
+      null;
+    const refreshTokenValid =
+      (isOffline || RES_STATUS >= 500) && platform.auth().refreshTokenValid();
     if (refreshTokenValid) {
       this._switchToVoIPOnlyMode();
     }
@@ -291,7 +327,9 @@ export default class AvailabilityMonitor extends RcModule {
   }
 
   async _getStatus() {
-    const res = await this._client.service.platform().get('/status', null, { skipAuthCheck: true });
+    const res = await this._client.service
+      .platform()
+      .get('/status', null, { skipAuthCheck: true });
     return res && res.response();
   }
 

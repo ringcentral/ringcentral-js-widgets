@@ -28,7 +28,9 @@ describe('validateNumbers', () => {
   it('should throw error if one number is not an valid number', async () => {
     const regionSettings = { countryCode: 'US', areaCode: '666' };
     const brandId = '1210';
-    expect(() => { validateNumbers(['*&%^&%'], regionSettings, brandId); }).to.throw();
+    expect(() => {
+      validateNumbers(['*&%^&%'], regionSettings, brandId);
+    }).to.throw();
     //   const result = validateNumbers(['*&%^&%'], regionSettings, brandId);
     //   expect(result).to.deep.equal(['*&%^&%'], {
     //     phoneNumber: '*&%^&%',

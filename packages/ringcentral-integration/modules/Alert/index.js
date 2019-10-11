@@ -12,7 +12,7 @@ import proxify from '../../lib/proxy/proxify';
  * @description Alert messages managing module.
  */
 @Module({
-  deps: [{ dep: 'AlertOptions', optional: true }]
+  deps: [{ dep: 'AlertOptions', optional: true }],
 })
 export default class Alert extends RcModule {
   /**
@@ -20,10 +20,7 @@ export default class Alert extends RcModule {
    * @param {Object} params - params object
    * @param {Number} params.ttl - Default time-to-live for alert messages.
    */
-  constructor({
-    ttl = 5000,
-    ...options
-  }) {
+  constructor({ ttl = 5000, ...options }) {
     super({
       ...options,
     });
@@ -61,12 +58,12 @@ export default class Alert extends RcModule {
   _autoDismiss = () => {
     const now = Date.now();
     const ids = this.state.messages
-      .filter(item => item.ttl > 0 && now - item.timestamp > item.ttl)
-      .map(item => item.id);
+      .filter((item) => item.ttl > 0 && now - item.timestamp > item.ttl)
+      .map((item) => item.id);
     if (ids.length) {
       this.dismiss(ids);
     }
-  }
+  };
 
   /**
    * @function

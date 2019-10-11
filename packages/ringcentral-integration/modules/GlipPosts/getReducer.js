@@ -31,9 +31,10 @@ export function getGlipPostsCreateStatusReducer(types) {
 }
 
 export function getGlipPostsStoreReducer(types) {
-  return (state = {}, {
-    type, groupId, records, record, oldRecordId, isSendByMe, lastPageToken
-  }) => {
+  return (
+    state = {},
+    { type, groupId, records, record, oldRecordId, isSendByMe, lastPageToken },
+  ) => {
     let newState;
     let newPosts;
     let oldPostIndex;
@@ -57,24 +58,29 @@ export function getGlipPostsStoreReducer(types) {
         };
         newPosts = (newState[groupId] && [...newState[groupId]]) || [];
         if (oldRecordId) {
-          oldPostIndex = newPosts.findIndex(p => p.id === oldRecordId);
+          oldPostIndex = newPosts.findIndex((p) => p.id === oldRecordId);
         } else {
-          oldPostIndex = newPosts.findIndex(p => p.id === record.id);
+          oldPostIndex = newPosts.findIndex((p) => p.id === record.id);
         }
         if (oldPostIndex > -1) {
           newPosts.splice(oldPostIndex, 1, record);
           newState[groupId] = newPosts;
         } else if (isSendByMe) {
-          oldPostIndex = newPosts.findIndex(p =>
-            p.creatorId === record.creatorId &&
-            p.text === record.text &&
-            p.sendStatus === status.creating
+          oldPostIndex = newPosts.findIndex(
+            (p) =>
+              p.creatorId === record.creatorId &&
+              p.text === record.text &&
+              p.sendStatus === status.creating,
           );
           if (oldPostIndex === -1) {
-            newState[groupId] = [record].concat(newPosts.filter(p => p.id !== record.id));
+            newState[groupId] = [record].concat(
+              newPosts.filter((p) => p.id !== record.id),
+            );
           }
         } else {
-          newState[groupId] = [record].concat(newPosts.filter(p => p.id !== record.id));
+          newState[groupId] = [record].concat(
+            newPosts.filter((p) => p.id !== record.id),
+          );
         }
         return newState;
       case types.resetSuccess:
@@ -86,9 +92,7 @@ export function getGlipPostsStoreReducer(types) {
 }
 
 export function getGlipPostsInputsReducer(types) {
-  return (state = {}, {
-    type, groupId, textValue, mentions
-  }) => {
+  return (state = {}, { type, groupId, textValue, mentions }) => {
     let newState;
     switch (type) {
       case types.updatePostInput:

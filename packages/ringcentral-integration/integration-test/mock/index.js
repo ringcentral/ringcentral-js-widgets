@@ -35,6 +35,7 @@ import sipProvisionBody from './data/sipProvision';
 import fetchDLBody from './data/fetchDL';
 import fetchDLWithNoRecordBody from './data/fetchDLWithNoRecord';
 import videoConfigurationBody from './data/videoConfiguration.json';
+import meetingProviderBody from './data/meetingProvider.json';
 
 export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -69,7 +70,7 @@ export function mockApi({
   const isJson = typeof body !== 'string';
   if (isJson && !headers) {
     responseHeaders = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
   } else {
     responseHeaders = headers;
@@ -80,17 +81,23 @@ export function mockApi({
   } else {
     mockUrl = `${server}${path}`;
   }
-  const mock = isOnce ? fetchMock.once.bind(fetchMock) : fetchMock.mock.bind(fetchMock);
-  mock(mockUrl, {
-    body: isJson ? JSON.stringify(body) : body,
-    status,
-    statusText,
-    headers: responseHeaders,
-    sendAsJson: false
-  }, {
-    method,
-    times: isOnce ? 1 : 20,
-  });
+  const mock = isOnce
+    ? fetchMock.once.bind(fetchMock)
+    : fetchMock.mock.bind(fetchMock);
+  mock(
+    mockUrl,
+    {
+      body: isJson ? JSON.stringify(body) : body,
+      status,
+      statusText,
+      headers: responseHeaders,
+      sendAsJson: false,
+    },
+    {
+      method,
+      times: isOnce ? 1 : 20,
+    },
+  );
 }
 
 export function authentication() {
@@ -107,7 +114,7 @@ export function authentication() {
       expireTime: new Date().getTime() + 3600000,
       owner_id: '23231231"',
       endpoint_id: '3213213131',
-    }
+    },
   });
 }
 
@@ -130,8 +137,8 @@ export function tokenRefresh(failure) {
         expires_in: 3600,
         refresh_token: 'REFRESH_TOKEN_FROM_REFRESH',
         refresh_token_expires_in: 60480,
-        scope: 'SMS RCM Foo Boo'
-      }
+        scope: 'SMS RCM Foo Boo',
+      },
     });
   } else {
     mockApi({
@@ -140,7 +147,7 @@ export function tokenRefresh(failure) {
       body: {
         message: 'Wrong token',
         error_description: 'Wrong token',
-        description: 'Wrong token'
+        description: 'Wrong token',
       },
       status: 400,
     });
@@ -163,7 +170,7 @@ export function presence(id, mockResponse = {}, isOnce = false) {
       userStatus: 'Available',
       dndStatus: 'TakeAllCalls',
       extensionId: id,
-      ...mockResponse
+      ...mockResponse,
     },
     isOnce,
   });
@@ -176,7 +183,7 @@ export function presenceUpdate(id, mockResponse = {}) {
     body: {
       ...presenceBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -186,7 +193,7 @@ export function dialingPlan(mockResponse = {}) {
     body: {
       ...dialingPlanBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -216,7 +223,7 @@ export function conferenceCallBringIn(id, mockResponse = {}) {
 export function removeFromConference(id, partyId) {
   mockApi({
     method: 'DELETE',
-    path: `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/${partyId}`
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/${partyId}`,
   });
 }
 
@@ -226,7 +233,7 @@ export function extensionList(mockResponse = {}) {
     body: {
       ...extensionListBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -236,7 +243,7 @@ export function companyContactList(mockResponse = {}) {
     body: {
       ...extensionsListBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -246,7 +253,7 @@ export function accountInfo(mockResponse = {}) {
     body: {
       ...accountBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -256,7 +263,7 @@ export function apiInfo(mockResponse = {}) {
     body: {
       ...apiInfoBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -267,7 +274,7 @@ export function messageSync(mockResponse = {}, isOnce = false) {
       ...messageSyncBody,
       ...mockResponse,
     },
-    isOnce
+    isOnce,
   });
 }
 
@@ -278,7 +285,7 @@ export function messageList(mockResponse = {}) {
       ...messageListBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
   });
 }
 
@@ -290,7 +297,7 @@ export function updateMessageStatus(mockResponse = {}, isOnce = true) {
       ...messageItemBody,
       ...mockResponse,
     },
-    isOnce
+    isOnce,
   });
 }
 
@@ -300,7 +307,7 @@ export function authzProfile(mockResponse = {}) {
     body: {
       ...authzProfileBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -310,7 +317,7 @@ export function blockedNumber(mockResponse = {}) {
     body: {
       ...blockedNumberBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -319,8 +326,8 @@ export function forwardingNumber(mockResponse = {}) {
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/forwarding-number`,
     body: {
       ...forwardingNumberBody,
-      ...mockResponse
-    }
+      ...mockResponse,
+    },
   });
 }
 
@@ -330,7 +337,7 @@ export function phoneNumber(mockResponse = {}) {
     body: {
       ...phoneNumberBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -341,7 +348,7 @@ export function accountPhoneNumber(mockResponse = {}) {
       ...accountPhoneNumberBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
   });
 }
 
@@ -353,7 +360,7 @@ export function subscription(mockResponse = {}) {
       ...subscriptionBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
   });
   mockApi({
     method: 'PUT',
@@ -362,7 +369,7 @@ export function subscription(mockResponse = {}) {
       ...subscriptionBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
   });
   mockApi({
     method: 'DELETE',
@@ -371,7 +378,7 @@ export function subscription(mockResponse = {}) {
       ...subscriptionBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
   });
 }
 
@@ -383,7 +390,7 @@ export function numberParser(mockResponse = {}, isOnce = true) {
       ...numberParserBody,
       ...mockResponse,
     },
-    isOnce
+    isOnce,
   });
 }
 
@@ -394,7 +401,7 @@ export function sms(mockResponse = {}) {
     body: {
       ...smsBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -407,8 +414,8 @@ export function addressBook(mockResponse = {}) {
         syncInfo: {
           syncType: addressBookBody.syncInfo.syncType,
           syncToken: addressBookBody.syncInfo.syncToken,
-          syncTime: ((new Date(Date.now()))).toISOString()
-        }
+          syncTime: new Date(Date.now()).toISOString(),
+        },
       },
       ...mockResponse,
     },
@@ -424,19 +431,19 @@ export function callLog(mockResponse = {}) {
       records: [
         {
           ...callLogBody.records[0],
-          startTime: ((new Date(Date.now()))).toISOString(),
+          startTime: new Date(Date.now()).toISOString(),
         },
         {
           ...callLogBody.records[1],
-          startTime: ((new Date(Date.now()))).toISOString(),
-        }
+          startTime: new Date(Date.now()).toISOString(),
+        },
       ],
       ...{
         syncInfo: {
           syncType: callLogBody.syncInfo.syncType,
           syncToken: callLogBody.syncInfo.syncToken,
-          syncTime: ((new Date(Date.now()))).toISOString()
-        }
+          syncTime: new Date(Date.now()).toISOString(),
+        },
       },
       ...mockResponse,
     },
@@ -451,7 +458,7 @@ export function device(mockResponse = {}, isOnce = true) {
       ...deviceBody,
       ...mockResponse,
     },
-    isOnce
+    isOnce,
   });
 }
 
@@ -461,7 +468,7 @@ export function conferencing(mockResponse = {}) {
     body: {
       ...conferencingBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -474,12 +481,12 @@ export function numberParse(mockResponse = {}, homeCountry) {
       ...numberParseBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
   });
 }
 
 export function conferenceCall(mockResponse = {}) {
-  conferenceCallBody.session.on = () => { };
+  conferenceCallBody.session.on = () => {};
   mockApi({
     method: 'POST',
     path: '/restapi/v1.0/account/~/telephony/conference',
@@ -487,7 +494,7 @@ export function conferenceCall(mockResponse = {}) {
       ...conferenceCallBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
   });
 }
 
@@ -498,7 +505,7 @@ export function updateConferenceCall(id, mockResponse = {}, isOnce = false) {
       // ...conferenceCallBody,
       ...mockResponse,
     },
-    isOnce
+    isOnce,
   });
 }
 
@@ -509,7 +516,7 @@ export function terminateConferenceCall(id, mockResponse = {}) {
     body: {
       ...conferenceCallBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -520,7 +527,7 @@ export function activeCalls(mockResponse = {}) {
     body: {
       ...activeCallsBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -543,7 +550,7 @@ export function fetchDL(mockResponse = {}) {
     body: {
       ...fetchDLBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -554,7 +561,7 @@ export function fetchDLWithNoRecord(mockResponse = {}) {
     body: {
       ...fetchDLWithNoRecordBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -566,12 +573,7 @@ export function reset() {
   fetchMock.reset();
 }
 
-export function mockForbidden({
-  method = 'GET',
-  path,
-  url,
-  body = ''
-}) {
+export function mockForbidden({ method = 'GET', path, url, body = '' }) {
   mockApi({
     method,
     path,
@@ -581,9 +583,7 @@ export function mockForbidden({
   });
 }
 
-export function mockLimited({
-  method = 'GET', path, url, headers
-}) {
+export function mockLimited({ method = 'GET', path, url, headers }) {
   mockApi({
     method,
     path,
@@ -610,7 +610,7 @@ export function ringOut(mockResponse = {}) {
     body: {
       ...ringOutBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -621,7 +621,7 @@ export function ringOutUpdate(mockResponse = {}) {
     body: {
       ...ringOutBody,
       ...mockResponse,
-    }
+    },
   });
 }
 
@@ -633,7 +633,7 @@ export function meeting(mockResponse = {}) {
       ...meetingBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
   });
 }
 
@@ -645,31 +645,47 @@ export function serviceInfo(mockResponse = {}) {
       ...serviceInfoBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce: false,
+  });
+}
+
+export function meetingProvider(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/restapi/v1.0/account/~/extension/~/video-configuration`,
+    body: {
+      ...meetingProviderBody,
+      ...mockResponse,
+    },
+    isOnce: false,
   });
 }
 
 export function recentActivity(mockResponse = {}, isOnce = false) {
   mockApi({
     method: 'GET',
-    url: new RegExp(`${mockServer}/restapi/v1.0/account/~/extension/~/call-log`),
+    url: new RegExp(
+      `${mockServer}/restapi/v1.0/account/~/extension/~/call-log`,
+    ),
     body: {
       ...callLogBody,
       ...mockResponse,
     },
-    isOnce
+    isOnce,
   });
 }
 
 export function videoConfiguration(mockResponse = {}, isOnce = false) {
   mockApi({
     method: 'GET',
-    url: new RegExp(`${mockServer}/restapi/v1.0/account/~/extension/~/video-configuration`),
+    url: new RegExp(
+      `${mockServer}/restapi/v1.0/account/~/extension/~/video-configuration`,
+    ),
     body: {
       ...videoConfigurationBody,
       ...mockResponse,
     },
-    isOnce
+    isOnce,
   });
 }
 

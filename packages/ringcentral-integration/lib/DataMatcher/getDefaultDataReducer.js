@@ -1,14 +1,8 @@
-
 export default function getDefaultDataReducer(actionTypes) {
-  return (state = {}, {
-    type,
-    data,
-    name,
-    ttl,
-    timestamp,
-    queries,
-    shouldCleanUpAll = false,
-  }) => {
+  return (
+    state = {},
+    { type, data, name, ttl, timestamp, queries, shouldCleanUpAll = false },
+  ) => {
     switch (type) {
       case actionTypes.matchSuccess:
       case actionTypes.insertMatchEntries: {
@@ -75,9 +69,7 @@ export default function getDefaultDataReducer(actionTypes) {
             newState[query] = state[query];
           }
         });
-        return hasChanges ?
-          newState :
-          state;
+        return hasChanges ? newState : state;
       }
       case actionTypes.resetSuccess:
         return {};

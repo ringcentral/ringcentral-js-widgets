@@ -1,20 +1,16 @@
 import { combineReducers } from 'redux';
 
 export function getMessagesReducer(types) {
-  return (state = [], {
-    type,
-    message,
-    payload,
-    ttl,
-    level,
-    ids,
-    timestamp,
-    id,
-    allowDuplicates,
-  }) => {
+  return (
+    state = [],
+    { type, message, payload, ttl, level, ids, timestamp, id, allowDuplicates },
+  ) => {
     switch (type) {
       case types.alert:
-        if (!allowDuplicates && state.find(item => item.message === message && item.level === level)) {
+        if (
+          !allowDuplicates &&
+          state.find((item) => item.message === message && item.level === level)
+        ) {
           return state;
         }
         return [
@@ -29,7 +25,7 @@ export function getMessagesReducer(types) {
           },
         ];
       case types.dismiss:
-        return state.filter(item => ids.indexOf(item.id) === -1);
+        return state.filter((item) => ids.indexOf(item.id) === -1);
       case types.dismissAll:
         return [];
       default:

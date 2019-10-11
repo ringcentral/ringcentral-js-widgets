@@ -51,8 +51,8 @@ const DEFAULT_TYPE_LIST = [
   deps: [
     'Client',
     'RolesAndPermissions',
-    { dep: 'AccountExtensionOptions', optional: true }
-  ]
+    { dep: 'AccountExtensionOptions', optional: true },
+  ],
 })
 export default class AccountExtension extends DataFetcher {
   /**
@@ -80,17 +80,28 @@ export default class AccountExtension extends DataFetcher {
       subscriptionHandler: async (message) => {
         this._subscriptionHandleFn(message);
       },
-      fetchFunction: async () => (await fetchList((params) => {
-        const fetchRet = this._client.account().extension().list(params);
-        return fetchRet;
-      })).filter(ext => this._extensionFilter(ext)).map(simplifyExtensionData),
+      fetchFunction: async () =>
+        (await fetchList((params) => {
+          const fetchRet = this._client
+            .account()
+            .extension()
+            .list(params);
+          return fetchRet;
+        }))
+          .filter((ext) => this._extensionFilter(ext))
+          .map(simplifyExtensionData),
       readyCheckFn: () => this._rolesAndPermissions.ready,
     });
-    console.warn('AccountExtension module is deprecated, please use CompanyContacts instead.');
+    console.warn(
+      'AccountExtension module is deprecated, please use CompanyContacts instead.',
+    );
 
     this._checkStatus = checkStatus;
     this._typeList = typeList;
-    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._showNotActivated = showNotActivated;
   }
 
@@ -105,7 +116,9 @@ export default class AccountExtension extends DataFetcher {
   _extensionFilter(ext) {
     return (
       hasExtensionNumber(ext) &&
-      (!this._checkStatus || isEnabled(ext) || (this._showNotActivated && isNotActivated(ext))) &&
+      (!this._checkStatus ||
+        isEnabled(ext) ||
+        (this._showNotActivated && isNotActivated(ext))) &&
       !isFiltered(ext, this._typeList)
     );
   }
@@ -142,7 +155,9 @@ export default class AccountExtension extends DataFetcher {
 
   _addOrDeleteExtension(extensionData, extensionId) {
     const essential = this._extensionFilter(extensionData);
-    const alreadyExists = this.isAvailableExtension(extensionData.extensionNumber);
+    const alreadyExists = this.isAvailableExtension(
+      extensionData.extensionNumber,
+    );
     if (essential && !alreadyExists) {
       this._addExtension(extensionData);
     } else if (!essential && alreadyExists) {
@@ -179,17 +194,20 @@ export default class AccountExtension extends DataFetcher {
 
   @proxify
   async _fetchExtensionData(id) {
-    return this._client.account().extension(id).get();
+    return this._client
+      .account()
+      .extension(id)
+      .get();
   }
 
   @selector
-  availableExtensions = [
-    () => this.data,
-    data => data || [],
-  ]
+  availableExtensions = [() => this.data, (data) => data || []];
 
   isAvailableExtension(extensionNumber) {
-    return !!find(item => item.ext === extensionNumber, this.availableExtensions);
+    return !!find(
+      (item) => item.ext === extensionNumber,
+      this.availableExtensions,
+    );
   }
 
   get _hasPermission() {

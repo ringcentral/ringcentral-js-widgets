@@ -21,6 +21,5 @@ export default new HashMap({
   support: 'Support',
   transfer: 'Transfer',
   unknown: 'Unknown',
-  voIPCall: 'VoIP Call'
+  voIPCall: 'VoIP Call',
 });
-

@@ -1,10 +1,21 @@
 import { combineReducers } from 'redux';
 import Container from './container';
 import Registry from './registry/registry';
-import { ValueProvider, ClassProvider, ExistingProvider, FactoryProvider } from './provider';
+import {
+  ValueProvider,
+  ClassProvider,
+  ExistingProvider,
+  FactoryProvider,
+} from './provider';
 import { assert, camelize } from './utils/utils';
 import { DIError, CircularDependencyError } from './utils/error';
-import { isObject, isValueProvider, isStaticClassProvider, isExistingProvider, isFactoryProvider } from './utils/is_type';
+import {
+  isObject,
+  isValueProvider,
+  isStaticClassProvider,
+  isExistingProvider,
+  isFactoryProvider,
+} from './utils/is_type';
 
 const REDUCER_LITERAL = '_reducer';
 const PROXY_REDUCER_LITERAL = '_proxyReducer';
@@ -47,13 +58,17 @@ export class Injector {
       }
       if (this.universalProviders.has(provider.useExisting)) {
         pending.add(provider);
-        this.resolveModuleProvider(this.universalProviders.get(provider.useExisting));
+        this.resolveModuleProvider(
+          this.universalProviders.get(provider.useExisting),
+        );
         pending.delete(provider);
       }
       if (container.localHas(provider.useExisting)) {
         container.set(provider.token, container.localGet(provider.useExisting));
       } else {
-        throw DIError(`ExistingProvider [${provider.useExisting}] is not found`);
+        throw DIError(
+          `ExistingProvider [${provider.useExisting}] is not found`,
+        );
       }
       return;
     }
@@ -74,7 +89,9 @@ export class Injector {
     } else if (provider instanceof FactoryProvider) {
       pending.add(provider.token);
       // eslint-disable-next-line
-      const deps = provider.deps.map(dep => isObject(dep) ? dep : { dep, optional: false });
+      const deps = provider.deps.map((dep) =>
+        isObject(dep) ? dep : { dep, optional: false },
+      );
       const dependencies = this.resolveDependencies(deps, pending);
       const factoryProvider = provider.func.call(null, dependencies);
       provider.setInstance(factoryProvider);
@@ -82,7 +99,8 @@ export class Injector {
       pending.delete(provider.token);
     } else if (provider instanceof ClassProvider) {
       if (this.moduleRegistry.has(provider.klass)) {
-        const deps = Registry.resolveInheritedDependencies(provider.klass) || [];
+        const deps =
+          Registry.resolveInheritedDependencies(provider.klass) || [];
         const Klass = provider.klass;
         pending.add(provider.token);
         const dependencies = this.resolveDependencies(deps, pending);
@@ -98,7 +116,7 @@ export class Injector {
         this.resolveModuleFactoryProvider(provider);
       } else {
         throw DIError(
-          `Provider [${provider.token}] can not be resolved, module is not found`
+          `Provider [${provider.token}] can not be resolved, module is not found`,
         );
       }
     }
@@ -184,10 +202,7 @@ export class Injector {
       }
       const instance = Injector.bootstrap(providerInstance.klass, this);
       providerInstance.setInstance(instance);
-      this.container.set(
-        providerInstance.token,
-        providerInstance
-      );
+      this.container.set(providerInstance.token, providerInstance);
       Injector.pending.delete(providerInstance.token);
     }
   }
@@ -224,23 +239,43 @@ export class Injector {
       if (isValueProvider(provider)) {
         universalProviders.set(
           provider.provide,
-          new ValueProvider(provider.provide, provider.useValue, provider.spread, provider.private)
+          new ValueProvider(
+            provider.provide,
+            provider.useValue,
+            provider.spread,
+            provider.private,
+          ),
         );
       } else if (isStaticClassProvider(provider)) {
         universalProviders.set(
           provider.provide,
-          new ClassProvider(provider.provide, provider.useClass, provider.deps, provider.private)
+          new ClassProvider(
+            provider.provide,
+            provider.useClass,
+            provider.deps,
+            provider.private,
+          ),
         );
       } else if (isExistingProvider(provider)) {
         universalProviders.set(
           provider.provide,
-          new ExistingProvider(provider.provide, provider.useExisting, provider.private)
+          new ExistingProvider(
+            provider.provide,
+            provider.useExisting,
+            provider.private,
+          ),
         );
       } else if (isFactoryProvider(provider)) {
         universalProviders.set(
           provider.provide,
           // eslint-disable-next-line
-          new FactoryProvider(provider.provide, provider.useFactory, provider.deps, provider.spread, provider.private)
+          new FactoryProvider(
+            provider.provide,
+            provider.useFactory,
+            provider.deps,
+            provider.spread,
+            provider.private,
+          ),
         );
       } else {
         throw DIError('Expected valid provider', provider);
@@ -297,24 +332,24 @@ export class Injector {
       // Additional module configurations
       if (module._reducer) {
         Object.defineProperty(module, STATE_FUNC_LITERAL, {
-          value: () => rootClassInstance.state[name]
+          value: () => rootClassInstance.state[name],
         });
         Object.defineProperty(rootClassInstance, REDUCER_LITERAL, {
           value: combineReducers({
             ...reducers,
             // eslint-disable-next-line
-            lastAction: (state = null, action) => action
-          })
+            lastAction: (state = null, action) => action,
+          }),
         });
       }
       if (module._proxyReducer) {
         Object.defineProperty(module, PROXY_STATE_FUNC_LITERAL, {
-          value: () => rootClassInstance.proxyState[name]
+          value: () => rootClassInstance.proxyState[name],
         });
         Object.defineProperty(rootClassInstance, PROXY_REDUCER_LITERAL, {
           value: combineReducers({
             ...proxyReducers,
-          })
+          }),
         });
       }
     }

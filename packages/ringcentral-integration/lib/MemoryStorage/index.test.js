@@ -39,7 +39,7 @@ describe('MemoryStorage', () => {
     });
     it('should have the correct length', () => {
       const instance = new MemoryStorage();
-      [1, 2, 3, 4, 5].forEach(num => {
+      [1, 2, 3, 4, 5].forEach((num) => {
         instance.setItem(`foo-${num}`, `bar-${num}`);
         expect(instance.length).to.equal(num);
       });
@@ -51,6 +51,5 @@ describe('MemoryStorage', () => {
         expect(instance.key(idx)).to.equal(`foo-${num}`);
       });
     });
-
   });
 });

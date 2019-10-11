@@ -35,8 +35,8 @@ export function callIdentityFunction(call) {
     'CallMonitor',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'TabManager', optional: true },
-    { dep: 'CallLoggerOptions', optional: true }
-  ]
+    { dep: 'CallLoggerOptions', optional: true },
+  ],
 })
 export default class CallLogger extends LoggerBase {
   /**
@@ -65,10 +65,13 @@ export default class CallLogger extends LoggerBase {
       getDataReducer,
       identityFunction: callIdentityFunction,
     });
-    this._storage = this:: ensureExist(storage, 'storage');
-    this._callMonitor = this:: ensureExist(callMonitor, 'callMonitor');
-    this._contactMatcher = this:: ensureExist(contactMatcher, 'contactMatcher');
-    this._activityMatcher = this:: ensureExist(activityMatcher, 'activityMatcher');
+    this._storage = this::ensureExist(storage, 'storage');
+    this._callMonitor = this::ensureExist(callMonitor, 'callMonitor');
+    this._contactMatcher = this::ensureExist(contactMatcher, 'contactMatcher');
+    this._activityMatcher = this::ensureExist(
+      activityMatcher,
+      'activityMatcher',
+    );
     this._callHistory = callHistory;
     this._tabManager = tabManager;
     this._storageKey = `${this._name}Data`;
@@ -87,28 +90,30 @@ export default class CallLogger extends LoggerBase {
   }
 
   _shouldInit() {
-    return this.pending &&
+    return (
+      this.pending &&
       this._callMonitor.ready &&
       (!this._callHistory || this._callHistory.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
       this._contactMatcher.ready &&
       this._activityMatcher.ready &&
       this._readyCheckFunction() &&
-      this._storage.ready;
+      this._storage.ready
+    );
   }
 
   _shouldReset() {
-    return this.ready &&
-      (
-        !this._callMonitor.ready ||
+    return (
+      this.ready &&
+      (!this._callMonitor.ready ||
         !this._callMonitor.ready ||
         (this._callHistory && !this._callHistory.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
         !this._contactMatcher.ready ||
         !this._activityMatcher.ready ||
         !this._readyCheckFunction() ||
-        !this._storage.ready
-      );
+        !this._storage.ready)
+    );
   }
 
   @proxify
@@ -116,57 +121,45 @@ export default class CallLogger extends LoggerBase {
     return super.log({ item: call, ...options });
   }
   async _ensureActive() {
-    const isActive = (
-      !this._tabManager ||
-      (await this._tabManager.ensureActive())
-    );
+    const isActive =
+      !this._tabManager || (await this._tabManager.ensureActive());
     return isActive;
   }
   async _shouldLogNewCall(call) {
     const isActive = await this._ensureActive();
-    return isActive &&
-      this.autoLog &&
-      (this.logOnRinging || !isRinging(call));
+    return isActive && this.autoLog && (this.logOnRinging || !isRinging(call));
   }
 
   @proxify
-  async logCall({
-    call,
-    contact,
-    ...options
-  }) {
+  async logCall({ call, contact, ...options }) {
     const inbound = isInbound(call);
-    const fromEntity = (inbound && contact) ||
-      null;
-    const toEntity = (!inbound && contact) ||
-      null;
+    const fromEntity = (inbound && contact) || null;
+    const toEntity = (!inbound && contact) || null;
     await this.log({
       ...options,
       call: {
         ...call,
-        duration: call:: Object.prototype.hasOwnProperty('duration') ?
-          call.duration :
-          Math.round((Date.now() - call.startTime) / 1000),
+        duration: call::Object.prototype.hasOwnProperty('duration')
+          ? call.duration
+          : Math.round((Date.now() - call.startTime) / 1000),
         result: call.result || call.telephonyStatus,
       },
       fromEntity,
       toEntity,
     });
   }
-  async _autoLogCall({
-    call, fromEntity, toEntity, triggerType
-  }) {
+  async _autoLogCall({ call, fromEntity, toEntity, triggerType }) {
     await this.log({
       call: {
         ...call,
-        duration: call:: Object.prototype.hasOwnProperty('duration') ?
-          call.duration :
-          Math.round((Date.now() - call.startTime) / 1000),
+        duration: call::Object.prototype.hasOwnProperty('duration')
+          ? call.duration
+          : Math.round((Date.now() - call.startTime) / 1000),
         result: call.result || call.telephonyStatus,
       },
       fromEntity,
       toEntity,
-      triggerType
+      triggerType,
     });
   }
   _activityMatcherCheck(sessionId) {
@@ -179,7 +172,7 @@ export default class CallLogger extends LoggerBase {
     if (!this._customMatcherHooks.length) {
       return true;
     }
-    return this._customMatcherHooks.some(hook => hook(sessionId));
+    return this._customMatcherHooks.some((hook) => hook(sessionId));
   }
   addCustomMatcherHook(hook) {
     this._customMatcherHooks.push(hook);
@@ -195,40 +188,42 @@ export default class CallLogger extends LoggerBase {
         // is completely new, need entity information
         await this._contactMatcher.triggerMatch();
 
-        const toNumberEntity = (call.toNumberEntity) || '';
+        const toNumberEntity = call.toNumberEntity || '';
 
-        const fromMatches = (call.from && call.from.phoneNumber &&
-          this._contactMatcher.dataMapping[call.from.phoneNumber]) || [];
+        const fromMatches =
+          (call.from &&
+            call.from.phoneNumber &&
+            this._contactMatcher.dataMapping[call.from.phoneNumber]) ||
+          [];
 
-        const toMatches = (call.to && call.to.phoneNumber &&
-          this._contactMatcher.dataMapping[call.to.phoneNumber]) || [];
+        const toMatches =
+          (call.to &&
+            call.to.phoneNumber &&
+            this._contactMatcher.dataMapping[call.to.phoneNumber]) ||
+          [];
 
-        const fromEntity = (fromMatches &&
-          fromMatches.length === 1 &&
-          fromMatches[0]) ||
-          null;
+        const fromEntity =
+          (fromMatches && fromMatches.length === 1 && fromMatches[0]) || null;
 
         let toEntity = null;
         if (toMatches && toMatches.length === 1) {
           /* eslint { "prefer-destructuring": 0 } */
           toEntity = toMatches[0];
         } else if (toMatches && toMatches.length > 1 && toNumberEntity !== '') {
-          toEntity = toMatches.find(match =>
-            toNumberEntity === match.id
-          );
+          toEntity = toMatches.find((match) => toNumberEntity === match.id);
         }
 
         await this._autoLogCall({
           call,
           fromEntity,
           toEntity,
-          triggerType
+          triggerType,
         });
       } else {
         // only update call information if call has been logged
         await this._autoLogCall({
           call,
-          triggerType
+          triggerType,
         });
       }
     }
@@ -238,7 +233,8 @@ export default class CallLogger extends LoggerBase {
     if (isActive && (this.logOnRinging || !isRinging(call))) {
       if (this.autoLog) return true;
       await this._activityMatcher.triggerMatch();
-      const activityMatches = this._activityMatcher.dataMapping[call.sessionId] || [];
+      const activityMatches =
+        this._activityMatcher.dataMapping[call.sessionId] || [];
       return activityMatches.length > 0;
     }
     return false;
@@ -251,61 +247,79 @@ export default class CallLogger extends LoggerBase {
   _processCalls() {
     if (this.ready) {
       if (this._lastProcessedCalls !== this._callMonitor.calls) {
-        const oldCalls = (
-          this._lastProcessedCalls &&
-          this._lastProcessedCalls.slice()
-        ) || [];
+        const oldCalls =
+          (this._lastProcessedCalls && this._lastProcessedCalls.slice()) || [];
         this._lastProcessedCalls = this._callMonitor.calls;
 
         removeDuplicateSelfCalls(this._lastProcessedCalls).forEach((call) => {
-          const oldCallIndex = oldCalls.findIndex(item => item.sessionId === call.sessionId);
+          const oldCallIndex = oldCalls.findIndex(
+            (item) => item.sessionId === call.sessionId,
+          );
           if (oldCallIndex === -1) {
             this._onNewCall(call, callLoggerTriggerTypes.presenceUpdate);
           } else {
             const oldCall = oldCalls[oldCallIndex];
             oldCalls.splice(oldCallIndex, 1);
             if (call.telephonyStatus !== oldCall.telephonyStatus) {
-              this._onCallUpdated({
-                ...call,
-                isTransferredCall: !!this.transferredCallsMap[call.sessionId],
-                transferredMiddleNumber: this.transferredCallsMap[call.sessionId] ?
-                  this.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-              }, callLoggerTriggerTypes.presenceUpdate);
+              this._onCallUpdated(
+                {
+                  ...call,
+                  isTransferredCall: !!this.transferredCallsMap[call.sessionId],
+                  transferredMiddleNumber: this.transferredCallsMap[
+                    call.sessionId
+                  ]
+                    ? this.transferredCallsMap[call.sessionId]
+                        .transferredMiddleNumber
+                    : null,
+                },
+                callLoggerTriggerTypes.presenceUpdate,
+              );
             }
             if (
-              (call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)
+              (call.from && call.from.phoneNumber) !==
+              (oldCall.from && oldCall.from.phoneNumber)
             ) {
               this.store.dispatch({
                 type: this.actionTypes.addTransferredCall,
                 sessionId: call.sessionId,
-                transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber
+                transferredMiddleNumber:
+                  oldCall.from && oldCall.from.phoneNumber,
               });
-              this._onCallUpdated({
-                ...call,
-                isTransferredCall: true,
-                transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber,
-                phoneNumberUpdated: true
-              }, callLoggerTriggerTypes.presenceUpdate);
+              this._onCallUpdated(
+                {
+                  ...call,
+                  isTransferredCall: true,
+                  transferredMiddleNumber:
+                    oldCall.from && oldCall.from.phoneNumber,
+                  phoneNumberUpdated: true,
+                },
+                callLoggerTriggerTypes.presenceUpdate,
+              );
             }
           }
         });
         oldCalls.forEach((call) => {
-          this._onCallUpdated({
-            ...call,
-            isTransferredCall: !!this.transferredCallsMap[call.sessionId],
-            transferredMiddleNumber: this.transferredCallsMap[call.sessionId] ?
-              this.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-          }, callLoggerTriggerTypes.presenceUpdate);
+          this._onCallUpdated(
+            {
+              ...call,
+              isTransferredCall: !!this.transferredCallsMap[call.sessionId],
+              transferredMiddleNumber: this.transferredCallsMap[call.sessionId]
+                ? this.transferredCallsMap[call.sessionId]
+                    .transferredMiddleNumber
+                : null,
+            },
+            callLoggerTriggerTypes.presenceUpdate,
+          );
         });
       }
       if (
         this._callHistory &&
         this._lastProcessedEndedCalls !== this._callHistory.recentlyEndedCalls
       ) {
-        const oldCalls = (
-          this._lastProcessedEndedCalls &&
-          this._lastProcessedEndedCalls.slice()
-        ) || [];
+        const oldCalls =
+          (this._lastProcessedEndedCalls &&
+            this._lastProcessedEndedCalls.slice()) ||
+          [];
         this._lastProcessedEndedCalls = this._callHistory.recentlyEndedCalls;
         const currentSessions = {};
         this._lastProcessedEndedCalls.forEach((call) => {
@@ -314,15 +328,25 @@ export default class CallLogger extends LoggerBase {
         oldCalls.forEach((call) => {
           if (!currentSessions[call.sessionId]) {
             // call log updated
-            const callInfo = this._callHistory.calls
-              .find(item => item.sessionId === call.sessionId);
+            const callInfo = this._callHistory.calls.find(
+              (item) => item.sessionId === call.sessionId,
+            );
             if (callInfo) {
-              this._onCallUpdated({
-                ...callInfo,
-                isTransferredCall: !!this.transferredCallsMap[callInfo.sessionId],
-                transferredMiddleNumber: this.transferredCallsMap[call.sessionId] ?
-                  this.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
-              }, callLoggerTriggerTypes.callLogSync);
+              this._onCallUpdated(
+                {
+                  ...callInfo,
+                  isTransferredCall: !!this.transferredCallsMap[
+                    callInfo.sessionId
+                  ],
+                  transferredMiddleNumber: this.transferredCallsMap[
+                    call.sessionId
+                  ]
+                    ? this.transferredCallsMap[call.sessionId]
+                        .transferredMiddleNumber
+                    : null,
+                },
+                callLoggerTriggerTypes.callLogSync,
+              );
             }
           }
         });
@@ -361,12 +385,13 @@ export default class CallLogger extends LoggerBase {
   @selector
   transferredCallsMap = [
     () => this.transferredCallsArr,
-    transferredCallsArr => reduce(
-      (mapping, matcher) => Object.assign({}, mapping, matcher),
-      {},
-      transferredCallsArr,
-    ),
-  ]
+    (transferredCallsArr) =>
+      reduce(
+        (mapping, matcher) => Object.assign({}, mapping, matcher),
+        {},
+        transferredCallsArr,
+      ),
+  ];
 
   get logOnRinging() {
     return this._storage.getItem(this._storageKey).logOnRinging;

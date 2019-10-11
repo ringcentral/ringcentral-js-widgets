@@ -1,4 +1,3 @@
-
 export function getCurrentLocaleReducer(types) {
   return (state = null, { type, locale }) => {
     if (type === types.setLocaleSuccess) return locale;

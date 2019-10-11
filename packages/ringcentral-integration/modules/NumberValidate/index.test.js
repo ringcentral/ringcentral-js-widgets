@@ -15,7 +15,7 @@ describe('NumberValidate Unit Test', () => {
     numberValidate._store = store;
     numberValidate._brand = {
       ready: true,
-      id: '1210'
+      id: '1210',
     };
     numberValidate._prefixedActionTypes = actionTypes;
     [
@@ -80,16 +80,16 @@ describe('NumberValidate Unit Test', () => {
       describe('when accountInfo is ready', () => {
         beforeEach(() => {
           numberValidate._accountInfo = {
-            ready: true
+            ready: true,
           };
         });
 
         it('Should return true when _regionSettings is ready, _companyContacts is ready', () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldInit()).to.equal(true);
         });
@@ -97,10 +97,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is not ready and
         _companyContacts is ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -108,10 +108,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is ready and
         _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -119,10 +119,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is not ready and
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -131,16 +131,16 @@ describe('NumberValidate Unit Test', () => {
       describe('when accountInfo is not ready', () => {
         beforeEach(() => {
           numberValidate._accountInfo = {
-            ready: false
+            ready: false,
           };
         });
 
         it('Should return false when _regionSettings is ready, _companyContacts is ready', () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -148,10 +148,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is not ready and
             _companyContacts is ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -159,10 +159,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is ready and
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -170,10 +170,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is not ready and
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -188,16 +188,16 @@ describe('NumberValidate Unit Test', () => {
       describe('when accountInfo is ready', () => {
         beforeEach(() => {
           numberValidate._accountInfo = {
-            ready: true
+            ready: true,
           };
         });
 
         it('Should return false when _regionSettings is ready, _companyContacts is ready', () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -205,10 +205,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is not ready and
             _companyContacts is ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -216,20 +216,20 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is ready and
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
 
         it('Should return false when _regionSettings and _companyContacts is not ready', () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -238,16 +238,16 @@ describe('NumberValidate Unit Test', () => {
       describe('when accountInfo is not ready', () => {
         beforeEach(() => {
           numberValidate._accountInfo = {
-            ready: false
+            ready: false,
           };
         });
 
         it('Should return false when _regionSettings is ready, _companyContacts is ready', () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -255,10 +255,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is not ready and
             _companyContacts is ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -266,10 +266,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is ready and
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -277,10 +277,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings and
             _companyContacts is all not ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldInit()).to.equal(false);
         });
@@ -297,16 +297,16 @@ describe('NumberValidate Unit Test', () => {
       describe('when accountInfo is not ready', () => {
         beforeEach(() => {
           numberValidate._accountInfo = {
-            ready: false
+            ready: false,
           };
         });
 
         it('Should return false when _regionSettings _companyContacts is all ready', () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
@@ -314,10 +314,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is not ready,
             _companyContacts is ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
@@ -325,20 +325,20 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is ready,
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
 
         it('Should return false when _regionSettings and _companyContacts is not ready', () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
@@ -347,16 +347,16 @@ describe('NumberValidate Unit Test', () => {
       describe('when accountInfo is ready', () => {
         beforeEach(() => {
           numberValidate._accountInfo = {
-            ready: true
+            ready: true,
           };
         });
 
         it('Should return false when _regionSettings _companyContacts is all ready', () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
@@ -364,10 +364,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is not ready and
             _companyContacts is ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
@@ -375,20 +375,20 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return false when _regionSettings is ready,
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
 
         it('Should return false when _regionSettings and _companyContacts is not ready', () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
@@ -403,16 +403,16 @@ describe('NumberValidate Unit Test', () => {
       describe('when accountInfo is not ready', () => {
         beforeEach(() => {
           numberValidate._accountInfo = {
-            ready: false
+            ready: false,
           };
         });
 
         it('Should return true when _regionSettings and _companyContacts is all ready', () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldReset()).to.equal(true);
         });
@@ -420,10 +420,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return true when _regionSettings is not ready and
             _companyContacts is ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldReset()).to.equal(true);
         });
@@ -431,10 +431,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return true when _regionSettings is ready,
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldReset()).to.equal(true);
         });
@@ -442,10 +442,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return true when _regionSettings is not ready,
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldReset()).to.equal(true);
         });
@@ -454,16 +454,16 @@ describe('NumberValidate Unit Test', () => {
       describe('when accountInfo is ready', () => {
         beforeEach(() => {
           numberValidate._accountInfo = {
-            ready: true
+            ready: true,
           };
         });
 
         it('Should return false when _regionSettings and _companyContacts is all ready', () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldReset()).to.equal(false);
         });
@@ -471,10 +471,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return true when _regionSettings is not ready and
             _companyContacts is ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: true
+            ready: true,
           };
           expect(numberValidate._shouldReset()).to.equal(true);
         });
@@ -482,10 +482,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return true when _regionSettings is ready and
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: true
+            ready: true,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldReset()).to.equal(true);
         });
@@ -493,10 +493,10 @@ describe('NumberValidate Unit Test', () => {
         it(`Should return true when _regionSettings is not ready and
             _companyContacts is not ready`, () => {
           numberValidate._regionSettings = {
-            ready: false
+            ready: false,
           };
           numberValidate._companyContacts = {
-            ready: false
+            ready: false,
           };
           expect(numberValidate._shouldReset()).to.equal(true);
         });
@@ -521,7 +521,9 @@ describe('NumberValidate Unit Test', () => {
         countryCode: 'US',
         areaCode: '',
       };
-      const result = numberValidate.isNoToNumber("iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber");
+      const result = numberValidate.isNoToNumber(
+        "iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber",
+      );
       expect(result).to.equal(true);
     });
 
@@ -560,7 +562,7 @@ describe('NumberValidate Unit Test', () => {
     it('should return false if phoneNumber is ServiceNumber', () => {
       numberValidate._regionSettings = {
         countryCode: 'US',
-        areaCode: '666'
+        areaCode: '666',
       };
       const result = numberValidate.isNoAreaCode('*101');
       expect(result).to.equal(false);
@@ -569,7 +571,7 @@ describe('NumberValidate Unit Test', () => {
     it('should return false if phoneNumber is hasPlus', () => {
       numberValidate._regionSettings = {
         countryCode: 'US',
-        areaCode: '666'
+        areaCode: '666',
       };
       const result = numberValidate.isNoAreaCode('+16508370000');
       expect(result).to.equal(false);
@@ -730,14 +732,18 @@ describe('NumberValidate Unit Test', () => {
 
   describe('validateNumbers', () => {
     it('should call validateWithNumberParser once if validateFormat result is true', async () => {
-      sinon.stub(numberValidate, 'validateFormat').callsFake(() => ({ result: true }));
+      sinon
+        .stub(numberValidate, 'validateFormat')
+        .callsFake(() => ({ result: true }));
       sinon.stub(numberValidate, 'validateWithNumberParser');
       await numberValidate.validateNumbers(['1234']);
       sinon.assert.calledOnce(numberValidate.validateWithNumberParser);
     });
 
     it('should not call validateWithNumberParser once if validateFormat result is false', async () => {
-      sinon.stub(numberValidate, 'validateFormat').callsFake(() => ({ result: false }));
+      sinon
+        .stub(numberValidate, 'validateFormat')
+        .callsFake(() => ({ result: false }));
       sinon.stub(numberValidate, 'validateWithNumberParser');
       await numberValidate.validateNumbers(['1234']);
       sinon.assert.notCalled(numberValidate.validateWithNumberParser);
@@ -778,9 +784,9 @@ describe('NumberValidate Unit Test', () => {
 
   describe('validateWithNumberParser', () => {
     it('should return result false if one number is special number', async () => {
-      sinon.stub(numberValidate, '_numberParser').callsFake(
-        () => [{ special: true, originalString: '999' }]
-      );
+      sinon
+        .stub(numberValidate, '_numberParser')
+        .callsFake(() => [{ special: true, originalString: '999' }]);
       sinon.stub(numberValidate, '_isSpecial').callsFake(() => true);
       sinon.stub(numberValidate, 'isNotAnExtension').callsFake(() => false);
       const result = await numberValidate.validateWithNumberParser(['999']);
@@ -792,9 +798,9 @@ describe('NumberValidate Unit Test', () => {
     });
 
     it('should return result false if one number is not an extension number', async () => {
-      sinon.stub(numberValidate, '_numberParser').callsFake(
-        () => [{ special: true, originalString: '999' }]
-      );
+      sinon
+        .stub(numberValidate, '_numberParser')
+        .callsFake(() => [{ special: true, originalString: '999' }]);
       sinon.stub(numberValidate, '_isSpecial').callsFake(() => false);
       sinon.stub(numberValidate, 'isNotAnExtension').callsFake(() => true);
       const result = await numberValidate.validateWithNumberParser(['999']);
@@ -806,9 +812,9 @@ describe('NumberValidate Unit Test', () => {
     });
 
     it('should return result true if phoneNumbers is valid', async () => {
-      sinon.stub(numberValidate, '_numberParser').callsFake(
-        () => [{ special: true, originalString: '999' }]
-      );
+      sinon
+        .stub(numberValidate, '_numberParser')
+        .callsFake(() => [{ special: true, originalString: '999' }]);
       sinon.stub(numberValidate, '_isSpecial').callsFake(() => false);
       sinon.stub(numberValidate, 'isNotAnExtension').callsFake(() => false);
       const result = await numberValidate.validateWithNumberParser(['999']);
@@ -822,9 +828,9 @@ describe('NumberValidate Unit Test', () => {
 
   describe('_numberParser', () => {
     it('should call _numberParserApi if countryCode is exist', async () => {
-      sinon.stub(numberValidate, '_numberParserApi').callsFake(
-        () => ({ phoneNumbers: [123] })
-      );
+      sinon
+        .stub(numberValidate, '_numberParserApi')
+        .callsFake(() => ({ phoneNumbers: [123] }));
       numberValidate._regionSettings = {
         countryCode: 'US',
         areaCode: '666',
@@ -834,9 +840,9 @@ describe('NumberValidate Unit Test', () => {
     });
 
     it('should call _numberParserApi if countryCode is exist', async () => {
-      sinon.stub(numberValidate, '_numberParserApi').callsFake(
-        () => ({ phoneNumbers: [123] })
-      );
+      sinon
+        .stub(numberValidate, '_numberParserApi')
+        .callsFake(() => ({ phoneNumbers: [123] }));
       numberValidate._regionSettings = {
         countryCode: null,
         areaCode: '666',

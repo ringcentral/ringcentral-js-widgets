@@ -1,12 +1,15 @@
 import Enum from '../../lib/Enum';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default new Enum([
-  ...Object.keys(moduleActionTypes),
-  'send',
-  'sendOver',
-  'sendError',
-  'validate',
-  'validateOver',
-  'validateError',
-], 'messageSender');
+export default new Enum(
+  [
+    ...Object.keys(moduleActionTypes),
+    'send',
+    'sendOver',
+    'sendError',
+    'validate',
+    'validateOver',
+    'validateError',
+  ],
+  'messageSender',
+);

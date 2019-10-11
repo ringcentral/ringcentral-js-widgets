@@ -47,6 +47,6 @@ export function prefixEnum({ enumMap, prefix, base = enumMap }) {
   return cache.get(base);
 }
 
-export function createEnum(values, prefix) {
-  return new Enum(values, prefix);
+export function createEnum(values, prefix, enumMap = {}) {
+  return new Enum([...Object.keys(enumMap), ...values], prefix);
 }

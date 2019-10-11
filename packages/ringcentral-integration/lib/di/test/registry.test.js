@@ -15,7 +15,11 @@ describe('Registry', () => {
     it('should registry module basically', () => {
       class Module {}
       const metadata = {
-        deps: ['A', { dep: 'B', optional: false }, { dep: 'C', optional: true }]
+        deps: [
+          'A',
+          { dep: 'B', optional: false },
+          { dep: 'C', optional: true },
+        ],
       };
       Registry.registerModule(Module, metadata);
       expect(Registry.moduleRegistry.get(Module)).to.equal(metadata);
@@ -32,7 +36,9 @@ describe('Registry', () => {
     it('should throw when metadata is not an Object', () => {
       class Module {}
       const throws = () => Registry.registerModule(Module, []);
-      expect(throws).to.throw('Expected parameter of @Module() to be an Object');
+      expect(throws).to.throw(
+        'Expected parameter of @Module() to be an Object',
+      );
     });
 
     it('should support empty object without deps', () => {
@@ -43,9 +49,10 @@ describe('Registry', () => {
 
     it('should throw when deps is not an Array', () => {
       class Module {}
-      const throws = () => Registry.registerModule(Module, {
-        deps: {}
-      });
+      const throws = () =>
+        Registry.registerModule(Module, {
+          deps: {},
+        });
       expect(throws).to.throw('Expected deps to be an Array');
     });
   });
@@ -54,7 +61,7 @@ describe('Registry', () => {
     it('should registry moduleProvider basically', () => {
       class ModuleFactory {}
       const metadata = {
-        providers: []
+        providers: [],
       };
       Registry.registerModuleFactory(ModuleFactory, metadata);
       expect(Registry.providerRegistry.get(ModuleFactory)).to.equal(metadata);
@@ -71,7 +78,9 @@ describe('Registry', () => {
     it('should ensure metadata is an Object', () => {
       Registry.registerModuleFactory(class A {}, {});
       const throws = () => Registry.registerModuleFactory(class B {}, []);
-      expect(throws).to.throw('Expected parameter of @ModuleFactory() to be an Object');
+      expect(throws).to.throw(
+        'Expected parameter of @ModuleFactory() to be an Object',
+      );
     });
   });
 
@@ -92,7 +101,7 @@ describe('Registry', () => {
       const retval = Registry.resolveInheritedModuleFactory(A);
       expect(retval).to.deep.equal([
         { provide: 'B', useClass: B },
-        { provide: 'A', useClass: A }
+        { provide: 'A', useClass: A },
       ]);
     });
 
@@ -100,9 +109,7 @@ describe('Registry', () => {
       class A {}
       class B {}
       Registry.registerModuleFactory(A, {
-        providers: [
-          { provide: 'B', useClass: B }
-        ]
+        providers: [{ provide: 'B', useClass: B }],
       });
       const stub = sinon.stub(Registry, 'mergeProviders').callsFake(() => null);
       Registry.resolveInheritedModuleFactory(A);
@@ -121,17 +128,11 @@ describe('Registry', () => {
       class MJ {}
 
       Registry.registerModuleFactory(A, {
-        providers: [
-          MA,
-          { provide: 'MK', useClass: MK }
-        ]
+        providers: [MA, { provide: 'MK', useClass: MK }],
       });
 
       Registry.registerModuleFactory(B, {
-        providers: [
-          MB,
-          { provide: 'MJ', useClass: MJ }
-        ]
+        providers: [MB, { provide: 'MJ', useClass: MJ }],
       });
       const retval = Registry.resolveInheritedModuleFactory(B);
       expect(retval).to.have.lengthOf(4);
@@ -139,7 +140,7 @@ describe('Registry', () => {
         { provide: 'MB', useClass: MB },
         { provide: 'MA', useClass: MA },
         { provide: 'MK', useClass: MK },
-        { provide: 'MJ', useClass: MJ }
+        { provide: 'MJ', useClass: MJ },
       ]);
     });
 
@@ -155,16 +156,16 @@ describe('Registry', () => {
       class MD {}
 
       Registry.registerModuleFactory(A, {
-        providers: [MA]
+        providers: [MA],
       });
       Registry.registerModuleFactory(B, {
-        providers: [MB]
+        providers: [MB],
       });
       Registry.registerModuleFactory(C, {
-        providers: [MC]
+        providers: [MC],
       });
       Registry.registerModuleFactory(D, {
-        providers: [MD]
+        providers: [MD],
       });
 
       const retval = Registry.resolveInheritedModuleFactory(D);
@@ -189,12 +190,12 @@ describe('Registry', () => {
       class MD {}
 
       Registry.registerModuleFactory(A, {
-        providers: [MA, MB]
+        providers: [MA, MB],
       });
       // empty middle
       Registry.registerModuleFactory(B, null);
       Registry.registerModuleFactory(C, {
-        providers: [MC, MD]
+        providers: [MC, MD],
       });
       // empty head
       Registry.registerModuleFactory(D, null);
@@ -214,17 +215,33 @@ describe('Registry', () => {
       class B extends A {}
       Registry.registerModuleFactory(A, {
         providers: [
-          { provide: 'Value', useValue: {}, merge: true, spread: true, private: true }
-        ]
+          {
+            provide: 'Value',
+            useValue: {},
+            merge: true,
+            spread: true,
+            private: true,
+          },
+        ],
       });
       Registry.registerModuleFactory(B, {
         providers: [
-          { provide: 'Value', useValue: {}, merge: true, spread: true, private: false }
-        ]
+          {
+            provide: 'Value',
+            useValue: {},
+            merge: true,
+            spread: true,
+            private: false,
+          },
+        ],
       });
       const retval = Registry.resolveInheritedModuleFactory(B);
       expect(retval[0]).to.deep.equal({
-        provide: 'Value', useValue: {}, merge: true, spread: true, private: false
+        provide: 'Value',
+        useValue: {},
+        merge: true,
+        spread: true,
+        private: false,
       });
     });
 
@@ -244,7 +261,7 @@ describe('Registry', () => {
             MC,
             { provide: 'MA', useClass: MB },
             { provide: 'VA', useValue: { val: 'val2' } },
-          ]
+          ],
         });
         const retval = Registry.resolveInheritedModuleFactory(A);
         expect(retval).to.be.lengthOf(3);
@@ -264,19 +281,19 @@ describe('Registry', () => {
         Registry.registerModuleFactory(A, {
           providers: [
             { provide: 'MA', useClass: MA },
-            { provide: 'VA', useValue: { val: 'val1' } }
-          ]
+            { provide: 'VA', useValue: { val: 'val1' } },
+          ],
         });
         Registry.registerModuleFactory(B, {
           providers: [
             { provide: 'MA', useClass: MB },
-            { provide: 'VA', useValue: { val: 'val2' } }
-          ]
+            { provide: 'VA', useValue: { val: 'val2' } },
+          ],
         });
         const retval = Registry.resolveInheritedModuleFactory(B);
         expect(retval).have.deep.members([
           { provide: 'MA', useClass: MB },
-          { provide: 'VA', useValue: { val: 'val2' } }
+          { provide: 'VA', useValue: { val: 'val2' } },
         ]);
       });
     });
@@ -286,18 +303,14 @@ describe('Registry', () => {
         class A {}
         class B extends A {}
         Registry.registerModuleFactory(A, {
-          providers: [
-            { provide: 'val', useValue: { a: 'a' } }
-          ]
+          providers: [{ provide: 'val', useValue: { a: 'a' } }],
         });
         Registry.registerModuleFactory(B, {
-          providers: [
-            { provide: 'val', useValue: { b: 'b' }, merge: true }
-          ]
+          providers: [{ provide: 'val', useValue: { b: 'b' }, merge: true }],
         });
         const retval = Registry.resolveInheritedModuleFactory(B);
         expect(retval).have.deep.members([
-          { provide: 'val', useValue: { a: 'a', b: 'b' }, merge: true }
+          { provide: 'val', useValue: { a: 'a', b: 'b' }, merge: true },
         ]);
       });
 
@@ -306,19 +319,19 @@ describe('Registry', () => {
         class B extends A {}
         class C extends B {}
         Registry.registerModuleFactory(A, {
-          providers: [
-            { provide: 'val', useValue: { val: 'val' } }
-          ]
+          providers: [{ provide: 'val', useValue: { val: 'val' } }],
         });
         Registry.registerModuleFactory(B, {
-          providers: [
-            { provide: 'val', useValue: { test: 'test' } }
-          ]
+          providers: [{ provide: 'val', useValue: { test: 'test' } }],
         });
         Registry.registerModuleFactory(C, {
           providers: [
-            { provide: 'val', useValue: { obj: { test: 'test' } }, merge: true }
-          ]
+            {
+              provide: 'val',
+              useValue: { obj: { test: 'test' } },
+              merge: true,
+            },
+          ],
         });
         const retval = Registry.resolveInheritedModuleFactory(C);
         expect(retval[0]).to.deep.equal({
@@ -326,10 +339,10 @@ describe('Registry', () => {
           useValue: {
             test: 'test',
             obj: {
-              test: 'test'
-            }
+              test: 'test',
+            },
           },
-          merge: true
+          merge: true,
         });
       });
 
@@ -338,19 +351,21 @@ describe('Registry', () => {
         class B extends A {}
         class C extends B {}
         Registry.registerModuleFactory(A, {
-          providers: [
-            { provide: 'val', useValue: { test: 'val' } }
-          ]
+          providers: [{ provide: 'val', useValue: { test: 'val' } }],
         });
         Registry.registerModuleFactory(B, {
           providers: [
-            { provide: 'val', useValue: { test: 'test' }, merge: true }
-          ]
+            { provide: 'val', useValue: { test: 'test' }, merge: true },
+          ],
         });
         Registry.registerModuleFactory(C, {
           providers: [
-            { provide: 'val', useValue: { obj: { test: 'test' } }, merge: true }
-          ]
+            {
+              provide: 'val',
+              useValue: { obj: { test: 'test' } },
+              merge: true,
+            },
+          ],
         });
         const retval = Registry.resolveInheritedModuleFactory(C);
         expect(retval[0]).to.deep.equal({
@@ -358,10 +373,10 @@ describe('Registry', () => {
           useValue: {
             test: 'test',
             obj: {
-              test: 'test'
-            }
+              test: 'test',
+            },
           },
-          merge: true
+          merge: true,
         });
       });
 
@@ -370,17 +385,17 @@ describe('Registry', () => {
         class B extends A {}
 
         Registry.registerModuleFactory(A, {
-          providers: [
-            { provide: 'test', useClass: class T {} }
-          ]
+          providers: [{ provide: 'test', useClass: class T {} }],
         });
         Registry.registerModuleFactory(B, {
           providers: [
-            { provide: 'test', useValue: { val: 'val' }, merge: true }
-          ]
+            { provide: 'test', useValue: { val: 'val' }, merge: true },
+          ],
         });
         const throws = () => Registry.resolveInheritedModuleFactory(B);
-        expect(throws).to.throw('Expected parent provider of [test] to be a value provider');
+        expect(throws).to.throw(
+          'Expected parent provider of [test] to be a value provider',
+        );
       });
 
       it('should throw when parent provider is not an Object', () => {
@@ -388,17 +403,17 @@ describe('Registry', () => {
         class B extends A {}
 
         Registry.registerModuleFactory(A, {
-          providers: [
-            { provide: 'test', useValue: 'value' }
-          ]
+          providers: [{ provide: 'test', useValue: 'value' }],
         });
         Registry.registerModuleFactory(B, {
           providers: [
-            { provide: 'test', useValue: { val: 'val' }, merge: true }
-          ]
+            { provide: 'test', useValue: { val: 'val' }, merge: true },
+          ],
         });
         const throws = () => Registry.resolveInheritedModuleFactory(B);
-        expect(throws).to.throw('Expected parent provider of [test] to be an Object');
+        expect(throws).to.throw(
+          'Expected parent provider of [test] to be an Object',
+        );
       });
     });
   });
@@ -410,7 +425,7 @@ describe('Registry', () => {
       Registry.resolveInheritedDependencies(A);
       const m = Registry.moduleRegistry.get(A);
       expect(m).to.deep.equal({
-        deps: []
+        deps: [],
       });
     });
 
@@ -422,11 +437,11 @@ describe('Registry', () => {
       expect(deps).have.deep.members([
         {
           dep: 'A',
-          optional: false
+          optional: false,
         },
         {
           dep: 'C',
-          optional: false
+          optional: false,
         },
       ]);
     });
@@ -435,7 +450,9 @@ describe('Registry', () => {
       class A {}
       const metadata = { deps: ['A', 'C'] };
       Registry.registerModule(A, metadata);
-      const stub = sinon.stub(Registry, 'mergeDependencies').callsFake(() => null);
+      const stub = sinon
+        .stub(Registry, 'mergeDependencies')
+        .callsFake(() => null);
       Registry.resolveInheritedDependencies(A);
       Registry.resolveInheritedDependencies(A);
       expect(stub.calledOnce).to.be.true();
@@ -452,7 +469,7 @@ describe('Registry', () => {
       const deps = Registry.resolveInheritedDependencies(B);
       expect(deps).have.deep.members([
         { dep: 'A', optional: false },
-        { dep: 'B', optional: false }
+        { dep: 'B', optional: false },
       ]);
     });
 
@@ -469,7 +486,7 @@ describe('Registry', () => {
       expect(deps).have.deep.members([
         { dep: 'A', optional: false },
         { dep: 'B', optional: false },
-        { dep: 'C', optional: false }
+        { dep: 'C', optional: false },
       ]);
     });
 
@@ -501,83 +518,51 @@ describe('Registry', () => {
       Registry.registerModule(C, { deps: [{ dep: 'A', optional: true }] });
 
       const deps = Registry.resolveInheritedDependencies(C);
-      expect(deps).have.deep.members([
-        { dep: 'A', optional: false }
-      ]);
+      expect(deps).have.deep.members([{ dep: 'A', optional: false }]);
     });
 
     describe('#mergeDependencies', () => {
       it('should be not optional when parent is not optional', () => {
-        let baseDeps = [
-          { dep: 'A', optional: true }
-        ];
-        let parentDeps = [
-          { dep: 'A', optional: false }
-        ];
+        let baseDeps = [{ dep: 'A', optional: true }];
+        let parentDeps = [{ dep: 'A', optional: false }];
         let deps = Registry.mergeDependencies(baseDeps, parentDeps);
-        expect(deps).have.deep.members([
-          { dep: 'A', optional: false }
-        ]);
+        expect(deps).have.deep.members([{ dep: 'A', optional: false }]);
 
         baseDeps = [{ dep: 'A', optional: true }];
         parentDeps = ['A'];
         deps = Registry.mergeDependencies(baseDeps, parentDeps);
-        expect(deps).have.deep.members([
-          { dep: 'A', optional: false }
-        ]);
+        expect(deps).have.deep.members([{ dep: 'A', optional: false }]);
       });
 
       it('should be not optional when child is not optional', () => {
-        let baseDeps = [
-          { dep: 'A', optional: false }
-        ];
-        let parentDeps = [
-          { dep: 'A', optional: true }
-        ];
+        let baseDeps = [{ dep: 'A', optional: false }];
+        let parentDeps = [{ dep: 'A', optional: true }];
         let deps = Registry.mergeDependencies(baseDeps, parentDeps);
-        expect(deps).have.deep.members([
-          { dep: 'A', optional: false }
-        ]);
+        expect(deps).have.deep.members([{ dep: 'A', optional: false }]);
 
         baseDeps = ['A'];
         parentDeps = [{ dep: 'A', optional: true }];
         deps = Registry.mergeDependencies(baseDeps, parentDeps);
-        expect(deps).have.deep.members([
-          { dep: 'A', optional: false }
-        ]);
+        expect(deps).have.deep.members([{ dep: 'A', optional: false }]);
       });
 
       it('should be not optional when parent and child are both not optional', () => {
-        let b = [
-          { dep: 'A', optional: false }
-        ];
-        let p = [
-          { dep: 'A', optional: false }
-        ];
+        let b = [{ dep: 'A', optional: false }];
+        let p = [{ dep: 'A', optional: false }];
         let d = Registry.mergeDependencies(b, p);
-        expect(d).have.deep.members([
-          { dep: 'A', optional: false }
-        ]);
+        expect(d).have.deep.members([{ dep: 'A', optional: false }]);
 
         b = ['A'];
         p = ['A'];
         d = Registry.mergeDependencies(b, p);
-        expect(d).have.deep.members([
-          { dep: 'A', optional: false }
-        ]);
+        expect(d).have.deep.members([{ dep: 'A', optional: false }]);
       });
 
       it('should be optional when parent and child are both optional', () => {
-        const b = [
-          { dep: 'A', optional: true }
-        ];
-        const p = [
-          { dep: 'A', optional: true }
-        ];
+        const b = [{ dep: 'A', optional: true }];
+        const p = [{ dep: 'A', optional: true }];
         const d = Registry.mergeDependencies(b, p);
-        expect(d).have.deep.members([
-          { dep: 'A', optional: true }
-        ]);
+        expect(d).have.deep.members([{ dep: 'A', optional: true }]);
       });
     });
   });

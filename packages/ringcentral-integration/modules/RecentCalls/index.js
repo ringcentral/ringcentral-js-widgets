@@ -13,7 +13,7 @@ import concurrentExecute from '../../lib/concurrentExecute';
  * @description Retrieve all recent calls related to a specified contact.
  */
 @Module({
-  deps: ['Client', 'CallHistory']
+  deps: ['Client', 'CallHistory'],
 })
 export default class RecentCalls extends RcModule {
   /**
@@ -22,14 +22,10 @@ export default class RecentCalls extends RcModule {
    * @param {CallHistory} params.callHistory - callHistory module instance
    * @param {Client} params.client - client module instance
    */
-  constructor({
-    client,
-    callHistory,
-    ...options
-  }) {
+  constructor({ client, callHistory, ...options }) {
     super({
       actionTypes,
-      ...options
+      ...options,
     });
     this._client = this::ensureExist(client, 'client');
     this._callHistory = this::ensureExist(callHistory, 'callHistory');
@@ -41,19 +37,13 @@ export default class RecentCalls extends RcModule {
   }
 
   _onStateChange() {
-    if (
-      this.pending &&
-      this._callHistory.ready
-    ) {
+    if (this.pending && this._callHistory.ready) {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-    } else if (
-      this.ready &&
-      !this._callHistory.ready
-    ) {
+    } else if (this.ready && !this._callHistory.ready) {
       this.store.dispatch({
-        type: this.actionTypes.resetSuccess
+        type: this.actionTypes.resetSuccess,
       });
     }
   }
@@ -78,17 +68,17 @@ export default class RecentCalls extends RcModule {
       return;
     }
     this.store.dispatch({
-      type: this.actionTypes.initLoad
+      type: this.actionTypes.initLoad,
     });
     const calls = await this._getRecentCalls(
       currentContact,
-      this._callHistory.calls
+      this._callHistory.calls,
     );
     this.store.dispatch({
       type: this.actionTypes.loadSuccess,
       calls,
       contact: currentContact,
-      sessionId
+      sessionId,
     });
   }
 
@@ -118,7 +108,7 @@ export default class RecentCalls extends RcModule {
     let recentCalls = this._getLocalRecentCalls(
       currentContact,
       calls,
-      dateFrom
+      dateFrom,
     );
 
     // If we could not find enough recent calls,
@@ -127,7 +117,7 @@ export default class RecentCalls extends RcModule {
       recentCalls = await this._fetchRemoteRecentCalls(
         currentContact,
         dateFrom.toISOString(),
-        length
+        length,
       );
     }
 
@@ -160,12 +150,11 @@ export default class RecentCalls extends RcModule {
   }
 
   _filterPhoneNumber(call) {
-    return ({ phoneNumber }) => (
+    return ({ phoneNumber }) =>
       phoneNumber === call.from.phoneNumber ||
       phoneNumber === call.to.phoneNumber ||
       phoneNumber === call.from.extensionNumber ||
-      phoneNumber === call.to.extensionNumber
-    );
+      phoneNumber === call.to.extensionNumber;
   }
 
   /**
@@ -176,42 +165,47 @@ export default class RecentCalls extends RcModule {
    * @param {Number} length The number of calls
    * @return {Array}
    */
-  _fetchRemoteRecentCalls(
-    { phoneNumbers },
-    dateFrom,
-    length
-  ) {
+  _fetchRemoteRecentCalls({ phoneNumbers }, dateFrom, length) {
     const params = {
       dateFrom,
       perPage: length,
-      type: 'Voice'
+      type: 'Voice',
     };
 
     // CallLog API doesn't support plus sign in phoneNumber
-    const recentCallsPromises = phoneNumbers.reduce((acc, { phoneType, phoneNumber }) => {
-      phoneNumber = phoneNumber.replace('+', '');
-      if (phoneType === 'extension') {
+    const recentCallsPromises = phoneNumbers.reduce(
+      (acc, { phoneType, phoneNumber }) => {
+        phoneNumber = phoneNumber.replace('+', '');
+        if (phoneType === 'extension') {
+          const promise = this._fetchCallLogList(
+            Object.assign({}, params, {
+              extensionNumber: phoneNumber,
+            }),
+          );
+          return acc.concat(promise);
+        }
         const promise = this._fetchCallLogList(
           Object.assign({}, params, {
-            extensionNumber: phoneNumber
-          })
+            phoneNumber,
+          }),
         );
         return acc.concat(promise);
-      }
-      const promise = this._fetchCallLogList(
-        Object.assign({}, params, {
-          phoneNumber
-        })
-      );
-      return acc.concat(promise);
-    }, []);
+      },
+      [],
+    );
 
-    return concurrentExecute(recentCallsPromises, 5, 500)
-      .then(this._flattenToRecords);
+    return concurrentExecute(recentCallsPromises, 5, 500).then(
+      this._flattenToRecords,
+    );
   }
 
   _fetchCallLogList(params) {
-    return () => this._client.account().extension().callLog().list(params);
+    return () =>
+      this._client
+        .account()
+        .extension()
+        .callLog()
+        .list(params);
   }
 
   _flattenToRecords(items) {

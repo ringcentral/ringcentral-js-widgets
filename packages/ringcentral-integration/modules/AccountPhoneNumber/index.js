@@ -53,8 +53,8 @@ function simplifyPhoneNumber(number) {
   deps: [
     'Client',
     'RolesAndPermissions',
-    { dep: 'AccountPhoneNumberOptions', optional: true }
-  ]
+    { dep: 'AccountPhoneNumberOptions', optional: true },
+  ],
 })
 export default class AccountPhoneNumber extends DataFetcher {
   /**
@@ -62,23 +62,28 @@ export default class AccountPhoneNumber extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({
-    client,
-    rolesAndPermissions,
-    ...options
-  }) {
+  constructor({ client, rolesAndPermissions, ...options }) {
     super({
       client,
       getDataReducer,
-      fetchFunction: async () => (await fetchList(params => (
-        client.account().phoneNumber().list(params)
-      ))).map(simplifyPhoneNumber),
+      fetchFunction: async () =>
+        (await fetchList((params) =>
+          client
+            .account()
+            .phoneNumber()
+            .list(params),
+        )).map(simplifyPhoneNumber),
       readyCheckFn: () => this._rolesAndPermissions.ready,
       ...options,
     });
-    console.warn('AccountPhoneNumber module is deprecated, please use CompanyContacts instead.');
+    console.warn(
+      'AccountPhoneNumber module is deprecated, please use CompanyContacts instead.',
+    );
 
-    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
   }
 
   get _name() {
@@ -86,10 +91,7 @@ export default class AccountPhoneNumber extends DataFetcher {
   }
 
   @selector
-  numbers = [
-    () => this.data,
-    data => data || [],
-  ]
+  numbers = [() => this.data, (data) => data || []];
 
   @selector
   extensionToPhoneNumberMap = [
@@ -106,7 +108,7 @@ export default class AccountPhoneNumber extends DataFetcher {
       });
       return numberMap;
     },
-  ]
+  ];
 
   get _hasPermission() {
     return !!this._rolesAndPermissions.permissions.ReadCompanyPhoneNumbers;

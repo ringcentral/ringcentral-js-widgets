@@ -7,7 +7,7 @@ import moduleStatuses from '../../enums/moduleStatuses';
  * @description Brand managing module
  */
 @Module({
-  deps: [{ dep: 'BrandOptions', optional: true }]
+  deps: [{ dep: 'BrandOptions', optional: true }],
 })
 export default class Brand extends RcModule {
   /**
@@ -29,15 +29,17 @@ export default class Brand extends RcModule {
     ...options
   }) {
     super(options);
-    this._reducer = (state = {
-      id,
-      name,
-      fullName,
-      appName,
-      application,
-      code,
-      brandConfig,
-    }) => state;
+    this._reducer = (
+      state = {
+        id,
+        name,
+        fullName,
+        appName,
+        application,
+        code,
+        brandConfig,
+      },
+    ) => state;
   }
   get _actionTypes() {
     /* no action types */

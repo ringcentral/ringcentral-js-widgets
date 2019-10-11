@@ -1,6 +1,7 @@
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import sleep from '../../lib/sleep';
+import saveBlob from '../../lib/saveBlob';
 import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
 import getAnalyticsReducer from './getAnalyticsReducer';
@@ -8,7 +9,7 @@ import getAnalyticsReducer from './getAnalyticsReducer';
 import { Segment } from '../../lib/Analytics';
 import callingModes from '../CallingSettings/callingModes';
 
-const INIT_TRACK_LIST = [
+export const INIT_TRACK_LIST = [
   '_authentication',
   '_logout',
   '_callAttempt',
@@ -57,8 +58,10 @@ const INIT_TRACK_LIST = [
   '_callControlClickMerge',
   '_callControlClickParticipantArea',
   '_accountInfoReady',
+  '_schedule',
 ];
 
+// TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
 /**
  * @class
  * @description Analytics module.
@@ -81,7 +84,11 @@ const INIT_TRACK_LIST = [
     { dep: 'CallMonitor', optional: true },
     { dep: 'ConferenceCall', optional: true },
     { dep: 'AccountInfo', optional: true },
-  ]
+    { dep: 'Locale', optional: true },
+    { dep: 'Meeting', optional: true },
+    { dep: 'RcVideo', optional: true },
+    { dep: 'extensionInfo', optional: true },
+  ],
 })
 export default class Analytics extends RcModule {
   constructor({
@@ -106,17 +113,25 @@ export default class Analytics extends RcModule {
     routerInteraction,
     userGuide,
     webphone,
+    locale,
+    meeting,
+    rcVideo,
+    useLog = false,
+    lingerThreshold = 1000,
+    extensionInfo,
     ...options
   }) {
     super({
       ...options,
-      actionTypes
+      actionTypes,
     });
+
     // config
     this._analyticsKey = analyticsKey;
     this._appName = appName;
     this._appVersion = appVersion;
     this._brandCode = brandCode;
+
     // modules
     this._accountInfo = accountInfo;
     this._adapter = adapter;
@@ -133,37 +148,58 @@ export default class Analytics extends RcModule {
     this._router = routerInteraction;
     this._userGuide = userGuide;
     this._webphone = webphone;
+    this._locale = locale;
+    this._meeting = meeting;
+    this._rcVideo = rcVideo;
+    this._extensionInfo = extensionInfo;
+
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
     this._segment = Segment();
     this._trackList = INIT_TRACK_LIST;
+    this._useLog = useLog;
+    this._lingerThreshold = lingerThreshold;
+    this._logs = [];
+    this._lingerTimeout = null;
   }
 
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
 
-  identify({
-    userId,
-    ...props
-  }) {
+  identify({ userId, ...props }) {
     if (this.analytics) {
       this.analytics.identify(userId, props);
     }
   }
 
-  track(event, {
-    ...properties
-  }) {
+  track(event, { ...properties }) {
     const trackProps = {
-      appName: this._appName,
-      appVersion: this._appVersion,
-      brand: this._brandCode,
+      ...this.trackProps,
       ...properties,
     };
     if (this.analytics) {
       this.analytics.track(event, trackProps);
     }
+    if (this._useLog) {
+      this._logs.push({
+        timeStamp: new Date().toISOString(),
+        event,
+        trackProps,
+      });
+    }
+  }
+
+  downloadLogs() {
+    if (!this._useLog) {
+      return;
+    }
+
+    const blob = new Blob([JSON.stringify(this._logs, null, 2)], {
+      type: 'application/json',
+    });
+
+    saveBlob('logs.json', blob);
   }
 
   trackNavigation({ router, eventPostfix }) {
@@ -173,7 +209,30 @@ export default class Analytics extends RcModule {
       appVersion: this._appVersion,
       brand: this._brandCode,
     };
-    this.track(`Navigator Clicked (${eventPostfix})`, trackProps);
+    this.track(`Navigation: Click/${eventPostfix}`, trackProps);
+  }
+
+  trackLinger({ router, eventPostfix }) {
+    const trackProps = {
+      router,
+      appName: this._appName,
+      appVersion: this._appVersion,
+      brand: this._brandCode,
+    };
+    this.track(`Navigation: View/${eventPostfix}`, trackProps);
+  }
+
+  trackSchedule({ router, eventPostfix }) {
+    const trackProps = {
+      router,
+      appName: this._appName,
+      appVersion: this._appVersion,
+      brand: this._brandCode,
+    };
+    this.track(
+      `Meeting: Click Schedule/${eventPostfix} schedule page`,
+      trackProps,
+    );
   }
 
   async _onStateChange() {
@@ -234,13 +293,16 @@ export default class Analytics extends RcModule {
   }
 
   _accountInfoReady(action) {
-    if (this._accountInfo && this._accountInfo.actionTypes.initSuccess === action.type) {
+    if (
+      this._accountInfo &&
+      this._accountInfo.actionTypes.initSuccess === action.type
+    ) {
       this.identify({
         userId: this._accountInfo._auth.ownerId,
         accountId: this._accountInfo.id,
         servicePlanId: this._accountInfo.servicePlan.id,
         edition: this._accountInfo.servicePlan.edition,
-        CRMEnabled: this._accountInfo._rolesAndPermissions.tierEnabled
+        CRMEnabled: this._accountInfo._rolesAndPermissions.tierEnabled,
       });
     }
   }
@@ -251,7 +313,7 @@ export default class Analytics extends RcModule {
         this.track('Call Attempt WebRTC');
       } else {
         this.track('Call Attempt', {
-          callSettingMode: action.callSettingMode
+          callSettingMode: action.callSettingMode,
         });
       }
     }
@@ -263,44 +325,62 @@ export default class Analytics extends RcModule {
         this.track('Outbound WebRTC Call Connected');
       } else {
         this.track('Outbound Call Connected', {
-          callSettingMode: action.callSettingMode
+          callSettingMode: action.callSettingMode,
         });
       }
     }
   }
 
   _webRTCRegistration(action) {
-    if (this._webphone && this._webphone.actionTypes.registered === action.type) {
+    if (
+      this._webphone &&
+      this._webphone.actionTypes.registered === action.type
+    ) {
       this.track('WebRTC registration');
     }
   }
 
   _smsAttempt(action) {
-    if (this._messageSender && this._messageSender.actionTypes.send === action.type) {
+    if (
+      this._messageSender &&
+      this._messageSender.actionTypes.send === action.type
+    ) {
       this.track('SMS Attempt');
     }
   }
 
   _smsSent(action) {
-    if (this._messageSender && this._messageSender.actionTypes.sendOver === action.type) {
+    if (
+      this._messageSender &&
+      this._messageSender.actionTypes.sendOver === action.type
+    ) {
       this.track('SMS Sent');
     }
   }
 
   _logCall(action) {
-    if (this._adapter && this._adapter.actionTypes.createCallLog === action.type) {
+    if (
+      this._adapter &&
+      this._adapter.actionTypes.createCallLog === action.type
+    ) {
       this.track('Log Call');
     }
   }
 
   _logSMS(action) {
-    if (this._adapter && this._adapter.actionTypes.createSMSLog === action.type) {
+    if (
+      this._adapter &&
+      this._adapter.actionTypes.createSMSLog === action.type
+    ) {
       this.track('Log SMS');
     }
   }
 
   _clickToDial(action) {
-    if (this._adapter && this._adapter.actionTypes.clickToDial === action.type) {
+    if (
+      this._adapter &&
+      this._adapter.actionTypes.clickToDial === action.type
+    ) {
       this.track('Click To Dial');
     }
   }
@@ -318,13 +398,19 @@ export default class Analytics extends RcModule {
   }
 
   _createEntity(action) {
-    if (this._adapter && this._adapter.actionTypes.createEntity === action.type) {
+    if (
+      this._adapter &&
+      this._adapter.actionTypes.createEntity === action.type
+    ) {
       this.track('Add Entity');
     }
   }
 
   _editCallLog(action) {
-    if (this._adapter && this._adapter.actionTypes.editCallLog === action.type) {
+    if (
+      this._adapter &&
+      this._adapter.actionTypes.editCallLog === action.type
+    ) {
       this.track('Edit Call Log');
     }
   }
@@ -336,251 +422,320 @@ export default class Analytics extends RcModule {
   }
 
   _navigate(action) {
-    if (this._router && this._router.actionTypes.locationChange === action.type) {
+    if (
+      this._router &&
+      this._router.actionTypes.locationChange === action.type
+    ) {
+      if (this._lingerTimeout) {
+        clearTimeout(this._lingerTimeout);
+      }
       const path = action.payload && action.payload.pathname;
       const target = this._getTrackTarget(path);
       if (target) {
         this.trackNavigation({
-          ...target
+          ...target,
         });
       }
+
+      this._lingerTimeout = setTimeout(() => {
+        if (this._router.currentPath !== path) {
+          return;
+        }
+        this._lingerTimeout = null;
+        this.trackLinger({
+          ...target,
+        });
+      }, this._lingerThreshold);
     }
   }
 
   _inboundCall(action) {
-    if (this._webphone && this._webphone.actionTypes.callAnswer === action.type) {
+    if (
+      this._webphone &&
+      this._webphone.actionTypes.callAnswer === action.type
+    ) {
       this.track('Inbound WebRTC Call Connected');
     }
   }
 
   _coldTransfer(action) {
-    if (this._webphone
-      && this._webphone.isOnTransfer === true
-      && this._webphone.actionTypes.updateSessions === action.type
+    if (
+      this._webphone &&
+      this._webphone.isOnTransfer === true &&
+      this._webphone.actionTypes.updateSessions === action.type
     ) {
       this.track('Cold Transfer Call');
     }
   }
 
   _textClickToDial(action) {
-    if (this._messageStore
-      && this._messageStore.actionTypes.clickToCall === action.type
-      && (action.fromType === 'Pager' || action.fromType === 'SMS')) {
+    if (
+      this._messageStore &&
+      this._messageStore.actionTypes.clickToCall === action.type &&
+      (action.fromType === 'Pager' || action.fromType === 'SMS')
+    ) {
       this.track('Click To Dial (Text List)');
     }
   }
 
   _voicemailClickToDial(action) {
-    if (this._messageStore
-      && this._messageStore.actionTypes.clickToCall === action.type
-      && action.fromType === 'VoiceMail') {
+    if (
+      this._messageStore &&
+      this._messageStore.actionTypes.clickToCall === action.type &&
+      action.fromType === 'VoiceMail'
+    ) {
       this.track('Click To Dial (Voicemail List)');
     }
   }
 
   _voicemailClickToSMS(action) {
-    if (this._messageStore && this._messageStore.actionTypes.clickToSMS === action.type) {
+    if (
+      this._messageStore &&
+      this._messageStore.actionTypes.clickToSMS === action.type
+    ) {
       this.track('Click to SMS (Voicemail List)');
     }
   }
 
   _voicemailDelete(action) {
-    if (this._messageStore && this._messageStore.actionTypes.removeMessage === action.type) {
+    if (
+      this._messageStore &&
+      this._messageStore.actionTypes.removeMessage === action.type
+    ) {
       this.track('Delete Voicemail');
     }
   }
 
   _voicemailFlag(action) {
-    if (this._messageStore
-      && this._messageStore.actionTypes.markMessages === action.type) {
+    if (
+      this._messageStore &&
+      this._messageStore.actionTypes.markMessages === action.type
+    ) {
       this.track('Flag Voicemail');
     }
   }
 
   _contactDetailClickToDial(action) {
-    if (this._contactDetails
-      && this._contactDetails.actionTypes.clickToCall === action.type) {
+    if (
+      this._contactDetails &&
+      this._contactDetails.actionTypes.clickToCall === action.type
+    ) {
       this.track('Click To Dial (Contact Details)');
     }
   }
 
   _contactDetailClickToSMS(action) {
-    if (this._contactDetails
-      && this._contactDetails.actionTypes.clickToSMS === action.type) {
+    if (
+      this._contactDetails &&
+      this._contactDetails.actionTypes.clickToSMS === action.type
+    ) {
       this.track('Click To SMS (Contact Details)');
     }
   }
 
   _callHistoryClickToDial(action) {
-    if (this._callHistory
-      && this._callHistory.actionTypes.clickToCall === action.type) {
+    if (
+      this._callHistory &&
+      this._callHistory.actionTypes.clickToCall === action.type
+    ) {
       this.track('Click To dial (Call History)');
     }
   }
 
   _callHistoryClickToSMS(action) {
-    if (this._callHistory
-      && this._callHistory.actionTypes.clickToSMS === action.type) {
+    if (
+      this._callHistory &&
+      this._callHistory.actionTypes.clickToSMS === action.type
+    ) {
       this.track('Click To SMS (Call History)');
     }
   }
 
-
   _conferenceInviteWithText(action) {
-    if (this._conference
-      && this._conference.actionTypes.inviteWithText === action.type) {
+    if (
+      this._conference &&
+      this._conference.actionTypes.inviteWithText === action.type
+    ) {
       this.track('Invite With Text (Conference)');
     }
   }
 
   _conferenceAddDialInNumber(action) {
-    if (this._conference
-      && this._conference.actionTypes.updateAdditionalNumbers === action.type) {
+    if (
+      this._conference &&
+      this._conference.actionTypes.updateAdditionalNumbers === action.type
+    ) {
       this.track('Select Additional Dial-in Number (Conference)');
     }
   }
 
   _conferenceJoinAsHost(action) {
-    if (this._conference
-      && this._conference.actionTypes.joinAsHost === action.type) {
+    if (
+      this._conference &&
+      this._conference.actionTypes.joinAsHost === action.type
+    ) {
       this.track('Join As Host (Conference)');
     }
   }
 
   _showWhatsNew(action) {
-    if (this._userGuide
-      && this._userGuide.actionTypes.updateCarousel === action.type
-      && action.curIdx === 0
-      && action.playing) {
-      this.track('What\'s New');
+    if (
+      this._userGuide &&
+      this._userGuide.actionTypes.updateCarousel === action.type &&
+      action.curIdx === 0 &&
+      action.playing
+    ) {
+      this.track("What's New");
     }
   }
 
   _allCallsClickHold(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.allCallsClickHoldTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.allCallsClickHoldTrack === action.type
     ) {
       this.track('Click Hold (All Calls)');
     }
   }
 
   _allCallsClickHangup(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.allCallsClickHangupTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.allCallsClickHangupTrack === action.type
     ) {
       this.track('Click Hangup (All Calls)');
     }
   }
 
   _allCallsCallItemClick(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.callItemClickTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.callItemClickTrack === action.type
     ) {
       this.track('Click Call Item (All Calls)');
     }
   }
 
   _callControlClickAdd(action) {
-    if (this._callMonitor
-     && this._callMonitor.actionTypes.callControlClickAddTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.callControlClickAddTrack === action.type
     ) {
       this.track('Click Add (Call Control)');
     }
   }
 
   _callControlClickMerge(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type
-      && !Object.values(this._conferenceCall.state.mergingPair).length
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.callControlClickMergeTrack ===
+        action.type &&
+      !Object.values(this._conferenceCall.state.mergingPair).length
     ) {
       this.track('Click Merge (Call Control)');
     }
   }
 
   _mergeCallControlClickMerge(action) {
-    if (this._callMonitor
-     && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type
-     && Object.values(this._conferenceCall.state.mergingPair).length
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.callControlClickMergeTrack ===
+        action.type &&
+      Object.values(this._conferenceCall.state.mergingPair).length
     ) {
       this.track('Click Merge (Merge Call Control)');
     }
   }
 
   _mergeCallControlClickHangup(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.mergeControlClickHangupTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.mergeControlClickHangupTrack === action.type
     ) {
       this.track('Click Hangup (Merge Call Control)');
     }
   }
 
   _callsOnHoldClickAdd(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.callsOnHoldClickAddTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.callsOnHoldClickAddTrack === action.type
     ) {
       this.track('Click Add (Calls OnHold)');
     }
   }
 
   _callsOnHoldClickMerge(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.callsOnHoldClickMergeTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.callsOnHoldClickMergeTrack === action.type
     ) {
       this.track('Click Merge (Calls OnHold)');
     }
   }
 
   _confirmMergeClickClose(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.confirmMergeClickCloseTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.confirmMergeClickCloseTrack === action.type
     ) {
       this.track('Click Close (ConfirmMerge Modal)');
     }
   }
 
   _confirmMergeClickMerge(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.confirmMergeClickMergeTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.confirmMergeClickMergeTrack === action.type
     ) {
       this.track('Click Merge (ConfirmMerge Modal)');
     }
   }
 
   _removeParticipantClickRemove(action) {
-    if (this._conferenceCall
-      && this._conferenceCall.actionTypes.removeParticipantClickRemoveTrack === action.type
+    if (
+      this._conferenceCall &&
+      this._conferenceCall.actionTypes.removeParticipantClickRemoveTrack ===
+        action.type
     ) {
       this.track('Click Remove (RemoveParticipants Modal)');
     }
   }
 
   _removeParticipantClickCancel(action) {
-    if (this._conferenceCall
-      && this._conferenceCall.actionTypes.removeParticipantClickCancelTrack === action.type
+    if (
+      this._conferenceCall &&
+      this._conferenceCall.actionTypes.removeParticipantClickCancelTrack ===
+        action.type
     ) {
       this.track('Cancel Remove (RemoveParticipants Modal)');
     }
   }
 
   _participantListClickHangup(action) {
-    if (this._conferenceCall
-      && this._conferenceCall.actionTypes.participantListClickHangupTrack === action.type
+    if (
+      this._conferenceCall &&
+      this._conferenceCall.actionTypes.participantListClickHangupTrack ===
+        action.type
     ) {
       this.track('Click Hangup (Participant List)');
     }
   }
 
   _callControlClickParticipantArea(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.callControlClickParticipantAreaClickTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes
+        .callControlClickParticipantAreaClickTrack === action.type
     ) {
       this.track('Click Participant Area (Call Control)');
     }
   }
 
   _callsOnHoldClickHangup(action) {
-    if (this._callMonitor
-      && this._callMonitor.actionTypes.callsOnHoldClickHangupTrack === action.type
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.callsOnHoldClickHangupTrack === action.type
     ) {
       this.track('Click Hangup (Calls OnHold)');
     }
@@ -591,49 +746,80 @@ export default class Analytics extends RcModule {
       const routes = path.split('/');
       let formatRoute = null;
       const needMatchSecondRoutes = ['calls'];
-      if (routes.length >= 3 && needMatchSecondRoutes.indexOf(routes[1]) !== -1) {
+      if (
+        routes.length >= 3 &&
+        needMatchSecondRoutes.indexOf(routes[1]) !== -1
+      ) {
         formatRoute = `/${routes[1]}/${routes[2]}`;
       } else if (routes.length > 1) {
         formatRoute = `/${routes[1]}`;
       }
 
-      const targets = [{
-        eventPostfix: 'Dialer',
-        router: '/dialer',
-      }, {
-        eventPostfix: 'Compose SMS',
-        router: '/composeText',
-      }, {
-        eventPostfix: 'Messages',
-        router: '/messages',
-      }, {
-        eventPostfix: 'Conversation',
-        router: '/conversations',
-      }, {
-        eventPostfix: 'Call History',
-        router: '/history',
-      }, {
-        eventPostfix: 'Call List',
-        router: '/calls',
-      }, {
-        eventPostfix: 'Settings',
-        router: '/settings',
-      }, {
-        eventPostfix: 'Conference',
-        router: '/conference',
-      }, {
-        eventPostfix: 'Meeting',
-        router: '/meeting',
-      }, {
-        eventPostfix: 'Contacts',
-        router: '/contacts',
-      }, {
-        eventPostfix: 'Call Control',
-        router: '/calls/active'
-      }];
-      return targets.find(target => formatRoute === target.router);
+      const targets = [
+        {
+          eventPostfix: 'Dialer',
+          router: '/dialer',
+        },
+        {
+          eventPostfix: 'Compose SMS',
+          router: '/composeText',
+        },
+        {
+          eventPostfix: 'Messages',
+          router: '/messages',
+        },
+        {
+          eventPostfix: 'Conversation',
+          router: '/conversations',
+        },
+        {
+          eventPostfix: 'Call History',
+          router: '/history',
+        },
+        {
+          eventPostfix: 'Call List',
+          router: '/calls',
+        },
+        {
+          eventPostfix: 'Settings',
+          router: '/settings',
+        },
+        {
+          eventPostfix: 'Conference',
+          router: '/conference',
+        },
+        {
+          eventPostfix: 'Meeting',
+          router: '/meeting',
+        },
+        {
+          eventPostfix: 'Contacts',
+          router: '/contacts',
+        },
+        {
+          eventPostfix: 'Call Control',
+          router: '/calls/active',
+        },
+        {
+          eventPostfix: 'Transfer',
+          router: '/transfer',
+        },
+      ];
+      return targets.find((target) => formatRoute === target.router);
     }
     return undefined;
+  }
+
+  _schedule(action) {
+    if (
+      ((this._meeting &&
+        this._meeting.actionTypes.initScheduling === action.type) ||
+        (this._rcVideo &&
+          this._rcVideo.actionTypes.initCreating === action.type)) &&
+      this._router
+    ) {
+      this.trackSchedule(this._getTrackTarget(this._router.currentPath));
+    }
   }
 
   get analytics() {
@@ -654,5 +840,18 @@ export default class Analytics extends RcModule {
 
   get pending() {
     return this.status === moduleStatuses.pending;
+  }
+
+  get trackProps() {
+    return {
+      'App Name': this._appName,
+      'App Version': this._appVersion,
+      Brand: this._brandCode,
+      'App Language': this._locale ? this._locale.currentLocale : '',
+      'Browser Language': this._locale ? this._locale.browserLocale : '',
+      'Extension Type': this._extensionInfo
+        ? this._extensionInfo.info.type
+        : '',
+    };
   }
 }

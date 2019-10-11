@@ -16,7 +16,10 @@ export default (auth, client, regionSettings, account) => {
       mock.mockForLogin();
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
     });
@@ -26,14 +29,14 @@ export default (auth, client, regionSettings, account) => {
       await waitInSeconds(2);
       expect(regionSettings.availableCountries).to.have.length.above(0);
       expect(regionSettings.countryCode).to.equal(
-        extensionInfoData.regionalSettings.homeCountry.isoCode
+        extensionInfoData.regionalSettings.homeCountry.isoCode,
       );
       expect(regionSettings.showReginSetting).to.equal(true);
     });
 
     it('Record fetched from SDK should be the same as RawData', () => {
       expect(regionSettings.availableCountries.length).to.equal(
-        dialingPlanData.records.length
+        dialingPlanData.records.length,
       );
     });
   });

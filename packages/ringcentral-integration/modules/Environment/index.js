@@ -15,11 +15,7 @@ import getEnvironmentReducer, {
  * @description Environment module manages which api server the app calls.
  */
 @Module({
-  deps: [
-    'Client',
-    'GlobalStorage',
-    { dep: 'EnvironmentOptions' }
-  ]
+  deps: ['Client', 'GlobalStorage', { dep: 'EnvironmentOptions' }],
 })
 export default class Environment extends RcModule {
   /**
@@ -59,7 +55,8 @@ export default class Environment extends RcModule {
       key: this._recordingHostStoragekey,
       reducer: getRecordingHostReducer({
         types: this.actionTypes,
-        defaultRecordingHost: defaultRecordingHost ||
+        defaultRecordingHost:
+          defaultRecordingHost ||
           'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html',
       }),
     });
@@ -108,9 +105,9 @@ export default class Environment extends RcModule {
   @proxify
   async setData({ server, recordingHost, enabled }) {
     const environmentChanged =
-      this.enabled !== enabled ||
-      (enabled && this.server !== server);
-    if (environmentChanged) { // recordingHost changed no need to set to SDK
+      this.enabled !== enabled || (enabled && this.server !== server);
+    if (environmentChanged) {
+      // recordingHost changed no need to set to SDK
       this._changeEnvironment(enabled, server);
     }
 

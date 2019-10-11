@@ -14,8 +14,8 @@ describe('RecentMessages Unit Test', () => {
     recentMessages = new RecentMessages({
       client: {},
       messageStore: {
-        ready: true
-      }
+        ready: true,
+      },
     });
     recentMessages._store = store;
   });
@@ -24,14 +24,14 @@ describe('RecentMessages Unit Test', () => {
     it('should throw if options.client is undefined', () => {
       expect(() => {
         recentMessages = new RecentMessages({
-          messageStore: {}
+          messageStore: {},
         });
       }).to.throw();
     });
     it('should throw if options.messageStore is undefined', () => {
       expect(() => {
         recentMessages = new RecentMessages({
-          client: {}
+          client: {},
         });
       }).to.throw();
     });
@@ -42,13 +42,15 @@ describe('RecentMessages Unit Test', () => {
       recentMessages = new RecentMessages({
         client: {},
         messageStore: {
-          ready: true
-        }
+          ready: true,
+        },
       });
       recentMessages._store = store;
       const spy = sinon.stub(store, 'dispatch');
       sinon.stub(recentMessages, 'pending', {
-        get() { return true; }
+        get() {
+          return true;
+        },
       });
       recentMessages._onStateChange();
       expect(spy.calledWith({ type: actionTypes.initSuccess }));
@@ -58,13 +60,15 @@ describe('RecentMessages Unit Test', () => {
       recentMessages = new RecentMessages({
         client: {},
         messageStore: {
-          ready: true
-        }
+          ready: true,
+        },
       });
       recentMessages._store = store;
       const spy = sinon.spy(store, 'dispatch');
       sinon.stub(recentMessages, 'pending', {
-        get() { return false; }
+        get() {
+          return false;
+        },
       });
       recentMessages._onStateChange();
       expect(spy.notCalled).to.equal(true);
@@ -74,13 +78,15 @@ describe('RecentMessages Unit Test', () => {
       recentMessages = new RecentMessages({
         client: {},
         messageStore: {
-          ready: false
-        }
+          ready: false,
+        },
       });
       recentMessages._store = store;
       const spy = sinon.spy(store, 'dispatch');
       sinon.stub(recentMessages, 'ready', {
-        get() { return true; }
+        get() {
+          return true;
+        },
       });
       recentMessages._onStateChange();
       expect(spy.calledWith({ type: actionTypes.resetSuccess }));
@@ -90,16 +96,20 @@ describe('RecentMessages Unit Test', () => {
       recentMessages = new RecentMessages({
         client: {},
         messageStore: {
-          ready: false
-        }
+          ready: false,
+        },
       });
       recentMessages._store = store;
       const spy = sinon.spy(store, 'dispatch');
       sinon.stub(recentMessages, 'pending', {
-        get() { return false; }
+        get() {
+          return false;
+        },
       });
       sinon.stub(recentMessages, 'ready', {
-        get() { return false; }
+        get() {
+          return false;
+        },
       });
       recentMessages._onStateChange();
       expect(spy.notCalled).to.equal(true);
@@ -110,10 +120,12 @@ describe('RecentMessages Unit Test', () => {
       sinon.stub(recentMessages, '_prevMessageStoreTimestamp').returns({
         get() {
           return 0;
-        }
+        },
       });
       sinon.stub(recentMessages, 'ready', {
-        get() { return true; }
+        get() {
+          return true;
+        },
       });
       recentMessages._onStateChange();
       expect(recentMessages.getMessages.called);
@@ -123,34 +135,44 @@ describe('RecentMessages Unit Test', () => {
   describe('_getRecentMessages', () => {
     it('should not fetch from server if local recent messages is enough', async () => {
       sinon.spy(recentMessages, '_fetchRemoteRecentMessages');
-      sinon.stub(recentMessages, '_getLocalRecentMessages').callsFake(() => [1, 2, 3, 4, 5]);
+      sinon
+        .stub(recentMessages, '_getLocalRecentMessages')
+        .callsFake(() => [1, 2, 3, 4, 5]);
       await recentMessages._getRecentMessages({});
-      expect(recentMessages._fetchRemoteRecentMessages.called).to.not.equal(true);
+      expect(recentMessages._fetchRemoteRecentMessages.called).to.not.equal(
+        true,
+      );
     });
 
     it('should fetch from server if local recent messages is not enough', async () => {
-      sinon.stub(recentMessages, '_fetchRemoteRecentMessages').callsFake(() => []);
-      sinon.stub(recentMessages, '_getLocalRecentMessages').returns(
-        [
+      sinon
+        .stub(recentMessages, '_fetchRemoteRecentMessages')
+        .callsFake(() => []);
+      sinon
+        .stub(recentMessages, '_getLocalRecentMessages')
+        .returns([
           { creationTime: 1542790696000 },
           { creationTime: 1542790696000 },
-          { creationTime: 1542790696000 }
-        ]
-      );
+          { creationTime: 1542790696000 },
+        ]);
       await recentMessages._getRecentMessages({});
       expect(recentMessages._fetchRemoteRecentMessages.called).to.equal(true);
     });
 
     it('should always have 5 messages if there are more than 5', async () => {
       const fakeMessages = Array.from({ length: 6 }).map((_, i) => ({ id: i }));
-      sinon.stub(recentMessages, '_getLocalRecentMessages').returns(fakeMessages);
+      sinon
+        .stub(recentMessages, '_getLocalRecentMessages')
+        .returns(fakeMessages);
       const messages = await recentMessages._getRecentMessages({});
       expect(messages).to.have.length(5);
     });
 
     it('should not contain duplicated messages', async () => {
       const fakeMessages = Array.from({ length: 6 }).fill({ id: 0 });
-      sinon.stub(recentMessages, '_getLocalRecentMessages').returns(fakeMessages);
+      sinon
+        .stub(recentMessages, '_getLocalRecentMessages')
+        .returns(fakeMessages);
       const messages = await recentMessages._getRecentMessages({});
       expect(messages).to.have.length(1);
     });
@@ -158,47 +180,56 @@ describe('RecentMessages Unit Test', () => {
 
   describe('_getLocalRecentMessages', () => {
     it('should only get messages within certain days', async () => {
-      sinon.stub(recentMessages, '_filterPhoneNumber').callsFake(() => () => true);
-      const conversations = [{
-        conversationId: 12345,
-        creationTime: '2017-07-26T06:52:43.515Z'
-      }, {
+      sinon
+        .stub(recentMessages, '_filterPhoneNumber')
+        .callsFake(() => () => true);
+      const conversations = [
+        {
+          conversationId: 12345,
+          creationTime: '2017-07-26T06:52:43.515Z',
+        },
+        {
           conversationId: 12346,
-        creationTime: '2017-01-26T06:52:43.515Z'
-      }];
+          creationTime: '2017-01-26T06:52:43.515Z',
+        },
+      ];
       recentMessages._messageStore.conversationStore = {
         12345: [
           {
             conversationId: '12345',
-            creationTime: '2017-07-26T06:52:43.515Z'
-          }
+            creationTime: '2017-07-26T06:52:43.515Z',
+          },
         ],
         12346: [
           {
             conversationId: '12346',
-            creationTime: '2017-01-26T06:52:43.515Z'
-          }
+            creationTime: '2017-01-26T06:52:43.515Z',
+          },
         ],
       };
       const contact = {
-        phoneNumbers: ['171']
+        phoneNumbers: ['171'],
       };
       const dateFrom = new Date('2017-02-26T06:52:43.515Z');
       const retval = await recentMessages._getLocalRecentMessages(
         contact,
         conversations,
         dateFrom,
-        5
+        5,
       );
       expect(retval).to.have.length(1);
     });
 
     it('should only get 5 messages even if there are more matches', async () => {
-      sinon.stub(recentMessages, '_filterPhoneNumber').callsFake(() => () => true);
-      const conversations = [{
-        conversationId: '12345',
-        creationTime: '2017-07-26T06:52:43.515Z'
-      }];
+      sinon
+        .stub(recentMessages, '_filterPhoneNumber')
+        .callsFake(() => () => true);
+      const conversations = [
+        {
+          conversationId: '12345',
+          creationTime: '2017-07-26T06:52:43.515Z',
+        },
+      ];
       recentMessages._messageStore.conversationStore = {
         12345: [
           { creationTime: '2017-07-26T06:52:43.515Z' },
@@ -210,14 +241,14 @@ describe('RecentMessages Unit Test', () => {
         ],
       };
       const contact = {
-        phoneNumbers: ['171']
+        phoneNumbers: ['171'],
       };
       const dateFrom = new Date('2017-02-26T06:52:43.515Z');
       const retval = await recentMessages._getLocalRecentMessages(
         contact,
         conversations,
         dateFrom,
-        5
+        5,
       );
       expect(retval).to.have.length(5);
     });
@@ -226,12 +257,16 @@ describe('RecentMessages Unit Test', () => {
   describe('_filterPhoneNumber', () => {
     it('should find all matched phoneNumbers in to and from fields', () => {
       // eslint-disable-next-line
-      const messages = [{ from: { phoneNumber: '+123' }, to: []}, { from: { phoneNumber: '+456' }, to: []}, { from: {}, to: [{ phoneNumber: '+789' }] }];
+      const messages = [
+        { from: { phoneNumber: '+123' }, to: [] },
+        { from: { phoneNumber: '+456' }, to: [] },
+        { from: {}, to: [{ phoneNumber: '+789' }] },
+      ];
       const phoneNumbers = [
         { phoneNumber: '+123' },
         { phoneNumber: '+456' },
         { phoneNumber: '+789' },
-        { phoneNumber: '171' }
+        { phoneNumber: '171' },
       ];
       let func;
       const matches = [];
@@ -245,12 +280,16 @@ describe('RecentMessages Unit Test', () => {
 
     it('should find all matched extensionNumber in to and from fields', () => {
       // eslint-disable-next-line
-      const messages = [{ from: { extensionNumber: '123' }, to: []}, { from: { extensionNumber: '456' }, to: []}, { from: {}, to: [{ extensionNumber: '789' }] }];
+      const messages = [
+        { from: { extensionNumber: '123' }, to: [] },
+        { from: { extensionNumber: '456' }, to: [] },
+        { from: {}, to: [{ extensionNumber: '789' }] },
+      ];
       const phoneNumbers = [
         { phoneNumber: '123' },
         { phoneNumber: '456' },
         { phoneNumber: '789' },
-        { phoneNumber: '171' }
+        { phoneNumber: '171' },
       ];
       let func;
       const matches = [];
@@ -264,12 +303,16 @@ describe('RecentMessages Unit Test', () => {
 
     it('should find all matched phoneNumber and extensionNumber in to and from fields', () => {
       // eslint-disable-next-line
-      const messages = [{ from: { extensionNumber: '123' }, to: []}, { from: { phoneNumber: '456' }, to: []}, { from: {}, to: [{ extensionNumber: '789' }] }];
+      const messages = [
+        { from: { extensionNumber: '123' }, to: [] },
+        { from: { phoneNumber: '456' }, to: [] },
+        { from: {}, to: [{ extensionNumber: '789' }] },
+      ];
       const phoneNumbers = [
         { phoneNumber: '123' },
         { phoneNumber: '456' },
         { phoneNumber: '789' },
-        { phoneNumber: '171' }
+        { phoneNumber: '171' },
       ];
       let func;
       const matches = [];
@@ -284,47 +327,69 @@ describe('RecentMessages Unit Test', () => {
 
   describe('_fetchRemoteRecentMessages', () => {
     it('should send certain number of requests to server', async () => {
-      sinon.stub(recentMessages, '_fetchMessageList').callsFake(p => () => Promise.resolve(p));
-      sinon.stub(recentMessages, '_flattenToMessageRecords').callsFake(p => p);
-      sinon.stub(recentMessages, '_markAsRemoteMessage').callsFake(p => p);
-      sinon.stub(recentMessages, '_sortMessages').callsFake(p => p);
+      sinon
+        .stub(recentMessages, '_fetchMessageList')
+        .callsFake((p) => () => Promise.resolve(p));
+      sinon
+        .stub(recentMessages, '_flattenToMessageRecords')
+        .callsFake((p) => p);
+      sinon.stub(recentMessages, '_markAsRemoteMessage').callsFake((p) => p);
+      sinon.stub(recentMessages, '_sortMessages').callsFake((p) => p);
       const contact = {
-        phoneNumbers: [{
-          phoneNumber: '123'
-        }, {
-          phoneNumber: '456'
-        }]
+        phoneNumbers: [
+          {
+            phoneNumber: '123',
+          },
+          {
+            phoneNumber: '456',
+          },
+        ],
       };
       await recentMessages._fetchRemoteRecentMessages(contact, null, null, 5);
       expect(recentMessages._fetchMessageList.callCount).to.equal(2);
     });
 
     it('should send correct parameters', async () => {
-      sinon.stub(recentMessages, '_fetchMessageList').callsFake(p => () => Promise.resolve(p));
-      sinon.stub(recentMessages, '_flattenToMessageRecords').callsFake(p => p);
-      sinon.stub(recentMessages, '_markAsRemoteMessage').callsFake(p => p);
-      sinon.stub(recentMessages, '_sortMessages').callsFake(p => p);
+      sinon
+        .stub(recentMessages, '_fetchMessageList')
+        .callsFake((p) => () => Promise.resolve(p));
+      sinon
+        .stub(recentMessages, '_flattenToMessageRecords')
+        .callsFake((p) => p);
+      sinon.stub(recentMessages, '_markAsRemoteMessage').callsFake((p) => p);
+      sinon.stub(recentMessages, '_sortMessages').callsFake((p) => p);
       const contact = {
-        phoneNumbers: [{
-          phoneNumber: '123'
-        }, {
-          phoneNumber: '456'
-        }]
+        phoneNumbers: [
+          {
+            phoneNumber: '123',
+          },
+          {
+            phoneNumber: '456',
+          },
+        ],
       };
-      const expected = [{
-        dateTo: 'dateTo',
-        dateFrom: 'dateFrom',
-        messageType: ['SMS', 'Text', 'Pager'],
-        perPage: 5,
-        phoneNumber: '123'
-      }, {
-        dateTo: 'dateTo',
-        dateFrom: 'dateFrom',
-        messageType: ['SMS', 'Text', 'Pager'],
-        perPage: 5,
-        phoneNumber: '456'
-      }];
-      const messages = await recentMessages._fetchRemoteRecentMessages(contact, 'dateFrom', 'dateTo', 5);
+      const expected = [
+        {
+          dateTo: 'dateTo',
+          dateFrom: 'dateFrom',
+          messageType: ['SMS', 'Text', 'Pager'],
+          perPage: 5,
+          phoneNumber: '123',
+        },
+        {
+          dateTo: 'dateTo',
+          dateFrom: 'dateFrom',
+          messageType: ['SMS', 'Text', 'Pager'],
+          perPage: 5,
+          phoneNumber: '456',
+        },
+      ];
+      const messages = await recentMessages._fetchRemoteRecentMessages(
+        contact,
+        'dateFrom',
+        'dateTo',
+        5,
+      );
       expect(messages).to.deep.equal(expected);
     });
   });
@@ -368,11 +433,7 @@ describe('RecentMessages Unit Test', () => {
     });
 
     it('_markAsRemoteMessage', () => {
-      const messages = [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-      ];
+      const messages = [{ id: 1 }, { id: 2 }, { id: 3 }];
       const ret = recentMessages._markAsRemoteMessage(messages);
       /* eslint-disable */
       expect(ret[0].fromRemote).to.be.true;
@@ -382,16 +443,9 @@ describe('RecentMessages Unit Test', () => {
     });
 
     it('_dedup', () => {
-      const messages = [
-        { id: 1 },
-        { id: 1 },
-        { id: 3 },
-      ];
+      const messages = [{ id: 1 }, { id: 1 }, { id: 3 }];
       const ret = recentMessages._dedup(messages);
-      expect(ret).to.deep.equal([
-        { id: 1 },
-        { id: 3 }
-      ]);
+      expect(ret).to.deep.equal([{ id: 1 }, { id: 3 }]);
     });
   });
 });

@@ -47,7 +47,7 @@ function mergeMessages(messages, oldMessages) {
 function getEarliestTime(messages) {
   let newTime = Date.now();
   messages.forEach((message) => {
-    const creationTime = (new Date(message.creationTime)).getTime();
+    const creationTime = new Date(message.creationTime).getTime();
     if (creationTime < newTime) {
       newTime = creationTime;
     }
@@ -65,11 +65,9 @@ function getUniqueNumbers(conversations) {
     }
   }
   conversations.forEach((message) => {
-    if (
-      message.from &&
-      message.direction === messageDirection.inbound
-    ) {
-      const fromNumber = message.from.phoneNumber || message.from.extensionNumber;
+    if (message.from && message.direction === messageDirection.inbound) {
+      const fromNumber =
+        message.from.phoneNumber || message.from.extensionNumber;
       addIfNotExist(fromNumber);
     }
     if (
@@ -103,7 +101,7 @@ const DEFAULT_DAY_SPAN = 90;
     { dep: 'RegionSettings', optional: true },
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ConversationLogger', optional: true },
-    { dep: 'ConversationsOptions', optional: true }
+    { dep: 'ConversationsOptions', optional: true },
   ],
 })
 export default class Conversations extends RcModule {
@@ -128,14 +126,16 @@ export default class Conversations extends RcModule {
       ...options,
       actionTypes,
     });
-    this._auth = this:: ensureExist(auth, 'auth');
-    this._alert = this:: ensureExist(alert, 'alert');
-    this._client = this:: ensureExist(client, 'client');
-    this._messageSender = this:: ensureExist(messageSender, 'messageSender');
-    this._extensionInfo = this:: ensureExist(extensionInfo, 'extensionInfo');
-    this._messageStore = this:: ensureExist(messageStore, 'messageStore');
-    this._rolesAndPermissions =
-      this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._auth = this::ensureExist(auth, 'auth');
+    this._alert = this::ensureExist(alert, 'alert');
+    this._client = this::ensureExist(client, 'client');
+    this._messageSender = this::ensureExist(messageSender, 'messageSender');
+    this._extensionInfo = this::ensureExist(extensionInfo, 'extensionInfo');
+    this._messageStore = this::ensureExist(messageStore, 'messageStore');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._contactMatcher = contactMatcher;
     this._conversationLogger = conversationLogger;
     this._regionSettings = regionSettings;
@@ -152,16 +152,17 @@ export default class Conversations extends RcModule {
     this._showMMSAttachment = showMMSAttachment;
     this._lastConversaionList = [];
 
-    this._messageSender.on(this._messageSender.actionTypes.send, ({ toNumbers }) => {
-      this.addEntities(toNumbers);
-    });
+    this._messageSender.on(
+      this._messageSender.actionTypes.send,
+      ({ toNumbers }) => {
+        this.addEntities(toNumbers);
+      },
+    );
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
         getQueriesFn: () => this.uniqueNumbers,
-        readyCheckFn: () => (
-          this._messageStore.ready
-        ),
+        readyCheckFn: () => this._messageStore.ready,
       });
     }
   }
@@ -188,15 +189,21 @@ export default class Conversations extends RcModule {
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
       }
-    } else if (this._lastConversaionList.length > this._messageStore.allConversations.length) {
+    } else if (
+      this._lastConversaionList.length >
+      this._messageStore.allConversations.length
+    ) {
       this._lastConversaionList = this._messageStore.allConversations;
       if (this.oldConversations.length) {
         this.store.dispatch({
-          type: this.actionTypes.cleanOldConversatioans
+          type: this.actionTypes.cleanOldConversatioans,
         });
         this._olderDataExsited = true;
       }
-    } else if (this._lastConversaionList.length < this._messageStore.allConversations.length) {
+    } else if (
+      this._lastConversaionList.length <
+      this._messageStore.allConversations.length
+    ) {
       this._lastConversaionList = this._messageStore.allConversations;
     }
   }
@@ -216,15 +223,13 @@ export default class Conversations extends RcModule {
 
   _shouldReset() {
     return (
-      (
-        !this._auth.loggedIn ||
+      (!this._auth.loggedIn ||
         !this._extensionInfo.ready ||
         !this._messageSender.ready ||
         !this._rolesAndPermissions ||
         !this._messageStore.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
-        (this._conversationLogger && !this._conversationLogger.ready)
-      ) &&
+        (this._conversationLogger && !this._conversationLogger.ready)) &&
       this.ready
     );
   }
@@ -309,7 +314,11 @@ export default class Conversations extends RcModule {
     };
     if (typeFilter === messageTypes.text) {
       params.messageType = [messageTypes.sms, messageTypes.pager];
-    } else if (typeFilter && typeFilter !== '' && typeFilter !== messageTypes.all) {
+    } else if (
+      typeFilter &&
+      typeFilter !== '' &&
+      typeFilter !== messageTypes.all
+    ) {
       params.messageType = typeFilter;
     }
     try {
@@ -321,8 +330,10 @@ export default class Conversations extends RcModule {
       const recordsLength = records.length;
       this._olderDataExsited = recordsLength === this._perPage;
       if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
-        const isIncreaseCurrentPage = recordsLength &&
-          (this._perPage * this.currentPage < recordsLength + this.filteredConversations.length);
+        const isIncreaseCurrentPage =
+          recordsLength &&
+          this._perPage * this.currentPage <
+            recordsLength + this.filteredConversations.length;
         this.store.dispatch({
           type: this.actionTypes.fetchOldConverstaionsSuccess,
           records,
@@ -332,7 +343,7 @@ export default class Conversations extends RcModule {
     } catch (e) {
       if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
         this.store.dispatch({
-          type: this.actionTypes.fetchOldConverstaionsError
+          type: this.actionTypes.fetchOldConverstaionsError,
         });
       }
     }
@@ -433,7 +444,7 @@ export default class Conversations extends RcModule {
     } catch (e) {
       if (conversationId === this.currentConversationId) {
         this.store.dispatch({
-          type: this.actionTypes.fetchOldMessagesError
+          type: this.actionTypes.fetchOldMessagesError,
         });
       }
     }
@@ -518,7 +529,7 @@ export default class Conversations extends RcModule {
   _getToNumbers() {
     const recipients = this.currentConversation.recipients;
     return recipients.map(
-      recipient => recipient.extensionNumber || recipient.phoneNumber,
+      (recipient) => recipient.extensionNumber || recipient.phoneNumber,
     );
   }
 
@@ -532,7 +543,7 @@ export default class Conversations extends RcModule {
       return;
     }
     const conversation = this.allConversations.find(
-      c => c.conversationId === conversationId
+      (c) => c.conversationId === conversationId,
     );
     if (!conversation) {
       return;
@@ -574,20 +585,14 @@ export default class Conversations extends RcModule {
       conversations.forEach(pushConversation);
       oldConversations.forEach(pushConversation);
       return newConversations;
-    }
-  ]
+    },
+  ];
 
   @selector
-  uniqueNumbers = [
-    () => this.pagingConversations,
-    getUniqueNumbers
-  ]
+  uniqueNumbers = [() => this.pagingConversations, getUniqueNumbers];
 
   @selector
-  allUniqueNumbers = [
-    () => this.allConversations,
-    getUniqueNumbers,
-  ]
+  allUniqueNumbers = [() => this.allConversations, getUniqueNumbers];
 
   @selector
   effectiveSearchString = [
@@ -595,8 +600,8 @@ export default class Conversations extends RcModule {
     (input) => {
       if (input.length >= 3) return input;
       return '';
-    }
-  ]
+    },
+  ];
 
   @selector
   typeFilteredConversations = [
@@ -612,23 +617,16 @@ export default class Conversations extends RcModule {
           return allConversations.filter(messageIsFax);
         default:
           return allConversations.filter(
-            conversation => (
-              (
-                this._rolesAndPermissions.readTextPermissions ||
-                !messageIsTextMessage(conversation)
-              ) &&
-              (
-                this._rolesAndPermissions.voicemailPermissions ||
-                !messageIsVoicemail(conversation)
-              ) &&
-              (
-                this._rolesAndPermissions.readFaxPermissions ||
-                !messageIsFax(conversation)
-              )
-            )
+            (conversation) =>
+              (this._rolesAndPermissions.readTextPermissions ||
+                !messageIsTextMessage(conversation)) &&
+              (this._rolesAndPermissions.voicemailPermissions ||
+                !messageIsVoicemail(conversation)) &&
+              (this._rolesAndPermissions.readFaxPermissions ||
+                !messageIsFax(conversation)),
           );
       }
-    }
+    },
   ];
 
   @selector
@@ -646,25 +644,34 @@ export default class Conversations extends RcModule {
       loggingMap = {},
       conversationLogMapping = {},
       accessToken,
-    ) => (
+    ) =>
       conversations.map((message) => {
-        const {
-          self,
-          correspondents,
-        } = getNumbersFromMessage({ extensionNumber, message });
+        const { self, correspondents } = getNumbersFromMessage({
+          extensionNumber,
+          message,
+        });
         const selfNumber = self && (self.phoneNumber || self.extensionNumber);
         const selfMatches = (selfNumber && contactMapping[selfNumber]) || [];
-        const correspondentMatches = correspondents.reduce((matches, contact) => {
-          const number = contact && (contact.phoneNumber || contact.extensionNumber);
-          return number && contactMapping[number] && contactMapping[number].length ?
-            matches.concat(contactMapping[number]) :
-            matches;
-        }, []);
-        const conversationLogId = this._conversationLogger ?
-          this._conversationLogger.getConversationLogId(message) :
-          null;
-        const isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
-        const conversationMatches = conversationLogMapping[conversationLogId] || [];
+        const correspondentMatches = correspondents.reduce(
+          (matches, contact) => {
+            const number =
+              contact && (contact.phoneNumber || contact.extensionNumber);
+            return number &&
+              contactMapping[number] &&
+              contactMapping[number].length
+              ? matches.concat(contactMapping[number])
+              : matches;
+          },
+          [],
+        );
+        const conversationLogId = this._conversationLogger
+          ? this._conversationLogger.getConversationLogId(message)
+          : null;
+        const isLogging = !!(
+          conversationLogId && loggingMap[conversationLogId]
+        );
+        const conversationMatches =
+          conversationLogMapping[conversationLogId] || [];
         let voicemailAttachment = null;
         if (messageIsVoicemail(message)) {
           voicemailAttachment = getVoicemailAttachment(message, accessToken);
@@ -678,7 +685,11 @@ export default class Conversations extends RcModule {
           unreadCounts = messageIsUnread(message) ? 1 : 0;
         }
         let mmsAttachment = null;
-        if (messageIsTextMessage(message) && isBlank(message.subject) && this._showMMSAttachment) {
+        if (
+          messageIsTextMessage(message) &&
+          isBlank(message.subject) &&
+          this._showMMSAttachment
+        ) {
           mmsAttachment = getMMSAttachment(message);
         }
         return {
@@ -694,14 +705,15 @@ export default class Conversations extends RcModule {
           voicemailAttachment,
           faxAttachment,
           mmsAttachment,
-          lastMatchedCorrespondentEntity: (
-            this._conversationLogger &&
-              this._conversationLogger.getLastMatchedCorrespondentEntity(message)
-          ) || null,
+          lastMatchedCorrespondentEntity:
+            (this._conversationLogger &&
+              this._conversationLogger.getLastMatchedCorrespondentEntity(
+                message,
+              )) ||
+            null,
         };
-      })
-    ),
-  ]
+      }),
+  ];
 
   @selector
   filteredConversations = [
@@ -720,10 +732,10 @@ export default class Conversations extends RcModule {
           const cleanedNumber = cleanNumber(effectiveSearchString);
           if (
             message.correspondents.find(
-              contact => (
-                cleanNumber(contact.phoneNumber || contact.extensionNumber || '')
-                  .indexOf(cleanedNumber) > -1
-              )
+              (contact) =>
+                cleanNumber(
+                  contact.phoneNumber || contact.extensionNumber || '',
+                ).indexOf(cleanedNumber) > -1,
             )
           ) {
             // match by phoneNumber or extensionNumber
@@ -736,9 +748,10 @@ export default class Conversations extends RcModule {
         }
         if (message.correspondentMatches.length) {
           if (
-            message.correspondentMatches.find(entity => (
-              (entity.name || '').toLowerCase().indexOf(searchString) > -1
-            ))
+            message.correspondentMatches.find(
+              (entity) =>
+                (entity.name || '').toLowerCase().indexOf(searchString) > -1,
+            )
           ) {
             // match by entity's name
             searchResults.push({
@@ -747,9 +760,12 @@ export default class Conversations extends RcModule {
             });
             return;
           }
-        } else if (message.correspondents.find(contact => (
-          (contact.name || '').toLowerCase().indexOf(searchString) > -1
-        ))) {
+        } else if (
+          message.correspondents.find(
+            (contact) =>
+              (contact.name || '').toLowerCase().indexOf(searchString) > -1,
+          )
+        ) {
           searchResults.push({
             ...message,
             matchOrder: 0,
@@ -765,10 +781,12 @@ export default class Conversations extends RcModule {
           });
           return;
         }
-        const messageList = this._messageStore.conversationStore[message.conversationId] || [];
-        const matchedMessage = messageList.find(item => (
-          (item.subject || '').toLowerCase().indexOf(searchString) > -1
-        ));
+        const messageList =
+          this._messageStore.conversationStore[message.conversationId] || [];
+        const matchedMessage = messageList.find(
+          (item) =>
+            (item.subject || '').toLowerCase().indexOf(searchString) > -1,
+        );
         if (matchedMessage) {
           searchResults.push({
             ...message,
@@ -779,23 +797,20 @@ export default class Conversations extends RcModule {
       });
       return searchResults.sort(sortSearchResults);
     },
-  ]
+  ];
 
   @selector
   pagingConversations = [
     () => this.filteredConversations,
     () => this.currentPage,
     (conversations, pageNumber) => {
-      const lastIndex = (pageNumber * this._perPage);
+      const lastIndex = pageNumber * this._perPage;
       return conversations.slice(0, lastIndex);
-    }
-  ]
+    },
+  ];
 
   @selector
-  earliestTime = [
-    () => this.typeFilteredConversations,
-    getEarliestTime,
-  ]
+  earliestTime = [() => this.typeFilteredConversations, getEarliestTime];
 
   @selector
   currentConversation = [
@@ -818,13 +833,13 @@ export default class Conversations extends RcModule {
       conversationLogMapping = {},
     ) => {
       const conversation = conversations.find(
-        c => c.conversationId === conversationId
+        (c) => c.conversationId === conversationId,
       );
       const messages = [].concat(conversationStore[conversationId] || []);
       const currentConversation = {
-        ...conversation
+        ...conversation,
       };
-      const allMessages = (mergeMessages(messages, oldMessages)).map((m) => {
+      const allMessages = mergeMessages(messages, oldMessages).map((m) => {
         if (!this._showMMSAttachment) {
           return m;
         }
@@ -834,19 +849,22 @@ export default class Conversations extends RcModule {
           mmsAttachment,
         };
       });
-      const {
-        correspondents = [],
-      } = getNumbersFromMessage({ extensionNumber, message: conversation });
+      const { correspondents = [] } = getNumbersFromMessage({
+        extensionNumber,
+        message: conversation,
+      });
       const correspondentMatches = correspondents.reduce((matches, contact) => {
-        const number = contact && (contact.phoneNumber || contact.extensionNumber);
-        return number && contactMapping[number] && contactMapping[number].length ?
-          matches.concat(contactMapping[number]) :
-          matches;
+        const number =
+          contact && (contact.phoneNumber || contact.extensionNumber);
+        return number && contactMapping[number] && contactMapping[number].length
+          ? matches.concat(contactMapping[number])
+          : matches;
       }, []);
-      const conversationLogId = this._conversationLogger ?
-        this._conversationLogger.getConversationLogId(conversation) :
-        null;
-      const conversationMatches = conversationLogMapping[conversationLogId] || [];
+      const conversationLogId = this._conversationLogger
+        ? this._conversationLogger.getConversationLogId(conversation)
+        : null;
+      const conversationMatches =
+        conversationLogMapping[conversationLogId] || [];
       currentConversation.correspondents = correspondents;
       currentConversation.correspondentMatches = correspondentMatches;
       currentConversation.conversationMatches = conversationMatches;
@@ -860,8 +878,8 @@ export default class Conversations extends RcModule {
         myNumber: currentConversation.senderNumber,
       });
       return currentConversation;
-    }
-  ]
+    },
+  ];
 
   @selector
   messageText = [
@@ -869,7 +887,8 @@ export default class Conversations extends RcModule {
     () => this.currentConversationId,
     (messageTexts, conversationId) => {
       const res = messageTexts.find(
-        msg => typeof msg === 'object' && msg.conversationId === conversationId,
+        (msg) =>
+          typeof msg === 'object' && msg.conversationId === conversationId,
       );
       return res ? res.text : '';
     },
@@ -941,19 +960,19 @@ export default class Conversations extends RcModule {
   removeEntity(entity) {
     this.store.dispatch({
       type: this.actionTypes.removeEntity,
-      entity
+      entity,
     });
   }
   addResponses(responses) {
     this.store.dispatch({
       type: this.actionTypes.addResponses,
-      responses
+      responses,
     });
   }
   removeResponse(phoneNumber) {
     this.store.dispatch({
       type: this.actionTypes.removeResponse,
-      phoneNumber
+      phoneNumber,
     });
   }
   relateCorrespondentEntity(responses) {
@@ -965,10 +984,7 @@ export default class Conversations extends RcModule {
       return;
     }
     this.addResponses(responses);
-    const {
-      countryCode,
-      areaCode
-    } = this._regionSettings;
+    const { countryCode, areaCode } = this._regionSettings;
     const formattedCorrespondentMatch = this.correspondentMatch.map((item) => {
       const formatted = normalizeNumber({
         phoneNumber: item.phoneNumber,
@@ -977,7 +993,7 @@ export default class Conversations extends RcModule {
       });
       return {
         phoneNumber: formatted,
-        id: item.rawId
+        id: item.rawId,
       };
     });
     formattedCorrespondentMatch.forEach((item) => {
@@ -985,7 +1001,7 @@ export default class Conversations extends RcModule {
       const conversationId = this.correspondentResponse[phoneNumber];
       this._conversationLogger.logConversation({
         entity: item,
-        conversationId
+        conversationId,
       });
       this.removeEntity(item);
       this.removeResponse(phoneNumber);

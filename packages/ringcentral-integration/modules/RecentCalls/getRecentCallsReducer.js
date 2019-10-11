@@ -3,17 +3,18 @@ import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import callStatus from './callStatus';
 
 export function getCallsReducer(types) {
-  return (state = {}, {
-    type, contact, calls, sessionId
-  }) => {
+  return (state = {}, { type, contact, calls, sessionId }) => {
     const contactId = String(contact && contact.id);
     if (type === types.loadSuccess) {
       return {
         ...state,
-        [sessionId ? `${contactId}-${sessionId}` : contactId]: calls
+        [sessionId ? `${contactId}-${sessionId}` : contactId]: calls,
       };
     } else if (type === types.loadReset) {
-      const { [sessionId ? `${contactId}-${sessionId}` : contactId]: _, ...rest } = state;
+      const {
+        [sessionId ? `${contactId}-${sessionId}` : contactId]: _,
+        ...rest
+      } = state;
       return rest;
     }
     return state;
@@ -38,6 +39,6 @@ export default function getRecentCallsReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
     calls: getCallsReducer(types),
-    callStatus: getCallStatusReducer(types)
+    callStatus: getCallStatusReducer(types),
   });
 }

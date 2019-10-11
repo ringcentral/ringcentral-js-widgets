@@ -21,8 +21,8 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     if (session.partyData && callItem.telephonySessionId) {
       const { sessionId, partyId } = session.partyData;
       if (
-        sessionId === callItem.telephonySessionId
-        && partyId === callItem.partyId
+        sessionId === callItem.telephonySessionId &&
+        partyId === callItem.partyId
       ) {
         return true;
       }
@@ -72,9 +72,7 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     // 16000 is from experience in test.
     // there is delay bettween active call created and webphone session created
     // for example, the time delay is decided by when webphone get invite info
-    if (
-      Math.abs(callItem.startTime - getSessionStartTime(session)) > 16000
-    ) {
+    if (Math.abs(callItem.startTime - getSessionStartTime(session)) > 16000) {
       return false;
     }
     return true;
@@ -85,7 +83,7 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     matches.sort((x, y) => {
       const gapX = Math.abs(callItem.startTime - getSessionStartTime(x));
       const gapY = Math.abs(callItem.startTime - getSessionStartTime(y));
-      return (gapX === gapY) ? 0 : gapX - gapY;
+      return gapX === gapY ? 0 : gapX - gapY;
     });
   }
 

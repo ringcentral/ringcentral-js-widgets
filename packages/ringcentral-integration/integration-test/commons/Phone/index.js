@@ -69,12 +69,8 @@ import BlockedNumber from '../../../modules/BlockedNumber';
   providers: [
     {
       provide: 'Client',
-      useFactory: ({ sdkConfig }) => (
-        new RingCentralClient(new SDK(sdkConfig))
-      ),
-      deps: [
-        { dep: 'SdkConfig', useParam: true, },
-      ],
+      useFactory: ({ sdkConfig }) => new RingCentralClient(new SDK(sdkConfig)),
+      deps: [{ dep: 'SdkConfig', useParam: true }],
     },
     { provide: 'Alert', useClass: Alert },
     { provide: 'Brand', useClass: Brand },
@@ -120,10 +116,10 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     {
       provide: 'ContactSources',
       deps: ['AddressBook', 'AccountContacts'],
-      useFactory: ({ addressBook, accountContacts }) => ([
+      useFactory: ({ addressBook, accountContacts }) => [
         addressBook,
         accountContacts,
-      ])
+      ],
     },
     { provide: 'ContactDetails', useClass: ContactDetails },
     { provide: 'ContactMatcher', useClass: ContactMatcher },
@@ -141,7 +137,7 @@ import BlockedNumber from '../../../modules/BlockedNumber';
         // StorageProvider: LocalForageStorage, // IndexedDB
         disableAllowInactiveTabsWrite: true,
       },
-      spread: true
+      spread: true,
     },
     {
       provide: 'MessageStoreOptions',
@@ -150,7 +146,7 @@ import BlockedNumber from '../../../modules/BlockedNumber';
         conversationsLoadLength: 10,
         conversationLoadLength: 15,
       },
-      spread: true
+      spread: true,
     },
     {
       provide: 'ConversationsOptions',
@@ -158,7 +154,7 @@ import BlockedNumber from '../../../modules/BlockedNumber';
         enableLoadOldMessages: true,
         showMMSAttachment: true,
       },
-      spread: true
+      spread: true,
     },
     { provide: 'ConferenceCall', useClass: ConferenceCall },
     // {
@@ -176,8 +172,8 @@ import BlockedNumber from '../../../modules/BlockedNumber';
       },
       spread: true,
     },
-    { provide: 'BlockedNumber', useClass: BlockedNumber }
-  ]
+    { provide: 'BlockedNumber', useClass: BlockedNumber },
+  ],
 })
 export default class BasePhone extends RcModule {
   constructor(options) {
@@ -455,56 +451,57 @@ export function createPhone({
   apiConfig,
   brandConfig,
 }) {
-@ModuleFactory({
-  providers: [
-    {
-      provide: 'ModuleOptions',
-      useValue: {
-        prefix
+  @ModuleFactory({
+    providers: [
+      {
+        provide: 'ModuleOptions',
+        useValue: {
+          prefix,
+        },
+        spread: true,
       },
-      spread: true
-    },
-    {
-      provide: 'SdkConfig',
-      useValue: {
-        ...apiConfig,
-        cachePrefix: 'sdk-rc',
-        clearCacheOnRefreshError: false,
-      },
-    },
-    {
-      provide: 'EnvironmentOptions',
-      useValue: {
-        sdkConfig: {
+      {
+        provide: 'SdkConfig',
+        useValue: {
           ...apiConfig,
           cachePrefix: 'sdk-rc',
           clearCacheOnRefreshError: false,
         },
       },
-      spread: true,
-    },
-    {
-      provide: 'BrandOptions',
-      spread: true,
-      useValue: brandConfig,
-    },
-    {
-      provide: 'WebphoneOptions',
-      spread: true,
-      useValue: {
-        // appKey: apiConfig.appKey,
-        appKey: 'eac8797af1b3502F2CEAAEECAC3Ed378AA7858A386656f28A008b0c638A754B1',
-        appName: brandConfig.appName,
-        appVersion: version,
-        webphoneLogLevel: 1,
+      {
+        provide: 'EnvironmentOptions',
+        useValue: {
+          sdkConfig: {
+            ...apiConfig,
+            cachePrefix: 'sdk-rc',
+            clearCacheOnRefreshError: false,
+          },
+        },
+        spread: true,
       },
-    },
-    {
-      provide: 'Version',
-      useFactory: () => version,
-    },
-  ]
-})
-  class Phone extends BasePhone { }
-return Phone.create();
+      {
+        provide: 'BrandOptions',
+        spread: true,
+        useValue: brandConfig,
+      },
+      {
+        provide: 'WebphoneOptions',
+        spread: true,
+        useValue: {
+          // appKey: apiConfig.appKey,
+          appKey:
+            'eac8797af1b3502F2CEAAEECAC3Ed378AA7858A386656f28A008b0c638A754B1',
+          appName: brandConfig.appName,
+          appVersion: version,
+          webphoneLogLevel: 1,
+        },
+      },
+      {
+        provide: 'Version',
+        useFactory: () => version,
+      },
+    ],
+  })
+  class Phone extends BasePhone {}
+  return Phone.create();
 }

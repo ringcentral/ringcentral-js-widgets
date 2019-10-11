@@ -19,8 +19,8 @@ import partyStatusCode from './partyStatusCode';
 import conferenceCallErrors from './conferenceCallErrors';
 import getConferenceCallReducer from './getConferenceCallReducer';
 
-const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
-const DEFAULT_TTL = 5000;// timer to update the conference information
+const DEFAULT_TIMEOUT = 30000; // time out for conferencing session being accepted.
+const DEFAULT_TTL = 5000; // timer to update the conference information
 const MAXIMUM_CAPACITY = 10;
 
 let _fromSessionId;
@@ -28,8 +28,10 @@ let _lastCallInfo;
 
 function ascendSortParties(parties) {
   return parties
-    .filter(party => party.conferenceRole.toLowerCase() !== conferenceRole.host)
-    .sort((last, next) => +last.id.split('-')[1] - (+next.id.split('-')[1]));
+    .filter(
+      (party) => party.conferenceRole.toLowerCase() !== conferenceRole.host,
+    )
+    .sort((last, next) => +last.id.split('-')[1] - +next.id.split('-')[1]);
 }
 
 /**
@@ -62,7 +64,7 @@ function ascendSortParties(parties) {
       dep: 'ConferenceCallOptions',
       optional: true,
     },
-  ]
+  ],
 })
 export default class ConferenceCall extends RcModule {
   /**
@@ -96,13 +98,19 @@ export default class ConferenceCall extends RcModule {
     this._alert = this::ensureExist(alert, 'alert');
     this._call = this::ensureExist(call, 'call');
     this._availabilityMonitor = availabilityMonitor;
-    this._callingSettings = this::ensureExist(callingSettings, 'callingSettings');
-    this._client = this:: ensureExist(client, 'client');
+    this._callingSettings = this::ensureExist(
+      callingSettings,
+      'callingSettings',
+    );
+    this._client = this::ensureExist(client, 'client');
     // in order to run the integeration test, we need it to be optional
     this._webphone = webphone;
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     // we need the constructed actions
     this._reducer = getConferenceCallReducer(this.actionTypes);
     this._ttl = DEFAULT_TTL;
@@ -210,7 +218,10 @@ export default class ConferenceCall extends RcModule {
         });
       }
     } catch (e) {
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(e)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(e)
+      ) {
         this._alert.warning({
           message: conferenceCallErrors.terminateConferenceFailed,
         });
@@ -262,8 +273,12 @@ export default class ConferenceCall extends RcModule {
 
     try {
       const partyProfile = this._getProfile(webphoneSession.id);
-      await this._client.service.platform()
-        .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, webphoneSession.partyData);
+      await this._client.service
+        .platform()
+        .post(
+          `/account/~/telephony/sessions/${id}/parties/bring-in`,
+          webphoneSession.partyData,
+        );
       const newConference = await this.updateConferenceStatus(id);
       conference = newConference.conference;
 
@@ -317,7 +332,10 @@ export default class ConferenceCall extends RcModule {
         conference: this.state.conferences[id],
       });
     } catch (e) {
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(e)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(e)
+      ) {
         this._alert.warning({
           message: conferenceCallErrors.removeFromConferenceFailed,
         });
@@ -475,7 +493,10 @@ export default class ConferenceCall extends RcModule {
           this.terminateConference(conferenceState.conference.id);
         }
 
-        if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(e)) {
+        if (
+          !this._availabilityMonitor ||
+          !this._availabilityMonitor.checkIfHAError(e)
+        ) {
           this._alert.warning({
             message: conferenceCallErrors.bringInFailed,
           });
@@ -666,15 +687,14 @@ export default class ConferenceCall extends RcModule {
 
   _shouldReset() {
     return (
-      (
-        (!this._auth.loggedIn || !this._auth.ready)
-        || !this._alert.ready
-        || !this._callingSettings.ready
-        || !this._call.ready
-        || !this._rolesAndPermissions.ready
-        || !this._connectivityMonitor.ready
-        || (!!this._availabilityMonitor && !this._availabilityMonitor.ready)
-      ) &&
+      (!this._auth.loggedIn ||
+        !this._auth.ready ||
+        !this._alert.ready ||
+        !this._callingSettings.ready ||
+        !this._call.ready ||
+        !this._rolesAndPermissions.ready ||
+        !this._connectivityMonitor.ready ||
+        (!!this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
     );
   }
@@ -802,8 +822,11 @@ export default class ConferenceCall extends RcModule {
         message: e.toString(),
       });
 
-      if (!propagate ||
-        (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(e))) {
+      if (
+        !propagate ||
+        (!this._availabilityMonitor ||
+          !this._availabilityMonitor.checkIfHAError(e))
+      ) {
         this._alert.warning({
           message: conferenceCallErrors.makeConferenceFailed,
         });
@@ -815,17 +838,19 @@ export default class ConferenceCall extends RcModule {
   }
 
   _getProfile(sessionId) {
-    const session = this._webphone.sessions.find(session => session.id === sessionId);
+    const session = this._webphone.sessions.find(
+      (session) => session.id === sessionId,
+    );
 
     let rcId;
     let avatarUrl;
     let calleeType = calleeTypes.unknown;
-    let partyName = (session.direction === callDirections.outbound) ?
-      session.toUserName :
-      session.fromUserName;
-    const partyNumber = (session.direction === callDirections.outbound) ?
-      session.to :
-      session.from;
+    let partyName =
+      session.direction === callDirections.outbound
+        ? session.toUserName
+        : session.fromUserName;
+    const partyNumber =
+      session.direction === callDirections.outbound ? session.to : session.from;
 
     let matchedContact = session.contactMatch;
     if (!matchedContact && this._contactMatcher) {
@@ -927,8 +952,8 @@ export default class ConferenceCall extends RcModule {
   }
 
   /*
-  * User action track dispatchs
-  * */
+   * User action track dispatchs
+   * */
 
   participantListClickHangupTrack() {
     this.store.dispatch({
@@ -987,14 +1012,18 @@ export default class ConferenceCall extends RcModule {
       let sessionNumber;
       let sessionStatus;
       let matchedContact;
-      const fromSession = sessions.find(session => session.id === fromSessionId);
+      const fromSession = sessions.find(
+        (session) => session.id === fromSessionId,
+      );
       if (fromSession) {
-        sessionName = (fromSession.direction === callDirections.outbound) ?
-          fromSession.toUserName :
-          fromSession.fromUserName;
-        sessionNumber = (fromSession.direction === callDirections.outbound) ?
-          fromSession.to :
-          fromSession.from;
+        sessionName =
+          fromSession.direction === callDirections.outbound
+            ? fromSession.toUserName
+            : fromSession.fromUserName;
+        sessionNumber =
+          fromSession.direction === callDirections.outbound
+            ? fromSession.to
+            : fromSession.from;
         sessionStatus = fromSession.callStatus;
         matchedContact = fromSession.contactMatch;
         if (!matchedContact && this._contactMatcher) {

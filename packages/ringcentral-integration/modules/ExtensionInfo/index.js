@@ -1,7 +1,9 @@
 import mask from 'json-mask';
-import subscriptionFilters from '../../enums/subscriptionFilters';
 import { Module } from '../../lib/di';
+import { selector } from '../../lib/selector';
 import DataFetcher from '../../lib/DataFetcher';
+import subscriptionHints from '../../enums/subscriptionHints';
+import subscriptionFilters from '../../enums/subscriptionFilters';
 import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
 
 const DEFAULT_MASK = [
@@ -57,8 +59,8 @@ const DEFAULT_TIME_TO_RETRY = 62 * 1000;
   deps: [
     'Client',
     { dep: 'Alert', optional: true },
-    { dep: 'ExtensionInfoOptions', optional: true }
-  ]
+    { dep: 'ExtensionInfoOptions', optional: true },
+  ],
 })
 export default class ExtensionInfo extends DataFetcher {
   /**
@@ -84,7 +86,13 @@ export default class ExtensionInfo extends DataFetcher {
         await this._subscriptionHandleFn(message);
       },
       cleanOnReset: true,
-      fetchFunction: async () => extractData(await this._client.account().extension().get()),
+      fetchFunction: async () =>
+        extractData(
+          await this._client
+            .account()
+            .extension()
+            .get(),
+        ),
       forbiddenHandler: async () => {
         await this._auth.logout();
         if (this._alert) {
@@ -95,19 +103,9 @@ export default class ExtensionInfo extends DataFetcher {
         }
         return {};
       },
-      ...options
+      ...options,
     });
-
     this._alert = alert;
-
-    this.addSelector('info',
-      () => this.data,
-      data => (data || {}),
-    );
-    this.addSelector('serviceFeatures',
-      this._selectors.info,
-      info => (info.serviceFeatures || {}),
-    );
   }
 
   get _name() {
@@ -118,16 +116,24 @@ export default class ExtensionInfo extends DataFetcher {
     if (
       message &&
       message.body &&
-      extensionRegExp.test(message.event)
+      extensionRegExp.test(message.event) &&
+      !(
+        message.body.hints &&
+        (message.body.hints.includes(subscriptionHints.companyNumbers) ||
+          message.body.hints.includes(subscriptionHints.limits) ||
+          message.body.hints.includes(subscriptionHints.features) ||
+          message.body.hints.includes(subscriptionHints.permissions))
+      )
     ) {
       await this.fetchData();
     }
   }
 
+  @selector
+  info = [() => this.data, (data) => data || {}];
 
-  get info() {
-    return this._selectors.info();
-  }
+  @selector
+  serviceFeatures = [() => this.info, (info) => info.serviceFeatures || {}];
 
   get id() {
     return this.info.id;
@@ -137,13 +143,11 @@ export default class ExtensionInfo extends DataFetcher {
     return this.info.extensionNumber;
   }
 
-  get serviceFeatures() {
-    return this._selectors.serviceFeatures();
-  }
-
   get country() {
-    return (this.info.regionalSettings && this.info.regionalSettings.homeCountry) ||
-      DEFAULT_COUNTRY;
+    return (
+      (this.info.regionalSettings && this.info.regionalSettings.homeCountry) ||
+      DEFAULT_COUNTRY
+    );
   }
 
   get departments() {
@@ -151,6 +155,10 @@ export default class ExtensionInfo extends DataFetcher {
   }
 
   get isCallQueueMember() {
-    return !!this.departments && Array.isArray(this.departments) && this.departments.length > 0;
+    return (
+      !!this.departments &&
+      Array.isArray(this.departments) &&
+      this.departments.length > 0
+    );
   }
 }

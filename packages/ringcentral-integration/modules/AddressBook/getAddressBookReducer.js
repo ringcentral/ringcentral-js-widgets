@@ -32,7 +32,7 @@ export function getContactListReducer(types) {
           contactMap[contact.id] = contacts.length - 1;
         });
         records.forEach((record) => {
-          const isDeleted = (record.availability === availabilityTypes.deleted);
+          const isDeleted = record.availability === availabilityTypes.deleted;
           const oldIndex = contactMap[record.id];
           if (oldIndex !== undefined && oldIndex !== null) {
             if (isDeleted) {
@@ -42,7 +42,7 @@ export function getContactListReducer(types) {
               const oldContact = contacts[oldIndex];
               contacts[oldIndex] = {
                 ...oldContact,
-                ...(removeUri(record)),
+                ...removeUri(record),
               };
             }
           } else if (!isDeleted) {
@@ -50,7 +50,7 @@ export function getContactListReducer(types) {
             contactMap[record.id] = contacts.length - 1;
           }
         });
-        return contacts.filter(contact => !!contact);
+        return contacts.filter((contact) => !!contact);
       case types.resetSuccess:
       case types.cleanUp:
         return [];
@@ -74,11 +74,11 @@ export function getSyncTokenReducer(types) {
   };
 }
 
-export function getSyncTimestampReducer(types) {
-  return (state = null, { type, syncTime }) => {
+export function getTimestampReducer(types) {
+  return (state = null, { type, timestamp }) => {
     switch (type) {
       case types.syncSuccess:
-        return (new Date(syncTime)).getTime();
+        return timestamp;
       case types.resetSuccess:
       case types.cleanUp:
         return null;

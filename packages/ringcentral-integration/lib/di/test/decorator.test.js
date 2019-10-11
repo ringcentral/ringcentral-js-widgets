@@ -1,11 +1,6 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
-import {
-  Injector,
-  Module,
-  Library,
-  ModuleFactory
-} from '../';
+import { Injector, Module, Library, ModuleFactory } from '../';
 import Registry from '../registry/registry';
 
 chai.use(dirtyChai);
@@ -90,7 +85,7 @@ describe('ModuleFactory decorator', () => {
     /* eslint-disable */
     function moduleFactory() {
       @ModuleFactory({
-        providers: {}
+        providers: {},
       })
       class RootModule {}
     }

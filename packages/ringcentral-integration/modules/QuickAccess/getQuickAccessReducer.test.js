@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import getQuickAccessrReducer, { getupdatePageReducer } from './getQuickAccessReducer';
+import getQuickAccessrReducer, {
+  getupdatePageReducer,
+} from './getQuickAccessReducer';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import actionTypes from './actionTypes';
 
@@ -17,20 +19,23 @@ describe('getupdatePageReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return entered on updatePage', () => {
       const entered = 'foo';
-      expect(reducer(null, {
-        type: actionTypes.updatePage,
-        entered,
-      })).to.equal(entered);
+      expect(
+        reducer(null, {
+          type: actionTypes.updatePage,
+          entered,
+        }),
+      ).to.equal(entered);
     });
     it('should return originalState on updatePage if action.updatePage is undefined', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updatePage,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updatePage,
+        }),
+      ).to.equal('foo');
     });
   });
 });

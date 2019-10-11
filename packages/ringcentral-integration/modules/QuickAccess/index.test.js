@@ -12,10 +12,7 @@ describe('QuickAccess Unit Test', () => {
     store = createStore(getQuickAccessReducer(actionTypes));
     quickAccess._store = store;
     quickAccess._prefixedActionTypes = actionTypes;
-    [
-      '_onStateChange',
-      'exit',
-    ].forEach((key) => {
+    ['_onStateChange', 'exit'].forEach((key) => {
       quickAccess[key].restore();
     });
   });
@@ -26,11 +23,11 @@ describe('QuickAccess Unit Test', () => {
         get: () => 'module-ready',
       });
       quickAccess._auth = {
-        ready: true
+        ready: true,
       };
       quickAccess._webphone = {
         ready: true,
-        ringSession: {}
+        ringSession: {},
       };
       quickAccess._lastRingSession = null;
       await quickAccess._onStateChange();

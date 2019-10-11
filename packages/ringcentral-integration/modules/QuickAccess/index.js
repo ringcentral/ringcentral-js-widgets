@@ -5,21 +5,13 @@ import actionTypes from './actionTypes';
 import getQuickAccessReducer from './getQuickAccessReducer';
 
 @Module({
-  deps: [
-    'Auth',
-    'Storage',
-    'Webphone'
-  ]
+  deps: ['Auth', 'Storage', 'Webphone'],
 })
 export default class QuickAccess extends RcModule {
-  constructor({
-    auth,
-    webphone,
-    ...options
-  }) {
+  constructor({ auth, webphone, ...options }) {
     super({
       actionTypes,
-      ...options
+      ...options,
     });
     this._auth = auth;
     this._webphone = webphone;
@@ -33,11 +25,11 @@ export default class QuickAccess extends RcModule {
   async _onStateChange() {
     if (this._auth.ready && !this.ready) {
       this.store.dispatch({
-        type: this.actionTypes.initSuccess
+        type: this.actionTypes.initSuccess,
       });
     } else if (!this._auth.ready && this.ready) {
       this.store.dispatch({
-        type: this.actionTypes.resetSuccess
+        type: this.actionTypes.resetSuccess,
       });
     }
     // When there is an incoming call,
@@ -52,21 +44,19 @@ export default class QuickAccess extends RcModule {
     }
   }
 
-
   @proxify
   async enter() {
     this.store.dispatch({
       type: this.actionTypes.updatePage,
-      entered: true
+      entered: true,
     });
   }
-
 
   @proxify
   async exit() {
     this.store.dispatch({
       type: this.actionTypes.updatePage,
-      entered: false
+      entered: false,
     });
   }
 
@@ -78,4 +68,3 @@ export default class QuickAccess extends RcModule {
     return this.state.status;
   }
 }
-

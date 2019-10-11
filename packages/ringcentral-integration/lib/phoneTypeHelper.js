@@ -1,7 +1,4 @@
-import {
-  sort,
-  reduce,
-} from 'ramda';
+import { sort, reduce } from 'ramda';
 import phoneTypes from '../enums/phoneTypes';
 
 export const phoneTypeOrder = Object.freeze([
@@ -17,18 +14,19 @@ export const phoneTypeOrder = Object.freeze([
   phoneTypes.phone,
   phoneTypes.unknown,
   phoneTypes.company,
-
 ]);
 
-export const phoneTypeOrderMap = Object.freeze(reduce(
-  (acc, item, idx) => {
-    acc[item] = idx;
-    return acc;
-  },
-  {},
-  phoneTypeOrder,
-));
+export const phoneTypeOrderMap = Object.freeze(
+  reduce(
+    (acc, item, idx) => {
+      acc[item] = idx;
+      return acc;
+    },
+    {},
+    phoneTypeOrder,
+  ),
+);
 
 export const sortByPhoneTypes = sort(
-  (a, b) => (phoneTypeOrderMap[a.phoneType] - phoneTypeOrderMap[b.phoneType])
+  (a, b) => phoneTypeOrderMap[a.phoneType] - phoneTypeOrderMap[b.phoneType],
 );

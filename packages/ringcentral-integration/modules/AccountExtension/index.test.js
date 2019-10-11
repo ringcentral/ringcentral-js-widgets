@@ -2,9 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
 import AccountExtension from './index';
-import {
-  getDataReducer,
-} from './getAccountExtensionReducer';
+import { getDataReducer } from './getAccountExtensionReducer';
 import actionTypes from './actionTypes';
 import * as accountExtensionHelper from './accountExtensionHelper';
 
@@ -24,7 +22,7 @@ describe('AccountExtension Unit Test', () => {
       '_deleteExtension',
       '_fetchExtensionData',
       '_subscriptionHandleFn',
-      '_addOrDeleteExtension'
+      '_addOrDeleteExtension',
     ].forEach((key) => {
       accountExtension[key].restore();
     });
@@ -34,14 +32,14 @@ describe('AccountExtension Unit Test', () => {
     it('Should return true when availableExtensions contains the extenionNumber', () => {
       const availableExtensions = [{ ext: 123 }];
       sinon.stub(accountExtension, 'availableExtensions', {
-        get: () => availableExtensions
+        get: () => availableExtensions,
       });
       expect(accountExtension.isAvailableExtension(123)).to.equal(true);
     });
     it('Should return true when availableExtensions contains the extenionNumber', () => {
       const availableExtensions = [{ ext: 123 }];
       sinon.stub(accountExtension, 'availableExtensions', {
-        get: () => availableExtensions
+        get: () => availableExtensions,
       });
       expect(accountExtension.isAvailableExtension(456)).to.equal(false);
     });
@@ -52,8 +50,8 @@ describe('AccountExtension Unit Test', () => {
       const message = {
         event: 'abc',
         body: {
-          extensions: [{}, {}]
-        }
+          extensions: [{}, {}],
+        },
       };
       sinon.stub(accountExtension, '_processExtension');
       await accountExtension._subscriptionHandleFn(message);
@@ -62,7 +60,7 @@ describe('AccountExtension Unit Test', () => {
     it('proccssExtension should not be called when got no extensions', async () => {
       const message = {
         event: 'abc',
-        body: {}
+        body: {},
       };
       sinon.stub(accountExtension, '_processExtension');
       await accountExtension._subscriptionHandleFn(message);
@@ -72,8 +70,8 @@ describe('AccountExtension Unit Test', () => {
       const message = {
         event: '/extension',
         body: {
-          extensions: [{}, {}]
-        }
+          extensions: [{}, {}],
+        },
       };
       sinon.stub(accountExtension, '_processExtension');
       await accountExtension._subscriptionHandleFn(message);

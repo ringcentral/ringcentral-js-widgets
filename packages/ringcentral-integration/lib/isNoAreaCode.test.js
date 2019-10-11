@@ -6,7 +6,7 @@ describe('isNoAreaCode', () => {
   it('should return false if phoneNumber is ServiceNumber', () => {
     const regionSettings = {
       countryCode: 'US',
-      areaCode: '666'
+      areaCode: '666',
     };
     const result = isNoAreaCode('*101', regionSettings, brandId);
     expect(result).to.equal(false);
@@ -15,7 +15,7 @@ describe('isNoAreaCode', () => {
   it('should return false if phoneNumber is hasPlus', () => {
     const regionSettings = {
       countryCode: 'US',
-      areaCode: '666'
+      areaCode: '666',
     };
     const result = isNoAreaCode('+16508370000', regionSettings, brandId);
     expect(result).to.equal(false);

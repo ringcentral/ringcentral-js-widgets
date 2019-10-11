@@ -15,9 +15,13 @@ import getNumberValidateReducer from './getNumberValidateReducer';
  * @description Validate number with number parser api
  */
 @Module({
-  deps: ['Brand', 'Client', 'RegionSettings', 'AccountInfo',
-    { dep: 'CompanyContacts' }
-  ]
+  deps: [
+    'Brand',
+    'Client',
+    'RegionSettings',
+    'AccountInfo',
+    { dep: 'CompanyContacts' },
+  ],
 })
 export default class NumberValidate extends RcModule {
   /**
@@ -42,7 +46,10 @@ export default class NumberValidate extends RcModule {
     });
     this._brand = brand;
     this._client = client;
-    this._companyContacts = this::ensureExist(companyContacts, 'companyContacts');
+    this._companyContacts = this::ensureExist(
+      companyContacts,
+      'companyContacts',
+    );
 
     this._regionSettings = regionSettings;
     this._accountInfo = accountInfo;
@@ -79,12 +86,10 @@ export default class NumberValidate extends RcModule {
 
   _shouldReset() {
     return (
-      (
-        !this._brand.ready ||
+      (!this._brand.ready ||
         !this._accountInfo.ready ||
         !this._regionSettings.ready ||
-        !this._companyContacts.ready
-      ) &&
+        !this._companyContacts.ready) &&
       this.ready
     );
   }
@@ -99,36 +104,24 @@ export default class NumberValidate extends RcModule {
     if (isBlank(input)) {
       return true;
     }
-    const {
-      hasInvalidChars,
-      isValid,
-    } = parse({
+    const { hasInvalidChars, isValid } = parse({
       input,
       countryCode: this._regionSettings.countryCode,
       areaCode: this._regionSettings.areaCode,
     });
-    if (
-      hasInvalidChars ||
-      !isValid) {
+    if (hasInvalidChars || !isValid) {
       return true;
     }
     return false;
   }
 
   isNoAreaCode(input) {
-    const {
-      hasPlus,
-      phoneNumber,
-      isServiceNumber
-    } = parse({
+    const { hasPlus, phoneNumber, isServiceNumber } = parse({
       input,
       countryCode: this._regionSettings.countryCode,
       areaCode: this._regionSettings.areaCode,
     });
-    const {
-      countryCode,
-      areaCode,
-    } = this._regionSettings;
+    const { countryCode, areaCode } = this._regionSettings;
     if (
       this._brand.id === '1210' &&
       !isServiceNumber &&
@@ -161,12 +154,12 @@ export default class NumberValidate extends RcModule {
   }
 
   isCompanyExtension(companyNumber, extensionNumber) {
-    const {
+    const { countryCode, areaCode } = this._regionSettings;
+    const normalizedCompanyNumber = normalizeNumber({
+      phoneNumber: companyNumber,
       countryCode,
       areaCode,
-    } = this._regionSettings;
-    const normalizedCompanyNumber =
-      normalizeNumber({ phoneNumber: companyNumber, countryCode, areaCode });
+    });
     if (normalizedCompanyNumber !== this._accountInfo.mainCompanyNumber) {
       return false;
     }
@@ -196,8 +189,8 @@ export default class NumberValidate extends RcModule {
       return null;
     });
     return {
-      result: (errors.length === 0),
-      errors
+      result: errors.length === 0,
+      errors,
     };
   }
 
@@ -208,18 +201,24 @@ export default class NumberValidate extends RcModule {
     const validatedPhoneNumbers = [];
     pasedNumers.map((phoneNumber) => {
       if (this._isSpecial(phoneNumber)) {
-        errors.push({ phoneNumber: phoneNumber.originalString, type: 'specialNumber' });
+        errors.push({
+          phoneNumber: phoneNumber.originalString,
+          type: 'specialNumber',
+        });
         return null;
       }
       if (this.isNotAnExtension(phoneNumber.originalString)) {
-        errors.push({ phoneNumber: phoneNumber.originalString, type: 'notAnExtension' });
+        errors.push({
+          phoneNumber: phoneNumber.originalString,
+          type: 'notAnExtension',
+        });
         return null;
       }
       validatedPhoneNumbers.push(phoneNumber);
       return null;
     });
     return {
-      result: (errors.length === 0),
+      result: errors.length === 0,
       numbers: validatedPhoneNumbers,
       errors,
     };
@@ -227,16 +226,16 @@ export default class NumberValidate extends RcModule {
 
   @proxify
   async _numberParser(phoneNumbers) {
-    const {
-      countryCode,
-      areaCode,
-    } = this._regionSettings;
+    const { countryCode, areaCode } = this._regionSettings;
     const homeCountry = countryCode ? { homeCountry: countryCode } : {};
-    const normalizedNumbers = phoneNumbers.map(phoneNumber => (
-      normalizeNumber({ phoneNumber, countryCode, areaCode })
-    ));
-    const response = await this._numberParserApi(normalizedNumbers, homeCountry);
-    return response.phoneNumbers.map(phoneNumber => ({
+    const normalizedNumbers = phoneNumbers.map((phoneNumber) =>
+      normalizeNumber({ phoneNumber, countryCode, areaCode }),
+    );
+    const response = await this._numberParserApi(
+      normalizedNumbers,
+      homeCountry,
+    );
+    return response.phoneNumbers.map((phoneNumber) => ({
       ...phoneNumber,
       international:
         !!phoneNumber.country &&
@@ -246,12 +245,15 @@ export default class NumberValidate extends RcModule {
 
   @proxify
   async _numberParserApi(originalStrings, homeCountry) {
-    const response = await this._client.numberParser().parse().post(
-      {
-        originalStrings,
-      },
-      homeCountry,
-    );
+    const response = await this._client
+      .numberParser()
+      .parse()
+      .post(
+        {
+          originalStrings,
+        },
+        homeCountry,
+      );
     return response;
   }
 

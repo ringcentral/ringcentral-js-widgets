@@ -42,7 +42,7 @@ export function getFromNumberReducer(types) {
 
 export function getCallingSettingsReducer(types) {
   return combineReducers({
-    status: getModuleStatusReducer(types)
+    status: getModuleStatusReducer(types),
   });
 }
 

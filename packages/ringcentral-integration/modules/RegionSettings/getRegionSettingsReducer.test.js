@@ -20,20 +20,23 @@ describe('getCountryCodeReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.countryCode on setData', () => {
       const countryCode = 'foo';
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        countryCode,
-      })).to.equal(countryCode);
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          countryCode,
+        }),
+      ).to.equal(countryCode);
     });
     it('should return originalState on setData if action.countryCode is undefined', () => {
-      expect(reducer('foo', {
-        type: actionTypes.setData,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.setData,
+        }),
+      ).to.equal('foo');
     });
   });
 });
@@ -52,20 +55,23 @@ describe('getAreaCodeReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.areaCode on setData', () => {
       const areaCode = 'foo';
-      expect(reducer(null, {
-        type: actionTypes.setData,
-        areaCode,
-      })).to.equal(areaCode);
+      expect(
+        reducer(null, {
+          type: actionTypes.setData,
+          areaCode,
+        }),
+      ).to.equal(areaCode);
     });
     it('should return originalState on setData if action.areaCode is undefined', () => {
-      expect(reducer('foo', {
-        type: actionTypes.setData,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.setData,
+        }),
+      ).to.equal('foo');
     });
   });
 });
@@ -87,4 +93,3 @@ describe('getRegionSettingsReducer', () => {
     });
   });
 });
-

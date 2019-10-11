@@ -19,7 +19,10 @@ export default (auth, client, forwardingNumber, account) => {
         mock.mockForLogin();
         isLoginSuccess = await ensureLogin(auth, account);
         if (!isLoginSuccess) {
-          console.error('Skip test case as failed to login with credential ', account);
+          console.error(
+            'Skip test case as failed to login with credential ',
+            account,
+          );
           this.skip();
         }
       });
@@ -53,11 +56,16 @@ export default (auth, client, forwardingNumber, account) => {
         mock.restore();
         mock.mockForLogin({ mockAuthzProfile: false });
         mock.authzProfile({
-          permissions: authzProfileBody.permissions.filter(p => p.permission.id !== 'ReadUserForwardingFlipNumbers')
+          permissions: authzProfileBody.permissions.filter(
+            (p) => p.permission.id !== 'ReadUserForwardingFlipNumbers',
+          ),
         });
         isLoginSuccess = await ensureLogin(auth, account);
         if (!isLoginSuccess) {
-          console.error('Skip test case as failed to login with credential ', account);
+          console.error(
+            'Skip test case as failed to login with credential ',
+            account,
+          );
           this.skip();
         }
       });
@@ -89,10 +97,16 @@ export default (auth, client, forwardingNumber, account) => {
     it('Should show insufficientPrivilege when get 403', async () => {
       mock.restore();
       mock.mockForLogin({ mockForwardingNumber: false });
-      mock.mockForbidden({ url: 'begin:http://whatever/restapi/v1.0/account/~/extension/~/forwarding-number' });
+      mock.mockForbidden({
+        url:
+          'begin:http://whatever/restapi/v1.0/account/~/extension/~/forwarding-number',
+      });
       isLoginSuccess = await ensureLogin(auth, account);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', account);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          account,
+        );
         this.skip();
       }
       await waitInSeconds(1);

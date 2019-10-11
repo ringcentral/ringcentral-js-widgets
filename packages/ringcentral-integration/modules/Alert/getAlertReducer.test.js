@@ -1,7 +1,5 @@
 import { expect } from 'chai';
-import getAlertReducer, {
-  getMessagesReducer,
-} from './getAlertReducer';
+import getAlertReducer, { getMessagesReducer } from './getAlertReducer';
 import actionTypes from './actionTypes';
 
 describe('getMessagesReducer', () => {
@@ -18,65 +16,84 @@ describe('getMessagesReducer', () => {
     });
     it('should return original state if type is not recognized', () => {
       const originalState = [];
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should add new message to state on alert', () => {
-      expect(reducer([], {
-        type: actionTypes.alert,
-        id: 'foo',
-        message: 'bar',
-        payload: 'payload',
-        ttl: 0,
-        level: 'level',
-        timestamp: 1234,
-      })).to.deep.equal([{
-        id: 'foo',
-        message: 'bar',
-        payload: 'payload',
-        ttl: 0,
-        level: 'level',
-        timestamp: 1234
-      }]);
-      expect(reducer([{}, {}], {
-        type: actionTypes.alert,
-        id: 'foo',
-        message: 'bar',
-        payload: 'payload',
-        ttl: 0,
-        level: 'level',
-        timestamp: 1234,
-      })).to.deep.equal([{}, {}, {
-        id: 'foo',
-        message: 'bar',
-        payload: 'payload',
-        ttl: 0,
-        level: 'level',
-        timestamp: 1234
-      }]);
+      expect(
+        reducer([], {
+          type: actionTypes.alert,
+          id: 'foo',
+          message: 'bar',
+          payload: 'payload',
+          ttl: 0,
+          level: 'level',
+          timestamp: 1234,
+        }),
+      ).to.deep.equal([
+        {
+          id: 'foo',
+          message: 'bar',
+          payload: 'payload',
+          ttl: 0,
+          level: 'level',
+          timestamp: 1234,
+        },
+      ]);
+      expect(
+        reducer([{}, {}], {
+          type: actionTypes.alert,
+          id: 'foo',
+          message: 'bar',
+          payload: 'payload',
+          ttl: 0,
+          level: 'level',
+          timestamp: 1234,
+        }),
+      ).to.deep.equal([
+        {},
+        {},
+        {
+          id: 'foo',
+          message: 'bar',
+          payload: 'payload',
+          ttl: 0,
+          level: 'level',
+          timestamp: 1234,
+        },
+      ]);
     });
     it('should return state if allowDuplicates === false and message already exists', () => {
-      const originalState = [{
-        message: 'foo',
-      }];
-      expect(reducer(originalState, {
-        type: actionTypes.alert,
-        message: 'foo',
-        allowDuplicates: false,
-      })).to.equal(originalState);
+      const originalState = [
+        {
+          message: 'foo',
+        },
+      ];
+      expect(
+        reducer(originalState, {
+          type: actionTypes.alert,
+          message: 'foo',
+          allowDuplicates: false,
+        }),
+      ).to.equal(originalState);
     });
     it('should remove messages specified by the ids on dismiss', () => {
-      expect(reducer([{ id: 'foo' }, { id: 'bar' }, { id: 'rogue' }], {
-        type: actionTypes.dismiss,
-        ids: ['foo', 'bar'],
-      })).to.deep.equal([{
-        id: 'rogue',
-      }]);
+      expect(
+        reducer([{ id: 'foo' }, { id: 'bar' }, { id: 'rogue' }], {
+          type: actionTypes.dismiss,
+          ids: ['foo', 'bar'],
+        }),
+      ).to.deep.equal([
+        {
+          id: 'rogue',
+        },
+      ]);
     });
-    it ('should remove all messages on dismissAll', () => {
-      expect(reducer([{ id: 'foo' }, { id: 'bar' }, { id: 'rogue' }], {
-        type: actionTypes.dismissAll,
-      })).to.deep.equal([]);
+    it('should remove all messages on dismissAll', () => {
+      expect(
+        reducer([{ id: 'foo' }, { id: 'bar' }, { id: 'rogue' }], {
+          type: actionTypes.dismissAll,
+        }),
+      ).to.deep.equal([]);
     });
   });
 });

@@ -2,7 +2,14 @@ import { ensureLogin, containsErrorMessage } from '../utils/HelpUtil';
 import callErrors from '../../modules/Call/callErrors';
 import { waitUntilEqual, waitInSeconds } from '../utils/WaitUtil';
 
-export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) => {
+export default (
+  Auth,
+  Alert,
+  Client,
+  RegionSettings,
+  Call,
+  accountWithMultiDP,
+) => {
   describe('Number Validation when Making Phone Call', async () => {
     this.timeout(20000);
 
@@ -12,7 +19,10 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
       };
       const isLoginSuccess = await ensureLogin(Auth, accountWithMultiDP);
       if (!isLoginSuccess) {
-        console.error('Skip test case as failed to login with credential ', accountWithMultiDP);
+        console.error(
+          'Skip test case as failed to login with credential ',
+          accountWithMultiDP,
+        );
         this.skip();
       }
       await waitInSeconds(1);
@@ -25,28 +35,39 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
     describe('Basic Validation', () => {
       this.timeout(10000);
       beforeEach(async () => {
-        const isAlertClear = await waitUntilEqual(() => {
-          Alert.dismissAll();
-          return Alert.state.messages.length;
-        }, 'Alert', 0, 5);
+        const isAlertClear = await waitUntilEqual(
+          () => {
+            Alert.dismissAll();
+            return Alert.state.messages.length;
+          },
+          'Alert',
+          0,
+          5,
+        );
         if (!isAlertClear) {
           console.error('Alert is not cleared after dismissAll');
         }
       });
       it('Should Alert Invalid Number - Invalid Char in ToNumber', async () => {
         try {
-          await Call.call({ phoneNumber: "iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber#*" });
+          await Call.call({
+            phoneNumber: "iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber#*",
+          });
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.not.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Alert Invalid Number - Valid Special Char but No Digital Number', async () => {
         try {
@@ -54,14 +75,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.not.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call Number in E.164 Format', async () => {
         try {
@@ -69,22 +94,33 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
     });
 
     describe('Validation with US/CA Local Number Format', () => {
       this.timeout(10000);
       beforeEach(async () => {
-        const isAlertClear = await waitUntilEqual(() => {
-          Alert.dismissAll();
-          return Alert.state.messages.length;
-        }, 'Alert', 0, 5);
+        const isAlertClear = await waitUntilEqual(
+          () => {
+            Alert.dismissAll();
+            return Alert.state.messages.length;
+          },
+          'Alert',
+          0,
+          5,
+        );
         if (!isAlertClear) {
           console.error('Alert is not cleared after dismissAll');
           this.skip();
@@ -97,14 +133,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -113,14 +153,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx*xxx Format', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -129,14 +173,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -145,14 +193,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx Format', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -161,14 +213,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx*xxx Format', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -177,24 +233,33 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
       });
     });
 
     describe('Validation with Region Setting', () => {
       this.timeout(10000);
       beforeEach(async () => {
-        const isAlertClear = await waitUntilEqual(() => {
-          Alert.dismissAll();
-          return Alert.state.messages.length;
-        }, 'Alert', 0, 5);
+        const isAlertClear = await waitUntilEqual(
+          () => {
+            Alert.dismissAll();
+            return Alert.state.messages.length;
+          },
+          'Alert',
+          0,
+          5,
+        );
         if (!isAlertClear) {
           console.error('Alert is not cleared after dismissAll');
           this.skip();
@@ -207,14 +272,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.not.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
       });
       it('Should Alert No AreaCode - Call 7 Digital Number with CA Dialing Plan without Area Code', async () => {
         RegionSettings.setData({ countryCode: 'CA', areaCode: '' });
@@ -223,14 +292,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode))
-          .to.not.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension))
-          .to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber))
-          .to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call 7 Digital Number with US Dialing Plan and Area Code', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '650' });
@@ -240,10 +313,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
           console.error(e);
         }
         expect(Call.__toNumber).to.equal('+16506545672');
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call 7 Digital Number with CA Dialing Plan and Area Code', async () => {
         RegionSettings.setData({ countryCode: 'CA', areaCode: '250' });
@@ -253,10 +334,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
           console.error(e);
         }
         expect(Call.__toNumber).to.equal('+12506545672');
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call 7 Digital Number with non US/CA Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
@@ -266,10 +355,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
           console.error(e);
         }
         expect(Call.__toNumber).to.equal('+446545672');
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call greater than 7 Digital Number with US Dialing Plan and Area Code', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '650' });
@@ -279,10 +376,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
           console.error(e);
         }
         expect(Call.__toNumber).to.equal('+16571234567');
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Alert noInternational - Call CA number with US Dialing Plan and Area Code', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '650' });
@@ -291,11 +396,24 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noInternational)).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(
+            Alert.state.messages,
+            callErrors.noInternational,
+          ),
+        ).to.not.equal(undefined);
       });
       it('Should Not Alert Anything - Call greater than 7 Digital Number with CA Dialing Plan and Area Code', async () => {
         RegionSettings.setData({ countryCode: 'CA', areaCode: '250' });
@@ -305,10 +423,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
           console.error(e);
         }
         expect(Call.__toNumber).to.equal('+14031234567');
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Alert noInternational - Call US number with CA Dialing Plan and Area Code', async () => {
         RegionSettings.setData({ countryCode: 'CA', areaCode: '250' });
@@ -317,11 +443,24 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noInternational)).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(
+            Alert.state.messages,
+            callErrors.noInternational,
+          ),
+        ).to.not.equal(undefined);
       });
       it('Should Not Alert Anything - Call greater than 7 Digital Number with non US/CA Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
@@ -331,10 +470,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
           console.error(e);
         }
         expect(Call.__toNumber).to.equal('+441234567890');
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Alert Special Number - Call 911 with US Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -343,10 +490,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.not.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Alert Special Number - Call 999 with GB Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
@@ -355,10 +510,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.not.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Special Number - Call 999 with US Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -367,7 +530,9 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Special Number - Call 911 with GB Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
@@ -376,7 +541,9 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call 101(Existed Extension/Not Special Number) with US Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -385,10 +552,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Alert Special Number - Call 101(Existed Extension/Speical Number) with GB Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
@@ -397,10 +572,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.not.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Not Alert Anything - Call 102(Existed Extension) with GB Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
@@ -409,10 +592,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.equal(undefined);
       });
       it('Should Alert Not An Extension - Call 998(Non Extension) with US Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
@@ -421,10 +612,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.not.equal(undefined);
       });
       it('Should Alert Not An Extension - Call 998(Non Extension) with GB Dialing Plan', async () => {
         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
@@ -433,10 +632,18 @@ export default (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) =
         } catch (e) {
           console.error(e);
         }
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noToNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.noAreaCode)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.specialNumber)).to.equal(undefined);
-        expect(containsErrorMessage(Alert.state.messages, callErrors.notAnExtension)).to.not.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noToNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.noAreaCode),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.specialNumber),
+        ).to.equal(undefined);
+        expect(
+          containsErrorMessage(Alert.state.messages, callErrors.notAnExtension),
+        ).to.not.equal(undefined);
       });
     });
   });

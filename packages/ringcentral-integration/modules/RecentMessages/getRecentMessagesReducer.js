@@ -8,10 +8,13 @@ export function getContactsReducer(types) {
     if (type === types.loadSuccess) {
       return {
         ...state,
-        [sessionId ? `${contactId}-${sessionId}` : contactId]: contact
+        [sessionId ? `${contactId}-${sessionId}` : contactId]: contact,
       };
     } else if (type === types.loadReset) {
-      const { [sessionId ? `${contactId}-${sessionId}` : contactId]: _, ...rest } = state;
+      const {
+        [sessionId ? `${contactId}-${sessionId}` : contactId]: _,
+        ...rest
+      } = state;
       return rest;
     }
     return state;
@@ -19,17 +22,18 @@ export function getContactsReducer(types) {
 }
 
 export function getMessagesReducer(types) {
-  return (state = {}, {
-    type, contact, messages, sessionId
-  }) => {
+  return (state = {}, { type, contact, messages, sessionId }) => {
     const contactId = String(contact && contact.id);
     if (type === types.loadSuccess) {
       return {
         ...state,
-        [sessionId ? `${contactId}-${sessionId}` : contactId]: messages
+        [sessionId ? `${contactId}-${sessionId}` : contactId]: messages,
       };
     } else if (type === types.loadReset) {
-      const { [sessionId ? `${contactId}-${sessionId}` : contactId]: _, ...rest } = state;
+      const {
+        [sessionId ? `${contactId}-${sessionId}` : contactId]: _,
+        ...rest
+      } = state;
       return rest;
     }
     return state;
@@ -55,6 +59,6 @@ export default function getRecentMessagesReducer(types) {
     status: getModuleStatusReducer(types),
     contacts: getContactsReducer(types),
     messages: getMessagesReducer(types),
-    messageStatus: getMessageStatusReducer(types)
+    messageStatus: getMessageStatusReducer(types),
   });
 }

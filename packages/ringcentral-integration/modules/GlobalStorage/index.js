@@ -8,15 +8,13 @@ import moduleStatuses from '../../enums/moduleStatuses';
  *  Allows registeration of reducers so that persisted states can be computed with reducers.
  */
 @Module({
-  deps: [{ dep: 'GlobalStorageOptions', optional: true }]
+  deps: [{ dep: 'GlobalStorageOptions', optional: true }],
 })
 export default class GlobalStorage extends StorageBase {
   /**
    * @constructor
    */
-  constructor({
-    ...options
-  }) {
+  constructor({ ...options }) {
     super({
       name: 'globalStorage',
       ...options,
@@ -24,8 +22,7 @@ export default class GlobalStorage extends StorageBase {
   }
   initialize() {
     let storedData = null;
-    const storageKey =
-      `${this.prefix ? `${this.prefix}-` : ''}GlobalStorage`;
+    const storageKey = `${this.prefix ? `${this.prefix}-` : ''}GlobalStorage`;
     this._storage = new this._StorageProvider({
       storageKey,
     });

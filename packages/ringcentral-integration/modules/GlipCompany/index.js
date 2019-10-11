@@ -11,8 +11,8 @@ import ensureExist from '../../lib/ensureExist';
   deps: [
     'Client',
     'RolesAndPermissions',
-    { dep: 'GLipCompanyOptions', optional: true }
-  ]
+    { dep: 'GLipCompanyOptions', optional: true },
+  ],
 })
 export default class GlipCompany extends DataFetcher {
   /**
@@ -20,22 +20,24 @@ export default class GlipCompany extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({
-    client,
-    rolesAndPermissions,
-    ...options
-  }) {
+  constructor({ client, rolesAndPermissions, ...options }) {
     super({
       client,
       fetchFunction: async () => {
-        const response = await this._client.glip().companies('~').get();
+        const response = await this._client
+          .glip()
+          .companies('~')
+          .get();
         return response;
       },
       readyCheckFn: () => this._rolesAndPermissions.ready,
       cleanOnReset: true,
       ...options,
     });
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
   }
 
   get _name() {
@@ -43,10 +45,7 @@ export default class GlipCompany extends DataFetcher {
   }
 
   @selector
-  info = [
-    () => this.data,
-    data => data || {},
-  ]
+  info = [() => this.data, (data) => data || {}];
 
   get name() {
     return this.info.name;

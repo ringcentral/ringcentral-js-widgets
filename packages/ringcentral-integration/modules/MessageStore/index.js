@@ -21,12 +21,16 @@ const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_REFRESH_LOCK = 5 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
 const DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
-const DEFAULT_MESSAGES_FILTER = list => list;
+const DEFAULT_MESSAGES_FILTER = (list) => list;
 // Number of messages to be updated in one time
 const UPDATE_MESSAGE_ONCE_COUNT = 20;
 
 function getSyncParams({
-  recordCount, conversationLoadLength, dateFrom, dateTo, syncToken
+  recordCount,
+  conversationLoadLength,
+  dateFrom,
+  dateTo,
+  syncToken,
 }) {
   if (syncToken) {
     return {
@@ -68,8 +72,8 @@ function getSyncParams({
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
-    { dep: 'MessageStoreOptions', optional: true }
-  ]
+    { dep: 'MessageStoreOptions', optional: true },
+  ],
 })
 export default class MessageStore extends Pollable {
   constructor({
@@ -102,8 +106,10 @@ export default class MessageStore extends Pollable {
     this._alert = this::ensureExist(alert, 'alert');
     this._client = this::ensureExist(client, 'client');
     this._subscription = this::ensureExist(subscription, 'subscription');
-    this._rolesAndPermissions =
-      this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
 
     if (!disableCache) {
       this._storage = storage;
@@ -192,22 +198,21 @@ export default class MessageStore extends Pollable {
 
   _shouldReset() {
     return !!(
-      (
-        !this._auth.loggedIn ||
+      (!this._auth.loggedIn ||
         (this._storage && !this._storage.ready) ||
         !this._subscription.ready ||
         (!!this._connectivityMonitor && !this._connectivityMonitor.ready) ||
         !this._rolesAndPermissions.ready ||
         (this._tabManager && !this._tabManager.ready) ||
-        (this._availabilityMonitor && !this._availabilityMonitor.ready)
-      ) &&
+        (this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
     );
   }
 
   _isDataReady() {
-    return this.status === moduleStatuses.initializing &&
-      this.syncInfo !== null;
+    return (
+      this.status === moduleStatuses.initializing && this.syncInfo !== null
+    );
   }
 
   async _init() {
@@ -274,7 +279,7 @@ export default class MessageStore extends Pollable {
     dateFrom,
     dateTo,
     syncToken,
-    receivedRecordsLength = 0
+    receivedRecordsLength = 0,
   }) {
     const params = getSyncParams({
       recordCount,
@@ -283,10 +288,11 @@ export default class MessageStore extends Pollable {
       dateTo,
       syncToken,
     });
-    const {
-      records,
-      syncInfo,
-    } = await this._client.account().extension().messageSync().list(params);
+    const { records, syncInfo } = await this._client
+      .account()
+      .extension()
+      .messageSync()
+      .list(params);
     receivedRecordsLength += records.length;
     if (!syncInfo.olderRecordsExist || receivedRecordsLength >= recordCount) {
       return { records, syncInfo };
@@ -337,10 +343,9 @@ export default class MessageStore extends Pollable {
         });
       } catch (error) {
         if (
-          error && (
-            error.message === 'Parameter [syncToken] value is invalid' ||
-            error.message === 'Parameter [syncToken] is invalid'
-          )
+          error &&
+          (error.message === 'Parameter [syncToken] value is invalid' ||
+            error.message === 'Parameter [syncToken] is invalid')
         ) {
           data = await this._syncFunction({
             recordCount,
@@ -409,11 +414,14 @@ export default class MessageStore extends Pollable {
     }
   }
 
-  _startPolling(t = (this.timestamp + this.ttl + 10) - Date.now()) {
+  _startPolling(t = this.timestamp + this.ttl + 10 - Date.now()) {
     this._clearTimeout();
     this._timeoutId = setTimeout(() => {
       this._timeoutId = null;
-      if ((!this._tabManager || this._tabManager.active) && this.pageNumber === 1) {
+      if (
+        (!this._tabManager || this._tabManager.active) &&
+        this.pageNumber === 1
+      ) {
         if (!this.timestamp || Date.now() - this.timestamp > this.ttl) {
           this.fetchData();
         } else {
@@ -452,8 +460,13 @@ export default class MessageStore extends Pollable {
    */
   _dispatchMessageHandlers(records) {
     // Sort all records by creation time
-    records = records.slice().sort((a, b) => (new Date(a.creationTime)).getTime() - (new Date(b.creationTime)).getTime()
-    );
+    records = records
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(a.creationTime).getTime() -
+          new Date(b.creationTime).getTime(),
+      );
     for (const record of records) {
       const {
         id,
@@ -469,18 +482,22 @@ export default class MessageStore extends Pollable {
       if (!this._messageDispatched(record)) {
         // Mark last 10 messages that dispatched
         // To present dispatching same record twice
-        this._dispatchedMessageIds =
-          [{ id, lastModifiedTime }].concat(this._dispatchedMessageIds).slice(0, 20);
-        this._messageUpdatedHandlers.forEach(handler => handler(record));
+        this._dispatchedMessageIds = [{ id, lastModifiedTime }]
+          .concat(this._dispatchedMessageIds)
+          .slice(0, 20);
+        this._messageUpdatedHandlers.forEach((handler) => handler(record));
         // For new inbound message notification
         if (
           direction === 'Inbound' &&
           readStatus === 'Unread' &&
           messageStatus === 'Received' &&
           availability === 'Alive' &&
-          (new Date(creationTime)).getTime() > (new Date(lastModifiedTime)).getTime() - (600 * 1000)
+          new Date(creationTime).getTime() >
+            new Date(lastModifiedTime).getTime() - 600 * 1000
         ) {
-          this._newInboundMessageNotificationHandlers.forEach(handler => handler(record));
+          this._newInboundMessageNotificationHandlers.forEach((handler) =>
+            handler(record),
+          );
         }
       }
     }
@@ -488,7 +505,8 @@ export default class MessageStore extends Pollable {
 
   _messageDispatched(message) {
     return this._dispatchedMessageIds.some(
-      m => m.id === message.id && m.lastModifiedTime === message.lastModifiedTime
+      (m) =>
+        m.id === message.id && m.lastModifiedTime === message.lastModifiedTime,
     );
   }
 
@@ -508,7 +526,8 @@ export default class MessageStore extends Pollable {
     const body = {
       readStatus: status,
     };
-    const updateRequest = await this._client.account()
+    const updateRequest = await this._client
+      .account()
       .extension()
       .messageStore(messageId)
       .put(body);
@@ -516,7 +535,8 @@ export default class MessageStore extends Pollable {
   }
 
   async deleteMessageApi(messageId) {
-    const response = await this._client.account()
+    const response = await this._client
+      .account()
       .extension()
       .messageStore(messageId)
       .delete();
@@ -526,12 +546,13 @@ export default class MessageStore extends Pollable {
   sliceConversations() {
     const conversationIds = Object.keys(this.conversationStore);
     const messages = conversationIds.reduce(
-      (acc, id) => acc.concat(this.conversationStore[id]), []
+      (acc, id) => acc.concat(this.conversationStore[id]),
+      [],
     );
-    const messageIds = this._messagesFilter(messages).map(item => item.id);
+    const messageIds = this._messagesFilter(messages).map((item) => item.id);
     this.store.dispatch({
       type: this.actionTypes.sliceConversations,
-      messageIds
+      messageIds,
     });
   }
 
@@ -592,12 +613,12 @@ export default class MessageStore extends Pollable {
         return [result];
       }
 
-      const leftIds = allMessageIds.slice(index * UPDATE_MESSAGE_ONCE_COUNT,
-        index * UPDATE_MESSAGE_ONCE_COUNT + nextLength);
+      const leftIds = allMessageIds.slice(
+        index * UPDATE_MESSAGE_ONCE_COUNT,
+        index * UPDATE_MESSAGE_ONCE_COUNT + nextLength,
+      );
 
-      const body = leftIds.map(() => (
-        { body: { readStatus: status } }
-      ));
+      const body = leftIds.map(() => ({ body: { readStatus: status } }));
       const responses = await this._batchUpdateMessagesApi(leftIds, body);
       responses.forEach((res) => {
         if (res.response().status === 200) {
@@ -632,20 +653,29 @@ export default class MessageStore extends Pollable {
     this._debouncedSetConversationAsRead(conversationId);
   }
 
-  _debouncedSetConversationAsRead = debounce(this._setConversationAsRead, 500, true)
+  _debouncedSetConversationAsRead = debounce(
+    this._setConversationAsRead,
+    500,
+    true,
+  );
 
   async _setConversationAsRead(conversationId) {
     const messageList = this.conversationStore[conversationId];
     if (!messageList || messageList.length === 0) {
       return null;
     }
-    const unreadMessageIds = messageList.filter(messageHelper.messageIsUnread).map(m => m.id);
+    const unreadMessageIds = messageList
+      .filter(messageHelper.messageIsUnread)
+      .map((m) => m.id);
     if (unreadMessageIds.length === 0) {
       return null;
     }
     try {
       const { ownerId } = this._auth;
-      const updatedMessages = await this._updateMessagesApi(unreadMessageIds, 'Read');
+      const updatedMessages = await this._updateMessagesApi(
+        unreadMessageIds,
+        'Read',
+      );
 
       if (ownerId !== this._auth.ownerId) {
         return;
@@ -658,7 +688,10 @@ export default class MessageStore extends Pollable {
     } catch (error) {
       console.error(error);
 
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: messageStoreErrors.readFailed });
       }
     }
@@ -687,7 +720,10 @@ export default class MessageStore extends Pollable {
     } catch (error) {
       console.error(error);
 
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: messageStoreErrors.unreadFailed });
       }
     }
@@ -709,7 +745,7 @@ export default class MessageStore extends Pollable {
     if (!messageList || messageList.length === 0) {
       return;
     }
-    const messageId = messageList.map(m => m.id).join(',');
+    const messageId = messageList.map((m) => m.id).join(',');
     try {
       await this.deleteMessageApi(messageId);
       this.store.dispatch({
@@ -719,7 +755,10 @@ export default class MessageStore extends Pollable {
     } catch (error) {
       console.error(error);
 
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: messageStoreErrors.deleteFailed });
       }
     }
@@ -731,11 +770,12 @@ export default class MessageStore extends Pollable {
       return;
     }
     try {
-      await this._client.account()
+      await this._client
+        .account()
         .extension()
         .messageStore()
         .delete({
-          conversationId
+          conversationId,
         });
       this.store.dispatch({
         type: this.actionTypes.deleteConversation,
@@ -744,7 +784,10 @@ export default class MessageStore extends Pollable {
     } catch (error) {
       console.error(error);
 
-      if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(error)) {
+      if (
+        !this._availabilityMonitor ||
+        !this._availabilityMonitor.checkIfHAError(error)
+      ) {
         this._alert.warning({ message: messageStoreErrors.deleteFailed });
       }
     }
@@ -754,7 +797,7 @@ export default class MessageStore extends Pollable {
   @proxify
   onClickToSMS() {
     this.store.dispatch({
-      type: this.actionTypes.clickToSMS
+      type: this.actionTypes.clickToSMS,
     });
   }
 
@@ -763,7 +806,7 @@ export default class MessageStore extends Pollable {
   onClickToCall({ fromType = '' }) {
     this.store.dispatch({
       type: this.actionTypes.clickToCall,
-      fromType
+      fromType,
     });
   }
 
@@ -772,9 +815,9 @@ export default class MessageStore extends Pollable {
   }
 
   get data() {
-    return this._storage ?
-      this._storage.getItem(this._dataStorageKey) :
-      this.state.data;
+    return this._storage
+      ? this._storage.getItem(this._dataStorageKey)
+      : this.state.data;
   }
 
   get timestamp() {
@@ -809,58 +852,61 @@ export default class MessageStore extends Pollable {
   allConversations = [
     () => this.data && this.data.conversationList,
     () => this.conversationStore,
-    (conversationList = [], conversationStore) => conversationList.map(
-      (conversationItem) => {
+    (conversationList = [], conversationStore) =>
+      conversationList.map((conversationItem) => {
         const messageList = conversationStore[conversationItem.id] || [];
         return {
           ...messageList[0],
-          unreadCounts: messageList.filter(messageHelper.messageIsUnread).length,
+          unreadCounts: messageList.filter(messageHelper.messageIsUnread)
+            .length,
         };
-      }
-    )
-  ]
+      }),
+  ];
 
   @selector
   textConversations = [
     () => this.allConversations,
-    conversations => conversations.filter(
-      conversation => messageHelper.messageIsTextMessage(conversation)
-    )
-  ]
+    (conversations) =>
+      conversations.filter((conversation) =>
+        messageHelper.messageIsTextMessage(conversation),
+      ),
+  ];
 
   @selector
   textUnreadCounts = [
     () => this.textConversations,
-    conversations => conversations.reduce((a, b) => a + b.unreadCounts, 0)
-  ]
+    (conversations) => conversations.reduce((a, b) => a + b.unreadCounts, 0),
+  ];
 
   @selector
   faxMessages = [
     () => this.allConversations,
-    conversations => conversations.filter(
-      conversation => messageHelper.messageIsFax(conversation)
-    )
-  ]
+    (conversations) =>
+      conversations.filter((conversation) =>
+        messageHelper.messageIsFax(conversation),
+      ),
+  ];
 
   @selector
   faxUnreadCounts = [
     () => this.faxMessages,
-    conversations => conversations.reduce((a, b) => a + b.unreadCounts, 0)
-  ]
+    (conversations) => conversations.reduce((a, b) => a + b.unreadCounts, 0),
+  ];
 
   @selector
   voicemailMessages = [
     () => this.allConversations,
-    conversations => conversations.filter(
-      conversation => messageHelper.messageIsVoicemail(conversation)
-    )
-  ]
+    (conversations) =>
+      conversations.filter((conversation) =>
+        messageHelper.messageIsVoicemail(conversation),
+      ),
+  ];
 
   @selector
   voiceUnreadCounts = [
     () => this.voicemailMessages,
-    conversations => conversations.reduce((a, b) => a + b.unreadCounts, 0)
-  ]
+    (conversations) => conversations.reduce((a, b) => a + b.unreadCounts, 0),
+  ];
 
   @selector
   unreadCounts = [
@@ -879,6 +925,6 @@ export default class MessageStore extends Pollable {
         unreadCounts += faxUnreadCounts;
       }
       return unreadCounts;
-    }
-  ]
+    },
+  ];
 }

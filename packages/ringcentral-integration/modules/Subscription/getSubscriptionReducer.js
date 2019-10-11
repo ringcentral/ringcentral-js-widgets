@@ -57,7 +57,6 @@ export function getMessageReducer(types) {
   };
 }
 
-
 export function getFiltersReducer(types) {
   return (state = [], { type, filters }) => {
     switch (type) {
@@ -79,7 +78,7 @@ export function getFiltersReducer(types) {
         filters.forEach((f) => {
           filterMap[f] = true;
         });
-        return state.filter(f => !filterMap[f]);
+        return state.filter((f) => !filterMap[f]);
       }
       case types.resetSuccess:
         return [];
@@ -89,7 +88,6 @@ export function getFiltersReducer(types) {
     }
   };
 }
-
 
 export default function getSubscriptionReducer(types) {
   return combineReducers({

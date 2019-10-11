@@ -23,31 +23,38 @@ describe('Contacts :: getSearchFilterReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return new filter on updateFilter', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateFilter,
-        searchFilter: 'test',
-      })).to.equal('test');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateFilter,
+          searchFilter: 'test',
+        }),
+      ).to.equal('test');
     });
     it('should return blank string on resetSuccess', () => {
-      expect(reducer('foo', {
-        type: actionTypes.resetSuccess,
-      })).to.equal('');
+      expect(
+        reducer('foo', {
+          type: actionTypes.resetSuccess,
+        }),
+      ).to.equal('');
     });
     it('should return original filter when searchFilter is undefined on updateFilter', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateFilter,
-        searchFilter: undefined,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateFilter,
+          searchFilter: undefined,
+        }),
+      ).to.equal('foo');
     });
     it('should return original filter when searchFilter is null on updateFilter', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateFilter,
-        searchFilter: null,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateFilter,
+          searchFilter: null,
+        }),
+      ).to.equal('foo');
     });
   });
 });
@@ -66,31 +73,38 @@ describe('Contacts :: getSourceFilterReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return sourceFilter on updateFilter', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateFilter,
-        sourceFilter: 'test',
-      })).to.equal('test');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateFilter,
+          sourceFilter: 'test',
+        }),
+      ).to.equal('test');
     });
     it('should return AllContactSourceName on resetSuccess', () => {
-      expect(reducer('foo', {
-        type: actionTypes.resetSuccess,
-      })).to.equal(AllContactSourceName);
+      expect(
+        reducer('foo', {
+          type: actionTypes.resetSuccess,
+        }),
+      ).to.equal(AllContactSourceName);
     });
     it('should return original filter when sourceFilter is undefined on updateFilter', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateFilter,
-        sourceFilter: undefined,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateFilter,
+          sourceFilter: undefined,
+        }),
+      ).to.equal('foo');
     });
     it('should return original filter when sourceFilter is null on updateFilter', () => {
-      expect(reducer('foo', {
-        type: actionTypes.updateFilter,
-        sourceFilter: null,
-      })).to.equal('foo');
+      expect(
+        reducer('foo', {
+          type: actionTypes.updateFilter,
+          sourceFilter: null,
+        }),
+      ).to.equal('foo');
     });
   });
 });

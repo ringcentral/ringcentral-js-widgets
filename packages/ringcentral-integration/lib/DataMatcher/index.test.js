@@ -13,47 +13,49 @@ chai.use(chaiAsPromised);
 describe('DataMatcher', () => {
   describe('constructor', () => {
     it('should throw if instancized without a "name" property', () => {
-      expect(() => (
-        new DataMatcher()
-      )).to.throw();
-      expect(() => (
-        new DataMatcher({
-          name: 'test',
-        })
-      )).to.not.throw();
+      expect(() => new DataMatcher()).to.throw();
+      expect(
+        () =>
+          new DataMatcher({
+            name: 'test',
+          }),
+      ).to.not.throw();
     });
     it('should throw if "name" property is not a string', () => {
       [{}, [], null, undefined, 123].forEach((name) => {
-        expect(() => (
-          new DataMatcher({
-            name,
-          })
-        )).to.throw();
+        expect(
+          () =>
+            new DataMatcher({
+              name,
+            }),
+        ).to.throw();
       });
     });
     it('should prefix baseActionTypes according to "name"', () => {
       const instance = new DataMatcher({
         name: 'foo',
       });
-      expect(instance.actionTypes)
-        .to.equal(prefixEnum({
+      expect(instance.actionTypes).to.equal(
+        prefixEnum({
           base: baseActionTypes,
           prefix: 'foo',
-        }));
+        }),
+      );
     });
     it('should prefix baseActionTypes according to "name" and prefix', () => {
       const instance = new DataMatcher({
         name: 'foo',
         prefix: 'bar',
       });
-      expect(instance.actionTypes)
-        .to.equal(prefixEnum({
+      expect(instance.actionTypes).to.equal(
+        prefixEnum({
           base: prefixEnum({
             base: baseActionTypes,
             prefix: 'foo',
           }),
-          prefix: 'bar'
-        }));
+          prefix: 'bar',
+        }),
+      );
     });
     it('should register dataReducer to storage if storage is found', () => {
       const storage = {
@@ -129,7 +131,7 @@ describe('DataMatcher', () => {
       expect(instance.addSearchProvider).to.be.a('function');
     });
     it('should add getQueriesFn and readyCheckFn to instance._querySources', () => {
-      const searchFn = () => { };
+      const searchFn = () => {};
       const readyCheckFn = () => true;
       const name = 'bar';
       instance.addSearchProvider({
@@ -144,7 +146,7 @@ describe('DataMatcher', () => {
       });
     });
     it('should throw when name is not defined', () => {
-      const searchFn = () => { };
+      const searchFn = () => {};
       const readyCheckFn = () => true;
       expect(() => {
         instance.addSearchProvider({
@@ -154,7 +156,7 @@ describe('DataMatcher', () => {
       }).to.throw();
     });
     it('should throw when a provider of the same name was already added', () => {
-      const searchFn = () => { };
+      const searchFn = () => {};
       const readyCheckFn = () => true;
       const name = 'rogue';
       instance.addSearchProvider({
@@ -184,7 +186,7 @@ describe('DataMatcher', () => {
       });
     });
     it('should throw when readyCheckFn is not a function', () => {
-      const searchFn = () => { };
+      const searchFn = () => {};
       const name = 'rogue2';
       [null, undefined, {}, [], 123, '123'].forEach((readyCheckFn) => {
         expect(() => {
@@ -204,41 +206,39 @@ describe('DataMatcher', () => {
       options.forEach((searchProvidersReady) => {
         const result = modulePending && searchProvidersReady;
         it(`should return ${result} when this.pending === ${modulePending},
-          this.searchProvidersReady === ${searchProvidersReady}}`,
-          () => {
-            const instance = new DataMatcher({
-              name: 'foo',
-            });
-            sinon.stub(instance, 'pending', {
-              get: () => modulePending,
-            });
-            sinon.stub(instance, 'searchProvidersReady', {
-              get: () => searchProvidersReady,
-            });
-            expect(instance._shouldInit()).to.equal(result);
+          this.searchProvidersReady === ${searchProvidersReady}}`, () => {
+          const instance = new DataMatcher({
+            name: 'foo',
           });
+          sinon.stub(instance, 'pending', {
+            get: () => modulePending,
+          });
+          sinon.stub(instance, 'searchProvidersReady', {
+            get: () => searchProvidersReady,
+          });
+          expect(instance._shouldInit()).to.equal(result);
+        });
 
         options.forEach((storageReady) => {
           const sResult = modulePending && searchProvidersReady && storageReady;
           it(`should return ${sResult} when this.pending === ${modulePending},
           this.searchProvidersReady === ${searchProvidersReady},
-          and this._storage.ready === ${storageReady}`,
-            () => {
-              const sInstance = new DataMatcher({
-                name: 'foo',
-                storage: {
-                  ready: storageReady,
-                  registerReducer: () => { },
-                },
-              });
-              sinon.stub(sInstance, 'pending', {
-                get: () => modulePending,
-              });
-              sinon.stub(sInstance, 'searchProvidersReady', {
-                get: () => searchProvidersReady,
-              });
-              expect(sInstance._shouldInit()).to.equal(sResult);
+          and this._storage.ready === ${storageReady}`, () => {
+            const sInstance = new DataMatcher({
+              name: 'foo',
+              storage: {
+                ready: storageReady,
+                registerReducer: () => {},
+              },
             });
+            sinon.stub(sInstance, 'pending', {
+              get: () => modulePending,
+            });
+            sinon.stub(sInstance, 'searchProvidersReady', {
+              get: () => searchProvidersReady,
+            });
+            expect(sInstance._shouldInit()).to.equal(sResult);
+          });
         });
       });
     });
@@ -250,45 +250,40 @@ describe('DataMatcher', () => {
       options.forEach((searchProvidersReady) => {
         const result = moduleReady && !searchProvidersReady;
         it(`should return ${result} when this.ready === ${moduleReady},
-        this.searchProvidersReady === ${searchProvidersReady}`,
-          () => {
-            const instance = new DataMatcher({
-              name: 'foo',
-            });
-            sinon.stub(instance, 'ready', {
-              get: () => moduleReady,
-            });
-            sinon.stub(instance, 'searchProvidersReady', {
-              get: () => searchProvidersReady,
-            });
-            expect(instance._shouldReset()).to.equal(result);
+        this.searchProvidersReady === ${searchProvidersReady}`, () => {
+          const instance = new DataMatcher({
+            name: 'foo',
           });
+          sinon.stub(instance, 'ready', {
+            get: () => moduleReady,
+          });
+          sinon.stub(instance, 'searchProvidersReady', {
+            get: () => searchProvidersReady,
+          });
+          expect(instance._shouldReset()).to.equal(result);
+        });
 
         options.forEach((storageReady) => {
-          const sResult = moduleReady &&
-            (
-              !searchProvidersReady ||
-              !storageReady)
-            ;
+          const sResult =
+            moduleReady && (!searchProvidersReady || !storageReady);
           it(`should return ${sResult} when this.ready === ${moduleReady},
           this.searchProvidersReady === ${searchProvidersReady},
-          and this._storage.ready === ${storageReady}`,
-            () => {
-              const sInstance = new DataMatcher({
-                name: 'foo',
-                storage: {
-                  ready: storageReady,
-                  registerReducer: () => { },
-                },
-              });
-              sinon.stub(sInstance, 'ready', {
-                get: () => moduleReady,
-              });
-              sinon.stub(sInstance, 'searchProvidersReady', {
-                get: () => searchProvidersReady,
-              });
-              expect(sInstance._shouldReset()).to.equal(sResult);
+          and this._storage.ready === ${storageReady}`, () => {
+            const sInstance = new DataMatcher({
+              name: 'foo',
+              storage: {
+                ready: storageReady,
+                registerReducer: () => {},
+              },
             });
+            sinon.stub(sInstance, 'ready', {
+              get: () => moduleReady,
+            });
+            sinon.stub(sInstance, 'searchProvidersReady', {
+              get: () => searchProvidersReady,
+            });
+            expect(sInstance._shouldReset()).to.equal(sResult);
+          });
         });
       });
     });
@@ -348,12 +343,12 @@ describe('DataMatcher', () => {
       });
       instance.addSearchProvider({
         name: 'search1',
-        searchFn: () => { },
+        searchFn: () => {},
         readyCheckFn: () => false,
       });
       instance.addSearchProvider({
         name: 'search2',
-        searchFn: () => { },
+        searchFn: () => {},
         readyCheckFn: () => true,
       });
       expect(instance.searchProvidersReady).to.equal(false);
@@ -364,12 +359,12 @@ describe('DataMatcher', () => {
       });
       instance.addSearchProvider({
         name: 'search1',
-        searchFn: () => { },
+        searchFn: () => {},
         readyCheckFn: () => true,
       });
       instance.addSearchProvider({
         name: 'search2',
-        searchFn: () => { },
+        searchFn: () => {},
         readyCheckFn: () => true,
       });
       expect(instance.searchProvidersReady).to.equal(true);
@@ -425,7 +420,7 @@ describe('DataMatcher', () => {
     it('should return data from storage if storage is available', () => {
       const data = {};
       const storage = {
-        registerReducer: () => { },
+        registerReducer: () => {},
         getItem: sinon.stub().callsFake(() => data),
       };
       const instance = new DataMatcher({
@@ -439,7 +434,7 @@ describe('DataMatcher', () => {
       const instance = new DataMatcher({
         name: 'foo',
         storage: {
-          registerReducer: () => { },
+          registerReducer: () => {},
           getItem: sinon.stub(),
         },
       });
@@ -458,12 +453,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -478,10 +473,12 @@ describe('DataMatcher', () => {
       });
       expect(promise).to.be.a.instanceOf(Promise);
       await promise;
-      expect(instance._store.dispatch.args[0][0].type)
-        .to.equal(instance.actionTypes.match);
-      expect(instance._store.dispatch.args[1][0].type)
-        .to.equal(instance.actionTypes.matchSuccess);
+      expect(instance._store.dispatch.args[0][0].type).to.equal(
+        instance.actionTypes.match,
+      );
+      expect(instance._store.dispatch.args[1][0].type).to.equal(
+        instance.actionTypes.matchSuccess,
+      );
     });
     it('should throw if provider does not exist', async () => {
       const instance = new DataMatcher({
@@ -492,12 +489,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -505,10 +502,12 @@ describe('DataMatcher', () => {
       instance._onStateChange();
       sinon.spy(instance._store, 'dispatch');
       const queries = [0, 1, 2, 3, 4];
-      await expect(instance._fetchMatchResult({
-        name: 'bad',
-        queries,
-      })).to.be.rejected;
+      await expect(
+        instance._fetchMatchResult({
+          name: 'bad',
+          queries,
+        }),
+      ).to.be.rejected;
     });
     it('should clear promise cache if fetch is successful', async () => {
       const instance = new DataMatcher({
@@ -519,12 +518,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -549,12 +548,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           throw new Error('some error');
         },
         readyCheckFn: () => true,
@@ -586,12 +585,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -615,12 +614,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -643,12 +642,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -677,12 +676,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -709,12 +708,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -743,12 +742,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -777,12 +776,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(30);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(30);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -815,12 +814,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         async searchFn({ queries }) {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(30);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(30);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -841,8 +840,18 @@ describe('DataMatcher', () => {
         queries: [10, 11, 12, 13, 14],
       });
       expect(instance._matchQueues.has('bar')).to.equal(true);
-      expect(instance._matchQueues.get('bar').queries)
-        .to.deep.equal([5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+      expect(instance._matchQueues.get('bar').queries).to.deep.equal([
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+      ]);
       await sleep(30);
       expect(instance._matchQueues.has('bar')).to.equal(false);
       await secondPromise;
@@ -861,12 +870,12 @@ describe('DataMatcher', () => {
         name: 'bar',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
@@ -875,18 +884,18 @@ describe('DataMatcher', () => {
         name: 'baz',
         searchFn: async ({ queries }) => {
           const output = {};
-          await Promise.all(queries.map(async (query, idx) => {
-            await sleep(20);
-            output[query] = (idx % 2 === 1) ?
-              [] :
-              ['rogue'];
-          }));
+          await Promise.all(
+            queries.map(async (query, idx) => {
+              await sleep(20);
+              output[query] = idx % 2 === 1 ? [] : ['rogue'];
+            }),
+          );
           return output;
         },
         readyCheckFn: () => true,
       });
       instance._onStateChange();
-      sinon.stub(instance, '_matchSource').callsFake(async () => { });
+      sinon.stub(instance, '_matchSource').callsFake(async () => {});
       const queries = [0, 1, 2, 3, 4];
       await instance.match({
         queries,
@@ -898,12 +907,11 @@ describe('DataMatcher', () => {
       });
       [false, true].forEach((ignoreCache) => {
         instance._searchProviders.forEach((_, name) => {
-          expect(instance._matchSource.args[idx][0])
-            .to.include({
-              queries,
-              name,
-              ignoreCache,
-            });
+          expect(instance._matchSource.args[idx][0]).to.include({
+            queries,
+            name,
+            ignoreCache,
+          });
           idx += 1;
         });
       });
@@ -921,7 +929,7 @@ describe('DataMatcher', () => {
         },
       });
       sinon.stub(instance, '_cleanUp');
-      sinon.stub(instance, 'match').callsFake(async () => { });
+      sinon.stub(instance, 'match').callsFake(async () => {});
       instance.triggerMatch();
       sinon.assert.calledOnce(instance._cleanUp);
       sinon.assert.calledOnce(instance.match);
@@ -936,7 +944,7 @@ describe('DataMatcher', () => {
         },
       });
       sinon.stub(instance, '_cleanUp');
-      sinon.stub(instance, 'match').callsFake(async () => { });
+      sinon.stub(instance, 'match').callsFake(async () => {});
       instance.triggerMatch();
       sinon.assert.notCalled(instance._cleanUp);
       sinon.assert.notCalled(instance.match);

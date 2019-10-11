@@ -6,9 +6,7 @@ import MemoryStorage from './MemoryStorage';
 // storageKey might provide better performance
 
 export default class SynchronizedStorage extends EventEmitter {
-  constructor({
-    storageKey,
-  }) {
+  constructor({ storageKey }) {
     super();
     if (!storageKey) {
       throw Error('SynchronizedStorage must be created with a storage key');
@@ -23,10 +21,7 @@ export default class SynchronizedStorage extends EventEmitter {
           event.key.substring(0, this._storageKey.length) === this._storageKey
         ) {
           try {
-            const {
-              setter,
-              value,
-            } = JSON.parse(event.newValue);
+            const { setter, value } = JSON.parse(event.newValue);
             if (setter && setter !== this.id) {
               const key = event.key.substring(this._storageKey.length + 1);
               // fire storage event directly from the native event
@@ -82,9 +77,9 @@ export default class SynchronizedStorage extends EventEmitter {
 
   getItem(key) {
     try {
-      const {
-        value,
-      } = JSON.parse(this._localStorage.getItem(`${this._storageKey}-${key}`));
+      const { value } = JSON.parse(
+        this._localStorage.getItem(`${this._storageKey}-${key}`),
+      );
       return value;
     } catch (error) {
       return undefined;
@@ -102,9 +97,7 @@ export default class SynchronizedStorage extends EventEmitter {
   }
 
   removeItem(key) {
-    this._localStorage.removeItem(
-      `${this._storageKey}-${key}`,
-    );
+    this._localStorage.removeItem(`${this._storageKey}-${key}`);
   }
 
   destroy() {

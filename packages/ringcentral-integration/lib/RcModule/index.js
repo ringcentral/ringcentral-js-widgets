@@ -36,7 +36,7 @@ function defaultGetProxyState() {
  * @description Base module class.
  */
 @Library({
-  deps: [{ dep: 'ModuleOptions', optional: true }]
+  deps: [{ dep: 'ModuleOptions', optional: true }],
 })
 export default class RcModule {
   /**
@@ -53,23 +53,25 @@ export default class RcModule {
   } = {}) {
     if (typeof getState !== 'function') {
       throw new Error(
-        'The `getState` options property must be of type function'
+        'The `getState` options property must be of type function',
       );
     }
     this._getState = getState;
     this._getProxyState = getProxyState;
     if (prefix && typeof prefix !== 'string') {
-      throw new Error('The `prefix` options property must be null, undefined, or a string');
+      throw new Error(
+        'The `prefix` options property must be null, undefined, or a string',
+      );
     }
     this._prefix = prefix;
-    this._prefixedActionTypes = actionTypes && prefixEnum({ enumMap: actionTypes, prefix });
+    this._prefixedActionTypes =
+      actionTypes && prefixEnum({ enumMap: actionTypes, prefix });
     this._reducer = defaultReducer;
     this._proxyReducer = defaultReducer;
     this._modulePath = 'root';
     this._selectors = {};
   }
 
-  @required.warn
   get _actionTypes() {
     /* should be implemented by descendant */
     return null;
@@ -177,7 +179,10 @@ export default class RcModule {
     }
     const selector = args.pop();
     if (args.length > 0) {
-      this._selectors[name] = createSelector(...args, selector);
+      this._selectors[name] = createSelector(
+        ...args,
+        selector,
+      );
     } else {
       this._selectors[name] = selector;
     }
@@ -219,7 +224,7 @@ export default class RcModule {
     for (const subModule in this) {
       if (
         Object.prototype.hasOwnProperty.call(this, subModule) &&
-          this[subModule] instanceof RcModule
+        this[subModule] instanceof RcModule
       ) {
         this[subModule]._setStore(store);
       }
@@ -236,9 +241,7 @@ export default class RcModule {
 
   _initModule() {
     if (!this._suppressInit) {
-      if (
-        !this._initialized
-      ) {
+      if (!this._initialized) {
         this._initialized = true;
         this.initialize();
       }

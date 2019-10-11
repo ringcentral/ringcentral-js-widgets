@@ -1,4 +1,3 @@
-
 async function parallelFetch(fn, perPage, params) {
   const data = await fn({
     ...params,
@@ -9,11 +8,13 @@ async function parallelFetch(fn, perPage, params) {
   if (data.paging.totalPages > 1) {
     const promises = [];
     for (let i = data.paging.totalPages; i > 1; i -= 1) {
-      promises.push(fn({
-        ...params,
-        perPage,
-        page: i,
-      }));
+      promises.push(
+        fn({
+          ...params,
+          perPage,
+          page: i,
+        }),
+      );
     }
     (await Promise.all(promises)).reduce((output, item) => {
       output.push(...item.records);
@@ -42,12 +43,11 @@ async function serialFetch(fn, perPage, params) {
   return list;
 }
 
-export default async function fetchList(fn, {
-  perPage = 'MAX',
-  parallel = true,
-  ...params
-} = {}) {
-  return parallel ?
-    parallelFetch(fn, perPage, params) :
-    serialFetch(fn, perPage, params);
+export default async function fetchList(
+  fn,
+  { perPage = 'MAX', parallel = true, ...params } = {},
+) {
+  return parallel
+    ? parallelFetch(fn, perPage, params)
+    : serialFetch(fn, perPage, params);
 }

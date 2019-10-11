@@ -1,10 +1,4 @@
-import {
-  reduce,
-  forEach,
-  map,
-  join,
-  keys,
-} from 'ramda';
+import { reduce, forEach, map, join, keys } from 'ramda';
 import phoneTypes from '../../enums/phoneTypes';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
@@ -31,8 +25,8 @@ const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
   deps: [
     'Client',
     { dep: 'CompanyContacts' },
-    { dep: 'AccountContactsOptions', optional: true }
-  ]
+    { dep: 'AccountContactsOptions', optional: true },
+  ],
 })
 export default class AccountContacts extends RcModule {
   /**
@@ -59,8 +53,11 @@ export default class AccountContacts extends RcModule {
       ...options,
       actionTypes,
     });
-    this._client = this:: ensureExist(client, 'client');
-    this._companyContacts = this::ensureExist(companyContacts, 'companyContacts');
+    this._client = this::ensureExist(client, 'client');
+    this._companyContacts = this::ensureExist(
+      companyContacts,
+      'companyContacts',
+    );
     this._ttl = ttl;
     this._avatarTtl = avatarTtl;
     this._presenceTtl = presenceTtl;
@@ -86,23 +83,22 @@ export default class AccountContacts extends RcModule {
   }
 
   _shouldInit() {
-    return (
-      this._companyContacts.ready &&
-      this.pending
-    );
+    return this._companyContacts.ready && this.pending;
   }
 
   _shouldReset() {
-    return (
-      !this._companyContacts.ready &&
-      this.ready
-    );
+    return !this._companyContacts.ready && this.ready;
   }
 
   // interface of contact source
   @proxify
   async getProfileImage(contact, useCache = true) {
-    if (!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage) {
+    if (
+      !contact ||
+      !contact.id ||
+      contact.type !== 'company' ||
+      !contact.hasProfileImage
+    ) {
       return null;
     }
 
@@ -110,7 +106,7 @@ export default class AccountContacts extends RcModule {
     if (
       useCache &&
       this.profileImages[imageId] &&
-      (Date.now() - this.profileImages[imageId].timestamp < this._avatarTtl)
+      Date.now() - this.profileImages[imageId].timestamp < this._avatarTtl
     ) {
       const image = this.profileImages[imageId].imageUrl;
       return image;
@@ -148,7 +144,7 @@ export default class AccountContacts extends RcModule {
       if (
         useCache &&
         this.presences[presenceId] &&
-        (Date.now() - this.presences[presenceId].timestamp < this._presenceTtl)
+        Date.now() - this.presences[presenceId].timestamp < this._presenceTtl
       ) {
         const { presence } = this.presences[presenceId];
         resolve(presence);
@@ -186,7 +182,7 @@ export default class AccountContacts extends RcModule {
   }
 
   async _processQueryPresences(getPresenceContexts) {
-    const contacts = getPresenceContexts.map(x => x.contact);
+    const contacts = getPresenceContexts.map((x) => x.contact);
     const responses = await this._batchQueryPresences(contacts);
     const presenceMap = {};
     getPresenceContexts.forEach((ctx) => {
@@ -196,7 +192,10 @@ export default class AccountContacts extends RcModule {
         return;
       }
       const {
-        dndStatus, presenceStatus, telephonyStatus, userStatus
+        dndStatus,
+        presenceStatus,
+        telephonyStatus,
+        userStatus,
       } = response;
       const presenceId = ctx.contact.id;
       presenceMap[presenceId] = {
@@ -229,45 +228,41 @@ export default class AccountContacts extends RcModule {
         contacts,
       );
       const batchResponses = await Promise.all(
-        map(
-          async (accountId) => {
-            if (accountExtensionMap[accountId].length > 1) {
-              const ids = join(',', accountExtensionMap[accountId]);
-              // extract json data now so the data appears in the same format
-              // as single requests
-              return map(
-                resp => resp.json(),
-                await batchGetApi({
-                  platform: this._client.service.platform(),
-                  url: `/account/${accountId}/extension/${ids}/presence`,
-                }),
-              );
-            } else {
-              // wrap single request response data in array to keep the same
-              // format as batch requests
-              return [
-                await this._client
+        map(async (accountId) => {
+          if (accountExtensionMap[accountId].length > 1) {
+            const ids = join(',', accountExtensionMap[accountId]);
+            // extract json data now so the data appears in the same format
+            // as single requests
+            return map(
+              (resp) => resp.json(),
+              await batchGetApi({
+                platform: this._client.service.platform(),
+                url: `/account/${accountId}/extension/${ids}/presence`,
+              }),
+            );
+          } else {
+            // wrap single request response data in array to keep the same
+            // format as batch requests
+            return [
+              await this._client
                 .account(accountId)
                 .extension(accountExtensionMap[accountId][0])
-                .presence().get()
-              ];
-            }
-          },
-          keys(accountExtensionMap),
-        )
+                .presence()
+                .get(),
+            ];
+          }
+        }, keys(accountExtensionMap)),
       );
       // treat all data as batch since the data is normalized
       forEach(
-        batch => forEach(
-          (data) => {
-            if(data.errorCode) {
+        (batch) =>
+          forEach((data) => {
+            if (data.errorCode) {
               console.warn(data);
               return;
             }
             presenceSet[data.extension.id] = data;
-          },
-          batch,
-        ),
+          }, batch),
         batchResponses,
       );
     } catch (e) {
@@ -299,42 +294,50 @@ export default class AccountContacts extends RcModule {
     () => this._companyContacts.filteredContacts,
     () => this.profileImages,
     () => this.presences,
-    (contacts, profileImages, presences) => reduce(
-      (result, item) => {
-        const id = `${item.id}`;
-        const contact = {
-          ...item,
-          type: this.sourceName,
-          id,
-          emails: [item.email],
-          extensionNumber: item.extensionNumber,
-          hasProfileImage: !!item.profileImage,
-          phoneNumbers: [{
-            phoneNumber: item.extensionNumber,
-            phoneType: phoneTypes.extension
-          }],
-          profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
-          presence: presences[id] && presences[id].presence,
-          contactStatus: item.status,
-        };
-        contact.name = item.name ? item.name : `${contact.firstName || ''} ${contact.lastName || ''}`;
-        if (isBlank(contact.extensionNumber)) {
+    (contacts, profileImages, presences) =>
+      reduce(
+        (result, item) => {
+          const id = `${item.id}`;
+          const contact = {
+            ...item,
+            type: this.sourceName,
+            id,
+            emails: [item.email],
+            extensionNumber: item.extensionNumber,
+            hasProfileImage: !!item.profileImage,
+            phoneNumbers: [
+              {
+                phoneNumber: item.extensionNumber,
+                phoneType: phoneTypes.extension,
+              },
+            ],
+            profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
+            presence: presences[id] && presences[id].presence,
+            contactStatus: item.status,
+          };
+          contact.name = item.name
+            ? item.name
+            : `${contact.firstName || ''} ${contact.lastName || ''}`;
+          if (isBlank(contact.extensionNumber)) {
+            return result;
+          }
+          if (item.phoneNumbers && item.phoneNumbers.length > 0) {
+            item.phoneNumbers.forEach((phone) => {
+              if (phone.type) {
+                contact.phoneNumbers.push({
+                  ...phone,
+                  phoneType: phoneTypes.direct,
+                });
+              }
+            });
+          }
+          result.push(contact);
           return result;
-        }
-        if (item.phoneNumbers && item.phoneNumbers.length > 0) {
-          item.phoneNumbers.forEach((phone) => {
-            if (phone.type) {
-              contact.phoneNumbers.push({ ...phone, phoneType: phoneTypes.direct });
-            }
-          });
-        }
-        result.push(contact);
-        return result;
-      },
-      [],
-      contacts,
-    ),
-  ]
+        },
+        [],
+        contacts,
+      ),
+  ];
 
   get contacts() {
     return this.directoryContacts;

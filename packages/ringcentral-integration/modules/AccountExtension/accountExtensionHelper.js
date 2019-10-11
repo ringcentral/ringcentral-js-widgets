@@ -28,10 +28,7 @@
  * @returns {boolean}
  */
 export function hasExtensionNumber(ext) {
-  return (
-    ext.extensionNumber &&
-    ext.extensionNumber !== ''
-  );
+  return ext.extensionNumber && ext.extensionNumber !== '';
 }
 
 /**

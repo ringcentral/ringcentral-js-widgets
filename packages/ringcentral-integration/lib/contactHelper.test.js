@@ -6,7 +6,6 @@ import {
   groupByFirstLetterOfName,
 } from './contactHelper';
 
-
 describe('uniqueContactItems', () => {
   it('should return contact items uniqued by contact id', () => {
     const contact1 = {
@@ -35,13 +34,16 @@ describe('uniqueContactItems', () => {
 
 describe('SortContactItemsByName', () => {
   it('should return contact items sorted by contact name', () => {
-    const contacts = [{
-      id: '2',
-      name: 'User2',
-    }, {
-      id: '1',
-      name: 'User1',
-    }];
+    const contacts = [
+      {
+        id: '2',
+        name: 'User2',
+      },
+      {
+        id: '1',
+        name: 'User1',
+      },
+    ];
     const result = sortContactItemsByName(contacts);
     expect(result[0].id).to.equal('1');
     expect(result[1].id).to.equal('2');
@@ -50,18 +52,23 @@ describe('SortContactItemsByName', () => {
 
 describe('GroupByFirstLetterOfName', () => {
   it('should return contact groups grouped by first letter of contact name', () => {
-    const contacts = [{
-      id: '2',
-      name: 'User2',
-    }, {
-      id: '1',
-      name: 'User1',
-    }];
+    const contacts = [
+      {
+        id: '2',
+        name: 'User2',
+      },
+      {
+        id: '1',
+        name: 'User1',
+      },
+    ];
     const result = groupByFirstLetterOfName(contacts);
-    expect(result).to.deep.equal([{
-      contacts,
-      caption: 'U',
-      id: 'U',
-    }]);
+    expect(result).to.deep.equal([
+      {
+        contacts,
+        caption: 'U',
+        id: 'U',
+      },
+    ]);
   });
 });

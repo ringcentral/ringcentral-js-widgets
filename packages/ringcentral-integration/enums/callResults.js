@@ -42,6 +42,5 @@ export default new HashMap({
   wrongNumber: 'Wrong Number',
   faxReceipt: 'Fax Receipt',
   suspendedAccount: 'Suspended Account',
-  disconnected: 'Disconnected'
+  disconnected: 'Disconnected',
 });
-

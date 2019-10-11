@@ -1,8 +1,4 @@
-import {
-  find,
-  filter,
-  reduce,
-} from 'ramda';
+import { find, filter, reduce } from 'ramda';
 import { combineReducers } from 'redux';
 import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
@@ -55,8 +51,8 @@ const DEFAULT_TYPE_FILTERS = [
   deps: [
     'Client',
     'RolesAndPermissions',
-    { dep: 'CompanyContactsOptions', optional: true }
-  ]
+    { dep: 'CompanyContactsOptions', optional: true },
+  ],
 })
 export default class CompanyContacts extends DataFetcher {
   /**
@@ -83,19 +79,21 @@ export default class CompanyContacts extends DataFetcher {
       storage,
       ttl,
       polling,
-      getReducer: (
-        allowSettings ?
-          getDataFetcherReducer :
-          (types, reducers = {}) => getDataFetcherReducer(
-            types,
-            {
+      getReducer: allowSettings
+        ? getDataFetcherReducer
+        : (types, reducers = {}) =>
+            getDataFetcherReducer(types, {
               ...reducers,
               showDisabled: getShowDisabledReducer(types, showDisabled),
-              showNotActivated: getShowNotActivatedReducer(types, showNotActivated),
-              extensionTypeFilters: getExtensionTypeFiltersReducer(types, extensionTypeFilters),
-            }
-          )
-      ),
+              showNotActivated: getShowNotActivatedReducer(
+                types,
+                showNotActivated,
+              ),
+              extensionTypeFilters: getExtensionTypeFiltersReducer(
+                types,
+                extensionTypeFilters,
+              ),
+            }),
       getDataReducer,
       getTimestampReducer,
       subscriptionFilters: [subscriptionFilters.companyContacts],
@@ -112,9 +110,14 @@ export default class CompanyContacts extends DataFetcher {
           }
         }
       },
-      fetchFunction: () => fetchList(params => (
-        this._client.account().directory().contacts().list(params)
-      )),
+      fetchFunction: () =>
+        fetchList((params) =>
+          this._client
+            .account()
+            .directory()
+            .contacts()
+            .list(params),
+        ),
       readyCheckFn: () => this._rolesAndPermissions.ready,
     });
     this._allowSettings = allowSettings;
@@ -126,7 +129,10 @@ export default class CompanyContacts extends DataFetcher {
         key: this._settingsStorageKey,
         reducer: combineReducers({
           showDisabled: getShowDisabledReducer(this.actionTypes, showDisabled),
-          showNotActivated: getShowNotActivatedReducer(this.actionTypes, showNotActivated),
+          showNotActivated: getShowNotActivatedReducer(
+            this.actionTypes,
+            showNotActivated,
+          ),
           extensionTypeFilters: getExtensionTypeFiltersReducer(
             this.actionTypes,
             extensionTypeFilters,
@@ -134,7 +140,10 @@ export default class CompanyContacts extends DataFetcher {
         }),
       });
     }
-    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
   }
 
   get _name() {
@@ -145,12 +154,7 @@ export default class CompanyContacts extends DataFetcher {
     return actionTypes;
   }
 
-  async _processContact({
-    eventType,
-    oldEtag,
-    newEtag,
-    ...contact
-  }) {
+  async _processContact({ eventType, oldEtag, newEtag, ...contact }) {
     switch (eventType) {
       case 'Create':
       case 'Update':
@@ -168,7 +172,7 @@ export default class CompanyContacts extends DataFetcher {
         });
         break;
       default:
-        /* do nothing */
+      /* do nothing */
     }
   }
 
@@ -179,7 +183,10 @@ export default class CompanyContacts extends DataFetcher {
    * @returns {Boolean}
    */
   isAvailableExtension(extensionNumber) {
-    return !!find(item => item.extensionNumber === extensionNumber, this.filteredContacts);
+    return !!find(
+      (item) => item.extensionNumber === extensionNumber,
+      this.filteredContacts,
+    );
   }
 
   @selector
@@ -196,20 +203,24 @@ export default class CompanyContacts extends DataFetcher {
         {},
         filters,
       );
-      return filter(item => !(
-        (!showDisabled && item.status === extensionStatusTypes.disabled) ||
-        (!showNotActivated && item.status === extensionStatusTypes.notActivated) ||
-        (!typeFilter[item.type])
-      ));
-    }
-  ]
+      return filter(
+        (item) =>
+          !(
+            (!showDisabled && item.status === extensionStatusTypes.disabled) ||
+            (!showNotActivated &&
+              item.status === extensionStatusTypes.notActivated) ||
+            !typeFilter[item.type]
+          ),
+      );
+    },
+  ];
 
   @selector
   filteredContacts = [
     () => this.data,
     () => this._extensionFilter,
     (data, extensionFilter) => extensionFilter(data),
-  ]
+  ];
 
   get _hasPermission() {
     return !!this._rolesAndPermissions.permissions.ReadExtensions;
@@ -235,7 +246,8 @@ export default class CompanyContacts extends DataFetcher {
 
   get extensionTypeFilters() {
     if (this.allowSettings) {
-      return this._storage.getItem(this._settingsStorageKey).extensionTypeFilters;
+      return this._storage.getItem(this._settingsStorageKey)
+        .extensionTypeFilters;
     }
     return this.state.extensionTypeFilters;
   }

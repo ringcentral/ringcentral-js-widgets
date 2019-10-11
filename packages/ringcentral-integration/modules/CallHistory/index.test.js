@@ -89,14 +89,19 @@ describe('CallHistory Unit Test', () => {
           optionsWithUndefined.forEach((isCallMonitorReady) => {
             optionsWithUndefined.forEach((isContactMatcherReady) => {
               optionsWithUndefined.forEach((isActivityMatcherReady) => {
-                const result = (
+                const result =
                   isModulePending &&
                   isCallLogReady &&
                   isAccountInfoReady &&
-                  (isCallMonitorReady !== undefined ? isCallMonitorReady : true) &&
-                  (isContactMatcherReady !== undefined ? isContactMatcherReady : true) &&
-                  (isActivityMatcherReady !== undefined ? isActivityMatcherReady : true)
-                );
+                  (isCallMonitorReady !== undefined
+                    ? isCallMonitorReady
+                    : true) &&
+                  (isContactMatcherReady !== undefined
+                    ? isContactMatcherReady
+                    : true) &&
+                  (isActivityMatcherReady !== undefined
+                    ? isActivityMatcherReady
+                    : true);
                 it(`should return ${result} when isModulePending === ${isModulePending}
                   isCallLogReady === ${isCallLogReady},
                   isAccountInfoReady === ${isAccountInfoReady},
@@ -105,27 +110,27 @@ describe('CallHistory Unit Test', () => {
                   isActivityMatcherReady === ${isActivityMatcherReady}
                   `, () => {
                   callHistory._callLog = {
-                    ready: isCallLogReady
+                    ready: isCallLogReady,
                   };
                   callHistory._accountInfo = {
-                    ready: isAccountInfoReady
+                    ready: isAccountInfoReady,
                   };
                   sinon.stub(callHistory, 'pending', {
                     get: () => isModulePending,
                   });
                   if (isCallMonitorReady !== undefined) {
                     callHistory._callMonitor = {
-                      ready: isCallMonitorReady
+                      ready: isCallMonitorReady,
                     };
                   }
                   if (isContactMatcherReady !== undefined) {
                     callHistory._contactMatcher = {
-                      ready: isContactMatcherReady
+                      ready: isContactMatcherReady,
                     };
                   }
                   if (isActivityMatcherReady !== undefined) {
                     callHistory._activityMatcher = {
-                      ready: isActivityMatcherReady
+                      ready: isActivityMatcherReady,
                     };
                   }
                   expect(callHistory._shouldInit()).to.equals(result);
@@ -146,15 +151,19 @@ describe('CallHistory Unit Test', () => {
           optionsWithUndefined.forEach((isCallMonitorReady) => {
             optionsWithUndefined.forEach((isContactMatcherReady) => {
               optionsWithUndefined.forEach((isActivityMatcherReady) => {
-                const result = (
-                  (
-                  !isCallLogReady ||
-                  !isAccountInfoReady ||
-                  (isCallMonitorReady === undefined ? undefined : !isCallMonitorReady) ||
-                  (isContactMatcherReady === undefined ? undefined : !isContactMatcherReady) ||
-                  (isActivityMatcherReady === undefined ? undefined : !isActivityMatcherReady)
-                  ) && isModuleReady
-                );
+                const result =
+                  (!isCallLogReady ||
+                    !isAccountInfoReady ||
+                    (isCallMonitorReady === undefined
+                      ? undefined
+                      : !isCallMonitorReady) ||
+                    (isContactMatcherReady === undefined
+                      ? undefined
+                      : !isContactMatcherReady) ||
+                    (isActivityMatcherReady === undefined
+                      ? undefined
+                      : !isActivityMatcherReady)) &&
+                  isModuleReady;
                 it(`should return ${result} when isModuleReady === ${isModuleReady}
                   isCallLogReady === ${isCallLogReady},
                   isAccountInfoReady === ${isAccountInfoReady},
@@ -163,27 +172,27 @@ describe('CallHistory Unit Test', () => {
                   isActivityMatcherReady === ${isActivityMatcherReady}
                   `, () => {
                   callHistory._callLog = {
-                    ready: isCallLogReady
+                    ready: isCallLogReady,
                   };
                   callHistory._accountInfo = {
-                    ready: isAccountInfoReady
+                    ready: isAccountInfoReady,
                   };
                   sinon.stub(callHistory, 'ready', {
                     get: () => isModuleReady,
                   });
                   if (isCallMonitorReady !== undefined) {
                     callHistory._callMonitor = {
-                      ready: isCallMonitorReady
+                      ready: isCallMonitorReady,
                     };
                   }
                   if (isContactMatcherReady !== undefined) {
                     callHistory._contactMatcher = {
-                      ready: isContactMatcherReady
+                      ready: isContactMatcherReady,
                     };
                   }
                   if (isActivityMatcherReady !== undefined) {
                     callHistory._activityMatcher = {
-                      ready: isActivityMatcherReady
+                      ready: isActivityMatcherReady,
                     };
                   }
                   expect(callHistory._shouldReset()).to.equals(result);
@@ -201,7 +210,7 @@ describe('CallHistory Unit Test', () => {
       and contactMatcher is ready`, () => {
       callHistory._lastProcessedNumbers = 'foo';
       callHistory._contactMatcher = {
-        ready: true
+        ready: true,
       };
       expect(callHistory._shouldTriggerContactMatch('bar')).to.equal(true);
     });
@@ -217,7 +226,7 @@ describe('CallHistory Unit Test', () => {
       and contactMatcher is ready`, () => {
       callHistory._lastProcessedNumbers = 'foo';
       callHistory._contactMatcher = {
-        ready: false
+        ready: false,
       };
       expect(callHistory._shouldTriggerContactMatch('bar')).to.equal(false);
     });
@@ -226,7 +235,7 @@ describe('CallHistory Unit Test', () => {
       and contactMatcher is ready`, () => {
       callHistory._lastProcessedNumbers = 'foo';
       callHistory._contactMatcher = {
-        ready: true
+        ready: true,
       };
       expect(callHistory._shouldTriggerContactMatch('foo')).to.equal(false);
     });
@@ -242,7 +251,7 @@ describe('CallHistory Unit Test', () => {
       and contactMatcher is ready`, () => {
       callHistory._lastProcessedNumbers = 'foo';
       callHistory._contactMatcher = {
-        ready: false
+        ready: false,
       };
       expect(callHistory._shouldTriggerContactMatch('foo')).to.equal(false);
     });
@@ -255,7 +264,7 @@ describe('CallHistory Unit Test', () => {
       when _lastProcessedIds not equals to sessionIds
       and activityMatcher is ready`, () => {
       callHistory._activityMatcher = {
-        ready: true
+        ready: true,
       };
       expect(callHistory._shouldTriggerActivityMatch('bar')).to.equal(true);
     });
@@ -269,7 +278,7 @@ describe('CallHistory Unit Test', () => {
       when _lastProcessedIds not equals to sessionIds
       and activityMatcher is ready`, () => {
       callHistory._activityMatcher = {
-        ready: false
+        ready: false,
       };
       expect(callHistory._shouldTriggerActivityMatch('bar')).to.equal(false);
     });
@@ -277,7 +286,7 @@ describe('CallHistory Unit Test', () => {
       when _lastProcessedIds not equals to sessionIds
       and activityMatcher is ready`, () => {
       callHistory._activityMatcher = {
-        ready: true
+        ready: true,
       };
       expect(callHistory._shouldTriggerActivityMatch('foo')).to.equal(false);
     });
@@ -291,7 +300,7 @@ describe('CallHistory Unit Test', () => {
       when _lastProcessedIds not equals to sessionIds
       and activityMatcher is ready`, () => {
       callHistory._activityMatcher = {
-        ready: false
+        ready: false,
       };
       expect(callHistory._shouldTriggerActivityMatch('foo')).to.equal(false);
     });
@@ -300,9 +309,11 @@ describe('CallHistory Unit Test', () => {
     let monitorCalls;
     beforeEach(() => {
       monitorCalls = {
-        calls: [{
-          sessionId: 'foo'
-        }]
+        calls: [
+          {
+            sessionId: 'foo',
+          },
+        ],
       };
     });
     it(`Should return endedCalls when _lastProcessedMonitorCalls is not equal to monitorCalls
@@ -311,27 +322,37 @@ describe('CallHistory Unit Test', () => {
       callHistory._callLog = {
         calls: [],
       };
-      callHistory._lastProcessedMonitorCalls = [{
-        sessionId: 'bar'
-      }, {
-        sessionId: 'foo'
-      }];
-      expect(callHistory._getEndedCalls()).to.deep.equal([{ sessionId: 'bar' }]);
+      callHistory._lastProcessedMonitorCalls = [
+        {
+          sessionId: 'bar',
+        },
+        {
+          sessionId: 'foo',
+        },
+      ];
+      expect(callHistory._getEndedCalls()).to.deep.equal([
+        { sessionId: 'bar' },
+      ]);
     });
     it('Should return [] when sessionId already exist', () => {
       callHistory._callMonitor = {
-        calls: [{
-          sessionId: 'bar'
-        }, {
-          sessionId: 'foo'
-        }]
+        calls: [
+          {
+            sessionId: 'bar',
+          },
+          {
+            sessionId: 'foo',
+          },
+        ],
       };
       callHistory._callLog = {
         calls: [],
       };
-      callHistory._lastProcessedMonitorCalls = [{
-        sessionId: 'bar'
-      }];
+      callHistory._lastProcessedMonitorCalls = [
+        {
+          sessionId: 'bar',
+        },
+      ];
       expect(callHistory._getEndedCalls()).to.deep.equal([]);
     });
     it('Should return null when _lastProcessedMonitorCalls is equal to monitorCalls', () => {
@@ -347,9 +368,11 @@ describe('CallHistory Unit Test', () => {
       callHistory._callLog = {
         calls: [],
       };
-      callHistory._lastProcessedMonitorCalls = [{
-        sessionId: 'foo'
-      }];
+      callHistory._lastProcessedMonitorCalls = [
+        {
+          sessionId: 'foo',
+        },
+      ];
       expect(callHistory._getEndedCalls()).to.be.a('null');
     });
   });
@@ -357,43 +380,62 @@ describe('CallHistory Unit Test', () => {
     let currentCalls;
     beforeEach(() => {
       currentCalls = {
-        calls: [{
-          sessionId: 'foo'
-        }]
+        calls: [
+          {
+            sessionId: 'foo',
+          },
+        ],
       };
     });
     it(`Should return endedCalls which should be removed when _lastProcessedCalls is not equal to currentCalls
         `, () => {
       callHistory._callLog = currentCalls;
-      callHistory._lastProcessedCalls = [{
-        sessionId: 'bar'
-      }, {
-        sessionId: 'foo'
-      }];
+      callHistory._lastProcessedCalls = [
+        {
+          sessionId: 'bar',
+        },
+        {
+          sessionId: 'foo',
+        },
+      ];
       const recentlyEndedCalls = currentCalls.calls;
-      sinon.stub(callHistory, 'recentlyEndedCalls', { get: () => recentlyEndedCalls });
+      sinon.stub(callHistory, 'recentlyEndedCalls', {
+        get: () => recentlyEndedCalls,
+      });
 
-      expect(callHistory._shouldRemoveEndedCalls()).to.deep.equal([{ sessionId: 'foo' }]);
+      expect(callHistory._shouldRemoveEndedCalls()).to.deep.equal([
+        { sessionId: 'foo' },
+      ]);
     });
     it('Should return [] when _lastProcessedCalls is not equal to currentCalls and sessionId is not existed', () => {
       callHistory._callLog = currentCalls;
-      callHistory._lastProcessedCalls = [{
-        sessionId: 'bar'
-      }];
-      const recentlyEndedCalls = [{
-        sessionId: 'koo'
-      }];
-      sinon.stub(callHistory, 'recentlyEndedCalls', { get: () => recentlyEndedCalls });
+      callHistory._lastProcessedCalls = [
+        {
+          sessionId: 'bar',
+        },
+      ];
+      const recentlyEndedCalls = [
+        {
+          sessionId: 'koo',
+        },
+      ];
+      sinon.stub(callHistory, 'recentlyEndedCalls', {
+        get: () => recentlyEndedCalls,
+      });
 
       expect(callHistory._shouldRemoveEndedCalls()).to.deep.equal([]);
     });
     it('Should return null when _lastProcessedCalls is equal to currentCalls', () => {
       callHistory._callLog = currentCalls;
       callHistory._lastProcessedCalls = currentCalls.calls;
-      const recentlyEndedCalls = [{
-        sessionId: 'koo'
-      }];
-      sinon.stub(callHistory, 'recentlyEndedCalls', { get: () => recentlyEndedCalls });
+      const recentlyEndedCalls = [
+        {
+          sessionId: 'koo',
+        },
+      ];
+      sinon.stub(callHistory, 'recentlyEndedCalls', {
+        get: () => recentlyEndedCalls,
+      });
 
       expect(callHistory._shouldRemoveEndedCalls()).to.be.a('null');
     });
@@ -404,13 +446,17 @@ describe('CallHistory Unit Test', () => {
       sinon.stub(callHistory, 'sessionIds', { get: () => 'foo' });
     });
     it('_contactMatcher.triggerMatch should be called once when _shouldTriggerContactMatch is true', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => true);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => true);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => null);
 
       callHistory._contactMatcher = {
-        triggerMatch: sinon.stub().callsFake(() => {})
+        triggerMatch: sinon.stub().callsFake(() => {}),
       };
       sinon.stub(callHistory, '_contactMatcher');
       callHistory._processCallHistory();
@@ -418,13 +464,17 @@ describe('CallHistory Unit Test', () => {
       sinon.assert.calledOnce(callHistory._contactMatcher.triggerMatch);
     });
     it('_contactMatcher.triggerMatch should not be called when _shouldTriggerContactMatch is false', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => null);
 
       callHistory._contactMatcher = {
-        triggerMatch: sinon.stub().callsFake(() => {})
+        triggerMatch: sinon.stub().callsFake(() => {}),
       };
       sinon.stub(callHistory, '_contactMatcher');
       callHistory._processCallHistory();
@@ -432,13 +482,17 @@ describe('CallHistory Unit Test', () => {
       sinon.assert.notCalled(callHistory._contactMatcher.triggerMatch);
     });
     it('_activityMatcher.triggerMatch should be called once when _shouldTriggerActivityMatch is true', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => true);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => true);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => null);
 
       callHistory._activityMatcher = {
-        triggerMatch: sinon.stub().callsFake(() => {})
+        triggerMatch: sinon.stub().callsFake(() => {}),
       };
       sinon.stub(callHistory, '_activityMatcher');
       callHistory._processCallHistory();
@@ -446,13 +500,17 @@ describe('CallHistory Unit Test', () => {
       sinon.assert.calledOnce(callHistory._activityMatcher.triggerMatch);
     });
     it('_activityMatcher.triggerMatch should not be called when _shouldTriggerActivityMatch is false', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => null);
 
       callHistory._activityMatcher = {
-        triggerMatch: sinon.stub().callsFake(() => {})
+        triggerMatch: sinon.stub().callsFake(() => {}),
       };
       sinon.stub(callHistory, '_activityMatcher');
       callHistory._processCallHistory();
@@ -460,9 +518,15 @@ describe('CallHistory Unit Test', () => {
       sinon.assert.notCalled(callHistory._activityMatcher.triggerMatch);
     });
     it('_addEndedCalls should be called when _getEndedCalls is return an array contains values', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_getEndedCalls').callsFake(() => [{ sessionId: 'foo' }]);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_getEndedCalls')
+        .callsFake(() => [{ sessionId: 'foo' }]);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_addEndedCalls');
       callHistory._processCallHistory();
@@ -470,8 +534,12 @@ describe('CallHistory Unit Test', () => {
       sinon.assert.calledOnce(callHistory._addEndedCalls);
     });
     it('_addEndedCalls should not be called when _getEndedCalls is return an empty array', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => []);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_addEndedCalls');
@@ -480,8 +548,12 @@ describe('CallHistory Unit Test', () => {
       sinon.assert.notCalled(callHistory._addEndedCalls);
     });
     it('_addEndedCalls should not be called when _getEndedCalls is return null', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_addEndedCalls');
@@ -490,18 +562,28 @@ describe('CallHistory Unit Test', () => {
       sinon.assert.notCalled(callHistory._addEndedCalls);
     });
     it('_removeEndedCalls should be called when _shouldRemoveEndedCalls is return an array contains values', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => null);
-      sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => [{ sessionId: 'foo' }]);
+      sinon
+        .stub(callHistory, '_shouldRemoveEndedCalls')
+        .callsFake(() => [{ sessionId: 'foo' }]);
       sinon.stub(callHistory, '_removeEndedCalls');
       callHistory._processCallHistory();
 
       sinon.assert.calledOnce(callHistory._removeEndedCalls);
     });
     it('_removeEndedCalls should not be called when _shouldRemoveEndedCalls is return an empty array', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => []);
       sinon.stub(callHistory, '_removeEndedCalls');
@@ -510,8 +592,12 @@ describe('CallHistory Unit Test', () => {
       sinon.assert.notCalled(callHistory._removeEndedCalls);
     });
     it('_removeEndedCalls should not be called when _shouldRemoveEndedCalls is return null', () => {
-      sinon.stub(callHistory, '_shouldTriggerContactMatch').callsFake(() => false);
-      sinon.stub(callHistory, '_shouldTriggerActivityMatch').callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerContactMatch')
+        .callsFake(() => false);
+      sinon
+        .stub(callHistory, '_shouldTriggerActivityMatch')
+        .callsFake(() => false);
       sinon.stub(callHistory, '_getEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_shouldRemoveEndedCalls').callsFake(() => null);
       sinon.stub(callHistory, '_removeEndedCalls');
@@ -521,4 +607,3 @@ describe('CallHistory Unit Test', () => {
     });
   });
 });
-

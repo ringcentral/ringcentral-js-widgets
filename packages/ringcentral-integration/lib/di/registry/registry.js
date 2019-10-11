@@ -8,20 +8,17 @@ export default class Registry {
   static providerRegistry = new ProviderRegistry();
 
   static registerModule(klass, metadata) {
-    assert(
-      isFunction(klass),
-      'Expected module to be a Class'
-    );
+    assert(isFunction(klass), 'Expected module to be a Class');
     if (metadata) {
       assert(
         isObject(metadata),
-        'Expected parameter of @Module() to be an Object'
+        'Expected parameter of @Module() to be an Object',
       );
       if (metadata.deps) {
         assert(
           isArray(metadata.deps),
           `Expected deps to be an Array: [${klass.name}]
-          ${JSON.stringify(metadata)}`
+          ${JSON.stringify(metadata)}`,
         );
       }
     }
@@ -32,20 +29,17 @@ export default class Registry {
   }
 
   static registerModuleFactory(klass, metadata) {
-    assert(
-      klass && isFunction(klass),
-      'Expected moduleFactory to be a Class'
-    );
+    assert(klass && isFunction(klass), 'Expected moduleFactory to be a Class');
 
     if (metadata) {
       assert(
         isObject(metadata),
-        'Expected parameter of @ModuleFactory() to be an Object'
+        'Expected parameter of @ModuleFactory() to be an Object',
       );
       if (metadata.providers && !isArray(metadata.providers)) {
         assert(
           isArray(metadata.providers),
-          'Expected providers in @ModuleFactory() to be an Array'
+          'Expected providers in @ModuleFactory() to be an Array',
         );
       }
     } else {
@@ -71,16 +65,17 @@ export default class Registry {
       return this.providerRegistry.get(currentClass).providers;
     }
     const moduleProviderMetadata = this.providerRegistry.get(currentClass);
-    const hasProviders = moduleProviderMetadata && isArray(moduleProviderMetadata.providers);
+    const hasProviders =
+      moduleProviderMetadata && isArray(moduleProviderMetadata.providers);
     const providerMetadata = this.mergeProviders(
       hasProviders ? moduleProviderMetadata.providers : [],
-      this.resolveInheritedModuleFactory(parentClass)
+      this.resolveInheritedModuleFactory(parentClass),
     );
     this.providerRegistry.resolve(
       currentClass,
       Object.assign({}, moduleProviderMetadata, {
-        providers: providerMetadata
-      })
+        providers: providerMetadata,
+      }),
     );
     return providerMetadata;
   }
@@ -101,14 +96,14 @@ export default class Registry {
     const hasDeps = moduleMetadata && isArray(moduleMetadata.deps);
     const deps = this.mergeDependencies(
       hasDeps ? moduleMetadata.deps : [],
-      this.resolveInheritedDependencies(parentClass)
+      this.resolveInheritedDependencies(parentClass),
     );
     // Update parent class metadata
     this.moduleRegistry.resolve(
       currentClass,
       Object.assign({}, moduleMetadata, {
-        deps
-      })
+        deps,
+      }),
     );
     return deps;
   }
@@ -120,9 +115,15 @@ export default class Registry {
   static _formatClassProvider(providerMetadata) {
     let formatted = {};
     if (isFunction(providerMetadata)) {
-      formatted = { provide: providerMetadata.name, useClass: providerMetadata };
+      formatted = {
+        provide: providerMetadata.name,
+        useClass: providerMetadata,
+      };
     } else if (isFunction(providerMetadata.provide)) {
-      formatted = { provide: providerMetadata.provide.name, useClass: providerMetadata.provide };
+      formatted = {
+        provide: providerMetadata.provide.name,
+        useClass: providerMetadata.provide,
+      };
     }
     return Object.assign({}, providerMetadata, formatted);
   }
@@ -145,8 +146,14 @@ export default class Registry {
       // useValue and don't overwrite parent values
       const pp = merged.get(p.provide);
       if (pp && p.useValue && p.merge) {
-        assert(pp.useValue, `Expected parent provider of [${p.provide}] to be a value provider`);
-        assert(isObject(pp.useValue), `Expected parent provider of [${p.provide}] to be an Object`);
+        assert(
+          pp.useValue,
+          `Expected parent provider of [${p.provide}] to be a value provider`,
+        );
+        assert(
+          isObject(pp.useValue),
+          `Expected parent provider of [${p.provide}] to be an Object`,
+        );
         p.useValue = Object.assign({}, pp.useValue, p.useValue);
         merged.set(p.provide, Object.assign({}, pp, p));
       } else {
@@ -181,7 +188,7 @@ export default class Registry {
       if (merged.has(base.dep)) {
         merged.set(base.dep, {
           dep: base.dep,
-          optional: base.optional && merged.get(base.dep).optional
+          optional: base.optional && merged.get(base.dep).optional,
         });
       } else {
         merged.set(base.dep, base);

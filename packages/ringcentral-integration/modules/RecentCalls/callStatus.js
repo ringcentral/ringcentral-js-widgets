@@ -1,6 +1,3 @@
 import Enum from '../../lib/Enum';
 
-export default new Enum([
-  'loading',
-  'loaded'
-], 'recentCallStatus');
+export default new Enum(['loading', 'loaded'], 'recentCallStatus');

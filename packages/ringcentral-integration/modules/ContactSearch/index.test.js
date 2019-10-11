@@ -13,9 +13,11 @@ describe('ContactSearch Unit Test', () => {
 
   beforeEach(() => {
     contactSearch = sinon.createStubInstance(ContactSearch);
-    store = createStore(getContactSearchReducer(actionTypes, {
-      cache: getCacheReducer(actionTypes),
-    }));
+    store = createStore(
+      getContactSearchReducer(actionTypes, {
+        cache: getCacheReducer(actionTypes),
+      }),
+    );
     contactSearch._store = store;
     contactSearch._prefixedActionTypes = actionTypes;
     contactSearch._minimalSearchLength = 3;
@@ -86,7 +88,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.loggedIn,
           };
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldInit()).to.equal(true);
         });
@@ -96,7 +98,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.notLoggedIn,
           };
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -106,7 +108,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.loggedIn,
           };
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -116,7 +118,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.notLoggedIn,
           };
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -148,7 +150,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.loggedIn,
           };
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -158,7 +160,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.notLoggedIn,
           };
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -168,7 +170,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.loggedIn,
           };
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -178,7 +180,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.notLoggedIn,
           };
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -216,7 +218,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.loggedIn,
           };
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -226,7 +228,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.notLoggedIn,
           };
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -236,7 +238,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.loggedIn,
           };
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -246,7 +248,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.notLoggedIn,
           };
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -278,7 +280,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.loggedIn,
           };
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -288,7 +290,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.notLoggedIn,
           };
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -298,7 +300,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.loggedIn,
           };
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -308,7 +310,7 @@ describe('ContactSearch Unit Test', () => {
             loginStatus: loginStatus.notLoggedIn,
           };
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldInit()).to.equal(false);
         });
@@ -347,14 +349,14 @@ describe('ContactSearch Unit Test', () => {
 
         it('Should return true when _storage is not ready', () => {
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldReset()).to.equal(true);
         });
 
         it('Should return true when _storage is ready', () => {
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldReset()).to.equal(true);
         });
@@ -374,14 +376,14 @@ describe('ContactSearch Unit Test', () => {
 
         it('Should return true when _storage is not ready', () => {
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldReset()).to.equal(true);
         });
 
         it('Should return false when _storage is ready', () => {
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldReset()).to.equal(false);
         });
@@ -407,14 +409,14 @@ describe('ContactSearch Unit Test', () => {
 
         it('Should return false when _storage is not ready', () => {
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldReset()).to.equal(false);
         });
 
         it('Should return false when _storage is ready', () => {
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldReset()).to.equal(false);
         });
@@ -434,14 +436,14 @@ describe('ContactSearch Unit Test', () => {
 
         it('Should return false when _storage is not ready', () => {
           contactSearch._storage = {
-            ready: false
+            ready: false,
           };
           expect(contactSearch._shouldReset()).to.equal(false);
         });
 
         it('Should return false when _storage is ready', () => {
           contactSearch._storage = {
-            ready: true
+            ready: true,
           };
           expect(contactSearch._shouldReset()).to.equal(false);
         });
@@ -465,7 +467,9 @@ describe('ContactSearch Unit Test', () => {
       } catch (e) {
         error = e;
       }
-      expect(error.message).to.equal('ContactSearch: "sourceName" is required.');
+      expect(error.message).to.equal(
+        'ContactSearch: "sourceName" is required.',
+      );
     });
 
     it('Should raise source name already exists error', () => {
@@ -476,11 +480,18 @@ describe('ContactSearch Unit Test', () => {
       contactSearch._searchSources.set('test', searchFn);
       let error = null;
       try {
-        contactSearch.addSearchSource({ sourceName: 'test', searchFn, readyCheckFn, formatFn });
+        contactSearch.addSearchSource({
+          sourceName: 'test',
+          searchFn,
+          readyCheckFn,
+          formatFn,
+        });
       } catch (e) {
         error = e;
       }
-      expect(error.message).to.equal('ContactSearch: A search source named "test" already exists');
+      expect(error.message).to.equal(
+        'ContactSearch: A search source named "test" already exists',
+      );
     });
 
     it('Should raise a search source check name already exists error', () => {
@@ -492,11 +503,18 @@ describe('ContactSearch Unit Test', () => {
       contactSearch._searchSourcesCheck.set('test', readyCheckFn);
       let error = null;
       try {
-        contactSearch.addSearchSource({ sourceName: 'test', searchFn, readyCheckFn, formatFn });
+        contactSearch.addSearchSource({
+          sourceName: 'test',
+          searchFn,
+          readyCheckFn,
+          formatFn,
+        });
       } catch (e) {
         error = e;
       }
-      expect(error.message).to.equal('ContactSearch: A search source check named "test" already exists');
+      expect(error.message).to.equal(
+        'ContactSearch: A search source check named "test" already exists',
+      );
     });
 
     it('Should raise a search source check name already exists error', () => {
@@ -508,11 +526,18 @@ describe('ContactSearch Unit Test', () => {
       contactSearch._searchSourcesCheck.set('test', readyCheckFn);
       let error = null;
       try {
-        contactSearch.addSearchSource({ sourceName: 'test', searchFn, readyCheckFn, formatFn });
+        contactSearch.addSearchSource({
+          sourceName: 'test',
+          searchFn,
+          readyCheckFn,
+          formatFn,
+        });
       } catch (e) {
         error = e;
       }
-      expect(error.message).to.equal('ContactSearch: A search source check named "test" already exists');
+      expect(error.message).to.equal(
+        'ContactSearch: A search source check named "test" already exists',
+      );
     });
 
     it('Should raise a search source format name already exists error', () => {
@@ -525,11 +550,18 @@ describe('ContactSearch Unit Test', () => {
       contactSearch._searchSourcesFormat.set('test', readyCheckFn);
       let error = null;
       try {
-        contactSearch.addSearchSource({ sourceName: 'test', searchFn, readyCheckFn, formatFn });
+        contactSearch.addSearchSource({
+          sourceName: 'test',
+          searchFn,
+          readyCheckFn,
+          formatFn,
+        });
       } catch (e) {
         error = e;
       }
-      expect(error.message).to.equal('ContactSearch: A search source format named "test" already exists');
+      expect(error.message).to.equal(
+        'ContactSearch: A search source format named "test" already exists',
+      );
     });
 
     it('Should raise searchFn must be a function error', () => {
@@ -541,11 +573,18 @@ describe('ContactSearch Unit Test', () => {
       const formatFn = () => null;
       let error = null;
       try {
-        contactSearch.addSearchSource({ sourceName: 'test', searchFn, readyCheckFn, formatFn });
+        contactSearch.addSearchSource({
+          sourceName: 'test',
+          searchFn,
+          readyCheckFn,
+          formatFn,
+        });
       } catch (e) {
         error = e;
       }
-      expect(error.message).to.equal('ContactSearch: searchFn must be a function');
+      expect(error.message).to.equal(
+        'ContactSearch: searchFn must be a function',
+      );
     });
 
     it('Should raise readyCheckFn must be a function error', () => {
@@ -557,11 +596,18 @@ describe('ContactSearch Unit Test', () => {
       const formatFn = () => null;
       let error = null;
       try {
-        contactSearch.addSearchSource({ sourceName: 'test', searchFn, readyCheckFn, formatFn });
+        contactSearch.addSearchSource({
+          sourceName: 'test',
+          searchFn,
+          readyCheckFn,
+          formatFn,
+        });
       } catch (e) {
         error = e;
       }
-      expect(error.message).to.equal('ContactSearch: readyCheckFn must be a function');
+      expect(error.message).to.equal(
+        'ContactSearch: readyCheckFn must be a function',
+      );
     });
 
     it('Should raise formatFn must be a function error', () => {
@@ -573,11 +619,18 @@ describe('ContactSearch Unit Test', () => {
       const formatFn = 'a';
       let error = null;
       try {
-        contactSearch.addSearchSource({ sourceName: 'test', searchFn, readyCheckFn, formatFn });
+        contactSearch.addSearchSource({
+          sourceName: 'test',
+          searchFn,
+          readyCheckFn,
+          formatFn,
+        });
       } catch (e) {
         error = e;
       }
-      expect(error.message).to.equal('ContactSearch: formatFn must be a function');
+      expect(error.message).to.equal(
+        'ContactSearch: formatFn must be a function',
+      );
     });
 
     it('Should add SearchSource successfully', () => {
@@ -587,7 +640,12 @@ describe('ContactSearch Unit Test', () => {
       const searchFn = () => null;
       const readyCheckFn = () => null;
       const formatFn = () => null;
-      contactSearch.addSearchSource({ sourceName: 'test', searchFn, readyCheckFn, formatFn });
+      contactSearch.addSearchSource({
+        sourceName: 'test',
+        searchFn,
+        readyCheckFn,
+        formatFn,
+      });
       expect(contactSearch._searchSources.has('test')).to.equal(true);
       expect(contactSearch._searchSourcesCheck.has('test')).to.equal(true);
       expect(contactSearch._searchSourcesFormat.has('test')).to.equal(true);
@@ -619,7 +677,9 @@ describe('ContactSearch Unit Test', () => {
 
     it('should call _searchSource once if there are one source', async () => {
       sinon.stub(contactSearch, 'ready', { get: () => true });
-      sinon.stub(contactSearch, 'searching', { get: () => ({ searchString: '' }) });
+      sinon.stub(contactSearch, 'searching', {
+        get: () => ({ searchString: '' }),
+      });
       sinon.stub(contactSearch, '_searchSource');
       contactSearch._searchSources = new Map();
       contactSearch._searchSources.set('test', () => null);
@@ -629,7 +689,9 @@ describe('ContactSearch Unit Test', () => {
 
     it('should call _searchSource twice if there are two source', async () => {
       sinon.stub(contactSearch, 'ready', { get: () => true });
-      sinon.stub(contactSearch, 'searching', { get: () => ({ searchString: '' }) });
+      sinon.stub(contactSearch, 'searching', {
+        get: () => ({ searchString: '' }),
+      });
       sinon.stub(contactSearch, '_searchSource');
       contactSearch._searchSources = new Map();
       contactSearch._searchSources.set('test', () => null);
@@ -646,7 +708,10 @@ describe('ContactSearch Unit Test', () => {
       sinon.stub(contactSearch, '_loadSearching');
       sinon.stub(contactSearch, '_saveSearching');
       sinon.stub(contactSearch, '_onSearchError');
-      await contactSearch._searchSource({ sourceName: 'test', searchString: '123' });
+      await contactSearch._searchSource({
+        sourceName: 'test',
+        searchString: '123',
+      });
       sinon.assert.calledOnce(contactSearch._loadSearching);
       sinon.assert.notCalled(contactSearch._saveSearching);
       sinon.assert.notCalled(contactSearch._onSearchError);
@@ -657,12 +722,15 @@ describe('ContactSearch Unit Test', () => {
       contactSearch._searchSources = new Map();
       contactSearch._searchSourcesFormat = new Map();
       contactSearch._searchSources.set('test', () => ['123']);
-      contactSearch._searchSourcesFormat.set('test', entities => entities);
+      contactSearch._searchSourcesFormat.set('test', (entities) => entities);
       sinon.stub(contactSearch, '_searchFromCache').callsFake(() => null);
       sinon.stub(contactSearch, '_loadSearching');
       sinon.stub(contactSearch, '_saveSearching');
       sinon.stub(contactSearch, '_onSearchError');
-      await contactSearch._searchSource({ sourceName: 'test', searchString: '123' });
+      await contactSearch._searchSource({
+        sourceName: 'test',
+        searchString: '123',
+      });
       sinon.assert.calledOnce(contactSearch._loadSearching);
       sinon.assert.calledOnce(contactSearch._saveSearching);
       sinon.assert.notCalled(contactSearch._onSearchError);
@@ -673,12 +741,15 @@ describe('ContactSearch Unit Test', () => {
       contactSearch._searchSources = new Map();
       contactSearch._searchSourcesFormat = new Map();
       contactSearch._searchSources.set('test', () => ['123']);
-      contactSearch._searchSourcesFormat.set('test', entities => entities);
+      contactSearch._searchSourcesFormat.set('test', (entities) => entities);
       sinon.stub(contactSearch, '_searchFromCache').throws(new Error('error'));
       sinon.stub(contactSearch, '_loadSearching');
       sinon.stub(contactSearch, '_saveSearching');
       sinon.stub(contactSearch, '_onSearchError');
-      await contactSearch._searchSource({ sourceName: 'test', searchString: '123' });
+      await contactSearch._searchSource({
+        sourceName: 'test',
+        searchString: '123',
+      });
       sinon.assert.calledOnce(contactSearch._onSearchError);
     });
   });
@@ -687,39 +758,62 @@ describe('ContactSearch Unit Test', () => {
     it('should return null if contactSearch in cache is undefined', () => {
       contactSearch._ttl = 30 * 60 * 1000;
       sinon.stub(contactSearch, 'cache', { get: () => ({}) });
-      const result = contactSearch._searchFromCache({ sourceName: 'test', searchString: '123' });
+      const result = contactSearch._searchFromCache({
+        sourceName: 'test',
+        searchString: '123',
+      });
       expect(result).to.equal(null);
     });
 
     it('should return null if cache is null', () => {
       contactSearch._ttl = 30 * 60 * 1000;
       sinon.stub(contactSearch, 'cache', { get: () => null });
-      const result = contactSearch._searchFromCache({ sourceName: 'test', searchString: '123' });
+      const result = contactSearch._searchFromCache({
+        sourceName: 'test',
+        searchString: '123',
+      });
       expect(result).to.equal(null);
     });
 
     it('should return null if searching key in cache is undefined', () => {
       contactSearch._ttl = 30 * 60 * 1000;
-      sinon.stub(contactSearch, 'cache', { get: () => ({ contactSearch: {} }) });
-      const result = contactSearch._searchFromCache({ sourceName: 'test', searchString: '123' });
+      sinon.stub(contactSearch, 'cache', {
+        get: () => ({ contactSearch: {} }),
+      });
+      const result = contactSearch._searchFromCache({
+        sourceName: 'test',
+        searchString: '123',
+      });
       expect(result).to.equal(null);
     });
 
     it('should return null if searching in cache is expired', () => {
       contactSearch._ttl = 30 * 60 * 1000;
       sinon.stub(contactSearch, 'cache', {
-        get: () => ({ contactSearch: { 'test-123': { timestamp: 0, entities: [] } } })
+        get: () => ({
+          contactSearch: { 'test-123': { timestamp: 0, entities: [] } },
+        }),
       });
-      const result = contactSearch._searchFromCache({ sourceName: 'test', searchString: '123' });
+      const result = contactSearch._searchFromCache({
+        sourceName: 'test',
+        searchString: '123',
+      });
       expect(result).to.equal(null);
     });
 
     it('should return entities successfully', () => {
       contactSearch._ttl = 30 * 60 * 1000;
       sinon.stub(contactSearch, 'cache', {
-        get: () => ({ contactSearch: { 'test-123': { timestamp: Date.now(), entities: ['321'] } } })
+        get: () => ({
+          contactSearch: {
+            'test-123': { timestamp: Date.now(), entities: ['321'] },
+          },
+        }),
       });
-      const result = contactSearch._searchFromCache({ sourceName: 'test', searchString: '123' });
+      const result = contactSearch._searchFromCache({
+        sourceName: 'test',
+        searchString: '123',
+      });
       expect(result).to.deep.equal(['321']);
     });
   });

@@ -8,7 +8,6 @@ import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import actionTypes from './actionTypes';
 import moduleStatuses from '../../enums/moduleStatuses';
 
-
 describe('getEventReducer', () => {
   it('should be a function', () => {
     expect(getEventReducer).to.be.a('function');
@@ -22,15 +21,16 @@ describe('getEventReducer', () => {
       expect(reducer(undefined, {})).to.be.null;
     });
     it('should return null for all actions except for event', () => {
-      expect(reducer('foo', { type: 'foo' }))
-        .to.equal(null);
+      expect(reducer('foo', { type: 'foo' })).to.equal(null);
     });
     it('should return { name, args } on event action type', () => {
-      expect(reducer(null, {
-        type: actionTypes.event,
-        event: 'foo',
-        args: ['bar'],
-      })).to.deep.equal({
+      expect(
+        reducer(null, {
+          type: actionTypes.event,
+          event: 'foo',
+          args: ['bar'],
+        }),
+      ).to.deep.equal({
         name: 'foo',
         args: ['bar'],
       });
@@ -52,28 +52,35 @@ describe('getActiveReducer', () => {
     });
     it('should return original state of actionTypes is not recognized', () => {
       const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
     it('should return action.active on initSuccess action type', () => {
-      expect(reducer(null, {
-        type: actionTypes.initSuccess,
-        active: true,
-      })).to.be.true;
-      expect(reducer(null, {
-        type: actionTypes.initSuccess,
-        active: false,
-      })).to.be.false;
+      expect(
+        reducer(null, {
+          type: actionTypes.initSuccess,
+          active: true,
+        }),
+      ).to.be.true;
+      expect(
+        reducer(null, {
+          type: actionTypes.initSuccess,
+          active: false,
+        }),
+      ).to.be.false;
     });
     it('should return action.active on mainTabIdChanged action type', () => {
-      expect(reducer(null, {
-        type: actionTypes.mainTabIdChanged,
-        active: true,
-      })).to.be.true;
-      expect(reducer(null, {
-        type: actionTypes.mainTabIdChanged,
-        active: false,
-      })).to.be.false;
+      expect(
+        reducer(null, {
+          type: actionTypes.mainTabIdChanged,
+          active: true,
+        }),
+      ).to.be.true;
+      expect(
+        reducer(null, {
+          type: actionTypes.mainTabIdChanged,
+          active: false,
+        }),
+      ).to.be.false;
     });
   });
 });

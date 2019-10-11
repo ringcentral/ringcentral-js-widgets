@@ -52,7 +52,6 @@
 //   });
 // });
 
-
 // describe('LoggerBase', () => {
 //   describe('constructor', () => {
 //     it('should be a function', () => {
