@@ -8,13 +8,9 @@
   padding: 0 15px;
 }
 
-.profile,
-.contacts,
-.email {
-  padding: 20px 0;
-}
 .profile {
-  border-bottom: 1px solid #e9e9e9;
+  padding: 20px 0;
+  border-bottom: 1px solid $gray;
 }
 
 @mixin label {
@@ -24,13 +20,13 @@
   @include secondary-font;
 }
 
-.contacts {
+.section {
   line-height: 23px;
   overflow: hidden;
-  border-bottom: 1px solid #e9e9e9;
   margin: 0;
   padding: 20px 0;
   list-style: none;
+
   .item {
     overflow: hidden;
     min-width: 250px;
@@ -38,7 +34,17 @@
       margin-top: 20px;
     }
   }
-  ul {
+
+  .label {
+    @include label;
+    display: inline-block;
+    word-break: break-all;
+    span {
+      vertical-align: middle;
+    }
+  }
+
+  .content {
     float: right;
     padding: 0;
     margin: 0;
@@ -46,28 +52,27 @@
     width: 80%;
     box-sizing: border-box;
     padding-left: 5px;
+
+    .text {
+      display: inline-block;
+      min-width: 40%;
+      max-width: 80%;
+      vertical-align: middle;
+      @include secondary-font;
+      @include text-ellipsis;
+      color: $night;
+      user-select: text;
+    }
   }
-  // li:not(:first-child) {
-  //   margin-top: 20px;
-  // }
-  .label,
-  .number,
-  .menu {
-    display: inline-block;
-  }
-  .label {
-    @include label;
-    word-break: break-all;
-  }
+}
+
+.contacts {
+  border-bottom: 1px solid $gray;
+
   .number {
-    min-width: 40%;
     max-width: calc(80% - 70px);
-    vertical-align: middle;
-    @include secondary-font;
-    @include text-ellipsis;
-    color: $night;
-    user-select: text;
   }
+
   .menu {
     float: right;
     text-align: right;
@@ -216,25 +221,6 @@ $rowHeight: 50px;
 }
 
 .email {
-  .label {
-    @include label;
-    display: inline-block;
-    span {
-      vertical-align: middle;
-    }
-  }
-  .item {
-    min-width: 250px;
-  }
-  ul {
-    float: right;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 80%;
-    box-sizing: border-box;
-    padding-left: 5px;
-  }
   li:not(:first-child) {
     margin-top: 20px;
   }
@@ -263,4 +249,8 @@ $rowHeight: 50px;
 .inactiveText {
   font-size: $tertiary-font-size;
   color: $coin;
+}
+
+.companyInfo {
+  border-bottom: 1px solid $gray;
 }

@@ -23,9 +23,7 @@ describe('isLoaderFile', () => {
           expect(isLoaderFile(content)).toBe(true);
         });
       },
-      [
-        ...validFiles,
-        ...validNoChunkFiles,
-      ]);
+      [...validFiles, ...validNoChunkFiles],
+    );
   });
 });

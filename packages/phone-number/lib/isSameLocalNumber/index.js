@@ -1,8 +1,4 @@
-import {
-  isValidNumber,
-  formatNumber,
-  parseNumber
-} from 'libphonenumber-js';
+import { isValidNumber, formatNumber, parseNumber } from 'libphonenumber-js';
 
 export default function isSameLocalNumber(a = '', b = '') {
   if (a === b) {

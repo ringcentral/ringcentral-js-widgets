@@ -80,18 +80,9 @@ const usNumbers = [
   '650.437.1071',
   '1-650-437-1071',
 ];
-const sevenDigits = [
-  '437 1071',
-  '437-1071',
-];
+const sevenDigits = ['437 1071', '437-1071'];
 
-const countryCodes = [
-  'US',
-  'CA',
-  'GB',
-  'FR',
-  'DE',
-];
+const countryCodes = ['US', 'CA', 'GB', 'FR', 'DE'];
 
 describe('detect', () => {
   describe('numbers with +{country}', () => {
@@ -100,7 +91,9 @@ describe('detect', () => {
         countryCodes.forEach((code) => {
           const matches = detect({ input: item, countryCode: code });
           expect(matches.length).toBe(1);
-          expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(item);
+          expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(
+            item,
+          );
         });
       });
     });
@@ -108,17 +101,27 @@ describe('detect', () => {
       usNumbers.forEach((item) => {
         const matches = detect({ input: item, countryCode: 'US' });
         expect(matches.length).toBe(1);
-        expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(item);
+        expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(
+          item,
+        );
       });
     });
     test('should accept 7-digit numbers if defaultCountry is US or CA and areaCode is given', () => {
       sevenDigits.forEach((item) => {
-        let matches = detect({ input: item, countryCode: 'US', areaCode: '650' });
+        let matches = detect({
+          input: item,
+          countryCode: 'US',
+          areaCode: '650',
+        });
         expect(matches.length).toBe(1);
-        expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(item);
+        expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(
+          item,
+        );
         matches = detect({ input: item, countryCode: 'CA', areaCode: '416' });
         expect(matches.length).toBe(1);
-        expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(item);
+        expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(
+          item,
+        );
       });
     });
     test('should detect all numbers from input', () => {
@@ -130,7 +133,7 @@ describe('detect', () => {
           long number: +41 22 560 74 07,
           `,
         countryCode: 'CA',
-        areaCode: '416'
+        areaCode: '416',
       });
       expect(matches.length).toBe(5);
     });

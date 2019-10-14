@@ -11,7 +11,8 @@ import isLoaderFile from '../isLoaderFile';
  */
 export default function findLoaderFiles(folder) {
   return filter(
-    file => fs.statSync(file).isFile() && isLoaderFile(fs.readFileSync(file, 'utf8')),
+    (file) =>
+      fs.statSync(file).isFile() && isLoaderFile(fs.readFileSync(file, 'utf8')),
     glob.sync(`${folder}/**`),
   );
 }

@@ -4,7 +4,7 @@ import parse from '../parse';
 const formatTypes = {
   local: 'local',
   international: 'international',
-  e164: 'e164'
+  e164: 'e164',
 };
 
 export { formatTypes };
@@ -31,10 +31,7 @@ export default function format({
   if (!isValid) {
     return '';
   }
-  if (
-    isServiceNumber ||
-    isExtension
-  ) {
+  if (isServiceNumber || isExtension) {
     return number;
   }
   const isUSCA = countryCode === 'CA' || countryCode === 'US';
@@ -44,19 +41,24 @@ export default function format({
   } else if (type === formatTypes.international) {
     finalType = 'International';
   } else {
-    finalType = (
+    finalType =
       // assume local
       !parsedCountry ||
       // ignore US/CA difference
-      isUSCA && (parsedCountry === 'US' || parsedCountry === 'CA') ||
+      (isUSCA && (parsedCountry === 'US' || parsedCountry === 'CA')) ||
       parsedCountry === countryCode
-    ) ?
-      'National' :
-      'International';
+        ? 'National'
+        : 'International';
   }
 
   let formattedNumber;
-  if (!hasPlus && isUSCA && areaCode && areaCode !== '' && number.length === 7) {
+  if (
+    !hasPlus &&
+    isUSCA &&
+    areaCode &&
+    areaCode !== '' &&
+    number.length === 7
+  ) {
     formattedNumber = formatNumber(
       `${areaCode}${number}`,
       parsedCountry || countryCode,
@@ -69,15 +71,11 @@ export default function format({
       finalType,
     );
   } else if (!hasPlus) {
-    formattedNumber = formatNumber(
-      number,
-      countryCode,
-      finalType,
-    );
+    formattedNumber = formatNumber(number, countryCode, finalType);
   } else {
     formattedNumber = number;
   }
-  return extension && !removeExtension ?
-    `${formattedNumber}${extensionDelimeter}${extension}` :
-    formattedNumber;
+  return extension && !removeExtension
+    ? `${formattedNumber}${extensionDelimeter}${extension}`
+    : formattedNumber;
 }

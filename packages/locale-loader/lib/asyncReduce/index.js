@@ -5,4 +5,3 @@ export default async function asyncReduce(fn, acc, collection) {
   }
   return result;
 }
-

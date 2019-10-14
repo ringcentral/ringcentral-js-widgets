@@ -4,7 +4,12 @@ import classnames from 'classnames';
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 import 'rc-editor-mention/assets/index.css';
-import Mention, { Nav, toString, toEditorState, getMentions } from 'rc-editor-mention';
+import Mention, {
+  Nav,
+  toString,
+  toEditorState,
+  getMentions,
+} from 'rc-editor-mention';
 
 import EmojiSelect from '../EmojiSelect';
 
@@ -32,15 +37,15 @@ export default class GlipChatForm extends Component {
     };
     this._onInputChange = (editorState) => {
       this.setState({
-        defaultValue: editorState
+        defaultValue: editorState,
       });
       if (typeof this.props.onTextChange === 'function') {
         const mentions = getMentions(editorState).map((mention) => {
           const email = mention.replace('@[', '').replace(']', '');
-          const member = this.props.members.find(m => m.email === email);
+          const member = this.props.members.find((m) => m.email === email);
           return {
             mention,
-            matcherId: (member && member.id),
+            matcherId: member && member.id,
           };
         });
         this.props.onTextChange(toString(editorState), mentions);
@@ -74,19 +79,16 @@ export default class GlipChatForm extends Component {
     };
 
     this._onTextAreaKeyDown = (e) => {
-      if (
-        e.key === 'Enter' &&
-        !e.shiftKey &&
-        !e.ctrlKey &&
-        !e.altKey
-      ) {
+      if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
         this.props.onSubmit();
         e.preventDefault();
       }
     };
 
     this._onSelectEmoji = (emoji) => {
-      const newText = this.props.textValue ? `${this.props.textValue} ${emoji} ` : `${emoji} `;
+      const newText = this.props.textValue
+        ? `${this.props.textValue} ${emoji} `
+        : `${emoji} `;
       if (typeof this.props.onTextChange === 'function') {
         this.props.onTextChange(newText);
       }
@@ -126,26 +128,22 @@ export default class GlipChatForm extends Component {
         suggestions,
       });
     }
-    if (
-      nextProps.groupId !== this.props.groupId
-    ) {
+    if (nextProps.groupId !== this.props.groupId) {
       const suggestions = this._getSuggestions(nextProps.members);
       this.setState({
         suggestions,
-        defaultValue: toEditorState(nextProps.textValue)
+        defaultValue: toEditorState(nextProps.textValue),
       });
     }
     if (this.props.textValue !== nextProps.textValue) {
       this.setState({
-        defaultValue: toEditorState(nextProps.textValue)
+        defaultValue: toEditorState(nextProps.textValue),
       });
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.groupId !== this.props.groupId
-    ) {
+    if (prevProps.groupId !== this.props.groupId) {
       this._autoFocus();
       if (this._metionInput) {
         this._metionInput.reset();
@@ -159,13 +157,17 @@ export default class GlipChatForm extends Component {
   }
 
   _getSuggestions(suggestions) {
-    return suggestions.map(
-      suggestion => (
-        <Nav style={{ height: 34 }} value={`[${suggestion.email}]`} key={suggestion.id} >
-          <span>{suggestion.firstName} {suggestion.lastName}</span>
-        </Nav>
-      )
-    );
+    return suggestions.map((suggestion) => (
+      <Nav
+        style={{ height: 34 }}
+        value={`[${suggestion.email}]`}
+        key={suggestion.id}
+      >
+        <span>
+          {suggestion.firstName} {suggestion.lastName}
+        </span>
+      </Nav>
+    ));
   }
 
   _autoFocus() {
@@ -178,25 +180,21 @@ export default class GlipChatForm extends Component {
   }
 
   render() {
-    const {
-      className,
-      placeholder,
-      height,
-    } = this.props;
+    const { className, placeholder, height } = this.props;
     const noFoundString = 'No found.'; // TODO: i18n after string confirmed
     return (
-      <div className={classnames(styles.root, className)} style={{ height }} >
+      <div className={classnames(styles.root, className)} style={{ height }}>
         <div className={styles.tools}>
           <Tooltip
             placement="top"
             trigger="click"
             arrowContent={<div className="rc-tooltip-arrow-inner" />}
             overlayClassName={styles.emojisTooltip}
-            overlay={(
+            overlay={
               <div style={{ width: 250, height: 200 }}>
                 <EmojiSelect onSelect={this._onSelectEmoji} />
               </div>
-            )}
+            }
           >
             <img alt="emoji" src={emojiIcon} className={styles.emoji} />
           </Tooltip>
@@ -207,9 +205,11 @@ export default class GlipChatForm extends Component {
         </div>
         <form onSubmit={this._onSubmit}>
           <Mention
-            style={{ width: '100%', height: (height - 35), lineHeight: '18px' }}
+            style={{ width: '100%', height: height - 35, lineHeight: '18px' }}
             className={styles.mentionInput}
-            ref={(input) => { this._metionInput = input; }}
+            ref={(input) => {
+              this._metionInput = input;
+            }}
             placeholder={placeholder}
             placement="bottom"
             defaultValue={this.state.defaultValue}
@@ -248,5 +248,5 @@ GlipChatForm.defaultProps = {
   placeholder: undefined,
   groupId: undefined,
   members: [],
-  height: 120
+  height: 120,
 };

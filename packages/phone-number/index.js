@@ -13,5 +13,5 @@ export {
   formatTypes,
   isValidNumber,
   isSameLocalNumber,
-  parseIncompletePhoneNumber
+  parseIncompletePhoneNumber,
 };

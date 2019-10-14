@@ -22,7 +22,7 @@
     "@ringcentral-integration/i18n": "^2.0.0",
     "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
-    "autoprefixer": "^9.3.1",
+    "autoprefixer": "^9.6.1",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^8.0.5",
     "coveralls": "^3.0.4",
@@ -33,10 +33,10 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
-    "gulp-sourcemaps": "^2.4.0",
+    "gulp-sourcemaps": "^2.6.5",
     "identity-obj-proxy": "^3.0.0",
     "json-loader": "^0.5.4",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "normalize-css": "^2.3.1",
     "postcss-loader": "^3.0.0",
     "pubnub": "^4.20.1",
@@ -47,7 +47,7 @@
     "react-router-redux": "^4.0.7",
     "react-svg-loader": "^3.0.3",
     "react-test-renderer": "^16.8.3",
-    "redux": "^4.0.1",
+    "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.2.1",
@@ -60,7 +60,7 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.29.0",
     "webpack-dev-server": "^3.1.14",
-    "yargs": "^11.1.0"
+    "yargs": "^14.0.0"
   },
   "peerDependencies": {}
 }

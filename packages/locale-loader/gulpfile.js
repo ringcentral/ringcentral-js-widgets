@@ -61,7 +61,7 @@ export async function releaseClean() {
     await fs.mkdirp(RELEASE_PATH);
   }
   const files = (await fs.readdir(RELEASE_PATH)).filter(
-    file => (!/^\./.test(file)),
+    (file) => !/^\./.test(file),
   );
   for (const file of files) {
     await fs.remove(path.resolve(RELEASE_PATH, file));
@@ -75,7 +75,9 @@ export function releaseCopy() {
 }
 
 export async function generatePackage() {
-  const packageInfo = JSON.parse(await fs.readFile(path.resolve(__dirname, 'package.json')));
+  const packageInfo = JSON.parse(
+    await fs.readFile(path.resolve(__dirname, 'package.json')),
+  );
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
   delete packageInfo.jest;
@@ -83,9 +85,12 @@ export async function generatePackage() {
   if (version) {
     packageInfo.version = version;
   }
-  await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
+  await fs.writeFile(
+    path.resolve(RELEASE_PATH, 'package.json'),
+    JSON.stringify(packageInfo, null, 2),
+  );
 }
 export const release = gulp.series(
   gulp.parallel(build, releaseClean),
-  gulp.parallel(releaseCopy, generatePackage)
+  gulp.parallel(releaseCopy, generatePackage),
 );

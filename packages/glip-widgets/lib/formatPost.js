@@ -7,7 +7,10 @@ export function fomatFistLineWithMentions(text, mentions) {
   let firstLine = text.split('\n')[0];
   if (mentions && mentions.length > 0) {
     mentions.forEach((mention) => {
-      firstLine = firstLine.replace(`![:${mention.type}](${mention.id})`, `@${mention.name}`);
+      firstLine = firstLine.replace(
+        `![:${mention.type}](${mention.id})`,
+        `@${mention.name}`,
+      );
     });
   }
   return firstLine;
@@ -31,10 +34,12 @@ export function getPostAbstract(post, members) {
   }
   if (post.type === 'PersonsAdded') {
     const addedPersons = post.addedPersonIds.map((id) => {
-      const member = members.find(m => m.id === id);
+      const member = members.find((m) => m.id === id);
       let name = id;
       if (member) {
-        name = `${member.firstName}${member.lastName ? ` ${member.lastName}` : ''}`;
+        name = `${member.firstName}${
+          member.lastName ? ` ${member.lastName}` : ''
+        }`;
       }
       return `@${name}`;
     });

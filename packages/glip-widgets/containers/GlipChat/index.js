@@ -6,19 +6,24 @@ import withPhone from 'ringcentral-widgets/lib/withPhone';
 import GlipChatPanel from '../../components/GlipChatPanel';
 
 function getAtRender({
-  glipGroups, glipPersons, onViewPersonProfile, onViewGroup
+  glipGroups,
+  glipPersons,
+  onViewPersonProfile,
+  onViewGroup,
 }) {
   const AtRender = ({ id, type }) => {
     let name = id;
     if (type === 'Team') {
-      const group = glipGroups.allGroups.find(g => g.id === id);
+      const group = glipGroups.allGroups.find((g) => g.id === id);
       name = group && group.name;
     } else {
       const person = glipPersons.personsMap[id];
-      name = (
-        person &&
-        `${person.firstName}${person.lastName ? ` ${person.lastName}` : ''}`
-      ) || id;
+      name =
+        (person &&
+          `${person.firstName}${
+            person.lastName ? ` ${person.lastName}` : ''
+          }`) ||
+        id;
     }
     const onClickAtLink = (e) => {
       e.preventDefault();
@@ -29,7 +34,9 @@ function getAtRender({
       }
     };
     return (
-      <a href={`#${id}`} onClick={onClickAtLink}>@{name}</a>
+      <a href={`#${id}`} onClick={onClickAtLink}>
+        @{name}
+      </a>
     );
   };
   AtRender.propTypes = {
@@ -39,38 +46,28 @@ function getAtRender({
   return AtRender;
 }
 
-function mapToProps(_, {
-  params,
-  phone: {
-    glipGroups,
-    glipPosts,
-  },
-}) {
+function mapToProps(_, { params, phone: { glipGroups, glipPosts } }) {
   return {
     groupId: params.groupId,
     group: glipGroups.currentGroup,
     posts: glipGroups.currentGroupPosts,
     textValue:
-      (
-        glipPosts.postInputs[params.groupId] &&
-        glipPosts.postInputs[params.groupId].text
-      ),
+      glipPosts.postInputs[params.groupId] &&
+      glipPosts.postInputs[params.groupId].text,
   };
 }
 
-function mapToFunctions(_, {
-  phone: {
-    glipGroups,
-    glipPosts,
-    glipPersons,
-    dateTimeFormat,
+function mapToFunctions(
+  _,
+  {
+    phone: { glipGroups, glipPosts, glipPersons, dateTimeFormat },
+    dateTimeFormatter = (time) =>
+      dateTimeFormat.formatDateTime({ utcTimestamp: time }),
+    onViewPersonProfile,
+    onViewGroup,
+    mobile = true,
   },
-  dateTimeFormatter = time =>
-    dateTimeFormat.formatDateTime({ utcTimestamp: time }),
-  onViewPersonProfile,
-  onViewGroup,
-  mobile = true,
-}) {
+) {
   return {
     mobile,
     loadGroup(groupId) {
@@ -91,11 +88,12 @@ function mapToFunctions(_, {
         mentions,
       });
     },
-    uploadFile: (fileName, rawFile) => glipPosts.sendFile({
-      fileName,
-      rawFile,
-      groupId: glipGroups.currentGroupId,
-    }),
+    uploadFile: (fileName, rawFile) =>
+      glipPosts.sendFile({
+        fileName,
+        rawFile,
+        groupId: glipGroups.currentGroupId,
+      }),
     atRender: getAtRender({
       glipGroups,
       glipPersons,
@@ -111,9 +109,11 @@ function mapToFunctions(_, {
   };
 }
 
-const GlipChatPage = withPhone(connect(
-  mapToProps,
-  mapToFunctions
-)(GlipChatPanel));
+const GlipChatPage = withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(GlipChatPanel),
+);
 
 export default GlipChatPage;

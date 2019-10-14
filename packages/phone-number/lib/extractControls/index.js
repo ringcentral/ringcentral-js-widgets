@@ -17,10 +17,7 @@ const controlRegex = /[^0-9*#]/g;
  *              Currently only support pause (',') characater.
  */
 export default function extractExtendedControls(input) {
-  const [
-    phoneNumber,
-    ...tokens
-  ] = (input || '').split(pauseRegex);
+  const [phoneNumber, ...tokens] = (input || '').split(pauseRegex);
   return {
     input,
     phoneNumber,

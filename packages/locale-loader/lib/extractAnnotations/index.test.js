@@ -2,7 +2,6 @@ import dedent from 'dedent';
 import { transformSync } from '@babel/core';
 import extractAnnotations from '.';
 
-
 describe('extractAnnotations', () => {
   const sampleContent = dedent`
     const keyMap = {

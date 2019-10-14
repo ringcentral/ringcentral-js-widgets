@@ -5,9 +5,7 @@ import generateLoaderContent from '../generateLoaderContent';
 import isLocaleFile from '../isLocaleFile';
 import isLoaderFile, { noChunks } from '../isLoaderFile';
 
-export default function transformLoader({
-  noChunk = false
-} = {}) {
+export default function transformLoader({ noChunk = false } = {}) {
   return through.obj(async function transform(file, enc, done) {
     const content = file.contents.toString(enc);
     if (isLoaderFile(content)) {

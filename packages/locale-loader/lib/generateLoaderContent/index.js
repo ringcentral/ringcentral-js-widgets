@@ -5,9 +5,7 @@ function byLocale(a, b) {
   const ta = formatLocale(a);
   const tb = formatLocale(b);
   if (ta === tb) return 0;
-  return ta > tb ?
-    1 :
-    -1;
+  return ta > tb ? 1 : -1;
 }
 /**
  * @typedef GLCOptions
@@ -20,10 +18,9 @@ function byLocale(a, b) {
  * @description Generate js code for localeLoader according the files listed.
  * @param {GLCOptions} options
  */
-export default function generateLoaderContent(/** @type {GLCOptions} */ {
-  files,
-  chunk = true,
-}) {
+export default function generateLoaderContent(
+  /** @type {GLCOptions} */ { files, chunk = true },
+) {
   const usedLang = {};
   const cases = files.sort(byLocale).map((f) => {
     const basename = f.replace(/\.(js|json|ts)$/i, '');

@@ -15,7 +15,7 @@
   "license": "MIT",
   "private": false,
   "peerDependencies": {
-    "@babel/polyfill": "^7.2.5"
+    "@babel/polyfill": "^7.6.0"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
@@ -24,7 +24,7 @@
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-sourcemaps": "^2.6.4",
+    "gulp-sourcemaps": "^2.6.5",
     "jest": "^24.8.0"
   },
   "scripts": {

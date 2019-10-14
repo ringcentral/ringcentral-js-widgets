@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function GlipGroupName({
-  group,
-  showNumber,
-}) {
+export default function GlipGroupName({ group, showNumber }) {
   let name = group.name;
   if (!name && group.detailMembers) {
-    let noMes = group.detailMembers.filter(m => !m.isMe);
+    let noMes = group.detailMembers.filter((m) => !m.isMe);
     if (noMes.length === 0) {
       noMes = group.detailMembers;
     }
-    const names = noMes.map(p =>
-      `${p.firstName ? p.firstName : ''} ${p.lastName ? p.lastName : ''}`
+    const names = noMes.map(
+      (p) =>
+        `${p.firstName ? p.firstName : ''} ${p.lastName ? p.lastName : ''}`,
     );
     name = names.join(', ');
   }
@@ -21,7 +19,10 @@ export default function GlipGroupName({
     number = ` (${group.members.length})`;
   }
   return (
-    <span>{name}{number}</span>
+    <span>
+      {name}
+      {number}
+    </span>
   );
 }
 

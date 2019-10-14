@@ -10,12 +10,16 @@ module.exports = function localeLoader(content) {
   const supportedLocales = querys.supportedLocales || [];
   if (isLoaderFile(content)) {
     (async () => {
-      const files = (await fs.readdir(this.context)).filter(f => isLocaleFile(f)).filter(
-        localeFilter(supportedLocales));
-      callback(null, generateLoaderContent({
-        files,
-        chunk: !noChunks(content),
-      }));
+      const files = (await fs.readdir(this.context))
+        .filter((f) => isLocaleFile(f))
+        .filter(localeFilter(supportedLocales));
+      callback(
+        null,
+        generateLoaderContent({
+          files,
+          chunk: !noChunks(content),
+        }),
+      );
     })();
   } else {
     callback(null, content);

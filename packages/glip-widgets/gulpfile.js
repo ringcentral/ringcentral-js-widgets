@@ -13,7 +13,9 @@ async function getVersionFromTag() {
     return tag;
   }
   try {
-    tag = await execa.shell('git describe --exact-match --tags $(git rev-parse HEAD)');
+    tag = await execa.shell(
+      'git describe --exact-match --tags $(git rev-parse HEAD)',
+    );
     tag = tag.replace(/\r?\n|\r/g, '');
     if (/^\d+.\d+.\d+/.test(tag)) {
       return tag;
@@ -30,56 +32,63 @@ export function clean() {
   return fs.remove(BUILD_PATH);
 }
 export function copy() {
-  return gulp.src([
-    './**',
-    '!./**/*.js',
-    '!./test{/**,}',
-    '!./coverage{/**,}',
-    '!./node_modules{/**,}',
-    '!package-lock.json'
-  ]).pipe(gulp.dest(BUILD_PATH))
+  return gulp
+    .src([
+      './**',
+      '!./**/*.js',
+      '!./test{/**,}',
+      '!./coverage{/**,}',
+      '!./node_modules{/**,}',
+      '!package-lock.json',
+    ])
+    .pipe(gulp.dest(BUILD_PATH));
 }
 export function compile() {
-  return gulp.src([
-    './**/*.js',
-    '!./**/*.test.js',
-    '!./coverage{/**,}',
-    '!./node_modules{/**,}',
-    '!gulpfile.babel.js']
-  ).pipe(localeLoader.transformLoader({
-    ...localeSettings,
-  }))
+  return gulp
+    .src([
+      './**/*.js',
+      '!./**/*.test.js',
+      '!./coverage{/**,}',
+      '!./node_modules{/**,}',
+      '!gulpfile.babel.js',
+    ])
+    .pipe(
+      localeLoader.transformLoader({
+        ...localeSettings,
+      }),
+    )
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(BUILD_PATH));
 }
 
-
 export const build = gulp.series(clean, gulp.parallel(copy, compile));
 
 const RELEASE_PATH = path.resolve(__dirname, '../../release/glip-widgets');
 
 export async function releaseClean() {
-  if (!await fs.exists(RELEASE_PATH)) {
+  if (!(await fs.exists(RELEASE_PATH))) {
     await execa.shell(`mkdir -p ${RELEASE_PATH}`);
   }
-  const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
+  const files = (await fs.readdir(RELEASE_PATH)).filter(
+    (file) => !/^\./.test(file),
+  );
   for (const file of files) {
     await fs.remove(path.resolve(RELEASE_PATH, file));
   }
 }
 
 export function releaseCopy() {
-  return gulp.src([
-    `${BUILD_PATH}/**`,
-    `${__dirname}/README.md`,
-    `${__dirname}/LICENSE`
-  ]).pipe(gulp.dest(RELEASE_PATH));
+  return gulp
+    .src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
+    .pipe(gulp.dest(RELEASE_PATH));
 }
 
 export async function generatePackage() {
-  const packageInfo = JSON.parse(await fs.readFile(path.resolve(BUILD_PATH, 'package.json')));
+  const packageInfo = JSON.parse(
+    await fs.readFile(path.resolve(BUILD_PATH, 'package.json')),
+  );
   delete packageInfo.scripts;
   delete packageInfo.jest;
   const version = await getVersionFromTag();
@@ -88,7 +97,10 @@ export async function generatePackage() {
     packageInfo.version = version;
     packageInfo.name = 'ringcentral-widgets';
   }
-  await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
+  await fs.writeFile(
+    path.resolve(RELEASE_PATH, 'package.json'),
+    JSON.stringify(packageInfo, null, 2),
+  );
 }
 
 export const release = gulp.series(
@@ -111,7 +123,7 @@ export function exportFullLocale() {
 export function exportTranslatedLocale() {
   return localeLoader.exportLocale({
     ...localeSettings,
-    exportType: 'translated'
+    exportType: 'translated',
   });
 }
 export function importLocale() {

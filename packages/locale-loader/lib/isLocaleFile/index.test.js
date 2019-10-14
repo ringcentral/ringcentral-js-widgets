@@ -20,7 +20,7 @@ describe('isLocaleFile', () => {
         'aa_000',
         'aa_AA',
         'aaa_AA',
-      ]
+      ],
     );
   });
   describe('Invalid file names:', () => {
@@ -41,7 +41,7 @@ describe('isLocaleFile', () => {
         'aa_0000',
         'aa3_AAe',
         'aaaa_AA',
-      ]
+      ],
     );
   });
   describe('Valid file extensions:', () => {
@@ -51,10 +51,7 @@ describe('isLocaleFile', () => {
           expect(isLocaleFile(`en-US${ext}`)).toBe(true);
         });
       },
-      [
-        '.js',
-        '.JS',
-      ]
+      ['.js', '.JS'],
     );
   });
   describe('Invalid file extensions:', () => {
@@ -64,10 +61,7 @@ describe('isLocaleFile', () => {
           expect(isLocaleFile(`en-US${ext}`)).toBe(false);
         });
       },
-      [
-        '',
-        '.wrong',
-      ]
+      ['', '.wrong'],
     );
   });
 });

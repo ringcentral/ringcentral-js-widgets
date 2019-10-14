@@ -12,14 +12,13 @@ export function clean() {
 }
 
 export function compile() {
-  return gulp.src([
-    './lib/**/*.js',
-    '!./lib/**/*.test.js',
-    './*.js',
-    '!./gulpfile*.js',
-  ], {
-    base: './'
-  })
+  return gulp
+    .src(
+      ['./lib/**/*.js', '!./lib/**/*.test.js', './*.js', '!./gulpfile*.js'],
+      {
+        base: './',
+      },
+    )
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
@@ -42,7 +41,9 @@ async function exec(command) {
 
 async function getVersionFromTag() {
   try {
-    let tag = await exec('git describe --exact-match --tags $(git rev-parse HEAD)');
+    let tag = await exec(
+      'git describe --exact-match --tags $(git rev-parse HEAD)',
+    );
     tag = tag.replace(/\r?\n|\r/g, '');
     if (/^\d+.\d+.\d+/.test(tag)) {
       return tag;
@@ -56,29 +57,37 @@ async function getVersionFromTag() {
 const RELEASE_PATH = path.resolve(__dirname, '../../release/phone-number');
 
 export async function releaseClean() {
-  if (!await fs.exists(RELEASE_PATH)) {
+  if (!(await fs.exists(RELEASE_PATH))) {
     await fs.mkdirp(RELEASE_PATH);
   }
-  const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
+  const files = (await fs.readdir(RELEASE_PATH)).filter(
+    (file) => !/^\./.test(file),
+  );
   for (const file of files) {
     await fs.remove(path.resolve(RELEASE_PATH, file));
   }
 }
 
 export function releaseCopy() {
-  return gulp.src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
+  return gulp
+    .src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
     .pipe(gulp.dest(RELEASE_PATH));
 }
 
 export async function generatePackage() {
-  const packageInfo = JSON.parse(await fs.readFile(path.resolve(__dirname, 'package.json')));
+  const packageInfo = JSON.parse(
+    await fs.readFile(path.resolve(__dirname, 'package.json')),
+  );
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
   const version = await getVersionFromTag();
   if (version) {
     packageInfo.version = version;
   }
-  await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
+  await fs.writeFile(
+    path.resolve(RELEASE_PATH, 'package.json'),
+    JSON.stringify(packageInfo, null, 2),
+  );
 }
 
 export const release = gulp.series(

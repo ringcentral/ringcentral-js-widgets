@@ -8,6 +8,6 @@ export default function extractAnnotations(content) {
   }
   return {
     content: content.replace(annotationRegExp, ''),
-    annotations
+    annotations,
   };
 }

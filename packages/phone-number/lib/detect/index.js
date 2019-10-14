@@ -10,11 +10,10 @@ function find7DigitNumbers(input, countryCode) {
   do {
     match = regex.exec(input);
     if (match) {
-      const {
-        isValid,
-        phoneNumber,
-        hasPlus,
-      } = parse({ input: match[0], countryCode });
+      const { isValid, phoneNumber, hasPlus } = parse({
+        input: match[0],
+        countryCode,
+      });
       if (isValid && !hasPlus && phoneNumber.length === 7) {
         output.push({
           country: countryCode,
@@ -34,28 +33,22 @@ function byStartsAt(a, b) {
 
 export default function detect({ input, countryCode = 'US', areaCode = '' }) {
   const output = findPhoneNumbers(input, countryCode);
-  if (
-    (countryCode === 'US' || countryCode === 'CA') &&
-    areaCode.length === 3
-  ) {
+  if ((countryCode === 'US' || countryCode === 'CA') && areaCode.length === 3) {
     const sevenDigits = find7DigitNumbers(input, countryCode);
     if (sevenDigits.length) {
       // keep a reference of the original output to search in
       const ref = output.slice();
-      forEach(
-        (item) => {
-          if (!find(
-            entry => (
-              entry.startsAt <= item.startsAt &&
-              entry.endsAt >= item.startsAt
-            ),
+      forEach((item) => {
+        if (
+          !find(
+            (entry) =>
+              entry.startsAt <= item.startsAt && entry.endsAt >= item.startsAt,
             ref,
-          )) {
-            output.push(item);
-          }
-        },
-        sevenDigits,
-      );
+          )
+        ) {
+          output.push(item);
+        }
+      }, sevenDigits);
     }
   }
   return output.sort(byStartsAt);

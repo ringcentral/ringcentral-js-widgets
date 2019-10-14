@@ -9,34 +9,29 @@ import emojiones from '../../assets/images/emojione.png';
 import emojis from './emojis.json';
 import styles from './styles.scss';
 
-export default function EmojiSelect({
-  onSelect,
-  className,
-}) {
+export default function EmojiSelect({ onSelect, className }) {
   return (
     <div className={classnames(styles.root, className)}>
-      {
-        emojis.map((emoji) => {
-          const emojsStr = `:${emoji}:`;
-          return (
-            <span
-              key={emoji}
-              className={styles.emoji}
-              onClick={() => onSelect(emojsStr)}
+      {emojis.map((emoji) => {
+        const emojsStr = `:${emoji}:`;
+        return (
+          <span
+            key={emoji}
+            className={styles.emoji}
+            onClick={() => onSelect(emojsStr)}
+          >
+            <Emojify
+              style={{
+                width: 25,
+                height: 25,
+                backgroundImage: `url("${emojiones}")`,
+              }}
             >
-              <Emojify
-                style={{
-                  width: 25,
-                  height: 25,
-                  backgroundImage: `url("${emojiones}")`,
-                }}
-              >
-                {emojsStr}
-              </Emojify>
-            </span>
-          );
-        })
-      }
+              {emojsStr}
+            </Emojify>
+          </span>
+        );
+      })}
     </div>
   );
 }

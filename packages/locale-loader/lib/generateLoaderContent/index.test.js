@@ -3,11 +3,7 @@ import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import fs from 'fs-extra';
 import generateLoaderContent from '.';
 
-const files = [
-  'en_us.js',
-  'FR-FR.JS',
-  'aa-AAAA-ZZ.JS',
-];
+const files = ['en_us.js', 'FR-FR.JS', 'aa-AAAA-ZZ.JS'];
 
 describe('generateLoaderContent', () => {
   test('should generate string', () => {
@@ -34,7 +30,9 @@ describe('generateLoaderContent', () => {
       });
     });
     test('should be valid js file content', async () => {
-      expect(() => { transform(content, { filename: 'en-GB.js' }); }).not.toThrow();
+      expect(() => {
+        transform(content, { filename: 'en-GB.js' });
+      }).not.toThrow();
       await fs.mkdirp('./testData/generateLoaderContent');
       await fs.writeFile('./testData/generateLoaderContent/loader.js', content);
       /* eslint-disable-next-line */
@@ -44,7 +42,9 @@ describe('generateLoaderContent', () => {
   });
   test('should accept chunk = false parameter', () => {
     let content;
-    expect(() => { content = generateLoaderContent({ files, chunk: false }); }).not.toThrow();
+    expect(() => {
+      content = generateLoaderContent({ files, chunk: false });
+    }).not.toThrow();
     expect(content.indexOf('ensure')).toBe(-1);
   });
 });

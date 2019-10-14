@@ -47,24 +47,23 @@ export default class GlipChatPage extends Component {
       onBackClick,
       mobile,
     } = this.props;
-    const spinner = showSpinner ? (<SpinnerOverlay />) : null;
+    const spinner = showSpinner ? <SpinnerOverlay /> : null;
     // TODO: update alt with i18n
-    const backIcon =
-      onBackClick ? (
-        <img src={leftArrow} alt="Back" className={styles.backIcon} onClick={onBackClick} />
-      ) : null;
+    const backIcon = onBackClick ? (
+      <img
+        src={leftArrow}
+        alt="Back"
+        className={styles.backIcon}
+        onClick={onBackClick}
+      />
+    ) : null;
     return (
-      <div
-        className={classnames(
-          styles.root,
-          className,
-        )}
-      >
+      <div className={classnames(styles.root, className)}>
         <div
           className={styles.header}
           style={{
             height: this.state.headerHeight,
-            lineHeight: `${this.state.headerHeight}px`
+            lineHeight: `${this.state.headerHeight}px`,
           }}
         >
           {backIcon}
@@ -72,13 +71,16 @@ export default class GlipChatPage extends Component {
         </div>
         <div
           className={styles.content}
-          style={{ height: `calc(100% - ${this.state.inputHeight + this.state.headerHeight}px)` }}
+          style={{
+            height: `calc(100% - ${this.state.inputHeight +
+              this.state.headerHeight}px)`,
+          }}
         >
           <GlipPostList
             posts={posts}
             atRender={atRender}
             groupId={group.id}
-            showName={group.members && (group.members.length > 2)}
+            showName={group.members && group.members.length > 2}
             dateTimeFormatter={dateTimeFormatter}
             viewProfile={viewProfile}
             loadNextPage={loadNextPage}
@@ -129,5 +131,5 @@ GlipChatPage.defaultProps = {
   showSpinner: false,
   atRender: undefined,
   onBackClick: undefined,
-  mobile: false
+  mobile: false,
 };
