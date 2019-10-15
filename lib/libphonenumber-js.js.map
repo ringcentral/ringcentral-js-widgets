@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/libphonenumber-js.js"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAIA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["/**\n * Expose the base libphonenumber-js package so projects with specific needs\n * can utilize the base funcitons.\n */\nexport * from 'libphonenumber-js';\n"],"file":"libphonenumber-js.js"}

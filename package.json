@@ -15,8 +15,8 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "private": false,
   "dependencies": {
-    "libphonenumber-js": "^1.7.12",
-    "ramda": "^0.25.0"
+    "libphonenumber-js": "^1.7.24",
+    "ramda": "^0.26.1"
   },
   "peerDependencies": {},
   "jest": {
