@@ -1,5 +1,9 @@
 "use strict";
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,11 +14,21 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.object.assign");
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -23,12 +37,6 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.array.map");
 
@@ -60,13 +68,17 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -234,7 +246,9 @@ function (_PureComponent) {
         key: label
       }, _react["default"].createElement("div", {
         className: _styles["default"].label
-      }, _react["default"].createElement("span", null, label)), _react["default"].createElement("ul", null, listComp));
+      }, _react["default"].createElement("span", null, label)), _react["default"].createElement("ul", {
+        className: _styles["default"].content
+      }, listComp));
     }
   }, {
     key: "getListItem",
@@ -265,7 +279,7 @@ function (_PureComponent) {
       return _react["default"].createElement("li", {
         key: key
       }, _react["default"].createElement("div", {
-        className: _styles["default"].number
+        className: (0, _classnames["default"])(_styles["default"].text, _styles["default"].number)
       }, _react["default"].createElement("span", {
         "data-sign": "contactNumber",
         title: displayedPhoneNumber
@@ -308,7 +322,7 @@ function (_PureComponent) {
       }
 
       return _react["default"].createElement("div", {
-        className: _styles["default"].contacts
+        className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].contacts)
       }, (0, _ramda.map)(function (key) {
         switch (key) {
           case _phoneTypes["default"].extension:
@@ -381,9 +395,46 @@ function (_PureComponent) {
           }
         }, email));
       });
-      return _react["default"].createElement("div", null, _react["default"].createElement("div", {
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].email)
+      }, _react["default"].createElement("div", {
         className: _styles["default"].label
-      }, _react["default"].createElement("span", null, _i18n["default"].getString('emailLabel', this.props.currentLocale))), _react["default"].createElement("ul", null, emailListView));
+      }, _react["default"].createElement("span", null, _i18n["default"].getString('emailLabel', this.props.currentLocale))), _react["default"].createElement("ul", {
+        className: _styles["default"].content
+      }, emailListView));
+    }
+  }, {
+    key: "renderCompanyInfo",
+    value: function renderCompanyInfo() {
+      var _this$props3 = this.props,
+          currentLocale = _this$props3.currentLocale,
+          contactItem = _this$props3.contactItem;
+      var company = contactItem.company,
+          jobTitle = contactItem.jobTitle;
+
+      if (!company && !jobTitle) {
+        return null;
+      }
+
+      var companyInfo = {
+        company: company,
+        jobTitle: jobTitle
+      };
+      var companyItems = Object.keys(companyInfo).map(function (key) {
+        return _react["default"].createElement("div", {
+          className: _styles["default"].item,
+          key: key
+        }, _react["default"].createElement("div", {
+          className: _styles["default"].label
+        }, _react["default"].createElement("span", null, _i18n["default"].getString(key, currentLocale))), _react["default"].createElement("div", {
+          className: _styles["default"].content
+        }, _react["default"].createElement("span", {
+          className: _styles["default"].text
+        }, companyInfo[key])));
+      });
+      return _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].companyInfo)
+      }, companyItems);
     }
   }, {
     key: "render",
@@ -392,9 +443,7 @@ function (_PureComponent) {
         className: _styles["default"].root
       }, _react["default"].createElement("div", {
         className: _styles["default"].profile
-      }, this.renderProfile()), this.getPhoneSections(), _react["default"].createElement("div", {
-        className: _styles["default"].email
-      }, this.renderEmailCell()));
+      }, this.renderProfile()), this.renderCompanyInfo(), this.getPhoneSections(), this.renderEmailCell());
     }
   }]);
 
