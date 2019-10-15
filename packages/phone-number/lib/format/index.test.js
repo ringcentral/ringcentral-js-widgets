@@ -13,80 +13,94 @@ describe('format', () => {
 
   test('should default to US', () => {
     const phoneNumber = '16503618700';
-    expect(format({ phoneNumber }))
-      .toBe(format({ phoneNumber, countryCode: 'US' }));
+    expect(format({ phoneNumber })).toBe(
+      format({ phoneNumber, countryCode: 'US' }),
+    );
   });
 
   test('should format a number', () => {
     const phoneNumber = '16503618700';
-    expect(format({ phoneNumber }).length)
-      .not.toBe(phoneNumber.length);
+    expect(format({ phoneNumber }).length).not.toBe(phoneNumber.length);
   });
 
   test('should default to local format', () => {
     const phoneNumber = '16503618700';
-    expect(format({ phoneNumber }))
-      .toBe(format({ phoneNumber, type: formatTypes.local }));
+    expect(format({ phoneNumber })).toBe(
+      format({ phoneNumber, type: formatTypes.local }),
+    );
   });
   test('should return number as extension if number is shorter than 7 digits', () => {
-    [
-      '1',
-      '12',
-      '123',
-      '12345',
-      '12345*12345',
-      '123456',
-    ].forEach((phoneNumber) => {
-      expect(format({
-        phoneNumber,
-      })).toBe(phoneNumber.split('*').pop());
-    });
+    ['1', '12', '123', '12345', '12345*12345', '123456'].forEach(
+      (phoneNumber) => {
+        expect(
+          format({
+            phoneNumber,
+          }),
+        ).toBe(phoneNumber.split('*').pop());
+      },
+    );
   });
   test('should only remove extension number if params.removeExtension is true', () => {
     const phoneNumber = '16503618700';
     const extension = '123';
-    expect(format({
-      phoneNumber: `${phoneNumber}*${extension}`,
-      removeExtension: true,
-    })).toBe(format({ phoneNumber }));
-    expect(format({
-      phoneNumber: `${phoneNumber}*${extension}`,
-      removeExtension: false,
-    })).toBe(format({ phoneNumber: `${phoneNumber}*${extension}` }));
+    expect(
+      format({
+        phoneNumber: `${phoneNumber}*${extension}`,
+        removeExtension: true,
+      }),
+    ).toBe(format({ phoneNumber }));
+    expect(
+      format({
+        phoneNumber: `${phoneNumber}*${extension}`,
+        removeExtension: false,
+      }),
+    ).toBe(format({ phoneNumber: `${phoneNumber}*${extension}` }));
   });
 
   test('should add areaCode if phoneNumber is 7 digits and countryCode is US or CA', () => {
     const phoneNumber = '1234567';
     const areaCode = '890';
-    expect(format({
-      phoneNumber,
-      areaCode,
-      countryCode: 'US'
-    })).toBe(format({
-      phoneNumber: `${areaCode}${phoneNumber}`,
-      countryCode: 'US',
-    }));
-    expect(format({
-      phoneNumber,
-      areaCode,
-      countryCode: 'CA'
-    })).toBe(format({
-      phoneNumber: `${areaCode}${phoneNumber}`,
-      countryCode: 'CA',
-    }));
+    expect(
+      format({
+        phoneNumber,
+        areaCode,
+        countryCode: 'US',
+      }),
+    ).toBe(
+      format({
+        phoneNumber: `${areaCode}${phoneNumber}`,
+        countryCode: 'US',
+      }),
+    );
+    expect(
+      format({
+        phoneNumber,
+        areaCode,
+        countryCode: 'CA',
+      }),
+    ).toBe(
+      format({
+        phoneNumber: `${areaCode}${phoneNumber}`,
+        countryCode: 'CA',
+      }),
+    );
   });
 
   test('should ignore areaCode if countryCode is not US or CA', () => {
     const phoneNumber = '1234567';
     const areaCode = '890';
-    expect(format({
-      phoneNumber,
-      areaCode,
-      countryCode: 'GB'
-    })).toBe(format({
-      phoneNumber,
-      countryCode: 'GB',
-    }));
+    expect(
+      format({
+        phoneNumber,
+        areaCode,
+        countryCode: 'GB',
+      }),
+    ).toBe(
+      format({
+        phoneNumber,
+        countryCode: 'GB',
+      }),
+    );
   });
 
   test('should not differentiate US and CA numbers', () => {
@@ -107,79 +121,108 @@ describe('format', () => {
       '+1-202-555-0177',
     ];
     ca.forEach((n) => {
-      expect(format({
-        phoneNumber: n,
-        countryCode: 'US'
-      })).toBe(format({
-        phoneNumber: n,
-        countryCode: 'CA',
-      }));
+      expect(
+        format({
+          phoneNumber: n,
+          countryCode: 'US',
+        }),
+      ).toBe(
+        format({
+          phoneNumber: n,
+          countryCode: 'CA',
+        }),
+      );
     });
     us.forEach((n) => {
-      expect(format({
-        phoneNumber: n,
-        countryCode: 'US'
-      })).toBe(format({
-        phoneNumber: n,
-        countryCode: 'CA',
-      }));
+      expect(
+        format({
+          phoneNumber: n,
+          countryCode: 'US',
+        }),
+      ).toBe(
+        format({
+          phoneNumber: n,
+          countryCode: 'CA',
+        }),
+      );
     });
   });
 
   test('should differentiate between other NA numbers', () => {
     const phoneNumber = '+17872628888'; // Puerto Rico Pizza Hut
-    expect(format({
-      phoneNumber,
-      countryCode: 'US'
-    })[0] === '+').toBe(true);
+    expect(
+      format({
+        phoneNumber,
+        countryCode: 'US',
+      })[0] === '+',
+    ).toBe(true);
   });
   test('should format to localFormat if phoneNumber matchs countryCode', () => {
-    expect(format({
-      phoneNumber: '+1-202-555-0139',
-      countryCode: 'US'
-    })[0] !== '+').toBe(true);
-    expect(format({
-      phoneNumber: '202-555-0139',
-      countryCode: 'US'
-    })[0] !== '+').toBe(true);
-    expect(format({
-      phoneNumber: '+44 20 7930 9114',
-      countryCode: 'GB'
-    })[0] !== '+').toBe(true);
-    expect(format({
-      phoneNumber: '20 7930 9114',
-      countryCode: 'GB'
-    })[0] !== '+').toBe(true);
-    expect(format({
-      phoneNumber: '+1-202-555-0139',
-      countryCode: 'US'
-    })).toBe('(202) 555-0139');
-    expect(format({
-      phoneNumber: '+44 20 7930 9114',
-      countryCode: 'GB'
-    })).toBe('020 7930 9114');
+    expect(
+      format({
+        phoneNumber: '+1-202-555-0139',
+        countryCode: 'US',
+      })[0] !== '+',
+    ).toBe(true);
+    expect(
+      format({
+        phoneNumber: '202-555-0139',
+        countryCode: 'US',
+      })[0] !== '+',
+    ).toBe(true);
+    expect(
+      format({
+        phoneNumber: '+44 20 7930 9114',
+        countryCode: 'GB',
+      })[0] !== '+',
+    ).toBe(true);
+    expect(
+      format({
+        phoneNumber: '20 7930 9114',
+        countryCode: 'GB',
+      })[0] !== '+',
+    ).toBe(true);
+    expect(
+      format({
+        phoneNumber: '+1-202-555-0139',
+        countryCode: 'US',
+      }),
+    ).toBe('(202) 555-0139');
+    expect(
+      format({
+        phoneNumber: '+44 20 7930 9114',
+        countryCode: 'GB',
+      }),
+    ).toBe('020 7930 9114');
   });
   test('should format to international format if options.international is set to true', () => {
-    expect(format({
-      phoneNumber: '+1-202-555-0139',
-      countryCode: 'US',
-      type: formatTypes.international,
-    })).toBe(format({
-      phoneNumber: '+1-202-555-0139',
-      countryCode: 'GB',
-    }));
+    expect(
+      format({
+        phoneNumber: '+1-202-555-0139',
+        countryCode: 'US',
+        type: formatTypes.international,
+      }),
+    ).toBe(
+      format({
+        phoneNumber: '+1-202-555-0139',
+        countryCode: 'GB',
+      }),
+    );
   });
   test('should format to international format if phoneNumber not match courtryCode', () => {
-    expect(format({
-      phoneNumber: '+44-202-555-0139',
-      countryCode: 'US',
-    })).toBe(format({
-      phoneNumber: '+44-202-555-0139',
-      countryCode: 'US',
-      type: formatTypes.international,
-    }));
+    expect(
+      format({
+        phoneNumber: '+44-202-555-0139',
+        countryCode: 'US',
+      }),
+    ).toBe(
+      format({
+        phoneNumber: '+44-202-555-0139',
+        countryCode: 'US',
+        type: formatTypes.international,
+      }),
+    );
   });
-
 
   test('should normalize numbers into E164 format', () => {
     [
@@ -198,10 +241,12 @@ describe('format', () => {
       '+44 20 7930 9114',
       '+33 4 73 25 21 42',
     ].forEach((phoneNumber) => {
-      expect(format({
-        phoneNumber,
-        type: formatTypes.e164,
-      })).toBe(phoneNumber.replace(/[- ]/g, ''));
+      expect(
+        format({
+          phoneNumber,
+          type: formatTypes.e164,
+        }),
+      ).toBe(phoneNumber.replace(/[- ]/g, ''));
     });
   });
   test('should add country code', () => {
@@ -213,15 +258,19 @@ describe('format', () => {
       '613-555-0127',
       '613-555-0105',
     ].forEach((phoneNumber) => {
-      expect(format({
-        phoneNumber,
-        countryCode: 'US',
-        type: formatTypes.e164,
-      })).toBe(format({
-        phoneNumber: `+1${phoneNumber}`,
-        countryCode: 'US',
-        type: formatTypes.e164,
-      }));
+      expect(
+        format({
+          phoneNumber,
+          countryCode: 'US',
+          type: formatTypes.e164,
+        }),
+      ).toBe(
+        format({
+          phoneNumber: `+1${phoneNumber}`,
+          countryCode: 'US',
+          type: formatTypes.e164,
+        }),
+      );
     });
   });
   test('should ignore areaCode if the number already contains areaCode', () => {
@@ -233,87 +282,100 @@ describe('format', () => {
       '613-555-0127',
       '613-555-0105',
     ].forEach((phoneNumber) => {
-      expect(format({
-        phoneNumber,
-        countryCode: 'US',
-        areaCode: '650',
-        type: formatTypes.e164,
-      })).toBe(format({
-        phoneNumber: `+1${phoneNumber}`,
-        countryCode: 'US',
-        type: formatTypes.e164,
-      }));
+      expect(
+        format({
+          phoneNumber,
+          countryCode: 'US',
+          areaCode: '650',
+          type: formatTypes.e164,
+        }),
+      ).toBe(
+        format({
+          phoneNumber: `+1${phoneNumber}`,
+          countryCode: 'US',
+          type: formatTypes.e164,
+        }),
+      );
     });
   });
   test('should return empty string if number is invalid', () => {
-    [
-      'foo',
-      '+bar',
-    ].forEach((phoneNumber) => {
-      expect(format({
-        phoneNumber,
-        type: formatTypes.e164,
-      })).toBe('');
+    ['foo', '+bar'].forEach((phoneNumber) => {
+      expect(
+        format({
+          phoneNumber,
+          type: formatTypes.e164,
+        }),
+      ).toBe('');
     });
   });
   test('should return number as extension if number is shorter than 6 digits', () => {
-    [
-      '1',
-      '12',
-      '123',
-      '12345',
-      '12345*12345'
-    ].forEach((phoneNumber) => {
-      expect(format({
-        phoneNumber,
-        type: formatTypes.e164,
-      })).toBe(phoneNumber.split('*').pop());
+    ['1', '12', '123', '12345', '12345*12345'].forEach((phoneNumber) => {
+      expect(
+        format({
+          phoneNumber,
+          type: formatTypes.e164,
+        }),
+      ).toBe(phoneNumber.split('*').pop());
     });
   });
   test('should add areaCode if phoneNumber is 7 digits and countryCode is US or CA', () => {
     const phoneNumber = '1234567';
     const areaCode = '890';
-    expect(format({
-      phoneNumber,
-      areaCode,
-      countryCode: 'US',
-      type: formatTypes.e164,
-    })).toBe(format({
-      phoneNumber: `${areaCode}${phoneNumber}`,
-      countryCode: 'US',
-      type: formatTypes.e164,
-    }));
-    expect(format({
-      phoneNumber,
-      areaCode,
-      countryCode: 'CA',
-      type: formatTypes.e164,
-    })).toBe(format({
-      phoneNumber: `${areaCode}${phoneNumber}`,
-      countryCode: 'CA',
-      type: formatTypes.e164,
-    }));
+    expect(
+      format({
+        phoneNumber,
+        areaCode,
+        countryCode: 'US',
+        type: formatTypes.e164,
+      }),
+    ).toBe(
+      format({
+        phoneNumber: `${areaCode}${phoneNumber}`,
+        countryCode: 'US',
+        type: formatTypes.e164,
+      }),
+    );
+    expect(
+      format({
+        phoneNumber,
+        areaCode,
+        countryCode: 'CA',
+        type: formatTypes.e164,
+      }),
+    ).toBe(
+      format({
+        phoneNumber: `${areaCode}${phoneNumber}`,
+        countryCode: 'CA',
+        type: formatTypes.e164,
+      }),
+    );
   });
   test('should only remove extension number if params.removeExtension is true', () => {
     const phoneNumber = '16503618700';
     const extension = '123';
-    expect(format({
-      phoneNumber: `${phoneNumber}*${extension}`,
-      removeExtension: true,
-      type: formatTypes.e164,
-    })).toBe(format({
-      phoneNumber,
-      type: formatTypes.e164,
-    }));
-    expect(format({
-      phoneNumber: `${phoneNumber}*${extension}`,
-      removeExtension: false,
-      type: formatTypes.e164,
-    })).toBe(format({
-      phoneNumber: `${phoneNumber}*${extension}`,
-      type: formatTypes.e164,
-    }));
+    expect(
+      format({
+        phoneNumber: `${phoneNumber}*${extension}`,
+        removeExtension: true,
+        type: formatTypes.e164,
+      }),
+    ).toBe(
+      format({
+        phoneNumber,
+        type: formatTypes.e164,
+      }),
+    );
+    expect(
+      format({
+        phoneNumber: `${phoneNumber}*${extension}`,
+        removeExtension: false,
+        type: formatTypes.e164,
+      }),
+    ).toBe(
+      format({
+        phoneNumber: `${phoneNumber}*${extension}`,
+        type: formatTypes.e164,
+      }),
+    );
   });
-
 });
-

@@ -31,7 +31,12 @@ ImageRender.defaultProps = {
 
 function LinkRender(props) {
   return (
-    <a target="_blank" rel="noopener noreferrer" href={props.href} title={props.title}>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href={props.href}
+      title={props.title}
+    >
       {props.children}
     </a>
   );
@@ -77,13 +82,9 @@ TextRender.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-function Markdown({
-  className,
-  text,
-  atRender,
-}) {
+function Markdown({ className, text, atRender }) {
   const renderers = {
-    image: props => <ImageRender {...props} atRender={atRender} />,
+    image: (props) => <ImageRender {...props} atRender={atRender} />,
     link: LinkRender,
     paragraph: TextRender,
   };

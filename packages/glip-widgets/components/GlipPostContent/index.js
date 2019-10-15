@@ -40,11 +40,7 @@ function Attachments({ attachments }) {
       </a>
     );
   });
-  return (
-    <div className={styles.attachments}>
-      {attachmentFiles}
-    </div>
-  );
+  return <div className={styles.attachments}>{attachmentFiles}</div>;
 }
 
 Attachments.propTypes = {
@@ -63,9 +59,12 @@ function PostContent({ post, className, atRender }) {
   if (text) {
     text = text.replace('[code]', '```\n').replace('[/code]', '\n```\n');
   }
-  const textContent = text ?
-    (<Markdown text={text} atRender={atRender} />) : null;
-  const attachments = post.attachments ? (<Attachments attachments={post.attachments} />) : null;
+  const textContent = text ? (
+    <Markdown text={text} atRender={atRender} />
+  ) : null;
+  const attachments = post.attachments ? (
+    <Attachments attachments={post.attachments} />
+  ) : null;
   return (
     <div className={classnames(styles.root, className)}>
       <div className={styles.content}>

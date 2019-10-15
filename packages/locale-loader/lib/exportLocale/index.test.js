@@ -14,7 +14,10 @@ async function clean() {
 
 async function generateLoader() {
   await fs.ensureDir(sourceFolder);
-  await fs.writeFile(path.resolve(sourceFolder, 'loadLocale.js'), '/* loadLocale */');
+  await fs.writeFile(
+    path.resolve(sourceFolder, 'loadLocale.js'),
+    '/* loadLocale */',
+  );
 }
 
 describe('exportLocale', () => {
@@ -24,7 +27,9 @@ describe('exportLocale', () => {
   describe('exported .xlf', () => {
     beforeEach(async () => {
       await generateLoader();
-      await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
+      await fs.writeFile(
+        path.resolve(sourceFolder, 'en-US.js'),
+        `
         const a = 'a';
         const b = 'b';
         export default {
@@ -38,11 +43,14 @@ describe('exportLocale', () => {
           4: 'number key',
           [\`\${a}key\`]: 'template in key',
         };
-        `);
+        `,
+      );
     });
     afterEach(clean);
     test('should throw when supportedLocales is not defined', () => {
-      expect(() => exportLocale()).toThrow('options.supportedLocales is missing');
+      expect(() => exportLocale()).toThrow(
+        'options.supportedLocales is missing',
+      );
     });
     test('should have a .xlf for each supported locales except the src', async () => {
       exportLocale({
@@ -52,8 +60,9 @@ describe('exportLocale', () => {
         localizationFolder,
       });
       const files = await fs.readdir(localizationFolder);
-      expect(files.map(f => path.basename(f, '.xlf')).sort())
-        .toEqual(supportedLocales.filter(l => l !== sourceLocale).sort());
+      expect(files.map((f) => path.basename(f, '.xlf')).sort()).toEqual(
+        supportedLocales.filter((l) => l !== sourceLocale).sort(),
+      );
     });
     test('should contain all the key-value pairs in the exported file', async () => {
       exportLocale({
@@ -65,7 +74,10 @@ describe('exportLocale', () => {
       const files = await fs.readdir(localizationFolder);
       await Promise.all(
         files.map(async (f) => {
-          const content = await fs.readFile(path.resolve(localizationFolder, f), 'utf8');
+          const content = await fs.readFile(
+            path.resolve(localizationFolder, f),
+            'utf8',
+          );
           expect(content.indexOf('modern') > -1).toBe(true);
           expect(content.indexOf('rogue') > -1).toBe(true);
           expect(content.indexOf('whisky') > -1).toBe(true);
@@ -80,22 +92,28 @@ describe('exportLocale', () => {
           expect(content.indexOf('Odd Key') > -1).toBe(true);
           /* eslint-disable-next-line */
           expect(content.indexOf('[[`${a}key`]]') > -1).toBe(true);
-        })
+        }),
       );
     });
     test('should export only untranslated entries', async () => {
-      await fs.writeFile(path.resolve(sourceFolder, 'en-GB.js'), `
+      await fs.writeFile(
+        path.resolve(sourceFolder, 'en-GB.js'),
+        `
         export default {
           modern: 'rogue',
         };
-      `);
+      `,
+      );
       exportLocale({
         sourceLocale,
         sourceFolder,
         localizationFolder,
-        supportedLocales: ['en-US', 'en-GB']
+        supportedLocales: ['en-US', 'en-GB'],
       });
-      const content = await fs.readFile(path.resolve(localizationFolder, 'en-GB.xlf'), 'utf8');
+      const content = await fs.readFile(
+        path.resolve(localizationFolder, 'en-GB.xlf'),
+        'utf8',
+      );
       expect(content.indexOf('modern') > -1).toBe(false);
       expect(content.indexOf('rogue') > -1).toBe(false);
       expect(content.indexOf('whisky') > -1).toBe(true);
@@ -106,11 +124,14 @@ describe('exportLocale', () => {
       expect(content.indexOf('contains\nnewline') > -1).toBe(true);
     });
     test('should be able to export all entries when exportType === "full"', async () => {
-      await fs.writeFile(path.resolve(sourceFolder, 'en-GB.js'), `
+      await fs.writeFile(
+        path.resolve(sourceFolder, 'en-GB.js'),
+        `
         export default {
           modern: 'rogue',
         };
-      `);
+      `,
+      );
       exportLocale({
         sourceLocale,
         sourceFolder,
@@ -118,7 +139,10 @@ describe('exportLocale', () => {
         supportedLocales: ['en-US', 'en-GB'],
         exportType: 'full',
       });
-      const content = await fs.readFile(path.resolve(localizationFolder, 'en-GB.xlf'), 'utf8');
+      const content = await fs.readFile(
+        path.resolve(localizationFolder, 'en-GB.xlf'),
+        'utf8',
+      );
       expect(content.indexOf('modern') > -1).toBe(true);
       expect(content.indexOf('rogue') > -1).toBe(true);
       expect(content.indexOf('whisky') > -1).toBe(true);
@@ -129,12 +153,15 @@ describe('exportLocale', () => {
       expect(content.indexOf('contains\nnewline') > -1).toBe(true);
     });
     test('should be able to export on translated entries when exportType === "translated"', async () => {
-      await fs.writeFile(path.resolve(sourceFolder, 'en-GB.js'), `
+      await fs.writeFile(
+        path.resolve(sourceFolder, 'en-GB.js'),
+        `
         export default {
           modern: 'rogue',
           newline: 'contains\\newline',
         };
-      `);
+      `,
+      );
       exportLocale({
         sourceLocale,
         sourceFolder,
@@ -142,7 +169,10 @@ describe('exportLocale', () => {
         supportedLocales: ['en-US', 'en-GB'],
         exportType: 'translated',
       });
-      const content = await fs.readFile(path.resolve(localizationFolder, 'en-GB.xlf'), 'utf8');
+      const content = await fs.readFile(
+        path.resolve(localizationFolder, 'en-GB.xlf'),
+        'utf8',
+      );
       expect(content.indexOf('modern') > -1).toBe(true);
       expect(content.indexOf('rogue') > -1).toBe(true);
       expect(content.indexOf('whisky') > -1).toBe(false);
@@ -153,7 +183,9 @@ describe('exportLocale', () => {
       expect(content.indexOf('contains\nnewline') > -1).toBe(true);
     });
     test('should export entries that have been changed since last import', async () => {
-      await fs.writeFile(path.resolve(sourceFolder, 'en-GB.js'), `
+      await fs.writeFile(
+        path.resolve(sourceFolder, 'en-GB.js'),
+        `
         export default {
           modern: 'rogue',
           whisky: 'Wizard',
@@ -161,25 +193,32 @@ describe('exportLocale', () => {
 
         // @key: @#@"whisky"@#@ @source: @#@"Wizard"@#@
         // @key: @#@"modern"@#@ @source: @#@"rogue"@#@
-      `);
+      `,
+      );
       exportLocale({
         sourceLocale,
         sourceFolder,
         localizationFolder,
-        supportedLocales: ['en-US', 'en-GB']
+        supportedLocales: ['en-US', 'en-GB'],
       });
-      const content = await fs.readFile(path.resolve(localizationFolder, 'en-GB.xlf'), 'utf8');
+      const content = await fs.readFile(
+        path.resolve(localizationFolder, 'en-GB.xlf'),
+        'utf8',
+      );
       expect(content.indexOf('modern') > -1).toBe(false);
       expect(content.indexOf('rogue') > -1).toBe(false);
       expect(content.indexOf('whisky') > -1).toBe(true);
       expect(content.indexOf('Vault') > -1).toBe(true);
     });
     test('should allow export with untranslated strings left empty', async () => {
-      await fs.writeFile(path.resolve(sourceFolder, 'en-GB.js'), `
+      await fs.writeFile(
+        path.resolve(sourceFolder, 'en-GB.js'),
+        `
         export default {
           modern: 'rogue',
         };
-      `);
+      `,
+      );
       exportLocale({
         sourceLocale,
         sourceFolder,
@@ -187,7 +226,10 @@ describe('exportLocale', () => {
         supportedLocales: ['en-US', 'en-GB'],
         fillEmptyWithSource: false,
       });
-      const content = await fs.readFile(path.resolve(localizationFolder, 'en-GB.xlf'), 'utf8');
+      const content = await fs.readFile(
+        path.resolve(localizationFolder, 'en-GB.xlf'),
+        'utf8',
+      );
       expect(content.indexOf('modern') > -1).toBe(false);
       expect(content.indexOf('rogue') > -1).toBe(false);
       expect(content.indexOf('whisky') > -1).toBe(true);

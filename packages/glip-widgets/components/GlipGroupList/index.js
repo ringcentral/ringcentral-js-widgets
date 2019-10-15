@@ -24,34 +24,24 @@ export default class GlipGroupList extends PureComponent {
     }
   }
 
-  _rowRenderer = ({
-    index,
-    key,
-    style,
-  }) => {
+  _rowRenderer = ({ index, key, style }) => {
     const group = this.props.groups[index];
     return (
-      <div
-        key={key}
-        style={style}
-      >
+      <div key={key} style={style}>
         <GlipGroupItem
           group={group}
           active={group.id === this.props.currentGroupId}
-          onSelectGroup={() => { this.props.onSelectGroup(group.id); }}
+          onSelectGroup={() => {
+            this.props.onSelectGroup(group.id);
+          }}
           className={styles.item}
         />
       </div>
     );
-  }
+  };
 
   render() {
-    const {
-      groups,
-      width,
-      height,
-      className,
-    } = this.props;
+    const { groups, width, height, className } = this.props;
     return (
       <List
         ref={this._list}

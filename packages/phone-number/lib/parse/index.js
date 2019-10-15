@@ -27,10 +27,10 @@ const extensionDelimiter = /[*#]/g;
  * @param {string} countryCode
  */
 function attachParsedCountryInfo(result, countryCode) {
-  const {
-    country = null,
-    phone = null,
-  } = parseNumber(result.phoneNumber, countryCode);
+  const { country = null, phone = null } = parseNumber(
+    result.phoneNumber,
+    countryCode,
+  );
   result.parsedCountry = country;
   result.parsedNumber = phone;
 }
@@ -108,10 +108,7 @@ function processLocalNumber(result, tokens, countryCode) {
  * @returns {ParsedResult}
  */
 export default function parse({ input, countryCode = 'US' }) {
-  const {
-    phoneNumber,
-    extendedControls,
-  } = extractControls(input);
+  const { phoneNumber, extendedControls } = extractControls(input);
   const cleanInput = cleanNumber(phoneNumber);
   const result = {
     input,

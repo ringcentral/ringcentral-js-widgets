@@ -10,7 +10,7 @@ export default function parseLocaleFile(rawContent) {
   const ast = parse(content, { sourceType: 'module' });
 
   const defaultExport = find(
-    item => item.type === 'ExportDefaultDeclaration',
+    (item) => item.type === 'ExportDefaultDeclaration',
     ast.program.body,
   );
   if (defaultExport && defaultExport.declaration.type === 'ObjectExpression') {
@@ -29,14 +29,11 @@ export default function parseLocaleFile(rawContent) {
       const value = eval(generate(prop.value).code);
       const source = annotations.get(key);
 
-      data.set(
+      data.set(key, {
         key,
-        {
-          key,
-          value,
-          source
-        }
-      );
+        value,
+        source,
+      });
     }, defaultExport.declaration.properties);
   }
 

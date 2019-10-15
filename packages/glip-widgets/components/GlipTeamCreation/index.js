@@ -13,12 +13,12 @@ export default class GlipTeamCreationModal extends Component {
       selectedContacts: [],
       teamName: '',
       creating: false,
-      error: null
+      error: null,
     };
 
     this.updateSeachString = (e) => {
       this.setState({
-        error: null
+        error: null,
       });
       const searchString = e.target.value;
       this.props.updateFilter(searchString);
@@ -28,14 +28,15 @@ export default class GlipTeamCreationModal extends Component {
       const name = e.target.value;
       this.setState({
         teamName: name,
-        error: null
+        error: null,
       });
     };
 
     this.removeContact = (email) => {
-      this.setState(previousState => ({
-        selectedContacts:
-          previousState.selectedContacts.filter(c => c.email !== email)
+      this.setState((previousState) => ({
+        selectedContacts: previousState.selectedContacts.filter(
+          (c) => c.email !== email,
+        ),
       }));
     };
 
@@ -44,7 +45,7 @@ export default class GlipTeamCreationModal extends Component {
       this.props.closeModal();
       this.setState({
         selectedContacts: [],
-        teamName: ''
+        teamName: '',
       });
     };
 
@@ -69,7 +70,7 @@ export default class GlipTeamCreationModal extends Component {
         this.setState({
           selectedContacts: [],
           teamName: '',
-          creating: false
+          creating: false,
         });
         this.props.closeModal();
       } catch (e) {
@@ -80,20 +81,23 @@ export default class GlipTeamCreationModal extends Component {
 
     this.addContact = (contact) => {
       this.setState({
-        error: null
+        error: null,
       });
       const email = contact.email || (contact.emails && contact.emails[0]);
-      const oldIndex = this.state.selectedContacts
-        .findIndex(c => c.email === email);
+      const oldIndex = this.state.selectedContacts.findIndex(
+        (c) => c.email === email,
+      );
       if (oldIndex > -1) {
         return;
       }
 
       this.setState({
-        selectedContacts: [{
-          name: contact.name,
-          email
-        }].concat(this.state.selectedContacts)
+        selectedContacts: [
+          {
+            name: contact.name,
+            email,
+          },
+        ].concat(this.state.selectedContacts),
       });
       this.props.updateFilter('');
     };
@@ -104,7 +108,9 @@ export default class GlipTeamCreationModal extends Component {
     if (this.props.searchFilter.length < 3) {
       contacts = [];
     } else {
-      contacts = this.props.filteredContacts.filter(c => c.emails.length).slice(0, 10);
+      contacts = this.props.filteredContacts
+        .filter((c) => c.emails.length)
+        .slice(0, 10);
     }
     // TODO: update title message with i18n
     return (
@@ -117,13 +123,9 @@ export default class GlipTeamCreationModal extends Component {
         textCancel="Close"
         textConfirm={this.state.creating ? 'Creating' : 'Create'}
       >
-        {
-          this.state.error ? (
-            <div className={styles.errorMessage}>
-              {this.state.error}
-            </div>
-          ) : null
-        }
+        {this.state.error ? (
+          <div className={styles.errorMessage}>{this.state.error}</div>
+        ) : null}
         <TextInput
           className={styles.teamName}
           value={this.state.teamName}
@@ -137,41 +139,36 @@ export default class GlipTeamCreationModal extends Component {
           placeholder="Search and add people.."
         />
         <div className={styles.selectedContacts}>
-          {
-            this.state.selectedContacts.map(contact => (
+          {this.state.selectedContacts.map((contact) => (
+            <span className={styles.selectedContactItem} key={contact.email}>
+              {contact.name}
               <span
-                className={styles.selectedContactItem}
-                key={contact.email}
+                className={styles.closeIcon}
+                onClick={() => this.removeContact(contact.email)}
               >
-                {contact.name}
-                <span
-                  className={styles.closeIcon}
-                  onClick={() => this.removeContact(contact.email)}
-                >
-                  x
-                </span>
+                x
               </span>
-            ))
-          }
+            </span>
+          ))}
         </div>
         <div className={styles.contacts}>
-          {
-            contacts.map(contact => (
-              <div
-                className={styles.contactItem}
-                key={contact.email || contact.emails && contact.emails[0]}
-                onClick={() => this.addContact(contact)}
-              >
-                <div className={styles.contactName} title={contact.name}>{contact.name}</div>
-                <div
-                  className={styles.contactEmail}
-                  title={contact.email || contact.emails && contact.emails[0]
-                }>
-                  {contact.email || contact.emails && contact.emails[0]}
-                </div>
+          {contacts.map((contact) => (
+            <div
+              className={styles.contactItem}
+              key={contact.email || (contact.emails && contact.emails[0])}
+              onClick={() => this.addContact(contact)}
+            >
+              <div className={styles.contactName} title={contact.name}>
+                {contact.name}
               </div>
-            ))
-          }
+              <div
+                className={styles.contactEmail}
+                title={contact.email || (contact.emails && contact.emails[0])}
+              >
+                {contact.email || (contact.emails && contact.emails[0])}
+              </div>
+            </div>
+          ))}
         </div>
       </Modal>
     );
@@ -184,5 +181,5 @@ GlipTeamCreationModal.propTypes = {
   createTeam: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
   searchFilter: PropTypes.string.isRequired,
-  filteredContacts: PropTypes.array.isRequired
+  filteredContacts: PropTypes.array.isRequired,
 };

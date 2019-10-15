@@ -18,8 +18,13 @@ function encodeValue(str) {
 
 async function generateSource() {
   await fs.ensureDir(sourceFolder);
-  await fs.writeFile(path.resolve(sourceFolder, 'loadLocale.js'), '/* loadLocale */');
-  await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
+  await fs.writeFile(
+    path.resolve(sourceFolder, 'loadLocale.js'),
+    '/* loadLocale */',
+  );
+  await fs.writeFile(
+    path.resolve(sourceFolder, 'en-US.js'),
+    `
     const obj = {
       key: 'testKey',
     };
@@ -37,7 +42,8 @@ async function generateSource() {
       419: 'number as key',
       [\`\${obj.key}-copy\`]: 'template as key',
     };
-  `);
+  `,
+  );
 }
 
 describe('importLocale', () => {
@@ -62,18 +68,22 @@ describe('importLocale', () => {
       error = e;
     }
 
-    expect(() => { throw error; }).toThrow('options.supportedLocales is missing');
+    expect(() => {
+      throw error;
+    }).toThrow('options.supportedLocales is missing');
   });
   test('should import generated xlf files', async () => {
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     const xlfContent = await fs.readFile(xlfPath, 'utf8');
-    await fs.writeFile(xlfPath, xlfContent.replace(
-      '<target>Vault</target',
-      '<target>Changed</target>'
-    ).replace(
-      '<target>testValue</target',
-      '<target>testValueChanged</target>'
-    ));
+    await fs.writeFile(
+      xlfPath,
+      xlfContent
+        .replace('<target>Vault</target', '<target>Changed</target>')
+        .replace(
+          '<target>testValue</target',
+          '<target>testValueChanged</target>',
+        ),
+    );
     await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
@@ -96,22 +106,44 @@ describe('importLocale', () => {
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
-    expect(content.indexOf(`// @key: ${encodeValue('modern')} @source: ${encodeValue('rogue')}`) > -1).toBe(true);
-    expect(content.indexOf(`// @key: ${encodeValue('whisky')} @source: ${encodeValue('Vault')}`) > -1).toBe(true);
-    expect(content.indexOf(`// @key: ${encodeValue('[obj.key]')} @source: ${encodeValue('testValue')}`) > -1).toBe(true);
-    expect(content.indexOf(`// @key: ${encodeValue('newline')} @source: ${encodeValue('containes\nnewline')}`) > -1).toBe(true);
+    expect(
+      content.indexOf(
+        `// @key: ${encodeValue('modern')} @source: ${encodeValue('rogue')}`,
+      ) > -1,
+    ).toBe(true);
+    expect(
+      content.indexOf(
+        `// @key: ${encodeValue('whisky')} @source: ${encodeValue('Vault')}`,
+      ) > -1,
+    ).toBe(true);
+    expect(
+      content.indexOf(
+        `// @key: ${encodeValue('[obj.key]')} @source: ${encodeValue(
+          'testValue',
+        )}`,
+      ) > -1,
+    ).toBe(true);
+    expect(
+      content.indexOf(
+        `// @key: ${encodeValue('newline')} @source: ${encodeValue(
+          'containes\nnewline',
+        )}`,
+      ) > -1,
+    ).toBe(true);
   });
 
   test('should only import keys where its source value is identical to current source', async () => {
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     const xlfContent = await fs.readFile(xlfPath, 'utf8');
-    await fs.writeFile(xlfPath, xlfContent.replace(
-      '<source>Vault</source',
-      '<source>Changed</source>'
-    ).replace(
-      '<source>testValue</source',
-      '<source>testValueChanged</source>'
-    ));
+    await fs.writeFile(
+      xlfPath,
+      xlfContent
+        .replace('<source>Vault</source', '<source>Changed</source>')
+        .replace(
+          '<source>testValue</source',
+          '<source>testValueChanged</source>',
+        ),
+    );
     await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
@@ -128,13 +160,15 @@ describe('importLocale', () => {
   test('should skip keys that no longer exist', async () => {
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     const xlfContent = await fs.readFile(xlfPath, 'utf8');
-    await fs.writeFile(xlfPath, xlfContent.replace(
-      '<source>Vault</source',
-      '<source>Changed</source>'
-    ).replace(
-      '<source>testValue</source',
-      '<source>testValueChanged</source>'
-    ));
+    await fs.writeFile(
+      xlfPath,
+      xlfContent
+        .replace('<source>Vault</source', '<source>Changed</source>')
+        .replace(
+          '<source>testValue</source',
+          '<source>testValueChanged</source>',
+        ),
+    );
     await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
@@ -152,7 +186,9 @@ describe('importLocale', () => {
     await importLocale(config);
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     await fs.remove(xlfPath);
-    await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
+    await fs.writeFile(
+      path.resolve(sourceFolder, 'en-US.js'),
+      `
       const obj = {
         key: 'testKey',
       };
@@ -163,7 +199,8 @@ describe('importLocale', () => {
         'single-quote': 'Single Quote',
         "double-'quote'": "Double Quote",
       };
-    `);
+    `,
+    );
     await importLocale({
       ...config,
     });
@@ -185,7 +222,9 @@ describe('importLocale', () => {
     await importLocale(config);
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     await fs.remove(xlfPath);
-    await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
+    await fs.writeFile(
+      path.resolve(sourceFolder, 'en-US.js'),
+      `
       const obj = {
         key: 'testKey',
       };
@@ -201,7 +240,8 @@ describe('importLocale', () => {
         template: \`hello
         world\`,
       };
-    `);
+    `,
+    );
     await importLocale(config);
 
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
@@ -216,7 +256,9 @@ describe('importLocale', () => {
   });
 
   test('it should work for files without trailing comma', async () => {
-    await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
+    await fs.writeFile(
+      path.resolve(sourceFolder, 'en-US.js'),
+      `
       const obj = {
         key: 'testKey',
       };
@@ -230,7 +272,8 @@ describe('importLocale', () => {
         "double-'quote'": "Double Quote",
         newKey: 'newKey'
       };
-    `);
+    `,
+    );
     exportLocale(config);
     await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');

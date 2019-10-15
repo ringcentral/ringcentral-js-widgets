@@ -3,7 +3,6 @@ import parse from '.';
 // const pizzahutUS = '+1 650-361-8700';
 const pizzahutUK = '+44 1473 748635';
 
-
 describe('parse', () => {
   test('detect invalid characters', () => {
     expect(parse({ input: 'abc' }).isValid).toBe(false);
@@ -152,13 +151,7 @@ describe('parse', () => {
 
   test('extract extended controls', () => {
     expect(parse({ input: '+12345,,123,45#' })).toMatchObject({
-      extendedControls: [
-        ',',
-        ',',
-        '123',
-        ',',
-        '45#'
-      ]
+      extendedControls: [',', ',', '123', ',', '45#'],
     });
   });
 });

@@ -7,10 +7,7 @@ import findLoaderFiles from '../findLoaderFiles';
 import parseLocaleFile from '../parseLocaleFile';
 
 export function findLocaleFiles(folderPath) {
-  return filter(
-    isLocaleFile,
-    fs.readdirSync(folderPath),
-  );
+  return filter(isLocaleFile, fs.readdirSync(folderPath));
 }
 
 export function compileData({ folderPath, sourceLocale, supportedLocales }) {
@@ -18,7 +15,10 @@ export function compileData({ folderPath, sourceLocale, supportedLocales }) {
     (data, file) => {
       const locale = formatLocale(file.replace(/\.(js|ts|json)$/i, ''));
       if (locale === sourceLocale || supportedLocales.indexOf(locale) > -1) {
-        const rawContent = fs.readFileSync(path.resolve(folderPath, file), 'utf8');
+        const rawContent = fs.readFileSync(
+          path.resolve(folderPath, file),
+          'utf8',
+        );
         data.files[locale] = {
           file,
           locale,
@@ -36,7 +36,6 @@ export function compileData({ folderPath, sourceLocale, supportedLocales }) {
   );
 }
 
-
 export default function compileLocaleData({
   sourceFolder,
   sourceLocale,
@@ -53,6 +52,6 @@ export default function compileLocaleData({
       return data;
     },
     {},
-    findLoaderFiles(sourceFolder)
+    findLoaderFiles(sourceFolder),
   );
 }

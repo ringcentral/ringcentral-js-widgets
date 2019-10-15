@@ -22,7 +22,9 @@ export function getPresenceStatusName(presence, currentLocale) {
 }
 
 function AvatarNode({ name, avatarUrl, isInactive }) {
-  const avatarStyle = isInactive ? styles.inactiveAvatarNode : styles.avatarNode;
+  const avatarStyle = isInactive
+    ? styles.inactiveAvatarNode
+    : styles.avatarNode;
   return (
     <PlaceholderImage
       className={avatarStyle}
@@ -49,7 +51,7 @@ export default class ContactDetails extends PureComponent {
 
     this.props.onClickToDial({
       ...contact,
-      phoneNumber
+      phoneNumber,
     });
   };
 
@@ -58,7 +60,7 @@ export default class ContactDetails extends PureComponent {
 
     this.props.onClickToSMS({
       ...contact,
-      phoneNumber
+      phoneNumber,
     });
   };
 
@@ -98,17 +100,21 @@ export default class ContactDetails extends PureComponent {
       presence,
       profileImageUrl,
       type,
-      contactStatus
+      contactStatus,
     } = contactItem;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
-    const presenceName = presence ?
-      getPresenceStatusName(presence, currentLocale) :
-      null;
+    const presenceName = presence
+      ? getPresenceStatusName(presence, currentLocale)
+      : null;
     return (
       <div className={styles.contactProfile}>
         <div className={styles.avatar}>
           <div className={styles.avatarNodeContainer}>
-            <AvatarNode name={name} avatarUrl={profileImageUrl} isInactive={contactStatus === 'NotActivated'} />
+            <AvatarNode
+              name={name}
+              avatarUrl={profileImageUrl}
+              isInactive={contactStatus === 'NotActivated'}
+            />
             {sourceNode ? (
               <div className={styles.sourceNodeContainer}>{sourceNode}</div>
             ) : null}
@@ -118,16 +124,25 @@ export default class ContactDetails extends PureComponent {
           <div
             className={classnames(
               styles.name,
-              !presence ? styles.nameWithoutPresence : null
+              !presence ? styles.nameWithoutPresence : null,
             )}
           >
-            <span style={contactStatus === 'NotActivated' ? { color: '#999999', fontSize: '12px' } : null} title={name}>{name}</span>
+            <span
+              style={
+                contactStatus === 'NotActivated'
+                  ? { color: '#999999', fontSize: '12px' }
+                  : null
+              }
+              title={name}
+            >
+              {name}
+            </span>
           </div>
           {this.renderPresence(
             contactStatus,
             presence,
             presenceName,
-            currentLocale
+            currentLocale,
           )}
         </div>
       </div>
@@ -140,9 +155,7 @@ export default class ContactDetails extends PureComponent {
         <div className={styles.label}>
           <span>{label}</span>
         </div>
-        <ul>
-          { listComp }
-        </ul>
+        <ul className={styles.content}>{listComp}</ul>
       </div>
     );
   }
@@ -168,114 +181,108 @@ export default class ContactDetails extends PureComponent {
 
     return (
       <li key={key}>
-        <div className={styles.number}>
-          <span data-sign="contactNumber" title={displayedPhoneNumber}>{displayedPhoneNumber}</span>
+        <div className={classnames(styles.text, styles.number)}>
+          <span data-sign="contactNumber" title={displayedPhoneNumber}>
+            {displayedPhoneNumber}
+          </span>
         </div>
         <div className={styles.menu}>
-          {showCallBtn ?
-            (
-              <button
-                className={classnames(
-                  disableCallButton && styles.disabled
-                )}
-                title={i18n.getString('call', currentLocale)}
-                onClick={() => this.onClickToDial(contactItem, number)}
-              >
-                <i className={dynamicsFont.call} />
-              </button>
-            ) :
-            null
-          }
-          {showTextBtn ?
-            (
-              <button
-                className={classnames(
-                  disableLinks && styles.disabled
-                )}
-                title={i18n.getString('text', currentLocale)}
-                onClick={() => this.onClickToSMS(contactItem, number)}
+          {showCallBtn ? (
+            <button
+              className={classnames(disableCallButton && styles.disabled)}
+              title={i18n.getString('call', currentLocale)}
+              onClick={() => this.onClickToDial(contactItem, number)}
             >
-                <i className={dynamicsFont.composeText} />
-              </button>
-            ) :
-            null
-          }
+              <i className={dynamicsFont.call} />
+            </button>
+          ) : null}
+          {showTextBtn ? (
+            <button
+              className={classnames(disableLinks && styles.disabled)}
+              title={i18n.getString('text', currentLocale)}
+              onClick={() => this.onClickToSMS(contactItem, number)}
+            >
+              <i className={dynamicsFont.composeText} />
+            </button>
+          ) : null}
         </div>
       </li>
     );
   }
 
   getPhoneSections() {
-    const { contactItem, currentLocale, disableLinks, disableCallButton } = this.props;
+    const {
+      contactItem,
+      currentLocale,
+      disableLinks,
+      disableCallButton,
+    } = this.props;
     const { phoneNumbers, phoneMaps, schema } = contactItem;
     if (!phoneNumbers.length) {
       return null;
     }
 
     return (
-      <div className={styles.contacts}>
-        {
-          map(
-            (key) => {
-              switch (key) {
-                case phoneTypes.extension: {
-                  return this.getListContainerBuilder(
-                    i18n.getString(phoneTypes.extension, currentLocale),
-                    map(
-                      phoneNumberElm => this.getListItem({
-                        showCallBtn: this.props.internalSmsPermission,
-                        showTextBtn: this.props.onClickToDial,
-                        disableLinks,
-                        disableCallButton,
-                        key: phoneNumberElm.phoneNumber,
-                        number: phoneNumberElm.phoneNumber,
-                        currentLocale,
-                        contactItem,
-
-                      }),
-                      phoneMaps[key]
-                    )
-                  );
-                }
-                case phoneTypes.fax: {
-                  return this.getListContainerBuilder(
-                    i18n.getString(phoneTypes.fax, currentLocale),
-                    map(
-                      phoneNumberElm => this.getListItem({
-                        showCallBtn: false,
-                        showTextBtn: false,
-                        key: phoneNumberElm.phoneNumber,
-                        number: phoneNumberElm.phoneNumber,
-                        currentLocale,
-                        contactItem,
-                      }),
-                      phoneMaps[key]
-                    )
-                  );
-                }
-                default: {
-                  return this.getListContainerBuilder(
-                    i18n.getString(phoneTypes[key], currentLocale),
-                    map(
-                      phoneNumberElm => this.getListItem({
-                        showCallBtn: this.props.onClickToDial,
-                        showTextBtn: this.props.outboundSmsPermission,
-                        disableLinks,
-                        disableCallButton,
-                        key: phoneNumberElm.phoneNumber,
-                        number: phoneNumberElm.phoneNumber,
-                        currentLocale,
-                        contactItem,
-                      }),
-                      phoneMaps[key]
-                    )
-                  );
-                }
-              }
-            },
-            schema,
-          )
-        }
+      <div className={classnames(styles.section, styles.contacts)}>
+        {map((key) => {
+          switch (key) {
+            case phoneTypes.extension: {
+              return this.getListContainerBuilder(
+                i18n.getString(phoneTypes.extension, currentLocale),
+                map(
+                  (phoneNumberElm) =>
+                    this.getListItem({
+                      showCallBtn: this.props.internalSmsPermission,
+                      showTextBtn: this.props.onClickToDial,
+                      disableLinks,
+                      disableCallButton,
+                      key: phoneNumberElm.phoneNumber,
+                      number: phoneNumberElm.phoneNumber,
+                      currentLocale,
+                      contactItem,
+                    }),
+                  phoneMaps[key],
+                ),
+              );
+            }
+            case phoneTypes.fax: {
+              return this.getListContainerBuilder(
+                i18n.getString(phoneTypes.fax, currentLocale),
+                map(
+                  (phoneNumberElm) =>
+                    this.getListItem({
+                      showCallBtn: false,
+                      showTextBtn: false,
+                      key: phoneNumberElm.phoneNumber,
+                      number: phoneNumberElm.phoneNumber,
+                      currentLocale,
+                      contactItem,
+                    }),
+                  phoneMaps[key],
+                ),
+              );
+            }
+            default: {
+              return this.getListContainerBuilder(
+                i18n.getString(phoneTypes[key], currentLocale),
+                map(
+                  (phoneNumberElm) =>
+                    this.getListItem({
+                      showCallBtn: this.props.onClickToDial,
+                      showTextBtn: this.props.outboundSmsPermission,
+                      disableLinks,
+                      disableCallButton,
+                      key: phoneNumberElm.phoneNumber,
+                      number: phoneNumberElm.phoneNumber,
+                      currentLocale,
+                      contactItem,
+                    }),
+                  phoneMaps[key],
+                ),
+              );
+            }
+          }
+        }, schema)}
       </div>
     );
   }
@@ -297,11 +304,38 @@ export default class ContactDetails extends PureComponent {
       </li>
     ));
     return (
-      <div>
+      <div className={classnames(styles.section, styles.email)}>
         <div className={styles.label}>
           <span>{i18n.getString('emailLabel', this.props.currentLocale)}</span>
         </div>
-        <ul>{emailListView}</ul>
+        <ul className={styles.content}>{emailListView}</ul>
+      </div>
+    );
+  }
+
+  renderCompanyInfo() {
+    const { currentLocale, contactItem } = this.props;
+    const { company, jobTitle } = contactItem;
+    if (!company && !jobTitle) {
+      return null;
+    }
+    const companyInfo = {
+      company,
+      jobTitle,
+    };
+    const companyItems = Object.keys(companyInfo).map((key) => (
+      <div className={styles.item} key={key}>
+        <div className={styles.label}>
+          <span>{i18n.getString(key, currentLocale)}</span>
+        </div>
+        <div className={styles.content}>
+          <span className={styles.text}>{companyInfo[key]}</span>
+        </div>
+      </div>
+    ));
+    return (
+      <div className={classnames(styles.section, styles.companyInfo)}>
+        {companyItems}
       </div>
     );
   }
@@ -310,8 +344,9 @@ export default class ContactDetails extends PureComponent {
     return (
       <div className={styles.root}>
         <div className={styles.profile}>{this.renderProfile()}</div>
-        { this.getPhoneSections() }
-        <div className={styles.email}>{this.renderEmailCell()}</div>
+        {this.renderCompanyInfo()}
+        {this.getPhoneSections()}
+        {this.renderEmailCell()}
       </div>
     );
   }
@@ -327,10 +362,10 @@ export const contactItemPropTypes = {
   phoneNumbers: PropTypes.arrayOf(
     PropTypes.shape({
       phoneNumber: PropTypes.string,
-      phoneType: PropTypes.string
-    })
+      phoneType: PropTypes.string,
+    }),
   ),
-  contactStatus: PropTypes.string
+  contactStatus: PropTypes.string,
 };
 
 ContactDetails.propTypes = {

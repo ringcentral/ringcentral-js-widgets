@@ -9,13 +9,10 @@ function extractKey(str) {
 
 function extractXlfData({ locale, content }) {
   const data = xml.xml2js(content, { compact: true });
-  if (
-    data.xliff &&
-    data.xliff.file
-  ) {
-    const files = Array.isArray(data.xliff.file) ?
-      data.xliff.file :
-      [data.xliff.file];
+  if (data.xliff && data.xliff.file) {
+    const files = Array.isArray(data.xliff.file)
+      ? data.xliff.file
+      : [data.xliff.file];
     return reduce(
       (output, fileData) => {
         if (
@@ -26,9 +23,9 @@ function extractXlfData({ locale, content }) {
         ) {
           const fileName = fileData._attributes.original;
 
-          const units = Array.isArray(fileData.body['trans-unit']) ?
-            fileData.body['trans-unit'] :
-            [fileData.body['trans-unit']];
+          const units = Array.isArray(fileData.body['trans-unit'])
+            ? fileData.body['trans-unit']
+            : [fileData.body['trans-unit']];
           output[fileName] = reduce(
             (fileOutput, unit) => {
               if (
@@ -57,22 +54,18 @@ function extractXlfData({ locale, content }) {
   return {};
 }
 
-
-export default function readXlfData({
-  localizationFolder,
-  supportedLocales,
-}) {
+export default function readXlfData({ localizationFolder, supportedLocales }) {
   return reduce(
     (data, locale) => {
       const fileName = `${locale}.xlf`;
       const filePath = path.resolve(localizationFolder, fileName);
-      if ((fs.existsSync(filePath)) && (fs.statSync(filePath)).isFile()) {
+      if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
         const content = fs.readFileSync(filePath, 'utf8');
         data[locale] = extractXlfData({ locale, content });
       }
       return data;
     },
     {},
-    supportedLocales
+    supportedLocales,
   );
 }

@@ -5,16 +5,10 @@ import localeLoader from '.';
 
 const testFolder = './testData';
 
-const files = [
-  'en_us.js',
-  'FR-FR.JS',
-  'aa-AAAA-ZZ.JS',
-];
+const files = ['en_us.js', 'FR-FR.JS', 'aa-AAAA-ZZ.JS'];
 
 class MockBuilder {
-  constructor({
-    input,
-  }) {
+  constructor({ input }) {
     this.input = input;
   }
   async run() {

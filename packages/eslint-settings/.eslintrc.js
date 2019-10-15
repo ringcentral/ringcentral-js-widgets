@@ -29,15 +29,13 @@ module.exports = {
   globals: {
     $: true,
   },
-  plugins: [
-    'import'
-  ],
+  plugins: ['import'],
   settings: {
     'import/resolver': {
-      'node': {
-        'extensions': allExtensions
-      }
-    }
+      node: {
+        extensions: allExtensions,
+      },
+    },
   },
   rules: {
     'max-len': [
@@ -51,7 +49,8 @@ module.exports = {
         ignoreRegExpLiterals: true,
       },
     ],
-    'operator-linebreak': [1, 'after'],
+    'object-curly-newline': 0,
+    'object-curly-spacing': ['error', 'always'],
     'object-shorthand': [
       2,
       'always',
@@ -79,28 +78,32 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     'jsx-a11y/mouse-events-have-key-events': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/anchor-is-valid': 0,
     'linebreak-style': 'off',
+    'lines-between-class-members': [
+      'error',
+      'always',
+      { exceptAfterSingleLine: true },
+    ],
     'no-await-in-loop': 0,
     'no-console': 0,
-    'no-empty-function': 1,
+    'no-empty-function': 0,
     'no-param-reassign': 0, // [].reduce are easier with this turned off,
+    'no-shadow': 0,
+    'no-underscore-dangle': 0,
+    'no-unused-vars': 1,
+    'no-mixed-operators': 0,
     'no-restricted-syntax': [
       2,
       'DebuggerStatement',
       'LabeledStatement',
       'WithStatement',
     ],
-    'no-shadow': 0,
-    'no-underscore-dangle': 0,
-    'no-unused-vars': 1,
-    'object-curly-newline': 0,
-    'object-curly-spacing': ['error', 'always'],
     'react/destructuring-assignment': 1,
     'react/sort-comp': 0,
     'react/forbid-prop-types': 0,
     'react/jsx-closing-bracket-location': 0,
-    'jsx-a11y/click-events-have-key-events': 0,
-    'jsx-a11y/anchor-is-valid': 0,
     'react/jsx-filename-extension': [
       1,
       {
@@ -109,11 +112,15 @@ module.exports = {
     ],
     'react/no-array-index-key': 0,
     'react/require-default-props': 1,
-    'no-mixed-operators': 0,
     'react/no-did-mount-set-state': 0, // dom size detection after mount may require setState in didMount
-    'consistent-return': 0,
     'react/jsx-no-target-blank': 0,
-    'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }]
+    'react/no-this-in-sfc': 0,
+    'consistent-return': 0,
+    'react/jsx-wrap-multilines': [
+      'error',
+      { declaration: false, assignment: false },
+    ],
+    'react/jsx-one-expression-per-line': 0,
   },
   overrides: [
     {
@@ -135,38 +142,42 @@ module.exports = {
     {
       files: tsRegex,
       env: {
-        browser: true
+        browser: true,
       },
       parser: '@typescript-eslint/parser',
       parserOptions: {
         jsx: true,
-        ecmaVersion: 2018,  // Allows for the parsing of modern ECMAScript features
-        sourceType: 'module',  // Allows for the use of imports
+        ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+        sourceType: 'module', // Allows for the use of imports
       },
       plugins: ['@typescript-eslint', 'import'],
       settings: {
         'import/extensions': allExtensions,
         'import/parsers': {
-          '@typescript-eslint/parser': tsExtensions
-         },
-         'import/resolver': {
-             'node': {
-                 'extensions': allExtensions
-             }
-         }
+          '@typescript-eslint/parser': tsExtensions,
+        },
+        'import/resolver': {
+          node: {
+            extensions: allExtensions,
+          },
+        },
       },
       rules: {
         'react/prop-types': 0,
-        'import/no-unresolved': [2, {commonjs: true, amd: true}],
-        'import/named': 2,
+        'import/no-unresolved': [2, { commonjs: true, amd: true }],
+        'import/named': 0,
         'import/namespace': 2,
         'import/default': 2,
         'import/export': 2,
-        'arrow-parens': ['error', 'always'],
+        'arrow-parens': [2, 'always'],
         'no-useless-constructor': 'off',
-        '@typescript-eslint/no-useless-constructor': 'error',
-        'object-shorthand': ['error', 'always']
-      }
-    }
+        'no-unused-vars': 0,
+        '@typescript-eslint/no-useless-constructor': 2,
+        '@typescript-eslint/no-unused-vars': 2,
+        'object-shorthand': [2, 'always'],
+        'no-unused-vars': 0,
+        '@typescript-eslint/no-unused-vars': 1,
+      },
+    },
   ],
 };

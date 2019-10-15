@@ -11,9 +11,7 @@ import GlipPostContent from '../GlipPostContent';
 function PostAvatar({ creator, viewProfile }) {
   if (!creator) {
     // TODO: update alt with i18n
-    return (
-      <img src={defaultAvatar} alt="default avatar" />
-    );
+    return <img src={defaultAvatar} alt="default avatar" />;
   }
   return (
     <img
@@ -60,9 +58,7 @@ function PostStatus({ sendStatus }) {
   }
   // TODO: update sending status with i18n
   return (
-    <span>
-      ({sendStatus === status.creating ? 'Sending' : 'Send failed'})
-    </span>
+    <span>({sendStatus === status.creating ? 'Sending' : 'Send failed'})</span>
   );
 }
 
@@ -78,11 +74,7 @@ function PostTime({ creationTime }) {
   if (!creationTime) {
     return null;
   }
-  return (
-    <div className={styles.time}>
-      {creationTime}
-    </div>
-  );
+  return <div className={styles.time}>{creationTime}</div>;
 }
 
 PostTime.propTypes = {
@@ -103,24 +95,17 @@ export default function GlipPost({
 }) {
   let addedPersons = null;
   if (post.type === 'PersonsAdded') {
-    addedPersons = post.addedPersonIds && post.addedPersonIds.map((id) => {
-      const peronName = atRender({ id, type: 'Person' });
-      return (
-        <span key={id}>{peronName}</span>
-      );
-    });
+    addedPersons =
+      post.addedPersonIds &&
+      post.addedPersonIds.map((id) => {
+        const peronName = atRender({ id, type: 'Person' });
+        return <span key={id}>{peronName}</span>;
+      });
   }
   // TODO: update joining status with i18n
   return (
-    <div
-      className={classnames(
-        styles.root,
-        className,
-      )}
-    >
-      <PostTime
-        creationTime={creationTime}
-      />
+    <div className={classnames(styles.root, className)}>
+      <PostTime creationTime={creationTime} />
       <div className={styles.avatar}>
         <PostAvatar creator={post.creator} viewProfile={viewProfile} />
       </div>
@@ -131,15 +116,15 @@ export default function GlipPost({
             showName={showName || post.type !== 'TextMessage'}
             viewProfile={viewProfile}
           />
-          { post.type === 'PersonJoined' ? 'joined the team' : null }
-          { post.type === 'PersonsAdded' ? 'added ' : null }
-          { addedPersons }
-          { post.type === 'PersonsAdded' ? 'to the team' : null }
+          {post.type === 'PersonJoined' ? 'joined the team' : null}
+          {post.type === 'PersonsAdded' ? 'added ' : null}
+          {addedPersons}
+          {post.type === 'PersonsAdded' ? 'to the team' : null}
           <PostStatus sendStatus={post.sendStatus} />
         </div>
-        {
-          post.type === 'TextMessage' ? <GlipPostContent post={post} atRender={atRender} /> : null
-        }
+        {post.type === 'TextMessage' ? (
+          <GlipPostContent post={post} atRender={atRender} />
+        ) : null}
       </div>
     </div>
   );

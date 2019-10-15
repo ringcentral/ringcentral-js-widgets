@@ -3,18 +3,14 @@ import gulp from 'gulp';
 import fs from 'fs-extra';
 import transformLocaleLoader from '.';
 
-
 const sourceFolder = './testData-transformLocaleLoader';
 
-const files = [
-  'en_us.js',
-  'FR-FR.JS',
-  'aa-AAAA-ZZ.JS',
-];
+const files = ['en_us.js', 'FR-FR.JS', 'aa-AAAA-ZZ.JS'];
 
 function transform() {
   return new Promise((resolve, reject) => {
-    gulp.src(path.resolve(sourceFolder, 'loadLocale.js'))
+    gulp
+      .src(path.resolve(sourceFolder, 'loadLocale.js'))
       .pipe(transformLocaleLoader())
       .pipe(gulp.dest(path.resolve(sourceFolder, 'output')))
       .on('end', resolve)
@@ -24,9 +20,9 @@ function transform() {
 
 describe('transformLocaleLoader', () => {
   beforeAll(async () => {
-    await Promise.all(files.map(f => (
-      fs.ensureFile(path.resolve(sourceFolder, f))
-    )));
+    await Promise.all(
+      files.map((f) => fs.ensureFile(path.resolve(sourceFolder, f))),
+    );
   });
   afterAll(async () => {
     await fs.remove(sourceFolder);

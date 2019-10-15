@@ -41,17 +41,12 @@ LatestPost.defaultProps = {
   latestPost: null,
 };
 
-export default function GlipGroup({
-  group,
-  className,
-  onSelectGroup,
-  active,
-}) {
+export default function GlipGroup({ group, className, onSelectGroup, active }) {
   return (
     <div
       className={classnames(
         styles.root,
-        (active ? styles.active : null),
+        active ? styles.active : null,
         className,
       )}
       onClick={onSelectGroup}

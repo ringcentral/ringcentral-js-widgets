@@ -9,6 +9,7 @@ export default {
   [phoneTypes.home]: 'Home',
   [phoneTypes.business]: 'Business',
   [phoneTypes.fax]: 'Fax',
+  [phoneTypes.company]: 'Company',
   [phoneTypes.other]: 'Other',
   emailLabel: 'Email',
   call: 'Call',
@@ -18,4 +19,6 @@ export default {
   [presenceStatus.busy]: 'Busy',
   [dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
   notActivated: 'Inactive',
+  company: 'Company',
+  jobTitle: 'Title',
 };

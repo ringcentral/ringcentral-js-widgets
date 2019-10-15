@@ -13,7 +13,7 @@
   "scripts": {
     "debug": "node --inspect ./node_modules/.bin/jest -i",
     "test": "yarn test:jest",
-    "test:jest": "jest --no-cache --maxWorkers=5",
+    "test:jest": "jest",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
     "test:showCoverage": "cat ./coverage/lcov.info | coveralls",
@@ -39,14 +39,14 @@
     "moment": "^2.24.0",
     "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
-    "ramda": "^0.25.0",
+    "ramda": "^0.26.1",
     "rc-tooltip": "^3.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^5.1.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
-    "redux": "^4.0.1",
+    "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.2.1",
@@ -54,7 +54,7 @@
     "ringcentral-integration": "^0.10.6",
     "ringcentral-widgets": "^0.10.6",
     "ringcentral-widgets-demo": "^0.0.1",
-    "yargs": "^11.1.0"
+    "yargs": "^14.0.0"
   },
   "jest": {
     "moduleNameMapper": {
@@ -63,7 +63,7 @@
       "\\.(css|less|scss)$": "<rootDir>/test/__mocks__/styleMock.js"
     },
     "transform": {
-      "loadLocale\\.js$": "<rootDir>/test/__mocks__/loadLocale.js",
+      "loadLocale\\.(t|j)s$": "<rootDir>/test/__mocks__/loadLocale.js",
       "^.+\\.(t|j)sx?$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     },
     "setupFiles": [
