@@ -15,7 +15,7 @@
   "license": "MIT",
   "private": false,
   "peerDependencies": {
-    "@babel/polyfill": "^7.2.5"
+    "@babel/polyfill": "^7.6.0"
   },
   "jest": {
     "transform": {
