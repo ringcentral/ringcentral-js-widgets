@@ -19,6 +19,10 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.promise");
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
@@ -89,7 +93,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -285,7 +291,7 @@ function (_RcModule) {
     value: function track(event, _ref3) {
       var properties = Object.assign({}, _ref3);
 
-      var trackProps = _objectSpread({}, this.trackProps, properties);
+      var trackProps = _objectSpread({}, this.trackProps, {}, properties);
 
       if (this.analytics) {
         this.analytics.track(event, trackProps);
@@ -596,10 +602,10 @@ function (_RcModule) {
 
         var path = action.payload && action.payload.pathname;
 
-        var target = this._getTrackTarget(path);
+        var _target = this._getTrackTarget(path);
 
-        if (target) {
-          this.trackNavigation(_objectSpread({}, target));
+        if (_target) {
+          this.trackNavigation(_objectSpread({}, _target));
         }
 
         this._lingerTimeout = setTimeout(function () {
@@ -609,7 +615,7 @@ function (_RcModule) {
 
           _this4._lingerTimeout = null;
 
-          _this4.trackLinger(_objectSpread({}, target));
+          _this4.trackLinger(_objectSpread({}, _target));
         }, this._lingerThreshold);
       }
     }

@@ -13,7 +13,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var _default = new _Enum["default"](['softphone', // desktop
 'ringout', // branding rc..
-'webphone'], 'callingModes');
+'webphone' // webrtc
+], 'callingModes');
 
 exports["default"] = _default;
 //# sourceMappingURL=callingModes.js.map

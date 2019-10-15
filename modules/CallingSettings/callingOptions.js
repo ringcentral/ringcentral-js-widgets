@@ -15,7 +15,8 @@ var _default = new _Enum["default"](['softphone', // desktop
 'myphone', // ringout branding rc..
 'otherphone', // ringout
 'customphone', // ringout
-'browser'], 'callingOptions');
+'browser' // webphone
+], 'callingOptions');
 
 exports["default"] = _default;
 //# sourceMappingURL=callingOptions.js.map

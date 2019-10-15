@@ -9,6 +9,10 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.promise");
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
@@ -81,7 +85,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -179,10 +185,10 @@ function (_RcModule) {
           // }
 
           for (var _i = 0, _Object$keys = Object.keys(this.contacts); _i < _Object$keys.length; _i++) {
-            var key = _Object$keys[_i];
+            var _key = _Object$keys[_i];
             this.getMessages({
-              currentContact: this.contacts[key],
-              sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
+              currentContact: this.contacts[_key],
+              sessionId: _key.indexOf('-') > -1 ? _key.split('-')[1] : null,
               fromLocale: false,
               forceUpdate: true
             });
@@ -357,8 +363,8 @@ function (_RcModule) {
       var recentMessages = [];
       var matches;
 
-      for (var i = conversations.length - 1; i >= 0; i -= 1) {
-        var conversation = conversations[i];
+      for (var _i2 = conversations.length - 1; _i2 >= 0; _i2 -= 1) {
+        var conversation = conversations[_i2];
         var messageList = this._messageStore.conversationStore[conversation.conversationId] || [];
         matches = phoneNumbers.find(this._filterPhoneNumber(conversation)); // Check if message is within certain days
 

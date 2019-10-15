@@ -13,6 +13,10 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.array.is-array");
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
@@ -117,7 +121,7 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -127,7 +131,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1475,8 +1481,8 @@ function (_RcModule) {
     key: "_hideConnectingAlert",
     value: function _hideConnectingAlert() {
       var alertIds = this._alert.messages.filter(function (m) {
-        for (var i = 0, len = registerErrors.length; i < len; i += 1) {
-          if (m.message === registerErrors[i] && m.payload && m.payload.isConnecting === true) return true;
+        for (var _i = 0, len = registerErrors.length; _i < len; _i += 1) {
+          if (m.message === registerErrors[_i] && m.payload && m.payload.isConnecting === true) return true;
         }
 
         return false;
@@ -1500,8 +1506,8 @@ function (_RcModule) {
             switch (_context12.prev = _context12.next) {
               case 0:
                 alertIds = this._alert.messages.filter(function (m) {
-                  for (var i = 0, len = registerErrors.length; i < len; i += 1) {
-                    if (m.message === registerErrors[i] && !m.payload.isConnecting) return true;
+                  for (var _i2 = 0, len = registerErrors.length; _i2 < len; _i2 += 1) {
+                    if (m.message === registerErrors[_i2] && !m.payload.isConnecting) return true;
                   }
 
                   return false;
@@ -1531,8 +1537,8 @@ function (_RcModule) {
     key: "_hideRegisterErrorAlert",
     value: function _hideRegisterErrorAlert() {
       var alertIds = this._alert.messages.filter(function (m) {
-        for (var i = 0, len = registerErrors.length; i < len; i += 1) {
-          if (m.message === registerErrors[i]) return true;
+        for (var _i3 = 0, len = registerErrors.length; _i3 < len; _i3 += 1) {
+          if (m.message === registerErrors[_i3]) return true;
         }
 
         return false;
@@ -1641,17 +1647,18 @@ function (_RcModule) {
       var _playExtendedControls2 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee14(session) {
-        var controls, i, len;
+        var controls, _i4, len;
+
         return regeneratorRuntime.wrap(function _callee14$(_context15) {
           while (1) {
             switch (_context15.prev = _context15.next) {
               case 0:
                 session.__rc_extendedControlStatus = extendedControlStatus.playing;
                 controls = session.__rc_extendedControls.slice();
-                i = 0, len = controls.length;
+                _i4 = 0, len = controls.length;
 
               case 3:
-                if (!(i < len)) {
+                if (!(_i4 < len)) {
                   _context15.next = 18;
                   break;
                 }
@@ -1661,7 +1668,7 @@ function (_RcModule) {
                   break;
                 }
 
-                if (!(controls[i] === ',')) {
+                if (!(controls[_i4] === ',')) {
                   _context15.next = 10;
                   break;
                 }
@@ -1675,7 +1682,7 @@ function (_RcModule) {
 
               case 10:
                 _context15.next = 12;
-                return this._sendDTMF(controls[i], session);
+                return this._sendDTMF(controls[_i4], session);
 
               case 12:
                 _context15.next = 15;
@@ -1685,7 +1692,7 @@ function (_RcModule) {
                 return _context15.abrupt("return");
 
               case 15:
-                i += 1;
+                _i4 += 1;
                 _context15.next = 3;
                 break;
 

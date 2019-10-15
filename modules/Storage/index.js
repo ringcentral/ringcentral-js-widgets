@@ -9,6 +9,10 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.promise");
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
@@ -51,7 +55,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -133,7 +139,7 @@ function (_StorageBase) {
       _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee() {
-        var storageKey, key, currentData, _key;
+        var storageKey, _key, currentData, _key2;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -165,16 +171,16 @@ function (_StorageBase) {
                   break;
                 }
 
-                key = _context.t1.value;
+                _key = _context.t1.value;
 
-                if (_this2._reducers[key]) {
+                if (_this2._reducers[_key]) {
                   _context.next = 14;
                   break;
                 }
 
-                delete storedData[key];
+                delete storedData[_key];
                 _context.next = 14;
-                return _this2._storage.removeItem(key);
+                return _this2._storage.removeItem(_key);
 
               case 14:
                 _context.next = 8;
@@ -240,11 +246,11 @@ function (_StorageBase) {
                   // save new data to storage when changed
                   currentData = _this2.data;
 
-                  for (_key in currentData) {
-                    if (storedData[_key] !== currentData[_key]) {
-                      _this2._storage.setItem(_key, currentData[_key]);
+                  for (_key2 in currentData) {
+                    if (storedData[_key2] !== currentData[_key2]) {
+                      _this2._storage.setItem(_key2, currentData[_key2]);
 
-                      storedData[_key] = currentData[_key];
+                      storedData[_key2] = currentData[_key2];
                     }
                   }
                 }
