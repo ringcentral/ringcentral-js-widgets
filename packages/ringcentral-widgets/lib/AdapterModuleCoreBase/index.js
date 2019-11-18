@@ -211,7 +211,7 @@ export default class AdapterModuleCoreBase extends RcModule {
   @proxify
   async _syncSize(size = {}) {
     this.store.dispatch({
-      type: this.acitonTypes.syncSize,
+      type: this.actionTypes.syncSize,
       size,
     });
   }
