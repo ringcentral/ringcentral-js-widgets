@@ -4,6 +4,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -23,10 +25,6 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
@@ -40,6 +38,8 @@ var _classnames = _interopRequireDefault(require("classnames"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireWildcard(require("react"));
+
+var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -69,15 +69,11 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -99,7 +95,16 @@ function ConfirmDeleteModal(_ref) {
   var currentLocale = _ref.currentLocale,
       show = _ref.show,
       onDelete = _ref.onDelete,
-      onCancel = _ref.onCancel;
+      onCancel = _ref.onCancel,
+      type = _ref.type;
+  var tip;
+
+  if (type === _messageTypes["default"].fax) {
+    tip = _i18n["default"].getString('sureToDeleteFax', currentLocale);
+  } else {
+    tip = _i18n["default"].getString('sureToDeleteVoiceMail', currentLocale);
+  }
+
   return _react["default"].createElement(_Modal["default"], {
     show: show,
     currentLocale: currentLocale,
@@ -107,18 +112,20 @@ function ConfirmDeleteModal(_ref) {
     onCancel: onCancel
   }, _react["default"].createElement("div", {
     className: _styles["default"].contentText
-  }, _i18n["default"].getString('sureToDeleteVoiceMail', currentLocale)));
+  }, tip));
 }
 
 ConfirmDeleteModal.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
   show: _propTypes["default"].bool.isRequired,
   onDelete: _propTypes["default"].func,
-  onCancel: _propTypes["default"].func
+  onCancel: _propTypes["default"].func,
+  type: _propTypes["default"].string
 };
 ConfirmDeleteModal.defaultProps = {
   onDelete: function onDelete() {},
-  onCancel: function onCancel() {}
+  onCancel: function onCancel() {},
+  type: undefined
 };
 
 function ClickToDialButton(_ref2) {
@@ -360,8 +367,20 @@ function (_Component) {
     };
 
     _this._onDownloadClick = function (e) {
-      if (_this.props.disableLinks) {
+      var _this$props = _this.props,
+          faxAttachment = _this$props.faxAttachment,
+          onFaxDownload = _this$props.onFaxDownload,
+          disableLinks = _this$props.disableLinks;
+
+      if (disableLinks) {
         e.preventDefault();
+      }
+
+      if (onFaxDownload) {
+        e.preventDefault();
+        onFaxDownload({
+          uri: faxAttachment.uri
+        });
       }
     };
 
@@ -371,14 +390,11 @@ function (_Component) {
       disableDelete: false,
       marking: false
     };
-    _this.onMark =
-    /*#__PURE__*/
-    _asyncToGenerator(
-    /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee() {
-      var _this$props, marked, onUnmark, onMark, onClick;
 
-      return regeneratorRuntime.wrap(function _callee$(_context) {
+    _this.onMark = function _callee() {
+      var _this$props2, marked, onUnmark, onMark, onClick;
+
+      return regeneratorRuntime.async(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -394,11 +410,11 @@ function (_Component) {
                 marking: true
               });
 
-              _this$props = _this.props, marked = _this$props.marked, onUnmark = _this$props.onUnmark, onMark = _this$props.onMark;
+              _this$props2 = _this.props, marked = _this$props2.marked, onUnmark = _this$props2.onUnmark, onMark = _this$props2.onMark;
               onClick = marked ? onUnmark : onMark;
               _context.prev = 5;
               _context.next = 8;
-              return onClick();
+              return regeneratorRuntime.awrap(onClick());
 
             case 8:
               _context.next = 12;
@@ -418,50 +434,54 @@ function (_Component) {
               return _context.stop();
           }
         }
-      }, _callee, null, [[5, 10]]);
-    }));
+      }, null, null, [[5, 10]]);
+    };
+
     return _this;
   }
 
   _createClass(ActionMenuList, [{
     key: "render",
     value: function render() {
-      var _this$props2 = this.props,
-          className = _this$props2.className,
-          currentLocale = _this$props2.currentLocale,
-          onLog = _this$props2.onLog,
-          isLogged = _this$props2.isLogged,
-          isLogging = _this$props2.isLogging,
-          isCreating = _this$props2.isCreating,
-          onViewEntity = _this$props2.onViewEntity,
-          onCreateEntity = _this$props2.onCreateEntity,
-          createEntityTypes = _this$props2.createEntityTypes,
-          hasEntity = _this$props2.hasEntity,
-          onClickToDial = _this$props2.onClickToDial,
-          onClickToSms = _this$props2.onClickToSms,
-          phoneNumber = _this$props2.phoneNumber,
-          disableLinks = _this$props2.disableLinks,
-          disableCallButton = _this$props2.disableCallButton,
-          disableClickToDial = _this$props2.disableClickToDial,
-          addLogTitle = _this$props2.addLogTitle,
-          editLogTitle = _this$props2.editLogTitle,
-          callTitle = _this$props2.callTitle,
-          textTitle = _this$props2.textTitle,
-          createEntityTitle = _this$props2.createEntityTitle,
-          viewEntityTitle = _this$props2.viewEntityTitle,
-          onDelete = _this$props2.onDelete,
-          deleteTitle = _this$props2.deleteTitle,
-          onMark = _this$props2.onMark,
-          marked = _this$props2.marked,
-          markTitle = _this$props2.markTitle,
-          unmarkTitle = _this$props2.unmarkTitle,
-          previewTitle = _this$props2.previewTitle,
-          downloadTitle = _this$props2.downloadTitle,
-          onPreview = _this$props2.onPreview,
-          faxAttachment = _this$props2.faxAttachment,
-          externalViewEntity = _this$props2.externalViewEntity,
-          externalHasEntity = _this$props2.externalHasEntity,
-          disableClickToSms = _this$props2.disableClickToSms;
+      var _this$props3 = this.props,
+          className = _this$props3.className,
+          type = _this$props3.type,
+          currentLocale = _this$props3.currentLocale,
+          onLog = _this$props3.onLog,
+          isLogged = _this$props3.isLogged,
+          isLogging = _this$props3.isLogging,
+          onViewEntity = _this$props3.onViewEntity,
+          onCreateEntity = _this$props3.onCreateEntity,
+          createEntityTypes = _this$props3.createEntityTypes,
+          hasEntity = _this$props3.hasEntity,
+          onClickToDial = _this$props3.onClickToDial,
+          onClickToSms = _this$props3.onClickToSms,
+          phoneNumber = _this$props3.phoneNumber,
+          disableLinks = _this$props3.disableLinks,
+          disableCallButton = _this$props3.disableCallButton,
+          disableClickToDial = _this$props3.disableClickToDial,
+          addLogTitle = _this$props3.addLogTitle,
+          editLogTitle = _this$props3.editLogTitle,
+          callTitle = _this$props3.callTitle,
+          textTitle = _this$props3.textTitle,
+          createEntityTitle = _this$props3.createEntityTitle,
+          viewEntityTitle = _this$props3.viewEntityTitle,
+          onDelete = _this$props3.onDelete,
+          deleteTitle = _this$props3.deleteTitle,
+          onMark = _this$props3.onMark,
+          marked = _this$props3.marked,
+          markTitle = _this$props3.markTitle,
+          unmarkTitle = _this$props3.unmarkTitle,
+          previewTitle = _this$props3.previewTitle,
+          downloadTitle = _this$props3.downloadTitle,
+          onPreview = _this$props3.onPreview,
+          faxAttachment = _this$props3.faxAttachment,
+          externalViewEntity = _this$props3.externalViewEntity,
+          externalHasEntity = _this$props3.externalHasEntity,
+          disableClickToSms = _this$props3.disableClickToSms;
+      var _this$state = this.state,
+          deleteModalVisible = _this$state.deleteModalVisible,
+          disableDelete = _this$state.disableDelete;
       var logButton = onLog ? _react["default"].createElement(_LogButton["default"], {
         className: _styles["default"].button,
         onLog: onLog,
@@ -542,13 +562,14 @@ function (_Component) {
         currentLocale: currentLocale,
         title: deleteTitle,
         openDeleteModal: this.openDeleteModal,
-        disabled: this.state.disableDelete || disableLinks
+        disabled: disableDelete || disableLinks
       }) : null;
       var confirmDeleteModal = onDelete ? _react["default"].createElement(ConfirmDeleteModal, {
         currentLocale: currentLocale,
-        show: this.state.deleteModalVisible,
+        show: deleteModalVisible,
         onDelete: this.onDelete,
-        onCancel: this.onCancelDelete
+        onCancel: this.onCancelDelete,
+        type: type
       }) : null;
       var markButton = onMark ? _react["default"].createElement(MarkButton, {
         markTitle: markTitle,
@@ -588,11 +609,11 @@ function (_Component) {
 exports["default"] = ActionMenuList;
 ActionMenuList.propTypes = {
   className: _propTypes["default"].string,
+  type: _propTypes["default"].string,
   currentLocale: _propTypes["default"].string.isRequired,
   onLog: _propTypes["default"].func,
   isLogged: _propTypes["default"].bool,
   isLogging: _propTypes["default"].bool,
-  isCreating: _propTypes["default"].bool,
   onViewEntity: _propTypes["default"].func,
   onCreateEntity: _propTypes["default"].func,
   createEntityTypes: _propTypes["default"].array,
@@ -624,14 +645,15 @@ ActionMenuList.propTypes = {
   }),
   externalViewEntity: _propTypes["default"].func,
   externalHasEntity: _propTypes["default"].bool,
-  disableClickToSms: _propTypes["default"].bool
+  disableClickToSms: _propTypes["default"].bool,
+  onFaxDownload: _propTypes["default"].func
 };
 ActionMenuList.defaultProps = {
   className: undefined,
+  type: undefined,
   onLog: undefined,
   isLogged: false,
   isLogging: false,
-  isCreating: false,
   onViewEntity: undefined,
   onCreateEntity: undefined,
   createEntityTypes: undefined,
@@ -661,6 +683,7 @@ ActionMenuList.defaultProps = {
   faxAttachment: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
-  disableClickToSms: false
+  disableClickToSms: false,
+  onFaxDownload: undefined
 };
 //# sourceMappingURL=index.js.map

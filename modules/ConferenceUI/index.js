@@ -200,13 +200,14 @@ function (_RcUIModule) {
           _this3._routerInteraction.push('/composeText'); // update settings
 
         },
-        joinAsHost: function joinAsHost() {
+        joinAsHost: function joinAsHost(dialInNumber) {
           // for track
           _this3._conference.onJoinAsHost();
 
           _this3._routerInteraction.history.push('/dialer');
 
-          var phoneNumber = enableAutoEnterHostKey ? "".concat(_this3._conference.dialInNumber, ",,").concat(_this3._conference.data.hostCode, "#") : _this3._conference.dialInNumber;
+          var theDialInNumber = dialInNumber || _this3._conference.dialInNumber;
+          var phoneNumber = enableAutoEnterHostKey ? "".concat(theDialInNumber, ",,").concat(_this3._conference.data.hostCode, "#") : theDialInNumber;
 
           _this3._call.call({
             phoneNumber: phoneNumber

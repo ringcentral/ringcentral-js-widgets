@@ -14,7 +14,7 @@ var _SettingsPanel = _interopRequireDefault(require("../../components/SettingsPa
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _default = (0, _phoneContext.connectModule)(function (phone) {
-  return phone.settingsPageUI;
+  return phone.settingsUI;
 })(_SettingsPanel["default"]);
 
 exports["default"] = _default;

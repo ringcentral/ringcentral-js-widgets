@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SelectListBasic/i18n/it-IT.js"],"names":["noResultFoundFor"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,gBAAgB,EAAE;AADL,C,EAIf","sourcesContent":["export default {\n  noResultFoundFor: \"Nessun risultato per\"\n};\n\n// @key: @#@\"noResultFoundFor\"@#@ @source: @#@\"No results found for\"@#@\n"],"file":"it-IT.js"}

@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -46,10 +44,6 @@ var _dec, _class, _temp;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -137,43 +131,33 @@ function (_RcUIModule) {
         update: function update(meetingState) {
           return _this2._meeting.update(meetingState);
         },
-        invite: function () {
-          var _invite = _asyncToGenerator(
-          /*#__PURE__*/
-          regeneratorRuntime.mark(function _callee(meetingInfo, opener) {
-            return regeneratorRuntime.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    if (!schedule) {
-                      _context.next = 4;
-                      break;
-                    }
+        invite: function invite(meetingInfo, opener) {
+          return regeneratorRuntime.async(function invite$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (!schedule) {
+                    _context.next = 4;
+                    break;
+                  }
 
-                    _context.next = 3;
-                    return schedule(meetingInfo, opener);
+                  _context.next = 3;
+                  return regeneratorRuntime.awrap(schedule(meetingInfo, opener));
 
-                  case 3:
-                    return _context.abrupt("return");
+                case 3:
+                  return _context.abrupt("return");
 
-                  case 4:
-                    _context.next = 6;
-                    return _this2._meeting.schedule(meetingInfo, {}, opener);
+                case 4:
+                  _context.next = 6;
+                  return regeneratorRuntime.awrap(_this2._meeting.schedule(meetingInfo, {}, opener));
 
-                  case 6:
-                  case "end":
-                    return _context.stop();
-                }
+                case 6:
+                case "end":
+                  return _context.stop();
               }
-            }, _callee);
-          }));
-
-          function invite(_x, _x2) {
-            return _invite.apply(this, arguments);
-          }
-
-          return invite;
-        }(),
+            }
+          });
+        },
         init: function init() {
           return _this2._meeting.init();
         }

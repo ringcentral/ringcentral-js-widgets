@@ -21,7 +21,8 @@ var _default = {
   noLabel: "Dispositivo sconosciuto",
   notSetSinkIdTip: "Le attuali autorizzazioni del browser non sono impostate per consentire l&apos;accesso ai dispositivi di output audio. {clickHereLink} per la configurazione.",
   noLabelTip: "Le attuali autorizzazioni del browser non sono impostate per consentire l'accesso ai dispositivi di input audio.",
-  clickHere: "Fai clic qui"
+  clickHere: "Fai clic qui",
+  defaultOutputDevice: "Dispositivo di output predefinito"
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@
@@ -37,6 +38,7 @@ var _default = {
 // @key: @#@"notSetSinkIdTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up."@#@
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
+// @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

@@ -59,7 +59,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -224,7 +224,8 @@ function (_Component) {
           internalSmsPermission = _this$props.internalSmsPermission,
           updateTypeFilter = _this$props.updateTypeFilter,
           renderSearchTip = _this$props.renderSearchTip,
-          renderNoMessage = _this$props.renderNoMessage;
+          renderNoMessage = _this$props.renderNoMessage,
+          onFaxDownload = _this$props.onFaxDownload;
 
       if (showSpinner) {
         return _react["default"].createElement(_SpinnerOverlay["default"], null);
@@ -281,7 +282,8 @@ function (_Component) {
         renderExtraButton: renderExtraButton,
         outboundSmsPermission: outboundSmsPermission,
         internalSmsPermission: internalSmsPermission,
-        updateTypeFilter: updateTypeFilter
+        updateTypeFilter: updateTypeFilter,
+        onFaxDownload: onFaxDownload
       }) : !loadingNextPage && (renderNoMessage && renderNoMessage() || _react["default"].createElement(_NoMessage["default"], {
         placeholder: placeholder
       })));
@@ -374,7 +376,8 @@ ConversationsPanel.propTypes = {
   onUnmount: _propTypes["default"].func,
   renderExtraButton: _propTypes["default"].func,
   renderSearchTip: _propTypes["default"].func,
-  renderNoMessage: _propTypes["default"].func
+  renderNoMessage: _propTypes["default"].func,
+  onFaxDownload: _propTypes["default"].func
 };
 ConversationsPanel.defaultProps = {
   showSpinner: false,
@@ -414,6 +417,7 @@ ConversationsPanel.defaultProps = {
   onUnmount: undefined,
   renderExtraButton: undefined,
   renderSearchTip: undefined,
-  renderNoMessage: undefined
+  renderNoMessage: undefined,
+  onFaxDownload: undefined
 };
 //# sourceMappingURL=index.js.map

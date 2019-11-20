@@ -16,7 +16,7 @@ var _default = {
   email: "您的電子郵件地址",
   reply: "（以便我們聯絡您）",
   emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "意見回饋主題",
+  feedbackTopic: "意見回饋主旨",
   topicPlaceHolder: "請選擇一個選項",
   bugReport: "程式錯誤回報",
   featureRequest: "功能要求",

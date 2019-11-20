@@ -7,10 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.regexp.search");
 
 require("core-js/modules/es6.function.name");
@@ -26,10 +22,6 @@ var _phoneContext = require("../../lib/phoneContext");
 var _CallsListPanel = _interopRequireDefault(require("../../components/CallsListPanel"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -123,134 +115,104 @@ function mapToFunctions(_, _ref2) {
     webphoneHangup: function webphoneHangup() {
       return webphone && webphone.hangup.apply(webphone, arguments);
     },
-    webphoneResume: function () {
-      var _webphoneResume = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (webphone) {
-                  _context.next = 2;
-                  break;
-                }
+    webphoneResume: function webphoneResume() {
+      var _args = arguments;
+      return regeneratorRuntime.async(function webphoneResume$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (webphone) {
+                _context.next = 2;
+                break;
+              }
 
-                return _context.abrupt("return");
+              return _context.abrupt("return");
 
-              case 2:
-                _context.next = 4;
-                return webphone.resume.apply(webphone, _args);
+            case 2:
+              _context.next = 4;
+              return regeneratorRuntime.awrap(webphone.resume.apply(webphone, _args));
 
-              case 4:
-                if (routerInteraction.currentPath !== callCtrlRoute) {
-                  routerInteraction.push(callCtrlRoute);
-                }
+            case 4:
+              if (routerInteraction.currentPath !== callCtrlRoute) {
+                routerInteraction.push(callCtrlRoute);
+              }
 
-              case 5:
-              case "end":
-                return _context.stop();
-            }
+            case 5:
+            case "end":
+              return _context.stop();
           }
-        }, _callee);
-      }));
+        }
+      });
+    },
+    onCreateContact: onCreateContact ? function _callee(_ref4) {
+      var phoneNumber, name, entityType, hasMatchNumber;
+      return regeneratorRuntime.async(function _callee$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              phoneNumber = _ref4.phoneNumber, name = _ref4.name, entityType = _ref4.entityType;
+              _context2.next = 3;
+              return regeneratorRuntime.awrap(contactMatcher.hasMatchNumber({
+                phoneNumber: phoneNumber,
+                ignoreCache: true
+              }));
 
-      function webphoneResume() {
-        return _webphoneResume.apply(this, arguments);
-      }
+            case 3:
+              hasMatchNumber = _context2.sent;
 
-      return webphoneResume;
-    }(),
-    onCreateContact: onCreateContact ?
-    /*#__PURE__*/
-    function () {
-      var _ref5 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(_ref4) {
-        var phoneNumber, name, entityType, hasMatchNumber;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                phoneNumber = _ref4.phoneNumber, name = _ref4.name, entityType = _ref4.entityType;
-                _context2.next = 3;
-                return contactMatcher.hasMatchNumber({
-                  phoneNumber: phoneNumber,
-                  ignoreCache: true
-                });
-
-              case 3:
-                hasMatchNumber = _context2.sent;
-
-                if (hasMatchNumber) {
-                  _context2.next = 9;
-                  break;
-                }
-
-                _context2.next = 7;
-                return onCreateContact({
-                  phoneNumber: phoneNumber,
-                  name: name,
-                  entityType: entityType
-                });
-
-              case 7:
+              if (hasMatchNumber) {
                 _context2.next = 9;
-                return contactMatcher.forceMatchNumber({
-                  phoneNumber: phoneNumber
-                });
+                break;
+              }
 
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
+              _context2.next = 7;
+              return regeneratorRuntime.awrap(onCreateContact({
+                phoneNumber: phoneNumber,
+                name: name,
+                entityType: entityType
+              }));
+
+            case 7:
+              _context2.next = 9;
+              return regeneratorRuntime.awrap(contactMatcher.forceMatchNumber({
+                phoneNumber: phoneNumber
+              }));
+
+            case 9:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2);
-      }));
-
-      return function (_x) {
-        return _ref5.apply(this, arguments);
-      };
-    }() : undefined,
+        }
+      });
+    } : undefined,
     isLoggedContact: isLoggedContact,
-    onLogCall: onLogCall || callLogger &&
-    /*#__PURE__*/
-    function () {
-      var _ref7 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(_ref6) {
-        var call, contact, _ref6$redirect, redirect;
+    onLogCall: onLogCall || callLogger && function _callee2(_ref5) {
+      var call, contact, _ref5$redirect, redirect;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                call = _ref6.call, contact = _ref6.contact, _ref6$redirect = _ref6.redirect, redirect = _ref6$redirect === void 0 ? true : _ref6$redirect;
-                _context3.next = 3;
-                return callLogger.logCall({
-                  call: call,
-                  contact: contact,
-                  redirect: redirect
-                });
+      return regeneratorRuntime.async(function _callee2$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              call = _ref5.call, contact = _ref5.contact, _ref5$redirect = _ref5.redirect, redirect = _ref5$redirect === void 0 ? true : _ref5$redirect;
+              _context3.next = 3;
+              return regeneratorRuntime.awrap(callLogger.logCall({
+                call: call,
+                contact: contact,
+                redirect: redirect
+              }));
 
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
+            case 3:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3);
-      }));
-
-      return function (_x2) {
-        return _ref7.apply(this, arguments);
-      };
-    }(),
+        }
+      });
+    },
     dateTimeFormatter: dateTimeFormatter,
-    onViewContact: onViewContact || function (_ref8) {
-      var _ref8$contact = _ref8.contact,
-          type = _ref8$contact.type,
-          id = _ref8$contact.id;
+    onViewContact: onViewContact || function (_ref6) {
+      var _ref6$contact = _ref6.contact,
+          type = _ref6$contact.type,
+          id = _ref6$contact.id;
       routerInteraction.push("/contacts/".concat(type, "/").concat(id, "?direct=true"));
     },
     onClickToDial: dialerUI ? function (recipient) {
@@ -262,52 +224,42 @@ function mapToFunctions(_, _ref2) {
         callHistory.onClickToCall();
       }
     } : undefined,
-    onClickToSms: composeText ?
-    /*#__PURE__*/
-    function () {
-      var _ref9 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(contact) {
-        var isDummyContact,
-            _args4 = arguments;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                isDummyContact = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : false;
+    onClickToSms: composeText ? function _callee3(contact) {
+      var isDummyContact,
+          _args4 = arguments;
+      return regeneratorRuntime.async(function _callee3$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              isDummyContact = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : false;
 
-                if (routerInteraction) {
-                  routerInteraction.push(composeTextRoute);
-                } // if contact autocomplete, if no match fill the number only
+              if (routerInteraction) {
+                routerInteraction.push(composeTextRoute);
+              } // if contact autocomplete, if no match fill the number only
 
 
-                if (contact.name && contact.phoneNumber && isDummyContact) {
-                  composeText.updateTypingToNumber(contact.name);
-                  contactSearch.search({
-                    searchString: contact.name
-                  });
-                } else {
-                  composeText.addToNumber(contact);
+              if (contact.name && contact.phoneNumber && isDummyContact) {
+                composeText.updateTypingToNumber(contact.name);
+                contactSearch.search({
+                  searchString: contact.name
+                });
+              } else {
+                composeText.addToNumber(contact);
 
-                  if (composeText.typingToNumber === contact.phoneNumber) {
-                    composeText.cleanTypingToNumber();
-                  }
+                if (composeText.typingToNumber === contact.phoneNumber) {
+                  composeText.cleanTypingToNumber();
                 }
+              }
 
-                callHistory.onClickToSMS();
+              callHistory.onClickToSMS();
 
-              case 4:
-              case "end":
-                return _context4.stop();
-            }
+            case 4:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee4);
-      }));
-
-      return function (_x3) {
-        return _ref9.apply(this, arguments);
-      };
-    }() : undefined
+        }
+      });
+    } : undefined
   };
 }
 

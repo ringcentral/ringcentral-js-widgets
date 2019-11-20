@@ -65,13 +65,16 @@ function SettingsPanel(_ref) {
       showReport = _ref.showReport,
       autoLogEnabled = _ref.autoLogEnabled,
       autoLogNotesEnabled = _ref.autoLogNotesEnabled,
+      logSMSContextEnabled = _ref.logSMSContextEnabled,
       disableAutoLogEnabled = _ref.disableAutoLogEnabled,
       disableAutoLogNotesEnabled = _ref.disableAutoLogNotesEnabled,
       onAutoLogChange = _ref.onAutoLogChange,
       onAutoLogNotesChange = _ref.onAutoLogNotesChange,
       showAutoLogSMS = _ref.showAutoLogSMS,
+      showLogSMSContext = _ref.showLogSMSContext,
       autoLogSMSEnabled = _ref.autoLogSMSEnabled,
       onAutoLogSMSChange = _ref.onAutoLogSMSChange,
+      onLogSMSContextChange = _ref.onLogSMSContextChange,
       showClickToDial = _ref.showClickToDial,
       clickToDialEnabled = _ref.clickToDialEnabled,
       clickToDialPermissions = _ref.clickToDialPermissions,
@@ -103,7 +106,8 @@ function SettingsPanel(_ref) {
       clickToDialTitle = _ref.clickToDialTitle,
       versionContainer = _ref.versionContainer,
       autoLogTitle = _ref.autoLogTitle,
-      autoLogSMSTitle = _ref.autoLogSMSTitle;
+      autoLogSMSTitle = _ref.autoLogSMSTitle,
+      logSMSContextTitle = _ref.logSMSContextTitle;
 
   if (showSpinner) {
     return _react["default"].createElement(_SpinnerOverlay["default"], null);
@@ -199,6 +203,13 @@ function SettingsPanel(_ref) {
       onChange: onAutoLogSMSChange
     })
   }, autoLogSMSTitle || _i18n["default"].getString('autoLogSMS', currentLocale)) : null;
+  var logSMSContext = showLogSMSContext ? _react["default"].createElement(_IconLine["default"], {
+    icon: _react["default"].createElement(_Switch["default"], {
+      dataSign: "LogSMSContext",
+      checked: logSMSContextEnabled,
+      onChange: onLogSMSContextChange
+    })
+  }, logSMSContextTitle || _i18n["default"].getString('logSMSContext', currentLocale)) : null;
   var header = showHeader ? _react["default"].createElement(_Header["default"], null, _i18n["default"].getString('settings', currentLocale)) : null;
   var userGuide = showUserGuide ? _react["default"].createElement(_LinkLine["default"], {
     onClick: onUserGuideClick
@@ -207,13 +218,13 @@ function SettingsPanel(_ref) {
   var versionArea = versionContainer || _react["default"].createElement("div", {
     className: _styles["default"].versionContainer,
     "data-sign": "version"
-  }, _i18n["default"].getString('version', currentLocale), ' ', version);
+  }, _i18n["default"].getString('version', currentLocale), " ", version);
 
   return _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, header, _react["default"].createElement(_Panel["default"], {
     className: (0, _classnames["default"])(_styles["default"].content, showHeader && _styles["default"].contentWithHeader)
-  }, report, locale, calling, region, audio, presenceSetting, msteamsSettings, children, autoLog, autoLogNotes, autoLogSMS, clickToDial, additional, feedback, quickAccess, userGuide, _react["default"].createElement("section", {
+  }, report, locale, calling, region, audio, presenceSetting, msteamsSettings, children, autoLog, autoLogNotes, autoLogSMS, logSMSContext, clickToDial, additional, feedback, quickAccess, userGuide, _react["default"].createElement("section", {
     className: _styles["default"].section
   }, _react["default"].createElement(_Line["default"], {
     noBorder: true
@@ -255,11 +266,14 @@ SettingsPanel.propTypes = {
   showReport: _propTypes["default"].bool,
   autoLogEnabled: _propTypes["default"].bool,
   autoLogNotesEnabled: _propTypes["default"].bool,
+  logSMSContextEnabled: _propTypes["default"].bool,
   disableAutoLogEnabled: _propTypes["default"].bool,
   disableAutoLogNotesEnabled: _propTypes["default"].bool,
   onAutoLogChange: _propTypes["default"].func,
   onAutoLogNotesChange: _propTypes["default"].func,
+  onLogSMSContextChange: _propTypes["default"].func,
   showAutoLogSMS: _propTypes["default"].bool,
+  showLogSMSContext: _propTypes["default"].bool,
   autoLogSMSEnabled: _propTypes["default"].bool,
   onAutoLogSMSChange: _propTypes["default"].func,
   showClickToDial: _propTypes["default"].bool,
@@ -296,7 +310,8 @@ SettingsPanel.propTypes = {
   versionContainer: _propTypes["default"].node,
   onReportLinkClick: _propTypes["default"].func,
   autoLogTitle: _propTypes["default"].string,
-  autoLogSMSTitle: _propTypes["default"].string
+  autoLogSMSTitle: _propTypes["default"].string,
+  logSMSContextTitle: _propTypes["default"].string
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -315,6 +330,7 @@ SettingsPanel.defaultProps = {
   showReport: false,
   autoLogEnabled: false,
   autoLogNotesEnabled: false,
+  logSMSContextEnabled: true,
   disableAutoLogEnabled: false,
   disableAutoLogNotesEnabled: false,
   onAutoLogChange: function onAutoLogChange() {
@@ -323,7 +339,11 @@ SettingsPanel.defaultProps = {
   onAutoLogNotesChange: function onAutoLogNotesChange() {
     return null;
   },
+  onLogSMSContextChange: function onLogSMSContextChange() {
+    return null;
+  },
   showAutoLogSMS: false,
+  showLogSMSContext: false,
   autoLogSMSEnabled: false,
   onAutoLogSMSChange: undefined,
   showHeader: false,
@@ -368,6 +388,7 @@ SettingsPanel.defaultProps = {
     return null;
   },
   autoLogTitle: undefined,
-  autoLogSMSTitle: undefined
+  autoLogSMSTitle: undefined,
+  logSMSContextTitle: undefined
 };
 //# sourceMappingURL=index.js.map

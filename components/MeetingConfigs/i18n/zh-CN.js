@@ -22,7 +22,7 @@ var _default = {
   meetingOptions: "会议选项",
   requirePassword: "需要会议密码",
   password: "密码",
-  enableJoinBeforeHost: "主持人到来前启用加入",
+  enableJoinBeforeHost: "允许在主持人进入会议前加入",
   telephonyOnly: "仅电话",
   hostVideoOn: "主持人视频开启",
   participantVideoOn: "参与者视频开启"

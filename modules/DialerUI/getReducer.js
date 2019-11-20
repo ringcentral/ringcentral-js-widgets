@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getToNumberFieldReducer = getToNumberFieldReducer;
 exports.getRecipientReducer = getRecipientReducer;
+exports.getIsLastInputFromDialpadReducer = getIsLastInputFromDialpadReducer;
 exports["default"] = getReducer;
 
 require("core-js/modules/es6.object.define-properties");
@@ -90,12 +91,41 @@ function getRecipientReducer(types) {
   };
 }
 
+function getIsLastInputFromDialpadReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref3.type,
+        _ref3$fromDialPad = _ref3.fromDialPad,
+        fromDialPad = _ref3$fromDialPad === void 0 ? false : _ref3$fromDialPad;
+
+    switch (type) {
+      case types.setToNumberField:
+        return fromDialPad;
+
+      case types.clearToNumberField:
+      case types.setRecipient:
+      case types.clearRecipient:
+      case types.loadLastCallState:
+      case types.call:
+      case types.resetSuccess:
+      case types.callSuccess:
+        return false;
+
+      default:
+        return state;
+    }
+  };
+}
+
 function getReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return (0, _redux.combineReducers)(_objectSpread({}, reducers, {
     status: (0, _getModuleStatusReducer["default"])(types),
     toNumberField: getToNumberFieldReducer(types),
-    recipient: getRecipientReducer(types)
+    recipient: getRecipientReducer(types),
+    isLastInputFromDialpad: getIsLastInputFromDialpadReducer(types)
   }));
 }
 //# sourceMappingURL=getReducer.js.map

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CallLogPanel/i18n/en-GB.js"],"names":["createCallLog"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,aAAa,EAAE;AADF,C,EAIf","sourcesContent":["export default {\n  createCallLog: \"Create call log\"\n};\n\n// @key: @#@\"createCallLog\"@#@ @source: @#@\"Create call log\"@#@\n"],"file":"en-GB.js"}

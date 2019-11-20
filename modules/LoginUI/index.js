@@ -84,12 +84,6 @@ function (_RcUIModule) {
     value: function getUIFunctions(_ref2) {
       var oAuth = _ref2.phone.oAuth;
       return {
-        setupOAuth: function setupOAuth() {
-          oAuth.setupOAuth();
-        },
-        destroyOAuth: function destroyOAuth() {
-          oAuth.destroyOAuth();
-        },
         onLoginButtonClick: function onLoginButtonClick() {
           oAuth.openOAuthPage();
         }

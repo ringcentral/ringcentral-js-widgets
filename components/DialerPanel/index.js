@@ -1,13 +1,29 @@
 "use strict";
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -16,6 +32,8 @@ var _classnames = _interopRequireDefault(require("classnames"));
 var _DialPad = _interopRequireDefault(require("../DialPad"));
 
 var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
+
+var _RecipientsInputV = _interopRequireDefault(require("../RecipientsInputV2"));
 
 var _FromField = _interopRequireDefault(require("../FromField"));
 
@@ -28,6 +46,10 @@ var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function DialerPanel(_ref) {
   var currentLocale = _ref.currentLocale,
@@ -47,6 +69,7 @@ function DialerPanel(_ref) {
       dialButtonMuted = _ref.dialButtonMuted,
       searchContact = _ref.searchContact,
       searchContactList = _ref.searchContactList,
+      recipients = _ref.recipients,
       recipient = _ref.recipient,
       clearToNumber = _ref.clearToNumber,
       setRecipient = _ref.setRecipient,
@@ -60,17 +83,34 @@ function DialerPanel(_ref) {
       showFromField = _ref$showFromField === void 0 ? true : _ref$showFromField,
       children = _ref.children,
       withTabs = _ref.withTabs,
-      inConference = _ref.inConference;
-
-  var onCallFunc = function onCallFunc() {
-    if (!callButtonDisabled) {
-      onCallButtonClick();
+      inConference = _ref.inConference,
+      isLastInputFromDialpad = _ref.isLastInputFromDialpad,
+      useV2 = _ref.useV2;
+  var inputEl = (0, _react.useRef)(null);
+  (0, _react.useEffect)(function () {
+    if (useV2 && autoFocus && inputEl.current) {
+      inputEl.current.focus();
     }
-  };
-
-  return _react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, _react["default"].createElement(_RecipientsInput["default"], {
+  }, []);
+  var input = useV2 ? _react["default"].createElement(_RecipientsInputV["default"], {
+    ref: inputEl,
+    value: toNumber,
+    onInputChange: onToNumberChange,
+    onInputClear: clearToNumber,
+    recipients: recipients,
+    addToRecipients: setRecipient,
+    removeFromRecipients: clearRecipient,
+    searchContactList: searchContactList,
+    formatContactPhone: formatPhone,
+    currentLocale: currentLocale,
+    phoneTypeRenderer: phoneTypeRenderer,
+    phoneSourceNameRenderer: phoneSourceNameRenderer,
+    contactInfoRenderer: recipientsContactInfoRenderer,
+    contactPhoneRenderer: recipientsContactPhoneRenderer,
+    isLastInputFromDialpad: isLastInputFromDialpad,
+    titleEnabled: true,
+    className: !showFromField ? (0, _classnames["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
+  }) : _react["default"].createElement(_RecipientsInput["default"], {
     value: toNumber,
     onChange: onToNumberChange,
     onClean: clearToNumber,
@@ -85,10 +125,14 @@ function DialerPanel(_ref) {
     phoneSourceNameRenderer: phoneSourceNameRenderer,
     contactInfoRenderer: recipientsContactInfoRenderer,
     contactPhoneRenderer: recipientsContactPhoneRenderer,
+    isLastInputFromDialpad: isLastInputFromDialpad,
     titleEnabled: true,
     autoFocus: autoFocus,
     className: !showFromField ? (0, _classnames["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
-  }), showFromField ? _react["default"].createElement("div", {
+  });
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].root, className)
+  }, input, showFromField ? _react["default"].createElement("div", {
     className: _styles["default"].inputField
   }, _react["default"].createElement(_FromField["default"], {
     fromNumber: fromNumber,
@@ -102,7 +146,11 @@ function DialerPanel(_ref) {
   }, _react["default"].createElement(_DialPad["default"], {
     className: _styles["default"].dialPad,
     onButtonOutput: function onButtonOutput(key) {
-      onToNumberChange(toNumber + key);
+      onToNumberChange(toNumber + key, true);
+
+      if (inputEl.current) {
+        inputEl.current.focus();
+      }
     },
     dialButtonVolume: dialButtonVolume,
     dialButtonMuted: dialButtonMuted
@@ -113,7 +161,7 @@ function DialerPanel(_ref) {
   }, _react["default"].createElement(_CircleButton["default"], {
     dataSign: "callButton",
     className: (0, _classnames["default"])(_styles["default"].dialBtn, callButtonDisabled && _styles["default"].disabled),
-    onClick: onCallFunc,
+    onClick: onCallButtonClick,
     disabled: callButtonDisabled,
     icon: _Answer["default"],
     showBorder: false
@@ -150,6 +198,10 @@ DialerPanel.propTypes = {
     phoneNumber: _propTypes["default"].string.isRequired,
     name: _propTypes["default"].string
   }),
+  recipients: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    phoneNumber: _propTypes["default"].string.isRequired,
+    name: _propTypes["default"].string
+  })).isRequired,
   clearToNumber: _propTypes["default"].func.isRequired,
   setRecipient: _propTypes["default"].func.isRequired,
   clearRecipient: _propTypes["default"].func.isRequired,
@@ -161,7 +213,9 @@ DialerPanel.propTypes = {
   showFromField: _propTypes["default"].bool,
   children: _propTypes["default"].node,
   withTabs: _propTypes["default"].bool,
-  inConference: _propTypes["default"].bool
+  inConference: _propTypes["default"].bool,
+  isLastInputFromDialpad: _propTypes["default"].bool,
+  useV2: _propTypes["default"].bool
 };
 DialerPanel.defaultProps = {
   className: null,
@@ -192,7 +246,9 @@ DialerPanel.defaultProps = {
   showFromField: true,
   children: undefined,
   withTabs: false,
-  inConference: false
+  inConference: false,
+  isLastInputFromDialpad: false,
+  useV2: false
 };
 var _default = DialerPanel;
 exports["default"] = _default;

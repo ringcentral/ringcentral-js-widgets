@@ -21,11 +21,20 @@ var _TabNavigationButton = _interopRequireDefault(require("../TabNavigationButto
 
 var _DropdownNavigationView = _interopRequireDefault(require("../DropdownNavigationView"));
 
+var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function TabNavigationView(props) {
   var navigationPosition = props.navigationPosition,
-      navBarClassName = props.navBarClassName;
+      navBarClassName = props.navBarClassName,
+      onLoading = props.onLoading,
+      brandIcon = props.brandIcon;
+
+  if (onLoading) {
+    return _react["default"].createElement(_SpinnerOverlay["default"], null);
+  }
+
   var isVertical = navigationPosition === 'left';
 
   var navBar = _react["default"].createElement(_NavigationBar["default"], {
@@ -46,10 +55,10 @@ function TabNavigationView(props) {
     className: (0, _classnames["default"])(_styles["default"].root, props.className, navigationPosition === 'left' && _styles["default"].vertical)
   }, _react["default"].createElement("div", {
     className: _styles["default"].tabContainer
-  }, navigationPosition === 'top' || navigationPosition === 'left' ? navBar : null), _react["default"].createElement("div", {
+  }, navigationPosition === 'top' || navigationPosition === 'left' ? _react["default"].createElement(_react["default"].Fragment, null, navBar, navigationPosition === 'left' ? brandIcon : null) : null), _react["default"].createElement("div", {
     "data-sign": "tabNavigationView",
     className: (0, _classnames["default"])(_styles["default"].main, props.tabNavigationViewClassName, !isVertical && _styles["default"].hasMaxHeight)
-  }, "        ", props.children), navigationPosition === 'bottom' ? navBar : null);
+  }, ' ', props.children), navigationPosition === 'bottom' ? navBar : null);
 }
 
 TabNavigationView.propTypes = {
@@ -59,24 +68,28 @@ TabNavigationView.propTypes = {
   currentVirtualPath: _propTypes["default"].string,
   goTo: _propTypes["default"].func.isRequired,
   navigationPosition: _propTypes["default"].oneOf(['top', 'bottom', 'left']),
+  brandIcon: _propTypes["default"].node,
   tabWidth: _propTypes["default"].string,
   tabHeight: _propTypes["default"].string,
   tabs: _NavigationBar["default"].propTypes.tabs,
   holdReady: _propTypes["default"].bool,
   navBarClassName: _propTypes["default"].string,
-  tabNavigationViewClassName: _propTypes["default"].string
+  tabNavigationViewClassName: _propTypes["default"].string,
+  onLoading: _propTypes["default"].bool
 };
 TabNavigationView.defaultProps = {
   children: null,
   className: null,
   currentVirtualPath: undefined,
   navigationPosition: 'top',
+  brandIcon: null,
   tabWidth: undefined,
   tabHeight: undefined,
   tabs: null,
   holdReady: false,
   navBarClassName: undefined,
-  tabNavigationViewClassName: undefined
+  tabNavigationViewClassName: undefined,
+  onLoading: false
 };
 var _default = TabNavigationView;
 exports["default"] = _default;

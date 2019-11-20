@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/withPhone/index.js"],"names":["withPhone"],"mappings":";;;;;;;;;AAAA;;eAEeA,uB","sourcesContent":["import { withPhone } from '../phoneContext';\n\nexport default withPhone;\n"],"file":"index.js"}
+{"version":3,"sources":["lib/withPhone/index.ts"],"names":["withPhone"],"mappings":";;;;;;;;;AAAA;;eAEeA,uB","sourcesContent":["import { withPhone } from '../phoneContext';\n\nexport default withPhone;\n"],"file":"index.js"}

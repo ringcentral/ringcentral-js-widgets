@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/BasicCallInfo/CallInfoList/index.ts"],"names":["CallInfoList"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;;;;eADeA,wB","sourcesContent":["import CallInfoList from './CallInfoList';\n\nexport default CallInfoList;\nexport * from './CallInfoList';\n"],"file":"index.js"}

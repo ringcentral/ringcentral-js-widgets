@@ -30,6 +30,6 @@ CallLogAlert.propTypes = {
 
 CallLogAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _callLogMessages["default"].logCallLogFailed;
+  return message === _callLogMessages["default"].logCallLogFailed || message === _callLogMessages["default"].fieldRequired || message === _callLogMessages["default"].logFailed;
 };
 //# sourceMappingURL=index.js.map

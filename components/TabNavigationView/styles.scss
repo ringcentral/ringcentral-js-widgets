@@ -5,6 +5,7 @@
   @include full-size;
 }
 .tabContainer {
+  position: relative;
   z-index: 11;
 }
 .main {

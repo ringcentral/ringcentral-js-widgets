@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/NotificationSectionV2/i18n/en-US.js"],"names":["ringing","callConnected"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE,eADI;AAEbC,EAAAA,aAAa,EAAE;AAFF,C","sourcesContent":["export default {\n  ringing: 'Incoming call',\n  callConnected: 'Call connected',\n};\n\n"],"file":"en-US.js"}

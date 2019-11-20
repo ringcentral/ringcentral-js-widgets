@@ -25,11 +25,9 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
 
 require("regenerator-runtime/runtime");
 
@@ -56,10 +54,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -121,7 +115,8 @@ function mapToFunctions(_, _ref2) {
       isLoggedContact = _ref2.isLoggedContact,
       onLogConversation = _ref2.onLogConversation,
       _ref2$conversationsPa = _ref2.conversationsPath,
-      conversationsPath = _ref2$conversationsPa === void 0 ? '/messages' : _ref2$conversationsPa;
+      conversationsPath = _ref2$conversationsPa === void 0 ? '/messages' : _ref2$conversationsPa,
+      renderExtraButton = _ref2.renderExtraButton;
   var getMatcherContactName;
   var getMatcherContactList;
   var getMatcherContactNameList;
@@ -187,36 +182,26 @@ function mapToFunctions(_, _ref2) {
     getMatcherContactList: getMatcherContactList,
     getMatcherContactNameList: getMatcherContactNameList,
     isLoggedContact: isLoggedContact,
-    onLogConversation: onLogConversation || conversationLogger &&
-    /*#__PURE__*/
-    function () {
-      var _ref4 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(_ref3) {
-        var _ref3$redirect, redirect, options;
+    onLogConversation: onLogConversation || conversationLogger && function _callee(_ref3) {
+      var _ref3$redirect, redirect, options;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _ref3$redirect = _ref3.redirect, redirect = _ref3$redirect === void 0 ? true : _ref3$redirect, options = _objectWithoutProperties(_ref3, ["redirect"]);
-                _context.next = 3;
-                return conversationLogger.logConversation(_objectSpread({}, options, {
-                  redirect: redirect
-                }));
+      return regeneratorRuntime.async(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _ref3$redirect = _ref3.redirect, redirect = _ref3$redirect === void 0 ? true : _ref3$redirect, options = _objectWithoutProperties(_ref3, ["redirect"]);
+              _context.next = 3;
+              return regeneratorRuntime.awrap(conversationLogger.logConversation(_objectSpread({}, options, {
+                redirect: redirect
+              })));
 
-              case 3:
-              case "end":
-                return _context.stop();
-            }
+            case 3:
+            case "end":
+              return _context.stop();
           }
-        }, _callee);
-      }));
-
-      return function (_x) {
-        return _ref4.apply(this, arguments);
-      };
-    }(),
+        }
+      });
+    },
     goBack: function goBack() {
       routerInteraction.push(conversationsPath);
     },
@@ -225,7 +210,8 @@ function mapToFunctions(_, _ref2) {
     },
     loadPreviousMessages: function loadPreviousMessages() {
       conversations.fetchOldMessages();
-    }
+    },
+    renderExtraButton: renderExtraButton
   };
 }
 

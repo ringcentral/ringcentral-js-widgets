@@ -36,7 +36,8 @@ var _default = {
   hold: 'Hold',
   unhold: 'Unhold',
   transfer: 'Transfer',
-  reject: 'Reject'
+  reject: 'Reject',
+  switchCall: 'Switch Call to this app'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

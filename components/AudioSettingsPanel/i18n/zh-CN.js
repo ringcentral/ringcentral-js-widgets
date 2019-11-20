@@ -21,7 +21,8 @@ var _default = {
   noLabel: "未知设备",
   notSetSinkIdTip: "抱歉，当前的浏览器权限未设置为允许访问音频输出设备。{clickHereLink}以查看如何设置。",
   noLabelTip: "抱歉，当前的浏览器权限未设置为允许访问音频输入设备。",
-  clickHere: "点击此处"
+  clickHere: "点击此处",
+  defaultOutputDevice: "默认输出设备"
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@
@@ -37,6 +38,7 @@ var _default = {
 // @key: @#@"notSetSinkIdTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up."@#@
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
+// @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

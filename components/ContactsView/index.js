@@ -11,8 +11,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -77,13 +75,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -227,12 +221,9 @@ function (_Component) {
         _this.setState(_objectSpread({}, _this.calculateContentSize()));
       }
     }, 300);
-    _this.onRefresh =
-    /*#__PURE__*/
-    _asyncToGenerator(
-    /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
+
+    _this.onRefresh = function _callee() {
+      return regeneratorRuntime.async(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -249,7 +240,7 @@ function (_Component) {
               });
 
               _context.next = 5;
-              return _this.props.onRefresh();
+              return regeneratorRuntime.awrap(_this.props.onRefresh());
 
             case 5:
               _this.setState({
@@ -261,8 +252,9 @@ function (_Component) {
               return _context.stop();
           }
         }
-      }, _callee);
-    }));
+      });
+    };
+
     _this.state = {
       searchString: props.searchString,
       unfold: false,
@@ -321,15 +313,15 @@ function (_Component) {
     }
   }, {
     key: "search",
-    value: function search(_ref5) {
+    value: function search(_ref4) {
       var _this2 = this;
 
-      var _ref5$searchSource = _ref5.searchSource,
-          searchSource = _ref5$searchSource === void 0 ? this.props.searchSource : _ref5$searchSource,
-          _ref5$searchString = _ref5.searchString,
-          searchString = _ref5$searchString === void 0 ? this.state.searchString : _ref5$searchString,
-          _ref5$delay = _ref5.delay,
-          delay = _ref5$delay === void 0 ? 0 : _ref5$delay;
+      var _ref4$searchSource = _ref4.searchSource,
+          searchSource = _ref4$searchSource === void 0 ? this.props.searchSource : _ref4$searchSource,
+          _ref4$searchString = _ref4.searchString,
+          searchString = _ref4$searchString === void 0 ? this.state.searchString : _ref4$searchString,
+          _ref4$delay = _ref4.delay,
+          delay = _ref4$delay === void 0 ? 0 : _ref4$delay;
 
       if (this.props.onSearchContact) {
         if (this._searchTimeoutId) {
@@ -371,6 +363,7 @@ function (_Component) {
       var refreshButton = showRefresh ? _react["default"].createElement(RefreshContacts, {
         className: _styles["default"].actionButton,
         refreshing: this.state.refreshing,
+        currentLocale: currentLocale,
         onRefresh: this.onRefresh
       }) : null;
       return _react["default"].createElement("div", {

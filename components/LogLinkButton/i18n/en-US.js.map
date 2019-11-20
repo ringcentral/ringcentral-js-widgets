@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LogLinkButton/i18n/en-US.js"],"names":["toolTip"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C","sourcesContent":["export default {\n  toolTip: 'View in {crmName}',\n};\n"],"file":"en-US.js"}

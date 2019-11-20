@@ -51,7 +51,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -82,10 +82,6 @@ function (_Component) {
     _classCallCheck(this, FlipPanel);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(FlipPanel).call(this, props));
-    _this.state = {
-      flipValue: _this.props.flipNumbers.length === 0 ? '' : _this.props.flipNumbers[0].phoneNumber,
-      flipEnabled: !_this.props.isOnFlip
-    };
 
     _this.onRadioSelect = function (value) {
       _this.setState({
@@ -94,48 +90,74 @@ function (_Component) {
     };
 
     _this.onFlip = function () {
-      _this.props.onFlip(_this.state.flipValue);
+      _this.props.onFlip(_this.state.flipValue, _this.props.sessionId);
 
       _this.setState({
         flipEnabled: false
       });
     };
 
+    _this.onComplete = function () {
+      _this.props.onComplete(_this.props.sessionId);
+    };
+
+    _this.state = {
+      flipValue: _this.props.flipNumbers.length === 0 ? '' : _this.props.flipNumbers[0].phoneNumber,
+      flipEnabled: !_this.props.isOnFlip
+    };
     return _this;
   }
 
   _createClass(FlipPanel, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      var _this$props = this.props,
+          session = _this$props.session,
+          onCallEnd = _this$props.onCallEnd;
+
+      if (session && !nextProps.session) {
+        onCallEnd();
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this$props2 = this.props,
+          isOnFlip = _this$props2.isOnFlip,
+          onBack = _this$props2.onBack,
+          currentLocale = _this$props2.currentLocale,
+          flipNumbers = _this$props2.flipNumbers,
+          formatPhone = _this$props2.formatPhone;
+      var flipEnabled = this.state.flipEnabled;
       return _react["default"].createElement("div", {
         className: _styles["default"].root
       }, _react["default"].createElement(_BackHeader["default"], {
-        onBackClick: this.props.isOnFlip ? null : this.props.hideFlipPanel,
+        onBackClick: isOnFlip ? null : onBack,
         backButton: _react["default"].createElement(_BackButton["default"], {
-          showIcon: !this.props.isOnFlip
+          showIcon: !isOnFlip
         })
       }, _react["default"].createElement("span", {
         "data-sign": "flipTitle",
         className: _styles["default"].headerTitle
-      }, _i18n["default"].getString('flipHeader', this.props.currentLocale))), _react["default"].createElement("div", {
+      }, _i18n["default"].getString('flipHeader', currentLocale))), _react["default"].createElement("div", {
         className: _styles["default"].flipContainer
       }, _react["default"].createElement(_RadioBtnGroup["default"], {
-        dataSign: 'flipNumber',
+        dataSign: "flipNumber",
         className: _styles["default"].radioGroup,
-        radioOptions: this.props.flipNumbers,
-        disabled: !this.state.flipEnabled,
-        formatPhone: this.props.formatPhone,
+        radioOptions: flipNumbers,
+        disabled: !flipEnabled,
+        formatPhone: formatPhone,
         onRadioSelect: this.onRadioSelect,
-        currentLocale: this.props.currentLocale
+        currentLocale: currentLocale
       }), _react["default"].createElement("div", {
         className: _styles["default"].buttonGroup
       }, _react["default"].createElement("div", {
         "data-sign": "flip",
         className: _styles["default"].button,
-        title: _i18n["default"].getString('flip', this.props.currentLocale)
+        title: _i18n["default"].getString('flip', currentLocale)
       }, _react["default"].createElement(_CircleButton["default"], {
-        disabled: !this.state.flipEnabled,
-        className: (0, _classnames["default"])(_styles["default"].flipButton, this.state.flipEnabled ? '' : _styles["default"].disabled),
+        disabled: !flipEnabled,
+        className: (0, _classnames["default"])(_styles["default"].flipButton, flipEnabled ? '' : _styles["default"].disabled),
         iconClassName: _styles["default"].flipIcon,
         onClick: this.onFlip,
         icon: _Flip["default"],
@@ -143,11 +165,11 @@ function (_Component) {
       })), _react["default"].createElement("div", {
         "data-sign": "flipComplete",
         className: _styles["default"].button,
-        title: _i18n["default"].getString('complete', this.props.currentLocale)
+        title: _i18n["default"].getString('complete', currentLocale)
       }, _react["default"].createElement(_CircleButton["default"], {
-        disabled: !this.props.isOnFlip,
-        className: (0, _classnames["default"])(_styles["default"].completeButton, this.props.isOnFlip ? '' : _styles["default"].disabled),
-        onClick: this.props.complete,
+        disabled: !isOnFlip,
+        className: (0, _classnames["default"])(_styles["default"].completeButton, isOnFlip ? '' : _styles["default"].disabled),
+        onClick: this.onComplete,
         icon: _End["default"],
         showBorder: true
       })))));
@@ -159,12 +181,19 @@ function (_Component) {
 
 exports["default"] = FlipPanel;
 FlipPanel.propTypes = {
-  isOnFlip: _propTypes["default"].bool.isRequired,
+  isOnFlip: _propTypes["default"].bool,
   flipNumbers: _propTypes["default"].array.isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
   formatPhone: _propTypes["default"].func.isRequired,
-  hideFlipPanel: _propTypes["default"].func.isRequired,
+  onBack: _propTypes["default"].func.isRequired,
   onFlip: _propTypes["default"].func.isRequired,
-  complete: _propTypes["default"].func.isRequired
+  onComplete: _propTypes["default"].func.isRequired,
+  onCallEnd: _propTypes["default"].func.isRequired,
+  session: _propTypes["default"].object,
+  sessionId: _propTypes["default"].string.isRequired
+};
+FlipPanel.defaultProps = {
+  session: null,
+  isOnFlip: false
 };
 //# sourceMappingURL=index.js.map

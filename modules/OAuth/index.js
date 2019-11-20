@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -54,10 +52,6 @@ var _dec, _class, _class2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -112,71 +106,51 @@ function (_OAuthBase) {
 
   _createClass(OAuth, [{
     key: "setupOAuth",
-    value: function () {
-      var _setupOAuth = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var _this = this;
+    value: function setupOAuth() {
+      var _this = this;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!this.oAuthReady) {
-                  window.oAuthCallback = function (callbackUri) {
-                    return _this._handleCallbackUri(callbackUri);
-                  };
+      return regeneratorRuntime.async(function setupOAuth$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!this.oAuthReady) {
+                window.oAuthCallback = function (callbackUri) {
+                  return _this._handleCallbackUri(callbackUri);
+                };
 
-                  this.store.dispatch({
-                    type: this.actionTypes.setupOAuth
-                  });
-                }
+                this.store.dispatch({
+                  type: this.actionTypes.setupOAuth
+                });
+              }
 
-              case 1:
-              case "end":
-                return _context.stop();
-            }
+            case 1:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function setupOAuth() {
-        return _setupOAuth.apply(this, arguments);
-      }
-
-      return setupOAuth;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "destroyOAuth",
-    value: function () {
-      var _destroyOAuth = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (this.oAuthReady) {
-                  window.oAuthCallback = null;
-                  this.store.dispatch({
-                    type: this.actionTypes.destroyOAuth
-                  });
-                }
+    value: function destroyOAuth() {
+      return regeneratorRuntime.async(function destroyOAuth$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (this.oAuthReady) {
+                window.oAuthCallback = null;
+                this.store.dispatch({
+                  type: this.actionTypes.destroyOAuth
+                });
+              }
 
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
+            case 1:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function destroyOAuth() {
-        return _destroyOAuth.apply(this, arguments);
-      }
-
-      return destroyOAuth;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "openOAuthPage",
     value: function openOAuthPage() {

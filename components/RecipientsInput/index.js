@@ -49,7 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -143,7 +143,9 @@ function SelectedRecipients(_ref2) {
         }
       });
     }));
-  } else if (!multiple && recipient) {
+  }
+
+  if (!multiple && recipient) {
     return _react["default"].createElement("ul", {
       className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
     }, _react["default"].createElement(SelectedRecipientItem, {
@@ -409,7 +411,11 @@ function (_Component) {
     value: function render() {
       var _this4 = this;
 
-      // TODO a temporary fix for rendering slower search result.
+      var _this$props = this.props,
+          useRCUI = _this$props.useRCUI,
+          className = _this$props.className,
+          isLastInputFromDialpad = _this$props.isLastInputFromDialpad; // TODO a temporary fix for rendering slower search result.
+
       var relatedContactList = this.state.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
 
       var label = _react["default"].createElement("label", {
@@ -419,7 +425,7 @@ function (_Component) {
       var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react["default"].createElement("div", {
         className: _styles["default"].inputWrapper
       }, _react["default"].createElement("div", {
-        className: _styles["default"].inputField
+        className: (0, _classnames["default"])(_styles["default"].inputField, this.state.isFocusOnInput ? 'Mui-focused' : null, 'MuiInput-underline')
       }, _react["default"].createElement("input", {
         "data-sign": "recipientsInput",
         ref: this.setInputRef,
@@ -438,10 +444,10 @@ function (_Component) {
         visibility: this.state.value.length > 0
       }));
       return _react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].container, this.props.className),
+        className: (0, _classnames["default"])(_styles["default"].container, useRCUI ? _styles["default"].rcuiStyle : null, className),
         onKeyDown: this.handleHotKey
       }, label, _react["default"].createElement("div", {
-        className: this.props.label === undefined ? _styles["default"].rightPanel : ''
+        className: (0, _classnames["default"])(useRCUI ? _styles["default"].rcuiStyle : null, this.props.label === undefined ? _styles["default"].rightPanel : '')
       }, _react["default"].createElement(SelectedRecipients, {
         recipient: this.props.recipient,
         recipients: this.props.recipients,
@@ -459,7 +465,7 @@ function (_Component) {
         addToRecipients: this._addToRecipients,
         items: relatedContactList,
         formatContactPhone: this.props.formatContactPhone,
-        visibility: this.state.isFocusOnInput,
+        visibility: this.state.isFocusOnInput && !isLastInputFromDialpad,
         titleEnabled: this.props.titleEnabled,
         phoneTypeRenderer: this.props.phoneTypeRenderer,
         phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
@@ -506,7 +512,9 @@ RecipientsInput.propTypes = {
   phoneTypeRenderer: _propTypes["default"].func,
   phoneSourceNameRenderer: _propTypes["default"].func,
   contactInfoRenderer: _propTypes["default"].func,
-  contactPhoneRenderer: _propTypes["default"].func
+  contactPhoneRenderer: _propTypes["default"].func,
+  useRCUI: _propTypes["default"].bool,
+  isLastInputFromDialpad: _propTypes["default"].bool
 };
 RecipientsInput.defaultProps = {
   className: undefined,
@@ -525,7 +533,9 @@ RecipientsInput.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
-  contactPhoneRenderer: undefined
+  contactPhoneRenderer: undefined,
+  useRCUI: false,
+  isLastInputFromDialpad: false
 };
 var _default = RecipientsInput;
 exports["default"] = _default;

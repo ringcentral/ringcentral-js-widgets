@@ -125,6 +125,7 @@ DialPad.defaultProps = {
   onButtonOutput: undefined,
   alternativeTimeout: undefined,
   dialButtonVolume: 1,
-  dialButtonMuted: false
+  dialButtonMuted: false,
+  dataSign: undefined
 };
 //# sourceMappingURL=index.js.map

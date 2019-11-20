@@ -53,7 +53,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -77,7 +77,6 @@ function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       activeCallControl = _ref$phone.activeCallControl,
       regionSettings = _ref$phone.regionSettings,
-      callMonitor = _ref$phone.callMonitor,
       locale = _ref$phone.locale,
       brand = _ref$phone.brand,
       params = _ref.params,
@@ -100,7 +99,8 @@ function mapToProps(_, _ref) {
 
   if (renderContactName) {
     var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeSession, renderContactName({
-      sessionId: sessionId
+      sessionId: activeSession && activeSession.sessionId,
+      telephonySessionId: sessionId
     }), locale.currentLocale),
         fallBackNameFromThirdParty = _pickFallBackInfo.fallBackName,
         fallBackNumber = _pickFallBackInfo.fallBackNumber;
@@ -115,7 +115,6 @@ function mapToProps(_, _ref) {
     sessionId: sessionId,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    otherDeviceCalls: callMonitor.otherDeviceCalls,
     nameMatches: nameMatches,
     phoneNumber: phoneNumber,
     fallBackName: fallBackName,

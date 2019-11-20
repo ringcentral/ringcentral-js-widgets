@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CallBadge/i18n/ja-JP.ts"],"names":["activeCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C,EAIf","sourcesContent":["export default {\n  activeCall: \"アクティブな通話\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"file":"ja-JP.js"}

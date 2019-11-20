@@ -4,6 +4,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -16,10 +18,6 @@ exports["default"] = void 0;
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -55,13 +53,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -167,10 +161,6 @@ function (_Component) {
       return _this.props.sendDTMF(value, _this.props.session.id);
     };
 
-    _this.onFlip = function (value) {
-      return _this.props.onFlip(value, _this.props.session.id);
-    };
-
     _this.onPark = function () {
       return _this.props.onPark(_this.props.session.id);
     };
@@ -243,47 +233,37 @@ function (_Component) {
     }
   }, {
     key: "onLastMergingCallEnded",
-    value: function () {
-      var _onLastMergingCallEnded = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (!this._mounted) {
-                  _context2.next = 5;
-                  break;
-                }
+    value: function onLastMergingCallEnded() {
+      return regeneratorRuntime.async(function onLastMergingCallEnded$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!this._mounted) {
+                _context2.next = 5;
+                break;
+              }
 
-                _context2.next = 3;
-                return (0, _sleep["default"])(2000);
+              _context2.next = 3;
+              return regeneratorRuntime.awrap((0, _sleep["default"])(2000));
 
-              case 3:
-                if (this._mounted) {
-                  this.setState({
-                    layout: _callCtrlLayouts["default"].normalCtrl
-                  });
-                }
+            case 3:
+              if (this._mounted) {
+                this.setState({
+                  layout: _callCtrlLayouts["default"].normalCtrl
+                });
+              }
 
-                if (this.props.closeMergingPair) {
-                  this.props.closeMergingPair();
-                }
+              if (this.props.closeMergingPair) {
+                this.props.closeMergingPair();
+              }
 
-              case 5:
-              case "end":
-                return _context2.stop();
-            }
+            case 5:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee, this);
-      }));
-
-      function onLastMergingCallEnded() {
-        return _onLastMergingCallEnded.apply(this, arguments);
-      }
-
-      return onLastMergingCallEnded;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "getLayout",
     value: function getLayout(lastProps, nextProps) {
@@ -416,7 +396,6 @@ function (_Component) {
         startTime: session.startTime,
         isOnMute: session.isOnMute,
         isOnHold: session.isOnHold,
-        isOnFlip: session.isOnFlip,
         recordStatus: session.recordStatus,
         showBackButton: this.props.showBackButton,
         backButtonLabel: backButtonLabel,
@@ -432,9 +411,10 @@ function (_Component) {
         onAdd: this.onAdd,
         onMerge: this.onMerge,
         onBeforeMerge: this.onBeforeMerge,
-        onFlip: this.onFlip,
+        onFlip: this.props.onFlip,
         onTransfer: this.props.onTransfer,
         onPark: this.onPark,
+        disableFlip: this.props.disableFlip,
         nameMatches: this.props.nameMatches,
         fallBackName: fallbackUserName,
         areaCode: this.props.areaCode,
@@ -444,7 +424,6 @@ function (_Component) {
         avatarUrl: this.state.avatarUrl,
         brand: this.props.brand,
         showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
-        flipNumbers: this.props.flipNumbers,
         sourceIcons: this.props.sourceIcons,
         phoneTypeRenderer: this.props.phoneTypeRenderer,
         phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
@@ -515,7 +494,6 @@ CallCtrlContainer.propTypes = {
   onBackButtonClick: _propTypes["default"].func,
   brand: _propTypes["default"].string.isRequired,
   showContactDisplayPlaceholder: _propTypes["default"].bool.isRequired,
-  flipNumbers: _propTypes["default"].array.isRequired,
   sourceIcons: _propTypes["default"].object,
   phoneTypeRenderer: _propTypes["default"].func,
   phoneSourceNameRenderer: _propTypes["default"].func,
@@ -535,7 +513,8 @@ CallCtrlContainer.propTypes = {
   isConferenceCallOverload: _propTypes["default"].bool,
   afterHideMergeConfirm: _propTypes["default"].func,
   afterConfirmMerge: _propTypes["default"].func,
-  afterOnMerge: _propTypes["default"].func
+  afterOnMerge: _propTypes["default"].func,
+  disableFlip: _propTypes["default"].bool
 };
 CallCtrlContainer.defaultProps = {
   children: undefined,
@@ -578,7 +557,8 @@ CallCtrlContainer.defaultProps = {
   },
   afterOnMerge: function afterOnMerge() {
     return null;
-  }
+  },
+  disableFlip: false
 };
 var _default = CallCtrlContainer;
 exports["default"] = _default;

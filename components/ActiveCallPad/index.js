@@ -87,7 +87,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -302,18 +302,18 @@ function (_Component) {
         dataSign: 'transfer',
         title: _i18n["default"].getString('transfer', this.props.currentLocale),
         disabled: disabledTransfer || controlBusy,
-        onClick: this.props.onToggleTransferPanel
+        onClick: this.props.onTransfer
       });
       /* --------------------- Flip --------------------------- */
 
-      var disabledFlip = this.props.flipNumbers.length === 0 || this.props.isOnHold || this.props.layout !== _callCtrlLayouts["default"].normalCtrl;
+      var disabledFlip = this.props.disableFlip || this.props.isOnHold || this.props.layout !== _callCtrlLayouts["default"].normalCtrl;
       buttons.push({
         icon: _Flip["default"],
         id: ACTIONS_CTRL_MAP.flipCtrl,
         dataSign: 'flip',
         title: _i18n["default"].getString('flip', this.props.currentLocale),
         disabled: disabledFlip || controlBusy,
-        onClick: this.props.onShowFlipPanel
+        onClick: this.props.onFlip
       }); // filter actions
 
       var actions = this.props.actions;
@@ -405,9 +405,9 @@ ActiveCallPad.propTypes = {
   onShowKeyPad: _propTypes["default"].func.isRequired,
   onAdd: _propTypes["default"].func,
   onMerge: _propTypes["default"].func,
-  onShowFlipPanel: _propTypes["default"].func.isRequired,
-  onToggleTransferPanel: _propTypes["default"].func.isRequired,
-  flipNumbers: _propTypes["default"].array.isRequired,
+  onFlip: _propTypes["default"].func.isRequired,
+  onTransfer: _propTypes["default"].func.isRequired,
+  disableFlip: _propTypes["default"].bool,
   layout: _propTypes["default"].string,
   addDisabled: _propTypes["default"].bool,
   mergeDisabled: _propTypes["default"].bool,
@@ -428,6 +428,7 @@ ActiveCallPad.defaultProps = {
   onAdd: undefined,
   onMerge: undefined,
   expandMore: false,
+  disableFlip: false,
   actions: []
 };
 var _default = ActiveCallPad;

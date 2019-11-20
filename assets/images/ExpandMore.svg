@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="8px" viewBox="0 0 12 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>icon/navigation/expand_more_24px</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="16.59 8.59 12 13.17 7.41 8.59 6 10 12 16 18 10"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Schedule-meeting2-Copy-9" transform="translate(-266.000000, -404.000000)">
+            <g id="Group-2" transform="translate(0.000000, 384.000000)">
+                <g id="icon/navigation/expand_more_24px" transform="translate(260.000000, 12.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g fill-rule="nonzero"></g>
+                    <g id="Color/Gray/600" mask="url(#mask-2)" fill="#757575" fill-rule="nonzero">
+                        <rect x="0" y="0" width="24" height="24"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

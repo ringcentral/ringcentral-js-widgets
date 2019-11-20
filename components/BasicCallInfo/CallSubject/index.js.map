@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/BasicCallInfo/CallSubject/index.ts"],"names":["CallSubject"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;;;;eADeA,uB","sourcesContent":["import CallSubject from './CallSubject';\n\nexport default CallSubject;\nexport * from './CallSubject';\n"],"file":"index.js"}

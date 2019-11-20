@@ -9,8 +9,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -61,11 +59,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -168,57 +162,47 @@ function mapToFunctions(_, _ref2) {
     params: params
   }, props));
   return _objectSpread({}, baseProps, {
-    onMerge: function () {
-      var _onMerge = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(sessionId) {
-        var sessions, confId, confSessionId;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                // to track user click merge
-                callMonitor.callsOnHoldClickMergeTrack();
-                _context.next = 3;
-                return conferenceCall.parseMergingSessions({
-                  sessionId: sessionId,
-                  sessionIdToMergeWith: fromSessionId
-                });
+    onMerge: function onMerge(sessionId) {
+      var sessions, confId, confSessionId;
+      return regeneratorRuntime.async(function onMerge$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // to track user click merge
+              callMonitor.callsOnHoldClickMergeTrack();
+              _context.next = 3;
+              return regeneratorRuntime.awrap(conferenceCall.parseMergingSessions({
+                sessionId: sessionId,
+                sessionIdToMergeWith: fromSessionId
+              }));
 
-              case 3:
-                sessions = _context.sent;
+            case 3:
+              sessions = _context.sent;
 
-                if (!sessions) {
-                  _context.next = 9;
-                  break;
-                }
-
-                confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
-
-                if (confId) {
-                  confSessionId = conferenceCall.conferences[confId].sessionId;
-                  routerInteraction.push("/calls/active/".concat(confSessionId));
-                } else {
-                  routerInteraction.goBack();
-                }
-
+              if (!sessions) {
                 _context.next = 9;
-                return conferenceCall.mergeSessions(sessions);
+                break;
+              }
 
-              case 9:
-              case "end":
-                return _context.stop();
-            }
+              confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
+
+              if (confId) {
+                confSessionId = conferenceCall.conferences[confId].sessionId;
+                routerInteraction.push("/calls/active/".concat(confSessionId));
+              } else {
+                routerInteraction.goBack();
+              }
+
+              _context.next = 9;
+              return regeneratorRuntime.awrap(conferenceCall.mergeSessions(sessions));
+
+            case 9:
+            case "end":
+              return _context.stop();
           }
-        }, _callee);
-      }));
-
-      function onMerge(_x) {
-        return _onMerge.apply(this, arguments);
-      }
-
-      return onMerge;
-    }(),
+        }
+      });
+    },
     onBackButtonClick: function onBackButtonClick() {
       if (webphone.sessions.length) {
         routerInteraction.goBack();
@@ -236,33 +220,23 @@ function mapToFunctions(_, _ref2) {
     isConferenceSession: function isConferenceSession() {
       return conferenceCall.isConferenceSession.apply(conferenceCall, arguments);
     },
-    webphoneHangup: function () {
-      var _webphoneHangup = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        var _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                // track user click hangup on calls onhold page
-                callMonitor.callsOnHoldClickHangupTrack();
-                return _context2.abrupt("return", webphone && webphone.hangup.apply(webphone, _args2));
+    webphoneHangup: function webphoneHangup() {
+      var _args2 = arguments;
+      return regeneratorRuntime.async(function webphoneHangup$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              // track user click hangup on calls onhold page
+              callMonitor.callsOnHoldClickHangupTrack();
+              return _context2.abrupt("return", webphone && webphone.hangup.apply(webphone, _args2));
 
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
+            case 2:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2);
-      }));
-
-      function webphoneHangup() {
-        return _webphoneHangup.apply(this, arguments);
-      }
-
-      return webphoneHangup;
-    }()
+        }
+      });
+    }
   });
 }
 

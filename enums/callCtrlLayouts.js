@@ -7,11 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Enum = _interopRequireDefault(require("ringcentral-integration/lib/Enum"));
+var _Enum = require("ringcentral-integration/lib/Enum");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = new _Enum["default"](['normalCtrl', 'mergeCtrl', 'conferenceCtrl'], 'callCtrlLayouts');
+var _default = (0, _Enum.createEnum)(['normalCtrl', 'mergeCtrl', 'conferenceCtrl'], 'callCtrlLayouts');
 
 exports["default"] = _default;
 //# sourceMappingURL=callCtrlLayouts.js.map

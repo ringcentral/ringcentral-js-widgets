@@ -9,8 +9,8 @@ exports["default"] = void 0;
 var _default = {
   currentCall: "目前通話",
   viewCalls: "檢視通話",
-  incomingCall: "{numberOf} 接到來電",
-  incomingCalls: "{numberOf} 接到來電",
+  incomingCall: "{numberOf} 個來電",
+  incomingCalls: "{numberOf} 個來電",
   callOnHold: "{numberOf} 通電話等待接通",
   callsOnHold: "{numberOf} 通電話等待接通"
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

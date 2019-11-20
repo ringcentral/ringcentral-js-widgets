@@ -9,8 +9,6 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
@@ -44,10 +42,6 @@ var _dec, _class;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -182,53 +176,43 @@ function (_RcUIModule) {
             contactDetails.onClickToCall();
           }
         } : undefined,
-        onClickToSMS: composeText ?
-        /*#__PURE__*/
-        function () {
-          var _ref3 = _asyncToGenerator(
-          /*#__PURE__*/
-          regeneratorRuntime.mark(function _callee(contact) {
-            var isDummyContact,
-                _args = arguments;
-            return regeneratorRuntime.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    isDummyContact = _args.length > 1 && _args[1] !== undefined ? _args[1] : false;
+        onClickToSMS: composeText ? function _callee(contact) {
+          var isDummyContact,
+              _args = arguments;
+          return regeneratorRuntime.async(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  isDummyContact = _args.length > 1 && _args[1] !== undefined ? _args[1] : false;
 
-                    if (routerInteraction) {
-                      routerInteraction.push(composeTextRoute);
-                    } // if contact autocomplete, if no match fill the number only
+                  if (routerInteraction) {
+                    routerInteraction.push(composeTextRoute);
+                  } // if contact autocomplete, if no match fill the number only
 
 
-                    if (contact.name && contact.phoneNumber && isDummyContact) {
-                      composeText.updateTypingToNumber(contact.name);
-                      contactSearch.search({
-                        searchString: contact.name
-                      });
-                    } else {
-                      composeText.addToNumber(contact);
+                  if (contact.name && contact.phoneNumber && isDummyContact) {
+                    composeText.updateTypingToNumber(contact.name);
+                    contactSearch.search({
+                      searchString: contact.name
+                    });
+                  } else {
+                    composeText.addToNumber(contact);
 
-                      if (composeText.typingToNumber === contact.phoneNumber) {
-                        composeText.cleanTypingToNumber();
-                      }
-                    } // for track
+                    if (composeText.typingToNumber === contact.phoneNumber) {
+                      composeText.cleanTypingToNumber();
+                    }
+                  } // for track
 
 
-                    contactDetails.onClickToSMS();
+                  contactDetails.onClickToSMS();
 
-                  case 4:
-                  case "end":
-                    return _context.stop();
-                }
+                case 4:
+                case "end":
+                  return _context.stop();
               }
-            }, _callee);
-          }));
-
-          return function (_x) {
-            return _ref3.apply(this, arguments);
-          };
-        }() : undefined
+            }
+          });
+        } : undefined
       };
     }
   }]);

@@ -11,8 +11,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -85,13 +83,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -251,55 +245,45 @@ function (_Component) {
       }
     };
 
-    _this.createSelectedContact =
-    /*#__PURE__*/
-    function () {
-      var _ref2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(entityType) {
-        var phoneNumber;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!(typeof _this.props.onCreateContact === 'function' && _this._mounted && !_this.state.isCreating)) {
-                  _context.next = 6;
-                  break;
-                }
+    _this.createSelectedContact = function _callee(entityType) {
+      var phoneNumber;
+      return regeneratorRuntime.async(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!(typeof _this.props.onCreateContact === 'function' && _this._mounted && !_this.state.isCreating)) {
+                _context.next = 6;
+                break;
+              }
 
+              _this.setState({
+                isCreating: true
+              }); // console.log('start to create: isCreating...', this.state.isCreating);
+
+
+              phoneNumber = _this.getPhoneNumber();
+              _context.next = 5;
+              return regeneratorRuntime.awrap(_this.props.onCreateContact({
+                phoneNumber: phoneNumber,
+                name: _this.props.enableContactFallback ? _this.getFallbackContactName() : '',
+                entityType: entityType
+              }));
+
+            case 5:
+              if (_this._mounted) {
                 _this.setState({
-                  isCreating: true
-                }); // console.log('start to create: isCreating...', this.state.isCreating);
+                  isCreating: false
+                }); // console.log('created: isCreating...', this.state.isCreating);
 
+              }
 
-                phoneNumber = _this.getPhoneNumber();
-                _context.next = 5;
-                return _this.props.onCreateContact({
-                  phoneNumber: phoneNumber,
-                  name: _this.props.enableContactFallback ? _this.getFallbackContactName() : '',
-                  entityType: entityType
-                });
-
-              case 5:
-                if (_this._mounted) {
-                  _this.setState({
-                    isCreating: false
-                  }); // console.log('created: isCreating...', this.state.isCreating);
-
-                }
-
-              case 6:
-              case "end":
-                return _context.stop();
-            }
+            case 6:
+            case "end":
+              return _context.stop();
           }
-        }, _callee);
-      }));
-
-      return function (_x) {
-        return _ref2.apply(this, arguments);
-      };
-    }();
+        }
+      });
+    };
 
     _this.viewSelectedContact = function () {
       if (typeof _this.props.onViewContact === 'function') {
@@ -434,54 +418,44 @@ function (_Component) {
     }
   }, {
     key: "logCall",
-    value: function () {
-      var _logCall = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(_ref3) {
-        var _ref3$redirect, redirect, selected;
+    value: function logCall(_ref2) {
+      var _ref2$redirect, redirect, selected;
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _ref3$redirect = _ref3.redirect, redirect = _ref3$redirect === void 0 ? true : _ref3$redirect, selected = _ref3.selected;
+      return regeneratorRuntime.async(function logCall$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _ref2$redirect = _ref2.redirect, redirect = _ref2$redirect === void 0 ? true : _ref2$redirect, selected = _ref2.selected;
 
-                if (!(typeof this.props.onLogCall === 'function' && this._mounted && !this.state.isLogging)) {
-                  _context2.next = 6;
-                  break;
-                }
+              if (!(typeof this.props.onLogCall === 'function' && this._mounted && !this.state.isLogging)) {
+                _context2.next = 6;
+                break;
+              }
 
+              this.setState({
+                isLogging: true
+              });
+              _context2.next = 5;
+              return regeneratorRuntime.awrap(this.props.onLogCall({
+                contact: this.getSelectedContact(selected),
+                call: this.props.call,
+                redirect: redirect
+              }));
+
+            case 5:
+              if (this._mounted) {
                 this.setState({
-                  isLogging: true
+                  isLogging: false
                 });
-                _context2.next = 5;
-                return this.props.onLogCall({
-                  contact: this.getSelectedContact(selected),
-                  call: this.props.call,
-                  redirect: redirect
-                });
+              }
 
-              case 5:
-                if (this._mounted) {
-                  this.setState({
-                    isLogging: false
-                  });
-                }
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
+            case 6:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function logCall(_x2) {
-        return _logCall.apply(this, arguments);
-      }
-
-      return logCall;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "render",
     value: function render() {

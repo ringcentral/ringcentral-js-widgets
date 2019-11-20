@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/BasicCallInfo/FollowInfo/index.ts"],"names":["FollowInfo"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;;;;eADeA,sB","sourcesContent":["import FollowInfo from './FollowInfo';\n\nexport default FollowInfo;\nexport * from './FollowInfo';\n"],"file":"index.js"}

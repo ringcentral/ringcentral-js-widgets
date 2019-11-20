@@ -67,7 +67,8 @@ function LogIcon(_ref) {
   return _react["default"].createElement("div", {
     className: logIconClassName,
     onClick: onClick,
-    title: tooltip
+    title: tooltip,
+    "data-sign": "log"
   }, id ? loggedIcon : unLoggedIcon);
 }
 

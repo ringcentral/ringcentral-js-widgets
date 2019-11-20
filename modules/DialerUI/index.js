@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -57,15 +55,11 @@ var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
 var _getReducer = _interopRequireDefault(require("./getReducer"));
 
-var _dec, _class, _class2, _descriptor, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -95,7 +89,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -132,13 +126,17 @@ function (_RcUIModule) {
         locale = _ref.locale,
         rateLimiter = _ref.rateLimiter,
         regionSettings = _ref.regionSettings,
-        options = _objectWithoutProperties(_ref, ["alert", "audioSettings", "call", "callingSettings", "conferenceCall", "connectivityManager", "contactSearch", "locale", "rateLimiter", "regionSettings"]);
+        _ref$useV = _ref.useV2,
+        useV2 = _ref$useV === void 0 ? false : _ref$useV,
+        options = _objectWithoutProperties(_ref, ["alert", "audioSettings", "call", "callingSettings", "conferenceCall", "connectivityManager", "contactSearch", "locale", "rateLimiter", "regionSettings", "useV2"]);
 
     _classCallCheck(this, DialerUI);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(DialerUI).call(this, _objectSpread({}, options)));
 
-    _initializerDefineProperty(_this, "searchContactList", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "recipients", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "searchContactList", _descriptor2, _assertThisInitialized(_this));
 
     _this._alert = alert;
     _this._audioSettings = audioSettings;
@@ -151,258 +149,220 @@ function (_RcUIModule) {
     _this._rateLimiter = rateLimiter;
     _this._regionSettings = regionSettings;
     _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
+    _this._useV2 = useV2;
     _this._callHooks = [];
     return _this;
   }
 
   _createClass(DialerUI, [{
     key: "clearToNumberField",
-    value: function () {
-      var _clearToNumberField = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.clearToNumberField
-                });
+    value: function clearToNumberField() {
+      return regeneratorRuntime.async(function clearToNumberField$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.clearToNumberField
+              });
 
-              case 1:
-              case "end":
-                return _context.stop();
-            }
+            case 1:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function clearToNumberField() {
-        return _clearToNumberField.apply(this, arguments);
-      }
-
-      return clearToNumberField;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "setToNumberField",
-    value: function () {
-      var _setToNumberField = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(phoneNumber) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (this.toNumberField !== phoneNumber) {
-                  this.store.dispatch({
-                    type: this.actionTypes.setToNumberField,
-                    phoneNumber: phoneNumber
+    value: function setToNumberField(phoneNumber) {
+      var fromDialPad,
+          _args2 = arguments;
+      return regeneratorRuntime.async(function setToNumberField$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              fromDialPad = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : false;
+
+              if (this.toNumberField !== phoneNumber) {
+                this.store.dispatch({
+                  type: this.actionTypes.setToNumberField,
+                  phoneNumber: phoneNumber,
+                  fromDialPad: fromDialPad
+                });
+
+                if (this._useV2 && this.toNumberField && this.toNumberField.length >= 3 && this._contactSearch) {
+                  this._contactSearch.debouncedSearch({
+                    searchString: this.toNumberField
                   });
                 }
+              }
 
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
+            case 2:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function setToNumberField(_x) {
-        return _setToNumberField.apply(this, arguments);
-      }
-
-      return setToNumberField;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "setRecipient",
-    value: function () {
-      var _setRecipient = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(recipient) {
-        var shouldClean,
-            _args3 = arguments;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                shouldClean = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : true;
-                this.store.dispatch({
-                  type: this.actionTypes.setRecipient,
-                  recipient: recipient
-                });
+    value: function setRecipient(recipient) {
+      var shouldClean,
+          _args3 = arguments;
+      return regeneratorRuntime.async(function setRecipient$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              shouldClean = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : true;
+              this.store.dispatch({
+                type: this.actionTypes.setRecipient,
+                recipient: recipient
+              });
 
-                if (!shouldClean) {
-                  _context3.next = 5;
-                  break;
-                }
-
+              if (!shouldClean) {
                 _context3.next = 5;
-                return this.clearToNumberField();
+                break;
+              }
 
-              case 5:
-              case "end":
-                return _context3.stop();
-            }
+              _context3.next = 5;
+              return regeneratorRuntime.awrap(this.clearToNumberField());
+
+            case 5:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function setRecipient(_x2) {
-        return _setRecipient.apply(this, arguments);
-      }
-
-      return setRecipient;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "clearRecipient",
-    value: function () {
-      var _clearRecipient = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.clearRecipient
-                });
+    value: function clearRecipient() {
+      return regeneratorRuntime.async(function clearRecipient$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.clearRecipient
+              });
 
-              case 1:
-              case "end":
-                return _context4.stop();
-            }
+            case 1:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee4, this);
-      }));
-
-      function clearRecipient() {
-        return _clearRecipient.apply(this, arguments);
-      }
-
-      return clearRecipient;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "call",
-    value: function () {
-      var _call = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(_ref2) {
-        var _ref2$phoneNumber, phoneNumber, _ref2$recipient, recipient, _ref2$fromNumber, fromNumber, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, hook;
+    value: function call(_ref2) {
+      var _ref2$phoneNumber, phoneNumber, _ref2$recipient, recipient, _ref2$fromNumber, fromNumber, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, hook;
 
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _ref2$phoneNumber = _ref2.phoneNumber, phoneNumber = _ref2$phoneNumber === void 0 ? '' : _ref2$phoneNumber, _ref2$recipient = _ref2.recipient, recipient = _ref2$recipient === void 0 ? null : _ref2$recipient, _ref2$fromNumber = _ref2.fromNumber, fromNumber = _ref2$fromNumber === void 0 ? null : _ref2$fromNumber;
+      return regeneratorRuntime.async(function call$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _ref2$phoneNumber = _ref2.phoneNumber, phoneNumber = _ref2$phoneNumber === void 0 ? '' : _ref2$phoneNumber, _ref2$recipient = _ref2.recipient, recipient = _ref2$recipient === void 0 ? null : _ref2$recipient, _ref2$fromNumber = _ref2.fromNumber, fromNumber = _ref2$fromNumber === void 0 ? null : _ref2$fromNumber;
 
-                if (!(phoneNumber || recipient)) {
-                  _context5.next = 38;
-                  break;
-                }
-
-                this.store.dispatch({
-                  type: this.actionTypes.call,
-                  phoneNumber: phoneNumber,
-                  recipient: recipient
-                });
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
-                _context5.prev = 6;
-                _iterator = this._callHooks[Symbol.iterator]();
-
-              case 8:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context5.next = 15;
-                  break;
-                }
-
-                hook = _step.value;
-                _context5.next = 12;
-                return hook({
-                  phoneNumber: phoneNumber,
-                  recipient: recipient,
-                  fromNumber: fromNumber
-                });
-
-              case 12:
-                _iteratorNormalCompletion = true;
-                _context5.next = 8;
-                break;
-
-              case 15:
-                _context5.next = 21;
-                break;
-
-              case 17:
-                _context5.prev = 17;
-                _context5.t0 = _context5["catch"](6);
-                _didIteratorError = true;
-                _iteratorError = _context5.t0;
-
-              case 21:
-                _context5.prev = 21;
-                _context5.prev = 22;
-
-                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-                  _iterator["return"]();
-                }
-
-              case 24:
-                _context5.prev = 24;
-
-                if (!_didIteratorError) {
-                  _context5.next = 27;
-                  break;
-                }
-
-                throw _iteratorError;
-
-              case 27:
-                return _context5.finish(24);
-
-              case 28:
-                return _context5.finish(21);
-
-              case 29:
-                _context5.prev = 29;
-                _context5.next = 32;
-                return this._call.call({
-                  phoneNumber: this.toNumberField,
-                  recipient: this.recipient,
-                  fromNumber: fromNumber
-                });
-
-              case 32:
-                this.store.dispatch({
-                  type: this.actionTypes.callSuccess
-                });
+              if (!(phoneNumber || recipient)) {
                 _context5.next = 38;
                 break;
+              }
 
-              case 35:
-                _context5.prev = 35;
-                _context5.t1 = _context5["catch"](29);
-                this.store.dispatch({
-                  type: this.actionTypes.callError,
-                  error: _context5.t1
-                });
+              this.store.dispatch({
+                type: this.actionTypes.call,
+                phoneNumber: phoneNumber,
+                recipient: recipient
+              });
+              _iteratorNormalCompletion = true;
+              _didIteratorError = false;
+              _iteratorError = undefined;
+              _context5.prev = 6;
+              _iterator = this._callHooks[Symbol.iterator]();
 
-              case 38:
-              case "end":
-                return _context5.stop();
-            }
+            case 8:
+              if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                _context5.next = 15;
+                break;
+              }
+
+              hook = _step.value;
+              _context5.next = 12;
+              return regeneratorRuntime.awrap(hook({
+                phoneNumber: phoneNumber,
+                recipient: recipient,
+                fromNumber: fromNumber
+              }));
+
+            case 12:
+              _iteratorNormalCompletion = true;
+              _context5.next = 8;
+              break;
+
+            case 15:
+              _context5.next = 21;
+              break;
+
+            case 17:
+              _context5.prev = 17;
+              _context5.t0 = _context5["catch"](6);
+              _didIteratorError = true;
+              _iteratorError = _context5.t0;
+
+            case 21:
+              _context5.prev = 21;
+              _context5.prev = 22;
+
+              if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                _iterator["return"]();
+              }
+
+            case 24:
+              _context5.prev = 24;
+
+              if (!_didIteratorError) {
+                _context5.next = 27;
+                break;
+              }
+
+              throw _iteratorError;
+
+            case 27:
+              return _context5.finish(24);
+
+            case 28:
+              return _context5.finish(21);
+
+            case 29:
+              _context5.prev = 29;
+              _context5.next = 32;
+              return regeneratorRuntime.awrap(this._call.call({
+                phoneNumber: this.toNumberField,
+                recipient: this.recipient,
+                fromNumber: fromNumber
+              }));
+
+            case 32:
+              this.store.dispatch({
+                type: this.actionTypes.callSuccess
+              });
+              _context5.next = 38;
+              break;
+
+            case 35:
+              _context5.prev = 35;
+              _context5.t1 = _context5["catch"](29);
+              this.store.dispatch({
+                type: this.actionTypes.callError,
+                error: _context5.t1
+              });
+
+            case 38:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee5, this, [[6, 17, 21, 29], [22,, 24, 28], [29, 35]]);
-      }));
-
-      function call(_x3) {
-        return _call.apply(this, arguments);
-      }
-
-      return call;
-    }()
+        }
+      }, null, this, [[6, 17, 21, 29], [22,, 24, 28], [29, 35]]);
+    }
   }, {
     key: "_loadLastPhoneNumber",
     value: function _loadLastPhoneNumber() {
@@ -420,55 +380,45 @@ function (_RcUIModule) {
     }
   }, {
     key: "onCallButtonClick",
-    value: function () {
-      var _onCallButtonClick = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6() {
-        var _ref3,
-            fromNumber,
-            fromSessionId,
-            _args6 = arguments;
+    value: function onCallButtonClick() {
+      var _ref3,
+          fromNumber,
+          fromSessionId,
+          _args6 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _ref3 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, fromNumber = _ref3.fromNumber, fromSessionId = _ref3.fromSessionId;
+      return regeneratorRuntime.async(function onCallButtonClick$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _ref3 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, fromNumber = _ref3.fromNumber, fromSessionId = _ref3.fromSessionId;
 
-                if (!("".concat(this.toNumberField).trim().length === 0 && !this.recipient)) {
-                  _context6.next = 5;
-                  break;
-                }
-
-                this._loadLastPhoneNumber();
-
-                _context6.next = 8;
+              if (!("".concat(this.toNumberField).trim().length === 0 && !this.recipient)) {
+                _context6.next = 5;
                 break;
+              }
 
-              case 5:
-                this._onBeforeCall(fromSessionId);
+              this._loadLastPhoneNumber();
 
-                _context6.next = 8;
-                return this.call({
-                  phoneNumber: this.toNumberField,
-                  recipient: this.recipient,
-                  fromNumber: fromNumber
-                });
+              _context6.next = 8;
+              break;
 
-              case 8:
-              case "end":
-                return _context6.stop();
-            }
+            case 5:
+              this._onBeforeCall(fromSessionId);
+
+              _context6.next = 8;
+              return regeneratorRuntime.awrap(this.call({
+                phoneNumber: this.toNumberField,
+                recipient: this.recipient,
+                fromNumber: fromNumber
+              }));
+
+            case 8:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee6, this);
-      }));
-
-      function onCallButtonClick() {
-        return _onCallButtonClick.apply(this, arguments);
-      }
-
-      return onCallButtonClick;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_onBeforeCall",
     value: function _onBeforeCall() {
@@ -488,10 +438,13 @@ function (_RcUIModule) {
         fromNumbers: this._callingSettings.fromNumbers,
         toNumber: this.toNumberField,
         recipient: this.recipient,
+        recipients: this.recipients,
         searchContactList: this.searchContactList,
         showSpinner: this.showSpinner,
         dialButtonVolume: this._audioSettings ? this._audioSettings.dialButtonVolume : 1,
-        dialButtonMuted: this._audioSettings ? this._audioSettings.dialButtonMuted : false
+        dialButtonMuted: this._audioSettings ? this._audioSettings.dialButtonMuted : false,
+        isLastInputFromDialpad: this.isLastInputFromDialpad,
+        useV2: this._useV2
       };
     }
   }, {
@@ -500,8 +453,8 @@ function (_RcUIModule) {
       var _this2 = this;
 
       return {
-        onToNumberChange: function onToNumberChange(value) {
-          return _this2.setToNumberField(value);
+        onToNumberChange: function onToNumberChange() {
+          return _this2.setToNumberField.apply(_this2, arguments);
         },
         clearToNumber: function clearToNumber() {
           return _this2.clearToNumberField();
@@ -559,10 +512,15 @@ function (_RcUIModule) {
     get: function get() {
       return !(this._call.ready && this._callingSettings.ready && this._locale.ready && this._connectivityManager.ready && (!this._audioSettings || this._audioSettings.ready) && !this._connectivityManager.isWebphoneInitializing);
     }
+  }, {
+    key: "isLastInputFromDialpad",
+    get: function get() {
+      return this.state.isLastInputFromDialpad;
+    }
   }]);
 
   return DialerUI;
-}(_RcUIModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "clearToNumberField", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearToNumberField"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setToNumberField", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setToNumberField"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRecipient", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearRecipient", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "call", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "call"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onCallButtonClick", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onCallButtonClick"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "searchContactList", [_selector.selector], {
+}(_RcUIModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "clearToNumberField", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearToNumberField"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setToNumberField", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setToNumberField"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRecipient", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearRecipient", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "call", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "call"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onCallButtonClick", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onCallButtonClick"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "recipients", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -570,9 +528,28 @@ function (_RcUIModule) {
     var _this3 = this;
 
     return [function () {
-      return _this3._contactSearch && _this3._contactSearch.sortedResult;
-    }, function (sortedResult) {
-      return sortedResult || [];
+      return _this3.recipient;
+    }, function (recipient) {
+      if (recipient) {
+        return [recipient];
+      }
+
+      return [];
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "searchContactList", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return [function () {
+      return _this4._contactSearch && _this4._contactSearch.sortedResult;
+    }, function () {
+      return _this4.toNumberField;
+    }, function (sortedResult, toNumberField) {
+      return toNumberField.length >= 3 && sortedResult.slice(0, 50) || [];
     }];
   }
 })), _class2)) || _class);

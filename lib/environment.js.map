@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/environment.ts"],"names":["environment","defaultLocale"],"mappings":";;;;;;;;AAAO,IAAMA,WAAW,GAAG;AACzBC,EAAAA,aAAa,EAAE;AADU,CAApB","sourcesContent":["export const environment = {\n  defaultLocale: 'en-US',\n};\n"],"file":"environment.js"}

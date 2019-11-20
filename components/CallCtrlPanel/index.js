@@ -35,8 +35,6 @@ var _ActiveCallDialPad = _interopRequireDefault(require("../ActiveCallDialPad"))
 
 var _ActiveCallPanel = _interopRequireDefault(require("../ActiveCallPanel"));
 
-var _FlipPanel = _interopRequireDefault(require("../FlipPanel"));
-
 var _ConfirmMergeModal = _interopRequireDefault(require("../ConfirmMergeModal"));
 
 var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
@@ -45,7 +43,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -78,7 +76,6 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CallCtrlPanel).call(this, props));
     _this.state = {
       isShowKeyPad: false,
-      isShowFlipPanel: false,
       isShowMergeConfirm: false
     };
 
@@ -94,16 +91,8 @@ function (_Component) {
       });
     };
 
-    _this.showFlipPanel = function () {
-      _this.setState({
-        isShowFlipPanel: true
-      });
-    };
-
-    _this.hideFlipPanel = function () {
-      _this.setState({
-        isShowFlipPanel: false
-      });
+    _this.onFlip = function () {
+      _this.props.onFlip(_this.props.sessionId);
     };
 
     _this.onTransfer = function () {
@@ -169,7 +158,6 @@ function (_Component) {
 
       if (this.props.sessionId !== nextProps.sessionId) {
         this.hiddenKeyPad();
-        this.hideFlipPanel();
         this.hideMergeConfirm();
       }
     }
@@ -193,12 +181,10 @@ function (_Component) {
           currentLocale = _this$props.currentLocale,
           direction = _this$props.direction,
           fallBackName = _this$props.fallBackName,
-          flipNumbers = _this$props.flipNumbers,
           formatPhone = _this$props.formatPhone,
           getAvatarUrl = _this$props.getAvatarUrl,
           gotoParticipantsCtrl = _this$props.gotoParticipantsCtrl,
           hasConferenceCall = _this$props.hasConferenceCall,
-          isOnFlip = _this$props.isOnFlip,
           isOnHold = _this$props.isOnHold,
           isOnMute = _this$props.isOnMute,
           lastCallInfo = _this$props.lastCallInfo,
@@ -207,7 +193,6 @@ function (_Component) {
           nameMatches = _this$props.nameMatches,
           onAdd = _this$props.onAdd,
           onBackButtonClick = _this$props.onBackButtonClick,
-          onFlip = _this$props.onFlip,
           onHangup = _this$props.onHangup,
           onHold = _this$props.onHold,
           onMute = _this$props.onMute,
@@ -227,10 +212,10 @@ function (_Component) {
           showContactDisplayPlaceholder = _this$props.showContactDisplayPlaceholder,
           showSpinner = _this$props.showSpinner,
           sourceIcons = _this$props.sourceIcons,
-          startTime = _this$props.startTime;
+          startTime = _this$props.startTime,
+          disableFlip = _this$props.disableFlip;
       var _this$state = this.state,
           isShowKeyPad = _this$state.isShowKeyPad,
-          isShowFlipPanel = _this$state.isShowFlipPanel,
           isShowMergeConfirm = _this$state.isShowMergeConfirm;
 
       if (isShowKeyPad) {
@@ -239,18 +224,6 @@ function (_Component) {
           hiddenDialPad: this.hiddenKeyPad,
           onHangup: onHangup,
           currentLocale: currentLocale
-        });
-      }
-
-      if (isShowFlipPanel) {
-        return _react["default"].createElement(_FlipPanel["default"], {
-          isOnFlip: isOnFlip,
-          flipNumbers: flipNumbers,
-          currentLocale: currentLocale,
-          formatPhone: formatPhone,
-          hideFlipPanel: this.hideFlipPanel,
-          onFlip: onFlip,
-          complete: onHangup
         });
       }
 
@@ -287,10 +260,10 @@ function (_Component) {
         avatarUrl: avatarUrl,
         brand: brand,
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-        onShowFlipPanel: this.showFlipPanel,
-        onToggleTransferPanel: this.onTransfer,
+        onFlip: this.onFlip,
+        disableFlip: disableFlip,
+        onTransfer: this.onTransfer,
         gotoParticipantsCtrl: gotoParticipantsCtrl,
-        flipNumbers: flipNumbers,
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
@@ -328,8 +301,6 @@ CallCtrlPanel.propTypes = {
   startTime: _propTypes["default"].number,
   isOnMute: _propTypes["default"].bool,
   isOnHold: _propTypes["default"].bool,
-  isOnFlip: _propTypes["default"].bool,
-  flipNumbers: _propTypes["default"].array,
   recordStatus: _propTypes["default"].string,
   onMute: _propTypes["default"].func.isRequired,
   onUnmute: _propTypes["default"].func.isRequired,
@@ -344,6 +315,7 @@ CallCtrlPanel.propTypes = {
   onHangup: _propTypes["default"].func.isRequired,
   onFlip: _propTypes["default"].func,
   onTransfer: _propTypes["default"].func.isRequired,
+  disableFlip: _propTypes["default"].bool,
   showBackButton: _propTypes["default"].bool,
   backButtonLabel: _propTypes["default"].string,
   onBackButtonClick: _propTypes["default"].func,
@@ -381,8 +353,6 @@ CallCtrlPanel.defaultProps = {
   startTime: null,
   isOnMute: false,
   isOnHold: false,
-  isOnFlip: false,
-  flipNumbers: [],
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
@@ -442,7 +412,8 @@ CallCtrlPanel.defaultProps = {
   },
   actions: [],
   recordStatus: '',
-  controlBusy: false
+  controlBusy: false,
+  disableFlip: false
 };
 var _default = CallCtrlPanel;
 exports["default"] = _default;

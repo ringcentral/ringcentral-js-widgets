@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -59,10 +57,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -94,6 +88,12 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 function getDefaultHistory() {
   return (0, _reactRouter.useRouterHistory)(_reactRouter.createMemoryHistory)();
 }
+/**
+ * Known issues for browser history:
+ * https://github.com/reactjs/react-router-redux/issues/570
+ * https://github.com/ReactTraining/history/issues/427
+ */
+
 
 var RouterInteraction = (_dec = (0, _di.Module)({
   deps: [{
@@ -150,120 +150,80 @@ function (_RcModule) {
     }
   }, {
     key: "push",
-    value: function () {
-      var _push = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var _this$_history;
+    value: function push() {
+      var _this$_history;
 
-        var _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                (_this$_history = this._history).push.apply(_this$_history, _args);
+      var _args = arguments;
+      return regeneratorRuntime.async(function push$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              (_this$_history = this._history).push.apply(_this$_history, _args);
 
-              case 1:
-              case "end":
-                return _context.stop();
-            }
+            case 1:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function push() {
-        return _push.apply(this, arguments);
-      }
-
-      return push;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "replace",
-    value: function () {
-      var _replace = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        var _this$_history2;
+    value: function replace() {
+      var _this$_history2;
 
-        var _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                (_this$_history2 = this._history).replace.apply(_this$_history2, _args2);
+      var _args2 = arguments;
+      return regeneratorRuntime.async(function replace$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              (_this$_history2 = this._history).replace.apply(_this$_history2, _args2);
 
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
+            case 1:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function replace() {
-        return _replace.apply(this, arguments);
-      }
-
-      return replace;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "goBack",
-    value: function () {
-      var _goBack = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        var _this$_history3;
+    value: function goBack() {
+      var _this$_history3;
 
-        var _args3 = arguments;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                (_this$_history3 = this._history).goBack.apply(_this$_history3, _args3);
+      var _args3 = arguments;
+      return regeneratorRuntime.async(function goBack$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              (_this$_history3 = this._history).goBack.apply(_this$_history3, _args3);
 
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
+            case 1:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function goBack() {
-        return _goBack.apply(this, arguments);
-      }
-
-      return goBack;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "go",
-    value: function () {
-      var _go = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4() {
-        var _this$_history4;
+    value: function go() {
+      var _this$_history4;
 
-        var _args4 = arguments;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                (_this$_history4 = this._history).go.apply(_this$_history4, _args4);
+      var _args4 = arguments;
+      return regeneratorRuntime.async(function go$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              (_this$_history4 = this._history).go.apply(_this$_history4, _args4);
 
-              case 1:
-              case "end":
-                return _context4.stop();
-            }
+            case 1:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee4, this);
-      }));
-
-      function go() {
-        return _go.apply(this, arguments);
-      }
-
-      return go;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_actionTypes",
     get: function get() {

@@ -1,0 +1,44 @@
+
+
+$top: 80px;
+.root {
+  position: fixed;
+  z-index: 1001;
+  width: 100%;
+  top: $top;
+  &.cover {
+    height: 100%;
+    top: 0;
+    padding-top: $top;
+    background-color: rgba(216, 216, 216, 0.39);
+  }
+
+  .notificationModal {
+    position: relative;
+    margin: 0 20px;
+    height: auto;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+  }
+  .closeBtn {
+    position: absolute;
+    top: 8px;
+    right: 11px;
+  }
+}
+
+.spinner {
+  z-index: 1;
+}
+
+.notificationContainer {
+  // Reason of important
+  // Historical, in order to allow logSection & logNotification with a same mask.
+  // We added some hacky things here.
+  top: 35px !important;
+  height: auto !important;
+}
+
+.maskStyle {
+  top: calc(-20% + 84px);
+}

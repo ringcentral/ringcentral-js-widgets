@@ -52,6 +52,7 @@ function ActiveCallList(_ref) {
       webphoneHangup = _ref.webphoneHangup,
       webphoneResume = _ref.webphoneResume,
       webphoneToVoicemail = _ref.webphoneToVoicemail,
+      webphoneSwitchCall = _ref.webphoneSwitchCall,
       enableContactFallback = _ref.enableContactFallback,
       title = _ref.title,
       sourceIcons = _ref.sourceIcons,
@@ -72,7 +73,8 @@ function ActiveCallList(_ref) {
       ringoutTransfer = _ref.ringoutTransfer,
       ringoutReject = _ref.ringoutReject,
       disableLinks = _ref.disableLinks,
-      showRingoutCallControl = _ref.showRingoutCallControl;
+      showRingoutCallControl = _ref.showRingoutCallControl,
+      showSwitchCall = _ref.showSwitchCall;
 
   if (!calls.length) {
     return null;
@@ -114,6 +116,7 @@ function ActiveCallList(_ref) {
       webphoneHangup: webphoneHangup,
       webphoneResume: webphoneResume,
       webphoneToVoicemail: webphoneToVoicemail,
+      webphoneSwitchCall: webphoneSwitchCall,
       enableContactFallback: enableContactFallback,
       autoLog: autoLog,
       sourceIcons: sourceIcons,
@@ -137,7 +140,8 @@ function ActiveCallList(_ref) {
       disableLinks: disableLinks,
       showRingoutCallControl: showRingoutCallControl,
       showMultipleMatch: !showRingoutCallControl // disabled for salesforce
-
+      ,
+      showSwitchCall: showSwitchCall
     });
   }));
 }
@@ -165,6 +169,7 @@ ActiveCallList.propTypes = {
   webphoneHangup: _propTypes["default"].func,
   webphoneResume: _propTypes["default"].func,
   webphoneToVoicemail: _propTypes["default"].func,
+  webphoneSwitchCall: _propTypes["default"].func,
   enableContactFallback: _propTypes["default"].bool,
   autoLog: _propTypes["default"].bool,
   sourceIcons: _propTypes["default"].object,
@@ -185,7 +190,8 @@ ActiveCallList.propTypes = {
   ringoutTransfer: _propTypes["default"].func,
   ringoutReject: _propTypes["default"].func,
   disableLinks: _propTypes["default"].bool,
-  showRingoutCallControl: _propTypes["default"].bool
+  showRingoutCallControl: _propTypes["default"].bool,
+  showSwitchCall: _propTypes["default"].bool
 };
 ActiveCallList.defaultProps = {
   className: undefined,
@@ -206,6 +212,7 @@ ActiveCallList.defaultProps = {
   autoLog: false,
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
+  webphoneSwitchCall: undefined,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
@@ -217,9 +224,7 @@ ActiveCallList.defaultProps = {
     return i;
   },
   showAvatar: true,
-  getAvatarUrl: function getAvatarUrl(i) {
-    return i;
-  },
+  getAvatarUrl: undefined,
   conferenceCallParties: [],
   webphoneHold: function webphoneHold(i) {
     return i;
@@ -234,7 +239,8 @@ ActiveCallList.defaultProps = {
   ringoutTransfer: undefined,
   ringoutReject: undefined,
   disableLinks: false,
-  showRingoutCallControl: false
+  showRingoutCallControl: false,
+  showSwitchCall: false
 };
 var _default = ActiveCallList;
 exports["default"] = _default;

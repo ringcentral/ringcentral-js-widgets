@@ -49,7 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -201,6 +201,7 @@ function (_Component) {
           getAvatarUrl = _this$props2.getAvatarUrl,
           conferenceCallParties = _this$props2.conferenceCallParties,
           webphoneHold = _this$props2.webphoneHold,
+          webphoneSwitchCall = _this$props2.webphoneSwitchCall,
           useV2 = _this$props2.useV2,
           updateSessionMatchedContact = _this$props2.updateSessionMatchedContact,
           renderExtraButton = _this$props2.renderExtraButton,
@@ -209,7 +210,8 @@ function (_Component) {
           ringoutTransfer = _this$props2.ringoutTransfer,
           ringoutReject = _this$props2.ringoutReject,
           disableLinks = _this$props2.disableLinks,
-          showRingoutCallControl = _this$props2.showRingoutCallControl;
+          showRingoutCallControl = _this$props2.showRingoutCallControl,
+          showSwitchCall = _this$props2.showSwitchCall;
       return _react["default"].createElement(_ActiveCallList["default"], {
         title: title,
         calls: calls,
@@ -232,6 +234,7 @@ function (_Component) {
         webphoneReject: webphoneReject,
         webphoneHangup: webphoneHangup,
         webphoneResume: webphoneResume,
+        webphoneSwitchCall: webphoneSwitchCall,
         webphoneToVoicemail: webphoneToVoicemail,
         renderExtraButton: renderExtraButton,
         renderContactName: renderContactName,
@@ -255,7 +258,8 @@ function (_Component) {
         ringoutTransfer: ringoutTransfer,
         ringoutReject: ringoutReject,
         disableLinks: disableLinks,
-        showRingoutCallControl: showRingoutCallControl
+        showRingoutCallControl: showRingoutCallControl,
+        showSwitchCall: showSwitchCall
       });
     }
   }, {
@@ -327,6 +331,7 @@ ActiveCallsPanel.propTypes = {
   webphoneHangup: _propTypes["default"].func,
   webphoneResume: _propTypes["default"].func,
   webphoneToVoicemail: _propTypes["default"].func,
+  webphoneSwitchCall: _propTypes["default"].func,
   autoLog: _propTypes["default"].bool,
   onViewContact: _propTypes["default"].func,
   enableContactFallback: _propTypes["default"].bool,
@@ -369,6 +374,7 @@ ActiveCallsPanel.propTypes = {
   ringoutReject: _propTypes["default"].func,
   disableLinks: _propTypes["default"].bool,
   showRingoutCallControl: _propTypes["default"].bool,
+  showSwitchCall: _propTypes["default"].bool,
   onLogBasicInfoClick: _propTypes["default"].func,
   renderSmallCallContrl: _propTypes["default"].func
 };
@@ -388,6 +394,7 @@ ActiveCallsPanel.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   webphoneToVoicemail: undefined,
+  webphoneSwitchCall: undefined,
   enableContactFallback: undefined,
   loggingMap: {},
   autoLog: false,
@@ -400,9 +407,7 @@ ActiveCallsPanel.defaultProps = {
     return false;
   },
   onCallItemClick: false,
-  getAvatarUrl: function getAvatarUrl(i) {
-    return i;
-  },
+  getAvatarUrl: undefined,
   conferenceCallParties: [],
   webphoneHold: function webphoneHold(i) {
     return i;
@@ -436,6 +441,7 @@ ActiveCallsPanel.defaultProps = {
   ringoutReject: undefined,
   disableLinks: false,
   showRingoutCallControl: false,
+  showSwitchCall: false,
   onLogBasicInfoClick: function onLogBasicInfoClick() {},
   renderSmallCallContrl: function renderSmallCallContrl() {}
 };
