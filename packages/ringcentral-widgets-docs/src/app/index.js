@@ -1,9 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import {
-  HashRouter as Router,
-  Route,
-} from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 
 import MainView from './components/MainView';
 import OverView from './pages/OverView';
@@ -29,5 +26,5 @@ render(
       <ComponentRoutes />
     </MainView>
   </Router>,
-  document.getElementById('app')
+  document.getElementById('app'),
 );

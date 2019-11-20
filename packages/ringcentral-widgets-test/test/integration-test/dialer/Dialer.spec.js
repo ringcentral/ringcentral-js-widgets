@@ -23,8 +23,14 @@ beforeEach(async () => {
 });
 
 const clickButton = (button) => {
-  button.find('g').first().simulate('mouseDown');
-  button.find('g').first().simulate('mouseUp');
+  button
+    .find('g')
+    .first()
+    .simulate('mouseDown');
+  button
+    .find('g')
+    .first()
+    .simulate('mouseUp');
   wrapper.update();
 };
 
@@ -46,7 +52,9 @@ describe('dialer panel', () => {
     domInput = panel.find(RecipientsInput).find('input');
     const store = wrapper.props().phone.store;
     expect(domInput.props().value).toEqual('16506417422');
-    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('16506417422');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual(
+      '16506417422',
+    );
   });
 
   test('dial buttons', () => {
@@ -98,15 +106,22 @@ describe('dialer panel', () => {
     const store = wrapper.props().phone.store;
     expect(textInput.props().value).toEqual('0123456789*#');
 
-    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('0123456789*#');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual(
+      '0123456789*#',
+    );
   });
 
   test('invalid number', async () => {
     await enterToNumber('Hello world');
     const store = wrapper.props().phone.store;
-    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual(
+      'Hello world',
+    );
 
-    const callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
+    const callButton = panel
+      .find('.callBtnRow')
+      .find('.callBtn')
+      .find('.btnSvgGroup');
     await callButton.simulate('click');
     await timeout(200);
     const messages = store.getState(wrapper).alert.messages;
@@ -114,18 +129,23 @@ describe('dialer panel', () => {
       expect.arrayContaining([
         expect.objectContaining({
           level: 'warning',
-          message: 'callErrors-noToNumber'
-        })
-      ])
+          message: 'callErrors-noToNumber',
+        }),
+      ]),
     );
   });
 
   test('clear input', async () => {
     await enterToNumber('Hello world');
     const store = wrapper.props().phone.store;
-    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual(
+      'Hello world',
+    );
 
-    const deleteButton = panel.find(RecipientsInput).first().find(RemoveButton);
+    const deleteButton = panel
+      .find(RecipientsInput)
+      .first()
+      .find(RemoveButton);
     await deleteButton.simulate('click');
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('');
   });
@@ -133,9 +153,14 @@ describe('dialer panel', () => {
   test('click call button to restore last number', async () => {
     await enterToNumber('Hello world');
     const store = wrapper.props().phone.store;
-    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual(
+      'Hello world',
+    );
 
-    let callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
+    let callButton = panel
+      .find('.callBtnRow')
+      .find('.callBtn')
+      .find('.btnSvgGroup');
     await callButton.simulate('click');
     await timeout(200);
     panel = wrapper.find(DialerPanel).first();
@@ -143,10 +168,15 @@ describe('dialer panel', () => {
     await deleteButton.simulate('click');
     await timeout(200);
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('');
-    callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
+    callButton = panel
+      .find('.callBtnRow')
+      .find('.callBtn')
+      .find('.btnSvgGroup');
     await callButton.simulate('click');
     await timeout(200);
-    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual(
+      'Hello world',
+    );
     panel = wrapper.find(DialerPanel).first();
     const textInput = panel.find(RecipientsInput).find('input');
     expect(textInput.instance().value).toEqual('Hello world');
@@ -158,11 +188,18 @@ describe('dialer panel', () => {
     const dropdownItems = dropdown.find('.dropdownItem');
     expect(dropdownItems.length > 1).toEqual(true);
 
-    const firstNumber = dropdownItems.at(0).find('span.phoneNumber').first().children()
+    const firstNumber = dropdownItems
+      .at(0)
+      .find('span.phoneNumber')
+      .first()
+      .children()
       .find('span')
       .at(1)
       .text();
-    const secondNumber = dropdownItems.at(1).find('span.phoneNumber').children()
+    const secondNumber = dropdownItems
+      .at(1)
+      .find('span.phoneNumber')
+      .children()
       .find('span')
       .at(1)
       .text();
@@ -172,12 +209,30 @@ describe('dialer panel', () => {
 
     panel = wrapper.find(DialerPanel).first();
     dropdownSelect = panel.find(DropdownSelect).first();
-    let selected = dropdownSelect.find('div.button').first().find('span.phoneNumber');
-    expect(selected.children().find('span').first().text()).toEqual(secondNumber);
+    let selected = dropdownSelect
+      .find('div.button')
+      .first()
+      .find('span.phoneNumber');
+    expect(
+      selected
+        .children()
+        .find('span')
+        .first()
+        .text(),
+    ).toEqual(secondNumber);
     await dropdownItems.at(0).simulate('click');
     panel = wrapper.find(DialerPanel).first();
     dropdownSelect = panel.find(DropdownSelect).first();
-    selected = dropdownSelect.find('div.button').first().find('span.phoneNumber');
-    expect(selected.children().find('span').first().text()).toEqual(firstNumber);
+    selected = dropdownSelect
+      .find('div.button')
+      .first()
+      .find('span.phoneNumber');
+    expect(
+      selected
+        .children()
+        .find('span')
+        .first()
+        .text(),
+    ).toEqual(firstNumber);
   });
 });

@@ -11,9 +11,5 @@ props.defaultTab = 'test string';
 /**
  * A example of `RecentActivityView`
  */
-const RecentActivityViewDemo = () => (
-  <RecentActivityView
-    {...props}
-  />
-);
+const RecentActivityViewDemo = () => <RecentActivityView {...props} />;
 export default RecentActivityViewDemo;

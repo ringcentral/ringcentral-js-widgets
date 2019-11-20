@@ -6,9 +6,7 @@ import i18n from './i18n';
 
 export default function ConferenceAlert(props) {
   const msg = i18n.getString(props.message.message, props.currentLocale);
-  return (
-    <span>{msg}</span>
-  );
+  return <span>{msg}</span>;
 }
 
 ConferenceAlert.propTypes = {
@@ -18,10 +16,11 @@ ConferenceAlert.propTypes = {
   }).isRequired,
 };
 
-ConferenceAlert.handleMessage = ({ message }) => contains(message, [
-  conferenceCallErrors.bringInFailed,
-  conferenceCallErrors.makeConferenceFailed,
-  conferenceCallErrors.terminateConferenceFailed,
-  conferenceCallErrors.removeFromConferenceFailed,
-  conferenceCallErrors.callIsRecording,
-]);
+ConferenceAlert.handleMessage = ({ message }) =>
+  contains(message, [
+    conferenceCallErrors.bringInFailed,
+    conferenceCallErrors.makeConferenceFailed,
+    conferenceCallErrors.terminateConferenceFailed,
+    conferenceCallErrors.removeFromConferenceFailed,
+    conferenceCallErrors.callIsRecording,
+  ]);

@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `Panel`
  */
-const PanelDemo = () => (
-  <Panel
-    {...props}
-  />
-);
+const PanelDemo = () => <Panel {...props} />;
 export default PanelDemo;

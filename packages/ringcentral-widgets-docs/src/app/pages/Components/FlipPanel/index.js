@@ -15,10 +15,7 @@ const FlipPanelPage = () => {
   return (
     <div>
       <ComponentHeader name="FlipPanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="FlipPanel Example"
-      >
+      <CodeExample code={demoCode} title="FlipPanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

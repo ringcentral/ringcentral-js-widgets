@@ -11,9 +11,5 @@ props.dateTimeFormatter = () => null;
 /**
  * A example of `RecentActivityCalls`
  */
-const RecentActivityCallsDemo = () => (
-  <RecentActivityCalls
-    {...props}
-  />
-);
+const RecentActivityCallsDemo = () => <RecentActivityCalls {...props} />;
 export default RecentActivityCallsDemo;

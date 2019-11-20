@@ -7,18 +7,18 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
 import SmCallContrl from '../../components/SmCallControl';
 import withPhone from '../../lib/withPhone';
 
-function mapToProps(_, { phone }) {
-  const {
-    activeCallControl,
-  } = phone;
-  const { activeSessions } = activeCallControl;
+function mapToProps(_, { phone, sessionId }) {
+  const { activeCallControl } = phone;
+  const telephonySessionId =
+    activeCallControl.sessionIdToTelephonySessionIdMapping[sessionId];
+  const currentSession = activeCallControl.getActiveSession(telephonySessionId);
   return {
     activeCallControl,
-    activeSessions
+    currentSession,
+    telephonySessionId,
   };
 }
 
@@ -29,30 +29,25 @@ function mapToFunctions(_, { phone }) {
     unmute: activeCallControl.unmute.bind(activeCallControl),
     hangUp: activeCallControl.hangUp.bind(activeCallControl),
     reject: activeCallControl.reject.bind(activeCallControl),
-    getActiveSession: activeCallControl.getActiveSession.bind(activeCallControl)
   };
 }
 
 /* eslint-disable react/prefer-stateless-function */
 class SmCallCtrlContainer extends Component {
   render() {
-    const {
-      currentLocale,
-      sessionId,
-    } = this.props;
-    const currentSession = this.props.getActiveSession(sessionId);
+    const { currentLocale, telephonySessionId, currentSession } = this.props;
     if (!currentSession) {
       return null;
     }
     const props = {
-      onMute: async () => this.props.mute(sessionId),
-      onUnmute: async () => this.props.unmute(sessionId),
-      onHangup: async () => this.props.hangUp(sessionId),
-      onReject: async () => this.props.reject(sessionId),
+      onMute: async () => this.props.mute(telephonySessionId),
+      onUnmute: async () => this.props.unmute(telephonySessionId),
+      onHangup: async () => this.props.hangUp(telephonySessionId),
+      onReject: async () => this.props.reject(telephonySessionId),
       isOnMute: currentSession.isOnMute,
       callStatus: currentSession.callStatus,
       callDirection: currentSession.direction,
-      currentLocale
+      currentLocale,
     };
     return <SmCallContrl {...props} />;
   }
@@ -61,21 +56,26 @@ SmCallCtrlContainer.propTypes = {
   currentLocale: PropTypes.string,
   activeCallControl: PropTypes.object,
   activeSessions: PropTypes.object,
-  sessionId: PropTypes.string,
+  telephonySessionId: PropTypes.string,
   status: PropTypes.string,
   mute: PropTypes.func.isRequired,
   unmute: PropTypes.func.isRequired,
   hangUp: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
-  getActiveSession: PropTypes.func,
+  currentSession: PropTypes.any,
 };
 
 SmCallCtrlContainer.defaultProps = {
   currentLocale: 'en-US',
   activeCallControl: {},
   activeSessions: {},
-  sessionId: '',
+  telephonySessionId: '',
   status: '',
-  getActiveSession: () => null
+  currentSession: undefined,
 };
-export default withPhone(connect(mapToProps, mapToFunctions)(SmCallCtrlContainer));
+export default withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(SmCallCtrlContainer),
+);

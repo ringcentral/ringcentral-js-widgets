@@ -10,15 +10,15 @@ props.currentLocale = 'en-US';
  * A example of `MessageInput`
  */
 const MessageInputDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '500px',
-    width: '300px',
-    border: '1px solid #f3f3f3',
-  }}>
-    <MessageInput
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      height: '500px',
+      width: '300px',
+      border: '1px solid #f3f3f3',
+    }}
+  >
+    <MessageInput {...props} />
   </div>
 );
 export default MessageInputDemo;

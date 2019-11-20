@@ -14,11 +14,11 @@ const MultiCallAnswerButtonPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="MultiCallAnswerButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="MultiCallAnswerButton Example"
-      >
+      <ComponentHeader
+        name="MultiCallAnswerButton"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="MultiCallAnswerButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

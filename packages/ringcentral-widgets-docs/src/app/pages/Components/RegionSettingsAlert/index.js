@@ -14,11 +14,11 @@ const RegionSettingsAlertPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="RegionSettingsAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="RegionSettingsAlert Example"
-      >
+      <ComponentHeader
+        name="RegionSettingsAlert"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="RegionSettingsAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

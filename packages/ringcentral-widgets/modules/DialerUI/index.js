@@ -2,7 +2,6 @@ import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 import Enum from 'ringcentral-integration/lib/Enum';
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import { selector } from 'ringcentral-integration/lib/selector';
 import RcUIModule from '../../lib/RcUIModule';
@@ -37,6 +36,7 @@ export default class DialerUI extends RcUIModule {
     locale,
     rateLimiter,
     regionSettings,
+    useV2 = false,
     ...options
   }) {
     super({
@@ -53,6 +53,7 @@ export default class DialerUI extends RcUIModule {
     this._rateLimiter = rateLimiter;
     this._regionSettings = regionSettings;
     this._reducer = getReducer(this.actionTypes);
+    this._useV2 = useV2;
     this._callHooks = [];
   }
 
@@ -80,12 +81,23 @@ export default class DialerUI extends RcUIModule {
   }
 
   @proxify
-  async setToNumberField(phoneNumber) {
+  async setToNumberField(phoneNumber, fromDialPad = false) {
     if (this.toNumberField !== phoneNumber) {
       this.store.dispatch({
         type: this.actionTypes.setToNumberField,
         phoneNumber,
+        fromDialPad,
       });
+      if (
+        this._useV2 &&
+        this.toNumberField &&
+        this.toNumberField.length >= 3 &&
+        this._contactSearch
+      ) {
+        this._contactSearch.debouncedSearch({
+          searchString: this.toNumberField,
+        });
+      }
     }
   }
 
@@ -99,6 +111,7 @@ export default class DialerUI extends RcUIModule {
       await this.clearToNumberField();
     }
   }
+
   @proxify
   async clearRecipient() {
     this.store.dispatch({
@@ -181,6 +194,17 @@ export default class DialerUI extends RcUIModule {
     return this.state.recipient;
   }
 
+  @selector
+  recipients = [
+    () => this.recipient,
+    (recipient) => {
+      if (recipient) {
+        return [recipient];
+      }
+      return [];
+    },
+  ];
+
   get isCallButtonDisabled() {
     return (
       !this._call.isIdle ||
@@ -205,8 +229,14 @@ export default class DialerUI extends RcUIModule {
   @selector
   searchContactList = [
     () => this._contactSearch && this._contactSearch.sortedResult,
-    sortedResult => (sortedResult || []),
-  ]
+    () => this.toNumberField,
+    (sortedResult, toNumberField) =>
+      (toNumberField.length >= 3 && sortedResult.slice(0, 50)) || [],
+  ];
+
+  get isLastInputFromDialpad() {
+    return this.state.isLastInputFromDialpad;
+  }
 
   getUIProps() {
     return {
@@ -218,30 +248,38 @@ export default class DialerUI extends RcUIModule {
       fromNumbers: this._callingSettings.fromNumbers,
       toNumber: this.toNumberField,
       recipient: this.recipient,
+      recipients: this.recipients,
       searchContactList: this.searchContactList,
       showSpinner: this.showSpinner,
-      dialButtonVolume: this._audioSettings ? this._audioSettings.dialButtonVolume : 1,
-      dialButtonMuted: this._audioSettings ? this._audioSettings.dialButtonMuted : false,
+      dialButtonVolume: this._audioSettings
+        ? this._audioSettings.dialButtonVolume
+        : 1,
+      dialButtonMuted: this._audioSettings
+        ? this._audioSettings.dialButtonMuted
+        : false,
+      isLastInputFromDialpad: this.isLastInputFromDialpad,
+      useV2: this._useV2,
     };
   }
 
   getUIFunctions() {
     return {
-      onToNumberChange: value => this.setToNumberField(value),
+      onToNumberChange: (...props) => this.setToNumberField(...props),
       clearToNumber: () => this.clearToNumberField(),
       onCallButtonClick: () => this.onCallButtonClick(),
-      changeFromNumber: (...args) => this._callingSettings.updateFromNumber(...args),
-      formatPhone: phoneNumber => formatNumber({
-        phoneNumber,
-        areaCode: this._regionSettings.areaCode,
-        countryCode: this._regionSettings.countryCode,
-      }),
-      setRecipient: recipient => this.setRecipient(recipient),
+      changeFromNumber: (...args) =>
+        this._callingSettings.updateFromNumber(...args),
+      formatPhone: (phoneNumber) =>
+        formatNumber({
+          phoneNumber,
+          areaCode: this._regionSettings.areaCode,
+          countryCode: this._regionSettings.countryCode,
+        }),
+      setRecipient: (recipient) => this.setRecipient(recipient),
       clearRecipient: () => this.clearRecipient(),
-      searchContact: searchString => (
+      searchContact: (searchString) =>
         this._contactSearch &&
-        this._contactSearch.debouncedSearch({ searchString })
-      ),
+        this._contactSearch.debouncedSearch({ searchString }),
     };
   }
 }

@@ -16,12 +16,14 @@ props.formatPin = () => null;
  * A example of `ConferencePanel`
  */
 const ConferencePanelDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '500px',
-    width: '300px',
-    border: '1px solid #f3f3f3',
-  }}>
+  <div
+    style={{
+      position: 'relative',
+      height: '500px',
+      width: '300px',
+      border: '1px solid #f3f3f3',
+    }}
+  >
     <ConferencePanel
       countryCode="US"
       areaCode="650"
@@ -30,7 +32,7 @@ const ConferencePanelDemo = () => (
         {
           phoneNumber: '+12679304000',
           region: 'United States',
-        }
+        },
       ]}
       currentLocale="en-US"
       inviteWithText={() => null}

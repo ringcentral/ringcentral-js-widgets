@@ -14,20 +14,14 @@ class ConferenceCallDialerPanel extends Component {
   }
 
   render() {
-    const {
-      onBack,
-      ...baseProps
-    } = this.props;
+    const { onBack, ...baseProps } = this.props;
     return [
       <BackHeader
         key="header"
         onBackClick={onBack}
         backButton={<BackButton label={i18n.getString('activeCall')} />}
       />,
-      <DialerPanel
-        key="dialer"
-        {...baseProps}
-      />
+      <DialerPanel key="dialer" {...baseProps} />,
     ];
   }
 }
@@ -42,4 +36,6 @@ ConferenceCallDialerPanel.defaultProps = {
   ...DialerPanel.defaultProps,
 };
 
-export default connectModule(phone => phone.conferenceDialerUI)(ConferenceCallDialerPanel);
+export default connectModule((phone) => phone.conferenceDialerUI)(
+  ConferenceCallDialerPanel,
+);

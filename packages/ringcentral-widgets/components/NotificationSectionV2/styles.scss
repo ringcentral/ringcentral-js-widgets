@@ -1,0 +1,61 @@
+/*
+Notice: the media query(200px) is for salesforce classics mode
+*/
+
+$top: 56px;
+.root {
+  position: fixed;
+  z-index: 1001;
+  width: 100%;
+  top: $top;
+  .notificationModal {
+    position: relative;
+    margin: 0 20px;
+    height: auto;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 8px 16px 20px 16px;
+    @media screen and (max-width: 200px) {
+      margin: 0 10px;
+      padding: 10px 12px 16px 12px;
+    }
+  }
+
+  .modalHeader {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 14px;
+    .modalTitle {
+      flex: 1;
+      line-height: normal;
+      letter-spacing: 0.15px;
+      font-size: 14px;
+      color: #212121;
+      font-weight: 500;
+    }
+    @media screen and (max-width: 200px) {
+      margin-bottom: 12px;
+      .modalTitle {
+        font-size: 12px;
+        letter-spacing: 0.13px;
+      }
+    }
+  }
+}
+
+.spinner {
+  z-index: 1;
+}
+
+.notificationContainer {
+  // Reason of important
+  // Historical, in order to allow logSection & logNotification with a same mask.
+  // We added some hacky things here.
+  top: 35px !important;
+  height: auto !important;
+}
+
+.maskStyle {
+  top: calc(-20% + 84px);
+}

@@ -18,9 +18,9 @@ props.onPark = () => null;
 props.showBackButton = true;
 props.onBackButtonClick = () => null;
 props.onKeyPadChange = () => null;
-props.formatPhone = phone => phone;
+props.formatPhone = (phone) => phone;
 props.phoneNumber = '1234567890';
-props.startTime = (new Date()).getTime();
+props.startTime = new Date().getTime();
 props.areaCode = '';
 props.countryCode = 'US';
 props.nameMatches = [];
@@ -32,22 +32,22 @@ props.recordStatus = 'recordStatus-idle';
 props.onShowKeyPad = () => null;
 props.layout = callCtrlLayouts.mergeCtrl;
 props.lastCallInfo = {
-  phoneNumber: '103'
+  phoneNumber: '103',
 };
 
 /**
  * A example of `ActiveCallPanel`
  */
 const ActiveCallPanelDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '500px',
-    width: '300px',
-    border: '1px solid #f3f3f3',
-  }}>
-    <ActiveCallPanel
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      height: '500px',
+      width: '300px',
+      border: '1px solid #f3f3f3',
+    }}
+  >
+    <ActiveCallPanel {...props} />
   </div>
 );
 export default ActiveCallPanelDemo;

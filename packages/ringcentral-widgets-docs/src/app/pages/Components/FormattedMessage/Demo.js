@@ -10,9 +10,5 @@ props.values = {
 /**
  * A example of `FormattedMessage`
  */
-const FormattedMessageDemo = () => (
-  <FormattedMessage
-    {...props}
-  />
-);
+const FormattedMessageDemo = () => <FormattedMessage {...props} />;
 export default FormattedMessageDemo;

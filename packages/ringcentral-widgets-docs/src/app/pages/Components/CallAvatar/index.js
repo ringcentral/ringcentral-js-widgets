@@ -15,10 +15,7 @@ const CallAvatarPage = () => {
   return (
     <div>
       <ComponentHeader name="CallAvatar" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="CallAvatar Example"
-      >
+      <CodeExample code={demoCode} title="CallAvatar Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -4,16 +4,11 @@ import classnames from 'classnames';
 import dynamicsFonts from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
-function ToggleButton({
-  onClick,
-}) {
+function ToggleButton({ onClick }) {
   return (
-    <div
-      className={styles.toggleButton}
-      onClick={onClick}
-    >
+    <div className={styles.toggleButton} onClick={onClick}>
       <div className={styles.toggleButtonInner} />
-      <div className={styles.toggleButtonIcon} >
+      <div className={styles.toggleButtonIcon}>
         <span className={classnames(dynamicsFonts.arrow)} />
       </div>
     </div>
@@ -44,7 +39,7 @@ export default class SlideMenu extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.extended !== this.props.extended) {
       this.setState({
-        extended: nextProps.extended
+        extended: nextProps.extended,
       });
     }
   }
@@ -56,11 +51,11 @@ export default class SlideMenu extends Component {
   }
   onToggle = (e) => {
     e.stopPropagation();
-    this.setState(prevState => ({ extended: !prevState.extended }));
+    this.setState((prevState) => ({ extended: !prevState.extended }));
     if (this.props.onToggle) {
       this.props.onToggle(e);
     }
-  }
+  };
   render() {
     const {
       className,
@@ -73,36 +68,28 @@ export default class SlideMenu extends Component {
     const extended = this.props.extended || this.state.extended;
 
     const wrapperStyles = {
-      height: extended ?
-        maxHeight :
-        minHeight,
+      height: extended ? maxHeight : minHeight,
     };
 
     return (
-      <div
-        className={classnames(
-          styles.root,
-          className
-        )}
-      >
+      <div className={classnames(styles.root, className)}>
         <div
           className={classnames(
             styles.wrapper,
-            withAnimation && styles.withAnimation
+            withAnimation && styles.withAnimation,
           )}
           style={wrapperStyles}
         >
-          <div
-            className={styles.content}
-          >
-            {children}
-          </div>
+          <div className={styles.content}>{children}</div>
         </div>
         <ExtendIcon
           extendIconClassName={
-            extended ? classnames(styles.extended, this.props.extendIconClassName) : null
+            extended
+              ? classnames(styles.extended, this.props.extendIconClassName)
+              : null
           }
-          onClick={this.onToggle} />
+          onClick={this.onToggle}
+        />
       </div>
     );
   }

@@ -8,9 +8,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `ConnectivityBadge`
  */
-const ConnectivityBadgeDemo = () => (
-  <ConnectivityBadge
-    {...props}
-  />
-);
+const ConnectivityBadgeDemo = () => <ConnectivityBadge {...props} />;
 export default ConnectivityBadgeDemo;

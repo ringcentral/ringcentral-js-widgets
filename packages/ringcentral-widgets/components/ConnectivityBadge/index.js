@@ -19,9 +19,10 @@ export default function ConnectivityBadge({
 }) {
   if (!mode) return null;
 
-  const isWebphoneConnecting = (mode === connectivityTypes.webphoneUnavailable &&
-    webphoneConnecting);
-  const hasRetryButton = (mode === connectivityTypes.webphoneUnavailable || hasLimitedStatusError);
+  const isWebphoneConnecting =
+    mode === connectivityTypes.webphoneUnavailable && webphoneConnecting;
+  const hasRetryButton =
+    mode === connectivityTypes.webphoneUnavailable || hasLimitedStatusError;
 
   let view = null;
   if (isWebphoneConnecting) {
@@ -29,7 +30,7 @@ export default function ConnectivityBadge({
       <Badge
         className={classnames(className, styles.badge, styles.loading)}
         name={i18n.getString(mode, currentLocale)}
-        >
+      >
         {i18n.getString('Connecting', currentLocale)}
         <OvalLoading width={12} height={12} />
       </Badge>
@@ -39,9 +40,9 @@ export default function ConnectivityBadge({
       <Badge
         className={classnames(className, styles.badge, styles.result)}
         name={i18n.getString(mode, currentLocale)}
-        >
+      >
         {i18n.getString(mode, currentLocale)}
-        {hasRetryButton ? (<RetryIcon width={12} height={12} />) : null}
+        {hasRetryButton ? <RetryIcon width={12} height={12} /> : null}
       </Badge>
     );
   }

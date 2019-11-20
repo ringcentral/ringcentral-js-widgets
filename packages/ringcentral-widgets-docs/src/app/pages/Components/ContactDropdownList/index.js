@@ -14,11 +14,11 @@ const ContactDropdownListPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="ContactDropdownList" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ContactDropdownList Example"
-      >
+      <ComponentHeader
+        name="ContactDropdownList"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="ContactDropdownList Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -57,7 +57,7 @@ export default class AudioSettingsUI extends RcUIModule {
   getUIFunctions() {
     return {
       onBackButtonClick: () => this._routerInteraction.goBack(),
-      onSave: data => this._audioSettings.setData(data),
+      onSave: (data) => this._audioSettings.setData(data),
       checkUserMedia: () => this._audioSettings.getUserMedia(),
     };
   }

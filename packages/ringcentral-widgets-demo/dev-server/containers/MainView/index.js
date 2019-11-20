@@ -51,19 +51,17 @@ function getTabs({
       activeIcon: DialPadHoverIcon,
       label: i18n.getString('dialpadLabel', currentLocale),
       path: '/dialer',
-      isActive: currentPath => (
-        currentPath === '/dialer'
-        || (currentPath === '/calls' && conferenceCallEquipped)
-      ),
+      isActive: (currentPath) =>
+        currentPath === '/dialer' ||
+        (currentPath === '/calls' && conferenceCallEquipped),
     },
     showCalls && {
       icon: CallsIcon,
       activeIcon: CallsHoverIcon,
       label: i18n.getString('callsLabel', currentLocale),
       path: '/calls',
-      isActive: currentPath => (
-        currentPath === '/calls' || currentPath === '/calls/active'
-      ),
+      isActive: (currentPath) =>
+        currentPath === '/calls' || currentPath === '/calls/active',
     },
     showHistory && {
       icon: HistoryIcon,
@@ -77,9 +75,9 @@ function getTabs({
       label: i18n.getString('messagesLabel', currentLocale),
       path: '/messages',
       noticeCounts: unreadCounts,
-      isActive: currentPath => (
-        currentPath === '/messages' || currentPath.indexOf('/conversations/') !== -1
-      ),
+      isActive: (currentPath) =>
+        currentPath === '/messages' ||
+        currentPath.indexOf('/conversations/') !== -1,
     },
     showContact && {
       icon: ContactIcon,
@@ -87,9 +85,7 @@ function getTabs({
       moreMenuIcon: ContactNavIcon,
       label: i18n.getString('contactsLabel', currentLocale),
       path: '/contacts',
-      isActive: currentPath => (
-        currentPath.substr(0, 9) === '/contacts'
-      ),
+      isActive: (currentPath) => currentPath.substr(0, 9) === '/contacts',
     },
     showMeeting && {
       icon: MeetingIcon,
@@ -111,20 +107,20 @@ function getTabs({
       moreMenuIcon: SettingsNavIcon,
       label: i18n.getString('settingsLabel', currentLocale),
       path: '/settings',
-      isActive: currentPath => (
-        currentPath.substr(0, 9) === '/settings'
-      ),
-    }
-  ].filter(x => !!x);
+      isActive: (currentPath) => currentPath.substr(0, 9) === '/settings',
+    },
+  ].filter((x) => !!x);
   if (tabs.length > 5) {
     const childTabs = tabs.slice(4, tabs.length);
     tabs = tabs.slice(0, 4);
     tabs.push({
       icon({ currentPath }) {
-        const childTab = childTabs.filter(childTab => (
-          (currentPath === childTab.path || currentPath.substr(0, 9) === childTab.path)
-          && childTab.moreMenuIcon
-        ));
+        const childTab = childTabs.filter(
+          (childTab) =>
+            (currentPath === childTab.path ||
+              currentPath.substr(0, 9) === childTab.path) &&
+            childTab.moreMenuIcon,
+        );
         if (childTab.length > 0) {
           const Icon = childTab[0].moreMenuIcon;
           return <Icon />;
@@ -132,10 +128,12 @@ function getTabs({
         return <MoreMenuIcon />;
       },
       activeIcon({ currentPath }) {
-        const childTab = childTabs.filter(childTab => (
-          (currentPath === childTab.path || currentPath.substr(0, 9) === childTab.path)
-          && childTab.moreMenuIcon
-        ));
+        const childTab = childTabs.filter(
+          (childTab) =>
+            (currentPath === childTab.path ||
+              currentPath.substr(0, 9) === childTab.path) &&
+            childTab.moreMenuIcon,
+        );
         if (childTab.length > 0) {
           const Icon = childTab[0].moreMenuIcon;
           return <Icon />;
@@ -144,45 +142,50 @@ function getTabs({
       },
       label: i18n.getString('moreMenuLabel', currentLocale),
       virtualPath: '!moreMenu',
-      isActive: (currentPath, currentVirtualPath) => (
-        currentVirtualPath === '!moreMenu'
-      ),
-      childTabs
+      isActive: (currentPath, currentVirtualPath) =>
+        currentVirtualPath === '!moreMenu',
+      childTabs,
     });
   }
   return tabs;
 }
 
-function mapToProps(_, {
-  phone: {
-    locale,
-    messageStore,
-    rolesAndPermissions,
-    routerInteraction,
-    callingSettings,
-    conference,
-    conferenceCall,
+function mapToProps(
+  _,
+  {
+    phone: {
+      locale,
+      messageStore,
+      rolesAndPermissions,
+      routerInteraction,
+      callingSettings,
+      conference,
+      conferenceCall,
+    },
   },
-}) {
+) {
   const unreadCounts = messageStore.unreadCounts || 0;
-  const showDialPad = rolesAndPermissions.ready && rolesAndPermissions.callingEnabled;
-  const showCalls = rolesAndPermissions.ready && rolesAndPermissions.callingEnabled &&
+  const showDialPad =
+    rolesAndPermissions.ready && rolesAndPermissions.callingEnabled;
+  const showCalls =
+    rolesAndPermissions.ready &&
+    rolesAndPermissions.callingEnabled &&
     callingSettings.ready &&
     callingSettings.callWith !== callingOptions.browser;
-  const showHistory = rolesAndPermissions.ready && rolesAndPermissions.permissions.ReadCallLog;
-  const showContact = rolesAndPermissions.ready && (
-    rolesAndPermissions.callingEnabled || rolesAndPermissions.hasReadMessagesPermission
-  );
-  const showMessages = rolesAndPermissions.ready && rolesAndPermissions.hasReadMessagesPermission;
-  const showConference = (
+  const showHistory =
+    rolesAndPermissions.ready && rolesAndPermissions.permissions.ReadCallLog;
+  const showContact =
+    rolesAndPermissions.ready &&
+    (rolesAndPermissions.callingEnabled ||
+      rolesAndPermissions.hasReadMessagesPermission);
+  const showMessages =
+    rolesAndPermissions.ready && rolesAndPermissions.hasReadMessagesPermission;
+  const showConference =
     rolesAndPermissions.ready &&
     conference.data &&
-    rolesAndPermissions.permissions.OrganizeConference
-  );
-  const showMeeting = (
-    rolesAndPermissions.ready &&
-    rolesAndPermissions.permissions.Meetings
-  );
+    rolesAndPermissions.permissions.OrganizeConference;
+  const showMeeting =
+    rolesAndPermissions.ready && rolesAndPermissions.permissions.Meetings;
   const currentLocale = locale.currentLocale;
   const conferenceCallEquipped = !!conferenceCall;
   const tabs = getTabs({
@@ -205,19 +208,11 @@ function mapToProps(_, {
   };
 }
 
-function mapToFunctions(_, {
-  phone,
-  phone: {
-    routerInteraction,
-  },
-}) {
+function mapToFunctions(_, { phone, phone: { routerInteraction } }) {
   return {
     goTo(path) {
       if (path) {
-        if (
-          path === '/dialer'
-          && hasActiveCalls(phone)
-        ) {
+        if (path === '/dialer' && hasActiveCalls(phone)) {
           routerInteraction.push('/calls');
         } else {
           routerInteraction.push(path);
@@ -227,9 +222,11 @@ function mapToFunctions(_, {
   };
 }
 
-const MainView = withPhone(connect(
-  mapToProps,
-  mapToFunctions,
-)(TabNavigationView));
+const MainView = withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(TabNavigationView),
+);
 
 export default MainView;

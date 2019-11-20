@@ -6,28 +6,36 @@ import activeCallControlStatus from '../../enums/activeCallControlStatus';
 export function isHangUp(code) {
   return code === callResults.disconnected;
 }
-export function isReject({ direction, code }) {
+export function isRejectCode({ direction, code }) {
   return (
     direction === callDirections.inbound &&
     (code === activeCallControlStatus.setUp ||
       code === activeCallControlStatus.proceeding)
   );
 }
-export function normalizeSession({ call, activeSessionStatus = {} }) {
-  const {
-    telephonySessionId,
-    partyId,
-    direction,
-    from,
-    to,
-    result,
-    telephonyStatus,
-    startTime,
-    sessionId,
-  } = call;
-  const { isOnMute, isOnHold, isReject, isOnRecording } = activeSessionStatus;
+export function isOnRecording(recordings) {
+  if (!recordings || recordings.length === 0) {
+    return false;
+  }
+  const recording = recordings[0];
+  return recording.active;
+}
+
+export function getSessionsParty(session) {
+  const extensionId = session.extensionId;
+  return session.parties.find(p => {
+    return p.extensionId === extensionId;
+  });
+}
+
+export function normalizeSession({ session, call }) {
+  const party = getSessionsParty(session);
+  const { id: partyId, direction, from, to, status, recordings, muted } = party;
+
+  const { startTime, sessionId } = call;
+
   const formatValue = {
-    telephonySessionId,
+    telephonySessionId: session.id,
     partyId,
     direction,
     from: from && from.phoneNumber,
@@ -36,44 +44,31 @@ export function normalizeSession({ call, activeSessionStatus = {} }) {
     to: to && to.phoneNumber,
     toNumber: to && to.phoneNumber,
     toUserName: to && to.name,
-    id: sessionId,
+    id: session.id,
     sessionId,
-    callStatus: telephonyStatus || result,
+    callStatus: call.telephonyStatus,
     startTime,
     creationTime: startTime,
-    isOnMute,
+    isOnMute: muted,
     isForwarded: false,
     isOnFlip: false,
-    isOnHold,
+    isOnHold: status.code === activeCallControlStatus.hold,
     isOnTransfer: false,
     isReplied: false,
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
-    recordStatus: isOnRecording ? recordStatus.recording : recordStatus.idle,
+    recordStatus: isOnRecording(recordings)
+      ? recordStatus.recording
+      : recordStatus.idle,
     removed: false,
-    isReject,
+    isReject: isRejectCode({ direction, code: status.code }),
   };
   return {
     ...formatValue,
   };
 }
-export function requestURI(activeSession) {
-  const { telephonySessionId, partyId, recordingId } = activeSession;
-  const prefix = `/account/~/telephony/sessions/${telephonySessionId}`;
-  return {
-    hangUp: `${prefix}`,
-    reject: `${prefix}/parties/${partyId}/reject`,
-    hold: `${prefix}/parties/${partyId}/hold`,
-    unhold: `${prefix}/parties/${partyId}/unhold`,
-    transfer: `${prefix}/parties/${partyId}/transfer`,
-    flip: `${prefix}/parties/${partyId}/flip`,
-    getPartyData: `${prefix}/parties/${partyId}`,
-    mute: `${prefix}/parties/${partyId}`,
-    record: `${prefix}/parties/${partyId}/recordings`,
-    stopRecord: `${prefix}/parties/${partyId}/recordings/${recordingId}`,
-  };
-}
+
 export function confictError(error) {
   const conflictErrRgx = /409/g;
   const conflictMsgRgx = /Incorrect State/g;

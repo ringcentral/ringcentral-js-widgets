@@ -8,9 +8,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `SaveButton`
  */
-const SaveButtonDemo = () => (
-  <SaveButton
-    {...props}
-  />
-);
+const SaveButtonDemo = () => <SaveButton {...props} />;
 export default SaveButtonDemo;

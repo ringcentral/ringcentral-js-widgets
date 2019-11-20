@@ -5,11 +5,7 @@ import MessagesLog from '../../assets/images/MessagesLog.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-export default function MessagesLogIcon({
-  disabled,
-  onClick,
-  currentLocale,
-}) {
+export default function MessagesLogIcon({ disabled, onClick, currentLocale }) {
   const tooltip = i18n.getString('log', currentLocale);
   return (
     <div
@@ -21,7 +17,8 @@ export default function MessagesLogIcon({
         e.stopPropagation();
         if (!disabled) onClick();
       }}
-      title={tooltip}>
+      title={tooltip}
+    >
       <MessagesLog className={styles.logIcon} />
     </div>
   );

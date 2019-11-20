@@ -10,9 +10,5 @@ props.onChange = () => null;
 /**
  * A example of `LocalePicker`
  */
-const LocalePickerDemo = () => (
-  <LocalePicker
-    {...props}
-  />
-);
+const LocalePickerDemo = () => <LocalePicker {...props} />;
 export default LocalePickerDemo;

@@ -14,17 +14,12 @@ class ComboBox extends Component {
     super(props);
     this.state = {
       open: this.props.open,
-      filter: null
+      filter: null,
     };
   }
 
   _toggleShowDropdown = (e) => {
-    const {
-      searchOption,
-      stopPropagation,
-      disabled,
-      onToggle
-    } = this.props;
+    const { searchOption, stopPropagation, disabled, onToggle } = this.props;
 
     if (!this.state.open) {
       window.addEventListener('click', this._handleDocumentClick, false);
@@ -41,18 +36,24 @@ class ComboBox extends Component {
       }
     }
 
-    if (e && stopPropagation) { e.stopPropagation(); }
+    if (e && stopPropagation) {
+      e.stopPropagation();
+    }
 
-    if (disabled) { return; }
+    if (disabled) {
+      return;
+    }
 
     onToggle(!this.state.open);
 
-    if (searchOption) { this._reSetBoxValue(); }
+    if (searchOption) {
+      this._reSetBoxValue();
+    }
 
-    this.setState(preState => ({
+    this.setState((preState) => ({
       open: !preState.open,
     }));
-  }
+  };
 
   onChange = (e, option, idx) => {
     e.stopPropagation();
@@ -71,7 +72,7 @@ class ComboBox extends Component {
     }
 
     this._toggleShowDropdown();
-  }
+  };
 
   _textChangeEmit = (e) => {
     this.setState({ filter: e.target.textContent });
@@ -123,10 +124,7 @@ class ComboBox extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.open !== undefined &&
-      nextProps.open !== this.props.open
-    ) {
+    if (nextProps.open !== undefined && nextProps.open !== this.props.open) {
       this.setState({
         open: nextProps.open,
       });
@@ -138,12 +136,15 @@ class ComboBox extends Component {
   }
 
   valueFunction(_, idx) {
-    return this.props.valueFunction(_, this.props.placeholder ? `${idx - 1}` : idx);
+    return this.props.valueFunction(
+      _,
+      this.props.placeholder ? `${idx - 1}` : idx,
+    );
   }
 
   renderFunction(option, idx) {
     const { placeholder, renderFunction } = this.props;
-    return (placeholder && idx === 0) ? placeholder : renderFunction(option, idx);
+    return placeholder && idx === 0 ? placeholder : renderFunction(option, idx);
   }
 
   renderValue(value) {
@@ -158,7 +159,9 @@ class ComboBox extends Component {
   renderTitle(selectedOption, defaultTitle) {
     const { titleEnabled, renderTitle } = this.props;
     if (titleEnabled) {
-      return typeof renderTitle === 'function' ? renderTitle(selectedOption) : defaultTitle;
+      return typeof renderTitle === 'function'
+        ? renderTitle(selectedOption)
+        : defaultTitle;
     }
     return '';
   }
@@ -171,48 +174,55 @@ class ComboBox extends Component {
       dropdownClassName,
       value,
       searchOption,
-      dropdownAlign
+      dropdownAlign,
     } = this.props;
 
     const { filter } = this.state;
 
-    let currentOptions = (placeholder ? [{}, ...options] : options);
+    let currentOptions = placeholder ? [{}, ...options] : options;
 
     if (searchOption && filter) {
-      currentOptions = currentOptions.filter(option => searchOption(option, filter));
+      currentOptions = currentOptions.filter((option) =>
+        searchOption(option, filter),
+      );
     }
 
     return (
       <ul
-        className={classnames(styles.dropdown,
+        className={classnames(
+          styles.dropdown,
           dropdownClassName,
-          placeholder && styles.placeholder)}
-        ref={(ref) => { this.dropdownMenu = ref; }}>
-        {
-          currentOptions.map((option, idx) => {
-            const currentValue = this.valueFunction(option, idx);
-            const className = classnames(
-              styles.dropdownItem,
-              value === currentValue ? styles.selected : null,
-            );
-            const display = this.renderFunction(option, idx);
-            return (
-              <li
-                data-sign="selectMenuItem"
-                key={currentValue || idx}
-                className={classnames(className,
-                  styles[dropdownAlign],
-                  ellipsis && styles.ellipsis,
-                  placeholder && styles.placeholder)}
-                value={currentValue}
-                title={this.renderTitle(option, display)}
-                onClick={e => this.onChange(e, option, idx)}
-              >
-                {display}
-              </li>
-            );
-          })
-        }
+          placeholder && styles.placeholder,
+        )}
+        ref={(ref) => {
+          this.dropdownMenu = ref;
+        }}
+      >
+        {currentOptions.map((option, idx) => {
+          const currentValue = this.valueFunction(option, idx);
+          const className = classnames(
+            styles.dropdownItem,
+            value === currentValue ? styles.selected : null,
+          );
+          const display = this.renderFunction(option, idx);
+          return (
+            <li
+              data-sign="selectMenuItem"
+              key={currentValue || idx}
+              className={classnames(
+                className,
+                styles[dropdownAlign],
+                ellipsis && styles.ellipsis,
+                placeholder && styles.placeholder,
+              )}
+              value={currentValue}
+              title={this.renderTitle(option, display)}
+              onClick={(e) => this.onChange(e, option, idx)}
+            >
+              {display}
+            </li>
+          );
+        })}
       </ul>
     );
   }
@@ -234,15 +244,10 @@ class ComboBox extends Component {
       buttonStyle,
       options,
       selectedClassName,
-      icon
+      icon,
     } = this.props;
 
-    const currentLabel = label ?
-      (
-        <span>
-          {label}
-        </span>
-      ) : null;
+    const currentLabel = label ? <span>{label}</span> : null;
     const currentIconClassName = classnames(
       styles.icon,
       this.state.open ? styles.iconUp : null,
@@ -264,9 +269,7 @@ class ComboBox extends Component {
     return (
       <div
         data-sign={dataSign}
-        className={classnames(containerClassName,
-          wrapperStyle
-        )}
+        className={classnames(containerClassName, wrapperStyle)}
         ref={(ref) => {
           if (reference) reference(ref);
           this.wrapper = ref;
@@ -276,7 +279,8 @@ class ComboBox extends Component {
           type="button"
           className={classnames(buttonClassName, buttonStyle)}
           onClick={this._toggleShowDropdown}
-          title={this.renderTitle(options[value], renderValue)}>
+          title={this.renderTitle(options[value], renderValue)}
+        >
           {currentLabel}
           <span
             ref={this.inputRef}
@@ -285,7 +289,8 @@ class ComboBox extends Component {
               styles.selectedValue,
               ellipsis && styles.ellipsis,
               selectedClassName,
-            )}>
+            )}
+          >
             {renderValue}
           </span>
           <span className={currentIconClassName}>
@@ -347,15 +352,15 @@ ComboBox.defaultProps = {
   renderDropdownMenu: undefined,
   renderTitle: undefined,
   valueFunction: (_, idx) => idx,
-  renderFunction: option => option,
-  renderValue: option => option,
+  renderFunction: (option) => option,
+  renderValue: (option) => option,
   dropdownAlign: 'center',
   titleEnabled: undefined,
   stopPropagation: false,
   placeholder: undefined,
   ellipsis: true,
   noPadding: false,
-  onToggle() { },
+  onToggle() {},
   searchOption: null,
   open: false,
   wrapperStyle: '',

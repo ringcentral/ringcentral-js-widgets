@@ -17,19 +17,11 @@ import RefreshingIcon from '../../assets/images/OvalLoading.svg';
 
 import ContactSourceFilter from '../ContactSourceFilter';
 
-function AddContact({
-  className,
-  onClick,
-}) {
+function AddContact({ className, onClick }) {
   return (
-    <div
-      className={className}
-      onClick={onClick}
-    >
+    <div className={className} onClick={onClick}>
       <div className={styles.iconContainer}>
-        <AddContactIcon
-          className={styles.iconNode}
-        />
+        <AddContactIcon className={styles.iconNode} />
       </div>
     </div>
   );
@@ -42,32 +34,19 @@ AddContact.defaultProps = {
   className: undefined,
 };
 
-function RefreshContacts({
-  className,
-  onRefresh,
-  refreshing,
-  currentLocale
-}) {
+function RefreshContacts({ className, onRefresh, refreshing, currentLocale }) {
   let icon = null;
   let iconWrappClass = null;
   if (refreshing) {
     iconWrappClass = styles.refreshingIcon;
     icon = (
-      <RefreshingIcon
-        className={styles.iconNode}
-        width={12}
-        height={12}
-      />
-    )
+      <RefreshingIcon className={styles.iconNode} width={12} height={12} />
+    );
   } else {
     iconWrappClass = styles.refreshIcon;
     icon = (
-      <RefreshContactIcon
-        className={styles.iconNode}
-        width={12}
-        height={12}
-      />
-    )
+      <RefreshContactIcon className={styles.iconNode} width={12} height={12} />
+    );
   }
   return (
     <div
@@ -75,9 +54,7 @@ function RefreshContacts({
       onClick={onRefresh}
       title={i18n.getString('refresh', currentLocale)}
     >
-      <div className={styles.iconContainer}>
-        {icon}
-      </div>
+      <div className={styles.iconContainer}>{icon}</div>
     </div>
   );
 }
@@ -123,9 +100,9 @@ export default class ContactsView extends Component {
     }
     return {
       contentHeight: 0,
-      contentWidth: 0
+      contentWidth: 0,
     };
-  }
+  };
   componentDidMount() {
     this._mounted = true;
     if (typeof this.props.onVisitPage === 'function') {
@@ -167,7 +144,7 @@ export default class ContactsView extends Component {
       searchString: value,
       delay: 100,
     });
-  }
+  };
 
   onSourceSelect = (searchSource) => {
     if (
@@ -180,14 +157,14 @@ export default class ContactsView extends Component {
     this.search({
       searchSource,
     });
-  }
+  };
   onResize = debounce(() => {
     if (this._mounted) {
       this.setState({
         ...this.calculateContentSize(),
       });
     }
-  }, 300)
+  }, 300);
 
   onRefresh = async () => {
     if (typeof this.props.onRefresh !== 'function') {
@@ -196,7 +173,7 @@ export default class ContactsView extends Component {
     this.setState({ refreshing: true });
     await this.props.onRefresh();
     this.setState({ refreshing: false });
-  }
+  };
 
   search({
     searchSource = this.props.searchSource,
@@ -209,10 +186,11 @@ export default class ContactsView extends Component {
       }
       if (delay) {
         this._searchTimeoutId = setTimeout(
-          () => this.props.onSearchContact({
-            searchSource,
-            searchString,
-          }),
+          () =>
+            this.props.onSearchContact({
+              searchSource,
+              searchString,
+            }),
           delay,
         );
       } else {
@@ -237,7 +215,7 @@ export default class ContactsView extends Component {
       contactSourceFilterRenderer: Filter,
       sourceNodeRenderer,
       onRefresh,
-      children
+      children,
     } = this.props;
 
     const showRefresh = typeof onRefresh === 'function';
@@ -245,6 +223,7 @@ export default class ContactsView extends Component {
       <RefreshContacts
         className={styles.actionButton}
         refreshing={this.state.refreshing}
+        currentLocale={currentLocale}
         onRefresh={this.onRefresh}
       />
     ) : null;
@@ -253,7 +232,10 @@ export default class ContactsView extends Component {
         <div className={styles.actionBar}>
           <SearchInput
             dataSign="contactsSearchInput"
-            className={classnames(styles.searchInput, showRefresh ? styles.withRefresh : '')}
+            className={classnames(
+              styles.searchInput,
+              showRefresh ? styles.withRefresh : '',
+            )}
             value={this.state.searchString || ''}
             onChange={this.onSearchInputChange}
             placeholder={i18n.getString('searchPlaceholder', currentLocale)}
@@ -269,13 +251,8 @@ export default class ContactsView extends Component {
             onUnfoldChange={this.onUnfoldChange}
           />
         </div>
-        <Panel
-          className={styles.content}
-        >
-          <div
-            className={styles.contentWrapper}
-            ref={this.contentWrapper}
-          >
+        <Panel className={styles.content}>
+          <div className={styles.contentWrapper} ref={this.contentWrapper}>
             <ContactList
               ref={this.contactList}
               currentLocale={currentLocale}
@@ -289,7 +266,7 @@ export default class ContactsView extends Component {
             />
           </div>
         </Panel>
-        {showSpinner ? (<SpinnerOverlay className={styles.spinner} />) : null}
+        {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
         {children}
       </div>
     );
@@ -298,11 +275,13 @@ export default class ContactsView extends Component {
 
 ContactsView.propTypes = {
   currentLocale: PropTypes.string.isRequired,
-  contactGroups: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    caption: PropTypes.string.isRequired,
-    contacts: PropTypes.arrayOf(ContactItem.propTypes.contact).isRequired,
-  })).isRequired,
+  contactGroups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      caption: PropTypes.string.isRequired,
+      contacts: PropTypes.arrayOf(ContactItem.propTypes.contact).isRequired,
+    }),
+  ).isRequired,
   contactSourceNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,

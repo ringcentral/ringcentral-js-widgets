@@ -15,10 +15,7 @@ const FormattedMessagePage = () => {
   return (
     <div>
       <ComponentHeader name="FormattedMessage" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="FormattedMessage Example"
-      >
+      <CodeExample code={demoCode} title="FormattedMessage Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

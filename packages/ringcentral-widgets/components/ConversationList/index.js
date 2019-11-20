@@ -26,15 +26,15 @@ export default class ConversationList extends Component {
     const currentScrollTop = this.messagesListBody.scrollTop;
     // load next page if scroll near buttom
     if (
-      (totalScrollHeight - this._scrollTop) > (clientHeight + 10) &&
-      (totalScrollHeight - currentScrollTop) <= (clientHeight + 10)
+      totalScrollHeight - this._scrollTop > clientHeight + 10 &&
+      totalScrollHeight - currentScrollTop <= clientHeight + 10
     ) {
       if (typeof this.props.loadNextPage === 'function') {
         this.props.loadNextPage();
       }
     }
     this._scrollTop = currentScrollTop;
-  }
+  };
 
   render() {
     const {
@@ -50,7 +50,7 @@ export default class ConversationList extends Component {
     } = this.props;
     let content;
     if (conversations && conversations.length) {
-      content = conversations.map(item => (
+      content = conversations.map((item) => (
         <MessageItem
           {...childProps}
           conversation={item}
@@ -70,7 +70,9 @@ export default class ConversationList extends Component {
       <div
         className={classnames(styles.root, className)}
         onScroll={this.onScroll}
-        ref={(list) => { this.messagesListBody = list; }}
+        ref={(list) => {
+          this.messagesListBody = list;
+        }}
       >
         {content}
         {loading}
@@ -82,11 +84,13 @@ export default class ConversationList extends Component {
 ConversationList.propTypes = {
   brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
-  conversations: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    conversationId: PropTypes.string.isRequired,
-    subject: PropTypes.string,
-  })).isRequired,
+  conversations: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      conversationId: PropTypes.string.isRequired,
+      subject: PropTypes.string,
+    }),
+  ).isRequired,
   disableLinks: PropTypes.bool,
   disableCallButton: PropTypes.bool,
   perPage: PropTypes.number,

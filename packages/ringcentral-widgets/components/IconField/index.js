@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 
-
 export default function IconField(props) {
   return (
     <div className={props.className}>
@@ -10,9 +9,7 @@ export default function IconField(props) {
         {props.children}
       </div>
       <div className={styles.iconHolder}>
-        <div className={styles.icon}>
-          { props.icon }
-        </div>
+        <div className={styles.icon}>{props.icon}</div>
       </div>
     </div>
   );
@@ -26,5 +23,5 @@ IconField.propTypes = {
 };
 
 IconField.defaultProps = {
-  title: null
+  title: null,
 };

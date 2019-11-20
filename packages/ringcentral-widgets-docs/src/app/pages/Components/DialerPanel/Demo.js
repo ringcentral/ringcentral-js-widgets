@@ -9,27 +9,29 @@ class DialerPanelDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toNumber: ''
+      toNumber: '',
     };
   }
 
   onCall = () => {
-    alert('click \'onCall\'');
-  }
+    alert("click 'onCall'");
+  };
 
   keepToNumber = (toNumber) => {
     this.setState({
-      toNumber
+      toNumber,
     });
-  }
+  };
   render() {
     return (
-      <div style={{
-        position: 'relative',
-        height: '500px',
-        width: '300px',
-        border: '1px solid #f3f3f3',
-      }}>
+      <div
+        style={{
+          position: 'relative',
+          height: '500px',
+          width: '300px',
+          border: '1px solid #f3f3f3',
+        }}
+      >
         <DialerPanel
           className={styles.root}
           currentLocale="en-US"
@@ -42,7 +44,7 @@ class DialerPanelDemo extends Component {
             {
               phoneNumber: '123456789',
               usageType: 'Company',
-            }
+            },
           ]}
           changeFromNumber={() => null}
           callButtonDisabled={false}
@@ -60,6 +62,5 @@ class DialerPanelDemo extends Component {
     );
   }
 }
-
 
 export default DialerPanelDemo;

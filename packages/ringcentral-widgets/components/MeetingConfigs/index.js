@@ -25,54 +25,58 @@ import {
 } from './constants';
 
 function getMinutesList(MINUTE_SCALE) {
-  return reduce((result) => {
-    const index = result.length;
-    const value = 60 / MINUTE_SCALE * index;
-    const text = `${(`${value}0`).slice(0, 2)} min`;
-    return result.concat({
-      value,
-      text
-    });
-  }, [], new Array(MINUTE_SCALE));
+  return reduce(
+    (result) => {
+      const index = result.length;
+      const value = (60 / MINUTE_SCALE) * index;
+      const text = `${`${value}0`.slice(0, 2)} min`;
+      return result.concat({
+        value,
+        text,
+      });
+    },
+    [],
+    new Array(MINUTE_SCALE),
+  );
 }
 
 function getHoursList(HOUR_SCALE) {
   if (HOUR_SCALE > 23) {
     throw new Error('HOUR_SCALE must be less than 23.');
   }
-  return reduce((result) => {
-    const value = result.length;
-    const text = `${(`0${value}0`).slice(-3, -1)} hr`;
-    return result.concat({
-      value,
-      text
-    });
-  }, [], new Array(HOUR_SCALE));
+  return reduce(
+    (result) => {
+      const value = result.length;
+      const text = `${`0${value}0`.slice(-3, -1)} hr`;
+      return result.concat({
+        value,
+        text,
+      });
+    },
+    [],
+    new Array(HOUR_SCALE),
+  );
 }
 
 const minutesList = getMinutesList(MINUTE_SCALE);
 const hoursList = getHoursList(HOUR_SCALE);
 
-const Topic = (
-  {
-    update,
-    currentLocale,
-    meeting,
-    that,
-  }
-) => (
+const Topic = ({ update, currentLocale, meeting, that }) => (
   <MeetingSection hideTopBorderLine>
     <div className={styles.inline}>
       <span className={styles.label}>
         {i18n.getString('topic', currentLocale)}
       </span>
       <input
-        ref={(ref) => { that.topic = ref; }}
+        ref={(ref) => {
+          that.topic = ref;
+        }}
         onPaste={(event) => {
           const topic = event.target.value;
           event.preventDefault();
           event.clipboardData.items[0].getAsString((data) => {
-            const isOverLength = topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH;
+            const isOverLength =
+              topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH;
             const positionStart = that.topic.selectionStart;
             const positionEnd = that.topic.selectionEnd;
             const select = positionEnd - positionStart;
@@ -80,7 +84,9 @@ const Topic = (
             const isOver = isOverLength && restLength > 0;
             if (isOver) {
               const isOverLength = restLength >= data.length;
-              const insertText = isOverLength ? data : data.slice(0, !isOver ? select : restLength);
+              const insertText = isOverLength
+                ? data
+                : data.slice(0, !isOver ? select : restLength);
               const value = topic.split('');
               value.splice(positionStart, select, insertText);
               that.topic.value = value.join('');
@@ -100,21 +106,18 @@ const Topic = (
           const topic = target.value;
           if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
             clearTimeout(that.topicSetTimeoutId);
-            that.topicSetTimeoutId = setTimeout(
-              () => {
-                update({
-                  ...meeting,
-                  topic,
-                });
-              },
-              10
-            );
+            that.topicSetTimeoutId = setTimeout(() => {
+              update({
+                ...meeting,
+                topic,
+              });
+            }, 10);
           } else {
             target.value = meeting.topic || '';
           }
         }}
         data-sign="scheduleMeetingTopic"
-        />
+      />
     </div>
   </MeetingSection>
 );
@@ -126,18 +129,16 @@ Topic.propTypes = {
   that: PropTypes.object.isRequired,
 };
 
-export const When = (
-  {
-    isRecurring,
-    currentLocale,
-    meeting,
-    update,
-    that,
-    onToggle,
-    minTime,
-    useTimePicker
-  }
-) => {
+export const When = ({
+  isRecurring,
+  currentLocale,
+  meeting,
+  update,
+  that,
+  onToggle,
+  minTime,
+  useTimePicker,
+}) => {
   // The default value of the text input is in the componentDidMount.
   const formatDisplay = (Hours, Minutes) => {
     setTimeout(() => {
@@ -146,7 +147,10 @@ export const When = (
       if (useTimePicker) {
         if (currentHours > 12) {
           const convertedHours = +currentHours % 12;
-          that.hours.value = convertedHours.toString().length === 1 ? `0${convertedHours}` : convertedHours;
+          that.hours.value =
+            convertedHours.toString().length === 1
+              ? `0${convertedHours}`
+              : convertedHours;
         }
       }
     }, 0);
@@ -157,7 +161,9 @@ export const When = (
       return;
     }
     setTimeout(() => {
-      const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
+      const allInputBlur = document.querySelectorAll(
+        'input[flag=timeInput]:focus',
+      ).length;
       if (!allInputBlur && that.hours) {
         const startTime = new Date(meeting.schedule.startTime);
         const hours = parseInt(that.hours.value, 10);
@@ -171,7 +177,7 @@ export const When = (
             schedule: {
               ...meeting.schedule,
               startTime: startTime.getTime(),
-            }
+            },
           });
         } else {
           time = new Date(meeting.schedule.startTime);
@@ -186,7 +192,8 @@ export const When = (
 
   const accumulator = (event, max) => {
     const currentValue = parseInt(event.target.value, 10);
-    const isValid = value => currentValue > 0 - value && currentValue < max - value;
+    const isValid = (value) =>
+      currentValue > 0 - value && currentValue < max - value;
     const isUpKey = event.keyCode === 38;
     if (isUpKey) {
       const value = isValid(1) ? currentValue + 1 : 0;
@@ -220,179 +227,217 @@ export const When = (
   };
   let minMinute;
   if (meeting.schedule && meeting.schedule.startTime && useTimePicker) {
-    const iscurrentDate = Moment(meeting.schedule.startTime).isSame(new Date(), 'day');
-    if (iscurrentDate) {
+    const isToday = Moment(meeting.schedule.startTime).isSame(
+      new Date(),
+      'day',
+    );
+    if (isToday) {
       const currentMinute = +Moment().format('mm');
-      const nearlest = Moment().set('minute', Math.ceil(currentMinute / 15) * 15).toDate();
+      const nearlest = Moment()
+        .set('minute', Math.ceil(currentMinute / 15) * 15)
+        .toDate();
       minMinute = nearlest;
     }
     console.log('prepared minTime', +minMinute);
   }
 
-  return (
-    !isRecurring ? (
-      <MeetingSection title={i18n.getString('when', currentLocale)}>
-        <div className={styles.dateTimeBox}>
-          <div className={styles.list}>
-            <div className={styles.datePicker}>
-              <DateTimePicker
-                culture={currentLocale}
-                time={false}
-                value={new Date(meeting.schedule.startTime)}
-                onChange={(currentStartTime) => {
-                  preventDatePickerReplay(false);
-                  if (currentStartTime) {
-                    const date = new Date(meeting.schedule.startTime);
-                    date.setFullYear(
-                      currentStartTime.getFullYear(),
-                      currentStartTime.getMonth(),
-                      currentStartTime.getDate()
-                    );
-                    let startTime = date.getTime();
-                    const now = (new Date()).getTime();
-                    if (startTime < now) {
-                      startTime = now;
-                      const Minutes = new Date().getMinutes();
-                      const Hours = new Date().getHours();
-                      formatDisplay(Hours, Minutes);
-                    }
-                    update({
-                      ...meeting,
-                      schedule: {
-                        ...meeting.schedule,
-                        startTime,
-                      }
-                    });
+  return !isRecurring ? (
+    <MeetingSection title={i18n.getString('when', currentLocale)}>
+      <div className={styles.dateTimeBox}>
+        <div className={styles.list}>
+          <div className={styles.datePicker}>
+            <DateTimePicker
+              culture={currentLocale}
+              time={false}
+              value={new Date(meeting.schedule.startTime)}
+              onChange={(currentStartTime) => {
+                preventDatePickerReplay(false);
+                if (currentStartTime) {
+                  const date = new Date(meeting.schedule.startTime);
+                  date.setFullYear(
+                    currentStartTime.getFullYear(),
+                    currentStartTime.getMonth(),
+                    currentStartTime.getDate(),
+                  );
+                  let startTime = date.getTime();
+                  const now = new Date().getTime();
+                  if (startTime < now) {
+                    startTime = now;
+                    const Minutes = new Date().getMinutes();
+                    const Hours = new Date().getHours();
+                    formatDisplay(Hours, Minutes);
                   }
-                }}
-                onBlur={() => {
-                  preventDatePickerReplay(false);
-                }}
-                onToggle={preventDatePickerReplay}
-                ref={(ref) => { that.date = ref; }}
-                format="MM/DD/YY"
-                min={new Date()}
-              />
-              <div
-                onClick={() => onToggle('date')}
-                data-sign="dateText"
-                className={classnames(styles.dateTimeText, styles.dateText)}>
-                {Moment(meeting.schedule.startTime).format('MM/DD/YY')}
-              </div>
-            </div>
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      startTime,
+                    },
+                  });
+                }
+              }}
+              onBlur={() => {
+                preventDatePickerReplay(false);
+              }}
+              onToggle={preventDatePickerReplay}
+              ref={(ref) => {
+                that.date = ref;
+              }}
+              format="MM/DD/YY"
+              min={new Date()}
+            />
             <div
-              ref={(ref) => { that.dateIcon = ref; }}
-              className={styles.dateIcon}>
-              <DateIcon
-                onClick={() => onToggle('date')}
-                className={styles.icon} />
+              onClick={() => onToggle('date')}
+              data-sign="dateText"
+              className={classnames(styles.dateTimeText, styles.dateText)}
+            >
+              {Moment(meeting.schedule.startTime).format('MM/DD/YY')}
             </div>
           </div>
-
-          <div className={styles.list}>
-            <div className={classnames([styles.timePicker, useTimePicker && styles.useTimePicker])}>
-              <DateTimePicker
-                culture={currentLocale}
-                date={false}
-                step={15}
-                value={new Date(meeting.schedule.startTime)}
-                onChange={(startTime) => {
-                  preventTimePickerReplay(false);
-                  if (startTime) {
-                    update({
-                      ...meeting,
-                      schedule: {
-                        ...meeting.schedule,
-                        startTime: startTime.getTime(),
-                      }
-                    });
-                  }
-                }}
-                onBlur={() => {
-                  preventTimePickerReplay(false);
-                }}
-                onToggle={preventTimePickerReplay}
-                ref={(ref) => { that.time = ref; }}
-                format="hh:mm A"
-                min={minMinute}
-              />
-              <div
-                className={styles.timeText}
-                onClick={() => {
-                  if (useTimePicker) {
-                    onToggle('time');
-                  }
-                }
-              }>
-                <input
-                  flag="timeInput"
-                  disabled={useTimePicker}
-                  ref={(ref) => { that.hours = ref; }}
-                  data-sign="timeInputHour"
-                  className={styles.timeInput}
-                  defaultValue={Moment(meeting.schedule.startTime).format(useTimePicker ? 'hh' : 'HH')}
-                  onChange={({ target }) => {
-                    that.hours.value = target.value.replace(NO_NUMBER_REGEX, '');
-                    const isSelectionEnd = target.selectionEnd === 2;
-                    if (isSelectionEnd) {
-                      that.minutes.value = '';
-                      that.minutes.focus();
-                    }
-                  }}
-                  onKeyDown={(event) => {
-                    accumulator(event, 24);
-                    const isRightKey = event.keyCode === 39;
-                    const isSelectionEnd = event.target.selectionEnd === 2;
-                    if (isRightKey && isSelectionEnd) {
-                      that.minutes.focus();
-                    }
-                  }}
-                  onBlur={changeTime}
-                  maxLength={2}
-                  type="text" />
-                <div className={styles.colon}>:</div>
-                <input
-                  flag="timeInput"
-                  disabled={useTimePicker}
-                  ref={(ref) => { that.minutes = ref; }}
-                  data-sign="timeInputMinute"
-                  className={styles.timeInput}
-                  defaultValue={Moment(meeting.schedule.startTime).format('mm')}
-                  onKeyDown={(event) => {
-                    const isDelKey = event.keyCode === 8;
-                    const isLeftKey = event.keyCode === 37;
-                    const isSelectionHead = event.target.selectionEnd === 0;
-                    if (isSelectionHead && (isDelKey || isLeftKey)) {
-                      that.hours.focus();
-                      that.hours.setSelectionRange(2, 2);
-                    }
-                    accumulator(event, 60);
-                  }}
-                  onChange={({ target }) => {
-                    that.minutes.value = target.value.replace(NO_NUMBER_REGEX, '');
-                  }}
-                  onBlur={changeTime}
-                  maxLength={2}
-                  type="text" />
-                {useTimePicker && <div className={styles.colon}>{Moment(meeting.schedule.startTime).locale('en').format('A')}</div>}
-              </div>
-            </div>
-            <div
-              ref={(ref) => { that.TimeIcon = ref; }}
-              className={styles.timeIcon}>
-              <TimeIcon
-                onClick={() => {
-                  if (useTimePicker) {
-                    onToggle('time');
-                  }
-                }}
-                className={styles.icon} />
-            </div>
+          <div
+            ref={(ref) => {
+              that.dateIcon = ref;
+            }}
+            className={styles.dateIcon}
+          >
+            <DateIcon
+              onClick={() => onToggle('date')}
+              className={styles.icon}
+            />
           </div>
         </div>
-      </MeetingSection>
-    ) : null
-  );
+
+        <div className={styles.list}>
+          <div
+            className={classnames([
+              styles.timePicker,
+              useTimePicker && styles.useTimePicker,
+            ])}
+          >
+            <DateTimePicker
+              culture={currentLocale}
+              date={false}
+              step={15}
+              value={new Date(meeting.schedule.startTime)}
+              onChange={(startTime) => {
+                preventTimePickerReplay(false);
+                if (startTime) {
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      startTime: startTime.getTime(),
+                    },
+                  });
+                }
+              }}
+              onBlur={() => {
+                preventTimePickerReplay(false);
+              }}
+              onToggle={preventTimePickerReplay}
+              ref={(ref) => {
+                that.time = ref;
+              }}
+              format="hh:mm A"
+              min={minMinute}
+            />
+            <div
+              className={styles.timeText}
+              onClick={() => {
+                if (useTimePicker) {
+                  onToggle('time');
+                }
+              }}
+            >
+              <input
+                flag="timeInput"
+                disabled={useTimePicker}
+                ref={(ref) => {
+                  that.hours = ref;
+                }}
+                data-sign="timeInputHour"
+                className={styles.timeInput}
+                defaultValue={Moment(meeting.schedule.startTime).format(
+                  useTimePicker ? 'hh' : 'HH',
+                )}
+                onChange={({ target }) => {
+                  that.hours.value = target.value.replace(NO_NUMBER_REGEX, '');
+                  const isSelectionEnd = target.selectionEnd === 2;
+                  if (isSelectionEnd) {
+                    that.minutes.value = '';
+                    that.minutes.focus();
+                  }
+                }}
+                onKeyDown={(event) => {
+                  accumulator(event, 24);
+                  const isRightKey = event.keyCode === 39;
+                  const isSelectionEnd = event.target.selectionEnd === 2;
+                  if (isRightKey && isSelectionEnd) {
+                    that.minutes.focus();
+                  }
+                }}
+                onBlur={changeTime}
+                maxLength={2}
+                type="text"
+              />
+              <div className={styles.colon}>:</div>
+              <input
+                flag="timeInput"
+                disabled={useTimePicker}
+                ref={(ref) => {
+                  that.minutes = ref;
+                }}
+                data-sign="timeInputMinute"
+                className={styles.timeInput}
+                defaultValue={Moment(meeting.schedule.startTime).format('mm')}
+                onKeyDown={(event) => {
+                  const isDelKey = event.keyCode === 8;
+                  const isLeftKey = event.keyCode === 37;
+                  const isSelectionHead = event.target.selectionEnd === 0;
+                  if (isSelectionHead && (isDelKey || isLeftKey)) {
+                    that.hours.focus();
+                    that.hours.setSelectionRange(2, 2);
+                  }
+                  accumulator(event, 60);
+                }}
+                onChange={({ target }) => {
+                  that.minutes.value = target.value.replace(
+                    NO_NUMBER_REGEX,
+                    '',
+                  );
+                }}
+                onBlur={changeTime}
+                maxLength={2}
+                type="text"
+              />
+              {useTimePicker && (
+                <div className={styles.colon}>
+                  {Moment(meeting.schedule.startTime)
+                    .locale('en')
+                    .format('A')}
+                </div>
+              )}
+            </div>
+          </div>
+          <div
+            ref={(ref) => {
+              that.TimeIcon = ref;
+            }}
+            className={styles.timeIcon}
+          >
+            <TimeIcon
+              onClick={() => {
+                if (useTimePicker) {
+                  onToggle('time');
+                }
+              }}
+              className={styles.icon}
+            />
+          </div>
+        </div>
+      </div>
+    </MeetingSection>
+  ) : null;
 };
 
 When.propTypes = {
@@ -403,17 +448,10 @@ When.propTypes = {
   that: PropTypes.object.isRequired,
   onToggle: PropTypes.func.isRequired,
   minTime: PropTypes.object.isRequired,
-  useTimePicker: PropTypes.bool.isRequired
+  useTimePicker: PropTypes.bool.isRequired,
 };
 
-const Duration = (
-  {
-    isRecurring,
-    currentLocale,
-    meeting,
-    update
-  }
-) => (
+const Duration = ({ isRecurring, currentLocale, meeting, update }) =>
   !isRecurring ? (
     <MeetingSection title={i18n.getString('duration', currentLocale)}>
       <div className={classnames(styles.spaceBetween, styles.duration)}>
@@ -423,7 +461,7 @@ const Duration = (
               data={hoursList}
               valueField="value"
               textField="text"
-              value={parseInt((meeting.schedule.durationInMinutes / 60), 10)}
+              value={parseInt(meeting.schedule.durationInMinutes / 60, 10)}
               onChange={({ value }) => {
                 let restMinutes = meeting.schedule.durationInMinutes % 60;
                 const isMax = value === hoursList.slice(-1)[0].value;
@@ -434,9 +472,10 @@ const Duration = (
                   schedule: {
                     ...meeting.schedule,
                     durationInMinutes,
-                  }
+                  },
                 });
-              }} />
+              }}
+            />
           </div>
         </div>
         <div className={styles.list}>
@@ -445,9 +484,12 @@ const Duration = (
               data={minutesList}
               valueField="value"
               textField="text"
-              value={(meeting.schedule.durationInMinutes % 60) || 0}
+              value={meeting.schedule.durationInMinutes % 60 || 0}
               onChange={({ value }) => {
-                const restHours = parseInt((meeting.schedule.durationInMinutes / 60), 10);
+                const restHours = parseInt(
+                  meeting.schedule.durationInMinutes / 60,
+                  10,
+                );
                 const isMax = restHours === hoursList.slice(-1)[0].value;
                 const minutes = isMax ? 0 : value;
                 const durationInMinutes = restHours * 60 + minutes;
@@ -456,15 +498,15 @@ const Duration = (
                   schedule: {
                     ...meeting.schedule,
                     durationInMinutes,
-                  }
+                  },
                 });
-              }} />
+              }}
+            />
           </div>
         </div>
       </div>
     </MeetingSection>
-  ) : null
-);
+  ) : null;
 
 Duration.propTypes = {
   update: PropTypes.func.isRequired,
@@ -473,14 +515,7 @@ Duration.propTypes = {
   isRecurring: PropTypes.bool.isRequired,
 };
 
-const RecurringMeeting = (
-  {
-    isRecurring,
-    currentLocale,
-    update,
-    meeting,
-  }
-) => (
+const RecurringMeeting = ({ isRecurring, currentLocale, update, meeting }) => (
   <MeetingSection className={styles.section}>
     <div className={styles.RecurringMeetingDiv}>
       <div className={styles.spaceBetween}>
@@ -499,13 +534,11 @@ const RecurringMeeting = (
           dataSign="recuttingMeeting"
         />
       </div>
-      {
-        isRecurring ? (
-          <div className={styles.recurringDescribe}>
-            {i18n.getString('recurringDescribe', currentLocale)}
-          </div>
-        ) : null
-      }
+      {isRecurring ? (
+        <div className={styles.recurringDescribe}>
+          {i18n.getString('recurringDescribe', currentLocale)}
+        </div>
+      ) : null}
     </div>
   </MeetingSection>
 );
@@ -517,16 +550,16 @@ RecurringMeeting.propTypes = {
   isRecurring: PropTypes.bool.isRequired,
 };
 
-const Video = (
-  {
-    currentLocale,
-    meeting,
-    update,
-  }
-) => (
+const Video = ({ currentLocale, meeting, update }) => (
   <MeetingSection title={i18n.getString('video', currentLocale)} withSwitch>
     <div className={styles.videoDiv}>
-      <div className={classnames(styles.labelLight, styles.fixTopMargin, styles.videoDescribe)}>
+      <div
+        className={classnames(
+          styles.labelLight,
+          styles.fixTopMargin,
+          styles.videoDescribe,
+        )}
+      >
         {i18n.getString('videoDescribe', currentLocale)}
       </div>
       <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
@@ -542,7 +575,7 @@ const Video = (
             });
           }}
           dataSign="videoHostToggle"
-          />
+        />
       </div>
       <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
         <span className={styles.labelLight}>
@@ -557,7 +590,7 @@ const Video = (
             });
           }}
           dataSign="videoParticipantToggle"
-          />
+        />
       </div>
     </div>
   </MeetingSection>
@@ -569,11 +602,7 @@ Video.propTypes = {
   meeting: PropTypes.object.isRequired,
 };
 
-const AudioOptionsCheckbox = ({
-  update,
-  meeting,
-  data
-}) => (
+const AudioOptionsCheckbox = ({ update, meeting, data }) => (
   <CheckBox
     onSelect={({ key }) => {
       const audioOptions = key.split('_');
@@ -585,18 +614,15 @@ const AudioOptionsCheckbox = ({
     valueField="key"
     textField="text"
     selected={meeting.audioOptions.join('_')}
-    data={data} />
+    data={data}
+  />
 );
 AudioOptionsCheckbox.propTypes = {
   update: PropTypes.func.isRequired,
   meeting: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
 };
-const AudioOptionsDropdown = ({
-  update,
-  meeting,
-  data
-}) => (
+const AudioOptionsDropdown = ({ update, meeting, data }) => (
   <DropdownSelect
     className={classnames(styles.dropdownSelect)}
     iconClassNßame={styles.dropdownIcon}
@@ -609,12 +635,12 @@ const AudioOptionsDropdown = ({
       });
     }}
     options={data}
-    valueFunction={option => option.text}
-    renderValue={value => data.find(item => item.key === value).text}
-    renderFunction={option => <div title={option.text}>{option.text}</div>}
+    valueFunction={(option) => option.text}
+    renderValue={(value) => data.find((item) => item.key === value).text}
+    renderFunction={(option) => <div title={option.text}>{option.text}</div>}
     dropdownAlign="left"
     titleEnabled
-    />
+  />
 );
 AudioOptionsDropdown.propTypes = {
   update: PropTypes.func.isRequired,
@@ -622,31 +648,23 @@ AudioOptionsDropdown.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-const AudioOptions = (
-  {
-    currentLocale,
-    update,
-    meeting,
-    data,
-    audioOptionToggle
-  }
-) => {
+const AudioOptions = ({
+  currentLocale,
+  update,
+  meeting,
+  data,
+  audioOptionToggle,
+}) => {
   const audioOptions = audioOptionToggle ? (
-    <AudioOptionsDropdown
-      update={update}
-      meeting={meeting}
-      data={data}
-    />
-  ) :
-    (
-      <AudioOptionsCheckbox
-        update={update}
-        meeting={meeting}
-        data={data}
-      />
-    );
+    <AudioOptionsDropdown update={update} meeting={meeting} data={data} />
+  ) : (
+    <AudioOptionsCheckbox update={update} meeting={meeting} data={data} />
+  );
   return (
-    <MeetingSection title={i18n.getString('audioOptions', currentLocale)} withSwitch>
+    <MeetingSection
+      title={i18n.getString('audioOptions', currentLocale)}
+      withSwitch
+    >
       {audioOptions}
     </MeetingSection>
   );
@@ -657,28 +675,31 @@ AudioOptions.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   meeting: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
-  audioOptionToggle: PropTypes.bool.isRequired
+  audioOptionToggle: PropTypes.bool.isRequired,
 };
 
-const MeetingOptions = (
-  {
-    currentLocale,
-    meeting,
-    update,
-    that,
-    meetingOptionToggle,
-    passwordPlaceholderEnable
-  }
-) => {
-  const passwordPlaceholder = passwordPlaceholderEnable ? i18n.getString('password', currentLocale) : '';
+const MeetingOptions = ({
+  currentLocale,
+  meeting,
+  update,
+  that,
+  meetingOptionToggle,
+  passwordPlaceholderEnable,
+}) => {
+  const passwordPlaceholder = passwordPlaceholderEnable
+    ? i18n.getString('password', currentLocale)
+    : '';
   return (
     <MeetingSection
       title={i18n.getString('meetingOptions', currentLocale)}
       className={styles.meetingOptions}
       // when there is a default meeting password or `allowJoinBeforeHost` toggle opened
       // then expand the meeting option section
-      toggle={meetingOptionToggle || !!meeting.password || meeting.allowJoinBeforeHost}
-      withSwitch>
+      toggle={
+        meetingOptionToggle || !!meeting.password || meeting.allowJoinBeforeHost
+      }
+      withSwitch
+    >
       <div className={styles.meetingOptionsDiv}>
         <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
           <span className={classnames(styles.labelLight, styles.defaultShrink)}>
@@ -701,31 +722,31 @@ const MeetingOptions = (
             dataSign="requirePasswordToggle"
           />
         </div>
-        {
-          meeting._requireMeetingPassword || meeting.password ? (
-            <div className={styles.passwordBox}>
-              <div className={styles.labelLight}>
-                {i18n.getString('password', currentLocale)}
-              </div>
-              <input
-                type="text"
-                placeholder={passwordPlaceholder}
-                className={styles.password}
-                ref={(ref) => { that.password = ref; }}
-                value={meeting.password || ''}
-                onChange={({ target }) => {
-                  if (PASSWORD_REGEX.test(target.value)) {
-                    update({
-                      ...meeting,
-                      password: target.value
-                    });
-                  }
-                }}
-                data-sign="requirePasswordInput"
-              />
+        {meeting._requireMeetingPassword || meeting.password ? (
+          <div className={styles.passwordBox}>
+            <div className={styles.labelLight}>
+              {i18n.getString('password', currentLocale)}
             </div>
-          ) : null
-        }
+            <input
+              type="text"
+              placeholder={passwordPlaceholder}
+              className={styles.password}
+              ref={(ref) => {
+                that.password = ref;
+              }}
+              value={meeting.password || ''}
+              onChange={({ target }) => {
+                if (PASSWORD_REGEX.test(target.value)) {
+                  update({
+                    ...meeting,
+                    password: target.value,
+                  });
+                }
+              }}
+              data-sign="requirePasswordInput"
+            />
+          </div>
+        ) : null}
         <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
           <span className={classnames(styles.labelLight, styles.defaultShrink)}>
             {i18n.getString('enableJoinBeforeHost', currentLocale)}
@@ -751,7 +772,7 @@ MeetingOptions.propTypes = {
   meeting: PropTypes.object.isRequired,
   that: PropTypes.object.isRequired,
   meetingOptionToggle: PropTypes.bool.isRequired,
-  passwordPlaceholderEnable: PropTypes.bool.isRequired
+  passwordPlaceholderEnable: PropTypes.bool.isRequired,
 };
 
 class MeetingConfigs extends Component {
@@ -789,8 +810,11 @@ class MeetingConfigs extends Component {
         this.topic.setSelectionRange(selectionStart, selectionEnd);
       });
     }
-    if (this.props.meeting.schedule && nextProps.meeting.schedule &&
-      this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime
+    if (
+      this.props.meeting.schedule &&
+      nextProps.meeting.schedule &&
+      this.props.meeting.schedule.startTime !==
+        nextProps.meeting.schedule.startTime
     ) {
       this.displayFormat(nextProps.meeting.schedule.startTime);
     }
@@ -808,7 +832,7 @@ class MeetingConfigs extends Component {
       meetingOptionToggle,
       passwordPlaceholderEnable,
       audioOptionToggle,
-      useTimePicker
+      useTimePicker,
     } = this.props;
     if (!Object.keys(meeting).length) {
       return null;
@@ -836,7 +860,6 @@ class MeetingConfigs extends Component {
       {
         key: 'ComputerAudio',
         text: voIPOnly,
-
       },
       {
         key: 'Phone_ComputerAudio',
@@ -844,8 +867,11 @@ class MeetingConfigs extends Component {
       },
     ];
     let minTime = {};
-    if (meeting.schedule && meeting.schedule.startTime &&
-      new Date(meeting.schedule.startTime) < +new Date()) {
+    if (
+      meeting.schedule &&
+      meeting.schedule.startTime &&
+      new Date(meeting.schedule.startTime) < +new Date()
+    ) {
       minTime = { min: new Date() };
     }
     return (
@@ -854,61 +880,57 @@ class MeetingConfigs extends Component {
           that={this}
           meeting={meeting}
           update={update}
-          currentLocale={currentLocale} />
-        {
-          recipientsSection
-        }
-        {
-          showWhen ? (
-            <When
-              isRecurring={isRecurring}
-              currentLocale={currentLocale}
-              meeting={meeting}
-              update={update}
-              that={this}
-              onToggle={onToggle}
-              minTime={minTime}
-              useTimePicker={useTimePicker}
+          currentLocale={currentLocale}
+        />
+        {recipientsSection}
+        {showWhen ? (
+          <When
+            isRecurring={isRecurring}
+            currentLocale={currentLocale}
+            meeting={meeting}
+            update={update}
+            that={this}
+            onToggle={onToggle}
+            minTime={minTime}
+            useTimePicker={useTimePicker}
           />
-          ) : null
-        }
-        {
-          showDuration ? (
-            <Duration
-              isRecurring={isRecurring}
-              currentLocale={currentLocale}
-              meeting={meeting}
-              update={update}
+        ) : null}
+        {showDuration ? (
+          <Duration
+            isRecurring={isRecurring}
+            currentLocale={currentLocale}
+            meeting={meeting}
+            update={update}
           />
-          ) : null
-        }
-        {
-          showRecurringMeeting ? (
-            <RecurringMeeting
-              isRecurring={isRecurring}
-              currentLocale={currentLocale}
-              meeting={meeting}
-              update={update}
+        ) : null}
+        {showRecurringMeeting ? (
+          <RecurringMeeting
+            isRecurring={isRecurring}
+            currentLocale={currentLocale}
+            meeting={meeting}
+            update={update}
           />
-          ) : null
-        }
+        ) : null}
         <Video
           currentLocale={currentLocale}
           meeting={meeting}
-          update={update} />
+          update={update}
+        />
         <AudioOptions
           data={AUDIO_OPTIONS}
           currentLocale={currentLocale}
           meeting={meeting}
           update={update}
-          audioOptionToggle={audioOptionToggle} />
+          audioOptionToggle={audioOptionToggle}
+        />
         <MeetingOptions
           currentLocale={currentLocale}
           meeting={meeting}
           that={this}
           update={update}
           meetingOptionToggle={meetingOptionToggle}
-          passwordPlaceholderEnable={passwordPlaceholderEnable} />
+          passwordPlaceholderEnable={passwordPlaceholderEnable}
+        />
       </div>
     );
   }
@@ -937,7 +959,7 @@ MeetingConfigs.defaultProps = {
   meetingOptionToggle: false,
   passwordPlaceholderEnable: false,
   audioOptionToggle: false,
-  useTimePicker: false
+  useTimePicker: false,
 };
 
 export default MeetingConfigs;

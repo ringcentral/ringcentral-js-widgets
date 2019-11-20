@@ -22,9 +22,15 @@ async function checkIncomingPopup(wrapper, phone) {
   expect(ringingCall.find('.listTitle').text()).toEqual('Ringing Call');
   const panel = wrapper.find(ActiveCallsPanel);
   if (panel.props().useV2) {
-    ringingCall.find(ActiveCallItemV2).find('.currentName').simulate('click');
+    ringingCall
+      .find(ActiveCallItemV2)
+      .find('.currentName')
+      .simulate('click');
   } else {
-    ringingCall.find(ActiveCallItem).find('.currentName').simulate('click');
+    ringingCall
+      .find(ActiveCallItem)
+      .find('.currentName')
+      .simulate('click');
   }
   await timeout(100);
   expect(phone.routerInteraction.currentPath).toEqual('/calls');
@@ -37,7 +43,11 @@ describe('Incoming Call Control Page from All Calls', () => {
   incoming call item from all calls tab,user will see the incoming call popup again`, async () => {
     const { phone, wrapper } = await initPhoneWrapper();
     await getInboundCall(phone);
-    await mockActiveCallPanelData(phone, [], phone.webphone.sessions.map(x => x.id));
+    await mockActiveCallPanelData(
+      phone,
+      [],
+      phone.webphone.sessions.map((x) => x.id),
+    );
     wrapper.update();
     const incomingCallPanel = wrapper.find(IncomingCallPanel);
     expect(incomingCallPanel).toHaveLength(1);
@@ -60,16 +70,31 @@ describe('Incoming Call Control Page from All Calls', () => {
       toNumber: '102',
     });
     wrapper.update();
-    expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${outboundSession.id}`);
+    expect(phone.routerInteraction.currentPath).toEqual(
+      `/calls/active/${outboundSession.id}`,
+    );
     const inboundSession = await getInboundCall(phone);
     await mockActiveCallPanelData(phone, [], [inboundSession.id]);
     await timeout(1000);
     wrapper.update();
     const answerBtn = wrapper.find(MultiCallAnswerButton);
     expect(answerBtn).toHaveLength(2);
-    expect(answerBtn.at(0).find('.buttonTitle').text()).toEqual('Answer & End');
-    expect(answerBtn.at(1).find('.buttonTitle').text()).toEqual('Answer & Hold');
-    wrapper.find('.backButton').at(1).simulate('click');
+    expect(
+      answerBtn
+        .at(0)
+        .find('.buttonTitle')
+        .text(),
+    ).toEqual('Answer & End');
+    expect(
+      answerBtn
+        .at(1)
+        .find('.buttonTitle')
+        .text(),
+    ).toEqual('Answer & Hold');
+    wrapper
+      .find('.backButton')
+      .at(1)
+      .simulate('click');
     await timeout(100);
     const activeCallPad = wrapper.find(ActiveCallPad);
     expect(activeCallPad).toHaveLength(1);
@@ -87,13 +112,17 @@ describe('Incoming Call Control Page from All Calls', () => {
     const { phone, wrapper } = await initPhoneWrapper();
     await getInboundCall(phone, {
       id: '102',
-      direction: 'Inbound'
+      direction: 'Inbound',
     });
     await getInboundCall(phone, {
       id: '103',
-      direction: 'Inbound'
+      direction: 'Inbound',
     });
-    await mockActiveCallPanelData(phone, [], phone.webphone.sessions.map(x => x.id));
+    await mockActiveCallPanelData(
+      phone,
+      [],
+      phone.webphone.sessions.map((x) => x.id),
+    );
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
     const allCallList = wrapper.find(ActiveCallList);
@@ -105,17 +134,25 @@ describe('Incoming Call Control Page from All Calls', () => {
       ringingCalls = allCallList.at(0).find(ActiveCallItem);
     }
     expect(ringingCalls).toHaveLength(2);
-    ringingCalls.at(0).find('.currentName').simulate('click');
+    ringingCalls
+      .at(0)
+      .find('.currentName')
+      .simulate('click');
     await timeout(100);
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
-    wrapper.find(IncomingCallPanel).find('.backButton').simulate('click');
+    wrapper
+      .find(IncomingCallPanel)
+      .find('.backButton')
+      .simulate('click');
     await timeout(100);
     wrapper.update();
-    ringingCalls.at(1).find('.currentName').simulate('click');
+    ringingCalls
+      .at(1)
+      .find('.currentName')
+      .simulate('click');
     await timeout(100);
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
   });
 });
-

@@ -14,11 +14,11 @@ const TabNavigationViewPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="TabNavigationView" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="TabNavigationView Example"
-      >
+      <ComponentHeader
+        name="TabNavigationView"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="TabNavigationView Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

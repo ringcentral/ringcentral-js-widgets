@@ -16,7 +16,7 @@ export default function createModal(Comp) {
       clickOutToClose: propTypes.bool,
       appendDOM: propTypes.object,
       maskClassName: propTypes.string,
-    }
+    };
     static defaultProps = {
       className: '',
       modalClassName: '',
@@ -25,20 +25,19 @@ export default function createModal(Comp) {
       clickOutToClose: false,
       appendDOM: undefined,
       maskClassName: undefined,
-    }
+    };
     static contextTypes = {
       modalRoot: propTypes.object,
-    }
+    };
     constructor(props) {
       super(props);
       this._container = document.createElement('div');
     }
     componentDidMount() {
-      const root = (
+      const root =
         this.props.appendDOM ||
         (this.context.modalRoot && this.context.modalRoot.current) ||
-        document.body
-      );
+        document.body;
       root.appendChild(this._container);
     }
     componentWillUnmount() {
@@ -56,26 +55,36 @@ export default function createModal(Comp) {
         clickOutToClose,
         ...props
       } = this.props;
-      const onClick = clickOutToClose ? onClose : () => { };
+      const onClick = clickOutToClose ? onClose : () => {};
       return (
-        <div className={show ? classnames(styles.container, className) : styles.containerHidden}>
+        <div
+          className={
+            show
+              ? classnames(styles.container, className)
+              : styles.containerHidden
+          }
+        >
           <div
-            className={show ? classnames(styles.mask, maskClassName) : styles.maskHidden}
+            className={
+              show ? classnames(styles.mask, maskClassName) : styles.maskHidden
+            }
             onClick={onClick}
           />
-          <div data-sign={show ? 'deleteModal' : undefined} className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
-            <Comp
-              {...props}
-            />
+          <div
+            data-sign={show ? 'deleteModal' : undefined}
+            className={
+              show
+                ? classnames(styles.modal, modalClassName)
+                : styles.modalHidden
+            }
+          >
+            <Comp {...props} />
           </div>
         </div>
       );
     }
     render() {
-      return ReactDOM.createPortal(
-        this.renderDialog(),
-        this._container,
-      );
+      return ReactDOM.createPortal(this.renderDialog(), this._container);
     }
   };
 }

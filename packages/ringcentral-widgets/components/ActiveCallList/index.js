@@ -6,11 +6,13 @@ import ActiveCallItemV2 from '../ActiveCallItemV2';
 import styles from './styles.scss';
 
 function isConferenceCall(normalizedCall) {
-  return normalizedCall
-    && normalizedCall.to
-    && Array.isArray(normalizedCall.to.phoneNumber)
-    && normalizedCall.to.phoneNumber.length === 0
-    && normalizedCall.toName === 'Conference';
+  return (
+    normalizedCall &&
+    normalizedCall.to &&
+    Array.isArray(normalizedCall.to.phoneNumber) &&
+    normalizedCall.to.phoneNumber.length === 0 &&
+    normalizedCall.toName === 'Conference'
+  );
 }
 
 function ActiveCallList({
@@ -36,6 +38,7 @@ function ActiveCallList({
   webphoneHangup,
   webphoneResume,
   webphoneToVoicemail,
+  webphoneSwitchCall,
   enableContactFallback,
   title,
   sourceIcons,
@@ -57,6 +60,7 @@ function ActiveCallList({
   ringoutReject,
   disableLinks,
   showRingoutCallControl,
+  showSwitchCall,
 }) {
   if (!calls.length) {
     return null;
@@ -68,68 +72,68 @@ function ActiveCallList({
       <div
         className={styles.listTitle}
         style={{
-          marginBottom: useV2 && title ? '-5px' : null
+          marginBottom: useV2 && title ? '-5px' : null,
         }}
         title={title}
         data-sign="listTitle"
       >
         {title}
       </div>
-      {
-        calls.map((call) => {
-          const isOnConferenceCall = call.webphoneSession
-            ? isSessionAConferenceCall(call.webphoneSession.id)
-            : isConferenceCall(call);// in case it's an other device call
+      {calls.map((call) => {
+        const isOnConferenceCall = call.webphoneSession
+          ? isSessionAConferenceCall(call.webphoneSession.id)
+          : isConferenceCall(call); // in case it's an other device call
 
-          return (
-            <Component
-              call={call}
-              key={call.id}
-              isOnConferenceCall={isOnConferenceCall}
-              currentLocale={currentLocale}
-              areaCode={areaCode}
-              countryCode={countryCode}
-              brand={brand}
-              showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-              formatPhone={formatPhone}
-              onClickToSms={onClickToSms}
-              internalSmsPermission={internalSmsPermission}
-              outboundSmsPermission={outboundSmsPermission}
-              isLoggedContact={isLoggedContact}
-              onLogCall={onLogCall}
-              onViewContact={onViewContact}
-              onCreateContact={onCreateContact}
-              loggingMap={loggingMap}
-              webphoneAnswer={webphoneAnswer}
-              webphoneReject={webphoneReject}
-              webphoneHangup={webphoneHangup}
-              webphoneResume={webphoneResume}
-              webphoneToVoicemail={webphoneToVoicemail}
-              enableContactFallback={enableContactFallback}
-              autoLog={autoLog}
-              sourceIcons={sourceIcons}
-              phoneTypeRenderer={phoneTypeRenderer}
-              phoneSourceNameRenderer={phoneSourceNameRenderer}
-              hasActionMenu={!isOnConferenceCall}
-              onClick={() => onCallItemClick(call)}
-              showAvatar={showAvatar}
-              getAvatarUrl={getAvatarUrl}
-              conferenceCallParties={conferenceCallParties}
-              webphoneHold={webphoneHold}
-              showCallDetail={showCallDetail}
-              updateSessionMatchedContact={updateSessionMatchedContact}
-              renderExtraButton={renderExtraButton}
-              renderContactName={renderContactName}
-              ringoutHangup={ringoutHangup}
-              ringoutTransfer={ringoutTransfer}
-              ringoutReject={ringoutReject}
-              disableLinks={disableLinks}
-              showRingoutCallControl={showRingoutCallControl}
-              showMultipleMatch={!showRingoutCallControl} // disabled for salesforce
-            />
-          );
-        })
-      }
+        return (
+          <Component
+            call={call}
+            key={call.id}
+            isOnConferenceCall={isOnConferenceCall}
+            currentLocale={currentLocale}
+            areaCode={areaCode}
+            countryCode={countryCode}
+            brand={brand}
+            showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+            formatPhone={formatPhone}
+            onClickToSms={onClickToSms}
+            internalSmsPermission={internalSmsPermission}
+            outboundSmsPermission={outboundSmsPermission}
+            isLoggedContact={isLoggedContact}
+            onLogCall={onLogCall}
+            onViewContact={onViewContact}
+            onCreateContact={onCreateContact}
+            loggingMap={loggingMap}
+            webphoneAnswer={webphoneAnswer}
+            webphoneReject={webphoneReject}
+            webphoneHangup={webphoneHangup}
+            webphoneResume={webphoneResume}
+            webphoneToVoicemail={webphoneToVoicemail}
+            webphoneSwitchCall={webphoneSwitchCall}
+            enableContactFallback={enableContactFallback}
+            autoLog={autoLog}
+            sourceIcons={sourceIcons}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
+            hasActionMenu={!isOnConferenceCall}
+            onClick={() => onCallItemClick(call)}
+            showAvatar={showAvatar}
+            getAvatarUrl={getAvatarUrl}
+            conferenceCallParties={conferenceCallParties}
+            webphoneHold={webphoneHold}
+            showCallDetail={showCallDetail}
+            updateSessionMatchedContact={updateSessionMatchedContact}
+            renderExtraButton={renderExtraButton}
+            renderContactName={renderContactName}
+            ringoutHangup={ringoutHangup}
+            ringoutTransfer={ringoutTransfer}
+            ringoutReject={ringoutReject}
+            disableLinks={disableLinks}
+            showRingoutCallControl={showRingoutCallControl}
+            showMultipleMatch={!showRingoutCallControl} // disabled for salesforce
+            showSwitchCall={showSwitchCall}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -157,6 +161,7 @@ ActiveCallList.propTypes = {
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
   webphoneToVoicemail: PropTypes.func,
+  webphoneSwitchCall: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
@@ -178,6 +183,7 @@ ActiveCallList.propTypes = {
   ringoutReject: PropTypes.func,
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
+  showSwitchCall: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
@@ -199,18 +205,19 @@ ActiveCallList.defaultProps = {
   autoLog: false,
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
+  webphoneSwitchCall: undefined,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   isSessionAConferenceCall: () => false,
   useV2: false,
-  onCallItemClick: i => i,
+  onCallItemClick: (i) => i,
   showAvatar: true,
-  getAvatarUrl: i => i,
+  getAvatarUrl: undefined,
   conferenceCallParties: [],
-  webphoneHold: i => i,
+  webphoneHold: (i) => i,
   showCallDetail: false,
-  updateSessionMatchedContact: i => i,
+  updateSessionMatchedContact: (i) => i,
   renderExtraButton: undefined,
   renderContactName: undefined,
   ringoutHangup: undefined,
@@ -218,6 +225,7 @@ ActiveCallList.defaultProps = {
   ringoutReject: undefined,
   disableLinks: false,
   showRingoutCallControl: false,
+  showSwitchCall: false,
 };
 
 export default ActiveCallList;

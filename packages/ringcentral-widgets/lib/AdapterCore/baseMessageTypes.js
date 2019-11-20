@@ -17,5 +17,5 @@ export default new Enum([
   'pushOnCurrentCallPath',
   'pushOnAllCallsPath',
   'navigateToCurrentCall',
-  'navigateToViewCalls'
+  'navigateToViewCalls',
 ]);

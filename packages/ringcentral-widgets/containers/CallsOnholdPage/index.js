@@ -12,7 +12,7 @@ class CallsOnholdContainer extends Component {
     calls: PropTypes.arrayOf(PropTypes.object).isRequired,
     fromSessionId: PropTypes.string.isRequired,
     isConferenceSession: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -20,14 +20,14 @@ class CallsOnholdContainer extends Component {
     this.getCalls = createSelector(
       () => this.props.calls,
       () => this.props.fromSessionId,
-      (calls, fromSessionId) => filter(
-        call => (
-          call.webphoneSession
-          && !this.props.isConferenceSession(call.webphoneSession)
-          && call.webphoneSession.id !== fromSessionId
+      (calls, fromSessionId) =>
+        filter(
+          (call) =>
+            call.webphoneSession &&
+            !this.props.isConferenceSession(call.webphoneSession) &&
+            call.webphoneSession.id !== fromSessionId,
+          calls,
         ),
-        calls
-      ),
     );
   }
 
@@ -36,14 +36,7 @@ class CallsOnholdContainer extends Component {
   }
 }
 
-function mapToProps(_, {
-  phone,
-  phone: {
-    callMonitor,
-  },
-  params,
-  ...props
-}) {
+function mapToProps(_, { phone, phone: { callMonitor }, params, ...props }) {
   const { fromSessionId } = params;
   const baseProps = phone.activeCallsUI.getUIProps({
     ...props,
@@ -56,18 +49,16 @@ function mapToProps(_, {
   };
 }
 
-function mapToFunctions(_, {
-  params,
-  phone,
-  phone: {
-    webphone,
-    conferenceCall,
-    routerInteraction,
-    callMonitor,
+function mapToFunctions(
+  _,
+  {
+    params,
+    phone,
+    phone: { webphone, conferenceCall, routerInteraction, callMonitor },
+    getAvatarUrl,
+    ...props
   },
-  getAvatarUrl,
-  ...props
-}) {
+) {
   const { fromSessionId } = params;
 
   const baseProps = phone.activeCallsUI.getUIFunctions({
@@ -86,7 +77,9 @@ function mapToFunctions(_, {
         sessionIdToMergeWith: fromSessionId,
       });
       if (sessions) {
-        const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
+        const confId =
+          conferenceCall.conferences &&
+          Object.keys(conferenceCall.conferences)[0];
         if (confId) {
           const confSessionId = conferenceCall.conferences[confId].sessionId;
           routerInteraction.push(`/calls/active/${confSessionId}`);
@@ -106,21 +99,26 @@ function mapToFunctions(_, {
     onAdd() {
       // to track use click add button
       callMonitor.callsOnHoldClickAddTrack();
-      routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}/${params.fromSessionId}`);
+      routerInteraction.push(
+        `/conferenceCall/dialer/${params.fromNumber}/${params.fromSessionId}`,
+      );
     },
     getAvatarUrl,
-    isConferenceSession: (...args) => conferenceCall.isConferenceSession(...args),
+    isConferenceSession: (...args) =>
+      conferenceCall.isConferenceSession(...args),
     async webphoneHangup(...args) {
       // track user click hangup on calls onhold page
       callMonitor.callsOnHoldClickHangupTrack();
-      return (webphone && webphone.hangup(...args));
+      return webphone && webphone.hangup(...args);
     },
   };
 }
 
-const CallsOnholdPage = withPhone(connect(
-  mapToProps,
-  mapToFunctions,
-)(CallsOnholdContainer));
+const CallsOnholdPage = withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(CallsOnholdContainer),
+);
 
 export default CallsOnholdPage;

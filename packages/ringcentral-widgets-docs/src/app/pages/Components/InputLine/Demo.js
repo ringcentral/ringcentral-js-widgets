@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `InputLine`
  */
-const InputLineDemo = () => (
-  <InputLine
-    {...props}
-  />
-);
+const InputLineDemo = () => <InputLine {...props} />;
 export default InputLineDemo;

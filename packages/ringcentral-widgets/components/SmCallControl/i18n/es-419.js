@@ -7,5 +7,5 @@ export default {
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
-// @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
+// @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@

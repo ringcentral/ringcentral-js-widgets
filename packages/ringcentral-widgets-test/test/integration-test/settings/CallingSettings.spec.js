@@ -24,7 +24,12 @@ beforeEach(async () => {
 
 describe('calling settings', () => {
   test('check the title is correct', () => {
-    expect(callingSettings.find('div.label').first().props().children).toEqual('Calling');
+    expect(
+      callingSettings
+        .find('div.label')
+        .first()
+        .props().children,
+    ).toEqual('Calling');
   });
 
   test('check button state with when select different option', () => {
@@ -54,15 +59,19 @@ describe('calling settings', () => {
       expect.arrayContaining([
         expect.objectContaining({
           level: 'info',
-          message: 'callingSettingsMessages-saveSuccess'
-        })
-      ])
+          message: 'callingSettingsMessages-saveSuccess',
+        }),
+      ]),
     );
 
     const firstItem = items.at(0); // Browser
     firstItem.simulate('click');
     saveButton.simulate('click');
-    const message = store.getState(wrapper).alert.messages.find(item => /emergencyCallingNotAvailable/.test(item.message));
+    const message = store
+      .getState(wrapper)
+      .alert.messages.find((item) =>
+        /emergencyCallingNotAvailable/.test(item.message),
+      );
     expect(message).toBeTruthy();
     expect(message.level).toEqual('info');
   });

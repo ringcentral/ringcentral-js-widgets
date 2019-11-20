@@ -1,0 +1,84 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/text-ellipsis';
+
+/*
+Notice: the media query(200px) is for salesforce classics mode
+*/
+.container {
+  position: static;
+}
+
+.callInfo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  @include text-ellipsis;
+  .callIcon {
+    padding-right: 11px;
+    > .iconSize {
+      font-size: 22px;
+      color: #9e9e9e;
+    }
+    @media screen and(max-width: 200px) {
+      .callIcon {
+        padding: 8px;
+        > .iconSize {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+  .contactInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+    .contactName {
+      font-weight: 500;
+      color: #212121;
+    }
+    .phoneNumber {
+      color: #757575;
+      font-size: 12px;
+    }
+    @media screen and(max-width: 200px) {
+      .contactName {
+        line-height: 16px;
+        margin-bottom: 4px;
+      }
+      .phoneNumber {
+        line-height: 16px;
+      }
+    }
+  }
+  .callActions {
+    display: flex;
+    margin-top: 12px;
+   .actionItem {
+     margin: 0 0 0 8px;
+   }
+   @media screen and (max-width: 200px) {
+     width: 100%;
+     // 33px = callIcon's size + callIcon's padding-right
+     margin-left: 33px;
+     .actionItem {
+       margin: 0 15px 0 0;
+     }
+     .logBtn > svg,.endBtn > svg {
+       width: 28px;
+       height: 28px;
+     }
+   }
+  }
+}
+
+.menuItem {
+  font-size: 14px!important;
+  line-height: 1.43!important;
+  letter-spacing: 0.15px!important;
+  color: #212121!important;
+  @media screen and (max-width: 200px){
+    font-size: 12px!important;
+    min-height: 35px;
+  }
+}

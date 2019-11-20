@@ -15,10 +15,7 @@ const EntityModalPage = () => {
   return (
     <div>
       <ComponentHeader name="EntityModal" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="EntityModal Example"
-      >
+      <CodeExample code={demoCode} title="EntityModal Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

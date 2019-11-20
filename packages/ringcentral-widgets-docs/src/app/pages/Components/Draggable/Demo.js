@@ -8,9 +8,7 @@ const props = {};
  * A example of `Draggable`
  */
 const DraggableDemo = () => (
-  <Draggable
-    {...props}
-  >
+  <Draggable {...props}>
     <span>Drag Me</span>
   </Draggable>
 );

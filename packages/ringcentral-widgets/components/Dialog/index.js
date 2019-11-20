@@ -7,9 +7,7 @@ import i18n from './i18n';
 import Button from '../Button';
 import CloseIcon from '../../assets/images/CloseIcon.svg';
 
-function FlatButton({
-  className, disabled, onClick, children, dataSign
-}) {
+function FlatButton({ className, disabled, onClick, children, dataSign }) {
   return (
     <div
       className={classnames(
@@ -38,7 +36,7 @@ FlatButton.defaultProps = {
   disabled: false,
   onClick: undefined,
   children: undefined,
-  dataSign: ''
+  dataSign: '',
 };
 
 export default function Dialog({
@@ -91,9 +89,7 @@ export default function Dialog({
     );
   const headText = `${title}` || null;
   return (
-    <div
-      className={classnames(styles.dialog, className)}
-    >
+    <div className={classnames(styles.dialog, className)}>
       {showTitle ? (
         <div className={classnames(styles.header, headerClassName)}>
           <div className={styles.headerText} title={headText}>
@@ -102,7 +98,11 @@ export default function Dialog({
         </div>
       ) : null}
       {showCloseBtn ? (
-        <Button dataSign="closeButton" className={styles.closeBtn} onClick={onCancel}>
+        <Button
+          dataSign="closeButton"
+          className={styles.closeBtn}
+          onClick={onCancel}
+        >
           <CloseIcon />
         </Button>
       ) : null}

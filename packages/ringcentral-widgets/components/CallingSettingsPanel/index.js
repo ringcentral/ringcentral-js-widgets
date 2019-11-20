@@ -31,7 +31,7 @@ class CallingSettingsContent extends Component {
     this.state = {
       callWith: props.callWith,
       ringoutPrompt: props.ringoutPrompt,
-      myLocation: props.myLocation
+      myLocation: props.myLocation,
     };
   }
 
@@ -94,7 +94,7 @@ class CallingSettingsContent extends Component {
 
   onMyLocationChange = (myLocation) => {
     this.setState({
-      myLocation
+      myLocation,
     });
   };
 
@@ -126,7 +126,7 @@ class CallingSettingsContent extends Component {
     }
     return (
       <div>
-        {contentKeys.map(contentKey => (
+        {contentKeys.map((contentKey) => (
           <div key={contentKey}>
             {formatMessage(
               i18n.getString(contentKey, this.props.currentLocale),
@@ -157,21 +157,18 @@ class CallingSettingsContent extends Component {
       ringoutPrompt,
       availableNumbers,
       disabled,
-      locationSearchable
+      locationSearchable,
     } = this.props;
 
-    const hasChanges = (
+    const hasChanges =
       this.state.callWith !== callWith ||
       this.state.myLocation !== myLocation ||
-      this.state.ringoutPrompt !== ringoutPrompt
-    );
+      this.state.ringoutPrompt !== ringoutPrompt;
     const availableCallWithNumbers = availableNumbers[this.state.callWith];
 
-    const ringout = (
+    const ringout =
       this.state.callWith !== callingOptions.softphone &&
-      this.state.callWith !== callingOptions.browser
-    ) ?
-      (
+      this.state.callWith !== callingOptions.browser ? (
         <div>
           <div className={styles.ringoutHint}>
             {i18n.getString('ringoutHint', currentLocale)}
@@ -185,35 +182,34 @@ class CallingSettingsContent extends Component {
                 className={classnames(styles.select, styles.locationSelect)}
                 value={this.state.myLocation}
                 onChange={this.onMyLocationChange}
-                searchOption={locationSearchable ?
-                  (option, text) => option.includes(text) :
-                  null
+                searchOption={
+                  locationSearchable
+                    ? (option, text) => option.includes(text)
+                    : null
                 }
                 options={availableCallWithNumbers}
                 disabled={disabled}
                 dropdownAlign="left"
                 titleEnabled
               />
-            ) :
-              (
-                <TextInput
-                  dataSign="myLocationInput"
-                  value={this.state.myLocation}
-                  maxLength={30}
-                  onChange={this.onMyLocationTextChange}
-                />
-              )
-            }
+            ) : (
+              <TextInput
+                dataSign="myLocationInput"
+                value={this.state.myLocation}
+                maxLength={30}
+                onChange={this.onMyLocationTextChange}
+              />
+            )}
           </InputField>
           <IconField
             className={styles.iconField}
-            icon={(
+            icon={
               <Switch
                 dataSign="ringoutPromptToggle"
                 checked={this.state.ringoutPrompt}
                 onChange={this.onRingoutPromptChange}
               />
-            )}
+            }
           >
             {i18n.getString('press1ToStartCallLabel', currentLocale)}
           </IconField>
@@ -224,7 +220,7 @@ class CallingSettingsContent extends Component {
     return (
       <React.Fragment>
         <InputField
-          label={(
+          label={
             <span>
               {i18n.getString('makeCallsWith', currentLocale)}
               <TooltipCom
@@ -240,7 +236,7 @@ class CallingSettingsContent extends Component {
                 <InfoIcon width={14} height={14} className={styles.infoIcon} />
               </TooltipCom>
             </span>
-          )}
+          }
           noBorder
         >
           <DropdownSelect
@@ -290,7 +286,7 @@ CallingSettingsContent.propTypes = {
 CallingSettingsContent.defaultProps = {
   disabled: false,
   locationSearchable: false,
-  defaultRingoutPrompt: true
+  defaultRingoutPrompt: true,
 };
 
 export default function CallingSettingsPanel({
@@ -302,10 +298,9 @@ export default function CallingSettingsPanel({
 }) {
   const content = showSpinner ? (
     <SpinnerOverlay />
-  ) :
-    (
-      <CallingSettingsContent {...props} currentLocale={currentLocale} />
-    );
+  ) : (
+    <CallingSettingsContent {...props} currentLocale={currentLocale} />
+  );
   return (
     <div
       data-sign="callingSettings"

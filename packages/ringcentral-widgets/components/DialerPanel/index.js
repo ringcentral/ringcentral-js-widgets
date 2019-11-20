@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
+import RecipientsInputV2 from '../RecipientsInputV2';
 import FromField from '../FromField';
 import SpinnerOverlay from '../SpinnerOverlay';
 import CircleButton from '../CircleButton';
@@ -28,6 +29,7 @@ function DialerPanel({
   dialButtonMuted,
   searchContact,
   searchContactList,
+  recipients,
   recipient,
   clearToNumber,
   setRecipient,
@@ -41,38 +43,69 @@ function DialerPanel({
   children,
   withTabs,
   inConference,
+  isLastInputFromDialpad,
+  useV2,
 }) {
-  const onCallFunc = () => {
-    if (!callButtonDisabled) {
-      onCallButtonClick();
+  const inputEl = useRef(null);
+  useEffect(() => {
+    if (useV2 && autoFocus && inputEl.current) {
+      inputEl.current.focus();
     }
-  };
+  }, []);
 
+  const input = useV2 ? (
+    <RecipientsInputV2
+      ref={inputEl}
+      value={toNumber}
+      onInputChange={onToNumberChange}
+      onInputClear={clearToNumber}
+      recipients={recipients}
+      addToRecipients={setRecipient}
+      removeFromRecipients={clearRecipient}
+      searchContactList={searchContactList}
+      formatContactPhone={formatPhone}
+      currentLocale={currentLocale}
+      phoneTypeRenderer={phoneTypeRenderer}
+      phoneSourceNameRenderer={phoneSourceNameRenderer}
+      contactInfoRenderer={recipientsContactInfoRenderer}
+      contactPhoneRenderer={recipientsContactPhoneRenderer}
+      isLastInputFromDialpad={isLastInputFromDialpad}
+      titleEnabled
+      className={
+        !showFromField
+          ? classnames(styles.inputField, styles.recipientsField)
+          : null
+      }
+    />
+  ) : (
+    <RecipientsInput
+      value={toNumber}
+      onChange={onToNumberChange}
+      onClean={clearToNumber}
+      recipient={recipient}
+      addToRecipients={setRecipient}
+      removeFromRecipients={clearRecipient}
+      searchContact={searchContact}
+      searchContactList={searchContactList}
+      formatContactPhone={formatPhone}
+      currentLocale={currentLocale}
+      phoneTypeRenderer={phoneTypeRenderer}
+      phoneSourceNameRenderer={phoneSourceNameRenderer}
+      contactInfoRenderer={recipientsContactInfoRenderer}
+      contactPhoneRenderer={recipientsContactPhoneRenderer}
+      isLastInputFromDialpad={isLastInputFromDialpad}
+      titleEnabled
+      autoFocus={autoFocus}
+      className={
+        !showFromField
+          ? classnames(styles.inputField, styles.recipientsField)
+          : null
+      }
+    />
+  );
   return (
     <div className={classnames(styles.root, className)}>
-      <RecipientsInput
-        value={toNumber}
-        onChange={onToNumberChange}
-        onClean={clearToNumber}
-        recipient={recipient}
-        addToRecipients={setRecipient}
-        removeFromRecipients={clearRecipient}
-        searchContact={searchContact}
-        searchContactList={searchContactList}
-        formatContactPhone={formatPhone}
-        currentLocale={currentLocale}
-        phoneTypeRenderer={phoneTypeRenderer}
-        phoneSourceNameRenderer={phoneSourceNameRenderer}
-        contactInfoRenderer={recipientsContactInfoRenderer}
-        contactPhoneRenderer={recipientsContactPhoneRenderer}
-        titleEnabled
-        autoFocus={autoFocus}
-        className={
-          !showFromField
-            ? classnames(styles.inputField, styles.recipientsField)
-            : null
-        }
-      />
+      {input}
       {showFromField ? (
         <div className={styles.inputField}>
           <FromField
@@ -89,7 +122,10 @@ function DialerPanel({
         <DialPad
           className={styles.dialPad}
           onButtonOutput={(key) => {
-            onToNumberChange(toNumber + key);
+            onToNumberChange(toNumber + key, true);
+            if (inputEl.current) {
+              inputEl.current.focus();
+            }
           }}
           dialButtonVolume={dialButtonVolume}
           dialButtonMuted={dialButtonMuted}
@@ -108,7 +144,7 @@ function DialerPanel({
                 styles.dialBtn,
                 callButtonDisabled && styles.disabled,
               )}
-              onClick={onCallFunc}
+              onClick={onCallButtonClick}
               disabled={callButtonDisabled}
               icon={AnswerIcon}
               showBorder={false}
@@ -156,6 +192,12 @@ DialerPanel.propTypes = {
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string,
   }),
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string.isRequired,
+      name: PropTypes.string,
+    }),
+  ).isRequired,
   clearToNumber: PropTypes.func.isRequired,
   setRecipient: PropTypes.func.isRequired,
   clearRecipient: PropTypes.func.isRequired,
@@ -168,6 +210,8 @@ DialerPanel.propTypes = {
   children: PropTypes.node,
   withTabs: PropTypes.bool,
   inConference: PropTypes.bool,
+  isLastInputFromDialpad: PropTypes.bool,
+  useV2: PropTypes.bool,
 };
 
 DialerPanel.defaultProps = {
@@ -180,7 +224,7 @@ DialerPanel.defaultProps = {
   isWebphoneMode: false,
   changeFromNumber: () => null,
   onToNumberChange: () => null,
-  formatPhone: phoneNumber => phoneNumber,
+  formatPhone: (phoneNumber) => phoneNumber,
   showSpinner: false,
   dialButtonVolume: 1,
   dialButtonMuted: false,
@@ -194,6 +238,8 @@ DialerPanel.defaultProps = {
   children: undefined,
   withTabs: false,
   inConference: false,
+  isLastInputFromDialpad: false,
+  useV2: false,
 };
 
 export default DialerPanel;

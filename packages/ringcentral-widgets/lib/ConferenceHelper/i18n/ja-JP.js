@@ -7,15 +7,15 @@ export default {
   selectNumbers: "番号の選択",
   enableJoinBeforeHost: "ホストより前の参加を可能にする",
   conferenceCommands: "会議コマンド",
-  conferenceOptions: "会議オプション",
+  conferenceOptions: "会議のオプション",
   inviteWithGCalendar: "Googleカレンダーを使用して招待",
   inviteWithText: "テキストで招待",
   joinAsHost: "会議を起動",
   internationalNumber: "国際ダイヤルイン番号：",
-  inviteText_att: "{brandName}会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n国際ダイヤルイン番号が必要な場合は、{dialInNumbersLinks}にアクセスしてください。\n\nこの電話会議は、{brandName} Conferencingを使用して開催されています。",
-  inviteText_bt: "{brandName}会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n追加のダイヤルイン番号{dialInNumbersLinks}",
-  inviteText_rc: "{brandName}会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n国際ダイヤルイン番号が必要な場合は、{dialInNumbersLinks}にアクセスしてください。\n\nこの電話会議は、{brandName} Conferencingを使用して開催されています。",
-  inviteText_telus: "{brandName}会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n追加のダイヤルイン番号{dialInNumbersLinks}"
+  inviteText_att: "{brandName}電話会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n国際ダイヤルイン番号が必要な場合は、{dialInNumbersLinks}にアクセスしてください。\n\nこの電話会議は{brandName} Conferencingによって提供されます。",
+  inviteText_bt: "{brandName}電話会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n追加のダイヤルイン番号{dialInNumbersLinks}",
+  inviteText_rc: "{brandName}電話会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n国際ダイヤルイン番号が必要な場合は、{dialInNumbersLinks}にアクセスしてください。\n\nこの電話会議は{brandName} Conferencingによって提供されます。",
+  inviteText_telus: "{brandName}電話会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n追加のダイヤルイン番号{dialInNumbersLinks}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

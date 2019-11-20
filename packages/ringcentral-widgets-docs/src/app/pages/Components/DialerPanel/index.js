@@ -15,10 +15,7 @@ const DialerPanelPage = () => {
   return (
     <div>
       <ComponentHeader name="DialerPanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="DialerPanel Example"
-      >
+      <CodeExample code={demoCode} title="DialerPanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

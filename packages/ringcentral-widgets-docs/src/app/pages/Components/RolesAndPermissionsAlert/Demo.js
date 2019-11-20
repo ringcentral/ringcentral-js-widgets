@@ -4,7 +4,7 @@ import RolesAndPermissionsAlert from 'ringcentral-widgets/components/RolesAndPer
 
 const props = {};
 props.message = {
-  message: 'test string'
+  message: 'test string',
 };
 props.brand = 'test string';
 props.application = 'test string';
@@ -14,8 +14,6 @@ props.currentLocale = 'en-US';
  * A example of `RolesAndPermissionsAlert`
  */
 const RolesAndPermissionsAlertDemo = () => (
-  <RolesAndPermissionsAlert
-    {...props}
-  />
+  <RolesAndPermissionsAlert {...props} />
 );
 export default RolesAndPermissionsAlertDemo;

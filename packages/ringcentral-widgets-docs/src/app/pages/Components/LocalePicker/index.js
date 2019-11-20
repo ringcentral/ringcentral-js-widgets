@@ -15,10 +15,7 @@ const LocalePickerPage = () => {
   return (
     <div>
       <ComponentHeader name="LocalePicker" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="LocalePicker Example"
-      >
+      <CodeExample code={demoCode} title="LocalePicker Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

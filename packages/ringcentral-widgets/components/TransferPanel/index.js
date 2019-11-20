@@ -77,34 +77,34 @@ export default class TransferPanel extends PureComponent {
       const value = preState.toNumber + key;
       return { toNumber: value };
     });
-  }
+  };
 
   onTransfer = () => {
     this.props.onTransfer(this._getTransferNumber(), this.props.sessionId);
-  }
+  };
 
   onToNumberChange = (toNumber) => {
     this.setState({
-      toNumber
+      toNumber,
     });
-  }
+  };
 
   clearToNumber = () => {
     this.setState({
       toNumber: '',
     });
-  }
+  };
 
   setRecipient = (recipient) => {
     this.setState({
       recipient,
       toNumber: '',
     });
-  }
+  };
 
   clearRecipient = () => {
     this.setState({ recipient: null });
-  }
+  };
 
   render() {
     const {
@@ -127,8 +127,7 @@ export default class TransferPanel extends PureComponent {
     const isOnTransfer = !!session.isOnTransfer;
     return (
       <div className={styles.root}>
-        <BackHeader
-          onBackClick={onBack}>
+        <BackHeader onBackClick={onBack}>
           {i18n.getString('transferTo', currentLocale)}
         </BackHeader>
         <RecipientsInput
@@ -151,7 +150,7 @@ export default class TransferPanel extends PureComponent {
           autoFocus={autoFocus}
         />
         <div className={styles.padContainer}>
-          <DialPad 
+          <DialPad
             dataSign="transfer"
             className={styles.dialPad}
             onButtonOutput={this.onButtonOutput}
@@ -159,7 +158,7 @@ export default class TransferPanel extends PureComponent {
           <div className={styles.buttonRow}>
             <div className={styles.button}>
               <CircleButton
-                dataSign= "transferBtn"
+                dataSign="transferBtn"
                 className={isOnTransfer ? styles.disabled : undefined}
                 onClick={this.onTransfer}
                 icon={TransferIcon}

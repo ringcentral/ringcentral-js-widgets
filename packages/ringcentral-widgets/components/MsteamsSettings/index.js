@@ -16,13 +16,13 @@ export default function MsteamsSettings({
   videoTakeOverEnabled,
   onAudioSwitchChange,
   onVideoSwitchChange,
-  onBackClick
+  onBackClick,
 }) {
   const audioSetting = showAudioSetting && (
     <div className={styles.block}>
       <div className={styles.text}>
         {formatMessage(i18n.getString('audioSetting', currentLocale), {
-          brandName
+          brandName,
         })}
       </div>
       <div className={styles.switch}>
@@ -35,7 +35,7 @@ export default function MsteamsSettings({
     <div className={styles.block}>
       <div className={styles.text}>
         {formatMessage(i18n.getString('videoSetting', currentLocale), {
-          brandName
+          brandName,
         })}
       </div>
       <div className={styles.switch}>
@@ -75,5 +75,5 @@ MsteamsSettings.defaultProps = {
   audioTakeOverEnabled: false,
   videoTakeOverEnabled: false,
   onAudioSwitchChange: () => null,
-  onVideoSwitchChange: () => null
+  onVideoSwitchChange: () => null,
 };

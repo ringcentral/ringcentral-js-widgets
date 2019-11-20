@@ -12,14 +12,12 @@ function PresenceStatusIcon({
 }) {
   return (
     <div
-      className={
-        classnames(
-          styles.presence,
-          styles[presenceStatus || userStatus],
-          styles[dndStatus],
-          className,
-        )
-      }
+      className={classnames(
+        styles.presence,
+        styles[presenceStatus || userStatus],
+        styles[dndStatus],
+        className,
+      )}
     >
       <div className={styles.presenceBar} />
     </div>

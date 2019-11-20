@@ -26,7 +26,6 @@ export function getMinimizedReducer(types) {
   };
 }
 
-
 export function getSizeReducer(types) {
   return (state = { width: 300, height: 500 }, { type, size = {} }) => {
     switch (type) {

@@ -1,0 +1,42 @@
+@import '~ringcentral-widgets/lib/commonStyles/variable.scss';
+
+$icon-color: #757575;
+
+.container {
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+}
+
+.root {
+  min-height: 70px !important;
+
+  [sf-classic] & {
+    min-height: 90px !important;
+  }
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.mainInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #212121;
+  margin-top: 7.5px;
+  margin-bottom: 8.5px;
+  @include flex_width(220px);
+
+  [sf-classic] & {
+    @include flex_width(124px);
+  }
+}
+
+.detiailRoot {
+  padding-top: 0 !important;
+  padding-bottom: 12px !important;
+}

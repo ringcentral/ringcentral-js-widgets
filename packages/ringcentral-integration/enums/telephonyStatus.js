@@ -1,9 +1,11 @@
-import HashMap from '../lib/HashMap';
+import { createHashMap } from '../lib/HashMap';
 
-export default new HashMap({
+const telephonyStatus = createHashMap({
   noCall: 'NoCall',
   onHold: 'OnHold',
   ringing: 'Ringing',
   callConnected: 'CallConnected',
   parkedCall: 'ParkedCall',
 });
+
+export default telephonyStatus;

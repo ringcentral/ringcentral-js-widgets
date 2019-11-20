@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 // eslint-disable-next-line
 import Modal from 'ringcentral-widgets/components/Modal';
 import Button from 'ringcentral-widgets/components/Button';
@@ -13,25 +13,23 @@ class ModalDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
-    }
+      show: false,
+    };
   }
   onClick = () => {
     this.setState({
-      show: !this.state.show
+      show: !this.state.show,
     });
-  }
+  };
   onClose = () => {
     this.setState({
-      show: false
+      show: false,
     });
-  }
+  };
   render() {
     return (
       <div>
-        <Button onClick={ this.onClick }>
-          Open Modal
-        </Button>
+        <Button onClick={this.onClick}>Open Modal</Button>
         <Modal
           show={this.state.show}
           onConfirm={this.onClose}
@@ -44,5 +42,5 @@ class ModalDemo extends Component {
       </div>
     );
   }
-};
+}
 export default ModalDemo;

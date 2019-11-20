@@ -42,7 +42,8 @@ export default class CallsPanel extends React.PureComponent {
   }, 300);
 
   _calculateContentSize() {
-    if (this._listWrapper &&
+    if (
+      this._listWrapper &&
       this._listWrapper.current &&
       this._listWrapper.current.getBoundingClientRect
     ) {
@@ -98,92 +99,83 @@ export default class CallsPanel extends React.PureComponent {
       useNewList,
     } = this.props;
 
-    const {
-      contentWidth,
-      contentHeight,
-    } = this.state;
+    const { contentWidth, contentHeight } = this.state;
 
-    const callsListView = useNewList ?
-      (
-        <CallListV2
-          brand={brand}
-          currentLocale={currentLocale}
-          calls={calls}
-          areaCode={areaCode}
-          countryCode={countryCode}
-          onViewContact={onViewContact}
-          onCreateContact={onCreateContact}
-          onLogCall={onLogCall}
-          onClickToDial={onClickToDial}
-          onClickToSms={onClickToSms}
-          isLoggedContact={isLoggedContact}
-          disableLinks={disableLinks}
-          disableCallButton={disableCallButton}
-          disableClickToDial={disableClickToDial}
-          outboundSmsPermission={outboundSmsPermission}
-          internalSmsPermission={internalSmsPermission}
-          dateTimeFormatter={dateTimeFormatter}
-          active={active}
-          loggingMap={loggingMap}
-          webphoneAnswer={webphoneAnswer}
-          webphoneReject={webphoneReject}
-          webphoneHangup={webphoneHangup}
-          webphoneResume={webphoneResume}
-          enableContactFallback={enableContactFallback}
-          autoLog={autoLog}
-          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-          sourceIcons={sourceIcons}
-          phoneTypeRenderer={phoneTypeRenderer}
-          phoneSourceNameRenderer={phoneSourceNameRenderer}
-          width={contentWidth}
-          height={contentHeight}
-          useNewList={useNewList}
-        />
-      ) :
-      (
-        <CallList
-          brand={brand}
-          currentLocale={currentLocale}
-          calls={calls}
-          areaCode={areaCode}
-          countryCode={countryCode}
-          onViewContact={onViewContact}
-          onCreateContact={onCreateContact}
-          onLogCall={onLogCall}
-          onClickToDial={onClickToDial}
-          onClickToSms={onClickToSms}
-          isLoggedContact={isLoggedContact}
-          disableLinks={disableLinks}
-          disableCallButton={disableCallButton}
-          disableClickToDial={disableClickToDial}
-          outboundSmsPermission={outboundSmsPermission}
-          internalSmsPermission={internalSmsPermission}
-          dateTimeFormatter={dateTimeFormatter}
-          active={active}
-          loggingMap={loggingMap}
-          webphoneAnswer={webphoneAnswer}
-          webphoneReject={webphoneReject}
-          webphoneHangup={webphoneHangup}
-          webphoneResume={webphoneResume}
-          enableContactFallback={enableContactFallback}
-          autoLog={autoLog}
-          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-          sourceIcons={sourceIcons}
-          phoneTypeRenderer={phoneTypeRenderer}
-          phoneSourceNameRenderer={phoneSourceNameRenderer}
-        />
-      );
+    const callsListView = useNewList ? (
+      <CallListV2
+        brand={brand}
+        currentLocale={currentLocale}
+        calls={calls}
+        areaCode={areaCode}
+        countryCode={countryCode}
+        onViewContact={onViewContact}
+        onCreateContact={onCreateContact}
+        onLogCall={onLogCall}
+        onClickToDial={onClickToDial}
+        onClickToSms={onClickToSms}
+        isLoggedContact={isLoggedContact}
+        disableLinks={disableLinks}
+        disableCallButton={disableCallButton}
+        disableClickToDial={disableClickToDial}
+        outboundSmsPermission={outboundSmsPermission}
+        internalSmsPermission={internalSmsPermission}
+        dateTimeFormatter={dateTimeFormatter}
+        active={active}
+        loggingMap={loggingMap}
+        webphoneAnswer={webphoneAnswer}
+        webphoneReject={webphoneReject}
+        webphoneHangup={webphoneHangup}
+        webphoneResume={webphoneResume}
+        enableContactFallback={enableContactFallback}
+        autoLog={autoLog}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+        sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
+        width={contentWidth}
+        height={contentHeight}
+        useNewList={useNewList}
+      />
+    ) : (
+      <CallList
+        brand={brand}
+        currentLocale={currentLocale}
+        calls={calls}
+        areaCode={areaCode}
+        countryCode={countryCode}
+        onViewContact={onViewContact}
+        onCreateContact={onCreateContact}
+        onLogCall={onLogCall}
+        onClickToDial={onClickToDial}
+        onClickToSms={onClickToSms}
+        isLoggedContact={isLoggedContact}
+        disableLinks={disableLinks}
+        disableCallButton={disableCallButton}
+        disableClickToDial={disableClickToDial}
+        outboundSmsPermission={outboundSmsPermission}
+        internalSmsPermission={internalSmsPermission}
+        dateTimeFormatter={dateTimeFormatter}
+        active={active}
+        loggingMap={loggingMap}
+        webphoneAnswer={webphoneAnswer}
+        webphoneReject={webphoneReject}
+        webphoneHangup={webphoneHangup}
+        webphoneResume={webphoneResume}
+        enableContactFallback={enableContactFallback}
+        autoLog={autoLog}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+        sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
+      />
+    );
 
     const content = showSpinner ? <SpinnerOverlay /> : callsListView;
 
     return (
       <div className={styles.root} ref={this._listWrapper}>
-        <Header>
-          {title}
-        </Header>
-        <Panel className={styles.content}>
-          {content}
-        </Panel>
+        <Header>{title}</Header>
+        <Panel className={styles.content}>{content}</Panel>
       </div>
     );
   }

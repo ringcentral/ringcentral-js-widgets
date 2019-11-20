@@ -6,7 +6,7 @@ import i18n from './i18n';
 
 export default function MessageStoreAlert(props) {
   const { message } = props.message;
-  let view = (<span>{i18n.getString(message, props.currentLocale)}</span>);
+  let view = <span>{i18n.getString(message, props.currentLocale)}</span>;
   // Handle call record error
   if (message === messageStoreErrors.deleteFailed) {
     view = (
@@ -25,6 +25,5 @@ MessageStoreAlert.propTypes = {
   }).isRequired,
 };
 
-MessageStoreAlert.handleMessage = ({ message }) => (
-  (message === messageStoreErrors.deleteFailed)
-);
+MessageStoreAlert.handleMessage = ({ message }) =>
+  message === messageStoreErrors.deleteFailed;

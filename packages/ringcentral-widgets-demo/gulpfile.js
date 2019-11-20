@@ -8,9 +8,7 @@ import devServerConfig from './dev-server/webpack.config';
 import demoExtensionConfig from './demo-extension/webpack.config';
 
 const {
-  argv: {
-    file,
-  }
+  argv: { file },
 } = yargs.string('file');
 
 export function devServer() {
@@ -47,7 +45,8 @@ export function demoExtensionWebpack() {
   });
 }
 export function demoExtensionCopy() {
-  return gulp.src(['demo-extension/**/*', '!demo-extension/**/*.js'])
+  return gulp
+    .src(['demo-extension/**/*', '!demo-extension/**/*.js'])
     .pipe(gulp.dest('demo-extension-build'));
 }
 

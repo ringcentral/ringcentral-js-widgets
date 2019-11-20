@@ -7,12 +7,7 @@ import SearchIcon from '../../assets/images/Search.svg';
 
 function SearchInput(props) {
   return (
-    <div
-      className={classnames(
-        styles.root,
-        props.className,
-      )}
-      >
+    <div className={classnames(styles.root, props.className)}>
       <SearchIcon className={styles.icon} />
       <input
         name="search"

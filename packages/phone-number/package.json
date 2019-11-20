@@ -22,7 +22,7 @@
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "babel-jest": "^24.8.0",
-    "fs-extra": "^7.0.1",
+    "fs-extra": "^8.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",

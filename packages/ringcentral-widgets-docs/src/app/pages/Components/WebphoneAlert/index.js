@@ -15,10 +15,7 @@ const WebphoneAlertPage = () => {
   return (
     <div>
       <ComponentHeader name="WebphoneAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="WebphoneAlert Example"
-      >
+      <CodeExample code={demoCode} title="WebphoneAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

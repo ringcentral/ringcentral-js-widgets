@@ -9,9 +9,5 @@ props.slideout = false;
 /**
  * A example of `SlideoutBar`
  */
-const SlideoutBarDemo = () => (
-  <SlideoutBar
-    {...props}
-  />
-);
+const SlideoutBarDemo = () => <SlideoutBar {...props} />;
 export default SlideoutBarDemo;

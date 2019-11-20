@@ -121,6 +121,7 @@ module.exports = {
       { declaration: false, assignment: false },
     ],
     'react/jsx-one-expression-per-line': 0,
+    camelcase: 0,
   },
   overrides: [
     {
@@ -177,6 +178,7 @@ module.exports = {
         'object-shorthand': [2, 'always'],
         'no-unused-vars': 0,
         '@typescript-eslint/no-unused-vars': 1,
+        'import/export': 0,
       },
     },
   ],

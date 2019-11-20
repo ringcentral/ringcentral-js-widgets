@@ -18,16 +18,15 @@ props.areaCode = '650';
  * A example of `RegionSettingsPanel`
  */
 const RegionSettingsPanelDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '500px',
-    width: '300px',
-    border: '1px solid #f3f3f3',
-  }}>
-    <RegionSettingsPanel
-      className={styles.root}
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      height: '500px',
+      width: '300px',
+      border: '1px solid #f3f3f3',
+    }}
+  >
+    <RegionSettingsPanel className={styles.root} {...props} />
   </div>
 );
 export default RegionSettingsPanelDemo;

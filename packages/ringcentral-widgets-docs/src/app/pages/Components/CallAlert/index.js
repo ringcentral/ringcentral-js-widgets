@@ -15,10 +15,7 @@ const CallAlertPage = () => {
   return (
     <div>
       <ComponentHeader name="CallAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="CallAlert Example"
-      >
+      <CodeExample code={demoCode} title="CallAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

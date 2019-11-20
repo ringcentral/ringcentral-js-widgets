@@ -39,21 +39,17 @@ AppView.defaultProps = {
   onSetData: undefined,
 };
 
-export default withPhone(connect((_, {
-  phone: {
-    oAuth,
-    environment,
-  }
-}) => ({
-  server: environment.server,
-  enabled: environment.enabled,
-  redirectUri: oAuth.redirectUri
-}), (_, {
-  phone: {
-    environment,
-  },
-}) => ({
-  onSetData(options) {
-    environment.setData(options);
-  },
-}))(AppView));
+export default withPhone(
+  connect(
+    (_, { phone: { oAuth, environment } }) => ({
+      server: environment.server,
+      enabled: environment.enabled,
+      redirectUri: oAuth.redirectUri,
+    }),
+    (_, { phone: { environment } }) => ({
+      onSetData(options) {
+        environment.setData(options);
+      },
+    }),
+  )(AppView),
+);

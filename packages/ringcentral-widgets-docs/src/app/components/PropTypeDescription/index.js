@@ -17,7 +17,7 @@ function generatePropType(type) {
 
     case 'enum':
     case 'union':
-      values = type.value.map(v => v.value || v.name).join('<br>&nbsp;');
+      values = type.value.map((v) => v.value || v.name).join('<br>&nbsp;');
       return `${type.name}:<br>&nbsp;${values}<br>`;
 
     default:
@@ -28,9 +28,11 @@ function generatePropType(type) {
 function generateDescription(required, description, type) {
   const parsed = parseDoctrine(description);
 
-  const jsDocText = parsed.description.replace(/\n\n/g, '<br>').replace(/\n/g, ' ');
+  const jsDocText = parsed.description
+    .replace(/\n\n/g, '<br>')
+    .replace(/\n/g, ' ');
 
-  if (parsed.tags.some(tag => tag.title === 'ignore')) return null;
+  if (parsed.tags.some((tag) => tag.title === 'ignore')) return null;
   let signature = '';
 
   if (type.name === 'func' && parsed.tags.length > 0) {
@@ -54,9 +56,13 @@ function generateDescription(required, description, type) {
     }
 
     signature += '<br><br>**Signature:**<br>`function(';
-    signature += parsedArgs.map(tag => `${tag.name}: ${tag.type.name}`).join(', ');
+    signature += parsedArgs
+      .map((tag) => `${tag.name}: ${tag.type.name}`)
+      .join(', ');
     signature += `) => ${parsedReturns.type.name}\`<br>`;
-    signature += parsedArgs.map(tag => `*${tag.name}:* ${tag.description}`).join('<br>');
+    signature += parsedArgs
+      .map((tag) => `*${tag.name}:* ${tag.description}`)
+      .join('<br>');
     if (parsedReturns.description) {
       signature += `<br> *returns* (${parsedReturns.type.name}): ${parsedReturns.description}`;
     }
@@ -66,10 +72,7 @@ function generateDescription(required, description, type) {
 }
 
 function PropTypeDescription(props) {
-  const {
-    componentInfo,
-    header,
-  } = props;
+  const { componentInfo, header } = props;
   if (!componentInfo.props) {
     return null;
   }
@@ -81,7 +84,11 @@ function PropTypeDescription(props) {
 
   Object.keys(componentInfo.props).forEach((key) => {
     const prop = componentInfo.props[key];
-    const description = generateDescription(prop.required, prop.description, prop.type);
+    const description = generateDescription(
+      prop.required,
+      prop.description,
+      prop.type,
+    );
 
     if (description === null) {
       return;
@@ -98,7 +105,9 @@ function PropTypeDescription(props) {
       requiredProps += 1;
     }
 
-    text += `| ${key} | ${generatePropType(prop.type)} | ${defaultValue} | ${description} |\n`;
+    text += `| ${key} | ${generatePropType(
+      prop.type,
+    )} | ${defaultValue} | ${description} |\n`;
   });
 
   text += 'Other properties (not documented) are applied to the root element.';
@@ -113,9 +122,7 @@ function PropTypeDescription(props) {
   return (
     <div className={styles.propTypeDescription}>
       <Markdown text={text} />
-      <div className={styles.footnote}>
-        {requiredPropFootnote}
-      </div>
+      <div className={styles.footnote}>{requiredPropFootnote}</div>
     </div>
   );
 }

@@ -6,25 +6,30 @@ const Opportunity = [
   {
     Name: 'test1',
     Phone: '6501234567',
-    Id: '0031N00001QSvbuQLead'
+    Id: '0031N00001QSvbuQLead',
   },
   {
     Name: 'test2',
     Phone: '6501234567',
-    Id: '0031N00001QSvbuQADOpportunity'
+    Id: '0031N00001QSvbuQADOpportunity',
   },
 ];
 
 function typingText(wrapper, textContent) {
   const event = new Event('input');
   Object.defineProperty(event, 'target', {
-    get() { return { textContent }; }
+    get() {
+      return { textContent };
+    },
   });
-  wrapper.find('span').at(0).instance().dispatchEvent(event);
+  wrapper
+    .find('span')
+    .at(0)
+    .instance()
+    .dispatchEvent(event);
 }
 
-beforeEach(async () => {
-});
+beforeEach(async () => {});
 
 describe('<DropdownSelect />', () => {
   const searchHandler = jest.fn();
@@ -50,7 +55,8 @@ describe('<DropdownSelect />', () => {
         }
         return '[None]';
       }}
-    />);
+    />,
+  );
 
   it('click dropdownList and the menu should be opend', () => {
     const button = wrapper.find('[type="button"]').at(0);
@@ -60,7 +66,12 @@ describe('<DropdownSelect />', () => {
   });
 
   it('check the contenteditable has be add', () => {
-    expect(wrapper.find('[data-sign="selectedItem"]').render().attr().contenteditable).toBe('true');
+    expect(
+      wrapper
+        .find('[data-sign="selectedItem"]')
+        .render()
+        .attr().contenteditable,
+    ).toBe('true');
   });
 
   it('typing text, the filter should change.', () => {
@@ -74,13 +85,15 @@ describe('<DropdownSelect />', () => {
   });
 
   it('set filter method and typing text in field, the options should be filter with condition.', () => {
-    wrapper.setProps({ searchOption: (option, text) => option.Name.includes(text) });
+    wrapper.setProps({
+      searchOption: (option, text) => option.Name.includes(text),
+    });
 
     const nextInput = 't1';
     typingText(wrapper, nextInput);
 
     const dropdownList = wrapper.find('.dropdownItem');
-    const dropdownListTexts = dropdownList.map(item => item.text());
+    const dropdownListTexts = dropdownList.map((item) => item.text());
 
     expect(dropdownListTexts).toEqual(['test1']);
   });
@@ -92,7 +105,9 @@ describe('<DropdownSelect />', () => {
     selected.simulate('click');
 
     expect(onChangeHandler).toHaveBeenCalled();
-    expect(wrapper.find('[data-sign="selectedItem"]').text()).toEqual(selected.text());
+    expect(wrapper.find('[data-sign="selectedItem"]').text()).toEqual(
+      selected.text(),
+    );
     expect(wrapper.state('open')).toEqual(false);
   });
 });

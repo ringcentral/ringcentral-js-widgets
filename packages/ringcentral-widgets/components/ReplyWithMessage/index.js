@@ -32,17 +32,20 @@ function TimeInput(props) {
       </span>
       <span
         onClick={() => props.onSelectTimeUnit(MINS)}
-        className={props.timeUnit === MINS ? styles.timeUnitSelected : null}>
+        className={props.timeUnit === MINS ? styles.timeUnitSelected : null}
+      >
         {i18n.getString('min', props.currentLocale)}
       </span>
       <span
         className={props.timeUnit === HOURS ? styles.timeUnitSelected : null}
-        onClick={() => props.onSelectTimeUnit(HOURS)}>
+        onClick={() => props.onSelectTimeUnit(HOURS)}
+      >
         {i18n.getString('hours', props.currentLocale)}
       </span>
       <span
         className={props.timeUnit === DAYS ? styles.timeUnitSelected : null}
-        onClick={() => props.onSelectTimeUnit(DAYS)}>
+        onClick={() => props.onSelectTimeUnit(DAYS)}
+      >
         {i18n.getString('days', props.currentLocale)}
       </span>
     </div>
@@ -152,12 +155,7 @@ export default class ReplyWithMessage extends Component {
   }
 
   render() {
-    const {
-      className,
-      onCancel,
-      currentLocale,
-      disabled
-    } = this.props;
+    const { className, onCancel, currentLocale, disabled } = this.props;
     const disableButton = isBlank(this._getValue().replyText) || disabled;
     return (
       <div className={classnames(styles.root, className)}>
@@ -170,10 +168,13 @@ export default class ReplyWithMessage extends Component {
               }, 100);
             }}
             className={classnames(
-              styles.messageItem, this.state.type === CALL_YOU ? styles.active : null
+              styles.messageItem,
+              this.state.type === CALL_YOU ? styles.active : null,
             )}
           >
-            <div className={styles.label}>{i18n.getString('willCallYouBackIn', currentLocale)}...</div>
+            <div className={styles.label}>
+              {i18n.getString('willCallYouBackIn', currentLocale)}...
+            </div>
             <div className={styles.inputField}>
               <TimeInput
                 currentLocale={currentLocale}
@@ -193,10 +194,13 @@ export default class ReplyWithMessage extends Component {
               }, 100);
             }}
             className={classnames(
-              styles.messageItem, this.state.type === CALL_ME ? styles.active : null
+              styles.messageItem,
+              this.state.type === CALL_ME ? styles.active : null,
             )}
           >
-            <div className={styles.label}>{i18n.getString('callMeBackIn', currentLocale)}...</div>
+            <div className={styles.label}>
+              {i18n.getString('callMeBackIn', currentLocale)}...
+            </div>
             <div className={styles.inputField}>
               <TimeInput
                 currentLocale={currentLocale}
@@ -211,10 +215,13 @@ export default class ReplyWithMessage extends Component {
           <div
             onClick={() => this.onSelectType(ON_MY_WAY)}
             className={classnames(
-              styles.messageItem, this.state.type === ON_MY_WAY ? styles.active : null
+              styles.messageItem,
+              this.state.type === ON_MY_WAY ? styles.active : null,
             )}
           >
-            <div className={styles.label}>{i18n.getString('onMyWay', currentLocale)}</div>
+            <div className={styles.label}>
+              {i18n.getString('onMyWay', currentLocale)}
+            </div>
           </div>
           <div
             onClick={() => {
@@ -224,31 +231,34 @@ export default class ReplyWithMessage extends Component {
               }, 100);
             }}
             className={classnames(
-              styles.messageItem, this.state.type === CUSTOM_MESSAGE ? styles.active : null
+              styles.messageItem,
+              this.state.type === CUSTOM_MESSAGE ? styles.active : null,
             )}
           >
-            <div className={styles.label}>{i18n.getString('customMessage', currentLocale)}</div>
+            <div className={styles.label}>
+              {i18n.getString('customMessage', currentLocale)}
+            </div>
             <div className={styles.inputField}>
               <textarea
                 value={this.state.customValue}
                 maxLength={50}
                 onChange={this.onCustomValueChange}
-                ref={(input) => { this.customValueInput = input; }}
+                ref={(input) => {
+                  this.customValueInput = input;
+                }}
               />
             </div>
           </div>
         </div>
         <div className={styles.buttonGroup}>
-          <Button
-            className={styles.cancelButton}
-            onClick={onCancel}
-          >
+          <Button className={styles.cancelButton} onClick={onCancel}>
             {i18n.getString('cancel', currentLocale)}
           </Button>
           <Button
-            className={
-              classnames(styles.replyButton, disableButton ? styles.disabled : null)
-            }
+            className={classnames(
+              styles.replyButton,
+              disableButton ? styles.disabled : null,
+            )}
             onClick={this.props.disabled ? () => {} : this.onReply}
             disabled={disableButton}
           >

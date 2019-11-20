@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `TextInput`
  */
-const TextInputDemo = () => (
-  <TextInput
-    {...props}
-  />
-);
+const TextInputDemo = () => <TextInput {...props} />;
 export default TextInputDemo;

@@ -35,7 +35,9 @@ export default function CallsOnholdContainer({
     <BackHeader
       className={styles.header}
       onBackClick={onBackButtonClick}
-      backButton={<BackButton label={i18n.getString('activeCall', currentLocale)} />}
+      backButton={
+        <BackButton label={i18n.getString('activeCall', currentLocale)} />
+      }
     />
   );
 
@@ -43,45 +45,47 @@ export default function CallsOnholdContainer({
     <div className={styles.root}>
       {backHeader}
       <div className={styles.callList}>
-        {
-          calls.length ?
-            calls.map(call => (
-              <ActiveCallItem
-                call={call}
-                key={call.id}
-                showMergeCall
-                currentLocale={currentLocale}
-                areaCode={areaCode}
-                countryCode={countryCode}
-                brand={brand}
-                showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-                onMergeCall={onMerge}
-                webphoneAnswer={webphoneAnswer}
-                webphoneReject={webphoneReject}
-                webphoneHangup={webphoneHangup}
-                webphoneResume={webphoneResume}
-                webphoneToVoicemail={webphoneToVoicemail}
-                enableContactFallback={enableContactFallback}
-                autoLog={autoLog}
-                sourceIcons={sourceIcons}
-                phoneTypeRenderer={phoneTypeRenderer}
-                phoneSourceNameRenderer={phoneSourceNameRenderer}
-                disableMerge={disableMerge}
-                hasActionMenu={false}
-                showAnswer={false}
-                getAvatarUrl={getAvatarUrl}
-                showHold={false}
-              />
-            )) : (
-              <div className={styles.noCalls}>
-                {i18n.getString('noCalls', currentLocale)}
-              </div>
-            )
-        }
+        {calls.length ? (
+          calls.map((call) => (
+            <ActiveCallItem
+              call={call}
+              key={call.id}
+              showMergeCall
+              currentLocale={currentLocale}
+              areaCode={areaCode}
+              countryCode={countryCode}
+              brand={brand}
+              showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+              onMergeCall={onMerge}
+              webphoneAnswer={webphoneAnswer}
+              webphoneReject={webphoneReject}
+              webphoneHangup={webphoneHangup}
+              webphoneResume={webphoneResume}
+              webphoneToVoicemail={webphoneToVoicemail}
+              enableContactFallback={enableContactFallback}
+              autoLog={autoLog}
+              sourceIcons={sourceIcons}
+              phoneTypeRenderer={phoneTypeRenderer}
+              phoneSourceNameRenderer={phoneSourceNameRenderer}
+              disableMerge={disableMerge}
+              hasActionMenu={false}
+              showAnswer={false}
+              getAvatarUrl={getAvatarUrl}
+              showHold={false}
+            />
+          ))
+        ) : (
+          <div className={styles.noCalls}>
+            {i18n.getString('noCalls', currentLocale)}
+          </div>
+        )}
       </div>
       <div className={styles.addBtnContainer}>
         <div className={styles.addBtn}>
-          <span title={i18n.getString('add', currentLocale)} className={styles.webphoneButton}>
+          <span
+            title={i18n.getString('add', currentLocale)}
+            className={styles.webphoneButton}
+          >
             <CircleButton
               className={styles.addBtnIcon}
               icon={CombineIcon}
@@ -94,7 +98,6 @@ export default function CallsOnholdContainer({
     </div>
   );
 }
-
 
 CallsOnholdContainer.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -137,5 +140,5 @@ CallsOnholdContainer.defaultProps = {
   onAdd: undefined,
   onMerge: undefined,
   disableMerge: false,
-  getAvatarUrl: i => i,
+  getAvatarUrl: (i) => i,
 };

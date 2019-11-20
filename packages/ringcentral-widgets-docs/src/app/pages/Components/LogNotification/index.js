@@ -15,10 +15,7 @@ const LogNotificationPage = () => {
   return (
     <div>
       <ComponentHeader name="LogNotification" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="LogNotification Example"
-      >
+      <CodeExample code={demoCode} title="LogNotification Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

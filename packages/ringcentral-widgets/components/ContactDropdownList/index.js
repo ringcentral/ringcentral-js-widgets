@@ -20,13 +20,9 @@ function ContactInfo({
   const nameTitle = `${name} ${spliter} ${phoneSourceName}`;
   return (
     <div className={styles.nameSection} title={titleEnabled && nameTitle}>
-      <span className={styles.name}>
-        {name}
-      </span>
+      <span className={styles.name}>{name}</span>
       <span className={styles.spliter}>{spliter}</span>
-      <span className={styles.label}>
-        {phoneSourceName}
-      </span>
+      <span className={styles.label}>{phoneSourceName}</span>
     </div>
   );
 }
@@ -51,17 +47,17 @@ function ContactPhone({
   const phoneTypeName = phoneTypeRenderer
     ? phoneTypeRenderer(phoneType)
     : phoneTypeNames.getString(phoneType);
-  const phoneNumberTitle =
-    `${formatContactPhone(phoneNumber)} ${spliter} ${phoneTypeName}`;
+  const phoneNumberTitle = `${formatContactPhone(
+    phoneNumber,
+  )} ${spliter} ${phoneTypeName}`;
   return (
-    <div className={styles.phoneNumberSection} title={titleEnabled && phoneNumberTitle}>
-      <span>
-        {formatContactPhone(phoneNumber)}
-      </span>
+    <div
+      className={styles.phoneNumberSection}
+      title={titleEnabled && phoneNumberTitle}
+    >
+      <span>{formatContactPhone(phoneNumber)}</span>
       <span className={styles.spliter}>{spliter}</span>
-      <span className={styles.label}>
-        {phoneTypeName}
-      </span>
+      <span className={styles.label}>{phoneTypeName}</span>
     </div>
   );
 }
@@ -171,7 +167,7 @@ class ContactDropdownList extends Component {
     }
     if (nextProps.scrollDirection === 'ArrowUp') {
       if (nextProps.selectedIndex > -1) {
-        if ((nextProps.selectedIndex < nextProps.items.length - 4) && this.node) {
+        if (nextProps.selectedIndex < nextProps.items.length - 4 && this.node) {
           this.node.scrollTop -= 53;
           this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
         }
@@ -209,27 +205,25 @@ class ContactDropdownList extends Component {
           }
         }}
       >
-        {
-          items.map((item, index) => (
-            <ContactItem
-              currentLocale={currentLocale}
-              active={selectedIndex === index}
-              name={item.name}
-              entityType={item.entityType}
-              phoneType={item.phoneType}
-              phoneNumber={item.phoneNumber}
-              phoneTypeRenderer={phoneTypeRenderer}
-              phoneSourceNameRenderer={phoneSourceNameRenderer}
-              formatContactPhone={formatContactPhone}
-              onHover={() => setSelectedIndex(index)}
-              onClick={() => addToRecipients(item)}
-              key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
-              titleEnabled={titleEnabled}
-              contactInfoRenderer={contactInfoRenderer}
-              contactPhoneRenderer={contactPhoneRenderer}
-            />
-          ))
-        }
+        {items.map((item, index) => (
+          <ContactItem
+            currentLocale={currentLocale}
+            active={selectedIndex === index}
+            name={item.name}
+            entityType={item.entityType}
+            phoneType={item.phoneType}
+            phoneNumber={item.phoneNumber}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
+            formatContactPhone={formatContactPhone}
+            onHover={() => setSelectedIndex(index)}
+            onClick={() => addToRecipients(item)}
+            key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
+            titleEnabled={titleEnabled}
+            contactInfoRenderer={contactInfoRenderer}
+            contactPhoneRenderer={contactPhoneRenderer}
+          />
+        ))}
       </ul>
     );
   }
@@ -240,12 +234,14 @@ ContactDropdownList.propTypes = {
   scrollDirection: PropTypes.string,
   visibility: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    entityType: PropTypes.string.isRequired,
-    phoneType: PropTypes.string.isRequired,
-    phoneNumber: PropTypes.string.isRequired,
-  })).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      entityType: PropTypes.string.isRequired,
+      phoneType: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   formatContactPhone: PropTypes.func.isRequired,
   addToRecipients: PropTypes.func.isRequired,
   setSelectedIndex: PropTypes.func.isRequired,

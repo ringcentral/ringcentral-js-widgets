@@ -12,5 +12,5 @@ export default function NoCalls({ currentLocale, active }) {
 }
 NoCalls.propTypes = {
   currentLocale: PropTypes.string.isRequired,
-  active: PropTypes.bool.isRequired
+  active: PropTypes.bool.isRequired,
 };

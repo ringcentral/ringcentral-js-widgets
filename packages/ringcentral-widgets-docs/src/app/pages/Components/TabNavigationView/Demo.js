@@ -30,9 +30,8 @@ const tabs = [
     activeIcon: CallsHoverIcon,
     label: 'Calls',
     path: '/calls',
-    isActive: currentPath => (
-      currentPath === '/calls' || currentPath === '/calls/active'
-    ),
+    isActive: (currentPath) =>
+      currentPath === '/calls' || currentPath === '/calls/active',
   },
   {
     icon: MessageIcon,
@@ -40,9 +39,9 @@ const tabs = [
     label: 'Messages',
     path: '/messages',
     noticeCounts: 1,
-    isActive: currentPath => (
-      currentPath === '/messages' || currentPath.indexOf('/conversations/') !== -1
-    ),
+    isActive: (currentPath) =>
+      currentPath === '/messages' ||
+      currentPath.indexOf('/conversations/') !== -1,
   },
   {
     icon: ({ currentPath }) => {
@@ -56,9 +55,8 @@ const tabs = [
     activeIcon: MoreMenuHoverIcon,
     label: 'More Menu',
     virtualPath: '!moreMenu',
-    isActive: (currentPath, currentVirtualPath) => (
-      currentVirtualPath === '!moreMenu'
-    ),
+    isActive: (currentPath, currentVirtualPath) =>
+      currentVirtualPath === '!moreMenu',
     childTabs: [
       {
         icon: ContactIcon,
@@ -71,9 +69,7 @@ const tabs = [
         activeIcon: SettingsHoverIcon,
         label: 'Settings',
         path: '/settings',
-        isActive: currentPath => (
-          currentPath.substr(0, 9) === '/settings'
-        ),
+        isActive: (currentPath) => currentPath.substr(0, 9) === '/settings',
       },
     ],
   },
@@ -99,12 +95,14 @@ class TabNavigationViewDemo extends Component {
 
   render() {
     return (
-      <div style={{
-        position: 'relative',
-        height: '500px',
-        width: '300px',
-        border: '1px solid #f3f3f3',
-      }}>
+      <div
+        style={{
+          position: 'relative',
+          height: '500px',
+          width: '300px',
+          border: '1px solid #f3f3f3',
+        }}
+      >
         <TabNavigationView
           currentPath={this.state.currentPath}
           currentVirtualPath={this.state.currentVirtualPath}

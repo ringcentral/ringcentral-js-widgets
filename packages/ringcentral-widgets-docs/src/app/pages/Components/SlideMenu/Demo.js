@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `SlideMenu`
  */
-const SlideMenuDemo = () => (
-  <SlideMenu
-    {...props}
-  />
-);
+const SlideMenuDemo = () => <SlideMenu {...props} />;
 export default SlideMenuDemo;

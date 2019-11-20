@@ -20,10 +20,14 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     // when caller calls him self, the sessionId are the same, so we need the `partyId` to identify the participants.
     if (session.partyData && callItem.telephonySessionId) {
       const { sessionId, partyId } = session.partyData;
-      if (
-        sessionId === callItem.telephonySessionId &&
-        partyId === callItem.partyId
-      ) {
+      if (sessionId !== callItem.telephonySessionId) {
+        return false;
+      }
+      if (partyId === callItem.partyId) {
+        return true;
+      }
+      // For switched call, partyId is not matched
+      if (session.callId === callItem.id) {
         return true;
       }
       return false;

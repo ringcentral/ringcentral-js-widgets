@@ -31,14 +31,16 @@ describe('dynamic navigationb bar', () => {
           ...phone.rolesAndPermissions.permissions,
           ReadCallLog: true,
           OrganizeConference: true,
-          Meetings: true
-        }
+          Meetings: true,
+        },
       },
     });
     wrapper.setProps({ phone });
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
-    const moreMenu = navigationBar.find(TabNavigationButton).find({ label: 'More Menu' });
+    const moreMenu = navigationBar
+      .find(TabNavigationButton)
+      .find({ label: 'More Menu' });
     expect(navigationBar.find(TabNavigationButton)).toHaveLength(5);
     expect(moreMenu).toHaveLength(1);
     // TODO: test dropdown as well
@@ -55,10 +57,18 @@ describe('dynamic navigationb bar', () => {
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
     expect(navigationBar.find(TabNavigationButton)).toHaveLength(4);
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'History' })).toHaveLength(1);
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Dial Pad' })).toHaveLength(0);
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Messages' })).toHaveLength(0);
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Compose Text' })).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'History' }),
+    ).toHaveLength(1);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'Dial Pad' }),
+    ).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'Messages' }),
+    ).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'Compose Text' }),
+    ).toHaveLength(0);
   });
 
   test('should hide breadcrumbs when the number of nav items are less than or equals to 5', () => {
@@ -66,16 +76,26 @@ describe('dynamic navigationb bar', () => {
     Object.defineProperty(phone.rolesAndPermissions, 'callingEnabled', {
       value: false,
     });
-    Object.defineProperty(phone.rolesAndPermissions, 'hasReadMessagesPermission', {
-      value: false,
-    });
-    Object.defineProperty(phone.rolesAndPermissions, 'hasComposeTextPermission', {
-      value: false,
-    });
+    Object.defineProperty(
+      phone.rolesAndPermissions,
+      'hasReadMessagesPermission',
+      {
+        value: false,
+      },
+    );
+    Object.defineProperty(
+      phone.rolesAndPermissions,
+      'hasComposeTextPermission',
+      {
+        value: false,
+      },
+    );
     wrapper.setProps({ phone });
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'More Menu' })).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'More Menu' }),
+    ).toHaveLength(0);
   });
 
   test('should hide dialpad when no calling permsision', () => {
@@ -87,35 +107,49 @@ describe('dynamic navigationb bar', () => {
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
     expect(navigationBar.find(TabNavigationButton)).toHaveLength(5);
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Dial Pad' })).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'Dial Pad' }),
+    ).toHaveLength(0);
   });
 
   test('should hide composeText when no composeText permsision', () => {
     const phone = wrapper.props().phone;
-    Object.defineProperty(phone.rolesAndPermissions, 'hasComposeTextPermission', {
-      value: false,
-    });
+    Object.defineProperty(
+      phone.rolesAndPermissions,
+      'hasComposeTextPermission',
+      {
+        value: false,
+      },
+    );
     wrapper.setProps({ phone });
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Compose Text' })).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'Compose Text' }),
+    ).toHaveLength(0);
   });
 
   test('should hide messages when no hasReadMessagesPermission', () => {
     const phone = wrapper.props().phone;
-    Object.defineProperty(phone.rolesAndPermissions, 'hasReadMessagesPermission', {
-      value: false,
-    });
+    Object.defineProperty(
+      phone.rolesAndPermissions,
+      'hasReadMessagesPermission',
+      {
+        value: false,
+      },
+    );
     wrapper.setProps({ phone });
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Messages' })).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'Messages' }),
+    ).toHaveLength(0);
   });
 
   test('should hide meeting when no meeting permissions', () => {
     const phone = wrapper.props().phone;
     Object.defineProperties(phone.rolesAndPermissions, {
-      callingEnabled: { value: false},
+      callingEnabled: { value: false },
       hasReadMessagesPermission: { value: false },
       hasComposeTextPermission: { value: false },
       permissions: {
@@ -123,20 +157,24 @@ describe('dynamic navigationb bar', () => {
           ...phone.rolesAndPermissions.permissions,
           ReadCallLog: false,
           OrganizeConference: true,
-          Meetings: false
-        }
+          Meetings: false,
+        },
       },
     });
     wrapper.setProps({ phone });
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Schedule Meeting' })).toHaveLength(0);
+    expect(
+      navigationBar
+        .find(TabNavigationButton)
+        .find({ label: 'Schedule Meeting' }),
+    ).toHaveLength(0);
   });
 
   test('should hide conference when no conference permissions', () => {
     const phone = wrapper.props().phone;
     Object.defineProperties(phone.rolesAndPermissions, {
-      callingEnabled: { value: false},
+      callingEnabled: { value: false },
       hasReadMessagesPermission: { value: false },
       hasComposeTextPermission: { value: false },
       permissions: {
@@ -144,49 +182,75 @@ describe('dynamic navigationb bar', () => {
           ...phone.rolesAndPermissions.permissions,
           ReadCallLog: false,
           OrganizeConference: false,
-          Meetings: false
-        }
+          Meetings: false,
+        },
       },
     });
     wrapper.setProps({ phone });
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Schedule Meeting' })).toHaveLength(0);
+    expect(
+      navigationBar
+        .find(TabNavigationButton)
+        .find({ label: 'Schedule Meeting' }),
+    ).toHaveLength(0);
   });
 
   test('should hide history when no readCallLog permsision', () => {
     const phone = wrapper.props().phone;
-    Object.defineProperty(phone.rolesAndPermissions.permissions, 'ReadCallLog', {
-      value: false,
-    });
+    Object.defineProperty(
+      phone.rolesAndPermissions.permissions,
+      'ReadCallLog',
+      {
+        value: false,
+      },
+    );
     wrapper.setProps({ phone });
     wrapper.update();
     const navigationBar = wrapper.find(NavigationBar).first();
     expect(navigationBar.find(TabNavigationButton)).toHaveLength(5);
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'History' })).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'History' }),
+    ).toHaveLength(0);
   });
 
   test('should hide contacts when no calling and read messages permsision', () => {
     const phone = wrapper.props().phone;
-    Object.defineProperty(phone.rolesAndPermissions.permissions, 'ReadCallLog', {
-      value: false,
-    });
-    Object.defineProperty(phone.rolesAndPermissions.permissions, 'hasReadMessagesPermission', {
-      value: true,
-    });
+    Object.defineProperty(
+      phone.rolesAndPermissions.permissions,
+      'ReadCallLog',
+      {
+        value: false,
+      },
+    );
+    Object.defineProperty(
+      phone.rolesAndPermissions.permissions,
+      'hasReadMessagesPermission',
+      {
+        value: true,
+      },
+    );
     wrapper.setProps({ phone });
     wrapper.update();
     let navigationBar = wrapper.find(NavigationBar).first();
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Contacts' })).toHaveLength(1);
-    Object.defineProperty(phone.rolesAndPermissions, 'hasReadMessagesPermission', {
-      value: false,
-    });
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'Contacts' }),
+    ).toHaveLength(1);
+    Object.defineProperty(
+      phone.rolesAndPermissions,
+      'hasReadMessagesPermission',
+      {
+        value: false,
+      },
+    );
     Object.defineProperty(phone.rolesAndPermissions, 'callingEnabled', {
       value: false,
     });
     wrapper.setProps({ phone });
     wrapper.update();
     navigationBar = wrapper.find(NavigationBar).first();
-    expect(navigationBar.find(TabNavigationButton).find({ label: 'Contacts' })).toHaveLength(0);
+    expect(
+      navigationBar.find(TabNavigationButton).find({ label: 'Contacts' }),
+    ).toHaveLength(0);
   });
 });

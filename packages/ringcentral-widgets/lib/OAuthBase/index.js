@@ -11,7 +11,6 @@ import url from 'url';
 import parseCallbackUri from '../parseCallbackUri';
 import baseActionTypes from './baseActionTypes';
 import getOAuthBaseReducer from './getOAuthBaseReducer';
-import oAuthMessages from './oAuthMessages';
 
 const DEFAULT_UI_OPTIONS = ['hide_remember_me', 'hide_tos'];
 @Module({
@@ -37,12 +36,12 @@ export default class OAuthBase extends RcModule {
     super({
       ...options,
     });
-    this._alert = this:: ensureExist(alert, 'alert');
-    this._auth = this:: ensureExist(auth, 'auth');
-    this._brand = this:: ensureExist(brand, 'brand');
-    this._locale = this:: ensureExist(locale, 'locale');
+    this._alert = this::ensureExist(alert, 'alert');
+    this._auth = this::ensureExist(auth, 'auth');
+    this._brand = this::ensureExist(brand, 'brand');
+    this._locale = this::ensureExist(locale, 'locale');
     this._tabManager = tabManager;
-    this._redirectUri = this:: ensureExist(redirectUri, 'redirectUri');
+    this._redirectUri = this::ensureExist(redirectUri, 'redirectUri');
     this._reducer = getOAuthBaseReducer(this.actionTypes);
     this._extralUIOptions = extralUIOptions;
   }
@@ -60,12 +59,10 @@ export default class OAuthBase extends RcModule {
   _onStateChange() {
     if (
       this.pending &&
-      (
-        this._auth.ready &&
+      (this._auth.ready &&
         this._locale.ready &&
         this._alert.ready &&
-        (!this._tabManager || this._tabManager.ready)
-      )
+        (!this._tabManager || this._tabManager.ready))
     ) {
       this.store.dispatch({
         type: this.actionTypes.init,
@@ -88,12 +85,18 @@ export default class OAuthBase extends RcModule {
     } catch (error) {
       console.error('oauth error: ', error);
       let message;
+      // Error handling standard in callback uri
+      // https://openid.net/specs/openid-connect-core-1_0.html#AuthError
+      // Error handling standard in api response
+      // https://tools.ietf.org/html/rfc6749#section-4.1.2
       switch (error.message) {
         case 'invalid_request':
         case 'unauthorized_client':
         case 'access_denied':
         case 'unsupported_response_type':
         case 'invalid_scope':
+        case 'interaction_required':
+        case 'login_required':
           message = authMessages.accessDenied;
           break;
         case 'server_error':
@@ -136,20 +139,19 @@ export default class OAuthBase extends RcModule {
   }
 
   @required
-  async prepareOAuth() { }
+  async prepareOAuth() {}
 
   @required
-  async destroyOAuth() { }
+  async destroyOAuth() {}
 
   @required
-  openOAuthPage() { }
-
+  openOAuthPage() {}
 
   get oAuthUri() {
     const extendedQuery = qs.stringify({
       force: true,
       localeId: this._locale.currentLocale,
-      ui_options: this._extralUIOptions.join(' ')
+      ui_options: this._extralUIOptions.join(' '),
     });
     return `${this._auth.getLoginUrl({
       redirectUri: this.redirectUri,

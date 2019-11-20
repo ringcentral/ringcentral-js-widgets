@@ -8,14 +8,17 @@ import ContactFilterIcon from '../../assets/images/ContactFilter.svg';
 import ContactFilterSolidIcon from '../../assets/images/ContactFilterSolid.svg';
 
 export function ContactSourceItem({
-  sourceName, sourceLabel, isSelected, onSelect
+  sourceName,
+  sourceLabel,
+  isSelected,
+  onSelect,
 }) {
   return (
     <div
       onClick={() => onSelect(sourceName)}
       className={classnames(
         styles.contactSourceItem,
-        isSelected ? styles.selected : ''
+        isSelected ? styles.selected : '',
       )}
     >
       {sourceLabel}
@@ -61,7 +64,7 @@ export default class ContactSourceFilter extends Component {
       }
     }
     window.removeEventListener('click', this.hideList);
-  }
+  };
 
   showList = () => {
     this.setState({
@@ -71,7 +74,7 @@ export default class ContactSourceFilter extends Component {
     if (typeof this.props.onUnfoldChange === 'function') {
       this.props.onUnfoldChange(true);
     }
-  }
+  };
 
   togglePanel = (evt) => {
     evt.stopPropagation();
@@ -80,7 +83,7 @@ export default class ContactSourceFilter extends Component {
       return;
     }
     this.hideList();
-  }
+  };
 
   emitSelect = (sourceName) => {
     const { onSourceSelect } = this.props;
@@ -88,7 +91,7 @@ export default class ContactSourceFilter extends Component {
       onSourceSelect(sourceName);
     }
     this.hideList();
-  }
+  };
 
   render() {
     const {
@@ -110,33 +113,31 @@ export default class ContactSourceFilter extends Component {
           className={styles.filterIconContainer}
           title={this.getString(selectedSourceName, currentLocale)}
         >
-          {
-            isAllSource
-              ? <ContactFilterIcon
-                className={classnames(styles.filterIconNode, styles.iconNoneFill)} />
-              : <ContactFilterSolidIcon className={styles.filterIconNode} />
-          }
-        </div>
-        {
-          !this.state.unfold ? null : (
-            <div
-              className={styles.contactSourceList}
-              onClick={e => e.stopPropagation()}
-              data-sign="contactSourceList"
-            >
-              {
-                contactSourceNames.map(sourceName => (
-                  <ContactSourceItem
-                    key={sourceName}
-                    sourceName={sourceName}
-                    sourceLabel={this.getString(sourceName, currentLocale)}
-                    isSelected={sourceName === selectedSourceName}
-                    onSelect={this.emitSelect}
-                  />
-                ))
-              }
-            </div>
+          {isAllSource ? (
+            <ContactFilterIcon
+              className={classnames(styles.filterIconNode, styles.iconNoneFill)}
+            />
+          ) : (
+            <ContactFilterSolidIcon className={styles.filterIconNode} />
           )}
+        </div>
+        {!this.state.unfold ? null : (
+          <div
+            className={styles.contactSourceList}
+            onClick={(e) => e.stopPropagation()}
+            data-sign="contactSourceList"
+          >
+            {contactSourceNames.map((sourceName) => (
+              <ContactSourceItem
+                key={sourceName}
+                sourceName={sourceName}
+                sourceLabel={this.getString(sourceName, currentLocale)}
+                isSelected={sourceName === selectedSourceName}
+                onSelect={this.emitSelect}
+              />
+            ))}
+          </div>
+        )}
       </div>
     );
   }

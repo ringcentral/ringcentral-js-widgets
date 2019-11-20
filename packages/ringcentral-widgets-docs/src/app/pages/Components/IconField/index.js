@@ -15,10 +15,7 @@ const IconFieldPage = () => {
   return (
     <div>
       <ComponentHeader name="IconField" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="IconField Example"
-      >
+      <CodeExample code={demoCode} title="IconField Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

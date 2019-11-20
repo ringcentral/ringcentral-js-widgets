@@ -13,61 +13,69 @@ import styles from './styles.scss';
 export default class FeedbackPanel extends Component {
   onRevertClick = () => {
     this.props.onRevertClick();
-  }
+  };
   onEmailChange = (e) => {
     const { value } = e.currentTarget;
     this.props.onEmailChange(value);
-  }
+  };
   onTopicChange = (option) => {
     this.props.onTopicChange(option);
-  }
+  };
   onSubjectChange = (e) => {
     const { value } = e.currentTarget;
     this.props.onSubjectChange(value);
-  }
+  };
   onDescriptionChange = (e) => {
     const { value } = e.currentTarget;
     this.props.onDescriptionChange(value);
-  }
+  };
   onSendClick = () => {
     const SERVICE_MAIL = 'integration.service@ringcentral.com';
     const FEEDBACK_SUBJECT = 'Google User Feedback';
 
-    const content = `${'Hi Integration Team,\n\n' +
-      `You've got feedback from customer on ${this.props.brandName} for Google extension. This customer could be contacted via email `}${
-      `${this.props.email}\n\nCustomer Feedback Topic\n${this.props.topic}\n\n`}Subject\n${this.props.subject}\n\n` +
+    const content =
+      `${'Hi Integration Team,\n\n' +
+        `You've got feedback from customer on ${this.props.brandName} for Google extension. This customer could be contacted via email `}${`${this.props.email}\n\nCustomer Feedback Topic\n${this.props.topic}\n\n`}Subject\n${
+        this.props.subject
+      }\n\n` +
       `Description\n${this.props.description}\n\n` +
       `Regards,\n${this.props.brandName} for Google Extension`;
-    const mailToUrl = `mailto:${SERVICE_MAIL}?subject=${window.encodeURIComponent(FEEDBACK_SUBJECT)}&body=${window.encodeURIComponent(content)}`;
+    const mailToUrl = `mailto:${SERVICE_MAIL}?subject=${window.encodeURIComponent(
+      FEEDBACK_SUBJECT,
+    )}&body=${window.encodeURIComponent(content)}`;
     this.props.sendFeedback(mailToUrl);
-  }
+  };
   render() {
     const { currentLocale } = this.props;
     this.topicOptions = [
       i18n.getString('bugReport', currentLocale),
       i18n.getString('featureRequest', currentLocale),
-      i18n.getString('others', currentLocale)
+      i18n.getString('others', currentLocale),
     ];
     const selectedTopicIndex =
-      this.topicOptions.findIndex(topic => topic === this.props.topic) > -1 ?
-        this.topicOptions.findIndex(topic => topic === this.props.topic) + 1 : -1;
+      this.topicOptions.findIndex((topic) => topic === this.props.topic) > -1
+        ? this.topicOptions.findIndex((topic) => topic === this.props.topic) + 1
+        : -1;
     return (
       <div className={styles.root}>
         <BackHeader
           onBackClick={this.props.onBackClick}
-          buttons={[{
-            label: <RevertBtn className={styles.rightBtn} />,
-            title: i18n.getString('revert', currentLocale),
-            placement: 'right',
-            onClick: this.onRevertClick
-          }]}
+          buttons={[
+            {
+              label: <RevertBtn className={styles.rightBtn} />,
+              title: i18n.getString('revert', currentLocale),
+              placement: 'right',
+              onClick: this.onRevertClick,
+            },
+          ]}
         >
           {i18n.getString('feedbackHeader', currentLocale)}
         </BackHeader>
         <Panel className={styles.content}>
           <div className={styles.instruction}>
             <div>{i18n.getString('instruction', currentLocale)}</div>
-            <div>{i18n.getString('fillForm', currentLocale)}
+            <div>
+              {i18n.getString('fillForm', currentLocale)}
               <i>{i18n.getString('send', currentLocale)}</i>
               {i18n.getString('useMailBox', currentLocale)}
               <i>integration.service@ringcentral.com.</i>
@@ -75,7 +83,8 @@ export default class FeedbackPanel extends Component {
           </div>
           <InputField
             label={i18n.getString('email', currentLocale)}
-            labelHint={i18n.getString('reply', currentLocale)} >
+            labelHint={i18n.getString('reply', currentLocale)}
+          >
             <TextInput
               placeholder={i18n.getString('emailPlaceHolder', currentLocale)}
               value={this.props.email}
@@ -83,8 +92,7 @@ export default class FeedbackPanel extends Component {
               maxLength={60}
             />
           </InputField>
-          <InputField
-            label={i18n.getString('feedbackTopic', currentLocale)}>
+          <InputField label={i18n.getString('feedbackTopic', currentLocale)}>
             <Select
               className={styles.select}
               value={`${selectedTopicIndex}`}
@@ -92,11 +100,10 @@ export default class FeedbackPanel extends Component {
               dropdownAlign="left"
               placeholder={i18n.getString('topicPlaceHolder', currentLocale)}
               onChange={this.onTopicChange}
-              renderValue={idx => this.topicOptions[idx - 1]}
+              renderValue={(idx) => this.topicOptions[idx - 1]}
             />
           </InputField>
-          <InputField
-            label={i18n.getString('subject', currentLocale)}>
+          <InputField label={i18n.getString('subject', currentLocale)}>
             <TextInput
               placeholder={i18n.getString('subjectPlaceHolder', currentLocale)}
               value={this.props.subject}
@@ -110,7 +117,10 @@ export default class FeedbackPanel extends Component {
             </div>
             <div className={styles.textArea}>
               <textarea
-                placeholder={i18n.getString('descriptionPlaceHolder', currentLocale)}
+                placeholder={i18n.getString(
+                  'descriptionPlaceHolder',
+                  currentLocale,
+                )}
                 value={this.props.description}
                 maxLength={1200}
                 onChange={this.onDescriptionChange}
@@ -119,10 +129,7 @@ export default class FeedbackPanel extends Component {
           </div>
         </Panel>
         <div className={styles.bottom}>
-          <Button
-            onClick={this.onSendClick}
-            className={styles.sendButton}
-          >
+          <Button onClick={this.onSendClick} className={styles.sendButton}>
             {i18n.getString('send', currentLocale)}
           </Button>
         </div>

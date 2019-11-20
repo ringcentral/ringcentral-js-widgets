@@ -1,5 +1,8 @@
 import { contains } from 'ramda';
-import { isConferenceSession, normalizeSession } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
+import {
+  isConferenceSession,
+  normalizeSession,
+} from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
@@ -36,9 +39,7 @@ export const startRecordFn = jest.fn();
 export const stopRecordFn = jest.fn();
 
 export default class Session {
-  constructor({
-    id, direction, to, fromNumber, callId, telephonyStatus,
-  }) {
+  constructor({ id, direction, to, fromNumber, callId, telephonyStatus }) {
     partyId += 1;
 
     // native sip fields

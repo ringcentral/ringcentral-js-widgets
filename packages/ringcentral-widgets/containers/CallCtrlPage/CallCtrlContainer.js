@@ -12,7 +12,10 @@ class CallCtrlContainer extends Component {
   constructor(props) {
     super(props);
     const layout = props.getInitialLayout(this.props);
-    const { mergeDisabled, addDisabled } = this.disableMergeAndAdd(this.props, layout);
+    const { mergeDisabled, addDisabled } = this.disableMergeAndAdd(
+      this.props,
+      layout,
+    );
     this.state = {
       selectedMatcherIndex: 0,
       avatarUrl: null,
@@ -21,12 +24,12 @@ class CallCtrlContainer extends Component {
       addDisabled,
     };
 
-    this.onLastMergingCallEnded = this:: this.onLastMergingCallEnded;
+    this.onLastMergingCallEnded = this::this.onLastMergingCallEnded;
 
     this.onSelectMatcherName = (option) => {
       const nameMatches = this.props.nameMatches || [];
       let selectedMatcherIndex = nameMatches.findIndex(
-        match => match.id === option.id
+        (match) => match.id === option.id,
       );
       if (selectedMatcherIndex < 0) {
         selectedMatcherIndex = 0;
@@ -44,40 +47,26 @@ class CallCtrlContainer extends Component {
       }
     };
 
-    this.onMute = () =>
-      this.props.onMute(this.props.session.id);
-    this.onUnmute = () =>
-      this.props.onUnmute(this.props.session.id);
-    this.onHold = () =>
-      this.props.onHold(this.props.session.id);
-    this.onUnhold = () =>
-      this.props.onUnhold(this.props.session.id);
-    this.onRecord = () =>
-      this.props.onRecord(this.props.session.id);
-    this.onStopRecord = () =>
-      this.props.onStopRecord(this.props.session.id);
+    this.onMute = () => this.props.onMute(this.props.session.id);
+    this.onUnmute = () => this.props.onUnmute(this.props.session.id);
+    this.onHold = () => this.props.onHold(this.props.session.id);
+    this.onUnhold = () => this.props.onUnhold(this.props.session.id);
+    this.onRecord = () => this.props.onRecord(this.props.session.id);
+    this.onStopRecord = () => this.props.onStopRecord(this.props.session.id);
     this.onHangup = () =>
       this.props.onHangup(this.props.session.id, this.state.layout);
-    this.onKeyPadChange = value =>
+    this.onKeyPadChange = (value) =>
       this.props.sendDTMF(value, this.props.session.id);
-    this.onFlip = value =>
-      this.props.onFlip(value, this.props.session.id);
-    this.onPark = () =>
-      this.props.onPark(this.props.session.id);
-    this.onAdd = () =>
-      this.props.onAdd(this.props.session.id);
-    this.onMerge = () =>
-      this.props.onMerge(this.props.session.id);
-    this.onBeforeMerge = () =>
-      this.props.onBeforeMerge(this.props.session.id);
+    this.onPark = () => this.props.onPark(this.props.session.id);
+    this.onAdd = () => this.props.onAdd(this.props.session.id);
+    this.onMerge = () => this.props.onMerge(this.props.session.id);
+    this.onBeforeMerge = () => this.props.onBeforeMerge(this.props.session.id);
     this.gotoParticipantsCtrl = () =>
       this.props.gotoParticipantsCtrl(this.props.session.id);
   }
 
   static isLastCallEnded({ lastCallInfo }) {
-    return !!(
-      lastCallInfo && lastCallInfo.status === sessionStatus.finished
-    );
+    return !!(lastCallInfo && lastCallInfo.status === sessionStatus.finished);
   }
 
   componentDidMount() {
@@ -106,13 +95,14 @@ class CallCtrlContainer extends Component {
 
     // const isInboundCall = session.direction === callDirections.inbound;
     // const isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
-    const isMergeAndAddDisabled = !isWebRTC || !session.partyData || disableLinks;
+    const isMergeAndAddDisabled =
+      !isWebRTC || !session.partyData || disableLinks;
 
     let mergeDisabled = isMergeAndAddDisabled;
     let addDisabled = isMergeAndAddDisabled;
     if (
-      layout === callCtrlLayouts.mergeCtrl
-      && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
+      layout === callCtrlLayouts.mergeCtrl &&
+      (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
     ) {
       mergeDisabled = true;
     }
@@ -131,7 +121,7 @@ class CallCtrlContainer extends Component {
 
       if (this._mounted) {
         this.setState({
-          layout: callCtrlLayouts.normalCtrl
+          layout: callCtrlLayouts.normalCtrl,
         });
       }
 
@@ -158,29 +148,32 @@ class CallCtrlContainer extends Component {
         layout,
       });
 
-      if (
-        layout === callCtrlLayouts.normalCtrl
-      ) {
+      if (layout === callCtrlLayouts.normalCtrl) {
         this._updateAvatarAndMatchIndex(nextProps);
       }
     } else if (
-      layout === callCtrlLayouts.mergeCtrl
-      && CallCtrlContainer.isLastCallEnded(this.props) === false
-      && CallCtrlContainer.isLastCallEnded(nextProps) === true
+      layout === callCtrlLayouts.mergeCtrl &&
+      CallCtrlContainer.isLastCallEnded(this.props) === false &&
+      CallCtrlContainer.isLastCallEnded(nextProps) === true
     ) {
       this.onLastMergingCallEnded();
-    } else if (layout === callCtrlLayouts.conferenceCtrl &&
-      this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
+    } else if (
+      layout === callCtrlLayouts.conferenceCtrl &&
+      this.props.conferenceCallParties !== nextProps.conferenceCallParties
+    ) {
       this._updateCurrentConferenceCall(nextProps);
     }
     this._updateMergeAddButtonDisabled(nextProps, layout);
   }
 
   _updateMergeAddButtonDisabled(nextProps, layout) {
-    const { mergeDisabled, addDisabled } = this.disableMergeAndAdd(nextProps, layout);
+    const { mergeDisabled, addDisabled } = this.disableMergeAndAdd(
+      nextProps,
+      layout,
+    );
     this.setState({
       mergeDisabled,
-      addDisabled
+      addDisabled,
     });
   }
 
@@ -194,8 +187,8 @@ class CallCtrlContainer extends Component {
     if (!contact) {
       contact = props.nameMatches && props.nameMatches[0];
     } else {
-      selectedMatcherIndex = props.nameMatches.findIndex(match =>
-        match.id === contact.id
+      selectedMatcherIndex = props.nameMatches.findIndex(
+        (match) => match.id === contact.id,
       );
     }
     this.setState({
@@ -214,14 +207,17 @@ class CallCtrlContainer extends Component {
 
   _updateCurrentConferenceCall(props) {
     if (
-      this.state.layout === callCtrlLayouts.conferenceCtrl
-      && props.loadConference
+      this.state.layout === callCtrlLayouts.conferenceCtrl &&
+      props.loadConference
     ) {
       props.loadConference(props.conferenceCallId);
     }
   }
 
-  _updateMergingPairToSessionId(nextProps = this.props, nextState = this.state) {
+  _updateMergingPairToSessionId(
+    nextProps = this.props,
+    nextState = this.state,
+  ) {
     if (
       nextState.layout === callCtrlLayouts.mergeCtrl &&
       nextProps.lastCallInfo
@@ -236,11 +232,14 @@ class CallCtrlContainer extends Component {
       return null;
     }
 
-    const phoneNumber = session.direction === callDirections.outbound ?
-      session.to : session.from;
+    const phoneNumber =
+      session.direction === callDirections.outbound ? session.to : session.from;
 
     let fallbackUserName;
-    if (session.direction === callDirections.inbound && session.from === 'anonymous') {
+    if (
+      session.direction === callDirections.inbound &&
+      session.from === 'anonymous'
+    ) {
       fallbackUserName = i18n.getString('anonymous', this.props.currentLocale);
     }
     if (!fallbackUserName) {
@@ -261,7 +260,6 @@ class CallCtrlContainer extends Component {
         startTime={session.startTime}
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
-        isOnFlip={session.isOnFlip}
         recordStatus={session.recordStatus}
         showBackButton={this.props.showBackButton}
         backButtonLabel={backButtonLabel}
@@ -277,9 +275,10 @@ class CallCtrlContainer extends Component {
         onAdd={this.onAdd}
         onMerge={this.onMerge}
         onBeforeMerge={this.onBeforeMerge}
-        onFlip={this.onFlip}
+        onFlip={this.props.onFlip}
         onTransfer={this.props.onTransfer}
         onPark={this.onPark}
+        disableFlip={this.props.disableFlip}
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
         areaCode={this.props.areaCode}
@@ -289,7 +288,6 @@ class CallCtrlContainer extends Component {
         avatarUrl={this.state.avatarUrl}
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
-        flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
         phoneTypeRenderer={this.props.phoneTypeRenderer}
         phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
@@ -354,7 +352,6 @@ CallCtrlContainer.propTypes = {
   onBackButtonClick: PropTypes.func,
   brand: PropTypes.string.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
-  flipNumbers: PropTypes.array.isRequired,
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
@@ -375,6 +372,7 @@ CallCtrlContainer.propTypes = {
   afterHideMergeConfirm: PropTypes.func,
   afterConfirmMerge: PropTypes.func,
   afterOnMerge: PropTypes.func,
+  disableFlip: PropTypes.bool,
 };
 
 CallCtrlContainer.defaultProps = {
@@ -394,8 +392,8 @@ CallCtrlContainer.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: calleeTypes.unknown },
   conferenceCallId: null,
-  gotoParticipantsCtrl: i => i,
-  loadConference: i => i,
+  gotoParticipantsCtrl: (i) => i,
+  loadConference: (i) => i,
   getInitialLayout: () => callCtrlLayouts.normalCtrl,
   layout: callCtrlLayouts.normalCtrl,
   closeMergingPair: null,
@@ -405,7 +403,7 @@ CallCtrlContainer.defaultProps = {
   afterHideMergeConfirm: () => null,
   afterConfirmMerge: () => null,
   afterOnMerge: () => null,
+  disableFlip: false,
 };
-
 
 export default CallCtrlContainer;

@@ -17,36 +17,42 @@ import { ACTIONS_CTRL_MAP } from '../../components/ActiveCallPad';
 import i18n from './i18n';
 import { pickFallBackInfo } from './utils';
 
-function mapToProps(_, {
-  phone: {
-    activeCallControl,
-    regionSettings,
-    callMonitor,
-    locale,
-    brand,
+function mapToProps(
+  _,
+  {
+    phone: { activeCallControl, regionSettings, locale, brand },
+    params,
+    renderContactName,
   },
-  params,
-  renderContactName,
-}) {
+) {
   const { sessionId } = params;
   const { activeSession } = activeCallControl;
   let nameMatches = [];
   if (activeSession && !renderContactName) {
     nameMatches =
-      activeSession.direction === callDirections.outbound ?
-        activeSession.toMatches : activeSession.fromMatches;
+      activeSession.direction === callDirections.outbound
+        ? activeSession.toMatches
+        : activeSession.fromMatches;
   }
   let phoneNumber;
   if (activeSession) {
-    phoneNumber = activeSession.direction === callDirections.outbound ?
-      activeSession.to : activeSession.from;
+    phoneNumber =
+      activeSession.direction === callDirections.outbound
+        ? activeSession.to
+        : activeSession.from;
   }
   let fallBackName = i18n.getString('Unknown', locale.currentLocale);
   if (renderContactName) {
-    const { fallBackName: fallBackNameFromThirdParty, fallBackNumber } = pickFallBackInfo(
+    const {
+      fallBackName: fallBackNameFromThirdParty,
+      fallBackNumber,
+    } = pickFallBackInfo(
       activeSession,
-      renderContactName({ sessionId }),
-      locale.currentLocale
+      renderContactName({
+        sessionId: activeSession && activeSession.sessionId,
+        telephonySessionId: sessionId,
+      }),
+      locale.currentLocale,
     );
     phoneNumber = fallBackNumber;
     fallBackName = fallBackNameFromThirdParty;
@@ -57,7 +63,6 @@ function mapToProps(_, {
     sessionId,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    otherDeviceCalls: callMonitor.otherDeviceCalls,
     nameMatches,
     phoneNumber,
     fallBackName,
@@ -67,12 +72,10 @@ function mapToProps(_, {
   };
 }
 
-function mapToFunctions(_, {
-  phone: {
-    routerInteraction,
-    activeCallControl
-  },
-}) {
+function mapToFunctions(
+  _,
+  { phone: { routerInteraction, activeCallControl } },
+) {
   return {
     onBackButtonClick() {
       routerInteraction.goBack();
@@ -82,7 +85,7 @@ function mapToFunctions(_, {
     },
     onTransfer(sessionId) {
       routerInteraction.push(`/transfer/${sessionId}/active`);
-    }
+    },
   };
 }
 
@@ -97,21 +100,25 @@ class ActiveCallControlPanel extends Component {
     };
 
     this.onMute = () => this.props.activeCallControl.mute(this.props.sessionId);
-    this.onUnmute = () => this.props.activeCallControl.unmute(this.props.sessionId);
+    this.onUnmute = () =>
+      this.props.activeCallControl.unmute(this.props.sessionId);
     this.onHold = () => this.props.activeCallControl.hold(this.props.sessionId);
-    this.onUnhold = () => this.props.activeCallControl.unhold(this.props.sessionId);
-    this.onHangup = () => this.props.activeCallControl.hangUp(this.props.sessionId);
+    this.onUnhold = () =>
+      this.props.activeCallControl.unhold(this.props.sessionId);
+    this.onHangup = () =>
+      this.props.activeCallControl.hangUp(this.props.sessionId);
 
-    this.formatPhone = phoneNumber => formatNumber({
-      phoneNumber,
-      areaCode: this.props.areaCode,
-      countryCode: this.props.countryCode,
-    });
+    this.formatPhone = (phoneNumber) =>
+      formatNumber({
+        phoneNumber,
+        areaCode: this.props.areaCode,
+        countryCode: this.props.countryCode,
+      });
 
     this.onSelectMatcherName = (option) => {
       const nameMatches = this.props.nameMatches || [];
       let selectedMatcherIndex = nameMatches.findIndex(
-        match => match.id === option.id
+        (match) => match.id === option.id,
       );
       if (selectedMatcherIndex < 0) {
         selectedMatcherIndex = 0;
@@ -140,7 +147,6 @@ class ActiveCallControlPanel extends Component {
       // or using skeleton screen here
       return null;
     }
-
 
     return (
       <CallCtrlPanel
@@ -209,4 +215,9 @@ ActiveCallControlPanel.defaultProps = {
   actions: [muteCtrl, transferCtrl, holdCtrl],
 };
 
-export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControlPanel));
+export default withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(ActiveCallControlPanel),
+);

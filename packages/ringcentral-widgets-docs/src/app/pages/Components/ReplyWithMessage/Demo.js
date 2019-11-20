@@ -12,14 +12,14 @@ props.disabled = false;
  * A example of `ReplyWithMessage`
  */
 const ReplyWithMessageDemo = () => (
-  <div style={{
-    position: 'relative',
-    width: '250px',
-    border: '1px solid #f3f3f3',
-  }}>
-    <ReplyWithMessage
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      width: '250px',
+      border: '1px solid #f3f3f3',
+    }}
+  >
+    <ReplyWithMessage {...props} />
   </div>
 );
 export default ReplyWithMessageDemo;

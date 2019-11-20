@@ -12,7 +12,7 @@ class Collapse extends Component {
     };
 
     this.toggleCollapsed = () => {
-      this.setState(preState => ({
+      this.setState((preState) => ({
         collapsed: !preState.collapsed,
       }));
     };
@@ -28,9 +28,7 @@ class Collapse extends Component {
         <button className={styles.button} onClick={this.toggleCollapsed}>
           {this.props.button}
         </button>
-        <div className={collapseClassName}>
-          {this.props.children}
-        </div>
+        <div className={collapseClassName}>{this.props.children}</div>
       </div>
     );
   }

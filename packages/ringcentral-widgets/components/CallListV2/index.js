@@ -14,9 +14,7 @@ export default class CallListV2 extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      extendedIndex
-    } = this.state;
+    const { extendedIndex } = this.state;
     if (
       extendedIndex !== null &&
       this.props.calls[extendedIndex] !== nextProps.calls[extendedIndex]
@@ -26,14 +24,17 @@ export default class CallListV2 extends React.PureComponent {
   }
 
   _setExtendedIndex = (extendedIndex) => {
-    this.setState({
-      extendedIndex,
-    }, () => {
-      if (this._list && this._list.current) {
-        this._list.current.recomputeRowHeights(0);
-      }
-    });
-  }
+    this.setState(
+      {
+        extendedIndex,
+      },
+      () => {
+        if (this._list && this._list.current) {
+          this._list.current.recomputeRowHeights(0);
+        }
+      },
+    );
+  };
 
   _onSizeChanged = (index) => {
     if (this.state.extendedIndex === index) {
@@ -41,19 +42,18 @@ export default class CallListV2 extends React.PureComponent {
     } else {
       this._setExtendedIndex(index);
     }
-  }
+  };
 
   _renderRowHeight = ({ index }) => {
     // If we don't add extra height for the last item
     // the toggle button will be cut off
-    const margin = index === this.props.calls.length - 1 ?
-      15 :
-      0;
-    const rowHeight = index === this.state.extendedIndex ?
-      this.props.extendedRowHeight :
-      this.props.rowHeight;
+    const margin = index === this.props.calls.length - 1 ? 15 : 0;
+    const rowHeight =
+      index === this.state.extendedIndex
+        ? this.props.extendedRowHeight
+        : this.props.rowHeight;
     return rowHeight + margin;
-  }
+  };
 
   _rowRender = ({ index, key, style }) => {
     const {
@@ -162,22 +162,12 @@ export default class CallListV2 extends React.PureComponent {
   };
 
   noRowsRender = () => {
-    const {
-      currentLocale,
-      active
-    } = this.props;
-    return (
-      <NoCalls currentLocale={currentLocale} active={active} />
-    );
-  }
+    const { currentLocale, active } = this.props;
+    return <NoCalls currentLocale={currentLocale} active={active} />;
+  };
 
   render() {
-    const {
-      width,
-      height,
-      calls,
-      className,
-    } = this.props;
+    const { width, height, calls, className } = this.props;
 
     return (
       <div>

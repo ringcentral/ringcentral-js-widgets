@@ -55,8 +55,10 @@ class Draggable extends Component {
       const height = (child && child.clientHeight) || 0;
       const width = (child && child.clientWidth) || 0;
       if (
-        Math.abs(newPositionX - this._positionXOnMouseDown) > this.props.clickThreshold ||
-        Math.abs(newPositionY - this._positionYOnMouseDown) > this.props.clickThreshold
+        Math.abs(newPositionX - this._positionXOnMouseDown) >
+          this.props.clickThreshold ||
+        Math.abs(newPositionY - this._positionYOnMouseDown) >
+          this.props.clickThreshold
       ) {
         this._isClick = false;
       }
@@ -68,14 +70,16 @@ class Draggable extends Component {
           translateY: preState.translateY + (newPositionY - preState.positionY),
         };
         if (
-          (originalPositionX - 10) + newState.translateX > offsetParent.clientWidth ||
-          (originalPositionX - 10) + newState.translateX < width
+          originalPositionX - 10 + newState.translateX >
+            offsetParent.clientWidth ||
+          originalPositionX - 10 + newState.translateX < width
         ) {
           delete newState.translateX;
         }
         if (
-          (originalPositionY + 10) + newState.translateY > offsetParent.clientHeight - height ||
-          (originalPositionY + 10) + newState.translateY < 0
+          originalPositionY + 10 + newState.translateY >
+            offsetParent.clientHeight - height ||
+          originalPositionY + 10 + newState.translateY < 0
         ) {
           delete newState.translateY;
         }
@@ -89,7 +93,10 @@ class Draggable extends Component {
       this.setState({
         dragging: false,
       });
-      this.props.updatePositionOffset(this.state.translateX, this.state.translateY);
+      this.props.updatePositionOffset(
+        this.state.translateX,
+        this.state.translateY,
+      );
       window.removeEventListener('mousemove', this._onMouseMove);
       window.removeEventListener('mouseup', this._onMouseUp);
       e.stopPropagation();
@@ -110,10 +117,7 @@ class Draggable extends Component {
   }
 
   render() {
-    const {
-      className,
-      children,
-    } = this.props;
+    const { className, children } = this.props;
     const style = {
       msTransition: `translate(${this.state.translateX}px, ${this.state.translateY}px)`,
       WebkitTransition: `translate(${this.state.translateX}px, ${this.state.translateY}px)`,
@@ -122,11 +126,13 @@ class Draggable extends Component {
     return (
       <div
         onMouseDown={this._onMouseDown}
-        ref={(draggableDom) => { this.draggableDom = draggableDom; }}
+        ref={(draggableDom) => {
+          this.draggableDom = draggableDom;
+        }}
         style={style}
         className={classnames(styles.root, className)}
         onClick={this._onClick}
-        >
+      >
         {children}
       </div>
     );

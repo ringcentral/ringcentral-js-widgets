@@ -32,15 +32,15 @@ props.scheduleButton = MeetingScheduleButton;
  * A example of `MeetingPanel`
  */
 const MeetingPanelDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '500px',
-    width: '300px',
-    border: '1px solid #f3f3f3',
-  }}>
-    <MeetingPanel
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      height: '500px',
+      width: '300px',
+      border: '1px solid #f3f3f3',
+    }}
+  >
+    <MeetingPanel {...props} />
   </div>
 );
 export default MeetingPanelDemo;

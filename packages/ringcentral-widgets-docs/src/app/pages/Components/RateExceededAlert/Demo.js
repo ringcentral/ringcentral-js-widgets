@@ -10,9 +10,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `RateExceededAlert`
  */
-const RateExceededAlertDemo = () => (
-  <RateExceededAlert
-    {...props}
-  />
-);
+const RateExceededAlertDemo = () => <RateExceededAlert {...props} />;
 export default RateExceededAlertDemo;

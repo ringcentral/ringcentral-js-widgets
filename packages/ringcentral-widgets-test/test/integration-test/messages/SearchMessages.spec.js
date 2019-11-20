@@ -11,7 +11,6 @@ import MessageItem from 'ringcentral-widgets/components/MessageItem';
 import { getWrapper, timeout } from '../shared';
 import { mockPubnub } from './helper.js';
 
-
 let wrapper = null;
 let panel = null;
 let navigationBar = null;
@@ -24,47 +23,56 @@ beforeEach(async () => {
   panel = wrapper.find(ConversationsPanel).first();
   const phone = wrapper.props().phone;
   Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
-    value: true
+    value: true,
   });
   Object.defineProperty(phone.tabManager, 'active', {
-    value: true
+    value: true,
   });
 
   mock.restore();
   mock.subscription();
   mock.messageSync({
-    records: [{
-      ...messageSyncBody.records[0],
-      type: 'Fax',
-      direction: 'Outbound',
-      messageStatus: 'Delivered',
-      to: {
-        phoneNumber: '987654321',
-        name: 'Colin Liu'
+    records: [
+      {
+        ...messageSyncBody.records[0],
+        type: 'Fax',
+        direction: 'Outbound',
+        messageStatus: 'Delivered',
+        to: {
+          phoneNumber: '987654321',
+          name: 'Colin Liu',
+        },
+        creationTime: new Date().toISOString(),
+        lastModifiedTime: new Date().toISOString(),
       },
-      creationTime: (new Date()).toISOString(),
-      lastModifiedTime: (new Date()).toISOString(),
-    }, {
-      ...messageSyncBody.records[1],
-      type: 'Fax',
-      direction: 'Outbound',
-      messageStatus: 'Delivered',
-      to: {
-        phoneNumber: '123456789',
-        name: 'Samuel Huang'
+      {
+        ...messageSyncBody.records[1],
+        type: 'Fax',
+        direction: 'Outbound',
+        messageStatus: 'Delivered',
+        to: {
+          phoneNumber: '123456789',
+          name: 'Samuel Huang',
+        },
+        creationTime: new Date().toISOString(),
+        lastModifiedTime: new Date().toISOString(),
       },
-      creationTime: (new Date()).toISOString(),
-      lastModifiedTime: (new Date()).toISOString(),
-    }],
+    ],
   });
   mock.messageList();
-  await phone.subscription.subscribe(['/account/~/extension/~/message-sync'], 10);
+  await phone.subscription.subscribe(
+    ['/account/~/extension/~/message-sync'],
+    10,
+  );
   await timeout(100);
 
   await mockPubnub();
   navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');
-  await panel.find(NavigationBar).props().goTo('Fax');
+  await panel
+    .find(NavigationBar)
+    .props()
+    .goTo('Fax');
   wrapper.update();
   panel = wrapper.find(ConversationsPanel).at(0);
 });
@@ -99,14 +107,24 @@ describe('messages', () => {
     await timeout(200);
     wrapper.update();
     panel = wrapper.find(ConversationsPanel).first();
-    expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
+    expect(
+      panel
+        .find('.noMessages')
+        .text()
+        .trim(),
+    ).toEqual('No matching records found');
 
     domInput.instance().value = '12344444';
     domInput.simulate('change');
     panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('12344444');
-    expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
+    expect(
+      panel
+        .find('.noMessages')
+        .text()
+        .trim(),
+    ).toEqual('No matching records found');
   });
   test('could search by phone number', () => {
     expect(panel.find(MessageItem).length).toEqual(2);

@@ -16,14 +16,14 @@ props.version = 'test string';
  * A example of `SettingsPanel`
  */
 const SettingsPanelDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '500px',
-    width: '300px',
-  }}>
-    <SettingsPanel
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      height: '500px',
+      width: '300px',
+    }}
+  >
+    <SettingsPanel {...props} />
   </div>
 );
 export default SettingsPanelDemo;

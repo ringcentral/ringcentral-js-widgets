@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DropdownSelect from '../DropdownSelect';
@@ -6,24 +6,16 @@ import styles from './styles.scss';
 
 import i18n from './i18n';
 
-function PhoneNumber({
-  formatPhone,
-  usageType,
-  currentLocale,
-  phoneNumber,
-}) {
-  const usageTypeDom = usageType ?
-    (
-      <span className={styles.usageType}>
-        {i18n.getString(usageType, currentLocale)}
-      </span>
-    ) : null;
+function PhoneNumber({ formatPhone, usageType, currentLocale, phoneNumber }) {
+  const usageTypeDom = usageType ? (
+    <span className={styles.usageType}>
+      {i18n.getString(usageType, currentLocale)}
+    </span>
+  ) : null;
   return (
     <span className={styles.phoneNumber}>
       {usageTypeDom}
-      <span>
-        {formatPhone(phoneNumber)}
-      </span>
+      <span>{formatPhone(phoneNumber)}</span>
     </span>
   );
 }
@@ -39,7 +31,10 @@ PhoneNumber.defaultProps = {
   phoneNumber: null,
   usageType: null,
 };
-function FromField({
+
+// phone number formatting becomes expensive when there are lots of numbers
+// memo makes this a pure component to reduce rendering cost
+const FromField = memo(function FromField({
   className,
   fromNumber,
   fromNumbers,
@@ -52,9 +47,7 @@ function FromField({
   if (hidden) {
     return null;
   }
-  const options = [
-    ...fromNumbers,
-  ];
+  const options = [...fromNumbers];
   if (showAnonymous) {
     options.push({
       phoneNumber: 'anonymous',
@@ -70,9 +63,7 @@ function FromField({
       options={options}
       renderValue={(value) => {
         if (value === 'anonymous') {
-          return (
-            <span>{i18n.getString('Blocked', currentLocale)}</span>
-          );
+          return <span>{i18n.getString('Blocked', currentLocale)}</span>;
         }
         return (
           <PhoneNumber
@@ -82,12 +73,10 @@ function FromField({
           />
         );
       }}
-      valueFunction={option => option.phoneNumber}
+      valueFunction={(option) => option.phoneNumber}
       renderFunction={(option) => {
         if (option.phoneNumber === 'anonymous') {
-          return (
-            <span>{i18n.getString('Blocked', currentLocale)}</span>
-          );
+          return <span>{i18n.getString('Blocked', currentLocale)}</span>;
         }
         return (
           <PhoneNumber
@@ -100,15 +89,17 @@ function FromField({
       }}
     />
   );
-}
+});
 
 FromField.propTypes = {
   fromNumber: PropTypes.string,
   formatPhone: PropTypes.func.isRequired,
-  fromNumbers: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string,
-    usageType: PropTypes.string,
-  })).isRequired,
+  fromNumbers: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string,
+      usageType: PropTypes.string,
+    }),
+  ).isRequired,
   onChange: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   hidden: PropTypes.bool.isRequired,

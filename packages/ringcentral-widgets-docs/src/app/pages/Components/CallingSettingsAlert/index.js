@@ -14,11 +14,11 @@ const CallingSettingsAlertPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="CallingSettingsAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="CallingSettingsAlert Example"
-      >
+      <ComponentHeader
+        name="CallingSettingsAlert"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="CallingSettingsAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `Header`
  */
-const HeaderDemo = () => (
-  <Header
-    {...props}
-  />
-);
+const HeaderDemo = () => <Header {...props} />;
 export default HeaderDemo;

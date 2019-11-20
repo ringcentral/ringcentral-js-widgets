@@ -52,7 +52,7 @@ export default {
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
-// @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
+// @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
 // @key: @#@"accept"@#@ @source: @#@"Accept"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@

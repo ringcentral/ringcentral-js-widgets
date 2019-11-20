@@ -15,10 +15,7 @@ const SearchInputPage = () => {
   return (
     <div>
       <ComponentHeader name="SearchInput" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="SearchInput Example"
-      >
+      <CodeExample code={demoCode} title="SearchInput Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

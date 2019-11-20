@@ -6,10 +6,7 @@ import Enum from 'ringcentral-integration/lib/Enum';
 
 import styles from './styles.scss';
 
-const POSITION = new Enum([
-  'top',
-  'left',
-]);
+const POSITION = new Enum(['top', 'left']);
 
 const TAIL_HEIGHT = Math.sqrt(10 ** 2 * 2);
 
@@ -30,7 +27,7 @@ const getDimensions = (element) => {
 
     const result = {
       width: element.offsetWidth,
-      height: element.offsetHeight
+      height: element.offsetHeight,
     };
 
     document.body.removeChild(clonedEl);
@@ -48,7 +45,7 @@ const transitionEnd = () => {
     WebkitTransition: 'webkitTransitionEnd',
     MozTransition: 'transitionend',
     OTransition: 'oTransitionEnd otransitionend',
-    transition: 'transitionend'
+    transition: 'transitionend',
   };
 
   for (const name in transEndEventNames) {
@@ -92,8 +89,8 @@ const TRANSITION_END_EVT_NAME = transitionEnd();
 class Tooltip extends Component {
   constructor(props) {
     super(props);
-    this.onResize = this:: this.checkPosition;
-    this.onTransitionEnd = this:: this.onTransitionEnd;
+    this.onResize = this::this.checkPosition;
+    this.onTransitionEnd = this::this.onTransitionEnd;
 
     this.state = {
       cachedPositioning: null,
@@ -109,28 +106,30 @@ class Tooltip extends Component {
   }
 
   setVisibility(props = this.props) {
-    this.setState(preState => ({
+    this.setState((preState) => ({
       ...preState,
       visibility: props.open ? 'initial' : 'hidden',
     }));
   }
 
-
   setVisible() {
-    this.setState(preState => ({
+    this.setState((preState) => ({
       ...preState,
       visibility: 'initial',
     }));
   }
 
   setInVisible() {
-    this.setState(preState => ({
+    this.setState((preState) => ({
       ...preState,
       visibility: 'hidden',
     }));
   }
 
-  changeTriggerElmPosition(fixed = this.props.fixed, triggerElm = this.props.triggerElm) {
+  changeTriggerElmPosition(
+    fixed = this.props.fixed,
+    triggerElm = this.props.triggerElm,
+  ) {
     const RELATIVE = 'relative';
     let elm;
     if (!fixed) {
@@ -147,13 +146,13 @@ class Tooltip extends Component {
     if (triggerElm) {
       const cachedPositioning = this.props.fixed
         ? {
-          elm: document.body,
-          position: window.getComputedStyle(document.body).position
-        }
+            elm: document.body,
+            position: window.getComputedStyle(document.body).position,
+          }
         : {
-          elm: triggerElm,
-          position: window.getComputedStyle(triggerElm).position
-        };
+            elm: triggerElm,
+            position: window.getComputedStyle(triggerElm).position,
+          };
       this.setState({
         cachedPositioning,
       });
@@ -170,7 +169,9 @@ class Tooltip extends Component {
     const triggerElm = this.props.triggerElm;
 
     if (triggerElm) {
-      const { dom: { current } } = this;
+      const {
+        dom: { current },
+      } = this;
       const demensionOfTrigger = getDimensions(triggerElm);
       const currentDemension = getDimensions(current);
 
@@ -182,13 +183,15 @@ class Tooltip extends Component {
         offset = getRelativeOffset(triggerElm);
       }
 
-      const top = props.direction === POSITION.top
-        ? offset && offset.top - currentDemension.height - TAIL_HEIGHT / 2
-        : offset && (offset.top + demensionOfTrigger.height) + TAIL_HEIGHT / 2;
-      const left = offset
-        && (offset.left + demensionOfTrigger.width / 2 - currentDemension.width / 2);
+      const top =
+        props.direction === POSITION.top
+          ? offset && offset.top - currentDemension.height - TAIL_HEIGHT / 2
+          : offset && offset.top + demensionOfTrigger.height + TAIL_HEIGHT / 2;
+      const left =
+        offset &&
+        offset.left + demensionOfTrigger.width / 2 - currentDemension.width / 2;
 
-      this.setState(preState => ({
+      this.setState((preState) => ({
         ...preState,
         position: {
           left,
@@ -205,8 +208,10 @@ class Tooltip extends Component {
     this.setVisibility();
     window.addEventListener('resize', this.onResize);
     if (TRANSITION_END_EVT_NAME) {
-      this.dom.current.addEventListener(TRANSITION_END_EVT_NAME,
-        this.onTransitionEnd);
+      this.dom.current.addEventListener(
+        TRANSITION_END_EVT_NAME,
+        this.onTransitionEnd,
+      );
     }
   }
 
@@ -217,8 +222,8 @@ class Tooltip extends Component {
       this.changeTriggerElmPosition(nextProps.fixed, nextProps.triggerElm);
     }
     if (
-      nextProps.children !== this.props.children
-      || nextProps.fixed !== this.props.fixed
+      nextProps.children !== this.props.children ||
+      nextProps.fixed !== this.props.fixed
     ) {
       this.checkPosition(nextProps);
     }
@@ -249,24 +254,22 @@ class Tooltip extends Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
     if (TRANSITION_END_EVT_NAME) {
-      this.dom.current.removeEventListener(TRANSITION_END_EVT_NAME,
-        this.onTransitionEnd);
+      this.dom.current.removeEventListener(
+        TRANSITION_END_EVT_NAME,
+        this.onTransitionEnd,
+      );
     }
     this.restorePositioning();
   }
 
   render() {
-    const {
-      open, direction, fixed, children
-    } = this.props;
+    const { open, direction, fixed, children } = this.props;
     return (
       <div
         ref={this.dom}
         className={classnames(
           styles.dropdownContainer,
-          open
-            ? styles.opened
-            : null,
+          open ? styles.opened : null,
           styles[direction],
         )}
         style={{
@@ -275,9 +278,7 @@ class Tooltip extends Component {
           ...this.state.position,
         }}
       >
-        <div className={styles.dropdown}>
-          {children}
-        </div>
+        <div className={styles.dropdown}>{children}</div>
         <div className={styles.tail} />
       </div>
     );
@@ -302,10 +303,10 @@ Tooltip.defaultProps = {
   direction: 'bottom',
   open: false,
   children: null,
-  beforeOpen: i => i,
-  onOpen: i => i,
-  beforeClose: i => i,
-  onClose: i => i,
+  beforeOpen: (i) => i,
+  onOpen: (i) => i,
+  beforeClose: (i) => i,
+  onClose: (i) => i,
 };
 
 export default Tooltip;

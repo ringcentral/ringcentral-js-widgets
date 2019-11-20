@@ -451,7 +451,7 @@ export default class Webphone extends RcModule {
     // Webphone userAgent registed event
     this._webphone.userAgent.on('registered', () => {
       if (!this.connected) {
-        this._onWebphoneRegistered();
+        this._onWebphoneRegistered(provisionData);
       }
     });
     this._webphone.userAgent.on('unregistered', (e) => {
@@ -792,9 +792,10 @@ export default class Webphone extends RcModule {
     });
   }
 
-  _onWebphoneRegistered() {
+  _onWebphoneRegistered(provisionData) {
     this.store.dispatch({
       type: this.actionTypes.registered,
+      device: provisionData.device,
     });
     this._alert.info({
       message: webphoneErrors.connected,
@@ -1043,6 +1044,7 @@ export default class Webphone extends RcModule {
       console.log('Event: Refer');
     });
     session.on('replaced', (newSession) => {
+      console.log('Event: replaced', newSession);
       session.__rc_callStatus = sessionStatus.replaced;
       newSession.__rc_callStatus = sessionStatus.connected;
       newSession.__rc_direction = callDirections.inbound;
@@ -1522,14 +1524,7 @@ export default class Webphone extends RcModule {
     return func(session);
   }
 
-  /**
-   * start an outbound call.
-   * @param {toNumber} recipient number
-   * @param {fromNumber} call Id
-   * @param {homeCountryId} homeCountry Id
-   */
-  @proxify
-  async makeCall({ toNumber, fromNumber, homeCountryId, extendedControls }) {
+  async _invite(toNumber, { inviteOptions, extendedControls }) {
     if (!this._webphone) {
       this._alert.warning({
         message: this.errorCode,
@@ -1551,21 +1546,64 @@ export default class Webphone extends RcModule {
     }
 
     await this._holdOtherSession();
-    const session = this._webphone.userAgent.invite(toNumber, {
-      sessionDescriptionHandlerOptions: this.acceptOptions
-        .sessionDescriptionHandlerOptions,
-      fromNumber,
-      homeCountryId,
-    });
+    const session = this._webphone.userAgent.invite(toNumber, inviteOptions);
     session.__rc_direction = callDirections.outbound;
     session.__rc_callStatus = sessionStatus.connecting;
     session.__rc_creationTime = Date.now();
     session.__rc_lastActiveTime = Date.now();
-    session.__rc_fromNumber = fromNumber;
+    session.__rc_fromNumber = inviteOptions.fromNumber;
     session.__rc_extendedControls = extendedControls;
     session.__rc_extendedControlStatus = extendedControlStatus.pending;
     this._onAccepted(session);
     this._onCallInit(session);
+    return session;
+  }
+
+  /**
+   * start an outbound call.
+   * @param {toNumber} recipient number
+   * @param {fromNumber} call Id
+   * @param {homeCountryId} homeCountry Id
+   */
+  @proxify
+  async makeCall({ toNumber, fromNumber, homeCountryId, extendedControls }) {
+    const inviteOptions = {
+      sessionDescriptionHandlerOptions: this.acceptOptions
+        .sessionDescriptionHandlerOptions,
+      fromNumber,
+      homeCountryId,
+    };
+    const result = await this._invite(toNumber, {
+      inviteOptions,
+      extendedControls,
+    });
+    return result;
+  }
+
+  /**
+   * switch a active call into web phone session.
+   */
+  @proxify
+  async switchCall({ id, from, direction, to, sipData }, homeCountryId) {
+    const extraHeaders = [];
+    extraHeaders.push(
+      `Replaces: ${id};to-tag=${sipData.fromTag};from-tag=${sipData.toTag}`,
+    );
+    extraHeaders.push('RC-call-type: replace');
+    const toNumber =
+      direction === callDirections.outbound ? to.phoneNumber : from.phoneNumber;
+    const fromNumber =
+      direction === callDirections.outbound ? from.phoneNumber : to.phoneNumber;
+    const inviteOptions = {
+      sessionDescriptionHandlerOptions: this.acceptOptions
+        .sessionDescriptionHandlerOptions,
+      fromNumber,
+      homeCountryId,
+      extraHeaders,
+    };
+    const session = await this._invite(toNumber, {
+      inviteOptions,
+    });
     return session;
   }
 
@@ -1946,6 +1984,10 @@ export default class Webphone extends RcModule {
 
   get statusCode() {
     return this.state.statusCode;
+  }
+
+  get device() {
+    return this.state.device;
   }
 
   get disconnecting() {

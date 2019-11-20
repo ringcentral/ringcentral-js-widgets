@@ -23,7 +23,11 @@ class VoicemailPlayer extends Component {
       progress: 0,
     };
 
-    this._id = `${props.uri && props.uri.split('?')[0].split('/').pop()}/${(new Date()).getTime()}`;
+    this._id = `${props.uri &&
+      props.uri
+        .split('?')[0]
+        .split('/')
+        .pop()}/${new Date().getTime()}`;
     this._audio = new Audio();
     this._audio.preload = false;
     this._audio.volume = 1;
@@ -33,7 +37,7 @@ class VoicemailPlayer extends Component {
         return;
       }
       this.setState({
-        progress: (this._audio.currentTime / this._audio.duration),
+        progress: this._audio.currentTime / this._audio.duration,
       });
     });
 
@@ -137,18 +141,12 @@ class VoicemailPlayer extends Component {
   }
 
   render() {
-    const {
-      className,
-      duration,
-      uri,
-      disabled,
-      currentLocale,
-    } = this.props;
+    const { className, duration, uri, disabled, currentLocale } = this.props;
     let icon;
     if (this.state.playing) {
       icon = (
         <Button
-          className={classnames(styles.play, (disabled ? styles.disabled : null))}
+          className={classnames(styles.play, disabled ? styles.disabled : null)}
           onClick={this._pauseAudio}
           disabled={disabled}
         >
@@ -160,28 +158,31 @@ class VoicemailPlayer extends Component {
     } else {
       icon = (
         <Button
-          className={classnames(styles.play, (disabled ? styles.disabled : null))}
+          className={classnames(styles.play, disabled ? styles.disabled : null)}
           onClick={this._playAudio}
           disabled={disabled}
         >
-          <span title={i18n.getString('play', currentLocale)} data-sign='play'>
+          <span title={i18n.getString('play', currentLocale)} data-sign="play">
             <PlayIcon width={18} height={18} />
           </span>
         </Button>
       );
     }
     const currentTime =
-      (this._audio.currentTime < duration) ? this._audio.currentTime : duration;
+      this._audio.currentTime < duration ? this._audio.currentTime : duration;
     const downloadUri = `${uri}&contentDisposition=Attachment`;
     return (
       <div className={classnames(styles.root, className)}>
         {icon}
         <span className={styles.startTime}>{formatDuration(currentTime)}</span>
         <a
-          className={classnames(styles.download, (disabled ? styles.disabled : null))}
+          className={classnames(
+            styles.download,
+            disabled ? styles.disabled : null,
+          )}
           target="_blank"
           download
-          data-sign='download'
+          data-sign="download"
           title={i18n.getString('download', currentLocale)}
           href={downloadUri}
           onClick={this._onDownloadClick}
@@ -191,8 +192,14 @@ class VoicemailPlayer extends Component {
         <span className={styles.endTime}>{formatDuration(duration)}</span>
         <div className={styles.progress}>
           <div className={styles.all} />
-          <div className={styles.done} style={{ width: `${this.state.progress * 100}%` }} />
-          <div className={styles.current} style={{ left: `${this.state.progress * 100}%` }} />
+          <div
+            className={styles.done}
+            style={{ width: `${this.state.progress * 100}%` }}
+          />
+          <div
+            className={styles.current}
+            style={{ left: `${this.state.progress * 100}%` }}
+          />
         </div>
       </div>
     );

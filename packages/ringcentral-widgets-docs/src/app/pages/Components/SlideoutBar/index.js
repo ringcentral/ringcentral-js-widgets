@@ -15,10 +15,7 @@ const SlideoutBarPage = () => {
   return (
     <div>
       <ComponentHeader name="SlideoutBar" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="SlideoutBar Example"
-      >
+      <CodeExample code={demoCode} title="SlideoutBar Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -4,7 +4,7 @@ import RegionSettingsAlert from 'ringcentral-widgets/components/RegionSettingsAl
 
 const props = {};
 props.message = {
-  message: 'test string'
+  message: 'test string',
 };
 props.regionSettingsUrl = 'test string';
 props.currentLocale = 'en-US';
@@ -12,9 +12,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `RegionSettingsAlert`
  */
-const RegionSettingsAlertDemo = () => (
-  <RegionSettingsAlert
-    {...props}
-  />
-);
+const RegionSettingsAlertDemo = () => <RegionSettingsAlert {...props} />;
 export default RegionSettingsAlertDemo;

@@ -10,9 +10,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `UserGuide`
  */
-const UserGuideDemo = () => (
-  <UserGuide
-    {...props}
-  />
-);
+const UserGuideDemo = () => <UserGuide {...props} />;
 export default UserGuideDemo;

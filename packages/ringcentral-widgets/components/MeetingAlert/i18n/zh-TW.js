@@ -1,11 +1,11 @@
 import meetingStatus from 'ringcentral-integration/modules/Meeting/meetingStatus';
 export default {
-  [meetingStatus.emptyTopic]: "請輸入會議主題。",
+  [meetingStatus.emptyTopic]: "請輸入會議主旨。",
   [meetingStatus.noPassword]: "請提供會議密碼。",
   [meetingStatus.insufficientPermissions]: "{application} 沒有 {permissionName} 權限。",
-  [meetingStatus.scheduledSuccess]: "會議已排定時間。",
+  [meetingStatus.scheduledSuccess]: "會議已排程時間。",
   [meetingStatus.updatedSuccess]: "會議已更新。",
-  [meetingStatus.internalError]: "內部錯誤，會議排定失敗。稍後再試一次。"
+  [meetingStatus.internalError]: "內部錯誤，會議排程失敗。稍後再試一次。"
 };
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@

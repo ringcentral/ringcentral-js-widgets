@@ -10,14 +10,14 @@ props.onClick = () => alert('clicked');
  * A example of `MultiCallAnswerButton`
  */
 const MultiCallAnswerButtonDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '200px',
-    width: '200px',
-  }}>
-    <MultiCallAnswerButton
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      height: '200px',
+      width: '200px',
+    }}
+  >
+    <MultiCallAnswerButton {...props} />
   </div>
 );
 export default MultiCallAnswerButtonDemo;

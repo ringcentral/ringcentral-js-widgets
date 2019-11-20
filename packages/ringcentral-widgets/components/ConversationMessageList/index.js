@@ -18,35 +18,28 @@ export function Message({
   if (subject && !isBlank(subject)) {
     content = SubjectRenderer ? <SubjectRenderer subject={subject} /> : subject;
   } else if (mmsAttachment && mmsAttachment.contentType.indexOf('image') > -1) {
-    content = (<img src={mmsAttachment.uri} alt="attactment" className={styles.picture} />);
+    content = (
+      <img
+        src={mmsAttachment.uri}
+        alt="attactment"
+        className={styles.picture}
+      />
+    );
   }
   return (
     <div data-sign="message" className={styles.message}>
-      {
-        time ?
-          (
-            <div className={styles.time}>
-              {time}
-            </div>
-          ) :
-          null
-      }
-      {
-        (sender && direction === 'Inbound') ?
-          (
-            <div className={styles.sender}>
-              {sender}
-            </div>
-          ) :
-          null
-      }
+      {time ? <div className={styles.time}>{time}</div> : null}
+      {sender && direction === 'Inbound' ? (
+        <div className={styles.sender}>{sender}</div>
+      ) : null}
       <div
         className={classnames(
           styles.messageBody,
           direction === 'Outbound' ? styles.outbound : styles.inbound,
-          (subject && subject.length > 500) && styles.big,
-        )}>
-        { content }
+          subject && subject.length > 500 && styles.big,
+        )}
+      >
+        {content}
       </div>
       <div className={styles.clear} />
     </div>
@@ -76,9 +69,7 @@ class ConversationMessageList extends Component {
   }
 
   componentDidUpdate(previousProps) {
-    if (
-      previousProps.messages.length === this.props.messages.length
-    ) {
+    if (previousProps.messages.length === this.props.messages.length) {
       return;
     }
     if (!this._scrollUp) {
@@ -88,7 +79,8 @@ class ConversationMessageList extends Component {
       this._scrollHeight !== this._listRef.scrollHeight
     ) {
       this._listRef.scrollTop =
-        this._listRef.scrollTop + (this._listRef.scrollHeight - this._scrollHeight);
+        this._listRef.scrollTop +
+        (this._listRef.scrollHeight - this._scrollHeight);
     }
   }
 
@@ -106,20 +98,17 @@ class ConversationMessageList extends Component {
       // user scroll down to bottom
       this._scrollUp = false;
     }
-    if (
-      currentScrollTop < 20 &&
-      this._scrollTop >= 20
-    ) {
+    if (currentScrollTop < 20 && this._scrollTop >= 20) {
       this.props.loadPreviousMessages();
     }
     this._scrollTop = currentScrollTop;
-  }
+  };
 
   scrollToLastMessage = () => {
     if (this._listRef) {
       this._listRef.scrollTop = this._listRef.scrollHeight;
     }
-  }
+  };
 
   render() {
     const {
@@ -136,16 +125,19 @@ class ConversationMessageList extends Component {
 
     let lastDate = 0;
     const messageList = messages.map((message) => {
-      const sender = showSender ?
-        (
-          message.from.name ||
+      const sender = showSender
+        ? message.from.name ||
           formatPhone(message.from.extensionNumber || message.from.phoneNumber)
-        ) :
-        null;
+        : null;
       const date = new Date(message.creationTime);
-      const time = (date - lastDate < 60 * 60 * 1000 && date.getHours() === lastDate.getHours()) ?
-        null :
-        dateTimeFormatter({ utcTimestamp: message.creationTime, type: 'long' });
+      const time =
+        date - lastDate < 60 * 60 * 1000 &&
+        date.getHours() === lastDate.getHours()
+          ? null
+          : dateTimeFormatter({
+              utcTimestamp: message.creationTime,
+              type: 'long',
+            });
       lastDate = date;
       return (
         <Message
@@ -168,7 +160,9 @@ class ConversationMessageList extends Component {
       <div
         className={classnames(styles.root, className)}
         style={{ height }}
-        ref={(body) => { this._listRef = body; }}
+        ref={(body) => {
+          this._listRef = body;
+        }}
         onScroll={this.onScroll}
       >
         {loading}
@@ -180,13 +174,15 @@ class ConversationMessageList extends Component {
 
 ConversationMessageList.propTypes = {
   currentLocale: PropTypes.string,
-  messages: PropTypes.arrayOf(PropTypes.shape({
-    creationTime: PropTypes.number,
-    id: PropTypes.number,
-    direction: PropTypes.string,
-    subject: PropTypes.string,
-    mmsAttachment: PropTypes.object,
-  })).isRequired,
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      creationTime: PropTypes.number,
+      id: PropTypes.number,
+      direction: PropTypes.string,
+      subject: PropTypes.string,
+      mmsAttachment: PropTypes.object,
+    }),
+  ).isRequired,
   className: PropTypes.string,
   showSender: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
@@ -194,7 +190,7 @@ ConversationMessageList.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   loadPreviousMessages: PropTypes.func,
   loadingNextPage: PropTypes.bool,
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 ConversationMessageList.defaultProps = {

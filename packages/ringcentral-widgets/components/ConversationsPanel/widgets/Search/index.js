@@ -11,7 +11,6 @@ import NewComposeTextHover from '../../../../assets/images/NewComposeTextHover.s
 import i18n from '../../i18n';
 import styles from './styles.scss';
 
-
 export default function Search({
   composeTextPermission,
   typeFilter,
@@ -20,19 +19,20 @@ export default function Search({
   currentLocale,
   disableLinks,
   goToComposeText,
-  renderSearchTip
+  renderSearchTip,
 }) {
   if (!onSearchInputChange) {
     return null;
   }
   const showTextIcon =
-  composeTextPermission &&
-  (typeFilter === messageTypes.all || typeFilter === messageTypes.text);
+    composeTextPermission &&
+    (typeFilter === messageTypes.all || typeFilter === messageTypes.text);
   return (
     <div
-      className={
-      classnames(styles.searchContainer, showTextIcon ? null : styles.withoutTextIcon)
-    }
+      className={classnames(
+        styles.searchContainer,
+        showTextIcon ? null : styles.withoutTextIcon,
+      )}
     >
       <SearchInput
         className={styles.searchInput}
@@ -46,7 +46,11 @@ export default function Search({
         className={styles.textIcon}
         onClick={goToComposeText}
       >
-        <NewComposeTextHover className={styles.hoverTextSVGIcon} width={20} height={21} />
+        <NewComposeTextHover
+          className={styles.hoverTextSVGIcon}
+          width={20}
+          height={21}
+        />
         <NewComposeText className={styles.textSVGIcon} width={20} height={21} />
       </span>
       {renderSearchTip && renderSearchTip()}

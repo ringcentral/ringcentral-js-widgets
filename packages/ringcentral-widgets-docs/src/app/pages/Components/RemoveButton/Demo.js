@@ -8,9 +8,5 @@ props.onClick = () => alert('clicked');
 /**
  * A example of `RemoveButton`
  */
-const RemoveButtonDemo = () => (
-  <RemoveButton
-    {...props}
-  />
-);
+const RemoveButtonDemo = () => <RemoveButton {...props} />;
 export default RemoveButtonDemo;

@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `IconLine`
  */
-const IconLineDemo = () => (
-  <IconLine
-    {...props}
-  />
-);
+const IconLineDemo = () => <IconLine {...props} />;
 export default IconLineDemo;

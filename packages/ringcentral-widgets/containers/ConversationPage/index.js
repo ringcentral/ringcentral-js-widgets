@@ -4,28 +4,29 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import ConversationPanel from '../../components/ConversationPanel';
 import { withPhone } from '../../lib/phoneContext';
 
-export function mapToProps(_, {
-  phone: {
-    brand,
-    locale,
-    conversationLogger,
-    dateTimeFormat,
-    contactMatcher,
-    regionSettings,
-    conversations,
-    rateLimiter,
-    connectivityMonitor,
+export function mapToProps(
+  _,
+  {
+    phone: {
+      brand,
+      locale,
+      conversationLogger,
+      dateTimeFormat,
+      contactMatcher,
+      regionSettings,
+      conversations,
+      rateLimiter,
+      connectivityMonitor,
+    },
+    params,
+    enableContactFallback = false,
+    showGroupNumberName = false,
+    perPage = 20,
+    inputExpandable,
   },
-  params,
-  enableContactFallback = false,
-  showGroupNumberName = false,
-  perPage = 20,
-  inputExpandable,
-}) {
-  const disableLinks = (
-    rateLimiter.isThrottling ||
-    !connectivityMonitor.connectivity
-  );
+) {
+  const disableLinks =
+    rateLimiter.isThrottling || !connectivityMonitor.connectivity;
   const showSpinner = !(
     dateTimeFormat.ready &&
     (!contactMatcher || contactMatcher.ready) &&
@@ -36,18 +37,17 @@ export function mapToProps(_, {
     (!conversationLogger || conversationLogger.ready)
   );
   const currentConversation = conversations.currentConversation;
-  return ({
+  return {
     brand: brand.fullName,
     enableContactFallback,
     showGroupNumberName,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
-    sendButtonDisabled: (
+    sendButtonDisabled:
       conversations.pushing ||
       disableLinks ||
       conversations.messageText.length === 0 ||
-      showSpinner
-    ),
+      showSpinner,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     showSpinner,
@@ -60,24 +60,28 @@ export function mapToProps(_, {
     perPage,
     loadingNextPage: conversations.loadingOldMessages,
     inputExpandable,
-  });
+  };
 }
 
-export function mapToFunctions(_, {
-  phone: {
-    contactMatcher,
-    dateTimeFormat,
-    routerInteraction,
-    conversationLogger,
-    regionSettings,
-    conversations,
-    messageStore,
+export function mapToFunctions(
+  _,
+  {
+    phone: {
+      contactMatcher,
+      dateTimeFormat,
+      routerInteraction,
+      conversationLogger,
+      regionSettings,
+      conversations,
+      messageStore,
+    },
+    dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
+    isLoggedContact,
+    onLogConversation,
+    conversationsPath = '/messages',
+    renderExtraButton,
   },
-  dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
-  isLoggedContact,
-  onLogConversation,
-  conversationsPath = '/messages',
-}) {
+) {
   let getMatcherContactName;
   let getMatcherContactList;
   let getMatcherContactNameList;
@@ -85,8 +89,8 @@ export function mapToFunctions(_, {
     getMatcherContactList = (phoneNumber) => {
       const matcherNames = contactMatcher.dataMapping[phoneNumber];
       if (matcherNames && matcherNames.length > 0) {
-        return matcherNames.map(matcher =>
-          `${matcher.name} | ${matcher.phoneNumbers[0].phoneType}`
+        return matcherNames.map(
+          (matcher) => `${matcher.name} | ${matcher.phoneNumbers[0].phoneType}`,
         );
       }
       return [];
@@ -94,7 +98,7 @@ export function mapToFunctions(_, {
     getMatcherContactNameList = (phoneNumber) => {
       const matcherNames = contactMatcher.dataMapping[phoneNumber];
       if (matcherNames && matcherNames.length > 0) {
-        return matcherNames.map(matcher => matcher.name);
+        return matcherNames.map((matcher) => matcher.name);
       }
       return [];
     };
@@ -110,25 +114,28 @@ export function mapToFunctions(_, {
   return {
     replyToReceivers: (...args) => conversations.replyToReceivers(...args),
     unloadConversation: () => conversations.unloadConversation(),
-    loadConversation: id => conversations.loadConversation(id),
-    updateMessageText: text => conversations.updateMessageText(text),
+    loadConversation: (id) => conversations.loadConversation(id),
+    updateMessageText: (text) => conversations.updateMessageText(text),
     dateTimeFormatter,
-    formatPhone: phoneNumber => formatNumber({
-      phoneNumber,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
-    }),
+    formatPhone: (phoneNumber) =>
+      formatNumber({
+        phoneNumber,
+        areaCode: regionSettings.areaCode,
+        countryCode: regionSettings.countryCode,
+      }),
     getMatcherContactName,
     getMatcherContactList,
     getMatcherContactNameList,
     isLoggedContact,
-    onLogConversation: onLogConversation ||
-      (conversationLogger && (async ({ redirect = true, ...options }) => {
-        await conversationLogger.logConversation({
-          ...options,
-          redirect,
-        });
-      })),
+    onLogConversation:
+      onLogConversation ||
+      (conversationLogger &&
+        (async ({ redirect = true, ...options }) => {
+          await conversationLogger.logConversation({
+            ...options,
+            redirect,
+          });
+        })),
     goBack() {
       routerInteraction.push(conversationsPath);
     },
@@ -138,10 +145,13 @@ export function mapToFunctions(_, {
     loadPreviousMessages() {
       conversations.fetchOldMessages();
     },
+    renderExtraButton,
   };
 }
 
-export default withPhone(connect(
-  mapToProps,
-  mapToFunctions,
-)(ConversationPanel));
+export default withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(ConversationPanel),
+);

@@ -14,17 +14,10 @@ const DEFAULT_PROPS = {
   brand: 'RingCentral',
 };
 
-const setup = props =>
-  renderer
-    .create(
-      <ContactDisplay
-        {...DEFAULT_PROPS}
-        {...props}
-      />
-    )
-    .toJSON();
+const setup = (props) =>
+  renderer.create(<ContactDisplay {...DEFAULT_PROPS} {...props} />).toJSON();
 
-    // TODO: properly test the criteria instead of relying on snapshot
+// TODO: properly test the criteria instead of relying on snapshot
 
 describe('<jira id>: RCINT-8557:', () => {
   it.skip(`
@@ -33,7 +26,7 @@ describe('<jira id>: RCINT-8557:', () => {
   `, () => {
     const wrapper = setup({
       enableContactFallback: true,
-      contactMatches: []
+      contactMatches: [],
     });
     // expect(wrapper).toMatchSnapshot();
   });
@@ -46,7 +39,7 @@ describe('<jira id>: RCINT-8557:', () => {
   `, () => {
     const wrapper = setup({
       enableContactFallback: false,
-      contactMatches: []
+      contactMatches: [],
     });
     // expect(wrapper).toMatchSnapshot();
   });
@@ -72,22 +65,31 @@ describe('<jira id>: RCINT-8557:', () => {
     Then ContactDisplay display its phone number
   `, () => {
     const wrapper = setup({
-      contactMatches: [{
-        type: 'company',
-        id: '160746006',
-        firstName: 'Something1',
-        lastName: 'New1',
-        emails: ['mm1+1528852409478-2528424@dins.ru'],
-        extensionNumber: '101',
-        hasProfileImage: false,
-        phoneNumbers: [{ phoneNumber: '101', phoneType: 'extension' }, { phoneNumber: '+12069853329', phoneType: 'directPhone' }, { phoneNumber: '+13103223278', phoneType: 'directPhone' }],
-        presence: {
-          dndStatus: 'TakeAllCalls', presenceStatus: 'Available', telephonyStatus: 'NoCall', userStatus: 'Available'
+      contactMatches: [
+        {
+          type: 'company',
+          id: '160746006',
+          firstName: 'Something1',
+          lastName: 'New1',
+          emails: ['mm1+1528852409478-2528424@dins.ru'],
+          extensionNumber: '101',
+          hasProfileImage: false,
+          phoneNumbers: [
+            { phoneNumber: '101', phoneType: 'extension' },
+            { phoneNumber: '+12069853329', phoneType: 'directPhone' },
+            { phoneNumber: '+13103223278', phoneType: 'directPhone' },
+          ],
+          presence: {
+            dndStatus: 'TakeAllCalls',
+            presenceStatus: 'Available',
+            telephonyStatus: 'NoCall',
+            userStatus: 'Available',
+          },
+          contactStatus: 'Enabled',
+          name: 'Something1 New1',
+          entityType: 'rcContact',
         },
-        contactStatus: 'Enabled',
-        name: 'Something1 New1',
-        entityType: 'rcContact'
-      }]
+      ],
     });
     // expect(wrapper).toMatchSnapshot();
   });
@@ -99,11 +101,40 @@ describe('<jira id>: RCINT-8557:', () => {
     Then ContactDisplay display its phone number
   `, () => {
     const wrapper = setup({
-      contactMatches: [{
-        type: 'company', id: '208594004', firstName: 'Something1', lastName: 'New1', emails: ['email@email.com'], extensionNumber: '101', hasProfileImage: false, phoneNumbers: [{ phoneNumber: '101', phoneType: 'extension' }, { phoneNumber: '+18559100010', phoneType: 'directPhone' }], contactStatus: 'Enabled', name: 'Something1 New1', entityType: 'rcContact'
-      }, {
-        type: 'company', id: '208594005', firstName: 'Something2', lastName: 'New2', emails: ['email1@email.com'], extensionNumber: '101', hasProfileImage: false, phoneNumbers: [{ phoneNumber: '101', phoneType: 'extension' }, { phoneNumber: '+18559100010', phoneType: 'directPhone' }], contactStatus: 'Enabled', name: 'Something2 New2', entityType: 'rcContact'
-      }]
+      contactMatches: [
+        {
+          type: 'company',
+          id: '208594004',
+          firstName: 'Something1',
+          lastName: 'New1',
+          emails: ['email@email.com'],
+          extensionNumber: '101',
+          hasProfileImage: false,
+          phoneNumbers: [
+            { phoneNumber: '101', phoneType: 'extension' },
+            { phoneNumber: '+18559100010', phoneType: 'directPhone' },
+          ],
+          contactStatus: 'Enabled',
+          name: 'Something1 New1',
+          entityType: 'rcContact',
+        },
+        {
+          type: 'company',
+          id: '208594005',
+          firstName: 'Something2',
+          lastName: 'New2',
+          emails: ['email1@email.com'],
+          extensionNumber: '101',
+          hasProfileImage: false,
+          phoneNumbers: [
+            { phoneNumber: '101', phoneType: 'extension' },
+            { phoneNumber: '+18559100010', phoneType: 'directPhone' },
+          ],
+          contactStatus: 'Enabled',
+          name: 'Something2 New2',
+          entityType: 'rcContact',
+        },
+      ],
     });
     // expect(wrapper).toMatchSnapshot();
   });

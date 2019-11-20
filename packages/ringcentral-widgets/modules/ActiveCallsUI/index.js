@@ -23,8 +23,8 @@ import RcUIModule from '../../lib/RcUIModule';
     'RouterInteraction',
     { dep: 'ComposeText', optional: true },
     'ContactSearch',
-    'ContactMatcher'
-  ]
+    'ContactMatcher',
+  ],
 })
 export default class ActiveCallsUI extends RcUIModule {
   constructor({
@@ -47,7 +47,7 @@ export default class ActiveCallsUI extends RcUIModule {
     ...options
   }) {
     super({
-      ...options
+      ...options,
     });
     this._brand = brand;
     this._callLogger = callLogger;
@@ -70,10 +70,13 @@ export default class ActiveCallsUI extends RcUIModule {
   getUIProps({
     showContactDisplayPlaceholder = false,
     showRingoutCallControl = false,
-    useV2
+    showSwitchCall = false,
+    useV2,
   }) {
-    const isWebRTC = this._callingSettings.callingMode === callingModes.webphone;
-    const controlBusy = this._activeCallControl && this._activeCallControl.busy || false;
+    const isWebRTC =
+      this._callingSettings.callingMode === callingModes.webphone;
+    const controlBusy =
+      (this._activeCallControl && this._activeCallControl.busy) || false;
 
     return {
       currentLocale: this._locale.currentLocale,
@@ -95,15 +98,21 @@ export default class ActiveCallsUI extends RcUIModule {
       brand: this._brand.fullName,
       showContactDisplayPlaceholder,
       showRingoutCallControl,
+      showSwitchCall:
+        showSwitchCall &&
+        isWebRTC &&
+        this._webphone &&
+        this._webphone.connected,
       autoLog: !!(this._callLogger && this._callLogger.autoLog),
       isWebRTC,
-      conferenceCallParties: this._conferenceCall ? this._conferenceCall.partyProfiles : null,
+      conferenceCallParties: this._conferenceCall
+        ? this._conferenceCall.partyProfiles
+        : null,
       useV2,
-      disableLinks: (
+      disableLinks:
         !this._connectivityMonitor.connectivity ||
         this._rateLimiter.throttling ||
-        controlBusy
-      ),
+        controlBusy,
     };
   }
 
@@ -120,17 +129,20 @@ export default class ActiveCallsUI extends RcUIModule {
     useV2,
   }) {
     return {
-      formatPhone: phoneNumber => formatNumber({
-        phoneNumber,
-        areaCode: this._regionSettings.areaCode,
-        countryCode: this._regionSettings.countryCode,
-      }),
+      formatPhone: (phoneNumber) =>
+        formatNumber({
+          phoneNumber,
+          areaCode: this._regionSettings.areaCode,
+          countryCode: this._regionSettings.countryCode,
+        }),
       webphoneAnswer: async (sessionId) => {
         if (!this._webphone) {
           return;
         }
 
-        const session = this._webphone.sessions.find(session => session.id === sessionId);
+        const session = this._webphone.sessions.find(
+          (session) => session.id === sessionId,
+        );
         if (
           this._conferenceCall &&
           session &&
@@ -141,14 +153,14 @@ export default class ActiveCallsUI extends RcUIModule {
 
         this._webphone.answer(sessionId);
       },
-      webphoneToVoicemail: async (...args) => (
-        this._webphone && this._webphone.toVoiceMail(...args)
-      ),
-      webphoneReject: async (...args) => (this._webphone && this._webphone.reject(...args)),
+      webphoneToVoicemail: async (...args) =>
+        this._webphone && this._webphone.toVoiceMail(...args),
+      webphoneReject: async (...args) =>
+        this._webphone && this._webphone.reject(...args),
       webphoneHangup: async (...args) => {
         // user action track
         this._callMonitor.allCallsClickHangupTrack();
-        return (this._webphone && this._webphone.hangup(...args));
+        return this._webphone && this._webphone.hangup(...args);
       },
       webphoneResume: async (...args) => {
         if (!this._webphone) {
@@ -162,12 +174,24 @@ export default class ActiveCallsUI extends RcUIModule {
       webphoneHold: async (...args) => {
         // user action track
         this._callMonitor.allCallsClickHoldTrack();
-        return (this._webphone && this._webphone.hold(...args));
+        return this._webphone && this._webphone.hold(...args);
+      },
+      webphoneSwitchCall: async (activeCall) => {
+        if (!this._webphone) {
+          return;
+        }
+        const session = await this._webphone.switchCall(
+          activeCall,
+          this._regionSettings.homeCountryId,
+        );
+        return session;
       },
       ringoutHangup: async (...args) => {
         // user action track
         this._callMonitor.allCallsClickHangupTrack();
-        return (this._activeCallControl && this._activeCallControl.hangUp(...args));
+        return (
+          this._activeCallControl && this._activeCallControl.hangUp(...args)
+        );
       },
       ringoutTransfer: async (sessionId) => {
         this._routerInteraction.push(`/transfer/${sessionId}/active`);
@@ -175,58 +199,69 @@ export default class ActiveCallsUI extends RcUIModule {
       ringoutReject: async (sessionId) => {
         // user action track
         this._callMonitor.allCallsClickRejectTrack();
-        return (this._activeCallControl && this._activeCallControl.reject(sessionId));
+        return (
+          this._activeCallControl && this._activeCallControl.reject(sessionId)
+        );
       },
-      onViewContact: showViewContact ?
-        (onViewContact || (({ contact }) => {
-          const { id, type } = contact;
-          this._routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
-        })) : null,
-      onClickToSms: this._composeText ?
-        async (contact, isDummyContact = false) => {
-          if (this._routerInteraction) {
-            this._routerInteraction.push(composeTextRoute);
+      onViewContact: showViewContact
+        ? onViewContact ||
+          (({ contact }) => {
+            const { id, type } = contact;
+            this._routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
+          })
+        : null,
+      onClickToSms: this._composeText
+        ? async (contact, isDummyContact = false) => {
+            if (this._routerInteraction) {
+              this._routerInteraction.push(composeTextRoute);
+            }
+            this._composeText.clean();
+            if (contact.name && contact.phoneNumber && isDummyContact) {
+              this._composeText.updateTypingToNumber(contact.name);
+              this._contactSearch.search({ searchString: contact.name });
+            } else {
+              this._composeText.addToRecipients(contact);
+            }
           }
-          this._composeText.clean();
-          if (contact.name && contact.phoneNumber && isDummyContact) {
-            this._composeText.updateTypingToNumber(contact.name);
-            this._contactSearch.search({ searchString: contact.name });
-          } else {
-            this._composeText.addToRecipients(contact);
+        : undefined,
+      onCreateContact: onCreateContact
+        ? async ({ phoneNumber, name, entityType }) => {
+            const hasMatchNumber = await this._contactMatcher.hasMatchNumber({
+              phoneNumber,
+              ignoreCache: true,
+            });
+            if (!hasMatchNumber) {
+              await onCreateContact({ phoneNumber, name, entityType });
+              await this._contactMatcher.forceMatchNumber({ phoneNumber });
+            }
           }
-        } :
-        undefined,
-      onCreateContact: onCreateContact ?
-        async ({ phoneNumber, name, entityType }) => {
-          const hasMatchNumber = await this._contactMatcher.hasMatchNumber({
-            phoneNumber,
-            ignoreCache: true
-          });
-          if (!hasMatchNumber) {
-            await onCreateContact({ phoneNumber, name, entityType });
-            await this._contactMatcher.forceMatchNumber({ phoneNumber });
-          }
-        } :
-        undefined,
+        : undefined,
       isLoggedContact,
-      onLogCall: onLogCall ||
-        (this._callLogger && (async ({ call, contact, redirect = true }) => {
-          await this._callLogger.logCall({
-            call,
-            contact,
-            redirect,
-          });
-        })),
-      onCallsEmpty: onCallsEmpty || (() => {
-        const isWebRTC = this._callingSettings.callingMode === callingModes.webphone;
+      onLogCall:
+        onLogCall ||
+        (this._callLogger &&
+          (async ({ call, contact, redirect = true }) => {
+            await this._callLogger.logCall({
+              call,
+              contact,
+              redirect,
+            });
+          })),
+      onCallsEmpty:
+        onCallsEmpty ||
+        (() => {
+          const isWebRTC =
+            this._callingSettings.callingMode === callingModes.webphone;
 
-        if (isWebRTC && !this._webphone.sessions.length) {
-          this._routerInteraction.push('/dialer');
-        }
-      }),
-      isSessionAConferenceCall: sessionId => !!(
-        this._conferenceCall && this._conferenceCall.isConferenceSession(sessionId)
-      ),
+          if (isWebRTC && !this._webphone.sessions.length) {
+            this._routerInteraction.push('/dialer');
+          }
+        }),
+      isSessionAConferenceCall: (sessionId) =>
+        !!(
+          this._conferenceCall &&
+          this._conferenceCall.isConferenceSession(sessionId)
+        ),
       onCallItemClick: (call) => {
         if (!call.webphoneSession) {
           // For ringout call
@@ -234,10 +269,12 @@ export default class ActiveCallsUI extends RcUIModule {
             return;
           }
 
-          const { sessionId } = call;
+          const { telephonySessionId } = call;
           // to track the call item be clicked.
           this._callMonitor.callItemClickTrack();
-          this._routerInteraction.push(`/simplifycallctrl/${sessionId}`);
+          this._routerInteraction.push(
+            `/simplifycallctrl/${telephonySessionId}`,
+          );
         } else {
           // For webphone call
           // show the ring call modal when click a ringing call.
@@ -248,14 +285,15 @@ export default class ActiveCallsUI extends RcUIModule {
           if (call.webphoneSession && call.webphoneSession.id) {
             // to track the call item be clicked.
             this._callMonitor.callItemClickTrack();
-            this._routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
+            this._routerInteraction.push(
+              `${callCtrlRoute}/${call.webphoneSession.id}`,
+            );
           }
         }
       },
       getAvatarUrl,
-      updateSessionMatchedContact: (sessionId, contact) => (
-        this._webphone.updateSessionMatchedContact(sessionId, contact)
-      ),
+      updateSessionMatchedContact: (sessionId, contact) =>
+        this._webphone.updateSessionMatchedContact(sessionId, contact),
     };
   }
 }

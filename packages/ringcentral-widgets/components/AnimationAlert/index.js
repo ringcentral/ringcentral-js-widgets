@@ -18,8 +18,9 @@ function AnimationMessage({ animation, duration, ...props }) {
     <div
       className={classnames([animation, 'animated'])}
       style={{
-        animationDuration: `${second}s`
-      }}>
+        animationDuration: `${second}s`,
+      }}
+    >
       <Message {...props} />
     </div>
   );
@@ -51,38 +52,41 @@ class AnimationAlert extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.messages === nextProps.messages) return;
     (async () => {
-      const {
-        duration,
-        entranceAnimation,
-        exitAnimation,
-      } = this.props;
-      const currentMessagesIDs = this.props.messages.map(message => message.id);
-      const nextMessagesIDs = nextProps.messages.map(message => message.id);
-      const addedMessagesIDs = nextMessagesIDs.filter(id => !contains(id, currentMessagesIDs));
-      const removedMessagesIDs = currentMessagesIDs.filter(id => !contains(id, nextMessagesIDs));
-      const allMessagesIDs = [...new Set(currentMessagesIDs.concat(nextMessagesIDs))];
+      const { duration, entranceAnimation, exitAnimation } = this.props;
+      const currentMessagesIDs = this.props.messages.map(
+        (message) => message.id,
+      );
+      const nextMessagesIDs = nextProps.messages.map((message) => message.id);
+      const addedMessagesIDs = nextMessagesIDs.filter(
+        (id) => !contains(id, currentMessagesIDs),
+      );
+      const removedMessagesIDs = currentMessagesIDs.filter(
+        (id) => !contains(id, nextMessagesIDs),
+      );
+      const allMessagesIDs = [
+        ...new Set(currentMessagesIDs.concat(nextMessagesIDs)),
+      ];
       const allMessages = {};
       this.props.messages.concat(nextProps.messages).map((message) => {
         allMessages[message.id] = message;
         return message;
       });
-      const messages = allMessagesIDs
-        .map((id) => {
-          const message = allMessages[id];
-          const isAddedMessage = contains(id, addedMessagesIDs);
-          const isRemovedMessage = contains(id, removedMessagesIDs);
-          let animation;
-          if (isAddedMessage) {
-            animation = entranceAnimation;
-          } else if (isRemovedMessage) {
-            animation = exitAnimation;
-          }
-          return {
-            ...message,
-            ...animation ? { animation } : {},
-            duration,
-          };
-        });
+      const messages = allMessagesIDs.map((id) => {
+        const message = allMessages[id];
+        const isAddedMessage = contains(id, addedMessagesIDs);
+        const isRemovedMessage = contains(id, removedMessagesIDs);
+        let animation;
+        if (isAddedMessage) {
+          animation = entranceAnimation;
+        } else if (isRemovedMessage) {
+          animation = exitAnimation;
+        }
+        return {
+          ...message,
+          ...(animation ? { animation } : {}),
+          duration,
+        };
+      });
       const stateWithAnimation = {
         messages,
       };
@@ -100,13 +104,18 @@ class AnimationAlert extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return !(
-      nextState.messages === this.state.messages || nextProps.messages === this.state.props
+      nextState.messages === this.state.messages ||
+      nextProps.messages === this.state.props
     );
   }
 
   render() {
     return (
-      <AlertDisplay {...this.props} component={AnimationMessage} messages={this.state.messages} />
+      <AlertDisplay
+        {...this.props}
+        component={AnimationMessage}
+        messages={this.state.messages}
+      />
     );
   }
 }

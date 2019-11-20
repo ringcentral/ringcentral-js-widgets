@@ -12,19 +12,19 @@ function DialTextInput({
   value,
   onChangeEvent,
   onDelete,
-  autoFocus
+  autoFocus,
 }) {
-  const deleteDisplay = value === '' ? { display: 'none' } : { display: 'block' };
+  const deleteDisplay =
+    value === '' ? { display: 'none' } : { display: 'block' };
   return (
     <div
       className={classnames(
         styles.dialInput,
         className,
         invalid && styles.invalid,
-        )}>
-      <span className={classnames(styles.to)}>
-        {i18n.getString('to')}
-      </span>
+      )}
+    >
+      <span className={classnames(styles.to)}>{i18n.getString('to')}</span>
       <TextInput
         placeholder={i18n.getString('enterNameOrPhoneNumber')}
         className={styles.dial_Input}
@@ -53,6 +53,5 @@ DialTextInput.defaultValue = {
   className: styles.input,
   autoFocus: false,
 };
-
 
 export default DialTextInput;

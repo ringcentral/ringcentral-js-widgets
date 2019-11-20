@@ -29,7 +29,6 @@ class Markdown extends Component {
           dangerouslySetInnerHTML={{ __html: marked(this.props.text) }}
         />
       </div>
-
     );
     /* eslint-enable */
   }

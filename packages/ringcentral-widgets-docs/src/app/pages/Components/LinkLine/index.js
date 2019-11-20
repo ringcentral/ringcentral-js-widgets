@@ -15,10 +15,7 @@ const LinkLinePage = () => {
   return (
     <div>
       <ComponentHeader name="LinkLine" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="LinkLine Example"
-      >
+      <CodeExample code={demoCode} title="LinkLine Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -1,0 +1,155 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/text-ellipsis';
+
+@import '../../lib/commonStyles/variable.scss';
+
+$icon-color: #757575;
+
+p {
+  margin: 0;
+}
+
+.root {
+  padding: 12px 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+
+  $rate: 0.2;
+  &.active {
+    background: rgba(38, 163, 4, $rate);
+  }
+  &.onHold {
+    background: rgba(255, 136, 0, $rate);
+  }
+  &.callEnd {
+    background: rgba(158, 158, 158, $rate);
+  }
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      list-style: none;
+      display: block;
+    }
+  }
+}
+
+.top {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.callIcon {
+  margin: 3px 12px 0 0;
+}
+
+.icon {
+  font-size: 18px;
+  color: $icon-color;
+}
+
+.callDisplay {
+  color: $icon-color;
+  font-size: 12px;
+  @include display_flex;
+  @include flex_fill;
+  .info {
+    max-width: 170px;
+  }
+
+  .logName {
+    color: #212121;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0.5em;
+    @include text-ellipsis;
+  }
+
+  .time {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-top: 0.5em;
+    text-align: right;
+    p + p {
+      margin-top: 0.5em;
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+.follow {
+  * + * {
+    &::before {
+      content: '|';
+      margin: 0 5px;
+    }
+  }
+}
+
+.classic {
+  &.root {
+    padding: 10px 12px;
+    @include main_border(right);
+  }
+  .callDisplay {
+    margin-top: 4px;
+    flex-direction: column;
+    font-size: 11px;
+    @include flex_width(85%);
+    @include display_flex;
+    @include flex_fill;
+  }
+
+  .callIcon {
+    margin-right: 9.5px;
+  }
+
+  .icon {
+    font-size: 16px;
+  }
+
+  .logName {
+    font-size: 12px;
+    @include text-ellipsis;
+  }
+  .time {
+    flex-direction: row;
+    justify-content: flex-start;
+    p + p {
+      margin-top: 0;
+      &::before {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.leftSectionInfo {
+  @include display_flex;
+}
+
+.text-ellipsis {
+  @include text-ellipsis;
+}
+
+.flex-fill {
+  @include flex-fill;
+}

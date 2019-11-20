@@ -1,0 +1,67 @@
+@import '~ringcentral-widgets/lib/commonStyles/colors.scss';
+@import '~ringcentral-widgets/lib/commonStyles/fonts.scss';
+$width: 41px;
+
+.root {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .button {
+    box-sizing: border-box;
+    padding: 2px;
+    width: $width;
+    height: $width;
+  }
+
+  $width: 36px;
+  &.classic {
+    .button {
+      width: $width;
+      height: $width;
+    }
+  }
+}
+
+.hangup {
+  circle {
+    fill: #ff4646;
+  }
+  g,
+  path {
+    fill: #ffffff;
+  }
+}
+.buttonDisabled {
+  circle {
+    fill: $lightgray;
+    stroke: $gray;
+  }
+  path {
+    fill: $primary-color-highlight-solid;
+  }
+  g {
+    cursor: default;
+
+    &:hover {
+      circle {
+        stroke: $gray;
+      }
+    }
+  }
+}
+
+.buttonActive {
+  circle {
+    fill: $primary-color;
+    stroke: $primary-color;
+  }
+  path {
+    fill: #ffffff;
+  }
+}

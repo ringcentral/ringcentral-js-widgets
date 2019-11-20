@@ -32,21 +32,18 @@ export default class ComposeTextUI extends RcUIModule {
       rolesAndPermissions,
       contactSearch,
     },
-    inputExpandable
+    inputExpandable,
   }) {
     return {
       brand: brand.fullName,
       currentLocale: locale.currentLocale,
-      sendButtonDisabled: (
+      sendButtonDisabled:
         !(composeText.ready && messageSender.idle) ||
-        (composeText.messageText.length === 0) ||
-        (
-          composeText.toNumbers.length === 0 &&
-          composeText.typingToNumber.length === 0
-        ) ||
+        composeText.messageText.length === 0 ||
+        (composeText.toNumbers.length === 0 &&
+          composeText.typingToNumber.length === 0) ||
         !connectivityMonitor.connectivity ||
-        rateLimiter.throttling
-      ),
+        rateLimiter.throttling,
       senderNumbers: messageSender.senderNumbersList,
       senderNumber: composeText.senderNumber,
       typingToNumber: composeText.typingToNumber,
@@ -74,11 +71,12 @@ export default class ComposeTextUI extends RcUIModule {
       contactSearch,
       conversations,
     },
-    formatContactPhone = phoneNumber => formatNumber({
-      phoneNumber,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
-    }),
+    formatContactPhone = (phoneNumber) =>
+      formatNumber({
+        phoneNumber,
+        areaCode: regionSettings.areaCode,
+        countryCode: regionSettings.countryCode,
+      }),
     phoneTypeRenderer,
     phoneSourceNameRenderer,
     recipientsContactInfoRenderer,
@@ -95,44 +93,51 @@ export default class ComposeTextUI extends RcUIModule {
             timeout = null;
           }
         }, 10000);
-        composeText.send().then((responses) => {
-          if (timeout) {
-            clearTimeout(timeout);
-            timeout = null;
-          }
-          composeText.dismissMessageSending();
-          if (!responses || responses.length === 0) {
-            return null;
-          }
-          messageStore.pushMessages(responses);
-          if (responses.length === 1) {
-            const conversationId =
-              responses[0] && responses[0].conversation && responses[0].conversation.id;
-            if (!conversationId) {
+        composeText.send().then(
+          (responses) => {
+            if (timeout) {
+              clearTimeout(timeout);
+              timeout = null;
+            }
+            composeText.dismissMessageSending();
+            if (!responses || responses.length === 0) {
               return null;
             }
-            routerInteraction.push(`/conversations/${conversationId}`);
-          } else {
-            routerInteraction.push('/messages');
-          }
-          conversations.relateCorrespondentEntity(responses);
-          composeText.clean();
-          return null;
-        }, () => {
-          if (timeout) {
-            clearTimeout(timeout);
-            timeout = null;
-          }
-        });
+            messageStore.pushMessages(responses);
+            if (responses.length === 1) {
+              const conversationId =
+                responses[0] &&
+                responses[0].conversation &&
+                responses[0].conversation.id;
+              if (!conversationId) {
+                return null;
+              }
+              routerInteraction.push(`/conversations/${conversationId}`);
+            } else {
+              routerInteraction.push('/messages');
+            }
+            conversations.relateCorrespondentEntity(responses);
+            composeText.clean();
+            return null;
+          },
+          () => {
+            if (timeout) {
+              clearTimeout(timeout);
+              timeout = null;
+            }
+          },
+        );
       },
       formatPhone: formatContactPhone,
       formatContactPhone,
-      searchContact: searchString => (
-        contactSearch.debouncedSearch({ searchString })
-      ),
-      updateSenderNumber: ({ phoneNumber }) => composeText.updateSenderNumber(phoneNumber),
-      updateTypingToNumber: (...args) => composeText.updateTypingToNumber(...args),
-      cleanTypingToNumber: (...args) => composeText.cleanTypingToNumber(...args),
+      searchContact: (searchString) =>
+        contactSearch.debouncedSearch({ searchString }),
+      updateSenderNumber: ({ phoneNumber }) =>
+        composeText.updateSenderNumber(phoneNumber),
+      updateTypingToNumber: (...args) =>
+        composeText.updateTypingToNumber(...args),
+      cleanTypingToNumber: (...args) =>
+        composeText.cleanTypingToNumber(...args),
       addToNumber: (...args) => composeText.addToNumber(...args),
       removeToNumber: (...args) => composeText.removeToNumber(...args),
       updateMessageText: (...args) => composeText.updateMessageText(...args),

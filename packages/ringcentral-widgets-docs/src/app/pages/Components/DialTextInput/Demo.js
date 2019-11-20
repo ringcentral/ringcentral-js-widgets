@@ -10,19 +10,19 @@ class DialTextInputDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ''
-    }
+      value: '',
+    };
   }
   onDelete = () => {
     this.setState({
-      value: ''
+      value: '',
     });
-  }
+  };
   onChangeEvent = (e) => {
     this.setState({
-      value: e.target.value
+      value: e.target.value,
     });
-  }
+  };
   render() {
     return (
       <DialTextInput

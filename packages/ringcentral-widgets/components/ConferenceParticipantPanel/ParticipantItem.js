@@ -13,28 +13,26 @@ import EndIcon from '../../assets/images/End.svg';
  * are just `Media Objects`.
  */
 
-function ParticipantItem({
-  detail,
-  avatarUrl,
-  onRemove,
-  currentLocale,
-}) {
+function ParticipantItem({ detail, avatarUrl, onRemove, currentLocale }) {
   return (
     <MediaObject
       containerCls={styles.participantItem}
       bodyCls={styles.mediaBodyCls}
-      mediaLeft={(
+      mediaLeft={
         <div className={styles.avatar}>
           <CallAvatar isOnConferenceCall={false} avatarUrl={avatarUrl} />
         </div>
-      )}
-      mediaBody={(
+      }
+      mediaBody={
         <div title={detail} className={styles.detail}>
           {detail}
         </div>
-      )}
-      mediaRight={(
-        <span title={i18n.getString('removeParticipant', currentLocale)} className={styles.webphoneButton}>
+      }
+      mediaRight={
+        <span
+          title={i18n.getString('removeParticipant', currentLocale)}
+          className={styles.webphoneButton}
+        >
           <CircleButton
             className={styles.rejectButton}
             onClick={(e) => {
@@ -47,7 +45,7 @@ function ParticipantItem({
             showBorder={false}
           />
         </span>
-      )}
+      }
     />
   );
 }
@@ -61,7 +59,7 @@ ParticipantItem.propTypes = {
 
 ParticipantItem.defaultProps = {
   avatarUrl: null,
-  onRemove: i => i,
+  onRemove: (i) => i,
 };
 
 export default ParticipantItem;

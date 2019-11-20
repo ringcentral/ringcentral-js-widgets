@@ -15,10 +15,7 @@ const DurationCounterPage = () => {
   return (
     <div>
       <ComponentHeader name="DurationCounter" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="DurationCounter Example"
-      >
+      <CodeExample code={demoCode} title="DurationCounter Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

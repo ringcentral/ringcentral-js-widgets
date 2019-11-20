@@ -11,29 +11,25 @@ import i18n from './i18n';
 
 const cleanRegex = /[^\d+*-\s]/g;
 
-function ForwardNumbers({
-  numbers,
-  onSelect,
-  selected,
-  formatPhone,
-}) {
+function ForwardNumbers({ numbers, onSelect, selected, formatPhone }) {
   return (
     <div className={styles.numbers}>
-      {
-        numbers.map((number, index) => (
-          <div
-            key={number.id}
-            className={
-              classnames(styles.number, (index === selected ? styles.active : null))
-            }
-            onClick={() => onSelect(index)}
-          >
-            <span className={styles.label} title={number.label}>{number.label}</span>
-            <span className={styles.colon}>:</span>
-            <span >{formatPhone(number.phoneNumber)}</span>
-          </div>
-        ))
-      }
+      {numbers.map((number, index) => (
+        <div
+          key={number.id}
+          className={classnames(
+            styles.number,
+            index === selected ? styles.active : null,
+          )}
+          onClick={() => onSelect(index)}
+        >
+          <span className={styles.label} title={number.label}>
+            {number.label}
+          </span>
+          <span className={styles.colon}>:</span>
+          <span>{formatPhone(number.phoneNumber)}</span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -55,7 +51,7 @@ export default class ForwardForm extends Component {
       recipient: null,
     };
 
-    this.filter = value => value.replace(cleanRegex, '');
+    this.filter = (value) => value.replace(cleanRegex, '');
 
     this.onSelect = (index) => {
       this.setState({
@@ -102,10 +98,10 @@ export default class ForwardForm extends Component {
 
   getValue() {
     if (this.state.selectedIndex < this.props.forwardingNumbers.length) {
-      const forwardingNumber = this.props.forwardingNumbers[this.state.selectedIndex];
-      return (
-        forwardingNumber && forwardingNumber.phoneNumber
-      );
+      const forwardingNumber = this.props.forwardingNumbers[
+        this.state.selectedIndex
+      ];
+      return forwardingNumber && forwardingNumber.phoneNumber;
     }
     if (this.state.recipient) {
       return this.state.recipient.phoneNumber;
@@ -115,28 +111,28 @@ export default class ForwardForm extends Component {
 
   _onCustomValueChange = (value) => {
     this.setState({
-      customValue: value
+      customValue: value,
     });
-  }
+  };
 
   _clearToNumber = () => {
     this.setState({
-      customValue: ''
+      customValue: '',
     });
-  }
+  };
 
   _setRecipient = (recipient) => {
     this.setState({
-      recipient
+      recipient,
     });
     this._clearToNumber();
-  }
+  };
 
   _clearRecipient = () => {
     this.setState({
-      recipient: null
+      recipient: null,
     });
-  }
+  };
 
   render() {
     const {
@@ -162,12 +158,12 @@ export default class ForwardForm extends Component {
           selected={this.state.selectedIndex}
         />
         <div
-          className={
-            classnames(
-              styles.custromNumber,
-              this.state.selectedIndex === forwardingNumbers.length ? styles.active : null
-            )
-          }
+          className={classnames(
+            styles.custromNumber,
+            this.state.selectedIndex === forwardingNumbers.length
+              ? styles.active
+              : null,
+          )}
           onClick={this.onSelectCustomNumber}
         >
           <div className={styles.customLabel}>
@@ -176,7 +172,9 @@ export default class ForwardForm extends Component {
           <RecipientsInput
             label=""
             placeholder=""
-            inputRef={(ref) => { this.customInput = ref; }}
+            inputRef={(ref) => {
+              this.customInput = ref;
+            }}
             value={this.state.customValue}
             className={styles.customInput}
             onChange={this._onCustomValueChange}
@@ -195,16 +193,14 @@ export default class ForwardForm extends Component {
           />
         </div>
         <div className={styles.buttonGroup}>
-          <Button
-            className={styles.cancelButton}
-            onClick={onCancel}
-          >
+          <Button className={styles.cancelButton} onClick={onCancel}>
             {i18n.getString('cancel', currentLocale)}
           </Button>
           <Button
-            className={
-              classnames(styles.forwardButton, disableButton ? styles.disabled : null)
-            }
+            className={classnames(
+              styles.forwardButton,
+              disableButton ? styles.disabled : null,
+            )}
             onClick={this.onForward}
             disabled={disableButton}
           >

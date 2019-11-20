@@ -1,4 +1,4 @@
 import ComposeTextPanel from '../../components/ComposeTextPanel';
 import { connectModule } from '../../lib/phoneContext';
 
-export default connectModule(phone => phone.composeTextUI)(ComposeTextPanel);
+export default connectModule((phone) => phone.composeTextUI)(ComposeTextPanel);

@@ -46,23 +46,23 @@ export default class ContactDetailsView extends PureComponent {
       children,
     } = this.props;
     if (!contactItem) return null;
-    const content = showSpinner ?
-      <SpinnerOverlay /> :
-      (
-        <ContactDetails
-          currentLocale={currentLocale}
-          contactItem={contactItem}
-          onClickToSMS={onClickToSMS}
-          onClickToDial={onClickToDial}
-          disableLinks={disableLinks}
-          disableCallButton={disableCallButton}
-          onClickMailTo={onClickMailTo}
-          formatNumber={formatNumber}
-          sourceNodeRenderer={sourceNodeRenderer}
-          outboundSmsPermission={outboundSmsPermission}
-          internalSmsPermission={internalSmsPermission}
-        />
-      );
+    const content = showSpinner ? (
+      <SpinnerOverlay />
+    ) : (
+      <ContactDetails
+        currentLocale={currentLocale}
+        contactItem={contactItem}
+        onClickToSMS={onClickToSMS}
+        onClickToDial={onClickToDial}
+        disableLinks={disableLinks}
+        disableCallButton={disableCallButton}
+        onClickMailTo={onClickMailTo}
+        formatNumber={formatNumber}
+        sourceNodeRenderer={sourceNodeRenderer}
+        outboundSmsPermission={outboundSmsPermission}
+        internalSmsPermission={internalSmsPermission}
+      />
+    );
 
     return (
       <div className={styles.root}>

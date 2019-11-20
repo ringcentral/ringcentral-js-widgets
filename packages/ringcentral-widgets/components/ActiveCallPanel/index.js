@@ -42,13 +42,13 @@ function ActiveCallPanel({
   onPark,
   onAdd,
   onMerge,
-  onShowFlipPanel,
-  onToggleTransferPanel,
+  onFlip,
+  onTransfer,
   gotoParticipantsCtrl,
   children,
   showContactDisplayPlaceholder,
   brand,
-  flipNumbers,
+  disableFlip,
   sourceIcons,
   phoneTypeRenderer,
   phoneSourceNameRenderer,
@@ -73,17 +73,18 @@ function ActiveCallPanel({
 
   const timeCounter = (
     <div className={styles.timeCounter}>
-      {
-        startTime
-          ? <DurationCounter startTime={startTime} offset={startTimeOffset} />
-          : <span aria-hidden="true">&nbsp;</span>
-      }
+      {startTime ? (
+        <DurationCounter startTime={startTime} offset={startTimeOffset} />
+      ) : (
+        <span aria-hidden="true">&nbsp;</span>
+      )}
     </div>
   );
 
-  const currentCallTitle = (isArray(nameMatches) && nameMatches.length)
-    ? nameMatches[0].name
-    : formatPhone(phoneNumber);
+  const currentCallTitle =
+    isArray(nameMatches) && nameMatches.length
+      ? nameMatches[0].name
+      : formatPhone(phoneNumber);
 
   let callInfo;
 
@@ -158,9 +159,9 @@ function ActiveCallPanel({
           onHangup={onHangup}
           onAdd={onAdd}
           onMerge={onMerge}
-          onShowFlipPanel={onShowFlipPanel}
-          onToggleTransferPanel={onToggleTransferPanel}
-          flipNumbers={flipNumbers}
+          onTransfer={onTransfer}
+          onFlip={onFlip}
+          disableFlip={disableFlip}
           onPark={onPark}
           layout={layout}
           direction={direction}
@@ -210,9 +211,8 @@ ActiveCallPanel.propTypes = {
   avatarUrl: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
-  onShowFlipPanel: PropTypes.func,
-  flipNumbers: PropTypes.array,
-  onToggleTransferPanel: PropTypes.func,
+  onFlip: PropTypes.func,
+  disableFlip: PropTypes.bool,
   gotoParticipantsCtrl: PropTypes.func,
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
@@ -243,11 +243,10 @@ ActiveCallPanel.defaultProps = {
   onBackButtonClick: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
-  flipNumbers: [],
+  disableFlip: false,
   onAdd: undefined,
   onMerge: undefined,
-  onShowFlipPanel: () => null,
-  onToggleTransferPanel: () => null,
+  onFlip: () => null,
   gotoParticipantsCtrl: () => null,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,

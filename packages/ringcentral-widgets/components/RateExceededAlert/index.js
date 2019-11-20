@@ -46,8 +46,7 @@ RequestRateExceededAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 
-RequestRateExceededAlert.handleMessage = ({ message }) => (
-  message === errorMessages.rateLimitReached
-);
+RequestRateExceededAlert.handleMessage = ({ message }) =>
+  message === errorMessages.rateLimitReached;
 
 export default RequestRateExceededAlert;

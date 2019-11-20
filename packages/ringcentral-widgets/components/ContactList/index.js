@@ -27,7 +27,10 @@ export default class ContactList extends Component {
     this.list = React.createRef();
   }
 
-  static getDerivedStateFromProps(props, state = { scrollTop: 0, currentCaption: '' }) {
+  static getDerivedStateFromProps(
+    props,
+    state = { scrollTop: 0, currentCaption: '' },
+  ) {
     if (props.contactGroups !== state.lastContactGroups) {
       return {
         ...reduce(
@@ -35,9 +38,7 @@ export default class ContactList extends Component {
             nextState.captions.push(group.caption);
 
             // skip the caption row for the first group
-            const rowOffset = nextState.groups.length !== 0 ?
-              1 :
-              0;
+            const rowOffset = nextState.groups.length !== 0 ? 1 : 0;
             if (rowOffset) {
               nextState.captionRows[nextState.count] = group.caption;
             }
@@ -65,7 +66,11 @@ export default class ContactList extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.state.lastContactGroups !== prevProps.contactGroups) {
-      if (this.list && this.list.current && this.list.current.recomputeRowHeights) {
+      if (
+        this.list &&
+        this.list.current &&
+        this.list.current.recomputeRowHeights
+      ) {
         this.list.current.recomputeRowHeights(0);
       }
     }
@@ -76,15 +81,15 @@ export default class ContactList extends Component {
       return CAPTION_HEIGHT;
     }
     return ROW_HEIGHT;
-  }
+  };
 
-  findGroup = ({ index }) => find(
-    item => (
-      index >= item.startIndex
-        && index < item.startIndex + item.contacts.length
-    ),
-    this.state.groups,
-  )
+  findGroup = ({ index }) =>
+    find(
+      (item) =>
+        index >= item.startIndex &&
+        index < item.startIndex + item.contacts.length,
+      this.state.groups,
+    );
 
   rowGetter = ({ index }) => {
     if (this.state.captionRows[index]) {
@@ -94,7 +99,7 @@ export default class ContactList extends Component {
     }
     const group = this.findGroup({ index });
     return group.contacts[index - group.startIndex];
-  }
+  };
 
   onScroll = ({ scrollTop }) => {
     if (scrollTop !== this.state.scrollTop) {
@@ -102,7 +107,7 @@ export default class ContactList extends Component {
         scrollTop,
       });
     }
-  }
+  };
 
   resetScrollTop() {
     this.setState({
@@ -110,17 +115,9 @@ export default class ContactList extends Component {
     });
   }
 
-  cellRenderer = ({
-    rowData,
-  }) => {
+  cellRenderer = ({ rowData }) => {
     if (rowData.caption) {
-      return (
-        <div
-          className={styles.groupCaption}
-        >
-          {rowData.caption}
-        </div>
-      );
+      return <div className={styles.groupCaption}>{rowData.caption}</div>;
     }
     const {
       currentLocale,
@@ -130,9 +127,7 @@ export default class ContactList extends Component {
       sourceNodeRenderer,
     } = this.props;
     return (
-      <div
-        key={`${rowData.type}-${rowData.id}`}
-      >
+      <div key={`${rowData.type}-${rowData.id}`}>
         <ContactItem
           currentLocale={currentLocale}
           contact={rowData}
@@ -143,13 +138,13 @@ export default class ContactList extends Component {
         />
       </div>
     );
-  }
+  };
 
   onRowsRendered = ({ startIndex }) => {
     // update header with the correct caption
     if (this.state.captionRows[startIndex]) {
       const groupIndex = findIndex(
-        item => item === this.state.captionRows[startIndex],
+        (item) => item === this.state.captionRows[startIndex],
         this.state.captions,
       );
       const previousCaption = this.state.captions[groupIndex - 1];
@@ -166,15 +161,11 @@ export default class ContactList extends Component {
         });
       }
     }
-  }
+  };
 
   headerRenderer = () => (
-    <div
-      className={styles.groupCaption}
-    >
-      {this.state.currentCaption}
-    </div>
-  )
+    <div className={styles.groupCaption}>{this.state.currentCaption}</div>
+  );
 
   renderList() {
     // use table instead of list to allow caption header
@@ -204,39 +195,28 @@ export default class ContactList extends Component {
   }
 
   render() {
-    const {
-      currentLocale,
-      contactGroups,
-      width,
-      height,
-    } = this.props;
+    const { currentLocale, contactGroups, width, height } = this.props;
     let content = null;
     if (width !== 0 && height !== 0) {
-      content = contactGroups.length ?
-        this.renderList() :
-        (
-          <NoContacts
-            currentLocale={currentLocale}
-          />
-        );
+      content = contactGroups.length ? (
+        this.renderList()
+      ) : (
+        <NoContacts currentLocale={currentLocale} />
+      );
     }
-    return (
-      <div
-        className={styles.root}
-      >
-        {content}
-      </div>
-    );
+    return <div className={styles.root}>{content}</div>;
   }
 }
 
 ContactList.propTypes = {
   currentLocale: PropTypes.string.isRequired,
-  contactGroups: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    caption: PropTypes.string.isRequired,
-    contacts: PropTypes.arrayOf(ContactItem.propTypes.contact).isRequired,
-  })).isRequired,
+  contactGroups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      caption: PropTypes.string.isRequired,
+      contacts: PropTypes.arrayOf(ContactItem.propTypes.contact).isRequired,
+    }),
+  ).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   onItemSelect: PropTypes.func,
@@ -247,5 +227,5 @@ ContactList.propTypes = {
 
 ContactList.defaultProps = {
   onItemSelect: undefined,
-  sourceNodeRenderer: undefined
+  sourceNodeRenderer: undefined,
 };

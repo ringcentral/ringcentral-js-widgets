@@ -5,27 +5,32 @@ import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
 /**
  * A example of `ContactDisplay`
  */
-const contactMatches = [{
-  name: 'Harry Potter',
-  entityType: 'Contact',
-}, {
-  name: 'Ron Weasley',
-  entityType: 'Account',
-}];
+const contactMatches = [
+  {
+    name: 'Harry Potter',
+    entityType: 'Contact',
+  },
+  {
+    name: 'Ron Weasley',
+    entityType: 'Account',
+  },
+];
 
 class ContactDisplayDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: 0
+      selected: 0,
     };
   }
   onSelectContact = (selected) => {
-    const selectedIdx = contactMatches.findIndex(contact => contact === selected);
+    const selectedIdx = contactMatches.findIndex(
+      (contact) => contact === selected,
+    );
     this.setState({
-      selected: selectedIdx
+      selected: selectedIdx,
     });
-  }
+  };
   render() {
     return (
       <ContactDisplay

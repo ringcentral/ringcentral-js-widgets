@@ -6,12 +6,12 @@ import NavigationBar from '../../components/NavigationBar';
 import MessageTabButton from '../../components/MessageTabButton';
 import styles from './styles.scss';
 
-function TabTitle({
-  label,
-  isActive,
-}) {
+function TabTitle({ label, isActive }) {
   return (
-    <span  data-sign="allCalls" className={classnames(styles.tabTitle, isActive() ? styles.active : null)}>
+    <span
+      data-sign="allCalls"
+      className={classnames(styles.tabTitle, isActive() ? styles.active : null)}
+    >
       {label}
     </span>
   );
@@ -41,13 +41,8 @@ function TabContentPanel({
     return renderChildren({ children, showTabs });
   }
 
-  const formattedTabs = tabs.map(tab => ({
-    icon: (
-      <TabTitle
-        label={tab.label}
-        isActive={tab.isActive}
-      />
-    ),
+  const formattedTabs = tabs.map((tab) => ({
+    icon: <TabTitle label={tab.label} isActive={tab.isActive} />,
     label: tab.label,
     path: tab.path,
     isActive: tab.isActive,
@@ -59,17 +54,19 @@ function TabContentPanel({
         button={MessageTabButton}
         className={classnames({
           [styles.tabBar]: true,
-          [navClassName]: !!navClassName
+          [navClassName]: !!navClassName,
         })}
         currentPath=""
         goTo={goTo}
         tabs={formattedTabs}
         fullSizeInk={false}
       />
-      <div className={classnames({
-        [styles.content]: true,
-        [tabContentClassName]: !!tabContentClassName,
-      })}>
+      <div
+        className={classnames({
+          [styles.content]: true,
+          [tabContentClassName]: !!tabContentClassName,
+        })}
+      >
         {renderChildren({ children, showTabs })}
       </div>
     </div>
@@ -78,11 +75,13 @@ function TabContentPanel({
 
 TabContentPanel.propTypes = {
   showTabs: PropTypes.bool,
-  tabs: PropTypes.arrayOf(PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    isActive: PropTypes.func.isRequired,
-  })).isRequired,
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      isActive: PropTypes.func.isRequired,
+    }),
+  ).isRequired,
   goTo: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   navClassName: PropTypes.string,

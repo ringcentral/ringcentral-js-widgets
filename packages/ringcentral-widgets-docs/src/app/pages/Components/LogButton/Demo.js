@@ -8,9 +8,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `LogButton`
  */
-const LogButtonDemo = () => (
-  <LogButton
-    {...props}
-  />
-);
+const LogButtonDemo = () => <LogButton {...props} />;
 export default LogButtonDemo;

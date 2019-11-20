@@ -54,12 +54,20 @@ export declare const charMap: {
 };
 export declare function toAccentString(str: string): string;
 export declare function processVars(str: string): string;
-export declare function padString({ str, padRatio, padChar }?: {
+export declare function padString({
+  str,
+  padRatio,
+  padChar,
+}?: {
   str?: string;
   padRatio?: number;
   padChar?: string;
 }): string;
-export default function toPseudoString({ str, padRatio, padChar }: {
+export default function toPseudoString({
+  str,
+  padRatio,
+  padChar,
+}: {
   str: any;
   padRatio: any;
   padChar: any;

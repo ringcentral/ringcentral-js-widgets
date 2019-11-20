@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';
@@ -21,7 +22,14 @@ export function ConfirmDeleteModal({
   show,
   onDelete,
   onCancel,
+  type,
 }) {
+  let tip;
+  if (type === messageTypes.fax) {
+    tip = i18n.getString('sureToDeleteFax', currentLocale);
+  } else {
+    tip = i18n.getString('sureToDeleteVoiceMail', currentLocale);
+  }
   return (
     <Modal
       show={show}
@@ -29,9 +37,7 @@ export function ConfirmDeleteModal({
       onConfirm={onDelete}
       onCancel={onCancel}
     >
-      <div className={styles.contentText}>
-        {i18n.getString('sureToDeleteVoiceMail', currentLocale)}
-      </div>
+      <div className={styles.contentText}>{tip}</div>
     </Modal>
   );
 }
@@ -40,11 +46,13 @@ ConfirmDeleteModal.propTypes = {
   show: PropTypes.bool.isRequired,
   onDelete: PropTypes.func,
   onCancel: PropTypes.func,
+  type: PropTypes.string,
 };
 
 ConfirmDeleteModal.defaultProps = {
-  onDelete() { },
-  onCancel() { }
+  onDelete() {},
+  onCancel() {},
+  type: undefined,
 };
 
 export function ClickToDialButton({
@@ -61,10 +69,9 @@ export function ClickToDialButton({
       className={classnames(styles.button, styles.clickToDialButton, className)}
       onClick={onClickToDial}
       dataSign={title}
-      disabled={disableCallButton || disableClickToDial || !phoneNumber}>
-      <span
-        className={dynamicsFont.call}
-        title={title} />
+      disabled={disableCallButton || disableClickToDial || !phoneNumber}
+    >
+      <span className={dynamicsFont.call} title={title} />
     </Button>
   );
 }
@@ -99,10 +106,9 @@ export function ClickToSmsButton({
       className={classnames(styles.button, styles.clickToSmsButton, className)}
       onClick={onClickToSms}
       dataSign="clickToSms"
-      disabled={disableLinks || !phoneNumber}>
-      <span
-        className={dynamicsFont.composeText}
-        title={title} />
+      disabled={disableLinks || !phoneNumber}
+    >
+      <span className={dynamicsFont.composeText} title={title} />
     </Button>
   );
 }
@@ -121,12 +127,7 @@ ClickToSmsButton.defaultProps = {
   title: undefined,
 };
 
-export function DeleteButton({
-  className,
-  title,
-  openDeleteModal,
-  disabled,
-}) {
+export function DeleteButton({ className, title, openDeleteModal, disabled }) {
   return (
     <Button
       className={classnames(styles.button, styles.svgBtn, className)}
@@ -138,7 +139,10 @@ export function DeleteButton({
         <DeleteMessageIcon
           width={14}
           height={17}
-          className={classnames(styles.svgFillIcon, (disabled ? styles.disabled : null))}
+          className={classnames(
+            styles.svgFillIcon,
+            disabled ? styles.disabled : null,
+          )}
         />
       </span>
     </Button>
@@ -154,7 +158,7 @@ DeleteButton.propTypes = {
 DeleteButton.defaultProps = {
   className: undefined,
   title: undefined,
-  openDeleteModal() { },
+  openDeleteModal() {},
 };
 
 export function MarkButton({
@@ -169,8 +173,8 @@ export function MarkButton({
   const title = marked ? unmarkTitle : markTitle;
   const classNames = classnames(
     styles.unmarked,
-    (marked ? styles.svgFillIcon : null),
-    (disabled ? styles.disabled : null)
+    marked ? styles.svgFillIcon : null,
+    disabled ? styles.disabled : null,
   );
   return (
     <Button
@@ -180,12 +184,7 @@ export function MarkButton({
       dataSign="mark"
     >
       <span title={title}>
-        <Icon
-          width={14}
-          height={17}
-          title={title}
-          className={classNames}
-        />
+        <Icon width={14} height={17} title={title} className={classNames} />
       </span>
     </Button>
   );
@@ -205,12 +204,7 @@ MarkButton.defaultProps = {
   unmarkTitle: undefined,
 };
 
-export function PreviewButton({
-  title,
-  onClick,
-  disabled,
-  className,
-}) {
+export function PreviewButton({ title, onClick, disabled, className }) {
   return (
     <Button
       className={classnames(styles.button, styles.svgBtn, className)}
@@ -219,7 +213,10 @@ export function PreviewButton({
     >
       <span title={title}>
         <PreviewIcon
-          className={classnames(styles.svgFillIcon, (disabled ? styles.disabled : null))}
+          className={classnames(
+            styles.svgFillIcon,
+            disabled ? styles.disabled : null,
+          )}
         />
       </span>
     </Button>
@@ -269,74 +266,81 @@ export default class ActionMenuList extends Component {
   onCreateEnityModal = (entityType) => {
     this.props.onCreateEntity(entityType);
     this.closeEntityModal();
-  }
+  };
 
   onCancelEntityModal = () => {
     this.closeEntityModal();
-  }
+  };
 
   openEntityModal = () => {
     this.setState({
-      entityModalVisible: true
+      entityModalVisible: true,
     });
-  }
+  };
 
   closeEntityModal = () => {
     this.setState({
-      entityModalVisible: false
+      entityModalVisible: false,
     });
-  }
+  };
 
   onDelete = () => {
     this.props.onDelete();
     this.setState({
-      disableDelete: true
+      disableDelete: true,
     });
     this.onCloseDeleteModal();
-  }
+  };
 
   openDeleteModal = () => {
     this.setState({
       deleteModalVisible: true,
     });
-  }
+  };
 
   onCloseDeleteModal = () => {
     this.setState({
       deleteModalVisible: false,
     });
-  }
+  };
 
   onCancelDelete = () => {
     this.onCloseDeleteModal();
-  }
+  };
 
   preventEventPropogation = (e) => {
     if (e.target !== e.currentTarget) {
       e.stopPropagation();
     }
-  }
+  };
 
   onPreview = () => {
     if (this.props.faxAttachment && this.props.faxAttachment.uri) {
       this.props.onPreview(this.props.faxAttachment.uri);
     }
-  }
+  };
 
   _onDownloadClick = (e) => {
-    if (this.props.disableLinks) {
+    const { faxAttachment, onFaxDownload, disableLinks } = this.props;
+    if (disableLinks) {
       e.preventDefault();
     }
-  }
+    if (onFaxDownload) {
+      e.preventDefault();
+      onFaxDownload({
+        uri: faxAttachment.uri,
+      });
+    }
+  };
 
   render() {
     const {
       className,
+      type,
       currentLocale,
       onLog,
       isLogged,
       isLogging,
-      isCreating,
       onViewEntity,
       onCreateEntity,
       createEntityTypes,
@@ -367,21 +371,19 @@ export default class ActionMenuList extends Component {
       externalHasEntity,
       disableClickToSms,
     } = this.props;
-
-    const logButton = onLog ?
-      (
-        <LogButton
-          className={styles.button}
-          onLog={onLog}
-          disableLinks={disableLinks}
-          isLogged={isLogged}
-          isLogging={isLogging}
-          currentLocale={currentLocale}
-          addTitle={addLogTitle}
-          editTitle={editLogTitle}
-        />
-      ) :
-      null;
+    const { deleteModalVisible, disableDelete } = this.state;
+    const logButton = onLog ? (
+      <LogButton
+        className={styles.button}
+        onLog={onLog}
+        disableLinks={disableLinks}
+        isLogged={isLogged}
+        isLogging={isLogging}
+        currentLocale={currentLocale}
+        addTitle={addLogTitle}
+        editTitle={editLogTitle}
+      />
+    ) : null;
 
     let entityButton;
     if (externalViewEntity) {
@@ -432,8 +434,8 @@ export default class ActionMenuList extends Component {
       entityButton = null;
     }
 
-    const entityModal = (!hasEntity && phoneNumber) ?
-      (
+    const entityModal =
+      !hasEntity && phoneNumber ? (
         <EntityModal
           currentLocale={currentLocale}
           entities={createEntityTypes}
@@ -443,79 +445,72 @@ export default class ActionMenuList extends Component {
         />
       ) : null;
 
-    const clickToDialButton = onClickToDial ?
-      (
-        <ClickToDialButton
-          onClickToDial={onClickToDial}
-          phoneNumber={phoneNumber}
-          disableLinks={disableLinks}
-          disableCallButton={disableCallButton}
-          disableClickToDial={disableClickToDial}
-          currentLocale={currentLocale}
-          title={callTitle}
-        />
-      ) :
-      null;
-    const clickToSmsButton = onClickToSms ?
-      (
-        <ClickToSmsButton
-          onClickToSms={onClickToSms}
-          phoneNumber={phoneNumber}
-          disableLinks={disableLinks || disableClickToSms}
-          currentLocale={currentLocale}
-          title={textTitle}
-        />
-      ) :
-      null;
-    const deleteButton = onDelete ?
-      (
-        <DeleteButton
-          onDelete={onDelete}
-          currentLocale={currentLocale}
-          title={deleteTitle}
-          openDeleteModal={this.openDeleteModal}
-          disabled={this.state.disableDelete || disableLinks}
-        />
-      ) :
-      null;
+    const clickToDialButton = onClickToDial ? (
+      <ClickToDialButton
+        onClickToDial={onClickToDial}
+        phoneNumber={phoneNumber}
+        disableLinks={disableLinks}
+        disableCallButton={disableCallButton}
+        disableClickToDial={disableClickToDial}
+        currentLocale={currentLocale}
+        title={callTitle}
+      />
+    ) : null;
+    const clickToSmsButton = onClickToSms ? (
+      <ClickToSmsButton
+        onClickToSms={onClickToSms}
+        phoneNumber={phoneNumber}
+        disableLinks={disableLinks || disableClickToSms}
+        currentLocale={currentLocale}
+        title={textTitle}
+      />
+    ) : null;
+    const deleteButton = onDelete ? (
+      <DeleteButton
+        onDelete={onDelete}
+        currentLocale={currentLocale}
+        title={deleteTitle}
+        openDeleteModal={this.openDeleteModal}
+        disabled={disableDelete || disableLinks}
+      />
+    ) : null;
 
-    const confirmDeleteModal = onDelete ?
-      (
-        <ConfirmDeleteModal
-          currentLocale={currentLocale}
-          show={this.state.deleteModalVisible}
-          onDelete={this.onDelete}
-          onCancel={this.onCancelDelete}
-        />
-      ) :
-      null;
-    const markButton = onMark ?
-      (
-        <MarkButton
-          markTitle={markTitle}
-          unmarkTitle={unmarkTitle}
-          marked={marked}
-          onClick={this.onMark}
-          disabled={disableLinks}
-        />
-      ) :
-      null;
-    const previewButton = onPreview && faxAttachment && faxAttachment.uri ?
-      (
+    const confirmDeleteModal = onDelete ? (
+      <ConfirmDeleteModal
+        currentLocale={currentLocale}
+        show={deleteModalVisible}
+        onDelete={this.onDelete}
+        onCancel={this.onCancelDelete}
+        type={type}
+      />
+    ) : null;
+    const markButton = onMark ? (
+      <MarkButton
+        markTitle={markTitle}
+        unmarkTitle={unmarkTitle}
+        marked={marked}
+        onClick={this.onMark}
+        disabled={disableLinks}
+      />
+    ) : null;
+    const previewButton =
+      onPreview && faxAttachment && faxAttachment.uri ? (
         <PreviewButton
           title={previewTitle}
           onClick={this.onPreview}
           disabled={disableLinks}
         />
       ) : null;
-    const downloadButton = faxAttachment && faxAttachment.uri ?
-      (
-        <div className={classnames(
-          styles.button,
-          styles.svgBtn,
-          styles.svgFillIcon,
-          disableLinks ? styles.disabled : null
-        )}>
+    const downloadButton =
+      faxAttachment && faxAttachment.uri ? (
+        <div
+          className={classnames(
+            styles.button,
+            styles.svgBtn,
+            styles.svgFillIcon,
+            disableLinks ? styles.disabled : null,
+          )}
+        >
           <a
             target="_blank"
             download
@@ -529,7 +524,10 @@ export default class ActionMenuList extends Component {
         </div>
       ) : null;
     return (
-      <div className={classnames(styles.root, className)} onClick={this.preventEventPropogation}>
+      <div
+        className={classnames(styles.root, className)}
+        onClick={this.preventEventPropogation}
+      >
         {clickToDialButton}
         {clickToSmsButton}
         {previewButton}
@@ -547,11 +545,11 @@ export default class ActionMenuList extends Component {
 
 ActionMenuList.propTypes = {
   className: PropTypes.string,
+  type: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   onLog: PropTypes.func,
   isLogged: PropTypes.bool,
   isLogging: PropTypes.bool,
-  isCreating: PropTypes.bool,
   onViewEntity: PropTypes.func,
   onCreateEntity: PropTypes.func,
   createEntityTypes: PropTypes.array,
@@ -584,13 +582,14 @@ ActionMenuList.propTypes = {
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.bool,
   disableClickToSms: PropTypes.bool,
+  onFaxDownload: PropTypes.func,
 };
 ActionMenuList.defaultProps = {
   className: undefined,
+  type: undefined,
   onLog: undefined,
   isLogged: false,
   isLogging: false,
-  isCreating: false,
   onViewEntity: undefined,
   onCreateEntity: undefined,
   createEntityTypes: undefined,
@@ -621,4 +620,5 @@ ActionMenuList.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   disableClickToSms: false,
+  onFaxDownload: undefined,
 };

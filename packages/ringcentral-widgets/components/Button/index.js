@@ -27,7 +27,7 @@ export default class Button extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      disabled: false
+      disabled: false,
     };
   }
 
@@ -44,27 +44,20 @@ export default class Button extends Component {
       return;
     }
     this.setState({
-      disabled: true
+      disabled: true,
     });
 
     await this.props.onClick();
 
     if (this._mounted) {
       this.setState({
-        disabled: false
+        disabled: false,
       });
     }
   }
 
-
   render() {
-    const {
-      className,
-      disabled,
-      children,
-      tooltip,
-      dataSign,
-    } = this.props;
+    const { className, disabled, children, tooltip, dataSign } = this.props;
 
     const realDisabled = disabled || this.state.disabled;
 
@@ -77,10 +70,10 @@ export default class Button extends Component {
           realDisabled && styles.disabled,
         )}
         onClick={realDisabled ? null : () => this.onClick()}
-        title={tooltip}>
+        title={tooltip}
+      >
         {children}
       </div>
     );
   }
 }
-

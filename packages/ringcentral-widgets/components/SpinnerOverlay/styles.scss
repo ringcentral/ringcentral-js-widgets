@@ -12,13 +12,19 @@
   position: absolute;
   top: 40%;
   left: 50%;
-  margin-top: -20px;
-  margin-left: -20px;
   width: 40px;
   height: 40px;
+  transform: translate(-50%, -50%);
 }
 
 .mask {
   @include full-size;
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+@media only screen and (max-width: 50px) {
+  .container {
+    width: 30px;
+    height: 30px;
+  }
 }

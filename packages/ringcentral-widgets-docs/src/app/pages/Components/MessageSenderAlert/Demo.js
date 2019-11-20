@@ -5,16 +5,12 @@ import MessageSenderAlert from 'ringcentral-widgets/components/MessageSenderAler
 const props = {};
 props.currentLocale = 'en-US';
 props.message = {
-  message: 'test string'
+  message: 'test string',
 };
 props.regionSettingsUrl = 'test string';
 
 /**
  * A example of `MessageSenderAlert`
  */
-const MessageSenderAlertDemo = () => (
-  <MessageSenderAlert
-    {...props}
-  />
-);
+const MessageSenderAlertDemo = () => <MessageSenderAlert {...props} />;
 export default MessageSenderAlertDemo;

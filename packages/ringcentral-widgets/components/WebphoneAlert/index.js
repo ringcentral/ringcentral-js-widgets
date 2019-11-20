@@ -30,7 +30,7 @@ const webphoneErrorList = [
 
 export default function WebphoneAlert(props) {
   const { message } = props.message;
-  let view = (<span>{i18n.getString(message, props.currentLocale)}</span>);
+  let view = <span>{i18n.getString(message, props.currentLocale)}</span>;
   // Handle call record error
   if (message === webphoneErrors.recordError) {
     const { payload: { errorCode } = {} } = props.message;
@@ -48,12 +48,17 @@ export default function WebphoneAlert(props) {
     message === webphoneErrors.internalServerError ||
     message === webphoneErrors.unknownError
   ) {
-    const { payload: { statusCode, isConnecting = false } = {} } = props.message;
+    const {
+      payload: { statusCode, isConnecting = false } = {},
+    } = props.message;
     // sipProvisionError does not have statusCode
     if (statusCode && isConnecting) {
       view = (
         <FormattedMessage
-          message={i18n.getString('registeringWithStatusCode', props.currentLocale)}
+          message={i18n.getString(
+            'registeringWithStatusCode',
+            props.currentLocale,
+          )}
           values={{ errorCode: statusCode, brandName: props.brand.name }}
         />
       );
@@ -67,7 +72,10 @@ export default function WebphoneAlert(props) {
     } else if (isConnecting) {
       view = (
         <FormattedMessage
-          message={i18n.getString('registeringWithoutStatusCode', props.currentLocale)}
+          message={i18n.getString(
+            'registeringWithoutStatusCode',
+            props.currentLocale,
+          )}
           values={{ brandName: props.brand.name }}
         />
       );
@@ -98,6 +106,5 @@ WebphoneAlert.propTypes = {
   }).isRequired,
 };
 
-WebphoneAlert.handleMessage = ({ message }) => (
-  webphoneErrorList.filter(err => err === message).length > 0
-);
+WebphoneAlert.handleMessage = ({ message }) =>
+  webphoneErrorList.filter((err) => err === message).length > 0;

@@ -34,19 +34,16 @@ AppView.defaultProps = {
   onSetData: undefined,
 };
 
-export default withPhone(connect((state, {
-  phone: {
-    environment,
-  },
-}) => ({
-  server: environment.server,
-  enabled: environment.enabled,
-}), (dispatch, {
-  phone: {
-    environment,
-  },
-}) => ({
-  onSetData(options) {
-    environment.setData(options);
-  },
-}))(AppView));
+export default withPhone(
+  connect(
+    (state, { phone: { environment } }) => ({
+      server: environment.server,
+      enabled: environment.enabled,
+    }),
+    (dispatch, { phone: { environment } }) => ({
+      onSetData(options) {
+        environment.setData(options);
+      },
+    }),
+  )(AppView),
+);

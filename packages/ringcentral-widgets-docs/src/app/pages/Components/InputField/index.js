@@ -15,10 +15,7 @@ const InputFieldPage = () => {
   return (
     <div>
       <ComponentHeader name="InputField" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="InputField Example"
-      >
+      <CodeExample code={demoCode} title="InputField Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

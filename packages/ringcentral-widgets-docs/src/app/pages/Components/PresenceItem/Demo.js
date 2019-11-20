@@ -11,9 +11,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `PresenceItem`
  */
-const PresenceItemDemo = () => (
-  <PresenceItem
-    {...props}
-  />
-);
+const PresenceItemDemo = () => <PresenceItem {...props} />;
 export default PresenceItemDemo;

@@ -25,9 +25,5 @@ props.layout = callCtrlLayouts.normalCtrl;
 /**
  * A example of `ActiveCallPad`
  */
-const ActiveCallPadDemo = () => (
-  <ActiveCallPad
-    {...props}
-  />
-);
+const ActiveCallPadDemo = () => <ActiveCallPad {...props} />;
 export default ActiveCallPadDemo;

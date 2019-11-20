@@ -20,7 +20,7 @@ class CallAvatar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatarUrl: null
+      avatarUrl: null,
     };
     this._mounted = false;
   }
@@ -30,7 +30,7 @@ class CallAvatar extends Component {
 
     if (isBase64(avatarUrl)) {
       this.setState({
-        avatarUrl
+        avatarUrl,
       });
       return;
     }
@@ -47,7 +47,7 @@ class CallAvatar extends Component {
           return;
         }
         this.setState({
-          avatarUrl
+          avatarUrl,
         });
       };
       $img.onerror = () => {
@@ -55,7 +55,7 @@ class CallAvatar extends Component {
           return;
         }
         this.setState({
-          avatarUrl: null
+          avatarUrl: null,
         });
       };
     }
@@ -84,7 +84,11 @@ class CallAvatar extends Component {
 
   render() {
     const {
-      extraNum, isOnConferenceCall, spinnerMode, className, onClick
+      extraNum,
+      isOnConferenceCall,
+      spinnerMode,
+      className,
+      onClick,
     } = this.props;
     const { avatarUrl } = this.state;
     const initialSize = 38;
@@ -101,7 +105,7 @@ class CallAvatar extends Component {
     const defaultAvatarStyle = { opacity: +$transparency };
     const hash = uuid.v4();
     const portraitChar = '\ue904'; // HACK: &#xe904; is the font code for the portrait icon
-    const iconFont = 'dynamics_icon';// Hard coding this for firefox to load iconfont
+    const iconFont = 'dynamics_icon'; // Hard coding this for firefox to load iconfont
     const textId = `text-${hash}`;
     const clipId = `circleClip-${hash}`;
     const avatarStyle = { stroke: $dark, strokeWidth: `${circleBorder}px` };
@@ -111,18 +115,19 @@ class CallAvatar extends Component {
     const svgCls = classnames(
       styles.callAvatar,
       onClick ? styles.autoPointerEvents : styles.disabledPointerEvents,
-      className
+      className,
     );
     // spinner sizing
     const spinnerId = `spinner-${hash}`;
     const spinnerScaleSize = 1.5;
     const spinnerSize = 12;
-    const spinnerTranslateTo = (initialSize - (spinnerSize * spinnerScaleSize)) / 2;
+    const spinnerTranslateTo =
+      (initialSize - spinnerSize * spinnerScaleSize) / 2;
     const isOnConferenceCallWithExtraNum = isOnConferenceCall && extraNum > 0;
-    const spinnerTransform = `translate(${spinnerTranslateTo
-      - (isOnConferenceCallWithExtraNum ? margin : 0)},${spinnerTranslateTo}) scale(${
-      spinnerScaleSize
-    }, ${spinnerScaleSize})`;
+    const spinnerTransform = `translate(${spinnerTranslateTo -
+      (isOnConferenceCallWithExtraNum
+        ? margin
+        : 0)},${spinnerTranslateTo}) scale(${spinnerScaleSize}, ${spinnerScaleSize})`;
 
     if (isOnConferenceCallWithExtraNum) {
       return (
@@ -141,10 +146,10 @@ class CallAvatar extends Component {
                 y="0"
                 dy={`${initialSize - 10}px`}
                 style={{
-                      fontSize: `${avatarCircleRadius * 2}px`,
-                      fill: $blue,
-                      opacity: '.5'
-                    }}
+                  fontSize: `${avatarCircleRadius * 2}px`,
+                  fill: $blue,
+                  opacity: '.5',
+                }}
                 fontFamily={iconFont}
               >
                 {portraitChar}
@@ -166,39 +171,42 @@ class CallAvatar extends Component {
                 cx={avatarCircleRadius}
                 cy={margin + avatarCircleRadius}
                 r={avatarCircleRadius}
-                fill={$snow} />
+                fill={$snow}
+              />
             </clipPath>
           </g>
-          {
-            showingSpinner && (
-              <g transform={spinnerTransform}>
-                <use xlinkHref={`#${spinnerId}`} />
-              </g>
-            )
-          }
-          {
-            avatarUrl && (
-              <image clipPath={`url(#${clipId})`} height="100%" width="100%" xlinkHref={avatarUrl} />
-            )
-          }
-          {
-            (!avatarUrl && !showingSpinner) &&
+          {showingSpinner && (
+            <g transform={spinnerTransform}>
+              <use xlinkHref={`#${spinnerId}`} />
+            </g>
+          )}
+          {avatarUrl && (
+            <image
+              clipPath={`url(#${clipId})`}
+              height="100%"
+              width="100%"
+              xlinkHref={avatarUrl}
+            />
+          )}
+          {!avatarUrl && !showingSpinner && (
             <use
               xlinkHref={`#${textId}`}
               clipPath={`url(#${clipId})`}
               style={defaultAvatarStyle}
             />
-          }
+          )}
           <circle
             cx={initialSize - extraNumCircleRadius}
             cy={extraNumCircleRadius}
             r={extraNumCircleRadius}
-            fill={$snow} />
+            fill={$snow}
+          />
           <circle
             cx={initialSize - extraNumCircleRadius}
             cy={extraNumCircleRadius}
             r={extraNumCircleRadius - extraNumCircleBorder}
-            fill={$blueLight} />
+            fill={$blueLight}
+          />
 
           <text
             x={initialSize - extraNumCircleRadius}
@@ -210,8 +218,9 @@ class CallAvatar extends Component {
               stroke: 'none',
               fill: $blue,
               fontWeight: 'bolder',
-              opacity: '.5'
-            }}>
+              opacity: '.5',
+            }}
+          >
             {`+${extraNum}`}
           </text>
         </svg>
@@ -225,7 +234,7 @@ class CallAvatar extends Component {
         viewBox={`0 0 ${initialSize} ${initialSize}`}
         preserveAspectRatio={aspectRatio}
         xmlns={xmlns}
-          >
+      >
         <defs>
           <g id={textId}>
             <text
@@ -234,10 +243,10 @@ class CallAvatar extends Component {
               dy={`${initialSize - 10}px`}
               dx="2"
               style={{
-                      fontSize: `${(initialSize / 2 - 2) * 2}px`,
-                      fill: $blue,
-                      opacity: '.5'
-                    }}
+                fontSize: `${(initialSize / 2 - 2) * 2}px`,
+                fill: $blue,
+                opacity: '.5',
+              }}
               fontFamily={iconFont}
             >
               {portraitChar}
@@ -252,52 +261,46 @@ class CallAvatar extends Component {
           fill={$snow}
           stroke={showingSpinner ? $dark : 'inherit'}
           strokeOpacity={showingSpinner ? $transparency : '1'}
-          />
+        />
         <g>
           <clipPath id={clipId}>
             <circle
               cx={initialSize / 2}
               cy={initialSize / 2}
               r={initialSize / 2 - 1}
-              />
+            />
           </clipPath>
         </g>
-        {
-            showingSpinner && (
-              <g transform={spinnerTransform} >
-                <use xlinkHref={`#${spinnerId}`} />
-              </g>
-            )
-          }
-        {
-            showingSpinner && (
-              <g transform={spinnerTransform} >
-                <use xlinkHref={`#${spinnerId}`} />
-              </g>
-            )
-          }
-        {
-            avatarUrl && (<image
-              clipPath={`url(#${clipId})`}
-              height="100%"
-              width="100%"
-              xlinkHref={avatarUrl}
-              preserveAspectRatio="xMinYMin slice" />
-            )
-          }
-        {
-            (!avatarUrl && !showingSpinner) &&
-            <use
-              xlinkHref={`#${textId}`}
-              clipPath={`url(#${clipId})`}
-              style={defaultAvatarStyle}
-            />
-          }
+        {showingSpinner && (
+          <g transform={spinnerTransform}>
+            <use xlinkHref={`#${spinnerId}`} />
+          </g>
+        )}
+        {showingSpinner && (
+          <g transform={spinnerTransform}>
+            <use xlinkHref={`#${spinnerId}`} />
+          </g>
+        )}
+        {avatarUrl && (
+          <image
+            clipPath={`url(#${clipId})`}
+            height="100%"
+            width="100%"
+            xlinkHref={avatarUrl}
+            preserveAspectRatio="xMinYMin slice"
+          />
+        )}
+        {!avatarUrl && !showingSpinner && (
+          <use
+            xlinkHref={`#${textId}`}
+            clipPath={`url(#${clipId})`}
+            style={defaultAvatarStyle}
+          />
+        )}
       </svg>
     );
   }
 }
-
 
 CallAvatar.propTypes = {
   isOnConferenceCall: PropTypes.bool,
@@ -319,6 +322,5 @@ CallAvatar.defaultProps = {
   className: null,
   onClick: null,
 };
-
 
 export default CallAvatar;

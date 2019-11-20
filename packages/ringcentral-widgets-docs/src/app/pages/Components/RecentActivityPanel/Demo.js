@@ -10,9 +10,5 @@ props.expanded = false;
 /**
  * A example of `RecentActivityPanel`
  */
-const RecentActivityPanelDemo = () => (
-  <RecentActivityPanel
-    {...props}
-  />
-);
+const RecentActivityPanelDemo = () => <RecentActivityPanel {...props} />;
 export default RecentActivityPanelDemo;

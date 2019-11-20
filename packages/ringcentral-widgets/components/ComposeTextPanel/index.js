@@ -8,7 +8,6 @@ import NoSenderAlert from './NoSenderAlert';
 import FromField from '../FromField';
 import MessageInput from '../MessageInput';
 
-
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +18,6 @@ class ComposeTextPanel extends Component {
     this.onSenderChange = (value) => {
       this.props.updateSenderNumber(value);
     };
-
 
     this.cleanReceiverValue = () => {
       this.props.cleanTypingToNumber();
@@ -50,11 +48,15 @@ class ComposeTextPanel extends Component {
   }
 
   hasPersonalRecipient() {
-    return this.props.toNumbers.some(x => x && x.type !== 'company');
+    return this.props.toNumbers.some((x) => x && x.type !== 'company');
   }
 
   showAlert() {
-    return !this.hasSenderNumbers() && this.props.outboundSMS && this.hasPersonalRecipient();
+    return (
+      !this.hasSenderNumbers() &&
+      this.props.outboundSMS &&
+      this.hasPersonalRecipient()
+    );
   }
 
   render() {
@@ -114,19 +116,23 @@ ComposeTextPanel.propTypes = {
   brand: PropTypes.string,
   className: PropTypes.string,
   send: PropTypes.func.isRequired,
-  senderNumbers: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string.isRequired,
-  })).isRequired,
+  senderNumbers: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   formatPhone: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
   searchContact: PropTypes.func.isRequired,
-  searchContactList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    entityType: PropTypes.string.isRequired,
-    phoneType: PropTypes.string.isRequired,
-    phoneNumber: PropTypes.string.isRequired,
-  })).isRequired,
+  searchContactList: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      entityType: PropTypes.string.isRequired,
+      phoneType: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   currentLocale: PropTypes.string.isRequired,
   updateSenderNumber: PropTypes.func.isRequired,
   updateTypingToNumber: PropTypes.func.isRequired,
@@ -137,10 +143,12 @@ ComposeTextPanel.propTypes = {
   messageText: PropTypes.string,
   typingToNumber: PropTypes.string,
   senderNumber: PropTypes.string,
-  toNumbers: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string,
-  })).isRequired,
+  toNumbers: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string.isRequired,
+      name: PropTypes.string,
+    }),
+  ).isRequired,
   outboundSMS: PropTypes.bool,
   showSpinner: PropTypes.bool,
   phoneTypeRenderer: PropTypes.func,

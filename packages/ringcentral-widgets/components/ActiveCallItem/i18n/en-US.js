@@ -29,4 +29,5 @@ export default {
   unhold: 'Unhold',
   transfer: 'Transfer',
   reject: 'Reject',
+  switchCall: 'Switch Call to this app',
 };

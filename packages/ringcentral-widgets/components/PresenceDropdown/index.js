@@ -16,11 +16,9 @@ export default class PresenceDropdown extends Component {
     // TODO: Consider for the bubble event of click to set status.
     // (maybe discuss in coding dojo)
     this.toggleShow = () => {
-      const {
-        isReady
-      } = this.props;
+      const { isReady } = this.props;
       if (isReady) {
-        this.setState(preState => ({
+        this.setState((preState) => ({
           showSelects: !preState.showSelects,
         }));
       }
@@ -37,9 +35,7 @@ export default class PresenceDropdown extends Component {
       setDoNotDisturb,
       setInvisible,
     } = this.props;
-    const {
-      showSelects,
-    } = this.state;
+    const { showSelects } = this.state;
     const showDropdown = classnames(
       styles.root,
       showSelects ? styles.showSelects : null,
@@ -89,9 +85,7 @@ export default class PresenceDropdown extends Component {
                 dndStatus={DndStatus.doNotAcceptAnyCalls}
                 currentLocale={currentLocale}
                 onClick={setDoNotDisturb}
-                selected={
-                  dndStatus === DndStatus.doNotAcceptAnyCalls
-                }
+                selected={dndStatus === DndStatus.doNotAcceptAnyCalls}
               />
               <PresenceItem
                 className={styles.presenceItem}
@@ -121,7 +115,7 @@ PresenceDropdown.propTypes = {
   setBusy: PropTypes.func.isRequired,
   setDoNotDisturb: PropTypes.func.isRequired,
   setInvisible: PropTypes.func.isRequired,
-  isReady: PropTypes.bool.isRequired
+  isReady: PropTypes.bool.isRequired,
 };
 
 PresenceDropdown.defaultProps = {

@@ -6,12 +6,10 @@ import callControlError from 'ringcentral-integration/modules/ActiveCallControl/
 import i18n from './i18n';
 
 export default function CallControlAlert({
-  message: {
-    message
-  },
-  currentLocale
+  message: { message },
+  currentLocale,
 }) {
-  return (i18n.getString(message, currentLocale));
+  return i18n.getString(message, currentLocale);
 }
 
 CallControlAlert.handleMessage = ({ message }) => {

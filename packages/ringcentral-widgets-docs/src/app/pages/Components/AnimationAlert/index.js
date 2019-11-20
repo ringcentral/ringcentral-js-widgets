@@ -15,10 +15,7 @@ const AnimationAlertPage = () => {
   return (
     <div>
       <ComponentHeader name="AnimationAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="AnimationAlert Example"
-      >
+      <CodeExample code={demoCode} title="AnimationAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

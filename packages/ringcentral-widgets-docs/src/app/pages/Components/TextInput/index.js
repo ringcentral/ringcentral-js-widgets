@@ -15,10 +15,7 @@ const TextInputPage = () => {
   return (
     <div>
       <ComponentHeader name="TextInput" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="TextInput Example"
-      >
+      <CodeExample code={demoCode} title="TextInput Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

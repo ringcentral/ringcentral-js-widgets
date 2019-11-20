@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `Footer`
  */
-const FooterDemo = () => (
-  <Footer
-    {...props}
-  />
-);
+const FooterDemo = () => <Footer {...props} />;
 export default FooterDemo;

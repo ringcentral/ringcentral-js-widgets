@@ -2,7 +2,7 @@ import format, {
   formatTypes,
 } from '@ringcentral-integration/phone-number/lib/format';
 
-export function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
+function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
   return dialInNumbers
     .map(
       ({ phoneNumber, location = '' }) =>
@@ -11,7 +11,7 @@ export function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
     .join('\n    ');
 }
 
-export function getPhoneDialingNumberTpl(dialInNumbers) {
+function getPhoneDialingNumberTpl(dialInNumbers) {
   return dialInNumbers
     .map(({ phoneNumber, location = '', country }) => {
       const filterFormattedNumber = format({
@@ -24,14 +24,14 @@ export function getPhoneDialingNumberTpl(dialInNumbers) {
     .join('\n    ');
 }
 
-export const UTC_TIMEZONE_ID = '1';
-export const MeetingType = {
+const UTC_TIMEZONE_ID = '1';
+const MeetingType = {
   SCHEDULED: 'Scheduled',
   RECURRING: 'Recurring',
   INSTANT: 'Instant',
 };
 
-export function getMeetingSettings({
+function getMeetingSettings({
   extensionName,
   startTime,
   durationInMinutes = 60,
@@ -59,7 +59,7 @@ export function getMeetingSettings({
 }
 
 // Basic default meeting type information
-export function getDefaultMeetingSettings(extensionName, startTime) {
+function getDefaultMeetingSettings(extensionName, startTime) {
   return {
     topic: `${extensionName}'s Meeting`,
     meetingType: MeetingType.SCHEDULED,
@@ -85,8 +85,18 @@ export function getDefaultMeetingSettings(extensionName, startTime) {
   };
 }
 
-export function getInitializedStartTime() {
+function getInitializedStartTime() {
   const now = new Date();
   const startTime = now.setHours(now.getHours() + 1, 0, 0);
   return startTime;
 }
+
+export {
+  getMobileDialingNumberTpl,
+  getPhoneDialingNumberTpl,
+  UTC_TIMEZONE_ID,
+  MeetingType,
+  getMeetingSettings,
+  getDefaultMeetingSettings,
+  getInitializedStartTime,
+};

@@ -13,31 +13,30 @@ import styles from './styles.scss';
 import i18n from './i18n';
 import callControlI18n from '../SmCallControl/i18n';
 
-export default function LogNotification(
-  {
-    formatPhone,
-    currentLog,
-    currentLocale,
-    showLogButton,
-    isExpand,
-    onStay,
-    onDiscard,
-    onSave,
-    onExpand,
-    currentSession,
-    onReject,
-    onHangup,
-    showEndButton,
-    disableLinks,
-  }
-) {
+export default function LogNotification({
+  formatPhone,
+  currentLog,
+  currentLocale,
+  showLogButton,
+  isExpand,
+  onStay,
+  onDiscard,
+  onSave,
+  onExpand,
+  currentSession,
+  onReject,
+  onHangup,
+  showEndButton,
+  disableLinks,
+}) {
   let extraButtons = null;
   if (showEndButton && showLogButton) {
     let endButton = null;
     if (currentSession) {
       const { callStatus, direction } = currentSession;
-      const isInComingCall = (callDirections.inbound === direction &&
-        telephonyStatuses.ringing === callStatus);
+      const isInComingCall =
+        callDirections.inbound === direction &&
+        telephonyStatuses.ringing === callStatus;
       const endTitle = isInComingCall ? 'reject' : 'hangup';
       const endAction = isInComingCall ? onReject : onHangup;
       endButton = (
@@ -50,9 +49,10 @@ export default function LogNotification(
             className={classnames({
               [styles.hangup]: true,
               [styles.endButton]: true,
-              [styles.buttonDisabled]: disableLinks
+              [styles.buttonDisabled]: disableLinks,
             })}
-            disabled={disableLinks} />
+            disabled={disableLinks}
+          />
         </span>
       );
     }
@@ -63,19 +63,26 @@ export default function LogNotification(
         <Button
           tooltip={i18n.getString('log', currentLocale)}
           disabled={isExpand}
-          className={classnames(styles.expandButtonWithEnd, isExpand && styles.expandDisableButton)}
-          onClick={() => onExpand()}>
+          className={classnames(
+            styles.expandButtonWithEnd,
+            isExpand && styles.expandDisableButton,
+          )}
+          onClick={() => onExpand()}
+        >
           {i18n.getString('log', currentLocale)}
         </Button>
       </div>
-
     );
   } else if (showLogButton) {
     extraButtons = (
       <Button
         disabled={isExpand}
-        className={classnames(styles.expandButton, isExpand && styles.expandDisableButton)}
-        onClick={() => onExpand()}>
+        className={classnames(
+          styles.expandButton,
+          isExpand && styles.expandDisableButton,
+        )}
+        onClick={() => onExpand()}
+      >
         {i18n.getString('log', currentLocale)}
       </Button>
     );
@@ -91,47 +98,42 @@ export default function LogNotification(
         />
         {extraButtons}
       </div>
-      {
-        isExpand ? (
-          <div className={styles.confirmationContainer}>
-            <div className={styles.confirmationInfo}>
-              {i18n.getString('confirmationInfo', currentLocale)}
-            </div>
-            <div className={styles.confirmationButtons}>
-              {
-                onSave ? (
-                  <Button
-                    tooltip={i18n.getString('save', currentLocale)}
-                    className={classnames(styles.saveButton, styles.selected)}
-                    onClick={() => onSave()}>
-                    {i18n.getString('save', currentLocale)}
-                  </Button>
-                ) : null
-              }
-              {
-                onDiscard ? (
-                  <Button
-                    tooltip={i18n.getString('discard', currentLocale)}
-                    className={styles.discardButton}
-                    onClick={() => onDiscard()}>
-                    {i18n.getString('discard', currentLocale)}
-                  </Button>
-                ) : null
-              }
-              {
-                onStay ? (
-                  <Button
-                    tooltip={i18n.getString('stay', currentLocale)}
-                    className={styles.stayButton}
-                    onClick={() => onStay()}>
-                    {i18n.getString('stay', currentLocale)}
-                  </Button>
-                ) : null
-              }
-            </div>
+      {isExpand ? (
+        <div className={styles.confirmationContainer}>
+          <div className={styles.confirmationInfo}>
+            {i18n.getString('confirmationInfo', currentLocale)}
           </div>
-        ) : null
-      }
+          <div className={styles.confirmationButtons}>
+            {onSave ? (
+              <Button
+                tooltip={i18n.getString('save', currentLocale)}
+                className={classnames(styles.saveButton, styles.selected)}
+                onClick={() => onSave()}
+              >
+                {i18n.getString('save', currentLocale)}
+              </Button>
+            ) : null}
+            {onDiscard ? (
+              <Button
+                tooltip={i18n.getString('discard', currentLocale)}
+                className={styles.discardButton}
+                onClick={() => onDiscard()}
+              >
+                {i18n.getString('discard', currentLocale)}
+              </Button>
+            ) : null}
+            {onStay ? (
+              <Button
+                tooltip={i18n.getString('stay', currentLocale)}
+                className={styles.stayButton}
+                onClick={() => onStay()}
+              >
+                {i18n.getString('stay', currentLocale)}
+              </Button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -14,11 +14,11 @@ const MeetingScheduleButtonPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="MeetingScheduleButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="MeetingScheduleButton Example"
-      >
+      <ComponentHeader
+        name="MeetingScheduleButton"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="MeetingScheduleButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

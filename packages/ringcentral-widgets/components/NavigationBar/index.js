@@ -62,89 +62,86 @@ export default class NavigationBar extends Component {
 
     const currentVirtualPath = this.state.currentVirtualPath;
     let _tabWidth = 0;
-    const _tabHeight = isVertical ? (tabHeight || '50px') : '100%';
+    const _tabHeight = isVertical ? tabHeight || '50px' : '100%';
     if (tabWidth) {
       _tabWidth = tabWidth;
     } else {
       // Align equally fully
-      _tabWidth = tabs.length > 0 ?
-        `${(1 / tabs.length) * 100}%` :
-        0;
+      _tabWidth = tabs.length > 0 ? `${(1 / tabs.length) * 100}%` : 0;
     }
-    const dropdownMenuTab = tabs.find(tab =>
-      (
+    const dropdownMenuTab = tabs.find(
+      (tab) =>
         tab.childTabs &&
-        (tab.isActive && tab.isActive(currentPath, currentVirtualPath))
-      )
+        (tab.isActive && tab.isActive(currentPath, currentVirtualPath)),
     );
     const dropdownMenu = dropdownMenuTab && dropdownMenuTab.childTabs;
     return (
       <nav className={classnames(styles.root, className, directionClass)}>
-        {
-          tabs.map((tab, index) => {
-            if (typeof tab.view === 'function') {
-              const View = tab.view;
-              return <View key={index} />;
-            }
-            let { icon, activeIcon } = tab;
-            if (typeof icon === 'function') {
-              const Icon = icon;
-              icon = (tab.childTabs ? <Icon currentPath={currentPath} /> : <Icon />);
-            }
-            if (typeof activeIcon === 'function') {
-              const ActiveIcon = activeIcon;
-              activeIcon = (tab.childTabs ?
-                <ActiveIcon currentPath={currentPath} /> : <ActiveIcon />);
-            }
-            return (
-              <NavigationButton
-                {...tab}
-                fullSizeInk={fullSizeInk}
-                key={index}
-                onClick={() => {
-                  this.goTo(tab);
-                }}
-                active={
-                  (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
-                  (tab.path && tab.path === currentPath) ||
-                  (tab.virtualPath && tab.virtualPath === currentVirtualPath) ||
-                  (tab.childTabs && tab.childTabs.some(childTab =>
-                    childTab.path === currentPath ||
-                    childTab.path === currentPath.slice(0, 9)
-                  ))
-                }
-                width={_tabWidth}
-                height={_tabHeight}
-                icon={icon}
-                activeIcon={activeIcon}
-              />
+        {tabs.map((tab, index) => {
+          if (typeof tab.view === 'function') {
+            const View = tab.view;
+            return <View key={index} />;
+          }
+          let { icon, activeIcon } = tab;
+          if (typeof icon === 'function') {
+            const Icon = icon;
+            icon = tab.childTabs ? (
+              <Icon currentPath={currentPath} />
+            ) : (
+              <Icon />
             );
-          })
-        }
-        {
-          (ChildNavigationView && dropdownMenu && dropdownMenu.length) ? (
-            <ChildNavigationView
-              tabs={dropdownMenu}
-              goTo={this.goTo}
-              currentPath={currentPath}
-              currentVirtualPath={currentVirtualPath}
+          }
+          if (typeof activeIcon === 'function') {
+            const ActiveIcon = activeIcon;
+            activeIcon = tab.childTabs ? (
+              <ActiveIcon currentPath={currentPath} />
+            ) : (
+              <ActiveIcon />
+            );
+          }
+          return (
+            <NavigationButton
+              {...tab}
+              fullSizeInk={fullSizeInk}
+              key={index}
+              onClick={() => {
+                this.goTo(tab);
+              }}
+              active={
+                (tab.isActive &&
+                  tab.isActive(currentPath, currentVirtualPath)) ||
+                (tab.path && tab.path === currentPath) ||
+                (tab.virtualPath && tab.virtualPath === currentVirtualPath) ||
+                (tab.childTabs &&
+                  tab.childTabs.some(
+                    (childTab) =>
+                      childTab.path === currentPath ||
+                      childTab.path === currentPath.slice(0, 9),
+                  ))
+              }
+              width={_tabWidth}
+              height={_tabHeight}
+              icon={icon}
+              activeIcon={activeIcon}
             />
-          ) : null
-        }
+          );
+        })}
+        {ChildNavigationView && dropdownMenu && dropdownMenu.length ? (
+          <ChildNavigationView
+            tabs={dropdownMenu}
+            goTo={this.goTo}
+            currentPath={currentPath}
+            currentVirtualPath={currentVirtualPath}
+          />
+        ) : null}
       </nav>
     );
   }
 }
 
 const tabPropTypes = {
-  icon: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  activeIcon: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.node
-  ]),
+  icon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  activeIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   label: PropTypes.string,
   path: PropTypes.string,
   virtualPath: PropTypes.string,
@@ -156,18 +153,22 @@ NavigationBar.propTypes = {
   className: PropTypes.string,
   button: PropTypes.oneOfType([
     PropTypes.func.isRequired,
-    PropTypes.element.isRequired
+    PropTypes.element.isRequired,
   ]).isRequired,
   childNavigationView: PropTypes.oneOfType([
     PropTypes.func.isRequired,
-    PropTypes.element.isRequired
+    PropTypes.element.isRequired,
   ]),
-  tabs: PropTypes.arrayOf(PropTypes.shape({
-    ...tabPropTypes,
-    childTabs: PropTypes.arrayOf(PropTypes.shape({
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
       ...tabPropTypes,
-    })),
-  })),
+      childTabs: PropTypes.arrayOf(
+        PropTypes.shape({
+          ...tabPropTypes,
+        }),
+      ),
+    }),
+  ),
   goTo: PropTypes.func.isRequired,
   currentPath: PropTypes.string.isRequired,
   currentVirtualPath: PropTypes.string,
@@ -185,5 +186,5 @@ NavigationBar.defaultProps = {
   tabHeight: undefined,
   tabs: [],
   fullSizeInk: true,
-  direction: 'horizonal'
+  direction: 'horizonal',
 };

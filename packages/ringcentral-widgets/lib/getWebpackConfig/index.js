@@ -7,10 +7,11 @@ function getBaseConfig({
   hashPrefix = '',
   supportedLocales = [],
   themeFolder,
+  fontFileSizeLimit = 15000,
 }) {
   return {
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.jsx']
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     module: {
       rules: [
@@ -27,27 +28,24 @@ function getBaseConfig({
               loader: 'babel-loader',
               options: {
                 cacheDirectory,
-              }
+              },
             },
             {
               loader: '@ringcentral-integration/locale-loader',
               options: {
-                supportedLocales
-              }
+                supportedLocales,
+              },
             },
           ],
           exclude: /node_modules/,
         },
         {
           test: /\.css$/i,
-          use: [
-            'style-loader',
-            'css-loader',
-          ],
+          use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.woff|\.woff2|.eot|\.ttf/,
-          use: 'url-loader?limit=15000&name=fonts/[name]_[hash].[ext]',
+          use: `url-loader?limit=${fontFileSizeLimit}&name=fonts/[name]_[hash].[ext]`,
         },
         {
           test: /\.svg/,
@@ -64,10 +62,10 @@ function getBaseConfig({
                       removeViewBox: false,
                     },
                   ],
-                }
-              }
-            }
-          ]
+                },
+              },
+            },
+          ],
         },
         {
           test: /\.png|\.jpg|\.gif|fonts(\/|\\).*\.svg/,
@@ -89,18 +87,19 @@ function getBaseConfig({
             {
               loader: 'postcss-loader',
               options: {
-                plugins: () => [
-                  autoprefixer
-                ]
-              }
+                plugins: () => [autoprefixer],
+              },
             },
             {
               loader: 'sass-loader',
               options: {
-                includePaths: [themeFolder, path.resolve(process.cwd(), 'node_modules')],
-                outputStyle: 'expanded'
-              }
-            }
+                includePaths: [
+                  themeFolder,
+                  path.resolve(process.cwd(), 'node_modules'),
+                ],
+                outputStyle: 'expanded',
+              },
+            },
           ],
         },
         {
@@ -113,11 +112,7 @@ function getBaseConfig({
   };
 }
 
-
-export default function getWebpackConfig({
-  env = 'development',
-  ...options
-}) {
+export default function getWebpackConfig({ env = 'development', ...options }) {
   const base = getBaseConfig({
     ...options,
   });

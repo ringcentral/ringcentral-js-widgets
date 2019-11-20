@@ -16,24 +16,19 @@ import ConnectivityBadgeContainer from 'ringcentral-widgets/containers/Connectiv
 import MainView from '../MainView';
 import AppView from '../AppView';
 
-
-export default function App({
-  phone,
-  hostingUrl,
-}) {
+export default function App({ phone, hostingUrl }) {
   return (
     <PhoneProvider phone={phone}>
-      <Provider store={phone.store} >
-        <Router history={phone.routerInteraction.history} >
+      <Provider store={phone.store}>
+        <Router history={phone.routerInteraction.history}>
           <Route
-            component={routerProps => (
-              <AppView
-                hostingUrl={hostingUrl}
-              >
+            component={(routerProps) => (
+              <AppView hostingUrl={hostingUrl}>
                 {routerProps.children}
                 <ConnectivityBadgeContainer />
               </AppView>
-            )} >
+            )}
+          >
             <Route
               path="/"
               component={() => (
@@ -47,7 +42,7 @@ export default function App({
             />
             <Route
               path="/"
-              component={routerProps => (
+              component={(routerProps) => (
                 <MainView>
                   {routerProps.children}
                   <AlertContainer
@@ -55,10 +50,11 @@ export default function App({
                     regionSettingsUrl="/settings/region"
                   />
                 </MainView>
-              )} >
+              )}
+            >
               <Route
                 path="/settings"
-                component={routerProps => (
+                component={(routerProps) => (
                   <SettingsPage
                     params={routerProps.location.query}
                     regionSettingsUrl="/settings/region"
@@ -69,10 +65,7 @@ export default function App({
                   />
                 )}
               />
-              <Route
-                path="/settings/region"
-                component={RegionSettingsPage}
-              />
+              <Route path="/settings/region" component={RegionSettingsPage} />
             </Route>
           </Route>
         </Router>

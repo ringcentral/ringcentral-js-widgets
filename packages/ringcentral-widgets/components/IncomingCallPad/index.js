@@ -53,7 +53,7 @@ export default class IncomingCallPad extends Component {
       this.props.toVoiceMail();
       if (this.props.toVoiceMail) {
         this.setState({
-          toVoiceMailEnabled: false
+          toVoiceMailEnabled: false,
         });
         this.voicemailTimeout = setTimeout(() => {
           this.props.reject();
@@ -64,7 +64,7 @@ export default class IncomingCallPad extends Component {
       this.props.replyWithMessage(value);
       if (this.props.replyWithMessage) {
         this.setState({
-          replyMessageEnabled: false
+          replyMessageEnabled: false,
         });
         this.replyTimeout = setTimeout(() => {
           this.props.reject();
@@ -108,7 +108,9 @@ export default class IncomingCallPad extends Component {
     } = this.props;
     // const isMultiCall = true;
     const multiCallButtons = (
-      <div className={classnames(styles.buttonRow, styles.multiCallsButtonGroup)}>
+      <div
+        className={classnames(styles.buttonRow, styles.multiCallsButtonGroup)}
+      >
         <MultiCallAnswerButton
           onClick={answerAndEnd}
           title={i18n.getString('answerAndEnd', currentLocale)}
@@ -119,7 +121,9 @@ export default class IncomingCallPad extends Component {
         <ActiveCallButton
           onClick={this.toVoiceMail}
           title={i18n.getString('toVoicemail', currentLocale)}
-          buttonClassName={this.state.toVoiceMailEnabled ? styles.voiceMailButton : ''}
+          buttonClassName={
+            this.state.toVoiceMailEnabled ? styles.voiceMailButton : ''
+          }
           icon={VoicemailIcon}
           iconWidth={274}
           iconX={116}
@@ -142,7 +146,9 @@ export default class IncomingCallPad extends Component {
         <ActiveCallButton
           onClick={this.toVoiceMail}
           title={i18n.getString('toVoicemail', currentLocale)}
-          buttonClassName={this.state.toVoiceMailEnabled ? styles.voiceMailButton : ''}
+          buttonClassName={
+            this.state.toVoiceMailEnabled ? styles.voiceMailButton : ''
+          }
           icon={VoicemailIcon}
           iconWidth={274}
           iconX={116}
@@ -271,7 +277,7 @@ IncomingCallPad.propTypes = {
 };
 
 IncomingCallPad.defaultProps = {
-  formatPhone: phone => phone,
+  formatPhone: (phone) => phone,
   className: null,
   answerAndEnd: () => null,
   answerAndHold: () => null,

@@ -5,9 +5,7 @@ import i18n from './i18n';
 
 export default function AuthAlert(props) {
   const msg = i18n.getString(props.message.message, props.currentLocale);
-  return (
-    <span>{msg}</span>
-  );
+  return <span>{msg}</span>;
 }
 
 AuthAlert.propTypes = {
@@ -17,8 +15,7 @@ AuthAlert.propTypes = {
   }).isRequired,
 };
 
-AuthAlert.handleMessage = ({ message }) => (
+AuthAlert.handleMessage = ({ message }) =>
   message === authMessages.accessDenied ||
   message === authMessages.internalError ||
-  message === authMessages.sessionExpired
-);
+  message === authMessages.sessionExpired;

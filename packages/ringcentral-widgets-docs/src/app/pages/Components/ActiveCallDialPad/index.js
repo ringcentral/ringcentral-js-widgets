@@ -14,11 +14,11 @@ const ActiveCallDialPadPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="ActiveCallDialPad" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ActiveCallDialPad Example"
-      >
+      <ComponentHeader
+        name="ActiveCallDialPad"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="ActiveCallDialPad Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

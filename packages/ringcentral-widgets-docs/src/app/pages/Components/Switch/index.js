@@ -15,10 +15,7 @@ const SwitchPage = () => {
   return (
     <div>
       <ComponentHeader name="Switch" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Switch Example"
-      >
+      <CodeExample code={demoCode} title="Switch Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

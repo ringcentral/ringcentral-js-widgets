@@ -15,10 +15,7 @@ const FromFieldPage = () => {
   return (
     <div>
       <ComponentHeader name="FromField" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="FromField Example"
-      >
+      <CodeExample code={demoCode} title="FromField Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

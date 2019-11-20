@@ -15,9 +15,7 @@ props.avatarUrl = null;
  */
 const CallAvatarDemo = () => (
   <div className={styles.root}>
-    <CallAvatar
-      {...props}
-    />
+    <CallAvatar {...props} />
   </div>
 );
 export default CallAvatarDemo;

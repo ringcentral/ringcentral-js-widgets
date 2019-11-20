@@ -15,10 +15,7 @@ const NavigationBarPage = () => {
   return (
     <div>
       <ComponentHeader name="NavigationBar" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="NavigationBar Example"
-      >
+      <CodeExample code={demoCode} title="NavigationBar Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -74,7 +74,7 @@ export class HAMocks {
 
   /**
    * Mock retry-after
-   * @param {*} id 
+   * @param {*} id
    * @param {*} retryAfter type number, unit seconds
    */
   static changePresence(id = '~', retryAfter) {

@@ -15,10 +15,7 @@ const ConferencePanelPage = () => {
   return (
     <div>
       <ComponentHeader name="ConferencePanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ConferencePanel Example"
-      >
+      <CodeExample code={demoCode} title="ConferencePanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

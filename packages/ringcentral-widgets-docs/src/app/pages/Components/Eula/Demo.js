@@ -9,9 +9,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `Eula`
  */
-const EulaDemo = () => (
-  <Eula
-    {...props}
-  />
-);
+const EulaDemo = () => <Eula {...props} />;
 export default EulaDemo;

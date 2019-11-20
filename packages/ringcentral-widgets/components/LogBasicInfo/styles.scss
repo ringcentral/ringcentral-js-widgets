@@ -104,7 +104,7 @@
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   /* Apply the style only in IE11
-  * For logNotification the father element use 
+  * For logNotification the father element use
   *   space-between IE will miss calculate the correct position.
   * Details: https://github.com/philipwalton/flexbugs#flexbug-17
   * Here defined the width of logBasicInfo to resolve it

@@ -14,11 +14,11 @@ const ConversationPanelPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="ConversationPanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ConversationPanel Example"
-      >
+      <ComponentHeader
+        name="ConversationPanel"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="ConversationPanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

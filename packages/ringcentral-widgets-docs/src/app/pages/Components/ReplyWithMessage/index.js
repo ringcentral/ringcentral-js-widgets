@@ -15,10 +15,7 @@ const ReplyWithMessagePage = () => {
   return (
     <div>
       <ComponentHeader name="ReplyWithMessage" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ReplyWithMessage Example"
-      >
+      <CodeExample code={demoCode} title="ReplyWithMessage Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

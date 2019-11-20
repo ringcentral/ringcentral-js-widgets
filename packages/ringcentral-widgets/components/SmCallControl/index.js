@@ -5,7 +5,6 @@ import classnames from 'classnames';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 
-
 import CircleButton from '../CircleButton';
 
 import MuteIcon from '../../assets/images/Mute.svg';
@@ -15,11 +14,16 @@ import styles from './styles.scss';
 
 import i18n from './i18n';
 
-
 export default function SmCallControl(props) {
   const {
-    onMute, onUnmute, onHangup, onReject,
-    isOnMute, callStatus, currentLocale, callDirection,
+    onMute,
+    onUnmute,
+    onHangup,
+    onReject,
+    isOnMute,
+    callStatus,
+    currentLocale,
+    callDirection,
   } = props;
 
   // reject conditions: call direction is inbound & call status is ringing
@@ -43,9 +47,12 @@ export default function SmCallControl(props) {
           dataSign={muteTitle}
           icon={muteIcon}
           onClick={muteAction}
-          className={classnames(styles.button, disabledCtrl ? styles.buttonDisabled : null)}
+          className={classnames(
+            styles.button,
+            disabledCtrl ? styles.buttonDisabled : null,
+          )}
           disabled={disabledCtrl}
-      />
+        />
       </span>
       <span title={i18n.getString(endTitle, currentLocale)}>
         <CircleButton
@@ -54,7 +61,7 @@ export default function SmCallControl(props) {
           icon={EndIcon}
           onClick={endAction}
           className={classnames(styles.hangup, styles.button)}
-      />
+        />
       </span>
     </div>
   );
@@ -71,11 +78,11 @@ SmCallControl.propTypes = {
   callDirection: PropTypes.string.isRequired,
 };
 SmCallControl.defaultProps = {
-  onMute() { },
-  onUnmute() { },
-  onHangup() { },
-  onReject() { },
+  onMute() {},
+  onUnmute() {},
+  onHangup() {},
+  onReject() {},
   isOnMute: false,
   callStatus: 'CallConnected',
-  currentLocale: 'en-US'
+  currentLocale: 'en-US',
 };

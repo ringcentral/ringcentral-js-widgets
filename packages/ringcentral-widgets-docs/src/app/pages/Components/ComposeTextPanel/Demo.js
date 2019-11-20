@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import ComposeTextPanel from 'ringcentral-widgets/components/ComposeTextPanel';
 import styles from './styles.scss';
 
-
 /**
  * A example of `ComposeTextPanel`
  */
@@ -19,68 +18,77 @@ class ComposeTextPanelDemo extends Component {
   }
   updateMessageText = (messageText) => {
     this.setState({
-      messageText
+      messageText,
     });
-  }
+  };
   updateTypingToNumber = (typingToNumber) => {
     this.setState({
-      typingToNumber
+      typingToNumber,
     });
-  }
+  };
   removeToNumber = ({ phoneNumber }) => {
     const { toNumbers } = this.state;
     this.setState({
-      toNumbers: toNumbers.filter(toNumber => toNumber.phoneNumber !== phoneNumber)
+      toNumbers: toNumbers.filter(
+        (toNumber) => toNumber.phoneNumber !== phoneNumber,
+      ),
     });
-  }
+  };
   addToNumber = (toNumber) => {
     const { toNumbers } = this.state;
     toNumbers.push(toNumber);
     this.setState({
-      toNumbers
+      toNumbers,
     });
-  }
+  };
   cleanTypingToNumber = () => {
     this.setState({
-      typingToNumber: ''
+      typingToNumber: '',
     });
-  }
+  };
   updateSenderNumber = (senderNumber) => {
     this.setState({
       senderNumber: senderNumber.phoneNumber,
     });
-  }
+  };
   render() {
-    const searchContactList = [{
-      name: 'test string',
-      entityType: 'Account',
-      phoneType: 'Business Phone',
-      phoneNumber: '7654321'
-    }, {
-      name: 'test string2',
-      entityType: 'Account',
-      phoneType: 'Business Phone',
-      phoneNumber: '7112234'
-    }];
+    const searchContactList = [
+      {
+        name: 'test string',
+        entityType: 'Account',
+        phoneType: 'Business Phone',
+        phoneNumber: '7654321',
+      },
+      {
+        name: 'test string2',
+        entityType: 'Account',
+        phoneType: 'Business Phone',
+        phoneNumber: '7112234',
+      },
+    ];
     return (
-      <div style={{
-        position: 'relative',
-        height: '500px',
-        width: '300px',
-        border: '1px solid #f3f3f3',
-      }}>
+      <div
+        style={{
+          position: 'relative',
+          height: '500px',
+          width: '300px',
+          border: '1px solid #f3f3f3',
+        }}
+      >
         <ComposeTextPanel
           currentLocale="en-US"
           className={styles.root}
           send={() => null}
-          senderNumbers={[{
-            phoneNumber: '7654321',
-            usageType: 'Main',
-          }]}
+          senderNumbers={[
+            {
+              phoneNumber: '7654321',
+              usageType: 'Main',
+            },
+          ]}
           sendButtonDisabled={false}
-          formatPhone={phoneNumber => phoneNumber}
-          formatContactPhone={phoneNumber => phoneNumber}
-          searchContact={value => value}
+          formatPhone={(phoneNumber) => phoneNumber}
+          formatContactPhone={(phoneNumber) => phoneNumber}
+          searchContact={(value) => value}
           searchContactList={searchContactList}
           updateSenderNumber={this.updateSenderNumber}
           senderNumber={this.state.senderNumber}

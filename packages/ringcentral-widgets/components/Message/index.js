@@ -8,15 +8,9 @@ import styles from './styles.scss';
 function Message(props) {
   return (
     <div className={styles.alertHolder}>
-      <div
-        data-sign="alert"
-        className={classnames(
-          styles[props.level],
-        )}>
+      <div data-sign="alert" className={classnames(styles[props.level])}>
         {props.message}
-        <div
-          className={styles.dismiss}
-          onClick={props.onDismiss}>
+        <div className={styles.dismiss} onClick={props.onDismiss}>
           <i className={dynamicsFont.close} />
         </div>
       </div>

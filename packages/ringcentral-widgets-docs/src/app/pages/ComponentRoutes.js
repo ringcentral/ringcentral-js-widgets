@@ -133,18 +133,36 @@ import ConnectivityBadgePage from './Components/ConnectivityBadge';
 const Routes = () => (
   <div>
     <Route path="/components/ActionMenu" component={ActionMenuPage} />
-    <Route path="/components/ActiveCallActionMenu" component={ActiveCallActionMenuPage} />
+    <Route
+      path="/components/ActiveCallActionMenu"
+      component={ActiveCallActionMenuPage}
+    />
     <Route path="/components/ActiveCallBadge" component={ActiveCallBadgePage} />
-    <Route path="/components/ActiveCallButton" component={ActiveCallButtonPage} />
-    <Route path="/components/ActiveCallDialPad" component={ActiveCallDialPadPage} />
+    <Route
+      path="/components/ActiveCallButton"
+      component={ActiveCallButtonPage}
+    />
+    <Route
+      path="/components/ActiveCallDialPad"
+      component={ActiveCallDialPadPage}
+    />
     <Route path="/components/ActiveCallItem" component={ActiveCallItemPage} />
     <Route path="/components/ActiveCallPad" component={ActiveCallPadPage} />
     <Route path="/components/ActiveCallPanel" component={ActiveCallPanelPage} />
-    <Route path="/components/ActiveCallsPanel" component={ActiveCallsPanelPage} />
+    <Route
+      path="/components/ActiveCallsPanel"
+      component={ActiveCallsPanelPage}
+    />
     <Route path="/components/AlertDisplay" component={AlertDisplayPage} />
     <Route path="/components/AnimationAlert" component={AnimationAlertPage} />
-    <Route path="/components/AudioSettingsAlert" component={AudioSettingsAlertPage} />
-    <Route path="/components/AudioSettingsPanel" component={AudioSettingsPanelPage} />
+    <Route
+      path="/components/AudioSettingsAlert"
+      component={AudioSettingsAlertPage}
+    />
+    <Route
+      path="/components/AudioSettingsPanel"
+      component={AudioSettingsPanelPage}
+    />
     <Route path="/components/AuthAlert" component={AuthAlertPage} />
     <Route path="/components/BackHeader" component={BackHeaderPage} />
     <Route path="/components/Badge" component={BadgePage} />
@@ -154,27 +172,57 @@ const Routes = () => (
     <Route path="/components/CallCtrlPanel" component={CallCtrlPanelPage} />
     <Route path="/components/CallItem" component={CallItemPage} />
     <Route path="/components/CallList" component={CallListPage} />
-    <Route path="/components/CallingSettingsAlert" component={CallingSettingsAlertPage} />
-    <Route path="/components/CallingSettingsPanel" component={CallingSettingsPanelPage} />
+    <Route
+      path="/components/CallingSettingsAlert"
+      component={CallingSettingsAlertPage}
+    />
+    <Route
+      path="/components/CallingSettingsPanel"
+      component={CallingSettingsPanelPage}
+    />
     <Route path="/components/CallsListPanel" component={CallsListPanelPage} />
     <Route path="/components/CallsPanel" component={CallsPanelPage} />
     <Route path="/components/CheckBox" component={CheckBoxPage} />
     <Route path="/components/CircleButton" component={CircleButtonPage} />
-    <Route path="/components/ComposeTextPanel" component={ComposeTextPanelPage} />
+    <Route
+      path="/components/ComposeTextPanel"
+      component={ComposeTextPanelPage}
+    />
     <Route path="/components/ConferenceAlert" component={ConferenceAlertPage} />
-    <Route path="/components/ConferenceCommands" component={ConferenceCommandsPage} />
+    <Route
+      path="/components/ConferenceCommands"
+      component={ConferenceCommandsPage}
+    />
     <Route path="/components/ConferencePanel" component={ConferencePanelPage} />
-    <Route path="/components/ConnectivityAlert" component={ConnectivityAlertPage} />
+    <Route
+      path="/components/ConnectivityAlert"
+      component={ConnectivityAlertPage}
+    />
     <Route path="/components/ContactDetails" component={ContactDetailsPage} />
     <Route path="/components/ContactDisplay" component={ContactDisplayPage} />
-    <Route path="/components/ContactDropdownList" component={ContactDropdownListPage} />
+    <Route
+      path="/components/ContactDropdownList"
+      component={ContactDropdownListPage}
+    />
     <Route path="/components/ContactItem" component={ContactItemPage} />
     <Route path="/components/ContactList" component={ContactListPage} />
     <Route path="/components/ContactsView" component={ContactsViewPage} />
-    <Route path="/components/ConversationList" component={ConversationListPage} />
-    <Route path="/components/ConversationMessageList" component={ConversationMessageListPage} />
-    <Route path="/components/ConversationPanel" component={ConversationPanelPage} />
-    <Route path="/components/ConversationsPanel" component={ConversationsPanelPage} />
+    <Route
+      path="/components/ConversationList"
+      component={ConversationListPage}
+    />
+    <Route
+      path="/components/ConversationMessageList"
+      component={ConversationMessageListPage}
+    />
+    <Route
+      path="/components/ConversationPanel"
+      component={ConversationPanelPage}
+    />
+    <Route
+      path="/components/ConversationsPanel"
+      component={ConversationsPanelPage}
+    />
     <Route path="/components/CopyToClipboard" component={CopyToClipboardPage} />
     <Route path="/components/DatePicker" component={DatePickerPage} />
     <Route path="/components/DialButton" component={DialButtonPage} />
@@ -182,8 +230,14 @@ const Routes = () => (
     <Route path="/components/DialTextInput" component={DialTextInputPage} />
     <Route path="/components/DialerPanel" component={DialerPanelPage} />
     <Route path="/components/Draggable" component={DraggablePage} />
-    <Route path="/components/DropdownNavigationItem" component={DropdownNavigationItemPage} />
-    <Route path="/components/DropdownNavigationView" component={DropdownNavigationViewPage} />
+    <Route
+      path="/components/DropdownNavigationItem"
+      component={DropdownNavigationItemPage}
+    />
+    <Route
+      path="/components/DropdownNavigationView"
+      component={DropdownNavigationViewPage}
+    />
     <Route path="/components/DropdownSelect" component={DropdownSelectPage} />
     <Route path="/components/DurationCounter" component={DurationCounterPage} />
     <Route path="/components/EntityButton" component={EntityButtonPage} />
@@ -193,14 +247,20 @@ const Routes = () => (
     <Route path="/components/FeedbackPanel" component={FeedbackPanelPage} />
     <Route path="/components/FlipPanel" component={FlipPanelPage} />
     <Route path="/components/Footer" component={FooterPage} />
-    <Route path="/components/FormattedMessage" component={FormattedMessagePage} />
+    <Route
+      path="/components/FormattedMessage"
+      component={FormattedMessagePage}
+    />
     <Route path="/components/ForwardForm" component={ForwardFormPage} />
     <Route path="/components/FromField" component={FromFieldPage} />
     <Route path="/components/Header" component={HeaderPage} />
     <Route path="/components/IconField" component={IconFieldPage} />
     <Route path="/components/IconLine" component={IconLinePage} />
     <Route path="/components/IncomingCallPad" component={IncomingCallPadPage} />
-    <Route path="/components/IncomingCallPanel" component={IncomingCallPanelPage} />
+    <Route
+      path="/components/IncomingCallPanel"
+      component={IncomingCallPanelPage}
+    />
     <Route path="/components/InputField" component={InputFieldPage} />
     <Route path="/components/InputLine" component={InputLinePage} />
     <Route path="/components/Line" component={LinePage} />
@@ -214,34 +274,85 @@ const Routes = () => (
     <Route path="/components/LoginPanel" component={LoginPanelPage} />
     <Route path="/components/MeetingAlert" component={MeetingAlertPage} />
     <Route path="/components/MeetingPanel" component={MeetingPanelPage} />
-    <Route path="/components/MeetingScheduleButton" component={MeetingScheduleButtonPage} />
+    <Route
+      path="/components/MeetingScheduleButton"
+      component={MeetingScheduleButtonPage}
+    />
     <Route path="/components/MeetingSection" component={MeetingSectionPage} />
     <Route path="/components/Message" component={MessagePage} />
     <Route path="/components/MessageInput" component={MessageInputPage} />
     <Route path="/components/MessageItem" component={MessageItemPage} />
-    <Route path="/components/MessageSenderAlert" component={MessageSenderAlertPage} />
-    <Route path="/components/MessageStoreAlert" component={MessageStoreAlertPage} />
-    <Route path="/components/MessageTabButton" component={MessageTabButtonPage} />
+    <Route
+      path="/components/MessageSenderAlert"
+      component={MessageSenderAlertPage}
+    />
+    <Route
+      path="/components/MessageStoreAlert"
+      component={MessageStoreAlertPage}
+    />
+    <Route
+      path="/components/MessageTabButton"
+      component={MessageTabButtonPage}
+    />
     <Route path="/components/Modal" component={ModalPage} />
-    <Route path="/components/MultiCallAnswerButton" component={MultiCallAnswerButtonPage} />
+    <Route
+      path="/components/MultiCallAnswerButton"
+      component={MultiCallAnswerButtonPage}
+    />
     <Route path="/components/NavigationBar" component={NavigationBarPage} />
     <Route path="/components/Panel" component={PanelPage} />
     <Route path="/components/PresenceItem" component={PresenceItemPage} />
-    <Route path="/components/PresenceSettingSection" component={PresenceSettingSectionPage} />
-    <Route path="/components/PresenceStatusIcon" component={PresenceStatusIconPage} />
+    <Route
+      path="/components/PresenceSettingSection"
+      component={PresenceSettingSectionPage}
+    />
+    <Route
+      path="/components/PresenceStatusIcon"
+      component={PresenceStatusIconPage}
+    />
     <Route path="/components/RadioBtnGroup" component={RadioBtnGroupPage} />
-    <Route path="/components/RateExceededAlert" component={RateExceededAlertPage} />
-    <Route path="/components/RecentActivityCalls" component={RecentActivityCallsPage} />
-    <Route path="/components/RecentActivityMessages" component={RecentActivityMessagesPage} />
-    <Route path="/components/RecentActivityNavigationButton" component={RecentActivityNavigationButtonPage} />
-    <Route path="/components/RecentActivityPanel" component={RecentActivityPanelPage} />
-    <Route path="/components/RecentActivityView" component={RecentActivityViewPage} />
+    <Route
+      path="/components/RateExceededAlert"
+      component={RateExceededAlertPage}
+    />
+    <Route
+      path="/components/RecentActivityCalls"
+      component={RecentActivityCallsPage}
+    />
+    <Route
+      path="/components/RecentActivityMessages"
+      component={RecentActivityMessagesPage}
+    />
+    <Route
+      path="/components/RecentActivityNavigationButton"
+      component={RecentActivityNavigationButtonPage}
+    />
+    <Route
+      path="/components/RecentActivityPanel"
+      component={RecentActivityPanelPage}
+    />
+    <Route
+      path="/components/RecentActivityView"
+      component={RecentActivityViewPage}
+    />
     <Route path="/components/RecipientsInput" component={RecipientsInputPage} />
-    <Route path="/components/RegionSettingsAlert" component={RegionSettingsAlertPage} />
-    <Route path="/components/RegionSettingsPanel" component={RegionSettingsPanelPage} />
+    <Route
+      path="/components/RegionSettingsAlert"
+      component={RegionSettingsAlertPage}
+    />
+    <Route
+      path="/components/RegionSettingsPanel"
+      component={RegionSettingsPanelPage}
+    />
     <Route path="/components/RemoveButton" component={RemoveButtonPage} />
-    <Route path="/components/ReplyWithMessage" component={ReplyWithMessagePage} />
-    <Route path="/components/RolesAndPermissionsAlert" component={RolesAndPermissionsAlertPage} />
+    <Route
+      path="/components/ReplyWithMessage"
+      component={ReplyWithMessagePage}
+    />
+    <Route
+      path="/components/RolesAndPermissionsAlert"
+      component={RolesAndPermissionsAlertPage}
+    />
     <Route path="/components/SaveButton" component={SaveButtonPage} />
     <Route path="/components/SearchInput" component={SearchInputPage} />
     <Route path="/components/Select" component={SelectPage} />
@@ -251,15 +362,24 @@ const Routes = () => (
     <Route path="/components/Spinner" component={SpinnerPage} />
     <Route path="/components/SpinnerOverlay" component={SpinnerOverlayPage} />
     <Route path="/components/Switch" component={SwitchPage} />
-    <Route path="/components/TabNavigationButton" component={TabNavigationButtonPage} />
-    <Route path="/components/TabNavigationView" component={TabNavigationViewPage} />
+    <Route
+      path="/components/TabNavigationButton"
+      component={TabNavigationButtonPage}
+    />
+    <Route
+      path="/components/TabNavigationView"
+      component={TabNavigationViewPage}
+    />
     <Route path="/components/TextInput" component={TextInputPage} />
     <Route path="/components/ToField" component={ToFieldPage} />
     <Route path="/components/TransferPanel" component={TransferPanelPage} />
     <Route path="/components/UserGuide" component={UserGuidePage} />
     <Route path="/components/VoicemailPlayer" component={VoicemailPlayerPage} />
     <Route path="/components/WebphoneAlert" component={WebphoneAlertPage} />
-    <Route path="/components/ConnectivityBadge" component={ConnectivityBadgePage} />
+    <Route
+      path="/components/ConnectivityBadge"
+      component={ConnectivityBadgePage}
+    />
   </div>
 );
 

@@ -4,24 +4,27 @@ import { withPhone } from '../../lib/phoneContext';
 
 import CallsListPanel from '../../components/CallsListPanel';
 
-function mapToProps(_, {
-  phone: {
-    brand,
-    callLogger,
-    callMonitor,
-    locale,
-    regionSettings,
-    rolesAndPermissions,
-    callHistory,
-    connectivityMonitor,
-    rateLimiter,
-    dateTimeFormat,
-    call,
-    composeText,
+function mapToProps(
+  _,
+  {
+    phone: {
+      brand,
+      callLogger,
+      callMonitor,
+      locale,
+      regionSettings,
+      rolesAndPermissions,
+      callHistory,
+      connectivityMonitor,
+      rateLimiter,
+      dateTimeFormat,
+      call,
+      composeText,
+    },
+    showContactDisplayPlaceholder = false,
+    enableContactFallback = false,
   },
-  showContactDisplayPlaceholder = false,
-  enableContactFallback = false,
-}) {
+) {
   return {
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
@@ -44,10 +47,9 @@ function mapToProps(_, {
     autoLog: !!(callLogger && callLogger.autoLog),
     enableContactFallback,
     calls: callHistory.latestCalls,
-    disableLinks: !connectivityMonitor.connectivity ||
-    rateLimiter.throttling,
+    disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
-    loggingMap: (callLogger && callLogger.loggingMap),
+    loggingMap: callLogger && callLogger.loggingMap,
     showSpinner: !(
       callHistory.ready &&
       locale.ready &&
@@ -63,41 +65,46 @@ function mapToProps(_, {
   };
 }
 
-function mapToFunctions(_, {
-  phone: {
-    callLogger,
-    composeText,
-    contactMatcher,
-    contactSearch,
-    regionSettings,
-    routerInteraction,
-    webphone,
-    dateTimeFormat,
-    call,
-    dialerUI,
-    callHistory,
+function mapToFunctions(
+  _,
+  {
+    phone: {
+      callLogger,
+      composeText,
+      contactMatcher,
+      contactSearch,
+      regionSettings,
+      routerInteraction,
+      webphone,
+      dateTimeFormat,
+      call,
+      dialerUI,
+      callHistory,
+    },
+    composeTextRoute = '/composeText',
+    callCtrlRoute = '/calls/active',
+    onCreateContact,
+    onLogCall,
+    isLoggedContact,
+    onViewContact,
+    dateTimeFormatter = ({ utcTimestamp }) =>
+      dateTimeFormat.formatDateTime({
+        utcTimestamp,
+      }),
+    dialerRoute = '/dialer',
   },
-  composeTextRoute = '/composeText',
-  callCtrlRoute = '/calls/active',
-  onCreateContact,
-  onLogCall,
-  isLoggedContact,
-  onViewContact,
-  dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
-    utcTimestamp,
-  }),
-  dialerRoute = '/dialer',
-}) {
+) {
   return {
-    formatPhone: phoneNumber => formatNumber({
-      phoneNumber,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
-    }),
-    webphoneAnswer: (...args) => (webphone && webphone.answer(...args)),
-    webphoneToVoicemail: (...args) => (webphone && webphone.toVoiceMail(...args)),
-    webphoneReject: (...args) => (webphone && webphone.reject(...args)),
-    webphoneHangup: (...args) => (webphone && webphone.hangup(...args)),
+    formatPhone: (phoneNumber) =>
+      formatNumber({
+        phoneNumber,
+        areaCode: regionSettings.areaCode,
+        countryCode: regionSettings.countryCode,
+      }),
+    webphoneAnswer: (...args) => webphone && webphone.answer(...args),
+    webphoneToVoicemail: (...args) => webphone && webphone.toVoiceMail(...args),
+    webphoneReject: (...args) => webphone && webphone.reject(...args),
+    webphoneHangup: (...args) => webphone && webphone.hangup(...args),
     async webphoneResume(...args) {
       if (!webphone) {
         return;
@@ -107,62 +114,71 @@ function mapToFunctions(_, {
         routerInteraction.push(callCtrlRoute);
       }
     },
-    onCreateContact: onCreateContact ?
-      async ({ phoneNumber, name, entityType }) => {
-        const hasMatchNumber = await contactMatcher.hasMatchNumber({
-          phoneNumber,
-          ignoreCache: true
-        });
-        if (!hasMatchNumber) {
-          await onCreateContact({ phoneNumber, name, entityType });
-          await contactMatcher.forceMatchNumber({ phoneNumber });
-        }
-      } :
-      undefined,
-    isLoggedContact,
-    onLogCall: onLogCall ||
-    (callLogger && (async ({ call, contact, redirect = true }) => {
-      await callLogger.logCall({
-        call,
-        contact,
-        redirect,
-      });
-    })),
-
-    dateTimeFormatter,
-    onViewContact: onViewContact || (({ contact: { type, id } }) => {
-      routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
-    }),
-    onClickToDial: dialerUI ?
-      (recipient) => {
-        if (call.isIdle) {
-          routerInteraction.push(dialerRoute);
-          dialerUI.call({ recipient });
-          callHistory.onClickToCall();
-        }
-      } :
-      undefined,
-    onClickToSms: composeText ?
-      async (contact, isDummyContact = false) => {
-        if (routerInteraction) {
-          routerInteraction.push(composeTextRoute);
-        }
-        // if contact autocomplete, if no match fill the number only
-        if (contact.name && contact.phoneNumber && isDummyContact) {
-          composeText.updateTypingToNumber(contact.name);
-          contactSearch.search({ searchString: contact.name });
-        } else {
-          composeText.addToNumber(contact);
-          if (composeText.typingToNumber === contact.phoneNumber) {
-            composeText.cleanTypingToNumber();
+    onCreateContact: onCreateContact
+      ? async ({ phoneNumber, name, entityType }) => {
+          const hasMatchNumber = await contactMatcher.hasMatchNumber({
+            phoneNumber,
+            ignoreCache: true,
+          });
+          if (!hasMatchNumber) {
+            await onCreateContact({ phoneNumber, name, entityType });
+            await contactMatcher.forceMatchNumber({ phoneNumber });
           }
         }
-        callHistory.onClickToSMS();
-      } :
-      undefined,
+      : undefined,
+    isLoggedContact,
+    onLogCall:
+      onLogCall ||
+      (callLogger &&
+        (async ({ call, contact, redirect = true }) => {
+          await callLogger.logCall({
+            call,
+            contact,
+            redirect,
+          });
+        })),
+
+    dateTimeFormatter,
+    onViewContact:
+      onViewContact ||
+      (({ contact: { type, id } }) => {
+        routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
+      }),
+    onClickToDial: dialerUI
+      ? (recipient) => {
+          if (call.isIdle) {
+            routerInteraction.push(dialerRoute);
+            dialerUI.call({ recipient });
+            callHistory.onClickToCall();
+          }
+        }
+      : undefined,
+    onClickToSms: composeText
+      ? async (contact, isDummyContact = false) => {
+          if (routerInteraction) {
+            routerInteraction.push(composeTextRoute);
+          }
+          // if contact autocomplete, if no match fill the number only
+          if (contact.name && contact.phoneNumber && isDummyContact) {
+            composeText.updateTypingToNumber(contact.name);
+            contactSearch.search({ searchString: contact.name });
+          } else {
+            composeText.addToNumber(contact);
+            if (composeText.typingToNumber === contact.phoneNumber) {
+              composeText.cleanTypingToNumber();
+            }
+          }
+          callHistory.onClickToSMS();
+        }
+      : undefined,
   };
 }
 
-const CallsListPage = withPhone(connect(mapToProps, mapToFunctions)(CallsListPanel));
+const CallsListPage = withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(CallsListPanel),
+);
 
 export default CallsListPage;

@@ -26,10 +26,10 @@ export default class ConferenceDialerUI extends DialerUI {
   }
 
   get _actionTypes() {
-    return new Enum([
-      ...Object.keys(super._actionTypes),
-      'setLastSessionId',
-    ], 'conferenceDialerUI');
+    return new Enum(
+      [...Object.keys(super._actionTypes), 'setLastSessionId'],
+      'conferenceDialerUI',
+    );
   }
 
   @proxify
@@ -68,14 +68,13 @@ export default class ConferenceDialerUI extends DialerUI {
     };
   }
 
-  getUIFunctions({
-    params: { fromNumber, fromSessionId },
-  }) {
+  getUIFunctions({ params: { fromNumber, fromSessionId } }) {
     return {
       ...super.getUIFunctions(),
       onBack: () => this._routerInteraction.push(this._backURL),
       setLastSessionId: () => this.setLastSessionId(fromSessionId),
-      onCallButtonClick: () => this.onCallButtonClick({ fromNumber, fromSessionId }),
+      onCallButtonClick: () =>
+        this.onCallButtonClick({ fromNumber, fromSessionId }),
       inConference: true,
     };
   }

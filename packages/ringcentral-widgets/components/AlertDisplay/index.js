@@ -10,42 +10,42 @@ function AlertDisplay(props) {
   const RendererMessage = props.component;
   return (
     <div className={classnames(styles.root, props.className)}>
-      {
-        props.messages.map((message) => {
-          const Renderer = props.getRenderer(message);
-          if (!Renderer) return null;
-          return (
-            <RendererMessage
-              animation={message.animation}
-              duration={message.duration}
-              key={message.id}
-              level={message.level}
-              message={
-                <Renderer
-                  message={message}
-                  currentLocale={props.currentLocale}
-                  brand={props.brand}
-                />
-              }
-              onDismiss={() => {
-                props.dismiss(message.id);
-              }}
-            />
-          );
-        })
-      }
+      {props.messages.map((message) => {
+        const Renderer = props.getRenderer(message);
+        if (!Renderer) return null;
+        return (
+          <RendererMessage
+            animation={message.animation}
+            duration={message.duration}
+            key={message.id}
+            level={message.level}
+            message={
+              <Renderer
+                message={message}
+                currentLocale={props.currentLocale}
+                brand={props.brand}
+              />
+            }
+            onDismiss={() => {
+              props.dismiss(message.id);
+            }}
+          />
+        );
+      })}
     </div>
   );
 }
 
 AlertDisplay.propTypes = {
   className: PropTypes.string,
-  messages: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    level: PropTypes.oneOf(Object.keys(alertLevels)).isRequired,
-    message: PropTypes.string.isRequired,
-    payload: PropTypes.any,
-  })),
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      level: PropTypes.oneOf(Object.keys(alertLevels)).isRequired,
+      message: PropTypes.string.isRequired,
+      payload: PropTypes.any,
+    }),
+  ),
   getRenderer: PropTypes.func,
   dismiss: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
@@ -57,7 +57,7 @@ AlertDisplay.propTypes = {
 AlertDisplay.defaultProps = {
   getRenderer: () => undefined,
   component: Message,
-  brand: 'RingCentral'
+  brand: 'RingCentral',
 };
 
 export default AlertDisplay;

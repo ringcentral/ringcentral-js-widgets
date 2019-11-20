@@ -15,10 +15,7 @@ const LogBasicInfoPage = () => {
   return (
     <div>
       <ComponentHeader name="LogBasicInfo" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="LogBasicInfo Example"
-      >
+      <CodeExample code={demoCode} title="LogBasicInfo Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

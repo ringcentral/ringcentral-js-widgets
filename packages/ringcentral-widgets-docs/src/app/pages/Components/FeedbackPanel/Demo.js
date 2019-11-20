@@ -20,9 +20,5 @@ props.sendFeedback = () => null;
 /**
  * A example of `FeedbackPanel`
  */
-const FeedbackPanelDemo = () => (
-  <FeedbackPanel
-    {...props}
-  />
-);
+const FeedbackPanelDemo = () => <FeedbackPanel {...props} />;
 export default FeedbackPanelDemo;

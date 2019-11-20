@@ -53,10 +53,12 @@ class ParticipantsContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.formatPrticipants(nextProps);
-    if (this.state.showModal
-      && !nextProps.participants.find(
-        participant => participant.id === this.state.detail.id
-      )) {
+    if (
+      this.state.showModal &&
+      !nextProps.participants.find(
+        (participant) => participant.id === this.state.detail.id,
+      )
+    ) {
       this.onCancelNoAfter();
     }
   }
@@ -75,7 +77,9 @@ class ParticipantsContainer extends Component {
       <BackHeader
         className={styles.header}
         onBackClick={onBackButtonClick}
-        backButton={<BackButton label={i18n.getString('conferenceCall', currentLocale)} />}
+        backButton={
+          <BackButton label={i18n.getString('conferenceCall', currentLocale)} />
+        }
       />
     );
 
@@ -84,41 +88,41 @@ class ParticipantsContainer extends Component {
         {backHeader}
         <div className={styles.participantsListContainer}>
           <div className={styles.participantsCount}>
-            {
-              participants.length === 1
-                ? `${participants.length} ${i18n.getString('participant', currentLocale)}`
-                : `${participants.length} ${i18n.getString('participants', currentLocale)}`
-            }
+            {participants.length === 1
+              ? `${participants.length} ${i18n.getString(
+                  'participant',
+                  currentLocale,
+                )}`
+              : `${participants.length} ${i18n.getString(
+                  'participants',
+                  currentLocale,
+                )}`}
           </div>
           <div className={styles.participantsList}>
-            {
-              participants.map((participant) => {
-                const {
-                  id,
-                  avatarUrl,
-                  partyName,
-                  partyNumber,
-                  calleeType,
-                } = participant;
-                let displayText = partyNumber || i18n.getString('unknownNumber', currentLocale);
-                if (
-                  partyName &&
-                  calleeType === calleeTypes.contacts
-                ) {
-                  // means that matched a contact
-                  displayText = partyName;
-                }
-                return (
-                  <ParticipantItem
-                    key={id}
-                    avatarUrl={avatarUrl}
-                    detail={displayText}
-                    currentLocale={currentLocale}
-                    onRemove={() => this.onRemoveBtnClick(participant)}
-                  />
-                );
-              })
-            }
+            {participants.map((participant) => {
+              const {
+                id,
+                avatarUrl,
+                partyName,
+                partyNumber,
+                calleeType,
+              } = participant;
+              let displayText =
+                partyNumber || i18n.getString('unknownNumber', currentLocale);
+              if (partyName && calleeType === calleeTypes.contacts) {
+                // means that matched a contact
+                displayText = partyName;
+              }
+              return (
+                <ParticipantItem
+                  key={id}
+                  avatarUrl={avatarUrl}
+                  detail={displayText}
+                  currentLocale={currentLocale}
+                  onRemove={() => this.onRemoveBtnClick(participant)}
+                />
+              );
+            })}
           </div>
         </div>
         <ConfirmRemoveModal
@@ -126,14 +130,14 @@ class ParticipantsContainer extends Component {
           detail={detail}
           onCancel={this.onCancel}
           currentLocale={currentLocale}
-          onRemove={
-            () => removeFunc(detail && detail.id).then(this.onCancelNoAfter)
-          } />
+          onRemove={() =>
+            removeFunc(detail && detail.id).then(this.onCancelNoAfter)
+          }
+        />
       </div>
     );
   }
 }
-
 
 ParticipantsContainer.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -146,11 +150,11 @@ ParticipantsContainer.propTypes = {
 };
 
 ParticipantsContainer.defaultProps = {
-  removeFunc: i => i,
-  onBackButtonClick: i => i,
-  formatPhone: i => i,
-  afterOnCancel: i => i,
-  afterOnRemoveBtnClick: i => i,
+  removeFunc: (i) => i,
+  onBackButtonClick: (i) => i,
+  formatPhone: (i) => i,
+  afterOnCancel: (i) => i,
+  afterOnRemoveBtnClick: (i) => i,
 };
 
 export default ParticipantsContainer;

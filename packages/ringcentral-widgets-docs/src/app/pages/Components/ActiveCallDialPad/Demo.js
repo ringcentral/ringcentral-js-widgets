@@ -12,15 +12,15 @@ props.currentLocale = 'en-US';
  * A example of `ActiveCallDialPad`
  */
 const ActiveCallDialPadDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '500px',
-    width: '300px',
-    border: '1px solid #f3f3f3',
-  }}>
-    <ActiveCallDialPad
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      height: '500px',
+      width: '300px',
+      border: '1px solid #f3f3f3',
+    }}
+  >
+    <ActiveCallDialPad {...props} />
   </div>
 );
 export default ActiveCallDialPadDemo;

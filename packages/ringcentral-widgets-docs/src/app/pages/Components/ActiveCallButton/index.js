@@ -15,10 +15,7 @@ const ActiveCallButtonPage = () => {
   return (
     <div>
       <ComponentHeader name="ActiveCallButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ActiveCallButton Example"
-      >
+      <CodeExample code={demoCode} title="ActiveCallButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

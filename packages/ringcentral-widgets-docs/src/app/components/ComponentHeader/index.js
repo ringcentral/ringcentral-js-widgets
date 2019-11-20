@@ -5,12 +5,12 @@ import Markdown from '../Markdown';
 
 function ComponentHeader(props) {
   const name = props.name;
-  const description = props.description && props.description.length ?
-    props.description : 'none description';
+  const description =
+    props.description && props.description.length
+      ? props.description
+      : 'none description';
   const text = `# ${name}\n\n${description}`;
-  return (
-    <Markdown text={text} />
-  );
+  return <Markdown text={text} />;
 }
 
 ComponentHeader.propTypes = {

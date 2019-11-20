@@ -3,5 +3,5 @@ export default {
   brandCode: 'rc',
   name: 'RingCentral',
   appName: 'RingCentral',
-  fullName: 'RingCentral'
+  fullName: 'RingCentral',
 };

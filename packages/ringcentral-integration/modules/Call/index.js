@@ -488,10 +488,7 @@ export default class Call extends RcModule {
     callingMode = this._callingSettings.callingMode,
     extendedControls = [],
   }) {
-    const homeCountry = this._regionSettings.availableCountries.find(
-      (country) => country.isoCode === this._regionSettings.countryCode,
-    );
-    const homeCountryId = (homeCountry && homeCountry.callingCode) || '1';
+    const homeCountryId = this._regionSettings.homeCountryId;
     let session;
     switch (callingMode) {
       case callingModes.softphone:

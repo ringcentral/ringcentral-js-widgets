@@ -9,9 +9,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `VoicemailPlayer`
  */
-const VoicemailPlayerDemo = () => (
-  <VoicemailPlayer
-    {...props}
-  />
-);
+const VoicemailPlayerDemo = () => <VoicemailPlayer {...props} />;
 export default VoicemailPlayerDemo;

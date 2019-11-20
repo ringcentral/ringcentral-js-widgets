@@ -17,8 +17,12 @@ describe('VoIP Only Mode', () => {
   beforeAll(async () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
-    phone.availabilityMonitor._client.service.platform().emit('refreshError',
-      { mesage: 'none', apiResponse: { _response: { status: 500 } } });
+    phone.availabilityMonitor._client.service
+      .platform()
+      .emit('refreshError', {
+        mesage: 'none',
+        apiResponse: { _response: { status: 500 } },
+      });
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
   });
@@ -26,7 +30,9 @@ describe('VoIP Only Mode', () => {
   test('App is in VoIP Only Mode', () => {
     expect(badge.text()).toEqual('VoIP Only');
     const connectivityAlert = wrapper.find(ConnectivityAlert);
-    expect(connectivityAlert.text()).toEqual('Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.');
+    expect(connectivityAlert.text()).toEqual(
+      'Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.',
+    );
   });
 
   test('App also in limited Mode', () => {
@@ -47,7 +53,9 @@ describe('VoIP Only Mode', () => {
     badge.simulate('click');
     wrapper.update();
     const connectivityAlert2 = wrapper.find(ConnectivityAlert);
-    expect(connectivityAlert2.text()).toEqual('Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.');
+    expect(connectivityAlert2.text()).toEqual(
+      'Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.',
+    );
   });
 });
 
@@ -58,13 +66,19 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
   });
 
   test('Exit from refresh access-token successed.', async () => {
-    phone.availabilityMonitor._client.service.platform().emit('refreshError',
-      { mesage: 'none', apiResponse: { _response: { status: 500 } } });
+    phone.availabilityMonitor._client.service
+      .platform()
+      .emit('refreshError', {
+        mesage: 'none',
+        apiResponse: { _response: { status: 500 } },
+      });
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');
     const connectivityAlert = wrapper.find(ConnectivityAlert);
-    expect(connectivityAlert.text()).toEqual('Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.');
+    expect(connectivityAlert.text()).toEqual(
+      'Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.',
+    );
     expect(phone.availabilityMonitor._limitedTimeout).not.toEqual(null);
     phone.availabilityMonitor._client.service.platform().emit('refreshSuccess');
     await timeout(600);
@@ -82,7 +96,9 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');
     const connectivityAlert = wrapper.find(ConnectivityAlert);
-    expect(connectivityAlert.text()).toEqual('Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.');
+    expect(connectivityAlert.text()).toEqual(
+      'Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.',
+    );
 
     Object.defineProperty(phone.availabilityMonitor, '_randomTime', {
       value: 0.01,

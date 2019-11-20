@@ -15,10 +15,7 @@ const EnvironmentPage = () => {
   return (
     <div>
       <ComponentHeader name="Environment" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Environment Example"
-      >
+      <CodeExample code={demoCode} title="Environment Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

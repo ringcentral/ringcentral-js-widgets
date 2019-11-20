@@ -6,10 +6,7 @@ import styles from './styles.scss';
 export function HeaderButton(props) {
   return (
     <div
-      className={classnames(
-        styles.button,
-        props.disabled && styles.disabled,
-      )}
+      className={classnames(styles.button, props.disabled && styles.disabled)}
       onClick={props.disabled ? undefined : props.onClick}
       title={props.title}
     >
@@ -35,46 +32,26 @@ HeaderButton.defaultProps = {
 function Header(props) {
   let label = null;
   if (props.children) {
-    label = (
-      <div className={styles.label}>
-        {props.children}
-      </div>
-    );
+    label = <div className={styles.label}>{props.children}</div>;
   }
 
   const leftButtons = props.buttons
-    .filter(b => b.placement !== 'right' && !b.hidden)
-    .map((b, idx) => (
-      <HeaderButton key={idx} {...b} />
-    ));
+    .filter((b) => b.placement !== 'right' && !b.hidden)
+    .map((b, idx) => <HeaderButton key={idx} {...b} />);
 
   const rightButtons = props.buttons
-    .filter(b => b.placement === 'right' && !b.hidden)
-    .map((b, idx) => (
-      <HeaderButton key={idx} {...b} />
-    ));
+    .filter((b) => b.placement === 'right' && !b.hidden)
+    .map((b, idx) => <HeaderButton key={idx} {...b} />);
 
   return (
     <header className={classnames(styles.root, props.className)}>
       {label}
-      {
-        leftButtons.length
-          ? (
-            <div className={styles.leftButtons}>
-              {leftButtons}
-            </div>
-          )
-          : null
-      }
-      {
-        rightButtons.length
-          ? (
-            <div className={styles.rightButtons}>
-              {rightButtons}
-            </div>
-          )
-          : null
-      }
+      {leftButtons.length ? (
+        <div className={styles.leftButtons}>{leftButtons}</div>
+      ) : null}
+      {rightButtons.length ? (
+        <div className={styles.rightButtons}>{rightButtons}</div>
+      ) : null}
     </header>
   );
 }
@@ -82,11 +59,13 @@ function Header(props) {
 Header.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  buttons: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.node.isRequired,
-    onClick: PropTypes.funcs,
-    placement: PropTypes.oneOf(['left', 'right']),
-  })),
+  buttons: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.node.isRequired,
+      onClick: PropTypes.funcs,
+      placement: PropTypes.oneOf(['left', 'right']),
+    }),
+  ),
 };
 
 Header.defaultProps = {

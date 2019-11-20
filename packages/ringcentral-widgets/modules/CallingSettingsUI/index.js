@@ -9,8 +9,8 @@ import RcUIModule from '../../lib/RcUIModule';
     'Locale',
     { dep: 'Webphone', optional: true },
     'RouterInteraction',
-    { dep: 'CallingSettingsUIOptions', optional: true }
-  ]
+    { dep: 'CallingSettingsUIOptions', optional: true },
+  ],
 })
 export default class CallingSettingsUI extends RcUIModule {
   constructor({
@@ -60,11 +60,15 @@ export default class CallingSettingsUI extends RcUIModule {
   getUIFunctions() {
     return {
       onBackButtonClick: () => this._routerInteraction.goBack(),
-      onSave: ({ callWith, myLocation, ringoutPrompt }) => this._callingSettings.setData({
-        callWith,
-        myLocation,
-        ringoutPrompt,
-      }, true),
+      onSave: ({ callWith, myLocation, ringoutPrompt }) =>
+        this._callingSettings.setData(
+          {
+            callWith,
+            myLocation,
+            ringoutPrompt,
+          },
+          true,
+        ),
     };
   }
 }

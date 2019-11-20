@@ -35,12 +35,10 @@ function SelectedRecipientItem({
   title = name,
   onRemove,
 }) {
-  const className = phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
+  const className =
+    phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
   return (
-    <li
-      className={className}
-      title={title}
-    >
+    <li className={className} title={title}>
       <span>{name}</span>
       <RemoveButton
         className={styles.removeReceiver}
@@ -67,24 +65,23 @@ function SelectedRecipients({
   recipients,
   multiple,
   onRemove,
-  className
+  className,
 }) {
   if (multiple && recipients.length) {
     return (
       <ul className={classnames(className, styles.selectReceivers)}>
-        {
-          recipients.map(item => (
-            <SelectedRecipientItem
-              key={item.phoneNumber}
-              name={item.name}
-              phoneNumber={item.phoneNumber}
-              onRemove={() => onRemove(item.phoneNumber)}
-            />
-          ))
-        }
+        {recipients.map((item) => (
+          <SelectedRecipientItem
+            key={item.phoneNumber}
+            name={item.name}
+            phoneNumber={item.phoneNumber}
+            onRemove={() => onRemove(item.phoneNumber)}
+          />
+        ))}
       </ul>
     );
-  } else if (!multiple && recipient) {
+  }
+  if (!multiple && recipient) {
     return (
       <ul className={classnames(className, styles.selectReceivers)}>
         <SelectedRecipientItem
@@ -105,10 +102,12 @@ SelectedRecipients.propTypes = {
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string,
   }),
-  recipients: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string,
-  })).isRequired,
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string.isRequired,
+      name: PropTypes.string,
+    }),
+  ).isRequired,
   multiple: PropTypes.bool.isRequired,
   className: PropTypes.string,
 };
@@ -142,21 +141,21 @@ class RecipientsInput extends Component {
     };
     this.addSelectedContactIndex = () => {
       const { length } = this.props.searchContactList;
-      if (this.state.selectedContactIndex >= (length - 1)) {
+      if (this.state.selectedContactIndex >= length - 1) {
         this.setState({
           selectedContactIndex: length - 1,
         });
       } else {
-        this.setState(preState => ({
-          selectedContactIndex: (preState.selectedContactIndex + 1),
+        this.setState((preState) => ({
+          selectedContactIndex: preState.selectedContactIndex + 1,
         }));
       }
     };
 
     this.reduceSelectedContactIndex = () => {
       if (this.state.selectedContactIndex > 0) {
-        this.setState(preState => ({
-          selectedContactIndex: (preState.selectedContactIndex - 1),
+        this.setState((preState) => ({
+          selectedContactIndex: preState.selectedContactIndex - 1,
         }));
       } else {
         this.setState({
@@ -167,10 +166,12 @@ class RecipientsInput extends Component {
 
     this.isSplitter = (e) => {
       if (
-        e.key === ',' || e.key === ';' || e.key === 'Enter' ||
+        e.key === ',' ||
+        e.key === ';' ||
+        e.key === 'Enter' ||
         (e.key === 'Unidentified' && // for Safari (FF cannot rely on keyCode...)
           (e.keyCode === 186 || // semicolon
-            e.keyCode === 188 || // comma
+          e.keyCode === 188 || // comma
             e.keyCode === 13)) // enter
       ) {
         return true;
@@ -197,10 +198,10 @@ class RecipientsInput extends Component {
         if (this.state.value.length === 0) {
           return;
         }
-        const relatedContactList = this.state.value.length >= 3 ?
-          this.props.searchContactList : [];
-        const currentSelected
-          = relatedContactList[this.state.selectedContactIndex];
+        const relatedContactList =
+          this.state.value.length >= 3 ? this.props.searchContactList : [];
+        const currentSelected =
+          relatedContactList[this.state.selectedContactIndex];
         if (currentSelected && e.key === 'Enter') {
           this.props.addToRecipients({
             name: currentSelected.name,
@@ -219,15 +220,15 @@ class RecipientsInput extends Component {
   onInputKeyUp = (e) => {
     this.props.searchContact(e.currentTarget.value);
     this.setState({
-      isFocusOnInput: true
+      isFocusOnInput: true,
     });
-  }
+  };
 
   onInputFocus = () => {
     this.setState({
-      isFocusOnInput: true
+      isFocusOnInput: true,
     });
-  }
+  };
 
   onInputChange = (e) => {
     const { value } = e.currentTarget;
@@ -237,12 +238,12 @@ class RecipientsInput extends Component {
     if (this.listRef) {
       this.listRef.scrollTop = 0;
     }
-  }
+  };
 
   onClean = () => {
     this.setState({ value: '' });
     this.props.onClean();
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (
@@ -279,45 +280,51 @@ class RecipientsInput extends Component {
     if (this.listRef && this.listRef.contains(evt.target)) return;
     if (this.inputRef && this.inputRef.contains(evt.target)) {
       this.setState({
-        isFocusOnInput: true
+        isFocusOnInput: true,
       });
       return;
     }
     this.setState({
-      isFocusOnInput: false
+      isFocusOnInput: false,
     });
-  }
+  };
 
   _addToRecipients = (item) => {
     this.setState({ value: '', isFocusOnInput: false });
     this.props.addToRecipients(item);
-  }
+  };
 
   setInputRef = (ref) => {
     this.inputRef = ref;
     if (typeof this.props.inputRef === 'function') {
       this.props.inputRef(ref);
     }
-  }
+  };
 
   render() {
+    const { useRCUI, className, isLastInputFromDialpad } = this.props;
     // TODO a temporary fix for rendering slower search result.
-    const relatedContactList = this.state.value.length >= 3 ?
-      this.props.searchContactList.slice(0, 50) : [];
+    const relatedContactList =
+      this.state.value.length >= 3
+        ? this.props.searchContactList.slice(0, 50)
+        : [];
     const label = (
       <label className={styles.label}>
-        {
-          this.props.label === undefined
-            ? `${i18n.getString('to', this.props.currentLocale)}:`
-            : this.props.label
-        }
+        {this.props.label === undefined
+          ? `${i18n.getString('to', this.props.currentLocale)}:`
+          : this.props.label}
       </label>
     );
-    const toNumberInput = !this.props.multiple && this.props.recipient ?
-      null :
-      (
+    const toNumberInput =
+      !this.props.multiple && this.props.recipient ? null : (
         <div className={styles.inputWrapper}>
-          <div className={styles.inputField}>
+          <div
+            className={classnames(
+              styles.inputField,
+              this.state.isFocusOnInput ? 'Mui-focused' : null,
+              'MuiInput-underline',
+            )}
+          >
             <input
               data-sign="recipientsInput"
               ref={this.setInputRef}
@@ -330,7 +337,10 @@ class RecipientsInput extends Component {
               onKeyUp={this.onInputKeyUp}
               placeholder={
                 this.props.placeholder === undefined
-                  ? i18n.getString('enterNameOrNumber', this.props.currentLocale)
+                  ? i18n.getString(
+                      'enterNameOrNumber',
+                      this.props.currentLocale,
+                    )
                   : this.props.placeholder
               }
               autoComplete="off"
@@ -339,20 +349,26 @@ class RecipientsInput extends Component {
           <RemoveButton
             className={styles.removeButton}
             onClick={this.onClean}
-            visibility={
-              this.state.value.length > 0
-            }
+            visibility={this.state.value.length > 0}
           />
         </div>
       );
-
     return (
       <div
-        className={classnames(styles.container, this.props.className)}
+        className={classnames(
+          styles.container,
+          useRCUI ? styles.rcuiStyle : null,
+          className,
+        )}
         onKeyDown={this.handleHotKey}
       >
         {label}
-        <div className={this.props.label === undefined ? styles.rightPanel : ''}>
+        <div
+          className={classnames(
+            useRCUI ? styles.rcuiStyle : null,
+            this.props.label === undefined ? styles.rightPanel : '',
+          )}
+        >
           <SelectedRecipients
             recipient={this.props.recipient}
             recipients={this.props.recipients}
@@ -364,14 +380,16 @@ class RecipientsInput extends Component {
         </div>
         <ContactDropdownList
           currentLocale={this.props.currentLocale}
-          listRef={(ref) => { this.listRef = ref; }}
+          listRef={(ref) => {
+            this.listRef = ref;
+          }}
           scrollDirection={this.state.scrollDirection}
           selectedIndex={this.state.selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}
           addToRecipients={this._addToRecipients}
           items={relatedContactList}
           formatContactPhone={this.props.formatContactPhone}
-          visibility={this.state.isFocusOnInput}
+          visibility={this.state.isFocusOnInput && !isLastInputFromDialpad}
           titleEnabled={this.props.titleEnabled}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
           phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
@@ -388,20 +406,24 @@ RecipientsInput.propTypes = {
   recipientsClassName: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  searchContactList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    entityType: PropTypes.string.isRequired,
-    phoneType: PropTypes.string.isRequired,
-    phoneNumber: PropTypes.string.isRequired,
-  })).isRequired,
+  searchContactList: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      entityType: PropTypes.string.isRequired,
+      phoneType: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   recipient: PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string,
   }),
-  recipients: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string,
-  })),
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string.isRequired,
+      name: PropTypes.string,
+    }),
+  ),
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onClean: PropTypes.func.isRequired,
@@ -418,6 +440,8 @@ RecipientsInput.propTypes = {
   phoneSourceNameRenderer: PropTypes.func,
   contactInfoRenderer: PropTypes.func,
   contactPhoneRenderer: PropTypes.func,
+  useRCUI: PropTypes.bool,
+  isLastInputFromDialpad: PropTypes.bool,
 };
 
 RecipientsInput.defaultProps = {
@@ -436,6 +460,8 @@ RecipientsInput.defaultProps = {
   phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined,
+  useRCUI: false,
+  isLastInputFromDialpad: false,
 };
 
 export default RecipientsInput;

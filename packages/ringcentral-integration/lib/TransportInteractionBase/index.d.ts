@@ -1,9 +1,7 @@
-export = TransportInteractionBase;
-
 type Func = (...args: any[]) => any;
 
-interface transportEvents{
-  [P : string]: Func
+interface transportEvents {
+  [P: string]: Func;
 }
 
 interface TransportEvent {
@@ -12,19 +10,19 @@ interface TransportEvent {
 }
 
 interface FetchOption {
-  requestId: number|string;
+  requestId: number | string;
   fetchFunc: Func;
 }
 
 interface ResponseData {
-  requestId,
-  result: null,
-  error
+  requestId;
+  result: null;
+  error;
 }
 
 // TODO: import Transport Instance type
 interface Transport {
-  [P : string]: any;
+  [P: string]: any;
   response(responseData: ResponseData): void;
 }
 
@@ -34,5 +32,7 @@ declare class TransportInteractionBase {
   _transportEvents: transportEvents;
   _fetchAndResponse(fetchOption: FetchOption): Promise<void>;
   _transport?: Transport;
-  readonly transportEvents: TransportEvents;
+  readonly transportEvents: transportEvents;
 }
+
+export = TransportInteractionBase;

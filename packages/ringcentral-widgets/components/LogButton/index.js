@@ -15,11 +15,9 @@ export default function LogButton({
   addTitle,
   editTitle,
 }) {
-  const spinner = isLogging ?
-    (
-      <Spinner ringWidth={2} className={styles.spinner} />
-    ) :
-    null;
+  const spinner = isLogging ? (
+    <Spinner ringWidth={2} className={styles.spinner} />
+  ) : null;
   return (
     <Button
       className={classnames(styles.log, className)}
@@ -27,14 +25,9 @@ export default function LogButton({
       disabled={disableLinks || isLogging}
     >
       <span
-        className={isLogged ?
-          dynamicsFont.edit :
-          dynamicsFont.callLog
-        }
-        title={isLogged ?
-          editTitle :
-          addTitle
-        } />
+        className={isLogged ? dynamicsFont.edit : dynamicsFont.callLog}
+        title={isLogged ? editTitle : addTitle}
+      />
       {spinner}
     </Button>
   );

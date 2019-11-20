@@ -20,68 +20,57 @@ function ButtonsWrapper(props) {
     if (props[`${type}Style`]) {
       buttonStyle = {
         ...style,
-        ...(props[`${type}Style`])
+        ...props[`${type}Style`],
       };
     }
     return (
-      <div
-        key={type}
-        className={styles.button}
-        style={buttonStyle}
-      >
+      <div key={type} className={styles.button} style={buttonStyle}>
         {type.charAt(0).toUpperCase() + type.slice(1)}
       </div>
     );
   });
-  const fillDesriptions = ['normal', 'hover', 'pressed', 'disable'].map((type) => {
-    const typeStyle = props[`${type}Style`];
-    const name = type.charAt(0).toUpperCase() + type.slice(1);
-    return (
-      <div key={type}>
-        <div className={styles.descriptionLine} key={type}>
-          {name} fill color: {typeStyle.backgroundName} {typeStyle.background}
-        </div>
-        {
-          typeStyle.borderColorName && (
+  const fillDesriptions = ['normal', 'hover', 'pressed', 'disable'].map(
+    (type) => {
+      const typeStyle = props[`${type}Style`];
+      const name = type.charAt(0).toUpperCase() + type.slice(1);
+      return (
+        <div key={type}>
+          <div className={styles.descriptionLine} key={type}>
+            {name} fill color: {typeStyle.backgroundName} {typeStyle.background}
+          </div>
+          {typeStyle.borderColorName && (
             <div className={styles.descriptionLine}>
               {name} border color: {typeStyle.borderColorName}
             </div>
-          )
-        }
-        {
-          typeStyle.colorName && (
+          )}
+          {typeStyle.colorName && (
             <div className={styles.descriptionLine}>
-              {name} Text: {props.textSize} {typeStyle.colorName} {typeStyle.color}
+              {name} Text: {props.textSize} {typeStyle.colorName}{' '}
+              {typeStyle.color}
             </div>
-          )
-        }
-      </div>
-    );
-  });
+          )}
+        </div>
+      );
+    },
+  );
   return (
     <div className={styles.buttonsWrapperRoot}>
       <div className={styles.wrapperTitle}>{props.title}</div>
-      <div className={styles.wrapperButtonList}>
-        {buttons}
-      </div>
+      <div className={styles.wrapperButtonList}>{buttons}</div>
       <div className={styles.description}>
         <div className={styles.descriptionLine}>
           Minumum width: {props.width}
         </div>
-        <div className={styles.descriptionLine}>
-          Height: {props.height}
-        </div>
+        <div className={styles.descriptionLine}>Height: {props.height}</div>
         <div className={styles.descriptionLine}>
           Corner radius: {props.cornerRadius}
         </div>
-        {
-          props.textColor && (
-            <div className={styles.descriptionLine}>
-              Text: {props.textSize} {props.textColorName} {props.textColor}
-            </div>
-          )
-        }
-        { fillDesriptions }
+        {props.textColor && (
+          <div className={styles.descriptionLine}>
+            Text: {props.textSize} {props.textColorName} {props.textColor}
+          </div>
+        )}
+        {fillDesriptions}
       </div>
     </div>
   );
@@ -97,20 +86,20 @@ const primaryButtonInPage = {
   textColorName: 'Regular Snow',
   normalStyle: {
     background: '#0684BD',
-    backgroundName: 'RC Blue'
+    backgroundName: 'RC Blue',
   },
   hoverStyle: {
     background: '#389DCA',
-    backgroundName: 'Sea'
+    backgroundName: 'Sea',
   },
   pressedStyle: {
     background: '#0570A1',
-    backgroundName: 'Marine'
+    backgroundName: 'Marine',
   },
   disableStyle: {
     background: '#C7C7C7',
-    backgroundName: 'Smoke'
-  }
+    backgroundName: 'Smoke',
+  },
 };
 
 const secondaryButtonInPage = {
@@ -123,17 +112,17 @@ const secondaryButtonInPage = {
     background: 'transparent',
     color: '#0684BD',
     border: 'solid 1px rgba(6, 132, 189, 0.5)',
-    borderColorName: '50% RC Blue #0684BD'
+    borderColorName: '50% RC Blue #0684BD',
   },
   hoverStyle: {
     color: '#FFFFFF',
     background: '#389DCA',
-    backgroundName: 'Sea'
+    backgroundName: 'Sea',
   },
   pressedStyle: {
     color: '#FFFFFF',
     background: '#0570A1',
-    backgroundName: 'Marine'
+    backgroundName: 'Marine',
   },
   disableStyle: {
     background: '#FFFFFF',
@@ -141,8 +130,8 @@ const secondaryButtonInPage = {
     color: '#C7C7C7',
     colorName: 'Smoke',
     border: 'solid 1px #C7C7C7',
-    borderColorName: '50% Smoke #C7C7C7'
-  }
+    borderColorName: '50% Smoke #C7C7C7',
+  },
 };
 
 const primaryButtonInPopup = {
@@ -155,20 +144,20 @@ const primaryButtonInPopup = {
   textColorName: 'Regular Snow',
   normalStyle: {
     background: '#0684BD',
-    backgroundName: 'RC Blue'
+    backgroundName: 'RC Blue',
   },
   hoverStyle: {
     background: '#389DCA',
-    backgroundName: 'Sea'
+    backgroundName: 'Sea',
   },
   pressedStyle: {
     background: '#0570A1',
-    backgroundName: 'Marine'
+    backgroundName: 'Marine',
   },
   disableStyle: {
     background: '#C7C7C7',
-    backgroundName: 'Smoke'
-  }
+    backgroundName: 'Smoke',
+  },
 };
 
 const secondaryButtonInPopup = {
@@ -182,33 +171,31 @@ const secondaryButtonInPopup = {
     color: '#0684BD',
     colorName: 'RC Blue',
     border: 'solid 1px rgba(6, 132, 189, 0.5)',
-    borderColorName: '50% RC Blue #0684BD'
+    borderColorName: '50% RC Blue #0684BD',
   },
   hoverStyle: {
     color: '#FFFFFF',
     background: '#389DCA',
-    backgroundName: 'Sea'
+    backgroundName: 'Sea',
   },
   pressedStyle: {
     color: '#FFFFFF',
     background: '#0570A1',
-    backgroundName: 'Marine'
+    backgroundName: 'Marine',
   },
   disableStyle: {
     background: '#FFFFFF',
     backgroundName: 'Snow',
     color: '#C7C7C7',
     colorName: 'Smoke',
-    border: 'solid 1px #C7C7C7'
-  }
+    border: 'solid 1px #C7C7C7',
+  },
 };
 
 function ButtonsPage() {
   return (
     <div className={styles.root}>
-      <div className={styles.header}>
-        Button
-      </div>
+      <div className={styles.header}>Button</div>
       <div className={styles.subHeader}>Size & Specs</div>
       <div className={styles.buttonListGroup}>
         <div className={styles.buttonList}>
@@ -238,7 +225,11 @@ function ButtonsPage() {
       </div>
       <div className={styles.clearLine} />
       <div className={styles.buttonListGroup}>
-        <img src={primaryButtonPageExample} alt="primary button in page examples" width="100%" />
+        <img
+          src={primaryButtonPageExample}
+          alt="primary button in page examples"
+          width="100%"
+        />
       </div>
       <div className={styles.clearLine} />
       <div className={styles.buttonListGroup}>
@@ -270,7 +261,11 @@ function ButtonsPage() {
       </div>
       <div className={styles.clearLine} />
       <div className={styles.buttonListGroup}>
-        <img src={primaryButtonPopupExample} alt="primary button in popup examples" width="100%" />
+        <img
+          src={primaryButtonPopupExample}
+          alt="primary button in popup examples"
+          width="100%"
+        />
       </div>
     </div>
   );

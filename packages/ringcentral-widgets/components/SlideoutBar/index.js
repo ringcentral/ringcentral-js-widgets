@@ -8,7 +8,7 @@ export default class SlideoutBar extends React.Component {
   _onClose = (evt) => {
     evt.stopPropagation();
     this.props.onClose();
-  }
+  };
 
   _renderCloseButton() {
     return (

@@ -14,11 +14,11 @@ const PresenceStatusIconPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="PresenceStatusIcon" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="PresenceStatusIcon Example"
-      >
+      <ComponentHeader
+        name="PresenceStatusIcon"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="PresenceStatusIcon Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

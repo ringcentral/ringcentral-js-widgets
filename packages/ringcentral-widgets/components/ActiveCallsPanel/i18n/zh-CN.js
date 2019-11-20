@@ -3,7 +3,7 @@ export default {
   currentCall: "当前通话",
   ringCall: "正在振铃通话",
   onHoldCall: "等候接听电话",
-  otherDeviceCall: "我的其他设备上的正在进行通话",
+  otherDeviceCall: "我的其他设备上正在进行的通话",
   confirmation: "确认",
   confirmMergeToConference: "添加至电话会议？",
   mergeToConference: "合并",

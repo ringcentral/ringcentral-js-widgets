@@ -13,7 +13,8 @@ export default {
   noLabel: "Dispositivo desconhecido",
   notSetSinkIdTip: "As permissões atuais do navegador não estão configuradas para nos permitir o acesso aos seus dispositivos de saída de áudio. {clickHereLink} para ver como configurar.",
   noLabelTip: "As permissões atuais do navegador não estão configuradas para nos permitir o acesso aos seus dispositivos de entrada de áudio.",
-  clickHere: "Clique aqui"
+  clickHere: "Clique aqui",
+  defaultOutputDevice: "Dispositivo de saída padrão"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@
@@ -31,3 +32,4 @@ export default {
 // @key: @#@"notSetSinkIdTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up."@#@
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
+// @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@

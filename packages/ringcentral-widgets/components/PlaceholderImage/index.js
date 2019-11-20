@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const cache = {};
-const defaultContainer = x => x;
+const defaultContainer = (x) => x;
 
 /**
  * Reference: https://github.com/mbrevda/react-image
@@ -25,7 +25,7 @@ class PlaceholderImage extends Component {
     placeholder: false,
     container: defaultContainer,
     placeholderContainer: defaultContainer,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -42,7 +42,7 @@ class PlaceholderImage extends Component {
     if (this.img) {
       this.setState({ isLoaded: true });
     }
-  }
+  };
 
   onError = () => {
     const { src } = this.props;
@@ -53,7 +53,7 @@ class PlaceholderImage extends Component {
     }
 
     this.setState({ isLoaded: false });
-  }
+  };
 
   loadImg = () => {
     const { src } = this.props;
@@ -64,7 +64,7 @@ class PlaceholderImage extends Component {
     // TODO: Consider using decode first here
     this.img.onload = this.onLoad;
     this.img.onerror = this.onError;
-  }
+  };
 
   unloadImg = () => {
     delete this.img.onerror;
@@ -77,7 +77,7 @@ class PlaceholderImage extends Component {
     }
 
     delete this.img;
-  }
+  };
 
   componentDidMount() {
     const { isLoading } = this.state;
@@ -102,10 +102,13 @@ class PlaceholderImage extends Component {
         return this.setState({ isLoading: false, isLoaded: false });
       }
 
-      this.setState({
-        isLoaded: false,
-        isLoading: false
-      }, this.loadImg);
+      this.setState(
+        {
+          isLoaded: false,
+          isLoading: false,
+        },
+        this.loadImg,
+      );
     }
   }
 
@@ -118,15 +121,12 @@ class PlaceholderImage extends Component {
       ...rest
     } = this.props;
 
-    const {
-      isLoading,
-      isLoaded,
-    } = this.state;
+    const { isLoading, isLoaded } = this.state;
 
     if (isLoaded) {
       const imgProps = {
         ...{ src },
-        ...rest
+        ...rest,
       };
 
       /* eslint-disable-next-line */

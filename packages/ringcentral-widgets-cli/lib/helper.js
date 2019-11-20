@@ -16,21 +16,14 @@ exports.getModulesDistination = () => {
   return null;
 };
 
-exports.copyTemplate = ({
-  templatePath,
-  destinationPath,
-  params,
-}) => {
+exports.copyTemplate = ({ templatePath, destinationPath, params }) => {
   const template = fs.readFileSync(templatePath, { encoding: 'utf8' });
   const codes = ejs.render(template, params);
   fs.writeFileSync(destinationPath, codes);
   console.log('Created: ', destinationPath);
 };
 
-const copyFile = ({
-  templatePath,
-  destinationPath
-}) => {
+const copyFile = ({ templatePath, destinationPath }) => {
   const template = fs.readFileSync(templatePath, { encoding: 'utf8' });
   fs.writeFileSync(destinationPath, template);
   console.log('Created: ', destinationPath);
@@ -38,10 +31,7 @@ const copyFile = ({
 
 exports.copyFile = copyFile;
 
-const copyDir = ({
-  templatePath,
-  destinationPath
-}) => {
+const copyDir = ({ templatePath, destinationPath }) => {
   if (!fs.existsSync(destinationPath)) {
     fs.mkdirSync(destinationPath);
   }

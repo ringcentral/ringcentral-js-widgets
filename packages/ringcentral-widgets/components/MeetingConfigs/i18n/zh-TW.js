@@ -1,5 +1,5 @@
 export default {
-  topic: "主題",
+  topic: "主旨",
   when: "時間",
   duration: "持續時間",
   recurringMeeting: "定期會議",
@@ -9,7 +9,7 @@ export default {
   host: "主持人視訊開啟",
   participants: "參與者視訊開啟",
   audioOptions: "音訊選項",
-  voIPOnly: "僅網路語音協定 (VoIP)",
+  voIPOnly: "僅網路電話",
   both: "兩者皆是",
   meetingOptions: "會議選項",
   requirePassword: "會議密碼為必填",

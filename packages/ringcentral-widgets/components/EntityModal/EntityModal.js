@@ -26,7 +26,7 @@ export default class EntityModal extends Component {
     };
     this.onRadioChange = (e) => {
       this.setState({
-        selected: e.target.value
+        selected: e.target.value,
       });
     };
   }
@@ -41,7 +41,8 @@ export default class EntityModal extends Component {
         onCancel={this.onCancel}
         textConfirm={i18n.getString('create', currentLocale)}
         currentLocale={currentLocale}
-        clickOutToClose>
+        clickOutToClose
+      >
         {entities.map((entityType, idx) => (
           <div className={styles.radio} key={idx}>
             <label>

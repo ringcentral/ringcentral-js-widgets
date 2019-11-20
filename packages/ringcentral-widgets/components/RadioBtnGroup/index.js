@@ -22,7 +22,13 @@ function RadioOption(props) {
     btnClassName = styles.radioBtn;
   }
   return (
-    <div data-sign={dataSign} className={styles.radioOption} onClick={() => { onSelect(currentIndex); }}>
+    <div
+      data-sign={dataSign}
+      className={styles.radioOption}
+      onClick={() => {
+        onSelect(currentIndex);
+      }}
+    >
       <span className={btnClassName} />
       <span className={styles.optionNumber} title={phoneNumber}>
         {phoneNumber}
@@ -51,11 +57,7 @@ export default class RadioButtonGroup extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      disabled,
-      onRadioSelect,
-      radioOptions,
-    } = props;
+    const { disabled, onRadioSelect, radioOptions } = props;
     this.state = {
       selectedIndex: 0,
     };
@@ -78,25 +80,21 @@ export default class RadioButtonGroup extends Component {
       currentLocale,
     } = this.props;
 
-    const {
-      selectedIndex,
-    } = this.state;
+    const { selectedIndex } = this.state;
     return (
       <div className={classnames(styles.root, className)}>
-        {
-          radioOptions.map((number, idx) => (
-            <RadioOption
-              dataSign={dataSign}
-              currentIndex={idx}
-              selectedIndex={selectedIndex}
-              key={number.id}
-              phoneNumber={formatPhone(number.phoneNumber)}
-              label={number.label}
-              onSelect={this.chooseOption}
-              currentLocale={currentLocale}
-            />
-          ))
-        }
+        {radioOptions.map((number, idx) => (
+          <RadioOption
+            dataSign={dataSign}
+            currentIndex={idx}
+            selectedIndex={selectedIndex}
+            key={number.id}
+            phoneNumber={formatPhone(number.phoneNumber)}
+            label={number.label}
+            onSelect={this.chooseOption}
+            currentLocale={currentLocale}
+          />
+        ))}
       </div>
     );
   }

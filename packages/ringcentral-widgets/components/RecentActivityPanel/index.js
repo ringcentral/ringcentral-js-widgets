@@ -10,11 +10,16 @@ import RecentActivityView from '../RecentActivityView';
 
 const cx = classNames.bind(styles);
 const ToggleIcon = ({ expanded }) => (
-  <i className={classnames(dynamicsFont.arrow, cx('arrowIcon', { foldArrowIcon: !expanded }))} />
+  <i
+    className={classnames(
+      dynamicsFont.arrow,
+      cx('arrowIcon', { foldArrowIcon: !expanded }),
+    )}
+  />
 );
 
 ToggleIcon.propTypes = {
-  expanded: PropTypes.bool.isRequired
+  expanded: PropTypes.bool.isRequired,
 };
 
 /**
@@ -25,7 +30,7 @@ function RecentActivityPanel(props) {
   const toggleButton = {
     label: <ToggleIcon expanded={expanded} />,
     onClick: onPanelToggle,
-    placement: 'right'
+    placement: 'right',
   };
   if (!props.currentContact) {
     return null;
@@ -34,7 +39,9 @@ function RecentActivityPanel(props) {
   return (
     <div className={containerClass}>
       <div className={styles.header} onClick={onPanelToggle}>
-        <Header buttons={[toggleButton]} className={styles.header}>{title}</Header>
+        <Header buttons={[toggleButton]} className={styles.header}>
+          {title}
+        </Header>
       </div>
       <RecentActivityView {...props} />
     </div>
@@ -59,5 +66,5 @@ export default expandable({
     height: '200px',
     offset: '27px',
   },
-  className: styles.expandable
+  className: styles.expandable,
 })(RecentActivityPanel);

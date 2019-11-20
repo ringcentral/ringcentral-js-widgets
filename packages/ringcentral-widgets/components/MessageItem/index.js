@@ -6,7 +6,7 @@ import messageDirection from 'ringcentral-integration/enums/messageDirection';
 import parseNumber from 'ringcentral-integration/lib/parseNumber';
 import {
   messageIsTextMessage,
-  messageIsFax
+  messageIsFax,
 } from 'ringcentral-integration/lib/messageHelper';
 
 import formatDuration from '../../lib/formatDuration';
@@ -20,19 +20,13 @@ import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
 import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
 import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
 
-
 import ComposeTextIcon from '../../assets/images/ComposeText.svg';
 import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
 
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function ConversationIcon({
-  group,
-  type,
-  currentLocale,
-  direction,
-}) {
+function ConversationIcon({ group, type, currentLocale, direction }) {
   let title;
   let icon;
   switch (type) {
@@ -42,23 +36,26 @@ function ConversationIcon({
       break;
     case messageTypes.fax:
       title = i18n.getString(messageTypes.fax, currentLocale);
-      icon = direction === messageDirection.inbound ?
-        <FaxInboundIcon width={21} className={styles.icon} /> :
-        <FaxOutboundIcon width={21} className={styles.icon} />;
+      icon =
+        direction === messageDirection.inbound ? (
+          <FaxInboundIcon width={21} className={styles.icon} />
+        ) : (
+          <FaxOutboundIcon width={21} className={styles.icon} />
+        );
       break;
     default:
-      title = group ?
-        i18n.getString('groupConversation', currentLocale) :
-        i18n.getString('conversation', currentLocale);
-      icon = group ?
-        <GroupConversationIcon width={19} className={styles.icon} /> :
-        <ComposeTextIcon width={18} className={styles.icon} />;
+      title = group
+        ? i18n.getString('groupConversation', currentLocale)
+        : i18n.getString('conversation', currentLocale);
+      icon = group ? (
+        <GroupConversationIcon width={19} className={styles.icon} />
+      ) : (
+        <ComposeTextIcon width={18} className={styles.icon} />
+      );
   }
   return (
     <div className={styles.conversationIcon}>
-      <span title={title}>
-        {icon}
-      </span>
+      <span title={title}>{icon}</span>
     </div>
   );
 }
@@ -86,7 +83,7 @@ export default class MessageItem extends Component {
     };
 
     this.toggleExtended = () => {
-      this.setState(preState => ({
+      this.setState((preState) => ({
         extended: !preState.extended,
       }));
     };
@@ -95,24 +92,25 @@ export default class MessageItem extends Component {
      * properties before the state has been changed. Which would reset the selected value.
      */
   }
+
   componentDidMount() {
     this._mounted = true;
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       !this._userSelection &&
-      (
-        nextProps.conversation.conversationMatches !==
+      (nextProps.conversation.conversationMatches !==
         this.props.conversation.conversationMatches ||
         nextProps.conversation.correspondentMatches !==
-        this.props.conversation.correspondentMatches
-      )
+          this.props.conversation.correspondentMatches)
     ) {
       this.setState({
         selected: this.getInitialContactIndex(nextProps),
       });
     }
   }
+
   componentWillUnmount() {
     this._mounted = false;
   }
@@ -121,11 +119,12 @@ export default class MessageItem extends Component {
     if (e.target !== e.currentTarget) {
       e.stopPropagation();
     }
-  }
+  };
 
   onSelectContact = (value, idx) => {
     const selected = this.props.showContactDisplayPlaceholder
-      ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
+      ? parseInt(idx, 10) - 1
+      : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
@@ -133,63 +132,87 @@ export default class MessageItem extends Component {
     if (this.props.autoLog) {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
-  }
+  };
+
   getInitialContactIndex(nextProps = this.props) {
     const {
       correspondentMatches,
       lastMatchedCorrespondentEntity,
     } = nextProps.conversation;
     if (lastMatchedCorrespondentEntity) {
-      const index = correspondentMatches.findIndex(contact => (
-        contact.id === lastMatchedCorrespondentEntity.id
-      ));
+      const index = correspondentMatches.findIndex(
+        (contact) => contact.id === lastMatchedCorrespondentEntity.id,
+      );
       if (index > -1) return index;
     }
     return this.props.showContactDisplayPlaceholder ? -1 : 0;
   }
+
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.props.conversation.correspondentMatches;
-    return (selected > -1 && contactMatches[selected]) ||
+    return (
+      (selected > -1 && contactMatches[selected]) ||
       (contactMatches.length === 1 && contactMatches[0]) ||
-      null;
+      null
+    );
+  };
+
+  getMatchEntities() {
+    return this.props.conversation.correspondentMatches || [];
   }
+
   getMatchEntitiesIds() {
     const contactMatches = this.props.conversation.correspondentMatches || [];
-    return contactMatches.map(item => item.id);
+    return contactMatches.map((item) => item.id);
   }
+
   getPhoneNumber() {
     const { correspondents } = this.props.conversation;
-    return (correspondents.length === 1 && correspondents[0] &&
-      (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
+    return (
+      (correspondents.length === 1 &&
+        correspondents[0] &&
+        (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) ||
+      undefined
+    );
   }
+
   getGroupPhoneNumbers() {
     const { correspondents } = this.props.conversation;
-    const groupNumbers = correspondents.length > 1 ?
-      correspondents.map(correspondent =>
-        correspondent.extensionNumber || correspondent.phoneNumber || undefined
-      )
-      : null;
+    const groupNumbers =
+      correspondents.length > 1
+        ? correspondents.map(
+            (correspondent) =>
+              correspondent.extensionNumber ||
+              correspondent.phoneNumber ||
+              undefined,
+          )
+        : null;
     return groupNumbers;
   }
+
   getFallbackContactName() {
     const { correspondents } = this.props.conversation;
-    return (correspondents.length === 1 &&
-      (correspondents[0].name)) || undefined;
+    return (correspondents.length === 1 && correspondents[0].name) || undefined;
   }
+
   viewSelectedContact = () => {
     if (typeof this.props.onViewContact === 'function') {
       this.props.onViewContact({
         contact: this.getSelectedContact(),
+        contactMatches: this.getMatchEntities(),
         phoneNumber: this.getPhoneNumber(),
-        matchEntitiesIds: this.getMatchEntitiesIds()
+        matchEntitiesIds: this.getMatchEntitiesIds(),
       });
     }
-  }
+  };
+
   async createSelectedContact(entityType) {
     // console.log('click createSelectedContact!!', entityType);
-    if (typeof this.props.onCreateContact === 'function' &&
+    if (
+      typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
-      !this.state.isCreating) {
+      !this.state.isCreating
+    ) {
       this.setState({
         isCreating: true,
       });
@@ -197,7 +220,9 @@ export default class MessageItem extends Component {
       const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
         phoneNumber,
-        name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
+        name: this.props.enableContactFallback
+          ? this.getFallbackContactName()
+          : '',
         entityType,
       });
 
@@ -209,10 +234,12 @@ export default class MessageItem extends Component {
       }
     }
   }
+
   createSelectedContact = this.createSelectedContact.bind(this);
 
   async logConversation({ redirect = true, selected, prefill = true } = {}) {
-    if (typeof this.props.onLogConversation === 'function' &&
+    if (
+      typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging
     ) {
@@ -232,7 +259,8 @@ export default class MessageItem extends Component {
       }
     }
   }
-  logConversation = this.logConversation.bind(this)
+
+  logConversation = this.logConversation.bind(this);
 
   clickToDial = () => {
     if (this.props.onClickToDial) {
@@ -243,11 +271,12 @@ export default class MessageItem extends Component {
         this.props.onClickToDial({
           ...contact,
           phoneNumber,
-          fromType: this.props.conversation.type
+          fromType: this.props.conversation.type,
         });
       }
     }
-  }
+  };
+
   onClickToSms = () => {
     if (this.props.onClickToSms) {
       const contact = this.getSelectedContact() || {};
@@ -261,83 +290,84 @@ export default class MessageItem extends Component {
         });
       }
     }
-  }
+  };
+
   onClickItem = (e) => {
-    if (
-      this.contactDisplay &&
-      this.contactDisplay.contains(e.target)
-    ) {
+    if (this.contactDisplay && this.contactDisplay.contains(e.target)) {
       return;
     }
 
     this.toggleExtended();
-  }
+  };
+
   onClickWrapper = (e) => {
-    if (
-      this.contactDisplay &&
-      this.contactDisplay.contains(e.target)
-    ) {
+    if (this.contactDisplay && this.contactDisplay.contains(e.target)) {
       return;
     }
     if (messageIsTextMessage(this.props.conversation)) {
       this.props.showConversationDetail(this.props.conversation.conversationId);
     }
-  }
+  };
 
   onPlayVoicemail = () => {
-    if (
-      this.props.conversation.unreadCounts > 0
-    ) {
+    if (this.props.conversation.unreadCounts > 0) {
       this.props.readMessage(this.props.conversation.conversationId);
     }
-  }
+  };
 
   onMarkMessage = () => {
-    if (
-      this.props.conversation.unreadCounts === 0
-    ) {
+    if (this.props.conversation.unreadCounts === 0) {
       this.props.markMessage(this.props.conversation.conversationId);
     }
-  }
+  };
 
   onUnmarkMessage = () => {
-    if (
-      this.props.conversation.unreadCounts > 0
-    ) {
+    if (this.props.conversation.unreadCounts > 0) {
       this.props.unmarkMessage(this.props.conversation.conversationId);
     }
-  }
+  };
+
   onPreviewFax = (uri) => {
     this.props.previewFaxMessages(uri, this.props.conversation.conversationId);
-  }
+  };
+
   getDetail() {
-    const {
-      conversation,
-      currentLocale,
-    } = this.props;
+    const { conversation, currentLocale } = this.props;
     if (messageIsTextMessage(conversation)) {
-      if (conversation.mmsAttachment && conversation.mmsAttachment.contentType.indexOf('image') > -1) {
+      if (
+        conversation.mmsAttachment &&
+        conversation.mmsAttachment.contentType.indexOf('image') > -1
+      ) {
         return i18n.getString('imageAttachment', currentLocale);
       }
       return conversation.subject;
     }
     if (conversation.voicemailAttachment) {
       const { duration } = conversation.voicemailAttachment;
-      return `${i18n.getString('voiceMessage', currentLocale)} (${formatDuration(duration)})`;
+      return `${i18n.getString(
+        'voiceMessage',
+        currentLocale,
+      )} (${formatDuration(duration)})`;
     }
     if (messageIsFax(conversation)) {
       const pageCount = parseInt(conversation.faxPageCount, 10);
       if (conversation.direction === messageDirection.inbound) {
-        return `${i18n.getString('faxReceived', currentLocale)}(${pageCount} ${i18n.getString('pages', currentLocale)})`;
+        return `${i18n.getString(
+          'faxReceived',
+          currentLocale,
+        )}(${pageCount} ${i18n.getString('pages', currentLocale)})`;
       }
-      return `${i18n.getString('faxSent', currentLocale)}(${pageCount} ${i18n.getString('pages', currentLocale)})`;
+      return `${i18n.getString(
+        'faxSent',
+        currentLocale,
+      )}(${pageCount} ${i18n.getString('pages', currentLocale)})`;
     }
     return '';
   }
 
   onDeleteMessage = () => {
     this.props.deleteMessage(this.props.conversation.conversationId);
-  }
+  };
 
   dateTimeFormatter(creationTime) {
     try {
@@ -364,19 +394,17 @@ export default class MessageItem extends Component {
         countryCode,
         areaCode,
       });
-      const isExtension = !parsedInfo.hasPlus &&
-        parsedInfo.number && parsedInfo.number.length <= 6;
+      const isExtension =
+        !parsedInfo.hasPlus &&
+        parsedInfo.number &&
+        parsedInfo.number.length <= 6;
       disableClickToSms = !(
         onClickToSms &&
-        (
-          isExtension ?
-            internalSmsPermission :
-            outboundSmsPermission
-        )
+        (isExtension ? internalSmsPermission : outboundSmsPermission)
       );
     }
     return disableClickToSms;
-  }
+  };
 
   render() {
     const {
@@ -413,6 +441,7 @@ export default class MessageItem extends Component {
       phoneSourceNameRenderer,
       showGroupNumberName,
       renderExtraButton,
+      onFaxDownload,
     } = this.props;
     let disableLinks = parentDisableLinks;
     const isVoicemail = type === messageTypes.voiceMail;
@@ -443,23 +472,23 @@ export default class MessageItem extends Component {
       );
       slideMenuHeight = 88;
     }
-    const extraButton = renderExtraButton ?
-      renderExtraButton(
-        this.props.conversation,
-        {
+    const extraButton = renderExtraButton
+      ? renderExtraButton(this.props.conversation, {
           logConversation: this.logConversation,
           isLogging: isLogging || this.state.isLogging,
-        }
-      )
+        })
       : null;
-    const msgItem= `${type}MessageItem`;
+    const msgItem = `${type}MessageItem`;
     return (
-      <div data-sign={msgItem} data-id={conversationId} className={styles.root} onClick={this.onClickItem}>
-        <div data-sign="unread"
-          className={classnames(
-            styles.wrapper,
-            unreadCounts && styles.unread
-          )}
+      <div
+        data-sign={msgItem}
+        data-id={conversationId}
+        className={styles.root}
+        onClick={this.onClickItem}
+      >
+        <div
+          data-sign="unread"
+          className={classnames(styles.wrapper, unreadCounts && styles.unread)}
           onClick={this.onClickWrapper}
         >
           <ConversationIcon
@@ -468,15 +497,19 @@ export default class MessageItem extends Component {
             currentLocale={currentLocale}
             direction={direction}
           />
-          <div className={classnames(
-            styles.infoWrapper,
-            !extraButton && styles.embellishInfoWrapper
-          )}>
+          <div
+            className={classnames(
+              styles.infoWrapper,
+              !extraButton && styles.embellishInfoWrapper,
+            )}
+          >
             <ContactDisplay
-              reference={(ref) => { this.contactDisplay = ref; }}
+              reference={(ref) => {
+                this.contactDisplay = ref;
+              }}
               className={classnames(
                 styles.contactDisplay,
-                unreadCounts && styles.unread
+                unreadCounts && styles.unread,
               )}
               selectedClassName={styles.selectedValue}
               selectClassName={styles.dropdownSelect}
@@ -502,7 +535,11 @@ export default class MessageItem extends Component {
               phoneSourceNameRenderer={phoneSourceNameRenderer}
             />
             <div className={styles.detailsWithTime}>
-              <div data-sign="msgDetail" className={styles.details} title={detail}>
+              <div
+                data-sign="msgDetail"
+                className={styles.details}
+                title={detail}
+              >
                 {detail}
               </div>
               <div className={styles.separatrix}>|</div>
@@ -521,22 +558,33 @@ export default class MessageItem extends Component {
           minHeight={0}
           maxHeight={slideMenuHeight}
         >
-          <div className={styles.playContainer} onClick={this.preventEventPropogation}>
+          <div
+            className={styles.playContainer}
+            onClick={this.preventEventPropogation}
+          >
             {player}
           </div>
           <ActionMenuList
             className={styles.actionMenuList}
+            type={type}
             currentLocale={currentLocale}
             onLog={
-              isVoicemail || isFax || renderExtraButton ?
-                undefined : (onLogConversation && this.logConversation)
+              isVoicemail || isFax || renderExtraButton
+                ? undefined
+                : onLogConversation && this.logConversation
             }
             onViewEntity={onViewContact && this.viewSelectedContact}
             onCreateEntity={onCreateContact && this.createSelectedContact}
             createEntityTypes={createEntityTypes}
-            hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
-            onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
-            onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
+            hasEntity={
+              correspondents.length === 1 && !!correspondentMatches.length
+            }
+            onClickToDial={
+              !isFax ? onClickToDial && this.clickToDial : undefined
+            }
+            onClickToSms={
+              isVoicemail ? onClickToSms && this.onClickToSms : undefined
+            }
             disableClickToSms={disableClickToSms}
             phoneNumber={phoneNumber}
             disableLinks={disableLinks}
@@ -552,19 +600,26 @@ export default class MessageItem extends Component {
             createEntityTitle={i18n.getString('addEntity', currentLocale)}
             viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
             stopPropagation={false}
-            onDelete={isVoicemail ? this.onDeleteMessage : undefined}
+            onDelete={isVoicemail || isFax ? this.onDeleteMessage : undefined}
             deleteTitle={i18n.getString('delete', currentLocale)}
             marked={unreadCounts > 0}
-            onMark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
-              this.onMarkMessage : undefined}
-            onUnmark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
-              this.onUnmarkMessage : undefined}
+            onMark={
+              isVoicemail || (isFax && direction === messageDirection.inbound)
+                ? this.onMarkMessage
+                : undefined
+            }
+            onUnmark={
+              isVoicemail || (isFax && direction === messageDirection.inbound)
+                ? this.onUnmarkMessage
+                : undefined
+            }
             onPreview={isFax ? this.onPreviewFax : undefined}
             markTitle={i18n.getString('mark', currentLocale)}
             unmarkTitle={i18n.getString('unmark', currentLocale)}
             faxAttachment={faxAttachment}
             previewTitle={i18n.getString('preview', currentLocale)}
             downloadTitle={i18n.getString('download', currentLocale)}
+            onFaxDownload={onFaxDownload}
           />
         </SlideMenu>
       </div>
@@ -576,18 +631,24 @@ MessageItem.propTypes = {
   conversation: PropTypes.shape({
     conversationId: PropTypes.string.isRequired,
     isLogging: PropTypes.bool,
-    correspondents: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-      phoneNumber: PropTypes.string,
-      extensionNumber: PropTypes.string,
-    })),
-    correspondentMatches: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-      entityType: PropTypes.string,
-    })),
-    conversationMatches: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-    })),
+    correspondents: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        phoneNumber: PropTypes.string,
+        extensionNumber: PropTypes.string,
+      }),
+    ),
+    correspondentMatches: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        entityType: PropTypes.string,
+      }),
+    ),
+    conversationMatches: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    ),
     unreadCounts: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     uri: PropTypes.string,
@@ -623,6 +684,7 @@ MessageItem.propTypes = {
   internalSmsPermission: PropTypes.bool,
   outboundSmsPermission: PropTypes.bool,
   updateTypeFilter: PropTypes.func,
+  onFaxDownload: PropTypes.func,
 };
 
 MessageItem.defaultProps = {
@@ -642,10 +704,11 @@ MessageItem.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
-  deleteMessage() { },
+  deleteMessage() {},
   previewFaxMessages: undefined,
   renderExtraButton: undefined,
   internalSmsPermission: true,
   outboundSmsPermission: true,
   updateTypeFilter: undefined,
+  onFaxDownload: undefined,
 };

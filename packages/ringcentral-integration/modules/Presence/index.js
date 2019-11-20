@@ -205,7 +205,6 @@ export default class Presence extends DataFetcher {
     }
     const params = {
       dndStatus: dndStatus.doNotAcceptAnyCalls,
-      userStatus: presenceStatus.busy,
     };
     await this._update(params);
   }

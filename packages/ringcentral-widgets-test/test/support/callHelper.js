@@ -7,11 +7,12 @@ import * as MockedPubNub from '../__mocks__/pubnub.js';
 import Session from './session';
 import { timeout } from '../integration-test/shared';
 
-export const CONFERENCE_SESSION_ID = 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';
+export const CONFERENCE_SESSION_ID =
+  'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';
 
 const defaultInboundOption = {
   id: '111',
-  direction: 'Inbound'
+  direction: 'Inbound',
 };
 
 const defaultOutboundOption = {
@@ -24,13 +25,13 @@ const defaultConferenceOption = {
   fromNumber: '+15878133670',
   homeCountryId: '1',
   toNumber: 'conf_7777777777777777',
-  to: 'conf_7777777777777777'
+  to: 'conf_7777777777777777',
 };
 
 export async function getInboundCall(phone, options = defaultInboundOption) {
   const session = new Session({
     ...options,
-    callId: options.callId || `call-${options.id}`
+    callId: options.callId || `call-${options.id}`,
   });
   await phone.webphone._webphone.userAgent.trigger('invite', session);
   return session;
@@ -45,7 +46,10 @@ export async function makeCall(phone, options = defaultOutboundOption) {
   return session;
 }
 
-export async function makeConferenceCall(phone, options = defaultConferenceOption) {
+export async function makeConferenceCall(
+  phone,
+  options = defaultConferenceOption,
+) {
   mock.device();
   const session = await phone.webphone.makeCall(options);
   return session;
@@ -57,8 +61,9 @@ export async function mockPresencePubnub(activeCallsBody) {
   const encrypted = pubnub._realPubnub.encrypt(
     JSON.stringify({
       uuid: '1088719898803550582-8036702296129764',
-      event: '/restapi/v1.0/account/160746006/extension/160751006/presence?detailedTelephonyState=true&sipData=true',
-      timestamp: (new Date()).toISOString(),
+      event:
+        '/restapi/v1.0/account/160746006/extension/160751006/presence?detailedTelephonyState=true&sipData=true',
+      timestamp: new Date().toISOString(),
       subscriptionId: '24dcfdcf-e7d0-4930-9edb-555ec11843b9',
       body: {
         allowSeeMyPresence: true,
@@ -73,14 +78,16 @@ export async function mockPresencePubnub(activeCallsBody) {
         userStatus: 'Available',
         activeCalls: activeCallsBody,
         totalActiveCalls: activeCallsBody.length,
-      }
+      },
     }),
-    subscriptionBody.deliveryMode.encryptionKey, {
+    subscriptionBody.deliveryMode.encryptionKey,
+    {
       encryptKey: false,
       keyEncoding: 'base64',
       keyLength: 128,
-      mode: 'ecb'
-    });
+      mode: 'ecb',
+    },
+  );
   pubnub.mockMessage(encrypted);
   await timeout(1000);
 }
@@ -103,7 +110,10 @@ export function mockGeneratePresenceApi({ activeCalls, totalActiveCalls }) {
   });
 }
 
-export function mockGeneratePresenceUpdateApi({ activeCalls, totalActiveCalls }) {
+export function mockGeneratePresenceUpdateApi({
+  activeCalls,
+  totalActiveCalls,
+}) {
   mock.presenceUpdate('~', {
     activeCalls,
     allowSeeMyPresence: true,
@@ -121,35 +131,44 @@ export function mockGeneratePresenceUpdateApi({ activeCalls, totalActiveCalls })
 }
 
 export function mockGenerateActiveCallsApi({ sessions }) {
-  const records = sessions.reduce((calls, session) => calls.concat({
-    uri: 'https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/160746006/extension/160751006/call-log/Q6E-u_FeDGlNQA?view=Simple',
-    id: 'Q6E-u_FeDGlNQA',
-    sessionId: session.id,
-    startTime: '2018-08-02T01:48:31.000Z',
-    type: 'Voice',
-    direction: session.direction,
-    action: 'VoIP Call',
-    result: 'In Progress',
-    to: {
-      extensionNumber: '105',
-      name: 'FirstName 105 LastName'
-    },
-    from: {
-      name: 'FirstName 105 LastName'
-    }
-  }), []);
+  const records = sessions.reduce(
+    (calls, session) =>
+      calls.concat({
+        uri:
+          'https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/160746006/extension/160751006/call-log/Q6E-u_FeDGlNQA?view=Simple',
+        id: 'Q6E-u_FeDGlNQA',
+        sessionId: session.id,
+        startTime: '2018-08-02T01:48:31.000Z',
+        type: 'Voice',
+        direction: session.direction,
+        action: 'VoIP Call',
+        result: 'In Progress',
+        to: {
+          extensionNumber: '105',
+          name: 'FirstName 105 LastName',
+        },
+        from: {
+          name: 'FirstName 105 LastName',
+        },
+      }),
+    [],
+  );
   mock.activeCalls({
-    records
+    records,
   });
 }
 
-export function mockActiveCalls(webphoneSessions, mockOtherDeivce = [], ringSessionIds = []) {
+export function mockActiveCalls(
+  webphoneSessions,
+  mockOtherDeivce = [],
+  ringSessionIds = [],
+) {
   const commons = {
     sipData: {
       toTag: 'pgrneavq66',
       fromTag: '10.74.2.218-5070-2a0553bd67c3401',
       remoteUri: 'sip:104@ringcentral.com',
-      localUri: 'sip:105@ringcentral.com'
+      localUri: 'sip:105@ringcentral.com',
     },
     startTime: '2018-08-07T09:20:09.405Z',
   };

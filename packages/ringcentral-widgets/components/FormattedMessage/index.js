@@ -22,8 +22,8 @@ export default class FormattedMessage extends Component {
 
     const nodes = format(message, hashedParams)
       .split(tokenDelimeter)
-      .filter(token => !!token)
-      .map(token => elements[token] || token);
+      .filter((token) => !!token)
+      .map((token) => elements[token] || token);
     return createElement(tagName, null, ...nodes);
   }
 }

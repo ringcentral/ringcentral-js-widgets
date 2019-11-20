@@ -15,10 +15,7 @@ const ModalPage = () => {
   return (
     <div>
       <ComponentHeader name="Modal" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Modal Example"
-      >
+      <CodeExample code={demoCode} title="Modal Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

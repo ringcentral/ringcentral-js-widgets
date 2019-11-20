@@ -15,10 +15,7 @@ const ActiveCallBadgePage = () => {
   return (
     <div>
       <ComponentHeader name="ActiveCallBadge" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ActiveCallBadge Example"
-      >
+      <CodeExample code={demoCode} title="ActiveCallBadge Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

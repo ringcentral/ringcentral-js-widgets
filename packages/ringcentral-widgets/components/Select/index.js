@@ -15,10 +15,7 @@ export default function Select({
   paddingLeft,
 }) {
   return (
-    <div
-      className={classnames(
-        styles.root,
-        className)}>
+    <div className={classnames(styles.root, className)}>
       <select
         className={styles.select}
         disabled={disabled}
@@ -26,15 +23,14 @@ export default function Select({
         style={{
           paddingLeft,
         }}
-        onChange={onChange} >
-        {
-          options.map((option, idx) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <option key={idx} value={valueFunction(option, idx)}>
-              {renderFunction(option, idx)}
-            </option>
-          ))
-        }
+        onChange={onChange}
+      >
+        {options.map((option, idx) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <option key={idx} value={valueFunction(option, idx)}>
+            {renderFunction(option, idx)}
+          </option>
+        ))}
       </select>
     </div>
   );
@@ -57,6 +53,6 @@ Select.defaultProps = {
   onChange: undefined,
   disabled: false,
   paddingLeft: 10,
-  valueFunction: option => option,
-  renderFunction: option => option,
+  valueFunction: (option) => option,
+  renderFunction: (option) => option,
 };

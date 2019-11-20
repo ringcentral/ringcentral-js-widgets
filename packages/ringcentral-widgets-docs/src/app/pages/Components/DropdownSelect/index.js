@@ -15,10 +15,7 @@ const DropdownSelectPage = () => {
   return (
     <div>
       <ComponentHeader name="DropdownSelect" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="DropdownSelect Example"
-      >
+      <CodeExample code={demoCode} title="DropdownSelect Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

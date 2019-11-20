@@ -3,17 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-function Badge({
-  className,
-  name,
-  children,
-  onClick,
-}) {
+function Badge({ className, name, children, onClick }) {
   return (
     <div
       title={name}
       className={classnames(styles.root, className)}
-      onClick={onClick}>
+      onClick={onClick}
+    >
       {children}
     </div>
   );

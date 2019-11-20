@@ -13,7 +13,7 @@ exports.generateModule = ({ name, distination, dependencies = [] }) => {
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Module/index.js'),
     destinationPath: path.resolve(destinationDir, 'index.js'),
-    params: { name, dependencies }
+    params: { name, dependencies },
   });
   if (dependencies.length === 0) {
     return;
@@ -21,7 +21,7 @@ exports.generateModule = ({ name, distination, dependencies = [] }) => {
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Module/actionTypes.js'),
     destinationPath: path.resolve(destinationDir, 'actionTypes.js'),
-    params: { name }
+    params: { name },
   });
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Module/getReducer.js'),

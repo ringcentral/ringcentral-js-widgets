@@ -52,7 +52,10 @@ describe('settings panel', () => {
     const wrapper = await setupWrapper();
     let panel = wrapper.find(SettingsPanel).first();
     let presenceSettingSection = panel.find(PresenceSettingSection).first();
-    const presenceItems = presenceSettingSection.find('.presenceList').first().find(PresenceItem);
+    const presenceItems = presenceSettingSection
+      .find('.presenceList')
+      .first()
+      .find(PresenceItem);
     expect(presenceItems.length).toBe(4);
     const availableItem = presenceItems.at(0);
     const busyItem = presenceItems.at(1);
@@ -66,7 +69,6 @@ describe('settings panel', () => {
     presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Available');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-
 
     const busyResponse = {
       pickUpCallsOnHold: false,
@@ -84,7 +86,6 @@ describe('settings panel', () => {
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
 
-
     const noDisturbResponse = {
       dndStatus: 'DoNotAcceptAnyCalls',
       pickUpCallsOnHold: false,
@@ -100,7 +101,9 @@ describe('settings panel', () => {
     panel = wrapper.find(SettingsPanel).first();
     presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
-    expect(presenceSettingSection.props().dndStatus).toEqual('DoNotAcceptAnyCalls');
+    expect(presenceSettingSection.props().dndStatus).toEqual(
+      'DoNotAcceptAnyCalls',
+    );
 
     const offlineResponse = {
       dndStatus: 'TakeAllCalls',

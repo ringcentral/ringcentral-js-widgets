@@ -15,10 +15,7 @@ const ForwardFormPage = () => {
   return (
     <div>
       <ComponentHeader name="ForwardForm" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ForwardForm Example"
-      >
+      <CodeExample code={demoCode} title="ForwardForm Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />
