@@ -1,3 +1,5 @@
+import { RingCentralCallControl } from 'ringcentral-call-control';
+
 import { selector } from '../../lib/selector';
 
 import { Module } from '../../lib/di';
@@ -8,7 +10,7 @@ import ensureExist from '../../lib/ensureExist';
 import actionTypes from './actionTypes';
 import getActiveCallControlReducer from './getActiveCallControlReducer';
 import getDataReducer from './getDataReducer';
-import { normalizeSession, requestURI, confictError } from './helpers';
+import { normalizeSession, confictError } from './helpers';
 import callControlError from './callControlError';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
@@ -29,6 +31,7 @@ const subscribeEvent = '/account/~/extension/~/telephony/sessions';
     'Alert',
     'NumberValidate',
     'AccountInfo',
+    'ExtensionInfo',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'ActiveCallControlOptions', optional: true },
@@ -53,6 +56,7 @@ export default class ActiveCallControl extends Pollable {
     alert,
     numberValidate,
     accountInfo,
+    extensionInfo,
     ...options
   }) {
     super({
@@ -85,6 +89,8 @@ export default class ActiveCallControl extends Pollable {
     this._alert = alert;
     this._numberValidate = numberValidate;
     this._accountInfo = accountInfo;
+    this._extensionInfo = extensionInfo;
+    this._rcCallControl = null;
 
     if (this._storage) {
       this._reducer = getActiveCallControlReducer(this.actionTypes);
@@ -118,12 +124,15 @@ export default class ActiveCallControl extends Pollable {
     } else if (this.ready) {
       this._subscriptionHandler();
       this._checkConnectivity();
+      this._checkTabActive();
     }
   }
 
   _shouldInit() {
     return (
       this._auth.loggedIn &&
+      this._accountInfo.ready &&
+      this._extensionInfo.ready &&
       (!this._storage || this._storage.ready) &&
       this._subscription.ready &&
       this._connectivityMonitor.ready &&
@@ -138,6 +147,8 @@ export default class ActiveCallControl extends Pollable {
   _shouldReset() {
     return (
       (!this._auth.loggedIn ||
+        !this._accountInfo.ready ||
+        !this._extensionInfo.ready ||
         (!!this._storage && !this._storage.ready) ||
         !this._subscription.ready ||
         (!!this._tabManager && !this._tabManager.ready) ||
@@ -208,17 +219,15 @@ export default class ActiveCallControl extends Pollable {
 
   async _syncData() {
     try {
-      const activeSessionsMap = {};
-      for (const sessionId in this.activeSessions) {
-        if (sessionId) {
-          const result = await this.getPartyData(sessionId);
-          activeSessionsMap[sessionId] = result;
-        }
-      }
+      const activeCalls = this._callMonitor.calls;
+      await this._rcCallControl.loadSessions(activeCalls);
       this.store.dispatch({
         type: this.actionTypes.updateActiveSessions,
-        activeSessionsMap,
         timestamp: Date.now(),
+        sessionDatas: this._rcCallControl.sessions.map((s) => s.data),
+      });
+      this._rcCallControl.sessions.forEach((session) => {
+        this._newSessionHandler(session);
       });
     } catch (error) {
       throw error;
@@ -228,6 +237,19 @@ export default class ActiveCallControl extends Pollable {
   async _init() {
     if (!this._hasPermission) return;
     this._subscription.subscribe(subscribeEvent);
+    this._rcCallControl = new RingCentralCallControl({
+      sdk: this._client.service,
+      preloadDevices: false,
+      preloadSessions: false,
+      extensionInfo: {
+        ...this._extensionInfo.info,
+        account: this._accountInfo.info,
+      },
+    });
+    this._rcCallControl.on('new', (session) => {
+      this._newSessionHandler(session);
+    });
+    this._tabActive = this._tabManager.active;
     if (this._shouldFetch()) {
       try {
         await this.fetchData();
@@ -239,6 +261,24 @@ export default class ActiveCallControl extends Pollable {
     } else {
       this._retry();
     }
+  }
+
+  _updateSessionsHandler = () => {
+    this.store.dispatch({
+      type: this.actionTypes.updateActiveSessions,
+      timestamp: Date.now(),
+      sessionDatas: this._rcCallControl.sessions.map((s) => s.data),
+    });
+  };
+
+  _newSessionHandler(session) {
+    this._updateSessionsHandler();
+    session.removeListener('status', this._updateSessionsHandler);
+    session.removeListener('muted', this._updateSessionsHandler);
+    session.removeListener('recordings', this._updateSessionsHandler);
+    session.on('status', this._updateSessionsHandler);
+    session.on('muted', this._updateSessionsHandler);
+    session.on('recordings', this._updateSessionsHandler);
   }
 
   _subscriptionHandler() {
@@ -256,27 +296,23 @@ export default class ActiveCallControl extends Pollable {
       message.body
     ) {
       this._lastSubscriptionMessage = message;
-      const { sessionId, parties } = message.body;
-      this.store.dispatch({
-        type: this.actionTypes.updateActiveSessionStatus,
-        sessionId,
-        party: parties[0],
-      });
+      if (this._rcCallControl) {
+        this._rcCallControl.onNotificationEvent(message);
+      }
     }
   }
 
-  removeActiveSession(sessionId) {
+  removeActiveSession() {
     this.store.dispatch({
       type: this.actionTypes.removeActiveSession,
-      sessionId,
     });
   }
 
   // count it as load (should only call on container init step)
-  setActiveSessionId(sessionId) {
+  setActiveSessionId(telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.setActiveSessionId,
-      sessionId,
+      telephonySessionId,
     });
   }
 
@@ -293,39 +329,35 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  async patch({ url = null, query = null, body = null }) {
-    try {
-      await this._client.service._platform.send({
-        method: 'PATCH',
-        url,
-        query,
-        body,
-      });
-    } catch (error) {
-      throw error;
+  _checkTabActive() {
+    if (!this._tabManager || !this._storage) {
+      return;
+    }
+    if (this._tabActive !== this._tabManager.active) {
+      this._tabActive = this._tabManager.active;
+      if (this._tabManager.active && this._rcCallControl) {
+        this._rcCallControl.restoreSessions(this.data.sessions);
+        this._rcCallControl.sessions.forEach((session) => {
+          this._newSessionHandler(session);
+        });
+      }
     }
   }
 
-  getActiveSession(sessionId) {
-    const partyId = this.callPartyIdMap[sessionId];
-    const activeSession = this.activeSessions[sessionId];
-    return activeSession && activeSession[partyId];
+  getActiveSession(telephonySessionId) {
+    return this.activeSessions[telephonySessionId];
   }
 
-  async mute(sessionId) {
+  async mute(telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.mute,
       timestamp: Date.now(),
     });
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).mute;
-      await this.patch({
-        url,
-        body: {
-          muted: true,
-        },
-      });
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      await session.mute();
       this.store.dispatch({
         type: this.actionTypes.muteSuccess,
       });
@@ -346,20 +378,16 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  async unmute(sessionId) {
+  async unmute(telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.unmute,
       timestamp: Date.now(),
     });
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).mute;
-      await this.patch({
-        url,
-        body: {
-          muted: false,
-        },
-      });
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      await session.unmute();
       this.store.dispatch({
         type: this.actionTypes.unmuteSuccess,
       });
@@ -380,43 +408,39 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  async startRecord(sessionId) {
+  async startRecord(telephonySessionId) {
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).record;
-      const _response = await this._client.service._platform.post(url);
-      const response = JSON.parse(_response._text);
-      this.store.dispatch({
-        type: this.actionTypes.startRecord,
-        activeSession,
-        response,
-      });
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      const recordingId = this.getRecordingId(session);
+      if (recordingId) {
+        await session.resumeRecord(recordingId);
+      } else {
+        await session.createRecord(recordingId);
+      }
     } catch (error) {
-      this.store.dispatch({
-        type: this.actionTypes.recordFail,
-        sessionId,
-      });
+      // this.store.dispatch({
+      //   type: this.actionTypes.recordFail,
+      //   sessionId,
+      // });
     }
   }
 
-  getRecordingId(sessionId) {
-    const partyId = this.callPartyIdMap[sessionId];
-    const recodingId = this.recordingIds[sessionId];
-    return recodingId[partyId].id;
+  getRecordingId(session) {
+    const recording = session.recordings[0];
+    const recodingId = recording && recording.id;
+    return recodingId;
   }
 
-  async stopRecord(sessionId) {
+  async stopRecord(telephonySessionId) {
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const recordingId = this.getRecordingId(sessionId);
-      activeSession.recordingId = recordingId;
-      const url = requestURI(activeSession).stopRecord;
-      this.patch({
-        url,
-        body: {
-          active: false,
-        },
-      });
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      const recordingId = this.getRecordingId(session);
+      await session.pauseRecord(recordingId);
+      const activeSession = this.getActiveSession(telephonySessionId);
       this.store.dispatch({
         type: this.actionTypes.stopRecord,
         activeSession,
@@ -426,21 +450,21 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  async hangUp(sessionId) {
+  async hangUp(telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.hangUp,
       timestamp: Date.now(),
     });
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).hangUp;
-      await this._client.service._platform.delete(url);
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      await session.drop();
       if (typeof this._onCallEndFunc === 'function') {
         this._onCallEndFunc();
       }
       this.store.dispatch({
         type: this.actionTypes.hangUpSuccess,
-        sessionId,
       });
     } catch (error) {
       if (
@@ -456,18 +480,18 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  async reject(sessionId) {
+  async reject(telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.reject,
       timestamp: Date.now(),
     });
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).reject;
-      await this._client.service._platform.post(url);
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      await session.toVoicemail();
       this.store.dispatch({
         type: this.actionTypes.rejectSuccess,
-        sessionId,
       });
     } catch (error) {
       if (
@@ -482,18 +506,18 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  async hold(sessionId) {
+  async hold(telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.hold,
       timestamp: Date.now(),
     });
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).hold;
-      await this._client.service._platform.post(url);
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      await session.hold();
       this.store.dispatch({
         type: this.actionTypes.holdSuccess,
-        activeSession,
       });
     } catch (error) {
       if (confictError(error)) {
@@ -513,18 +537,18 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  async unhold(sessionId) {
+  async unhold(telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.unhold,
       timestamp: Date.now(),
     });
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).unhold;
-      await this._client.service._platform.post(url);
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      await session.unhold();
       this.store.dispatch({
         type: this.actionTypes.unholdSuccess,
-        activeSession,
       });
     } catch (error) {
       if (confictError(error)) {
@@ -545,14 +569,15 @@ export default class ActiveCallControl extends Pollable {
     }
   }
 
-  async transfer(transferNumber, sessionId) {
+  async transfer(transferNumber, telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.transfer,
       timestamp: Date.now(),
     });
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).transfer;
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
       const validatedResult = await this._numberValidate.validateNumbers([
         transferNumber,
       ]);
@@ -584,9 +609,7 @@ export default class ActiveCallControl extends Pollable {
           validPhoneNumber,
         ].join('*');
       }
-      await this._client.service._platform.post(url, {
-        phoneNumber,
-      });
+      session.transfer({ phoneNumber });
       this.store.dispatch({
         type: this.actionTypes.transferSuccess,
       });
@@ -604,17 +627,16 @@ export default class ActiveCallControl extends Pollable {
   }
 
   // Incomplete Implementation?
-  async flip(flipValue, sessionId) {
+  async flip(flipValue, telephonySessionId) {
     this.store.dispatch({
       type: this.actionTypes.flip,
       timestamp: Date.now(),
     });
     try {
-      const activeSession = this.getActiveSession(sessionId);
-      const url = requestURI(activeSession).flip;
-      await this._client.service._platform.post(url, {
-        callFlipId: flipValue,
-      });
+      const session = this._rcCallControl.sessions.find(
+        (s) => s.id === telephonySessionId,
+      );
+      await session.flip({ callFlipId: flipValue });
       this.store.dispatch({
         type: this.actionTypes.flipSuccess,
       });
@@ -631,31 +653,6 @@ export default class ActiveCallControl extends Pollable {
     // Need to check the API document
   }
 
-  async getCallSessionStatus() {
-    // No implement at the moment
-    // Need to check the API document
-  }
-
-  async getPartyData(sessionId) {
-    const activeSession = this.getActiveSession(sessionId);
-    const url = requestURI(activeSession).getPartyData;
-    const { telephonySessionId, partyId } = activeSession;
-    if (!telephonySessionId || !partyId) {
-      return;
-    }
-    try {
-      const _response = await this._client.service._platform.get(url);
-      const response = JSON.parse(_response._text);
-      return response;
-    } catch (error) {
-      const errRgx = /4[0-9][0-9]/g;
-      if (errRgx.test(error.message)) {
-        this.removeActiveSession(sessionId);
-      }
-      throw error;
-    }
-  }
-
   get data() {
     return (
       (this._storage &&
@@ -667,14 +664,6 @@ export default class ActiveCallControl extends Pollable {
 
   get activeSessionId() {
     return this.data.activeSessionId || null;
-  }
-
-  get recordingIds() {
-    return this.data.recordingIds || null;
-  }
-
-  get activeSessionsStatus() {
-    return this.data.activeSessionsStatus || {};
   }
 
   /**
@@ -707,24 +696,6 @@ export default class ActiveCallControl extends Pollable {
   }
 
   @selector
-  callPartyIdMap = [
-    () => this._callMonitor.calls,
-    (calls) =>
-      calls.reduce((accumulator, call) => {
-        const { sessionId, partyId } = call;
-        accumulator[sessionId] = partyId;
-        return accumulator;
-      }, {}),
-  ];
-
-  @selector
-  recordingId = [
-    () => this.activeSessionId,
-    () => this.recordingIds,
-    (activeSessionId, recordingIds) => recordingIds[activeSessionId],
-  ];
-
-  @selector
   activeSession = [
     () => this.activeSessionId,
     () => this.activeSessions,
@@ -734,20 +705,32 @@ export default class ActiveCallControl extends Pollable {
   @selector
   activeSessions = [
     () => this._callMonitor.calls,
-    () => this.activeSessionsStatus,
-    (calls, activeSessionsStatus) => {
+    () => this.data.sessions,
+    () => this.timestamp,
+    (calls, sessions, _t) => {
       const reducer = (accumulator, call) => {
-        const { sessionId, partyId } = call;
-        const activeSessionStatuses = activeSessionsStatus[sessionId];
-        const activeSessionStatus =
-          (activeSessionStatuses && activeSessionStatuses[partyId]) || {};
-        if (!accumulator[sessionId]) {
-          accumulator[sessionId] = {};
+        const { telephonySessionId } = call;
+        const session = sessions.find((s) => s.id === telephonySessionId);
+        if (!session) {
+          return accumulator;
         }
-        accumulator[sessionId][partyId] = normalizeSession({
+        accumulator[telephonySessionId] = normalizeSession({
           call,
-          activeSessionStatus,
+          session,
         });
+        return accumulator;
+      };
+      return calls.reduce(reducer, {});
+    },
+  ];
+
+  @selector
+  sessionIdToTelephonySessionIdMapping = [
+    () => this._callMonitor.calls,
+    (calls) => {
+      const reducer = (accumulator, call) => {
+        const { telephonySessionId, sessionId } = call;
+        accumulator[sessionId] = telephonySessionId;
         return accumulator;
       };
       return calls.reduce(reducer, {});

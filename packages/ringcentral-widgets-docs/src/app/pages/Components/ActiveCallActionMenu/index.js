@@ -14,11 +14,11 @@ const ActiveCallActionMenuPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="ActiveCallActionMenu" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ActiveCallActionMenu Example"
-      >
+      <ComponentHeader
+        name="ActiveCallActionMenu"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="ActiveCallActionMenu Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

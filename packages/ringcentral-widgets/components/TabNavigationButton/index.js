@@ -14,7 +14,7 @@ export default function NavigationButton({
   height,
   keepStyle,
   activeClassName,
-  inActiveClassName
+  inActiveClassName,
 }) {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -29,18 +29,16 @@ export default function NavigationButton({
   return (
     <div
       onClick={onClick}
-      className={classnames(
-        styles.navigationButton,
-        active && styles.active
-      )}
+      className={classnames(styles.navigationButton, active && styles.active)}
       style={{
         width,
         height,
       }}
     >
       <div className={styles.iconHolder} title={label} data-sign={label}>
-
-        <div className={classnames(styles.icon, styleClass, activationClassName)}>
+        <div
+          className={classnames(styles.icon, styleClass, activationClassName)}
+        >
           {active ? activeIcon : icon}
         </div>
         {notice}
@@ -54,14 +52,8 @@ NavigationButton.propTypes = {
   active: PropTypes.bool,
   label: PropTypes.string,
   noticeCounts: PropTypes.number,
-  width: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]).isRequired,
-  height: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]).isRequired,
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   onClick: PropTypes.func,
   keepStyle: PropTypes.bool,
   activeClassName: PropTypes.string,

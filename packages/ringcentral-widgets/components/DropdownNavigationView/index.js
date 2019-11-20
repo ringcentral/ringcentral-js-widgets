@@ -48,47 +48,41 @@ export default class DropdownNavigationView extends Component {
   }
 
   render() {
-    const {
-      tabs,
-      goTo,
-      currentPath,
-      currentVirtualPath,
-    } = this.props;
+    const { tabs, goTo, currentPath, currentVirtualPath } = this.props;
 
-    return (
-      tabs.length ? (
-        <div
-          className={styles.root}
-          ref={(el) => { this.setChildNavigationElement(el); }}
-        >
-          {
-            tabs.map((tab, index) => {
-              const Icon = tab.icon;
-              const ActiveIcon = tab.activeIcon;
-              const active = (
-                (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
-                (tab.path && tab.path === currentPath) ||
-                (tab.virtualPath && tab.virtualPath === currentVirtualPath)
-              );
-              const isReverseFillIcon = tab.path === '/contacts' && !active;
-              return (
-                <DropdownNavigationItem
-                  {...tab}
-                  key={index}
-                  onClick={() => {
-                    goTo(tab);
-                  }}
-                  active={active}
-                  icon={typeof Icon === 'function' ? <Icon /> : Icon}
-                  isReverseFillIcon={isReverseFillIcon}
-                  activeIcon={typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon}
-                />
-              );
-            })
-          }
-        </div>
-      ) : null
-    );
+    return tabs.length ? (
+      <div
+        className={styles.root}
+        ref={(el) => {
+          this.setChildNavigationElement(el);
+        }}
+      >
+        {tabs.map((tab, index) => {
+          const Icon = tab.icon;
+          const ActiveIcon = tab.activeIcon;
+          const active =
+            (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
+            (tab.path && tab.path === currentPath) ||
+            (tab.virtualPath && tab.virtualPath === currentVirtualPath);
+          const isReverseFillIcon = tab.path === '/contacts' && !active;
+          return (
+            <DropdownNavigationItem
+              {...tab}
+              key={index}
+              onClick={() => {
+                goTo(tab);
+              }}
+              active={active}
+              icon={typeof Icon === 'function' ? <Icon /> : Icon}
+              isReverseFillIcon={isReverseFillIcon}
+              activeIcon={
+                typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon
+              }
+            />
+          );
+        })}
+      </div>
+    ) : null;
   }
 }
 

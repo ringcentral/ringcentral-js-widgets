@@ -15,10 +15,7 @@ const DialTextInputPage = () => {
   return (
     <div>
       <ComponentHeader name="DialTextInput" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="DialTextInput Example"
-      >
+      <CodeExample code={demoCode} title="DialTextInput Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

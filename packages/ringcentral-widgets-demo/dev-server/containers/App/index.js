@@ -15,7 +15,6 @@ import ComposeTextPage from 'ringcentral-widgets/containers/ComposeTextPage';
 import ConversationPage from 'ringcentral-widgets/containers/ConversationPage';
 import ConferencePage from 'ringcentral-widgets/containers/ConferencePage';
 import ConferenceCommands from 'ringcentral-widgets/components/ConferenceCommands';
-import MeetingPage from 'ringcentral-widgets/containers/MeetingPage';
 import ConversationsPage from 'ringcentral-widgets/containers/ConversationsPage';
 import SettingsPage from 'ringcentral-widgets/containers/SettingsPage';
 import ActiveCallsPage from 'ringcentral-widgets/containers/ActiveCallsPage';
@@ -33,7 +32,9 @@ import CallsOnholdPage from 'ringcentral-widgets/containers/CallsOnholdPage';
 import DialerAndCallsTabContainer from 'ringcentral-widgets/containers/DialerAndCallsTabContainer';
 import ConferenceParticipantPage from 'ringcentral-widgets/containers/ConferenceParticipantPage';
 import TransferPage from 'ringcentral-widgets/containers/TransferPage';
+import FlipPage from 'ringcentral-widgets/containers/FlipPage';
 import SimpleActiveCallCtrlPage from 'ringcentral-widgets/containers/SimpleActiveCallCtrlPage';
+import MeetingPage from 'ringcentral-widgets/containers/MeetingPage';
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
@@ -42,12 +43,9 @@ import { PhoneProvider } from 'ringcentral-widgets/lib/phoneContext';
 import MainView from '../MainView';
 import AppView from '../AppView';
 
-export default function App({
-  phone,
-  icon
-}) {
+export default function App({ phone, icon }) {
   const sourceIcons = {
-    brandIcon: icon
+    brandIcon: icon,
   };
   const getAvatarUrl = async (contact) => {
     const avatarUrl = await phone.contacts.getProfileImage(contact, true);
@@ -58,18 +56,25 @@ export default function App({
       <Provider store={phone.store}>
         <Router history={phone.routerInteraction.history}>
           <Route
-            component={routerProps => (
+            component={(routerProps) => (
               <AppView>
                 {routerProps.children}
                 <CallBadgeContainer
                   defaultOffsetX={0}
                   defaultOffsetY={73}
-                  hidden={(
-                    routerProps.location.pathname.indexOf('/calls/active') === 0 ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0 ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0 ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/participants') === 0
-                  )}
+                  hidden={
+                    routerProps.location.pathname.indexOf('/calls/active') ===
+                      0 ||
+                    routerProps.location.pathname.indexOf(
+                      '/conferenceCall/dialer',
+                    ) === 0 ||
+                    routerProps.location.pathname.indexOf(
+                      '/conferenceCall/callsOnhold',
+                    ) === 0 ||
+                    routerProps.location.pathname.indexOf(
+                      '/conferenceCall/participants',
+                    ) === 0
+                  }
                   goToCallCtrl={(sessionId) => {
                     phone.routerInteraction.push(`/calls/active/${sessionId}`);
                   }}
@@ -84,10 +89,11 @@ export default function App({
                     regionSettingsUrl="/settings/region"
                   />
                   <RecentActivityContainer
-                    getSession={() => (phone.webphone.ringSession || {})}
+                    getSession={() => phone.webphone.ringSession || {}}
                     navigateTo={(path) => {
                       phone.webphone.toggleMinimized(
-                        phone.webphone.ringSession && phone.webphone.ringSession.id
+                        phone.webphone.ringSession &&
+                          phone.webphone.ringSession.id,
                       );
                       phone.routerInteraction.push(path);
                     }}
@@ -97,12 +103,12 @@ export default function App({
                 <UserGuidePage />
                 <ConnectivityBadgeContainer />
               </AppView>
-            )}>
+            )}
+          >
             <Route
               path="/"
               component={() => (
-                <LoginPage
-                  version={phone.version}>
+                <LoginPage version={phone.version}>
                   <AlertContainer
                     callingSettingsUrl="/settings/calling"
                     regionSettingsUrl="/settings/region"
@@ -112,7 +118,7 @@ export default function App({
             />
             <Route
               path="/"
-              component={props => (
+              component={(props) => (
                 <MainView>
                   {props.children}
                   <AlertContainer
@@ -120,82 +126,84 @@ export default function App({
                     regionSettingsUrl="/settings/region"
                   />
                 </MainView>
-              )}>
+              )}
+            >
               <Route
                 path="/dialer"
                 component={() => (
                   <DialerAndCallsTabContainer>
-                    {({ showTabs }) => (<DialerPage withTabs={showTabs} />)}
+                    {({ showTabs }) => <DialerPage withTabs={showTabs} />}
                   </DialerAndCallsTabContainer>
-                )} />
+                )}
+              />
               <Route
                 path="/settings"
-                component={routerProps => (
+                component={(routerProps) => (
                   <SettingsPage
                     params={routerProps.location.query}
                     showQuickAccess
                   />
                 )}
               />
-              <Route
-                path="/settings/region"
-                component={RegionSettingsPage} />
-              <Route
-                path="/settings/calling"
-                component={CallingSettingsPage} />
-              <Route
-                path="/settings/audio"
-                component={AudioSettingsPage} />
-              <Route
-                path="/settings/feedback"
-                component={FeedbackPage} />
+              <Route path="/settings/region" component={RegionSettingsPage} />
+              <Route path="/settings/calling" component={CallingSettingsPage} />
+              <Route path="/settings/audio" component={AudioSettingsPage} />
+              <Route path="/settings/feedback" component={FeedbackPage} />
               <Route
                 path="/calls"
                 component={() => (
                   <DialerAndCallsTabContainer>
                     <ActiveCallsPage
                       showRingoutCallControl
-                      onLogCall={async () => { await sleep(1000); }}
-                      onCreateContact={() => { }}
-                      onCallsEmpty={() => { }}
+                      onLogCall={async () => {
+                        await sleep(1000);
+                      }}
+                      onCreateContact={() => {}}
+                      onCallsEmpty={() => {}}
                       sourceIcons={sourceIcons}
                       getAvatarUrl={getAvatarUrl}
                       useV2
+                      showSwitchCall
                     />
                   </DialerAndCallsTabContainer>
-                )} />
+                )}
+              />
               <Route
                 path="/calls/active(/:sessionId)"
-                component={routerProps => (
+                component={(routerProps) => (
                   <CallCtrlPage
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     getAvatarUrl={getAvatarUrl}
                     params={routerProps.params}
-                    onAdd={() => {
-                      phone.routerInteraction.push('/dialer');
-                    }}
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
                     }}
                   >
                     <RecentActivityContainer
-                      getSession={() => (phone.webphone.activeSession || {})}
+                      getSession={() => phone.webphone.activeSession || {}}
                       navigateTo={(path) => {
                         phone.routerInteraction.push(path);
                       }}
                     />
                   </CallCtrlPage>
-                )} />
+                )}
+              />
               <Route
                 path="/transfer/:sessionId(/:type)"
-                component={routerProps => (
+                component={(routerProps) => (
                   <TransferPage params={routerProps.params} />
                 )}
               />
               <Route
+                path="/flip/:sessionId"
+                component={(routerProps) => (
+                  <FlipPage params={routerProps.params} />
+                )}
+              />
+              <Route
                 path="/simplifycallctrl/:sessionId"
-                component={routerProps => (
+                component={(routerProps) => (
                   <SimpleActiveCallCtrlPage params={routerProps.params} />
                 )}
               />
@@ -204,68 +212,75 @@ export default function App({
                 component={() => (
                   <CallsListPage
                     showContactDisplayPlaceholder={false}
-                    onLogCall={async () => { await sleep(1000); }}
-                    onCreateContact={() => { }}
+                    onLogCall={async () => {
+                      await sleep(1000);
+                    }}
+                    onCreateContact={() => {}}
                   />
-                )} />
+                )}
+              />
               <Route
                 path="/conference"
-                component={() => (
-                  <ConferencePage
-                    enableAutoEnterHostKey
-                  />
-                )} />
+                component={() => <ConferencePage enableAutoEnterHostKey />}
+              />
               <Route
                 path="/conference/commands"
                 component={() => (
                   <ConferenceCommands
                     currentLocale={phone.locale.currentLocale}
-                    onBack={() => phone.routerInteraction.goBack()} />
-                )} />
-              <Route
-                path="/composeText"
-                component={ComposeTextPage} />
+                    onBack={() => phone.routerInteraction.goBack()}
+                  />
+                )}
+              />
+              <Route path="/composeText" component={ComposeTextPage} />
               <Route
                 path="/conversations/:conversationId"
-                component={routerProps => (
+                component={(routerProps) => (
                   <ConversationPage
                     params={routerProps.params}
-                    onLogConversation={async () => { sleep(1000); }}
+                    onLogConversation={async () => {
+                      sleep(1000);
+                    }}
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     showGroupNumberName
                   />
-                )} />
+                )}
+              />
               <Route
                 path="/messages"
                 component={() => (
                   <ConversationsPage
                     showContactDisplayPlaceholder={false}
-                    onLogConversation={async () => { await sleep(1000); }}
-                    onCreateContact={() => { }}
+                    onLogConversation={async () => {
+                      await sleep(1000);
+                    }}
+                    onCreateContact={() => {}}
                     sourceIcons={sourceIcons}
                     showGroupNumberName
                   />
-                )} />
+                )}
+              />
               <Route
                 path="/contacts"
-                component={props => (!props.location.query.direct ?
-                  (
+                component={(props) =>
+                  !props.location.query.direct ? (
                     <ContactsPage
-                      contactSourceFilterRenderer={props => (
+                      contactSourceFilterRenderer={(props) => (
                         <ContactSourceFilter {...props} />
                       )}
-                      >
+                    >
                       {props.children}
                     </ContactsPage>
-                  ) : props.children)
-                }>
+                  ) : (
+                    props.children
+                  )
+                }
+              >
                 <Route
                   path=":contactType/:contactId"
-                  component={routerProps => (
-                    <ContactDetailsPage
-                      params={routerProps.params}
-                    >
+                  component={(routerProps) => (
+                    <ContactDetailsPage params={routerProps.params}>
                       <RecentActivityContainer
                         navigateTo={(path) => {
                           phone.routerInteraction.push(path);
@@ -285,24 +300,27 @@ export default function App({
               />
               <Route
                 path="/conferenceCall/dialer/:fromNumber/:fromSessionId"
-                component={ConferenceCallDialerPage} />
+                component={ConferenceCallDialerPage}
+              />
               <Route
                 path="/conferenceCall/participants"
-                component={() => (
-                  <ConferenceParticipantPage />
-                )} />
+                component={() => <ConferenceParticipantPage />}
+              />
               <Route
                 path="/conferenceCall/callsOnhold/:fromNumber/:fromSessionId"
-                component={routerProps => (
+                component={(routerProps) => (
                   <CallsOnholdPage
                     params={routerProps.params}
-                    onLogCall={async () => { await sleep(1000); }}
-                    onCreateContact={() => { }}
-                    onCallsEmpty={() => { }}
+                    onLogCall={async () => {
+                      await sleep(1000);
+                    }}
+                    onCreateContact={() => {}}
+                    onCallsEmpty={() => {}}
                     sourceIcons={sourceIcons}
                     getAvatarUrl={getAvatarUrl}
                   />
-                )} />
+                )}
+              />
             </Route>
           </Route>
         </Router>
@@ -313,9 +331,9 @@ export default function App({
 
 App.propTypes = {
   phone: PropTypes.object.isRequired,
-  icon: PropTypes.func
+  icon: PropTypes.func,
 };
 
 App.defaultProps = {
-  icon: undefined
+  icon: undefined,
 };

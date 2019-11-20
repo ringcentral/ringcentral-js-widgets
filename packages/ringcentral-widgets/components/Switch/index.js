@@ -3,22 +3,26 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-
 function Switch(props) {
-  const onChange = props.onChange ?
-    e => !props.disable && props.onChange(e.currentTarget.checked) :
-    undefined;
+  const onChange = props.onChange
+    ? (e) => !props.disable && props.onChange(e.currentTarget.checked)
+    : undefined;
   return (
     <label
       title={props.title}
       data-sign={props.dataSign}
-      className={classnames(styles.switch, props.className, props.disable && styles.disable)}
+      className={classnames(
+        styles.switch,
+        props.className,
+        props.disable && styles.disable,
+      )}
     >
       <input
         data-sign="switch"
         type="checkbox"
         checked={props.checked}
-        onChange={onChange} />
+        onChange={onChange}
+      />
       <div className={styles.slider} />
     </label>
   );

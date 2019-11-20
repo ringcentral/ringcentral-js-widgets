@@ -15,10 +15,7 @@ const RadioBtnGroupPage = () => {
   return (
     <div>
       <ComponentHeader name="RadioBtnGroup" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="RadioBtnGroup Example"
-      >
+      <CodeExample code={demoCode} title="RadioBtnGroup Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

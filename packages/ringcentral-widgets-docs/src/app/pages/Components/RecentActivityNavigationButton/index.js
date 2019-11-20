@@ -14,7 +14,10 @@ const RecentActivityNavigationButtonPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="RecentActivityNavigationButton" description={info.description} />
+      <ComponentHeader
+        name="RecentActivityNavigationButton"
+        description={info.description}
+      />
       <CodeExample
         code={demoCode}
         title="RecentActivityNavigationButton Example"

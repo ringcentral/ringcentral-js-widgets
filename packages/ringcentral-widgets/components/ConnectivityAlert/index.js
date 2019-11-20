@@ -1,20 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import connectivityTypes from
-  'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+import connectivityTypes from 'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
 import i18n from './i18n';
 
 export default function ConnectivityAlert({
-  message: {
-    message,
-  },
+  message: { message },
   currentLocale,
 }) {
-  return (
-    <div>
-      {i18n.getString(message, currentLocale)}
-    </div>
-  );
+  return <div>{i18n.getString(message, currentLocale)}</div>;
 }
 
 ConnectivityAlert.propTypes = {
@@ -24,11 +17,10 @@ ConnectivityAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 
-ConnectivityAlert.handleMessage = ({ message }) => (
+ConnectivityAlert.handleMessage = ({ message }) =>
   message === connectivityTypes.networkLoss ||
   message === connectivityTypes.offline ||
   message === connectivityTypes.serverUnavailable ||
   message === connectivityTypes.voipOnly ||
   message === connectivityTypes.survival ||
-  message === connectivityTypes.webphoneUnavailable
-);
+  message === connectivityTypes.webphoneUnavailable;

@@ -34,12 +34,10 @@ class ConversationPanel extends Component {
       !this._userSelection &&
       this.props.conversation &&
       nextProps.conversation &&
-      (
-        nextProps.conversation.conversationMatches !==
+      (nextProps.conversation.conversationMatches !==
         this.props.conversation.conversationMatches ||
         nextProps.conversation.correspondentMatches !==
-        this.props.conversation.correspondentMatches
-      )
+          this.props.conversation.correspondentMatches)
     ) {
       this.setState({
         selected: this.getInitialContactIndex(nextProps),
@@ -68,17 +66,18 @@ class ConversationPanel extends Component {
 
   onSend = () => {
     this.props.replyToReceivers(this.props.messageText);
-  }
+  };
 
   onInputHeightChange = (value) => {
     this.setState({
       inputHeight: value,
     });
-  }
+  };
 
   onSelectContact = (value, idx) => {
     const selected = this.props.showContactDisplayPlaceholder
-      ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
+      ? parseInt(idx, 10) - 1
+      : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
@@ -86,7 +85,7 @@ class ConversationPanel extends Component {
     if (this.props.autoLog) {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
-  }
+  };
 
   getMessageListHeight() {
     const headerHeight = 41;
@@ -98,64 +97,58 @@ class ConversationPanel extends Component {
       return null;
     }
     const contactMatches = this.props.conversation.correspondentMatches;
-    return (selected > -1 && contactMatches[selected]) ||
+    return (
+      (selected > -1 && contactMatches[selected]) ||
       (contactMatches.length === 1 && contactMatches[0]) ||
-      null;
-  }
+      null
+    );
+  };
 
   getInitialContactIndex(nextProps = this.props) {
     const {
       correspondentMatches,
       lastMatchedCorrespondentEntity,
-      conversationMatches
+      conversationMatches,
     } = nextProps.conversation;
     let index = null;
-    const correspondentMatchId = (
-      lastMatchedCorrespondentEntity &&
-      lastMatchedCorrespondentEntity.id) ||
-      (conversationMatches[0] &&
-        conversationMatches[0].id);
+    const correspondentMatchId =
+      (lastMatchedCorrespondentEntity && lastMatchedCorrespondentEntity.id) ||
+      (conversationMatches[0] && conversationMatches[0].id);
     if (correspondentMatchId) {
-      index = correspondentMatches.findIndex(contact => (
-        contact.id === correspondentMatchId
-      ));
+      index = correspondentMatches.findIndex(
+        (contact) => contact.id === correspondentMatchId,
+      );
       if (index > -1) return index;
     }
     return -1;
   }
 
   getPhoneNumber() {
-    const {
-      conversation: {
-        correspondents = [],
-      } = {},
-    } = this.props;
-    return (correspondents.length === 1 &&
-      (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
+    const { conversation: { correspondents = [] } = {} } = this.props;
+    return (
+      (correspondents.length === 1 &&
+        (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) ||
+      undefined
+    );
   }
 
   getGroupPhoneNumbers() {
-    const {
-      conversation: {
-        correspondents = [],
-      } = {},
-    } = this.props;
-    const groupNumbers = correspondents.length > 1 ?
-      correspondents.map(correspondent =>
-        correspondent.extensionNumber || correspondent.phoneNumber || undefined
-      )
-      : null;
+    const { conversation: { correspondents = [] } = {} } = this.props;
+    const groupNumbers =
+      correspondents.length > 1
+        ? correspondents.map(
+            (correspondent) =>
+              correspondent.extensionNumber ||
+              correspondent.phoneNumber ||
+              undefined,
+          )
+        : null;
     return groupNumbers;
   }
 
   getFallbackContactName() {
-    const {
-      conversation: {
-        correspondents = [],
-      } = {},
-    } = this.props;
-    return (correspondents.length === 1 &&
-      (correspondents[0].name)) || undefined;
+    const { conversation: { correspondents = [] } = {} } = this.props;
+    return (correspondents.length === 1 && correspondents[0].name) || undefined;
   }
 
   loadConversation() {
@@ -164,8 +157,10 @@ class ConversationPanel extends Component {
   }
 
   async logConversation({ redirect = true, selected, prefill = true } = {}) {
-    if (typeof this.props.onLogConversation === 'function' &&
-      this._mounted && !this.state.isLogging
+    if (
+      typeof this.props.onLogConversation === 'function' &&
+      this._mounted &&
+      !this.state.isLogging
     ) {
       this.setState({
         isLogging: true,
@@ -184,7 +179,7 @@ class ConversationPanel extends Component {
     }
   }
 
-  logConversation = this.logConversation.bind(this)
+  logConversation = this.logConversation.bind(this);
 
   render() {
     if (!this.state.loaded) {
@@ -221,16 +216,14 @@ class ConversationPanel extends Component {
     const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
-    const extraButton = this.props.renderExtraButton ?
-      this.props.renderExtraButton(
-        this.props.conversation,
-        {
+    const extraButton = this.props.renderExtraButton
+      ? this.props.renderExtraButton(this.props.conversation, {
           logConversation: this.logConversation,
           isLogging: isLogging || this.state.isLogging,
-        }
-      ) : null;
-    const logButton = this.props.onLogConversation && !this.props.renderExtraButton ?
-      (
+        })
+      : null;
+    const logButton =
+      this.props.onLogConversation && !this.props.renderExtraButton ? (
         <LogButton
           className={styles.logButton}
           onLog={this.logConversation}
@@ -239,8 +232,7 @@ class ConversationPanel extends Component {
           isLogging={isLogging || this.state.isLogging}
           currentLocale={this.props.currentLocale}
         />
-      ) :
-      null;
+      ) : null;
     return (
       <div className={styles.root}>
         <div data-sign="conversationPanel" className={styles.header}>
@@ -269,13 +261,12 @@ class ConversationPanel extends Component {
           />
           <a
             onClick={() => this.props.goBack()}
-            data-sign="backButton" className={styles.backButton}
+            data-sign="backButton"
+            className={styles.backButton}
           >
             <span className={dynamicsFont.arrow} />
           </a>
-          {extraButton && (
-            <div className={styles.logButton}>{extraButton}</div>
-          )}
+          {extraButton && <div className={styles.logButton}>{extraButton}</div>}
           {logButton}
         </div>
         {conversationBody}
@@ -299,11 +290,13 @@ ConversationPanel.propTypes = {
   messages: ConversationMessageList.propTypes.messages,
   updateMessageText: PropTypes.func,
   messageText: PropTypes.string,
-  recipients: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string,
-    extensionNumber: PropTypes.string,
-    name: PropTypes.string,
-  })).isRequired,
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string,
+      extensionNumber: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,

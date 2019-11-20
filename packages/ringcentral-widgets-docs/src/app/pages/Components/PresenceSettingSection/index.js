@@ -14,11 +14,11 @@ const PresenceSettingSectionPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="PresenceSettingSection" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="PresenceSettingSection Example"
-      >
+      <ComponentHeader
+        name="PresenceSettingSection"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="PresenceSettingSection Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

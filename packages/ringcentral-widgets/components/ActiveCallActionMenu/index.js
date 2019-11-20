@@ -41,51 +41,46 @@ export default class ActiveCallActionMenu extends Component {
       viewEntityTitle,
     } = this.props;
 
-    const smsButton = onClickToSms ?
-      (
-        <Button
-          className={classnames(styles.actionButton, styles.sms)}
-          onClick={onClickToSms}
-          disabled={disableLinks || !phoneNumber} >
-          <span
-            className={dynamicsFont.composeText}
-            title={textTitle}
-          />
-        </Button>
-      ) : null;
-    const logButton = onLog ?
-      (
-        <LogButton
-          className={classnames(styles.actionButton, styles.log)}
-          onLog={onLog}
-          disableLinks={disableLinks}
-          isLogged={isLogged}
-          isLogging={isLogging}
-          currentLocale={currentLocale}
-          addTitle={addLogTitle}
-          editTitle={editLogTitle}
-        />
-      ) :
-      null;
+    const smsButton = onClickToSms ? (
+      <Button
+        className={classnames(styles.actionButton, styles.sms)}
+        onClick={onClickToSms}
+        disabled={disableLinks || !phoneNumber}
+      >
+        <span className={dynamicsFont.composeText} title={textTitle} />
+      </Button>
+    ) : null;
+    const logButton = onLog ? (
+      <LogButton
+        className={classnames(styles.actionButton, styles.log)}
+        onLog={onLog}
+        disableLinks={disableLinks}
+        isLogged={isLogged}
+        isLogging={isLogging}
+        currentLocale={currentLocale}
+        addTitle={addLogTitle}
+        editTitle={editLogTitle}
+      />
+    ) : null;
     let entityButton;
     if (hasEntity && onViewEntity) {
-      entityButton = (<EntityButton
-        className={classnames(styles.actionButton, styles.entity)}
-        onViewEntity={onViewEntity}
-        hasEntity={hasEntity}
-        disableLinks={disableLinks}
-        viewEntityTitle={viewEntityTitle}
-      />);
+      entityButton = (
+        <EntityButton
+          className={classnames(styles.actionButton, styles.entity)}
+          onViewEntity={onViewEntity}
+          hasEntity={hasEntity}
+          disableLinks={disableLinks}
+          viewEntityTitle={viewEntityTitle}
+        />
+      );
     } else if (!hasEntity && phoneNumber && onCreateEntity) {
       entityButton = (
         <Button
           className={classnames(styles.actionButton, styles.addContact)}
           onClick={onCreateEntity}
-          disabled={disableLinks || !phoneNumber} >
-          <span
-            className={dynamicsFont.add2}
-            title={createEntityTitle}
-          />
+          disabled={disableLinks || !phoneNumber}
+        >
+          <span className={dynamicsFont.add2} title={createEntityTitle} />
         </Button>
       );
     } else {
@@ -93,10 +88,7 @@ export default class ActiveCallActionMenu extends Component {
     }
     return (
       <div
-        className={classnames(
-          styles.root,
-          className,
-        )}
+        className={classnames(styles.root, className)}
         onClick={this.captureClick}
       >
         {smsButton}

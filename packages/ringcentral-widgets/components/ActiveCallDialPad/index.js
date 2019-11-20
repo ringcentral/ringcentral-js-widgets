@@ -13,7 +13,7 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 const cleanRegex = /[^\d*#]/g;
-const filter = value => value.replace(cleanRegex, '');
+const filter = (value) => value.replace(cleanRegex, '');
 
 const MAX_PASTE_LENGTH = 15;
 
@@ -29,7 +29,11 @@ class ActiveCallDialPad extends Component {
     }
 
     this.playAudio = (value) => {
-      if (this.audio && this.audio.canPlayType('audio/ogg') !== '' && audios[value]) {
+      if (
+        this.audio &&
+        this.audio.canPlayType('audio/ogg') !== '' &&
+        audios[value]
+      ) {
         if (!this.audio.paused) {
           this.audio.pause();
         }
@@ -72,15 +76,15 @@ class ActiveCallDialPad extends Component {
     this.onPaste = (e) => {
       const item = e.clipboardData.items[0];
       item.getAsString((data) => {
-        const value = filter(data);
+        const value = filter(data.replace(/<[^>]*>/g, '')); // remove HTML tag in firefox
         let keys = value;
         if (value.length > MAX_PASTE_LENGTH) {
           keys = value.slice(0, MAX_PASTE_LENGTH);
         }
         this.sendDTMFKeys(keys);
         if (value.length > MAX_PASTE_LENGTH) {
-          this.setState(preState => ({
-            value: preState.value.replace(value, keys)
+          this.setState((preState) => ({
+            value: preState.value.replace(value, keys),
           }));
         }
       });
@@ -90,8 +94,7 @@ class ActiveCallDialPad extends Component {
   render() {
     return (
       <div data-sign="activeCallDialPad" className={styles.root}>
-        <BackHeader
-          onBackClick={this.props.hiddenDialPad}>
+        <BackHeader onBackClick={this.props.hiddenDialPad}>
           {i18n.getString('keypad', this.props.currentLocale)}
         </BackHeader>
         <div className={styles.dialInput}>
@@ -107,7 +110,7 @@ class ActiveCallDialPad extends Component {
         </div>
         <div className={styles.padContainer}>
           <DialPad
-            dataSign= "keypad"
+            dataSign="keypad"
             className={styles.dialPad}
             onButtonOutput={this.onButtonOutput}
           />
@@ -118,7 +121,7 @@ class ActiveCallDialPad extends Component {
                 onClick={this.props.onHangup}
                 icon={EndIcon}
                 showBorder={false}
-                dataSign='hangUp'
+                dataSign="hangUp"
               />
             </div>
           </div>
@@ -136,4 +139,3 @@ ActiveCallDialPad.propTypes = {
 };
 
 export default ActiveCallDialPad;
-

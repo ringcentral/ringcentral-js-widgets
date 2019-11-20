@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import messageSenderMessages from
-  'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import AlertDisplay from '../AlertDisplay';
 import MessageSenderAlert from '../MessageSenderAlert';
 
@@ -13,7 +12,7 @@ export default class NoSenderAlert extends Component {
     };
     this.onDismissAlert = () => {
       this.setState({
-        showAlert: false
+        showAlert: false,
       });
     };
     this.getRenderer = () => MessageSenderAlert;
@@ -22,7 +21,7 @@ export default class NoSenderAlert extends Component {
         id: '1',
         level: 'warning',
         message: messageSenderMessages.senderNumberInvalid,
-      }
+      },
     ];
   }
 
@@ -54,5 +53,5 @@ NoSenderAlert.propTypes = {
 };
 
 NoSenderAlert.defaultProps = {
-  brand: 'RingCentral'
+  brand: 'RingCentral',
 };

@@ -7,15 +7,10 @@ import OAuthBase from '../../lib/OAuthBase';
 
 @Module({
   name: 'OAuth',
-  deps: [
-    { dep: 'OAuthOptions', optional: true }
-  ],
+  deps: [{ dep: 'OAuthOptions', optional: true }],
 })
 export default class OAuth extends OAuthBase {
-  constructor({
-    redirectUri = './redirect.html',
-    ...options
-  }) {
+  constructor({ redirectUri = './redirect.html', ...options }) {
     super({
       redirectUri,
       ...options,
@@ -28,10 +23,9 @@ export default class OAuth extends OAuthBase {
 
   @background
   async setupOAuth() {
-    if (
-      !this.oAuthReady
-    ) {
-      window.oAuthCallback = callbackUri => this._handleCallbackUri(callbackUri);
+    if (!this.oAuthReady) {
+      window.oAuthCallback = (callbackUri) =>
+        this._handleCallbackUri(callbackUri);
       this.store.dispatch({
         type: this.actionTypes.setupOAuth,
       });
@@ -40,9 +34,7 @@ export default class OAuth extends OAuthBase {
 
   @background
   async destroyOAuth() {
-    if (
-      this.oAuthReady
-    ) {
+    if (this.oAuthReady) {
       window.oAuthCallback = null;
       this.store.dispatch({
         type: this.actionTypes.destroyOAuth,

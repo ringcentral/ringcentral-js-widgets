@@ -9,7 +9,9 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 function AvatarNode({ name, avatarUrl, isInactive }) {
-  const avatarStyle = isInactive ? styles.inactiveAvatarNode : styles.avatarNode;
+  const avatarStyle = isInactive
+    ? styles.inactiveAvatarNode
+    : styles.avatarNode;
   return (
     <PlaceholderImage
       className={avatarStyle}
@@ -35,7 +37,7 @@ export default class ContactItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true
+      loading: true,
     };
     this.onItemSelected = this.onItemSelected.bind(this);
   }
@@ -45,7 +47,7 @@ export default class ContactItem extends PureComponent {
     this._loadingTimeout = setTimeout(() => {
       if (this._mounted) {
         this.setState({
-          loading: false
+          loading: false,
         });
       }
     }, 3);
@@ -110,24 +112,30 @@ export default class ContactItem extends PureComponent {
     if (this.state.loading) {
       return <div className={styles.root} />;
     }
+    const { contact, currentLocale } = this.props;
     const {
-      contact,
-      currentLocale
-    } = this.props;
-    const {
-      name, extensionNumber, type, profileImageUrl, contactStatus,
+      name,
+      extensionNumber,
+      type,
+      profileImageUrl,
+      contactStatus,
     } = contact;
 
     const { sourceNodeRenderer } = this.props;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
     return (
-      <div className={styles.root} onClick={this.onItemSelected} data-sign="contactItem">
+      <div
+        className={styles.root}
+        onClick={this.onItemSelected}
+        data-sign="contactItem"
+      >
         <div className={styles.contactProfile}>
           <div className={styles.avatarNodeContainer}>
             <AvatarNode
               name={name}
               avatarUrl={profileImageUrl}
-              isInactive={contactStatus === 'NotActivated'} />
+              isInactive={contactStatus === 'NotActivated'}
+            />
           </div>
           {sourceNode ? (
             <div className={styles.sourceNodeContainer}>{sourceNode}</div>
@@ -153,15 +161,15 @@ ContactItem.propTypes = {
     email: PropTypes.string,
     profileImageUrl: PropTypes.string,
     presence: PropTypes.object,
-    contactStatus: PropTypes.string
+    contactStatus: PropTypes.string,
   }).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   onSelect: PropTypes.func,
-  sourceNodeRenderer: PropTypes.func
+  sourceNodeRenderer: PropTypes.func,
 };
 
 ContactItem.defaultProps = {
   onSelect: undefined,
-  sourceNodeRenderer: () => null
+  sourceNodeRenderer: () => null,
 };

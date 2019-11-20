@@ -13,36 +13,44 @@ function getCurrentStatus({ direction, result }, currentLocale) {
       return {
         status: i18n.getString('missed', currentLocale),
         icon: dynamicsFont.missed,
-        isMissedCall: true
+        isMissedCall: true,
       };
     }
     return {
       status: i18n.getString('inBound', currentLocale),
-      icon: dynamicsFont.inbound
+      icon: dynamicsFont.inbound,
     };
   }
   return {
     status: i18n.getString('outBound', currentLocale),
-    icon: dynamicsFont.outbound
+    icon: dynamicsFont.outbound,
   };
 }
 
 function CallItem({ call, dateTimeFormatter, currentLocale }) {
   let { duration, startTime } = call;
   const { status, icon, isMissedCall } = getCurrentStatus(call, currentLocale);
-  startTime = dateTimeFormatter({ utcTimestamp: new Date(startTime).getTime() });
+  startTime = dateTimeFormatter({
+    utcTimestamp: new Date(startTime).getTime(),
+  });
   duration = formatDuration(duration);
   return (
     <div className={styles.callItem}>
-      <dl className={classnames(styles.dl, isMissedCall ? styles.missedCall : '')}>
+      <dl
+        className={classnames(styles.dl, isMissedCall ? styles.missedCall : '')}
+      >
         <dt className={styles.status} title={status}>
           <span className={styles.iconWrapper}>
             <i className={classnames(icon, styles.callIcon)} title={status} />
           </span>
           <span title={status}>{status}</span>
-          <small className={styles.duration} title={duration}>{duration}</small>
+          <small className={styles.duration} title={duration}>
+            {duration}
+          </small>
         </dt>
-        <dd className={styles.time} title={startTime}>{startTime}</dd>
+        <dd className={styles.time} title={startTime}>
+          {startTime}
+        </dd>
       </dl>
     </div>
   );
@@ -51,14 +59,16 @@ function CallItem({ call, dateTimeFormatter, currentLocale }) {
 CallItem.propTypes = {
   call: PropTypes.object.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
-  currentLocale: PropTypes.string.isRequired
+  currentLocale: PropTypes.string.isRequired,
 };
 
 export default class RecentActivityCalls extends Component {
   shouldComponentUpdate(nextProps) {
-    return nextProps.currentLocale !== this.props.currentLocale ||
+    return (
+      nextProps.currentLocale !== this.props.currentLocale ||
       nextProps.calls !== this.props.calls ||
-      nextProps.isCallsLoaded !== this.props.isCallsLoaded;
+      nextProps.isCallsLoaded !== this.props.isCallsLoaded
+    );
   }
 
   render() {
@@ -66,13 +76,13 @@ export default class RecentActivityCalls extends Component {
       currentLocale,
       calls,
       isCallsLoaded,
-      dateTimeFormatter
+      dateTimeFormatter,
     } = this.props;
     let callListView = null;
     if (!isCallsLoaded) {
-      callListView = (<Spinner className={styles.spinner} ringWidth={4} />);
+      callListView = <Spinner className={styles.spinner} ringWidth={4} />;
     } else if (calls.length > 0) {
-      callListView = calls.map(call => (
+      callListView = calls.map((call) => (
         <CallItem
           key={call.id}
           call={call}
@@ -81,13 +91,13 @@ export default class RecentActivityCalls extends Component {
         />
       ));
     } else {
-      callListView = (<p className={styles.noRecords}>{i18n.getString('noRecords', currentLocale)}</p>);
+      callListView = (
+        <p className={styles.noRecords}>
+          {i18n.getString('noRecords', currentLocale)}
+        </p>
+      );
     }
-    return (
-      <div className={styles.calls}>
-        {callListView}
-      </div>
-    );
+    return <div className={styles.calls}>{callListView}</div>;
   }
 }
 
@@ -95,5 +105,5 @@ RecentActivityCalls.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   calls: PropTypes.array.isRequired,
   isCallsLoaded: PropTypes.bool.isRequired,
-  dateTimeFormatter: PropTypes.func.isRequired
+  dateTimeFormatter: PropTypes.func.isRequired,
 };

@@ -15,10 +15,7 @@ const ActiveCallItemPage = () => {
   return (
     <div>
       <ComponentHeader name="ActiveCallItem" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ActiveCallItem Example"
-      >
+      <CodeExample code={demoCode} title="ActiveCallItem Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

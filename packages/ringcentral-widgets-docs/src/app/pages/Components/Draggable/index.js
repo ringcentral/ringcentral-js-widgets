@@ -15,10 +15,7 @@ const DraggablePage = () => {
   return (
     <div>
       <ComponentHeader name="Draggable" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Draggable Example"
-      >
+      <CodeExample code={demoCode} title="Draggable Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -9,8 +9,8 @@ const LogSectionDemo = () => (
   <LogSection
     currentLog={{
       currentLogCall: {
-        isSaving: false
-      }
+        isSaving: false,
+      },
     }}
     onSaveCallLog={() => null}
     currentLocale="en-US"

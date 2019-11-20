@@ -12,12 +12,7 @@ import LogBasicInfo from '../LogBasicInfo';
 import i18n from './i18n';
 
 const EditSection = ({ children, scrollerRef, ...rest }) => (
-  <div
-    {...rest}
-    ref={scrollerRef}
-    className={classnames(
-      styles.editSection
-    )}>
+  <div {...rest} ref={scrollerRef} className={classnames(styles.editSection)}>
     {children}
   </div>
 );
@@ -32,20 +27,15 @@ EditSection.defaultProps = {
   scrollerRef: undefined,
 };
 
-const SaveButton = ({
-  isSaving, onClick, overlapped, children
-}) => (
-  <div className={classnames(
-    styles.buttonPanel,
-    overlapped && styles.overlapped
-  )}>
+const SaveButton = ({ isSaving, onClick, overlapped, children }) => (
+  <div
+    className={classnames(styles.buttonPanel, overlapped && styles.overlapped)}
+  >
     <Button
-      className={classnames(
-        styles.primaryButton,
-        isSaving && styles.disabled
-      )}
+      className={classnames(styles.primaryButton, isSaving && styles.disabled)}
       disabled={isSaving}
-      onClick={onClick}>
+      onClick={onClick}
+    >
       {children}
     </Button>
   </div>
@@ -55,21 +45,21 @@ SaveButton.propTypes = {
   isSaving: PropTypes.bool,
   onClick: PropTypes.func,
   overlapped: PropTypes.bool,
-  children: PropTypes.string
+  children: PropTypes.string,
 };
 
 SaveButton.defaultProps = {
   isSaving: false,
   onClick() {},
   overlapped: false,
-  children: null
+  children: null,
 };
 
 export default class LogSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainCtrlOverlapped: false
+      mainCtrlOverlapped: false,
     };
   }
 
@@ -85,11 +75,7 @@ export default class LogSection extends Component {
     if (!this.mainCtrl) {
       return;
     }
-    const {
-      scrollHeight,
-      clientHeight,
-      scrollTop
-    } = this.mainCtrl;
+    const { scrollHeight, clientHeight, scrollTop } = this.mainCtrl;
     const overlappedHeight = scrollHeight - clientHeight - scrollTop;
     const mainCtrlOverlapped = overlappedHeight > 1;
     if (mainCtrlOverlapped !== this.state.mainCtrlOverlapped) {
@@ -99,9 +85,13 @@ export default class LogSection extends Component {
 
   getEditLogSection() {
     const {
-      renderEditLogSection, currentLocale,
-      onSaveCallLog, onUpdateCallLog,
-      currentLog, additionalInfo, onCallLogSaved
+      renderEditLogSection,
+      currentLocale,
+      onSaveCallLog,
+      onUpdateCallLog,
+      currentLog,
+      additionalInfo,
+      onCallLogSaved,
     } = this.props;
     return renderEditLogSection({
       currentLocale,
@@ -109,20 +99,19 @@ export default class LogSection extends Component {
       onUpdateCallLog,
       currentLog,
       additionalInfo,
-      onCallLogSaved
+      onCallLogSaved,
     });
   }
 
   genSaveLogButton() {
     const {
-      showSaveLogBtn, renderSaveLogButton,
-      currentLocale, onSaveCallLog,
-      currentLog
+      showSaveLogBtn,
+      renderSaveLogButton,
+      currentLocale,
+      onSaveCallLog,
+      currentLog,
     } = this.props;
-    const {
-      call,
-      currentLogCall,
-    } = currentLog;
+    const { call, currentLogCall } = currentLog;
     if (!showSaveLogBtn) {
       return null;
     }
@@ -131,7 +120,7 @@ export default class LogSection extends Component {
         currentLocale,
         onSaveCallLog,
         currentLog,
-        overlapped: this.state.mainCtrlOverlapped
+        overlapped: this.state.mainCtrlOverlapped,
       });
     }
     return (
@@ -165,7 +154,9 @@ export default class LogSection extends Component {
         formatPhone={this.props.formatPhone}
         extraButton={extraButton}
         clickable={clickable}
-        onClick={clickable ? this.props.onLogBasicInfoClick : () => console.log('noop')}
+        onClick={
+          clickable ? this.props.onLogBasicInfoClick : () => console.log('noop')
+        }
       />
     );
   }
@@ -176,9 +167,7 @@ export default class LogSection extends Component {
       isInnerMask,
       // onCloseLogSection
     } = this.props;
-    const {
-      showSpinner,
-    } = currentLog;
+    const { showSpinner } = currentLog;
     if (showSpinner) {
       return <SpinnerOverlay className={styles.spinner} />;
     }
@@ -186,17 +175,15 @@ export default class LogSection extends Component {
       <div className={styles.root}>
         {this.renderLogBasicInfo()}
         <EditSection
-          scrollerRef={(el) => { this.mainCtrl = el; }}
+          scrollerRef={(el) => {
+            this.mainCtrl = el;
+          }}
           onScroll={() => this.checkOverlap()}
         >
           {this.getEditLogSection()}
         </EditSection>
         {this.genSaveLogButton()}
-        {
-          isInnerMask ? (
-            <div className={styles.innerMask} />
-          ) : null
-        }
+        {isInnerMask ? <div className={styles.innerMask} /> : null}
       </div>
     );
   }
@@ -216,7 +203,7 @@ LogSection.propTypes = {
   showSaveLogBtn: PropTypes.bool,
   showSmallCallControl: PropTypes.bool,
   renderSmallCallContrl: PropTypes.func,
-  onCallLogSaved: PropTypes.func
+  onCallLogSaved: PropTypes.func,
 };
 
 LogSection.defaultProps = {
@@ -228,9 +215,9 @@ LogSection.defaultProps = {
   renderEditLogSection: undefined,
   renderSaveLogButton: undefined,
   isInnerMask: undefined,
-  onLogBasicInfoClick() { },
-  renderSmallCallContrl() { },
+  onLogBasicInfoClick() {},
+  renderSmallCallContrl() {},
   showSaveLogBtn: true,
   showSmallCallControl: true,
-  onCallLogSaved: undefined
+  onCallLogSaved: undefined,
 };

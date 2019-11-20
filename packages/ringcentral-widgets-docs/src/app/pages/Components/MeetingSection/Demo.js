@@ -6,9 +6,7 @@ import MeetingSection from 'ringcentral-widgets/components/MeetingSection';
  * A example of `MeetingSection`
  */
 const MeetingSectionDemo = () => (
-  <MeetingSection
-    title="When"
-  >
+  <MeetingSection title="When">
     <div>MeetingSection</div>
   </MeetingSection>
 );

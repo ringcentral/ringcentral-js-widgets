@@ -1,5 +1,7 @@
 export default {
-  searchPlaceholder: "Recherche..."
+  searchPlaceholder: "Recherche...",
+  refresh: "Actualiser"
 };
 
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
+// @key: @#@"refresh"@#@ @source: @#@"Refresh"@#@

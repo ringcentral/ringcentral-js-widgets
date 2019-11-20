@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import Line from '../Line';
 
-
 function InputLine(props) {
   return (
     <Line
@@ -11,12 +10,8 @@ function InputLine(props) {
       onClick={props.onClick}
       noBorder={props.noBorder}
     >
-      <div className={styles.label}>
-        {props.label}
-      </div>
-      <div className={styles.inputHolder}>
-        {props.children}
-      </div>
+      <div className={styles.label}>{props.label}</div>
+      <div className={styles.inputHolder}>{props.children}</div>
     </Line>
   );
 }

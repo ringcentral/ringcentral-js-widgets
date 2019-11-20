@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
-import FlipPanel from '../FlipPanel';
 import ConfirmMergeModal from '../ConfirmMergeModal';
 import SpinnerOverlay from '../SpinnerOverlay';
 
@@ -12,7 +11,6 @@ class CallCtrlPanel extends Component {
     super(props);
     this.state = {
       isShowKeyPad: false,
-      isShowFlipPanel: false,
       isShowMergeConfirm: false,
     };
 
@@ -28,16 +26,8 @@ class CallCtrlPanel extends Component {
       });
     };
 
-    this.showFlipPanel = () => {
-      this.setState({
-        isShowFlipPanel: true,
-      });
-    };
-
-    this.hideFlipPanel = () => {
-      this.setState({
-        isShowFlipPanel: false,
-      });
+    this.onFlip = () => {
+      this.props.onFlip(this.props.sessionId);
     };
 
     this.onTransfer = () => {
@@ -79,7 +69,7 @@ class CallCtrlPanel extends Component {
 
     this.confirmMerge = () => {
       this.setState({
-        isShowMergeConfirm: false
+        isShowMergeConfirm: false,
       });
       if (this.props.onMerge) {
         this.props.onMerge();
@@ -95,7 +85,6 @@ class CallCtrlPanel extends Component {
     }
     if (this.props.sessionId !== nextProps.sessionId) {
       this.hiddenKeyPad();
-      this.hideFlipPanel();
       this.hideMergeConfirm();
     }
   }
@@ -118,12 +107,10 @@ class CallCtrlPanel extends Component {
       currentLocale,
       direction,
       fallBackName,
-      flipNumbers,
       formatPhone,
       getAvatarUrl,
       gotoParticipantsCtrl,
       hasConferenceCall,
-      isOnFlip,
       isOnHold,
       isOnMute,
       lastCallInfo,
@@ -132,7 +119,6 @@ class CallCtrlPanel extends Component {
       nameMatches,
       onAdd,
       onBackButtonClick,
-      onFlip,
       onHangup,
       onHold,
       onMute,
@@ -153,12 +139,9 @@ class CallCtrlPanel extends Component {
       showSpinner,
       sourceIcons,
       startTime,
+      disableFlip,
     } = this.props;
-    const {
-      isShowKeyPad,
-      isShowFlipPanel,
-      isShowMergeConfirm,
-    } = this.state;
+    const { isShowKeyPad, isShowMergeConfirm } = this.state;
 
     if (isShowKeyPad) {
       return (
@@ -167,19 +150,6 @@ class CallCtrlPanel extends Component {
           hiddenDialPad={this.hiddenKeyPad}
           onHangup={onHangup}
           currentLocale={currentLocale}
-        />
-      );
-    }
-    if (isShowFlipPanel) {
-      return (
-        <FlipPanel
-          isOnFlip={isOnFlip}
-          flipNumbers={flipNumbers}
-          currentLocale={currentLocale}
-          formatPhone={formatPhone}
-          hideFlipPanel={this.hideFlipPanel}
-          onFlip={onFlip}
-          complete={onHangup}
         />
       );
     }
@@ -217,10 +187,10 @@ class CallCtrlPanel extends Component {
         avatarUrl={avatarUrl}
         brand={brand}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        onShowFlipPanel={this.showFlipPanel}
-        onToggleTransferPanel={this.onTransfer}
+        onFlip={this.onFlip}
+        disableFlip={disableFlip}
+        onTransfer={this.onTransfer}
         gotoParticipantsCtrl={gotoParticipantsCtrl}
-        flipNumbers={flipNumbers}
         sourceIcons={sourceIcons}
         phoneTypeRenderer={phoneTypeRenderer}
         phoneSourceNameRenderer={phoneSourceNameRenderer}
@@ -238,19 +208,15 @@ class CallCtrlPanel extends Component {
       >
         {children}
         {showSpinner ? <SpinnerOverlay /> : null}
-        {
-          layout === callCtrlLayouts.normalCtrl ?
-            (
-              <ConfirmMergeModal
-                currentLocale={currentLocale}
-                show={isShowMergeConfirm}
-                onMerge={this.confirmMerge}
-                onCancel={this.hideMergeConfirmAlt}
-                partyProfiles={conferenceCallParties}
-              />
-            ) :
-            null
-        }
+        {layout === callCtrlLayouts.normalCtrl ? (
+          <ConfirmMergeModal
+            currentLocale={currentLocale}
+            show={isShowMergeConfirm}
+            onMerge={this.confirmMerge}
+            onCancel={this.hideMergeConfirmAlt}
+            partyProfiles={conferenceCallParties}
+          />
+        ) : null}
       </ActiveCallPanel>
     );
   }
@@ -266,8 +232,6 @@ CallCtrlPanel.propTypes = {
   startTime: PropTypes.number,
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
-  isOnFlip: PropTypes.bool,
-  flipNumbers: PropTypes.array,
   recordStatus: PropTypes.string,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
@@ -282,6 +246,7 @@ CallCtrlPanel.propTypes = {
   onHangup: PropTypes.func.isRequired,
   onFlip: PropTypes.func,
   onTransfer: PropTypes.func.isRequired,
+  disableFlip: PropTypes.bool,
   showBackButton: PropTypes.bool,
   backButtonLabel: PropTypes.string,
   onBackButtonClick: PropTypes.func,
@@ -320,8 +285,6 @@ CallCtrlPanel.defaultProps = {
   startTime: null,
   isOnMute: false,
   isOnHold: false,
-  isOnFlip: false,
-  flipNumbers: [],
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
@@ -347,7 +310,7 @@ CallCtrlPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
-  gotoParticipantsCtrl: i => i,
+  gotoParticipantsCtrl: (i) => i,
   afterHideMergeConfirm: () => null,
   afterConfirmMerge: () => null,
   afterOnMerge: () => null,
@@ -360,6 +323,7 @@ CallCtrlPanel.defaultProps = {
   actions: [],
   recordStatus: '',
   controlBusy: false,
+  disableFlip: false,
 };
 
 export default CallCtrlPanel;

@@ -14,11 +14,11 @@ const DropdownNavigationViewPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="DropdownNavigationView" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="DropdownNavigationView Example"
-      >
+      <ComponentHeader
+        name="DropdownNavigationView"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="DropdownNavigationView Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

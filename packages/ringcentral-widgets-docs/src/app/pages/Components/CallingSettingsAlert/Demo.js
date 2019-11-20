@@ -4,7 +4,7 @@ import CallingSettingsAlert from 'ringcentral-widgets/components/CallingSettings
 
 const props = {};
 props.message = {
-  message: 'test string'
+  message: 'test string',
 };
 props.currentLocale = 'en-US';
 props.brand = 'test string';
@@ -13,9 +13,5 @@ props.callingSettingsUrl = 'test string';
 /**
  * A example of `CallingSettingsAlert`
  */
-const CallingSettingsAlertDemo = () => (
-  <CallingSettingsAlert
-    {...props}
-  />
-);
+const CallingSettingsAlertDemo = () => <CallingSettingsAlert {...props} />;
 export default CallingSettingsAlertDemo;

@@ -8,9 +8,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `LogBasicInfo`
  */
-const LogBasicInfoDemo = () => (
-  <LogBasicInfo
-    {...props}
-  />
-);
+const LogBasicInfoDemo = () => <LogBasicInfo {...props} />;
 export default LogBasicInfoDemo;

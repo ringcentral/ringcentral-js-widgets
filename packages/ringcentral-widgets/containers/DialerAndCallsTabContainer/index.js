@@ -24,18 +24,22 @@ class TabContentView extends Component {
     this.getTabs = createSelector(
       () => this.props.currentLocale,
       () => this.props.currentPath,
-      (currentLocale, currentPath) => ([
+      (currentLocale, currentPath) => [
         {
           path: '/dialer',
           label: i18n.getString('dialer', currentLocale),
-          isActive() { return currentPath === '/dialer'; },
+          isActive() {
+            return currentPath === '/dialer';
+          },
         },
         {
           path: '/calls',
           label: i18n.getString('allCalls', currentLocale),
-          isActive() { return currentPath === '/calls'; }
+          isActive() {
+            return currentPath === '/calls';
+          },
         },
-      ]),
+      ],
     );
   }
 
@@ -54,13 +58,7 @@ class TabContentView extends Component {
   }
 }
 
-function mapToProps(_, {
-  phone,
-  phone: {
-    locale,
-    routerInteraction,
-  },
-}) {
+function mapToProps(_, { phone, phone: { locale, routerInteraction } }) {
   return {
     showTabs: hasActiveCalls(phone),
     currentLocale: locale.currentLocale,
@@ -69,11 +67,7 @@ function mapToProps(_, {
   };
 }
 
-function mapToFunctions(_, {
-  phone: {
-    routerInteraction,
-  },
-}) {
+function mapToFunctions(_, { phone: { routerInteraction } }) {
   return {
     goTo(path) {
       routerInteraction.push(path);
@@ -81,13 +75,11 @@ function mapToFunctions(_, {
   };
 }
 
-const DialerAndCallsTabContainer = withPhone(connect(
-  mapToProps,
-  mapToFunctions,
-)(TabContentView));
+const DialerAndCallsTabContainer = withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(TabContentView),
+);
 
-export {
-  mapToProps,
-  mapToFunctions,
-  DialerAndCallsTabContainer as default,
-};
+export { mapToProps, mapToFunctions, DialerAndCallsTabContainer as default };

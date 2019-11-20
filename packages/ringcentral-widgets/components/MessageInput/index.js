@@ -19,7 +19,7 @@ export default class MessageInput extends Component {
     onChange: PropTypes.func,
     onHeightChange: PropTypes.func,
     inputExpandable: PropTypes.bool,
-  }
+  };
 
   static defaultProps = {
     disabled: false,
@@ -30,7 +30,7 @@ export default class MessageInput extends Component {
     maxHeight: 300,
     maxLength: 5000,
     inputExpandable: true,
-  }
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -38,10 +38,17 @@ export default class MessageInput extends Component {
       value: props.value,
       height: props.minHeight,
     };
+    this._lastValueChange = 0;
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.state.value) {
+    if (
+      nextProps.value !== this.state.value &&
+      // ignore value changes from props for 300ms after typing
+      // this is to prevent unnecessary value changes when used in chrome extension
+      // where value pushed back to background and back takes longer
+      Date.now() - this._lastValueChange > 300
+    ) {
       // use setState(updater, callback) to recaculate height after value has been update to DOM
       this.setState(
         () => ({
@@ -57,7 +64,7 @@ export default class MessageInput extends Component {
               height: newHeight,
             });
           }
-        }
+        },
       );
     }
   }
@@ -84,26 +91,26 @@ export default class MessageInput extends Component {
     const newHeight = this.textArea.scrollHeight + 10 + UIHeightOffset;
     // set height back to original to avoid messing with react
     this.textArea.style.height = `${this.state.height - UIHeightOffset}px`;
-    const {
-      minHeight,
-      maxHeight,
-    } = this.props;
+    const { minHeight, maxHeight } = this.props;
     if (newHeight < minHeight) {
       return minHeight;
-    } if (newHeight > maxHeight) {
+    }
+    if (newHeight > maxHeight) {
       return maxHeight;
     }
     return newHeight;
   }
 
   onChange = (e) => {
+    this._lastValueChange = Date.now();
     const {
-      currentTarget: {
-        value,
-      },
+      currentTarget: { value },
     } = e;
     const newHeight = this.calculateNewHeight();
-    if (newHeight !== this.state.height && typeof this.props.onHeightChange === 'function') {
+    if (
+      newHeight !== this.state.height &&
+      typeof this.props.onHeightChange === 'function'
+    ) {
       this.props.onHeightChange(newHeight);
     }
     this.setState({
@@ -113,41 +120,33 @@ export default class MessageInput extends Component {
     if (typeof this.props.onChange === 'function') {
       this.props.onChange(value);
     }
-  }
+  };
 
   onKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       this.onSend();
     }
-  }
+  };
 
   onSend = () => {
-    if (
-      !this.props.disabled &&
-      typeof this.props.onSend === 'function'
-    ) {
+    if (!this.props.disabled && typeof this.props.onSend === 'function') {
       this.props.onSend();
     }
-  }
+  };
 
   render() {
-    const {
-      currentLocale,
-      disabled,
-      maxLength,
-    } = this.props;
-    const {
-      value,
-      height,
-    } = this.state;
+    const { currentLocale, disabled, maxLength } = this.props;
+    const { value, height } = this.state;
     const inputHeight = height - UIHeightOffset;
     return (
       <div className={styles.root}>
         <div className={styles.textField}>
           <textarea
             data-sign="messageInput"
-            ref={(target) => { this.textArea = target; }}
+            ref={(target) => {
+              this.textArea = target;
+            }}
             placeholder={i18n.getString('typeMessage', currentLocale)}
             value={value}
             maxLength={maxLength}

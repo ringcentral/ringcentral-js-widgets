@@ -15,10 +15,7 @@ const EntityButtonPage = () => {
   return (
     <div>
       <ComponentHeader name="EntityButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="EntityButton Example"
-      >
+      <CodeExample code={demoCode} title="EntityButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

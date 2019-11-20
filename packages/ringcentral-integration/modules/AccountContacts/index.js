@@ -240,17 +240,16 @@ export default class AccountContacts extends RcModule {
                 url: `/account/${accountId}/extension/${ids}/presence`,
               }),
             );
-          } else {
-            // wrap single request response data in array to keep the same
-            // format as batch requests
-            return [
-              await this._client
-                .account(accountId)
-                .extension(accountExtensionMap[accountId][0])
-                .presence()
-                .get(),
-            ];
           }
+          // wrap single request response data in array to keep the same
+          // format as batch requests
+          return [
+            await this._client
+              .account(accountId)
+              .extension(accountExtensionMap[accountId][0])
+              .presence()
+              .get(),
+          ];
         }, keys(accountExtensionMap)),
       );
       // treat all data as batch since the data is normalized

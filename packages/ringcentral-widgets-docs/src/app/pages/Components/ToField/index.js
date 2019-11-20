@@ -15,10 +15,7 @@ const ToFieldPage = () => {
   return (
     <div>
       <ComponentHeader name="ToField" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ToField Example"
-      >
+      <CodeExample code={demoCode} title="ToField Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

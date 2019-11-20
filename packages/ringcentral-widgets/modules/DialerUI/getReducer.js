@@ -36,11 +36,31 @@ export function getRecipientReducer(types) {
   };
 }
 
+export function getIsLastInputFromDialpadReducer(types) {
+  return (state = false, { type, fromDialPad = false }) => {
+    switch (type) {
+      case types.setToNumberField:
+        return fromDialPad;
+      case types.clearToNumberField:
+      case types.setRecipient:
+      case types.clearRecipient:
+      case types.loadLastCallState:
+      case types.call:
+      case types.resetSuccess:
+      case types.callSuccess:
+        return false;
+      default:
+        return state;
+    }
+  };
+}
+
 export default function getReducer(types, reducers = {}) {
   return combineReducers({
     ...reducers,
     status: getModuleStatusReducer(types),
     toNumberField: getToNumberFieldReducer(types),
     recipient: getRecipientReducer(types),
+    isLastInputFromDialpad: getIsLastInputFromDialpadReducer(types),
   });
 }

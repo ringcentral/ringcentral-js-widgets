@@ -1,10 +1,7 @@
 import MessageTransportCore from '../MessageTransportCore';
 
 export default class IframeMessageTransport extends MessageTransportCore {
-  constructor({
-    targetIframe,
-    targetWindow,
-  }) {
+  constructor({ targetIframe, targetWindow }) {
     super();
     this._targetIframe = targetIframe;
     this._targetWindow = targetWindow;
@@ -14,13 +11,15 @@ export default class IframeMessageTransport extends MessageTransportCore {
     if (msg && msg.data) {
       this._distributeMessage(msg.data);
     }
-  }
+  };
 
   dispose() {
     window.removeEventListener('message', this._onMessage);
   }
   postMessage(msg) {
-    const target = this._targetWindow || this._targetIframe && this._targetIframe.contentWindow;
+    const target =
+      this._targetWindow ||
+      (this._targetIframe && this._targetIframe.contentWindow);
     if (target) {
       target.postMessage(msg, '*');
     }

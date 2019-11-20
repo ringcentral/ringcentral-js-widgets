@@ -10,19 +10,21 @@ export default class CarrouselBar extends Component {
       currentIndex: 0,
       showAnimation: false,
       animationMode: 'move',
-      hoverBar: false
+      hoverBar: false,
     };
   }
 
   componentDidMount() {
     this.timeout = setInterval(() => {
       if (!this.props.hoverBar) {
-        this.setState(prevState => ({
-          currentIndex: prevState.currentIndex >= this.validChildren.length - 1 ?
-            0 : prevState.currentIndex + 1,
+        this.setState((prevState) => ({
+          currentIndex:
+            prevState.currentIndex >= this.validChildren.length - 1
+              ? 0
+              : prevState.currentIndex + 1,
           showAnimation: true,
           animationMode: prevState.animationMode === 'move' ? 'moveOn' : 'move',
-          hoverBar: false
+          hoverBar: false,
         }));
       }
     }, this.props.scrollInterval);
@@ -32,9 +34,9 @@ export default class CarrouselBar extends Component {
     if (nextProps.children !== this.props.children) {
       this.validChildren = this.getValidChildren(nextProps.children);
     }
-    if ((nextProps.hoverBar !== this.props.hoverBar) && !!nextProps.hoverBar) {
+    if (nextProps.hoverBar !== this.props.hoverBar && !!nextProps.hoverBar) {
       this.setState(() => ({
-        hoverBar: true
+        hoverBar: true,
       }));
     }
   }
@@ -54,7 +56,13 @@ export default class CarrouselBar extends Component {
     }
     return (
       <div className={styles.root}>
-        <div className={(this.state.showAnimation && !this.state.hoverBar) ? styles[this.state.animationMode] : styles.center}>
+        <div
+          className={
+            this.state.showAnimation && !this.state.hoverBar
+              ? styles[this.state.animationMode]
+              : styles.center
+          }
+        >
           {this.validChildren[this.state.currentIndex]}
         </div>
       </div>
@@ -65,7 +73,7 @@ export default class CarrouselBar extends Component {
 CarrouselBar.propTypes = {
   children: PropTypes.node,
   scrollInterval: PropTypes.number,
-  hoverBar: PropTypes.bool
+  hoverBar: PropTypes.bool,
 };
 CarrouselBar.defaultProps = {
   children: undefined,

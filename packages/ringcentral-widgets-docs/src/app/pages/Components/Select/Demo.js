@@ -8,9 +8,5 @@ props.options = [];
 /**
  * A example of `Select`
  */
-const SelectDemo = () => (
-  <Select
-    {...props}
-  />
-);
+const SelectDemo = () => <Select {...props} />;
 export default SelectDemo;

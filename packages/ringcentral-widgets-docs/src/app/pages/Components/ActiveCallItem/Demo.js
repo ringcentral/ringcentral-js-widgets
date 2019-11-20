@@ -7,17 +7,17 @@ props.call = {
   id: '1234',
   direction: 'Outbound',
   from: {
-    phoneNumber: '+16507654321'
+    phoneNumber: '+16507654321',
   },
   to: {
-    phoneNumber: '+12055435432'
+    phoneNumber: '+12055435432',
   },
   telephonyStatus: 'CallConnected',
   sipData: {
     toTag: 'aY8JwGA-xpRinSKQGl6BJzOLCWsmyEPm',
     fromTag: '10.13.22.253-5070-e2b88f40181740',
     remoteUri: 'sip:+12055435432@ringcentral.com',
-    localUri: 'sip:+16507654321@ringcentral.com'
+    localUri: 'sip:+16507654321@ringcentral.com',
   },
   sessionId: '156530009020',
   startTime: 1496914055959,
@@ -57,9 +57,5 @@ props.internalSmsPermission = true;
 /**
  * A example of `ActiveCallItem`
  */
-const ActiveCallItemDemo = () => (
-  <ActiveCallItem
-    {...props}
-  />
-);
+const ActiveCallItemDemo = () => <ActiveCallItem {...props} />;
 export default ActiveCallItemDemo;

@@ -8,9 +8,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `CopyToClipboard`
  */
-const CopyToClipboardDemo = () => (
-  <CopyToClipboard
-    {...props}
-  />
-);
+const CopyToClipboardDemo = () => <CopyToClipboard {...props} />;
 export default CopyToClipboardDemo;

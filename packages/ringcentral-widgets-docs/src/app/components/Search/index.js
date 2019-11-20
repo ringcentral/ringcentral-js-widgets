@@ -8,20 +8,13 @@ import styles from './styles.scss';
 function SearchResult(props) {
   return (
     <ul className={styles.resultList}>
-      {
-        props.result.map(item => (
-          <li
-            key={item.name}
-          >
-            <Link
-              onClick={props.onClick}
-              to={`/components/${item.name}`}
-            >
-              {item.name}
-            </Link>
-          </li>
-        ))
-      }
+      {props.result.map((item) => (
+        <li key={item.name}>
+          <Link onClick={props.onClick} to={`/components/${item.name}`}>
+            {item.name}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 }
@@ -52,8 +45,8 @@ class Search extends Component {
       }
     };
 
-    this.search = text => this.props.components.filter(
-      (component) => {
+    this.search = (text) =>
+      this.props.components.filter((component) => {
         const searchString = text.toLowerCase();
         if (component.name.toLowerCase().indexOf(searchString) >= 0) {
           return true;
@@ -62,8 +55,7 @@ class Search extends Component {
           return true;
         }
         return false;
-      }
-    );
+      });
 
     this.onSelect = () => {
       this.setState({
@@ -73,15 +65,12 @@ class Search extends Component {
   }
 
   render() {
-    const resultClassName =
-      classnames(
-        styles.result,
-        (this.state.result.length > 0 && this.state.show) ? null : styles.hidden
-      );
+    const resultClassName = classnames(
+      styles.result,
+      this.state.result.length > 0 && this.state.show ? null : styles.hidden,
+    );
     return (
-      <div
-        className={styles.root}
-      >
+      <div className={styles.root}>
         <div className={styles.searchInput}>
           <input
             name="search"
@@ -92,13 +81,8 @@ class Search extends Component {
             autoComplete="off"
           />
         </div>
-        <div
-          className={resultClassName}
-        >
-          <SearchResult
-            result={this.state.result}
-            onClick={this.onSelect}
-          />
+        <div className={resultClassName}>
+          <SearchResult result={this.state.result} onClick={this.onSelect} />
         </div>
       </div>
     );

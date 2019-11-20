@@ -15,10 +15,7 @@ const PresenceItemPage = () => {
   return (
     <div>
       <ComponentHeader name="PresenceItem" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="PresenceItem Example"
-      >
+      <CodeExample code={demoCode} title="PresenceItem Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

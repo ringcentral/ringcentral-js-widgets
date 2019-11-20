@@ -24,7 +24,15 @@ function LinkLine({
     >
       <IconLine
         className={className}
-        icon={<span className={classnames(dynamicsFont.arrow, styles.icon, iconClassName)} />}
+        icon={
+          <span
+            className={classnames(
+              dynamicsFont.arrow,
+              styles.icon,
+              iconClassName,
+            )}
+          />
+        }
       >
         {children}
       </IconLine>
@@ -38,13 +46,13 @@ LinkLine.propTypes = {
   hrefClassName: PropTypes.string,
   iconClassName: PropTypes.string,
   onClick: PropTypes.func.isRequired,
-  tooltip: PropTypes.string
+  tooltip: PropTypes.string,
 };
 LinkLine.defaultProps = {
   children: undefined,
   className: undefined,
   hrefClassName: undefined,
   iconClassName: undefined,
-  tooltip: undefined
+  tooltip: undefined,
 };
 export default LinkLine;

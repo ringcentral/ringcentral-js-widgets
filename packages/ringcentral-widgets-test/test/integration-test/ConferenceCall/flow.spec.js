@@ -11,7 +11,12 @@ import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import { mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
-import { makeCall, mockActiveCalls, mockPresencePubnub, CONFERENCE_SESSION_ID } from '../../support/callHelper';
+import {
+  makeCall,
+  mockActiveCalls,
+  mockPresencePubnub,
+  CONFERENCE_SESSION_ID,
+} from '../../support/callHelper';
 import { initPhoneWrapper, timeout } from '../shared';
 import deviceBody from './data/device';
 
@@ -40,10 +45,19 @@ async function dialAnotherOutboundCall(phone, wrapper) {
     await phone.webphone.hold(session.id);
   }
   /* click action */
-  const domInput = wrapper.find(DialerPanel).find(RecipientsInput).find('input');
+  const domInput = wrapper
+    .find(DialerPanel)
+    .find(RecipientsInput)
+    .find('input');
   enterToNumber(domInput, '987654321');
-  const callButton = wrapper.find(DialerPanel).find('.callBtn').first();
-  callButton.find(CircleButton).find('g').simulate('click');
+  const callButton = wrapper
+    .find(DialerPanel)
+    .find('.callBtn')
+    .first();
+  callButton
+    .find(CircleButton)
+    .find('g')
+    .simulate('click');
   await timeout(100);
   /* pubnub push message */
   await updateCallMonitorCalls(phone);
@@ -53,7 +67,10 @@ async function dialAnotherOutboundCall(phone, wrapper) {
 
 async function clickMergeButtonIn(wrapper, phone, pageName) {
   /* mock data */
-  mock.updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
+  mock.updateConferenceCall(
+    updateConferenceCallBody.id,
+    updateConferenceCallBody,
+  );
   mock.conferenceCallBringIn(CONFERENCE_SESSION_ID);
   mock.device(deviceBody, false);
   mock.conferenceCall();
@@ -63,20 +80,40 @@ async function clickMergeButtonIn(wrapper, phone, pageName) {
   /* click action */
   switch (pageName) {
     case 'OnholdPage':
-      expect(wrapper.find(CallsOnholdPanel).find(ActiveCallItem)).toHaveLength(1);
-      callItem = wrapper.find(CallsOnholdPanel).find(ActiveCallItem).first();
+      expect(wrapper.find(CallsOnholdPanel).find(ActiveCallItem)).toHaveLength(
+        1,
+      );
+      callItem = wrapper
+        .find(CallsOnholdPanel)
+        .find(ActiveCallItem)
+        .first();
       mergeButton = callItem.find('.webphoneButton').first();
-      mergeButton.find(CircleButton).find('g').simulate('click');
+      mergeButton
+        .find(CircleButton)
+        .find('g')
+        .simulate('click');
       await timeout(100);
       break;
     case 'SimplifiedCallCtrlPage':
-      mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-      mergeButton.find(CircleButton).find('g').simulate('click');
+      mergeButton = wrapper
+        .find(ActiveCallPad)
+        .find(ActiveCallButton)
+        .at(3);
+      mergeButton
+        .find(CircleButton)
+        .find('g')
+        .simulate('click');
       await timeout(100);
       break;
     case 'NormalCallCtrlPage':
-      mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-      mergeButton.find(CircleButton).find('g').simulate('click');
+      mergeButton = wrapper
+        .find(ActiveCallPad)
+        .find(ActiveCallButton)
+        .at(3);
+      mergeButton
+        .find(CircleButton)
+        .find('g')
+        .simulate('click');
       await timeout(100);
       wrapper.update();
       confirmMergeButton = wrapper.find(ConfirmMergeModal).find(CircleButton);
@@ -96,7 +133,8 @@ async function clickMergeButtonIn(wrapper, phone, pageName) {
     }
   });
   await timeout(1000);
-  const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
+  const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0]
+    .sessionId;
   const conferenceSession = phone.webphone._sessions.get(conferenceSessionId);
   conferenceSession.accept(phone.webphone.acceptOptions);
   await timeout(1000);
@@ -110,14 +148,27 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold list',
     await mockConferenceCallEnv(phone);
     wrapper.update();
     // Click Add
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toBe(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf(
+        '/conferenceCall/callsOnhold',
+      ),
+    ).toBe(0);
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'OnholdPage');
     // Confernce Call Ctrl Page
-    const holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    const holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -128,21 +179,43 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold list',
     await mockConferenceCallEnv(phone);
     wrapper.update();
     // Click Hold
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-    holdButton.find(CircleButton).find('g').simulate('click');
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
+    holdButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
     wrapper.update();
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('On Hold');
     // Click Add
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toBe(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf(
+        '/conferenceCall/callsOnhold',
+      ),
+    ).toBe(0);
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'OnholdPage');
     // Confernce Call Ctrl Page
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -155,26 +228,48 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> dialer', () =>
     await mockConferenceCallEnv(phone);
     wrapper.update();
     // Click Add
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toBe(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer'),
+    ).toBe(0);
     // make another call
     const anotherSession = await dialAnotherOutboundCall(phone, wrapper);
     expect(phone.webphone.sessions).toHaveLength(2);
-    expect(phone.routerInteraction.currentPath).toBe(`/calls/active/${anotherSession.id}`);
+    expect(phone.routerInteraction.currentPath).toBe(
+      `/calls/active/${anotherSession.id}`,
+    );
     expect(wrapper.find(MergeInfo)).toHaveLength(1);
     // Click Hold
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-    holdButton.find(CircleButton).find('g').simulate('click');
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
+    holdButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
     wrapper.update();
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('On Hold');
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'SimplifiedCallCtrlPage');
     // Confernce Call Ctrl Page
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -184,19 +279,32 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> dialer', () =>
     await mockConferenceCallEnv(phone);
     wrapper.update();
     // Click Add
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toBe(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer'),
+    ).toBe(0);
     // make another call
     const anotherSession = await dialAnotherOutboundCall(phone, wrapper);
     expect(phone.webphone.sessions).toHaveLength(2);
-    expect(phone.routerInteraction.currentPath).toBe(`/calls/active/${anotherSession.id}`);
+    expect(phone.routerInteraction.currentPath).toBe(
+      `/calls/active/${anotherSession.id}`,
+    );
     expect(wrapper.find(MergeInfo)).toHaveLength(1);
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'SimplifiedCallCtrlPage');
     // Confernce Call Ctrl Page
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -211,16 +319,28 @@ describe('Merge Call Flow: Normal Call Ctrl -> click Merge -> popup', () => {
     await updateCallMonitorCalls(phone);
     wrapper.update();
     // Click Hold
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-    holdButton.find(CircleButton).find('g').simulate('click');
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
+    holdButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
     wrapper.update();
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('On Hold');
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'NormalCallCtrlPage');
     // Confernce Call Ctrl Page
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -234,7 +354,10 @@ describe('Merge Call Flow: Normal Call Ctrl -> click Merge -> popup', () => {
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'NormalCallCtrlPage');
     // Confernce Call Ctrl Page
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -246,19 +369,32 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
     await makeCall(phone);
     wrapper.update();
     // Click Add
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toBe(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer'),
+    ).toBe(0);
     // make another call
     const anotherSession = await dialAnotherOutboundCall(phone, wrapper);
     expect(phone.webphone.sessions).toHaveLength(2);
-    expect(phone.routerInteraction.currentPath).toBe(`/calls/active/${anotherSession.id}`);
+    expect(phone.routerInteraction.currentPath).toBe(
+      `/calls/active/${anotherSession.id}`,
+    );
     expect(wrapper.find(MergeInfo)).toHaveLength(1);
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'SimplifiedCallCtrlPage');
     // Confernce Call Ctrl Page
-    const holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    const holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -268,26 +404,48 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
     const sessionA = await makeCall(phone);
     wrapper.update();
     // Click Add
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toBe(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer'),
+    ).toBe(0);
     // make another call
     const anotherSession = await dialAnotherOutboundCall(phone, wrapper);
     expect(phone.webphone.sessions).toHaveLength(2);
-    expect(phone.routerInteraction.currentPath).toBe(`/calls/active/${anotherSession.id}`);
+    expect(phone.routerInteraction.currentPath).toBe(
+      `/calls/active/${anotherSession.id}`,
+    );
     expect(wrapper.find(MergeInfo)).toHaveLength(1);
     // Click Hold
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-    holdButton.find(CircleButton).find('g').simulate('click');
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
+    holdButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
     wrapper.update();
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('On Hold');
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'SimplifiedCallCtrlPage');
     // Confernce Call Ctrl Page
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -301,14 +459,27 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
     await updateCallMonitorCalls(phone);
     wrapper.update();
     // Click Add
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toBe(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf(
+        '/conferenceCall/callsOnhold',
+      ),
+    ).toBe(0);
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'OnholdPage');
     // Confernce Call Ctrl Page
-    const holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    const holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
@@ -320,21 +491,43 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
     await updateCallMonitorCalls(phone);
     wrapper.update();
     // Click Hold
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-    holdButton.find(CircleButton).find('g').simulate('click');
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
+    holdButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
     wrapper.update();
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('On Hold');
     // Click Add
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toBe(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf(
+        '/conferenceCall/callsOnhold',
+      ),
+    ).toBe(0);
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'OnholdPage');
     // Confernce Call Ctrl Page
-    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });

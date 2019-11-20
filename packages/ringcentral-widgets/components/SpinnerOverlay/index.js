@@ -4,13 +4,14 @@ import classnames from 'classnames';
 import Spinner from '../Spinner';
 import styles from './styles.scss';
 
-export default function SpinnerOverlay({
-  className,
-}) {
+export default function SpinnerOverlay({ className }) {
   return (
-    <div data-sign="spinnerOverlay" className={classnames(styles.root, className)} >
+    <div
+      data-sign="spinnerOverlay"
+      className={classnames(styles.root, className)}
+    >
       <div className={styles.mask} />
-      <div className={styles.container} >
+      <div className={styles.container}>
         <Spinner />
       </div>
     </div>

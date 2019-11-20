@@ -25,7 +25,8 @@ import OAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager';
 import ConnectivityBadgeUI from 'ringcentral-widgets/modules/ConnectivityBadgeUI';
-import SettingsPageUI from 'ringcentral-widgets/modules/SettingsPageUI';
+import SettingsUI from 'ringcentral-widgets/modules/SettingsUI';
+import RegionSettingsUI from 'ringcentral-widgets/modules/RegionSettingsUI';
 import LoginUI from 'ringcentral-widgets/modules/LoginUI';
 import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 
@@ -35,13 +36,14 @@ import AlertUI from 'ringcentral-widgets/modules/AlertUI';
   providers: [
     { provide: 'Alert', useClass: Alert },
     { provide: 'AlertUI', useClass: AlertUI },
+    { provide: 'RegionSettingsUI', useClass: RegionSettingsUI },
     { provide: 'Brand', useClass: Brand },
     { provide: 'Locale', useClass: Locale },
     { provide: 'GlobalStorage', useClass: GlobalStorage },
     { provide: 'ConnectivityMonitor', useClass: ConnectivityMonitor },
     { provide: 'ConnectivityManager', useClass: ConnectivityManager },
     { provide: 'ConnectivityBadgeUI', useClass: ConnectivityBadgeUI },
-    { provide: 'SettingsPageUI', useClass: SettingsPageUI },
+    { provide: 'SettingsUI', useClass: SettingsUI },
     { provide: 'LoginUI', useClass: LoginUI },
     { provide: 'Auth', useClass: Auth },
     { provide: 'OAuth', useClass: OAuth },
@@ -59,35 +61,26 @@ import AlertUI from 'ringcentral-widgets/modules/AlertUI';
     {
       provide: 'EnvironmentOptions',
       useFactory: ({ sdkConfig }) => sdkConfig,
-      deps: [
-        { dep: 'SdkConfig' },
-      ],
+      deps: [{ dep: 'SdkConfig' }],
     },
     {
       provide: 'Client',
       useFactory: ({ sdkConfig }) => new RingCentralClient(new SDK(sdkConfig)),
-      deps: [
-        { dep: 'SdkConfig', useParam: true, },
-      ],
+      deps: [{ dep: 'SdkConfig', useParam: true }],
     },
-  ]
+  ],
 })
 export default class BasePhone extends RcModule {
   constructor(options) {
     super(options);
-    const {
-      appConfig,
-    } = options;
+    const { appConfig } = options;
     this._appConfig = appConfig;
   }
 
   initialize() {
     this.store.subscribe(() => {
       if (this.auth.ready) {
-        if (
-          this.routerInteraction.currentPath !== '/' &&
-          !this.auth.loggedIn
-        ) {
+        if (this.routerInteraction.currentPath !== '/' && !this.auth.loggedIn) {
           this.routerInteraction.push('/');
         } else if (
           this.routerInteraction.currentPath === '/' &&
@@ -136,7 +129,7 @@ export function createPhone({
       },
       { provide: 'BrandOptions', useValue: brandConfig, spread: true },
       { provide: 'OAuthOptions', useValue: { redirectUri }, spread: true },
-    ]
+    ],
   })
   class Phone extends BasePhone {}
   return Phone.create();

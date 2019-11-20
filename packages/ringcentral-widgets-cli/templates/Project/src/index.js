@@ -28,10 +28,6 @@ phone.setStore(store);
 window.phone = phone;
 
 ReactDOM.render(
-  <App
-    phone={phone}
-    hostingUrl={hostingUrl}
-  />,
+  <App phone={phone} hostingUrl={hostingUrl} />,
   document.querySelector('div#viewport'),
 );
-

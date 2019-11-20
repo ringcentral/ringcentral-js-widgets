@@ -15,10 +15,7 @@ const CircleButtonPage = () => {
   return (
     <div>
       <ComponentHeader name="CircleButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="CircleButton Example"
-      >
+      <CodeExample code={demoCode} title="CircleButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

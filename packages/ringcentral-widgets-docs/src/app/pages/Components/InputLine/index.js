@@ -15,10 +15,7 @@ const InputLinePage = () => {
   return (
     <div>
       <ComponentHeader name="InputLine" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="InputLine Example"
-      >
+      <CodeExample code={demoCode} title="InputLine Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -15,7 +15,8 @@ import prefix from 'ringcentral-widgets-demo/dev-server/prefix';
 
 /* global jest */
 
-export const timeout = ms => new Promise(resolve => setTimeout(() => resolve(true), ms));
+export const timeout = (ms) =>
+  new Promise((resolve) => setTimeout(() => resolve(true), ms));
 
 const apiConfig = {
   appKey: 'testKey',
@@ -25,7 +26,9 @@ const apiConfig = {
 
 SimulateWindowObject();
 const getPhone = async ({
-  shouldMockForLogin = true, shouldMockWebphone = true, ...options
+  shouldMockForLogin = true,
+  shouldMockWebphone = true,
+  ...options
 } = {}) => {
   jest.mock('pubnub');
   jest.mock('ringcentral-web-phone');
@@ -44,7 +47,10 @@ const getPhone = async ({
   const store = createStore(phone.reducer);
   phone.setStore(store);
   // mock.mockClient(phone.client);
-  const clientHistoryRequest = new ClientHistoryRequest(new Map(), phone.client);
+  const clientHistoryRequest = new ClientHistoryRequest(
+    new Map(),
+    phone.client,
+  );
   clientHistoryRequest.debugHistoryRequest();
   global.clientHistoryRequest = clientHistoryRequest;
 
@@ -55,10 +61,16 @@ const getPhone = async ({
 
     await ensureLogin(phone.auth, {
       username: 'test',
-      password: 'test'
+      password: 'test',
     });
     if (shouldMockWebphone) {
-      await waitUntilEqual(() => !!phone.webphone._webphone, '_webphone', true, 5, 10);
+      await waitUntilEqual(
+        () => !!phone.webphone._webphone,
+        '_webphone',
+        true,
+        5,
+        10,
+      );
       if (phone.webphone.connecting && phone.webphone._webphone) {
         phone.webphone._webphone.userAgent.trigger('registered');
       }
@@ -68,10 +80,14 @@ const getPhone = async ({
 };
 
 export const getWrapper = async ({
-  shouldMockForLogin = true, shouldMockWebphone = true, ...options
+  shouldMockForLogin = true,
+  shouldMockWebphone = true,
+  ...options
 } = {}) => {
   const phone = await getPhone({
-    shouldMockForLogin, shouldMockWebphone, ...options
+    shouldMockForLogin,
+    shouldMockWebphone,
+    ...options,
   });
   return mount(<App phone={phone} />);
 };

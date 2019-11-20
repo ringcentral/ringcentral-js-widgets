@@ -7,7 +7,7 @@ import i18n from './i18n';
 export const pickEleByProps = (props = {}, list = []) => {
   const keys = Object.keys(props);
   const result = list.filter((item) => {
-    const shouldPicked = keys.every(key => props[key] === item[key]);
+    const shouldPicked = keys.every((key) => props[key] === item[key]);
     return shouldPicked;
   });
   return result;
@@ -32,7 +32,7 @@ export const pickFallBackInfo = (call = {}, contactName, currentLocale) => {
 
   function getNumber(numberObj) {
     const { extensionNumber, phoneNumber } = numberObj;
-    return (phoneNumber || extensionNumber || numberObj);
+    return phoneNumber || extensionNumber || numberObj;
   }
 
   switch (direction) {
@@ -52,6 +52,6 @@ export const pickFallBackInfo = (call = {}, contactName, currentLocale) => {
   }
   return {
     fallBackName,
-    fallBackNumber
+    fallBackNumber,
   };
 };

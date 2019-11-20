@@ -11,12 +11,7 @@ import RcIcon from 'ringcentral-widgets/assets/images/RcIcon.svg';
 import Markdown from '../../../components/Markdown';
 import styles from './styles.scss';
 
-const CONTACT_FILTERS = [
-  'All Contacts',
-  'Company',
-  'Google',
-  'Personal',
-];
+const CONTACT_FILTERS = ['All Contacts', 'Company', 'Google', 'Personal'];
 
 const MENUS_LIST = [
   {
@@ -30,7 +25,7 @@ const MENUS_LIST = [
   {
     icon: SettingsIcon,
     title: 'Setting',
-  }
+  },
 ];
 
 const ACTIVE_MENUS_LIST = [
@@ -45,7 +40,7 @@ const ACTIVE_MENUS_LIST = [
   {
     icon: SettingsIcon,
     title: 'Setting',
-  }
+  },
 ];
 
 const SEARCH_LIST = [
@@ -66,7 +61,7 @@ const SEARCH_LIST = [
     source: 'Contact',
     phone: '(650) 555-4321',
     phoneType: 'Home',
-  }
+  },
 ];
 
 const CONTACT_DIPLAY_LIST = [
@@ -77,17 +72,20 @@ const CONTACT_DIPLAY_LIST = [
   'Jane Merry1',
 ];
 
-const contactDisplayRender = item => (
+const contactDisplayRender = (item) => (
   <div className={styles.contactItem} key={item}>
-    <div className={styles.icon}><RcIcon /></div>
+    <div className={styles.icon}>
+      <RcIcon />
+    </div>
     <div className={styles.name}>{item}</div>
   </div>
 );
 
-const searchRender = item => (
+const searchRender = (item) => (
   <div className={styles.searchItem} key={item.phone}>
     <div className={styles.line}>
-      <span className={styles.name}>{item.name}</span> | <span>{item.source}</span>
+      <span className={styles.name}>{item.name}</span> |{' '}
+      <span>{item.source}</span>
     </div>
     <div className={styles.line}>
       <span>{item.phone}</span> | <span>{item.phoneType}</span>
@@ -99,21 +97,25 @@ const menuRender = (item) => {
   const Icon = item.icon;
   return (
     <div className={styles.menuItem} key={item.title}>
-      <div className={styles.icon}><Icon width={22} height={22} /></div>
+      <div className={styles.icon}>
+        <Icon width={22} height={22} />
+      </div>
       <div className={styles.title}>{item.title}</div>
     </div>
   );
 };
 
 function Dropdown({ items, itemRender, className }) {
-  const renderFunc = itemRender || (
-    item => (<div className={styles.option} key={item}>{item}</div>)
-  );
+  const renderFunc =
+    itemRender ||
+    ((item) => (
+      <div className={styles.option} key={item}>
+        {item}
+      </div>
+    ));
   return (
     <div className={classnames(styles.dropdown, className)}>
-      {
-        items.map(renderFunc)
-      }
+      {items.map(renderFunc)}
     </div>
   );
 }
@@ -166,9 +168,7 @@ DropdownList.defaultProps = {
 function DropdownPage() {
   return (
     <div className={styles.root}>
-      <Markdown
-        text="# Dropdown"
-      />
+      <Markdown text="# Dropdown" />
       <div className={styles.dropdownGroup}>
         <div className={styles.dropdownList}>
           <div className={styles.header}>Normal</div>

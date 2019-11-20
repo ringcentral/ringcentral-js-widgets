@@ -3,21 +3,10 @@ import RcUIModule from '../../lib/RcUIModule';
 
 @Module({
   name: 'FeedbackUI',
-  deps: [
-    'RouterInteraction',
-    'Feedback',
-    'Locale',
-    'Brand',
-  ]
+  deps: ['RouterInteraction', 'Feedback', 'Locale', 'Brand'],
 })
 export default class FeedbackUI extends RcUIModule {
-  getUIProps({
-    phone: {
-      locale,
-      feedback,
-      brand
-    }
-  }){
+  getUIProps({ phone: { locale, feedback, brand } }) {
     return {
       brandName: brand.name,
       currentLocale: locale.currentLocale,
@@ -28,13 +17,7 @@ export default class FeedbackUI extends RcUIModule {
     };
   }
 
-  getUIFunctions({
-    phone: {
-      feedback,
-      routerInteraction,
-    },
-    sendFeedback,
-  }){
+  getUIFunctions({ phone: { feedback, routerInteraction }, sendFeedback }) {
     return {
       onBackClick: () => {
         routerInteraction.goBack();

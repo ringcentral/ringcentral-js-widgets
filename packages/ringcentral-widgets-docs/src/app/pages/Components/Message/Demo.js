@@ -4,15 +4,11 @@ import Message from 'ringcentral-widgets/components/Message';
 
 const props = {};
 props.level = 'warning';
-props.message = (<span>Warning Message</span>);
+props.message = <span>Warning Message</span>;
 props.onDismiss = () => null;
 
 /**
  * A example of `Message`
  */
-const MessageDemo = () => (
-  <Message
-    {...props}
-  />
-);
+const MessageDemo = () => <Message {...props} />;
 export default MessageDemo;

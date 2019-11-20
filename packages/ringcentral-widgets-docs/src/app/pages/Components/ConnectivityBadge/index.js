@@ -14,11 +14,11 @@ const ConnectivityBadgePage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="ConnectivityBadge" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ConnectivityBadge Example"
-      >
+      <ComponentHeader
+        name="ConnectivityBadge"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="ConnectivityBadge Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

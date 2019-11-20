@@ -14,11 +14,11 @@ const RolesAndPermissionsAlertPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="RolesAndPermissionsAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="RolesAndPermissionsAlert Example"
-      >
+      <ComponentHeader
+        name="RolesAndPermissionsAlert"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="RolesAndPermissionsAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

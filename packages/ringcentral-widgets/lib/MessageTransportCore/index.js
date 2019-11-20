@@ -3,7 +3,7 @@ export default class MessageTransportCore {
     this._listeners = new Set();
   }
   _distributeMessage = (msg) => {
-    this._listeners.forEach(fn => fn(msg));
+    this._listeners.forEach((fn) => fn(msg));
   };
   addListener(fn) {
     this._listeners.add(fn);

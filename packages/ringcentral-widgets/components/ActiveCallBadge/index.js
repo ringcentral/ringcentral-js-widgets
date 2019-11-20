@@ -16,10 +16,7 @@ export default function ActiveCallBadge(props) {
       positionOffsetY={props.offsetY}
       updatePositionOffset={props.updatePositionOffset}
     >
-      <Badge
-        className={styles.badge}
-        name={props.title}
-      >
+      <Badge className={styles.badge} name={props.title}>
         <span className={styles.activeIcon}>
           <i className={dynamicsFont.callHover} />
         </span>

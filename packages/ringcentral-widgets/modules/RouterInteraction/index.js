@@ -1,7 +1,11 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 import { useRouterHistory, createMemoryHistory } from 'react-router';
-import { syncHistoryWithStore, routerReducer, LOCATION_CHANGE } from 'react-router-redux';
+import {
+  syncHistoryWithStore,
+  routerReducer,
+  LOCATION_CHANGE,
+} from 'react-router-redux';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 
@@ -9,17 +13,16 @@ function getDefaultHistory() {
   return useRouterHistory(createMemoryHistory)();
 }
 
-
+/**
+ * Known issues for browser history:
+ * https://github.com/reactjs/react-router-redux/issues/570
+ * https://github.com/ReactTraining/history/issues/427
+ */
 @Module({
-  deps: [
-    { dep: 'RouterInteractionOptions', optional: true, spread: true },
-  ],
+  deps: [{ dep: 'RouterInteractionOptions', optional: true, spread: true }],
 })
 export default class RouterInteraction extends RcModule {
-  constructor({
-    history = getDefaultHistory(),
-    ...options
-  }) {
+  constructor({ history = getDefaultHistory(), ...options }) {
     super({ ...options });
     this._reducer = routerReducer;
     this._history = history;
@@ -80,7 +83,7 @@ export default class RouterInteraction extends RcModule {
 
   get actionTypes() {
     return {
-      locationChange: LOCATION_CHANGE
+      locationChange: LOCATION_CHANGE,
     };
   }
 }

@@ -7,19 +7,26 @@ import i18n from './i18n';
 
 const cx = classNames.bind(styles);
 function MessageItem({ message, navigateTo, dateTimeFormatter }) {
-  const {
-    subject, creationTime, readStatus, conversationId
-  } = message;
+  const { subject, creationTime, readStatus, conversationId } = message;
   const isUnread = readStatus !== 'Read';
   const time = dateTimeFormatter({ utcTimestamp: creationTime });
   return (
     <div
       className={cx('messageItem', { localMessageItem: !message.fromRemote })}
-      onClick={() => !message.fromRemote && navigateTo(`/conversations/${conversationId}`)}
+      onClick={() =>
+        !message.fromRemote && navigateTo(`/conversations/${conversationId}`)
+      }
     >
       <dl className={styles.dl}>
-        <dt className={cx('messageSubject', { unread: isUnread })} title={subject}>{subject}</dt>
-        <dd className={cx('messageTime', { unread: isUnread })} title={time}>{time}</dd>
+        <dt
+          className={cx('messageSubject', { unread: isUnread })}
+          title={subject}
+        >
+          {subject}
+        </dt>
+        <dd className={cx('messageTime', { unread: isUnread })} title={time}>
+          {time}
+        </dd>
       </dl>
     </div>
   );
@@ -28,14 +35,16 @@ function MessageItem({ message, navigateTo, dateTimeFormatter }) {
 MessageItem.propTypes = {
   message: PropTypes.object.isRequired,
   navigateTo: PropTypes.func.isRequired,
-  dateTimeFormatter: PropTypes.func.isRequired
+  dateTimeFormatter: PropTypes.func.isRequired,
 };
 
 export default class RecentActivityMessages extends Component {
   shouldComponentUpdate(nextProps) {
-    return nextProps.currentLocale !== this.props.currentLocale ||
+    return (
+      nextProps.currentLocale !== this.props.currentLocale ||
       nextProps.messages !== this.props.messages ||
-      nextProps.isMessagesLoaded !== this.props.isMessagesLoaded;
+      nextProps.isMessagesLoaded !== this.props.isMessagesLoaded
+    );
   }
 
   render() {
@@ -44,13 +53,13 @@ export default class RecentActivityMessages extends Component {
       messages,
       isMessagesLoaded,
       navigateTo,
-      dateTimeFormatter
+      dateTimeFormatter,
     } = this.props;
     let messageListView = null;
     if (!isMessagesLoaded) {
-      messageListView = (<Spinner className={styles.spinner} ringWidth={4} />);
+      messageListView = <Spinner className={styles.spinner} ringWidth={4} />;
     } else if (messages.length > 0) {
-      messageListView = messages.map(message => (
+      messageListView = messages.map((message) => (
         <MessageItem
           key={message.id}
           message={message}
@@ -59,13 +68,13 @@ export default class RecentActivityMessages extends Component {
         />
       ));
     } else {
-      messageListView = (<p className={styles.noRecords}>{i18n.getString('noRecords', currentLocale)}</p>);
+      messageListView = (
+        <p className={styles.noRecords}>
+          {i18n.getString('noRecords', currentLocale)}
+        </p>
+      );
     }
-    return (
-      <div className={styles.messages}>
-        {messageListView}
-      </div>
-    );
+    return <div className={styles.messages}>{messageListView}</div>;
   }
 }
 
@@ -74,5 +83,5 @@ RecentActivityMessages.propTypes = {
   messages: PropTypes.array.isRequired,
   isMessagesLoaded: PropTypes.bool.isRequired,
   navigateTo: PropTypes.func.isRequired,
-  dateTimeFormatter: PropTypes.func.isRequired
+  dateTimeFormatter: PropTypes.func.isRequired,
 };

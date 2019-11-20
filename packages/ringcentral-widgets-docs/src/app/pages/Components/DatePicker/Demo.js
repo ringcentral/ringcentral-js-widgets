@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `DatePicker`
  */
-const DatePickerDemo = () => (
-  <DatePicker
-    {...props}
-  />
-);
+const DatePickerDemo = () => <DatePicker {...props} />;
 export default DatePickerDemo;

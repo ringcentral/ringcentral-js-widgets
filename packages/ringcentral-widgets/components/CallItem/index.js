@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -110,6 +111,7 @@ export default class CallItem extends Component {
     };
     this._userSelection = false;
   }
+
   componentDidMount() {
     this._mounted = true;
     this._loadingTimeout = setTimeout(() => {
@@ -121,21 +123,20 @@ export default class CallItem extends Component {
       }
     }, 10);
   }
+
   componentWillReceiveProps(nextProps) {
+    const { call, extended } = this.props;
     if (
       !this._userSelection &&
-      (nextProps.call.activityMatches !== this.props.call.activityMatches ||
-        nextProps.call.fromMatches !== this.props.call.fromMatches ||
-        nextProps.call.toMatches !== this.props.call.toMatches)
+      (nextProps.call.activityMatches !== call.activityMatches ||
+        nextProps.call.fromMatches !== call.fromMatches ||
+        nextProps.call.toMatches !== call.toMatches)
     ) {
       this.setState({
         selected: this.getInitialContactIndex(nextProps),
       });
     }
-    if (
-      this.props.extended !== nextProps.extended &&
-      this.state.extended !== nextProps.extended
-    ) {
+    if (extended !== nextProps.extended && extended !== nextProps.extended) {
       this.setState({
         extended: nextProps.extended,
       });
@@ -149,15 +150,17 @@ export default class CallItem extends Component {
       this._loadingTimeout = null;
     }
   }
+
   onSelectContact = (value, idx) => {
-    const selected = this.props.showContactDisplayPlaceholder
+    const { showContactDisplayPlaceholder, autoLog } = this.props;
+    const selected = showContactDisplayPlaceholder
       ? parseInt(idx, 10) - 1
       : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
     });
-    if (this.props.autoLog) {
+    if (autoLog) {
       this.logCall({ redirect: false, selected });
     }
   };
@@ -166,14 +169,11 @@ export default class CallItem extends Component {
     if (this.contactDisplay && this.contactDisplay.contains(e.target)) {
       return;
     }
-    const {
-      onSizeChanged,
-      renderIndex,
-    } = this.props;
+    const { onSizeChanged, renderIndex } = this.props;
     if (onSizeChanged) {
       onSizeChanged(renderIndex);
     } else {
-      this.setState(state => ({
+      this.setState((state) => ({
         extended: !state.extended,
       }));
     }
@@ -181,23 +181,25 @@ export default class CallItem extends Component {
 
   getInitialContactIndex(nextProps = this.props) {
     const contactMatches = this.getContactMatches(nextProps);
+    const { isLoggedContact, showContactDisplayPlaceholder } = this.props;
     const activityMatches = nextProps.call.activityMatches;
     // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
     for (const activity of activityMatches) {
-      const index = contactMatches.findIndex(contact =>
+      const index = contactMatches.findIndex((contact) =>
         // TODO find a better name or mechanism...
-        this.props.isLoggedContact(nextProps.call, activity, contact),
+        isLoggedContact(nextProps.call, activity, contact),
       );
       if (index > -1) return index;
     }
     if (nextProps.call.toNumberEntity) {
       const index = contactMatches.findIndex(
-        contact => contact.id === nextProps.call.toNumberEntity,
+        (contact) => contact.id === nextProps.call.toNumberEntity,
       );
       return index;
     }
-    return this.props.showContactDisplayPlaceholder ? -1 : 0;
+    return showContactDisplayPlaceholder ? -1 : 0;
   }
+
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.getContactMatches();
     return (
@@ -206,22 +208,26 @@ export default class CallItem extends Component {
       null
     );
   };
+
   getPhoneNumber() {
     return isInbound(this.props.call)
       ? this.props.call.from.phoneNumber || this.props.call.from.extensionNumber
       : this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
   }
+
   getContactMatches(nextProps = this.props) {
     return isInbound(nextProps.call)
       ? nextProps.call.fromMatches
       : nextProps.call.toMatches;
   }
+
   getFallbackContactName() {
     return isInbound(this.props.call)
       ? this.props.call.from.name
       : this.props.call.to.name;
   }
-  async logCall({ redirect = true, selected }) {
+
+  async logCall(redirect = true, selected = this.state.selected) {
     if (
       typeof this.props.onLogCall === 'function' &&
       this._mounted &&
@@ -242,12 +248,18 @@ export default class CallItem extends Component {
       }
     }
   }
+
   logCall = this.logCall.bind(this);
 
   viewSelectedContact = () => {
     if (typeof this.props.onViewContact === 'function') {
+      const { call } = this.props;
+      const activityMatches = (call && call.activityMatches) || [];
       this.props.onViewContact({
+        activityMatches,
+        contactMatches: this.getContactMatches(),
         contact: this.getSelectedContact(),
+        phoneNumber: this.getPhoneNumber(),
       });
     }
   };
@@ -280,6 +292,7 @@ export default class CallItem extends Component {
       }
     }
   };
+
   clickToSms = ({ countryCode, areaCode }) => {
     if (this.props.onClickToSms) {
       const phoneNumber = this.getPhoneNumber();
@@ -307,6 +320,7 @@ export default class CallItem extends Component {
       }
     }
   };
+
   clickToDial = () => {
     if (this.props.onClickToDial) {
       const contact = this.getSelectedContact() || {};
@@ -320,7 +334,9 @@ export default class CallItem extends Component {
       }
     }
   };
+
   externalViewEntity = () => this.props.externalViewEntity(this.props.call);
+
   render() {
     if (this.state.loading) {
       return <div className={styles.root} />;

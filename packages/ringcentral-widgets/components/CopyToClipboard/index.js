@@ -5,7 +5,6 @@ import Button from '../Button';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-
 class CopyToClipboard extends Component {
   executeCopy() {
     this.copyTextArea.focus();
@@ -14,7 +13,8 @@ class CopyToClipboard extends Component {
       const result = document.execCommand('copy');
       if (result) {
         this.copyTextArea.blur();
-        if (typeof this.props.handleSuccess === 'function') this.props.handleSuccess();
+        if (typeof this.props.handleSuccess === 'function')
+          this.props.handleSuccess();
       } else if (typeof this.props.handleFailure === 'function') {
         this.props.handleFailure();
       }
@@ -39,26 +39,30 @@ class CopyToClipboard extends Component {
       <div className={styles.container}>
         <textarea
           className={styles.copyTextArea}
-          ref={(ref) => { this.copyTextArea = ref; }}
-          defaultValue={copiedText} />
-        {
-          CustomButton ? (
-            <CustomButton {...this.props} executeCopy={() => this.executeCopy()} />
-          ) : (
-            <Button
-              disabled={disabled}
-              dataSign="copyToClipboard"
-              className={classnames(styles.primaryButton, buttonClassName)}
-              onClick={() => this.executeCopy()}>
-              { buttonText || i18n.getString('copyToClipboard', currentLocale)}
-            </Button>
-          )
-        }
+          ref={(ref) => {
+            this.copyTextArea = ref;
+          }}
+          defaultValue={copiedText}
+        />
+        {CustomButton ? (
+          <CustomButton
+            {...this.props}
+            executeCopy={() => this.executeCopy()}
+          />
+        ) : (
+          <Button
+            disabled={disabled}
+            dataSign="copyToClipboard"
+            className={classnames(styles.primaryButton, buttonClassName)}
+            onClick={() => this.executeCopy()}
+          >
+            {buttonText || i18n.getString('copyToClipboard', currentLocale)}
+          </Button>
+        )}
       </div>
     );
   }
 }
-
 
 CopyToClipboard.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -68,7 +72,7 @@ CopyToClipboard.propTypes = {
   disabled: PropTypes.bool,
   copiedText: PropTypes.string,
   buttonText: PropTypes.string,
-  button: PropTypes.oneOfType([ PropTypes.node, PropTypes.func ]),
+  button: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 CopyToClipboard.defaultProps = {

@@ -11,25 +11,28 @@ import {
   mockGeneratePresenceApi,
   mockPresencePubnub,
   mockGenerateActiveCallsApi,
-  mockGeneratePresenceUpdateApi
+  mockGeneratePresenceUpdateApi,
 } from '../../support/callHelper';
 import { timeout } from '../shared';
 
 export async function makeOutboundCall(phone) {
   mock.device(deviceBody);
-  await Promise.all(phone.webphone.sessions.map(session => phone.webphone.hold(session.id)));
+  await Promise.all(
+    phone.webphone.sessions.map((session) => phone.webphone.hold(session.id)),
+  );
   const outboundSession = await makeCall(phone);
   return outboundSession;
 }
 
-export async function updateConferenceCallEnv(phone, {
-  conferencePartiesCount,
-  conferenceCallBody
-}) {
+export async function updateConferenceCallEnv(
+  phone,
+  { conferencePartiesCount, conferenceCallBody },
+) {
   const currentConference =
     phone.conferenceCall.conferences[phone.conferenceCall.currentConferenceId];
   const conferenceBodyData = conferencePartiesCount
-    ? getConferenceCallBody(conferencePartiesCount) : conferenceCallBody;
+    ? getConferenceCallBody(conferencePartiesCount)
+    : conferenceCallBody;
   phone.store.dispatch({
     type: `${prefix}-${actionTypes.updateConferenceSucceeded}`,
     conference: conferenceBodyData,
@@ -37,23 +40,30 @@ export async function updateConferenceCallEnv(phone, {
   });
 }
 
-export async function mockConferenceCallEnv(phone, params = {
-  conferencePartiesCount: 3,
-}) {
-  await Promise.all(phone.webphone.sessions.map(session => phone.webphone.hold(session.id)));
-  const conferenceBodyData = getConferenceCallBody(params.conferencePartiesCount);
+export async function mockConferenceCallEnv(
+  phone,
+  params = {
+    conferencePartiesCount: 3,
+  },
+) {
+  await Promise.all(
+    phone.webphone.sessions.map((session) => phone.webphone.hold(session.id)),
+  );
+  const conferenceBodyData = getConferenceCallBody(
+    params.conferencePartiesCount,
+  );
   /* mock data */
   mock.device(deviceBody);
   const conferenceSession = await makeConferenceCall(phone);
   const activeCallsBody = mockActiveCalls(phone.webphone.sessions, []);
   mockGeneratePresenceApi({
-    activeCalls: activeCallsBody
+    activeCalls: activeCallsBody,
   });
   mockGeneratePresenceUpdateApi({
-    activeCalls: activeCallsBody
+    activeCalls: activeCallsBody,
   });
   mockGenerateActiveCallsApi({
-    sessions: phone.webphone.sessions
+    sessions: phone.webphone.sessions,
   });
   mock.activeCalls(activeCallsBody);
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
@@ -81,13 +91,16 @@ export function removeParticipant(phone, partyId) {
   if (!partyId) {
     return null;
   }
-  const conferenceBody = Object.values(phone.conferenceCall.conferences)[0].conference;
-  const newConferenceParties = conferenceBody.parties.map((item, index, arr) => {
-    if (item.id === partyId) {
-      item.status = { code: 'Disconnected' };
-    }
-    return item;
-  });
+  const conferenceBody = Object.values(phone.conferenceCall.conferences)[0]
+    .conference;
+  const newConferenceParties = conferenceBody.parties.map(
+    (item, index, arr) => {
+      if (item.id === partyId) {
+        item.status = { code: 'Disconnected' };
+      }
+      return item;
+    },
+  );
   conferenceBody.parties = newConferenceParties;
   return conferenceBody;
 }

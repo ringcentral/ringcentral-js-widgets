@@ -143,6 +143,14 @@ $ringout-button-size: 24px;
         margin-right: $padding-horizontal/2;
       }
 
+      .switchButton {
+        g,
+        path {
+          fill: $primary-color;
+        }
+      }
+
+      .switchButton,
       .transferButton,
       .endButton {
         width: $ringout-button-size;
@@ -166,6 +174,7 @@ $ringout-button-size: 24px;
         }
       }
 
+      .switchButton,
       .transferButton {
         &.disabled {
           circle {

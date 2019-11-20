@@ -15,10 +15,7 @@ const TransferPanelPage = () => {
   return (
     <div>
       <ComponentHeader name="TransferPanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="TransferPanel Example"
-      >
+      <CodeExample code={demoCode} title="TransferPanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

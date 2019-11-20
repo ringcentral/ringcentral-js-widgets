@@ -14,9 +14,5 @@ props.brand = {
 /**
  * A example of `WebphoneAlert`
  */
-const WebphoneAlertDemo = () => (
-  <WebphoneAlert
-    {...props}
-  />
-);
+const WebphoneAlertDemo = () => <WebphoneAlert {...props} />;
 export default WebphoneAlertDemo;

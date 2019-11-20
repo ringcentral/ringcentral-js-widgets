@@ -95,6 +95,7 @@ export default class Alert extends RcModule {
       setTimeout(this._autoDismiss, ttl + 10);
     }
   }
+
   /**
    * @function
    * @description Add alert message of alertLevel "danger" to the state.
@@ -108,6 +109,7 @@ export default class Alert extends RcModule {
       level: alertLevels.danger,
     });
   }
+
   /**
    * @function
    * @description Add alert message of alertLevel "warning" to the state.
@@ -121,6 +123,7 @@ export default class Alert extends RcModule {
       level: alertLevels.warning,
     });
   }
+
   /**
    * @function
    * @description Add alert message of alertLevel "info" to the state.
@@ -134,6 +137,7 @@ export default class Alert extends RcModule {
       level: alertLevels.info,
     });
   }
+
   /**
    * @function
    * @description Add alert message of alertLevel "success" to the state.
@@ -147,6 +151,7 @@ export default class Alert extends RcModule {
       level: alertLevels.success,
     });
   }
+
   /**
    * @function
    * @description Dismiss the message from the state.
@@ -159,6 +164,7 @@ export default class Alert extends RcModule {
       ids: [].concat(ids),
     });
   }
+
   /**
    * @function
    * @description Dismiss all messages.

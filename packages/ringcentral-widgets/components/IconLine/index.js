@@ -9,11 +9,13 @@ export default function IconLine(props) {
       className={props.className}
       onClick={props.onClick}
       dataSign={props.dataSign}
-      noBorder={props.noBorder}>
+      noBorder={props.noBorder}
+    >
       <IconField
         className={props.className}
         icon={props.icon}
-        title={props.title}>
+        title={props.title}
+      >
         {props.children}
       </IconField>
     </Line>

@@ -501,9 +501,16 @@ export default class Conversations extends RcModule {
       this._onReplyError();
       return null;
     } catch (error) {
-      this._onReplyError();
+      this._onReplyError(error);
       throw error;
     }
+  }
+
+  _onReplyError(error) {
+    this.store.dispatch({
+      type: this.actionTypes.replyError,
+      error,
+    });
   }
 
   _getReplyOnMessageId() {
@@ -822,6 +829,7 @@ export default class Conversations extends RcModule {
     () => this.allConversations,
     () => this._auth.accessToken,
     () => this._conversationLogger && this._conversationLogger.dataMapping,
+    () => this._conversationLogger && this._conversationLogger.loggingMap,
     (
       conversationId,
       extensionNumber,
@@ -831,6 +839,7 @@ export default class Conversations extends RcModule {
       conversations,
       accessToken,
       conversationLogMapping = {},
+      loggingMap,
     ) => {
       const conversation = conversations.find(
         (c) => c.conversationId === conversationId,
@@ -877,6 +886,9 @@ export default class Conversations extends RcModule {
         message: conversation,
         myNumber: currentConversation.senderNumber,
       });
+      currentConversation.isLogging = !!(
+        conversationLogId && loggingMap[conversationLogId]
+      );
       return currentConversation;
     },
   ];
@@ -945,36 +957,43 @@ export default class Conversations extends RcModule {
   get _hasPermission() {
     return this._rolesAndPermissions.hasReadMessagesPermission;
   }
+
   get correspondentMatch() {
     return this.state.correspondentMatch;
   }
+
   get correspondentResponse() {
     return this.state.correspondentResponse;
   }
+
   addEntities(entities) {
     this.store.dispatch({
       type: this.actionTypes.addEntities,
       entities,
     });
   }
+
   removeEntity(entity) {
     this.store.dispatch({
       type: this.actionTypes.removeEntity,
       entity,
     });
   }
+
   addResponses(responses) {
     this.store.dispatch({
       type: this.actionTypes.addResponses,
       responses,
     });
   }
+
   removeResponse(phoneNumber) {
     this.store.dispatch({
       type: this.actionTypes.removeResponse,
       phoneNumber,
     });
   }
+
   relateCorrespondentEntity(responses) {
     if (
       !this._contactMatcher ||

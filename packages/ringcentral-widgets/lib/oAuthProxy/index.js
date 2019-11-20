@@ -5,10 +5,7 @@ import popWindow from '../popWindow';
 let loginWindow = null;
 
 const {
-  query: {
-    prefix = 'rc',
-    hash = simpleHash(),
-  },
+  query: { prefix = 'rc', hash = simpleHash() },
 } = parse(window.location.href, true);
 
 /**
@@ -18,15 +15,16 @@ const {
  * @param {String} callbackUri
  */
 window.oAuthCallback = (callbackUri) => {
-  window.parent.postMessage({
-    callbackUri,
-  }, '*');
+  window.parent.postMessage(
+    {
+      callbackUri,
+    },
+    '*',
+  );
 };
 
 window.addEventListener('message', ({ data = {} }) => {
-  const {
-    oAuthUri,
-  } = data;
+  const { oAuthUri } = data;
   if (oAuthUri && oAuthUri.trim() !== '') {
     const parsedUri = parse(oAuthUri, true);
     const { query } = parsedUri;
@@ -41,16 +39,22 @@ window.addEventListener('storage', (e) => {
   if (e.key === key && e.newValue && e.newValue !== '') {
     const callbackUri = e.newValue;
     localStorage.removeItem(key);
-    window.parent.postMessage({
-      callbackUri,
-    }, '*');
+    window.parent.postMessage(
+      {
+        callbackUri,
+      },
+      '*',
+    );
   }
 });
 
 try {
-  window.parent.postMessage({
-    proxyLoaded: true,
-  }, '*');
+  window.parent.postMessage(
+    {
+      proxyLoaded: true,
+    },
+    '*',
+  );
 } catch (error) {
   /* ignore error */
 }

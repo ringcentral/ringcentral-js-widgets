@@ -15,10 +15,7 @@ const PanelPage = () => {
   return (
     <div>
       <ComponentHeader name="Panel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Panel Example"
-      >
+      <CodeExample code={demoCode} title="Panel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

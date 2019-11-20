@@ -41,28 +41,22 @@ const COLORS_LIST2 = [
     { name: 'Sliver', value: '#E2E2E2', fontColor: '#000000' },
     { name: 'Egg', value: '#F9F9F9', fontColor: '#000000' },
     { name: 'Snow', value: '#FFFFFF', fontColor: '#000000' },
-  ]
+  ],
 ];
 
 function ColorsBlock({ colors }) {
   return (
     <div className={styles.colorsBlock}>
-      {
-        colors.map(color => (
-          <div
-            key={color.value}
-            className={styles.colorLine}
-            style={{ background: color.value, color: color.fontColor }}
-          >
-            <span className={styles.colorName}>
-              {color.name}
-            </span>
-            <span className={styles.colorValue}>
-              {color.value}
-            </span>
-          </div>
-        ))
-      }
+      {colors.map((color) => (
+        <div
+          key={color.value}
+          className={styles.colorLine}
+          style={{ background: color.value, color: color.fontColor }}
+        >
+          <span className={styles.colorName}>{color.name}</span>
+          <span className={styles.colorValue}>{color.value}</span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -70,18 +64,16 @@ function ColorsBlock({ colors }) {
 function ColorsPage() {
   return (
     <div>
-      <Markdown
-        text="# Colors"
-      />
+      <Markdown text="# Colors" />
       <div className={styles.colorsList}>
-        {
-          COLORS_LIST1.map((colors, index) => <ColorsBlock colors={colors} key={index} />)
-        }
+        {COLORS_LIST1.map((colors, index) => (
+          <ColorsBlock colors={colors} key={index} />
+        ))}
       </div>
       <div className={styles.colorsList}>
-        {
-          COLORS_LIST2.map((colors, index) => <ColorsBlock colors={colors} key={index} />)
-        }
+        {COLORS_LIST2.map((colors, index) => (
+          <ColorsBlock colors={colors} key={index} />
+        ))}
       </div>
     </div>
   );

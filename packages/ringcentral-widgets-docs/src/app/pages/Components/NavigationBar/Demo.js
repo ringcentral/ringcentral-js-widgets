@@ -46,7 +46,7 @@ props.tabs = [
     label: 'Messages',
     path: '/messages',
     noticeCounts: unreadCounts,
-    isActive: () => true
+    isActive: () => true,
   },
   {
     icon: ComposeTextIcon,
@@ -56,16 +56,15 @@ props.tabs = [
   },
 ];
 
-props.goTo = path => alert(`go to ${path}`);
+props.goTo = (path) => alert(`go to ${path}`);
 const NavigationBarDemo = () => (
-  <div style={{
-    position: 'relative',
-    width: '300px',
-  }}>
-    <NavigationBar
-      button={TabNavigationButton}
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      width: '300px',
+    }}
+  >
+    <NavigationBar button={TabNavigationButton} {...props} />
   </div>
 );
 export default NavigationBarDemo;

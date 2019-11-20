@@ -9,7 +9,7 @@ export default class RecentActivityView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: props.defaultTab
+      currentTab: props.defaultTab,
     };
   }
 
@@ -34,9 +34,9 @@ export default class RecentActivityView extends PureComponent {
     const currentTab = this.getCurrentTab(tabName);
     if (currentTab) currentTab.getData();
     this.setState({
-      currentTab: tabName
+      currentTab: tabName,
     });
-  }
+  };
 
   getCurrentTabPanel() {
     const currentTabPath = this.state.currentTab;
@@ -46,7 +46,7 @@ export default class RecentActivityView extends PureComponent {
 
   getCurrentTab(currentTabPath) {
     const tabs = this.props.tabs;
-    return tabs.find(tab => tab.path === currentTabPath);
+    return tabs.find((tab) => tab.path === currentTabPath);
   }
 
   render() {
@@ -55,7 +55,7 @@ export default class RecentActivityView extends PureComponent {
     const props = {
       currentPath: this.state.currentTab,
       goTo: this.onTabChanged,
-      tabs: this.props.tabs
+      tabs: this.props.tabs,
     };
     return (
       <div className={styles.recentActivityView}>
@@ -64,9 +64,7 @@ export default class RecentActivityView extends PureComponent {
           className={styles.navigationBar}
           {...props}
         />
-        <div className={styles.listView}>
-          {this.getCurrentTabPanel()}
-        </div>
+        <div className={styles.listView}>{this.getCurrentTabPanel()}</div>
       </div>
     );
   }
@@ -76,5 +74,5 @@ RecentActivityView.propTypes = {
   showSpinner: PropTypes.bool.isRequired,
   currentContact: PropTypes.object.isRequired,
   tabs: PropTypes.array.isRequired,
-  defaultTab: PropTypes.string.isRequired
+  defaultTab: PropTypes.string.isRequired,
 };

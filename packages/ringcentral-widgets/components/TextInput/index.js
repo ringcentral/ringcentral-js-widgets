@@ -27,7 +27,7 @@ class TextInput extends Component {
     if (typeof this.props.onChange === 'function') {
       this.props.onChange(e);
     }
-  }
+  };
   render() {
     const {
       className,
@@ -40,22 +40,23 @@ class TextInput extends Component {
       maxLength,
       defaultValue,
       onKeyDown,
-      autoFocus
+      autoFocus,
     } = this.props;
-    const {
-      value,
-    } = this.state;
+    const { value } = this.state;
     return (
       <div
         className={classnames(
           styles.root,
           className,
           invalid && styles.invalid,
-        )}>
+        )}
+      >
         <input
           data-sign={this.props.dataSign}
           autoFocus={autoFocus} // eslint-disable-line
-          ref={(input) => { this.input = input; }}
+          ref={(input) => {
+            this.input = input;
+          }}
           onChange={this.onInputChange}
           placeholder={placeholder}
           disabled={disabled}
@@ -65,10 +66,7 @@ class TextInput extends Component {
           name={name}
           value={value || ''}
           defaultValue={defaultValue}
-          className={classnames(
-            styles.input,
-            this.props.inputClassName
-          )}
+          className={classnames(styles.input, this.props.inputClassName)}
           onKeyDown={onKeyDown}
         />
       </div>
@@ -147,7 +145,7 @@ TextInput.defaultProps = {
   filter: undefined,
   autoFocus: false,
   inputClassName: undefined,
-  dataSign: undefined
+  dataSign: undefined,
 };
 
 export default TextInput;

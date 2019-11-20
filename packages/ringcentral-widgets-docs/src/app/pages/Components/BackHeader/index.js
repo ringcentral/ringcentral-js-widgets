@@ -15,11 +15,8 @@ const BackHeaderPage = () => {
   return (
     <div>
       <ComponentHeader name="BackHeader" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="BackHeader Example"
-      >
-        <Demo/>
+      <CodeExample code={demoCode} title="BackHeader Example">
+        <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />
     </div>

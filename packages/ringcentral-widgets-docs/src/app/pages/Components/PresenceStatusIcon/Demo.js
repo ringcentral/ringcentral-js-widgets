@@ -8,9 +8,5 @@ props.userStatus = 'Available';
 /**
  * A example of `PresenceStatusIcon`
  */
-const PresenceStatusIconDemo = () => (
-  <PresenceStatusIcon
-    {...props}
-  />
-);
+const PresenceStatusIconDemo = () => <PresenceStatusIcon {...props} />;
 export default PresenceStatusIconDemo;

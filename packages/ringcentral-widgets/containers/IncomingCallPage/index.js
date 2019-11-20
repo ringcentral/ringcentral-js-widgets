@@ -22,7 +22,7 @@ class IncomingCallPage extends Component {
     this.onSelectMatcherName = (option) => {
       const nameMatches = this.props.nameMatches || [];
       let selectedMatcherIndex = nameMatches.findIndex(
-        match => match.id === option.id
+        (match) => match.id === option.id,
       );
       if (selectedMatcherIndex < 0) {
         selectedMatcherIndex = 0;
@@ -44,10 +44,9 @@ class IncomingCallPage extends Component {
   answer = () => this.props.answer(this.props.session.id);
   reject = () => this.props.reject(this.props.session.id);
   toVoiceMail = () => this.props.toVoiceMail(this.props.session.id);
-  replyWithMessage = message =>
+  replyWithMessage = (message) =>
     this.props.replyWithMessage(this.props.session.id, message);
-  toggleMinimized = () =>
-    this.props.toggleMinimized(this.props.session.id);
+  toggleMinimized = () => this.props.toggleMinimized(this.props.session.id);
   answerAndEnd = async () => {
     await this.props.hangup(this.props.activeSessionId);
     await this.props.answer(this.props.session.id);
@@ -56,7 +55,7 @@ class IncomingCallPage extends Component {
     await this.props.onHold(this.props.activeSessionId);
     await this.props.answer(this.props.session.id);
   };
-  onForward = forwardNumber =>
+  onForward = (forwardNumber) =>
     this.props.onForward(this.props.session.id, forwardNumber);
 
   componentDidMount() {
@@ -83,8 +82,8 @@ class IncomingCallPage extends Component {
     if (!contact) {
       contact = props.nameMatches && props.nameMatches[0];
     } else {
-      selectedMatcherIndex = props.nameMatches.findIndex(match =>
-        match.id === contact.id
+      selectedMatcherIndex = props.nameMatches.findIndex(
+        (match) => match.id === contact.id,
       );
     }
     this.setState({
@@ -110,10 +109,13 @@ class IncomingCallPage extends Component {
     if (session.minimized) {
       return null;
     }
-    const phoneNumber = session.direction === callDirections.outbound ?
-      session.to : session.from;
+    const phoneNumber =
+      session.direction === callDirections.outbound ? session.to : session.from;
     let fallbackUserName;
-    if (session.direction === callDirections.inbound && session.from === 'anonymous') {
+    if (
+      session.direction === callDirections.inbound &&
+      session.from === 'anonymous'
+    ) {
       fallbackUserName = i18n.getString('anonymous', this.props.currentLocale);
     }
     if (!fallbackUserName) {
@@ -203,26 +205,32 @@ IncomingCallPage.defaultProps = {
   phoneSourceNameRenderer: undefined,
 };
 
-function mapToProps(_, {
-  phone: {
-    webphone,
-    locale,
-    contactMatcher,
-    contactSearch,
-    regionSettings,
-    forwardingNumber,
-    brand,
+function mapToProps(
+  _,
+  {
+    phone: {
+      webphone,
+      locale,
+      contactMatcher,
+      contactSearch,
+      regionSettings,
+      forwardingNumber,
+      brand,
+    },
+    showContactDisplayPlaceholder = false,
+    phoneTypeRenderer,
+    phoneSourceNameRenderer,
   },
-  showContactDisplayPlaceholder = false,
-  phoneTypeRenderer,
-  phoneSourceNameRenderer,
-}) {
+) {
   const currentSession = webphone.ringingCallOnView || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
-  const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
+  const fromMatches =
+    (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
   const nameMatches =
-    currentSession.direction === callDirections.outbound ? toMatches : fromMatches;
+    currentSession.direction === callDirections.outbound
+      ? toMatches
+      : fromMatches;
   return {
     brand: brand.fullName,
     nameMatches,
@@ -239,45 +247,48 @@ function mapToProps(_, {
   };
 }
 
-function mapToFunctions(_, {
-  phone: {
-    webphone,
-    regionSettings,
-    contactSearch,
-    conferenceCall,
+function mapToFunctions(
+  _,
+  {
+    phone: { webphone, regionSettings, contactSearch, conferenceCall },
+    getAvatarUrl = () => null,
   },
-  getAvatarUrl = () => null,
-}) {
+) {
   return {
-    formatPhone: phoneNumber => formatNumber({
-      phoneNumber,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
-    }),
+    formatPhone: (phoneNumber) =>
+      formatNumber({
+        phoneNumber,
+        areaCode: regionSettings.areaCode,
+        countryCode: regionSettings.countryCode,
+      }),
     answer(sessionId) {
       if (conferenceCall) {
         conferenceCall.closeMergingPair();
       }
       webphone.answer(sessionId);
     },
-    reject: sessionId => webphone.reject(sessionId),
-    toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
-    onForward: (sessionId, forwardNumber) => webphone.forward(sessionId, forwardNumber),
-    replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
-    toggleMinimized: sessionId => webphone.toggleMinimized(sessionId),
+    reject: (sessionId) => webphone.reject(sessionId),
+    toVoiceMail: (sessionId) => webphone.toVoiceMail(sessionId),
+    onForward: (sessionId, forwardNumber) =>
+      webphone.forward(sessionId, forwardNumber),
+    replyWithMessage: (sessionId, message) =>
+      webphone.replyWithMessage(sessionId, message),
+    toggleMinimized: (sessionId) => webphone.toggleMinimized(sessionId),
     updateSessionMatchedContact: (sessionId, contact) =>
       webphone.updateSessionMatchedContact(sessionId, contact),
     getAvatarUrl,
-    hangup: sessionId => webphone.hangup(sessionId),
-    onHold: sessionId => webphone.hold(sessionId),
-    searchContact: pattern => contactSearch.debouncedSearch({ searchString: pattern })
+    hangup: (sessionId) => webphone.hangup(sessionId),
+    onHold: (sessionId) => webphone.hold(sessionId),
+    searchContact: (pattern) =>
+      contactSearch.debouncedSearch({ searchString: pattern }),
   };
 }
 
-const IncomingCallContainer = withPhone(connect(
-  mapToProps,
-  mapToFunctions,
-)(IncomingCallPage));
+const IncomingCallContainer = withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(IncomingCallPage),
+);
 
 export default IncomingCallContainer;
-

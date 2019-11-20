@@ -104,7 +104,9 @@ export function filterContacts(contacts, searchFilter) {
       name.toLowerCase().indexOf(searchText) >= 0 ||
       (item.extensionNumber && item.extensionNumber.indexOf(searchText) >= 0) ||
       (item.phoneNumbers &&
-        item.phoneNumbers.find((x) => x.phoneNumber.indexOf(searchText) >= 0))
+        item.phoneNumbers.find(
+          (x) => x.phoneNumber && x.phoneNumber.indexOf(searchText) >= 0,
+        ))
     ) {
       return true;
     }
@@ -112,12 +114,19 @@ export function filterContacts(contacts, searchFilter) {
   });
 }
 
-export function getMatchContacts({ contacts, phoneNumber, entityType }) {
+export function getMatchContacts({
+  contacts,
+  phoneNumber,
+  entityType,
+  normalizeNumber = (number) => number,
+}) {
   const result = [];
   contacts.forEach((contact) => {
     const found =
       contact.phoneNumbers &&
-      contact.phoneNumbers.find((number) => number.phoneNumber === phoneNumber);
+      contact.phoneNumbers.find(
+        (item) => normalizeNumber(item.phoneNumber) === phoneNumber,
+      );
     if (!found) {
       return;
     }

@@ -22,7 +22,10 @@ beforeEach(async () => {
   wrapper.update();
   panel = wrapper.find(ComposeTextPanel).first();
   sendButton = panel.find('.sendButton').first();
-  textArea = panel.find('.textField').first().find('textarea');
+  textArea = panel
+    .find('.textField')
+    .first()
+    .find('textarea');
   toNumber = panel.find('.numberInput');
 });
 
@@ -40,7 +43,10 @@ describe('compose text panel', () => {
     textArea.instance().value = 'Hello world';
     await textArea.simulate('change');
     panel = wrapper.find(ComposeTextPanel).first();
-    textArea = panel.find('.textField').first().find('textarea');
+    textArea = panel
+      .find('.textField')
+      .first()
+      .find('textarea');
     expect(textArea.props().value).toEqual('Hello world');
     toNumber.instance().value = 'Hello world';
     await toNumber.simulate('change');
@@ -56,11 +62,23 @@ describe('compose text panel', () => {
     const dropdown = dropdownSelect.find('.dropdown').first();
     const dropdownItems = dropdown.find('.dropdownItem');
     expect(dropdownItems.length > 1).toEqual(true);
-    const firstNumber = dropdownItems.at(0).find('span').at(2).text();
-    const secondNumber = dropdownItems.at(1).find('span').at(2).text();
+    const firstNumber = dropdownItems
+      .at(0)
+      .find('span')
+      .at(2)
+      .text();
+    const secondNumber = dropdownItems
+      .at(1)
+      .find('span')
+      .at(2)
+      .text();
     expect(firstNumber).not.toEqual(secondNumber);
 
-    const selected = dropdownSelect.find('div.button').first().find('span.selectedValue').first();
+    const selected = dropdownSelect
+      .find('div.button')
+      .first()
+      .find('span.selectedValue')
+      .first();
     await dropdownItems.at(1).simulate('click');
     expect(selected.text()).toEqual(secondNumber);
     await dropdownItems.at(0).simulate('click');
@@ -71,7 +89,7 @@ describe('compose text panel', () => {
     const messageContent = `Hello world ${Date.now()}`;
     mock.numberParser();
     mock.sms({
-      subject: messageContent
+      subject: messageContent,
     });
 
     toNumber.instance().value = '16505819954';

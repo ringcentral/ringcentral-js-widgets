@@ -8,9 +8,7 @@ const props = {};
  * A example of `Line`
  */
 const LineDemo = () => (
-  <Line
-    {...props}
-  >
+  <Line {...props}>
     <span>Line</span>
   </Line>
 );

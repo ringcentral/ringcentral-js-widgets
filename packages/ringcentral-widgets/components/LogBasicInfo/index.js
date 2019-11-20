@@ -11,16 +11,14 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 const CallIcon = ({ title, iconClassName }) => (
-  <div
-    className={styles.callIcon}
-    title={title}>
+  <div className={styles.callIcon} title={title}>
     <span className={iconClassName} />
   </div>
 );
 
 CallIcon.propTypes = {
   title: PropTypes.string,
-  iconClassName: PropTypes.string.isRequired
+  iconClassName: PropTypes.string.isRequired,
 };
 
 CallIcon.defaultProps = {
@@ -31,7 +29,7 @@ const callIconMap = {
   [callResults.missed]: dynamicsFont.missed,
   [callDirections.inbound]: dynamicsFont.inbound,
   [callDirections.outbound]: dynamicsFont.outbound,
-  [telephonyStatuses.ringing]: dynamicsFont.callHover
+  [telephonyStatuses.ringing]: dynamicsFont.callHover,
 };
 const colorStatusMap = {
   green: [
@@ -49,48 +47,37 @@ const colorStatusMap = {
     callResults.busy,
     callResults.hangUp,
     callResults.HangUp,
-    callResults.declined
+    callResults.declined,
   ],
-  orange: [
-    telephonyStatuses.onHold,
-    telephonyStatuses.parkedCall
-  ],
+  orange: [telephonyStatuses.onHold, telephonyStatuses.parkedCall],
 };
 
 export default function LogBasicInfo(props) {
   const {
-    currentLog: {
-      call,
-      logName,
-    },
+    currentLog: { call, logName },
     formatPhone,
     currentLocale,
     clickable,
     onClick,
-    dataSign
+    dataSign,
   } = props;
   if (!call) return null;
-  const {
-    direction,
-    to,
-    from,
-    duration,
-    result,
-    telephonyStatus
-  } = call;
-  const number = direction === callDirections.outbound ?
-    (to && (to.phoneNumber || to.extensionNumber)) :
-    (from && (from.phoneNumber || from.extensionNumber));
+  const { direction, to, from, duration, result, telephonyStatus } = call;
+  const number =
+    direction === callDirections.outbound
+      ? to && (to.phoneNumber || to.extensionNumber)
+      : from && (from.phoneNumber || from.extensionNumber);
   const formatNumber = formatPhone(number);
   const status = result || telephonyStatus;
-  const active = (!duration && duration !== 0);
+  const active = !duration && duration !== 0;
   const missed = isMissed(call);
   const green = contains(status, colorStatusMap.green);
   const red = contains(status, colorStatusMap.red);
   const orange = contains(status, colorStatusMap.orange);
   const isRinging = status === telephonyStatuses.ringing;
-  const title = missed ? i18n.getString(callResults.missed, currentLocale) :
-    i18n.getString(direction, currentLocale);
+  const title = missed
+    ? i18n.getString(callResults.missed, currentLocale)
+    : i18n.getString(direction, currentLocale);
   const statusI18n = i18n.getString(status, currentLocale);
   const iconClassName = classnames(
     styles.icon,
@@ -99,54 +86,44 @@ export default function LogBasicInfo(props) {
     !isRinging && !missed && callIconMap[direction],
     missed && styles.missed,
     missed && callIconMap[callResults.missed],
-    !isRinging && active && styles.active
+    !isRinging && active && styles.active,
   );
   const statusClassName = classnames(
     styles.status,
     green && styles.green,
     red && styles.red,
-    orange && styles.orange
+    orange && styles.orange,
   );
   return (
     <div data-sign="logSection" className={styles.root}>
       <div
         data-sign={dataSign}
-        className={classnames(
-          styles.callInfo,
-          clickable && styles.pointer
-        )}
+        className={classnames(styles.callInfo, clickable && styles.pointer)}
         onClick={clickable ? onClick : () => {}}
       >
         <CallIcon title={title} iconClassName={iconClassName} />
         <ul className={styles.callDisplay}>
-          <li
-            className={styles.contact}
-            title={logName}>
+          <li className={styles.contact} title={logName}>
             {logName}
           </li>
           <li className={styles.callDetail}>
-            <span
-              className={styles.number}
-              title={formatNumber}>
+            <span className={styles.number} title={formatNumber}>
               {formatNumber}
             </span>
-            {
-              formatNumber ? (
-                <span className={styles.separator}>&nbsp;</span>
-              ) : null
-            }
+            {formatNumber ? (
+              <span className={styles.separator}>&nbsp;</span>
+            ) : null}
             <span
               data-sign="callStatus"
               className={statusClassName}
-              title={statusI18n}>
+              title={statusI18n}
+            >
               {statusI18n}
             </span>
           </li>
         </ul>
       </div>
-      <div className={styles.extra}>
-        {props.extraButton}
-      </div>
+      <div className={styles.extra}>{props.extraButton}</div>
     </div>
   );
 }
@@ -158,14 +135,14 @@ LogBasicInfo.propTypes = {
   extraButton: PropTypes.object,
   clickable: PropTypes.bool,
   onClick: PropTypes.func,
-  dataSign: PropTypes.string
+  dataSign: PropTypes.string,
 };
 
 LogBasicInfo.defaultProps = {
-  formatPhone: value => value,
+  formatPhone: (value) => value,
   currentLog: {},
   extraButton: undefined,
   clickable: false,
   onClick() {},
-  dataSign: undefined
+  dataSign: undefined,
 };

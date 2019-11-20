@@ -3,15 +3,13 @@ import React from 'react';
 import RecentActivityNavigationButton from 'ringcentral-widgets/components/RecentActivityNavigationButton';
 
 const props = {};
-props.icon = (<span>Node</span>);
+props.icon = <span>Node</span>;
 props.width = undefined;
 
 /**
  * A example of `RecentActivityNavigationButton`
  */
 const RecentActivityNavigationButtonDemo = () => (
-  <RecentActivityNavigationButton
-    {...props}
-  />
+  <RecentActivityNavigationButton {...props} />
 );
 export default RecentActivityNavigationButtonDemo;

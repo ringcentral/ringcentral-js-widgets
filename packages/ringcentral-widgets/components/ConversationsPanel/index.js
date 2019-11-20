@@ -17,10 +17,7 @@ import Search from './widgets/Search';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function TabTitle({
-  type,
-  currentLocale,
-}) {
+function TabTitle({ type, currentLocale }) {
   return (
     <span className={styles.tabTitle}>
       {i18n.getString(type, currentLocale)}
@@ -53,33 +50,53 @@ export default class ConversationsPanel extends Component {
   renderTabs() {
     const tabs = [
       {
-        icon: <TabTitle type={messageTypes.all} currentLocale={this.props.currentLocale} />,
+        icon: (
+          <TabTitle
+            type={messageTypes.all}
+            currentLocale={this.props.currentLocale}
+          />
+        ),
         label: i18n.getString(messageTypes.all, this.props.currentLocale),
         path: messageTypes.all,
-        isActive: path => path === messageTypes.all,
+        isActive: (path) => path === messageTypes.all,
       },
       this.props.readVoicemailPermission && {
-        icon: <TabTitle type={messageTypes.voiceMail} currentLocale={this.props.currentLocale} />,
+        icon: (
+          <TabTitle
+            type={messageTypes.voiceMail}
+            currentLocale={this.props.currentLocale}
+          />
+        ),
         label: i18n.getString(messageTypes.voiceMail, this.props.currentLocale),
         path: messageTypes.voiceMail,
-        isActive: path => path === messageTypes.voiceMail,
+        isActive: (path) => path === messageTypes.voiceMail,
         noticeCounts: this.props.voiceUnreadCounts,
       },
       this.props.readFaxPermission && {
-        icon: <TabTitle type={messageTypes.fax} currentLocale={this.props.currentLocale} />,
+        icon: (
+          <TabTitle
+            type={messageTypes.fax}
+            currentLocale={this.props.currentLocale}
+          />
+        ),
         label: i18n.getString(messageTypes.fax, this.props.currentLocale),
         path: messageTypes.fax,
-        isActive: path => path === messageTypes.fax,
+        isActive: (path) => path === messageTypes.fax,
         noticeCounts: this.props.faxUnreadCounts,
       },
       this.props.readTextPermission && {
-        icon: <TabTitle type={messageTypes.text} currentLocale={this.props.currentLocale} />,
+        icon: (
+          <TabTitle
+            type={messageTypes.text}
+            currentLocale={this.props.currentLocale}
+          />
+        ),
         label: i18n.getString(messageTypes.text, this.props.currentLocale),
         path: messageTypes.text,
-        isActive: path => path === messageTypes.text,
+        isActive: (path) => path === messageTypes.text,
         noticeCounts: this.props.textUnreadCounts,
       },
-    ].filter(x => !!x);
+    ].filter((x) => !!x);
     return (
       <NavigationBar
         button={MessageTabButton}
@@ -136,19 +153,22 @@ export default class ConversationsPanel extends Component {
       internalSmsPermission,
       updateTypeFilter,
       renderSearchTip,
-      renderNoMessage
+      renderNoMessage,
+      onFaxDownload,
     } = this.props;
     if (showSpinner) {
-      return (<SpinnerOverlay />);
+      return <SpinnerOverlay />;
     }
-    const placeholder = onSearchInputChange && searchInput.length > 0 ?
-      i18n.getString('noSearchResults', currentLocale) :
-      i18n.getString('noMessages', currentLocale);
+    const placeholder =
+      onSearchInputChange && searchInput.length > 0
+        ? i18n.getString('noSearchResults', currentLocale)
+        : i18n.getString('noMessages', currentLocale);
     return (
-      <div data-sign="messageList" 
+      <div
+        data-sign="messageList"
         className={classnames(
           styles.content,
-          showTitle && styles.contentWithHeader
+          showTitle && styles.contentWithHeader,
         )}
       >
         <Search
@@ -161,7 +181,7 @@ export default class ConversationsPanel extends Component {
           goToComposeText={goToComposeText}
           renderSearchTip={renderSearchTip}
         />
-        { conversations.length ?
+        {conversations.length ? (
           <ConversationList
             className={onSearchInputChange ? styles.contentWithSearch : null}
             currentLocale={currentLocale}
@@ -201,16 +221,14 @@ export default class ConversationsPanel extends Component {
             outboundSmsPermission={outboundSmsPermission}
             internalSmsPermission={internalSmsPermission}
             updateTypeFilter={updateTypeFilter}
-          /> :
-          (
-            !loadingNextPage &&
-            (
-              renderNoMessage && renderNoMessage()
-              || <NoMessage placeholder={placeholder} />
-            )
-          )
-      }
-
+            onFaxDownload={onFaxDownload}
+          />
+        ) : (
+          !loadingNextPage &&
+          ((renderNoMessage && renderNoMessage()) || (
+            <NoMessage placeholder={placeholder} />
+          ))
+        )}
       </div>
     );
   }
@@ -230,13 +248,11 @@ export default class ConversationsPanel extends Component {
         placement: 'right',
       });
     }
-    const header = showTitle ?
-      (
-        <Header buttons={buttons}>
-          {i18n.getString('title', currentLocale)}
-        </Header>
-      ) :
-      null;
+    const header = showTitle ? (
+      <Header buttons={buttons}>
+        {i18n.getString('title', currentLocale)}
+      </Header>
+    ) : null;
     const tabsHeader = this.renderTabs();
     const content = this.renderContent();
     return (
@@ -302,6 +318,7 @@ ConversationsPanel.propTypes = {
   renderExtraButton: PropTypes.func,
   renderSearchTip: PropTypes.func,
   renderNoMessage: PropTypes.func,
+  onFaxDownload: PropTypes.func,
 };
 
 ConversationsPanel.defaultProps = {
@@ -343,4 +360,5 @@ ConversationsPanel.defaultProps = {
   renderExtraButton: undefined,
   renderSearchTip: undefined,
   renderNoMessage: undefined,
+  onFaxDownload: undefined,
 };

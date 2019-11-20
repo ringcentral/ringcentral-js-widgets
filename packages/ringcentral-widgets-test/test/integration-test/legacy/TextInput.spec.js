@@ -12,20 +12,21 @@ describe('<Textinput />', () => {
   it('props received', () => {
     const eventHandler = jest.fn();
     const onKeyDown = jest.fn();
-    const wrapper = shallow(<Textinput
-      className={'helloClass'}
-      invalid={false}
-      onChange={eventHandler}
-      placeholder={'hello placeholder'}
-      disabled={false}
-      readOnly={false}
-      pattern={'hello pattern'}
-      name={'hello name'}
-      maxLength={20}
-      value={'hello value'}
-      defaultValue={'hello default value'}
-      onKeyDown={onKeyDown}
-      />
+    const wrapper = shallow(
+      <Textinput
+        className={'helloClass'}
+        invalid={false}
+        onChange={eventHandler}
+        placeholder={'hello placeholder'}
+        disabled={false}
+        readOnly={false}
+        pattern={'hello pattern'}
+        name={'hello name'}
+        maxLength={20}
+        value={'hello value'}
+        defaultValue={'hello default value'}
+        onKeyDown={onKeyDown}
+      />,
     );
     const div = wrapper.find('div').first();
 

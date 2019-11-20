@@ -11507,20 +11507,6 @@
           "computed": false
         }
       },
-      "setupOAuth": {
-        "type": {
-          "name": "func"
-        },
-        "required": true,
-        "description": ""
-      },
-      "destroyOAuth": {
-        "type": {
-          "name": "func"
-        },
-        "required": true,
-        "description": ""
-      },
       "currentLocale": {
         "type": {
           "name": "string"

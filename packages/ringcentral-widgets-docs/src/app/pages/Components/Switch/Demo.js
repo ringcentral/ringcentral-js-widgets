@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `Switch`
  */
-const SwitchDemo = () => (
-  <Switch
-    {...props}
-  />
-);
+const SwitchDemo = () => <Switch {...props} />;
 export default SwitchDemo;

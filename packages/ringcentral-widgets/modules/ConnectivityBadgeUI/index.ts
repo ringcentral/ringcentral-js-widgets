@@ -1,24 +1,16 @@
-
 import Module from 'ringcentral-integration/lib/di/decorators/module';
 import RcUIModule from '../../lib/RcUIModule';
 
 @Module({
   name: 'ConnectivityBadgeUI',
-  deps: [
-    'Locale',
-    'ConnectivityManager',
-  ],
+  deps: ['Locale', 'ConnectivityManager'],
 })
 export default class ConnectivityBadgeUI extends RcUIModule {
   _locale: any;
 
   _connectivityManager: any;
 
-  constructor({
-    locale,
-    connectivityManager,
-    ...options
-  }) {
+  constructor({ locale, connectivityManager, ...options }) {
     super({
       ...options,
     });
@@ -30,11 +22,15 @@ export default class ConnectivityBadgeUI extends RcUIModule {
   getUIProps() {
     return {
       currentLocale: this._locale.currentLocale,
-      mode: (this._connectivityManager.ready && this._connectivityManager.mode) || null,
-      webphoneConnecting: this._connectivityManager.ready &&
+      mode:
+        (this._connectivityManager.ready && this._connectivityManager.mode) ||
+        null,
+      webphoneConnecting:
+        this._connectivityManager.ready &&
         this._connectivityManager.webphoneConnecting,
-      hasLimitedStatusError: this._connectivityManager.ready &&
-        this._connectivityManager.hasLimitedStatusError
+      hasLimitedStatusError:
+        this._connectivityManager.ready &&
+        this._connectivityManager.hasLimitedStatusError,
     };
   }
 

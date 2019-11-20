@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `InputField`
  */
-const InputFieldDemo = () => (
-  <InputField
-    {...props}
-  />
-);
+const InputFieldDemo = () => <InputField {...props} />;
 export default InputFieldDemo;

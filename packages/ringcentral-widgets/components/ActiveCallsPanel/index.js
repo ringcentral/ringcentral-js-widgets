@@ -76,15 +76,17 @@ export default class ActiveCallsPanel extends Component {
           onClose={onCloseLogSection}
           clickOutToClose={false}
           maskStyle={styles.maskStyle}
-        // containerStyles={sectionContainerStyles}
-        // modalStyles={sectionModalStyles}
+          // containerStyles={sectionContainerStyles}
+          // modalStyles={sectionModalStyles}
         >
           <LogSection
             currentLocale={currentLocale}
             currentLog={currentLog}
             formatPhone={formatPhone}
             // additionalInfo={additionalInfo}
-            isInnerMask={logNotification && logNotification.notificationIsExpand}
+            isInnerMask={
+              logNotification && logNotification.notificationIsExpand
+            }
             // save call log
             renderEditLogSection={renderEditLogSection}
             showSaveLogBtn
@@ -96,31 +98,31 @@ export default class ActiveCallsPanel extends Component {
             renderSmallCallContrl={renderSmallCallContrl}
           />
         </InsideModal>
-        {
-          logNotification ? (
-            <InsideModal
-              show={logNotification.showNotification}
-              showTitle={false}
-              containerStyles={classnames(
-                styles.notificationContainer, notificationContainerStyles
-              )}
-              modalStyles={styles.notificationModal}
-              contentStyle={styles.notificationContent}
-              onClose={onCloseNotification}>
-              <LogNotification
-                showLogButton={showNotiLogButton}
-                currentLocale={currentLocale}
-                formatPhone={formatPhone}
-                currentLog={logNotification}
-                isExpand={logNotification.notificationIsExpand}
-                onSave={onSaveNotification}
-                onExpand={onExpandNotification}
-                onDiscard={onDiscardNotification}
-                onStay={onCloseNotification}
-              />
-            </InsideModal>
-          ) : null
-        }
+        {logNotification ? (
+          <InsideModal
+            show={logNotification.showNotification}
+            showTitle={false}
+            containerStyles={classnames(
+              styles.notificationContainer,
+              notificationContainerStyles,
+            )}
+            modalStyles={styles.notificationModal}
+            contentStyle={styles.notificationContent}
+            onClose={onCloseNotification}
+          >
+            <LogNotification
+              showLogButton={showNotiLogButton}
+              currentLocale={currentLocale}
+              formatPhone={formatPhone}
+              currentLog={logNotification}
+              isExpand={logNotification.notificationIsExpand}
+              onSave={onSaveNotification}
+              onExpand={onExpandNotification}
+              onDiscard={onDiscardNotification}
+              onStay={onCloseNotification}
+            />
+          </InsideModal>
+        ) : null}
       </div>
     );
   }
@@ -159,6 +161,7 @@ export default class ActiveCallsPanel extends Component {
       getAvatarUrl,
       conferenceCallParties,
       webphoneHold,
+      webphoneSwitchCall,
       useV2,
       updateSessionMatchedContact,
       renderExtraButton,
@@ -168,6 +171,7 @@ export default class ActiveCallsPanel extends Component {
       ringoutReject,
       disableLinks,
       showRingoutCallControl,
+      showSwitchCall,
     } = this.props;
 
     return (
@@ -193,6 +197,7 @@ export default class ActiveCallsPanel extends Component {
         webphoneReject={webphoneReject}
         webphoneHangup={webphoneHangup}
         webphoneResume={webphoneResume}
+        webphoneSwitchCall={webphoneSwitchCall}
         webphoneToVoicemail={webphoneToVoicemail}
         renderExtraButton={renderExtraButton}
         renderContactName={renderContactName}
@@ -203,7 +208,7 @@ export default class ActiveCallsPanel extends Component {
         isWebRTC={isWebRTC}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
-        useV2={useV2}// TODO: Maybe we should make all the call item consistent
+        useV2={useV2} // TODO: Maybe we should make all the call item consistent
         onCallItemClick={onCallItemClick}
         showAvatar={showAvatar}
         getAvatarUrl={getAvatarUrl}
@@ -216,6 +221,7 @@ export default class ActiveCallsPanel extends Component {
         ringoutReject={ringoutReject}
         disableLinks={disableLinks}
         showRingoutCallControl={showRingoutCallControl}
+        showSwitchCall={showSwitchCall}
       />
     );
   }
@@ -235,23 +241,45 @@ export default class ActiveCallsPanel extends Component {
 
     if (!this.hasCalls()) {
       return (
-        <div data-sign="activeCalls" className={classnames(styles.root, className)}>
-          <p className={styles.noCalls}>{i18n.getString('noActiveCalls', currentLocale)}</p>
+        <div
+          data-sign="activeCalls"
+          className={classnames(styles.root, className)}
+        >
+          <p className={styles.noCalls}>
+            {i18n.getString('noActiveCalls', currentLocale)}
+          </p>
           {logSection}
           {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
         </div>
       );
     }
-    const otherDevice = showOtherDevice ? this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true) : null;
+    const otherDevice = showOtherDevice
+      ? this.getCallList(
+          otherDeviceCalls,
+          i18n.getString('otherDeviceCall', currentLocale),
+          true,
+        )
+      : null;
     return (
       <div data-sign="activeCalls" className={styles.root}>
         <div
           className={classnames(styles.root, className)}
-          ref={(target) => { this.container = target; }}
+          ref={(target) => {
+            this.container = target;
+          }}
         >
-          {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
-          {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
-          {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
+          {this.getCallList(
+            activeRingCalls,
+            i18n.getString('ringCall', currentLocale),
+          )}
+          {this.getCallList(
+            activeCurrentCalls,
+            i18n.getString('currentCall', currentLocale),
+          )}
+          {this.getCallList(
+            activeOnHoldCalls,
+            i18n.getString('onHoldCall', currentLocale),
+          )}
           {otherDevice}
         </div>
         {logSection}
@@ -284,6 +312,7 @@ ActiveCallsPanel.propTypes = {
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
   webphoneToVoicemail: PropTypes.func,
+  webphoneSwitchCall: PropTypes.func,
   autoLog: PropTypes.bool,
   onViewContact: PropTypes.func,
   enableContactFallback: PropTypes.bool,
@@ -326,6 +355,7 @@ ActiveCallsPanel.propTypes = {
   ringoutReject: PropTypes.func,
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
+  showSwitchCall: PropTypes.bool,
   onLogBasicInfoClick: PropTypes.func,
   renderSmallCallContrl: PropTypes.func,
 };
@@ -346,6 +376,7 @@ ActiveCallsPanel.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   webphoneToVoicemail: undefined,
+  webphoneSwitchCall: undefined,
   enableContactFallback: undefined,
   loggingMap: {},
   autoLog: false,
@@ -356,11 +387,11 @@ ActiveCallsPanel.defaultProps = {
   showSpinner: false,
   isSessionAConferenceCall: () => false,
   onCallItemClick: false,
-  getAvatarUrl: i => i,
+  getAvatarUrl: undefined,
   conferenceCallParties: [],
-  webphoneHold: i => i,
+  webphoneHold: (i) => i,
   useV2: false,
-  updateSessionMatchedContact: i => i,
+  updateSessionMatchedContact: (i) => i,
   // CallLog related
   currentLog: undefined,
   renderEditLogSection: undefined,
@@ -386,6 +417,7 @@ ActiveCallsPanel.defaultProps = {
   ringoutReject: undefined,
   disableLinks: false,
   showRingoutCallControl: false,
-  onLogBasicInfoClick() { },
-  renderSmallCallContrl() { },
+  showSwitchCall: false,
+  onLogBasicInfoClick() {},
+  renderSmallCallContrl() {},
 };

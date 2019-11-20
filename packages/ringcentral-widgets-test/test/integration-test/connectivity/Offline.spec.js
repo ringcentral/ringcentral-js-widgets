@@ -25,7 +25,9 @@ describe('Network is lost', () => {
   test('App is in offline Mode', () => {
     expect(badge.text()).toEqual('Offline');
     const connectivityAlert = wrapper.find(ConnectivityAlert);
-    expect(connectivityAlert.text()).toEqual('Sorry, something went wrong, check your network connection and try again.');
+    expect(connectivityAlert.text()).toEqual(
+      'Sorry, something went wrong, check your network connection and try again.',
+    );
   });
 
   test('Call Buttons are disabled', () => {
@@ -41,7 +43,9 @@ describe('Network is lost', () => {
     badge.simulate('click');
     wrapper.update();
     const connectivityAlert2 = wrapper.find(ConnectivityAlert);
-    expect(connectivityAlert2.text()).toEqual('Sorry, something went wrong, check your network connection and try again.');
+    expect(connectivityAlert2.text()).toEqual(
+      'Sorry, something went wrong, check your network connection and try again.',
+    );
   });
 
   test('platform is accessible', async () => {
@@ -65,7 +69,9 @@ describe('Platform is not accessible', () => {
   test('App is in offline Mode', async () => {
     expect(badge.text()).toEqual('Offline');
     const connectivityAlert = wrapper.find(ConnectivityAlert);
-    expect(connectivityAlert.text()).toEqual('Cannot connect to the server. Please retry later.');
+    expect(connectivityAlert.text()).toEqual(
+      'Cannot connect to the server. Please retry later.',
+    );
   });
 
   test('All Buttons are disabled', () => {
@@ -81,7 +87,9 @@ describe('Platform is not accessible', () => {
     badge.simulate('click');
     wrapper.update();
     const connectivityAlert2 = wrapper.find(ConnectivityAlert);
-    expect(connectivityAlert2.text()).toEqual('Cannot connect to the server. Please retry later.');
+    expect(connectivityAlert2.text()).toEqual(
+      'Cannot connect to the server. Please retry later.',
+    );
   });
 
   test('platform is accessible', async () => {
@@ -97,8 +105,12 @@ describe('Offline = VoIP Only mode + Webphone Unavailable', () => {
   beforeEach(async () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
-    phone.availabilityMonitor._client.service.platform().emit('refreshError',
-      { mesage: 'none', apiResponse: { _response: { status: 500 } } });
+    phone.availabilityMonitor._client.service
+      .platform()
+      .emit('refreshError', {
+        mesage: 'none',
+        apiResponse: { _response: { status: 500 } },
+      });
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');
@@ -108,10 +120,14 @@ describe('Offline = VoIP Only mode + Webphone Unavailable', () => {
     phone.callingSettings._setSoftPhoneToCallWith();
     await timeout(500);
     wrapper.update();
-    expect(phone.callingSettings.callingMode).not.toEqual(callingModes.webphone);
+    expect(phone.callingSettings.callingMode).not.toEqual(
+      callingModes.webphone,
+    );
     expect(wrapper.find(ConnectivityBadge).text()).toEqual('Offline');
     const connectivityAlerts = wrapper.find(ConnectivityAlert) || [];
-    expect(connectivityAlerts.map(x => x.text())).toContain('Sorry, something went wrong on our end. Try again later.');
+    expect(connectivityAlerts.map((x) => x.text())).toContain(
+      'Sorry, something went wrong on our end. Try again later.',
+    );
     const button = wrapper.find(CircleButton);
     expect(contains('disabled', button.at(0).prop('className'))).toBeTruthy();
   });
@@ -124,7 +140,9 @@ describe('Offline = VoIP Only mode + Webphone Unavailable', () => {
     expect(phone.callingSettings.callingMode).toEqual(callingModes.webphone);
     expect(wrapper.find(ConnectivityBadge).text()).toEqual('Offline');
     const connectivityAlerts = wrapper.find(ConnectivityAlert) || [];
-    expect(connectivityAlerts.map(x => x.text())).toContain('Sorry, something went wrong on our end. Try again later.');
+    expect(connectivityAlerts.map((x) => x.text())).toContain(
+      'Sorry, something went wrong on our end. Try again later.',
+    );
     const button = wrapper.find(CircleButton);
     expect(contains('disabled', button.at(0).prop('className'))).toBeTruthy();
   });

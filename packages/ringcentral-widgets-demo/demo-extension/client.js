@@ -31,15 +31,13 @@ client.setStore(store);
 
 function renderApp() {
   ReactDOM.render(
-    <App
-      phone={client._target}
-    />,
+    <App phone={client._target} />,
     document.querySelector('div#viewport'),
   );
   client.sync(); // Rendering App with Routes would force the history object to default path
 }
 (async () => {
-  await client.sync();  // wait for the first sync
+  await client.sync(); // wait for the first sync
   if (document.readyState !== 'loading') {
     renderApp();
   } else {

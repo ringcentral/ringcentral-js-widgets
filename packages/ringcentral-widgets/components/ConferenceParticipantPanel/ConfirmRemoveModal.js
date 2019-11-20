@@ -16,11 +16,9 @@ export default function ConfirmRemoveModal({
   if (!detail) {
     return null;
   }
-  let displayText = detail.partyNumber || i18n.getString('unknownNumber', currentLocale);
-  if (
-    detail.partyName &&
-    detail.calleeType === calleeTypes.contacts
-  ) {
+  let displayText =
+    detail.partyNumber || i18n.getString('unknownNumber', currentLocale);
+  if (detail.partyName && detail.calleeType === calleeTypes.contacts) {
     // means that matched a contact
     displayText = detail.partyName;
   }
@@ -57,7 +55,7 @@ ConfirmRemoveModal.propTypes = {
 };
 
 ConfirmRemoveModal.defaultProps = {
-  onRemove() { },
-  onCancel() { },
+  onRemove() {},
+  onCancel() {},
   detail: null,
 };

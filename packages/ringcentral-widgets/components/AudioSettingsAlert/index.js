@@ -4,16 +4,18 @@ import audioSettingsErrors from 'ringcentral-integration/modules/AudioSettings/a
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
-export default function AudioSettingsAlert({ application, currentLocale, message }) {
+export default function AudioSettingsAlert({
+  application,
+  currentLocale,
+  message,
+}) {
   const view = (
     <FormattedMessage
       message={i18n.getString(message.message, currentLocale)}
       values={{ application }}
     />
   );
-  return (
-    <span>{view}</span>
-  );
+  return <span>{view}</span>;
 }
 
 AudioSettingsAlert.propTypes = {
@@ -24,6 +26,5 @@ AudioSettingsAlert.propTypes = {
   }).isRequired,
 };
 
-AudioSettingsAlert.handleMessage = ({ message }) => (
-  message === audioSettingsErrors.userMediaPermission
-);
+AudioSettingsAlert.handleMessage = ({ message }) =>
+  message === audioSettingsErrors.userMediaPermission;

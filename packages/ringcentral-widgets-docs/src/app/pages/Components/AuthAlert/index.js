@@ -15,10 +15,7 @@ const AuthAlertPage = () => {
   return (
     <div>
       <ComponentHeader name="AuthAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="AuthAlert Example"
-      >
+      <CodeExample code={demoCode} title="AuthAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

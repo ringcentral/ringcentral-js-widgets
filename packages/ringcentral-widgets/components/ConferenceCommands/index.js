@@ -4,16 +4,26 @@ import BackHeader from '../BackHeader';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-const Button = ({ text }) => <span key={text} className={styles.button}>{text}</span>;
+const Button = ({ text }) => (
+  <span key={text} className={styles.button}>
+    {text}
+  </span>
+);
 Button.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
 const Section = ({ buttons, title, body }) => (
   <div key={buttons.join('')} className={styles.section}>
-    {buttons.map(b => <Button text={b} key={b} />)}
+    {buttons.map((b) => (
+      <Button text={b} key={b} />
+    ))}
     <p className={styles.title}>{title}</p>
-    {body.split('\n').map(line => <p key={line} className={styles.body}>{line}</p>)}
+    {body.split('\n').map((line) => (
+      <p key={line} className={styles.body}>
+        {line}
+      </p>
+    ))}
   </div>
 );
 Section.propTypes = {
@@ -22,7 +32,7 @@ Section.propTypes = {
   body: PropTypes.string.isRequired,
 };
 
-const sections = currentLocale => ([
+const sections = (currentLocale) => [
   {
     buttons: ['*', '#', '2'],
     title: i18n.getString('starSharp2Title', currentLocale),
@@ -62,8 +72,8 @@ const sections = currentLocale => ([
     buttons: ['*', '9'],
     title: i18n.getString('star9Title', currentLocale),
     body: i18n.getString('star9Body', currentLocale),
-  }
-]);
+  },
+];
 
 const ConferenceCommands = ({ currentLocale, onBack }) => (
   <div className={styles.root}>
@@ -71,18 +81,21 @@ const ConferenceCommands = ({ currentLocale, onBack }) => (
       {i18n.getString('title', currentLocale)}
     </BackHeader>
     <div className={styles.conferenceCommands}>
-      {
-        sections(currentLocale).map(
-          s => <Section key={s.title} buttons={s.buttons} title={s.title} body={s.body} />
-        )
-      }
+      {sections(currentLocale).map((s) => (
+        <Section
+          key={s.title}
+          buttons={s.buttons}
+          title={s.title}
+          body={s.body}
+        />
+      ))}
     </div>
   </div>
 );
 
 ConferenceCommands.propTypes = {
   currentLocale: PropTypes.string.isRequired,
-  onBack: PropTypes.func.isRequired
+  onBack: PropTypes.func.isRequired,
 };
 
 export default ConferenceCommands;

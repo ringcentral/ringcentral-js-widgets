@@ -5,9 +5,7 @@ import i18n from './i18n';
 
 export default function ConferenceAlert(props) {
   const msg = i18n.getString(props.message.message, props.currentLocale);
-  return (
-    <span>{msg}</span>
-  );
+  return <span>{msg}</span>;
 }
 
 ConferenceAlert.propTypes = {
@@ -17,7 +15,6 @@ ConferenceAlert.propTypes = {
   }).isRequired,
 };
 
-ConferenceAlert.handleMessage = ({ message }) => (
+ConferenceAlert.handleMessage = ({ message }) =>
   message === messages.requireAditionalNumbers ||
-  message === messages.scheduledSuccess
-);
+  message === messages.scheduledSuccess;

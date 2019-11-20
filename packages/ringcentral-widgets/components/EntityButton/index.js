@@ -17,13 +17,11 @@ export default function EntityButton({
   createEntityTitle,
 }) {
   // console.debug('isCreating', isCreating);
-  const spinner = isCreating ?
-    (
-      <div className={styles.spinnerContainer}>
-        <Spinner ringWidth={2} />
-      </div>
-    ) :
-    null;
+  const spinner = isCreating ? (
+    <div className={styles.spinnerContainer}>
+      <Spinner ringWidth={2} />
+    </div>
+  ) : null;
   const icon = hasEntity ? dynamicsFont.record : dynamicsFont.addEntity;
   const onClick = hasEntity ? onViewEntity : onCreateEntity;
   const title = hasEntity ? viewEntityTitle : createEntityTitle;
@@ -32,11 +30,9 @@ export default function EntityButton({
       className={classnames(styles.entity, className)}
       onClick={onClick}
       disabled={disableLinks}
-      dataSign={title}>
-      <span
-        className={icon}
-        title={title}
-      />
+      dataSign={title}
+    >
+      <span className={icon} title={title} />
       {spinner}
     </Button>
   );

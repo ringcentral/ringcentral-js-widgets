@@ -15,10 +15,7 @@ const FeedbackPanelPage = () => {
   return (
     <div>
       <ComponentHeader name="FeedbackPanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="FeedbackPanel Example"
-      >
+      <CodeExample code={demoCode} title="FeedbackPanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

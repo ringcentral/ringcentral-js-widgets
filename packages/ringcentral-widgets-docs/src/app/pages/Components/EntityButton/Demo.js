@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `EntityButton`
  */
-const EntityButtonDemo = () => (
-  <EntityButton
-    {...props}
-  />
-);
+const EntityButtonDemo = () => <EntityButton {...props} />;
 export default EntityButtonDemo;

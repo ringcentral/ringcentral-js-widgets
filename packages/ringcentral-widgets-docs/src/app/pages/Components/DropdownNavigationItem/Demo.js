@@ -5,17 +5,13 @@ import DropdownNavigationItem from 'ringcentral-widgets/components/DropdownNavig
 import dynamicsFont from 'ringcentral-widgets/assets/DynamicsFont/DynamicsFont.scss';
 
 const props = {};
-props.icon = (<span className={dynamicsFont.setting} />);
-props.activeIcon = (<span className={dynamicsFont.settingHover} />);
+props.icon = <span className={dynamicsFont.setting} />;
+props.activeIcon = <span className={dynamicsFont.settingHover} />;
 props.label = 'Settings';
 props.path = '/settings';
 
 /**
  * A example of `DropdownNavigationItem`
  */
-const DropdownNavigationItemDemo = () => (
-  <DropdownNavigationItem
-    {...props}
-  />
-);
+const DropdownNavigationItemDemo = () => <DropdownNavigationItem {...props} />;
 export default DropdownNavigationItemDemo;

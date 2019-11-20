@@ -1,4 +1,11 @@
-export declare class AvailabilityMonitor extends RcModule {
+import Client from 'ringcentral-client';
+
+import RcModule from '../../lib/RcModule';
+import { ClientError } from '../../shared/clientResponse';
+import Alert from '../Alert';
+import Environment from '../Environment';
+
+declare class AvailabilityMonitor extends RcModule {
   /**
    * @param  {Alert} alert
    * @param  {Client} client
@@ -10,7 +17,7 @@ export declare class AvailabilityMonitor extends RcModule {
     alert: Alert,
     client: Client,
     environment: Environment,
-    enabled: boolean = false,
+    enabled: boolean,
     ...options: any[]
   );
 
@@ -20,3 +27,5 @@ export declare class AvailabilityMonitor extends RcModule {
 
   checkIfHAError(error: ClientError): boolean;
 }
+
+export default AvailabilityMonitor;

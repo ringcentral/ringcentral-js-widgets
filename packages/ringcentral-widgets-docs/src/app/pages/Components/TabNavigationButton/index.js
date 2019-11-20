@@ -14,11 +14,11 @@ const TabNavigationButtonPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="TabNavigationButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="TabNavigationButton Example"
-      >
+      <ComponentHeader
+        name="TabNavigationButton"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="TabNavigationButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

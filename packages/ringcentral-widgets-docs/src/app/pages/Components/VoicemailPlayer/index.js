@@ -15,10 +15,7 @@ const VoicemailPlayerPage = () => {
   return (
     <div>
       <ComponentHeader name="VoicemailPlayer" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="VoicemailPlayer Example"
-      >
+      <CodeExample code={demoCode} title="VoicemailPlayer Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -15,10 +15,7 @@ const ActiveCallPadPage = () => {
   return (
     <div>
       <ComponentHeader name="ActiveCallPad" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ActiveCallPad Example"
-      >
+      <CodeExample code={demoCode} title="ActiveCallPad Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

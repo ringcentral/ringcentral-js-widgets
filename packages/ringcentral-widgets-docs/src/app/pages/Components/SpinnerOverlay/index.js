@@ -15,10 +15,7 @@ const SpinnerOverlayPage = () => {
   return (
     <div>
       <ComponentHeader name="SpinnerOverlay" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="SpinnerOverlay Example"
-      >
+      <CodeExample code={demoCode} title="SpinnerOverlay Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

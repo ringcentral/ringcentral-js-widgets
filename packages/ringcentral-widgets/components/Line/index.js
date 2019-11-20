@@ -32,7 +32,7 @@ Line.propTypes = {
 
 Line.defaultProps = {
   dataSign: null,
-  noBorder: false
+  noBorder: false,
 };
 
 export default Line;

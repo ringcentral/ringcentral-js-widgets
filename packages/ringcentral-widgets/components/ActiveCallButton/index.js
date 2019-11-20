@@ -13,11 +13,18 @@ export default function ActiveCallButton(props) {
     props.active ? styles.buttonActive : null,
     props.disabled ? styles.buttonDisabled : null,
   );
-  const text = props.title && props.title.split('\n').map((line, index) => (
-    <tspan dy={index ? '1.1em' : 0} x="250" key={line} data-sign={line.replace(' ', '_')}>
-      {line}
-    </tspan>
-  ));
+  const text =
+    props.title &&
+    props.title.split('\n').map((line, index) => (
+      <tspan
+        dy={index ? '1.1em' : 0}
+        x="250"
+        key={line}
+        data-sign={line.replace(' ', '_')}
+      >
+        {line}
+      </tspan>
+    ));
   const buttonSize = 383.8;
 
   return (
@@ -47,12 +54,7 @@ export default function ActiveCallButton(props) {
         showRipple={props.showRipple}
         dataSign={props.dataSign}
       />
-      <text
-        className={styles.buttonTitle}
-        x="250"
-        y="500"
-        textAnchor="middle"
-      >
+      <text className={styles.buttonTitle} x="250" y="500" textAnchor="middle">
         {text}
       </text>
     </svg>

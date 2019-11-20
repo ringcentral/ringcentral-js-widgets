@@ -15,9 +15,5 @@ props.updatePositionOffset = () => null;
 /**
  * A example of `ActiveCallBadge`
  */
-const ActiveCallBadgeDemo = () => (
-  <ActiveCallBadge
-    {...props}
-  />
-);
+const ActiveCallBadgeDemo = () => <ActiveCallBadge {...props} />;
 export default ActiveCallBadgeDemo;

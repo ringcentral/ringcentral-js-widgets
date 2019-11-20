@@ -4,8 +4,12 @@ import i18n from './i18n';
 
 function Eula(props) {
   const {
-    currentLocale, className, onLinkClicked, brandId,
-    useEulaAbbreviation, dataSign,
+    currentLocale,
+    className,
+    onLinkClicked,
+    brandId,
+    useEulaAbbreviation,
+    dataSign,
   } = props;
   let labelId = useEulaAbbreviation ? 'eulaAbbr' : 'eula';
   let link;
@@ -22,9 +26,9 @@ function Eula(props) {
       break;
     case '7310': // telus
       labelId = 'serviceTerms';
-      link = isFr ?
-        'https://business.telus.com/fr/campaigns/business-connect-service-terms?INTCMP=VAN_businessconnect_fr_serviceterms' :
-        'https://business.telus.com/en/support/global/legal/business-connect-service-terms?INTCMP=VAN_businessconnect_serviceterms';
+      link = isFr
+        ? 'https://business.telus.com/fr/campaigns/business-connect-service-terms?INTCMP=VAN_businessconnect_fr_serviceterms'
+        : 'https://business.telus.com/en/support/global/legal/business-connect-service-terms?INTCMP=VAN_businessconnect_serviceterms';
       break;
     default:
       link = 'https://www.ringcentral.com/legal/eulatos.html';
@@ -37,7 +41,7 @@ function Eula(props) {
       href={link}
       rel="noopener noreferrer"
       target="_blank"
-      onClick={(onLinkClicked ? (e => props.onLinkClicked(e, link)) : null)}
+      onClick={onLinkClicked ? (e) => props.onLinkClicked(e, link) : null}
       data-sign={dataSign}
     >
       {i18n.getString(labelId)}
@@ -57,8 +61,8 @@ Eula.propTypes = {
 Eula.defaultProps = {
   dataSign: null,
   className: '',
-  onLinkClicked() { },
-  useEulaAbbreviation: false
+  onLinkClicked() {},
+  useEulaAbbreviation: false,
 };
 
 export default Eula;

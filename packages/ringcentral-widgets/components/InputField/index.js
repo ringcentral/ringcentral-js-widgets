@@ -3,19 +3,17 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-
 function InputField(props) {
   return (
-    <div data-sign={props.dataSign} className={classnames(styles.root, props.className)}>
+    <div
+      data-sign={props.dataSign}
+      className={classnames(styles.root, props.className)}
+    >
       <div className={styles.label}>
         {props.label}
-        <div className={styles.hint}>
-          {props.labelHint}
-        </div>
+        <div className={styles.hint}>{props.labelHint}</div>
       </div>
-      <div className={styles.inputHolder}>
-        {props.children}
-      </div>
+      <div className={styles.inputHolder}>{props.children}</div>
     </div>
   );
 }

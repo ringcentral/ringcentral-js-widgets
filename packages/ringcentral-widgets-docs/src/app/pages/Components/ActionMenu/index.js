@@ -15,10 +15,7 @@ const ActionMenuPage = () => {
   return (
     <div>
       <ComponentHeader name="ActionMenu" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ActionMenu Example"
-      >
+      <CodeExample code={demoCode} title="ActionMenu Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

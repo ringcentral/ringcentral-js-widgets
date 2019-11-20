@@ -13,15 +13,15 @@ const DEFAULT_PROXY_RETRY = 5000;
 
 @Module({
   name: 'OAuth',
-  deps: [
-    { dep: 'OAuthOptions', optional: true },
-  ],
+  deps: ['RouterInteraction', { dep: 'OAuthOptions', optional: true }],
 })
 export default class ProxyFrameOAuth extends OAuthBase {
   constructor({
+    loginPath = '/',
     redirectUri = './redirect.html',
     proxyUri = './proxy.html',
     defaultProxyRetry = DEFAULT_PROXY_RETRY,
+    routerInteraction,
     ...options
   }) {
     super({
@@ -30,7 +30,12 @@ export default class ProxyFrameOAuth extends OAuthBase {
     });
     this._uuid = uuid.v4();
     this._proxyUri = ensureExist(proxyUri, 'proxyUri');
+    this._routerInteraction = ensureExist(
+      routerInteraction,
+      'routerInteraction',
+    );
     this._defaultProxyRetry = defaultProxyRetry;
+    this._loginPath = loginPath;
 
     this._reducer = getProxyFrameOAuthReducer(this.actionTypes);
 
@@ -39,12 +44,27 @@ export default class ProxyFrameOAuth extends OAuthBase {
 
   _onStateChange() {
     super._onStateChange();
+    if (
+      this.ready &&
+      !this._auth.loggedIn &&
+      this._routerInteraction.currentPath === this._loginPath &&
+      !this.oAuthReady &&
+      !this._proxyFrame
+    ) {
+      this.setupOAuth();
+    }
+    if (
+      this._proxyFrame &&
+      (this._auth.loggedIn ||
+        this._routerInteraction.currentPath !== this._loginPath)
+    ) {
+      this.destroyOAuth();
+    }
     if (this._auth.loggedIn === this._loggedIn) {
       return;
     }
     this._loggedIn = this._auth.loggedIn;
     if (this._loggedIn && this._auth.isImplicit) {
-      console.log('new login, start refresh token timeout');
       this._createImplicitRefreshTimeout();
     }
     if (!this._loggedIn && this._auth.isImplicit) {
@@ -71,7 +91,12 @@ export default class ProxyFrameOAuth extends OAuthBase {
   }
 
   get proxyUri() {
-    return `${url.resolve(window.location.href, this._proxyUri)}?hash=${encodeURIComponent(btoa(this._uuid))}&prefix=${encodeURIComponent(this.prefix)}`;
+    return `${url.resolve(
+      window.location.href,
+      this._proxyUri,
+    )}?hash=${encodeURIComponent(btoa(this._uuid))}&prefix=${encodeURIComponent(
+      this.prefix,
+    )}`;
   }
 
   get proxyRetryCount() {
@@ -81,13 +106,8 @@ export default class ProxyFrameOAuth extends OAuthBase {
   _callbackHandler = async ({ origin, data }) => {
     // TODO origin check
     if (data) {
-      const {
-        callbackUri,
-        proxyLoaded,
-      } = data;
-      if (
-        callbackUri
-      ) {
+      const { callbackUri, proxyLoaded } = data;
+      if (callbackUri) {
         this._handleCallbackUri(callbackUri);
       } else if (proxyLoaded) {
         clearTimeout(this._retryTimeoutId);
@@ -97,27 +117,38 @@ export default class ProxyFrameOAuth extends OAuthBase {
         });
       }
     }
-  }
+  };
+
   _createProxyFrame = () => {
     this._proxyFrame = document.createElement('iframe');
     this._proxyFrame.src = this.proxyUri;
     this._proxyFrame.style.display = 'none';
-    const isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1;
-    const isIE = window && window.navigator && /MSIE|Trident/i.test(window.navigator.userAgent);
+    const isEdge =
+      window &&
+      window.navigator &&
+      window.navigator.userAgent.indexOf('Edge') > -1;
+    const isIE =
+      window &&
+      window.navigator &&
+      /MSIE|Trident/i.test(window.navigator.userAgent);
     if (!isEdge && !isIE) {
-      this._proxyFrame.setAttribute('sandbox', [
-        'allow-scripts',
-        'allow-popups',
-        'allow-same-origin',
-        'allow-forms',
-      ].join(' '));
+      this._proxyFrame.setAttribute(
+        'sandbox',
+        [
+          'allow-scripts',
+          'allow-popups',
+          'allow-same-origin',
+          'allow-forms',
+        ].join(' '),
+      );
     }
     document.body.appendChild(this._proxyFrame);
     window.addEventListener('message', this._callbackHandler);
     this._retryTimeoutId = setTimeout(() => {
       this._retrySetupProxyFrame();
     }, this._defaultProxyRetry);
-  }
+  };
+
   _retrySetupProxyFrame() {
     this._retryTimeoutId = null;
     if (!this.oAuthReady) {
@@ -128,6 +159,7 @@ export default class ProxyFrameOAuth extends OAuthBase {
       this._createProxyFrame();
     }
   }
+
   _destroyProxyFrame() {
     document.body.removeChild(this._proxyFrame);
     this._proxyFrame = null;
@@ -136,13 +168,11 @@ export default class ProxyFrameOAuth extends OAuthBase {
 
   @background
   async setupOAuth() {
-    if (
-      !this._proxyFrame
-    ) {
+    if (!this._proxyFrame) {
+      this._createProxyFrame();
       this.store.dispatch({
         type: this.actionTypes.setupProxy,
       });
-      this._createProxyFrame();
     }
   }
 
@@ -163,9 +193,12 @@ export default class ProxyFrameOAuth extends OAuthBase {
   @proxify
   openOAuthPage() {
     if (this.oAuthReady) {
-      this._proxyFrame.contentWindow.postMessage({
-        oAuthUri: this.oAuthUri,
-      }, '*');
+      this._proxyFrame.contentWindow.postMessage(
+        {
+          oAuthUri: this.oAuthUri,
+        },
+        '*',
+      );
     }
   }
 
@@ -207,7 +240,8 @@ export default class ProxyFrameOAuth extends OAuthBase {
       return;
     }
     // set refresh time to (token exposre time) / 3
-    let refreshTokenTimeoutTime = (parseInt(refreshTokenExpiresIn, 10) * 1000) / 3;
+    let refreshTokenTimeoutTime =
+      (parseInt(refreshTokenExpiresIn, 10) * 1000) / 3;
     if (refreshTokenTimeoutTime + Date.now() > expireTime) {
       refreshTokenTimeoutTime = expireTime - Date.now() - 5000;
       if (refreshTokenTimeoutTime < 0) {

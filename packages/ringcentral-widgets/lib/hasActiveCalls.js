@@ -10,13 +10,13 @@ export default function hasActiveCalls(phone) {
   } = phone;
   if (callingSettings.callingMode === callingModes.webphone) {
     return !!(
-      (webphone && webphone.sessions.length)
-      || (callMonitor && callMonitor.otherDeviceCalls.length)
+      (webphone && webphone.sessions.length) ||
+      (callMonitor && callMonitor.otherDeviceCalls.length)
     );
   }
   return !!(
-    (callMonitor && callMonitor.calls.length)
-    || (callMonitorUI && callMonitorUI.cachedActive)
-    || (callLogSection && callLogSection.showNotification)
+    (callMonitor && callMonitor.calls.length) ||
+    (callMonitorUI && callMonitorUI.cachedActive) ||
+    (callLogSection && callLogSection.showNotification)
   );
 }

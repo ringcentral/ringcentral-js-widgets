@@ -2,32 +2,30 @@ import { connect } from 'react-redux';
 import MsteamsSettings from '../../components/MsteamsSettings';
 import { withPhone } from '../../lib/phoneContext';
 
-function mapToProps(_, {
-  phone: {
-    locale,
-    brand
+function mapToProps(
+  _,
+  {
+    phone: { locale, brand },
+    showAudioSetting,
+    showVideoSetting,
+    audioTakeOverEnabled,
+    videoTakeOverEnabled,
   },
-  showAudioSetting,
-  showVideoSetting,
-  audioTakeOverEnabled,
-  videoTakeOverEnabled
-}) {
+) {
   return {
     showAudioSetting,
     showVideoSetting,
     audioTakeOverEnabled,
     videoTakeOverEnabled,
     brandName: brand.name,
-    currentLocale: locale.currentLocale
+    currentLocale: locale.currentLocale,
   };
 }
 
-function mapToFunctions(_, {
-  phone: {
-    routerInteraction,
-  },
-  onEnabledStatusChange
-}) {
+function mapToFunctions(
+  _,
+  { phone: { routerInteraction }, onEnabledStatusChange },
+) {
   return {
     onBackClick() {
       routerInteraction.goBack();
@@ -37,17 +35,15 @@ function mapToFunctions(_, {
     },
     onVideoSwitchChange(checked) {
       onEnabledStatusChange('video', checked);
-    }
+    },
   };
 }
 
-const MsteamsSettingsPage = withPhone(connect(
-  mapToProps,
-  mapToFunctions,
-)(MsteamsSettings));
+const MsteamsSettingsPage = withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(MsteamsSettings),
+);
 
-export {
-  mapToFunctions,
-  mapToProps,
-  MsteamsSettingsPage as default,
-};
+export { mapToFunctions, mapToProps, MsteamsSettingsPage as default };

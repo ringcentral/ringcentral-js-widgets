@@ -14,11 +14,11 @@ const RecentActivityPanelPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="RecentActivityPanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="RecentActivityPanel Example"
-      >
+      <ComponentHeader
+        name="RecentActivityPanel"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="RecentActivityPanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

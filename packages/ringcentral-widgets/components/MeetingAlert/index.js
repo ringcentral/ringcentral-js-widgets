@@ -5,10 +5,7 @@ import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
 export default function MeetingAlert({
-  message: {
-    message,
-    payload,
-  },
+  message: { message, payload },
   currentLocale,
   application,
 }) {
@@ -21,18 +18,15 @@ export default function MeetingAlert({
           values={{
             application,
             permissionName: payload.permissionName,
-          }} />
+          }}
+        />
       );
       break;
     default:
       msg = i18n.getString(message, currentLocale);
       break;
   }
-  return (
-    <span>
-      {msg}
-    </span>
-  );
+  return <span>{msg}</span>;
 }
 
 MeetingAlert.propTypes = {
@@ -47,11 +41,10 @@ MeetingAlert.defaultProps = {
   application: undefined,
 };
 
-MeetingAlert.handleMessage = ({ message }) => (
-  (message === meetingStatus.emptyTopic)
-  || (message === meetingStatus.noPassword)
-  || (message === meetingStatus.insufficientPermissions)
-  || (message === meetingStatus.scheduledSuccess)
-  || (message === meetingStatus.updatedSuccess)
-  || (message === meetingStatus.internalError)
-);
+MeetingAlert.handleMessage = ({ message }) =>
+  message === meetingStatus.emptyTopic ||
+  message === meetingStatus.noPassword ||
+  message === meetingStatus.insufficientPermissions ||
+  message === meetingStatus.scheduledSuccess ||
+  message === meetingStatus.updatedSuccess ||
+  message === meetingStatus.internalError;

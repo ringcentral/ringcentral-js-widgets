@@ -15,10 +15,7 @@ const SaveButtonPage = () => {
   return (
     <div>
       <ComponentHeader name="SaveButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="SaveButton Example"
-      >
+      <CodeExample code={demoCode} title="SaveButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

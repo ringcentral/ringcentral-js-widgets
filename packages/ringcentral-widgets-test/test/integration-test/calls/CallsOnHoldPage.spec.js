@@ -35,30 +35,68 @@ describe('When user records the outbound call, user can not merge this call into
     await navigationBar.props().goTo('/calls/active');
     wrapper.update();
     // record current call
-    const recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
-    recordButton.find(CircleButton).find('g').simulate('click');
+    const recordButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(4);
+    recordButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(100);
     await navigationBar.props().goTo('/calls');
     wrapper.update();
-    const currentCallItem = wrapper.find(ActiveCallsPanel).first().find(ActiveCallItem).at(0);
-    const onheldCallItem = wrapper.find(ActiveCallsPanel).first().find(ActiveCallItem).at(1);
+    const currentCallItem = wrapper
+      .find(ActiveCallsPanel)
+      .first()
+      .find(ActiveCallItem)
+      .at(0);
+    const onheldCallItem = wrapper
+      .find(ActiveCallsPanel)
+      .first()
+      .find(ActiveCallItem)
+      .at(1);
     expect(
-      currentCallItem.find('.webphoneButtons').find('.webphoneButton').at(0).props().title
+      currentCallItem
+        .find('.webphoneButtons')
+        .find('.webphoneButton')
+        .at(0)
+        .props().title,
     ).toEqual('Hold');
     expect(
-      onheldCallItem.find('.webphoneButtons').find('.webphoneButton').at(0).props().title
+      onheldCallItem
+        .find('.webphoneButtons')
+        .find('.webphoneButton')
+        .at(0)
+        .props().title,
     ).toEqual('Unhold');
     // choose another outbound call
     onheldCallItem.find('.strechVertical').simulate('click');
     await sleep(200);
     wrapper.update();
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(100);
     wrapper.update();
-    const itemToAdd = wrapper.find(CallsOnholdPanel).first().find(ActiveCallItem).at(0);
-    const mergeButton = itemToAdd.find('.webphoneButtons').find('.webphoneButton').at(0);
-    mergeButton.find(CircleButton).find('g').simulate('click');
+    const itemToAdd = wrapper
+      .find(CallsOnholdPanel)
+      .first()
+      .find(ActiveCallItem)
+      .at(0);
+    const mergeButton = itemToAdd
+      .find('.webphoneButtons')
+      .find('.webphoneButton')
+      .at(0);
+    mergeButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(100);
     const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
@@ -66,9 +104,9 @@ describe('When user records the outbound call, user can not merge this call into
       expect.arrayContaining([
         expect.objectContaining({
           level: 'warning',
-          message: 'conferenceCall-callIsRecording'
-        })
-      ])
+          message: 'conferenceCall-callIsRecording',
+        }),
+      ]),
     );
   });
   test('An conference call tried to merge a recorded outbound call, it will failed to merge and prompt', async () => {
@@ -77,20 +115,42 @@ describe('When user records the outbound call, user can not merge this call into
     outboundSession.accept(phone.webphone.acceptOptions);
     wrapper.update();
     // record a outbound call call
-    const recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
-    recordButton.find(CircleButton).find('g').simulate('click');
+    const recordButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(4);
+    recordButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(100);
     // mock a conference call
     await mockConferenceCallEnv(phone);
     await sleep(200);
     wrapper.update();
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(100);
     wrapper.update();
-    const itemToAdd = wrapper.find(CallsOnholdPanel).first().find(ActiveCallItem).at(0);
-    const mergeButton = itemToAdd.find('.webphoneButtons').find('.webphoneButton').at(0);
-    mergeButton.find(CircleButton).find('g').simulate('click');
+    const itemToAdd = wrapper
+      .find(CallsOnholdPanel)
+      .first()
+      .find(ActiveCallItem)
+      .at(0);
+    const mergeButton = itemToAdd
+      .find('.webphoneButtons')
+      .find('.webphoneButton')
+      .at(0);
+    mergeButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(100);
     const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
@@ -98,9 +158,9 @@ describe('When user records the outbound call, user can not merge this call into
       expect.arrayContaining([
         expect.objectContaining({
           level: 'warning',
-          message: 'conferenceCall-callIsRecording'
-        })
-      ])
+          message: 'conferenceCall-callIsRecording',
+        }),
+      ]),
     );
   });
 });
@@ -124,11 +184,21 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(200);
     wrapper.update();
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toEqual(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf(
+        '/conferenceCall/callsOnhold',
+      ),
+    ).toEqual(0);
     panel = wrapper.find(CallsOnholdPanel).first();
     const backHeader = panel.find(BackHeader);
     const backButton = backHeader.find(BackButton);
@@ -151,8 +221,14 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
     wrapper.update();
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(200);
     wrapper.update();
     panel = wrapper.find(CallsOnholdPanel).first();
@@ -160,7 +236,9 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     AddButton.find('g').simulate('click');
     await sleep(200);
     wrapper.update();
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toEqual(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer'),
+    ).toEqual(0);
     panel = wrapper.find(DialerPanel).at(0);
     expect(panel).toBeDefined();
     done();
@@ -172,9 +250,19 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     await navigationBar.props().goTo('/calls/active');
     const callCtrlStep = async () => {
       wrapper.update();
-      const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-      addButton.find(CircleButton).find('g').simulate('click');
-      expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toEqual(0);
+      const addButton = wrapper
+        .find(ActiveCallPad)
+        .find(ActiveCallButton)
+        .at(3);
+      addButton
+        .find(CircleButton)
+        .find('g')
+        .simulate('click');
+      expect(
+        phone.routerInteraction.currentPath.indexOf(
+          '/conferenceCall/callsOnhold',
+        ),
+      ).toEqual(0);
       await sleep(200);
     };
 
@@ -201,8 +289,14 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
     wrapper.update();
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(200);
     wrapper.update();
     panel = wrapper.find(CallsOnholdPanel).first();
@@ -210,7 +304,11 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     firstHangupButton.find('g').simulate('click');
     await sleep(200);
     wrapper.update();
-    expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toEqual(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf(
+        '/conferenceCall/callsOnhold',
+      ),
+    ).toEqual(0);
     expect(phone.webphone.sessions.length).toEqual(SESSIONS_COUNT - 1);
     done();
   });
@@ -220,8 +318,14 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
     wrapper.update();
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).find('g').simulate('click');
+    const addButton = wrapper
+      .find(ActiveCallPad)
+      .find(ActiveCallButton)
+      .at(3);
+    addButton
+      .find(CircleButton)
+      .find('g')
+      .simulate('click');
     await sleep(200);
     wrapper.update();
     panel = wrapper.find(CallsOnholdPanel).first();
@@ -229,7 +333,9 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     firstMergeButton.find('g').simulate('click');
     await sleep(200);
     wrapper.update();
-    expect(phone.routerInteraction.currentPath.indexOf('/calls/active')).toEqual(0);
+    expect(
+      phone.routerInteraction.currentPath.indexOf('/calls/active'),
+    ).toEqual(0);
     panel = wrapper.find(ActiveCallPanel).first();
     expect(panel).toBeDefined();
     done();

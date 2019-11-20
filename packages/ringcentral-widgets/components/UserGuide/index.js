@@ -8,7 +8,7 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 const controlStyles = {
-  entered: { transform: 'translateY(0)' }
+  entered: { transform: 'translateY(0)' },
 };
 
 export default class UserGuide extends React.Component {
@@ -17,7 +17,7 @@ export default class UserGuide extends React.Component {
     this.state = {
       curIdx: props.curIdx || 0,
       entered: props.entered || false,
-      playing: props.playing || false
+      playing: props.playing || false,
     };
   }
 
@@ -40,14 +40,14 @@ export default class UserGuide extends React.Component {
       return;
     }
     this.setState({
-      curIdx: idx
+      curIdx: idx,
     });
     this.props.updateCarousel({
       curIdx: idx,
       entered: this.state.entered,
-      playing: this.state.playing
+      playing: this.state.playing,
     });
-  }
+  };
 
   exit = () => {
     if (this.props.quickAccessEnter && this.props.firstLogin) {
@@ -57,7 +57,7 @@ export default class UserGuide extends React.Component {
       this.props.updateCarousel({
         curIdx: this.state.curIdx,
         entered: this.state.entered,
-        playing: false
+        playing: false,
       });
       this.props.quickAccessEnter();
     } else {
@@ -66,19 +66,19 @@ export default class UserGuide extends React.Component {
       });
       this.onExited();
     }
-  }
+  };
 
   onExited = () => {
     this.setState({
-      entered: false
+      entered: false,
     });
     this.props.updateCarousel({
       curIdx: 0,
       entered: false,
       playing: false,
-      firstLogin: false
+      firstLogin: false,
     });
-  }
+  };
 
   getIntroView() {
     return (
@@ -90,12 +90,16 @@ export default class UserGuide extends React.Component {
         <div className={styles.buttonGroup}>
           <Button
             className={styles.primaryButton}
-            onClick={() => { this.slideTo(1); }}
+            onClick={() => {
+              this.slideTo(1);
+            }}
           >
             {i18n.getString('start', this.props.currentLocale)}
           </Button>
           <Button
-            onClick={() => { this.exit(); }}
+            onClick={() => {
+              this.exit();
+            }}
             className={styles.secondaryButton}
           >
             {i18n.getString('skip', this.props.currentLocale)}
@@ -113,7 +117,7 @@ export default class UserGuide extends React.Component {
         className={styles.view}
         style={{
           backgroundImage: `url(${guide})`,
-          transform: `translateX(${(i + 1) * 100}vw)`
+          transform: `translateX(${(i + 1) * 100}vw)`,
         }}
       />
     ));
@@ -123,24 +127,30 @@ export default class UserGuide extends React.Component {
         <li
           key={i}
           className={classnames(styles.dot, highlight)}
-          onClick={() => { this.slideTo(i + 1); }}
+          onClick={() => {
+            this.slideTo(i + 1);
+          }}
         />
       );
     });
     const onLastPage = this.state.curIdx === this.props.guides.length - 1;
-    const skipButton = onLastPage
-      ? (<div className={styles.secondaryButton} />)
-      : (
-        <Button
-          onClick={() => { this.exit(); }}
-          className={classnames(styles.secondaryButton)}
-        >
-          {i18n.getString('skip', this.props.currentLocale)}
-        </Button>
-      );
+    const skipButton = onLastPage ? (
+      <div className={styles.secondaryButton} />
+    ) : (
+      <Button
+        onClick={() => {
+          this.exit();
+        }}
+        className={classnames(styles.secondaryButton)}
+      >
+        {i18n.getString('skip', this.props.currentLocale)}
+      </Button>
+    );
     const nextButton = (
       <Button
-        onClick={() => { this.slideTo(this.state.curIdx + 1); }}
+        onClick={() => {
+          this.slideTo(this.state.curIdx + 1);
+        }}
         className={classnames(styles.primaryButton)}
       >
         {onLastPage
@@ -149,16 +159,11 @@ export default class UserGuide extends React.Component {
       </Button>
     );
     const controlView = (
-      <Transition
-        in={this.state.curIdx > 0}
-        timeout={300}
-      >
-        {state => (
+      <Transition in={this.state.curIdx > 0} timeout={300}>
+        {(state) => (
           <div className={styles.control} style={{ ...controlStyles[state] }}>
             {skipButton}
-            <ul className={styles.indicator}>
-              {indicatorView}
-            </ul>
+            <ul className={styles.indicator}>{indicatorView}</ul>
             {nextButton}
           </div>
         )}
@@ -180,7 +185,12 @@ export default class UserGuide extends React.Component {
   }
 
   render() {
-    if (!this.props.guides || this.props.guides.length === 0 || !this.state.entered) return null;
+    if (
+      !this.props.guides ||
+      this.props.guides.length === 0 ||
+      !this.state.entered
+    )
+      return null;
 
     if (this.props.showSpinner) {
       return <SpinnerOverlay />;
@@ -194,14 +204,12 @@ export default class UserGuide extends React.Component {
           appear: styles.enter,
           appearActive: styles.enterActive,
           exit: styles.exit,
-          exitActive: styles.exitActive
+          exitActive: styles.exitActive,
         }}
         onExited={this.onExited}
         appear
       >
-        <div className={styles.root}>
-          {view}
-        </div>
+        <div className={styles.root}>{view}</div>
       </CSSTransition>
     );
   }

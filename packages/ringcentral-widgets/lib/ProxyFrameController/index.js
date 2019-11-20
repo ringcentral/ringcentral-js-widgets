@@ -2,33 +2,26 @@ import url from 'url';
 import popWindow from '../popWindow';
 
 export default class ProxyFrameController {
-  constructor({
-    prefix,
-  } = {}) {
+  constructor({ prefix } = {}) {
     const {
-      query: {
-        uuid = '',
-      },
+      query: { uuid = '' },
     } = url.parse(window.location.href, true);
 
     window.oAuthCallback = (callbackUri) => {
-      window.parent.postMessage({
-        callbackUri,
-      }, '*');
+      window.parent.postMessage(
+        {
+          callbackUri,
+        },
+        '*',
+      );
     };
 
     window.addEventListener('message', ({ data }) => {
       if (data) {
-        const {
-          oAuthUri,
-        } = data;
+        const { oAuthUri } = data;
 
         if (oAuthUri != null) {
-          const {
-            query,
-            search,
-            ...parsedUri
-          } = url.parse(oAuthUri, true);
+          const { query, search, ...parsedUri } = url.parse(oAuthUri, true);
           const uri = url.format({
             ...parsedUri,
             query: {
@@ -46,15 +39,21 @@ export default class ProxyFrameController {
     window.addEventListener('storage', (e) => {
       if (e.key === key && e.newValue && e.newValue !== '') {
         const callbackUri = e.newValue;
-        window.parent.postMessage({
-          callbackUri,
-        }, '*');
+        window.parent.postMessage(
+          {
+            callbackUri,
+          },
+          '*',
+        );
         localStorage.removeItem(key);
       }
     });
     // loaded
-    window.parent.postMessage({
-      proxyLoaded: true,
-    }, '*');
+    window.parent.postMessage(
+      {
+        proxyLoaded: true,
+      },
+      '*',
+    );
   }
 }

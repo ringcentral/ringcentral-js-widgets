@@ -10,13 +10,7 @@ import getDefaultGlobalStorageReducer from './getDefaultGlobalStorageReducer';
 import IframeMessageTransport from '../IframeMessageTransport';
 
 @Module({
-  deps: [
-    'GlobalStorage',
-    'Locale',
-    'Presence',
-    'RouterInteraction',
-    'Storage',
-  ]
+  deps: ['GlobalStorage', 'Locale', 'Presence', 'RouterInteraction', 'Storage'],
 })
 export default class AdapterModuleCoreBase extends RcModule {
   constructor({
@@ -41,13 +35,25 @@ export default class AdapterModuleCoreBase extends RcModule {
     });
 
     this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
-    this._locale = this:: ensureExist(locale, 'locale');
-    this._messageTransport = this:: ensureExist(messageTransport, 'messageTransport');
-    this._presence = this:: ensureExist(presence, 'presence');
-    this._router = this:: ensureExist(routerInteraction, 'routerInteraction');
+    this._locale = ensureExist.call(this, locale, 'locale');
+    this._messageTransport = ensureExist.call(
+      this,
+      messageTransport,
+      'messageTransport',
+    );
+    this._presence = ensureExist.call(this, presence, 'presence');
+    this._router = ensureExist.call(
+      this,
+      routerInteraction,
+      'routerInteraction',
+    );
 
     this._storageKey = storageKey;
-    this._globalStorage = this:: ensureExist(globalStorage, 'globalStorage');
+    this._globalStorage = ensureExist.call(
+      this,
+      globalStorage,
+      'globalStorage',
+    );
 
     this._globalStorage.registerReducer({
       key: this._storageKey,
@@ -56,15 +62,17 @@ export default class AdapterModuleCoreBase extends RcModule {
   }
 
   initialize() {
-    this._messageTransport.addListener(msg => this._onMessage(msg));
+    this._messageTransport.addListener((msg) => this._onMessage(msg));
     this.store.subscribe(() => this._onStateChange());
   }
 
   _shouldInit() {
-    return this.pending &&
+    return (
+      this.pending &&
       this._globalStorage.ready &&
       this._locale.ready &&
-      this._router.ready;
+      this._router.ready
+    );
   }
 
   _onStateChange() {
@@ -90,11 +98,9 @@ export default class AdapterModuleCoreBase extends RcModule {
   _pushPresence() {
     if (
       this.ready &&
-      (
-        this._lastDndStatus !== this._presence.dndStatus ||
+      (this._lastDndStatus !== this._presence.dndStatus ||
         this._lastUserStatus !== this._presence.userStatus ||
-        this._lastTelephonyStatus !== this._presence.telephonyStatus
-      )
+        this._lastTelephonyStatus !== this._presence.telephonyStatus)
     ) {
       this._lastDndStatus = this._presence.dndStatus;
       this._lastUserStatus = this._presence.userStatus;
@@ -104,7 +110,7 @@ export default class AdapterModuleCoreBase extends RcModule {
         telephonyStatus: this._presence.telephonyStatus,
         userStatus: this._presence.userStatus,
         dndStatus: this._presence.dndStatus,
-        presenceOption: this._presence.presenceOption
+        presenceOption: this._presence.presenceOption,
       });
     }
   }
@@ -119,7 +125,7 @@ export default class AdapterModuleCoreBase extends RcModule {
       this._postMessage({
         type: this._messageTypes.pushLocale,
         locale: this._locale.currentLocale,
-        strings: this._localeStrings,
+        strings: this.localeStrings,
       });
     }
   }
@@ -131,8 +137,7 @@ export default class AdapterModuleCoreBase extends RcModule {
   _pushAdapterState() {
     if (
       this.ready &&
-      (
-        this._lastDndStatus !== this._presence.dndStatus ||
+      (this._lastDndStatus !== this._presence.dndStatus ||
         this._lastUserStatus !== this._presence.userStatus ||
         this._lastTelephonyStatus !== this._presence.telephonyStatus ||
         this._lastClosed !== this.closed ||
@@ -140,8 +145,7 @@ export default class AdapterModuleCoreBase extends RcModule {
         this._lastPosition.translateX !== this.position.translateX ||
         this._lastPosition.translateY !== this.position.translateY ||
         this._lastPosition.minTranslateX !== this.position.minTranslateX ||
-        this._lastPosition.minTranslateY !== this.position.minTranslateY
-      )
+        this._lastPosition.minTranslateY !== this.position.minTranslateY)
     ) {
       this._lastDndStatus = this._presence.dndStatus;
       this._lastUserStatus = this._presence.userStatus;
@@ -157,7 +161,7 @@ export default class AdapterModuleCoreBase extends RcModule {
         position: this.position,
         telephonyStatus: this._presence.telephonyStatus,
         userStatus: this._presence.userStatus,
-        dndStatus: this._presence.dndStatus
+        dndStatus: this._presence.dndStatus,
       });
     }
   }
@@ -244,10 +248,6 @@ export default class AdapterModuleCoreBase extends RcModule {
   @proxify
   async _onNavigateToViewCalls() {
     throw new Error('Should implement the _onNavigateToViewCalls function.');
-  }
-
-  get _localeStrings() {
-    return this._selectors.localeStrings();
   }
 
   get status() {

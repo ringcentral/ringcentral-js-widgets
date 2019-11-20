@@ -3,9 +3,18 @@ const path = require('path');
 const reactDocs = require('react-docgen');
 const ejs = require('ejs');
 
-const componentsDir = path.resolve(__dirname, '../ringcentral-widgets/components');
-const componentDocPagesDir = path.resolve(__dirname, 'src/app/pages/Components');
-const componentRoutesPath = path.resolve(__dirname, 'src/app/pages/ComponentRoutes.js');
+const componentsDir = path.resolve(
+  __dirname,
+  '../ringcentral-widgets/components',
+);
+const componentDocPagesDir = path.resolve(
+  __dirname,
+  'src/app/pages/Components',
+);
+const componentRoutesPath = path.resolve(
+  __dirname,
+  'src/app/pages/ComponentRoutes.js',
+);
 const templatesPath = path.resolve(__dirname, 'src/templates');
 const jsonDataPath = path.resolve(__dirname, 'src/app/componentsData.json');
 
@@ -70,7 +79,9 @@ function getValueFromPropType(type) {
       }
       prop[key] = getValueFromPropType(type.value[key]);
     });
-    return JSON.stringify(prop, null, 2).replace(/"/g, '').replace(/\\n/g, '\n');
+    return JSON.stringify(prop, null, 2)
+      .replace(/"/g, '')
+      .replace(/\\n/g, '\n');
   }
   if (type.name === 'arrayOf') {
     const prop = [];
@@ -79,12 +90,12 @@ function getValueFromPropType(type) {
       prop.push(value);
     }
     return JSON.stringify(prop, null, 2)
-               .replace(/":/g, ':')
-               .replace(/\s"/g, ' ')
-               .replace(/\\n/g, '\n')
-               .replace(/^\[\n\s+/, '[')
-               .replace(/\s*\n\]$/, ']')
-               .replace(/"]/, ']');
+      .replace(/":/g, ':')
+      .replace(/\s"/g, ' ')
+      .replace(/\\n/g, '\n')
+      .replace(/^\[\n\s+/, '[')
+      .replace(/\s*\n\]$/, ']')
+      .replace(/"]/, ']');
   }
   return undefined;
 }
@@ -138,12 +149,20 @@ function createComponentDocPage(componentData) {
   }
   fs.mkdirSync(componentPageDir);
   const component = getComponentDocRenderData(componentData);
-  const indexTemplatePath = path.resolve(templatesPath, 'ComponentPage/index.ejs');
-  const indexTemplate = fs.readFileSync(indexTemplatePath, { encoding: 'utf8' });
+  const indexTemplatePath = path.resolve(
+    templatesPath,
+    'ComponentPage/index.ejs',
+  );
+  const indexTemplate = fs.readFileSync(indexTemplatePath, {
+    encoding: 'utf8',
+  });
   const indexStr = ejs.render(indexTemplate, { component });
   const indexPath = path.resolve(componentPageDir, 'index.js');
   fs.writeFileSync(indexPath, indexStr);
-  const demoTemplatePath = path.resolve(templatesPath, 'ComponentPage/Demo.ejs');
+  const demoTemplatePath = path.resolve(
+    templatesPath,
+    'ComponentPage/Demo.ejs',
+  );
   const demoTemplate = fs.readFileSync(demoTemplatePath, { encoding: 'utf8' });
   const demoStr = ejs.render(demoTemplate, { component });
   const demoPath = path.resolve(componentPageDir, 'Demo.js');
@@ -171,7 +190,9 @@ function createComponentRoutesFile() {
     components.push(componentName);
   });
   const routesTemplatePath = path.resolve(templatesPath, 'ComponentRoutes.ejs');
-  const routesTemplate = fs.readFileSync(routesTemplatePath, { encoding: 'utf8' });
+  const routesTemplate = fs.readFileSync(routesTemplatePath, {
+    encoding: 'utf8',
+  });
   // console.log(routesTemplate);
   const routesPageStr = ejs.render(routesTemplate, { components });
   fs.writeFileSync(componentRoutesPath, routesPageStr);

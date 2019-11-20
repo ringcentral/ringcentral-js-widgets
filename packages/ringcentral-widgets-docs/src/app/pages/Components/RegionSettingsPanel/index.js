@@ -14,11 +14,11 @@ const RegionSettingsPanelPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="RegionSettingsPanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="RegionSettingsPanel Example"
-      >
+      <ComponentHeader
+        name="RegionSettingsPanel"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="RegionSettingsPanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

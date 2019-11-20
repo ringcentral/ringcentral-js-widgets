@@ -8,9 +8,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `LogIcon`
  */
-const LogIconDemo = () => (
-  <LogIcon
-    {...props}
-  />
-);
+const LogIconDemo = () => <LogIcon {...props} />;
 export default LogIconDemo;

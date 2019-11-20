@@ -14,17 +14,12 @@ class DropdownSelect extends Component {
     super(props);
     this.state = {
       open: this.props.open,
-      filter: null
+      filter: null,
     };
   }
 
   _toggleShowDropdown = (e) => {
-    const {
-      searchOption,
-      stopPropagation,
-      disabled,
-      onToggle
-    } = this.props;
+    const { searchOption, stopPropagation, disabled, onToggle } = this.props;
 
     if (!this.state.open) {
       window.addEventListener('click', this._handleDocumentClick, false);
@@ -32,27 +27,37 @@ class DropdownSelect extends Component {
       if (searchOption) {
         this.saveContent = this.inputRef.current.textContent;
         this.inputRef.current.focus();
-        if (document.execCommand) { document.execCommand('selectAll', false, null); }
+        if (document.execCommand) {
+          document.execCommand('selectAll', false, null);
+        }
       }
     } else {
       window.removeEventListener('click', this._handleDocumentClick, false);
       if (searchOption) {
-        if (document.getSelection) { document.getSelection().removeAllRanges(); }
+        if (document.getSelection) {
+          document.getSelection().removeAllRanges();
+        }
       }
     }
 
-    if (e && stopPropagation) { e.stopPropagation(); }
+    if (e && stopPropagation) {
+      e.stopPropagation();
+    }
 
-    if (disabled) { return; }
+    if (disabled) {
+      return;
+    }
 
     onToggle(!this.state.open);
 
-    if (searchOption) { this._reSetBoxValue(); }
+    if (searchOption) {
+      this._reSetBoxValue();
+    }
 
-    this.setState(preState => ({
+    this.setState((preState) => ({
       open: !preState.open,
     }));
-  }
+  };
 
   onChange = (e, option, idx) => {
     e.stopPropagation();
@@ -71,7 +76,7 @@ class DropdownSelect extends Component {
     }
 
     this._toggleShowDropdown();
-  }
+  };
 
   _textChangeEmit = (e) => {
     this.setState({ filter: e.target.textContent });
@@ -80,7 +85,9 @@ class DropdownSelect extends Component {
   _textPasteEmit = (e) => {
     e.preventDefault();
     const text = e.clipboardData.getData('text/plain');
-    if (document.execCommand) { document.execCommand('insertHTML', false, text); }
+    if (document.execCommand) {
+      document.execCommand('insertHTML', false, text);
+    }
   };
 
   _reSetBoxValue() {
@@ -126,10 +133,7 @@ class DropdownSelect extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.open !== undefined &&
-      nextProps.open !== this.props.open
-    ) {
+    if (nextProps.open !== undefined && nextProps.open !== this.props.open) {
       this.setState({
         open: nextProps.open,
       });
@@ -142,12 +146,15 @@ class DropdownSelect extends Component {
   }
 
   valueFunction(_, idx) {
-    return this.props.valueFunction(_, this.props.placeholder ? `${idx - 1}` : idx);
+    return this.props.valueFunction(
+      _,
+      this.props.placeholder ? `${idx - 1}` : idx,
+    );
   }
 
   renderFunction(option, idx) {
     const { placeholder, renderFunction } = this.props;
-    return (placeholder && idx === 0) ? placeholder : renderFunction(option, idx);
+    return placeholder && idx === 0 ? placeholder : renderFunction(option, idx);
   }
 
   renderValue(value) {
@@ -162,7 +169,9 @@ class DropdownSelect extends Component {
   renderTitle(selectedOption, defaultTitle) {
     const { titleEnabled, renderTitle } = this.props;
     if (titleEnabled) {
-      return typeof renderTitle === 'function' ? renderTitle(selectedOption) : defaultTitle;
+      return typeof renderTitle === 'function'
+        ? renderTitle(selectedOption)
+        : defaultTitle;
     }
     return '';
   }
@@ -175,48 +184,55 @@ class DropdownSelect extends Component {
       dropdownClassName,
       value,
       searchOption,
-      dropdownAlign
+      dropdownAlign,
     } = this.props;
 
     const { filter } = this.state;
 
-    let currentOptions = (placeholder ? [{}, ...options] : options);
+    let currentOptions = placeholder ? [{}, ...options] : options;
 
     if (searchOption && filter) {
-      currentOptions = currentOptions.filter(option => searchOption(option, filter));
+      currentOptions = currentOptions.filter((option) =>
+        searchOption(option, filter),
+      );
     }
 
     return (
       <ul
-        className={classnames(styles.dropdown,
+        className={classnames(
+          styles.dropdown,
           dropdownClassName,
-          placeholder && styles.placeholder)}
-        ref={(ref) => { this.dropdownMenu = ref; }}>
-        {
-          currentOptions.map((option, idx) => {
-            const currentValue = this.valueFunction(option, idx);
-            const className = classnames(
-              styles.dropdownItem,
-              value === currentValue ? styles.selected : null,
-            );
-            const display = this.renderFunction(option, idx);
-            return (
-              <li
-                data-sign="selectMenuItem"
-                key={currentValue || idx}
-                className={classnames(className,
-                  styles[dropdownAlign],
-                  ellipsis && styles.ellipsis,
-                  placeholder && styles.placeholder)}
-                value={currentValue}
-                title={this.renderTitle(option, display)}
-                onClick={e => this.onChange(e, option, idx)}
-              >
-                {display}
-              </li>
-            );
-          })
-        }
+          placeholder && styles.placeholder,
+        )}
+        ref={(ref) => {
+          this.dropdownMenu = ref;
+        }}
+      >
+        {currentOptions.map((option, idx) => {
+          const currentValue = this.valueFunction(option, idx);
+          const className = classnames(
+            styles.dropdownItem,
+            value === currentValue ? styles.selected : null,
+          );
+          const display = this.renderFunction(option, idx);
+          return (
+            <li
+              data-sign="selectMenuItem"
+              key={currentValue || idx}
+              className={classnames(
+                className,
+                styles[dropdownAlign],
+                ellipsis && styles.ellipsis,
+                placeholder && styles.placeholder,
+              )}
+              value={currentValue}
+              title={this.renderTitle(option, display)}
+              onClick={(e) => this.onChange(e, option, idx)}
+            >
+              {display}
+            </li>
+          );
+        })}
       </ul>
     );
   }
@@ -237,15 +253,10 @@ class DropdownSelect extends Component {
       buttonStyle,
       options,
       selectedClassName,
-      icon
+      icon,
     } = this.props;
 
-    const currentLabel = label ?
-      (
-        <label>
-          {label}
-        </label>
-      ) : null;
+    const currentLabel = label ? <label>{label}</label> : null;
     const currentIconClassName = classnames(
       styles.icon,
       this.state.open ? styles.iconUp : null,
@@ -267,9 +278,7 @@ class DropdownSelect extends Component {
     return (
       <div
         data-sign={dataSign}
-        className={classnames(containerClassName,
-          wrapperStyle
-        )}
+        className={classnames(containerClassName, wrapperStyle)}
         ref={(ref) => {
           if (reference) reference(ref);
           this.wrapper = ref;
@@ -279,7 +288,8 @@ class DropdownSelect extends Component {
           type="button"
           className={classnames(buttonClassName, buttonStyle)}
           onClick={this._toggleShowDropdown}
-          title={this.renderTitle(options[value], renderValue)}>
+          title={this.renderTitle(options[value], renderValue)}
+        >
           {currentLabel}
           <span
             ref={this.inputRef}
@@ -288,7 +298,8 @@ class DropdownSelect extends Component {
               styles.selectedValue,
               ellipsis && styles.ellipsis,
               selectedClassName,
-            )}>
+            )}
+          >
             {renderValue}
           </span>
           <span className={currentIconClassName}>
@@ -352,15 +363,15 @@ DropdownSelect.defaultProps = {
   renderDropdownMenu: undefined,
   renderTitle: undefined,
   valueFunction: (_, idx) => idx,
-  renderFunction: option => option,
-  renderValue: option => option,
+  renderFunction: (option) => option,
+  renderValue: (option) => option,
   dropdownAlign: 'center',
   titleEnabled: undefined,
   stopPropagation: false,
   placeholder: undefined,
   ellipsis: true,
   noPadding: false,
-  onToggle() { },
+  onToggle() {},
   searchOption: null,
   open: false,
   wrapperStyle: '',

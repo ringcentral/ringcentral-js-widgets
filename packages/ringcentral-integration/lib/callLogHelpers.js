@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import moment from 'moment';
 import {
   isValidNumber,
   isSameLocalNumber,
@@ -89,7 +90,10 @@ export function normalizeStartTime(call) {
     ...call,
   };
   if (call.startTime) {
-    result.startTime = new Date(call.startTime).getTime();
+    // Fix: Safari doesn't support timezone offset
+    // `startTime` might switch between `2019-10-18T08:18:47.972+0000`
+    // and `2019-10-18T08:18:47.972Z`
+    result.startTime = moment(call.startTime).valueOf();
   }
   return result;
 }

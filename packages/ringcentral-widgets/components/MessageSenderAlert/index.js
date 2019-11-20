@@ -7,43 +7,45 @@ import i18n from './i18n';
 
 export default function MessageSenderAlert({
   currentLocale,
-  message: {
-    id,
-    message,
-  },
+  message: { id, message },
   onAreaCodeLink,
-  brand
+  brand,
 }) {
   if (message === messageSenderMessages.noAreaCode) {
     const areaCode = i18n.getString('areaCode', currentLocale);
-    const areaCodeLink = onAreaCodeLink ?
-      (
-        <a
-          className={styles.link}
-          onClick={(e) => {
-            e.preventDefault();
-            onAreaCodeLink({ alertId: id });
-          }}>
-          {areaCode}
-        </a>
-      ) :
-      areaCode;
-    return (
-      <FormattedMessage
-        message={i18n.getString(message, currentLocale)}
-        values={{ areaCodeLink }} />
+    const areaCodeLink = onAreaCodeLink ? (
+      <a
+        className={styles.link}
+        onClick={(e) => {
+          e.preventDefault();
+          onAreaCodeLink({ alertId: id });
+        }}
+      >
+        {areaCode}
+      </a>
+    ) : (
+      areaCode
     );
-  } else if ([messageSenderMessages.noInternalSMSPermission,
-    messageSenderMessages.noSMSPermission].indexOf(message) !== -1) {
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
-        values={{ brand }} />
+        values={{ areaCodeLink }}
+      />
+    );
+  } else if (
+    [
+      messageSenderMessages.noInternalSMSPermission,
+      messageSenderMessages.noSMSPermission,
+    ].indexOf(message) !== -1
+  ) {
+    return (
+      <FormattedMessage
+        message={i18n.getString(message, currentLocale)}
+        values={{ brand }}
+      />
     );
   }
-  return (
-    <span>{i18n.getString(message, currentLocale)}</span>
-  );
+  return <span>{i18n.getString(message, currentLocale)}</span>;
 }
 
 MessageSenderAlert.propTypes = {
@@ -56,31 +58,30 @@ MessageSenderAlert.propTypes = {
 };
 MessageSenderAlert.defaultProps = {
   onAreaCodeLink: undefined,
-  brand: 'RingCentral'
+  brand: 'RingCentral',
 };
 
-MessageSenderAlert.handleMessage = ({ message }) => (
-  (message === messageSenderMessages.sendSuccess) ||
-  (message === messageSenderMessages.sendError) ||
-  (message === messageSenderMessages.numberValidateError) ||
-  (message === messageSenderMessages.textEmpty) ||
-  (message === messageSenderMessages.noPermission) ||
-  (message === messageSenderMessages.senderEmpty) ||
-  (message === messageSenderMessages.noToNumber) ||
-  (message === messageSenderMessages.recipientsEmpty) ||
-  (message === messageSenderMessages.textTooLong) ||
-  (message === messageSenderMessages.multipartTextTooLong) ||
-  (message === messageSenderMessages.recipientNumberInvalids) ||
-  (message === messageSenderMessages.noAreaCode) ||
-  (message === messageSenderMessages.specialNumber) ||
-  (message === messageSenderMessages.connectFailed) ||
-  (message === messageSenderMessages.internalError) ||
-  (message === messageSenderMessages.notAnExtension) ||
-  (message === messageSenderMessages.networkError) ||
-  (message === messageSenderMessages.notSmsToExtension) ||
-  (message === messageSenderMessages.senderNumberInvalid) ||
-  (message === messageSenderMessages.internationalSMSNotSupported) ||
-  (message === messageSenderMessages.noInternalSMSPermission) ||
-  (message === messageSenderMessages.noSMSPermission) ||
-  (message === messageSenderMessages.sending)
-);
+MessageSenderAlert.handleMessage = ({ message }) =>
+  message === messageSenderMessages.sendSuccess ||
+  message === messageSenderMessages.sendError ||
+  message === messageSenderMessages.numberValidateError ||
+  message === messageSenderMessages.textEmpty ||
+  message === messageSenderMessages.noPermission ||
+  message === messageSenderMessages.senderEmpty ||
+  message === messageSenderMessages.noToNumber ||
+  message === messageSenderMessages.recipientsEmpty ||
+  message === messageSenderMessages.textTooLong ||
+  message === messageSenderMessages.multipartTextTooLong ||
+  message === messageSenderMessages.recipientNumberInvalids ||
+  message === messageSenderMessages.noAreaCode ||
+  message === messageSenderMessages.specialNumber ||
+  message === messageSenderMessages.connectFailed ||
+  message === messageSenderMessages.internalError ||
+  message === messageSenderMessages.notAnExtension ||
+  message === messageSenderMessages.networkError ||
+  message === messageSenderMessages.notSmsToExtension ||
+  message === messageSenderMessages.senderNumberInvalid ||
+  message === messageSenderMessages.internationalSMSNotSupported ||
+  message === messageSenderMessages.noInternalSMSPermission ||
+  message === messageSenderMessages.noSMSPermission ||
+  message === messageSenderMessages.sending;

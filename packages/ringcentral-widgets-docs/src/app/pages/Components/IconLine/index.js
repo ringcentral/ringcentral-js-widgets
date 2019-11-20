@@ -15,10 +15,7 @@ const IconLinePage = () => {
   return (
     <div>
       <ComponentHeader name="IconLine" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="IconLine Example"
-      >
+      <CodeExample code={demoCode} title="IconLine Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -15,10 +15,7 @@ const CheckBoxPage = () => {
   return (
     <div>
       <ComponentHeader name="CheckBox" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="CheckBox Example"
-      >
+      <CodeExample code={demoCode} title="CheckBox Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

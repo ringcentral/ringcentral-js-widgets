@@ -1,9 +1,7 @@
-import {
-  Module
-} from 'ringcentral-integration/lib/di';
+import { Module } from 'ringcentral-integration/lib/di';
 import {
   isE164,
-  parseIncompletePhoneNumber
+  parseIncompletePhoneNumber,
 } from '@ringcentral-integration/phone-number';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import RcUIModule from '../../lib/RcUIModule';
@@ -29,13 +27,13 @@ const DEFAULT_COMPOSETEXT_ROUTE = '/composeText';
     'CallingSettings',
     {
       dep: 'Webphone',
-      optional: true
+      optional: true,
     },
     {
       dep: 'ContactDetailsUIOptions',
-      optional: true
-    }
-  ]
+      optional: true,
+    },
+  ],
 })
 export default class ContactDetailsUI extends RcUIModule {
   getUIProps({
@@ -49,7 +47,7 @@ export default class ContactDetailsUI extends RcUIModule {
       rolesAndPermissions,
       connectivityManager,
       rateLimiter,
-    }
+    },
   }) {
     return {
       params,
@@ -57,31 +55,27 @@ export default class ContactDetailsUI extends RcUIModule {
       composeTextRoute,
       currentLocale: locale.currentLocale,
       contactItem: contactDetails.contact,
-      disableLinks: (
+      disableLinks:
         connectivityManager.isOfflineMode ||
         connectivityManager.isVoipOnlyMode ||
-        rateLimiter.throttling
-      ),
-      disableCallButton: (
+        rateLimiter.throttling,
+      disableCallButton:
         connectivityManager.isOfflineMode ||
         connectivityManager.isWebphoneUnavailableMode ||
         connectivityManager.isWebphoneInitializing ||
-        rateLimiter.throttling
-      ),
+        rateLimiter.throttling,
       showSpinner: !(
         locale.ready &&
         contactSearch.ready &&
         contactDetails.ready &&
         rolesAndPermissions.ready
       ),
-      outboundSmsPermission: (
+      outboundSmsPermission:
         rolesAndPermissions.permissions &&
-        rolesAndPermissions.permissions.OutboundSMS
-      ),
-      internalSmsPermission: (
+        rolesAndPermissions.permissions.OutboundSMS,
+      internalSmsPermission:
         rolesAndPermissions.permissions &&
-        rolesAndPermissions.permissions.InternalSMS
-      ),
+        rolesAndPermissions.permissions.InternalSMS,
     };
   }
 
@@ -98,13 +92,13 @@ export default class ContactDetailsUI extends RcUIModule {
       regionSettings,
       routerInteraction,
       rolesAndPermissions,
-    }
+    },
   }) {
     return {
       getContact() {
         contactDetails.find({
           id: params.contactId,
-          type: params.contactType
+          type: params.contactType,
         });
       },
       clearContact() {
@@ -113,7 +107,9 @@ export default class ContactDetailsUI extends RcUIModule {
       formatNumber(phoneNumber) {
         // if the cleaned phone number is not a E164 format
         // we will show it directly, doesn't format it.
-        const cleanedNumber = parseIncompletePhoneNumber(phoneNumber.toString());
+        const cleanedNumber = parseIncompletePhoneNumber(
+          phoneNumber.toString(),
+        );
         const isE164Number = isE164(cleanedNumber);
         if (isE164Number) {
           const formatedNumber = formatNumber({
@@ -122,12 +118,12 @@ export default class ContactDetailsUI extends RcUIModule {
           });
           return {
             phoneNumber: formatedNumber,
-            beFormated: true
+            beFormated: true,
           };
         }
         return {
           phoneNumber,
-          beFormated: false
+          beFormated: false,
         };
       },
       getAvatar(contact) {
@@ -139,34 +135,35 @@ export default class ContactDetailsUI extends RcUIModule {
       onBackClick() {
         routerInteraction.goBack();
       },
-      onClickToDial: dialerUI && rolesAndPermissions.callingEnabled ?
-        (recipient) => {
-          if (call.isIdle) {
-            routerInteraction.push(dialerRoute);
-            dialerUI.call({ recipient });
-            contactDetails.onClickToCall();
-          }
-        } :
-        undefined,
-      onClickToSMS: composeText ?
-        async (contact, isDummyContact = false) => {
-          if (routerInteraction) {
-            routerInteraction.push(composeTextRoute);
-          }
-          // if contact autocomplete, if no match fill the number only
-          if (contact.name && contact.phoneNumber && isDummyContact) {
-            composeText.updateTypingToNumber(contact.name);
-            contactSearch.search({ searchString: contact.name });
-          } else {
-            composeText.addToNumber(contact);
-            if (composeText.typingToNumber === contact.phoneNumber) {
-              composeText.cleanTypingToNumber();
+      onClickToDial:
+        dialerUI && rolesAndPermissions.callingEnabled
+          ? (recipient) => {
+              if (call.isIdle) {
+                routerInteraction.push(dialerRoute);
+                dialerUI.call({ recipient });
+                contactDetails.onClickToCall();
+              }
             }
+          : undefined,
+      onClickToSMS: composeText
+        ? async (contact, isDummyContact = false) => {
+            if (routerInteraction) {
+              routerInteraction.push(composeTextRoute);
+            }
+            // if contact autocomplete, if no match fill the number only
+            if (contact.name && contact.phoneNumber && isDummyContact) {
+              composeText.updateTypingToNumber(contact.name);
+              contactSearch.search({ searchString: contact.name });
+            } else {
+              composeText.addToNumber(contact);
+              if (composeText.typingToNumber === contact.phoneNumber) {
+                composeText.cleanTypingToNumber();
+              }
+            }
+            // for track
+            contactDetails.onClickToSMS();
           }
-          // for track
-          contactDetails.onClickToSMS();
-        } :
-        undefined,
+        : undefined,
     };
   }
 }

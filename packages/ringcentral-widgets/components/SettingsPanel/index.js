@@ -17,7 +17,6 @@ import InputLine from '../InputLine';
 import LocalePicker from '../LocalePicker';
 import i18n from './i18n';
 
-
 export default function SettingsPanel({
   children,
   className,
@@ -40,13 +39,16 @@ export default function SettingsPanel({
   showReport,
   autoLogEnabled,
   autoLogNotesEnabled,
+  logSMSContextEnabled,
   disableAutoLogEnabled,
   disableAutoLogNotesEnabled,
   onAutoLogChange,
   onAutoLogNotesChange,
   showAutoLogSMS,
+  showLogSMSContext,
   autoLogSMSEnabled,
   onAutoLogSMSChange,
+  onLogSMSContextChange,
   showClickToDial,
   clickToDialEnabled,
   clickToDialPermissions,
@@ -79,17 +81,14 @@ export default function SettingsPanel({
   versionContainer,
   autoLogTitle,
   autoLogSMSTitle,
+  logSMSContextTitle,
 }) {
   if (showSpinner) {
-    return (
-      <SpinnerOverlay />
-    );
+    return <SpinnerOverlay />;
   }
 
   const locale = supportedLocales && supportedLocales.length > 1 && (
-    <InputLine
-      label={i18n.getString('language', currentLocale)}
-    >
+    <InputLine label={i18n.getString('language', currentLocale)}>
       <LocalePicker
         value={savedLocale}
         onChange={saveLocale}
@@ -98,58 +97,40 @@ export default function SettingsPanel({
     </InputLine>
   );
 
-  const region = showRegion ?
-    (
-      <LinkLine
-        onClick={onRegionSettingsLinkClick}>
-        {i18n.getString('region', currentLocale)}
-      </LinkLine>
-    ) :
-    null;
+  const region = showRegion ? (
+    <LinkLine onClick={onRegionSettingsLinkClick}>
+      {i18n.getString('region', currentLocale)}
+    </LinkLine>
+  ) : null;
 
-  const report = showReport ?
-    (
-      <LinkLine
-        onClick={onReportLinkClick}>
-        {i18n.getString('report', currentLocale)}
-      </LinkLine>
-    ) :
-    null;
+  const report = showReport ? (
+    <LinkLine onClick={onReportLinkClick}>
+      {i18n.getString('report', currentLocale)}
+    </LinkLine>
+  ) : null;
 
-  const calling = showCalling ?
-    (
-      <LinkLine
-        onClick={onCallingSettingsLinkClick}>
-        {i18n.getString('calling', currentLocale)}
-      </LinkLine>
-    ) :
-    null;
-  const audio = showAudio ?
-    (
-      <LinkLine
-        onClick={onAudioSettingsLinkClick}>
-        {i18n.getString('audio', currentLocale)}
-      </LinkLine>
-    ) :
-    null;
-  const feedback = showFeedback ?
-    (
-      <LinkLine
-        onClick={onFeedbackSettingsLinkClick}>
-        {i18n.getString('feedback', currentLocale)}
-      </LinkLine>
-    ) :
-    null;
-  const quickAccess = showQuickAccess ?
-    (
-      <LinkLine
-        onClick={onQuickAccessLinkClick}>
-        {i18n.getString('quickAccess', currentLocale)}
-      </LinkLine>
-    ) :
-    null;
-  const presenceSetting = (showPresenceSettings && dndStatus && userStatus) ?
-    (
+  const calling = showCalling ? (
+    <LinkLine onClick={onCallingSettingsLinkClick}>
+      {i18n.getString('calling', currentLocale)}
+    </LinkLine>
+  ) : null;
+  const audio = showAudio ? (
+    <LinkLine onClick={onAudioSettingsLinkClick}>
+      {i18n.getString('audio', currentLocale)}
+    </LinkLine>
+  ) : null;
+  const feedback = showFeedback ? (
+    <LinkLine onClick={onFeedbackSettingsLinkClick}>
+      {i18n.getString('feedback', currentLocale)}
+    </LinkLine>
+  ) : null;
+  const quickAccess = showQuickAccess ? (
+    <LinkLine onClick={onQuickAccessLinkClick}>
+      {i18n.getString('quickAccess', currentLocale)}
+    </LinkLine>
+  ) : null;
+  const presenceSetting =
+    showPresenceSettings && dndStatus && userStatus ? (
       <PresenceSettingSection
         currentLocale={currentLocale}
         dndStatus={dndStatus}
@@ -162,11 +143,9 @@ export default function SettingsPanel({
         toggleAcceptCallQueueCalls={toggleAcceptCallQueueCalls}
         showPresenceSettings={openPresenceSettings}
       />
-    ) :
-    null;
+    ) : null;
   const msteamsSettings = showMsteamsSettings && (
-    <LinkLine
-      onClick={onMsteamsSettingsLinkClick}>
+    <LinkLine onClick={onMsteamsSettingsLinkClick}>
       {i18n.getString('msteamsSetting', currentLocale)}
     </LinkLine>
   );
@@ -180,87 +159,90 @@ export default function SettingsPanel({
   } else {
     clickToDialText = '';
   }
-  const clickToDial = showClickToDial && (
-    outboundSMS || clickToDialPermissions) ?
-    (
+  const clickToDial =
+    showClickToDial && (outboundSMS || clickToDialPermissions) ? (
       <IconLine
-        icon={(
-          <Switch
-            checked={clickToDialEnabled}
-            onChange={onClickToDialChange}
-          />
-)}
+        icon={
+          <Switch checked={clickToDialEnabled} onChange={onClickToDialChange} />
+        }
         title={clickToDialTitle}
       >
         {clickToDialText}
       </IconLine>
-    ) :
-    null;
+    ) : null;
   // if the Switch component is disabled then the text to describe it will be a disabled color.
   const autoLog = showAutoLog ? (
     <IconLine
-      icon={(
+      icon={
         <Switch
           dataSign="AutoLogCall"
           disable={disableAutoLogEnabled}
           checked={autoLogEnabled}
           onChange={onAutoLogChange}
         />
-)}
+      }
     >
       <span className={classnames(disableAutoLogEnabled && styles.disableText)}>
         {autoLogTitle || i18n.getString('autoLogCalls', currentLocale)}
       </span>
     </IconLine>
-  ) :
-    null;
+  ) : null;
   const autoLogNotes = showAutoLogNotes ? (
     <IconLine
-      icon={(
+      icon={
         <Switch
           dataSign="AutoLogNotes"
           disable={disableAutoLogNotesEnabled}
           checked={autoLogNotesEnabled}
           onChange={onAutoLogNotesChange}
         />
-)}
+      }
     >
-      <span className={classnames(disableAutoLogNotesEnabled && styles.disableText)}>
+      <span
+        className={classnames(disableAutoLogNotesEnabled && styles.disableText)}
+      >
         {i18n.getString('autoLogNotes', currentLocale)}
       </span>
     </IconLine>
-  ) :
-    null;
+  ) : null;
   const autoLogSMS = showAutoLogSMS ? (
     <IconLine
-      icon={(
+      icon={
         <Switch
           dataSign="AutoLogSMS"
           checked={autoLogSMSEnabled}
           onChange={onAutoLogSMSChange}
         />
-      )}
+      }
     >
       {autoLogSMSTitle || i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
   ) : null;
+  const logSMSContext = showLogSMSContext ? (
+    <IconLine
+      icon={
+        <Switch
+          dataSign="LogSMSContext"
+          checked={logSMSContextEnabled}
+          onChange={onLogSMSContextChange}
+        />
+      }
+    >
+      {logSMSContextTitle || i18n.getString('logSMSContext', currentLocale)}
+    </IconLine>
+  ) : null;
   const header = showHeader ? (
-    <Header>
-      {i18n.getString('settings', currentLocale)}
-    </Header>
+    <Header>{i18n.getString('settings', currentLocale)}</Header>
   ) : null;
   const userGuide = showUserGuide ? (
-    <LinkLine
-      onClick={onUserGuideClick}>
+    <LinkLine onClick={onUserGuideClick}>
       {i18n.getString('userGuide', currentLocale)}
     </LinkLine>
   ) : null;
 
   const versionArea = versionContainer || (
     <div className={styles.versionContainer} data-sign="version">
-      {i18n.getString('version', currentLocale)}
-      {' '}
-      {version}
+      {i18n.getString('version', currentLocale)} {version}
     </div>
   );
   return (
@@ -270,7 +252,8 @@ export default function SettingsPanel({
         className={classnames(
           styles.content,
           showHeader && styles.contentWithHeader,
-        )}>
+        )}
+      >
         {report}
         {locale}
         {calling}
@@ -282,6 +265,7 @@ export default function SettingsPanel({
         {autoLog}
         {autoLogNotes}
         {autoLogSMS}
+        {logSMSContext}
         {clickToDial}
         {additional}
         {feedback}
@@ -293,7 +277,8 @@ export default function SettingsPanel({
               dataSign="eula"
               className={styles.eula}
               currentLocale={currentLocale}
-              brandId={brandId} />
+              brandId={brandId}
+            />
           </Line>
         </section>
         <section className={styles.section}>
@@ -302,12 +287,13 @@ export default function SettingsPanel({
             dataSign="logoutButton"
             onClick={onLogoutButtonClick}
             icon={
-              <span className={classnames(styles.logoutIcon, dynamicsFont.logout)} />
-            }>
+              <span
+                className={classnames(styles.logoutIcon, dynamicsFont.logout)}
+              />
+            }
+          >
             {i18n.getString('logout', currentLocale)}
-            <span className={styles.loginNumber}>
-              {` ${loginNumber}`}
-            </span>
+            <span className={styles.loginNumber}>{` ${loginNumber}`}</span>
           </IconLine>
         </section>
         {versionArea}
@@ -335,11 +321,14 @@ SettingsPanel.propTypes = {
   showReport: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
   autoLogNotesEnabled: PropTypes.bool,
+  logSMSContextEnabled: PropTypes.bool,
   disableAutoLogEnabled: PropTypes.bool,
   disableAutoLogNotesEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,
   onAutoLogNotesChange: PropTypes.func,
+  onLogSMSContextChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
+  showLogSMSContext: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
   onAutoLogSMSChange: PropTypes.func,
   showClickToDial: PropTypes.bool,
@@ -377,6 +366,7 @@ SettingsPanel.propTypes = {
   onReportLinkClick: PropTypes.func,
   autoLogTitle: PropTypes.string,
   autoLogSMSTitle: PropTypes.string,
+  logSMSContextTitle: PropTypes.string,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -395,11 +385,14 @@ SettingsPanel.defaultProps = {
   showReport: false,
   autoLogEnabled: false,
   autoLogNotesEnabled: false,
+  logSMSContextEnabled: true,
   disableAutoLogEnabled: false,
   disableAutoLogNotesEnabled: false,
   onAutoLogChange: () => null,
   onAutoLogNotesChange: () => null,
+  onLogSMSContextChange: () => null,
   showAutoLogSMS: false,
+  showLogSMSContext: false,
   autoLogSMSEnabled: false,
   onAutoLogSMSChange: undefined,
   showHeader: false,
@@ -429,4 +422,5 @@ SettingsPanel.defaultProps = {
   onReportLinkClick: () => null,
   autoLogTitle: undefined,
   autoLogSMSTitle: undefined,
+  logSMSContextTitle: undefined,
 };

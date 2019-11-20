@@ -37,13 +37,21 @@ describe('messages', () => {
     panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
-    expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
+    expect(
+      panel
+        .find('.noMessages')
+        .text()
+        .trim(),
+    ).toEqual('No matching records found');
   });
 
   test('message list', () => {
     panel.find(MessageItem).forEach((item) => {
       const { conversation } = item.props();
-      const { className } = item.find(ContactDisplay).first().props();
+      const { className } = item
+        .find(ContactDisplay)
+        .first()
+        .props();
       if (conversation.unreadCounts > 0) {
         expect(className).toContain('unread');
       } else {
@@ -56,13 +64,19 @@ describe('messages', () => {
 
   test('click a message', async () => {
     const message = wrapper.props().phone.messageStore.allConversations[0];
-    mock.updateMessageStatus({
-      ...message,
-      readStatus: 'Read',
-      lastModifiedTime: (new Date()).toISOString(),
-    }, false);
+    mock.updateMessageStatus(
+      {
+        ...message,
+        readStatus: 'Read',
+        lastModifiedTime: new Date().toISOString(),
+      },
+      false,
+    );
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage.find('.wrapper').first().simulate('click');
+    await firstMessage
+      .find('.wrapper')
+      .first()
+      .simulate('click');
     await timeout(200); // wait conversation loaded
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
@@ -72,7 +86,11 @@ describe('messages', () => {
     const messageItems = panel.find(MessageItem);
     if (messageItems.length > 0) {
       const callItem = messageItems.at(messageItems.length - 1); // last item
-      const logButton = callItem.find(LogButton).first().find(Button).first();
+      const logButton = callItem
+        .find(LogButton)
+        .first()
+        .find(Button)
+        .first();
       expect(logButton.props().disabled).toBe(false);
     }
   });
@@ -84,13 +102,21 @@ describe('messages', () => {
       let logButton = callItem.find(LogButton).find(Button);
       logButton.simulate('click');
       panel = wrapper.find(ConversationList).first();
-      logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
+      logButton = panel
+        .find(MessageItem)
+        .at(messageItems.length - 1)
+        .find(LogButton)
+        .find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
       await timeout(2000);
       wrapper.update();
       panel = wrapper.find(ConversationList).first();
-      logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
+      logButton = panel
+        .find(MessageItem)
+        .at(messageItems.length - 1)
+        .find(LogButton)
+        .find(Button);
       expect(logButton.props().disabled).toBe(false);
       expect(logButton.find(Spinner).length).toBe(0);
     }
@@ -98,28 +124,43 @@ describe('messages', () => {
 
   test('message log button', async () => {
     const message = wrapper.props().phone.messageStore.allConversations[0];
-    mock.updateMessageStatus({
-      ...message,
-      readStatus: 'Read',
-      lastModifiedTime: (new Date()).toISOString(),
-    }, false);
+    mock.updateMessageStatus(
+      {
+        ...message,
+        readStatus: 'Read',
+        lastModifiedTime: new Date().toISOString(),
+      },
+      false,
+    );
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage.find('.wrapper').first().simulate('click');
+    await firstMessage
+      .find('.wrapper')
+      .first()
+      .simulate('click');
     await timeout(200); // wait conversation loaded
     const conversationPanel = wrapper.find(ConversationPanel);
-    const logButton = conversationPanel.find(LogButton).first().find(Button);
+    const logButton = conversationPanel
+      .find(LogButton)
+      .first()
+      .find(Button);
     expect(logButton.props().disabled).toBe(false);
   });
 
   test('message click log button', async () => {
     const message = wrapper.props().phone.messageStore.allConversations[0];
-    mock.updateMessageStatus({
-      ...message,
-      readStatus: 'Read',
-      lastModifiedTime: (new Date()).toISOString(),
-    }, false);
+    mock.updateMessageStatus(
+      {
+        ...message,
+        readStatus: 'Read',
+        lastModifiedTime: new Date().toISOString(),
+      },
+      false,
+    );
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage.find('.wrapper').first().simulate('click');
+    await firstMessage
+      .find('.wrapper')
+      .first()
+      .simulate('click');
     await timeout(200); // wait conversation loaded
     let conversationPanel = wrapper.find(ConversationPanel);
     let logButton = conversationPanel.find(LogButton).find(Button);

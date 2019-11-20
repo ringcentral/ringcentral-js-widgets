@@ -20,7 +20,12 @@ describe('history', () => {
     const panel = wrapper.find(ActiveCallsPanel).first();
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
-    expect(panel.find('p.noCalls').first().text()).toEqual('No active calls');
+    expect(
+      panel
+        .find('p.noCalls')
+        .first()
+        .text(),
+    ).toEqual('No active calls');
   });
 });
 
@@ -51,9 +56,13 @@ describe('RCI-1038#4 All Calls Page', () => {
 
     let buttons = [];
     if (ringCallPanel.find(ActiveCallItemV2).length > 0) {
-      buttons = ringCallPanel.find(ActiveCallItemV2).find('.webphoneButtons > span');
+      buttons = ringCallPanel
+        .find(ActiveCallItemV2)
+        .find('.webphoneButtons > span');
     } else if (ringCallPanel.find(ActiveCallItem).length > 0) {
-      buttons = ringCallPanel.find(ActiveCallItem).find('.webphoneButtons > span');
+      buttons = ringCallPanel
+        .find(ActiveCallItem)
+        .find('.webphoneButtons > span');
     }
     expect(buttons.at(0).props().title).toEqual('Send to Voicemail');
     expect(buttons.at(1).props().title).toEqual('Accept');
@@ -67,13 +76,19 @@ describe('RCI-1038#4 All Calls Page', () => {
     const panel = wrapper.find(ActiveCallsPanel).first();
     const currentCallPanel = panel.find(ActiveCallList).at(1);
     expect(currentCallPanel).toHaveLength(1);
-    expect(currentCallPanel.find('div.listTitle').text()).toEqual('Current Call');
+    expect(currentCallPanel.find('div.listTitle').text()).toEqual(
+      'Current Call',
+    );
     if (panel.props().useV2) {
-      const buttons = currentCallPanel.find(ActiveCallItemV2).find('.webphoneButtons > span');
+      const buttons = currentCallPanel
+        .find(ActiveCallItemV2)
+        .find('.webphoneButtons > span');
       expect(buttons.at(0).props().title).toEqual('Hold');
       expect(buttons.at(1).props().title).toEqual('Hang up');
     } else {
-      const buttons = currentCallPanel.find(ActiveCallItem).find('.webphoneButtons > span');
+      const buttons = currentCallPanel
+        .find(ActiveCallItem)
+        .find('.webphoneButtons > span');
       expect(buttons.at(0).props().title).toEqual('Hang up');
       expect(buttons.at(1).props().title).toEqual('Accept');
     }
@@ -87,13 +102,19 @@ describe('RCI-1038#4 All Calls Page', () => {
     const panel = wrapper.find(ActiveCallsPanel).first();
     const onHoldCallPanel = panel.find(ActiveCallList).at(2);
     expect(onHoldCallPanel).toHaveLength(1);
-    expect(onHoldCallPanel.find('div.listTitle').text()).toEqual('Call on Hold');
+    expect(onHoldCallPanel.find('div.listTitle').text()).toEqual(
+      'Call on Hold',
+    );
     if (panel.props().useV2) {
-      const buttons = onHoldCallPanel.find(ActiveCallItemV2).find('.webphoneButtons > span');
+      const buttons = onHoldCallPanel
+        .find(ActiveCallItemV2)
+        .find('.webphoneButtons > span');
       expect(buttons.at(0).props().title).toEqual('Unhold');
       expect(buttons.at(1).props().title).toEqual('Hang up');
     } else {
-      const buttons = onHoldCallPanel.find(ActiveCallItem).find('.webphoneButtons > span');
+      const buttons = onHoldCallPanel
+        .find(ActiveCallItem)
+        .find('.webphoneButtons > span');
       expect(buttons.at(0).props().title).toEqual('Hang up');
       expect(buttons.at(1).props().title).toEqual('Accept');
     }
@@ -107,10 +128,16 @@ describe('RCI-1038#4 All Calls Page', () => {
     const panel = wrapper.find(ActiveCallsPanel).first();
     const otherDeviceCallPanel = panel.find(ActiveCallList).at(3);
     const buttons = panel.props().useV2
-      ? otherDeviceCallPanel.find(ActiveCallItemV2).find('.webphoneButtons > span')
-      : otherDeviceCallPanel.find(ActiveCallItem).find('.webphoneButtons > span');
+      ? otherDeviceCallPanel
+          .find(ActiveCallItemV2)
+          .find('.webphoneButtons > span')
+      : otherDeviceCallPanel
+          .find(ActiveCallItem)
+          .find('.webphoneButtons > span');
     expect(otherDeviceCallPanel).toHaveLength(1);
-    expect(otherDeviceCallPanel.find('div.listTitle').text()).toEqual('Ongoing calls on my other devices');
+    expect(otherDeviceCallPanel.find('div.listTitle').text()).toEqual(
+      'Ongoing calls on my other devices',
+    );
     expect(buttons).toHaveLength(0);
   });
 });

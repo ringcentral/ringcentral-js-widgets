@@ -15,10 +15,7 @@ const MessageTabButtonPage = () => {
   return (
     <div>
       <ComponentHeader name="MessageTabButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="MessageTabButton Example"
-      >
+      <CodeExample code={demoCode} title="MessageTabButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -51,10 +51,7 @@ function getCallsListReducer(types) {
       case types.saving:
       case types.saveSuccess:
       case types.saveError:
-        return Array.from(new Set([
-          ...state,
-          identify
-        ]));
+        return Array.from(new Set([...state, identify]));
       case types.cleanUp:
         return [];
       default:

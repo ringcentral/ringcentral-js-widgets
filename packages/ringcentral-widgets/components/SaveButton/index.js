@@ -17,7 +17,7 @@ export default function SaveButton({
       className={classnames(
         styles.root,
         disabled ? styles.disabled : null,
-        className
+        className,
       )}
       onClick={onClick}
       disabled={disabled}

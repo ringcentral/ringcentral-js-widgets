@@ -120,11 +120,13 @@ export default class CallLogger extends LoggerBase {
   async log({ call, ...options }) {
     return super.log({ item: call, ...options });
   }
+
   async _ensureActive() {
     const isActive =
       !this._tabManager || (await this._tabManager.ensureActive());
     return isActive;
   }
+
   async _shouldLogNewCall(call) {
     const isActive = await this._ensureActive();
     return isActive && this.autoLog && (this.logOnRinging || !isRinging(call));
@@ -148,6 +150,7 @@ export default class CallLogger extends LoggerBase {
       toEntity,
     });
   }
+
   async _autoLogCall({ call, fromEntity, toEntity, triggerType }) {
     await this.log({
       call: {
@@ -162,21 +165,25 @@ export default class CallLogger extends LoggerBase {
       triggerType,
     });
   }
+
   _activityMatcherCheck(sessionId) {
     return (
       !this._activityMatcher.dataMapping[sessionId] ||
       !this._activityMatcher.dataMapping[sessionId].length
     );
   }
+
   _customMatcherCheck(sessionId) {
     if (!this._customMatcherHooks.length) {
       return true;
     }
     return this._customMatcherHooks.some((hook) => hook(sessionId));
   }
+
   addCustomMatcherHook(hook) {
     this._customMatcherHooks.push(hook);
   }
+
   async _onNewCall(call, triggerType) {
     if (await this._shouldLogNewCall(call)) {
       // RCINT-3857 check activity in case instance was reloaded when call is still active
@@ -228,6 +235,7 @@ export default class CallLogger extends LoggerBase {
       }
     }
   }
+
   async _shouldLogUpdatedCall(call) {
     const isActive = await this._ensureActive();
     if (isActive && (this.logOnRinging || !isRinging(call))) {
@@ -239,11 +247,13 @@ export default class CallLogger extends LoggerBase {
     }
     return false;
   }
+
   async _onCallUpdated(call, triggerType) {
     if (await this._shouldLogUpdatedCall(call)) {
       await this._autoLogCall({ call, triggerType });
     }
   }
+
   _processCalls() {
     if (this.ready) {
       if (this._lastProcessedCalls !== this._callMonitor.calls) {
@@ -353,6 +363,7 @@ export default class CallLogger extends LoggerBase {
       }
     }
   }
+
   async _onStateChange() {
     await super._onStateChange();
     this._processCalls();

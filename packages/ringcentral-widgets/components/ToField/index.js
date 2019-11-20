@@ -5,12 +5,9 @@ import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 import i18n from './i18n';
 
-function SelectedRecipientItem({
-  phoneNumber,
-  name = phoneNumber,
-  onRemove,
-}) {
-  const className = phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
+function SelectedRecipientItem({ phoneNumber, name = phoneNumber, onRemove }) {
+  const className =
+    phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
   return (
     <li className={className}>
       <span>{name}</span>
@@ -32,35 +29,32 @@ SelectedRecipientItem.defaultProps = {
   name: undefined,
 };
 
-function SelectedRecipients({
-  items,
-  removeFromRecipients,
-}) {
+function SelectedRecipients({ items, removeFromRecipients }) {
   if (items.length < 1) {
     return null;
   }
   return (
     <ul className={styles.selectReceivers}>
-      {
-        items.map(item => (
-          <SelectedRecipientItem
-            key={item.phoneNumber}
-            name={item.name}
-            phoneNumber={item.phoneNumber}
-            onRemove={() => removeFromRecipients(item.phoneNumber)}
-          />
-        ))
-      }
+      {items.map((item) => (
+        <SelectedRecipientItem
+          key={item.phoneNumber}
+          name={item.name}
+          phoneNumber={item.phoneNumber}
+          onRemove={() => removeFromRecipients(item.phoneNumber)}
+        />
+      ))}
     </ul>
   );
 }
 
 SelectedRecipients.propTypes = {
   removeFromRecipients: PropTypes.func.isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string,
-  })).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string.isRequired,
+      name: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default class ToField extends Component {
@@ -77,67 +71,69 @@ export default class ToField extends Component {
     this.setState({
       isFocusOnInput: true,
     });
-  }
+  };
 
   onReceiversInputBlur = () => {
     this.setState({
       isFocusOnInput: false,
     });
-  }
+  };
   onReceiversInputKeyUp = (e) => {
     this.props.searchContact({ searchString: e.currentTarget.value });
-  }
+  };
 
   setSelectedIndex = (index) => {
     this.setState({
       selectedContactIndex: index,
       scrollDirection: null,
     });
-  }
+  };
   scrollOperation = (direction) => {
     if (direction === 'ArrowDown' || direction === 'ArrowUp') {
       this.setState({
         scrollDirection: direction,
       });
     }
-  }
+  };
   addSelectedContactIndex = () => {
     const length = this.props.searchResults.length;
-    if (this.state.selectedContactIndex >= (length - 1)) {
+    if (this.state.selectedContactIndex >= length - 1) {
       this.setState({
         selectedContactIndex: length - 1,
       });
     } else {
-      this.setState(preState => ({
-        selectedContactIndex: (preState.selectedContactIndex + 1),
+      this.setState((preState) => ({
+        selectedContactIndex: preState.selectedContactIndex + 1,
       }));
     }
-  }
+  };
 
   reduceSelectedContactIndex = () => {
     if (this.state.selectedContactIndex > 0) {
-      this.setState(preState => ({
-        selectedContactIndex: (preState.selectedContactIndex - 1),
+      this.setState((preState) => ({
+        selectedContactIndex: preState.selectedContactIndex - 1,
       }));
     } else {
       this.setState({
         selectedContactIndex: 0,
       });
     }
-  }
+  };
 
   isSplitter = (e) => {
     if (
-      e.key === ',' || e.key === ';' || e.key === 'Enter' ||
+      e.key === ',' ||
+      e.key === ';' ||
+      e.key === 'Enter' ||
       (e.key === 'Unidentified' && // for Safari (FF cannot rely on keyCode...)
         (e.keyCode === 186 || // semicolon
-          e.keyCode === 188 || // comma
+        e.keyCode === 188 || // comma
           e.keyCode === 13)) // enter
     ) {
       return true;
     }
     return false;
-  }
+  };
   // using React SyntheticEvent to deal with cross browser issue
   handleHotKey = (e) => {
     if (this.state.isFocusOnInput && this.props.value.length >= 3) {
@@ -158,10 +154,10 @@ export default class ToField extends Component {
       if (this.props.value.length === 0) {
         return;
       }
-      const relatedContactList = this.props.value.length >= 3 ?
-        this.props.searchResults : [];
-      const currentSelected
-        = relatedContactList[this.state.selectedContactIndex];
+      const relatedContactList =
+        this.props.value.length >= 3 ? this.props.searchResults : [];
+      const currentSelected =
+        relatedContactList[this.state.selectedContactIndex];
       if (currentSelected && e.key === 'Enter') {
         this.props.addToRecipients({
           name: currentSelected.name,
@@ -176,35 +172,37 @@ export default class ToField extends Component {
       }
       this.props.onClean();
     }
-  }
+  };
   componentWillReceiveProps(newProps) {
     this.setState({
-      currentValue: newProps.value.replace(',', '')
+      currentValue: newProps.value.replace(',', ''),
     });
-    if (newProps.value &&
+    if (
+      newProps.value &&
       newProps.value !== this.props.value &&
-      this.props.value[this.props.value.length - 1] === ',') {
+      this.props.value[this.props.value.length - 1] === ','
+    ) {
       this.setState({
         isFocusOnInput: true,
       });
-      this.props.addToRecipients({
-        name: this.props.value.replace(',', ''),
-        phoneNumber: this.props.value.replace(',', ''),
-      }, false);
+      this.props.addToRecipients(
+        {
+          name: this.props.value.replace(',', ''),
+          phoneNumber: this.props.value.replace(',', ''),
+        },
+        false,
+      );
     }
   }
   componentDidMount() {
     this.props.searchContact({ searchString: this.props.value });
   }
   render() {
-    const relatedContactList = this.props.value.length >= 3 ?
-      this.props.searchResults : [];
+    const relatedContactList =
+      this.props.value.length >= 3 ? this.props.searchResults : [];
     const label = (
       <label>
-        {
-          this.props.label ||
-          i18n.getString('to', this.props.currentLocale)
-        }
+        {this.props.label || i18n.getString('to', this.props.currentLocale)}
       </label>
     );
     return (
@@ -237,8 +235,7 @@ export default class ToField extends Component {
             className={styles.removeButton}
             onClick={this.props.onClean}
             visibility={
-              this.props.value.length > 0 &&
-              this.state.isFocusOnInput
+              this.props.value.length > 0 && this.state.isFocusOnInput
             }
           />
         </div>
@@ -262,16 +259,20 @@ ToField.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
   searchContact: PropTypes.func,
-  searchResults: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    entityType: PropTypes.string.isRequired,
-    phoneType: PropTypes.string.isRequired,
-    phoneNumber: PropTypes.string.isRequired,
-  })),
-  recipients: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string,
-  })).isRequired,
+  searchResults: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      entityType: PropTypes.string.isRequired,
+      phoneType: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
+    }),
+  ),
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string.isRequired,
+      name: PropTypes.string,
+    }),
+  ).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onClean: PropTypes.func.isRequired,
@@ -289,7 +290,6 @@ ToField.defaultProps = {
   titleEnabled: undefined,
   autoFocus: false,
   searchContact: () => null,
-  formatPhone: phoneNumber => phoneNumber,
+  formatPhone: (phoneNumber) => phoneNumber,
   searchResults: [],
 };
-

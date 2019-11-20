@@ -15,10 +15,7 @@ const RemoveButtonPage = () => {
   return (
     <div>
       <ComponentHeader name="RemoveButton" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="RemoveButton Example"
-      >
+      <CodeExample code={demoCode} title="RemoveButton Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

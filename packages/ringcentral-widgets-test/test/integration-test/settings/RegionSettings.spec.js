@@ -30,7 +30,12 @@ const enterAreaCode = async (areaCode) => {
 
 describe('region settings', () => {
   test('initial state', () => {
-    expect(regionSettings.find('div.label').first().props().children).toEqual('Region');
+    expect(
+      regionSettings
+        .find('div.label')
+        .first()
+        .props().children,
+    ).toEqual('Region');
   });
 
   test('button state', async () => {
@@ -52,9 +57,9 @@ describe('region settings', () => {
       expect.arrayContaining([
         expect.objectContaining({
           level: 'info',
-          message: 'regionSettingsMessages-saveSuccess'
-        })
-      ])
+          message: 'regionSettingsMessages-saveSuccess',
+        }),
+      ]),
     );
   });
 
@@ -68,9 +73,9 @@ describe('region settings', () => {
       expect.arrayContaining([
         expect.objectContaining({
           level: 'danger',
-          message: 'regionSettingsMessages-areaCodeInvalid'
-        })
-      ])
+          message: 'regionSettingsMessages-areaCodeInvalid',
+        }),
+      ]),
     );
   });
 });

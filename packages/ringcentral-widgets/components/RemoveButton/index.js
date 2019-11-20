@@ -9,10 +9,18 @@ function RemoveButton(props) {
   if (props.visibility) {
     className = classnames(styles.containner, props.className);
   } else {
-    className = classnames(styles.containner, props.className, styles.hiddenRemoveButton);
+    className = classnames(
+      styles.containner,
+      props.className,
+      styles.hiddenRemoveButton,
+    );
   }
   return (
-    <span data-sign='removeBtn' className={className} onClick={props.visibility ? props.onClick : null}>
+    <span
+      data-sign="removeBtn"
+      className={className}
+      onClick={props.visibility ? props.onClick : null}
+    >
       <i className={rcFont.uni2471} />
     </span>
   );

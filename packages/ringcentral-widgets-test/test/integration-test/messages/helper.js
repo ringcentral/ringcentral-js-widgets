@@ -11,20 +11,25 @@ export async function mockPubnub() {
   const encrypted = pubnub._realPubnub.encrypt(
     JSON.stringify({
       ...pubnubMsg,
-      timestamp: (new Date()).toISOString(),
+      timestamp: new Date().toISOString(),
     }),
-    subscriptionBody.deliveryMode.encryptionKey, {
+    subscriptionBody.deliveryMode.encryptionKey,
+    {
       encryptKey: false,
       keyEncoding: 'base64',
       keyLength: 128,
-      mode: 'ecb'
-    });
+      mode: 'ecb',
+    },
+  );
   pubnub.mockMessage(encrypted);
   await timeout(100);
 }
 
 export function mockGenerateMessageApi({
-  count = 1, messageType = 'Text', readStatus = 'Unread', direction = 'Inbound'
+  count = 1,
+  messageType = 'Text',
+  readStatus = 'Unread',
+  direction = 'Inbound',
 }) {
   const records = [];
   for (let i = 1; i <= count; i += 1) {
@@ -41,10 +46,10 @@ export function mockGenerateMessageApi({
       messageStatus: direction === 'Inbound' ? 'Received' : 'Sent',
       to: {
         extensionNumber: '101',
-        name: 'Something1 New1'
+        name: 'Something1 New1',
       },
-      creationTime: (new Date()).toISOString(),
-      lastModifiedTime: (new Date()).toISOString(),
+      creationTime: new Date().toISOString(),
+      lastModifiedTime: new Date().toISOString(),
     };
     if (messageType === 'Fax' || messageType === 'VoiceMail') {
       // Fax and Voicemail doesn't have conversation
@@ -56,7 +61,10 @@ export function mockGenerateMessageApi({
   mock.messageSync({ records });
 }
 export function mockUpdateMessageStatusApi({
-  id = 1, messageType = 'Text', readStatus = 'Unread', direction = 'Inbound'
+  id = 1,
+  messageType = 'Text',
+  readStatus = 'Unread',
+  direction = 'Inbound',
 }) {
   let preDefined = {};
   if (messageType === 'Fax') {
@@ -69,8 +77,8 @@ export function mockUpdateMessageStatusApi({
     readStatus,
     direction,
     messageStatus: direction === 'Inbound' ? 'Received' : 'Sent',
-    creationTime: (new Date()).toISOString(),
-    lastModifiedTime: (new Date()).toISOString(),
+    creationTime: new Date().toISOString(),
+    lastModifiedTime: new Date().toISOString(),
   };
   if (messageType === 'Fax' || messageType === 'VoiceMail') {
     // Fax and Voicemail doesn't have conversation
@@ -79,4 +87,3 @@ export function mockUpdateMessageStatusApi({
   }
   mock.updateMessageStatus(mockedMessage);
 }
-

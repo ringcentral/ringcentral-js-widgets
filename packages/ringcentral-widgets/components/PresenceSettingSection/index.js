@@ -22,7 +22,7 @@ export default class PresenceSettingSection extends Component {
     };
 
     this.toggleShow = () => {
-      this.setState(preState => ({
+      this.setState((preState) => ({
         showSelects: !preState.showSelects,
       }));
     };
@@ -31,12 +31,11 @@ export default class PresenceSettingSection extends Component {
       if (this.state.dndStatus === dndStatus.doNotAcceptAnyCalls) {
         return;
       }
-      this.setState(preState => ({
-        dndStatus: (
-          preState.dndStatus === dndStatus.takeAllCalls ?
-            dndStatus.doNotAcceptDepartmentCalls :
-            dndStatus.takeAllCalls
-        ),
+      this.setState((preState) => ({
+        dndStatus:
+          preState.dndStatus === dndStatus.takeAllCalls
+            ? dndStatus.doNotAcceptDepartmentCalls
+            : dndStatus.takeAllCalls,
       }));
       this.props.toggleAcceptCallQueueCalls();
     };
@@ -62,13 +61,13 @@ export default class PresenceSettingSection extends Component {
     const currentStatus = getPresenceStatusName(
       this.props.userStatus,
       this.props.dndStatus,
-      this.props.currentLocale
+      this.props.currentLocale,
     );
     return (
       <section className={sectionClass}>
         <IconLine
           icon={
-            <span className={styles.dropdownIcon} >
+            <span className={styles.dropdownIcon}>
               <i className={dynamicsFont.arrow} />
             </span>
           }
@@ -84,9 +83,7 @@ export default class PresenceSettingSection extends Component {
               userStatus={this.props.userStatus}
               dndStatus={this.props.dndStatus}
             />
-            <span>
-              {currentStatus}
-            </span>
+            <span>{currentStatus}</span>
           </div>
         </IconLine>
         <Line className={styles.presenceList}>
@@ -115,9 +112,7 @@ export default class PresenceSettingSection extends Component {
             dndStatus={dndStatus.doNotAcceptAnyCalls}
             currentLocale={this.props.currentLocale}
             onClick={this.props.setDoNotDisturb}
-            selected={
-              this.props.dndStatus === dndStatus.doNotAcceptAnyCalls
-            }
+            selected={this.props.dndStatus === dndStatus.doNotAcceptAnyCalls}
           />
           <PresenceItem
             userStatus={presenceStatus.offline}

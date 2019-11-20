@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-import { isInbound, isRinging } from 'ringcentral-integration/lib/callLogHelpers';
+import {
+  isInbound,
+  isRinging,
+} from 'ringcentral-integration/lib/callLogHelpers';
 import parseNumber from 'ringcentral-integration/lib/parseNumber';
 
 import DurationCounter from '../DurationCounter';
@@ -59,21 +62,19 @@ function WebphoneButtons({
           showBorder={false}
         />
       </span>
-      {
-        showAnswer ?
-          <span title={acceptTitle} className={styles.webphoneButton}>
-            <CircleButton
-              className={styles.answerButton}
-              onClick={(e) => {
-                e.stopPropagation();
-                resumeFunc(session.id);
-              }}
-              icon={AnswerIcon}
-              showBorder={false}
-            />
-          </span>
-          : null
-      }
+      {showAnswer ? (
+        <span title={acceptTitle} className={styles.webphoneButton}>
+          <CircleButton
+            className={styles.answerButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              resumeFunc(session.id);
+            }}
+            icon={AnswerIcon}
+            showBorder={false}
+          />
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -113,13 +114,10 @@ export default class ActiveCallItem extends Component {
       if (this.props.isOnConferenceCall) {
         return;
       }
-      if ((
-        this.contactDisplay &&
-        this.contactDisplay.contains(e.target))
-      ) {
+      if (this.contactDisplay && this.contactDisplay.contains(e.target)) {
         return;
       }
-      this.setState(preState => ({
+      this.setState((preState) => ({
         extended: !preState.extended,
       }));
     };
@@ -149,60 +147,53 @@ export default class ActiveCallItem extends Component {
 
   onSelectContact = (value) => {
     const nameMatches = this.getContactMatches();
-    const selected = nameMatches.findIndex(
-      match => match.id === value.id
-    );
+    const selected = nameMatches.findIndex((match) => match.id === value.id);
     this._userSelection = true;
     this.setState({
       selected,
     });
-    if (
-      this.props.call.activityMatches.length > 0 &&
-      this.props.autoLog
-    ) {
+    if (this.props.call.activityMatches.length > 0 && this.props.autoLog) {
       this.logCall({ redirect: false, selected });
     }
-  }
+  };
 
   getFallbackContactName() {
-    return isInbound(this.props.call) ?
-      (this.props.call.from.name) :
-      (this.props.call.to.name);
+    return isInbound(this.props.call)
+      ? this.props.call.from.name
+      : this.props.call.to.name;
   }
 
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.getContactMatches();
-    return (selected > -1 && contactMatches[selected]) ||
+    return (
+      (selected > -1 && contactMatches[selected]) ||
       (contactMatches.length === 1 && contactMatches[0]) ||
-      null;
-  }
+      null
+    );
+  };
 
   getContactMatches(nextProps = this.props) {
-    return isInbound(nextProps.call) ?
-      nextProps.call.fromMatches :
-      nextProps.call.toMatches;
+    return isInbound(nextProps.call)
+      ? nextProps.call.fromMatches
+      : nextProps.call.toMatches;
   }
 
   getPhoneNumber() {
-    return isInbound(this.props.call) ?
-      (this.props.call.from.phoneNumber || this.props.call.from.extensionNumber) :
-      (this.props.call.to.phoneNumber || this.props.call.to.extensionNumber);
+    return isInbound(this.props.call)
+      ? this.props.call.from.phoneNumber || this.props.call.from.extensionNumber
+      : this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
   }
 
   getMyPhoneNumber() {
-    return isInbound(this.props.call) ?
-      (this.props.call.to.phoneNumber || this.props.call.to.extensionNumber) :
-      (this.props.call.from.phoneNumber || this.props.call.from.extensionNumber);
+    return isInbound(this.props.call)
+      ? this.props.call.to.phoneNumber || this.props.call.to.extensionNumber
+      : this.props.call.from.phoneNumber ||
+          this.props.call.from.extensionNumber;
   }
 
   getCallInfo() {
     const {
-      call: {
-        telephonyStatus,
-        startTime,
-        webphoneSession,
-        offset,
-      },
+      call: { telephonyStatus, startTime, webphoneSession, offset },
       disableLinks,
       currentLocale,
       formatPhone,
@@ -218,32 +209,27 @@ export default class ActiveCallItem extends Component {
       return (
         <div className={styles.callDetail}>
           <span className={styles.label}>
-            {
-              isInbound(this.props.call) ?
-                i18n.getString('to', currentLocale) :
-                i18n.getString('from', currentLocale)
-            }:
+            {isInbound(this.props.call)
+              ? i18n.getString('to', currentLocale)
+              : i18n.getString('from', currentLocale)}
+            :
           </span>
-          {
-            myPhoneNumber
-              ? formatPhone(myPhoneNumber)
-              : i18n.getString('anonymous', currentLocale)
-          }
+          {myPhoneNumber
+            ? formatPhone(myPhoneNumber)
+            : i18n.getString('anonymous', currentLocale)}
         </div>
       );
     }
     const telephonyStatusInfo = i18n.getString(telephonyStatus, currentLocale);
     return (
       <div className={styles.callDetail}>
-        {
-          disableLinks ?
-            i18n.getString('unavailable', currentLocale) :
-            <DurationCounter startTime={startTime} offset={offset} />
-        }
+        {disableLinks ? (
+          i18n.getString('unavailable', currentLocale)
+        ) : (
+          <DurationCounter startTime={startTime} offset={offset} />
+        )}
         <span className={styles.split}>|</span>
-        <span title={telephonyStatusInfo}>
-          {telephonyStatusInfo}
-        </span>
+        <span title={telephonyStatusInfo}>{telephonyStatusInfo}</span>
       </div>
     );
   }
@@ -259,19 +245,26 @@ export default class ActiveCallItem extends Component {
         });
       } else {
         const formatted = this.props.formatPhone(phoneNumber);
-        this.props.onClickToSms({
-          name: this.props.enableContactFallback ? this.getFallbackContactName() : formatted,
-          phoneNumber,
-        }, true);
+        this.props.onClickToSms(
+          {
+            name: this.props.enableContactFallback
+              ? this.getFallbackContactName()
+              : formatted,
+            phoneNumber,
+          },
+          true,
+        );
       }
     }
-  }
+  };
 
   createSelectedContact = async (entityType) => {
     // console.log('click createSelectedContact!!', entityType);
-    if (typeof this.props.onCreateContact === 'function' &&
+    if (
+      typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
-      !this.state.isCreating) {
+      !this.state.isCreating
+    ) {
       this.setState({
         isCreating: true,
       });
@@ -279,7 +272,9 @@ export default class ActiveCallItem extends Component {
       const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
         phoneNumber,
-        name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
+        name: this.props.enableContactFallback
+          ? this.getFallbackContactName()
+          : '',
         entityType,
       });
 
@@ -290,7 +285,7 @@ export default class ActiveCallItem extends Component {
         // console.log('created: isCreating...', this.state.isCreating);
       }
     }
-  }
+  };
 
   viewSelectedContact = () => {
     if (typeof this.props.onViewContact === 'function') {
@@ -298,7 +293,7 @@ export default class ActiveCallItem extends Component {
         contact: this.getSelectedContact(),
       });
     }
-  }
+  };
 
   async logCall({ redirect = true, selected }) {
     if (
@@ -322,16 +317,12 @@ export default class ActiveCallItem extends Component {
     }
   }
 
-  logCall = this.logCall.bind(this)
+  logCall = this.logCall.bind(this);
 
   externalViewEntity = () => this.props.externalViewEntity(this.props.call);
   render() {
     const {
-      call: {
-        direction,
-        activityMatches,
-        webphoneSession,
-      },
+      call: { direction, activityMatches, webphoneSession },
       disableLinks,
       currentLocale,
       areaCode,
@@ -371,26 +362,24 @@ export default class ActiveCallItem extends Component {
       countryCode,
       areaCode,
     });
-    const isExtension = !parsedInfo.hasPlus &&
-      parsedInfo.number && parsedInfo.number.length <= 6;
+    const isExtension =
+      !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
     const disableClickToSms = !(
       onClickToSms &&
-      (
-        isExtension ?
-          internalSmsPermission :
-          outboundSmsPermission
-      )
+      (isExtension ? internalSmsPermission : outboundSmsPermission)
     );
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
     const callDetail = this.getCallInfo();
-    const contactName = typeof renderContactName === 'function' ?
-      renderContactName(this.props.call) :
-      undefined;
-    const extraButton = typeof renderExtraButton === 'function' ?
-      renderExtraButton(this.props.call) :
-      undefined;
+    const contactName =
+      typeof renderContactName === 'function'
+        ? renderContactName(this.props.call)
+        : undefined;
+    const extraButton =
+      typeof renderExtraButton === 'function'
+        ? renderExtraButton(this.props.call)
+        : undefined;
 
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
@@ -448,38 +437,38 @@ export default class ActiveCallItem extends Component {
           />
           {extraButton}
         </div>
-        {
-          hasActionMenu
-            ? <ActionMenu
-              extended={this.state.extended}
-              onToggle={this.toggleExtended}
-              currentLocale={currentLocale}
-              disableLinks={disableLinks}
-              phoneNumber={phoneNumber}
-              onClickToSms={
-                readTextPermission ?
-                  () => this.clickToSms({ countryCode, areaCode })
-                  : undefined
-              }
-              hasEntity={!!contactMatches.length}
-              onViewEntity={onViewContact && this.viewSelectedContact}
-              onCreateEntity={onCreateContact && this.createSelectedContact}
-              createEntityTypes={createEntityTypes}
-              textTitle={i18n.getString('text', currentLocale)}
-              onLog={onLogCall}
-              isLogging={isLogging || this.state.isLogging}
-              isLogged={activityMatches.length > 0}
-              isCreating={this.state.isCreating}
-              addLogTitle={i18n.getString('addLog', currentLocale)}
-              editLogTitle={i18n.getString('editLog', currentLocale)}
-              createEntityTitle={i18n.getString('addEntity', currentLocale)}
-              viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-              externalViewEntity={externalViewEntity && this.externalViewEntity}
-              externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
-              disableClickToSms={disableClickToSms}
-            />
-            : null
-        }
+        {hasActionMenu ? (
+          <ActionMenu
+            extended={this.state.extended}
+            onToggle={this.toggleExtended}
+            currentLocale={currentLocale}
+            disableLinks={disableLinks}
+            phoneNumber={phoneNumber}
+            onClickToSms={
+              readTextPermission
+                ? () => this.clickToSms({ countryCode, areaCode })
+                : undefined
+            }
+            hasEntity={!!contactMatches.length}
+            onViewEntity={onViewContact && this.viewSelectedContact}
+            onCreateEntity={onCreateContact && this.createSelectedContact}
+            createEntityTypes={createEntityTypes}
+            textTitle={i18n.getString('text', currentLocale)}
+            onLog={onLogCall}
+            isLogging={isLogging || this.state.isLogging}
+            isLogged={activityMatches.length > 0}
+            isCreating={this.state.isCreating}
+            addLogTitle={i18n.getString('addLog', currentLocale)}
+            editLogTitle={i18n.getString('editLog', currentLocale)}
+            createEntityTitle={i18n.getString('addEntity', currentLocale)}
+            viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+            externalViewEntity={externalViewEntity && this.externalViewEntity}
+            externalHasEntity={
+              externalHasEntity && externalHasEntity(this.props.call)
+            }
+            disableClickToSms={disableClickToSms}
+          />
+        ) : null}
       </div>
     );
   }

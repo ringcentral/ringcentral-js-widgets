@@ -16,9 +16,5 @@ props.getPresence = async () => null;
 /**
  * A example of `ContactItem`
  */
-const ContactItemDemo = () => (
-  <ContactItem
-    {...props}
-  />
-);
+const ContactItemDemo = () => <ContactItem {...props} />;
 export default ContactItemDemo;

@@ -41,8 +41,12 @@ describe('Schedule Meeting', () => {
     let when = app.find(MeetingSection).at(1);
     // Tolerance one minute range
     const now = moment(Date.now());
-    expect(moment(app.props().phone.meeting.meeting.schedule.startTime)
-      .diff(now, 'minutes')).toBeLessThanOrEqual(60);
+    expect(
+      moment(app.props().phone.meeting.meeting.schedule.startTime).diff(
+        now,
+        'minutes',
+      ),
+    ).toBeLessThanOrEqual(60);
     // DATE
     const dateField = when.find('DateTimePicker').at(0);
     const expectedDate = now.add(1, 'days');
@@ -58,36 +62,51 @@ describe('Schedule Meeting', () => {
     await sleep(100);
     when = app.find(MeetingSection).at(1);
     const minuteField = when.find('input').at(3);
-    minuteField.simulate('change', { target: { value: EXPECT_MINUTES.toString() } });
+    minuteField.simulate('change', {
+      target: { value: EXPECT_MINUTES.toString() },
+    });
     minuteField.props().onBlur();
     await sleep(100);
-    const actualDate = moment(app.props().phone.meeting.meeting.schedule.startTime);
+    const actualDate = moment(
+      app.props().phone.meeting.meeting.schedule.startTime,
+    );
     expect(actualDate.diff(expectedDate, 'minutes')).toBeLessThan(1);
   });
   test('<Duration />', async () => {
     const duration = app.find(MeetingSection).at(2);
-    expect(app.props().phone.meeting.meeting.schedule.durationInMinutes).toBe(60);
+    expect(app.props().phone.meeting.meeting.schedule.durationInMinutes).toBe(
+      60,
+    );
     const hourField = duration.find('DropdownList').first();
     hourField.props().onChange({ value: EXPECT_HOUR });
-    expect(app.props().phone.meeting.meeting.schedule.durationInMinutes).toBe(EXPECT_HOUR * 60);
+    expect(app.props().phone.meeting.meeting.schedule.durationInMinutes).toBe(
+      EXPECT_HOUR * 60,
+    );
     const minuteField = duration.find('DropdownList').at(1);
     minuteField.props().onChange({ value: EXPECT_MINUTES });
-    expect(app.props().phone.meeting.meeting.schedule.durationInMinutes)
-      .toBe(EXPECT_HOUR * 60 + EXPECT_MINUTES);
+    expect(app.props().phone.meeting.meeting.schedule.durationInMinutes).toBe(
+      EXPECT_HOUR * 60 + EXPECT_MINUTES,
+    );
   });
   test('<MeetingType />', async () => {
     const recurring = app.find(MeetingSection).at(3);
     expect(app.props().phone.meeting.meeting.meetingType).toBe('Scheduled');
     const typeField = recurring.find('Switch').first();
     typeField.props().onChange(false);
-    expect(app.props().phone.meeting.meeting.meetingType).toBe(MeetingType.SCHEDULED);
+    expect(app.props().phone.meeting.meeting.meetingType).toBe(
+      MeetingType.SCHEDULED,
+    );
     typeField.props().onChange(true);
-    expect(app.props().phone.meeting.meeting.meetingType).toBe(MeetingType.RECURRING);
+    expect(app.props().phone.meeting.meeting.meetingType).toBe(
+      MeetingType.RECURRING,
+    );
   });
   test('<Video />', async () => {
     const video = app.find(MeetingSection).at(4);
     expect(app.props().phone.meeting.meeting.startHostVideo).toBe(false);
-    expect(app.props().phone.meeting.meeting.startParticipantsVideo).toBe(false);
+    expect(app.props().phone.meeting.meeting.startParticipantsVideo).toBe(
+      false,
+    );
     const hostField = video.find('Switch').first();
     hostField.props().onChange(false);
     expect(app.props().phone.meeting.meeting.startHostVideo).toBe(false);
@@ -95,24 +114,45 @@ describe('Schedule Meeting', () => {
     expect(app.props().phone.meeting.meeting.startHostVideo).toBe(true);
     const participantField = video.find('Switch').at(1);
     participantField.props().onChange(false);
-    expect(app.props().phone.meeting.meeting.startParticipantsVideo).toBe(false);
+    expect(app.props().phone.meeting.meeting.startParticipantsVideo).toBe(
+      false,
+    );
     participantField.props().onChange(true);
     expect(app.props().phone.meeting.meeting.startParticipantsVideo).toBe(true);
   });
   test('<Audio />', async () => {
     const audio = app.find(MeetingSection).at(5);
-    expect(app.props().phone.meeting.meeting.audioOptions).toEqual(['Phone', 'ComputerAudio']);
+    expect(app.props().phone.meeting.meeting.audioOptions).toEqual([
+      'Phone',
+      'ComputerAudio',
+    ]);
     const audioField = audio.find('CheckBox');
-    audioField.find('.item').first().simulate('click');
+    audioField
+      .find('.item')
+      .first()
+      .simulate('click');
     expect(app.props().phone.meeting.meeting.audioOptions).toEqual(['Phone']);
-    audioField.find('.item').at(1).simulate('click');
-    expect(app.props().phone.meeting.meeting.audioOptions).toEqual(['ComputerAudio']);
-    audioField.find('.item').at(2).simulate('click');
-    expect(app.props().phone.meeting.meeting.audioOptions).toEqual(['Phone', 'ComputerAudio']);
+    audioField
+      .find('.item')
+      .at(1)
+      .simulate('click');
+    expect(app.props().phone.meeting.meeting.audioOptions).toEqual([
+      'ComputerAudio',
+    ]);
+    audioField
+      .find('.item')
+      .at(2)
+      .simulate('click');
+    expect(app.props().phone.meeting.meeting.audioOptions).toEqual([
+      'Phone',
+      'ComputerAudio',
+    ]);
   });
   test('<Options />', async () => {
     let options = app.find(MeetingSection).at(6);
-    expect(app.props().phone.meeting.meeting._requireMeetingPassword).toBe(false);
+    expect(app.props().phone.meeting.meeting._requireMeetingPassword).toBe(
+      false,
+    );
     expect(app.props().phone.meeting.meeting.allowJoinBeforeHost).toBe(false);
     // Expand Section
     options.find('.arrow').simulate('click');
@@ -120,10 +160,14 @@ describe('Schedule Meeting', () => {
     options = app.find(MeetingSection).at(6);
     const requirePwdField = options.find('Switch').first();
     requirePwdField.props().onChange(false);
-    expect(app.props().phone.meeting.meeting._requireMeetingPassword).toBe(false);
+    expect(app.props().phone.meeting.meeting._requireMeetingPassword).toBe(
+      false,
+    );
     requirePwdField.props().onChange(true);
     app.update();
-    expect(app.props().phone.meeting.meeting._requireMeetingPassword).toBe(true);
+    expect(app.props().phone.meeting.meeting._requireMeetingPassword).toBe(
+      true,
+    );
     options = app.find(MeetingSection).at(6);
     const passwordField = options.find('input.password');
     passwordField.props().onChange({ target: { value: 'papapa' } });
@@ -138,7 +182,9 @@ describe('Schedule Meeting', () => {
     expect(app.props().phone.meeting.meeting.allowJoinBeforeHost).toBe(true);
   });
   test('<MeetingScheduleButton />', async () => {
-    const MeetingScheduleButton = app.find('MeetingScheduleButton').find(Button);
+    const MeetingScheduleButton = app
+      .find('MeetingScheduleButton')
+      .find(Button);
     expect(MeetingScheduleButton.props().children).toBe('Schedule Meeting');
     expect(MeetingScheduleButton.props().disabled).toBe(false);
   });

@@ -56,8 +56,11 @@ export default class ConnectivityManager extends RcModule {
     this._audioSettings = audioSettings;
     this._webphone = webphone;
     this._availabilityMonitor = availabilityMonitor;
-    this._alert = this:: ensureExist(alert, 'alert');
-    this._connectivityMonitor = this:: ensureExist(connectivityMonitor, 'connectivityMonitor');
+    this._alert = this::ensureExist(alert, 'alert');
+    this._connectivityMonitor = this::ensureExist(
+      connectivityMonitor,
+      'connectivityMonitor',
+    );
     this._reducer = getConnectivityMangerReducer(this.actionTypes);
     this.showConnectivityAlert = this::this.showConnectivityAlert;
     this.checkWebphoneAndConnect = this::this.checkWebphoneAndConnect;
@@ -69,7 +72,10 @@ export default class ConnectivityManager extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-    } else if (this.ready && this.connectivityType !== this._oldConnectivityType) {
+    } else if (
+      this.ready &&
+      this.connectivityType !== this._oldConnectivityType
+    ) {
       this._oldConnectivityType = this.connectivityType;
       this.showConnectivityAlert();
     }
@@ -133,7 +139,7 @@ export default class ConnectivityManager extends RcModule {
         }
         return false;
       })
-      .map(m => m.id);
+      .map((m) => m.id);
     if (alertIds.length) {
       this._alert.dismiss(alertIds);
     }
@@ -179,11 +185,12 @@ export default class ConnectivityManager extends RcModule {
   }
 
   get isWebphoneInitializing() {
-    return this._callingSettings.isWebphoneMode && (
-      !this._webphone.ready ||
-      this._webphone.disconnected ||
-      this._webphone.connecting ||
-      this._webphone.connectFailed
+    return (
+      this._callingSettings.isWebphoneMode &&
+      (!this._webphone.ready ||
+        this._webphone.disconnected ||
+        this._webphone.connecting ||
+        this._webphone.connectFailed)
     );
   }
 
@@ -204,14 +211,10 @@ export default class ConnectivityManager extends RcModule {
       this._auth.ready &&
       this._auth.loggedIn &&
       this._callingSettings.isWebphoneMode &&
-      (
-        !this._audioSettings.userMedia ||
-        (
-          this._webphone.reconnecting || 
+      (!this._audioSettings.userMedia ||
+        (this._webphone.reconnecting ||
           this._webphone.connectError ||
-          this._webphone.inactive
-        )
-      )
+          this._webphone.inactive))
     );
   }
 
@@ -220,13 +223,14 @@ export default class ConnectivityManager extends RcModule {
   }
 
   get isVoIPOnlyModeActivated() {
-    return !!this._availabilityMonitor && this._availabilityMonitor.isVoIPOnlyMode;
+    return (
+      !!this._availabilityMonitor && this._availabilityMonitor.isVoIPOnlyMode
+    );
   }
 
   get isLimitedModeActivated() {
     return (
-      !!this._availabilityMonitor &&
-      this._availabilityMonitor.isLimitedMode
+      !!this._availabilityMonitor && this._availabilityMonitor.isLimitedMode
     );
   }
 
@@ -246,8 +250,15 @@ export default class ConnectivityManager extends RcModule {
     () => this.isLimitedModeActivated,
     () => this.webphoneAvailable,
     () => this.webphoneUnavailable,
-    (networkLoss, connectivity, proxyRetryCount, isVoIPOnlyModeActivated,
-      isLimitedModeActivated, webphoneAvailable, webphoneUnavailable) => {
+    (
+      networkLoss,
+      connectivity,
+      proxyRetryCount,
+      isVoIPOnlyModeActivated,
+      isLimitedModeActivated,
+      webphoneAvailable,
+      webphoneUnavailable,
+    ) => {
       if (networkLoss) return connectivityTypes.networkLoss;
       if (proxyRetryCount) return connectivityTypes.offline;
       if (!connectivity) return connectivityTypes.offline;
@@ -265,11 +276,14 @@ export default class ConnectivityManager extends RcModule {
   mode = [
     () => this.connectivityType,
     (connectivityType) => {
-      if (connectivityType === connectivityTypes.networkLoss ||
-        connectivityType === connectivityTypes.serverUnavailable) return connectivityTypes.offline;
+      if (
+        connectivityType === connectivityTypes.networkLoss ||
+        connectivityType === connectivityTypes.serverUnavailable
+      )
+        return connectivityTypes.offline;
       return connectivityType;
-    }
-  ]
+    },
+  ];
 
   get isWebphoneUnavailableMode() {
     return this.mode === connectivityTypes.webphoneUnavailable;

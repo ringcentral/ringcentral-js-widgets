@@ -18,20 +18,16 @@ const STYLES_ITEMS = [
   {
     name: 'Dropdown',
     path: '/styles/dropdown',
-  }
+  },
 ];
 function ComponentList(props) {
   return (
     <ul>
-      {
-        props.components.map(component => (
-          <li key={component.name}>
-            <Link to={`/components/${component.name}`}>
-              {component.name}
-            </Link>
-          </li>
-        ))
-      }
+      {props.components.map((component) => (
+        <li key={component.name}>
+          <Link to={`/components/${component.name}`}>{component.name}</Link>
+        </li>
+      ))}
     </ul>
   );
 }
@@ -43,7 +39,7 @@ ComponentList.propTypes = {
 function SideBarView(props) {
   const navClassName = classnames(
     styles.navigation,
-    props.fixed ? styles.fixed : null
+    props.fixed ? styles.fixed : null,
   );
   return (
     <div className={styles.root}>
@@ -51,44 +47,28 @@ function SideBarView(props) {
         <div className={navClassName}>
           <ul>
             <li>
-              <Link to="/">
-                OverView
-              </Link>
+              <Link to="/">OverView</Link>
             </li>
             <li>
-              <Collapse
-                collapsed={false}
-                button="Styles"
-              >
+              <Collapse collapsed={false} button="Styles">
                 <ul>
-                  {
-                    STYLES_ITEMS.map(
-                      item => (
-                        <li key={item.name}>
-                          <Link to={item.path}>
-                            {item.name}
-                          </Link>
-                        </li>
-                      )
-                    )
-                  }
+                  {STYLES_ITEMS.map((item) => (
+                    <li key={item.name}>
+                      <Link to={item.path}>{item.name}</Link>
+                    </li>
+                  ))}
                 </ul>
               </Collapse>
             </li>
             <li>
-              <Collapse
-                collapsed={false}
-                button="Components"
-              >
+              <Collapse collapsed={false} button="Components">
                 <ComponentList components={props.components} />
               </Collapse>
             </li>
           </ul>
         </div>
       </div>
-      <div className={styles.main}>
-        {props.children}
-      </div>
+      <div className={styles.main}>{props.children}</div>
     </div>
   );
 }

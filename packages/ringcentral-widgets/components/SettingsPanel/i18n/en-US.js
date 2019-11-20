@@ -11,6 +11,7 @@ export default {
   autoLogNotes: 'Auto log notes',
   autoLogSMS: 'Auto log SMS',
   clickToSMS: 'Click to SMS',
+  logSMSContext: 'Log SMS context',
   clickToDialSMS: 'Click to Dial/SMS',
   audio: 'Audio',
   language: 'Language',

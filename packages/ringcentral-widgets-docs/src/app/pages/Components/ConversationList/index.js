@@ -15,10 +15,7 @@ const ConversationListPage = () => {
   return (
     <div>
       <ComponentHeader name="MessageList" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="MessageList Example"
-      >
+      <CodeExample code={demoCode} title="MessageList Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

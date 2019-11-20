@@ -15,10 +15,7 @@ const LogSectionPage = () => {
   return (
     <div>
       <ComponentHeader name="LogSection" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="LogSection Example"
-      >
+      <CodeExample code={demoCode} title="LogSection Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

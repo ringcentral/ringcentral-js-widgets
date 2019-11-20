@@ -15,7 +15,7 @@ export default function InsideModal({
   containerStyles,
   maskStyle,
   modalStyles,
-  contentStyle
+  contentStyle,
 }) {
   return (
     <Modal

@@ -15,27 +15,17 @@ const TABS = [
     activeIcon: SettingsHoverIcon,
     label: 'Settings',
     path: '/settings',
-    isActive: currentPath => (
-      currentPath.substr(0, 9) === '/settings'
-    ),
-  }
+    isActive: (currentPath) => currentPath.substr(0, 9) === '/settings',
+  },
 ];
 
-function mapToProps(_, {
-  phone: {
-    routerInteraction,
-  },
-}) {
+function mapToProps(_, { phone: { routerInteraction } }) {
   return {
     tabs: TABS,
     currentPath: routerInteraction.currentPath,
   };
 }
-function mapToFunctions(_, {
-  phone: {
-    routerInteraction,
-  }
-}) {
+function mapToFunctions(_, { phone: { routerInteraction } }) {
   return {
     goTo: (path) => {
       if (path) {
@@ -45,9 +35,11 @@ function mapToFunctions(_, {
   };
 }
 
-const MainView = withPhone(connect(
-  mapToProps,
-  mapToFunctions
-)(TabNavigationView));
+const MainView = withPhone(
+  connect(
+    mapToProps,
+    mapToFunctions,
+  )(TabNavigationView),
+);
 
 export default MainView;

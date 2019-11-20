@@ -15,10 +15,7 @@ const FooterPage = () => {
   return (
     <div>
       <ComponentHeader name="Footer" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Footer Example"
-      >
+      <CodeExample code={demoCode} title="Footer Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

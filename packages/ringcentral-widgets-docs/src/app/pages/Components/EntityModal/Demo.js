@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 // eslint-disable-next-line
 import EntityModal from 'ringcentral-widgets/components/EntityModal';
 import Button from 'ringcentral-widgets/components/Button';
@@ -15,30 +15,28 @@ class EntityModalDemo extends Component {
     this.state = {
       show: false,
       selected: `unknown`,
-    }
+    };
   }
   onClick = () => {
     this.setState({
-      show: !this.state.show
+      show: !this.state.show,
     });
-  }
+  };
   onClose = () => {
     this.setState({
-      show: false
+      show: false,
     });
-  }
+  };
   onCreate = (selected) => {
     this.setState({
-      selected
+      selected,
     });
     this.onClose();
-  }
+  };
   render() {
-    return(
+    return (
       <div>
-        <Button onClick={this.onClick}>
-          Open Entity Modal
-        </Button>
+        <Button onClick={this.onClick}>Open Entity Modal</Button>
         <EntityModal
           title={`Entity Modal Title`}
           onCancel={this.onClose}

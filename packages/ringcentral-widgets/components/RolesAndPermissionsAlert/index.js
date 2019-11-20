@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import permissionsMessages from
-  'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
+import permissionsMessages from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
 export default function RolesAndPermissionsAlert({
-  message: {
-    message
-  },
+  message: { message },
   currentLocale,
   brand,
   application,
@@ -19,18 +16,15 @@ export default function RolesAndPermissionsAlert({
       msg = (
         <FormattedMessage
           message={i18n.getString(message, currentLocale)}
-          values={{ brand, application }} />
+          values={{ brand, application }}
+        />
       );
       break;
     default:
       msg = i18n.getString(message, currentLocale);
       break;
   }
-  return (
-    <div>
-      {msg}
-    </div>
-  );
+  return <div>{msg}</div>;
 }
 RolesAndPermissionsAlert.propTypes = {
   message: PropTypes.shape({
@@ -45,7 +39,6 @@ RolesAndPermissionsAlert.defaultProps = {
   application: undefined,
 };
 
-RolesAndPermissionsAlert.handleMessage = ({ message }) => (
+RolesAndPermissionsAlert.handleMessage = ({ message }) =>
   message === permissionsMessages.invalidTier ||
-  message === permissionsMessages.insufficientPrivilege
-);
+  message === permissionsMessages.insufficientPrivilege;

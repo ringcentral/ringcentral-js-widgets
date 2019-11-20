@@ -6,11 +6,7 @@ import momentLocalizer from 'react-widgets-moment';
 import sleep from 'ringcentral-integration/lib/sleep';
 
 const setup = (props) => {
-  const wrapper = mount(
-    <DateTimePicker
-      {...props}
-    />
-  );
+  const wrapper = mount(<DateTimePicker {...props} />);
   return wrapper;
 };
 momentLocalizer();
@@ -20,7 +16,7 @@ describe('Date Picker', () => {
     const dateWidget = setup({
       format: 'MM/DD/YY',
       value: today,
-      onChange() {}
+      onChange() {},
     });
     const showDate = new Date(dateWidget.find('input').props().value);
     expect(showDate.getFullYear()).toBe(today.getFullYear());
@@ -31,7 +27,7 @@ describe('Date Picker', () => {
     const today = new Date();
     const dateWidget = setup({
       format: 'MM/DD/YY',
-      onChange() {}
+      onChange() {},
     });
     const selectDateButton = dateWidget.find('[aria-label="Select date"]');
     selectDateButton.simulate('click');
@@ -40,7 +36,11 @@ describe('Date Picker', () => {
     const navigateButton = header.find('button');
     const forwardButton = navigateButton.at(2);
     forwardButton.simulate('click');
-    const futureDate = dateWidget.find('[role="row"]').last().find('.rw-cell').last();
+    const futureDate = dateWidget
+      .find('[role="row"]')
+      .last()
+      .find('.rw-cell')
+      .last();
     futureDate.simulate('click');
     await sleep(300);
     showDate = new Date(dateWidget.find('input').props().value);
@@ -52,7 +52,7 @@ describe('Date Picker', () => {
     const dateWidget = setup({
       format: 'MM/DD/YY',
       onChange() {},
-      min: new Date()
+      min: new Date(),
     });
     const selectDateButton = dateWidget.find('[aria-label="Select date"]');
     selectDateButton.simulate('click');
@@ -60,7 +60,11 @@ describe('Date Picker', () => {
     const navigateButton = header.find('button');
     const backButton = navigateButton.at(0);
     backButton.simulate('click');
-    const backDate = dateWidget.find('[role="row"]').at(0).find('.rw-cell').at(0);
+    const backDate = dateWidget
+      .find('[role="row"]')
+      .at(0)
+      .find('.rw-cell')
+      .at(0);
     backDate.simulate('click');
     expect(dateWidget.find('.rw-calendar-header').length).toBe(1);
   });

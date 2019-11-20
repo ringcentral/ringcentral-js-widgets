@@ -22,7 +22,8 @@ function CallIcon({
   avatarUrl,
   extraNum = 0,
 }) {
-  const title = (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
+  const title =
+    direction === callDirections.inbound ? inboundTitle : outboundTitle;
   let symbol;
   if (showAvatar) {
     symbol = (
@@ -30,7 +31,8 @@ function CallIcon({
         <CallAvatar
           isOnConferenceCall={isOnConferenceCall}
           avatarUrl={avatarUrl}
-          extraNum={extraNum} />
+          extraNum={extraNum}
+        />
       </div>
     );
   } else {
@@ -58,7 +60,7 @@ CallIcon.propTypes = {
   inboundTitle: PropTypes.string,
   outboundTitle: PropTypes.string,
   showAvatar: PropTypes.bool,
-  avatarUrl: PropTypes.string
+  avatarUrl: PropTypes.string,
 };
 
 CallIcon.defaultProps = {

@@ -13,8 +13,16 @@ export default class DialButton extends Component {
       pressed: false,
     };
     this.timeout = null;
-    this.isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1 || false;
-    if (typeof document !== 'undefined' && document.createElement && audios[props.btn.value]) {
+    this.isEdge =
+      (window &&
+        window.navigator &&
+        window.navigator.userAgent.indexOf('Edge') > -1) ||
+      false;
+    if (
+      typeof document !== 'undefined' &&
+      document.createElement &&
+      audios[props.btn.value]
+    ) {
       this.audio = document.createElement('audio');
       this.audio.src = audios[props.btn.value];
     }
@@ -41,7 +49,9 @@ export default class DialButton extends Component {
             this.timeout = null;
           }
           if (typeof this.props.onOutput === 'function') {
-            this.props.onOutput(this.props.btn.alternativeValue || this.props.btn.value);
+            this.props.onOutput(
+              this.props.btn.alternativeValue || this.props.btn.value,
+            );
           }
           this.setState({
             pressed: false,
@@ -83,29 +93,26 @@ export default class DialButton extends Component {
   render() {
     const isSpecial = this.props.btn.value === '*';
     return (
-      <div data-sign={`dialPadBtn${this.props.btn.value}`} className={classnames(styles.root, this.props.className)}>
+      <div
+        data-sign={`dialPadBtn${this.props.btn.value}`}
+        className={classnames(styles.root, this.props.className)}
+      >
         <svg className={styles.btnSvg} viewBox="0 0 500 500">
           <g
             className={classnames(
               styles.btnSvgGroup,
-              this.state.pressed && styles.pressed
+              this.state.pressed && styles.pressed,
             )}
             onMouseUp={this.onMouseUp}
             onMouseDown={this.onMouseDown}
-            onMouseLeave={this.onMouseLeave}>
-            <circle
-              className={styles.circle}
-              cx="250"
-              cy="250"
-              r="191"
-            />
+            onMouseLeave={this.onMouseLeave}
+          >
+            <circle className={styles.circle} cx="250" cy="250" r="191" />
             <text
-              className={
-                classnames(
-                  styles.btnValue,
-                  isSpecial ? styles.special : null
-                )
-              }
+              className={classnames(
+                styles.btnValue,
+                isSpecial ? styles.special : null,
+              )}
               x="0"
               dx="205"
               y="0"
@@ -118,7 +125,8 @@ export default class DialButton extends Component {
               x="0"
               dx={this.props.btn.dx}
               y="0"
-              dy="360">
+              dy="360"
+            >
               {this.props.btn.text}
             </text>
           </g>

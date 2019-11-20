@@ -15,9 +15,7 @@ function UserInfo(props) {
           <div className={classnames(styles.ringOutside, styles.ringing)} />
           <div className={classnames(styles.ringInner, styles.ringing)} />
           <div className={styles.avatar}>
-            <CallAvatar
-              avatarUrl={props.avatarUrl}
-            />
+            <CallAvatar avatarUrl={props.avatarUrl} />
           </div>
         </div>
       </div>
@@ -80,8 +78,15 @@ UserInfo.defaultProps = {
 
 export default function IncomingCallPanel(props) {
   return (
-    <div data-sign="IncomingCallPanel" className={classnames(styles.root, props.className)}>
-      <span data-sign="backButton" className={styles.backButton} onClick={props.onBackButtonClick}>
+    <div
+      data-sign="IncomingCallPanel"
+      className={classnames(styles.root, props.className)}
+    >
+      <span
+        data-sign="backButton"
+        className={styles.backButton}
+        onClick={props.onBackButtonClick}
+      >
         <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
       </span>
       <UserInfo

@@ -39,83 +39,99 @@ function getTabs({
   }
 
   return [
-    showVoiceMails ? {
-      icon: <VoicemailIcon width={21} height={21} />,
-      label: i18n.getString('voicemail', currentLocale),
-      path: 'voicemails',
-      isActive: path => path === 'voicemails',
-      view: null,
-      getData() { },
-      cleanUp() { }
-    } : null,
-    showRecentMessage ? {
-      icon: <span className={dynamicsFont.composeText} />,
-      label: i18n.getString('text', currentLocale),
-      path: 'recentMessages',
-      isActive: path => path === 'recentMessages',
-      view: (
-        <RecentActivityMessages
-          messages={messages}
-          navigateTo={navigateTo}
-          dateTimeFormatter={dateTimeFormatter}
-          currentLocale={currentLocale}
-          isMessagesLoaded={recentMessages.isMessagesLoaded}
-        />
-      ),
-      getData() {
-        recentMessages.getMessages({ currentContact, sessionId });
-      },
-      cleanUp: () => recentMessages.cleanUpMessages({ contact: currentContact, sessionId })
-    } : null,
-    showFax ? {
-      icon: <FaxIcon width={21} height={21} />,
-      label: i18n.getString('fax', currentLocale),
-      path: 'faxes',
-      isActive: path => path === 'faxes',
-      view: null,
-      getData() { },
-      cleanUp() { }
-    } : null,
-    showRecentCalls ? {
-      icon: <span className={dynamicsFont.active} />,
-      label: i18n.getString('call', currentLocale),
-      path: 'recentCalls',
-      isActive: path => path === 'recentCalls',
-      view: (
-        <RecentActivityCalls
-          calls={calls}
-          dateTimeFormatter={dateTimeFormatter}
-          currentLocale={currentLocale}
-          isCallsLoaded={recentCalls.isCallsLoaded}
-        />
-      ),
-      getData() {
-        recentCalls.getCalls({ currentContact, sessionId });
-      },
-      cleanUp: () => recentCalls.cleanUpCalls({ contact: currentContact, sessionId })
-    } : null,
-  ].filter(x => x !== null);
+    showVoiceMails
+      ? {
+          icon: <VoicemailIcon width={21} height={21} />,
+          label: i18n.getString('voicemail', currentLocale),
+          path: 'voicemails',
+          isActive: (path) => path === 'voicemails',
+          view: null,
+          getData() {},
+          cleanUp() {},
+        }
+      : null,
+    showRecentMessage
+      ? {
+          icon: <span className={dynamicsFont.composeText} />,
+          label: i18n.getString('text', currentLocale),
+          path: 'recentMessages',
+          isActive: (path) => path === 'recentMessages',
+          view: (
+            <RecentActivityMessages
+              messages={messages}
+              navigateTo={navigateTo}
+              dateTimeFormatter={dateTimeFormatter}
+              currentLocale={currentLocale}
+              isMessagesLoaded={recentMessages.isMessagesLoaded}
+            />
+          ),
+          getData() {
+            recentMessages.getMessages({ currentContact, sessionId });
+          },
+          cleanUp: () =>
+            recentMessages.cleanUpMessages({
+              contact: currentContact,
+              sessionId,
+            }),
+        }
+      : null,
+    showFax
+      ? {
+          icon: <FaxIcon width={21} height={21} />,
+          label: i18n.getString('fax', currentLocale),
+          path: 'faxes',
+          isActive: (path) => path === 'faxes',
+          view: null,
+          getData() {},
+          cleanUp() {},
+        }
+      : null,
+    showRecentCalls
+      ? {
+          icon: <span className={dynamicsFont.active} />,
+          label: i18n.getString('call', currentLocale),
+          path: 'recentCalls',
+          isActive: (path) => path === 'recentCalls',
+          view: (
+            <RecentActivityCalls
+              calls={calls}
+              dateTimeFormatter={dateTimeFormatter}
+              currentLocale={currentLocale}
+              isCallsLoaded={recentCalls.isCallsLoaded}
+            />
+          ),
+          getData() {
+            recentCalls.getCalls({ currentContact, sessionId });
+          },
+          cleanUp: () =>
+            recentCalls.cleanUpCalls({ contact: currentContact, sessionId }),
+        }
+      : null,
+  ].filter((x) => x !== null);
 }
 
-function mapToProps(_, {
-  phone: {
-    locale,
-    dateTimeFormat,
-    recentMessages,
-    recentCalls,
-    contactMatcher,
+function mapToProps(
+  _,
+  {
+    phone: {
+      locale,
+      dateTimeFormat,
+      recentMessages,
+      recentCalls,
+      contactMatcher,
+    },
+    currentLocale = locale.currentLocale,
+    navigateTo,
+    dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
+    getSession,
+    useContact,
+    contact,
+    showRecentCalls = true,
+    showRecentMessage = true,
+    showFax = true,
+    showVoiceMails = true,
   },
-  currentLocale = locale.currentLocale,
-  navigateTo,
-  dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
-  getSession,
-  useContact,
-  contact,
-  showRecentCalls = true,
-  showRecentMessage = true,
-  showFax = true,
-  showVoiceMails = true,
-}) {
+) {
   let sessionId = null;
   let currentContact = contact;
   let ready =
@@ -128,8 +144,8 @@ function mapToProps(_, {
     sessionId = session.id;
     currentContact = session.contactMatch;
     const contactMapping = contactMatcher && contactMatcher.dataMapping;
-    const phoneNumber = session.direction === callDirections.outbound ?
-      session.to : session.from;
+    const phoneNumber =
+      session.direction === callDirections.outbound ? session.to : session.from;
     if (!currentContact) {
       currentContact = contactMapping && contactMapping[phoneNumber];
       if (currentContact && currentContact.length >= 1) {
@@ -162,13 +178,8 @@ function mapToProps(_, {
   };
 }
 
-const RecentActivityContainer = withPhone(connect(
-  mapToProps
-)(RecentActivityPanel));
+const RecentActivityContainer = withPhone(
+  connect(mapToProps)(RecentActivityPanel),
+);
 
-export {
-  getTabs,
-  mapToProps,
-  RecentActivityContainer as default,
-};
-
+export { getTabs, mapToProps, RecentActivityContainer as default };

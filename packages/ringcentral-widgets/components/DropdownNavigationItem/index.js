@@ -31,15 +31,13 @@ export default function DropdownNavigationItem({
       className={classnames(
         styles.root,
         active && styles.active,
-        isReverseFillIcon && styles.reverseFillIcon
+        isReverseFillIcon && styles.reverseFillIcon,
       )}
     >
       <div className={classnames(styles.iconHolder, styleClass)}>
         {active ? activeIcon : icon}
       </div>
-      <div className={styles.labelHolder}>
-        {label}
-      </div>
+      <div className={styles.labelHolder}>{label}</div>
       {notice}
     </div>
   );

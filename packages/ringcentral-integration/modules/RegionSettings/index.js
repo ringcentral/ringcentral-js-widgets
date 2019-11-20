@@ -211,4 +211,12 @@ export default class RegionSettings extends RcModule {
   get areaCode() {
     return this._storage.getItem(this._areaCodeKey) || '';
   }
+
+  get homeCountryId() {
+    const homeCountry = this.availableCountries.find(
+      (country) => country.isoCode === this.countryCode,
+    );
+    const homeCountryId = (homeCountry && homeCountry.callingCode) || '1';
+    return homeCountryId;
+  }
 }

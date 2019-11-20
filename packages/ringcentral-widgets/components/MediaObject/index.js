@@ -31,43 +31,52 @@ function MediaObject({
   const bodyAlignmentClassName = getMeidaCls(bodyAlignment);
 
   return (
-    <div className={classnames({
-      [styles.media]: true,
-      [styles.flex]: !!flexible,
-      [containerCls]: !!containerCls
-    })}>
-      {
-        mediaLeft ? (
-          <div className={classnames(styles.mediaLeft, leftAlignmentClassName, leftCls)}>
-            <div className={styles.mediaObject}>
-              {mediaLeft}
-            </div>
-          </div>
-        ) : null
-      }
-      <div className={classnames(styles.mediaBody, bodyAlignmentClassName, bodyCls)}>
-        {
-          mediaHeading ? (
-            <h4 className={classnames(styles.mediaHeading, headingCls)}>
-              {mediaHeading}
-            </h4>
-          ) : null
-        }
+    <div
+      className={classnames({
+        [styles.media]: true,
+        [styles.flex]: !!flexible,
+        [containerCls]: !!containerCls,
+      })}
+    >
+      {mediaLeft ? (
+        <div
+          className={classnames(
+            styles.mediaLeft,
+            leftAlignmentClassName,
+            leftCls,
+          )}
+        >
+          <div className={styles.mediaObject}>{mediaLeft}</div>
+        </div>
+      ) : null}
+      <div
+        className={classnames(
+          styles.mediaBody,
+          bodyAlignmentClassName,
+          bodyCls,
+        )}
+      >
+        {mediaHeading ? (
+          <h4 className={classnames(styles.mediaHeading, headingCls)}>
+            {mediaHeading}
+          </h4>
+        ) : null}
         {mediaBody}
       </div>
-      {
-        mediaRight ? (
-          <div className={classnames(styles.mediaRight, rightAlignmentClassName, rightCls)}>
-            <div className={styles.mediaObject}>
-              {mediaRight}
-            </div>
-          </div>
-        ) : null
-      }
+      {mediaRight ? (
+        <div
+          className={classnames(
+            styles.mediaRight,
+            rightAlignmentClassName,
+            rightCls,
+          )}
+        >
+          <div className={styles.mediaObject}>{mediaRight}</div>
+        </div>
+      ) : null}
     </div>
   );
 }
-
 
 MediaObject.propTypes = {
   containerCls: PropTypes.string,
@@ -85,7 +94,6 @@ MediaObject.propTypes = {
   flexible: PropTypes.bool,
 };
 
-
 MediaObject.defaultProps = {
   containerCls: null,
   mediaLeft: null,
@@ -101,6 +109,5 @@ MediaObject.defaultProps = {
   rightAlignment: 'middle',
   flexible: true,
 };
-
 
 export default MediaObject;

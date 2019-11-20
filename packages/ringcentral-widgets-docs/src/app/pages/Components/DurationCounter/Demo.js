@@ -8,9 +8,5 @@ props.startTime = 0;
 /**
  * A example of `DurationCounter`
  */
-const DurationCounterDemo = () => (
-  <DurationCounter
-    {...props}
-  />
-);
+const DurationCounterDemo = () => <DurationCounter {...props} />;
 export default DurationCounterDemo;

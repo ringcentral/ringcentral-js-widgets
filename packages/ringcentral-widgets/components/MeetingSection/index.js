@@ -12,6 +12,7 @@ class MeetingSection extends Component {
       toggle: this.props.toggle,
     };
   }
+
   render() {
     const {
       children,
@@ -19,36 +20,39 @@ class MeetingSection extends Component {
       withSwitch,
       className,
       hideTopBorderLine,
+      useRCUI,
     } = this.props;
     const toggle = () => {
       this.setState({ toggle: !this.state.toggle });
     };
-    const Title = () => (
-      title ? (
-        <span className={styles.title}>{title}</span>
-      ) : null
-    );
-    const DropDown = ({ isDropDown, onClick }) => (
+    const Title = () =>
+      title ? <span className={styles.title}>{title}</span> : null;
+    const DropDown = ({ isDropDown, onClick }) =>
       withSwitch ? (
         <span
           className={classnames(isDropDown ? styles.dropDown : null)}
-          onClick={onClick}>
+          onClick={onClick}
+        >
           <i className={classnames(dynamicsFont.arrow, styles.arrow)} />
         </span>
-      ) : null
-    );
+      ) : null;
     const topBorderLine = hideTopBorderLine ? styles.hiddenTopBorder : null;
     return (
-      <div className={classnames(styles.section, topBorderLine, className)}>
-        {
-          title ? (
-            <div className={styles.spaceBetween}>
-              <Title />
-              <DropDown isDropDown={this.state.toggle} onClick={toggle} />
-            </div>
-          ) : null
-        }
-        { this.state.toggle ? children : null }
+      <div
+        className={classnames(
+          styles.section,
+          topBorderLine,
+          useRCUI ? styles.rcuiStyle : null,
+          className,
+        )}
+      >
+        {title ? (
+          <div className={styles.spaceBetween}>
+            <Title />
+            <DropDown isDropDown={this.state.toggle} onClick={toggle} />
+          </div>
+        ) : null}
+        {this.state.toggle ? children : null}
       </div>
     );
   }
@@ -61,6 +65,7 @@ MeetingSection.propTypes = {
   withSwitch: PropTypes.bool,
   toggle: PropTypes.bool,
   hideTopBorderLine: PropTypes.bool,
+  useRCUI: PropTypes.bool,
 };
 
 MeetingSection.defaultProps = {
@@ -69,6 +74,7 @@ MeetingSection.defaultProps = {
   withSwitch: false,
   toggle: true,
   hideTopBorderLine: false,
+  useRCUI: false,
 };
 
 export default MeetingSection;

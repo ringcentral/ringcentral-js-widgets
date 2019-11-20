@@ -13,7 +13,8 @@ export default {
   noLabel: "不明なデバイス",
   notSetSinkIdTip: "申し訳ございません。現在のブラウザのアクセス許可は、オーディオ出力デバイスにアクセスできるように設定されていません。{clickHereLink}して設定方法を確認してください。",
   noLabelTip: "申し訳ございません。現在のブラウザのアクセス許可は、オーディオ入力デバイスにアクセスするように設定されていません。",
-  clickHere: "ここをクリック"
+  clickHere: "こちらをクリック",
+  defaultOutputDevice: "デフォルト出力デバイス"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@
@@ -31,3 +32,4 @@ export default {
 // @key: @#@"notSetSinkIdTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up."@#@
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
+// @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@

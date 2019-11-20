@@ -7,17 +7,19 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 export default function BackHeader(props) {
   const buttons = props.buttons || [];
-  const defaultBackButton =
-    <i data-sign="backButton" className={classnames(dynamicsFont.arrow, styles.iconRotate)} />;
+  const defaultBackButton = (
+    <i
+      data-sign="backButton"
+      className={classnames(dynamicsFont.arrow, styles.iconRotate)}
+    />
+  );
   buttons.push({
     label: props.backButton || defaultBackButton,
     onClick: props.onBackClick,
     placement: 'left',
   });
   return (
-    <Header
-      buttons={buttons}
-      className={props.className}>
+    <Header buttons={buttons} className={props.className}>
       {props.children}
     </Header>
   );
@@ -27,11 +29,13 @@ BackHeader.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   backButton: PropTypes.node,
-  buttons: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.node.isRequired,
-    onClick: PropTypes.funcs,
-    placement: PropTypes.oneOf(['left', 'right']),
-  })),
+  buttons: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.node.isRequired,
+      onClick: PropTypes.funcs,
+      placement: PropTypes.oneOf(['left', 'right']),
+    }),
+  ),
   onBackClick: PropTypes.func,
 };
 

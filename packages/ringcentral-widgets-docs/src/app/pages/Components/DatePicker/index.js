@@ -15,10 +15,7 @@ const DatePickerPage = () => {
   return (
     <div>
       <ComponentHeader name="DatePicker" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="DatePicker Example"
-      >
+      <CodeExample code={demoCode} title="DatePicker Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

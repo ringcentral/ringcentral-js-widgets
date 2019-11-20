@@ -32,7 +32,7 @@ function CircleButton(props) {
       className={classnames(styles.btnSvg, props.className)}
       viewBox="0 0 500 500"
       onClick={(e) => {
-        if ((e.target && e.target.tagName !== 'svg') && onClick) {
+        if (e.target && e.target.tagName !== 'svg' && onClick) {
           onClick(e);
         }
       }}
@@ -42,26 +42,12 @@ function CircleButton(props) {
       y={props.y}
     >
       {props.title ? <title>{props.title}</title> : null}
-      <g
-        className={styles.btnSvgGroup}
-      >
-        <circle
-          className={circleClass}
-          cx="250"
-          cy="250"
-          r="245"
-        />
+      <g className={styles.btnSvgGroup}>
+        <circle className={circleClass} cx="250" cy="250" r="245" />
         {icon}
-        {
-          props.showRipple
-          ? <circle
-            className={styles.ripple}
-            cx="250"
-            cy="250"
-            r="245"
-            />
-          : null
-        }
+        {props.showRipple ? (
+          <circle className={styles.ripple} cx="250" cy="250" r="245" />
+        ) : null}
       </g>
     </svg>
   );

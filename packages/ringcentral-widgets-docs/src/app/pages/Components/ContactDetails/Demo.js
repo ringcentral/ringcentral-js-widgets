@@ -16,13 +16,11 @@ props.contactItem = {
   ],
   name: 'Eson Chen',
   profileImageUrl: null,
-  emails: [
-    'test@test.com'
-  ],
+  emails: ['test@test.com'],
 };
 props.getAvatarUrl = async () => null;
 props.getPresence = async () => null;
-props.formatNumber = p => p;
+props.formatNumber = (p) => p;
 props.onClickToSMS = () => null;
 props.onClickToDial = () => null;
 props.onClickMailTo = () => null;
@@ -31,15 +29,15 @@ props.onClickMailTo = () => null;
  * A example of `ContactDetails`
  */
 const ContactDetailsDemo = () => (
-  <div style={{
-    position: 'relative',
-    height: '400px',
-    width: '300px',
-    border: '1px solid #f3f3f3',
-  }}>
-    <ContactDetails
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      height: '400px',
+      width: '300px',
+      border: '1px solid #f3f3f3',
+    }}
+  >
+    <ContactDetails {...props} />
   </div>
 );
 export default ContactDetailsDemo;

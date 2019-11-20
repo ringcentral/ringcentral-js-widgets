@@ -15,10 +15,7 @@ const LinePage = () => {
   return (
     <div>
       <ComponentHeader name="Line" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Line Example"
-      >
+      <CodeExample code={demoCode} title="Line Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

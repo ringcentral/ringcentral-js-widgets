@@ -7,9 +7,5 @@ const props = {};
 /**
  * A example of `IconField`
  */
-const IconFieldDemo = () => (
-  <IconField
-    {...props}
-  />
-);
+const IconFieldDemo = () => <IconField {...props} />;
 export default IconFieldDemo;

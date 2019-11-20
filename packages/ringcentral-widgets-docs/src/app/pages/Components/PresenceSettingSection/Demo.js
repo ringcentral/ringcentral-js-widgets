@@ -18,13 +18,13 @@ props.showPresenceSettings = true;
  * A example of `PresenceSettingSection`
  */
 const PresenceSettingSectionDemo = () => (
-  <div style={{
-    position: 'relative',
-    width: '300px',
-  }}>
-    <PresenceSettingSection
-      {...props}
-    />
+  <div
+    style={{
+      position: 'relative',
+      width: '300px',
+    }}
+  >
+    <PresenceSettingSection {...props} />
   </div>
 );
 export default PresenceSettingSectionDemo;

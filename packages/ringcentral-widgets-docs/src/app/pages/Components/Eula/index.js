@@ -15,10 +15,7 @@ const EulaPage = () => {
   return (
     <div>
       <ComponentHeader name="Eula" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Eula Example"
-      >
+      <CodeExample code={demoCode} title="Eula Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

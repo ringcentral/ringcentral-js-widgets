@@ -14,11 +14,11 @@ const MessageStoreAlertPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="MessageStoreAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="MessageStoreAlert Example"
-      >
+      <ComponentHeader
+        name="MessageStoreAlert"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="MessageStoreAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

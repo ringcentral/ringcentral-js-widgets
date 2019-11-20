@@ -18,7 +18,7 @@ export default class DurationCounter extends Component {
   calculateState() {
     const startTime = this.props.startTime + this.props.offset;
     return {
-      duration: Math.round(((new Date()).getTime() - startTime) / 1000),
+      duration: Math.round((new Date().getTime() - startTime) / 1000),
     };
   }
   render() {

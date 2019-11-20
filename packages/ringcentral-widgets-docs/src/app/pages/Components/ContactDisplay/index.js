@@ -15,10 +15,7 @@ const ContactDisplayPage = () => {
   return (
     <div>
       <ComponentHeader name="ContactDisplay" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ContactDisplay Example"
-      >
+      <CodeExample code={demoCode} title="ContactDisplay Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

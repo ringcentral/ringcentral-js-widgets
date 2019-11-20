@@ -24,7 +24,6 @@ const ON_HOLD_CALLS = 0;
 const RINGING_CALLS = 1;
 const CURRENT_CALL = 2;
 
-
 const ROTATE_LENGTH = 3;
 const ROTATE_INTERVAL = 5000;
 
@@ -40,7 +39,7 @@ export default class AdapterCore {
   }) {
     this._prefix = prefix;
     this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
-    this._container = this:: ensureExist(container, 'container');
+    this._container = this::ensureExist(container, 'container');
     this._root = root;
     this._styles = styles;
     this._defaultDirection = defaultDirection;
@@ -166,32 +165,27 @@ export default class AdapterCore {
   }
 
   _generateContentDOM() {
-    this._root.innerHTML = this._getContentDOM(SANDBOX_ATTRIBUTE_VALUE, ALLOW_ATTRIBUTE_VALUE);
-    this._headerEl = this._root.querySelector(
-      `.${this._styles.header}`
+    this._root.innerHTML = this._getContentDOM(
+      SANDBOX_ATTRIBUTE_VALUE,
+      ALLOW_ATTRIBUTE_VALUE,
     );
-    this._logoEl = this._root.querySelector(
-      `.${this._styles.logo}`
-    );
+    this._headerEl = this._root.querySelector(`.${this._styles.header}`);
+    this._logoEl = this._root.querySelector(`.${this._styles.logo}`);
     this._logoEl.addEventListener('dragstart', () => false);
 
     this._contentFrameContainerEl = this._root.querySelector(
-      `.${this._styles.frameContainer}`
+      `.${this._styles.frameContainer}`,
     );
 
     // toggle button
-    this._toggleEl = this._root.querySelector(
-      `.${this._styles.toggle}`
-    );
+    this._toggleEl = this._root.querySelector(`.${this._styles.toggle}`);
     this._toggleEl.addEventListener('click', (evt) => {
       evt.stopPropagation();
       this.toggleMinimized();
     });
 
     // close button
-    this._closeEl = this._root.querySelector(
-      `.${this._styles.close}`
-    );
+    this._closeEl = this._root.querySelector(`.${this._styles.close}`);
 
     if (this._closeEl) {
       this._closeEl.addEventListener('click', () => {
@@ -199,9 +193,7 @@ export default class AdapterCore {
       });
     }
 
-    this._presenceEl = this._root.querySelector(
-      `.${this._styles.presence}`
-    );
+    this._presenceEl = this._root.querySelector(`.${this._styles.presence}`);
 
     this._presenceEl.addEventListener('click', (evt) => {
       evt.stopPropagation();
@@ -209,7 +201,7 @@ export default class AdapterCore {
     });
 
     this._presenceItemEls = this._root.querySelectorAll(
-      `.${this._styles.presenceItem}`
+      `.${this._styles.presenceItem}`,
     );
 
     this._presenceItemEls.forEach((itemEl) => {
@@ -219,7 +211,7 @@ export default class AdapterCore {
         this.togglePresenceDropdown();
         this._postMessage({
           type: this._messageTypes.presenceItemClicked,
-          presenceType: presenceStatus[dataPresence] || dndStatus[dataPresence]
+          presenceType: presenceStatus[dataPresence] || dndStatus[dataPresence],
         });
       });
     });
@@ -231,12 +223,10 @@ export default class AdapterCore {
     }
 
     this._contentFrameEl = this._root.querySelector(
-      `.${this._styles.contentFrame}`
+      `.${this._styles.contentFrame}`,
     );
 
-    this._durationEl = this._root.querySelector(
-      `.${this._styles.duration}`
-    );
+    this._durationEl = this._root.querySelector(`.${this._styles.duration}`);
 
     this._durationEl.addEventListener('click', (evt) => {
       evt.stopPropagation();
@@ -246,7 +236,7 @@ export default class AdapterCore {
     });
 
     this._currentCallEl = this._root.querySelector(
-      `.${this._styles.currentCallBtn}`
+      `.${this._styles.currentCallBtn}`,
     );
     this._currentCallEl.addEventListener('click', (evt) => {
       evt.stopPropagation();
@@ -256,7 +246,7 @@ export default class AdapterCore {
     });
 
     this._viewCallsEl = this._root.querySelector(
-      `.${this._styles.viewCallsBtn}`
+      `.${this._styles.viewCallsBtn}`,
     );
     this._viewCallsEl.addEventListener('click', (evt) => {
       evt.stopPropagation();
@@ -266,11 +256,11 @@ export default class AdapterCore {
     });
 
     this._ringingCallsEl = this._root.querySelector(
-      `.${this._styles.ringingCalls}`
+      `.${this._styles.ringingCalls}`,
     );
 
     this._onHoldCallsEl = this._root.querySelector(
-      `.${this._styles.onHoldCalls}`
+      `.${this._styles.onHoldCalls}`,
     );
 
     this._headerEl.addEventListener('mousedown', (e) => {
@@ -346,14 +336,21 @@ export default class AdapterCore {
   }
 
   _onWindowResize = () => {
-    if (this._dragging) { return; }
-    if (this._resizeTimeout) { clearTimeout(this._resizeTimeout); }
-    this._resizeTimeout = setTimeout(() => this._renderRestrictedPosition(), 100);
+    if (this._dragging) {
+      return;
+    }
+    if (this._resizeTimeout) {
+      clearTimeout(this._resizeTimeout);
+    }
+    this._resizeTimeout = setTimeout(
+      () => this._renderRestrictedPosition(),
+      100,
+    );
     if (!this._resizeTick || Date.now() - this._resizeTick > 50) {
       this._resizeTick = Date.now();
       this._renderRestrictedPosition();
     }
-  }
+  };
 
   _onWindowMouseMove = (e) => {
     if (this._dragging) {
@@ -368,17 +365,19 @@ export default class AdapterCore {
         y: e.clientY - this._dragStartPosition.y,
       };
       if (this._minimized) {
-        this._minTranslateX = this._dragStartPosition.minTranslateX + delta.x * factor;
+        this._minTranslateX =
+          this._dragStartPosition.minTranslateX + delta.x * factor;
         this._minTranslateY = this._dragStartPosition.minTranslateY + delta.y;
       } else {
-        this._translateX = this._dragStartPosition.translateX + delta.x * factor;
+        this._translateX =
+          this._dragStartPosition.translateX + delta.x * factor;
         this._translateY = this._dragStartPosition.translateY + delta.y;
       }
       if (delta.x !== 0 || delta.y !== 0) this._isClick = false;
       this._syncPosition();
       this._renderRestrictedPosition();
     }
-  }
+  };
 
   togglePresenceDropdown() {
     if (this.dropdownPresence) {
@@ -398,10 +397,13 @@ export default class AdapterCore {
   _setLogoUrl(logoUrl) {
     this._logoUrl = logoUrl;
     this._logoEl.src = logoUrl;
-    this._logoEl.setAttribute('class', classnames(
-      this._styles.logo,
-      this._logoUrl && this._logoUrl !== '' && this._styles.visible,
-    ));
+    this._logoEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.logo,
+        this._logoUrl && this._logoUrl !== '' && this._styles.visible,
+      ),
+    );
   }
 
   _setAppUrl(appUrl) {
@@ -434,12 +436,16 @@ export default class AdapterCore {
   }
 
   _calculateMinMaxPosition() {
-    const maximumX = window.innerWidth -
-      (this._minimized ? this._headerEl.clientWidth : this._appWidth) - 2 * this._padding;
-    const maximumY = window.innerHeight -
-      (this._minimized ?
-        this._headerEl.clientHeight :
-        this._headerEl.clientHeight + this._appHeight) - this._padding;
+    const maximumX =
+      window.innerWidth -
+      (this._minimized ? this._headerEl.clientWidth : this._appWidth) -
+      2 * this._padding;
+    const maximumY =
+      window.innerHeight -
+      (this._minimized
+        ? this._headerEl.clientHeight
+        : this._headerEl.clientHeight + this._appHeight) -
+      this._padding;
     return {
       minimumX: this._padding,
       minimumY: this._padding,
@@ -486,11 +492,18 @@ export default class AdapterCore {
     this._render();
   }
 
-  _onPushCallsInfo({ ringingCallsLength, onHoldCallsLength, currentStartTime }) {
+  _onPushCallsInfo({
+    ringingCallsLength,
+    onHoldCallsLength,
+    currentStartTime,
+  }) {
     this._currentStartTime = currentStartTime;
     this._ringingCallsLength = ringingCallsLength;
     this._onHoldCallsLength = onHoldCallsLength;
-    this._hasActiveCalls = this._currentStartTime > 0 || this._ringingCallsLength > 0 || this._onHoldCallsLength > 0;
+    this._hasActiveCalls =
+      this._currentStartTime > 0 ||
+      this._ringingCallsLength > 0 ||
+      this._onHoldCallsLength > 0;
     this.renderCallsBar();
   }
 
@@ -504,12 +517,7 @@ export default class AdapterCore {
     this._render();
   }
 
-  _onPushPresence({
-    dndStatus,
-    userStatus,
-    telephonyStatus,
-    presenceOption
-  }) {
+  _onPushPresence({ dndStatus, userStatus, telephonyStatus, presenceOption }) {
     if (
       dndStatus !== this._dndStatus ||
       userStatus !== this._userStatus ||
@@ -523,10 +531,7 @@ export default class AdapterCore {
     }
   }
 
-  _onPushLocale({
-    locale,
-    strings = {},
-  }) {
+  _onPushLocale({ locale, strings = {} }) {
     this._locale = locale;
     this._strings = strings;
     this._renderString();
@@ -539,7 +544,7 @@ export default class AdapterCore {
     this._renderPresenceItem();
   }
 
-  _debouncedPostMessage = debounce(this._postMessage, 100)
+  _debouncedPostMessage = debounce(this._postMessage, 100);
 
   _syncPosition() {
     this._debouncedPostMessage.call(this, {
@@ -554,15 +559,10 @@ export default class AdapterCore {
   }
 
   _onPushAdapterState({
-    size: {
-      width,
-      height
-    },
+    size: { width, height },
     minimized,
     closed,
-    position: {
-      translateX, translateY, minTranslateX, minTranslateY
-    },
+    position: { translateX, translateY, minTranslateX, minTranslateY },
     dndStatus,
     userStatus,
     telephonyStatus,
@@ -585,9 +585,7 @@ export default class AdapterCore {
   }
 
   _calculateFactor() {
-    return this._defaultDirection === 'right' ?
-      -1 :
-      1;
+    return this._defaultDirection === 'right' ? -1 : 1;
   }
 
   renderPosition() {
@@ -595,12 +593,15 @@ export default class AdapterCore {
     if (this._minimized) {
       this._container.setAttribute(
         'style',
-        `transform: translate( ${this._minTranslateX * factor}px, ${-this._padding}px)!important;`
+        `transform: translate( ${this._minTranslateX * factor}px, ${-this
+          ._padding}px)!important;`,
       );
     } else {
       this._container.setAttribute(
         'style',
-        `transform: translate( ${this._translateX * factor}px, ${this._translateY}px)!important;`
+        `transform: translate( ${this._translateX * factor}px, ${
+          this._translateY
+        }px)!important;`,
       );
     }
   }
@@ -614,18 +615,33 @@ export default class AdapterCore {
     } = this._calculateMinMaxPosition();
 
     if (this._minimized) {
-      const newMinTranslateX = Math.max(Math.min(this._minTranslateX, maximumX), minimumX);
+      const newMinTranslateX = Math.max(
+        Math.min(this._minTranslateX, maximumX),
+        minimumX,
+      );
       if (newMinTranslateX !== this._minTranslateX) {
         this._minTranslateX = newMinTranslateX;
       }
-      const newMinTranslateY = Math.max(Math.min(this._minTranslateY, -minimumY), -maximumY);
+      const newMinTranslateY = Math.max(
+        Math.min(this._minTranslateY, -minimumY),
+        -maximumY,
+      );
       if (newMinTranslateY !== this._minTranslateY) {
         this._minTranslateY = newMinTranslateY;
       }
     } else {
-      const newTranslateX = Math.max(Math.min(this._translateX, maximumX), minimumX);
-      const newTranslateY = Math.max(Math.min(this._translateY, -minimumY), -maximumY);
-      if (this._translateX !== newTranslateX || this._translateY !== newTranslateY) {
+      const newTranslateX = Math.max(
+        Math.min(this._translateX, maximumX),
+        minimumX,
+      );
+      const newTranslateY = Math.max(
+        Math.min(this._translateY, -minimumY),
+        -maximumY,
+      );
+      if (
+        this._translateX !== newTranslateX ||
+        this._translateY !== newTranslateY
+      ) {
         this._translateX = newTranslateX;
         this._translateY = newTranslateY;
       }
@@ -646,48 +662,61 @@ export default class AdapterCore {
   }
 
   _renderMainClass() {
-    this._container.setAttribute('class', classnames(
-      this._styles.root,
-      this._styles[this._defaultDirection],
-      this._closed && this._styles.closed,
-      this._minimized && this._styles.minimized,
-      this._dragging && this._styles.dragging,
-      this._hover && this._styles.hover,
-      this._loading && this._styles.loading,
-    ));
-    this._headerEl.setAttribute('class', classnames(
-      this._styles.header,
-      this._minimized && this._styles.minimized,
-      this._ringing && this._styles.ringing,
-    ));
+    this._container.setAttribute(
+      'class',
+      classnames(
+        this._styles.root,
+        this._styles[this._defaultDirection],
+        this._closed && this._styles.closed,
+        this._minimized && this._styles.minimized,
+        this._dragging && this._styles.dragging,
+        this._hover && this._styles.hover,
+        this._loading && this._styles.loading,
+      ),
+    );
+    this._headerEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.header,
+        this._minimized && this._styles.minimized,
+        this._ringing && this._styles.ringing,
+      ),
+    );
   }
 
   renderPresence() {
-    this._presenceEl.setAttribute('class', classnames(
-      this._minimized && this._styles.minimized,
-      this._styles.presence,
-      this._userStatus && this._styles[this._userStatus],
-      this._dndStatus && this._styles[this._dndStatus],
-    ));
+    this._presenceEl.setAttribute(
+      'class',
+      classnames(
+        this._minimized && this._styles.minimized,
+        this._styles.presence,
+        this._userStatus && this._styles[this._userStatus],
+        this._dndStatus && this._styles[this._dndStatus],
+      ),
+    );
 
     this._presenceItemEls.forEach((presenceItem) => {
       const dataPresence = presenceItem.getAttribute('data-presence');
-      if (presenceStatus[dataPresence] === this._presenceOption ||
-          dndStatus[dataPresence] === this._presenceOption) {
-        presenceItem.setAttribute('class', classnames(
-          this._styles.presenceItem, this._styles.selected
-        ));
+      if (
+        presenceStatus[dataPresence] === this._presenceOption ||
+        dndStatus[dataPresence] === this._presenceOption
+      ) {
+        presenceItem.setAttribute(
+          'class',
+          classnames(this._styles.presenceItem, this._styles.selected),
+        );
       } else {
-        presenceItem.setAttribute('class', classnames(
-          this._styles.presenceItem
-        ));
+        presenceItem.setAttribute(
+          'class',
+          classnames(this._styles.presenceItem),
+        );
       }
     });
   }
 
   calculateState() {
     const startTime = this._currentStartTime;
-    return Math.round(((new Date()).getTime() - startTime) / 1000);
+    return Math.round((new Date().getTime() - startTime) / 1000);
   }
 
   renderCallsBar() {
@@ -737,7 +766,7 @@ export default class AdapterCore {
     this.callInfoMap = {
       [CURRENT_CALL]: this._currentStartTime > 0,
       [RINGING_CALLS]: this._ringingCallsLength > 0,
-      [ON_HOLD_CALLS]: this._onHoldCallsLength > 0
+      [ON_HOLD_CALLS]: this._onHoldCallsLength > 0,
     };
     // when multiple calls, should scroll with call info
     this.rotateCallInfo();
@@ -782,25 +811,30 @@ export default class AdapterCore {
   }
 
   _renderMinimizedBar() {
-    this._logoEl.setAttribute('class', classnames(
-      this._styles.logo,
-      this._logoUrl && this._logoUrl !== '' && this._styles.visible,
-    ));
-    this._durationEl.setAttribute('class', classnames(
-      this._styles.duration,
-    ));
-    this._ringingCallsEl.setAttribute('class', classnames(
-      this._styles.ringingCalls,
-    ));
-    this._onHoldCallsEl.setAttribute('class', classnames(
-      this._styles.onHoldCalls,
-    ));
-    this._currentCallEl.setAttribute('class', classnames(
-      this._styles.currentCallBtn,
-    ));
-    this._viewCallsEl.setAttribute('class', classnames(
-      this._styles.viewCallsBtn,
-    ));
+    this._logoEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.logo,
+        this._logoUrl && this._logoUrl !== '' && this._styles.visible,
+      ),
+    );
+    this._durationEl.setAttribute('class', classnames(this._styles.duration));
+    this._ringingCallsEl.setAttribute(
+      'class',
+      classnames(this._styles.ringingCalls),
+    );
+    this._onHoldCallsEl.setAttribute(
+      'class',
+      classnames(this._styles.onHoldCalls),
+    );
+    this._currentCallEl.setAttribute(
+      'class',
+      classnames(this._styles.currentCallBtn),
+    );
+    this._viewCallsEl.setAttribute(
+      'class',
+      classnames(this._styles.viewCallsBtn),
+    );
   }
 
   _renderCallsBar() {
@@ -808,43 +842,66 @@ export default class AdapterCore {
       this._renderMinimizedBar();
       return;
     }
-    this._logoEl.setAttribute('class', classnames(
-      this._styles.logo,
-      !this._hasActiveCalls && this._logoUrl && this._logoUrl !== '' && this._styles.visible,
-    ));
-    this._durationEl.setAttribute('class', classnames(
-      this._styles.duration,
-      this.showDuration && this._styles.visible,
-      this.centerDuration && this._styles.center,
-      this.moveOutDuration && this._styles.moveOut,
-      this.moveInDuration && this._styles.moveIn,
-    ));
-    this._ringingCallsEl.setAttribute('class', classnames(
-      this._styles.ringingCalls,
-      this.showRingingCalls && this._styles.visible,
-      this.centerCallInfo && this._styles.center,
-      this.moveOutRingingInfo && this._styles.moveOut,
-      this.moveInRingingInfo && this._styles.moveIn,
-    ));
-    this._onHoldCallsEl.setAttribute('class', classnames(
-      this._styles.onHoldCalls,
-      this.showOnHoldCalls && this._styles.visible,
-      this.centerCallInfo && this._styles.center,
-      this.moveOutOnHoldInfo && this._styles.moveOut,
-      this.moveInOnHoldInfo && this._styles.moveIn,
-    ));
-    this._currentCallEl.setAttribute('class', classnames(
-      this._styles.currentCallBtn,
-      this.showCurrentCallBtn && this._styles.visible,
-      this.moveOutCurrentCallBtn && this._styles.moveOut,
-      this.moveInCurrentCallBtn && this._styles.moveIn,
-    ));
-    this._viewCallsEl.setAttribute('class', classnames(
-      this._styles.viewCallsBtn,
-      this.showViewCallsBtn && this._styles.visible,
-      !this.moveInViewCallsBtn && this.moveOutViewCallsBtn && this._styles.moveOut,
-      this.moveInViewCallsBtn && this._styles.moveIn,
-    ));
+    this._logoEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.logo,
+        !this._hasActiveCalls &&
+          this._logoUrl &&
+          this._logoUrl !== '' &&
+          this._styles.visible,
+      ),
+    );
+    this._durationEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.duration,
+        this.showDuration && this._styles.visible,
+        this.centerDuration && this._styles.center,
+        this.moveOutDuration && this._styles.moveOut,
+        this.moveInDuration && this._styles.moveIn,
+      ),
+    );
+    this._ringingCallsEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.ringingCalls,
+        this.showRingingCalls && this._styles.visible,
+        this.centerCallInfo && this._styles.center,
+        this.moveOutRingingInfo && this._styles.moveOut,
+        this.moveInRingingInfo && this._styles.moveIn,
+      ),
+    );
+    this._onHoldCallsEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.onHoldCalls,
+        this.showOnHoldCalls && this._styles.visible,
+        this.centerCallInfo && this._styles.center,
+        this.moveOutOnHoldInfo && this._styles.moveOut,
+        this.moveInOnHoldInfo && this._styles.moveIn,
+      ),
+    );
+    this._currentCallEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.currentCallBtn,
+        this.showCurrentCallBtn && this._styles.visible,
+        this.moveOutCurrentCallBtn && this._styles.moveOut,
+        this.moveInCurrentCallBtn && this._styles.moveIn,
+      ),
+    );
+    this._viewCallsEl.setAttribute(
+      'class',
+      classnames(
+        this._styles.viewCallsBtn,
+        this.showViewCallsBtn && this._styles.visible,
+        !this.moveInViewCallsBtn &&
+          this.moveOutViewCallsBtn &&
+          this._styles.moveOut,
+        this.moveInViewCallsBtn && this._styles.moveIn,
+      ),
+    );
   }
 
   _renderCallDuration() {
@@ -890,7 +947,9 @@ export default class AdapterCore {
     }
     this._presenceItemEls.forEach((presenceItem) => {
       const dataPresence = presenceItem.getAttribute('data-presence');
-      presenceItem.querySelector('span').innerHTML = this._strings[`${dataPresence}Btn`];
+      presenceItem.querySelector('span').innerHTML = this._strings[
+        `${dataPresence}Btn`
+      ];
     });
   }
 
@@ -1021,7 +1080,9 @@ export default class AdapterCore {
   }
 
   get showViewCallsBtn() {
-    return !this._onAllCallsPath && (this.showOnHoldCalls || this.showRingingCalls);
+    return (
+      !this._onAllCallsPath && (this.showOnHoldCalls || this.showRingingCalls)
+    );
   }
 
   get centerDuration() {
@@ -1033,27 +1094,39 @@ export default class AdapterCore {
   }
 
   get moveInDuration() {
-    return !this._hoverBar && this.currentState === CURRENT_CALL && this._scrollable;
+    return (
+      !this._hoverBar && this.currentState === CURRENT_CALL && this._scrollable
+    );
   }
 
   get moveOutDuration() {
-    return !this._hoverBar && this._scrollable && this.lastState === CURRENT_CALL;
+    return (
+      !this._hoverBar && this._scrollable && this.lastState === CURRENT_CALL
+    );
   }
 
   get moveInRingingInfo() {
-    return !this._hoverBar && this.currentState === RINGING_CALLS && this._scrollable;
+    return (
+      !this._hoverBar && this.currentState === RINGING_CALLS && this._scrollable
+    );
   }
 
   get moveOutRingingInfo() {
-    return !this._hoverBar && this._scrollable && this.lastState === RINGING_CALLS;
+    return (
+      !this._hoverBar && this._scrollable && this.lastState === RINGING_CALLS
+    );
   }
 
   get moveInOnHoldInfo() {
-    return !this._hoverBar && this.currentState === ON_HOLD_CALLS && this._scrollable;
+    return (
+      !this._hoverBar && this.currentState === ON_HOLD_CALLS && this._scrollable
+    );
   }
 
   get moveOutOnHoldInfo() {
-    return !this._hoverBar && this._scrollable && this.lastState === ON_HOLD_CALLS;
+    return (
+      !this._hoverBar && this._scrollable && this.lastState === ON_HOLD_CALLS
+    );
   }
 
   get moveInCurrentCallBtn() {
@@ -1065,11 +1138,16 @@ export default class AdapterCore {
   }
 
   get moveInViewCallsBtn() {
-    return !this._onAllCallsPath && (this.moveInRingingInfo || this.moveInOnHoldInfo);
+    return (
+      !this._onAllCallsPath && (this.moveInRingingInfo || this.moveInOnHoldInfo)
+    );
   }
 
   get moveOutViewCallsBtn() {
-    return !this._onAllCallsPath && (this.moveOutRingingInfo || this.moveOutOnHoldInfo);
+    return (
+      !this._onAllCallsPath &&
+      (this.moveOutRingingInfo || this.moveOutOnHoldInfo)
+    );
   }
 
   get dropdownPresence() {

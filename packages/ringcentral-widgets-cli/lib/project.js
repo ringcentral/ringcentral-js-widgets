@@ -2,9 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { copyTemplate, copyDir, copyFile } = require('./helper');
 
-exports.generateProject = ({
-  appName, name
-}) => {
+exports.generateProject = ({ appName, name }) => {
   let projectName = name;
   let projectDir;
   if (!projectName) {
@@ -20,38 +18,56 @@ exports.generateProject = ({
     throw Error('project existed');
   }
   copyTemplate({
-    templatePath: path.resolve(__dirname, '../templates/Project/package-template.json'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/package-template.json',
+    ),
     destinationPath: path.resolve(projectDir, 'package.json'),
-    params: { name: projectName.replace(/\s/g, '') }
+    params: { name: projectName.replace(/\s/g, '') },
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/babel.config.js.default'),
-    destinationPath: path.resolve(projectDir, 'babel.config.js')
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/babel.config.js.default',
+    ),
+    destinationPath: path.resolve(projectDir, 'babel.config.js'),
   });
   copyFile({
     templatePath: path.resolve(__dirname, '../templates/Project/env.default'),
-    destinationPath: path.resolve(projectDir, '.env')
+    destinationPath: path.resolve(projectDir, '.env'),
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/gitignore.default'),
-    destinationPath: path.resolve(projectDir, '.gitignore')
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/gitignore.default',
+    ),
+    destinationPath: path.resolve(projectDir, '.gitignore'),
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/postcss.config.js'),
-    destinationPath: path.resolve(projectDir, 'postcss.config.js')
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/postcss.config.js',
+    ),
+    destinationPath: path.resolve(projectDir, 'postcss.config.js'),
   });
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Project/README.md'),
     destinationPath: path.resolve(projectDir, 'README.md'),
-    params: { name: appName }
+    params: { name: appName },
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/webpack-dev-server.config.js'),
-    destinationPath: path.resolve(projectDir, 'webpack-dev-server.config.js')
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/webpack-dev-server.config.js',
+    ),
+    destinationPath: path.resolve(projectDir, 'webpack-dev-server.config.js'),
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/webpack-production.config.js'),
-    destinationPath: path.resolve(projectDir, 'webpack-production.config.js')
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/webpack-production.config.js',
+    ),
+    destinationPath: path.resolve(projectDir, 'webpack-production.config.js'),
   });
   if (!fs.existsSync(path.resolve(projectDir, 'src'))) {
     fs.mkdirSync(path.resolve(projectDir, 'src'));
@@ -59,16 +75,22 @@ exports.generateProject = ({
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Project/src/brand.js'),
     destinationPath: path.resolve(projectDir, 'src/brand.js'),
-    params: { appName }
+    params: { appName },
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/favicon.ico'),
-    destinationPath: path.resolve(projectDir, 'src/favicon.ico')
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/favicon.ico',
+    ),
+    destinationPath: path.resolve(projectDir, 'src/favicon.ico'),
   });
   copyTemplate({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/index.html'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/index.html',
+    ),
     destinationPath: path.resolve(projectDir, 'src/index.html'),
-    params: { appName }
+    params: { appName },
   });
   copyFile({
     templatePath: path.resolve(__dirname, '../templates/Project/src/index.js'),
@@ -84,26 +106,41 @@ exports.generateProject = ({
     destinationPath: path.resolve(projectDir, 'src/proxy.js'),
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/proxy.html'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/proxy.html',
+    ),
     destinationPath: path.resolve(projectDir, 'src/proxy.html'),
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/redirect.js'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/redirect.js',
+    ),
     destinationPath: path.resolve(projectDir, 'src/redirect.js'),
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/redirect.html'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/redirect.html',
+    ),
     destinationPath: path.resolve(projectDir, 'src/redirect.html'),
   });
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/theme.scss'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/theme.scss',
+    ),
     destinationPath: path.resolve(projectDir, 'src/theme.scss'),
   });
   if (!fs.existsSync(path.resolve(projectDir, 'src/components'))) {
     fs.mkdirSync(path.resolve(projectDir, 'src/components'));
   }
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/components/.keep'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/components/.keep',
+    ),
     destinationPath: path.resolve(projectDir, 'src/components/.keep'),
   });
   if (!fs.existsSync(path.resolve(projectDir, 'src/modules'))) {
@@ -113,11 +150,17 @@ exports.generateProject = ({
     fs.mkdirSync(path.resolve(projectDir, 'src/modules/Phone'));
   }
   copyFile({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/modules/Phone/index.js'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/modules/Phone/index.js',
+    ),
     destinationPath: path.resolve(projectDir, 'src/modules/Phone/index.js'),
   });
   copyDir({
-    templatePath: path.resolve(__dirname, '../templates/Project/src/containers'),
+    templatePath: path.resolve(
+      __dirname,
+      '../templates/Project/src/containers',
+    ),
     destinationPath: path.resolve(projectDir, 'src/containers'),
   });
 };

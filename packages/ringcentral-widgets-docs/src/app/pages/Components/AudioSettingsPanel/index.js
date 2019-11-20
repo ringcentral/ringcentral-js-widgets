@@ -14,11 +14,11 @@ const AudioSettingsPanelPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="AudioSettingsPanel" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="AudioSettingsPanel Example"
-      >
+      <ComponentHeader
+        name="AudioSettingsPanel"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="AudioSettingsPanel Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

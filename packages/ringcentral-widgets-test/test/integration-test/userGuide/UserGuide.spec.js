@@ -13,7 +13,7 @@ describe('<UserGuide />', () => {
         currentLocale="en-US"
         entered
         playing
-      />
+      />,
     );
     expect(wrapper.find('.root').length).toEqual(1);
   });
@@ -27,7 +27,7 @@ describe('<UserGuide />', () => {
         currentLocale="en-US"
         entered
         playing
-      />
+      />,
     );
     wrapper.find('.secondaryButton').simulate('click');
     expect(wrapper.state('playing')).toEqual(false);
@@ -42,9 +42,12 @@ describe('<UserGuide />', () => {
         currentLocale="en-US"
         entered
         playing
-      />
+      />,
     );
-    wrapper.find('.control .secondaryButton').first().simulate('click');
+    wrapper
+      .find('.control .secondaryButton')
+      .first()
+      .simulate('click');
     expect(wrapper.state('playing')).toEqual(false);
   });
 });

@@ -7,9 +7,11 @@ props.conversation = {
   id: '1',
   conversationId: '1',
   subject: 'subject text',
-  correspondents: [{
-    phoneNumber: '123456789',
-  }],
+  correspondents: [
+    {
+      phoneNumber: '123456789',
+    },
+  ],
   correspondentMatches: [],
   conversationMatches: [],
   unreadCounts: 0,
@@ -29,9 +31,5 @@ props.onCreateContact = () => null;
 /**
  * A example of `MessageItem`
  */
-const MessageItemDemo = () => (
-  <MessageItem
-    {...props}
-  />
-);
+const MessageItemDemo = () => <MessageItem {...props} />;
 export default MessageItemDemo;

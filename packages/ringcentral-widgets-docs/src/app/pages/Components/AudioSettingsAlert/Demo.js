@@ -6,15 +6,11 @@ const props = {};
 props.application = 'test string';
 props.currentLocale = 'en-US';
 props.message = {
-  message: 'test string'
+  message: 'test string',
 };
 
 /**
  * A example of `AudioSettingsAlert`
  */
-const AudioSettingsAlertDemo = () => (
-  <AudioSettingsAlert
-    {...props}
-  />
-);
+const AudioSettingsAlertDemo = () => <AudioSettingsAlert {...props} />;
 export default AudioSettingsAlertDemo;

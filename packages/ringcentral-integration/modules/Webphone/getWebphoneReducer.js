@@ -38,6 +38,26 @@ export function getConnectionStatusReducer(types) {
   };
 }
 
+export function getWebphoneDeviceReducer(types) {
+  return (state = null, { type, device }) => {
+    switch (type) {
+      case types.reconnect:
+      case types.connect:
+      case types.connectFailed:
+      case types.connectError:
+      case types.unregistered:
+      case types.disconnectOnInactive:
+      case types.unregisteredOnInactive:
+      case types.disconnect:
+        return null;
+      case types.registered: // trigger when register success
+        return device;
+      default:
+        return state;
+    }
+  };
+}
+
 export function getErrorCodeReducer(types) {
   return (state = null, { type, errorCode = state }) => {
     switch (type) {
@@ -231,5 +251,6 @@ export default function getWebphoneReducer(types) {
     ringSessionId: getRingSessionIdReducer(types),
     sessions: getSessionsReducer(types),
     lastEndedSessions: getLastEndedSessionsReducer(types),
+    device: getWebphoneDeviceReducer(types),
   });
 }

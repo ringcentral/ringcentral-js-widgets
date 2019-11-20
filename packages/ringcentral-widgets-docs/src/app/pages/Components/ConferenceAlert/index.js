@@ -15,10 +15,7 @@ const ConferenceAlertPage = () => {
   return (
     <div>
       <ComponentHeader name="ConferenceAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ConferenceAlert Example"
-      >
+      <CodeExample code={demoCode} title="ConferenceAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

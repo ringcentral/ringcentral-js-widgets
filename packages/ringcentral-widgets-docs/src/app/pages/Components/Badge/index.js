@@ -15,10 +15,7 @@ const AppBarPage = () => {
   return (
     <div>
       <ComponentHeader name="Badge" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="Badge Example"
-      >
+      <CodeExample code={demoCode} title="Badge Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

@@ -14,11 +14,11 @@ const ConnectivityAlertPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="ConnectivityAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ConnectivityAlert Example"
-      >
+      <ComponentHeader
+        name="ConnectivityAlert"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="ConnectivityAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

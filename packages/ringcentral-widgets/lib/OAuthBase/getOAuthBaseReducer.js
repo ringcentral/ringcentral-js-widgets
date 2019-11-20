@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
 
-
 export function getOAuthReadyReducer(types) {
   return (state = false, { type }) => {
     switch (type) {

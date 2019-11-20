@@ -56,10 +56,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.svg/,
@@ -76,19 +73,21 @@ const config = {
                     removeViewBox: false,
                   },
                 ],
-              }
-            }
+              },
+            },
           },
         ],
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use:
+          'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
         exclude: /ringcentral-widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
-        use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        use:
+          'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
       {
         test: /\.ogg$/,
@@ -103,16 +102,14 @@ const config = {
             options: {
               localIdentName: '[folder]_[local]',
               modules: true,
-            }
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
-              plugins: function () {
-                return [
-                  autoprefixer
-                ];
-              }
+              plugins: function() {
+                return [autoprefixer];
+              },
             },
           },
           {
@@ -121,11 +118,11 @@ const config = {
               outputStyle: 'expanded',
               includePaths: ['src', 'node_modules'],
             },
-          }
+          },
         ],
       },
     ],
-  }
+  },
 };
 
 module.exports = config;

@@ -14,11 +14,11 @@ const RateExceededAlertPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="RateExceededAlert" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="RateExceededAlert Example"
-      >
+      <ComponentHeader
+        name="RateExceededAlert"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="RateExceededAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

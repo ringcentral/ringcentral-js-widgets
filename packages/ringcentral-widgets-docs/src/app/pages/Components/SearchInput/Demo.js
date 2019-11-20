@@ -9,9 +9,5 @@ props.onChange = () => null;
 /**
  * A example of `SearchInput`
  */
-const SearchInputDemo = () => (
-  <SearchInput
-    {...props}
-  />
-);
+const SearchInputDemo = () => <SearchInput {...props} />;
 export default SearchInputDemo;

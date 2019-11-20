@@ -1,0 +1,51 @@
+@import './colors';
+@import './full-size';
+@import './text-ellipsis';
+
+$header-height: 44px;
+
+$main_grey: rgba(33, 33, 33, 0.1);
+
+@mixin main_border($direction: null) {
+  @if $direction {
+    border-#{$direction}: 1px solid #ededed;
+  } @else {
+    border: 1px solid #ededed;
+  }
+}
+
+@mixin flex_width($width) {
+  flex: 1 1 $width;
+
+  @if $width !=auto {
+    max-width: $width;
+    min-width: $width;
+  } @else {
+    max-width: initial;
+    min-width: initial;
+  }
+}
+
+@mixin flex_height($height) {
+  flex: 1 1 $height;
+
+  @if $height !=auto {
+    max-height: $height;
+    min-height: $height;
+  } @else {
+    max-height: initial;
+    min-height: initial;
+  }
+}
+
+@mixin display_flex {
+  display: flex;
+}
+
+@mixin flex_fill {
+  flex: 1 1 auto;
+}
+
+@mixin text_break {
+  word-break: break-all;
+}

@@ -9,25 +9,18 @@ export default function MoreActionItem({
   icon: Icon,
   disabled,
   onClick,
-  dataSign
+  dataSign,
 }) {
   const iconClassName = classnames(
     styles.buttonIcon,
-    disabled ? styles.buttonDisabled : styles.buttonActive
+    disabled ? styles.buttonDisabled : styles.buttonActive,
   );
   return (
-    <div
-      className={styles.buttonItem}
-      onClick={disabled ? null : onClick}>
-      <div
-        className={iconClassName}
-        data-sign={dataSign}
-      >
+    <div className={styles.buttonItem} onClick={disabled ? null : onClick}>
+      <div className={iconClassName} data-sign={dataSign}>
         {<Icon />}
       </div>
-      <div className={styles.buttonName}>
-        {title}
-      </div>
+      <div className={styles.buttonName}>{title}</div>
     </div>
   );
 }
@@ -41,5 +34,5 @@ MoreActionItem.propTypes = {
 };
 
 MoreActionItem.defaultProps = {
-  dataSign: ''
+  dataSign: '',
 };

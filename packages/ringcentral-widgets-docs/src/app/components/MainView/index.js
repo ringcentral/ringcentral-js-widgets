@@ -24,15 +24,23 @@ function Footer() {
           <div className={styles.footerRowRight}>
             <ul className={styles.footerLinks}>
               <li>
-                <a href="http://www.ringcentral.com/legal.html" target="_blank">Legal</a>
+                <a href="http://www.ringcentral.com/legal.html" target="_blank">
+                  Legal
+                </a>
               </li>
               <li>
-                <a href="http://www.ringcentral.com/security-statement.html" target="_blank">
+                <a
+                  href="http://www.ringcentral.com/security-statement.html"
+                  target="_blank"
+                >
                   Security Policy
                 </a>
               </li>
               <li>
-                <a href="http://www.ringcentral.com/legal/privacy-policy.html" target="_blank">
+                <a
+                  href="http://www.ringcentral.com/legal/privacy-policy.html"
+                  target="_blank"
+                >
                   Privacy Policy
                 </a>
               </li>
@@ -42,7 +50,10 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://medium.com/ringcentral-developers" target="_blank">
+                <a
+                  href="https://medium.com/ringcentral-developers"
+                  target="_blank"
+                >
                   Blog
                 </a>
               </li>
@@ -85,7 +96,9 @@ class MainView extends Component {
       <div
         className={styles.root}
         onScroll={this.onScroll}
-        ref={(rootBody) => { this.rootBody = rootBody; }}
+        ref={(rootBody) => {
+          this.rootBody = rootBody;
+        }}
       >
         <div className={styles.mainBody}>
           <header className={styles.header}>
@@ -96,9 +109,7 @@ class MainView extends Component {
             </div>
           </header>
           <div className={classnames(styles.wrapper, styles.content)}>
-            <h1 className={styles.title}>
-              RingCentral Widgets
-            </h1>
+            <h1 className={styles.title}>RingCentral Widgets</h1>
             <Search components={this.props.components} />
             <SideBarView
               components={this.props.components}

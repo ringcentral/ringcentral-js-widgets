@@ -10,7 +10,7 @@ import i18n from './i18n';
 export function getPresenceStatusName(
   currentUserStatus,
   currentDndStatus,
-  currentLocale
+  currentLocale,
 ) {
   if (currentDndStatus === dndStatus.doNotAcceptAnyCalls) {
     return i18n.getString(currentDndStatus, currentLocale);
@@ -27,7 +27,7 @@ export default function PresenceItem(props) {
   const name = getPresenceStatusName(
     props.userStatus,
     props.dndStatus,
-    props.currentLocale
+    props.currentLocale,
   );
   return (
     <a className={className} onClick={props.onClick}>
@@ -36,9 +36,7 @@ export default function PresenceItem(props) {
         userStatus={props.userStatus}
         dndStatus={props.dndStatus}
       />
-      <span>
-        {name}
-      </span>
+      <span>{name}</span>
     </a>
   );
 }

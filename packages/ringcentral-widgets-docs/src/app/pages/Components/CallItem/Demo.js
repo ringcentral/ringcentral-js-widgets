@@ -10,7 +10,7 @@ props.call = {
   fromMatches: [],
   toMatches: [],
   from: {
-    phoneNumber: '+1234567890'
+    phoneNumber: '+1234567890',
   },
   to: {},
 };
@@ -26,9 +26,5 @@ props.onClickToDial = () => null;
 /**
  * A example of `CallItem`
  */
-const CallItemDemo = () => (
-  <CallItem
-    {...props}
-  />
-);
+const CallItemDemo = () => <CallItem {...props} />;
 export default CallItemDemo;

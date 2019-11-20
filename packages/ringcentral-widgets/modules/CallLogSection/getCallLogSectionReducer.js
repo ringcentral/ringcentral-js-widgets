@@ -7,7 +7,8 @@ function getCallsSavingStatusReducer(types) {
     switch (type) {
       case types.saving:
         return assoc(identify, true, state);
-      case types.saveSuccess: case types.saveError:
+      case types.saveSuccess:
+      case types.saveError:
         return assoc(identify, false, state);
       case types.cleanUp:
         return {};

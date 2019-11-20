@@ -16,7 +16,6 @@ import IconLine from '../IconLine';
 
 const TooltipCom = typeof Tooltip === 'function' ? Tooltip : Tooltip.default;
 
-
 export default class AudioSettingsPanel extends Component {
   _isFirefox = false;
 
@@ -61,18 +60,24 @@ export default class AudioSettingsPanel extends Component {
         callVolume: newProps.callVolume,
       });
     }
-    if (newProps.inputDeviceId !== this.props.inputDeviceId || all(
-      device => device.deviceId !== this.state.inputDeviceId,
-      newProps.availableInputDevices
-    )) {
+    if (
+      newProps.inputDeviceId !== this.props.inputDeviceId ||
+      all(
+        (device) => device.deviceId !== this.state.inputDeviceId,
+        newProps.availableInputDevices,
+      )
+    ) {
       this.setState({
         inputDeviceId: newProps.inputDeviceId,
       });
     }
-    if (newProps.outputDeviceId !== this.props.outputDeviceId || all(
-      device => device.deviceId !== this.state.outputDeviceId,
-      newProps.availableOutputDevices
-    )) {
+    if (
+      newProps.outputDeviceId !== this.props.outputDeviceId ||
+      all(
+        (device) => device.deviceId !== this.state.outputDeviceId,
+        newProps.availableOutputDevices,
+      )
+    ) {
       this.setState({
         outputDeviceId: newProps.outputDeviceId,
       });
@@ -112,7 +117,7 @@ export default class AudioSettingsPanel extends Component {
         outputDeviceId,
       });
     }
-  }
+  };
 
   onReset = () => {
     const {
@@ -133,52 +138,56 @@ export default class AudioSettingsPanel extends Component {
       inputDeviceId,
       outputDeviceId,
     });
-  }
+  };
 
   onDialButtonVolumeChange = (dialButtonVolume) => {
     this.setState({
       dialButtonVolume,
     });
-  }
+  };
 
   onDialButtonMutedChange = (dialButtonMuted) => {
     this.setState({
       dialButtonMuted,
     });
-  }
+  };
 
   onRingtoneVolumeChange = (ringtoneVolume) => {
     this.setState({
       ringtoneVolume,
     });
-  }
+  };
 
   onRingtoneMutedChange = (ringtoneMuted) => {
     this.setState({
       ringtoneMuted,
     });
-  }
+  };
 
   onCallVolumeChange = (callVolume) => {
     this.setState({
       callVolume,
     });
-  }
+  };
 
   onOutputDeviceIdChange = (device) => {
     this.setState({
       outputDeviceId: device.deviceId,
     });
-  }
+  };
 
   onInputDeviceIdChange = (device) => {
     this.setState({
       inputDeviceId: device.deviceId,
     });
-  }
+  };
 
   renderDeviceOption = (device, index) => {
-    const { availableInputDevices, availableOutputDevices, currentLocale } = this.props;
+    const {
+      availableInputDevices,
+      availableOutputDevices,
+      currentLocale,
+    } = this.props;
     const noLabel = i18n.getString('noLabel', currentLocale);
     if (device.kind === 'audioinput' && availableInputDevices.length > 1) {
       return device.label || `${noLabel} ${index + 1}`;
@@ -187,7 +196,7 @@ export default class AudioSettingsPanel extends Component {
       return device.label || `${noLabel} ${index + 1}`;
     }
     return device.label || noLabel;
-  }
+  };
 
   renderDeviceValue(device) {
     return device.deviceId;
@@ -199,8 +208,8 @@ export default class AudioSettingsPanel extends Component {
       return i18n.getString('noDevice', currentLocale);
     }
     const device = find(
-      device => device.deviceId === value,
-      availableOutputDevices
+      (device) => device.deviceId === value,
+      availableOutputDevices,
     );
     let noLabel = i18n.getString('noLabel', currentLocale);
     if (availableOutputDevices.length > 1) {
@@ -209,8 +218,8 @@ export default class AudioSettingsPanel extends Component {
         noLabel = `${noLabel} ${index + 1}`;
       }
     }
-    return device && device.label || noLabel;
-  }
+    return (device && device.label) || noLabel;
+  };
 
   renderInputDevice = (value) => {
     const { availableInputDevices, currentLocale } = this.props;
@@ -218,8 +227,8 @@ export default class AudioSettingsPanel extends Component {
       return i18n.getString('noDevice', currentLocale);
     }
     const device = find(
-      device => device.deviceId === value,
-      availableInputDevices
+      (device) => device.deviceId === value,
+      availableInputDevices,
     );
     let noLabel = i18n.getString('noLabel', currentLocale);
     if (availableInputDevices.length > 1) {
@@ -228,13 +237,11 @@ export default class AudioSettingsPanel extends Component {
         noLabel = `${noLabel} ${index + 1}`;
       }
     }
-    return device && device.label || noLabel;
-  }
+    return (device && device.label) || noLabel;
+  };
 
   isNoLabel() {
-    const {
-      availableInputDevices,
-    } = this.props;
+    const { availableInputDevices } = this.props;
 
     let noLabel = false;
 
@@ -270,25 +277,25 @@ export default class AudioSettingsPanel extends Component {
       outputDeviceId,
       inputDeviceId,
     } = this.state;
-    const hasChanges = (
+    const hasChanges =
       this.props.dialButtonVolume !== dialButtonVolume ||
       this.props.dialButtonMuted !== dialButtonMuted ||
       this.props.ringtoneVolume !== ringtoneVolume ||
       this.props.ringtoneMuted !== ringtoneMuted ||
       this.props.callVolume !== callVolume ||
       this.props.inputDeviceId !== inputDeviceId ||
-      this.props.outputDeviceId !== outputDeviceId
-    );
+      this.props.outputDeviceId !== outputDeviceId;
 
     // TODO: improve UI
     const permission = !userMedia ? (
       <IconLine
         noBorder
-        icon={(
+        icon={
           <Button onClick={checkUserMedia}>
             {i18n.getString('checkMicPermission')}
           </Button>
-        )}>
+        }
+      >
         {i18n.getString('micNoPermissionMessage')}
       </IconLine>
     ) : null;
@@ -311,18 +318,13 @@ export default class AudioSettingsPanel extends Component {
 
     const outputDeviceDropdown = supportDevices ? (
       <InputField
-        label={(
-          <span>
-            {i18n.getString('outputDevice', currentLocale)}
-          </span>
-        )}
-        noBorder>
+        label={<span>{i18n.getString('outputDevice', currentLocale)}</span>}
+        noBorder
+      >
         <Select
           className={styles.select}
           disabled={outputDeviceDisabled}
-          value={
-            availableOutputDevices.length ? outputDeviceId : null
-          }
+          value={availableOutputDevices.length ? outputDeviceId : null}
           onChange={this.onOutputDeviceIdChange}
           options={availableOutputDevices}
           dropdownAlign="left"
@@ -343,17 +345,16 @@ export default class AudioSettingsPanel extends Component {
     const outputDevice = this._isFirefox ? (
       <InputField
         className={styles.noHeightInputField}
-        label={(
-          <span>
-            {i18n.getString('outputDevice', currentLocale)}
-          </span>
-        )}
-        noBorder>
+        label={<span>{i18n.getString('outputDevice', currentLocale)}</span>}
+        noBorder
+      >
         <div className={styles.fakeDropdownContainer}>
           {i18n.getString('defaultOutputDevice', currentLocale)}
         </div>
       </InputField>
-    ) : outputDeviceDropdown;
+    ) : (
+      outputDeviceDropdown
+    );
 
     const inputTooltip = this.isNoLabel() ? (
       <TooltipCom
@@ -371,19 +372,18 @@ export default class AudioSettingsPanel extends Component {
     ) : null;
     const inputDevice = supportDevices ? (
       <InputField
-        label={(
+        label={
           <span>
             {i18n.getString('inputDevice', currentLocale)}
             {inputTooltip}
           </span>
-        )}
-        noBorder>
+        }
+        noBorder
+      >
         <Select
           className={styles.select}
           disabled={inputDeviceDisabled}
-          value={
-            availableInputDevices.length ? inputDeviceId : null
-          }
+          value={availableInputDevices.length ? inputDeviceId : null}
           onChange={this.onInputDeviceIdChange}
           options={availableInputDevices}
           dropdownAlign="left"
@@ -443,9 +443,11 @@ AudioSettingsPanel.propTypes = {
   callVolume: PropTypes.number.isRequired,
   dialButtonMuted: PropTypes.bool.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
-  availableInputDevices: PropTypes.arrayOf(PropTypes.shape(devicePropType)).isRequired,
+  availableInputDevices: PropTypes.arrayOf(PropTypes.shape(devicePropType))
+    .isRequired,
   inputDeviceId: PropTypes.string.isRequired,
-  availableOutputDevices: PropTypes.arrayOf(PropTypes.shape(devicePropType)).isRequired,
+  availableOutputDevices: PropTypes.arrayOf(PropTypes.shape(devicePropType))
+    .isRequired,
   outputDeviceId: PropTypes.string.isRequired,
   supportDevices: PropTypes.bool.isRequired,
   onSave: PropTypes.func.isRequired,

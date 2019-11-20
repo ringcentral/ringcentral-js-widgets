@@ -3,15 +3,19 @@ import React from 'react';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 
 const props = {};
-props.searchContactList = [{
-  name: 'Test Name',
-  entityType: 'Contact',
-  phoneType: 'extension',
-  phoneNumber: '101'
-}];
-props.recipients = [{
-  phoneNumber: '+1234567890'
-}];
+props.searchContactList = [
+  {
+    name: 'Test Name',
+    entityType: 'Contact',
+    phoneType: 'extension',
+    phoneNumber: '101',
+  },
+];
+props.recipients = [
+  {
+    phoneNumber: '+1234567890',
+  },
+];
 props.value = 'test';
 props.onChange = () => null;
 props.onClean = () => null;
@@ -23,9 +27,5 @@ props.currentLocale = 'en-US';
 /**
  * A example of `RecipientsInput`
  */
-const RecipientsInputDemo = () => (
-  <RecipientsInput
-    {...props}
-  />
-);
+const RecipientsInputDemo = () => <RecipientsInput {...props} />;
 export default RecipientsInputDemo;

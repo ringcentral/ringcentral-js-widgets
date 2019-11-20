@@ -23,10 +23,9 @@ const displayFormatter = ({
   if (entityType) {
     typeName = phoneSourceNameRenderer
       ? phoneSourceNameRenderer(entityType)
-      : formatMessage(
-        phoneSourceNames.getString(entityType, currentLocale),
-        { brand }
-      );
+      : formatMessage(phoneSourceNames.getString(entityType, currentLocale), {
+          brand,
+        });
   }
   if (phoneNumber && entityName && entityType) {
     return `${entityName} | ${typeName} ${phoneNumber}`;
@@ -47,7 +46,7 @@ function ContactDisplayItem({
   entityName,
   entityType,
   phoneNumber,
-  sourceIcons
+  sourceIcons,
 }) {
   let SourceIcon = null;
   if (entityType) {
@@ -125,7 +124,8 @@ export default function ContactDisplay({
       <div
         title={confStr}
         data-sign="currentName"
-        className={styles.currentName}>
+        className={styles.currentName}
+      >
         {confStr}
       </div>
     );
@@ -134,13 +134,16 @@ export default function ContactDisplay({
       <div
         title={contactName}
         data-sign="currentName"
-        className={styles.currentName}>
+        className={styles.currentName}
+      >
         {contactName}
       </div>
     );
   } else if (groupNumbers && showGroupNumberName) {
     const groupNames = groupNumbers.map((groupNumber) => {
-      const groupContact = contactMatches.find(match => match.extensionNumber === groupNumber);
+      const groupContact = contactMatches.find(
+        (match) => match.extensionNumber === groupNumber,
+      );
       return (groupContact && groupContact.name) || groupNumber;
     });
     const display = groupNames.join(', ');
@@ -148,7 +151,8 @@ export default function ContactDisplay({
       <div
         title={display}
         data-sign="currentName"
-        className={styles.currentName}>
+        className={styles.currentName}
+      >
         {display}
       </div>
     );
@@ -158,25 +162,24 @@ export default function ContactDisplay({
       <div
         title={display}
         data-sign="currentName"
-        className={styles.currentName}>
+        className={styles.currentName}
+      >
         {display}
       </div>
     );
   } else if (contactMatches.length === 0) {
-    const display = (enableContactFallback && fallBackName) ||
-      (phoneNumber && formatNumber({
-        phoneNumber,
-        countryCode,
-        areaCode,
-      })) ||
+    const display =
+      (enableContactFallback && fallBackName) ||
+      (phoneNumber &&
+        formatNumber({
+          phoneNumber,
+          countryCode,
+          areaCode,
+        })) ||
       i18n.getString('unknownNumber', currentLocale);
-    const title = (enableContactFallback && fallBackName) ||
-      phoneNumber || '';
+    const title = (enableContactFallback && fallBackName) || phoneNumber || '';
     contentEl = (
-      <div
-        title={title}
-        data-sign="currentName"
-        className={styles.currentName}>
+      <div title={title} data-sign="currentName" className={styles.currentName}>
         {display}
       </div>
     );
@@ -192,17 +195,12 @@ export default function ContactDisplay({
       phoneSourceNameRenderer,
     });
     contentEl = (
-      <div
-        title={title}
-        data-sign="currentName"
-        className={styles.currentName}>
+      <div title={title} data-sign="currentName" className={styles.currentName}>
         {display}
       </div>
     );
   } else if (contactMatches.length > 1) {
-    const options = [
-      ...contactMatches,
-    ];
+    const options = [...contactMatches];
     let placeholder;
     let _selected = selected;
     if (showPlaceholder) {
@@ -222,7 +220,7 @@ export default function ContactDisplay({
         disabled={disabled || isLogging}
         options={options}
         placeholder={placeholder}
-        renderFunction={entity => (
+        renderFunction={(entity) =>
           ContactDisplayItem({
             entityName: entity.name,
             entityType: entity.entityType,
@@ -230,8 +228,8 @@ export default function ContactDisplay({
             currentLocale,
             sourceIcons,
           })
-        )}
-        renderValue={value => (
+        }
+        renderValue={(value) =>
           displayFormatter({
             entityName: options[value].name,
             entityType: showType && options[value].entityType,
@@ -240,17 +238,19 @@ export default function ContactDisplay({
             phoneTypeRenderer,
             phoneSourceNameRenderer,
           })
-        )}
-        renderTitle={entity => (
-          entity ? displayFormatter({
-            entityName: entity.name,
-            entityType: entity.entityType,
-            phoneNumber,
-            brand,
-            currentLocale,
-            phoneTypeRenderer,
-            phoneSourceNameRenderer,
-          }) : phoneNumber)
+        }
+        renderTitle={(entity) =>
+          entity
+            ? displayFormatter({
+                entityName: entity.name,
+                entityType: entity.entityType,
+                phoneNumber,
+                brand,
+                currentLocale,
+                phoneTypeRenderer,
+                phoneSourceNameRenderer,
+              })
+            : phoneNumber
         }
         dropdownAlign="left"
         titleEnabled
@@ -259,15 +259,7 @@ export default function ContactDisplay({
       />
     );
   }
-  return (
-    <div
-      className={classnames(
-        styles.root,
-        className,
-      )}>
-      {contentEl}
-    </div>
-  );
+  return <div className={classnames(styles.root, className)}>{contentEl}</div>;
 }
 
 ContactDisplay.propTypes = {

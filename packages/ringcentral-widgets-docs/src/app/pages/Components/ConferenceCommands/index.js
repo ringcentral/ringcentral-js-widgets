@@ -14,11 +14,11 @@ const ConferenceCommandsPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="ConferenceCommands" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="ConferenceCommands Example"
-      >
+      <ComponentHeader
+        name="ConferenceCommands"
+        description={info.description}
+      />
+      <CodeExample code={demoCode} title="ConferenceCommands Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

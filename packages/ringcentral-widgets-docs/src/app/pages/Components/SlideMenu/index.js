@@ -15,10 +15,7 @@ const SlideMenuPage = () => {
   return (
     <div>
       <ComponentHeader name="SlideMenu" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="SlideMenu Example"
-      >
+      <CodeExample code={demoCode} title="SlideMenu Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

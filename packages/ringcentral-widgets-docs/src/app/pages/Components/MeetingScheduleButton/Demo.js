@@ -8,9 +8,5 @@ props.onClick = () => alert('clicked');
 /**
  * A example of `MeetingScheduleButton`
  */
-const MeetingScheduleButtonDemo = () => (
-  <MeetingScheduleButton
-    {...props}
-  />
-);
+const MeetingScheduleButtonDemo = () => <MeetingScheduleButton {...props} />;
 export default MeetingScheduleButtonDemo;

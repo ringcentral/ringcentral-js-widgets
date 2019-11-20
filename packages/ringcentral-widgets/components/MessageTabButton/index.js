@@ -15,9 +15,17 @@ function NavigationButton({
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
-      notice = <div data-sign='noticeCounts' className={styles.notices}>99+</div>;
+      notice = (
+        <div data-sign="noticeCounts" className={styles.notices}>
+          99+
+        </div>
+      );
     } else {
-      notice = <div data-sign='noticeCounts' className={styles.notice}>{noticeCounts}</div>;
+      notice = (
+        <div data-sign="noticeCounts" className={styles.notice}>
+          {noticeCounts}
+        </div>
+      );
     }
   }
   return (
@@ -26,16 +34,14 @@ function NavigationButton({
       className={classnames(
         styles.navigationButton,
         active && styles.active,
-        fullSizeInk ? null : styles.linearBorder
+        fullSizeInk ? null : styles.linearBorder,
       )}
       style={{
         width,
       }}
     >
       <div className={styles.iconHolder} title={label} data-sign={label}>
-        <div className={styles.icon}>
-          {icon}
-        </div>
+        <div className={styles.icon}>{icon}</div>
         {notice}
       </div>
     </div>
@@ -46,10 +52,7 @@ NavigationButton.propTypes = {
   active: PropTypes.bool,
   label: PropTypes.string,
   noticeCounts: PropTypes.number,
-  width: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]).isRequired,
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   onClick: PropTypes.func,
   fullSizeInk: PropTypes.bool,
 };

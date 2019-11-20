@@ -11,7 +11,6 @@ import TextInput from '../TextInput';
 import Switch from '../Switch';
 import Button from '../Button';
 
-
 /**
  * Environment component for switching api server. Intended only for testing.
  * This component current does not comply to use redux properly.
@@ -97,10 +96,7 @@ class Environment extends Component {
     );
     return (
       <div className={styles.root}>
-        <BackHeader
-          onBackClick={this.onCancel}
-          buttons={[]}
-        >
+        <BackHeader onBackClick={this.onCancel} buttons={[]}>
           Environment
         </BackHeader>
         <Panel classname={styles.content}>
@@ -120,20 +116,23 @@ class Environment extends Component {
             />
           </Line>
           <IconLine
-            icon={(
-<Switch
+            icon={
+              <Switch
                 dataSign="envToggle"
                 checked={this.state.enabledValue}
                 onChange={this.onToggleEnabled}
               />
-)}
+            }
           >
             Enable
           </IconLine>
           <Line>
             <Button
               dataSign="envSave"
-              className={classnames(styles.saveButton, !hasChanges ? styles.disabled : null)}
+              className={classnames(
+                styles.saveButton,
+                !hasChanges ? styles.disabled : null,
+              )}
               onClick={this.onOk}
               disabled={!hasChanges}
             >

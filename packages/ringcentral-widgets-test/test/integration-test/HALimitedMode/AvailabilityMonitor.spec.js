@@ -84,7 +84,11 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
     await timeout(500);
     wrapper.update();
     const contains = wrapper.contains(
-      <div>Sorry, something went wrong on our end, but we are working hard to fix it. You may have limited access to certain features. The app will recover automatically as soon as it’s available.</div>,
+      <div>
+        Sorry, something went wrong on our end, but we are working hard to fix
+        it. You may have limited access to certain features. The app will
+        recover automatically as soon as it’s available.
+      </div>,
     );
     expect(contains).toBe(true);
   });
@@ -94,7 +98,11 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
 
     expect(
       wrapper.contains(
-        <div>Sorry, something went wrong on our end, but we are working hard to fix it. You may have limited access to certain features. The app will recover automatically as soon as it’s available.</div>,
+        <div>
+          Sorry, something went wrong on our end, but we are working hard to fix
+          it. You may have limited access to certain features. The app will
+          recover automatically as soon as it’s available.
+        </div>,
       ),
     ).toBe(false);
 
@@ -109,7 +117,11 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
       wrapper.update();
 
       const contains = wrapper.contains(
-        <div>Sorry, something went wrong on our end, but we are working hard to fix it. You may have limited access to certain features. The app will recover automatically as soon as it’s available.</div>,
+        <div>
+          Sorry, something went wrong on our end, but we are working hard to fix
+          it. You may have limited access to certain features. The app will
+          recover automatically as soon as it’s available.
+        </div>,
       );
       expect(contains).toBe(true);
     } catch (err) {
@@ -136,7 +148,9 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
       console.log('Error');
     }
 
-    expect(wrapper.find(ConnectivityBadge).text()).toEqual('Web Phone Unavailable');
+    expect(wrapper.find(ConnectivityBadge).text()).toEqual(
+      'Web Phone Unavailable',
+    );
   });
 
   test('If response headers contains `Retry-After`, use this value as status check interval', async () => {

@@ -14,7 +14,10 @@ import parse from 'url-parse';
 
   const parsedUri = parse(callbackUri, true);
   const state = parsedUri.query.state || '';
-  const hash = state.split('-').slice(1).join('-');
+  const hash = state
+    .split('-')
+    .slice(1)
+    .join('-');
   if (hash && hash !== '') {
     const key = `${hash}-callbackUri`;
     window.addEventListener('storage', (e) => {

@@ -21,14 +21,14 @@ import CallControlAlert from '../../components/CallControlAlert';
 
 @Module({
   name: 'AlertUI',
-  deps: ['Brand', 'Alert', 'Locale', 'RouterInteraction', 'RateLimiter']
+  deps: ['Brand', 'Alert', 'Locale', 'RouterInteraction', 'RateLimiter'],
 })
 export default class AlertUI extends RcUIModule {
   getUIProps({ phone: { locale, brand, alert } }) {
     return {
       currentLocale: locale.currentLocale,
       messages: alert.messages,
-      brand: brand.fullName
+      brand: brand.fullName,
     };
   }
 
@@ -36,7 +36,7 @@ export default class AlertUI extends RcUIModule {
     phone: { alert, brand, routerInteraction, rateLimiter },
     regionSettingsUrl,
     callingSettingsUrl,
-    getAdditionalRenderer
+    getAdditionalRenderer,
   }) {
     const getRenderer = this.getDefaultRenderer(
       alert,
@@ -44,7 +44,7 @@ export default class AlertUI extends RcUIModule {
       rateLimiter,
       routerInteraction,
       regionSettingsUrl,
-      callingSettingsUrl
+      callingSettingsUrl,
     );
     const additionalRenderer = getAdditionalRenderer && getAdditionalRenderer();
     return {
@@ -55,7 +55,7 @@ export default class AlertUI extends RcUIModule {
         }
         return getRenderer(message);
       },
-      dismiss: (id) => alert.dismiss(id)
+      dismiss: (id) => alert.dismiss(id),
     };
   }
 
@@ -65,7 +65,7 @@ export default class AlertUI extends RcUIModule {
     rateLimiter,
     routerInteraction,
     regionSettingsUrl,
-    callingSettingsUrl
+    callingSettingsUrl,
   ) {
     const onRegionSettingsLinkClick = ({ alertId = 'default' } = {}) => {
       routerInteraction.push(regionSettingsUrl);
@@ -90,7 +90,7 @@ export default class AlertUI extends RcUIModule {
         );
       }
       if (CallingSettingsAlert.handleMessage(message)) {
-        return props => (
+        return (props) => (
           <CallingSettingsAlert
             {...props}
             brand={brand.fullName}
@@ -100,7 +100,7 @@ export default class AlertUI extends RcUIModule {
       }
 
       if (RegionSettingsAlert.handleMessage(message)) {
-        return props => (
+        return (props) => (
           <RegionSettingsAlert
             {...props}
             onRegionSettingsLinkClick={onRegionSettingsLinkClick}
@@ -109,7 +109,7 @@ export default class AlertUI extends RcUIModule {
       }
 
       if (MessageSenderAlert.handleMessage(message)) {
-        return props => (
+        return (props) => (
           <MessageSenderAlert
             {...props}
             brand={brand.fullName}
@@ -123,7 +123,7 @@ export default class AlertUI extends RcUIModule {
       }
 
       if (RateExceededAlert.handleMessage(message)) {
-        return props => (
+        return (props) => (
           <RateExceededAlert
             {...props}
             timestamp={rateLimiter.timestamp}
@@ -137,13 +137,15 @@ export default class AlertUI extends RcUIModule {
       }
 
       if (WebphoneAlert.handleMessage(message)) {
-        return props => <WebphoneAlert {...props} brand={brand} />;
+        return (props) => <WebphoneAlert {...props} brand={brand} />;
       }
       if (MeetingAlert.handleMessage(message)) {
-        return props => <MeetingAlert {...props} application={brand.appName} />;
+        return (props) => (
+          <MeetingAlert {...props} application={brand.appName} />
+        );
       }
       if (RolesAndPermissionsAlert.handleMessage(message)) {
-        return props => (
+        return (props) => (
           <RolesAndPermissionsAlert
             {...props}
             brand={brand.fullName}
@@ -161,16 +163,16 @@ export default class AlertUI extends RcUIModule {
       }
 
       if (AudioSettingsAlert.handleMessage(message)) {
-        return props => (
+        return (props) => (
           <AudioSettingsAlert {...props} application={brand.appName} />
         );
       }
 
       if (CallLogAlert.handleMessage(message)) {
-        return props => <CallLogAlert {...props} />;
+        return (props) => <CallLogAlert {...props} />;
       }
       if (CallControlAlert.handleMessage(message)) {
-        return props => <CallControlAlert {...props} />;
+        return (props) => <CallControlAlert {...props} />;
       }
 
       return undefined;

@@ -1,5 +1,5 @@
 export default {
-  title: "會議指令",
+  title: "電話會議指令",
   starSharp2Title: "來電者人數",
   starSharp2Body: "隨時瞭解來電者人數",
   starSharp3Title: "離開會議",

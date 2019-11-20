@@ -22,18 +22,13 @@ export default function NavigationButton({
   return (
     <div
       onClick={onClick}
-      className={classnames(
-        styles.navigationButton,
-        active && styles.active
-      )}
+      className={classnames(styles.navigationButton, active && styles.active)}
       style={{
         width,
       }}
     >
       <div className={styles.iconHolder} title={label}>
-        <div className={styles.icon}>
-          {icon}
-        </div>
+        <div className={styles.icon}>{icon}</div>
         {notice}
       </div>
     </div>
@@ -44,10 +39,7 @@ NavigationButton.propTypes = {
   active: PropTypes.bool,
   label: PropTypes.string,
   noticeCounts: PropTypes.number,
-  width: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]).isRequired,
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   onClick: PropTypes.func,
 };
 NavigationButton.defaultProps = {

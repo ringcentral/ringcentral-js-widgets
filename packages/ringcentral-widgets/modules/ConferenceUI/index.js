@@ -14,7 +14,7 @@ import countryNames from '../../lib/countryNames';
     'Brand',
     'Alert',
     'RouterInteraction',
-    'Call'
+    'Call',
   ],
 })
 export default class ConferenceUI extends RcUIModule {
@@ -45,22 +45,30 @@ export default class ConferenceUI extends RcUIModule {
   }
 
   getDialInNumbers(phoneNumbers) {
-    const countryCounter = reduce((acc, item) => {
-      if (!acc[item.country.isoCode]) {
-        acc[item.country.isoCode] = 1;
-      } else {
-        acc[item.country.isoCode] += 1;
-      }
-      return acc;
-    }, {}, phoneNumbers);
+    const countryCounter = reduce(
+      (acc, item) => {
+        if (!acc[item.country.isoCode]) {
+          acc[item.country.isoCode] = 1;
+        } else {
+          acc[item.country.isoCode] += 1;
+        }
+        return acc;
+      },
+      {},
+      phoneNumbers,
+    );
     return map((item) => {
-      const countryName = countryNames.getString(item.country.isoCode, this._locale.currentLocale);
+      const countryName = countryNames.getString(
+        item.country.isoCode,
+        this._locale.currentLocale,
+      );
       // only show the provinces of canada
       return {
-        region: countryCounter[item.country.isoCode] > 1 ?
-          `${countryName}, ${item.location}` :
-          countryName,
-        phoneNumber: item.phoneNumber
+        region:
+          countryCounter[item.country.isoCode] > 1
+            ? `${countryName}, ${item.location}`
+            : countryName,
+        phoneNumber: item.phoneNumber,
       };
     }, phoneNumbers);
   }
@@ -83,16 +91,15 @@ export default class ConferenceUI extends RcUIModule {
       participantCode,
       allowJoinBeforeHost,
       additionalNumbers: this._conference.additionalNumbers,
-      disableTxtBtn: (
+      disableTxtBtn:
         (!this.serviceFeatures.SMS || !this.serviceFeatures.SMS.enabled) &&
-        (!this.serviceFeatures.Pager || !this.serviceFeatures.Pager.enabled)
-      ),
+        (!this.serviceFeatures.Pager || !this.serviceFeatures.Pager.enabled),
       countryCode: this._regionSettings.countryCode,
       areaCode: this._regionSettings.areaCode,
       currentLocale: this._locale.currentLocale,
       brand: {
         code: this._brand.code,
-        name: this._brand.name
+        name: this._brand.name,
       },
       showSpinner: !(
         this._conference.ready &&
@@ -122,13 +129,14 @@ export default class ConferenceUI extends RcUIModule {
         this._routerInteraction.push('/composeText');
         // update settings
       },
-      joinAsHost: () => {
+      joinAsHost: (dialInNumber) => {
         // for track
         this._conference.onJoinAsHost();
         this._routerInteraction.history.push('/dialer');
-        const phoneNumber = enableAutoEnterHostKey ?
-          `${this._conference.dialInNumber},,${this._conference.data.hostCode}#` :
-          this._conference.dialInNumber;
+        const theDialInNumber = dialInNumber || this._conference.dialInNumber;
+        const phoneNumber = enableAutoEnterHostKey
+          ? `${theDialInNumber},,${this._conference.data.hostCode}#`
+          : theDialInNumber;
         this._call.call({ phoneNumber });
       },
       onAllowJoinBeforeHostChange: (allowJoinBeforeHost) => {

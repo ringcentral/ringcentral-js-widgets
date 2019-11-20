@@ -15,10 +15,7 @@ const CopyToClipboardPage = () => {
   return (
     <div>
       <ComponentHeader name="CopyToClipboard" description={info.description} />
-      <CodeExample
-        code={demoCode}
-        title="CopyToClipboard Example"
-      >
+      <CodeExample code={demoCode} title="CopyToClipboard Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />

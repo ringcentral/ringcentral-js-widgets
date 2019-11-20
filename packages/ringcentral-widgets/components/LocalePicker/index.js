@@ -7,7 +7,10 @@ import countryNames from '../../lib/countryNames';
 function renderFunction(locale) {
   const [lang, ...tokens] = locale.split(/[-_]/);
   const region = tokens.join('-');
-  return `${i18n.getString(lang, locale)} (${countryNames.getString(region, locale)})`;
+  return `${i18n.getString(lang, locale)} (${countryNames.getString(
+    region,
+    locale,
+  )})`;
 }
 export default class LocalePicker extends Component {
   componentDidMount() {
@@ -18,7 +21,7 @@ export default class LocalePicker extends Component {
           promises.push(i18n._load(l));
           promises.push(countryNames._load(l));
           return promises;
-        }, [])
+        }, []),
       );
       if (this.mounted) this.forceUpdate();
     })();

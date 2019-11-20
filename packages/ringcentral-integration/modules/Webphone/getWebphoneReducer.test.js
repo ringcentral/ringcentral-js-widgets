@@ -9,6 +9,7 @@ import getWebphoneReducer, {
   getErrorCodeReducer,
   getStatusCodeReducer,
   getLastEndedSessionsReducer,
+  getWebphoneDeviceReducer,
 } from './getWebphoneReducer';
 
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
@@ -102,6 +103,52 @@ describe('Webphone :: getConnectionStatusReducer', () => {
           type: actionTypes.connectFailed,
         }),
       ).to.equal(connectionStatus.connectFailed);
+    });
+  });
+});
+
+describe('Webphone :: getWebphoneDeviceReducer', () => {
+  it('getWebphoneDeviceReducer should be a function', () => {
+    expect(getWebphoneDeviceReducer).to.be.a('function');
+  });
+  it('getWebphoneDeviceReducer should return a reducer', () => {
+    expect(getWebphoneDeviceReducer()).to.be.a('function');
+  });
+  describe('webphoneDeviceReducer', () => {
+    const reducer = getWebphoneDeviceReducer(actionTypes);
+    it('should have initial state of null', () => {
+      expect(reducer(undefined, {})).to.equal(null);
+    });
+
+    it('should return original state when actionTypes is not recognized', () => {
+      const originalState = {};
+      expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
+    });
+
+    it('should return device when actionTypes is registered', () => {
+      const device = {};
+      expect(reducer('foo', { type: actionTypes.registered, device })).to.equal(
+        device,
+      );
+    });
+
+    it('should return null when actionTypes is unregistered, connectError etc', () => {
+      [
+        actionTypes.reconnect,
+        actionTypes.connect,
+        actionTypes.connectFailed,
+        actionTypes.connectError,
+        actionTypes.unregistered,
+        actionTypes.disconnectOnInactive,
+        actionTypes.unregisteredOnInactive,
+        actionTypes.disconnect,
+      ].forEach((type) => {
+        expect(
+          reducer('foo', {
+            type,
+          }),
+        ).to.equal(null);
+      });
     });
   });
 });
@@ -620,6 +667,7 @@ describe('getWebphoneReducer', () => {
     const errorCodeReducer = getErrorCodeReducer(actionTypes);
     const statusCodeReducer = getStatusCodeReducer(actionTypes);
     const lastEndedSessionsReducer = getLastEndedSessionsReducer(actionTypes);
+    const webphoneDeviceReducer = getWebphoneDeviceReducer(actionTypes);
     expect(reducer(undefined, {})).to.deep.equal({
       status: statusReducer(undefined, {}),
       videoElementPrepared: videoElementPreparedReducer(undefined, {}),
@@ -631,6 +679,7 @@ describe('getWebphoneReducer', () => {
       lastEndedSessions: lastEndedSessionsReducer(undefined, {}),
       errorCode: errorCodeReducer(undefined, {}),
       statusCode: statusCodeReducer(undefined, {}),
+      device: webphoneDeviceReducer(undefined, {}),
     });
   });
 });
