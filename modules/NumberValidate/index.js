@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -66,10 +64,6 @@ var _dec, _class, _class2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -270,46 +264,36 @@ function (_RcModule) {
     }
   }, {
     key: "validateNumbers",
-    value: function () {
-      var _validateNumbers = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(phoneNumbers) {
-        var validateResult, validatedNumbers;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                validateResult = this.validateFormat(phoneNumbers);
+    value: function validateNumbers(phoneNumbers) {
+      var validateResult, validatedNumbers;
+      return regeneratorRuntime.async(function validateNumbers$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              validateResult = this.validateFormat(phoneNumbers);
 
-                if (validateResult.result) {
-                  _context2.next = 3;
-                  break;
-                }
+              if (validateResult.result) {
+                _context2.next = 3;
+                break;
+              }
 
-                return _context2.abrupt("return", validateResult);
+              return _context2.abrupt("return", validateResult);
 
-              case 3:
-                _context2.next = 5;
-                return this.validateWithNumberParser(phoneNumbers);
+            case 3:
+              _context2.next = 5;
+              return regeneratorRuntime.awrap(this.validateWithNumberParser(phoneNumbers));
 
-              case 5:
-                validatedNumbers = _context2.sent;
-                return _context2.abrupt("return", validatedNumbers);
+            case 5:
+              validatedNumbers = _context2.sent;
+              return _context2.abrupt("return", validatedNumbers);
 
-              case 7:
-              case "end":
-                return _context2.stop();
-            }
+            case 7:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee, this);
-      }));
-
-      function validateNumbers(_x) {
-        return _validateNumbers.apply(this, arguments);
-      }
-
-      return validateNumbers;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "validateFormat",
     value: function validateFormat(phoneNumbers) {
@@ -341,146 +325,116 @@ function (_RcModule) {
     }
   }, {
     key: "validateWithNumberParser",
-    value: function () {
-      var _validateWithNumberParser = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(phoneNumbers) {
-        var _this4 = this;
+    value: function validateWithNumberParser(phoneNumbers) {
+      var _this4 = this;
 
-        var pasedNumers, errors, validatedPhoneNumbers;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return this._numberParser(phoneNumbers);
+      var pasedNumers, errors, validatedPhoneNumbers;
+      return regeneratorRuntime.async(function validateWithNumberParser$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return regeneratorRuntime.awrap(this._numberParser(phoneNumbers));
 
-              case 2:
-                pasedNumers = _context3.sent;
-                errors = [];
-                validatedPhoneNumbers = [];
-                pasedNumers.map(function (phoneNumber) {
-                  if (_this4._isSpecial(phoneNumber)) {
-                    errors.push({
-                      phoneNumber: phoneNumber.originalString,
-                      type: 'specialNumber'
-                    });
-                    return null;
-                  }
-
-                  if (_this4.isNotAnExtension(phoneNumber.originalString)) {
-                    errors.push({
-                      phoneNumber: phoneNumber.originalString,
-                      type: 'notAnExtension'
-                    });
-                    return null;
-                  }
-
-                  validatedPhoneNumbers.push(phoneNumber);
+            case 2:
+              pasedNumers = _context3.sent;
+              errors = [];
+              validatedPhoneNumbers = [];
+              pasedNumers.map(function (phoneNumber) {
+                if (_this4._isSpecial(phoneNumber)) {
+                  errors.push({
+                    phoneNumber: phoneNumber.originalString,
+                    type: 'specialNumber'
+                  });
                   return null;
-                });
-                return _context3.abrupt("return", {
-                  result: errors.length === 0,
-                  numbers: validatedPhoneNumbers,
-                  errors: errors
-                });
+                }
 
-              case 7:
-              case "end":
-                return _context3.stop();
-            }
+                if (_this4.isNotAnExtension(phoneNumber.originalString)) {
+                  errors.push({
+                    phoneNumber: phoneNumber.originalString,
+                    type: 'notAnExtension'
+                  });
+                  return null;
+                }
+
+                validatedPhoneNumbers.push(phoneNumber);
+                return null;
+              });
+              return _context3.abrupt("return", {
+                result: errors.length === 0,
+                numbers: validatedPhoneNumbers,
+                errors: errors
+              });
+
+            case 7:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function validateWithNumberParser(_x2) {
-        return _validateWithNumberParser.apply(this, arguments);
-      }
-
-      return validateWithNumberParser;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_numberParser",
-    value: function () {
-      var _numberParser2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(phoneNumbers) {
-        var _this$_regionSettings3, countryCode, areaCode, homeCountry, normalizedNumbers, response;
+    value: function _numberParser(phoneNumbers) {
+      var _this$_regionSettings3, countryCode, areaCode, homeCountry, normalizedNumbers, response;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _this$_regionSettings3 = this._regionSettings, countryCode = _this$_regionSettings3.countryCode, areaCode = _this$_regionSettings3.areaCode;
-                homeCountry = countryCode ? {
-                  homeCountry: countryCode
-                } : {};
-                normalizedNumbers = phoneNumbers.map(function (phoneNumber) {
-                  return (0, _normalizeNumber["default"])({
-                    phoneNumber: phoneNumber,
-                    countryCode: countryCode,
-                    areaCode: areaCode
-                  });
+      return regeneratorRuntime.async(function _numberParser$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _this$_regionSettings3 = this._regionSettings, countryCode = _this$_regionSettings3.countryCode, areaCode = _this$_regionSettings3.areaCode;
+              homeCountry = countryCode ? {
+                homeCountry: countryCode
+              } : {};
+              normalizedNumbers = phoneNumbers.map(function (phoneNumber) {
+                return (0, _normalizeNumber["default"])({
+                  phoneNumber: phoneNumber,
+                  countryCode: countryCode,
+                  areaCode: areaCode
                 });
-                _context4.next = 5;
-                return this._numberParserApi(normalizedNumbers, homeCountry);
+              });
+              _context4.next = 5;
+              return regeneratorRuntime.awrap(this._numberParserApi(normalizedNumbers, homeCountry));
 
-              case 5:
-                response = _context4.sent;
-                return _context4.abrupt("return", response.phoneNumbers.map(function (phoneNumber) {
-                  return _objectSpread({}, phoneNumber, {
-                    international: !!phoneNumber.country && phoneNumber.country.callingCode !== response.homeCountry.callingCode
-                  });
-                }));
+            case 5:
+              response = _context4.sent;
+              return _context4.abrupt("return", response.phoneNumbers.map(function (phoneNumber) {
+                return _objectSpread({}, phoneNumber, {
+                  international: !!phoneNumber.country && phoneNumber.country.callingCode !== response.homeCountry.callingCode
+                });
+              }));
 
-              case 7:
-              case "end":
-                return _context4.stop();
-            }
+            case 7:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function _numberParser(_x3) {
-        return _numberParser2.apply(this, arguments);
-      }
-
-      return _numberParser;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_numberParserApi",
-    value: function () {
-      var _numberParserApi2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(originalStrings, homeCountry) {
-        var response;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return this._client.numberParser().parse().post({
-                  originalStrings: originalStrings
-                }, homeCountry);
+    value: function _numberParserApi(originalStrings, homeCountry) {
+      var response;
+      return regeneratorRuntime.async(function _numberParserApi$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return regeneratorRuntime.awrap(this._client.numberParser().parse().post({
+                originalStrings: originalStrings
+              }, homeCountry));
 
-              case 2:
-                response = _context5.sent;
-                return _context5.abrupt("return", response);
+            case 2:
+              response = _context5.sent;
+              return _context5.abrupt("return", response);
 
-              case 4:
-              case "end":
-                return _context5.stop();
-            }
+            case 4:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee4, this);
-      }));
-
-      function _numberParserApi(_x4, _x5) {
-        return _numberParserApi2.apply(this, arguments);
-      }
-
-      return _numberParserApi;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "status",
     get: function get() {

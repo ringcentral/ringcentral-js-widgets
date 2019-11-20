@@ -20,15 +20,13 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.array.find");
 
@@ -40,10 +38,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function containsErrorMessage(errorArray, errorMessageString) {
   return errorArray.find(function (element) {
     if (element.message === errorMessageString) {
@@ -54,33 +48,24 @@ function containsErrorMessage(errorArray, errorMessageString) {
   });
 }
 
-function ensureLogin(_x, _x2) {
-  return _ensureLogin.apply(this, arguments);
-}
+function ensureLogin(auth, account) {
+  return regeneratorRuntime.async(function ensureLogin$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return regeneratorRuntime.awrap(auth.login(_objectSpread({}, account)));
 
-function _ensureLogin() {
-  _ensureLogin = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(auth, account) {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return auth.login(_objectSpread({}, account));
+        case 2:
+          return _context.abrupt("return", (0, _WaitUtil.waitUntilNotNull)(function () {
+            return auth.ownerId;
+          }, 'Login Success', 6));
 
-          case 2:
-            return _context.abrupt("return", (0, _WaitUtil.waitUntilNotNull)(function () {
-              return auth.ownerId;
-            }, 'Login Success', 6));
-
-          case 3:
-          case "end":
-            return _context.stop();
-        }
+        case 3:
+        case "end":
+          return _context.stop();
       }
-    }, _callee);
-  }));
-  return _ensureLogin.apply(this, arguments);
+    }
+  });
 }
 //# sourceMappingURL=HelpUtil.js.map

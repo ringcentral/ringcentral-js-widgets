@@ -7,17 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _HashMap = _interopRequireDefault(require("../lib/HashMap"));
+var _HashMap = require("../lib/HashMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = new _HashMap["default"]({
+var telephonyStatus = (0, _HashMap.createHashMap)({
   noCall: 'NoCall',
   onHold: 'OnHold',
   ringing: 'Ringing',
   callConnected: 'CallConnected',
   parkedCall: 'ParkedCall'
 });
-
+var _default = telephonyStatus;
 exports["default"] = _default;
 //# sourceMappingURL=telephonyStatus.js.map

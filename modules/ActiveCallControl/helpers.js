@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isHangUp = isHangUp;
-exports.isReject = isReject;
+exports.isRejectCode = isRejectCode;
+exports.isOnRecording = isOnRecording;
+exports.getSessionsParty = getSessionsParty;
 exports.normalizeSession = normalizeSession;
-exports.requestURI = requestURI;
 exports.confictError = confictError;
 
 require("core-js/modules/es6.object.define-properties");
@@ -31,6 +32,8 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/es6.array.find");
+
 var _recordStatus = _interopRequireDefault(require("../../modules/Webphone/recordStatus"));
 
 var _callResults = _interopRequireDefault(require("../../enums/callResults"));
@@ -51,31 +54,43 @@ function isHangUp(code) {
   return code === _callResults["default"].disconnected;
 }
 
-function isReject(_ref) {
+function isRejectCode(_ref) {
   var direction = _ref.direction,
       code = _ref.code;
   return direction === _callDirections["default"].inbound && (code === _activeCallControlStatus["default"].setUp || code === _activeCallControlStatus["default"].proceeding);
 }
 
+function isOnRecording(recordings) {
+  if (!recordings || recordings.length === 0) {
+    return false;
+  }
+
+  var recording = recordings[0];
+  return recording.active;
+}
+
+function getSessionsParty(session) {
+  var extensionId = session.extensionId;
+  return session.parties.find(function (p) {
+    return p.extensionId === extensionId;
+  });
+}
+
 function normalizeSession(_ref2) {
-  var call = _ref2.call,
-      _ref2$activeSessionSt = _ref2.activeSessionStatus,
-      activeSessionStatus = _ref2$activeSessionSt === void 0 ? {} : _ref2$activeSessionSt;
-  var telephonySessionId = call.telephonySessionId,
-      partyId = call.partyId,
-      direction = call.direction,
-      from = call.from,
-      to = call.to,
-      result = call.result,
-      telephonyStatus = call.telephonyStatus,
-      startTime = call.startTime,
+  var session = _ref2.session,
+      call = _ref2.call;
+  var party = getSessionsParty(session);
+  var partyId = party.id,
+      direction = party.direction,
+      from = party.from,
+      to = party.to,
+      status = party.status,
+      recordings = party.recordings,
+      muted = party.muted;
+  var startTime = call.startTime,
       sessionId = call.sessionId;
-  var isOnMute = activeSessionStatus.isOnMute,
-      isOnHold = activeSessionStatus.isOnHold,
-      isReject = activeSessionStatus.isReject,
-      isOnRecording = activeSessionStatus.isOnRecording;
   var formatValue = {
-    telephonySessionId: telephonySessionId,
+    telephonySessionId: session.id,
     partyId: partyId,
     direction: direction,
     from: from && from.phoneNumber,
@@ -84,44 +99,28 @@ function normalizeSession(_ref2) {
     to: to && to.phoneNumber,
     toNumber: to && to.phoneNumber,
     toUserName: to && to.name,
-    id: sessionId,
+    id: session.id,
     sessionId: sessionId,
-    callStatus: telephonyStatus || result,
+    callStatus: call.telephonyStatus,
     startTime: startTime,
     creationTime: startTime,
-    isOnMute: isOnMute,
+    isOnMute: muted,
     isForwarded: false,
     isOnFlip: false,
-    isOnHold: isOnHold,
+    isOnHold: status.code === _activeCallControlStatus["default"].hold,
     isOnTransfer: false,
     isReplied: false,
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
-    recordStatus: isOnRecording ? _recordStatus["default"].recording : _recordStatus["default"].idle,
+    recordStatus: isOnRecording(recordings) ? _recordStatus["default"].recording : _recordStatus["default"].idle,
     removed: false,
-    isReject: isReject
+    isReject: isRejectCode({
+      direction: direction,
+      code: status.code
+    })
   };
   return _objectSpread({}, formatValue);
-}
-
-function requestURI(activeSession) {
-  var telephonySessionId = activeSession.telephonySessionId,
-      partyId = activeSession.partyId,
-      recordingId = activeSession.recordingId;
-  var prefix = "/account/~/telephony/sessions/".concat(telephonySessionId);
-  return {
-    hangUp: "".concat(prefix),
-    reject: "".concat(prefix, "/parties/").concat(partyId, "/reject"),
-    hold: "".concat(prefix, "/parties/").concat(partyId, "/hold"),
-    unhold: "".concat(prefix, "/parties/").concat(partyId, "/unhold"),
-    transfer: "".concat(prefix, "/parties/").concat(partyId, "/transfer"),
-    flip: "".concat(prefix, "/parties/").concat(partyId, "/flip"),
-    getPartyData: "".concat(prefix, "/parties/").concat(partyId),
-    mute: "".concat(prefix, "/parties/").concat(partyId),
-    record: "".concat(prefix, "/parties/").concat(partyId, "/recordings"),
-    stopRecord: "".concat(prefix, "/parties/").concat(partyId, "/recordings/").concat(recordingId)
-  };
 }
 
 function confictError(error) {

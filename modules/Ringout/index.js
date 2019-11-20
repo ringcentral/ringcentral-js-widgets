@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -62,10 +60,6 @@ var _dec, _class, _class2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -169,203 +163,173 @@ function (_RcModule) {
     }
   }, {
     key: "makeCall",
-    value: function () {
-      var _makeCall = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(_ref2) {
-        var fromNumber, toNumber, prompt, resp, startTime;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                fromNumber = _ref2.fromNumber, toNumber = _ref2.toNumber, prompt = _ref2.prompt;
+    value: function makeCall(_ref2) {
+      var fromNumber, toNumber, prompt, resp, startTime;
+      return regeneratorRuntime.async(function makeCall$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              fromNumber = _ref2.fromNumber, toNumber = _ref2.toNumber, prompt = _ref2.prompt;
 
-                if (!(this.status === _moduleStatuses["default"].ready)) {
-                  _context.next = 23;
-                  break;
-                }
-
-                this.store.dispatch({
-                  type: this.actionTypes.startToConnect
-                });
-                _context.prev = 3;
-                _context.next = 6;
-                return this._client.account().extension().ringOut().post({
-                  from: {
-                    phoneNumber: fromNumber
-                  },
-                  to: {
-                    phoneNumber: toNumber
-                  },
-                  playPrompt: prompt
-                });
-
-              case 6:
-                resp = _context.sent;
-
-                if (!this._contactMatcher) {
-                  _context.next = 10;
-                  break;
-                }
-
-                _context.next = 10;
-                return this._contactMatcher.forceMatchBatchNumbers({
-                  phoneNumbers: [fromNumber, toNumber]
-                });
-
-              case 10:
-                startTime = Date.now();
-                _context.next = 13;
-                return this._monitorRingout(resp.id, startTime);
-
-              case 13:
-                this.store.dispatch({
-                  type: this.actionTypes.connectSuccess
-                });
-                _context.next = 21;
-                break;
-
-              case 16:
-                _context.prev = 16;
-                _context.t0 = _context["catch"](3);
-                this.store.dispatch({
-                  type: this.actionTypes.connectError
-                });
-
-                if (!(_context.t0.message !== _ringoutErrors["default"].pollingCancelled)) {
-                  _context.next = 21;
-                  break;
-                }
-
-                throw _context.t0;
-
-              case 21:
+              if (!(this.status === _moduleStatuses["default"].ready)) {
                 _context.next = 23;
                 break;
+              }
 
-              case 23:
-              case "end":
-                return _context.stop();
-            }
+              this.store.dispatch({
+                type: this.actionTypes.startToConnect
+              });
+              _context.prev = 3;
+              _context.next = 6;
+              return regeneratorRuntime.awrap(this._client.account().extension().ringOut().post({
+                from: {
+                  phoneNumber: fromNumber
+                },
+                to: {
+                  phoneNumber: toNumber
+                },
+                playPrompt: prompt
+              }));
+
+            case 6:
+              resp = _context.sent;
+
+              if (!this._contactMatcher) {
+                _context.next = 10;
+                break;
+              }
+
+              _context.next = 10;
+              return regeneratorRuntime.awrap(this._contactMatcher.forceMatchBatchNumbers({
+                phoneNumbers: [fromNumber, toNumber]
+              }));
+
+            case 10:
+              startTime = Date.now();
+              _context.next = 13;
+              return regeneratorRuntime.awrap(this._monitorRingout(resp.id, startTime));
+
+            case 13:
+              this.store.dispatch({
+                type: this.actionTypes.connectSuccess
+              });
+              _context.next = 21;
+              break;
+
+            case 16:
+              _context.prev = 16;
+              _context.t0 = _context["catch"](3);
+              this.store.dispatch({
+                type: this.actionTypes.connectError
+              });
+
+              if (!(_context.t0.message !== _ringoutErrors["default"].pollingCancelled)) {
+                _context.next = 21;
+                break;
+              }
+
+              throw _context.t0;
+
+            case 21:
+              _context.next = 23;
+              break;
+
+            case 23:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this, [[3, 16]]);
-      }));
-
-      function makeCall(_x) {
-        return _makeCall.apply(this, arguments);
-      }
-
-      return makeCall;
-    }()
+        }
+      }, null, this, [[3, 16]]);
+    }
   }, {
     key: "_monitorRingout",
-    value: function () {
-      var _monitorRingout2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(ringoutId, startTime) {
-        var callerStatus;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return this._fetchRingoutStatus(ringoutId);
+    value: function _monitorRingout(ringoutId, startTime) {
+      var callerStatus;
+      return regeneratorRuntime.async(function _monitorRingout$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return regeneratorRuntime.awrap(this._fetchRingoutStatus(ringoutId));
 
-              case 2:
-                callerStatus = _context2.sent;
+            case 2:
+              callerStatus = _context2.sent;
 
-              case 3:
-                if (!(callerStatus === 'InProgress')) {
-                  _context2.next = 13;
-                  break;
-                }
-
-                if (!(Date.now() - startTime > this._timeBetweenCalls)) {
-                  _context2.next = 6;
-                  break;
-                }
-
-                throw new Error(_ringoutErrors["default"].pollingCancelled);
-
-              case 6:
-                _context2.next = 8;
-                return (0, _sleep["default"])(this._monitorInterval);
-
-              case 8:
-                _context2.next = 10;
-                return this._fetchRingoutStatus(ringoutId);
-
-              case 10:
-                callerStatus = _context2.sent;
-                _context2.next = 3;
+            case 3:
+              if (!(callerStatus === 'InProgress')) {
+                _context2.next = 13;
                 break;
+              }
 
-              case 13:
-                if (!(callerStatus !== 'Success' && callerStatus !== 'NoAnswer')) {
-                  _context2.next = 15;
-                  break;
-                }
+              if (!(Date.now() - startTime > this._timeBetweenCalls)) {
+                _context2.next = 6;
+                break;
+              }
 
-                throw new Error(_ringoutErrors["default"].firstLegConnectFailed);
+              throw new Error(_ringoutErrors["default"].pollingCancelled);
 
-              case 15:
-              case "end":
-                return _context2.stop();
-            }
+            case 6:
+              _context2.next = 8;
+              return regeneratorRuntime.awrap((0, _sleep["default"])(this._monitorInterval));
+
+            case 8:
+              _context2.next = 10;
+              return regeneratorRuntime.awrap(this._fetchRingoutStatus(ringoutId));
+
+            case 10:
+              callerStatus = _context2.sent;
+              _context2.next = 3;
+              break;
+
+            case 13:
+              if (!(callerStatus !== 'Success' && callerStatus !== 'NoAnswer')) {
+                _context2.next = 15;
+                break;
+              }
+
+              throw new Error(_ringoutErrors["default"].firstLegConnectFailed);
+
+            case 15:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function _monitorRingout(_x2, _x3) {
-        return _monitorRingout2.apply(this, arguments);
-      }
-
-      return _monitorRingout;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_fetchRingoutStatus",
-    value: function () {
-      var _fetchRingoutStatus2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(ringoutId) {
-        var callStatus, resp, exception;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
-                return this._client.account().extension().ringOut(ringoutId).get()["catch"](function (error) {
-                  if (error && error.apiResponse && error.apiResponse._response && error.apiResponse._response.status === 404) {
-                    callStatus = 'Success';
-                  }
-                });
+    value: function _fetchRingoutStatus(ringoutId) {
+      var callStatus, resp, exception;
+      return regeneratorRuntime.async(function _fetchRingoutStatus$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+              _context3.next = 3;
+              return regeneratorRuntime.awrap(this._client.account().extension().ringOut(ringoutId).get()["catch"](function (error) {
+                if (error && error.apiResponse && error.apiResponse._response && error.apiResponse._response.status === 404) {
+                  callStatus = 'Success';
+                }
+              }));
 
-              case 3:
-                resp = _context3.sent;
-                return _context3.abrupt("return", callStatus || resp.status.callerStatus);
+            case 3:
+              resp = _context3.sent;
+              return _context3.abrupt("return", callStatus || resp.status.callerStatus);
 
-              case 7:
-                _context3.prev = 7;
-                _context3.t0 = _context3["catch"](0);
-                exception = new Error(_ringoutErrors["default"].pollingFailed);
-                exception.error = _context3.t0;
-                throw exception;
+            case 7:
+              _context3.prev = 7;
+              _context3.t0 = _context3["catch"](0);
+              exception = new Error(_ringoutErrors["default"].pollingFailed);
+              exception.error = _context3.t0;
+              throw exception;
 
-              case 12:
-              case "end":
-                return _context3.stop();
-            }
+            case 12:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this, [[0, 7]]);
-      }));
-
-      function _fetchRingoutStatus(_x4) {
-        return _fetchRingoutStatus2.apply(this, arguments);
-      }
-
-      return _fetchRingoutStatus;
-    }()
+        }
+      }, null, this, [[0, 7]]);
+    }
   }, {
     key: "status",
     get: function get() {

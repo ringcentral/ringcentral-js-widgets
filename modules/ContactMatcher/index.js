@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -52,10 +50,6 @@ var _dec, _class, _class2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -111,104 +105,74 @@ function (_DataMatcher) {
 
   _createClass(ContactMatcher, [{
     key: "hasMatchNumber",
-    value: function () {
-      var _hasMatchNumber = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(_ref2) {
-        var phoneNumber, _ref2$ignoreCache, ignoreCache;
+    value: function hasMatchNumber(_ref2) {
+      var phoneNumber, _ref2$ignoreCache, ignoreCache;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                phoneNumber = _ref2.phoneNumber, _ref2$ignoreCache = _ref2.ignoreCache, ignoreCache = _ref2$ignoreCache === void 0 ? false : _ref2$ignoreCache;
-                _context.next = 3;
-                return this.match({
-                  queries: [phoneNumber],
-                  ignoreCache: ignoreCache
-                });
+      return regeneratorRuntime.async(function hasMatchNumber$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              phoneNumber = _ref2.phoneNumber, _ref2$ignoreCache = _ref2.ignoreCache, ignoreCache = _ref2$ignoreCache === void 0 ? false : _ref2$ignoreCache;
+              _context.next = 3;
+              return regeneratorRuntime.awrap(this.match({
+                queries: [phoneNumber],
+                ignoreCache: ignoreCache
+              }));
 
-              case 3:
-                return _context.abrupt("return", !!this.dataMapping[phoneNumber] && this.dataMapping[phoneNumber].length > 0);
+            case 3:
+              return _context.abrupt("return", !!this.dataMapping[phoneNumber] && this.dataMapping[phoneNumber].length > 0);
 
-              case 4:
-              case "end":
-                return _context.stop();
-            }
+            case 4:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function hasMatchNumber(_x) {
-        return _hasMatchNumber.apply(this, arguments);
-      }
-
-      return hasMatchNumber;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "forceMatchBatchNumbers",
-    value: function () {
-      var _forceMatchBatchNumbers = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(_ref3) {
-        var phoneNumbers;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                phoneNumbers = _ref3.phoneNumbers;
-                _context2.next = 3;
-                return this.match({
-                  queries: phoneNumbers,
-                  ignoreCache: true,
-                  ignoreQueue: true
-                });
+    value: function forceMatchBatchNumbers(_ref3) {
+      var phoneNumbers;
+      return regeneratorRuntime.async(function forceMatchBatchNumbers$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              phoneNumbers = _ref3.phoneNumbers;
+              _context2.next = 3;
+              return regeneratorRuntime.awrap(this.match({
+                queries: phoneNumbers,
+                ignoreCache: true,
+                ignoreQueue: true
+              }));
 
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
+            case 3:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function forceMatchBatchNumbers(_x2) {
-        return _forceMatchBatchNumbers.apply(this, arguments);
-      }
-
-      return forceMatchBatchNumbers;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "forceMatchNumber",
-    value: function () {
-      var _forceMatchNumber = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(_ref4) {
-        var phoneNumber;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                phoneNumber = _ref4.phoneNumber;
-                _context3.next = 3;
-                return this.forceMatchBatchNumbers({
-                  phoneNumbers: [phoneNumber]
-                });
+    value: function forceMatchNumber(_ref4) {
+      var phoneNumber;
+      return regeneratorRuntime.async(function forceMatchNumber$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              phoneNumber = _ref4.phoneNumber;
+              _context3.next = 3;
+              return regeneratorRuntime.awrap(this.forceMatchBatchNumbers({
+                phoneNumbers: [phoneNumber]
+              }));
 
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
+            case 3:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function forceMatchNumber(_x3) {
-        return _forceMatchNumber.apply(this, arguments);
-      }
-
-      return forceMatchNumber;
-    }()
+        }
+      }, null, this);
+    }
   }]);
 
   return ContactMatcher;

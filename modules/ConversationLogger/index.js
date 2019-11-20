@@ -97,10 +97,6 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -133,7 +129,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -288,58 +284,48 @@ function (_LoggerBase) {
     }
   }, {
     key: "_processQueue",
-    value: function () {
-      var _processQueue2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var _this2 = this;
+    value: function _processQueue() {
+      var _this2 = this;
 
-        var ownerId;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                ownerId = this._auth.ownerId;
-                _context2.next = 3;
-                return (0, _sleep["default"])(300);
+      var ownerId;
+      return regeneratorRuntime.async(function _processQueue$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              ownerId = this._auth.ownerId;
+              _context2.next = 3;
+              return regeneratorRuntime.awrap((0, _sleep["default"])(300));
 
-              case 3:
-                if (!(ownerId !== this._auth.ownerId)) {
-                  _context2.next = 5;
-                  break;
-                }
+            case 3:
+              if (!(ownerId !== this._auth.ownerId)) {
+                _context2.next = 5;
+                break;
+              }
 
-                return _context2.abrupt("return");
+              return _context2.abrupt("return");
 
-              case 5:
-                _context2.next = 7;
-                return Promise.all(this._autoLogQueue.splice(0, 10).map(function (conversation) {
-                  return _this2._processConversationLog({
-                    conversation: conversation
-                  });
-                }));
+            case 5:
+              _context2.next = 7;
+              return regeneratorRuntime.awrap(Promise.all(this._autoLogQueue.splice(0, 10).map(function (conversation) {
+                return _this2._processConversationLog({
+                  conversation: conversation
+                });
+              })));
 
-              case 7:
-                if (ownerId === this._auth.ownerId && this._autoLogQueue.length > 0) {
-                  this._autoLogPromise = this._processQueue();
-                } else {
-                  this._autoLogPromise = null;
-                }
+            case 7:
+              if (ownerId === this._auth.ownerId && this._autoLogQueue.length > 0) {
+                this._autoLogPromise = this._processQueue();
+              } else {
+                this._autoLogPromise = null;
+              }
 
-              case 8:
-              case "end":
-                return _context2.stop();
-            }
+            case 8:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee, this);
-      }));
-
-      function _processQueue() {
-        return _processQueue2.apply(this, arguments);
-      }
-
-      return _processQueue;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_queueAutoLogConversation",
     value: function _queueAutoLogConversation(_ref3) {
@@ -392,90 +378,80 @@ function (_LoggerBase) {
     }
   }, {
     key: "_processConversationLog",
-    value: function () {
-      var _processConversationLog2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(_ref4) {
-        var conversation, addIfNotExist, numbers, numberMap, selfNumber, selfMatches, correspondentMatches, selfEntity, correspondentEntity;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                conversation = _ref4.conversation;
-                _context3.next = 3;
-                return this._conversationMatcher.match({
-                  queries: [conversation.conversationLogId]
-                });
+    value: function _processConversationLog(_ref4) {
+      var conversation, addIfNotExist, numbers, numberMap, selfNumber, selfMatches, correspondentMatches, selfEntity, correspondentEntity;
+      return regeneratorRuntime.async(function _processConversationLog$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              conversation = _ref4.conversation;
+              _context3.next = 3;
+              return regeneratorRuntime.awrap(this._conversationMatcher.match({
+                queries: [conversation.conversationLogId]
+              }));
 
-              case 3:
-                if (!(this._isAutoUpdate && this._conversationMatcher.dataMapping[conversation.conversationLogId] && this._conversationMatcher.dataMapping[conversation.conversationLogId].length)) {
-                  _context3.next = 8;
-                  break;
-                }
+            case 3:
+              if (!(this._isAutoUpdate && this._conversationMatcher.dataMapping[conversation.conversationLogId] && this._conversationMatcher.dataMapping[conversation.conversationLogId].length)) {
+                _context3.next = 8;
+                break;
+              }
 
-                _context3.next = 6;
-                return this._autoLogConversation({
-                  conversation: conversation
-                });
+              _context3.next = 6;
+              return regeneratorRuntime.awrap(this._autoLogConversation({
+                conversation: conversation
+              }));
 
-              case 6:
+            case 6:
+              _context3.next = 24;
+              break;
+
+            case 8:
+              if (!(this.autoLog && conversation.type === _messageTypes["default"].sms)) {
                 _context3.next = 24;
                 break;
+              }
 
-              case 8:
-                if (!(this.autoLog && conversation.type === _messageTypes["default"].sms)) {
-                  _context3.next = 24;
-                  break;
+              /* eslint { "no-inner-declarations": 0 } */
+              addIfNotExist = function addIfNotExist(contact) {
+                var number = contact.phoneNumber || contact.extensionNumber;
+
+                if (number && !numberMap[number]) {
+                  numbers.push(number);
+                  numberMap[number] = true;
                 }
+              };
 
-                /* eslint { "no-inner-declarations": 0 } */
-                addIfNotExist = function addIfNotExist(contact) {
-                  var number = contact.phoneNumber || contact.extensionNumber;
+              // new entry
+              numbers = [];
+              numberMap = {};
+              addIfNotExist(conversation.self);
+              conversation.correspondents.forEach(addIfNotExist);
+              _context3.next = 16;
+              return regeneratorRuntime.awrap(this._contactMatcher.match({
+                queries: numbers
+              }));
 
-                  if (number && !numberMap[number]) {
-                    numbers.push(number);
-                    numberMap[number] = true;
-                  }
-                };
+            case 16:
+              selfNumber = conversation.self && (conversation.self.phoneNumber || conversation.self.extensionNumber);
+              selfMatches = selfNumber && this._contactMatcher.dataMapping[conversation.self] || [];
+              correspondentMatches = this._getCorrespondentMatches(conversation);
+              selfEntity = selfMatches && selfMatches.length === 1 && selfMatches[0] || null;
+              correspondentEntity = this.getLastMatchedCorrespondentEntity(conversation);
+              correspondentEntity = correspondentEntity || correspondentMatches && correspondentMatches.length === 1 && correspondentMatches[0] || null;
+              _context3.next = 24;
+              return regeneratorRuntime.awrap(this._autoLogConversation({
+                conversation: conversation,
+                selfEntity: selfEntity,
+                correspondentEntity: correspondentEntity
+              }));
 
-                // new entry
-                numbers = [];
-                numberMap = {};
-                addIfNotExist(conversation.self);
-                conversation.correspondents.forEach(addIfNotExist);
-                _context3.next = 16;
-                return this._contactMatcher.match({
-                  queries: numbers
-                });
-
-              case 16:
-                selfNumber = conversation.self && (conversation.self.phoneNumber || conversation.self.extensionNumber);
-                selfMatches = selfNumber && this._contactMatcher.dataMapping[conversation.self] || [];
-                correspondentMatches = this._getCorrespondentMatches(conversation);
-                selfEntity = selfMatches && selfMatches.length === 1 && selfMatches[0] || null;
-                correspondentEntity = this.getLastMatchedCorrespondentEntity(conversation);
-                correspondentEntity = correspondentEntity || correspondentMatches && correspondentMatches.length === 1 && correspondentMatches[0] || null;
-                _context3.next = 24;
-                return this._autoLogConversation({
-                  conversation: conversation,
-                  selfEntity: selfEntity,
-                  correspondentEntity: correspondentEntity
-                });
-
-              case 24:
-              case "end":
-                return _context3.stop();
-            }
+            case 24:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function _processConversationLog(_x) {
-        return _processConversationLog2.apply(this, arguments);
-      }
-
-      return _processConversationLog;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "accordWithProcessLogRequirement",
     value: function accordWithProcessLogRequirement() {
@@ -522,153 +498,113 @@ function (_LoggerBase) {
     }
   }, {
     key: "_autoLogConversation",
-    value: function () {
-      var _autoLogConversation2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(_ref5) {
-        var conversation, selfEntity, correspondentEntity;
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                conversation = _ref5.conversation, selfEntity = _ref5.selfEntity, correspondentEntity = _ref5.correspondentEntity;
-                _context4.next = 3;
-                return this.log({
-                  conversation: conversation,
-                  selfEntity: selfEntity,
-                  correspondentEntity: correspondentEntity
-                });
+    value: function _autoLogConversation(_ref5) {
+      var conversation, selfEntity, correspondentEntity;
+      return regeneratorRuntime.async(function _autoLogConversation$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              conversation = _ref5.conversation, selfEntity = _ref5.selfEntity, correspondentEntity = _ref5.correspondentEntity;
+              _context4.next = 3;
+              return regeneratorRuntime.awrap(this.log({
+                conversation: conversation,
+                selfEntity: selfEntity,
+                correspondentEntity: correspondentEntity
+              }));
 
-              case 3:
-              case "end":
-                return _context4.stop();
-            }
+            case 3:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function _autoLogConversation(_x2) {
-        return _autoLogConversation2.apply(this, arguments);
-      }
-
-      return _autoLogConversation;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "log",
-    value: function () {
-      var _log = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(_ref6) {
-        var conversation, options;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                conversation = _ref6.conversation, options = _objectWithoutProperties(_ref6, ["conversation"]);
+    value: function log(_ref6) {
+      var conversation, options;
+      return regeneratorRuntime.async(function log$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              conversation = _ref6.conversation, options = _objectWithoutProperties(_ref6, ["conversation"]);
 
-                _get(_getPrototypeOf(ConversationLogger.prototype), "log", this).call(this, _objectSpread({
-                  item: conversation
-                }, options));
+              _get(_getPrototypeOf(ConversationLogger.prototype), "log", this).call(this, _objectSpread({
+                item: conversation
+              }, options));
 
-              case 2:
-              case "end":
-                return _context5.stop();
-            }
+            case 2:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee4, this);
-      }));
-
-      function log(_x3) {
-        return _log.apply(this, arguments);
-      }
-
-      return log;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "logConversation",
-    value: function () {
-      var _logConversation = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(_ref7) {
-        var _this6 = this;
+    value: function logConversation(_ref7) {
+      var _this6 = this;
 
-        var conversationId, correspondentEntity, redirect, options;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                conversationId = _ref7.conversationId, correspondentEntity = _ref7.correspondentEntity, redirect = _ref7.redirect, options = _objectWithoutProperties(_ref7, ["conversationId", "correspondentEntity", "redirect"]);
+      var conversationId, correspondentEntity, redirect, options;
+      return regeneratorRuntime.async(function logConversation$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              conversationId = _ref7.conversationId, correspondentEntity = _ref7.correspondentEntity, redirect = _ref7.redirect, options = _objectWithoutProperties(_ref7, ["conversationId", "correspondentEntity", "redirect"]);
 
-                if (!this.conversationLogMap[conversationId]) {
-                  _context6.next = 4;
-                  break;
+              if (!this.conversationLogMap[conversationId]) {
+                _context6.next = 4;
+                break;
+              }
+
+              _context6.next = 4;
+              return regeneratorRuntime.awrap(Promise.all(Object.keys(this.conversationLogMap[conversationId]).map(function (date) {
+                return _this6.conversationLogMap[conversationId][date];
+              }).sort(_messageHelper.sortByDate).map(function (conversation, idx) {
+                var queueIndex = _this6._autoLogQueue.find(function (item) {
+                  return item.conversationLogId === conversation.conversationLogId;
+                });
+
+                if (queueIndex > -1) {
+                  _this6._autoLogQueue.splice(queueIndex, 1);
                 }
 
-                _context6.next = 4;
-                return Promise.all(Object.keys(this.conversationLogMap[conversationId]).map(function (date) {
-                  return _this6.conversationLogMap[conversationId][date];
-                }).sort(_messageHelper.sortByDate).map(function (conversation, idx) {
-                  var queueIndex = _this6._autoLogQueue.find(function (item) {
-                    return item.conversationLogId === conversation.conversationLogId;
-                  });
+                return _this6.log(_objectSpread({}, options, {
+                  conversation: conversation,
+                  correspondentEntity: correspondentEntity,
+                  redirect: redirect && idx === 0 // only direct on the first item
 
-                  if (queueIndex > -1) {
-                    _this6._autoLogQueue.splice(queueIndex, 1);
-                  }
-
-                  return _this6.log(_objectSpread({}, options, {
-                    conversation: conversation,
-                    correspondentEntity: correspondentEntity,
-                    redirect: redirect && idx === 0 // only direct on the first item
-
-                  }));
                 }));
+              })));
 
-              case 4:
-              case "end":
-                return _context6.stop();
-            }
+            case 4:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee5, this);
-      }));
-
-      function logConversation(_x4) {
-        return _logConversation.apply(this, arguments);
-      }
-
-      return logConversation;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "setAutoLog",
-    value: function () {
-      var _setAutoLog = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6(autoLog) {
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                if (this.ready && autoLog !== this.autoLog) {
-                  this.store.dispatch({
-                    type: this.actionTypes.setAutoLog,
-                    autoLog: autoLog
-                  });
-                }
+    value: function setAutoLog(autoLog) {
+      return regeneratorRuntime.async(function setAutoLog$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              if (this.ready && autoLog !== this.autoLog) {
+                this.store.dispatch({
+                  type: this.actionTypes.setAutoLog,
+                  autoLog: autoLog
+                });
+              }
 
-              case 1:
-              case "end":
-                return _context7.stop();
-            }
+            case 1:
+            case "end":
+              return _context7.stop();
           }
-        }, _callee6, this);
-      }));
-
-      function setAutoLog(_x5) {
-        return _setAutoLog.apply(this, arguments);
-      }
-
-      return setAutoLog;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "getConversationLogId",
     value: function getConversationLogId(message) {

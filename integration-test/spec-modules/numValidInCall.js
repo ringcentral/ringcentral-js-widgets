@@ -7,10 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
 require("regenerator-runtime/runtime");
 
 var _HelpUtil = require("../utils/HelpUtil");
@@ -23,39 +19,27 @@ var _this = void 0;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var _default = function _default(Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) {
-  describe('Number Validation when Making Phone Call',
-  /*#__PURE__*/
-  _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee34() {
-    return regeneratorRuntime.wrap(function _callee34$(_context34) {
+  describe('Number Validation when Making Phone Call', function _callee34() {
+    return regeneratorRuntime.async(function _callee34$(_context34) {
       while (1) {
         switch (_context34.prev = _context34.next) {
           case 0:
             _this.timeout(20000);
 
-            before(
-            /*#__PURE__*/
-            _asyncToGenerator(
-            /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee() {
+            before(function _callee() {
               var isLoginSuccess;
-              return regeneratorRuntime.wrap(function _callee$(_context) {
+              return regeneratorRuntime.async(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      Call._makeCall = function (_ref3) {
-                        var toNumber = _ref3.toNumber;
+                      Call._makeCall = function (_ref) {
+                        var toNumber = _ref.toNumber;
                         Call.__toNumber = toNumber;
                       };
 
                       _context.next = 3;
-                      return (0, _HelpUtil.ensureLogin)(Auth, accountWithMultiDP);
+                      return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(Auth, accountWithMultiDP));
 
                     case 3:
                       isLoginSuccess = _context.sent;
@@ -67,21 +51,17 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       }
 
                       _context.next = 7;
-                      return (0, _WaitUtil.waitInSeconds)(1);
+                      return regeneratorRuntime.awrap((0, _WaitUtil.waitInSeconds)(1));
 
                     case 7:
                     case "end":
                       return _context.stop();
                   }
                 }
-              }, _callee);
-            })));
-            afterEach(
-            /*#__PURE__*/
-            _asyncToGenerator(
-            /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee2() {
-              return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              });
+            });
+            afterEach(function _callee2() {
+              return regeneratorRuntime.async(function _callee2$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
@@ -92,26 +72,22 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       return _context2.stop();
                   }
                 }
-              }, _callee2);
-            })));
+              });
+            });
             describe('Basic Validation', function () {
               _this.timeout(10000);
 
-              beforeEach(
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee3() {
+              beforeEach(function _callee3() {
                 var isAlertClear;
-                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                return regeneratorRuntime.async(function _callee3$(_context3) {
                   while (1) {
                     switch (_context3.prev = _context3.next) {
                       case 0:
                         _context3.next = 2;
-                        return (0, _WaitUtil.waitUntilEqual)(function () {
+                        return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
                           Alert.dismissAll();
                           return Alert.state.messages.length;
-                        }, 'Alert', 0, 5);
+                        }, 'Alert', 0, 5));
 
                       case 2:
                         isAlertClear = _context3.sent;
@@ -125,22 +101,18 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context3.stop();
                     }
                   }
-                }, _callee3);
-              })));
-              it('Should Alert Invalid Number - Invalid Char in ToNumber',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee4() {
-                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                });
+              });
+              it('Should Alert Invalid Number - Invalid Char in ToNumber', function _callee4() {
+                return regeneratorRuntime.async(function _callee4$(_context4) {
                   while (1) {
                     switch (_context4.prev = _context4.next) {
                       case 0:
                         _context4.prev = 0;
                         _context4.next = 3;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: "iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber#*"
-                        });
+                        }));
 
                       case 3:
                         _context4.next = 8;
@@ -162,22 +134,18 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context4.stop();
                     }
                   }
-                }, _callee4, null, [[0, 5]]);
-              })));
-              it('Should Alert Invalid Number - Valid Special Char but No Digital Number',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee5() {
-                return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                }, null, null, [[0, 5]]);
+              });
+              it('Should Alert Invalid Number - Valid Special Char but No Digital Number', function _callee5() {
+                return regeneratorRuntime.async(function _callee5$(_context5) {
                   while (1) {
                     switch (_context5.prev = _context5.next) {
                       case 0:
                         _context5.prev = 0;
                         _context5.next = 3;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '+#'
-                        });
+                        }));
 
                       case 3:
                         _context5.next = 8;
@@ -199,22 +167,18 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context5.stop();
                     }
                   }
-                }, _callee5, null, [[0, 5]]);
-              })));
-              it('Should Not Alert Anything - Call Number in E.164 Format',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee6() {
-                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                }, null, null, [[0, 5]]);
+              });
+              it('Should Not Alert Anything - Call Number in E.164 Format', function _callee6() {
+                return regeneratorRuntime.async(function _callee6$(_context6) {
                   while (1) {
                     switch (_context6.prev = _context6.next) {
                       case 0:
                         _context6.prev = 0;
                         _context6.next = 3;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '+13065221112'
-                        });
+                        }));
 
                       case 3:
                         _context6.next = 8;
@@ -236,27 +200,23 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context6.stop();
                     }
                   }
-                }, _callee6, null, [[0, 5]]);
-              })));
+                }, null, null, [[0, 5]]);
+              });
             });
             describe('Validation with US/CA Local Number Format', function () {
               _this.timeout(10000);
 
-              beforeEach(
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee7() {
+              beforeEach(function _callee7() {
                 var isAlertClear;
-                return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                return regeneratorRuntime.async(function _callee7$(_context7) {
                   while (1) {
                     switch (_context7.prev = _context7.next) {
                       case 0:
                         _context7.next = 2;
-                        return (0, _WaitUtil.waitUntilEqual)(function () {
+                        return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
                           Alert.dismissAll();
                           return Alert.state.messages.length;
-                        }, 'Alert', 0, 5);
+                        }, 'Alert', 0, 5));
 
                       case 2:
                         isAlertClear = _context7.sent;
@@ -272,14 +232,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context7.stop();
                     }
                   }
-                }, _callee7);
-              })));
-              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx Format',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee8() {
-                return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                });
+              });
+              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx Format', function _callee8() {
+                return regeneratorRuntime.async(function _callee8$(_context8) {
                   while (1) {
                     switch (_context8.prev = _context8.next) {
                       case 0:
@@ -289,9 +245,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context8.prev = 1;
                         _context8.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '(650)827-5672'
-                        });
+                        }));
 
                       case 4:
                         _context8.next = 9;
@@ -313,14 +269,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context8.stop();
                     }
                   }
-                }, _callee8, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee9() {
-                return regeneratorRuntime.wrap(function _callee9$(_context9) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', function _callee9() {
+                return regeneratorRuntime.async(function _callee9$(_context9) {
                   while (1) {
                     switch (_context9.prev = _context9.next) {
                       case 0:
@@ -330,9 +282,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context9.prev = 1;
                         _context9.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '(650) 827-5672'
-                        });
+                        }));
 
                       case 4:
                         _context9.next = 9;
@@ -354,14 +306,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context9.stop();
                     }
                   }
-                }, _callee9, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx*xxx Format',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee10() {
-                return regeneratorRuntime.wrap(function _callee10$(_context10) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx*xxx Format', function _callee10() {
+                return regeneratorRuntime.async(function _callee10$(_context10) {
                   while (1) {
                     switch (_context10.prev = _context10.next) {
                       case 0:
@@ -371,9 +319,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context10.prev = 1;
                         _context10.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '(650)827-5672*101'
-                        });
+                        }));
 
                       case 4:
                         _context10.next = 9;
@@ -395,14 +343,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context10.stop();
                     }
                   }
-                }, _callee10, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee11() {
-                return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', function _callee11() {
+                return regeneratorRuntime.async(function _callee11$(_context11) {
                   while (1) {
                     switch (_context11.prev = _context11.next) {
                       case 0:
@@ -412,9 +356,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context11.prev = 1;
                         _context11.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '(650) 827-5672*101'
-                        });
+                        }));
 
                       case 4:
                         _context11.next = 9;
@@ -436,14 +380,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context11.stop();
                     }
                   }
-                }, _callee11, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx Format',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee12() {
-                return regeneratorRuntime.wrap(function _callee12$(_context12) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx Format', function _callee12() {
+                return regeneratorRuntime.async(function _callee12$(_context12) {
                   while (1) {
                     switch (_context12.prev = _context12.next) {
                       case 0:
@@ -453,9 +393,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context12.prev = 1;
                         _context12.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '650-827-5672'
-                        });
+                        }));
 
                       case 4:
                         _context12.next = 9;
@@ -477,14 +417,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context12.stop();
                     }
                   }
-                }, _callee12, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx*xxx Format',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee13() {
-                return regeneratorRuntime.wrap(function _callee13$(_context13) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx*xxx Format', function _callee13() {
+                return regeneratorRuntime.async(function _callee13$(_context13) {
                   while (1) {
                     switch (_context13.prev = _context13.next) {
                       case 0:
@@ -494,9 +430,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context13.prev = 1;
                         _context13.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '650-827-5672*101'
-                        });
+                        }));
 
                       case 4:
                         _context13.next = 9;
@@ -518,27 +454,23 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context13.stop();
                     }
                   }
-                }, _callee13, null, [[1, 6]]);
-              })));
+                }, null, null, [[1, 6]]);
+              });
             });
             describe('Validation with Region Setting', function () {
               _this.timeout(10000);
 
-              beforeEach(
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee14() {
+              beforeEach(function _callee14() {
                 var isAlertClear;
-                return regeneratorRuntime.wrap(function _callee14$(_context14) {
+                return regeneratorRuntime.async(function _callee14$(_context14) {
                   while (1) {
                     switch (_context14.prev = _context14.next) {
                       case 0:
                         _context14.next = 2;
-                        return (0, _WaitUtil.waitUntilEqual)(function () {
+                        return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
                           Alert.dismissAll();
                           return Alert.state.messages.length;
-                        }, 'Alert', 0, 5);
+                        }, 'Alert', 0, 5));
 
                       case 2:
                         isAlertClear = _context14.sent;
@@ -554,14 +486,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context14.stop();
                     }
                   }
-                }, _callee14);
-              })));
-              it('Should Alert No AreaCode - Call 7 Digital Number with US Dialing Plan without Area Code',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee15() {
-                return regeneratorRuntime.wrap(function _callee15$(_context15) {
+                });
+              });
+              it('Should Alert No AreaCode - Call 7 Digital Number with US Dialing Plan without Area Code', function _callee15() {
+                return regeneratorRuntime.async(function _callee15$(_context15) {
                   while (1) {
                     switch (_context15.prev = _context15.next) {
                       case 0:
@@ -571,9 +499,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context15.prev = 1;
                         _context15.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '6545672'
-                        });
+                        }));
 
                       case 4:
                         _context15.next = 9;
@@ -595,14 +523,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context15.stop();
                     }
                   }
-                }, _callee15, null, [[1, 6]]);
-              })));
-              it('Should Alert No AreaCode - Call 7 Digital Number with CA Dialing Plan without Area Code',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee16() {
-                return regeneratorRuntime.wrap(function _callee16$(_context16) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Alert No AreaCode - Call 7 Digital Number with CA Dialing Plan without Area Code', function _callee16() {
+                return regeneratorRuntime.async(function _callee16$(_context16) {
                   while (1) {
                     switch (_context16.prev = _context16.next) {
                       case 0:
@@ -612,9 +536,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context16.prev = 1;
                         _context16.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '6545672'
-                        });
+                        }));
 
                       case 4:
                         _context16.next = 9;
@@ -636,14 +560,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context16.stop();
                     }
                   }
-                }, _callee16, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call 7 Digital Number with US Dialing Plan and Area Code',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee17() {
-                return regeneratorRuntime.wrap(function _callee17$(_context17) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call 7 Digital Number with US Dialing Plan and Area Code', function _callee17() {
+                return regeneratorRuntime.async(function _callee17$(_context17) {
                   while (1) {
                     switch (_context17.prev = _context17.next) {
                       case 0:
@@ -653,9 +573,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context17.prev = 1;
                         _context17.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '6545672'
-                        });
+                        }));
 
                       case 4:
                         _context17.next = 9;
@@ -678,14 +598,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context17.stop();
                     }
                   }
-                }, _callee17, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call 7 Digital Number with CA Dialing Plan and Area Code',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee18() {
-                return regeneratorRuntime.wrap(function _callee18$(_context18) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call 7 Digital Number with CA Dialing Plan and Area Code', function _callee18() {
+                return regeneratorRuntime.async(function _callee18$(_context18) {
                   while (1) {
                     switch (_context18.prev = _context18.next) {
                       case 0:
@@ -695,9 +611,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context18.prev = 1;
                         _context18.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '6545672'
-                        });
+                        }));
 
                       case 4:
                         _context18.next = 9;
@@ -720,14 +636,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context18.stop();
                     }
                   }
-                }, _callee18, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call 7 Digital Number with non US/CA Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee19() {
-                return regeneratorRuntime.wrap(function _callee19$(_context19) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call 7 Digital Number with non US/CA Dialing Plan', function _callee19() {
+                return regeneratorRuntime.async(function _callee19$(_context19) {
                   while (1) {
                     switch (_context19.prev = _context19.next) {
                       case 0:
@@ -737,9 +649,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context19.prev = 1;
                         _context19.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '6545672'
-                        });
+                        }));
 
                       case 4:
                         _context19.next = 9;
@@ -762,14 +674,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context19.stop();
                     }
                   }
-                }, _callee19, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call greater than 7 Digital Number with US Dialing Plan and Area Code',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee20() {
-                return regeneratorRuntime.wrap(function _callee20$(_context20) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call greater than 7 Digital Number with US Dialing Plan and Area Code', function _callee20() {
+                return regeneratorRuntime.async(function _callee20$(_context20) {
                   while (1) {
                     switch (_context20.prev = _context20.next) {
                       case 0:
@@ -779,9 +687,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context20.prev = 1;
                         _context20.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '6571234567'
-                        });
+                        }));
 
                       case 4:
                         _context20.next = 9;
@@ -804,14 +712,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context20.stop();
                     }
                   }
-                }, _callee20, null, [[1, 6]]);
-              })));
-              it('Should Alert noInternational - Call CA number with US Dialing Plan and Area Code',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee21() {
-                return regeneratorRuntime.wrap(function _callee21$(_context21) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Alert noInternational - Call CA number with US Dialing Plan and Area Code', function _callee21() {
+                return regeneratorRuntime.async(function _callee21$(_context21) {
                   while (1) {
                     switch (_context21.prev = _context21.next) {
                       case 0:
@@ -821,9 +725,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context21.prev = 1;
                         _context21.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '2501234567'
-                        });
+                        }));
 
                       case 4:
                         _context21.next = 9;
@@ -846,14 +750,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context21.stop();
                     }
                   }
-                }, _callee21, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call greater than 7 Digital Number with CA Dialing Plan and Area Code',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee22() {
-                return regeneratorRuntime.wrap(function _callee22$(_context22) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call greater than 7 Digital Number with CA Dialing Plan and Area Code', function _callee22() {
+                return regeneratorRuntime.async(function _callee22$(_context22) {
                   while (1) {
                     switch (_context22.prev = _context22.next) {
                       case 0:
@@ -863,9 +763,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context22.prev = 1;
                         _context22.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '4031234567'
-                        });
+                        }));
 
                       case 4:
                         _context22.next = 9;
@@ -888,14 +788,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context22.stop();
                     }
                   }
-                }, _callee22, null, [[1, 6]]);
-              })));
-              it('Should Alert noInternational - Call US number with CA Dialing Plan and Area Code',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee23() {
-                return regeneratorRuntime.wrap(function _callee23$(_context23) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Alert noInternational - Call US number with CA Dialing Plan and Area Code', function _callee23() {
+                return regeneratorRuntime.async(function _callee23$(_context23) {
                   while (1) {
                     switch (_context23.prev = _context23.next) {
                       case 0:
@@ -905,9 +801,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context23.prev = 1;
                         _context23.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '6501234567'
-                        });
+                        }));
 
                       case 4:
                         _context23.next = 9;
@@ -930,14 +826,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context23.stop();
                     }
                   }
-                }, _callee23, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call greater than 7 Digital Number with non US/CA Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee24() {
-                return regeneratorRuntime.wrap(function _callee24$(_context24) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call greater than 7 Digital Number with non US/CA Dialing Plan', function _callee24() {
+                return regeneratorRuntime.async(function _callee24$(_context24) {
                   while (1) {
                     switch (_context24.prev = _context24.next) {
                       case 0:
@@ -947,9 +839,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context24.prev = 1;
                         _context24.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '1234567890'
-                        });
+                        }));
 
                       case 4:
                         _context24.next = 9;
@@ -972,14 +864,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context24.stop();
                     }
                   }
-                }, _callee24, null, [[1, 6]]);
-              })));
-              it('Should Alert Special Number - Call 911 with US Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee25() {
-                return regeneratorRuntime.wrap(function _callee25$(_context25) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Alert Special Number - Call 911 with US Dialing Plan', function _callee25() {
+                return regeneratorRuntime.async(function _callee25$(_context25) {
                   while (1) {
                     switch (_context25.prev = _context25.next) {
                       case 0:
@@ -989,9 +877,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context25.prev = 1;
                         _context25.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '911'
-                        });
+                        }));
 
                       case 4:
                         _context25.next = 9;
@@ -1013,14 +901,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context25.stop();
                     }
                   }
-                }, _callee25, null, [[1, 6]]);
-              })));
-              it('Should Alert Special Number - Call 999 with GB Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee26() {
-                return regeneratorRuntime.wrap(function _callee26$(_context26) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Alert Special Number - Call 999 with GB Dialing Plan', function _callee26() {
+                return regeneratorRuntime.async(function _callee26$(_context26) {
                   while (1) {
                     switch (_context26.prev = _context26.next) {
                       case 0:
@@ -1030,9 +914,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context26.prev = 1;
                         _context26.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '999'
-                        });
+                        }));
 
                       case 4:
                         _context26.next = 9;
@@ -1054,14 +938,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context26.stop();
                     }
                   }
-                }, _callee26, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Special Number - Call 999 with US Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee27() {
-                return regeneratorRuntime.wrap(function _callee27$(_context27) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Special Number - Call 999 with US Dialing Plan', function _callee27() {
+                return regeneratorRuntime.async(function _callee27$(_context27) {
                   while (1) {
                     switch (_context27.prev = _context27.next) {
                       case 0:
@@ -1071,9 +951,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context27.prev = 1;
                         _context27.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '999'
-                        });
+                        }));
 
                       case 4:
                         _context27.next = 9;
@@ -1092,14 +972,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context27.stop();
                     }
                   }
-                }, _callee27, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Special Number - Call 911 with GB Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee28() {
-                return regeneratorRuntime.wrap(function _callee28$(_context28) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Special Number - Call 911 with GB Dialing Plan', function _callee28() {
+                return regeneratorRuntime.async(function _callee28$(_context28) {
                   while (1) {
                     switch (_context28.prev = _context28.next) {
                       case 0:
@@ -1109,9 +985,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context28.prev = 1;
                         _context28.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '911'
-                        });
+                        }));
 
                       case 4:
                         _context28.next = 9;
@@ -1130,14 +1006,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context28.stop();
                     }
                   }
-                }, _callee28, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call 101(Existed Extension/Not Special Number) with US Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee29() {
-                return regeneratorRuntime.wrap(function _callee29$(_context29) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call 101(Existed Extension/Not Special Number) with US Dialing Plan', function _callee29() {
+                return regeneratorRuntime.async(function _callee29$(_context29) {
                   while (1) {
                     switch (_context29.prev = _context29.next) {
                       case 0:
@@ -1147,9 +1019,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context29.prev = 1;
                         _context29.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '101'
-                        });
+                        }));
 
                       case 4:
                         _context29.next = 9;
@@ -1171,14 +1043,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context29.stop();
                     }
                   }
-                }, _callee29, null, [[1, 6]]);
-              })));
-              it('Should Alert Special Number - Call 101(Existed Extension/Speical Number) with GB Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee30() {
-                return regeneratorRuntime.wrap(function _callee30$(_context30) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Alert Special Number - Call 101(Existed Extension/Speical Number) with GB Dialing Plan', function _callee30() {
+                return regeneratorRuntime.async(function _callee30$(_context30) {
                   while (1) {
                     switch (_context30.prev = _context30.next) {
                       case 0:
@@ -1188,9 +1056,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context30.prev = 1;
                         _context30.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '101'
-                        });
+                        }));
 
                       case 4:
                         _context30.next = 9;
@@ -1212,14 +1080,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context30.stop();
                     }
                   }
-                }, _callee30, null, [[1, 6]]);
-              })));
-              it('Should Not Alert Anything - Call 102(Existed Extension) with GB Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee31() {
-                return regeneratorRuntime.wrap(function _callee31$(_context31) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Not Alert Anything - Call 102(Existed Extension) with GB Dialing Plan', function _callee31() {
+                return regeneratorRuntime.async(function _callee31$(_context31) {
                   while (1) {
                     switch (_context31.prev = _context31.next) {
                       case 0:
@@ -1229,9 +1093,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context31.prev = 1;
                         _context31.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '102'
-                        });
+                        }));
 
                       case 4:
                         _context31.next = 9;
@@ -1253,14 +1117,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context31.stop();
                     }
                   }
-                }, _callee31, null, [[1, 6]]);
-              })));
-              it('Should Alert Not An Extension - Call 998(Non Extension) with US Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee32() {
-                return regeneratorRuntime.wrap(function _callee32$(_context32) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Alert Not An Extension - Call 998(Non Extension) with US Dialing Plan', function _callee32() {
+                return regeneratorRuntime.async(function _callee32$(_context32) {
                   while (1) {
                     switch (_context32.prev = _context32.next) {
                       case 0:
@@ -1270,9 +1130,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context32.prev = 1;
                         _context32.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '998'
-                        });
+                        }));
 
                       case 4:
                         _context32.next = 9;
@@ -1294,14 +1154,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context32.stop();
                     }
                   }
-                }, _callee32, null, [[1, 6]]);
-              })));
-              it('Should Alert Not An Extension - Call 998(Non Extension) with GB Dialing Plan',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee33() {
-                return regeneratorRuntime.wrap(function _callee33$(_context33) {
+                }, null, null, [[1, 6]]);
+              });
+              it('Should Alert Not An Extension - Call 998(Non Extension) with GB Dialing Plan', function _callee33() {
+                return regeneratorRuntime.async(function _callee33$(_context33) {
                   while (1) {
                     switch (_context33.prev = _context33.next) {
                       case 0:
@@ -1311,9 +1167,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         });
                         _context33.prev = 1;
                         _context33.next = 4;
-                        return Call.call({
+                        return regeneratorRuntime.awrap(Call.call({
                           phoneNumber: '998'
-                        });
+                        }));
 
                       case 4:
                         _context33.next = 9;
@@ -1335,8 +1191,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         return _context33.stop();
                     }
                   }
-                }, _callee33, null, [[1, 6]]);
-              })));
+                }, null, null, [[1, 6]]);
+              });
             });
 
           case 6:
@@ -1344,8 +1200,8 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
             return _context34.stop();
         }
       }
-    }, _callee34);
-  })));
+    });
+  });
 };
 
 exports["default"] = _default;

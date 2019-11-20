@@ -164,6 +164,8 @@ function normalizeSession(session) {
     from: session.request.from.uri.user,
     fromNumber: session.__rc_fromNumber,
     fromUserName: session.request.from.displayName,
+    fromTag: session.fromTag,
+    toTag: session.toTag,
     startTime: session.startTime && new Date(session.startTime).getTime(),
     creationTime: session.__rc_creationTime,
     isOnHold: !!session.localHold,

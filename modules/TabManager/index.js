@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -54,10 +52,6 @@ var _dec, _class;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -110,97 +104,77 @@ function (_RcModule) {
 
   _createClass(TabManager, [{
     key: "initialize",
-    value: function () {
-      var _initialize = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        var _this2 = this;
+    value: function initialize() {
+      var _this2 = this;
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.t0 = this.store;
-                _context2.t1 = this.actionTypes.initSuccess;
-                _context2.next = 4;
-                return this._tabbie.checkIsMain();
+      return regeneratorRuntime.async(function initialize$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.t0 = this.store;
+              _context2.t1 = this.actionTypes.initSuccess;
+              _context2.next = 4;
+              return regeneratorRuntime.awrap(this._tabbie.checkIsMain());
 
-              case 4:
-                _context2.t2 = _context2.sent;
-                _context2.t3 = {
-                  type: _context2.t1,
-                  active: _context2.t2
-                };
+            case 4:
+              _context2.t2 = _context2.sent;
+              _context2.t3 = {
+                type: _context2.t1,
+                active: _context2.t2
+              };
 
-                _context2.t0.dispatch.call(_context2.t0, _context2.t3);
+              _context2.t0.dispatch.call(_context2.t0, _context2.t3);
 
-                if (this._tabbie.enabled) {
-                  this._tabbie.on('mainTabIdChanged',
-                  /*#__PURE__*/
-                  function () {
-                    var _ref2 = _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee(mainTabId) {
-                      return regeneratorRuntime.wrap(function _callee$(_context) {
-                        while (1) {
-                          switch (_context.prev = _context.next) {
-                            case 0:
-                              _context.t0 = _this2.store;
-                              _context.t1 = _this2.actionTypes.mainTabIdChanged;
-                              _context.t2 = mainTabId;
-                              _context.next = 5;
-                              return _this2._tabbie.checkIsMain();
+              if (this._tabbie.enabled) {
+                this._tabbie.on('mainTabIdChanged', function _callee(mainTabId) {
+                  return regeneratorRuntime.async(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          _context.t0 = _this2.store;
+                          _context.t1 = _this2.actionTypes.mainTabIdChanged;
+                          _context.t2 = mainTabId;
+                          _context.next = 5;
+                          return regeneratorRuntime.awrap(_this2._tabbie.checkIsMain());
 
-                            case 5:
-                              _context.t3 = _context.sent;
-                              _context.t4 = {
-                                type: _context.t1,
-                                mainTabId: _context.t2,
-                                active: _context.t3
-                              };
+                        case 5:
+                          _context.t3 = _context.sent;
+                          _context.t4 = {
+                            type: _context.t1,
+                            mainTabId: _context.t2,
+                            active: _context.t3
+                          };
 
-                              _context.t0.dispatch.call(_context.t0, _context.t4);
+                          _context.t0.dispatch.call(_context.t0, _context.t4);
 
-                            case 8:
-                            case "end":
-                              return _context.stop();
-                          }
-                        }
-                      }, _callee);
-                    }));
-
-                    return function (_x) {
-                      return _ref2.apply(this, arguments);
-                    };
-                  }());
-
-                  this._tabbie.on('event', function (event) {
-                    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                      args[_key - 1] = arguments[_key];
+                        case 8:
+                        case "end":
+                          return _context.stop();
+                      }
                     }
-
-                    _this2.store.dispatch({
-                      type: _this2.actionTypes.event,
-                      event: event,
-                      args: args
-                    });
                   });
-                }
+                });
 
-              case 8:
-              case "end":
-                return _context2.stop();
-            }
+                this._tabbie.on('event', function (event) {
+                  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                    args[_key - 1] = arguments[_key];
+                  }
+
+                  _this2.store.dispatch({
+                    type: _this2.actionTypes.event,
+                    event: event,
+                    args: args
+                  });
+                });
+              }
+
+            case 8:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function initialize() {
-        return _initialize.apply(this, arguments);
-      }
-
-      return initialize;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "send",
     value: function send(event) {
@@ -214,30 +188,20 @@ function (_RcModule) {
     }
   }, {
     key: "ensureActive",
-    value: function () {
-      var _ensureActive = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                return _context3.abrupt("return", this._tabbie.checkIsMain());
+    value: function ensureActive() {
+      return regeneratorRuntime.async(function ensureActive$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              return _context3.abrupt("return", this._tabbie.checkIsMain());
 
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
+            case 1:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function ensureActive() {
-        return _ensureActive.apply(this, arguments);
-      }
-
-      return ensureActive;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "status",
     get: function get() {

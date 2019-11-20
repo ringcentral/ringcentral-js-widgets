@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getVideoElementPreparedReducer = getVideoElementPreparedReducer;
 exports.getConnectionStatusReducer = getConnectionStatusReducer;
+exports.getWebphoneDeviceReducer = getWebphoneDeviceReducer;
 exports.getErrorCodeReducer = getErrorCodeReducer;
 exports.getStatusCodeReducer = getStatusCodeReducer;
 exports.getConnectRetryCountsReducer = getConnectRetryCountsReducer;
@@ -122,14 +123,43 @@ function getConnectionStatusReducer(types) {
   };
 }
 
-function getErrorCodeReducer(types) {
+function getWebphoneDeviceReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
     var _ref3 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref3.type,
-        _ref3$errorCode = _ref3.errorCode,
-        errorCode = _ref3$errorCode === void 0 ? state : _ref3$errorCode;
+        device = _ref3.device;
+
+    switch (type) {
+      case types.reconnect:
+      case types.connect:
+      case types.connectFailed:
+      case types.connectError:
+      case types.unregistered:
+      case types.disconnectOnInactive:
+      case types.unregisteredOnInactive:
+      case types.disconnect:
+        return null;
+
+      case types.registered:
+        // trigger when register success
+        return device;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getErrorCodeReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref4.type,
+        _ref4$errorCode = _ref4.errorCode,
+        errorCode = _ref4$errorCode === void 0 ? state : _ref4$errorCode;
 
     switch (type) {
       case types.connectError:
@@ -149,10 +179,10 @@ function getStatusCodeReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref4.type,
-        _ref4$statusCode = _ref4.statusCode,
-        statusCode = _ref4$statusCode === void 0 ? state : _ref4$statusCode;
+    var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref5.type,
+        _ref5$statusCode = _ref5.statusCode,
+        statusCode = _ref5$statusCode === void 0 ? state : _ref5$statusCode;
 
     switch (type) {
       case types.connectError:
@@ -172,9 +202,9 @@ function getConnectRetryCountsReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-    var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref5.type,
-        retryCounts = _ref5.retryCounts;
+    var _ref6 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref6.type,
+        retryCounts = _ref6.retryCounts;
 
     switch (type) {
       case types.connect:
@@ -199,12 +229,12 @@ function getActiveSessionIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-    var _ref6 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref6.type,
-        _ref6$session = _ref6.session,
-        session = _ref6$session === void 0 ? {} : _ref6$session,
-        _ref6$sessions = _ref6.sessions,
-        sessions = _ref6$sessions === void 0 ? [] : _ref6$sessions;
+    var _ref7 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref7.type,
+        _ref7$session = _ref7.session,
+        session = _ref7$session === void 0 ? {} : _ref7$session,
+        _ref7$sessions = _ref7.sessions,
+        sessions = _ref7$sessions === void 0 ? [] : _ref7$sessions;
 
     switch (type) {
       case types.callInit:
@@ -249,12 +279,12 @@ function getRingSessionIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-    var _ref7 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref7.type,
-        _ref7$session = _ref7.session,
-        session = _ref7$session === void 0 ? {} : _ref7$session,
-        _ref7$sessions = _ref7.sessions,
-        sessions = _ref7$sessions === void 0 ? [] : _ref7$sessions;
+    var _ref8 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref8.type,
+        _ref8$session = _ref8.session,
+        session = _ref8$session === void 0 ? {} : _ref8$session,
+        _ref8$sessions = _ref8.sessions,
+        sessions = _ref8$sessions === void 0 ? [] : _ref8$sessions;
 
     switch (type) {
       case types.callRing:
@@ -286,10 +316,10 @@ function getLastEndedSessionsReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-    var _ref8 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref8.type,
-        _ref8$session = _ref8.session,
-        session = _ref8$session === void 0 ? {} : _ref8$session;
+    var _ref9 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref9.type,
+        _ref9$session = _ref9.session,
+        session = _ref9$session === void 0 ? {} : _ref9$session;
 
     switch (type) {
       case types.callEnd:
@@ -319,10 +349,10 @@ function getSessionsReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-    var _ref9 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref9.type,
-        sessions = _ref9.sessions,
-        cachingSessionIds = _ref9.cachingSessionIds;
+    var _ref10 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref10.type,
+        sessions = _ref10.sessions,
+        cachingSessionIds = _ref10.cachingSessionIds;
 
     switch (type) {
       case types.updateSessions:
@@ -413,7 +443,8 @@ function getWebphoneReducer(types) {
     activeSessionId: getActiveSessionIdReducer(types),
     ringSessionId: getRingSessionIdReducer(types),
     sessions: getSessionsReducer(types),
-    lastEndedSessions: getLastEndedSessionsReducer(types)
+    lastEndedSessions: getLastEndedSessionsReducer(types),
+    device: getWebphoneDeviceReducer(types)
   });
 }
 //# sourceMappingURL=getWebphoneReducer.js.map

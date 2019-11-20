@@ -43,7 +43,16 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
           sessionId = _session$partyData.sessionId,
           partyId = _session$partyData.partyId;
 
-      if (sessionId === callItem.telephonySessionId && partyId === callItem.partyId) {
+      if (sessionId !== callItem.telephonySessionId) {
+        return false;
+      }
+
+      if (partyId === callItem.partyId) {
+        return true;
+      } // For switched call, partyId is not matched
+
+
+      if (session.callId === callItem.id) {
         return true;
       }
 

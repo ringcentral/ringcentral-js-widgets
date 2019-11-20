@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -50,10 +48,6 @@ var _dec, _class;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -134,14 +128,10 @@ function (_StorageBase) {
       var _this2 = this;
 
       var storedData = null;
-      this.store.subscribe(
-      /*#__PURE__*/
-      _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var storageKey, _key, currentData, _key2;
+      this.store.subscribe(function _callee() {
+        var storageKey, key, currentData, _key;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.async(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -159,7 +149,7 @@ function (_StorageBase) {
                   storageKey: storageKey
                 });
                 _context.next = 6;
-                return _this2._storage.getData();
+                return regeneratorRuntime.awrap(_this2._storage.getData());
 
               case 6:
                 storedData = _context.sent;
@@ -171,16 +161,16 @@ function (_StorageBase) {
                   break;
                 }
 
-                _key = _context.t1.value;
+                key = _context.t1.value;
 
-                if (_this2._reducers[_key]) {
+                if (_this2._reducers[key]) {
                   _context.next = 14;
                   break;
                 }
 
-                delete storedData[_key];
+                delete storedData[key];
                 _context.next = 14;
-                return _this2._storage.removeItem(_key);
+                return regeneratorRuntime.awrap(_this2._storage.removeItem(key));
 
               case 14:
                 _context.next = 8;
@@ -194,9 +184,9 @@ function (_StorageBase) {
                   data: _objectSpread({}, storedData)
                 });
 
-                _this2._storageHandler = function (_ref3) {
-                  var key = _ref3.key,
-                      value = _ref3.value;
+                _this2._storageHandler = function (_ref2) {
+                  var key = _ref2.key,
+                      value = _ref2.value;
 
                   if (_this2.ready) {
                     storedData[key] = value;
@@ -246,11 +236,11 @@ function (_StorageBase) {
                   // save new data to storage when changed
                   currentData = _this2.data;
 
-                  for (_key2 in currentData) {
-                    if (storedData[_key2] !== currentData[_key2]) {
-                      _this2._storage.setItem(_key2, currentData[_key2]);
+                  for (_key in currentData) {
+                    if (storedData[_key] !== currentData[_key]) {
+                      _this2._storage.setItem(_key, currentData[_key]);
 
-                      storedData[_key2] = currentData[_key2];
+                      storedData[_key] = currentData[_key];
                     }
                   }
                 }
@@ -260,8 +250,8 @@ function (_StorageBase) {
                 return _context.stop();
             }
           }
-        }, _callee);
-      })));
+        });
+      });
     }
   }]);
 

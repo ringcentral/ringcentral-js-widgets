@@ -7,8 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -77,10 +75,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -109,7 +103,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var contactsRegExp = /.*\/directory\/contacts$/;
 var DEFAULT_TTL = 24 * 60 * 60 * 1000;
@@ -189,90 +183,80 @@ function (_DataFetcher) {
       getDataReducer: _getReducers.getDataReducer,
       getTimestampReducer: _getReducers.getTimestampReducer,
       subscriptionFilters: [_subscriptionFilters["default"].companyContacts],
-      subscriptionHandler: function () {
-        var _subscriptionHandler = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee(message) {
-          var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, contact;
+      subscriptionHandler: function subscriptionHandler(message) {
+        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, contact;
 
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  if (!(_this.ready && message && contactsRegExp.test(message.event) && message.body && message.body.contacts)) {
-                    _context.next = 27;
-                    break;
-                  }
-
-                  _iteratorNormalCompletion = true;
-                  _didIteratorError = false;
-                  _iteratorError = undefined;
-                  _context.prev = 4;
-                  _iterator = message.body.contacts[Symbol.iterator]();
-
-                case 6:
-                  if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                    _context.next = 13;
-                    break;
-                  }
-
-                  contact = _step.value;
-                  _context.next = 10;
-                  return _this._processContact(contact);
-
-                case 10:
-                  _iteratorNormalCompletion = true;
-                  _context.next = 6;
+        return regeneratorRuntime.async(function subscriptionHandler$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.ready && message && contactsRegExp.test(message.event) && message.body && message.body.contacts)) {
+                  _context.next = 27;
                   break;
+                }
 
-                case 13:
-                  _context.next = 19;
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
+                _context.prev = 4;
+                _iterator = message.body.contacts[Symbol.iterator]();
+
+              case 6:
+                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                  _context.next = 13;
                   break;
+                }
 
-                case 15:
-                  _context.prev = 15;
-                  _context.t0 = _context["catch"](4);
-                  _didIteratorError = true;
-                  _iteratorError = _context.t0;
+                contact = _step.value;
+                _context.next = 10;
+                return regeneratorRuntime.awrap(_this._processContact(contact));
 
-                case 19:
-                  _context.prev = 19;
-                  _context.prev = 20;
+              case 10:
+                _iteratorNormalCompletion = true;
+                _context.next = 6;
+                break;
 
-                  if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-                    _iterator["return"]();
-                  }
+              case 13:
+                _context.next = 19;
+                break;
 
-                case 22:
-                  _context.prev = 22;
+              case 15:
+                _context.prev = 15;
+                _context.t0 = _context["catch"](4);
+                _didIteratorError = true;
+                _iteratorError = _context.t0;
 
-                  if (!_didIteratorError) {
-                    _context.next = 25;
-                    break;
-                  }
+              case 19:
+                _context.prev = 19;
+                _context.prev = 20;
 
-                  throw _iteratorError;
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
+                }
 
-                case 25:
-                  return _context.finish(22);
+              case 22:
+                _context.prev = 22;
 
-                case 26:
-                  return _context.finish(19);
+                if (!_didIteratorError) {
+                  _context.next = 25;
+                  break;
+                }
 
-                case 27:
-                case "end":
-                  return _context.stop();
-              }
+                throw _iteratorError;
+
+              case 25:
+                return _context.finish(22);
+
+              case 26:
+                return _context.finish(19);
+
+              case 27:
+              case "end":
+                return _context.stop();
             }
-          }, _callee, null, [[4, 15, 19, 27], [20,, 22, 26]]);
-        }));
-
-        function subscriptionHandler(_x) {
-          return _subscriptionHandler.apply(this, arguments);
-        }
-
-        return subscriptionHandler;
-      }(),
+          }
+        }, null, null, [[4, 15, 19, 27], [20,, 22, 26]]);
+      },
       fetchFunction: function fetchFunction() {
         return (0, _fetchList["default"])(function (params) {
           return _this._client.account().directory().contacts().list(params);
@@ -309,50 +293,40 @@ function (_DataFetcher) {
 
   _createClass(CompanyContacts, [{
     key: "_processContact",
-    value: function () {
-      var _processContact2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(_ref2) {
-        var eventType, oldEtag, newEtag, contact;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                eventType = _ref2.eventType, oldEtag = _ref2.oldEtag, newEtag = _ref2.newEtag, contact = _objectWithoutProperties(_ref2, ["eventType", "oldEtag", "newEtag"]);
-                _context3.t0 = eventType;
-                _context3.next = _context3.t0 === 'Create' ? 4 : _context3.t0 === 'Update' ? 4 : _context3.t0 === 'Delete' ? 6 : 8;
-                break;
+    value: function _processContact(_ref2) {
+      var eventType, oldEtag, newEtag, contact;
+      return regeneratorRuntime.async(function _processContact$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              eventType = _ref2.eventType, oldEtag = _ref2.oldEtag, newEtag = _ref2.newEtag, contact = _objectWithoutProperties(_ref2, ["eventType", "oldEtag", "newEtag"]);
+              _context3.t0 = eventType;
+              _context3.next = _context3.t0 === 'Create' ? 4 : _context3.t0 === 'Update' ? 4 : _context3.t0 === 'Delete' ? 6 : 8;
+              break;
 
-              case 4:
-                this.store.dispatch({
-                  type: this.actionTypes.upsert,
-                  contact: contact,
-                  timestamp: Date.now()
-                });
-                return _context3.abrupt("break", 8);
+            case 4:
+              this.store.dispatch({
+                type: this.actionTypes.upsert,
+                contact: contact,
+                timestamp: Date.now()
+              });
+              return _context3.abrupt("break", 8);
 
-              case 6:
-                this.store.dispatch({
-                  type: this.actionTypes["delete"],
-                  contact: contact,
-                  timestamp: Date.now()
-                });
-                return _context3.abrupt("break", 8);
+            case 6:
+              this.store.dispatch({
+                type: this.actionTypes["delete"],
+                contact: contact,
+                timestamp: Date.now()
+              });
+              return _context3.abrupt("break", 8);
 
-              case 8:
-              case "end":
-                return _context3.stop();
-            }
+            case 8:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function _processContact(_x2) {
-        return _processContact2.apply(this, arguments);
-      }
-
-      return _processContact;
-    }()
+        }
+      }, null, this);
+    }
     /**
      * TODO: Currently we don't have clearly defined business rule on
      * what extension numbers are considered available for dialing.

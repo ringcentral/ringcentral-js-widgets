@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -60,10 +58,6 @@ var _dec, _class, _class2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -155,117 +149,107 @@ function (_RcModule) {
     }
   }, {
     key: "makeCall",
-    value: function () {
-      var _makeCall = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(phoneNumber) {
-        var cmd, uri, frame;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.startToConnect,
-                  phoneNumber: phoneNumber
-                });
-                cmd = "call?number=".concat(encodeURIComponent(phoneNumber));
-                uri = "".concat(this.protocol, "://").concat(cmd);
+    value: function makeCall(phoneNumber) {
+      var cmd, uri, frame;
+      return regeneratorRuntime.async(function makeCall$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.startToConnect,
+                phoneNumber: phoneNumber
+              });
+              cmd = "call?number=".concat(encodeURIComponent(phoneNumber));
+              uri = "".concat(this.protocol, "://").concat(cmd);
 
-                if (!this._callHandler) {
-                  _context.next = 7;
-                  break;
-                }
-
-                this._callHandler({
-                  protocol: this.protocol,
-                  command: cmd,
-                  phoneNumber: phoneNumber
-                });
-
-                _context.next = 28;
+              if (!this._callHandler) {
+                _context.next = 7;
                 break;
+              }
 
-              case 7:
-                if (!(this._extensionMode || this.detectPlatform() !== 'desktop')) {
-                  _context.next = 11;
-                  break;
-                }
+              this._callHandler({
+                protocol: this.protocol,
+                command: cmd,
+                phoneNumber: phoneNumber
+              });
 
-                /**
-                 * 1. Use window.open in extension background scripts to avoid crashing Browsers
-                 * 2. Use window.open in non-desktop platforms
-                 */
-                window.open(uri);
-                _context.next = 28;
+              _context.next = 28;
+              break;
+
+            case 7:
+              if (!(this._extensionMode || this.detectPlatform() !== 'desktop')) {
+                _context.next = 11;
                 break;
+              }
 
-              case 11:
-                if (!window.navigator.msLaunchUri) {
-                  _context.next = 15;
-                  break;
-                }
+              /**
+               * 1. Use window.open in extension background scripts to avoid crashing Browsers
+               * 2. Use window.open in non-desktop platforms
+               */
+              window.open(uri);
+              _context.next = 28;
+              break;
 
-                // to support ie to start the service
-                window.navigator.msLaunchUri(uri);
-                _context.next = 28;
+            case 11:
+              if (!window.navigator.msLaunchUri) {
+                _context.next = 15;
                 break;
+              }
 
-              case 15:
-                if (!(window.ActiveXObject || 'ActiveXObject' in window)) {
-                  _context.next = 19;
-                  break;
-                }
+              // to support ie to start the service
+              window.navigator.msLaunchUri(uri);
+              _context.next = 28;
+              break;
 
-                // to support ie on Windows < 8
-                window.open(uri);
-                _context.next = 28;
+            case 15:
+              if (!(window.ActiveXObject || 'ActiveXObject' in window)) {
+                _context.next = 19;
                 break;
+              }
 
-              case 19:
-                frame = document.createElement('iframe');
-                frame.style.display = 'none';
-                document.body.appendChild(frame);
-                _context.next = 24;
-                return (0, _sleep["default"])(100);
+              // to support ie on Windows < 8
+              window.open(uri);
+              _context.next = 28;
+              break;
 
-              case 24:
-                frame.contentWindow.location.href = uri;
-                _context.next = 27;
-                return (0, _sleep["default"])(300);
+            case 19:
+              frame = document.createElement('iframe');
+              frame.style.display = 'none';
+              document.body.appendChild(frame);
+              _context.next = 24;
+              return regeneratorRuntime.awrap((0, _sleep["default"])(100));
 
-              case 27:
-                document.body.removeChild(frame);
+            case 24:
+              frame.contentWindow.location.href = uri;
+              _context.next = 27;
+              return regeneratorRuntime.awrap((0, _sleep["default"])(300));
 
-              case 28:
-                if (!this._contactMatcher) {
-                  _context.next = 31;
-                  break;
-                }
+            case 27:
+              document.body.removeChild(frame);
 
+            case 28:
+              if (!this._contactMatcher) {
                 _context.next = 31;
-                return this._contactMatcher.forceMatchNumber({
-                  phoneNumber: phoneNumber
-                });
+                break;
+              }
 
-              case 31:
-                this.store.dispatch({
-                  type: this.actionTypes.connectComplete
-                });
+              _context.next = 31;
+              return regeneratorRuntime.awrap(this._contactMatcher.forceMatchNumber({
+                phoneNumber: phoneNumber
+              }));
 
-              case 32:
-              case "end":
-                return _context.stop();
-            }
+            case 31:
+              this.store.dispatch({
+                type: this.actionTypes.connectComplete
+              });
+
+            case 32:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function makeCall(_x) {
-        return _makeCall.apply(this, arguments);
-      }
-
-      return makeCall;
-    }() // eslint-disable-next-line class-methods-use-this
+        }
+      }, null, this);
+    } // eslint-disable-next-line class-methods-use-this
 
   }, {
     key: "protocol",

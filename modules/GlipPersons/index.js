@@ -11,8 +11,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -67,15 +65,11 @@ var _dec, _class, _class2;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -187,68 +181,58 @@ function (_RcModule) {
     }
   }, {
     key: "_onStateChange",
-    value: function () {
-      var _onStateChange2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (!this._shouldInit()) {
-                  _context2.next = 10;
-                  break;
-                }
-
-                this.store.dispatch({
-                  type: this.actionTypes.init
-                });
-
-                if (this._auth.isFreshLogin) {
-                  this.store.dispatch({
-                    type: this.actionTypes.cleanUp
-                  });
-                }
-
-                if (this._hasPermission) {
-                  _context2.next = 5;
-                  break;
-                }
-
-                return _context2.abrupt("return");
-
-              case 5:
-                _context2.next = 7;
-                return this.loadMe();
-
-              case 7:
-                this.store.dispatch({
-                  type: this.actionTypes.initSuccess
-                });
-                _context2.next = 11;
+    value: function _onStateChange() {
+      return regeneratorRuntime.async(function _onStateChange$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!this._shouldInit()) {
+                _context2.next = 10;
                 break;
+              }
 
-              case 10:
-                if (this._shouldReset()) {
-                  this.store.dispatch({
-                    type: this.actionTypes.resetSuccess
-                  });
-                }
+              this.store.dispatch({
+                type: this.actionTypes.init
+              });
 
-              case 11:
-              case "end":
-                return _context2.stop();
-            }
+              if (this._auth.isFreshLogin) {
+                this.store.dispatch({
+                  type: this.actionTypes.cleanUp
+                });
+              }
+
+              if (this._hasPermission) {
+                _context2.next = 5;
+                break;
+              }
+
+              return _context2.abrupt("return");
+
+            case 5:
+              _context2.next = 7;
+              return regeneratorRuntime.awrap(this.loadMe());
+
+            case 7:
+              this.store.dispatch({
+                type: this.actionTypes.initSuccess
+              });
+              _context2.next = 11;
+              break;
+
+            case 10:
+              if (this._shouldReset()) {
+                this.store.dispatch({
+                  type: this.actionTypes.resetSuccess
+                });
+              }
+
+            case 11:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee, this);
-      }));
-
-      function _onStateChange() {
-        return _onStateChange2.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
@@ -261,256 +245,216 @@ function (_RcModule) {
     }
   }, {
     key: "loadMe",
-    value: function () {
-      var _loadMe = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return this.loadPerson(this._auth.ownerId);
+    value: function loadMe() {
+      return regeneratorRuntime.async(function loadMe$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return regeneratorRuntime.awrap(this.loadPerson(this._auth.ownerId));
 
-              case 2:
-              case "end":
-                return _context3.stop();
-            }
+            case 2:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function loadMe() {
-        return _loadMe.apply(this, arguments);
-      }
-
-      return loadMe;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "loadPerson",
-    value: function () {
-      var _loadPerson = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(id) {
-        var person;
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.prev = 0;
-                this.store.dispatch({
-                  type: this.actionTypes.fetch
-                });
-                _context4.next = 4;
-                return this._client.glip().persons(id).get();
+    value: function loadPerson(id) {
+      var person;
+      return regeneratorRuntime.async(function loadPerson$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              this.store.dispatch({
+                type: this.actionTypes.fetch
+              });
+              _context4.next = 4;
+              return regeneratorRuntime.awrap(this._client.glip().persons(id).get());
 
-              case 4:
-                person = _context4.sent;
-                this.store.dispatch({
-                  type: this.actionTypes.fetchSuccess,
-                  person: person
-                });
-                _context4.next = 11;
-                break;
+            case 4:
+              person = _context4.sent;
+              this.store.dispatch({
+                type: this.actionTypes.fetchSuccess,
+                person: person
+              });
+              _context4.next = 11;
+              break;
 
-              case 8:
-                _context4.prev = 8;
-                _context4.t0 = _context4["catch"](0);
-                this.store.dispatch({
-                  type: this.actionTypes.fetchError
-                });
+            case 8:
+              _context4.prev = 8;
+              _context4.t0 = _context4["catch"](0);
+              this.store.dispatch({
+                type: this.actionTypes.fetchError
+              });
 
-              case 11:
-              case "end":
-                return _context4.stop();
-            }
+            case 11:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee3, this, [[0, 8]]);
-      }));
-
-      function loadPerson(_x) {
-        return _loadPerson.apply(this, arguments);
-      }
-
-      return loadPerson;
-    }()
+        }
+      }, null, this, [[0, 8]]);
+    }
   }, {
     key: "loadPersons",
-    value: function () {
-      var _loadPersons = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(personIds) {
-        var _this3 = this;
+    value: function loadPersons(personIds) {
+      var _this3 = this;
 
-        var ownerId, newPersonIds, ids, persons, lastIds;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                if (this._auth.loggedIn) {
-                  _context5.next = 2;
-                  break;
-                }
-
-                return _context5.abrupt("return");
-
-              case 2:
-                if (personIds) {
-                  _context5.next = 4;
-                  break;
-                }
-
-                return _context5.abrupt("return");
-
-              case 4:
-                ownerId = this._auth.ownerId;
-                newPersonIds = [];
-                personIds.forEach(function (id) {
-                  if (!_this3.personsMap[id] && !_this3._fetchingIds[id]) {
-                    newPersonIds.push(id);
-                  }
-                });
-
-                if (!(newPersonIds.length === 0)) {
-                  _context5.next = 9;
-                  break;
-                }
-
-                return _context5.abrupt("return");
-
-              case 9:
-                ids = newPersonIds.slice(0, MaximumBatchGetPersons);
-                ids.forEach(function (id) {
-                  _this3._fetchingIds[id] = 1;
-                });
-                _context5.prev = 11;
-                this.store.dispatch({
-                  type: this.actionTypes.fetch
-                });
-                _context5.next = 15;
-                return this._batchGetPersons(ids);
-
-              case 15:
-                persons = _context5.sent;
-                this.store.dispatch({
-                  type: this.actionTypes.batchFetchSuccess,
-                  persons: persons
-                });
-                ids.forEach(function (id) {
-                  delete _this3._fetchingIds[id];
-                });
-                _context5.next = 24;
+      var ownerId, newPersonIds, ids, persons, lastIds;
+      return regeneratorRuntime.async(function loadPersons$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              if (this._auth.loggedIn) {
+                _context5.next = 2;
                 break;
+              }
 
-              case 20:
-                _context5.prev = 20;
-                _context5.t0 = _context5["catch"](11);
-                this.store.dispatch({
-                  type: this.actionTypes.fetchError
-                });
-                ids.forEach(function (id) {
-                  delete _this3._fetchingIds[id];
-                });
+              return _context5.abrupt("return");
 
-              case 24:
-                if (!(ownerId !== this._auth.ownerId)) {
-                  _context5.next = 26;
-                  break;
+            case 2:
+              if (personIds) {
+                _context5.next = 4;
+                break;
+              }
+
+              return _context5.abrupt("return");
+
+            case 4:
+              ownerId = this._auth.ownerId;
+              newPersonIds = [];
+              personIds.forEach(function (id) {
+                if (!_this3.personsMap[id] && !_this3._fetchingIds[id]) {
+                  newPersonIds.push(id);
                 }
+              });
 
-                return _context5.abrupt("return");
+              if (!(newPersonIds.length === 0)) {
+                _context5.next = 9;
+                break;
+              }
 
-              case 26:
-                lastIds = newPersonIds.slice(MaximumBatchGetPersons);
+              return _context5.abrupt("return");
 
-                if (!(lastIds.length > 0)) {
-                  _context5.next = 32;
-                  break;
-                }
+            case 9:
+              ids = newPersonIds.slice(0, MaximumBatchGetPersons);
+              ids.forEach(function (id) {
+                _this3._fetchingIds[id] = 1;
+              });
+              _context5.prev = 11;
+              this.store.dispatch({
+                type: this.actionTypes.fetch
+              });
+              _context5.next = 15;
+              return regeneratorRuntime.awrap(this._batchGetPersons(ids));
 
-                _context5.next = 30;
-                return (0, _sleep["default"])(this._batchFetchDelay);
+            case 15:
+              persons = _context5.sent;
+              this.store.dispatch({
+                type: this.actionTypes.batchFetchSuccess,
+                persons: persons
+              });
+              ids.forEach(function (id) {
+                delete _this3._fetchingIds[id];
+              });
+              _context5.next = 24;
+              break;
 
-              case 30:
+            case 20:
+              _context5.prev = 20;
+              _context5.t0 = _context5["catch"](11);
+              this.store.dispatch({
+                type: this.actionTypes.fetchError
+              });
+              ids.forEach(function (id) {
+                delete _this3._fetchingIds[id];
+              });
+
+            case 24:
+              if (!(ownerId !== this._auth.ownerId)) {
+                _context5.next = 26;
+                break;
+              }
+
+              return _context5.abrupt("return");
+
+            case 26:
+              lastIds = newPersonIds.slice(MaximumBatchGetPersons);
+
+              if (!(lastIds.length > 0)) {
                 _context5.next = 32;
-                return this.loadPersons(lastIds);
+                break;
+              }
 
-              case 32:
-              case "end":
-                return _context5.stop();
-            }
+              _context5.next = 30;
+              return regeneratorRuntime.awrap((0, _sleep["default"])(this._batchFetchDelay));
+
+            case 30:
+              _context5.next = 32;
+              return regeneratorRuntime.awrap(this.loadPersons(lastIds));
+
+            case 32:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee4, this, [[11, 20]]);
-      }));
-
-      function loadPersons(_x2) {
-        return _loadPersons.apply(this, arguments);
-      }
-
-      return loadPersons;
-    }()
+        }
+      }, null, this, [[11, 20]]);
+    }
   }, {
     key: "_batchGetPersons",
-    value: function () {
-      var _batchGetPersons2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(personIds) {
-        var response, ids, multipartResponse, responses;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                if (!(!personIds || personIds.length === 0)) {
-                  _context6.next = 2;
-                  break;
-                }
+    value: function _batchGetPersons(personIds) {
+      var response, ids, multipartResponse, responses;
+      return regeneratorRuntime.async(function _batchGetPersons$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              if (!(!personIds || personIds.length === 0)) {
+                _context6.next = 2;
+                break;
+              }
 
-                return _context6.abrupt("return", []);
+              return _context6.abrupt("return", []);
 
-              case 2:
-                if (!(personIds.length === 1)) {
-                  _context6.next = 7;
-                  break;
-                }
+            case 2:
+              if (!(personIds.length === 1)) {
+                _context6.next = 7;
+                break;
+              }
 
-                _context6.next = 5;
-                return this._client.glip().persons(personIds[0]).get();
+              _context6.next = 5;
+              return regeneratorRuntime.awrap(this._client.glip().persons(personIds[0]).get());
 
-              case 5:
-                response = _context6.sent;
-                return _context6.abrupt("return", [response]);
+            case 5:
+              response = _context6.sent;
+              return _context6.abrupt("return", [response]);
 
-              case 7:
-                ids = personIds.join(',');
-                _context6.next = 10;
-                return (0, _batchApiHelper.batchGetApi)({
-                  platform: this._client.service.platform(),
-                  url: "/glip/persons/".concat(ids)
-                });
+            case 7:
+              ids = personIds.join(',');
+              _context6.next = 10;
+              return regeneratorRuntime.awrap((0, _batchApiHelper.batchGetApi)({
+                platform: this._client.service.platform(),
+                url: "/glip/persons/".concat(ids)
+              }));
 
-              case 10:
-                multipartResponse = _context6.sent;
-                responses = multipartResponse.filter(function (r) {
-                  return r.ok();
-                }).map(function (x) {
-                  return x.json();
-                });
-                return _context6.abrupt("return", responses);
+            case 10:
+              multipartResponse = _context6.sent;
+              responses = multipartResponse.filter(function (r) {
+                return r.ok();
+              }).map(function (x) {
+                return x.json();
+              });
+              return _context6.abrupt("return", responses);
 
-              case 13:
-              case "end":
-                return _context6.stop();
-            }
+            case 13:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee5, this);
-      }));
-
-      function _batchGetPersons(_x3) {
-        return _batchGetPersons2.apply(this, arguments);
-      }
-
-      return _batchGetPersons;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_actionTypes",
     get: function get() {

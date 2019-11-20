@@ -8,8 +8,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -78,10 +76,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -114,7 +108,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -223,184 +217,134 @@ function (_LoggerBase) {
     }
   }, {
     key: "log",
-    value: function () {
-      var _log = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(_ref2) {
-        var call, options;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                call = _ref2.call, options = _objectWithoutProperties(_ref2, ["call"]);
-                return _context2.abrupt("return", _get(_getPrototypeOf(CallLogger.prototype), "log", this).call(this, _objectSpread({
-                  item: call
-                }, options)));
+    value: function log(_ref2) {
+      var call, options;
+      return regeneratorRuntime.async(function log$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              call = _ref2.call, options = _objectWithoutProperties(_ref2, ["call"]);
+              return _context2.abrupt("return", _get(_getPrototypeOf(CallLogger.prototype), "log", this).call(this, _objectSpread({
+                item: call
+              }, options)));
 
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
+            case 2:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee, this);
-      }));
-
-      function log(_x) {
-        return _log.apply(this, arguments);
-      }
-
-      return log;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_ensureActive",
-    value: function () {
-      var _ensureActive2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        var isActive;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.t0 = !this._tabManager;
+    value: function _ensureActive() {
+      var isActive;
+      return regeneratorRuntime.async(function _ensureActive$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.t0 = !this._tabManager;
 
-                if (_context3.t0) {
-                  _context3.next = 5;
-                  break;
-                }
+              if (_context3.t0) {
+                _context3.next = 5;
+                break;
+              }
 
-                _context3.next = 4;
-                return this._tabManager.ensureActive();
+              _context3.next = 4;
+              return regeneratorRuntime.awrap(this._tabManager.ensureActive());
 
-              case 4:
-                _context3.t0 = _context3.sent;
+            case 4:
+              _context3.t0 = _context3.sent;
 
-              case 5:
-                isActive = _context3.t0;
-                return _context3.abrupt("return", isActive);
+            case 5:
+              isActive = _context3.t0;
+              return _context3.abrupt("return", isActive);
 
-              case 7:
-              case "end":
-                return _context3.stop();
-            }
+            case 7:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function _ensureActive() {
-        return _ensureActive2.apply(this, arguments);
-      }
-
-      return _ensureActive;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_shouldLogNewCall",
-    value: function () {
-      var _shouldLogNewCall2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(call) {
-        var isActive;
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return this._ensureActive();
+    value: function _shouldLogNewCall(call) {
+      var isActive;
+      return regeneratorRuntime.async(function _shouldLogNewCall$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return regeneratorRuntime.awrap(this._ensureActive());
 
-              case 2:
-                isActive = _context4.sent;
-                return _context4.abrupt("return", isActive && this.autoLog && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)));
+            case 2:
+              isActive = _context4.sent;
+              return _context4.abrupt("return", isActive && this.autoLog && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)));
 
-              case 4:
-              case "end":
-                return _context4.stop();
-            }
+            case 4:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function _shouldLogNewCall(_x2) {
-        return _shouldLogNewCall2.apply(this, arguments);
-      }
-
-      return _shouldLogNewCall;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "logCall",
-    value: function () {
-      var _logCall = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(_ref3) {
-        var call, contact, options, inbound, fromEntity, toEntity;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                call = _ref3.call, contact = _ref3.contact, options = _objectWithoutProperties(_ref3, ["call", "contact"]);
-                inbound = (0, _callLogHelpers.isInbound)(call);
-                fromEntity = inbound && contact || null;
-                toEntity = !inbound && contact || null;
-                _context5.next = 6;
-                return this.log(_objectSpread({}, options, {
-                  call: _objectSpread({}, call, {
-                    duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
-                    result: call.result || call.telephonyStatus
-                  }),
-                  fromEntity: fromEntity,
-                  toEntity: toEntity
-                }));
+    value: function logCall(_ref3) {
+      var call, contact, options, inbound, fromEntity, toEntity;
+      return regeneratorRuntime.async(function logCall$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              call = _ref3.call, contact = _ref3.contact, options = _objectWithoutProperties(_ref3, ["call", "contact"]);
+              inbound = (0, _callLogHelpers.isInbound)(call);
+              fromEntity = inbound && contact || null;
+              toEntity = !inbound && contact || null;
+              _context5.next = 6;
+              return regeneratorRuntime.awrap(this.log(_objectSpread({}, options, {
+                call: _objectSpread({}, call, {
+                  duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
+                  result: call.result || call.telephonyStatus
+                }),
+                fromEntity: fromEntity,
+                toEntity: toEntity
+              })));
 
-              case 6:
-              case "end":
-                return _context5.stop();
-            }
+            case 6:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee4, this);
-      }));
-
-      function logCall(_x3) {
-        return _logCall.apply(this, arguments);
-      }
-
-      return logCall;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_autoLogCall",
-    value: function () {
-      var _autoLogCall2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(_ref4) {
-        var call, fromEntity, toEntity, triggerType;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                call = _ref4.call, fromEntity = _ref4.fromEntity, toEntity = _ref4.toEntity, triggerType = _ref4.triggerType;
-                _context6.next = 3;
-                return this.log({
-                  call: _objectSpread({}, call, {
-                    duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
-                    result: call.result || call.telephonyStatus
-                  }),
-                  fromEntity: fromEntity,
-                  toEntity: toEntity,
-                  triggerType: triggerType
-                });
+    value: function _autoLogCall(_ref4) {
+      var call, fromEntity, toEntity, triggerType;
+      return regeneratorRuntime.async(function _autoLogCall$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              call = _ref4.call, fromEntity = _ref4.fromEntity, toEntity = _ref4.toEntity, triggerType = _ref4.triggerType;
+              _context6.next = 3;
+              return regeneratorRuntime.awrap(this.log({
+                call: _objectSpread({}, call, {
+                  duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
+                  result: call.result || call.telephonyStatus
+                }),
+                fromEntity: fromEntity,
+                toEntity: toEntity,
+                triggerType: triggerType
+              }));
 
-              case 3:
-              case "end":
-                return _context6.stop();
-            }
+            case 3:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee5, this);
-      }));
-
-      function _autoLogCall(_x4) {
-        return _autoLogCall2.apply(this, arguments);
-      }
-
-      return _autoLogCall;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_activityMatcherCheck",
     value: function _activityMatcherCheck(sessionId) {
@@ -424,178 +368,148 @@ function (_LoggerBase) {
     }
   }, {
     key: "_onNewCall",
-    value: function () {
-      var _onNewCall2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6(call, triggerType) {
-        var toNumberEntity, fromMatches, toMatches, fromEntity, toEntity;
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                _context7.next = 2;
-                return this._shouldLogNewCall(call);
+    value: function _onNewCall(call, triggerType) {
+      var toNumberEntity, fromMatches, toMatches, fromEntity, toEntity;
+      return regeneratorRuntime.async(function _onNewCall$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return regeneratorRuntime.awrap(this._shouldLogNewCall(call));
 
-              case 2:
-                if (!_context7.sent) {
-                  _context7.next = 20;
-                  break;
-                }
-
-                _context7.next = 5;
-                return this._activityMatcher.triggerMatch();
-
-              case 5:
-                if (!(this._activityMatcherCheck(call.sessionId) && this._customMatcherCheck(call.sessionId))) {
-                  _context7.next = 18;
-                  break;
-                }
-
-                _context7.next = 8;
-                return this._contactMatcher.triggerMatch();
-
-              case 8:
-                toNumberEntity = call.toNumberEntity || '';
-                fromMatches = call.from && call.from.phoneNumber && this._contactMatcher.dataMapping[call.from.phoneNumber] || [];
-                toMatches = call.to && call.to.phoneNumber && this._contactMatcher.dataMapping[call.to.phoneNumber] || [];
-                fromEntity = fromMatches && fromMatches.length === 1 && fromMatches[0] || null;
-                toEntity = null;
-
-                if (toMatches && toMatches.length === 1) {
-                  /* eslint { "prefer-destructuring": 0 } */
-                  toEntity = toMatches[0];
-                } else if (toMatches && toMatches.length > 1 && toNumberEntity !== '') {
-                  toEntity = toMatches.find(function (match) {
-                    return toNumberEntity === match.id;
-                  });
-                }
-
-                _context7.next = 16;
-                return this._autoLogCall({
-                  call: call,
-                  fromEntity: fromEntity,
-                  toEntity: toEntity,
-                  triggerType: triggerType
-                });
-
-              case 16:
+            case 2:
+              if (!_context7.sent) {
                 _context7.next = 20;
                 break;
+              }
 
-              case 18:
-                _context7.next = 20;
-                return this._autoLogCall({
-                  call: call,
-                  triggerType: triggerType
+              _context7.next = 5;
+              return regeneratorRuntime.awrap(this._activityMatcher.triggerMatch());
+
+            case 5:
+              if (!(this._activityMatcherCheck(call.sessionId) && this._customMatcherCheck(call.sessionId))) {
+                _context7.next = 18;
+                break;
+              }
+
+              _context7.next = 8;
+              return regeneratorRuntime.awrap(this._contactMatcher.triggerMatch());
+
+            case 8:
+              toNumberEntity = call.toNumberEntity || '';
+              fromMatches = call.from && call.from.phoneNumber && this._contactMatcher.dataMapping[call.from.phoneNumber] || [];
+              toMatches = call.to && call.to.phoneNumber && this._contactMatcher.dataMapping[call.to.phoneNumber] || [];
+              fromEntity = fromMatches && fromMatches.length === 1 && fromMatches[0] || null;
+              toEntity = null;
+
+              if (toMatches && toMatches.length === 1) {
+                /* eslint { "prefer-destructuring": 0 } */
+                toEntity = toMatches[0];
+              } else if (toMatches && toMatches.length > 1 && toNumberEntity !== '') {
+                toEntity = toMatches.find(function (match) {
+                  return toNumberEntity === match.id;
                 });
+              }
 
-              case 20:
-              case "end":
-                return _context7.stop();
-            }
+              _context7.next = 16;
+              return regeneratorRuntime.awrap(this._autoLogCall({
+                call: call,
+                fromEntity: fromEntity,
+                toEntity: toEntity,
+                triggerType: triggerType
+              }));
+
+            case 16:
+              _context7.next = 20;
+              break;
+
+            case 18:
+              _context7.next = 20;
+              return regeneratorRuntime.awrap(this._autoLogCall({
+                call: call,
+                triggerType: triggerType
+              }));
+
+            case 20:
+            case "end":
+              return _context7.stop();
           }
-        }, _callee6, this);
-      }));
-
-      function _onNewCall(_x5, _x6) {
-        return _onNewCall2.apply(this, arguments);
-      }
-
-      return _onNewCall;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_shouldLogUpdatedCall",
-    value: function () {
-      var _shouldLogUpdatedCall2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee7(call) {
-        var isActive, activityMatches;
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                _context8.next = 2;
-                return this._ensureActive();
+    value: function _shouldLogUpdatedCall(call) {
+      var isActive, activityMatches;
+      return regeneratorRuntime.async(function _shouldLogUpdatedCall$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.next = 2;
+              return regeneratorRuntime.awrap(this._ensureActive());
 
-              case 2:
-                isActive = _context8.sent;
+            case 2:
+              isActive = _context8.sent;
 
-                if (!(isActive && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)))) {
-                  _context8.next = 10;
-                  break;
-                }
+              if (!(isActive && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)))) {
+                _context8.next = 10;
+                break;
+              }
 
-                if (!this.autoLog) {
-                  _context8.next = 6;
-                  break;
-                }
+              if (!this.autoLog) {
+                _context8.next = 6;
+                break;
+              }
 
-                return _context8.abrupt("return", true);
+              return _context8.abrupt("return", true);
 
-              case 6:
-                _context8.next = 8;
-                return this._activityMatcher.triggerMatch();
+            case 6:
+              _context8.next = 8;
+              return regeneratorRuntime.awrap(this._activityMatcher.triggerMatch());
 
-              case 8:
-                activityMatches = this._activityMatcher.dataMapping[call.sessionId] || [];
-                return _context8.abrupt("return", activityMatches.length > 0);
+            case 8:
+              activityMatches = this._activityMatcher.dataMapping[call.sessionId] || [];
+              return _context8.abrupt("return", activityMatches.length > 0);
 
-              case 10:
-                return _context8.abrupt("return", false);
+            case 10:
+              return _context8.abrupt("return", false);
 
-              case 11:
-              case "end":
-                return _context8.stop();
-            }
+            case 11:
+            case "end":
+              return _context8.stop();
           }
-        }, _callee7, this);
-      }));
-
-      function _shouldLogUpdatedCall(_x7) {
-        return _shouldLogUpdatedCall2.apply(this, arguments);
-      }
-
-      return _shouldLogUpdatedCall;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_onCallUpdated",
-    value: function () {
-      var _onCallUpdated2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee8(call, triggerType) {
-        return regeneratorRuntime.wrap(function _callee8$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                _context9.next = 2;
-                return this._shouldLogUpdatedCall(call);
+    value: function _onCallUpdated(call, triggerType) {
+      return regeneratorRuntime.async(function _onCallUpdated$(_context9) {
+        while (1) {
+          switch (_context9.prev = _context9.next) {
+            case 0:
+              _context9.next = 2;
+              return regeneratorRuntime.awrap(this._shouldLogUpdatedCall(call));
 
-              case 2:
-                if (!_context9.sent) {
-                  _context9.next = 5;
-                  break;
-                }
-
+            case 2:
+              if (!_context9.sent) {
                 _context9.next = 5;
-                return this._autoLogCall({
-                  call: call,
-                  triggerType: triggerType
-                });
+                break;
+              }
 
-              case 5:
-              case "end":
-                return _context9.stop();
-            }
+              _context9.next = 5;
+              return regeneratorRuntime.awrap(this._autoLogCall({
+                call: call,
+                triggerType: triggerType
+              }));
+
+            case 5:
+            case "end":
+              return _context9.stop();
           }
-        }, _callee8, this);
-      }));
-
-      function _onCallUpdated(_x8, _x9) {
-        return _onCallUpdated2.apply(this, arguments);
-      }
-
-      return _onCallUpdated;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_processCalls",
     value: function _processCalls() {
@@ -676,96 +590,66 @@ function (_LoggerBase) {
     }
   }, {
     key: "_onStateChange",
-    value: function () {
-      var _onStateChange2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee9() {
-        return regeneratorRuntime.wrap(function _callee9$(_context10) {
-          while (1) {
-            switch (_context10.prev = _context10.next) {
-              case 0:
-                _context10.next = 2;
-                return _get(_getPrototypeOf(CallLogger.prototype), "_onStateChange", this).call(this);
+    value: function _onStateChange() {
+      return regeneratorRuntime.async(function _onStateChange$(_context10) {
+        while (1) {
+          switch (_context10.prev = _context10.next) {
+            case 0:
+              _context10.next = 2;
+              return regeneratorRuntime.awrap(_get(_getPrototypeOf(CallLogger.prototype), "_onStateChange", this).call(this));
 
-              case 2:
-                this._processCalls();
+            case 2:
+              this._processCalls();
 
-              case 3:
-              case "end":
-                return _context10.stop();
-            }
+            case 3:
+            case "end":
+              return _context10.stop();
           }
-        }, _callee9, this);
-      }));
-
-      function _onStateChange() {
-        return _onStateChange2.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "setAutoLog",
-    value: function () {
-      var _setAutoLog = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee10(autoLog) {
-        return regeneratorRuntime.wrap(function _callee10$(_context11) {
-          while (1) {
-            switch (_context11.prev = _context11.next) {
-              case 0:
-                if (this.ready && autoLog !== this.autoLog) {
-                  this.store.dispatch({
-                    type: this.actionTypes.setAutoLog,
-                    autoLog: autoLog
-                  });
-                }
+    value: function setAutoLog(autoLog) {
+      return regeneratorRuntime.async(function setAutoLog$(_context11) {
+        while (1) {
+          switch (_context11.prev = _context11.next) {
+            case 0:
+              if (this.ready && autoLog !== this.autoLog) {
+                this.store.dispatch({
+                  type: this.actionTypes.setAutoLog,
+                  autoLog: autoLog
+                });
+              }
 
-              case 1:
-              case "end":
-                return _context11.stop();
-            }
+            case 1:
+            case "end":
+              return _context11.stop();
           }
-        }, _callee10, this);
-      }));
-
-      function setAutoLog(_x10) {
-        return _setAutoLog.apply(this, arguments);
-      }
-
-      return setAutoLog;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "setLogOnRinging",
-    value: function () {
-      var _setLogOnRinging = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee11(logOnRinging) {
-        return regeneratorRuntime.wrap(function _callee11$(_context12) {
-          while (1) {
-            switch (_context12.prev = _context12.next) {
-              case 0:
-                if (this.ready && logOnRinging !== this.logOnRinging) {
-                  this.store.dispatch({
-                    type: this.actionTypes.setLogOnRinging,
-                    logOnRinging: logOnRinging
-                  });
-                }
+    value: function setLogOnRinging(logOnRinging) {
+      return regeneratorRuntime.async(function setLogOnRinging$(_context12) {
+        while (1) {
+          switch (_context12.prev = _context12.next) {
+            case 0:
+              if (this.ready && logOnRinging !== this.logOnRinging) {
+                this.store.dispatch({
+                  type: this.actionTypes.setLogOnRinging,
+                  logOnRinging: logOnRinging
+                });
+              }
 
-              case 1:
-              case "end":
-                return _context12.stop();
-            }
+            case 1:
+            case "end":
+              return _context12.stop();
           }
-        }, _callee11, this);
-      }));
-
-      function setLogOnRinging(_x11) {
-        return _setLogOnRinging.apply(this, arguments);
-      }
-
-      return setLogOnRinging;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "autoLog",
     get: function get() {

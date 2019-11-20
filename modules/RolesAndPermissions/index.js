@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -61,10 +59,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -97,7 +91,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var DEFAULT_TTL = 24 * 60 * 60 * 1000;
 
@@ -151,72 +145,52 @@ function (_DataFetcher) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RolesAndPermissions).call(this, _objectSpread({}, options, {
       client: client,
       ttl: ttl,
-      fetchFunction: function () {
-        var _fetchFunction = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee() {
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.t0 = extractData;
-                  _context.next = 3;
-                  return _this._client.account().extension().authzProfile().get();
+      fetchFunction: function fetchFunction() {
+        return regeneratorRuntime.async(function fetchFunction$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.t0 = extractData;
+                _context.next = 3;
+                return regeneratorRuntime.awrap(_this._client.account().extension().authzProfile().get());
 
-                case 3:
-                  _context.t1 = _context.sent;
-                  return _context.abrupt("return", (0, _context.t0)(_context.t1));
+              case 3:
+                _context.t1 = _context.sent;
+                return _context.abrupt("return", (0, _context.t0)(_context.t1));
 
-                case 5:
-                case "end":
-                  return _context.stop();
-              }
+              case 5:
+              case "end":
+                return _context.stop();
             }
-          }, _callee);
-        }));
-
-        function fetchFunction() {
-          return _fetchFunction.apply(this, arguments);
-        }
-
-        return fetchFunction;
-      }(),
+          }
+        });
+      },
       readyCheckFn: function readyCheckFn() {
         return _this._extensionInfo.ready;
       },
-      forbiddenHandler: function () {
-        var _forbiddenHandler = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee2() {
-          return regeneratorRuntime.wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  _context2.next = 2;
-                  return _this._auth.logout();
+      forbiddenHandler: function forbiddenHandler() {
+        return regeneratorRuntime.async(function forbiddenHandler$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return regeneratorRuntime.awrap(_this._auth.logout());
 
-                case 2:
-                  _this._alert.danger({
-                    message: _permissionsMessages["default"].insufficientPrivilege,
-                    ttl: 0
-                  });
+              case 2:
+                _this._alert.danger({
+                  message: _permissionsMessages["default"].insufficientPrivilege,
+                  ttl: 0
+                });
 
-                  return _context2.abrupt("return", {});
+                return _context2.abrupt("return", {});
 
-                case 4:
-                case "end":
-                  return _context2.stop();
-              }
+              case 4:
+              case "end":
+                return _context2.stop();
             }
-          }, _callee2);
-        }));
-
-        function forbiddenHandler() {
-          return _forbiddenHandler.apply(this, arguments);
-        }
-
-        return forbiddenHandler;
-      }(),
+          }
+        });
+      },
       cleanOnReset: true
     })));
 
@@ -232,115 +206,105 @@ function (_DataFetcher) {
 
   _createClass(RolesAndPermissions, [{
     key: "_onStateChange",
-    value: function () {
-      var _onStateChange2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, handler, hasPermissions;
+    value: function _onStateChange() {
+      var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, handler, hasPermissions;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!this._isDataReady()) {
-                  _context3.next = 20;
-                  break;
-                }
-
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
-                _context3.prev = 4;
-
-                for (_iterator = this._onDataReadyHandler[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                  handler = _step.value;
-                  handler();
-                }
-
-                _context3.next = 12;
+      return regeneratorRuntime.async(function _onStateChange$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!this._isDataReady()) {
+                _context3.next = 20;
                 break;
+              }
 
-              case 8:
-                _context3.prev = 8;
-                _context3.t0 = _context3["catch"](4);
-                _didIteratorError = true;
-                _iteratorError = _context3.t0;
+              _iteratorNormalCompletion = true;
+              _didIteratorError = false;
+              _iteratorError = undefined;
+              _context3.prev = 4;
 
-              case 12:
-                _context3.prev = 12;
-                _context3.prev = 13;
+              for (_iterator = this._onDataReadyHandler[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                handler = _step.value;
+                handler();
+              }
 
-                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-                  _iterator["return"]();
-                }
+              _context3.next = 12;
+              break;
 
-              case 15:
-                _context3.prev = 15;
+            case 8:
+              _context3.prev = 8;
+              _context3.t0 = _context3["catch"](4);
+              _didIteratorError = true;
+              _iteratorError = _context3.t0;
 
-                if (!_didIteratorError) {
-                  _context3.next = 18;
-                  break;
-                }
+            case 12:
+              _context3.prev = 12;
+              _context3.prev = 13;
 
-                throw _iteratorError;
+              if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                _iterator["return"]();
+              }
 
-              case 18:
-                return _context3.finish(15);
+            case 15:
+              _context3.prev = 15;
 
-              case 19:
-                return _context3.finish(12);
+              if (!_didIteratorError) {
+                _context3.next = 18;
+                break;
+              }
 
-              case 20:
-                _context3.next = 22;
-                return _get(_getPrototypeOf(RolesAndPermissions.prototype), "_onStateChange", this).call(this);
+              throw _iteratorError;
 
-              case 22:
-                if (!(this.ready && this._auth.loginStatus === _loginStatus["default"].loggedIn && this._isCRM && this.tierEnabled !== null && !this.tierEnabled)) {
-                  _context3.next = 26;
-                  break;
-                }
+            case 18:
+              return _context3.finish(15);
 
-                _context3.next = 25;
-                return this._auth.logout();
+            case 19:
+              return _context3.finish(12);
 
-              case 25:
+            case 20:
+              _context3.next = 22;
+              return regeneratorRuntime.awrap(_get(_getPrototypeOf(RolesAndPermissions.prototype), "_onStateChange", this).call(this));
+
+            case 22:
+              if (!(this.ready && this._auth.loginStatus === _loginStatus["default"].loggedIn && this._isCRM && this.tierEnabled !== null && !this.tierEnabled)) {
+                _context3.next = 26;
+                break;
+              }
+
+              _context3.next = 25;
+              return regeneratorRuntime.awrap(this._auth.logout());
+
+            case 25:
+              this._alert.danger({
+                message: _permissionsMessages["default"].invalidTier,
+                ttl: 0
+              });
+
+            case 26:
+              if (!(this.ready && this._auth.loginStatus === _loginStatus["default"].loggedIn && !this.permissions.ReadUserInfo)) {
+                _context3.next = 31;
+                break;
+              }
+
+              hasPermissions = !!this.data;
+              _context3.next = 30;
+              return regeneratorRuntime.awrap(this._auth.logout());
+
+            case 30:
+              if (hasPermissions) {
                 this._alert.danger({
-                  message: _permissionsMessages["default"].invalidTier,
+                  message: _permissionsMessages["default"].insufficientPrivilege,
                   ttl: 0
                 });
+              }
 
-              case 26:
-                if (!(this.ready && this._auth.loginStatus === _loginStatus["default"].loggedIn && !this.permissions.ReadUserInfo)) {
-                  _context3.next = 31;
-                  break;
-                }
-
-                hasPermissions = !!this.data;
-                _context3.next = 30;
-                return this._auth.logout();
-
-              case 30:
-                if (hasPermissions) {
-                  this._alert.danger({
-                    message: _permissionsMessages["default"].insufficientPrivilege,
-                    ttl: 0
-                  });
-                }
-
-              case 31:
-              case "end":
-                return _context3.stop();
-            }
+            case 31:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this, [[4, 8, 12, 20], [13,, 15, 19]]);
-      }));
-
-      function _onStateChange() {
-        return _onStateChange2.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
+        }
+      }, null, this, [[4, 8, 12, 20], [13,, 15, 19]]);
+    }
   }, {
     key: "onDataReady",
     value: function onDataReady(fn) {

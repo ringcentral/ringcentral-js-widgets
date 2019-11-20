@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -54,10 +52,6 @@ var _dec, _class, _class2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -123,103 +117,73 @@ function (_RcModule) {
     }
   }, {
     key: "_onStateChange",
-    value: function () {
-      var _onStateChange2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (this._auth.ready && !this.ready) {
-                  this.store.dispatch({
-                    type: this.actionTypes.initSuccess
-                  });
-                } else if (!this._auth.ready && this.ready) {
-                  this.store.dispatch({
-                    type: this.actionTypes.resetSuccess
-                  });
-                } // When there is an incoming call,
-                // the page should be dismissed
+    value: function _onStateChange() {
+      return regeneratorRuntime.async(function _onStateChange$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (this._auth.ready && !this.ready) {
+                this.store.dispatch({
+                  type: this.actionTypes.initSuccess
+                });
+              } else if (!this._auth.ready && this.ready) {
+                this.store.dispatch({
+                  type: this.actionTypes.resetSuccess
+                });
+              } // When there is an incoming call,
+              // the page should be dismissed
 
 
-                if (this._webphone.ready && this._webphone.ringSession && this._webphone.ringSession !== this._lastRingSession) {
-                  this._lastRingSession = this._webphone.ringSession;
-                  this.exit();
-                }
+              if (this._webphone.ready && this._webphone.ringSession && this._webphone.ringSession !== this._lastRingSession) {
+                this._lastRingSession = this._webphone.ringSession;
+                this.exit();
+              }
 
-              case 2:
-              case "end":
-                return _context.stop();
-            }
+            case 2:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function _onStateChange() {
-        return _onStateChange2.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "enter",
-    value: function () {
-      var _enter = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.updatePage,
-                  entered: true
-                });
+    value: function enter() {
+      return regeneratorRuntime.async(function enter$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.updatePage,
+                entered: true
+              });
 
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
+            case 1:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function enter() {
-        return _enter.apply(this, arguments);
-      }
-
-      return enter;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "exit",
-    value: function () {
-      var _exit = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.updatePage,
-                  entered: false
-                });
+    value: function exit() {
+      return regeneratorRuntime.async(function exit$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.updatePage,
+                entered: false
+              });
 
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
+            case 1:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function exit() {
-        return _exit.apply(this, arguments);
-      }
-
-      return exit;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "entered",
     get: function get() {

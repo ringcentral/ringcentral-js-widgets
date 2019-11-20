@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -64,10 +62,6 @@ var _dec, _class, _class2, _temp;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -165,46 +159,36 @@ function (_RcModule) {
      * @param {alertLevels} options.level
      * @param {Number} options.ttl - optional, set ttl to 0 to disable auto dismiss
      */
-    value: function () {
-      var _alert = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(_ref2) {
-        var message, payload, _ref2$level, level, _ref2$ttl, ttl, _ref2$allowDuplicates, allowDuplicates;
+    value: function alert(_ref2) {
+      var message, payload, _ref2$level, level, _ref2$ttl, ttl, _ref2$allowDuplicates, allowDuplicates;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                message = _ref2.message, payload = _ref2.payload, _ref2$level = _ref2.level, level = _ref2$level === void 0 ? _alertLevels["default"].info : _ref2$level, _ref2$ttl = _ref2.ttl, ttl = _ref2$ttl === void 0 ? this._ttl : _ref2$ttl, _ref2$allowDuplicates = _ref2.allowDuplicates, allowDuplicates = _ref2$allowDuplicates === void 0 ? true : _ref2$allowDuplicates;
-                this.store.dispatch({
-                  type: this.actionTypes.alert,
-                  message: message,
-                  payload: payload,
-                  level: level,
-                  ttl: ttl,
-                  allowDuplicates: allowDuplicates,
-                  id: _uuid["default"].v4(),
-                  timestamp: Date.now()
-                });
+      return regeneratorRuntime.async(function alert$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              message = _ref2.message, payload = _ref2.payload, _ref2$level = _ref2.level, level = _ref2$level === void 0 ? _alertLevels["default"].info : _ref2$level, _ref2$ttl = _ref2.ttl, ttl = _ref2$ttl === void 0 ? this._ttl : _ref2$ttl, _ref2$allowDuplicates = _ref2.allowDuplicates, allowDuplicates = _ref2$allowDuplicates === void 0 ? true : _ref2$allowDuplicates;
+              this.store.dispatch({
+                type: this.actionTypes.alert,
+                message: message,
+                payload: payload,
+                level: level,
+                ttl: ttl,
+                allowDuplicates: allowDuplicates,
+                id: _uuid["default"].v4(),
+                timestamp: Date.now()
+              });
 
-                if (ttl > 0) {
-                  setTimeout(this._autoDismiss, ttl + 10);
-                }
+              if (ttl > 0) {
+                setTimeout(this._autoDismiss, ttl + 10);
+              }
 
-              case 3:
-              case "end":
-                return _context.stop();
-            }
+            case 3:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function alert(_x) {
-        return _alert.apply(this, arguments);
-      }
-
-      return alert;
-    }()
+        }
+      }, null, this);
+    }
     /**
      * @function
      * @description Add alert message of alertLevel "danger" to the state.
@@ -273,33 +257,23 @@ function (_RcModule) {
 
   }, {
     key: "dismiss",
-    value: function () {
-      var _dismiss = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(ids) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.dismiss,
-                  ids: [].concat(ids)
-                });
+    value: function dismiss(ids) {
+      return regeneratorRuntime.async(function dismiss$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.dismiss,
+                ids: [].concat(ids)
+              });
 
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
+            case 1:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function dismiss(_x2) {
-        return _dismiss.apply(this, arguments);
-      }
-
-      return dismiss;
-    }()
+        }
+      }, null, this);
+    }
     /**
      * @function
      * @description Dismiss all messages.
@@ -307,32 +281,22 @@ function (_RcModule) {
 
   }, {
     key: "dismissAll",
-    value: function () {
-      var _dismissAll = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.dismissAll
-                });
+    value: function dismissAll() {
+      return regeneratorRuntime.async(function dismissAll$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.dismissAll
+              });
 
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
+            case 1:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function dismissAll() {
-        return _dismissAll.apply(this, arguments);
-      }
-
-      return dismissAll;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_actionTypes",
     get: function get() {

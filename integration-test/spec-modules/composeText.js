@@ -19,8 +19,6 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -53,18 +51,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var _default = function _default(auth, client, account, alert, regionSettings, composeText, messageSender) {
-  describe('ComposeText',
-  /*#__PURE__*/
-  _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee41() {
+  describe('ComposeText', function _callee41() {
     var conditionalDescribe, clientHistoryRequest;
-    return regeneratorRuntime.wrap(function _callee41$(_context41) {
+    return regeneratorRuntime.async(function _callee41$(_context41) {
       while (1) {
         switch (_context41.prev = _context41.next) {
           case 0:
@@ -72,18 +62,14 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
 
             conditionalDescribe = describe;
             clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
-            before(
-            /*#__PURE__*/
-            _asyncToGenerator(
-            /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee() {
+            before(function _callee() {
               var isLoginSuccess;
-              return regeneratorRuntime.wrap(function _callee$(_context) {
+              return regeneratorRuntime.async(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
                       _context.next = 2;
-                      return (0, _HelpUtil.ensureLogin)(auth, account);
+                      return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(auth, account));
 
                     case 2:
                       isLoginSuccess = _context.sent;
@@ -94,23 +80,23 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                       }
 
                       _context.next = 6;
-                      return (0, _WaitUtil.waitUntilNotNull)(function () {
+                      return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilNotNull)(function () {
                         return messageSender.senderNumbersList[0].phoneNumber;
-                      }, 'First number in senderNumberList', 3);
+                      }, 'First number in senderNumberList', 3));
 
                     case 6:
                       _context.next = 8;
-                      return (0, _WaitUtil.waitUntilObjectSizeGreaterThan)(function () {
+                      return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilObjectSizeGreaterThan)(function () {
                         return composeText.senderNumber;
-                      }, 'Sender Number', 0, 3);
+                      }, 'Sender Number', 0, 3));
 
                     case 8:
                     case "end":
                       return _context.stop();
                   }
                 }
-              }, _callee);
-            })));
+              });
+            });
             conditionalDescribe('Should Init Successfully with Default Setting', function () {
               _this.timeout(20000);
 
@@ -125,32 +111,28 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                 composeText.updateSenderNumber(messageSender.senderNumbersList[1].phoneNumber);
                 expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
               });
-              it('Should Remember Sender Number After Logout',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee2() {
-                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              it('Should Remember Sender Number After Logout', function _callee2() {
+                return regeneratorRuntime.async(function _callee2$(_context2) {
                   while (1) {
                     switch (_context2.prev = _context2.next) {
                       case 0:
                         composeText.updateSenderNumber(messageSender.senderNumbersList[1].phoneNumber);
                         auth.logout();
                         _context2.next = 4;
-                        return (0, _WaitUtil.waitUntilEqual)(function () {
+                        return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
                           return auth.loginStatus;
-                        }, 'LoginStatus', _loginStatus["default"].notLoggedIn, 3);
+                        }, 'LoginStatus', _loginStatus["default"].notLoggedIn, 3));
 
                       case 4:
                         auth.login(_objectSpread({}, account));
                         _context2.next = 7;
-                        return (0, _WaitUtil.waitUntilEqual)(function () {
+                        return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
                           return auth.loginStatus;
-                        }, 'LoginStatus', _loginStatus["default"].loggedIn, 3);
+                        }, 'LoginStatus', _loginStatus["default"].loggedIn, 3));
 
                       case 7:
                         _context2.next = 9;
-                        return (0, _WaitUtil.waitInSeconds)(2);
+                        return regeneratorRuntime.awrap((0, _WaitUtil.waitInSeconds)(2));
 
                       case 9:
                         expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
@@ -160,8 +142,8 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         return _context2.stop();
                     }
                   }
-                }, _callee2);
-              })));
+                });
+              });
             });
             conditionalDescribe('Should Update Typing Number', function () {
               _this.timeout(20000);
@@ -240,13 +222,9 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
               beforeEach(function () {
                 composeText.clean();
               });
-              it('Should SMS Message Successfully',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee3() {
+              it('Should SMS Message Successfully', function _callee3() {
                 var responses, rawRequest;
-                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                return regeneratorRuntime.async(function _callee3$(_context3) {
                   while (1) {
                     switch (_context3.prev = _context3.next) {
                       case 0:
@@ -255,7 +233,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         });
                         composeText.updateMessageText('test');
                         _context3.next = 4;
-                        return composeText.send();
+                        return regeneratorRuntime.awrap(composeText.send());
 
                       case 4:
                         responses = _context3.sent;
@@ -270,15 +248,11 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         return _context3.stop();
                     }
                   }
-                }, _callee3);
-              })));
-              it('Should Send Pager Message Successfully',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee4() {
+                });
+              });
+              it('Should Send Pager Message Successfully', function _callee4() {
                 var responses, rawRequest;
-                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                return regeneratorRuntime.async(function _callee4$(_context4) {
                   while (1) {
                     switch (_context4.prev = _context4.next) {
                       case 0:
@@ -287,7 +261,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         });
                         composeText.updateMessageText('test 2');
                         _context4.next = 4;
-                        return composeText.send();
+                        return regeneratorRuntime.awrap(composeText.send());
 
                       case 4:
                         responses = _context4.sent;
@@ -302,15 +276,11 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         return _context4.stop();
                     }
                   }
-                }, _callee4);
-              })));
-              it('Should Send SMS and Pager Message Together Successfully',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee5() {
+                });
+              });
+              it('Should Send SMS and Pager Message Together Successfully', function _callee5() {
                 var responses, smsRequest, pagerRequest;
-                return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                return regeneratorRuntime.async(function _callee5$(_context5) {
                   while (1) {
                     switch (_context5.prev = _context5.next) {
                       case 0:
@@ -322,7 +292,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         });
                         composeText.updateMessageText('test 3');
                         _context5.next = 5;
-                        return composeText.send();
+                        return regeneratorRuntime.awrap(composeText.send());
 
                       case 5:
                         responses = _context5.sent;
@@ -341,22 +311,18 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         return _context5.stop();
                     }
                   }
-                }, _callee5);
-              })));
-              it('Should Send Pager Message Successfully with Typing Number',
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee6() {
+                });
+              });
+              it('Should Send Pager Message Successfully with Typing Number', function _callee6() {
                 var responses, rawRequest;
-                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                return regeneratorRuntime.async(function _callee6$(_context6) {
                   while (1) {
                     switch (_context6.prev = _context6.next) {
                       case 0:
                         composeText.updateTypingToNumber('101');
                         composeText.updateMessageText('test 4');
                         _context6.next = 4;
-                        return composeText.send();
+                        return regeneratorRuntime.awrap(composeText.send());
 
                       case 4:
                         responses = _context6.sent;
@@ -371,28 +337,24 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         return _context6.stop();
                     }
                   }
-                }, _callee6);
-              })));
+                });
+              });
             });
             conditionalDescribe('Validation', function () {
               _this.timeout(20000);
 
-              beforeEach(
-              /*#__PURE__*/
-              _asyncToGenerator(
-              /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee7() {
+              beforeEach(function _callee7() {
                 var isAlertClear;
-                return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                return regeneratorRuntime.async(function _callee7$(_context7) {
                   while (1) {
                     switch (_context7.prev = _context7.next) {
                       case 0:
                         composeText.clean();
                         _context7.next = 3;
-                        return (0, _WaitUtil.waitUntilEqual)(function () {
+                        return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
                           alert.dismissAll();
                           return alert.state.messages.length;
-                        }, 'Alert', 0, 5);
+                        }, 'Alert', 0, 5));
 
                       case 3:
                         isAlertClear = _context7.sent;
@@ -407,22 +369,18 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         return _context7.stop();
                     }
                   }
-                }, _callee7);
-              })));
+                });
+              });
               conditionalDescribe('Text Validation', function () {
-                it('Should Alert of textEmpty When Text Is Empty',
-                /*#__PURE__*/
-                _asyncToGenerator(
-                /*#__PURE__*/
-                regeneratorRuntime.mark(function _callee8() {
-                  return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                it('Should Alert of textEmpty When Text Is Empty', function _callee8() {
+                  return regeneratorRuntime.async(function _callee8$(_context8) {
                     while (1) {
                       switch (_context8.prev = _context8.next) {
                         case 0:
                           composeText.updateTypingToNumber('+18558990011');
                           composeText.updateMessageText('');
                           _context8.next = 4;
-                          return composeText.send();
+                          return regeneratorRuntime.awrap(composeText.send());
 
                         case 4:
                           expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].textEmpty)).to.not.equal(undefined);
@@ -432,28 +390,24 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           return _context8.stop();
                       }
                     }
-                  }, _callee8);
-                })));
+                  });
+                });
                 it('Should Alert of textTooLong When Message Text length more than 1000', function () {
                   var str = Array(1002).join('x');
                   composeText.updateMessageText(str);
                   expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].textTooLong)).to.not.equal(undefined);
                   expect(composeText.messageText).to.equals('');
                 });
-                it('Should Alert of textEmpty When Text Is Empty with Space',
-                /*#__PURE__*/
-                _asyncToGenerator(
-                /*#__PURE__*/
-                regeneratorRuntime.mark(function _callee9() {
+                it('Should Alert of textEmpty When Text Is Empty with Space', function _callee9() {
                   var response;
-                  return regeneratorRuntime.wrap(function _callee9$(_context9) {
+                  return regeneratorRuntime.async(function _callee9$(_context9) {
                     while (1) {
                       switch (_context9.prev = _context9.next) {
                         case 0:
                           composeText.updateTypingToNumber('+18558990011');
                           composeText.updateMessageText('   ');
                           _context9.next = 4;
-                          return composeText.send();
+                          return regeneratorRuntime.awrap(composeText.send());
 
                         case 4:
                           response = _context9.sent;
@@ -466,23 +420,19 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           return _context9.stop();
                       }
                     }
-                  }, _callee9);
-                })));
+                  });
+                });
               });
               conditionalDescribe('Numbers Validation', function () {
                 conditionalDescribe('Basic Validation', function () {
-                  it('Should Alert of recipientsEmpty - Not Input Recepiant Number',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee10() {
-                    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+                  it('Should Alert of recipientsEmpty - Not Input Recepiant Number', function _callee10() {
+                    return regeneratorRuntime.async(function _callee10$(_context10) {
                       while (1) {
                         switch (_context10.prev = _context10.next) {
                           case 0:
                             composeText.updateMessageText('test sender');
                             _context10.next = 3;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 3:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].recipientsEmpty)).to.not.equal(undefined);
@@ -492,14 +442,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context10.stop();
                         }
                       }
-                    }, _callee10);
-                  })));
-                  it('Should Alert of noToNumber - Typing Number is not number',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee11() {
-                    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                    });
+                  });
+                  it('Should Alert of noToNumber - Typing Number is not number', function _callee11() {
+                    return regeneratorRuntime.async(function _callee11$(_context11) {
                       while (1) {
                         switch (_context11.prev = _context11.next) {
                           case 0:
@@ -508,7 +454,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context11.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noToNumber)).to.not.equal(undefined);
@@ -521,14 +467,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context11.stop();
                         }
                       }
-                    }, _callee11);
-                  })));
-                  it('Should Alert of noToNumber - Valid Special Char but No Digital Number',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee12() {
-                    return regeneratorRuntime.wrap(function _callee12$(_context12) {
+                    });
+                  });
+                  it('Should Alert of noToNumber - Valid Special Char but No Digital Number', function _callee12() {
+                    return regeneratorRuntime.async(function _callee12$(_context12) {
                       while (1) {
                         switch (_context12.prev = _context12.next) {
                           case 0:
@@ -537,7 +479,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context12.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noToNumber)).to.not.equal(undefined);
@@ -550,28 +492,24 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context12.stop();
                         }
                       }
-                    }, _callee12);
-                  })));
+                    });
+                  });
                   it('Should Alert of recipientNumberInvalids - Typing Number Length more than 30', function () {
                     var str = Array(32).join('x');
                     composeText.updateTypingToNumber(str);
                     expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].recipientNumberInvalids)).to.not.equal(undefined);
                     expect(composeText.typingToNumber).to.equals('');
                   });
-                  it('Should Alert of noToNumber - Send With wrong Typing Number',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee13() {
+                  it('Should Alert of noToNumber - Send With wrong Typing Number', function _callee13() {
                     var response;
-                    return regeneratorRuntime.wrap(function _callee13$(_context13) {
+                    return regeneratorRuntime.async(function _callee13$(_context13) {
                       while (1) {
                         switch (_context13.prev = _context13.next) {
                           case 0:
                             composeText.updateTypingToNumber('test');
                             composeText.updateMessageText('test 5');
                             _context13.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             response = _context13.sent;
@@ -583,14 +521,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context13.stop();
                         }
                       }
-                    }, _callee13);
-                  })));
-                  it('Should Alert of noToNumber - one of toNumber is not number',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee14() {
-                    return regeneratorRuntime.wrap(function _callee14$(_context14) {
+                    });
+                  });
+                  it('Should Alert of noToNumber - one of toNumber is not number', function _callee14() {
+                    return regeneratorRuntime.async(function _callee14$(_context14) {
                       while (1) {
                         switch (_context14.prev = _context14.next) {
                           case 0:
@@ -602,7 +536,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context14.next = 5;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 5:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noToNumber)).to.not.equal(undefined);
@@ -615,15 +549,11 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context14.stop();
                         }
                       }
-                    }, _callee14);
-                  })));
-                  it('Should Not Alert Anything - to Number in E.164 Format',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee15() {
+                    });
+                  });
+                  it('Should Not Alert Anything - to Number in E.164 Format', function _callee15() {
                     var response;
-                    return regeneratorRuntime.wrap(function _callee15$(_context15) {
+                    return regeneratorRuntime.async(function _callee15$(_context15) {
                       while (1) {
                         switch (_context15.prev = _context15.next) {
                           case 0:
@@ -632,7 +562,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test');
                             _context15.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             response = _context15.sent;
@@ -646,8 +576,8 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context15.stop();
                         }
                       }
-                    }, _callee15);
-                  })));
+                    });
+                  });
                 });
                 conditionalDescribe('Validation with US/CA Local Number Format', function () {
                   beforeEach(function () {
@@ -656,20 +586,16 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                       areaCode: ''
                     });
                   });
-                  it('Should Not Alert Anything - To Number in (xxx)xxx-xxxx Format',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee16() {
+                  it('Should Not Alert Anything - To Number in (xxx)xxx-xxxx Format', function _callee16() {
                     var responses;
-                    return regeneratorRuntime.wrap(function _callee16$(_context16) {
+                    return regeneratorRuntime.async(function _callee16$(_context16) {
                       while (1) {
                         switch (_context16.prev = _context16.next) {
                           case 0:
                             composeText.updateTypingToNumber('(855)899-0011');
                             composeText.updateMessageText('test');
                             _context16.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             responses = _context16.sent;
@@ -685,22 +611,18 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context16.stop();
                         }
                       }
-                    }, _callee16);
-                  })));
-                  it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx Format',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee17() {
+                    });
+                  });
+                  it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx Format', function _callee17() {
                     var responses;
-                    return regeneratorRuntime.wrap(function _callee17$(_context17) {
+                    return regeneratorRuntime.async(function _callee17$(_context17) {
                       while (1) {
                         switch (_context17.prev = _context17.next) {
                           case 0:
                             composeText.updateTypingToNumber('(855) 899-0011');
                             composeText.updateMessageText('test');
                             _context17.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             responses = _context17.sent;
@@ -716,22 +638,18 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context17.stop();
                         }
                       }
-                    }, _callee17);
-                  })));
-                  it('Should Not Alert Anything - to Number in (xxx)xxx-xxxx*xxx Format',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee18() {
+                    });
+                  });
+                  it('Should Not Alert Anything - to Number in (xxx)xxx-xxxx*xxx Format', function _callee18() {
                     var responses;
-                    return regeneratorRuntime.wrap(function _callee18$(_context18) {
+                    return regeneratorRuntime.async(function _callee18$(_context18) {
                       while (1) {
                         switch (_context18.prev = _context18.next) {
                           case 0:
                             composeText.updateTypingToNumber('(866)211-8665*101');
                             composeText.updateMessageText('test');
                             _context18.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             responses = _context18.sent;
@@ -747,22 +665,18 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context18.stop();
                         }
                       }
-                    }, _callee18);
-                  })));
-                  it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx*xxx Format',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee19() {
+                    });
+                  });
+                  it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx*xxx Format', function _callee19() {
                     var responses;
-                    return regeneratorRuntime.wrap(function _callee19$(_context19) {
+                    return regeneratorRuntime.async(function _callee19$(_context19) {
                       while (1) {
                         switch (_context19.prev = _context19.next) {
                           case 0:
                             composeText.updateTypingToNumber('(866) 211-8665*101');
                             composeText.updateMessageText('test');
                             _context19.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             responses = _context19.sent;
@@ -778,22 +692,18 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context19.stop();
                         }
                       }
-                    }, _callee19);
-                  })));
-                  it('Should Not Alert Anything - to Number in xxx-xxx-xxxx Format',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee20() {
+                    });
+                  });
+                  it('Should Not Alert Anything - to Number in xxx-xxx-xxxx Format', function _callee20() {
                     var responses;
-                    return regeneratorRuntime.wrap(function _callee20$(_context20) {
+                    return regeneratorRuntime.async(function _callee20$(_context20) {
                       while (1) {
                         switch (_context20.prev = _context20.next) {
                           case 0:
                             composeText.updateTypingToNumber('866-211-8665');
                             composeText.updateMessageText('test');
                             _context20.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             responses = _context20.sent;
@@ -809,22 +719,18 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context20.stop();
                         }
                       }
-                    }, _callee20);
-                  })));
-                  it('Should Not Alert Anything - to Number in xxx-xxx-xxxx*xxx Format',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee21() {
+                    });
+                  });
+                  it('Should Not Alert Anything - to Number in xxx-xxx-xxxx*xxx Format', function _callee21() {
                     var responses;
-                    return regeneratorRuntime.wrap(function _callee21$(_context21) {
+                    return regeneratorRuntime.async(function _callee21$(_context21) {
                       while (1) {
                         switch (_context21.prev = _context21.next) {
                           case 0:
                             composeText.updateTypingToNumber('866-211-8665*101');
                             composeText.updateMessageText('test');
                             _context21.next = 4;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 4:
                             responses = _context21.sent;
@@ -840,17 +746,13 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context21.stop();
                         }
                       }
-                    }, _callee21);
-                  })));
+                    });
+                  });
                 });
                 conditionalDescribe('Validation with Region Setting', function () {
-                  it('Should Alert of noAreaCode - Typing Number length is 7 and no areaCode',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee22() {
+                  it('Should Alert of noAreaCode - Typing Number length is 7 and no areaCode', function _callee22() {
                     var response;
-                    return regeneratorRuntime.wrap(function _callee22$(_context22) {
+                    return regeneratorRuntime.async(function _callee22$(_context22) {
                       while (1) {
                         switch (_context22.prev = _context22.next) {
                           case 0:
@@ -861,7 +763,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('6545672');
                             composeText.updateMessageText('test 6');
                             _context22.next = 5;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 5:
                             response = _context22.sent;
@@ -873,14 +775,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context22.stop();
                         }
                       }
-                    }, _callee22);
-                  })));
-                  it('Should Alert of No AreaCode - toNumber is 7 Digital Number with US Dialing Plan without Area Code',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee23() {
-                    return regeneratorRuntime.wrap(function _callee23$(_context23) {
+                    });
+                  });
+                  it('Should Alert of No AreaCode - toNumber is 7 Digital Number with US Dialing Plan without Area Code', function _callee23() {
+                    return regeneratorRuntime.async(function _callee23$(_context23) {
                       while (1) {
                         switch (_context23.prev = _context23.next) {
                           case 0:
@@ -893,7 +791,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context23.next = 5;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 5:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.not.equal(undefined);
@@ -906,14 +804,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context23.stop();
                         }
                       }
-                    }, _callee23);
-                  })));
-                  it('Should Alert of No AreaCode - toNumber is 7 Digital Number with CA Dialing Plan without Area Code',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee24() {
-                    return regeneratorRuntime.wrap(function _callee24$(_context24) {
+                    });
+                  });
+                  it('Should Alert of No AreaCode - toNumber is 7 Digital Number with CA Dialing Plan without Area Code', function _callee24() {
+                    return regeneratorRuntime.async(function _callee24$(_context24) {
                       while (1) {
                         switch (_context24.prev = _context24.next) {
                           case 0:
@@ -926,7 +820,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context24.next = 5;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 5:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.not.equal(undefined);
@@ -939,15 +833,11 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context24.stop();
                         }
                       }
-                    }, _callee24);
-                  })));
-                  it('Should Not Alert of Anything - toNumber is 7 Digital Number with CA Dialing Plan with Area Code',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee25() {
+                    });
+                  });
+                  it('Should Not Alert of Anything - toNumber is 7 Digital Number with CA Dialing Plan with Area Code', function _callee25() {
                     var rawRequest;
-                    return regeneratorRuntime.wrap(function _callee25$(_context25) {
+                    return regeneratorRuntime.async(function _callee25$(_context25) {
                       while (1) {
                         switch (_context25.prev = _context25.next) {
                           case 0:
@@ -961,7 +851,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateMessageText('test sender');
                             _context25.prev = 3;
                             _context25.next = 6;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 6:
                             _context25.next = 11;
@@ -986,15 +876,11 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context25.stop();
                         }
                       }
-                    }, _callee25, null, [[3, 8]]);
-                  })));
-                  it('Should Not Alert of Anything - toNumber is 7 Digital Number with US Dialing Plan with Area Code',
-                  /*#__PURE__*/
-                  _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee26() {
+                    }, null, null, [[3, 8]]);
+                  });
+                  it('Should Not Alert of Anything - toNumber is 7 Digital Number with US Dialing Plan with Area Code', function _callee26() {
                     var rawRequest;
-                    return regeneratorRuntime.wrap(function _callee26$(_context26) {
+                    return regeneratorRuntime.async(function _callee26$(_context26) {
                       while (1) {
                         switch (_context26.prev = _context26.next) {
                           case 0:
@@ -1008,7 +894,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateMessageText('test sender');
                             _context26.prev = 3;
                             _context26.next = 6;
-                            return composeText.send();
+                            return regeneratorRuntime.awrap(composeText.send());
 
                           case 6:
                             _context26.next = 11;
@@ -1032,24 +918,20 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             return _context26.stop();
                         }
                       }
-                    }, _callee26, null, [[3, 8]]);
-                  })));
+                    }, null, null, [[3, 8]]);
+                  });
                 });
                 conditionalDescribe('Extension/Special Validation', function () {
                   conditionalDescribe('Not Included In Extension List', function () {
-                    it('Should Alert of notAnExtension - Typing Number',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee27() {
-                      return regeneratorRuntime.wrap(function _callee27$(_context27) {
+                    it('Should Alert of notAnExtension - Typing Number', function _callee27() {
+                      return regeneratorRuntime.async(function _callee27$(_context27) {
                         while (1) {
                           switch (_context27.prev = _context27.next) {
                             case 0:
                               composeText.updateTypingToNumber('11111');
                               composeText.updateMessageText('test sender');
                               _context27.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].notAnExtension)).to.not.equal(undefined);
@@ -1062,14 +944,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context27.stop();
                           }
                         }
-                      }, _callee27);
-                    })));
-                    it('Should Alert of notAnExtension - To Number',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee28() {
-                      return regeneratorRuntime.wrap(function _callee28$(_context28) {
+                      });
+                    });
+                    it('Should Alert of notAnExtension - To Number', function _callee28() {
+                      return regeneratorRuntime.async(function _callee28$(_context28) {
                         while (1) {
                           switch (_context28.prev = _context28.next) {
                             case 0:
@@ -1078,7 +956,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context28.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].notAnExtension)).to.not.equal(undefined);
@@ -1091,14 +969,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context28.stop();
                           }
                         }
-                      }, _callee28);
-                    })));
-                    it('Should Alert of notAnExtension - To Number (xxx)xxx-xxxx*xxx Format',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee29() {
-                      return regeneratorRuntime.wrap(function _callee29$(_context29) {
+                      });
+                    });
+                    it('Should Alert of notAnExtension - To Number (xxx)xxx-xxxx*xxx Format', function _callee29() {
+                      return regeneratorRuntime.async(function _callee29$(_context29) {
                         while (1) {
                           switch (_context29.prev = _context29.next) {
                             case 0:
@@ -1107,7 +981,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context29.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].notAnExtension)).to.not.equal(undefined);
@@ -1120,8 +994,8 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context29.stop();
                           }
                         }
-                      }, _callee29);
-                    })));
+                      });
+                    });
                   });
                   conditionalDescribe('GB Dialing Plan', function () {
                     beforeEach(function () {
@@ -1130,12 +1004,8 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         areaCode: ''
                       });
                     });
-                    it('Should Alert Special Number - toNumber 101 (Existed Extension/Special Number)',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee30() {
-                      return regeneratorRuntime.wrap(function _callee30$(_context30) {
+                    it('Should Alert Special Number - toNumber 101 (Existed Extension/Special Number)', function _callee30() {
+                      return regeneratorRuntime.async(function _callee30$(_context30) {
                         while (1) {
                           switch (_context30.prev = _context30.next) {
                             case 0:
@@ -1144,7 +1014,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context30.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1157,14 +1027,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context30.stop();
                           }
                         }
-                      }, _callee30);
-                    })));
-                    it('Should Alert notAnExtension - toNumber 998 (No Extension)',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee31() {
-                      return regeneratorRuntime.wrap(function _callee31$(_context31) {
+                      });
+                    });
+                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', function _callee31() {
+                      return regeneratorRuntime.async(function _callee31$(_context31) {
                         while (1) {
                           switch (_context31.prev = _context31.next) {
                             case 0:
@@ -1173,7 +1039,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context31.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1186,14 +1052,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context31.stop();
                           }
                         }
-                      }, _callee31);
-                    })));
-                    it('Should Alert Special Number - toNumber 999',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee32() {
-                      return regeneratorRuntime.wrap(function _callee32$(_context32) {
+                      });
+                    });
+                    it('Should Alert Special Number - toNumber 999', function _callee32() {
+                      return regeneratorRuntime.async(function _callee32$(_context32) {
                         while (1) {
                           switch (_context32.prev = _context32.next) {
                             case 0:
@@ -1202,7 +1064,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context32.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1215,14 +1077,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context32.stop();
                           }
                         }
-                      }, _callee32);
-                    })));
-                    it('Should Not Alert Special Number - toNumber 911',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee33() {
-                      return regeneratorRuntime.wrap(function _callee33$(_context33) {
+                      });
+                    });
+                    it('Should Not Alert Special Number - toNumber 911', function _callee33() {
+                      return regeneratorRuntime.async(function _callee33$(_context33) {
                         while (1) {
                           switch (_context33.prev = _context33.next) {
                             case 0:
@@ -1235,7 +1093,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context33.next = 5;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 5:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].specialNumber)).to.equal(undefined);
@@ -1245,8 +1103,8 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context33.stop();
                           }
                         }
-                      }, _callee33);
-                    })));
+                      });
+                    });
                   });
                   conditionalDescribe('US Dialing Plan', function () {
                     beforeEach(function () {
@@ -1255,12 +1113,8 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         areaCode: ''
                       });
                     });
-                    it('Should Alert notAnExtension - toNumber 102 (No Extension/Not Special Number) with US Dialing Plan',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee34() {
-                      return regeneratorRuntime.wrap(function _callee34$(_context34) {
+                    it('Should Alert notAnExtension - toNumber 102 (No Extension/Not Special Number) with US Dialing Plan', function _callee34() {
+                      return regeneratorRuntime.async(function _callee34$(_context34) {
                         while (1) {
                           switch (_context34.prev = _context34.next) {
                             case 0:
@@ -1269,7 +1123,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context34.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1282,14 +1136,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context34.stop();
                           }
                         }
-                      }, _callee34);
-                    })));
-                    it('Should Alert notAnExtension - toNumber 998 (No Extension)',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee35() {
-                      return regeneratorRuntime.wrap(function _callee35$(_context35) {
+                      });
+                    });
+                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', function _callee35() {
+                      return regeneratorRuntime.async(function _callee35$(_context35) {
                         while (1) {
                           switch (_context35.prev = _context35.next) {
                             case 0:
@@ -1298,7 +1148,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context35.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1311,14 +1161,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context35.stop();
                           }
                         }
-                      }, _callee35);
-                    })));
-                    it('Should Alert Special Number - toNumber is 911',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee36() {
-                      return regeneratorRuntime.wrap(function _callee36$(_context36) {
+                      });
+                    });
+                    it('Should Alert Special Number - toNumber is 911', function _callee36() {
+                      return regeneratorRuntime.async(function _callee36$(_context36) {
                         while (1) {
                           switch (_context36.prev = _context36.next) {
                             case 0:
@@ -1327,7 +1173,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context36.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1340,14 +1186,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context36.stop();
                           }
                         }
-                      }, _callee36);
-                    })));
-                    it('Should Not Alert Special Number - toNumber 999',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee37() {
-                      return regeneratorRuntime.wrap(function _callee37$(_context37) {
+                      });
+                    });
+                    it('Should Not Alert Special Number - toNumber 999', function _callee37() {
+                      return regeneratorRuntime.async(function _callee37$(_context37) {
                         while (1) {
                           switch (_context37.prev = _context37.next) {
                             case 0:
@@ -1356,7 +1198,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context37.next = 4;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].specialNumber)).to.equal(undefined);
@@ -1366,15 +1208,11 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context37.stop();
                           }
                         }
-                      }, _callee37);
-                    })));
-                    it('Should Not Alert Anything - toNumber 101 (Existed Extension/Not Special Number)',
-                    /*#__PURE__*/
-                    _asyncToGenerator(
-                    /*#__PURE__*/
-                    regeneratorRuntime.mark(function _callee38() {
+                      });
+                    });
+                    it('Should Not Alert Anything - toNumber 101 (Existed Extension/Not Special Number)', function _callee38() {
                       var rawRequest;
-                      return regeneratorRuntime.wrap(function _callee38$(_context38) {
+                      return regeneratorRuntime.async(function _callee38$(_context38) {
                         while (1) {
                           switch (_context38.prev = _context38.next) {
                             case 0:
@@ -1388,7 +1226,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               composeText.updateMessageText('test sender');
                               _context38.prev = 3;
                               _context38.next = 6;
-                              return composeText.send();
+                              return regeneratorRuntime.awrap(composeText.send());
 
                             case 6:
                               _context38.next = 11;
@@ -1412,18 +1250,14 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               return _context38.stop();
                           }
                         }
-                      }, _callee38, null, [[3, 8]]);
-                    })));
+                      }, null, null, [[3, 8]]);
+                    });
                   });
                 });
               });
               conditionalDescribe('Validate after Send Api', function () {
-                it('Should Alert of recipientNumberInvalids - toNumber is invalid',
-                /*#__PURE__*/
-                _asyncToGenerator(
-                /*#__PURE__*/
-                regeneratorRuntime.mark(function _callee39() {
-                  return regeneratorRuntime.wrap(function _callee39$(_context39) {
+                it('Should Alert of recipientNumberInvalids - toNumber is invalid', function _callee39() {
+                  return regeneratorRuntime.async(function _callee39$(_context39) {
                     while (1) {
                       switch (_context39.prev = _context39.next) {
                         case 0:
@@ -1433,7 +1267,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           composeText.updateMessageText('test sender');
                           _context39.prev = 2;
                           _context39.next = 5;
-                          return composeText.send();
+                          return regeneratorRuntime.awrap(composeText.send());
 
                         case 5:
                           _context39.next = 10;
@@ -1456,14 +1290,10 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           return _context39.stop();
                       }
                     }
-                  }, _callee39, null, [[2, 7]]);
-                })));
-                it('Should Alert of internationalSMSNotSupported - select international phone number',
-                /*#__PURE__*/
-                _asyncToGenerator(
-                /*#__PURE__*/
-                regeneratorRuntime.mark(function _callee40() {
-                  return regeneratorRuntime.wrap(function _callee40$(_context40) {
+                  }, null, null, [[2, 7]]);
+                });
+                it('Should Alert of internationalSMSNotSupported - select international phone number', function _callee40() {
+                  return regeneratorRuntime.async(function _callee40$(_context40) {
                     while (1) {
                       switch (_context40.prev = _context40.next) {
                         case 0:
@@ -1477,7 +1307,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           composeText.updateMessageText('test sender');
                           _context40.prev = 3;
                           _context40.next = 6;
-                          return composeText.send();
+                          return regeneratorRuntime.awrap(composeText.send());
 
                         case 6:
                           _context40.next = 11;
@@ -1500,8 +1330,8 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           return _context40.stop();
                       }
                     }
-                  }, _callee40, null, [[3, 8]]);
-                })));
+                  }, null, null, [[3, 8]]);
+                });
               });
             });
 
@@ -1510,8 +1340,8 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
             return _context41.stop();
         }
       }
-    }, _callee41);
-  })));
+    });
+  });
 };
 
 exports["default"] = _default;

@@ -45,7 +45,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+var MAX_LISTENERS = 30;
 var SleepDetector = (_dec = (0, _di.Module)({
+  name: 'SleepDetector',
   deps: [{
     dep: 'SleepDetectorOptions',
     optional: true
@@ -59,7 +61,9 @@ function (_RcModule) {
     var _this;
 
     var detectionInterval = _ref.detectionInterval,
-        detectionThreshold = _ref.detectionThreshold;
+        detectionThreshold = _ref.detectionThreshold,
+        _ref$maxListeners = _ref.maxListeners,
+        maxListeners = _ref$maxListeners === void 0 ? MAX_LISTENERS : _ref$maxListeners;
 
     _classCallCheck(this, SleepDetector);
 
@@ -67,7 +71,11 @@ function (_RcModule) {
     _this._detector = new _SleepDetector.SleepDetector({
       detectionInterval: detectionInterval,
       detectionThreshold: detectionThreshold
-    });
+    }); // It is very normal to have more than 10 listeners, since all DataFetcher classes
+    // will listen to the sleep detected event.
+
+    _this._detector.setMaxListeners(maxListeners);
+
     return _this;
   }
 

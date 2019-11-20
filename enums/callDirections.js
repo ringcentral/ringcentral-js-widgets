@@ -7,14 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _HashMap = _interopRequireDefault(require("../lib/HashMap"));
+var _HashMap = require("../lib/HashMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = new _HashMap["default"]({
+var callDirection = (0, _HashMap.createHashMap)({
   inbound: 'Inbound',
   outbound: 'Outbound'
 });
-
+var _default = callDirection;
 exports["default"] = _default;
 //# sourceMappingURL=callDirections.js.map

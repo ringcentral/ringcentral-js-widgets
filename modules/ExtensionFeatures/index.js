@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -61,10 +59,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -93,7 +87,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function extractData(res) {
   var features = {};
@@ -140,61 +134,41 @@ function (_DataFetcher) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ExtensionFeatures).call(this, _objectSpread({
       client: client,
       subscriptionFilters: [_subscriptionFilters["default"].extensionInfo],
-      subscriptionHandler: function () {
-        var _subscriptionHandler = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee(message) {
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.next = 2;
-                  return _this._subscriptionHandleFn(message);
+      subscriptionHandler: function subscriptionHandler(message) {
+        return regeneratorRuntime.async(function subscriptionHandler$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return regeneratorRuntime.awrap(_this._subscriptionHandleFn(message));
 
-                case 2:
-                case "end":
-                  return _context.stop();
-              }
+              case 2:
+              case "end":
+                return _context.stop();
             }
-          }, _callee);
-        }));
+          }
+        });
+      },
+      fetchFunction: function fetchFunction() {
+        var res;
+        return regeneratorRuntime.async(function fetchFunction$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return regeneratorRuntime.awrap(client.service.platform().get('/account/~/extension/~/features'));
 
-        function subscriptionHandler(_x) {
-          return _subscriptionHandler.apply(this, arguments);
-        }
+              case 2:
+                res = _context2.sent;
+                return _context2.abrupt("return", extractData(res.json()));
 
-        return subscriptionHandler;
-      }(),
-      fetchFunction: function () {
-        var _fetchFunction = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee2() {
-          var res;
-          return regeneratorRuntime.wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  _context2.next = 2;
-                  return client.service.platform().get('/account/~/extension/~/features');
-
-                case 2:
-                  res = _context2.sent;
-                  return _context2.abrupt("return", extractData(res.json()));
-
-                case 4:
-                case "end":
-                  return _context2.stop();
-              }
+              case 4:
+              case "end":
+                return _context2.stop();
             }
-          }, _callee2);
-        }));
-
-        function fetchFunction() {
-          return _fetchFunction.apply(this, arguments);
-        }
-
-        return fetchFunction;
-      }(),
+          }
+        });
+      },
       cleanOnReset: true
     }, options)));
 
@@ -205,36 +179,26 @@ function (_DataFetcher) {
 
   _createClass(ExtensionFeatures, [{
     key: "_subscriptionHandleFn",
-    value: function () {
-      var _subscriptionHandleFn2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(message) {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!(message && message.body && message.body.hints && (message.body.hints.includes(_subscriptionHints["default"].limits) || message.body.hints.includes(_subscriptionHints["default"].features) || message.body.hints.includes(_subscriptionHints["default"].permissions)))) {
-                  _context3.next = 3;
-                  break;
-                }
-
+    value: function _subscriptionHandleFn(message) {
+      return regeneratorRuntime.async(function _subscriptionHandleFn$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!(message && message.body && message.body.hints && (message.body.hints.includes(_subscriptionHints["default"].limits) || message.body.hints.includes(_subscriptionHints["default"].features) || message.body.hints.includes(_subscriptionHints["default"].permissions)))) {
                 _context3.next = 3;
-                return this.fetchData();
+                break;
+              }
 
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
+              _context3.next = 3;
+              return regeneratorRuntime.awrap(this.fetchData());
+
+            case 3:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function _subscriptionHandleFn(_x2) {
-        return _subscriptionHandleFn2.apply(this, arguments);
-      }
-
-      return _subscriptionHandleFn;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_name",
     get: function get() {

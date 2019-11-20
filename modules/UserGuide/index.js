@@ -63,15 +63,11 @@ var _dec, _class, _class2;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -162,134 +158,104 @@ function (_RcModule) {
     }
   }, {
     key: "_onStateChange",
-    value: function () {
-      var _onStateChange2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!(this.pending && this._auth.ready && this._locale.ready && this._storage.ready && this._rolesAndPermissions.ready && this._auth.loggedIn)) {
-                  _context.next = 8;
-                  break;
-                }
-
-                this.store.dispatch({
-                  type: this.actionTypes.initSuccess
-                });
-                _context.next = 4;
-                return this.initUserGuide();
-
-              case 4:
-                _context.next = 6;
-                return this.preLoadImage();
-
-              case 6:
-                _context.next = 9;
+    value: function _onStateChange() {
+      return regeneratorRuntime.async(function _onStateChange$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!(this.pending && this._auth.ready && this._locale.ready && this._storage.ready && this._rolesAndPermissions.ready && this._auth.loggedIn)) {
+                _context.next = 8;
                 break;
+              }
 
-              case 8:
-                if (this.ready && (!this._auth.ready || !this._locale.ready || !this._storage.ready || !this._rolesAndPermissions.ready)) {
-                  this.store.dispatch({
-                    type: this.actionTypes.resetSuccess
-                  });
-                }
+              this.store.dispatch({
+                type: this.actionTypes.initSuccess
+              });
+              _context.next = 4;
+              return regeneratorRuntime.awrap(this.initUserGuide());
 
-              case 9:
-                // When there is an incoming call,
-                // the guide should be dismissed
-                if (this._webphone.ready && this._webphone.ringSession && this._webphone.ringSession !== this._lastRingSession) {
-                  this._lastRingSession = this._webphone.ringSession;
-                  this.dismiss();
-                }
+            case 4:
+              _context.next = 6;
+              return regeneratorRuntime.awrap(this.preLoadImage());
 
-              case 10:
-              case "end":
-                return _context.stop();
-            }
+            case 6:
+              _context.next = 9;
+              break;
+
+            case 8:
+              if (this.ready && (!this._auth.ready || !this._locale.ready || !this._storage.ready || !this._rolesAndPermissions.ready)) {
+                this.store.dispatch({
+                  type: this.actionTypes.resetSuccess
+                });
+              }
+
+            case 9:
+              // When there is an incoming call,
+              // the guide should be dismissed
+              if (this._webphone.ready && this._webphone.ringSession && this._webphone.ringSession !== this._lastRingSession) {
+                this._lastRingSession = this._webphone.ringSession;
+                this.dismiss();
+              }
+
+            case 10:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function _onStateChange() {
-        return _onStateChange2.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_preLoadImage",
-    value: function () {
-      var _preLoadImage2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(url) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return new Promise(function (resolve, reject) {
-                  var img = new Image();
-                  img.src = url;
-                  img.onload = resolve;
-                  img.onerror = resolve;
-                });
+    value: function _preLoadImage(url) {
+      return regeneratorRuntime.async(function _preLoadImage$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return regeneratorRuntime.awrap(new Promise(function (resolve, reject) {
+                var img = new Image();
+                img.src = url;
+                img.onload = resolve;
+                img.onerror = resolve;
+              }));
 
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
+            case 2:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2);
-      }));
-
-      function _preLoadImage(_x) {
-        return _preLoadImage2.apply(this, arguments);
-      }
-
-      return _preLoadImage;
-    }()
+        }
+      });
+    }
   }, {
     key: "preLoadImage",
-    value: function () {
-      var _preLoadImage3 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        var url;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                url = this.guides[0];
+    value: function preLoadImage() {
+      var url;
+      return regeneratorRuntime.async(function preLoadImage$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              url = this.guides[0];
 
-                if (!url) {
-                  _context3.next = 4;
-                  break;
-                }
-
+              if (!url) {
                 _context3.next = 4;
-                return this._preLoadImage(url);
+                break;
+              }
 
-              case 4:
-                this.store.dispatch({
-                  type: this.actionTypes.preLoadImageStatus
-                });
+              _context3.next = 4;
+              return regeneratorRuntime.awrap(this._preLoadImage(url));
 
-              case 5:
-              case "end":
-                return _context3.stop();
-            }
+            case 4:
+              this.store.dispatch({
+                type: this.actionTypes.preLoadImageStatus
+              });
+
+            case 5:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function preLoadImage() {
-        return _preLoadImage3.apply(this, arguments);
-      }
-
-      return preLoadImage;
-    }()
+        }
+      }, null, this);
+    }
     /**
      * Using webpack `require.context` to load guides files.
      * Image files will be ordered by file name ascendingly.
@@ -331,159 +297,119 @@ function (_RcModule) {
     }
   }, {
     key: "loadGuides",
-    value: function () {
-      var _loadGuides = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(guides) {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                if (guides) {
-                  this.store.dispatch({
-                    type: this.actionTypes.loadGuides,
-                    guides: guides
-                  });
-                }
+    value: function loadGuides(guides) {
+      return regeneratorRuntime.async(function loadGuides$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              if (guides) {
+                this.store.dispatch({
+                  type: this.actionTypes.loadGuides,
+                  guides: guides
+                });
+              }
 
-              case 1:
-              case "end":
-                return _context4.stop();
-            }
+            case 1:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee4, this);
-      }));
-
-      function loadGuides(_x2) {
-        return _loadGuides.apply(this, arguments);
-      }
-
-      return loadGuides;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "updateCarousel",
-    value: function () {
-      var _updateCarousel = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(_ref2) {
-        var curIdx, entered, playing, _ref2$firstLogin, firstLogin;
+    value: function updateCarousel(_ref2) {
+      var curIdx, entered, playing, _ref2$firstLogin, firstLogin;
 
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                curIdx = _ref2.curIdx, entered = _ref2.entered, playing = _ref2.playing, _ref2$firstLogin = _ref2.firstLogin, firstLogin = _ref2$firstLogin === void 0 ? this.state.firstLogin : _ref2$firstLogin;
-                this.store.dispatch({
-                  type: this.actionTypes.updateCarousel,
-                  curIdx: curIdx,
-                  entered: entered,
-                  playing: playing,
-                  firstLogin: firstLogin
-                });
+      return regeneratorRuntime.async(function updateCarousel$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              curIdx = _ref2.curIdx, entered = _ref2.entered, playing = _ref2.playing, _ref2$firstLogin = _ref2.firstLogin, firstLogin = _ref2$firstLogin === void 0 ? this.state.firstLogin : _ref2$firstLogin;
+              this.store.dispatch({
+                type: this.actionTypes.updateCarousel,
+                curIdx: curIdx,
+                entered: entered,
+                playing: playing,
+                firstLogin: firstLogin
+              });
 
-              case 2:
-              case "end":
-                return _context5.stop();
-            }
+            case 2:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee5, this);
-      }));
-
-      function updateCarousel(_x3) {
-        return _updateCarousel.apply(this, arguments);
-      }
-
-      return updateCarousel;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "initUserGuide",
-    value: function () {
-      var _initUserGuide = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6() {
-        var prevGuides, guides;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                if (this._rolesAndPermissions.hasUserGuidePermission) {
-                  _context6.next = 2;
-                  break;
-                }
+    value: function initUserGuide() {
+      var prevGuides, guides;
+      return regeneratorRuntime.async(function initUserGuide$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              if (this._rolesAndPermissions.hasUserGuidePermission) {
+                _context6.next = 2;
+                break;
+              }
 
-                return _context6.abrupt("return");
+              return _context6.abrupt("return");
 
-              case 2:
-                // eslint-disable-next-line
-                prevGuides = this.allGuides;
-                guides = this.resolveGuides(); // Determine if it needs to be displayed when first log in,
-                // the principles behind this is to use webpack's file hash,
-                // i.e. if any of the guide files is changed, the file name hash
-                // will be changed as well, in this case, it will be displayed.
+            case 2:
+              // eslint-disable-next-line
+              prevGuides = this.allGuides;
+              guides = this.resolveGuides(); // Determine if it needs to be displayed when first log in,
+              // the principles behind this is to use webpack's file hash,
+              // i.e. if any of the guide files is changed, the file name hash
+              // will be changed as well, in this case, it will be displayed.
 
-                _context6.next = 6;
-                return this.loadGuides(guides);
+              _context6.next = 6;
+              return regeneratorRuntime.awrap(this.loadGuides(guides));
 
-              case 6:
-                if (JSON.stringify(guides) !== JSON.stringify(prevGuides)) {
-                  this.start({
-                    firstLogin: true
-                  });
-                }
+            case 6:
+              if (JSON.stringify(guides) !== JSON.stringify(prevGuides)) {
+                this.start({
+                  firstLogin: true
+                });
+              }
 
-              case 7:
-              case "end":
-                return _context6.stop();
-            }
+            case 7:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee6, this);
-      }));
-
-      function initUserGuide() {
-        return _initUserGuide.apply(this, arguments);
-      }
-
-      return initUserGuide;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "start",
-    value: function () {
-      var _start = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee7() {
-        var _ref3,
-            _ref3$firstLogin,
-            firstLogin,
-            _args7 = arguments;
+    value: function start() {
+      var _ref3,
+          _ref3$firstLogin,
+          firstLogin,
+          _args7 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                _ref3 = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : {}, _ref3$firstLogin = _ref3.firstLogin, firstLogin = _ref3$firstLogin === void 0 ? false : _ref3$firstLogin;
-                // Start guides only when images are ready
-                this.store.dispatch({
-                  type: this.actionTypes.updateCarousel,
-                  curIdx: 0,
-                  entered: true,
-                  playing: true,
-                  firstLogin: firstLogin
-                });
+      return regeneratorRuntime.async(function start$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _ref3 = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : {}, _ref3$firstLogin = _ref3.firstLogin, firstLogin = _ref3$firstLogin === void 0 ? false : _ref3$firstLogin;
+              // Start guides only when images are ready
+              this.store.dispatch({
+                type: this.actionTypes.updateCarousel,
+                curIdx: 0,
+                entered: true,
+                playing: true,
+                firstLogin: firstLogin
+              });
 
-              case 2:
-              case "end":
-                return _context7.stop();
-            }
+            case 2:
+            case "end":
+              return _context7.stop();
           }
-        }, _callee7, this);
-      }));
-
-      function start() {
-        return _start.apply(this, arguments);
-      }
-
-      return start;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "guides",
     get: function get() {

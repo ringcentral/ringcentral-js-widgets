@@ -29,6 +29,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
@@ -36,10 +38,6 @@ require("core-js/modules/es6.array.for-each");
 require("core-js/modules/es6.function.bind");
 
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
 
 require("isomorphic-fetch");
 
@@ -95,43 +93,30 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var DEFAULT_TIME_TO_RETRY = 5 * 1000;
 exports.DEFAULT_TIME_TO_RETRY = DEFAULT_TIME_TO_RETRY;
 var DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 exports.DEFAULT_HEART_BEAT_INTERVAL = DEFAULT_HEART_BEAT_INTERVAL;
 
 function defaultCheckConnectionFn() {
-  return _defaultCheckConnectionFn.apply(this, arguments);
+  return regeneratorRuntime.async(function defaultCheckConnectionFn$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          return _context.abrupt("return", fetch('https://pubsub.pubnub.com/time/0'));
+
+        case 1:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
 }
 /**
  * @class
  * @description Connectivity monitor module
  */
 
-
-function _defaultCheckConnectionFn() {
-  _defaultCheckConnectionFn = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            return _context.abrupt("return", fetch('https://pubsub.pubnub.com/time/0'));
-
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _defaultCheckConnectionFn.apply(this, arguments);
-}
 
 var ConnectivityMonitor = (_dec = (0, _di.Module)({
   deps: ['Client', {
@@ -186,18 +171,15 @@ function (_RcModule) {
     _this._requestSuccessHandler = (_context2 = _assertThisInitialized(_this), _this._requestSuccessHandler).bind(_context2);
     _this._requestErrorHandler = (_context2 = _assertThisInitialized(_this), _this._requestErrorHandler).bind(_context2);
     _this._networkErrorHandler = (_context2 = _assertThisInitialized(_this), _this._networkErrorHandler).bind(_context2);
-    _this._checkConnectionFunc =
-    /*#__PURE__*/
-    _asyncToGenerator(
-    /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context3) {
+
+    _this._checkConnectionFunc = function _callee() {
+      return regeneratorRuntime.async(function _callee$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return checkConnectionFunc();
+              return regeneratorRuntime.awrap(checkConnectionFunc());
 
             case 3:
               _this._requestSuccessHandler();
@@ -216,8 +198,9 @@ function (_RcModule) {
               return _context3.stop();
           }
         }
-      }, _callee2, null, [[0, 6]]);
-    }));
+      }, null, null, [[0, 6]]);
+    };
+
     return _this;
   }
 
@@ -325,40 +308,30 @@ function (_RcModule) {
     }
   }, {
     key: "_checkConnection",
-    value: function () {
-      var _checkConnection2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.prev = 0;
-                _context4.next = 3;
-                return this._checkConnectionFunc();
+    value: function _checkConnection() {
+      return regeneratorRuntime.async(function _checkConnection$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              _context4.next = 3;
+              return regeneratorRuntime.awrap(this._checkConnectionFunc());
 
-              case 3:
-                _context4.next = 7;
-                break;
+            case 3:
+              _context4.next = 7;
+              break;
 
-              case 5:
-                _context4.prev = 5;
-                _context4.t0 = _context4["catch"](0);
+            case 5:
+              _context4.prev = 5;
+              _context4.t0 = _context4["catch"](0);
 
-              case 7:
-              case "end":
-                return _context4.stop();
-            }
+            case 7:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee3, this, [[0, 5]]);
-      }));
-
-      function _checkConnection() {
-        return _checkConnection2.apply(this, arguments);
-      }
-
-      return _checkConnection;
-    }()
+        }
+      }, null, this, [[0, 5]]);
+    }
   }, {
     key: "_clearTimeout",
     value: function _clearTimeout() {

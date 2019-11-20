@@ -11,8 +11,6 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -93,10 +91,6 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -125,7 +119,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -308,96 +302,82 @@ function (_RcModule) {
     }
   }, {
     key: "search",
-    value: function () {
-      var _search = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(_ref3) {
-        var _this3 = this;
+    value: function search(_ref3) {
+      var _this3 = this;
 
-        var searchString, searchOnSources, _i, _searchOnSources, sourceName;
+      var searchString, searchOnSources, _i, _searchOnSources, sourceName;
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                searchString = _ref3.searchString;
+      return regeneratorRuntime.async(function search$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              searchString = _ref3.searchString;
 
-                if (!(!this.ready || !searchString || searchString.length < this._minimalSearchLength)) {
-                  _context2.next = 4;
-                  break;
-                }
-
-                this.store.dispatch({
-                  type: this.actionTypes.prepareSearch
-                });
-                return _context2.abrupt("return");
-
-              case 4:
-                this._clearTimeout();
-
-                this._timeoutId = setTimeout(
-                /*#__PURE__*/
-                _asyncToGenerator(
-                /*#__PURE__*/
-                regeneratorRuntime.mark(function _callee() {
-                  var searching;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                    while (1) {
-                      switch (_context.prev = _context.next) {
-                        case 0:
-                          searching = _objectSpread({}, _this3.state.searching);
-                          _context.next = 3;
-                          return _this3.search({
-                            searchString: undefined
-                          });
-
-                        case 3:
-                          _context.next = 5;
-                          return _this3.search(searching);
-
-                        case 5:
-                        case "end":
-                          return _context.stop();
-                      }
-                    }
-                  }, _callee);
-                })), this._ttl);
-                searchOnSources = Array.from(this._searchSources.keys());
-                _i = 0, _searchOnSources = searchOnSources;
-
-              case 8:
-                if (!(_i < _searchOnSources.length)) {
-                  _context2.next = 15;
-                  break;
-                }
-
-                sourceName = _searchOnSources[_i];
-                _context2.next = 12;
-                return this._searchSource({
-                  searchOnSources: searchOnSources,
-                  sourceName: sourceName,
-                  searchString: searchString
-                });
-
-              case 12:
-                _i++;
-                _context2.next = 8;
+              if (!(!this.ready || !searchString || searchString.length < this._minimalSearchLength)) {
+                _context2.next = 4;
                 break;
+              }
 
-              case 15:
-              case "end":
-                return _context2.stop();
-            }
+              this.store.dispatch({
+                type: this.actionTypes.prepareSearch
+              });
+              return _context2.abrupt("return");
+
+            case 4:
+              this._clearTimeout();
+
+              this._timeoutId = setTimeout(function _callee() {
+                var searching;
+                return regeneratorRuntime.async(function _callee$(_context) {
+                  while (1) {
+                    switch (_context.prev = _context.next) {
+                      case 0:
+                        searching = _objectSpread({}, _this3.state.searching);
+                        _context.next = 3;
+                        return regeneratorRuntime.awrap(_this3.search({
+                          searchString: undefined
+                        }));
+
+                      case 3:
+                        _context.next = 5;
+                        return regeneratorRuntime.awrap(_this3.search(searching));
+
+                      case 5:
+                      case "end":
+                        return _context.stop();
+                    }
+                  }
+                });
+              }, this._ttl);
+              searchOnSources = Array.from(this._searchSources.keys());
+              _i = 0, _searchOnSources = searchOnSources;
+
+            case 8:
+              if (!(_i < _searchOnSources.length)) {
+                _context2.next = 15;
+                break;
+              }
+
+              sourceName = _searchOnSources[_i];
+              _context2.next = 12;
+              return regeneratorRuntime.awrap(this._searchSource({
+                searchOnSources: searchOnSources,
+                sourceName: sourceName,
+                searchString: searchString
+              }));
+
+            case 12:
+              _i++;
+              _context2.next = 8;
+              break;
+
+            case 15:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function search(_x) {
-        return _search.apply(this, arguments);
-      }
-
-      return search;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_clearTimeout",
     value: function _clearTimeout() {
@@ -408,95 +388,85 @@ function (_RcModule) {
 
   }, {
     key: "_searchSource",
-    value: function () {
-      var _searchSource2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(_ref5) {
-        var searchOnSources, sourceName, searchString, searchId, entities;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                searchOnSources = _ref5.searchOnSources, sourceName = _ref5.sourceName, searchString = _ref5.searchString;
-                searchId = _uuid["default"].v4();
-                this._searchIds[sourceName] = searchId;
-                this.store.dispatch({
-                  type: this.actionTypes.search
-                });
-                _context3.prev = 4;
-                entities = null;
-                entities = this._searchFromCache({
-                  sourceName: sourceName,
-                  searchString: searchString
-                });
+    value: function _searchSource(_ref4) {
+      var searchOnSources, sourceName, searchString, searchId, entities;
+      return regeneratorRuntime.async(function _searchSource$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              searchOnSources = _ref4.searchOnSources, sourceName = _ref4.sourceName, searchString = _ref4.searchString;
+              searchId = _uuid["default"].v4();
+              this._searchIds[sourceName] = searchId;
+              this.store.dispatch({
+                type: this.actionTypes.search
+              });
+              _context3.prev = 4;
+              entities = null;
+              entities = this._searchFromCache({
+                sourceName: sourceName,
+                searchString: searchString
+              });
 
-                if (!entities) {
-                  _context3.next = 10;
-                  break;
-                }
+              if (!entities) {
+                _context3.next = 10;
+                break;
+              }
 
+              this._loadSearching({
+                searchOnSources: searchOnSources,
+                searchString: searchString,
+                entities: entities
+              });
+
+              return _context3.abrupt("return");
+
+            case 10:
+              _context3.next = 12;
+              return regeneratorRuntime.awrap(this._searchSources.get(sourceName)({
+                searchString: searchString
+              }));
+
+            case 12:
+              entities = _context3.sent;
+              entities = this._searchSourcesFormat.get(sourceName)(entities);
+
+              this._saveSearching({
+                sourceName: sourceName,
+                searchString: searchString,
+                entities: entities
+              });
+
+              if (this._searchIds[sourceName] === searchId) {
                 this._loadSearching({
                   searchOnSources: searchOnSources,
                   searchString: searchString,
                   entities: entities
                 });
+              }
 
-                return _context3.abrupt("return");
+              _context3.next = 21;
+              break;
 
-              case 10:
-                _context3.next = 12;
-                return this._searchSources.get(sourceName)({
-                  searchString: searchString
-                });
+            case 18:
+              _context3.prev = 18;
+              _context3.t0 = _context3["catch"](4);
 
-              case 12:
-                entities = _context3.sent;
-                entities = this._searchSourcesFormat.get(sourceName)(entities);
+              this._onSearchError();
 
-                this._saveSearching({
-                  sourceName: sourceName,
-                  searchString: searchString,
-                  entities: entities
-                });
-
-                if (this._searchIds[sourceName] === searchId) {
-                  this._loadSearching({
-                    searchOnSources: searchOnSources,
-                    searchString: searchString,
-                    entities: entities
-                  });
-                }
-
-                _context3.next = 21;
-                break;
-
-              case 18:
-                _context3.prev = 18;
-                _context3.t0 = _context3["catch"](4);
-
-                this._onSearchError();
-
-              case 21:
-              case "end":
-                return _context3.stop();
-            }
+            case 21:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this, [[4, 18]]);
-      }));
-
-      function _searchSource(_x2) {
-        return _searchSource2.apply(this, arguments);
-      }
-
-      return _searchSource;
-    }()
+        }
+      }, null, this, [[4, 18]]);
+    }
   }, {
     key: "_quickSort",
-    value: function _quickSort(_ref6) {
-      var _ref6$result = _ref6.result,
-          result = _ref6$result === void 0 ? [] : _ref6$result,
-          _ref6$searchString = _ref6.searchString,
-          searchString = _ref6$searchString === void 0 ? '' : _ref6$searchString;
+    value: function _quickSort(_ref5) {
+      var _ref5$result = _ref5.result,
+          result = _ref5$result === void 0 ? [] : _ref5$result,
+          _ref5$searchString = _ref5.searchString,
+          searchString = _ref5$searchString === void 0 ? '' : _ref5$searchString;
 
       var list = _toConsumableArray(result);
 
@@ -515,9 +485,9 @@ function (_RcModule) {
     }
   }, {
     key: "_searchFromCache",
-    value: function _searchFromCache(_ref7) {
-      var sourceName = _ref7.sourceName,
-          searchString = _ref7.searchString;
+    value: function _searchFromCache(_ref6) {
+      var sourceName = _ref6.sourceName,
+          searchString = _ref6.searchString;
       var key = "".concat(sourceName, "-").concat(searchString);
       var searching = this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
       var now = Date.now();
@@ -569,10 +539,10 @@ function (_RcModule) {
     }
   }, {
     key: "_loadSearching",
-    value: function _loadSearching(_ref8) {
-      var searchOnSources = _ref8.searchOnSources,
-          searchString = _ref8.searchString,
-          entities = _ref8.entities;
+    value: function _loadSearching(_ref7) {
+      var searchOnSources = _ref7.searchOnSources,
+          searchString = _ref7.searchString,
+          entities = _ref7.entities;
       this.store.dispatch({
         type: this.actionTypes.searchSuccess,
         searchOnSources: searchOnSources,
@@ -582,10 +552,10 @@ function (_RcModule) {
     }
   }, {
     key: "_saveSearching",
-    value: function _saveSearching(_ref9) {
-      var sourceName = _ref9.sourceName,
-          searchString = _ref9.searchString,
-          entities = _ref9.entities;
+    value: function _saveSearching(_ref8) {
+      var sourceName = _ref8.sourceName,
+          searchString = _ref8.searchString,
+          entities = _ref8.entities;
       this.store.dispatch({
         type: this.actionTypes.save,
         sourceName: sourceName,

@@ -4,16 +4,12 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.array.find");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -43,6 +39,8 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es6.string.trim");
 
 require("regenerator-runtime/runtime");
@@ -71,15 +69,11 @@ var _dec, _class, _class2, _descriptor, _temp;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -111,7 +105,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var RegionSettings = (
 /**
@@ -185,12 +179,8 @@ function (_RcModule) {
     value: function initialize() {
       var _this2 = this;
 
-      this.store.subscribe(
-      /*#__PURE__*/
-      _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+      this.store.subscribe(function _callee() {
+        return regeneratorRuntime.async(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -209,7 +199,7 @@ function (_RcModule) {
                 }
 
                 _context.next = 5;
-                return _this2.checkRegionSettings();
+                return regeneratorRuntime.awrap(_this2.checkRegionSettings());
 
               case 5:
                 _this2._processedPlans = _this2.availableCountries;
@@ -248,15 +238,15 @@ function (_RcModule) {
                 }
 
                 _context.next = 18;
-                return _this2.checkRegionSettings();
+                return regeneratorRuntime.awrap(_this2.checkRegionSettings());
 
               case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
-      })));
+        });
+      });
     }
   }, {
     key: "_alertSettingsChanged",
@@ -269,104 +259,84 @@ function (_RcModule) {
     }
   }, {
     key: "checkRegionSettings",
-    value: function () {
-      var _checkRegionSettings = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        var _this3 = this;
+    value: function checkRegionSettings() {
+      var _this3 = this;
 
-        var countryCode, country;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                countryCode = this._storage.getItem(this._countryCodeKey);
+      var countryCode, country;
+      return regeneratorRuntime.async(function checkRegionSettings$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              countryCode = this._storage.getItem(this._countryCodeKey);
 
-                if (countryCode && !(0, _ramda.find)(function (plan) {
-                  return plan.isoCode === countryCode;
-                }, this.availableCountries)) {
-                  countryCode = null;
+              if (countryCode && !(0, _ramda.find)(function (plan) {
+                return plan.isoCode === countryCode;
+              }, this.availableCountries)) {
+                countryCode = null;
 
-                  if (this._brand.id === '1210') {
-                    this._alertSettingsChanged();
-                  }
+                if (this._brand.id === '1210') {
+                  this._alertSettingsChanged();
                 }
+              }
 
-                if (!countryCode) {
-                  country = (0, _ramda.find)(function (plan) {
-                    return plan.isoCode === _this3._extensionInfo.country.isoCode;
-                  }, this.availableCountries) || this.availableCountries[0];
-                  countryCode = country && country.isoCode;
-                  this.store.dispatch({
-                    type: this.actionTypes.setData,
-                    countryCode: countryCode,
-                    areaCode: ''
-                  });
-                }
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function checkRegionSettings() {
-        return _checkRegionSettings.apply(this, arguments);
-      }
-
-      return checkRegionSettings;
-    }()
-  }, {
-    key: "setData",
-    value: function () {
-      var _setData = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(_ref3) {
-        var areaCode, countryCode;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                areaCode = _ref3.areaCode, countryCode = _ref3.countryCode;
-
-                if ((0, _validateAreaCode["default"])(areaCode)) {
-                  _context3.next = 4;
-                  break;
-                }
-
-                this._alert.danger({
-                  message: _regionSettingsMessages["default"].areaCodeInvalid
-                });
-
-                return _context3.abrupt("return");
-
-              case 4:
+              if (!countryCode) {
+                country = (0, _ramda.find)(function (plan) {
+                  return plan.isoCode === _this3._extensionInfo.country.isoCode;
+                }, this.availableCountries) || this.availableCountries[0];
+                countryCode = country && country.isoCode;
                 this.store.dispatch({
                   type: this.actionTypes.setData,
                   countryCode: countryCode,
-                  areaCode: areaCode && areaCode.trim()
+                  areaCode: ''
                 });
+              }
 
-                this._alert.info({
-                  message: _regionSettingsMessages["default"].saveSuccess
-                });
-
-              case 6:
-              case "end":
-                return _context3.stop();
-            }
+            case 3:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee3, this);
-      }));
+        }
+      }, null, this);
+    }
+  }, {
+    key: "setData",
+    value: function setData(_ref2) {
+      var areaCode, countryCode;
+      return regeneratorRuntime.async(function setData$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              areaCode = _ref2.areaCode, countryCode = _ref2.countryCode;
 
-      function setData(_x) {
-        return _setData.apply(this, arguments);
-      }
+              if ((0, _validateAreaCode["default"])(areaCode)) {
+                _context3.next = 4;
+                break;
+              }
 
-      return setData;
-    }()
+              this._alert.danger({
+                message: _regionSettingsMessages["default"].areaCodeInvalid
+              });
+
+              return _context3.abrupt("return");
+
+            case 4:
+              this.store.dispatch({
+                type: this.actionTypes.setData,
+                countryCode: countryCode,
+                areaCode: areaCode && areaCode.trim()
+              });
+
+              this._alert.info({
+                message: _regionSettingsMessages["default"].saveSuccess
+              });
+
+            case 6:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, null, this);
+    }
   }, {
     key: "setCountryCode",
     value: function setCountryCode(countryCode) {
@@ -414,6 +384,17 @@ function (_RcModule) {
     get: function get() {
       return this._storage.getItem(this._areaCodeKey) || '';
     }
+  }, {
+    key: "homeCountryId",
+    get: function get() {
+      var _this4 = this;
+
+      var homeCountry = this.availableCountries.find(function (country) {
+        return country.isoCode === _this4.countryCode;
+      });
+      var homeCountryId = homeCountry && homeCountry.callingCode || '1';
+      return homeCountryId;
+    }
   }]);
 
   return RegionSettings;
@@ -422,12 +403,12 @@ function (_RcModule) {
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this4 = this;
+    var _this5 = this;
 
     return [function () {
-      return _this4._dialingPlan.plans;
+      return _this5._dialingPlan.plans;
     }, function () {
-      return _this4._extensionInfo.country;
+      return _this5._extensionInfo.country;
     }, function (plans, country) {
       if (plans && plans.length > 0) {
         return plans;

@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -72,10 +70,6 @@ var _dec, _class, _class2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -167,65 +161,55 @@ function (_RcModule) {
     }
   }, {
     key: "getCalls",
-    value: function () {
-      var _getCalls = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(_ref2) {
-        var currentContact, _ref2$sessionId, sessionId, contactId, calls;
+    value: function getCalls(_ref2) {
+      var currentContact, _ref2$sessionId, sessionId, contactId, calls;
 
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                currentContact = _ref2.currentContact, _ref2$sessionId = _ref2.sessionId, sessionId = _ref2$sessionId === void 0 ? null : _ref2$sessionId;
+      return regeneratorRuntime.async(function getCalls$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              currentContact = _ref2.currentContact, _ref2$sessionId = _ref2.sessionId, sessionId = _ref2$sessionId === void 0 ? null : _ref2$sessionId;
 
-                if (currentContact) {
-                  _context2.next = 3;
-                  break;
-                }
+              if (currentContact) {
+                _context2.next = 3;
+                break;
+              }
 
-                return _context2.abrupt("return");
+              return _context2.abrupt("return");
 
-              case 3:
-                contactId = String(currentContact && currentContact.id); // if (this.calls[currentContact.id]) {
+            case 3:
+              contactId = String(currentContact && currentContact.id); // if (this.calls[currentContact.id]) {
 
-                if (!this.calls[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId]) {
-                  _context2.next = 6;
-                  break;
-                }
+              if (!this.calls[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId]) {
+                _context2.next = 6;
+                break;
+              }
 
-                return _context2.abrupt("return");
+              return _context2.abrupt("return");
 
-              case 6:
-                this.store.dispatch({
-                  type: this.actionTypes.initLoad
-                });
-                _context2.next = 9;
-                return this._getRecentCalls(currentContact, this._callHistory.calls);
+            case 6:
+              this.store.dispatch({
+                type: this.actionTypes.initLoad
+              });
+              _context2.next = 9;
+              return regeneratorRuntime.awrap(this._getRecentCalls(currentContact, this._callHistory.calls));
 
-              case 9:
-                calls = _context2.sent;
-                this.store.dispatch({
-                  type: this.actionTypes.loadSuccess,
-                  calls: calls,
-                  contact: currentContact,
-                  sessionId: sessionId
-                });
+            case 9:
+              calls = _context2.sent;
+              this.store.dispatch({
+                type: this.actionTypes.loadSuccess,
+                calls: calls,
+                contact: currentContact,
+                sessionId: sessionId
+              });
 
-              case 11:
-              case "end":
-                return _context2.stop();
-            }
+            case 11:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee, this);
-      }));
-
-      function getCalls(_x) {
-        return _getCalls.apply(this, arguments);
-      }
-
-      return getCalls;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "cleanUpCalls",
     value: function cleanUpCalls(_ref3) {
@@ -250,57 +234,47 @@ function (_RcModule) {
      * @return {Array}
      * @private
      */
-    value: function () {
-      var _getRecentCalls2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(currentContact) {
-        var calls,
-            daySpan,
-            length,
-            dateFrom,
-            recentCalls,
-            _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                calls = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
-                daySpan = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : 60;
-                length = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 5;
-                dateFrom = (0, _getDateFrom["default"])(daySpan);
-                recentCalls = this._getLocalRecentCalls(currentContact, calls, dateFrom); // If we could not find enough recent calls,
-                // we need to search for calls on server.
+    value: function _getRecentCalls(currentContact) {
+      var calls,
+          daySpan,
+          length,
+          dateFrom,
+          recentCalls,
+          _args2 = arguments;
+      return regeneratorRuntime.async(function _getRecentCalls$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              calls = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
+              daySpan = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : 60;
+              length = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 5;
+              dateFrom = (0, _getDateFrom["default"])(daySpan);
+              recentCalls = this._getLocalRecentCalls(currentContact, calls, dateFrom); // If we could not find enough recent calls,
+              // we need to search for calls on server.
 
-                if (!(recentCalls.length < length)) {
-                  _context3.next = 9;
-                  break;
-                }
+              if (!(recentCalls.length < length)) {
+                _context3.next = 9;
+                break;
+              }
 
-                _context3.next = 8;
-                return this._fetchRemoteRecentCalls(currentContact, dateFrom.toISOString(), length);
+              _context3.next = 8;
+              return regeneratorRuntime.awrap(this._fetchRemoteRecentCalls(currentContact, dateFrom.toISOString(), length));
 
-              case 8:
-                recentCalls = _context3.sent;
+            case 8:
+              recentCalls = _context3.sent;
 
-              case 9:
-                recentCalls.sort(this._sortByTime);
-                recentCalls = this._dedup(recentCalls);
-                return _context3.abrupt("return", recentCalls.length > length ? recentCalls.slice(0, length) : recentCalls);
+            case 9:
+              recentCalls.sort(this._sortByTime);
+              recentCalls = this._dedup(recentCalls);
+              return _context3.abrupt("return", recentCalls.length > length ? recentCalls.slice(0, length) : recentCalls);
 
-              case 12:
-              case "end":
-                return _context3.stop();
-            }
+            case 12:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function _getRecentCalls(_x2) {
-        return _getRecentCalls2.apply(this, arguments);
-      }
-
-      return _getRecentCalls;
-    }()
+        }
+      }, null, this);
+    }
     /**
      * Get recent calls from callHistory.
      * @param {Object} currentContact

@@ -7,11 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _HashMap = _interopRequireDefault(require("../lib/HashMap"));
+var _HashMap = require("../lib/HashMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = new _HashMap["default"]({
+var messageTypes = (0, _HashMap.createHashMap)({
   all: 'All',
   fax: 'Fax',
   sms: 'SMS',
@@ -19,6 +17,6 @@ var _default = new _HashMap["default"]({
   pager: 'Pager',
   text: 'Text'
 });
-
+var _default = messageTypes;
 exports["default"] = _default;
 //# sourceMappingURL=messageTypes.js.map

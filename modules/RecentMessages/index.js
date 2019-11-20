@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -79,10 +77,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -113,7 +107,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var RecentMessages = (
 /**
@@ -185,10 +179,10 @@ function (_RcModule) {
           // }
 
           for (var _i = 0, _Object$keys = Object.keys(this.contacts); _i < _Object$keys.length; _i++) {
-            var _key = _Object$keys[_i];
+            var key = _Object$keys[_i];
             this.getMessages({
-              currentContact: this.contacts[_key],
-              sessionId: _key.indexOf('-') > -1 ? _key.split('-')[1] : null,
+              currentContact: this.contacts[key],
+              sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
               fromLocale: false,
               forceUpdate: true
             });
@@ -198,66 +192,56 @@ function (_RcModule) {
     }
   }, {
     key: "getMessages",
-    value: function () {
-      var _getMessages = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(_ref2) {
-        var currentContact, _ref2$sessionId, sessionId, _ref2$fromLocal, fromLocal, _ref2$forceUpdate, forceUpdate, contactId, messages;
+    value: function getMessages(_ref2) {
+      var currentContact, _ref2$sessionId, sessionId, _ref2$fromLocal, fromLocal, _ref2$forceUpdate, forceUpdate, contactId, messages;
 
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                currentContact = _ref2.currentContact, _ref2$sessionId = _ref2.sessionId, sessionId = _ref2$sessionId === void 0 ? null : _ref2$sessionId, _ref2$fromLocal = _ref2.fromLocal, fromLocal = _ref2$fromLocal === void 0 ? false : _ref2$fromLocal, _ref2$forceUpdate = _ref2.forceUpdate, forceUpdate = _ref2$forceUpdate === void 0 ? false : _ref2$forceUpdate;
+      return regeneratorRuntime.async(function getMessages$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              currentContact = _ref2.currentContact, _ref2$sessionId = _ref2.sessionId, sessionId = _ref2$sessionId === void 0 ? null : _ref2$sessionId, _ref2$fromLocal = _ref2.fromLocal, fromLocal = _ref2$fromLocal === void 0 ? false : _ref2$fromLocal, _ref2$forceUpdate = _ref2.forceUpdate, forceUpdate = _ref2$forceUpdate === void 0 ? false : _ref2$forceUpdate;
 
-                if (currentContact) {
-                  _context2.next = 3;
-                  break;
-                }
+              if (currentContact) {
+                _context2.next = 3;
+                break;
+              }
 
-                return _context2.abrupt("return");
+              return _context2.abrupt("return");
 
-              case 3:
-                contactId = currentContact.id;
+            case 3:
+              contactId = currentContact.id;
 
-                if (!(!forceUpdate && !!this.messages[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId])) {
-                  _context2.next = 6;
-                  break;
-                }
+              if (!(!forceUpdate && !!this.messages[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId])) {
+                _context2.next = 6;
+                break;
+              }
 
-                return _context2.abrupt("return");
+              return _context2.abrupt("return");
 
-              case 6:
-                this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
-                this.store.dispatch({
-                  type: this.actionTypes.initLoad
-                });
-                _context2.next = 10;
-                return this._getRecentMessages(currentContact, this._messageStore.textConversations, fromLocal);
+            case 6:
+              this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
+              this.store.dispatch({
+                type: this.actionTypes.initLoad
+              });
+              _context2.next = 10;
+              return regeneratorRuntime.awrap(this._getRecentMessages(currentContact, this._messageStore.textConversations, fromLocal));
 
-              case 10:
-                messages = _context2.sent;
-                this.store.dispatch({
-                  type: this.actionTypes.loadSuccess,
-                  messages: messages,
-                  contact: currentContact,
-                  sessionId: sessionId
-                });
+            case 10:
+              messages = _context2.sent;
+              this.store.dispatch({
+                type: this.actionTypes.loadSuccess,
+                messages: messages,
+                contact: currentContact,
+                sessionId: sessionId
+              });
 
-              case 12:
-              case "end":
-                return _context2.stop();
-            }
+            case 12:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee, this);
-      }));
-
-      function getMessages(_x) {
-        return _getMessages.apply(this, arguments);
-      }
-
-      return getMessages;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "cleanUpMessages",
     value: function cleanUpMessages(_ref3) {
@@ -283,70 +267,60 @@ function (_RcModule) {
      * @return {Array}
      * @private
      */
-    value: function () {
-      var _getRecentMessages2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(currentContact) {
-        var conversations,
-            fromLocal,
-            daySpan,
-            length,
-            dateFrom,
-            recentMessages,
-            dateTo,
-            _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                conversations = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
-                fromLocal = _args2.length > 2 ? _args2[2] : undefined;
-                daySpan = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 60;
-                length = _args2.length > 4 && _args2[4] !== undefined ? _args2[4] : 5;
-                dateFrom = (0, _getDateFrom["default"])(daySpan);
-                recentMessages = this._getLocalRecentMessages(currentContact, conversations, dateFrom, length); // If we could not find enough recent messages,
-                // we need to search for messages on server.
+    value: function _getRecentMessages(currentContact) {
+      var conversations,
+          fromLocal,
+          daySpan,
+          length,
+          dateFrom,
+          recentMessages,
+          dateTo,
+          _args2 = arguments;
+      return regeneratorRuntime.async(function _getRecentMessages$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              conversations = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
+              fromLocal = _args2.length > 2 ? _args2[2] : undefined;
+              daySpan = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : 60;
+              length = _args2.length > 4 && _args2[4] !== undefined ? _args2[4] : 5;
+              dateFrom = (0, _getDateFrom["default"])(daySpan);
+              recentMessages = this._getLocalRecentMessages(currentContact, conversations, dateFrom, length); // If we could not find enough recent messages,
+              // we need to search for messages on server.
 
-                if (!(!fromLocal && recentMessages.length < length)) {
-                  _context3.next = 19;
-                  break;
-                }
-
-                dateTo = recentMessages.length > 0 ? new Date(recentMessages[recentMessages.length - 1].creationTime) : undefined;
-                _context3.prev = 8;
-                _context3.t0 = recentMessages;
-                _context3.next = 12;
-                return this._fetchRemoteRecentMessages(currentContact, dateFrom.toISOString(), dateTo && dateTo.toISOString(), length);
-
-              case 12:
-                _context3.t1 = _context3.sent;
-                recentMessages = _context3.t0.concat.call(_context3.t0, _context3.t1);
+              if (!(!fromLocal && recentMessages.length < length)) {
                 _context3.next = 19;
                 break;
+              }
 
-              case 16:
-                _context3.prev = 16;
-                _context3.t2 = _context3["catch"](8);
-                console.error(_context3.t2);
+              dateTo = recentMessages.length > 0 ? new Date(recentMessages[recentMessages.length - 1].creationTime) : undefined;
+              _context3.prev = 8;
+              _context3.t0 = recentMessages;
+              _context3.next = 12;
+              return regeneratorRuntime.awrap(this._fetchRemoteRecentMessages(currentContact, dateFrom.toISOString(), dateTo && dateTo.toISOString(), length));
 
-              case 19:
-                recentMessages = this._dedup(recentMessages);
-                return _context3.abrupt("return", recentMessages.length > length ? recentMessages.slice(0, length) : recentMessages);
+            case 12:
+              _context3.t1 = _context3.sent;
+              recentMessages = _context3.t0.concat.call(_context3.t0, _context3.t1);
+              _context3.next = 19;
+              break;
 
-              case 21:
-              case "end":
-                return _context3.stop();
-            }
+            case 16:
+              _context3.prev = 16;
+              _context3.t2 = _context3["catch"](8);
+              console.error(_context3.t2);
+
+            case 19:
+              recentMessages = this._dedup(recentMessages);
+              return _context3.abrupt("return", recentMessages.length > length ? recentMessages.slice(0, length) : recentMessages);
+
+            case 21:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee2, this, [[8, 16]]);
-      }));
-
-      function _getRecentMessages(_x2) {
-        return _getRecentMessages2.apply(this, arguments);
-      }
-
-      return _getRecentMessages;
-    }()
+        }
+      }, null, this, [[8, 16]]);
+    }
     /**
      * Get recent messages from messageStore.
      * @param {Object} currentContact
@@ -363,8 +337,8 @@ function (_RcModule) {
       var recentMessages = [];
       var matches;
 
-      for (var _i2 = conversations.length - 1; _i2 >= 0; _i2 -= 1) {
-        var conversation = conversations[_i2];
+      for (var i = conversations.length - 1; i >= 0; i -= 1) {
+        var conversation = conversations[i];
         var messageList = this._messageStore.conversationStore[conversation.conversationId] || [];
         matches = phoneNumbers.find(this._filterPhoneNumber(conversation)); // Check if message is within certain days
 

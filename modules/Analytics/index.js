@@ -17,8 +17,6 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -88,10 +86,6 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -358,91 +352,71 @@ function (_RcModule) {
     }
   }, {
     key: "_onStateChange",
-    value: function () {
-      var _onStateChange2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (this.pending) {
-                  this.store.dispatch({
-                    type: this.actionTypes.init
-                  });
+    value: function _onStateChange() {
+      return regeneratorRuntime.async(function _onStateChange$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (this.pending) {
+                this.store.dispatch({
+                  type: this.actionTypes.init
+                });
 
-                  if (this._analyticsKey) {
-                    this._segment.load(this._analyticsKey);
-                  }
-
-                  this.store.dispatch({
-                    type: this.actionTypes.initSuccess
-                  });
+                if (this._analyticsKey) {
+                  this._segment.load(this._analyticsKey);
                 }
 
-                if (this.ready && this.lastActions.length && !this._promise) {
-                  this._promise = this._processActions();
-                }
+                this.store.dispatch({
+                  type: this.actionTypes.initSuccess
+                });
+              }
 
-              case 2:
-              case "end":
-                return _context.stop();
-            }
+              if (this.ready && this.lastActions.length && !this._promise) {
+                this._promise = this._processActions();
+              }
+
+            case 2:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function _onStateChange() {
-        return _onStateChange2.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_processActions",
-    value: function () {
-      var _processActions2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        var _this3 = this;
+    value: function _processActions() {
+      var _this3 = this;
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (!this.lastActions.length) {
-                  _context2.next = 6;
-                  break;
-                }
+      return regeneratorRuntime.async(function _processActions$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!this.lastActions.length) {
+                _context2.next = 6;
+                break;
+              }
 
-                _context2.next = 3;
-                return (0, _sleep["default"])(300);
+              _context2.next = 3;
+              return regeneratorRuntime.awrap((0, _sleep["default"])(300));
 
-              case 3:
-                this.lastActions.forEach(function (action) {
-                  _this3._trackList.forEach(function (key) {
-                    _this3[key](action);
-                  });
+            case 3:
+              this.lastActions.forEach(function (action) {
+                _this3._trackList.forEach(function (key) {
+                  _this3[key](action);
                 });
-                this._promise = null;
-                this.store.dispatch({
-                  type: this.actionTypes.clear
-                });
+              });
+              this._promise = null;
+              this.store.dispatch({
+                type: this.actionTypes.clear
+              });
 
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
+            case 6:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function _processActions() {
-        return _processActions2.apply(this, arguments);
-      }
-
-      return _processActions;
-    }()
+        }
+      }, null, this);
+    }
     /**
      * Append more action to track
      * First, Inherit this class and declare channel specific method on it
@@ -602,10 +576,10 @@ function (_RcModule) {
 
         var path = action.payload && action.payload.pathname;
 
-        var _target = this._getTrackTarget(path);
+        var target = this._getTrackTarget(path);
 
-        if (_target) {
-          this.trackNavigation(_objectSpread({}, _target));
+        if (target) {
+          this.trackNavigation(_objectSpread({}, target));
         }
 
         this._lingerTimeout = setTimeout(function () {
@@ -615,7 +589,7 @@ function (_RcModule) {
 
           _this4._lingerTimeout = null;
 
-          _this4.trackLinger(_objectSpread({}, _target));
+          _this4.trackLinger(_objectSpread({}, target));
         }, this._lingerThreshold);
       }
     }

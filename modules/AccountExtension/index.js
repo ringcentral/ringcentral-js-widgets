@@ -7,8 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -77,10 +75,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -107,7 +101,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -172,67 +166,47 @@ function (_DataFetcher) {
       getDataReducer: _getAccountExtensionReducer.getDataReducer,
       getTimestampReducer: _getAccountExtensionReducer.getTimestampReducer,
       subscriptionFilters: [_subscriptionFilters["default"].accountExtension],
-      subscriptionHandler: function () {
-        var _subscriptionHandler = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee(message) {
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _this._subscriptionHandleFn(message);
+      subscriptionHandler: function subscriptionHandler(message) {
+        return regeneratorRuntime.async(function subscriptionHandler$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this._subscriptionHandleFn(message);
 
-                case 1:
-                case "end":
-                  return _context.stop();
-              }
+              case 1:
+              case "end":
+                return _context.stop();
             }
-          }, _callee);
-        }));
+          }
+        });
+      },
+      fetchFunction: function fetchFunction() {
+        return regeneratorRuntime.async(function fetchFunction$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return regeneratorRuntime.awrap((0, _fetchList["default"])(function (params) {
+                  var fetchRet = _this._client.account().extension().list(params);
 
-        function subscriptionHandler(_x) {
-          return _subscriptionHandler.apply(this, arguments);
-        }
+                  return fetchRet;
+                }));
 
-        return subscriptionHandler;
-      }(),
-      fetchFunction: function () {
-        var _fetchFunction = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee2() {
-          return regeneratorRuntime.wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  _context2.next = 2;
-                  return (0, _fetchList["default"])(function (params) {
-                    var fetchRet = _this._client.account().extension().list(params);
+              case 2:
+                _context2.t0 = function (ext) {
+                  return _this._extensionFilter(ext);
+                };
 
-                    return fetchRet;
-                  });
+                _context2.t1 = _accountExtensionHelper.simplifyExtensionData;
+                return _context2.abrupt("return", _context2.sent.filter(_context2.t0).map(_context2.t1));
 
-                case 2:
-                  _context2.t0 = function (ext) {
-                    return _this._extensionFilter(ext);
-                  };
-
-                  _context2.t1 = _accountExtensionHelper.simplifyExtensionData;
-                  return _context2.abrupt("return", _context2.sent.filter(_context2.t0).map(_context2.t1));
-
-                case 5:
-                case "end":
-                  return _context2.stop();
-              }
+              case 5:
+              case "end":
+                return _context2.stop();
             }
-          }, _callee2);
-        }));
-
-        function fetchFunction() {
-          return _fetchFunction.apply(this, arguments);
-        }
-
-        return fetchFunction;
-      }(),
+          }
+        });
+      },
       readyCheckFn: function readyCheckFn() {
         return _this._rolesAndPermissions.ready;
       }
@@ -255,154 +229,134 @@ function (_DataFetcher) {
     }
   }, {
     key: "_subscriptionHandleFn",
-    value: function () {
-      var _subscriptionHandleFn2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(message) {
-        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, item;
+    value: function _subscriptionHandleFn(message) {
+      var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, item;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                if (!(message && extensionRegExp.test(message.event) && message.body && message.body.extensions)) {
-                  _context4.next = 27;
-                  break;
-                }
-
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
-                _context4.prev = 4;
-                _iterator = message.body.extensions[Symbol.iterator]();
-
-              case 6:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context4.next = 13;
-                  break;
-                }
-
-                item = _step.value;
-                _context4.next = 10;
-                return this._processExtension(item);
-
-              case 10:
-                _iteratorNormalCompletion = true;
-                _context4.next = 6;
+      return regeneratorRuntime.async(function _subscriptionHandleFn$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              if (!(message && extensionRegExp.test(message.event) && message.body && message.body.extensions)) {
+                _context4.next = 27;
                 break;
+              }
 
-              case 13:
-                _context4.next = 19;
+              _iteratorNormalCompletion = true;
+              _didIteratorError = false;
+              _iteratorError = undefined;
+              _context4.prev = 4;
+              _iterator = message.body.extensions[Symbol.iterator]();
+
+            case 6:
+              if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                _context4.next = 13;
                 break;
+              }
 
-              case 15:
-                _context4.prev = 15;
-                _context4.t0 = _context4["catch"](4);
-                _didIteratorError = true;
-                _iteratorError = _context4.t0;
+              item = _step.value;
+              _context4.next = 10;
+              return regeneratorRuntime.awrap(this._processExtension(item));
 
-              case 19:
-                _context4.prev = 19;
-                _context4.prev = 20;
+            case 10:
+              _iteratorNormalCompletion = true;
+              _context4.next = 6;
+              break;
 
-                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-                  _iterator["return"]();
-                }
+            case 13:
+              _context4.next = 19;
+              break;
 
-              case 22:
-                _context4.prev = 22;
+            case 15:
+              _context4.prev = 15;
+              _context4.t0 = _context4["catch"](4);
+              _didIteratorError = true;
+              _iteratorError = _context4.t0;
 
-                if (!_didIteratorError) {
-                  _context4.next = 25;
-                  break;
-                }
+            case 19:
+              _context4.prev = 19;
+              _context4.prev = 20;
 
-                throw _iteratorError;
+              if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                _iterator["return"]();
+              }
 
-              case 25:
-                return _context4.finish(22);
+            case 22:
+              _context4.prev = 22;
 
-              case 26:
-                return _context4.finish(19);
+              if (!_didIteratorError) {
+                _context4.next = 25;
+                break;
+              }
 
-              case 27:
-              case "end":
-                return _context4.stop();
-            }
+              throw _iteratorError;
+
+            case 25:
+              return _context4.finish(22);
+
+            case 26:
+              return _context4.finish(19);
+
+            case 27:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee3, this, [[4, 15, 19, 27], [20,, 22, 26]]);
-      }));
-
-      function _subscriptionHandleFn(_x2) {
-        return _subscriptionHandleFn2.apply(this, arguments);
-      }
-
-      return _subscriptionHandleFn;
-    }()
+        }
+      }, null, this, [[4, 15, 19, 27], [20,, 22, 26]]);
+    }
   }, {
     key: "_processExtension",
-    value: function () {
-      var _processExtension2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(item) {
-        var extensionId, eventType, id, extensionData;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                extensionId = item.extensionId, eventType = item.eventType;
-                id = parseInt(extensionId, 10);
+    value: function _processExtension(item) {
+      var extensionId, eventType, id, extensionData;
+      return regeneratorRuntime.async(function _processExtension$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              extensionId = item.extensionId, eventType = item.eventType;
+              id = parseInt(extensionId, 10);
 
-                if (!(eventType === 'Delete')) {
-                  _context5.next = 6;
-                  break;
-                }
+              if (!(eventType === 'Delete')) {
+                _context5.next = 6;
+                break;
+              }
 
-                this._deleteExtension(id);
+              this._deleteExtension(id);
 
+              _context5.next = 18;
+              break;
+
+            case 6:
+              if (!(eventType === 'Create' || eventType === 'Update')) {
                 _context5.next = 18;
                 break;
+              }
 
-              case 6:
-                if (!(eventType === 'Create' || eventType === 'Update')) {
-                  _context5.next = 18;
-                  break;
-                }
+              _context5.prev = 7;
+              _context5.next = 10;
+              return regeneratorRuntime.awrap(this._fetchExtensionData(id));
 
-                _context5.prev = 7;
-                _context5.next = 10;
-                return this._fetchExtensionData(id);
+            case 10:
+              extensionData = _context5.sent;
 
-              case 10:
-                extensionData = _context5.sent;
+              this._addOrDeleteExtension(extensionData, id);
 
-                this._addOrDeleteExtension(extensionData, id);
+              _context5.next = 16;
+              break;
 
-                _context5.next = 16;
-                break;
+            case 14:
+              _context5.prev = 14;
+              _context5.t0 = _context5["catch"](7);
 
-              case 14:
-                _context5.prev = 14;
-                _context5.t0 = _context5["catch"](7);
+            case 16:
+              _context5.next = 18;
+              break;
 
-              case 16:
-                _context5.next = 18;
-                break;
-
-              case 18:
-              case "end":
-                return _context5.stop();
-            }
+            case 18:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee4, this, [[7, 14]]);
-      }));
-
-      function _processExtension(_x3) {
-        return _processExtension2.apply(this, arguments);
-      }
-
-      return _processExtension;
-    }()
+        }
+      }, null, this, [[7, 14]]);
+    }
   }, {
     key: "_addOrDeleteExtension",
     value: function _addOrDeleteExtension(extensionData, extensionId) {
@@ -448,30 +402,20 @@ function (_DataFetcher) {
     }
   }, {
     key: "_fetchExtensionData",
-    value: function () {
-      var _fetchExtensionData2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(id) {
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                return _context6.abrupt("return", this._client.account().extension(id).get());
+    value: function _fetchExtensionData(id) {
+      return regeneratorRuntime.async(function _fetchExtensionData$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              return _context6.abrupt("return", this._client.account().extension(id).get());
 
-              case 1:
-              case "end":
-                return _context6.stop();
-            }
+            case 1:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee5, this);
-      }));
-
-      function _fetchExtensionData(_x4) {
-        return _fetchExtensionData2.apply(this, arguments);
-      }
-
-      return _fetchExtensionData;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "isAvailableExtension",
     value: function isAvailableExtension(extensionNumber) {

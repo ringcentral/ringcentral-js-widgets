@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -73,10 +71,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -105,7 +99,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -212,70 +206,60 @@ function (_RcModule) {
     }
   }, {
     key: "_onStateChange",
-    value: function () {
-      var _onStateChange2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!this._shouldInit()) {
-                  _context.next = 7;
-                  break;
-                }
+    value: function _onStateChange() {
+      return regeneratorRuntime.async(function _onStateChange$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!this._shouldInit()) {
+                _context.next = 7;
+                break;
+              }
 
-                this.store.dispatch({
-                  type: this.actionTypes.init
-                });
-                _context.next = 4;
-                return this._init();
+              this.store.dispatch({
+                type: this.actionTypes.init
+              });
+              _context.next = 4;
+              return regeneratorRuntime.awrap(this._init());
 
-              case 4:
-                this.store.dispatch({
-                  type: this.actionTypes.initSuccess
-                });
+            case 4:
+              this.store.dispatch({
+                type: this.actionTypes.initSuccess
+              });
+              _context.next = 18;
+              break;
+
+            case 7:
+              if (!this._shouldReset()) {
+                _context.next = 11;
+                break;
+              }
+
+              this._reset();
+
+              _context.next = 18;
+              break;
+
+            case 11:
+              if (!this._shouldValidate()) {
                 _context.next = 18;
                 break;
+              }
 
-              case 7:
-                if (!this._shouldReset()) {
-                  _context.next = 11;
-                  break;
-                }
+              this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
+              this._webphoneEnabled = this._rolesAndPermissions.webphoneEnabled;
+              this._myPhoneNumbers = this.myPhoneNumbers;
+              this._otherPhoneNumbers = this.otherPhoneNumbers;
+              _context.next = 18;
+              return regeneratorRuntime.awrap(this._validateSettings());
 
-                this._reset();
-
-                _context.next = 18;
-                break;
-
-              case 11:
-                if (!this._shouldValidate()) {
-                  _context.next = 18;
-                  break;
-                }
-
-                this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
-                this._webphoneEnabled = this._rolesAndPermissions.webphoneEnabled;
-                this._myPhoneNumbers = this.myPhoneNumbers;
-                this._otherPhoneNumbers = this.otherPhoneNumbers;
-                _context.next = 18;
-                return this._validateSettings();
-
-              case 18:
-              case "end":
-                return _context.stop();
-            }
+            case 18:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function _onStateChange() {
-        return _onStateChange2.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
@@ -293,67 +277,57 @@ function (_RcModule) {
     }
   }, {
     key: "_init",
-    value: function () {
-      var _init2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        var defaultCallWith;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (this._rolesAndPermissions.callingEnabled) {
-                  _context2.next = 2;
-                  break;
+    value: function _init() {
+      var defaultCallWith;
+      return regeneratorRuntime.async(function _init$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (this._rolesAndPermissions.callingEnabled) {
+                _context2.next = 2;
+                break;
+              }
+
+              return _context2.abrupt("return");
+
+            case 2:
+              this._myPhoneNumbers = this.myPhoneNumbers;
+              this._otherPhoneNumbers = this.otherPhoneNumbers;
+              this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
+              this._webphoneEnabled = this._rolesAndPermissions.webphoneEnabled;
+
+              if (!this.timestamp) {
+                // first time login
+                defaultCallWith = this.callWithOptions && this.callWithOptions[0];
+                this.store.dispatch({
+                  type: this.actionTypes.setData,
+                  callWith: defaultCallWith,
+                  timestamp: Date.now()
+                });
+
+                if (!this._emergencyCallAvailable) {
+                  this._warningEmergencyCallingNotAvailable();
                 }
 
-                return _context2.abrupt("return");
-
-              case 2:
-                this._myPhoneNumbers = this.myPhoneNumbers;
-                this._otherPhoneNumbers = this.otherPhoneNumbers;
-                this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
-                this._webphoneEnabled = this._rolesAndPermissions.webphoneEnabled;
-
-                if (!this.timestamp) {
-                  // first time login
-                  defaultCallWith = this.callWithOptions && this.callWithOptions[0];
-                  this.store.dispatch({
-                    type: this.actionTypes.setData,
-                    callWith: defaultCallWith,
-                    timestamp: Date.now()
-                  });
-
-                  if (!this._emergencyCallAvailable) {
-                    this._warningEmergencyCallingNotAvailable();
-                  }
-
-                  if (typeof this._onFirstLogin === 'function') {
-                    this._onFirstLogin();
-                  }
+                if (typeof this._onFirstLogin === 'function') {
+                  this._onFirstLogin();
                 }
+              }
 
-                _context2.next = 9;
-                return this._validateSettings();
+              _context2.next = 9;
+              return regeneratorRuntime.awrap(this._validateSettings());
 
-              case 9:
-                _context2.next = 11;
-                return this._initFromNumber();
+            case 9:
+              _context2.next = 11;
+              return regeneratorRuntime.awrap(this._initFromNumber());
 
-              case 11:
-              case "end":
-                return _context2.stop();
-            }
+            case 11:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function _init() {
-        return _init2.apply(this, arguments);
-      }
-
-      return _init;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_reset",
     value: function _reset() {
@@ -363,173 +337,133 @@ function (_RcModule) {
     }
   }, {
     key: "_initFromNumber",
-    value: function () {
-      var _initFromNumber2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        var fromNumber, fromNumberList;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                fromNumber = this.fromNumber;
+    value: function _initFromNumber() {
+      var fromNumber, fromNumberList;
+      return regeneratorRuntime.async(function _initFromNumber$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              fromNumber = this.fromNumber;
 
-                if (fromNumber) {
-                  _context3.next = 5;
-                  break;
-                }
-
-                fromNumberList = this.fromNumbers;
+              if (fromNumber) {
                 _context3.next = 5;
-                return this.updateFromNumber(fromNumberList[0]);
+                break;
+              }
 
-              case 5:
-              case "end":
-                return _context3.stop();
-            }
+              fromNumberList = this.fromNumbers;
+              _context3.next = 5;
+              return regeneratorRuntime.awrap(this.updateFromNumber(fromNumberList[0]));
+
+            case 5:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function _initFromNumber() {
-        return _initFromNumber2.apply(this, arguments);
-      }
-
-      return _initFromNumber;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "updateFromNumber",
-    value: function () {
-      var _updateFromNumber = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(number) {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.updateFromNumber,
-                  number: number && number.phoneNumber
-                });
+    value: function updateFromNumber(number) {
+      return regeneratorRuntime.async(function updateFromNumber$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.updateFromNumber,
+                number: number && number.phoneNumber
+              });
 
-              case 1:
-              case "end":
-                return _context4.stop();
-            }
+            case 1:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee4, this);
-      }));
-
-      function updateFromNumber(_x) {
-        return _updateFromNumber.apply(this, arguments);
-      }
-
-      return updateFromNumber;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_setSoftPhoneToCallWith",
-    value: function () {
-      var _setSoftPhoneToCallWith2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
+    value: function _setSoftPhoneToCallWith() {
+      return regeneratorRuntime.async(function _setSoftPhoneToCallWith$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              this.store.dispatch({
+                type: this.actionTypes.setData,
+                callWith: _callingOptions["default"].softphone,
+                timestamp: Date.now()
+              });
+
+            case 1:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, null, this);
+    }
+  }, {
+    key: "_validateSettings",
+    value: function _validateSettings() {
+      return regeneratorRuntime.async(function _validateSettings$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              if (!this._hasWebphonePermissionRemoved()) {
+                _context6.next = 6;
+                break;
+              }
+
+              _context6.next = 3;
+              return regeneratorRuntime.awrap(this._setSoftPhoneToCallWith());
+
+            case 3:
+              this._alert.danger({
+                message: _callingSettingsMessages["default"].webphonePermissionRemoved,
+                ttl: 0
+              });
+
+              _context6.next = 13;
+              break;
+
+            case 6:
+              if (!this._hasPermissionChanged()) {
+                _context6.next = 12;
+                break;
+              }
+
+              _context6.next = 9;
+              return regeneratorRuntime.awrap(this._setSoftPhoneToCallWith());
+
+            case 9:
+              this._alert.danger({
+                message: _callingSettingsMessages["default"].permissionChanged,
+                ttl: 0
+              });
+
+              _context6.next = 13;
+              break;
+
+            case 12:
+              if (this._hasPhoneNumberChanged()) {
                 this.store.dispatch({
                   type: this.actionTypes.setData,
-                  callWith: _callingOptions["default"].softphone,
+                  callWith: _callingOptions["default"].myphone,
+                  myLocation: this._myPhoneNumbers[0],
                   timestamp: Date.now()
                 });
 
-              case 1:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this);
-      }));
-
-      function _setSoftPhoneToCallWith() {
-        return _setSoftPhoneToCallWith2.apply(this, arguments);
-      }
-
-      return _setSoftPhoneToCallWith;
-    }()
-  }, {
-    key: "_validateSettings",
-    value: function () {
-      var _validateSettings2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                if (!this._hasWebphonePermissionRemoved()) {
-                  _context6.next = 6;
-                  break;
-                }
-
-                _context6.next = 3;
-                return this._setSoftPhoneToCallWith();
-
-              case 3:
                 this._alert.danger({
-                  message: _callingSettingsMessages["default"].webphonePermissionRemoved,
+                  message: _callingSettingsMessages["default"].phoneNumberChanged,
                   ttl: 0
                 });
+              }
 
-                _context6.next = 13;
-                break;
-
-              case 6:
-                if (!this._hasPermissionChanged()) {
-                  _context6.next = 12;
-                  break;
-                }
-
-                _context6.next = 9;
-                return this._setSoftPhoneToCallWith();
-
-              case 9:
-                this._alert.danger({
-                  message: _callingSettingsMessages["default"].permissionChanged,
-                  ttl: 0
-                });
-
-                _context6.next = 13;
-                break;
-
-              case 12:
-                if (this._hasPhoneNumberChanged()) {
-                  this.store.dispatch({
-                    type: this.actionTypes.setData,
-                    callWith: _callingOptions["default"].myphone,
-                    myLocation: this._myPhoneNumbers[0],
-                    timestamp: Date.now()
-                  });
-
-                  this._alert.danger({
-                    message: _callingSettingsMessages["default"].phoneNumberChanged,
-                    ttl: 0
-                  });
-                }
-
-              case 13:
-              case "end":
-                return _context6.stop();
-            }
+            case 13:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee6, this);
-      }));
-
-      function _validateSettings() {
-        return _validateSettings2.apply(this, arguments);
-      }
-
-      return _validateSettings;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_hasWebphonePermissionRemoved",
     value: function _hasWebphonePermissionRemoved() {
@@ -547,86 +481,66 @@ function (_RcModule) {
     }
   }, {
     key: "_warningEmergencyCallingNotAvailable",
-    value: function () {
-      var _warningEmergencyCallingNotAvailable2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                if (this.callWith === _callingOptions["default"].browser) {
-                  this._alert.info({
-                    message: _callingSettingsMessages["default"].emergencyCallingNotAvailable,
-                    ttl: 0
-                  });
-                }
+    value: function _warningEmergencyCallingNotAvailable() {
+      return regeneratorRuntime.async(function _warningEmergencyCallingNotAvailable$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              if (this.callWith === _callingOptions["default"].browser) {
+                this._alert.info({
+                  message: _callingSettingsMessages["default"].emergencyCallingNotAvailable,
+                  ttl: 0
+                });
+              }
 
-              case 1:
-              case "end":
-                return _context7.stop();
-            }
+            case 1:
+            case "end":
+              return _context7.stop();
           }
-        }, _callee7, this);
-      }));
-
-      function _warningEmergencyCallingNotAvailable() {
-        return _warningEmergencyCallingNotAvailable2.apply(this, arguments);
-      }
-
-      return _warningEmergencyCallingNotAvailable;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "setData",
-    value: function () {
-      var _setData = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee8(_ref2, withPrompt) {
-        var callWith, myLocation, ringoutPrompt;
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                callWith = _ref2.callWith, myLocation = _ref2.myLocation, ringoutPrompt = _ref2.ringoutPrompt;
-                // TODO validate myLocation
-                this.store.dispatch({
-                  type: this.actionTypes.setData,
-                  callWith: callWith,
-                  myLocation: myLocation,
-                  ringoutPrompt: ringoutPrompt,
-                  timestamp: Date.now()
-                });
+    value: function setData(_ref2, withPrompt) {
+      var callWith, myLocation, ringoutPrompt;
+      return regeneratorRuntime.async(function setData$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              callWith = _ref2.callWith, myLocation = _ref2.myLocation, ringoutPrompt = _ref2.ringoutPrompt;
+              // TODO validate myLocation
+              this.store.dispatch({
+                type: this.actionTypes.setData,
+                callWith: callWith,
+                myLocation: myLocation,
+                ringoutPrompt: ringoutPrompt,
+                timestamp: Date.now()
+              });
 
-                if (withPrompt) {
-                  if (this.callWith === _callingOptions["default"].softphone) {
-                    this._alert.info({
-                      message: _callingSettingsMessages["default"].saveSuccessWithSoftphone
-                    });
-                  } else {
-                    this._alert.info({
-                      message: _callingSettingsMessages["default"].saveSuccess
-                    });
+              if (withPrompt) {
+                if (this.callWith === _callingOptions["default"].softphone) {
+                  this._alert.info({
+                    message: _callingSettingsMessages["default"].saveSuccessWithSoftphone
+                  });
+                } else {
+                  this._alert.info({
+                    message: _callingSettingsMessages["default"].saveSuccess
+                  });
 
-                    if (!this._emergencyCallAvailable) {
-                      this._warningEmergencyCallingNotAvailable();
-                    }
+                  if (!this._emergencyCallAvailable) {
+                    this._warningEmergencyCallingNotAvailable();
                   }
                 }
+              }
 
-              case 3:
-              case "end":
-                return _context8.stop();
-            }
+            case 3:
+            case "end":
+              return _context8.stop();
           }
-        }, _callee8, this);
-      }));
-
-      function setData(_x2, _x3) {
-        return _setData.apply(this, arguments);
-      }
-
-      return setData;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "data",
     get: function get() {

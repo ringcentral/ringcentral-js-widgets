@@ -11,8 +11,6 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -77,15 +75,11 @@ var _dec, _class, _class2, _descriptor, _temp;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -115,7 +109,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -256,71 +250,61 @@ function (_Pollable) {
     }
   }, {
     key: "_onStateChange",
-    value: function () {
-      var _onStateChange2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!this._shouldInit()) {
-                  _context.next = 11;
-                  break;
-                }
-
-                this.store.dispatch({
-                  type: this.actionTypes.init
-                });
-
-                if (this._shouleCleanCache()) {
-                  this._cleanUp();
-                }
-
-                if (!this._hasPermission) {
-                  _context.next = 8;
-                  break;
-                }
-
-                _context.next = 6;
-                return this._initAddressBook();
-
-              case 6:
-                _context.next = 9;
+    value: function _onStateChange() {
+      return regeneratorRuntime.async(function _onStateChange$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!this._shouldInit()) {
+                _context.next = 11;
                 break;
+              }
 
-              case 8:
+              this.store.dispatch({
+                type: this.actionTypes.init
+              });
+
+              if (this._shouleCleanCache()) {
+                this._cleanUp();
+              }
+
+              if (!this._hasPermission) {
+                _context.next = 8;
+                break;
+              }
+
+              _context.next = 6;
+              return regeneratorRuntime.awrap(this._initAddressBook());
+
+            case 6:
+              _context.next = 9;
+              break;
+
+            case 8:
+              this.store.dispatch({
+                type: this.actionTypes.initSuccess
+              });
+
+            case 9:
+              _context.next = 12;
+              break;
+
+            case 11:
+              if (this._isDataReady()) {
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
+              } else if (this._shouldReset()) {
+                this._resetModuleStatus();
+              }
 
-              case 9:
-                _context.next = 12;
-                break;
-
-              case 11:
-                if (this._isDataReady()) {
-                  this.store.dispatch({
-                    type: this.actionTypes.initSuccess
-                  });
-                } else if (this._shouldReset()) {
-                  this._resetModuleStatus();
-                }
-
-              case 12:
-              case "end":
-                return _context.stop();
-            }
+            case 12:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      function _onStateChange() {
-        return _onStateChange2.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
@@ -350,65 +334,55 @@ function (_Pollable) {
     }
   }, {
     key: "_initAddressBook",
-    value: function () {
-      var _initAddressBook2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (this._hasPermission) {
-                  _context2.next = 2;
-                  break;
-                }
-
-                return _context2.abrupt("return");
-
-              case 2:
-                if (!this._shouldFetch()) {
-                  _context2.next = 13;
-                  break;
-                }
-
-                _context2.prev = 3;
-                _context2.next = 6;
-                return this.sync();
-
-              case 6:
-                _context2.next = 11;
+    value: function _initAddressBook() {
+      return regeneratorRuntime.async(function _initAddressBook$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (this._hasPermission) {
+                _context2.next = 2;
                 break;
+              }
 
-              case 8:
-                _context2.prev = 8;
-                _context2.t0 = _context2["catch"](3);
-                console.error('syncData error:', _context2.t0);
+              return _context2.abrupt("return");
 
-              case 11:
-                _context2.next = 14;
+            case 2:
+              if (!this._shouldFetch()) {
+                _context2.next = 13;
                 break;
+              }
 
-              case 13:
-                if (this._polling) {
-                  this._startPolling();
-                } else {
-                  this._retry();
-                }
+              _context2.prev = 3;
+              _context2.next = 6;
+              return regeneratorRuntime.awrap(this.sync());
 
-              case 14:
-              case "end":
-                return _context2.stop();
-            }
+            case 6:
+              _context2.next = 11;
+              break;
+
+            case 8:
+              _context2.prev = 8;
+              _context2.t0 = _context2["catch"](3);
+              console.error('syncData error:', _context2.t0);
+
+            case 11:
+              _context2.next = 14;
+              break;
+
+            case 13:
+              if (this._polling) {
+                this._startPolling();
+              } else {
+                this._retry();
+              }
+
+            case 14:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this, [[3, 8]]);
-      }));
-
-      function _initAddressBook() {
-        return _initAddressBook2.apply(this, arguments);
-      }
-
-      return _initAddressBook;
-    }()
+        }
+      }, null, this, [[3, 8]]);
+    }
   }, {
     key: "_resetModuleStatus",
     value: function _resetModuleStatus() {
@@ -425,148 +399,126 @@ function (_Pollable) {
     }
   }, {
     key: "_syncWithForbiddenCheck",
-    value: function () {
-      var _syncWithForbiddenCheck2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(syncToken) {
-        var response, result;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
-                return this._sync(syncToken);
+    value: function _syncWithForbiddenCheck(syncToken) {
+      var response, result;
+      return regeneratorRuntime.async(function _syncWithForbiddenCheck$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+              _context3.next = 3;
+              return regeneratorRuntime.awrap(this._sync(syncToken));
 
-              case 3:
-                response = _context3.sent;
-                return _context3.abrupt("return", response);
+            case 3:
+              response = _context3.sent;
+              return _context3.abrupt("return", response);
 
-              case 7:
-                _context3.prev = 7;
-                _context3.t0 = _context3["catch"](0);
+            case 7:
+              _context3.prev = 7;
+              _context3.t0 = _context3["catch"](0);
 
-                if (!(_context3.t0 && _context3.t0.apiResponse && _context3.t0.apiResponse._response && _context3.t0.apiResponse._response.status === 403)) {
-                  _context3.next = 12;
-                  break;
+              if (!(_context3.t0 && _context3.t0.apiResponse && _context3.t0.apiResponse._response && _context3.t0.apiResponse._response.status === 403)) {
+                _context3.next = 12;
+                break;
+              }
+
+              result = {
+                records: [],
+                syncInfo: {
+                  syncToken: undefined
                 }
+              };
+              return _context3.abrupt("return", result);
 
-                result = {
-                  records: [],
-                  syncInfo: {
-                    syncToken: undefined
-                  }
-                };
-                return _context3.abrupt("return", result);
+            case 12:
+              throw _context3.t0;
 
-              case 12:
-                throw _context3.t0;
-
-              case 13:
-              case "end":
-                return _context3.stop();
-            }
+            case 13:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this, [[0, 7]]);
-      }));
-
-      function _syncWithForbiddenCheck(_x) {
-        return _syncWithForbiddenCheck2.apply(this, arguments);
-      }
-
-      return _syncWithForbiddenCheck;
-    }()
+        }
+      }, null, this, [[0, 7]]);
+    }
   }, {
     key: "sync",
-    value: function () {
-      var _sync2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5() {
-        var _this3 = this;
+    value: function sync() {
+      var _this3 = this;
 
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                if (!this._promise) {
-                  this._promise = _asyncToGenerator(
-                  /*#__PURE__*/
-                  regeneratorRuntime.mark(function _callee4() {
-                    var response;
-                    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-                      while (1) {
-                        switch (_context4.prev = _context4.next) {
-                          case 0:
-                            _context4.prev = 0;
+      return regeneratorRuntime.async(function sync$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              if (!this._promise) {
+                this._promise = function _callee() {
+                  var response;
+                  return regeneratorRuntime.async(function _callee$(_context4) {
+                    while (1) {
+                      switch (_context4.prev = _context4.next) {
+                        case 0:
+                          _context4.prev = 0;
 
-                            _this3.store.dispatch({
-                              type: _this3.actionTypes.sync
-                            });
+                          _this3.store.dispatch({
+                            type: _this3.actionTypes.sync
+                          });
 
-                            _context4.next = 4;
-                            return _this3._syncWithForbiddenCheck(_this3.syncToken);
+                          _context4.next = 4;
+                          return regeneratorRuntime.awrap(_this3._syncWithForbiddenCheck(_this3.syncToken));
 
-                          case 4:
-                            response = _context4.sent;
+                        case 4:
+                          response = _context4.sent;
 
-                            _this3.store.dispatch({
-                              type: _this3.actionTypes.syncSuccess,
-                              records: response.records,
-                              syncToken: response.syncInfo.syncToken,
-                              timestamp: Date.now()
-                            });
+                          _this3.store.dispatch({
+                            type: _this3.actionTypes.syncSuccess,
+                            records: response.records,
+                            syncToken: response.syncInfo.syncToken,
+                            timestamp: Date.now()
+                          });
 
-                            if (_this3._polling) {
-                              _this3._startPolling();
-                            }
+                          if (_this3._polling) {
+                            _this3._startPolling();
+                          }
 
-                            _context4.next = 15;
-                            break;
+                          _context4.next = 15;
+                          break;
 
-                          case 9:
-                            _context4.prev = 9;
-                            _context4.t0 = _context4["catch"](0);
+                        case 9:
+                          _context4.prev = 9;
+                          _context4.t0 = _context4["catch"](0);
 
-                            _this3._onSyncError();
+                          _this3._onSyncError();
 
-                            if (_this3._polling) {
-                              _this3._startPolling(_this3.timeToRetry);
-                            } else {
-                              _this3._retry();
-                            }
+                          if (_this3._polling) {
+                            _this3._startPolling(_this3.timeToRetry);
+                          } else {
+                            _this3._retry();
+                          }
 
-                            _this3._promise = null;
-                            throw _context4.t0;
+                          _this3._promise = null;
+                          throw _context4.t0;
 
-                          case 15:
-                            _this3._promise = null;
+                        case 15:
+                          _this3._promise = null;
 
-                          case 16:
-                          case "end":
-                            return _context4.stop();
-                        }
+                        case 16:
+                        case "end":
+                          return _context4.stop();
                       }
-                    }, _callee4, null, [[0, 9]]);
-                  }))();
-                }
+                    }
+                  }, null, null, [[0, 9]]);
+                }();
+              }
 
-                _context5.next = 3;
-                return this._promise;
+              _context5.next = 3;
+              return regeneratorRuntime.awrap(this._promise);
 
-              case 3:
-              case "end":
-                return _context5.stop();
-            }
+            case 3:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee5, this);
-      }));
-
-      function sync() {
-        return _sync2.apply(this, arguments);
-      }
-
-      return sync;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_onSyncError",
     value: function _onSyncError() {
@@ -576,92 +528,72 @@ function (_Pollable) {
     }
   }, {
     key: "_sync",
-    value: function () {
-      var _sync3 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6(syncToken, pageId) {
-        var params, response, lastResponse;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                params = getSyncParams(syncToken, pageId);
-                _context6.next = 3;
-                return this._syncAddressBookApi(params);
+    value: function _sync(syncToken, pageId) {
+      var params, response, lastResponse;
+      return regeneratorRuntime.async(function _sync$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              params = getSyncParams(syncToken, pageId);
+              _context6.next = 3;
+              return regeneratorRuntime.awrap(this._syncAddressBookApi(params));
 
-              case 3:
-                response = _context6.sent;
+            case 3:
+              response = _context6.sent;
 
-                if (response.nextPageId) {
-                  _context6.next = 6;
-                  break;
-                }
+              if (response.nextPageId) {
+                _context6.next = 6;
+                break;
+              }
 
-                return _context6.abrupt("return", response);
+              return _context6.abrupt("return", response);
 
-              case 6:
-                _context6.next = 8;
-                return (0, _sleep["default"])(1000);
+            case 6:
+              _context6.next = 8;
+              return regeneratorRuntime.awrap((0, _sleep["default"])(1000));
 
-              case 8:
-                _context6.next = 10;
-                return this._sync(syncToken, response.nextPageId);
+            case 8:
+              _context6.next = 10;
+              return regeneratorRuntime.awrap(this._sync(syncToken, response.nextPageId));
 
-              case 10:
-                lastResponse = _context6.sent;
-                return _context6.abrupt("return", _objectSpread({}, lastResponse, {
-                  records: response.records.concat(lastResponse.records)
-                }));
+            case 10:
+              lastResponse = _context6.sent;
+              return _context6.abrupt("return", _objectSpread({}, lastResponse, {
+                records: response.records.concat(lastResponse.records)
+              }));
 
-              case 12:
-              case "end":
-                return _context6.stop();
-            }
+            case 12:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee6, this);
-      }));
-
-      function _sync(_x2, _x3) {
-        return _sync3.apply(this, arguments);
-      }
-
-      return _sync;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_syncAddressBookApi",
-    value: function () {
-      var _syncAddressBookApi2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee7(params) {
-        var updateRequest;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                _context7.next = 2;
-                return this._client.account().extension().addressBookSync().list(params);
+    value: function _syncAddressBookApi(params) {
+      var updateRequest;
+      return regeneratorRuntime.async(function _syncAddressBookApi$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return regeneratorRuntime.awrap(this._client.account().extension().addressBookSync().list(params));
 
-              case 2:
-                updateRequest = _context7.sent;
+            case 2:
+              updateRequest = _context7.sent;
 
-                this._decodeAddressBook(updateRequest);
+              this._decodeAddressBook(updateRequest);
 
-                return _context7.abrupt("return", updateRequest);
+              return _context7.abrupt("return", updateRequest);
 
-              case 5:
-              case "end":
-                return _context7.stop();
-            }
+            case 5:
+            case "end":
+              return _context7.stop();
           }
-        }, _callee7, this);
-      }));
-
-      function _syncAddressBookApi(_x4) {
-        return _syncAddressBookApi2.apply(this, arguments);
-      }
-
-      return _syncAddressBookApi;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_decode",
     value: function _decode(text) {
@@ -711,31 +643,21 @@ function (_Pollable) {
     }
   }, {
     key: "fetchData",
-    value: function () {
-      var _fetchData = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                _context8.next = 2;
-                return this.sync();
+    value: function fetchData() {
+      return regeneratorRuntime.async(function fetchData$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.next = 2;
+              return regeneratorRuntime.awrap(this.sync());
 
-              case 2:
-              case "end":
-                return _context8.stop();
-            }
+            case 2:
+            case "end":
+              return _context8.stop();
           }
-        }, _callee8, this);
-      }));
-
-      function fetchData() {
-        return _fetchData.apply(this, arguments);
-      }
-
-      return fetchData;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_hasPermission",
     get: function get() {

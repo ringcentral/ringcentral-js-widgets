@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = exports.DefaultContactListPageSize = void 0;
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -77,10 +75,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -109,7 +103,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -361,150 +355,120 @@ function (_RcModule) {
     }
   }, {
     key: "getProfileImage",
-    value: function () {
-      var _getProfileImage = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(contact) {
-        var useCache,
-            source,
-            result,
-            _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                useCache = _args.length > 1 && _args[1] !== undefined ? _args[1] : true;
-                source = this._contactSources.get(contact && contact.type);
+    value: function getProfileImage(contact) {
+      var useCache,
+          source,
+          result,
+          _args = arguments;
+      return regeneratorRuntime.async(function getProfileImage$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              useCache = _args.length > 1 && _args[1] !== undefined ? _args[1] : true;
+              source = this._contactSources.get(contact && contact.type);
 
-                if (!(source && source.getProfileImage)) {
-                  _context2.next = 7;
-                  break;
-                }
+              if (!(source && source.getProfileImage)) {
+                _context2.next = 7;
+                break;
+              }
 
-                _context2.next = 5;
-                return source.getProfileImage(contact, useCache);
+              _context2.next = 5;
+              return regeneratorRuntime.awrap(source.getProfileImage(contact, useCache));
 
-              case 5:
-                result = _context2.sent;
-                return _context2.abrupt("return", result);
+            case 5:
+              result = _context2.sent;
+              return _context2.abrupt("return", result);
 
-              case 7:
-                return _context2.abrupt("return", null);
+            case 7:
+              return _context2.abrupt("return", null);
 
-              case 8:
-              case "end":
-                return _context2.stop();
-            }
+            case 8:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee, this);
-      }));
-
-      function getProfileImage(_x) {
-        return _getProfileImage.apply(this, arguments);
-      }
-
-      return getProfileImage;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "getPresence",
-    value: function () {
-      var _getPresence = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(contact) {
-        var useCache,
-            source,
-            result,
-            _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                useCache = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : true;
-                source = this._contactSources.get(contact && contact.type);
+    value: function getPresence(contact) {
+      var useCache,
+          source,
+          result,
+          _args2 = arguments;
+      return regeneratorRuntime.async(function getPresence$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              useCache = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : true;
+              source = this._contactSources.get(contact && contact.type);
 
-                if (!(source && source.getPresence)) {
-                  _context3.next = 7;
-                  break;
-                }
+              if (!(source && source.getPresence)) {
+                _context3.next = 7;
+                break;
+              }
 
-                _context3.next = 5;
-                return source.getPresence(contact, useCache);
+              _context3.next = 5;
+              return regeneratorRuntime.awrap(source.getPresence(contact, useCache));
 
-              case 5:
-                result = _context3.sent;
-                return _context3.abrupt("return", result);
+            case 5:
+              result = _context3.sent;
+              return _context3.abrupt("return", result);
 
-              case 7:
-                return _context3.abrupt("return", null);
+            case 7:
+              return _context3.abrupt("return", null);
 
-              case 8:
-              case "end":
-                return _context3.stop();
-            }
+            case 8:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function getPresence(_x2) {
-        return _getPresence.apply(this, arguments);
-      }
-
-      return getPresence;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "sync",
-    value: function () {
-      var _sync = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        var _i3,
-            _Array$from3,
-            sourceName,
-            source,
-            _args3 = arguments;
+    value: function sync() {
+      var _i3,
+          _Array$from3,
+          sourceName,
+          source,
+          _args3 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _i3 = 0, _Array$from3 = Array.from(this._contactSources.keys());
+      return regeneratorRuntime.async(function sync$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _i3 = 0, _Array$from3 = Array.from(this._contactSources.keys());
 
-              case 1:
-                if (!(_i3 < _Array$from3.length)) {
-                  _context4.next = 10;
-                  break;
-                }
-
-                sourceName = _Array$from3[_i3];
-                source = this._contactSources.get(sourceName);
-
-                if (!(typeof source.sync === 'function')) {
-                  _context4.next = 7;
-                  break;
-                }
-
-                _context4.next = 7;
-                return source.sync.apply(source, _args3);
-
-              case 7:
-                _i3++;
-                _context4.next = 1;
+            case 1:
+              if (!(_i3 < _Array$from3.length)) {
+                _context4.next = 10;
                 break;
+              }
 
-              case 10:
-              case "end":
-                return _context4.stop();
-            }
+              sourceName = _Array$from3[_i3];
+              source = this._contactSources.get(sourceName);
+
+              if (!(typeof source.sync === 'function')) {
+                _context4.next = 7;
+                break;
+              }
+
+              _context4.next = 7;
+              return regeneratorRuntime.awrap(source.sync.apply(source, _args3));
+
+            case 7:
+              _i3++;
+              _context4.next = 1;
+              break;
+
+            case 10:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee3, this);
-      }));
-
-      function sync() {
-        return _sync.apply(this, arguments);
-      }
-
-      return sync;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "status",
     get: function get() {

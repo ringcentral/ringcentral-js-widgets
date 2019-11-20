@@ -81,7 +81,7 @@ var _dec, _class, _class2, _temp;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -94,10 +94,6 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -283,302 +279,262 @@ function (_RcModule) {
     }
   }, {
     key: "schedule",
-    value: function () {
-      var _schedule2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(meeting) {
-        var _this3 = this;
+    value: function schedule(meeting) {
+      var _this3 = this;
 
-        var _ref2,
-            _ref2$isAlertSuccess,
-            isAlertSuccess,
-            opener,
-            formattedMeeting,
-            _ref3,
-            _ref4,
-            resp,
-            serviceInfo,
-            result,
-            _args = arguments;
+      var _ref2,
+          _ref2$isAlertSuccess,
+          isAlertSuccess,
+          opener,
+          formattedMeeting,
+          _ref3,
+          _ref4,
+          resp,
+          serviceInfo,
+          result,
+          _args = arguments;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _ref2 = _args.length > 1 && _args[1] !== undefined ? _args[1] : {}, _ref2$isAlertSuccess = _ref2.isAlertSuccess, isAlertSuccess = _ref2$isAlertSuccess === void 0 ? true : _ref2$isAlertSuccess;
-                opener = _args.length > 2 ? _args[2] : undefined;
+      return regeneratorRuntime.async(function schedule$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _ref2 = _args.length > 1 && _args[1] !== undefined ? _args[1] : {}, _ref2$isAlertSuccess = _ref2.isAlertSuccess, isAlertSuccess = _ref2$isAlertSuccess === void 0 ? true : _ref2$isAlertSuccess;
+              opener = _args.length > 2 ? _args[2] : undefined;
 
-                if (!this.isScheduling) {
-                  _context.next = 4;
-                  break;
-                }
+              if (!this.isScheduling) {
+                _context.next = 4;
+                break;
+              }
 
-                return _context.abrupt("return", this.schedule._promise);
+              return _context.abrupt("return", this.schedule._promise);
 
-              case 4:
-                meeting = meeting || this.meeting;
-                _context.prev = 5;
-                this.store.dispatch({
-                  type: this.actionTypes.initScheduling
-                }); // Validate meeting
+            case 4:
+              meeting = meeting || this.meeting;
+              _context.prev = 5;
+              this.store.dispatch({
+                type: this.actionTypes.initScheduling
+              }); // Validate meeting
 
-                this._validate(meeting);
+              this._validate(meeting);
 
-                formattedMeeting = this._format(meeting);
+              formattedMeeting = this._format(meeting);
 
-                if (this._showSaveAsDefault && meeting.saveAsDefault) {
-                  this._saveAsDefaultSetting(meeting);
-                }
+              if (this._showSaveAsDefault && meeting.saveAsDefault) {
+                this._saveAsDefaultSetting(meeting);
+              }
 
-                this.schedule._promise = Promise.all([this._client.account().extension().meeting().post(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
-                _context.next = 13;
-                return this.schedule._promise;
+              this.schedule._promise = Promise.all([this._client.account().extension().meeting().post(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
+              _context.next = 13;
+              return regeneratorRuntime.awrap(this.schedule._promise);
 
-              case 13:
-                _ref3 = _context.sent;
-                _ref4 = _slicedToArray(_ref3, 2);
-                resp = _ref4[0];
-                serviceInfo = _ref4[1];
-                this.store.dispatch({
-                  type: this.actionTypes.scheduled,
-                  meeting: _objectSpread({}, formattedMeeting, {
-                    _saved: meeting._saved
-                  })
-                });
-                _context.next = 20;
-                return this._createDialingNumberTpl(serviceInfo, resp, opener);
+            case 13:
+              _ref3 = _context.sent;
+              _ref4 = _slicedToArray(_ref3, 2);
+              resp = _ref4[0];
+              serviceInfo = _ref4[1];
+              this.store.dispatch({
+                type: this.actionTypes.scheduled,
+                meeting: _objectSpread({}, formattedMeeting, {
+                  _saved: meeting._saved
+                })
+              });
+              _context.next = 20;
+              return regeneratorRuntime.awrap(this._createDialingNumberTpl(serviceInfo, resp, opener));
 
-              case 20:
-                result = _context.sent;
+            case 20:
+              result = _context.sent;
 
-                // Reload meeting info
-                this._initMeeting(); // Notify user the meeting has been scheduled
+              // Reload meeting info
+              this._initMeeting(); // Notify user the meeting has been scheduled
 
 
-                if (isAlertSuccess) {
-                  setTimeout(function () {
-                    _this3._alert.info({
-                      message: _meetingStatus["default"].scheduledSuccess
-                    });
-                  }, 50);
-                }
+              if (isAlertSuccess) {
+                setTimeout(function () {
+                  _this3._alert.info({
+                    message: _meetingStatus["default"].scheduledSuccess
+                  });
+                }, 50);
+              }
 
-                return _context.abrupt("return", result);
+              return _context.abrupt("return", result);
 
-              case 26:
-                _context.prev = 26;
-                _context.t0 = _context["catch"](5);
-                this.store.dispatch({
-                  type: this.actionTypes.resetScheduling
-                });
+            case 26:
+              _context.prev = 26;
+              _context.t0 = _context["catch"](5);
+              this.store.dispatch({
+                type: this.actionTypes.resetScheduling
+              });
 
-                this._errorHandle(_context.t0);
+              this._errorHandle(_context.t0);
 
-                return _context.abrupt("return", null);
+              return _context.abrupt("return", null);
 
-              case 31:
-                _context.prev = 31;
-                delete this.schedule._promise;
-                return _context.finish(31);
+            case 31:
+              _context.prev = 31;
+              delete this.schedule._promise;
+              return _context.finish(31);
 
-              case 34:
-              case "end":
-                return _context.stop();
-            }
+            case 34:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this, [[5, 26, 31, 34]]);
-      }));
-
-      function schedule(_x) {
-        return _schedule2.apply(this, arguments);
-      }
-
-      return schedule;
-    }()
+        }
+      }, null, this, [[5, 26, 31, 34]]);
+    }
   }, {
     key: "getMeeting",
-    value: function () {
-      var _getMeeting = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(meetingId) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                return _context2.abrupt("return", this._client.account().extension().meeting(meetingId).get());
+    value: function getMeeting(meetingId) {
+      return regeneratorRuntime.async(function getMeeting$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              return _context2.abrupt("return", this._client.account().extension().meeting(meetingId).get());
 
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
+            case 1:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      function getMeeting(_x2) {
-        return _getMeeting.apply(this, arguments);
-      }
-
-      return getMeeting;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "updateMeeting",
-    value: function () {
-      var _updateMeeting = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(meetingId, meeting) {
-        var _this4 = this;
+    value: function updateMeeting(meetingId, meeting) {
+      var _this4 = this;
 
-        var _ref5,
-            _ref5$isAlertSuccess,
-            isAlertSuccess,
-            opener,
-            formattedMeeting,
-            _ref6,
-            _ref7,
-            resp,
-            serviceInfo,
-            result,
-            _args3 = arguments;
+      var _ref5,
+          _ref5$isAlertSuccess,
+          isAlertSuccess,
+          opener,
+          formattedMeeting,
+          _ref6,
+          _ref7,
+          resp,
+          serviceInfo,
+          result,
+          _args3 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _ref5 = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : {}, _ref5$isAlertSuccess = _ref5.isAlertSuccess, isAlertSuccess = _ref5$isAlertSuccess === void 0 ? false : _ref5$isAlertSuccess;
-                opener = _args3.length > 3 ? _args3[3] : undefined;
+      return regeneratorRuntime.async(function updateMeeting$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _ref5 = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : {}, _ref5$isAlertSuccess = _ref5.isAlertSuccess, isAlertSuccess = _ref5$isAlertSuccess === void 0 ? false : _ref5$isAlertSuccess;
+              opener = _args3.length > 3 ? _args3[3] : undefined;
 
-                if (!this._isUpdating(meetingId)) {
-                  _context3.next = 4;
-                  break;
-                }
+              if (!this._isUpdating(meetingId)) {
+                _context3.next = 4;
+                break;
+              }
 
-                return _context3.abrupt("return", this.updateMeeting._promise);
+              return _context3.abrupt("return", this.updateMeeting._promise);
 
-              case 4:
-                meeting = meeting || this.meeting;
-                _context3.prev = 5;
-                this.store.dispatch({
-                  type: this.actionTypes.initUpdating,
-                  meetingId: meetingId
-                }); // Validate meeting
+            case 4:
+              meeting = meeting || this.meeting;
+              _context3.prev = 5;
+              this.store.dispatch({
+                type: this.actionTypes.initUpdating,
+                meetingId: meetingId
+              }); // Validate meeting
 
-                this._validate(meeting);
+              this._validate(meeting);
 
-                formattedMeeting = this._format(meeting);
+              formattedMeeting = this._format(meeting);
 
-                if (this._showSaveAsDefault && meeting.saveAsDefault) {
-                  this._saveAsDefaultSetting(meeting);
-                }
+              if (this._showSaveAsDefault && meeting.saveAsDefault) {
+                this._saveAsDefaultSetting(meeting);
+              }
 
-                this.updateMeeting._promise = Promise.all([this._client.account().extension().meeting(meetingId).put(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
-                _context3.next = 13;
-                return this.updateMeeting._promise;
+              this.updateMeeting._promise = Promise.all([this._client.account().extension().meeting(meetingId).put(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
+              _context3.next = 13;
+              return regeneratorRuntime.awrap(this.updateMeeting._promise);
 
-              case 13:
-                _ref6 = _context3.sent;
-                _ref7 = _slicedToArray(_ref6, 2);
-                resp = _ref7[0];
-                serviceInfo = _ref7[1];
-                this.store.dispatch({
-                  type: this.actionTypes.updated,
-                  meeting: _objectSpread({}, formattedMeeting, {
-                    _saved: meeting._saved
-                  }),
-                  meetingId: meetingId
-                });
-                _context3.next = 20;
-                return this._createDialingNumberTpl(serviceInfo, resp, opener);
+            case 13:
+              _ref6 = _context3.sent;
+              _ref7 = _slicedToArray(_ref6, 2);
+              resp = _ref7[0];
+              serviceInfo = _ref7[1];
+              this.store.dispatch({
+                type: this.actionTypes.updated,
+                meeting: _objectSpread({}, formattedMeeting, {
+                  _saved: meeting._saved
+                }),
+                meetingId: meetingId
+              });
+              _context3.next = 20;
+              return regeneratorRuntime.awrap(this._createDialingNumberTpl(serviceInfo, resp, opener));
 
-              case 20:
-                result = _context3.sent;
+            case 20:
+              result = _context3.sent;
 
-                // Reload meeting info
-                this._initMeeting(); // Notify user the meeting has been updated
+              // Reload meeting info
+              this._initMeeting(); // Notify user the meeting has been updated
 
 
-                if (isAlertSuccess) {
-                  setTimeout(function () {
-                    _this4._alert.info({
-                      message: _meetingStatus["default"].updatedSuccess
-                    });
-                  }, 50);
-                }
+              if (isAlertSuccess) {
+                setTimeout(function () {
+                  _this4._alert.info({
+                    message: _meetingStatus["default"].updatedSuccess
+                  });
+                }, 50);
+              }
 
-                return _context3.abrupt("return", result);
+              return _context3.abrupt("return", result);
 
-              case 26:
-                _context3.prev = 26;
-                _context3.t0 = _context3["catch"](5);
-                this.store.dispatch({
-                  type: this.actionTypes.resetUpdating,
-                  meetingId: meetingId
-                });
-                return _context3.abrupt("return", this._errorHandle(_context3.t0));
+            case 26:
+              _context3.prev = 26;
+              _context3.t0 = _context3["catch"](5);
+              this.store.dispatch({
+                type: this.actionTypes.resetUpdating,
+                meetingId: meetingId
+              });
+              return _context3.abrupt("return", this._errorHandle(_context3.t0));
 
-              case 30:
-                _context3.prev = 30;
-                delete this.updateMeeting._promise;
-                return _context3.finish(30);
+            case 30:
+              _context3.prev = 30;
+              delete this.updateMeeting._promise;
+              return _context3.finish(30);
 
-              case 33:
-              case "end":
-                return _context3.stop();
-            }
+            case 33:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this, [[5, 26, 30, 33]]);
-      }));
-
-      function updateMeeting(_x3, _x4) {
-        return _updateMeeting.apply(this, arguments);
-      }
-
-      return updateMeeting;
-    }()
+        }
+      }, null, this, [[5, 26, 30, 33]]);
+    }
   }, {
     key: "_createDialingNumberTpl",
-    value: function () {
-      var _createDialingNumberTpl2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(serviceInfo, resp, opener) {
-        var result;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                serviceInfo.mobileDialingNumberTpl = (0, _meetingHelper.getMobileDialingNumberTpl)(serviceInfo.dialInNumbers, resp.id);
-                serviceInfo.phoneDialingNumberTpl = (0, _meetingHelper.getPhoneDialingNumberTpl)(serviceInfo.dialInNumbers);
-                result = {
-                  meeting: resp,
-                  serviceInfo: serviceInfo,
-                  extensionInfo: this.extensionInfo
-                };
+    value: function _createDialingNumberTpl(serviceInfo, resp, opener) {
+      var result;
+      return regeneratorRuntime.async(function _createDialingNumberTpl$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              serviceInfo.mobileDialingNumberTpl = (0, _meetingHelper.getMobileDialingNumberTpl)(serviceInfo.dialInNumbers, resp.id);
+              serviceInfo.phoneDialingNumberTpl = (0, _meetingHelper.getPhoneDialingNumberTpl)(serviceInfo.dialInNumbers);
+              result = {
+                meeting: resp,
+                serviceInfo: serviceInfo,
+                extensionInfo: this.extensionInfo
+              };
 
-                if (!(typeof this.scheduledHook === 'function')) {
-                  _context4.next = 6;
-                  break;
-                }
-
+              if (!(typeof this.scheduledHook === 'function')) {
                 _context4.next = 6;
-                return this.scheduledHook(result, opener);
+                break;
+              }
 
-              case 6:
-                return _context4.abrupt("return", result);
+              _context4.next = 6;
+              return regeneratorRuntime.awrap(this.scheduledHook(result, opener));
 
-              case 7:
-              case "end":
-                return _context4.stop();
-            }
+            case 6:
+              return _context4.abrupt("return", result);
+
+            case 7:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee4, this);
-      }));
-
-      function _createDialingNumberTpl(_x5, _x6, _x7) {
-        return _createDialingNumberTpl2.apply(this, arguments);
-      }
-
-      return _createDialingNumberTpl;
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "_errorHandle",
     value: function _errorHandle(errors) {
