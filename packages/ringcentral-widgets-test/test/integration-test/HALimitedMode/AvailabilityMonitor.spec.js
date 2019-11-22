@@ -182,6 +182,6 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
     await timeout((waitingSeconds + 1.5) * 1000);
     wrapper.update();
 
-    expect(wrapper.find(ConnectivityBadge).text()).toEqual(null);
+    expect(wrapper.find(ConnectivityBadge).text()).toEqual('');
   });
 });
