@@ -16,7 +16,11 @@ function mapToProps(_, { phone: { locale, contacts } }) {
 function mapToFunctions(
   _,
   {
-    phone: { routerInteraction, contacts },
+    phone: {
+      //
+      contacts,
+      contactDetailsUI,
+    },
     onItemSelect,
     onVisitPage,
     onRefresh,
@@ -32,7 +36,9 @@ function mapToFunctions(
     onItemSelect:
       onItemSelect ||
       (async ({ type, id }) => {
-        routerInteraction.push(`/contacts/${type}/${id}`);
+        if (contactDetailsUI) {
+          contactDetailsUI.showContactDetails({ type, id });
+        }
       }),
     onSearchContact({ searchSource, searchString }) {
       contacts.updateFilter({

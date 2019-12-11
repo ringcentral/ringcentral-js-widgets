@@ -1,7 +1,7 @@
 import formatMessage from 'format-message';
 import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
+import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import { selector } from 'ringcentral-integration/lib/selector';

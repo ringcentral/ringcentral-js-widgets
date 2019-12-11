@@ -17,6 +17,7 @@ function ForwardNumbers({ numbers, onSelect, selected, formatPhone }) {
       {numbers.map((number, index) => (
         <div
           key={number.id}
+          data-sign={`forward-number-${number.label.toLowerCase()}`}
           className={classnames(
             styles.number,
             index === selected ? styles.active : null,
@@ -150,7 +151,9 @@ export default class ForwardForm extends Component {
     const value = this.getValue();
     const disableButton = isBlank(value) || this.state.handling;
     return (
-      <div className={classnames(styles.root, className)}>
+      <div
+        data-sign="forwardPage"
+        className={classnames(styles.root, className)}>
         <ForwardNumbers
           formatPhone={formatPhone}
           numbers={forwardingNumbers}
@@ -158,6 +161,7 @@ export default class ForwardForm extends Component {
           selected={this.state.selectedIndex}
         />
         <div
+          data-sign="customNumber"
           className={classnames(
             styles.custromNumber,
             this.state.selectedIndex === forwardingNumbers.length
@@ -193,10 +197,15 @@ export default class ForwardForm extends Component {
           />
         </div>
         <div className={styles.buttonGroup}>
-          <Button className={styles.cancelButton} onClick={onCancel}>
+          <Button
+            dataSign="cancel"
+            className={styles.cancelButton}
+            onClick={onCancel}
+          >
             {i18n.getString('cancel', currentLocale)}
           </Button>
           <Button
+            dataSign="forwardCall"
             className={classnames(
               styles.forwardButton,
               disableButton ? styles.disabled : null,

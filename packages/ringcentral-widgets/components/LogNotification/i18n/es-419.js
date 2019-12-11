@@ -2,7 +2,7 @@ export default {
   confirmationInfo: "Se perderán los cambios que no haya guardado en la llamada anterior, ¿seguro que desea trabajar en una nueva llamada?",
   log: "Registro",
   save: "Guardar y trabajar en nueva llamada",
-  discard: "Descartar y nuevo",
+  discard: "Descartar y trabajar en nueva llamada",
   stay: "Permanecer"
 };
 

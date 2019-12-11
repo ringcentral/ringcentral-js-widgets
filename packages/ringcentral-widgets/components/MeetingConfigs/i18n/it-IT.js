@@ -14,10 +14,14 @@ export default {
   meetingOptions: "Opzioni riunione",
   requirePassword: "Richiedi password riunione",
   password: "Password",
-  enableJoinBeforeHost: "Ingresso prima del moderatore",
+  enableJoinBeforeHost: "Consenti ingresso prima del moderatore",
   telephonyOnly: "Solo telefonia",
   hostVideoOn: "Video moderatore attivato",
-  participantVideoOn: "Video partecipante attivato"
+  participantVideoOn: "Video partecipante attivato",
+  recurringEvery: "Ogni",
+  recurrenceType: "Tipo di ricorrenza",
+  recurrenceEndDate: "Data di fine",
+  currentLocale: "Giorno/i"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -39,3 +43,7 @@ export default {
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
 // @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+// @key: @#@"recurringEvery"@#@ @source: @#@"Every"@#@
+// @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
+// @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
+// @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@

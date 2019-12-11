@@ -28,7 +28,8 @@ export default {
   hold: "Mettre en attente",
   unhold: "Reprendre l'appel",
   transfer: "Transférer",
-  reject: "Rejeter"
+  reject: "Rejeter",
+  switchCall: "Transférer l'appel sur cette application"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -61,3 +62,4 @@ export default {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@

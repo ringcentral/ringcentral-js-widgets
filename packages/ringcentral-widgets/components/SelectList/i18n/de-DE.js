@@ -1,6 +1,6 @@
 export default {
   matched: "Entsprechung gefunden",
-  other: "Sonstiges"
+  other: "Andere"
 };
 
 // @key: @#@"matched"@#@ @source: @#@"Matched"@#@

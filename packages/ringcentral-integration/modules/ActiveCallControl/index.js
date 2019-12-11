@@ -121,7 +121,7 @@ export default class ActiveCallControl extends Pollable {
       });
     } else if (this._shouldReset()) {
       this._resetModuleStatus();
-    } else if (this.ready) {
+    } else if (this.ready && this._hasPermission) {
       this._subscriptionHandler();
       this._checkConnectivity();
       this._checkTabActive();

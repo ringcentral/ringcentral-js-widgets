@@ -15,7 +15,7 @@ export default {
   others: "その他",
   subject: "件名",
   subjectPlaceHolder: "どんなサポートが必要ですか",
-  description: "詳細",
+  description: "詳細説明",
   descriptionPlaceHolder: "できるだけ詳しくご記入ください",
   send: "フィードバックを送信"
 };

@@ -2,7 +2,7 @@ import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErr
 export default {
   [webphoneErrors.connectFailed]: "申し訳ございません。現在、電話機能は使用できません。後でやり直してください。 ",
   [webphoneErrors.connected]: "ウェブ電話は登録されています。",
-  [webphoneErrors.browserNotSupported]: "申し訳ございません。このブラウザを使用して通話を行うことはできません。",
+  [webphoneErrors.browserNotSupported]: "申し訳ございません。このブラウザーを使用して通話を行うことはできません。",
   [webphoneErrors.webphoneCountOverLimit]: "登録できるウェブ電話は最大5台です。",
   [webphoneErrors.checkDLError]: "外線通話ができません。このエラーが表示され続ける場合は、{brandName} サポートにお問い合わせください。",
   [webphoneErrors.noOutboundCallWithoutDL]: "お使いの内線は、現在、ブラウザーを使用した通話発信を許可されていません。アップグレードについてアカウント担当者にお問い合わせください。",

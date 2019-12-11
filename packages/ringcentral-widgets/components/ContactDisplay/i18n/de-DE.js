@@ -2,7 +2,7 @@ export default {
   logging: "Protokollierung ...",
   logCall: "Anruf protokollieren",
   editLog: "Protokoll bearbeiten",
-  select: "Übereinstimmende/s/n auswählen",
+  select: "Passend wählen",
   OnHold: "Gehalten",
   Ringing: "Es wird angerufen",
   CallConnected: "Anruf verbunden",

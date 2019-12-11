@@ -1,7 +1,7 @@
 export default {
   allCalls: "所有通话",
   Unknown: "未知",
-  Multiple: "多选"
+  Multiple: "多个"
 };
 
 // @key: @#@"allCalls"@#@ @source: @#@"All calls"@#@

@@ -3,8 +3,8 @@ export default {
   when: "時間",
   duration: "持續時間",
   recurringMeeting: "定期會議",
-  recurringDescribe: "請記得確認發送給列席者的行事曆邀請中的定期或重複會議。",
-  video: "影像",
+  recurringDescribe: "請記得確認傳送給列席者的行事曆邀請中的定期或重複會議。",
+  video: "視訊",
   videoDescribe: "加入會議時",
   host: "主持人視訊開啟",
   participants: "參與者視訊開啟",
@@ -17,7 +17,11 @@ export default {
   enableJoinBeforeHost: "允許在主持人進入會議前加入",
   telephonyOnly: "僅電話",
   hostVideoOn: "主持人視訊開啟",
-  participantVideoOn: "參與者視訊開啟"
+  participantVideoOn: "參與者視訊開啟",
+  recurringEvery: "每個",
+  recurrenceType: "重復類型",
+  recurrenceEndDate: "結束日期",
+  currentLocale: "日"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -39,3 +43,7 @@ export default {
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
 // @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+// @key: @#@"recurringEvery"@#@ @source: @#@"Every"@#@
+// @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
+// @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
+// @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@

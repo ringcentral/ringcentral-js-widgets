@@ -10,6 +10,7 @@ import RcUIModule from '../../lib/RcUIModule';
   deps: [
     'Brand',
     { dep: 'CallLogger', optional: true },
+    { dep: 'ContactDetailsUI', optional: true },
     'CallMonitor',
     'Locale',
     'RegionSettings',
@@ -44,6 +45,7 @@ export default class ActiveCallsUI extends RcUIModule {
     composeText,
     contactSearch,
     contactMatcher,
+    contactDetailsUI,
     ...options
   }) {
     super({
@@ -65,6 +67,7 @@ export default class ActiveCallsUI extends RcUIModule {
     this._composeText = composeText;
     this._contactSearch = contactSearch;
     this._contactMatcher = contactMatcher;
+    this._contactDetailsUI = contactDetailsUI;
   }
 
   getUIProps({
@@ -207,7 +210,13 @@ export default class ActiveCallsUI extends RcUIModule {
         ? onViewContact ||
           (({ contact }) => {
             const { id, type } = contact;
-            this._routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
+            if (this._contactDetailsUI) {
+              this._contactDetailsUI.showContactDetails({
+                type,
+                id,
+                direct: true,
+              });
+            }
           })
         : null,
       onClickToSms: this._composeText

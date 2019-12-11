@@ -17,7 +17,6 @@ import Call from 'ringcentral-integration/modules/Call';
 import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
 import CallCtrlUI from 'ringcentral-widgets/modules/CallCtrlUI';
 import Contacts from 'ringcentral-integration/modules/Contacts';
-import ContactDetails from 'ringcentral-integration/modules/ContactDetails';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import DialingPlan from 'ringcentral-integration/modules/DialingPlan';
 import ExtensionDevice from 'ringcentral-integration/modules/ExtensionDevice';
@@ -67,7 +66,7 @@ import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ConferenceUI from 'ringcentral-widgets/modules/ConferenceUI';
 import MeetingUI from 'ringcentral-widgets/modules/MeetingUI';
-import ContactDetailsUI from 'ringcentral-widgets/modules/ContactDetailsUI';
+import { ContactDetailsUI } from 'ringcentral-widgets/modules/ContactDetailsUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 import AudioSettingsUI from 'ringcentral-widgets/modules/AudioSettingsUI';
 import RegionSettingsUI from 'ringcentral-widgets/modules/RegionSettingsUI';
@@ -92,6 +91,7 @@ import UserGuideUI from 'ringcentral-widgets/modules/UserGuideUI';
 import { hashHistory } from 'react-router';
 import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 import FlipUI from 'ringcentral-widgets/modules/FlipUI';
+import TransferUI from 'ringcentral-widgets/modules/TransferUI';
 
 const history =
   global.process &&
@@ -170,7 +170,6 @@ const history =
         accountContacts,
       ],
     },
-    { provide: 'ContactDetails', useClass: ContactDetails },
     { provide: 'ContactMatcher', useClass: ContactMatcher },
     { provide: 'RecentMessages', useClass: RecentMessages },
     { provide: 'RecentCalls', useClass: RecentCalls },
@@ -193,6 +192,7 @@ const history =
     { provide: 'FlipUI', useClass: FlipUI },
     { provide: 'CallBadgeUI', useClass: CallBadgeUI },
     { provide: 'CallHistoryUI', useClass: CallHistoryUI },
+    { provide: 'TransferUI', useClass: TransferUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
     { provide: 'ActiveCallControl', useClass: ActiveCallControl },

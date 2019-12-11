@@ -1,4 +1,3 @@
-import AnimationAlert from '../../components/AnimationAlert';
-import { connectModule } from '../../lib/phoneContext';
+import AlertContainer from './AlertContainer';
 
-export default connectModule((phone) => phone.alertUI)(AnimationAlert);
+export default AlertContainer;

@@ -5,6 +5,7 @@ import DropdownSelect from '../DropdownSelect';
 import styles from './styles.scss';
 
 import i18n from './i18n';
+import map from 'ramda/es/map';
 
 function PhoneNumber({ formatPhone, usageType, currentLocale, phoneNumber }) {
   const usageTypeDom = usageType ? (

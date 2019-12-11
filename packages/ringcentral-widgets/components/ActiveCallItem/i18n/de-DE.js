@@ -28,7 +28,8 @@ export default {
   hold: "Halten",
   unhold: "Gehaltenen Anruf annehmen",
   transfer: "Weiterleitung",
-  reject: "Ablehnen"
+  reject: "Ablehnen",
+  switchCall: "Anruf zu dieser App wechseln"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -61,3 +62,4 @@ export default {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@

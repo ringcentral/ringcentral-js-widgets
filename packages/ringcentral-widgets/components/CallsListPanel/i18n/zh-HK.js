@@ -2,7 +2,7 @@ export default {
   noActiveCalls: "無使用中通話",
   noCalls: "找不到結果。",
   currentCall: "目前通話",
-  ringCall: "響鈴中通話",
+  ringCall: "撥打中通話",
   onHoldCall: "通話等待接通",
   historyCalls: "過去的通話",
   otherDeviceCall: "我的其他裝置上仍有進行中通話",

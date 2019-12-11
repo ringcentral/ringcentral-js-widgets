@@ -7,7 +7,6 @@ const DEFAULT_REGION_SETTINGS_URL = '/settings/region';
 const DEFAULT_CALLING_SETTINGS_URL = '/settings/calling';
 const DEFAULT_AUDIO_SETTINGS_URL = '/settings/audio';
 const DEFAULT_FEEDBACK_SETTINGS_URL = '/settings/feedback';
-const DEFAULT_MSTEAMS_SETTINGS_URL = '/settings/msteams';
 
 @Module({
   name: 'SettingsUI',
@@ -71,7 +70,6 @@ export default class SettingsUI extends RcUIModule {
     showFeedback = true,
     showUserGuide = true,
     showPresenceSettings = true,
-    showMsteamsSettings = false,
     showQuickAccess = false,
     params,
   }) {
@@ -97,7 +95,6 @@ export default class SettingsUI extends RcUIModule {
       loginNumber,
       showFeedback,
       showQuickAccess,
-      showMsteamsSettings,
       showSpinner: !(
         accountInfo.ready &&
         auth.ready &&
@@ -147,7 +144,6 @@ export default class SettingsUI extends RcUIModule {
     callingSettingsUrl = DEFAULT_CALLING_SETTINGS_URL,
     audioSettingsUrl = DEFAULT_AUDIO_SETTINGS_URL,
     feedbackSettingsUrl = DEFAULT_FEEDBACK_SETTINGS_URL,
-    msteamsSettingsUrl = DEFAULT_MSTEAMS_SETTINGS_URL,
     phone: {
       auth,
       presence,
@@ -172,9 +168,6 @@ export default class SettingsUI extends RcUIModule {
       },
       onFeedbackSettingsLinkClick() {
         routerInteraction.push(feedbackSettingsUrl);
-      },
-      onMsteamsSettingsLinkClick() {
-        routerInteraction.push(msteamsSettingsUrl);
       },
       onUserGuideClick() {
         userGuide.start();

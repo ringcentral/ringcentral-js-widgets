@@ -5,7 +5,7 @@ export default {
   select: "Sélectionner un enregistrement correspondant",
   OnHold: "En attente",
   Ringing: "Sonnerie en cours",
-  CallConnected: "Appel établi",
+  CallConnected: "Appel connecté",
   unknownUser: "Utilisateur inconnu",
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",
@@ -28,7 +28,8 @@ export default {
   hold: "Mettre en attente",
   unhold: "Reprendre l'appel",
   transfer: "Transfert",
-  reject: "Rejeter"
+  reject: "Rejeter",
+  switchCall: "Transférer l'appel à cette application"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -61,3 +62,4 @@ export default {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@

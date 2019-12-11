@@ -1,7 +1,7 @@
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 export default {
-  title: "正在撥號",
-  [callingOptions.softphone]: "桌面版 {brand}",
+  title: "撥號",
+  [callingOptions.softphone]: "{brand} 桌面版",
   [callingOptions.myphone]: "我的 {brand} 電話",
   [callingOptions.otherphone]: "其他電話",
   [callingOptions.customphone]: "自訂電話",

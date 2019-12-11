@@ -9,7 +9,7 @@ export type CurrentSession = {
   direction: any;
 };
 
-interface CallLogCallCtrlPropsTypes {
+export interface CallLogCallCtrlProps {
   currentLocale?: string;
   currentSession?: CurrentSession;
   telephonySessionId?: string;
@@ -23,17 +23,19 @@ interface CallLogCallCtrlPropsTypes {
   onTransfer: (telephonySessionId: string) => any;
   isWide?: boolean;
   disableLinks?: boolean;
+  transferRef?: React.RefObject<HTMLSpanElement>;
+  isOnTransfer?: boolean;
 }
 
-const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlPropsTypes> = (
-  props,
-) => {
+const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (props) => {
   const {
     currentLocale,
     telephonySessionId,
     disableLinks,
     isWide,
     currentSession,
+    transferRef,
+    isOnTransfer,
   } = props;
   if (!currentSession) {
     return null;
@@ -54,6 +56,8 @@ const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlPropsTypes> = (
       currentLocale={currentLocale}
       disableLinks={disableLinks}
       isWide={isWide}
+      transferRef={transferRef}
+      isOnTransfer={isOnTransfer}
     />
   );
 };
@@ -65,6 +69,8 @@ CallLogCallCtrl.defaultProps = {
   status: '',
   disableLinks: false,
   isWide: true,
+  transferRef: undefined,
+  isOnTransfer: false,
 };
 
 export default CallLogCallCtrl;

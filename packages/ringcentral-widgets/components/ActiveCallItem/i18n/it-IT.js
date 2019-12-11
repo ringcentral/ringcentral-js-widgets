@@ -28,7 +28,8 @@ export default {
   hold: "Attesa",
   unhold: "Riprendi",
   transfer: "Trasferisci",
-  reject: "Rifiuta"
+  reject: "Rifiuta",
+  switchCall: "Passa chiamata su questa app"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -61,3 +62,4 @@ export default {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@

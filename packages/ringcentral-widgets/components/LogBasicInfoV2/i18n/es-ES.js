@@ -2,8 +2,8 @@ import callResults from 'ringcentral-integration/enums/callResults';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 export default {
-  [callDirections.inbound]: "Entrantes",
-  [callDirections.outbound]: "Salientes",
+  [callDirections.inbound]: "Entrante",
+  [callDirections.outbound]: "Saliente",
   status: "Estado:",
   InboundNumber: "ID de llamadas:",
   OutboundNumber: "Llamada de:",

@@ -1,3 +1,4 @@
+import { EvManualDialSettingsUI } from '../../../packages/engage-voice-widget/modules/EvManualDialSettingsUI';
 import AlertUI from '../../ringcentral-widgets/modules/AlertUI';
 import ConnectivityBadgeUI from '../../ringcentral-widgets/modules/ConnectivityBadgeUI';
 import ConnectivityManager from '../../ringcentral-widgets/modules/ConnectivityManager';
@@ -43,12 +44,13 @@ export interface BasePhone {
   storage: Storage;
   availabilityMonitor: AvailabilityMonitor;
   oAuth: OAuth;
-  settingsUI: SettingsUI;
-  connectivityManager: ConnectivityManager;
-  connectivityBadgeUI: ConnectivityBadgeUI;
   routerInteraction: RouterInteraction;
+  connectivityManager: ConnectivityManager;
+  settingsUI: SettingsUI;
+  connectivityBadgeUI: ConnectivityBadgeUI;
   loginUI: LoginUI;
   alertUI: AlertUI;
   regionSettingsUI: RegionSettingsUI;
+  evManualDialSettingsUI: EvManualDialSettingsUI;
   [P: string]: any;
 }

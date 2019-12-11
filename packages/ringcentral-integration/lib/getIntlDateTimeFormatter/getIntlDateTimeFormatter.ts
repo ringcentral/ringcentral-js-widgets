@@ -49,7 +49,6 @@ export default function getIntlDateTimeFormatter({
       case 'time':
         return getFormatter(locale, timeOptions).format(new Date(utcTimestamp));
       default:
-        console.log('data time');
         return getFormatter(locale, dateTimeOptions).format(
           new Date(utcTimestamp),
         );

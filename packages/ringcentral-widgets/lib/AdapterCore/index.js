@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { prefixEnum } from 'ringcentral-integration/lib/Enum';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import debounce from 'ringcentral-integration/lib/debounce';
-import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
+import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import formatDuration from '../formatDuration';
 import baseMessageTypes from './baseMessageTypes';

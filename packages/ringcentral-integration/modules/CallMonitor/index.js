@@ -22,6 +22,7 @@ import { selector } from '../../lib/selector';
 
 import {
   isRinging,
+  isInbound,
   hasRingingCalls,
   sortByStartTime,
   isRingingInboundCall,
@@ -259,12 +260,24 @@ export default class CallMonitor extends RcModule {
             const oldCall = oldCalls[oldCallIndex];
             oldCalls.splice(oldCallIndex, 1);
             if (
-              (call.telephonyStatus !== oldCall.telephonyStatus ||
-                (oldCall.from && oldCall.from.phoneNumber) !==
-                  (call.from && call.from.phoneNumber)) &&
-              typeof this._onCallUpdated === 'function'
+              call.telephonyStatus !== oldCall.telephonyStatus ||
+              (oldCall.from && oldCall.from.phoneNumber) !==
+                (call.from && call.from.phoneNumber)
             ) {
-              this._onCallUpdated(call);
+              if (typeof this._onCallUpdated === 'function') {
+                this._onCallUpdated(call);
+              }
+              if (call.telephonyStatus === 'CallConnected') {
+                if (isInbound(call)) {
+                  this.store.dispatch({
+                    type: this.actionTypes.inboundCallConnectedTrack,
+                  });
+                } else {
+                  this.store.dispatch({
+                    type: this.actionTypes.outboundCallConnectedTrack,
+                  });
+                }
+              }
             }
           }
           find((entity, index) => {

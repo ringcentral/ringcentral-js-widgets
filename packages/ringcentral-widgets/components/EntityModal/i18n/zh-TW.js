@@ -1,9 +1,9 @@
 export default {
   account: "帳戶",
-  contact: "通訊錄",
-  lead: "主管",
-  opportunity: "機會",
-  chooseEntity: "請選擇組織類型",
+  contact: "連絡人",
+  lead: "潛在客戶",
+  opportunity: "業務機會",
+  chooseEntity: "請選取實體類型",
   create: "建立"
 };
 

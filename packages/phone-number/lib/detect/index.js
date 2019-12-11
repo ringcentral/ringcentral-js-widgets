@@ -1,5 +1,5 @@
-import { findPhoneNumbers } from 'libphonenumber-js';
-import { forEach, find } from 'ramda';
+import { findNumbers } from 'libphonenumber-js';
+import { forEach, find, map } from 'ramda';
 import parse from '../parse';
 
 function find7DigitNumbers(input, countryCode) {
@@ -17,7 +17,7 @@ function find7DigitNumbers(input, countryCode) {
       if (isValid && !hasPlus && phoneNumber.length === 7) {
         output.push({
           country: countryCode,
-          phone: phoneNumber,
+          phoneNumber,
           startsAt: match.index,
           endsAt: match.index + match[0].length,
         });
@@ -32,7 +32,19 @@ function byStartsAt(a, b) {
 }
 
 export default function detect({ input, countryCode = 'US', areaCode = '' }) {
-  const output = findPhoneNumbers(input, countryCode);
+  const output = map(
+    (item) => ({
+      phoneNumber: item.number.number,
+      country: item.number.country,
+      nationalNumber: item.number.nationalNumber,
+      ext: item.number.ext,
+      startsAt: item.startsAt,
+      endsAt: item.endsAt,
+    }),
+    findNumbers(input, countryCode, {
+      v2: true,
+    }),
+  );
   if ((countryCode === 'US' || countryCode === 'CA') && areaCode.length === 3) {
     const sevenDigits = find7DigitNumbers(input, countryCode);
     if (sevenDigits.length) {

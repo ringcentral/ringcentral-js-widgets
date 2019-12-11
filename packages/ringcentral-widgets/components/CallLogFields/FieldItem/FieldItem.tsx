@@ -9,14 +9,10 @@ import React, { Component } from 'react';
 
 import { setUTCTime } from '../../../lib/timeFormatHelper';
 import InputSelect from '../../InputSelect';
-import { CustomArrowButton } from '../../Rcui/CustomButton';
+import { CustomArrowButton } from '../../Rcui/CustomArrowButton';
 import { SelectList } from '../../SelectList';
 import { CallLogFieldsProps, FieldMetadata } from '../CallLogFields.interface';
-import {
-  FieldItemOption,
-  FieldsMap,
-  PickListOption,
-} from './FieldItem.interface';
+import { FieldItemOption, FieldsMap } from './FieldItem.interface';
 import styles from './styles.scss';
 import { LogFieldsInput } from './utils';
 
@@ -206,8 +202,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
 
   private renderSubjectField = () => {
     const {
-      currentLog: { task, type, subjectPicklist },
-      currentLocale,
+      currentLog: { task, subjectPicklist },
       subjectDropdownsTracker,
       timeout,
     } = this.props;
@@ -217,9 +212,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     } = this.props;
     return (
       <InputSelect
-        type={type}
         required={required}
-        currentLocale={currentLocale}
         subjectPicklist={subjectPicklist}
         subject={task.subject || ''}
         onChange={this.onInputSelectChange('subject')}

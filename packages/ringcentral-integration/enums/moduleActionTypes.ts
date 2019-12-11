@@ -14,9 +14,4 @@ export const moduleActionTypes = createEnum([
   'resetSuccess',
 ]);
 
-export interface ModuleActionTypes {
-  init: string;
-  initSuccess: string;
-  reset: string;
-  resetSuccess: string;
-}
+export type ModuleActionTypes = Record<keyof typeof moduleActionTypes, string>;

@@ -18,4 +18,8 @@ export default {
   telephonyOnly: 'Telephony Only',
   hostVideoOn: 'Host Video On',
   participantVideoOn: 'Participant Video On',
+  recurringEvery: 'Every',
+  recurrenceType: 'Recurrence Type',
+  recurrenceEndDate: 'End Date',
+  currentLocale: 'Day(s)',
 };

@@ -2,7 +2,7 @@ export default {
   logging: "Connexion en cours...",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
-  select: "Sélectionner une correspondance",
+  select: "Sélec. corresp.",
   OnHold: "En attente",
   Ringing: "Sonnerie en cours",
   CallConnected: "Appel établi",

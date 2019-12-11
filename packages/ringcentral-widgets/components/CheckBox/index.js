@@ -90,6 +90,7 @@ CheckBox.propTypes = {
   dataSign: PropTypes.string,
   type: PropTypes.string,
   onChecked: PropTypes.func,
+  checked: PropTypes.bool,
 };
 
 CheckBox.defaultProps = {
@@ -102,6 +103,7 @@ CheckBox.defaultProps = {
   onSelect() {},
   data: [],
   selected: null,
+  checked: false,
 };
 
 export default CheckBox;

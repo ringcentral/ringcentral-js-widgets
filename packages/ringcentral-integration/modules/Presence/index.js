@@ -9,7 +9,7 @@ import debounce from '../../lib/debounce';
 import { getDataReducer } from './getPresenceReducer';
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import dndStatus from './dndStatus';
-import presenceStatus from './presenceStatus';
+import { presenceStatus } from '../../enums/presenceStatus.enum';
 import proxify from '../../lib/proxy/proxify';
 import ensureExist from '../../lib/ensureExist';
 

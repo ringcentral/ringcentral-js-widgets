@@ -17,7 +17,11 @@ export default {
   enableJoinBeforeHost: "允许在主持人进入会议前加入",
   telephonyOnly: "仅电话",
   hostVideoOn: "主持人视频开启",
-  participantVideoOn: "参与者视频开启"
+  participantVideoOn: "参与者视频开启",
+  recurringEvery: "每一个",
+  recurrenceType: "重复类型",
+  recurrenceEndDate: "结束日期",
+  currentLocale: "天"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -39,3 +43,7 @@ export default {
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
 // @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+// @key: @#@"recurringEvery"@#@ @source: @#@"Every"@#@
+// @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
+// @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
+// @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@

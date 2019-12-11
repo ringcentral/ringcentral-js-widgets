@@ -1,5 +1,5 @@
 export default {
-  schedule: "安排视频会议",
+  schedule: "计划会议",
   prompt: "请授权 RingCentral 访问您的帐户信息。",
   saveAsDefault: "保存为默认值",
   launchMeeting: "启动会议"

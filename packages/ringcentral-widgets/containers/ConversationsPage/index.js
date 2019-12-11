@@ -97,6 +97,7 @@ export function mapToFunctions(
       call,
       dialerUI,
       routerInteraction,
+      contactDetailsUI,
       composeText,
       contactSearch,
       rolesAndPermissions,
@@ -120,7 +121,9 @@ export function mapToFunctions(
     onViewContact: showViewContact
       ? onViewContact ||
         (({ contact: { id, type } }) => {
-          routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
+          if (contactDetailsUI) {
+            contactDetailsUI.showContactDetails({ id, type, direct: true });
+          }
         })
       : null,
     onCreateContact: onCreateContact
