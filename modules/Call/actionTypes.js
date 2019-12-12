@@ -29,11 +29,9 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _Enum = require("../../lib/Enum");
 
 var _moduleActionTypes = require("../../enums/moduleActionTypes");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -43,7 +41,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var _default = new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), ['toNumberChanged', 'toNumberMatched', 'cleanToNumberEntities', 'updateFromNumber', 'connect', 'connectSuccess', 'connectError']), 'callActionTypes');
+var _default = (0, _Enum.createEnum)([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), ['toNumberChanged', 'toNumberMatched', 'cleanToNumberEntities', 'updateFromNumber', 'connect', 'connectSuccess', 'connectError']), 'callActionTypes');
 
 exports["default"] = _default;
 //# sourceMappingURL=actionTypes.js.map

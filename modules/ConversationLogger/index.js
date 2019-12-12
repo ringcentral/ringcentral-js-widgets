@@ -231,8 +231,8 @@ function (_LoggerBase) {
     _this._accordWithLogRequirement = accordWithLogRequirement;
     _this._storageKey = "".concat(_this._name, "Data");
 
-    _this._messageStore.onMessageUpdated(function () {
-      _this._processConversationLogMap();
+    _this._messageStore.onMessageUpdated(function (record) {
+      _this._processConversationLogMap(record);
     });
 
     _this._storage.registerReducer({

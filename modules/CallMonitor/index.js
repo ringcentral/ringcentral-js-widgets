@@ -384,8 +384,22 @@ function (_RcModule) {
                       var oldCall = oldCalls[oldCallIndex];
                       oldCalls.splice(oldCallIndex, 1);
 
-                      if ((call.telephonyStatus !== oldCall.telephonyStatus || (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)) && typeof _this2._onCallUpdated === 'function') {
-                        _this2._onCallUpdated(call);
+                      if (call.telephonyStatus !== oldCall.telephonyStatus || (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)) {
+                        if (typeof _this2._onCallUpdated === 'function') {
+                          _this2._onCallUpdated(call);
+                        }
+
+                        if (call.telephonyStatus === 'CallConnected') {
+                          if ((0, _callLogHelpers.isInbound)(call)) {
+                            _this2.store.dispatch({
+                              type: _this2.actionTypes.inboundCallConnectedTrack
+                            });
+                          } else {
+                            _this2.store.dispatch({
+                              type: _this2.actionTypes.outboundCallConnectedTrack
+                            });
+                          }
+                        }
                       }
                     }
 

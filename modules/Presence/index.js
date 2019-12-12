@@ -73,7 +73,7 @@ var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscript
 
 var _dndStatus = _interopRequireDefault(require("./dndStatus"));
 
-var _presenceStatus = _interopRequireDefault(require("./presenceStatus"));
+var _presenceStatus = require("../../enums/presenceStatus.enum");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
@@ -350,7 +350,7 @@ function (_DataFetcher) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              if (!(this.userStatus === _presenceStatus["default"].available && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
+              if (!(this.userStatus === _presenceStatus.presenceStatus.available && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
                 _context5.next = 2;
                 break;
               }
@@ -358,7 +358,7 @@ function (_DataFetcher) {
               return _context5.abrupt("return");
 
             case 2:
-              params = this._getUpdateStatusParams(_presenceStatus["default"].available);
+              params = this._getUpdateStatusParams(_presenceStatus.presenceStatus.available);
               _context5.next = 5;
               return regeneratorRuntime.awrap(this._update(params));
 
@@ -377,7 +377,7 @@ function (_DataFetcher) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              if (!(this.userStatus === _presenceStatus["default"].busy && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
+              if (!(this.userStatus === _presenceStatus.presenceStatus.busy && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
                 _context6.next = 2;
                 break;
               }
@@ -385,7 +385,7 @@ function (_DataFetcher) {
               return _context6.abrupt("return");
 
             case 2:
-              params = this._getUpdateStatusParams(_presenceStatus["default"].busy);
+              params = this._getUpdateStatusParams(_presenceStatus.presenceStatus.busy);
               _context6.next = 5;
               return regeneratorRuntime.awrap(this._update(params));
 
@@ -433,7 +433,7 @@ function (_DataFetcher) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:
-              if (!(this.userStatus === _presenceStatus["default"].offline && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
+              if (!(this.userStatus === _presenceStatus.presenceStatus.offline && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
                 _context8.next = 2;
                 break;
               }
@@ -441,7 +441,7 @@ function (_DataFetcher) {
               return _context8.abrupt("return");
 
             case 2:
-              params = this._getUpdateStatusParams(_presenceStatus["default"].offline);
+              params = this._getUpdateStatusParams(_presenceStatus.presenceStatus.offline);
               _context8.next = 5;
               return regeneratorRuntime.awrap(this._update(params));
 
@@ -460,7 +460,7 @@ function (_DataFetcher) {
           switch (_context9.prev = _context9.next) {
             case 0:
               _context9.t0 = presenceData;
-              _context9.next = _context9.t0 === _presenceStatus["default"].available ? 3 : _context9.t0 === _presenceStatus["default"].busy ? 6 : _context9.t0 === _dndStatus["default"].doNotAcceptAnyCalls ? 9 : _context9.t0 === _presenceStatus["default"].offline ? 12 : 15;
+              _context9.next = _context9.t0 === _presenceStatus.presenceStatus.available ? 3 : _context9.t0 === _presenceStatus.presenceStatus.busy ? 6 : _context9.t0 === _dndStatus["default"].doNotAcceptAnyCalls ? 9 : _context9.t0 === _presenceStatus.presenceStatus.offline ? 12 : 15;
               break;
 
             case 3:
@@ -599,13 +599,13 @@ function (_DataFetcher) {
     key: "presenceOption",
     get: function get() {
       // available
-      if (this.data.userStatus === _presenceStatus["default"].available && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
-        return _presenceStatus["default"].available;
+      if (this.data.userStatus === _presenceStatus.presenceStatus.available && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
+        return _presenceStatus.presenceStatus.available;
       } // busy
 
 
-      if (this.data.userStatus === _presenceStatus["default"].busy && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
-        return _presenceStatus["default"].busy;
+      if (this.data.userStatus === _presenceStatus.presenceStatus.busy && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
+        return _presenceStatus.presenceStatus.busy;
       } // doNotDisturb
 
 
@@ -614,11 +614,11 @@ function (_DataFetcher) {
       } // invisible
 
 
-      if (this.data.userStatus === _presenceStatus["default"].offline && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
-        return _presenceStatus["default"].offline;
+      if (this.data.userStatus === _presenceStatus.presenceStatus.offline && this.data.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls) {
+        return _presenceStatus.presenceStatus.offline;
       }
 
-      return _presenceStatus["default"].available;
+      return _presenceStatus.presenceStatus.available;
     }
   }, {
     key: "_hasPermission",

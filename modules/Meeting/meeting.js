@@ -610,7 +610,8 @@ function (_RcModule) {
           startParticipantsVideo = meeting.startParticipantsVideo,
           audioOptions = meeting.audioOptions,
           password = meeting.password,
-          schedule = meeting.schedule;
+          schedule = meeting.schedule,
+          recurrence = meeting.recurrence;
       var formatted = {
         topic: topic,
         meetingType: meetingType,
@@ -618,7 +619,8 @@ function (_RcModule) {
         startHostVideo: startHostVideo,
         startParticipantsVideo: startParticipantsVideo,
         audioOptions: audioOptions,
-        password: password
+        password: password,
+        recurrence: recurrence
       }; // Recurring meetings do not have schedule info
 
       if (meetingType !== _meetingHelper.MeetingType.RECURRING) {
@@ -636,6 +638,10 @@ function (_RcModule) {
         }
 
         formatted.schedule = _schedule;
+
+        if (recurrence && recurrence.until) {
+          formatted.recurrence.until = _moment["default"].utc(recurrence.until).format();
+        }
       }
 
       return formatted;

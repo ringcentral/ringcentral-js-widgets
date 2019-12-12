@@ -7,11 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _HashMap = _interopRequireDefault(require("../lib/HashMap"));
+var _HashMap = require("../lib/HashMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = new _HashMap["default"]({
+var _default = (0, _HashMap.createHashMap)({
   IPPhoneOffline: 'IP Phone offline',
   abandoned: 'Abandoned',
   account: 'Account',

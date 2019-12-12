@@ -113,7 +113,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_mergeCallControlClickMerge', '_mergeCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea', '_accountInfoReady', '_schedule']; // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
+var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSentOver', '_smsSentError', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_mergeCallControlClickMerge', '_mergeCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea', '_accountInfoReady', '_schedule', '_clickToDialPlaceRingOutCall', '_inboundCallConnectedTrack', '_outboundCallConnectedTrack']; // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
 
 /**
  * @class
@@ -141,7 +141,7 @@ var Analytics = (_dec = (0, _di.Module)({
     dep: 'MessageStore',
     optional: true
   }, {
-    dep: 'ContactDetails',
+    dep: 'ContactDetailsUI',
     optional: true
   }, {
     dep: 'CallHistory',
@@ -203,7 +203,7 @@ function (_RcModule) {
         callMonitor = _ref.callMonitor,
         conference = _ref.conference,
         conferenceCall = _ref.conferenceCall,
-        contactDetails = _ref.contactDetails,
+        contactDetailsUI = _ref.contactDetailsUI,
         contacts = _ref.contacts,
         messageSender = _ref.messageSender,
         messageStore = _ref.messageStore,
@@ -218,7 +218,7 @@ function (_RcModule) {
         _ref$lingerThreshold = _ref.lingerThreshold,
         lingerThreshold = _ref$lingerThreshold === void 0 ? 1000 : _ref$lingerThreshold,
         extensionInfo = _ref.extensionInfo,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "accountInfo", "adapter", "auth", "call", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetails", "contacts", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "useLog", "lingerThreshold", "extensionInfo"]);
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "accountInfo", "adapter", "auth", "call", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "contacts", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "useLog", "lingerThreshold", "extensionInfo"]);
 
     _classCallCheck(this, Analytics);
 
@@ -239,7 +239,7 @@ function (_RcModule) {
     _this._callMonitor = callMonitor;
     _this._conference = conference;
     _this._conferenceCall = conferenceCall;
-    _this._contactDetails = contactDetails;
+    _this._contactDetailsUI = contactDetailsUI;
     _this._contacts = contacts;
     _this._messageSender = messageSender;
     _this._messageStore = messageStore;
@@ -285,11 +285,13 @@ function (_RcModule) {
     value: function track(event, _ref3) {
       var properties = Object.assign({}, _ref3);
 
+      if (!this.analytics) {
+        return;
+      }
+
       var trackProps = _objectSpread({}, this.trackProps, {}, properties);
 
-      if (this.analytics) {
-        this.analytics.track(event, trackProps);
-      }
+      this.analytics.track(event, trackProps);
 
       if (this._useLog) {
         this._logs.push({
@@ -340,15 +342,14 @@ function (_RcModule) {
   }, {
     key: "trackSchedule",
     value: function trackSchedule(_ref6) {
-      var router = _ref6.router,
-          eventPostfix = _ref6.eventPostfix;
+      var router = _ref6.router;
       var trackProps = {
         router: router,
         appName: this._appName,
         appVersion: this._appVersion,
         brand: this._brandCode
       };
-      this.track("Meeting: Click Schedule/".concat(eventPostfix, " schedule page"), trackProps);
+      this.track('Meeting: Click Schedule/Meeting schedule page', trackProps);
     }
   }, {
     key: "_onStateChange",
@@ -502,10 +503,17 @@ function (_RcModule) {
       }
     }
   }, {
-    key: "_smsSent",
-    value: function _smsSent(action) {
+    key: "_smsSentOver",
+    value: function _smsSentOver(action) {
       if (this._messageSender && this._messageSender.actionTypes.sendOver === action.type) {
-        this.track('SMS Sent');
+        this.track('SMS: SMS sent succesfully');
+      }
+    }
+  }, {
+    key: "_smsSentError",
+    value: function _smsSentError(action) {
+      if (this._messageSender && this._messageSender.actionTypes.sendError === action.type) {
+        this.track('SMS: SMS sent failed');
       }
     }
   }, {
@@ -527,6 +535,13 @@ function (_RcModule) {
     value: function _clickToDial(action) {
       if (this._adapter && this._adapter.actionTypes.clickToDial === action.type) {
         this.track('Click To Dial');
+      }
+    }
+  }, {
+    key: "_clickToDialPlaceRingOutCall",
+    value: function _clickToDialPlaceRingOutCall(action) {
+      if (this._adapter && this._adapter.actionTypes.clickToDial === action.type && action.callSettingMode !== _callingModes["default"].webphone) {
+        this.track('Call: Place RingOut call/Click to Dial ');
       }
     }
   }, {
@@ -645,14 +660,14 @@ function (_RcModule) {
   }, {
     key: "_contactDetailClickToDial",
     value: function _contactDetailClickToDial(action) {
-      if (this._contactDetails && this._contactDetails.actionTypes.clickToCall === action.type) {
+      if (this._contactDetailsUI && this._contactDetailsUI.actionTypes.clickToCall === action.type) {
         this.track('Click To Dial (Contact Details)');
       }
     }
   }, {
     key: "_contactDetailClickToSMS",
     value: function _contactDetailClickToSMS(action) {
-      if (this._contactDetails && this._contactDetails.actionTypes.clickToSMS === action.type) {
+      if (this._contactDetailsUI && this._contactDetailsUI.actionTypes.clickToSMS === action.type) {
         this.track('Click To SMS (Contact Details)');
       }
     }
@@ -748,6 +763,20 @@ function (_RcModule) {
       }
     }
   }, {
+    key: "_inboundCallConnectedTrack",
+    value: function _inboundCallConnectedTrack(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.inboundCallConnectedTrack === action.type) {
+        this.track('Call: Inbound call connected');
+      }
+    }
+  }, {
+    key: "_outboundCallConnectedTrack",
+    value: function _outboundCallConnectedTrack(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.outboundCallConnectedTrack === action.type) {
+        this.track('Call: Outbound RingOut Call connected');
+      }
+    }
+  }, {
     key: "_callsOnHoldClickAdd",
     value: function _callsOnHoldClickAdd(action) {
       if (this._callMonitor && this._callMonitor.actionTypes.callsOnHoldClickAddTrack === action.type) {
@@ -840,7 +869,7 @@ function (_RcModule) {
           eventPostfix: 'Call History',
           router: '/history'
         }, {
-          eventPostfix: 'Call List',
+          eventPostfix: 'All calls page',
           router: '/calls'
         }, {
           eventPostfix: 'Settings',
@@ -860,6 +889,15 @@ function (_RcModule) {
         }, {
           eventPostfix: 'Transfer',
           router: '/transfer'
+        }, {
+          eventPostfix: 'Small call control',
+          router: '/simplifycallctrl'
+        }, {
+          eventPostfix: 'Flip',
+          router: '/flip'
+        }, {
+          eventPostfix: 'Add',
+          router: '/conferenceCall'
         }];
         return targets.find(function (target) {
           return formatRoute === target.router;
@@ -904,9 +942,9 @@ function (_RcModule) {
     key: "trackProps",
     get: function get() {
       return {
-        'App Name': this._appName,
-        'App Version': this._appVersion,
-        Brand: this._brandCode,
+        appName: this._appName,
+        appVersion: this._appVersion,
+        brand: this._brandCode,
         'App Language': this._locale ? this._locale.currentLocale : '',
         'Browser Language': this._locale ? this._locale.browserLocale : '',
         'Extension Type': this._extensionInfo ? this._extensionInfo.info.type : ''

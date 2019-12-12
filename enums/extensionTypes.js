@@ -7,9 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _HashMap = _interopRequireDefault(require("../lib/HashMap"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _HashMap = require("../lib/HashMap");
 
 /**
  * @typedef ExtensionTypes
@@ -33,7 +31,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 /**
  * @type {ExtensionTypes}
  */
-var extensionTypes = new _HashMap["default"]({
+var extensionTypes = (0, _HashMap.createHashMap)({
   announcement: 'Announcement',
   applicationExtension: 'ApplicationExtension',
   bot: 'Bot',

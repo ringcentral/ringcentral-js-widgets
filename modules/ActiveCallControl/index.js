@@ -259,7 +259,7 @@ function (_Pollable) {
             case 8:
               if (this._shouldReset()) {
                 this._resetModuleStatus();
-              } else if (this.ready) {
+              } else if (this.ready && this._hasPermission) {
                 this._subscriptionHandler();
 
                 this._checkConnectivity();

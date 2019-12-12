@@ -65,6 +65,7 @@ exports.UTC_TIMEZONE_ID = UTC_TIMEZONE_ID;
 var MeetingType = {
   SCHEDULED: 'Scheduled',
   RECURRING: 'Recurring',
+  SCHEDULED_RECURRING: 'ScheduledRecurring',
   INSTANT: 'Instant'
 };
 exports.MeetingType = MeetingType;

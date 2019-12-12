@@ -60,8 +60,6 @@ var _CallingSettings = _interopRequireDefault(require("../../../modules/CallingS
 
 var _Contacts = _interopRequireDefault(require("../../../modules/Contacts"));
 
-var _ContactDetails = _interopRequireDefault(require("../../../modules/ContactDetails"));
-
 var _ConnectivityMonitor = _interopRequireDefault(require("../../../modules/ConnectivityMonitor"));
 
 var _DialingPlan = _interopRequireDefault(require("../../../modules/DialingPlan"));
@@ -320,9 +318,6 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
           accountContacts = _ref3.accountContacts;
       return [addressBook, accountContacts];
     }
-  }, {
-    provide: 'ContactDetails',
-    useClass: _ContactDetails["default"]
   }, {
     provide: 'ContactMatcher',
     useClass: _ContactMatcher["default"]
