@@ -116,14 +116,14 @@ var SelectList = function SelectList(props) {
 
       setOpen(true);
     }
-  }, children), _react["default"].createElement(SelectListWithScrollCheck, _extends({
+  }, children), _react["default"].createElement(SelectListWithScrollCheck, _extends({}, props, {
     matchedTitle: matchedTitle || _i18n["default"].getString('matched', currentLocale),
     otherTitle: otherTitle || _i18n["default"].getString('other', currentLocale),
     renderListView: renderListView,
     open: open,
     setOpen: setOpen,
     backHeaderClassName: backHeaderClassName
-  }, props)));
+  })));
 };
 
 exports.SelectList = SelectList;

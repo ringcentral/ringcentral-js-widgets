@@ -21,7 +21,7 @@ var _default = (_title$search$compose = {
   composeText: "撰寫簡訊",
   noMessages: "無訊息",
   noSearchResults: "找不到相符的記錄"
-}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "所有"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "語音"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "文字"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "傳真"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
+}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "所有"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "語音"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "簡訊"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "傳真"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@
 // @key: @#@"composeText"@#@ @source: @#@"Compose Text"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@

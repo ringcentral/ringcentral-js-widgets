@@ -19,14 +19,14 @@ var _default = {
   autoLogNotes: "Enregistrer automatiquement les remarques",
   autoLogSMS: "Enregistrer automatiquement les SMS",
   clickToSMS: "Cliquer pour envoyer un SMS",
+  logSMSContent: "Enregistrer le contenu des SMS",
   clickToDialSMS: "Cliquer pour appeler ou envoyer un SMS",
   audio: "Audio",
   language: "Langue",
   feedback: "Commentaires",
   userGuide: "Nouveautés",
   quickAccess: "Paramètre d'accès rapide",
-  report: "Rapport analytique",
-  msteamsSetting: "Paramètres Microsoft Teams"
+  report: "Rapport analytique"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -39,6 +39,7 @@ var _default = {
 // @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
+// @key: @#@"logSMSContent"@#@ @source: @#@"Log SMS content"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
@@ -46,7 +47,6 @@ var _default = {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
-// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

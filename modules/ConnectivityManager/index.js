@@ -39,13 +39,9 @@ require("core-js/modules/es6.array.map");
 
 require("regenerator-runtime/runtime");
 
-require("core-js/modules/es6.function.bind");
-
 var _RcModule2 = _interopRequireDefault(require("ringcentral-integration/lib/RcModule"));
 
 var _di = require("ringcentral-integration/lib/di");
-
-var _ensureExist = _interopRequireDefault(require("ringcentral-integration/lib/ensureExist"));
 
 var _selector = require("ringcentral-integration/lib/selector");
 
@@ -100,7 +96,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var ConnectivityManager = (
 /**
  * @class
- * @description Connectivity monitor module
+ * @description Connectivity manager module
  */
 _dec = (0, _di.Module)({
   deps: ['Alert', 'OAuth', 'Auth', 'ConnectivityMonitor', {
@@ -132,8 +128,6 @@ function (_RcModule) {
    * @param {Function} params.checkConnectionFunc - function to check network
    */
   function ConnectivityManager(_ref) {
-    var _context;
-
     var _this;
 
     var auth = _ref.auth,
@@ -162,11 +156,9 @@ function (_RcModule) {
     _this._audioSettings = audioSettings;
     _this._webphone = webphone;
     _this._availabilityMonitor = availabilityMonitor;
-    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
-    _this._connectivityMonitor = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, connectivityMonitor, 'connectivityMonitor');
+    _this._alert = alert;
+    _this._connectivityMonitor = connectivityMonitor;
     _this._reducer = (0, _getConnectivityMangerReducer["default"])(_this.actionTypes);
-    _this.showConnectivityAlert = (_context = _assertThisInitialized(_this), _this.showConnectivityAlert).bind(_context);
-    _this.checkWebphoneAndConnect = (_context = _assertThisInitialized(_this), _this.checkWebphoneAndConnect).bind(_context);
     _this._oldConnectivityType = '';
     return _this;
   }
@@ -174,9 +166,9 @@ function (_RcModule) {
   _createClass(ConnectivityManager, [{
     key: "_onStateChange",
     value: function _onStateChange() {
-      return regeneratorRuntime.async(function _onStateChange$(_context2) {
+      return regeneratorRuntime.async(function _onStateChange$(_context) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context.prev = _context.next) {
             case 0:
               if (this._shouldInit()) {
                 this.store.dispatch({
@@ -189,7 +181,7 @@ function (_RcModule) {
 
             case 1:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
         }
       }, null, this);

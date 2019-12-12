@@ -36,7 +36,8 @@ var _default = {
   hold: "Attesa",
   unhold: "Riprendi",
   transfer: "Trasferisci",
-  reject: "Rifiuta"
+  reject: "Rifiuta",
+  switchCall: "Passa chiamata su questa app"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -67,6 +68,7 @@ var _default = {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

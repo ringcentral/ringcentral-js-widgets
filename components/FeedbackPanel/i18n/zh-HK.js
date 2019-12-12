@@ -16,14 +16,14 @@ var _default = {
   email: "您的電子郵件地址",
   reply: "（以便我們聯絡您）",
   emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "意見回饋主題",
+  feedbackTopic: "意見回饋主旨",
   topicPlaceHolder: "請選擇一個選項",
   bugReport: "程式錯誤回報",
   featureRequest: "功能要求",
   others: "其他",
   subject: "主旨",
   subjectPlaceHolder: "讓我們知道可以如何為您提供協助",
-  description: "完整描述",
+  description: "完整說明",
   descriptionPlaceHolder: "請盡可能列出最多資訊",
   send: "傳送您的意見回饋"
 }; // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@

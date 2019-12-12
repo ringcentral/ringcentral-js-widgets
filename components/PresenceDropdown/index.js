@@ -27,7 +27,7 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _presenceStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/presenceStatus"));
+var _presenceStatus = require("ringcentral-integration/enums/presenceStatus.enum");
 
 var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
 
@@ -121,32 +121,32 @@ function (_Component) {
         className: _style["default"].presenceList
       }, _react["default"].createElement(_PresenceItem["default"], {
         className: _style["default"].presenceItem,
-        userStatus: _presenceStatus["default"].available,
+        userStatus: _presenceStatus.presenceStatus.available,
         dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: currentLocale,
         onClick: setAvailable,
-        selected: userStatus === _presenceStatus["default"].available && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+        selected: userStatus === _presenceStatus.presenceStatus.available && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
       }), _react["default"].createElement(_PresenceItem["default"], {
         className: _style["default"].presenceItem,
-        userStatus: _presenceStatus["default"].busy,
+        userStatus: _presenceStatus.presenceStatus.busy,
         dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: currentLocale,
         onClick: setBusy,
-        selected: userStatus === _presenceStatus["default"].busy && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+        selected: userStatus === _presenceStatus.presenceStatus.busy && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
       }), _react["default"].createElement(_PresenceItem["default"], {
         className: _style["default"].presenceItem,
-        userStatus: _presenceStatus["default"].busy,
+        userStatus: _presenceStatus.presenceStatus.busy,
         dndStatus: _dndStatus["default"].doNotAcceptAnyCalls,
         currentLocale: currentLocale,
         onClick: setDoNotDisturb,
         selected: dndStatus === _dndStatus["default"].doNotAcceptAnyCalls
       }), _react["default"].createElement(_PresenceItem["default"], {
         className: _style["default"].presenceItem,
-        userStatus: _presenceStatus["default"].offline,
+        userStatus: _presenceStatus.presenceStatus.offline,
         dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: currentLocale,
         onClick: setInvisible,
-        selected: userStatus === _presenceStatus["default"].offline && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+        selected: userStatus === _presenceStatus.presenceStatus.offline && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
       })))), _react["default"].createElement("div", {
         className: showBackground,
         onClick: this.toggleShow

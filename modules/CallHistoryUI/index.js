@@ -65,6 +65,9 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
   }, {
     dep: 'DialerUI',
     optional: true
+  }, {
+    dep: 'ContactDetailsUI',
+    optional: true
   }, 'ContactMatcher', 'RouterInteraction', 'ContactSearch', 'ConnectivityManager']
 }), _dec(_class =
 /*#__PURE__*/
@@ -81,18 +84,18 @@ function (_RcUIModule) {
     key: "getUIProps",
     value: function getUIProps(_ref) {
       var _ref$phone = _ref.phone,
-          locale = _ref$phone.locale,
           brand = _ref$phone.brand,
-          callHistory = _ref$phone.callHistory,
-          regionSettings = _ref$phone.regionSettings,
-          connectivityMonitor = _ref$phone.connectivityMonitor,
-          rateLimiter = _ref$phone.rateLimiter,
-          dateTimeFormat = _ref$phone.dateTimeFormat,
-          callLogger = _ref$phone.callLogger,
           call = _ref$phone.call,
+          callHistory = _ref$phone.callHistory,
+          callLogger = _ref$phone.callLogger,
           composeText = _ref$phone.composeText,
-          rolesAndPermissions = _ref$phone.rolesAndPermissions,
           connectivityManager = _ref$phone.connectivityManager,
+          connectivityMonitor = _ref$phone.connectivityMonitor,
+          dateTimeFormat = _ref$phone.dateTimeFormat,
+          locale = _ref$phone.locale,
+          rateLimiter = _ref$phone.rateLimiter,
+          regionSettings = _ref$phone.regionSettings,
+          rolesAndPermissions = _ref$phone.rolesAndPermissions,
           _ref$enableContactFal = _ref.enableContactFallback,
           enableContactFallback = _ref$enableContactFal === void 0 ? false : _ref$enableContactFal,
           _ref$useNewList = _ref.useNewList,
@@ -125,6 +128,7 @@ function (_RcUIModule) {
           contactMatcher = _ref2$phone.contactMatcher,
           call = _ref2$phone.call,
           dialerUI = _ref2$phone.dialerUI,
+          contactDetailsUI = _ref2$phone.contactDetailsUI,
           composeText = _ref2$phone.composeText,
           routerInteraction = _ref2$phone.routerInteraction,
           contactSearch = _ref2$phone.contactSearch,
@@ -146,7 +150,14 @@ function (_RcUIModule) {
           var _ref3$contact = _ref3.contact,
               type = _ref3$contact.type,
               id = _ref3$contact.id;
-          routerInteraction.push("/contacts/".concat(type, "/").concat(id, "?direct=true"));
+
+          if (contactDetailsUI) {
+            contactDetailsUI.showContactDetails({
+              type: type,
+              id: id,
+              direct: true
+            });
+          }
         },
         onCreateContact: onCreateContact ? function _callee(_ref4) {
           var phoneNumber, name, entityType, hasMatchNumber;

@@ -18,7 +18,6 @@ type Props = {
   update?: (any) => any;
   showLaunchMeetingBtn?: boolean;
   launchMeeting?: (meeting?: ScheduleMeetingModel) => any;
-  schedule?: () => any;
 };
 
 export class MeetingScheduleButton extends React.Component<Props, {}> {
@@ -31,7 +30,6 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
     update() {},
     showLaunchMeetingBtn: false,
     launchMeeting() {},
-    schedule() {},
     onClick() {},
   };
 
@@ -55,7 +53,6 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
       showSaveAsDefault,
       update,
       showLaunchMeetingBtn,
-      schedule,
       onClick,
       launchMeeting,
       scheduleButtonLabel,
@@ -90,7 +87,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
           </CheckBox>
         ) : null}
         <Button
-          onClick={schedule || onClick}
+          onClick={onClick}
           disabledClassName={styles.isContainedTypeDisabled}
           className={classnames(
             styles.isContainedType,

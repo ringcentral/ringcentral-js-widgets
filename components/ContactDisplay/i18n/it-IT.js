@@ -10,7 +10,7 @@ var _default = {
   logging: "Connessione...",
   logCall: "Registra chiamata",
   editLog: "Modifica registro",
-  select: "Seleziona corrispondenza",
+  select: "Scegli corrisp.",
   OnHold: "In attesa",
   Ringing: "Squillo",
   CallConnected: "Chiamata connessa",

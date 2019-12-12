@@ -36,7 +36,8 @@ var _default = {
   hold: "Aguardar",
   unhold: "Desbloquear",
   transfer: "Transferir",
-  reject: "Rejeitar"
+  reject: "Rejeitar",
+  switchCall: "Alternar chamada para este aplicativo"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -67,6 +68,7 @@ var _default = {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

@@ -121,6 +121,7 @@ function mapToFunctions(_, _ref2) {
       call = _ref2$phone.call,
       dialerUI = _ref2$phone.dialerUI,
       routerInteraction = _ref2$phone.routerInteraction,
+      contactDetailsUI = _ref2$phone.contactDetailsUI,
       composeText = _ref2$phone.composeText,
       contactSearch = _ref2$phone.contactSearch,
       rolesAndPermissions = _ref2$phone.rolesAndPermissions,
@@ -149,7 +150,14 @@ function mapToFunctions(_, _ref2) {
       var _ref3$contact = _ref3.contact,
           id = _ref3$contact.id,
           type = _ref3$contact.type;
-      routerInteraction.push("/contacts/".concat(type, "/").concat(id, "?direct=true"));
+
+      if (contactDetailsUI) {
+        contactDetailsUI.showContactDetails({
+          id: id,
+          type: type,
+          direct: true
+        });
+      }
     } : null,
     onCreateContact: onCreateContact ? function _callee(_ref4) {
       var phoneNumber, name, entityType, hasMatchNumber;

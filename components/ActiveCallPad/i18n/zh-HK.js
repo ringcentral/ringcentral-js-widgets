@@ -14,10 +14,10 @@ var _default = {
   onHold: "等待接通",
   park: "寄存",
   stopRecord: "停止",
-  record: "錄音",
-  add: "加入",
+  record: "錄製",
+  add: "新增",
   transfer: "轉接",
-  flip: "翻轉",
+  flip: "轉接",
   more: "撥號動作",
   mergeToConference: "合併"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

@@ -13,7 +13,7 @@ var _default = {
   select: "Sélectionner un enregistrement correspondant",
   OnHold: "En attente",
   Ringing: "Sonnerie en cours",
-  CallConnected: "Appel établi",
+  CallConnected: "Appel connecté",
   unknownUser: "Utilisateur inconnu",
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",

@@ -8,9 +8,9 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   recentActivities: "最近活動",
-  text: "文字",
+  text: "簡訊",
   fax: "傳真",
-  voicemail: "語音訊息",
+  voicemail: "語音信箱",
   call: "通話"
 }; // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

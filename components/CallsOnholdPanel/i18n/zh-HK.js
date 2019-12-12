@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  add: "加入",
+  add: "新增",
   noCalls: "沒有可用通話",
   activeCall: "使用中通話"
 }; // @key: @#@"add"@#@ @source: @#@"Add"@#@

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LogLinkButton/i18n/zh-HK.js"],"names":["toolTip"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  toolTip: \"使用 {crmName} 檢視\"\n};\n\n// @key: @#@\"toolTip\"@#@ @source: @#@\"View in {crmName}\"@#@\n"],"file":"zh-HK.js"}

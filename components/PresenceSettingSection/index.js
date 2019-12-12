@@ -31,7 +31,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _presenceStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/presenceStatus"));
+var _presenceStatus = require("ringcentral-integration/enums/presenceStatus.enum");
 
 var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
 
@@ -148,29 +148,29 @@ function (_Component) {
       }), _react["default"].createElement("span", null, currentStatus))), _react["default"].createElement(_Line["default"], {
         className: _styles["default"].presenceList
       }, _react["default"].createElement(_PresenceItem["default"], {
-        userStatus: _presenceStatus["default"].available,
+        userStatus: _presenceStatus.presenceStatus.available,
         dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: this.props.currentLocale,
         onClick: this.props.setAvailable,
-        selected: this.props.userStatus === _presenceStatus["default"].available && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+        selected: this.props.userStatus === _presenceStatus.presenceStatus.available && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
       }), _react["default"].createElement(_PresenceItem["default"], {
-        userStatus: _presenceStatus["default"].busy,
+        userStatus: _presenceStatus.presenceStatus.busy,
         dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: this.props.currentLocale,
         onClick: this.props.setBusy,
-        selected: this.props.userStatus === _presenceStatus["default"].busy && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+        selected: this.props.userStatus === _presenceStatus.presenceStatus.busy && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
       }), _react["default"].createElement(_PresenceItem["default"], {
-        userStatus: _presenceStatus["default"].busy,
+        userStatus: _presenceStatus.presenceStatus.busy,
         dndStatus: _dndStatus["default"].doNotAcceptAnyCalls,
         currentLocale: this.props.currentLocale,
         onClick: this.props.setDoNotDisturb,
         selected: this.props.dndStatus === _dndStatus["default"].doNotAcceptAnyCalls
       }), _react["default"].createElement(_PresenceItem["default"], {
-        userStatus: _presenceStatus["default"].offline,
+        userStatus: _presenceStatus.presenceStatus.offline,
         dndStatus: _dndStatus["default"].takeAllCalls,
         currentLocale: this.props.currentLocale,
         onClick: this.props.setInvisible,
-        selected: this.props.userStatus === _presenceStatus["default"].offline && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
+        selected: this.props.userStatus === _presenceStatus.presenceStatus.offline && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
       })), acceptQueueCalls);
     }
   }]);

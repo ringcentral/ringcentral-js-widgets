@@ -8,11 +8,15 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   log: "Registro",
-  save: "Salva ed elabora nuova",
-  discard: "Non salvare ed elabora nuova"
+  save: "Salva e crea nuovo",
+  discard: "Elimina e crea nuovo",
+  hangup: "Riaggancia",
+  reject: "Alla segreteria"
 }; // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"save"@#@ @source: @#@"Save and new"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
+// @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
+// @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

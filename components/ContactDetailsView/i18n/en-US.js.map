@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ContactDetailsView/i18n/en-US.js"],"names":["contactDetails"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,cAAc,EAAE;AADH,C","sourcesContent":["export default {\n  contactDetails: 'Contact Details',\n};\n"],"file":"en-US.js"}
+{"version":3,"sources":["components/ContactDetailsView/i18n/en-US.ts"],"names":["contactDetails"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,cAAc,EAAE;AADH,C","sourcesContent":["export default {\n  contactDetails: 'Contact Details',\n};\n"],"file":"en-US.js"}

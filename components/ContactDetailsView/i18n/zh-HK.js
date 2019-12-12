@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  contactDetails: "聯絡方式"
+  contactDetails: "連絡人詳情"
 }; // @key: @#@"contactDetails"@#@ @source: @#@"Contact Details"@#@
 
 exports["default"] = _default;

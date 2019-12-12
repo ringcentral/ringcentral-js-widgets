@@ -25,7 +25,11 @@ var _default = {
   enableJoinBeforeHost: "ホストより前の参加を可能にする",
   telephonyOnly: "電話通信のみ",
   hostVideoOn: "ホストビデオオン",
-  participantVideoOn: "参加者ビデオオン"
+  participantVideoOn: "参加者ビデオオン",
+  recurringEvery: "すべて",
+  recurrenceType: "繰り返しのタイプ",
+  recurrenceEndDate: "終了日",
+  currentLocale: "日"
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
@@ -45,6 +49,10 @@ var _default = {
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
 // @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+// @key: @#@"recurringEvery"@#@ @source: @#@"Every"@#@
+// @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
+// @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
+// @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

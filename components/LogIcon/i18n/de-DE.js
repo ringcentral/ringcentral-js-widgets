@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   logged: "Protokolliert",
   unlogged: "Unbearbeitet",
-  faxNotSupported: "Das Protokollieren von Faxen wird nicht unterstützt."
+  faxNotSupported: "Faxprotokollierung wird nicht unterstützt."
 }; // @key: @#@"logged"@#@ @source: @#@"Logged"@#@
 // @key: @#@"unlogged"@#@ @source: @#@"Unworked"@#@
 // @key: @#@"faxNotSupported"@#@ @source: @#@"To log fax is not supported."@#@

@@ -49,11 +49,13 @@ function CallLogCallCtrlComponent(props) {
       currentLocale = props.currentLocale,
       callDirection = props.callDirection,
       onTransfer = props.onTransfer,
+      isOnTransfer = props.isOnTransfer,
       isOnHold = props.isOnHold,
       onUnHold = props.onUnHold,
       onHold = props.onHold,
       disableLinks = props.disableLinks,
-      isWide = props.isWide; // reject conditions: call direction is inbound & call status is ringing
+      isWide = props.isWide,
+      transferRef = props.transferRef; // reject conditions: call direction is inbound & call status is ringing
 
   var isInComingCall = _callDirections["default"].inbound === callDirection && _telephonyStatus["default"].ringing === callStatus;
   var muteIcon = isOnMute ? _Mute["default"] : _Unmute["default"];
@@ -75,12 +77,13 @@ function CallLogCallCtrlComponent(props) {
     className: (0, _classnames5["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].button, true), _defineProperty(_classnames, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _classnames)),
     disabled: disableLinks || disabledCtrl
   })), _react["default"].createElement("span", {
+    ref: transferRef,
     title: _i18n["default"].getString('transfer', currentLocale)
   }, _react["default"].createElement(_CircleButton["default"], {
     dataSign: "transfer",
     icon: _Transfer["default"],
     onClick: onTransfer,
-    className: (0, _classnames5["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].button, true), _defineProperty(_classnames2, _styles["default"].buttonDisabled, disableLinks || isInComingCall), _classnames2)),
+    className: (0, _classnames5["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].button, true), _defineProperty(_classnames2, _styles["default"].buttonActive, isOnTransfer), _defineProperty(_classnames2, _styles["default"].buttonDisabled, disableLinks || isInComingCall), _classnames2)),
     disabled: disableLinks || isInComingCall
   })), _react["default"].createElement("span", {
     title: _i18n["default"].getString(holdTitle, currentLocale)
@@ -116,7 +119,11 @@ CallLogCallCtrlComponent.propTypes = {
   callStatus: _propTypes["default"].string,
   currentLocale: _propTypes["default"].string,
   callDirection: _propTypes["default"].string.isRequired,
-  isWide: _propTypes["default"].bool
+  isWide: _propTypes["default"].bool,
+  transferRef: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes["default"].shape({
+    current: _propTypes["default"].instanceOf(Element)
+  })]),
+  isOnTransfer: _propTypes["default"].bool
 };
 CallLogCallCtrlComponent.defaultProps = {
   onMute: function onMute() {},
@@ -131,6 +138,8 @@ CallLogCallCtrlComponent.defaultProps = {
   callStatus: 'CallConnected',
   currentLocale: 'en-US',
   disableLinks: false,
-  isWide: true
+  isWide: true,
+  transferRef: undefined,
+  isOnTransfer: false
 };
 //# sourceMappingURL=index.js.map

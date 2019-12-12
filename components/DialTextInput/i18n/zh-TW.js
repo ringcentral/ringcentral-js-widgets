@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  to: "收件人：",
+  to: "至：",
   enterNameOrPhoneNumber: "輸入號碼"
 }; // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"enterNameOrPhoneNumber"@#@ @source: @#@"Enter Number"@#@

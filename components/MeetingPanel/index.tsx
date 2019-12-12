@@ -4,7 +4,7 @@ import React from 'react';
 import sleep from 'ringcentral-integration/lib/sleep';
 import isSafari from '../../lib/isSafari';
 
-import MeetingConfigs from '../MeetingConfigs';
+import MeetingConfig from '../MeetingConfigs';
 import styles from './styles.scss';
 
 const MeetingPanel: React.FunctionComponent<MeetingProps> = (props) => {
@@ -33,7 +33,7 @@ const MeetingPanel: React.FunctionComponent<MeetingProps> = (props) => {
   return (
     <div className={styles.meetingPanel}>
       {!hidden ? (
-        <MeetingConfigs
+        <MeetingConfig
           update={update}
           init={init}
           meeting={meeting}

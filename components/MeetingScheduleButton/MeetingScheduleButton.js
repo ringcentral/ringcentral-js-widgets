@@ -105,7 +105,6 @@ function (_React$Component) {
           showSaveAsDefault = _this$props.showSaveAsDefault,
           update = _this$props.update,
           showLaunchMeetingBtn = _this$props.showLaunchMeetingBtn,
-          schedule = _this$props.schedule,
           onClick = _this$props.onClick,
           launchMeeting = _this$props.launchMeeting,
           scheduleButtonLabel = _this$props.scheduleButtonLabel,
@@ -125,7 +124,7 @@ function (_React$Component) {
         type: "checkbox",
         className: _styles["default"].notShowAgain
       }, _i18n["default"].getString('saveAsDefault', currentLocale)) : null, _react["default"].createElement(_Button["default"], {
-        onClick: schedule || onClick,
+        onClick: onClick,
         disabledClassName: _styles["default"].isContainedTypeDisabled,
         className: (0, _classnames["default"])(_styles["default"].isContainedType, disabled ? _styles["default"].isContainedTypeDisabled : null),
         dataSign: "meetingScheduleButton"
@@ -152,7 +151,6 @@ MeetingScheduleButton.defaultProps = {
   update: function update() {},
   showLaunchMeetingBtn: false,
   launchMeeting: function launchMeeting() {},
-  schedule: function schedule() {},
   onClick: function onClick() {}
 };
 //# sourceMappingURL=MeetingScheduleButton.js.map

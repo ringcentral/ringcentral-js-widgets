@@ -25,7 +25,11 @@ var _default = {
   enableJoinBeforeHost: 'Enable join before host',
   telephonyOnly: 'Telephony Only',
   hostVideoOn: 'Host Video On',
-  participantVideoOn: 'Participant Video On'
+  participantVideoOn: 'Participant Video On',
+  recurringEvery: 'Every',
+  recurrenceType: 'Recurrence Type',
+  recurrenceEndDate: 'End Date',
+  currentLocale: 'Day(s)'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

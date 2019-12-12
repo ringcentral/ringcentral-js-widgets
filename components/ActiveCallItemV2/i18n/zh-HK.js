@@ -24,7 +24,7 @@ var _default = {
   // call: 'Call',
   // addContact: 'Add Contact',
   missedCall: "未接",
-  inboundCall: "來電",
+  inboundCall: "撥入電話",
   outboundCall: "撥出電話" // from: 'From',
   // to: 'To',
   // hangup: 'Hangup',

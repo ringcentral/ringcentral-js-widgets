@@ -15,18 +15,18 @@ var _default = {
   clickToDial: "クリックダイヤル",
   autoCreateLog: "通話ログの自動作成",
   autoCreateSMSLog: "SMSログの自動作成",
-  autoLogCalls: "通話の自動ログ記録",
-  autoLogNotes: "メモの自動ログ記録",
-  autoLogSMS: "SMSの自動ログ記録",
+  autoLogCalls: "通話の自動記録",
+  autoLogNotes: "メモの自動記録",
+  autoLogSMS: "SMSの自動記録",
   clickToSMS: "クリックSMS",
+  logSMSContent: "SMSコンテンツの記録",
   clickToDialSMS: "クリックダイヤル/SMS",
   audio: "オーディオ",
   language: "言語",
   feedback: "フィードバック",
   userGuide: "新着情報",
   quickAccess: "クイックアクセスの設定",
-  report: "分析レポート",
-  msteamsSetting: "Microsoft Teamsの設定"
+  report: "分析レポート"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -39,6 +39,7 @@ var _default = {
 // @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
+// @key: @#@"logSMSContent"@#@ @source: @#@"Log SMS content"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
@@ -46,7 +47,6 @@ var _default = {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
-// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -9,8 +9,8 @@ exports["default"] = void 0;
 var _default = {
   currentCall: "現在の通話",
   viewCalls: "通話の表示",
-  incomingCall: "{numberOf}件の着信",
-  incomingCalls: "{numberOf}件の着信",
+  incomingCall: "{numberOf}件の着信通話",
+  incomingCalls: "{numberOf}件の着信通話",
   callOnHold: "{numberOf}件の保留中の通話",
   callsOnHold: "{numberOf}件の保留中の通話"
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  title: "歷史"
+  title: "歷史記錄"
 }; // @key: @#@"title"@#@ @source: @#@"History"@#@
 
 exports["default"] = _default;

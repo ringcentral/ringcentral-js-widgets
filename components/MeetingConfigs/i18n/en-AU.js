@@ -25,7 +25,11 @@ var _default = {
   enableJoinBeforeHost: "Enable joining before host",
   telephonyOnly: "Telephony only",
   hostVideoOn: "Host Video On",
-  participantVideoOn: "Participant Video On"
+  participantVideoOn: "Participant Video On",
+  recurringEvery: "Every",
+  recurrenceType: "Recurrence Type",
+  recurrenceEndDate: "End Date",
+  currentLocale: "Day(s)"
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
@@ -45,6 +49,10 @@ var _default = {
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
 // @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+// @key: @#@"recurringEvery"@#@ @source: @#@"Every"@#@
+// @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
+// @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
+// @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

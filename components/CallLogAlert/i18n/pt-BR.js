@@ -15,8 +15,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_callLogMessages$logC = {}, _defineProperty(_callLogMessages$logC, _callLogMessages["default"].logCallLogFailed, "Falha ao carregar o log de chamadas devido a um erro inesperado. Atualize a página e tente novamente."), _defineProperty(_callLogMessages$logC, _callLogMessages["default"].logFailed, "Não foi possível registrar sua chamada."), _callLogMessages$logC); // @key: @#@"[callLogMessages.logCallLogFailed]"@#@ @source: @#@"Failed to load call log form due to unexpected error. Please refresh the page and try again."@#@
+var _default = (_callLogMessages$logC = {}, _defineProperty(_callLogMessages$logC, _callLogMessages["default"].logCallLogFailed, "Falha ao carregar o log de chamadas devido a um erro inesperado. Atualize a página e tente novamente."), _defineProperty(_callLogMessages$logC, _callLogMessages["default"].logFailed, "Não conseguimos registrar sua chamada. Tente novamente mais tarde."), _defineProperty(_callLogMessages$logC, _callLogMessages["default"].fieldRequired, "Campos obrigatórios não podem ficar em branco."), _callLogMessages$logC); // @key: @#@"[callLogMessages.logCallLogFailed]"@#@ @source: @#@"Failed to load call log form due to unexpected error. Please refresh the page and try again."@#@
 // @key: @#@"[callLogMessages.logFailed]"@#@ @source: @#@"Sorry, we've failed to log your call. Please try again later."@#@
+// @key: @#@"[callLogMessages.fieldRequired]"@#@ @source: @#@"Mandatory fields are required."@#@
 
 
 exports["default"] = _default;

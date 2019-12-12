@@ -47,13 +47,31 @@ export interface SfEntity {
   name: string;
   phoneNumber: string;
   phoneNumbers: PhoneNumber[];
-  type: string;
+  type: SalesforceEntityType;
   isPersonAccount: null;
   personContactId: null;
   recordTypeId: null;
   isConverted: null;
   entityType?: string;
 }
+
+export type SalesforceEntityType =
+  | 'Order'
+  | 'Account'
+  | 'Opportunity'
+  | 'Case'
+  | 'Contact'
+  | 'Lead'
+  | 'Person Account'
+  | 'Campaign'
+  | 'Contract'
+  | 'Product'
+  | 'Asset'
+  | 'Solution'
+  | 'Coaching'
+  | 'Goal'
+  | 'Metric'
+  | 'WorkCoaching';
 
 export interface PhoneNumber {
   phoneNumber: string;

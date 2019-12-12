@@ -9,8 +9,8 @@ exports["default"] = void 0;
 var _default = {
   title: "地區",
   NAOnlyMessage: "請設定您的區碼。這將會供您的本地撥號使用。",
-  MultiWithNAMessage: "請為您的地區設定國家及區碼。這將會供本地撥號及電話號碼格式使用。",
-  MultiWithoutNAMessage: "請為您的地區選擇國家及區碼。這將會供本地撥號及電話號碼格式使用。",
+  MultiWithNAMessage: "請為您的地區設定國家代碼及區碼。這將會供本地撥號及電話號碼格式使用。",
+  MultiWithoutNAMessage: "請為您的地區選擇國家代碼及區碼。這將會供本地撥號及電話號碼格式使用。",
   country: "國家/地區",
   areaCode: "區碼",
   areaCodePlaceholder: "輸入區碼"

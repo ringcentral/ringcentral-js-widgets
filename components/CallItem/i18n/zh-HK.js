@@ -16,14 +16,14 @@ var _default = {
   CallConnected: "已連線通話",
   unknownUser: "未知的使用者",
   unknownNumber: "匿名",
-  unavailable: "無法使用",
+  unavailable: "不可用",
   viewDetails: "檢視詳細資訊",
-  addEntity: "建立新的",
+  addEntity: "建立",
   addLog: "記錄",
-  text: "文字",
+  text: "簡訊",
   call: "通話",
   missedCall: "未接",
-  inboundCall: "來電",
+  inboundCall: "撥入電話",
   outboundCall: "撥出電話"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@

@@ -17,7 +17,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var _default = (_region$regionSetting = {
   region: "地區"
-}, _defineProperty(_region$regionSetting, _regionSettingsMessages["default"].saveSuccess, "設定儲存成功。"), _defineProperty(_region$regionSetting, _regionSettingsMessages["default"].dialingPlansChanged, "您的帳戶不再支援先前的地區。\n    請確認您新的 {regionSettingsLink}。"), _defineProperty(_region$regionSetting, "regionSettings", "地區設定"), _defineProperty(_region$regionSetting, _regionSettingsMessages["default"].areaCodeInvalid, "請輸入有效的區碼。"), _region$regionSetting); // @key: @#@"region"@#@ @source: @#@"Region"@#@
+}, _defineProperty(_region$regionSetting, _regionSettingsMessages["default"].saveSuccess, "設定已成功儲存。"), _defineProperty(_region$regionSetting, _regionSettingsMessages["default"].dialingPlansChanged, "您的帳戶不再支援先前的地區。\n    請確認您新的 {regionSettingsLink}。"), _defineProperty(_region$regionSetting, "regionSettings", "地區設定"), _defineProperty(_region$regionSetting, _regionSettingsMessages["default"].areaCodeInvalid, "請輸入有效的區碼。"), _region$regionSetting); // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"[regionSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
 // @key: @#@"[regionSettingsMessages.dialingPlansChanged]"@#@ @source: @#@"The previous region is no longer supported for your account.\n    Please verify your new {regionSettingsLink}."@#@
 // @key: @#@"regionSettings"@#@ @source: @#@"region settings"@#@

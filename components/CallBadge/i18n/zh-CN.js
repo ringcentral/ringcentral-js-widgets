@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  activeCall: "启用中通话"
+  activeCall: "使用中通话"
 }; // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@
 
 exports["default"] = _default;

@@ -1,0 +1,23 @@
+@import '../../../lib/commonStyles/full-size';
+
+.root {
+  @include full-size;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.dialPadRoot {
+  width: auto !important;
+  height: auto !important;
+}
+
+.dialPadIcon {
+  svg {
+    font-size: 21vw !important;
+
+    [sf-classic] & {
+      font-size: 25vw !important;
+    }
+  }
+}

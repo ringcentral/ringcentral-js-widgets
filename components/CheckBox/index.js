@@ -124,7 +124,8 @@ CheckBox.propTypes = {
   className: _propTypes["default"].string,
   dataSign: _propTypes["default"].string,
   type: _propTypes["default"].string,
-  onChecked: _propTypes["default"].func
+  onChecked: _propTypes["default"].func,
+  checked: _propTypes["default"].bool
 };
 CheckBox.defaultProps = {
   textField: null,
@@ -135,7 +136,8 @@ CheckBox.defaultProps = {
   onChecked: function onChecked() {},
   onSelect: function onSelect() {},
   data: [],
-  selected: null
+  selected: null,
+  checked: false
 };
 var _default = CheckBox;
 exports["default"] = _default;

@@ -118,7 +118,9 @@ function (_RcUIModule) {
             connectivityManager.showConnectivityAlert();
           }
         },
-        showBadgeAlert: connectivityManager.showConnectivityAlert
+        showBadgeAlert: function showBadgeAlert() {
+          connectivityManager.showConnectivityAlert();
+        }
       };
     }
   }]);

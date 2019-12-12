@@ -19,15 +19,14 @@ var _default = {
   autoLogNotes: 'Auto log notes',
   autoLogSMS: 'Auto log SMS',
   clickToSMS: 'Click to SMS',
-  logSMSContext: 'Log SMS context',
+  logSMSContent: 'Log SMS content',
   clickToDialSMS: 'Click to Dial/SMS',
   audio: 'Audio',
   language: 'Language',
   feedback: 'Feedback',
   userGuide: "What's New",
   quickAccess: "Quick Access Setting",
-  report: "Analytics Report",
-  msteamsSetting: 'Microsoft Teams Setting'
+  report: "Analytics Report"
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

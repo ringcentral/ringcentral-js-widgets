@@ -10,7 +10,7 @@ var _default = {
   recentActivities: "Actividades recientes",
   text: "Texto",
   fax: "Fax",
-  voicemail: "Buzón de voz",
+  voicemail: "Mensaje de voz",
   call: "Llamada"
 }; // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

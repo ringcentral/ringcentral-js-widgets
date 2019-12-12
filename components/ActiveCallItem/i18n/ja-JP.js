@@ -30,13 +30,14 @@ var _default = {
   to: "宛先",
   hangup: "通話終了",
   accept: "同意する",
-  toVoicemail: "ボイスメールへ転送",
+  toVoicemail: "ボイスメールへ送信",
   anonymous: "匿名",
   mergeToConference: "マージ",
   hold: "保留",
   unhold: "保留解除",
   transfer: "転送",
-  reject: "拒否"
+  reject: "拒否",
+  switchCall: "このアプリに通話を変更"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -67,6 +68,7 @@ var _default = {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

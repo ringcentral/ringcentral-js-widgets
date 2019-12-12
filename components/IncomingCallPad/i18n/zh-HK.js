@@ -10,8 +10,8 @@ var _default = {
   forward: "轉接",
   reply: "回覆",
   ignore: "忽略",
-  toVoicemail: "轉語音信箱",
-  answer: "回答",
+  toVoicemail: "轉至語音信箱",
+  answer: "接聽",
   answerAndEnd: "接聽並結束",
   answerAndHold: "接聽並保留"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

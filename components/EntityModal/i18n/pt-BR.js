@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   account: "Conta",
   contact: "Contato",
-  lead: "Líder",
+  lead: "Cliente potencial",
   opportunity: "Oportunidade",
   chooseEntity: "Selec. o tipo de entidade",
   create: "Criar"

@@ -90,6 +90,9 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
   deps: ['Brand', {
     dep: 'CallLogger',
     optional: true
+  }, {
+    dep: 'ContactDetailsUI',
+    optional: true
   }, 'CallMonitor', 'Locale', 'RegionSettings', 'RolesAndPermissions', {
     dep: 'ConferenceCall',
     optional: true
@@ -127,7 +130,8 @@ function (_RcUIModule) {
         composeText = _ref.composeText,
         contactSearch = _ref.contactSearch,
         contactMatcher = _ref.contactMatcher,
-        options = _objectWithoutProperties(_ref, ["brand", "callLogger", "callMonitor", "locale", "regionSettings", "rolesAndPermissions", "conferenceCall", "callingSettings", "connectivityMonitor", "rateLimiter", "activeCallControl", "webphone", "routerInteraction", "composeText", "contactSearch", "contactMatcher"]);
+        contactDetailsUI = _ref.contactDetailsUI,
+        options = _objectWithoutProperties(_ref, ["brand", "callLogger", "callMonitor", "locale", "regionSettings", "rolesAndPermissions", "conferenceCall", "callingSettings", "connectivityMonitor", "rateLimiter", "activeCallControl", "webphone", "routerInteraction", "composeText", "contactSearch", "contactMatcher", "contactDetailsUI"]);
 
     _classCallCheck(this, ActiveCallsUI);
 
@@ -148,6 +152,7 @@ function (_RcUIModule) {
     _this._composeText = composeText;
     _this._contactSearch = contactSearch;
     _this._contactMatcher = contactMatcher;
+    _this._contactDetailsUI = contactDetailsUI;
     return _this;
   }
 
@@ -431,7 +436,13 @@ function (_RcUIModule) {
           var id = contact.id,
               type = contact.type;
 
-          _this2._routerInteraction.push("/contacts/".concat(type, "/").concat(id, "?direct=true"));
+          if (_this2._contactDetailsUI) {
+            _this2._contactDetailsUI.showContactDetails({
+              type: type,
+              id: id,
+              direct: true
+            });
+          }
         } : null,
         onClickToSms: this._composeText ? function _callee(contact) {
           var isDummyContact,

@@ -1,1 +1,1 @@
-{"version":3,"sources":["modules/CallHistoryUI/i18n/zh-TW.js"],"names":["title"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  title: \"歷史\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"],"file":"zh-TW.js"}
+{"version":3,"sources":["modules/CallHistoryUI/i18n/zh-TW.js"],"names":["title"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  title: \"歷史記錄\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"],"file":"zh-TW.js"}

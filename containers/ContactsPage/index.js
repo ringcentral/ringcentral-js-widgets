@@ -33,8 +33,8 @@ function mapToProps(_, _ref) {
 
 function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
-      routerInteraction = _ref2$phone.routerInteraction,
       contacts = _ref2$phone.contacts,
+      contactDetailsUI = _ref2$phone.contactDetailsUI,
       onItemSelect = _ref2.onItemSelect,
       onVisitPage = _ref2.onVisitPage,
       onRefresh = _ref2.onRefresh;
@@ -63,7 +63,13 @@ function mapToFunctions(_, _ref2) {
           switch (_context2.prev = _context2.next) {
             case 0:
               type = _ref3.type, id = _ref3.id;
-              routerInteraction.push("/contacts/".concat(type, "/").concat(id));
+
+              if (contactDetailsUI) {
+                contactDetailsUI.showContactDetails({
+                  type: type,
+                  id: id
+                });
+              }
 
             case 2:
             case "end":

@@ -15,7 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_messages$requireAdit = {}, _defineProperty(_messages$requireAdit, _messages["default"].requireAditionalNumbers, "請選擇其他撥入號碼。"), _defineProperty(_messages$requireAdit, _messages["default"].scheduledSuccess, "電話會議已排定。"), _messages$requireAdit); // @key: @#@"[messages.requireAditionalNumbers]"@#@ @source: @#@"Please select the additional dial-in numbers."@#@
+var _default = (_messages$requireAdit = {}, _defineProperty(_messages$requireAdit, _messages["default"].requireAditionalNumbers, "請選擇其他撥入號碼。"), _defineProperty(_messages$requireAdit, _messages["default"].scheduledSuccess, "電話會議已排程。"), _messages$requireAdit); // @key: @#@"[messages.requireAditionalNumbers]"@#@ @source: @#@"Please select the additional dial-in numbers."@#@
 // @key: @#@"[messages.scheduledSuccess]"@#@ @source: @#@"Conference is scheduled."@#@
 
 

@@ -16,27 +16,28 @@ var _default = {
   CallConnected: "已連線通話",
   unknownUser: "未知的使用者",
   unknownNumber: "匿名",
-  unavailable: "無法使用",
+  unavailable: "不可用",
   viewDetails: "檢視詳細資訊",
-  addEntity: "建立新的",
+  addEntity: "建立",
   addLog: "記錄",
-  text: "文字",
+  text: "簡訊",
   call: "通話",
-  addContact: "新增聯絡人",
+  addContact: "新增連絡人",
   missedCall: "未接",
-  inboundCall: "來電",
+  inboundCall: "撥入電話",
   outboundCall: "撥出電話",
   from: "來自",
   to: "至",
   hangup: "掛斷",
   accept: "接受",
-  toVoicemail: "轉語音信箱",
+  toVoicemail: "轉至語音信箱",
   anonymous: "匿名",
   mergeToConference: "合併",
   hold: "通話保留",
   unhold: "取消通話保留",
   transfer: "轉接",
-  reject: "繼絕"
+  reject: "繼絕",
+  switchCall: "將通話切換至這個應用程式"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -67,6 +68,7 @@ var _default = {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

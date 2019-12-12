@@ -51,7 +51,6 @@ var DEFAULT_REGION_SETTINGS_URL = '/settings/region';
 var DEFAULT_CALLING_SETTINGS_URL = '/settings/calling';
 var DEFAULT_AUDIO_SETTINGS_URL = '/settings/audio';
 var DEFAULT_FEEDBACK_SETTINGS_URL = '/settings/feedback';
-var DEFAULT_MSTEAMS_SETTINGS_URL = '/settings/msteams';
 var SettingsUI = (_dec = (0, _di.Module)({
   name: 'SettingsUI',
   deps: ['Auth', 'Brand', 'Locale', {
@@ -114,8 +113,6 @@ function (_RcUIModule) {
           showUserGuide = _ref$showUserGuide === void 0 ? true : _ref$showUserGuide,
           _ref$showPresenceSett = _ref.showPresenceSettings,
           showPresenceSettings = _ref$showPresenceSett === void 0 ? true : _ref$showPresenceSett,
-          _ref$showMsteamsSetti = _ref.showMsteamsSettings,
-          showMsteamsSettings = _ref$showMsteamsSetti === void 0 ? false : _ref$showMsteamsSetti,
           _ref$showQuickAccess = _ref.showQuickAccess,
           showQuickAccess = _ref$showQuickAccess === void 0 ? false : _ref$showQuickAccess,
           params = _ref.params;
@@ -138,7 +135,6 @@ function (_RcUIModule) {
         loginNumber: loginNumber,
         showFeedback: showFeedback,
         showQuickAccess: showQuickAccess,
-        showMsteamsSettings: showMsteamsSettings,
         showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && rolesAndPermissions.ready && (!presence || presence.ready) && (!localeSettings || localeSettings.ready)),
         showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
         showAudio: showAudio && rolesAndPermissions.callingEnabled,
@@ -168,8 +164,6 @@ function (_RcUIModule) {
           audioSettingsUrl = _ref2$audioSettingsUr === void 0 ? DEFAULT_AUDIO_SETTINGS_URL : _ref2$audioSettingsUr,
           _ref2$feedbackSetting = _ref2.feedbackSettingsUrl,
           feedbackSettingsUrl = _ref2$feedbackSetting === void 0 ? DEFAULT_FEEDBACK_SETTINGS_URL : _ref2$feedbackSetting,
-          _ref2$msteamsSettings = _ref2.msteamsSettingsUrl,
-          msteamsSettingsUrl = _ref2$msteamsSettings === void 0 ? DEFAULT_MSTEAMS_SETTINGS_URL : _ref2$msteamsSettings,
           _ref2$phone = _ref2.phone,
           auth = _ref2$phone.auth,
           presence = _ref2$phone.presence,
@@ -204,9 +198,6 @@ function (_RcUIModule) {
         },
         onFeedbackSettingsLinkClick: function onFeedbackSettingsLinkClick() {
           routerInteraction.push(feedbackSettingsUrl);
-        },
-        onMsteamsSettingsLinkClick: function onMsteamsSettingsLinkClick() {
-          routerInteraction.push(msteamsSettingsUrl);
         },
         onUserGuideClick: function onUserGuideClick() {
           userGuide.start();

@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   region: "地區",
-  calling: "正在撥號",
+  calling: "撥號",
   logout: "登出",
   version: "版本",
   settings: "設定",
@@ -19,14 +19,14 @@ var _default = {
   autoLogNotes: "自動記錄筆記",
   autoLogSMS: "自動記錄簡訊",
   clickToSMS: "點選傳送簡訊",
+  logSMSContent: "記錄簡訊內容",
   clickToDialSMS: "點選撥號/傳送簡訊",
   audio: "音訊",
   language: "語言",
   feedback: "意見回饋",
   userGuide: "新功能",
   quickAccess: "快速存取設定",
-  report: "分析報告",
-  msteamsSetting: "Microsoft Teams 設定"
+  report: "分析報告"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -39,6 +39,7 @@ var _default = {
 // @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
+// @key: @#@"logSMSContent"@#@ @source: @#@"Log SMS content"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
@@ -46,7 +47,6 @@ var _default = {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
-// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

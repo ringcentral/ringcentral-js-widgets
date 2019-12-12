@@ -72,6 +72,7 @@ function mapToFunctions(_, _ref2) {
       contactMatcher = _ref2$phone.contactMatcher,
       contactSearch = _ref2$phone.contactSearch,
       regionSettings = _ref2$phone.regionSettings,
+      contactDetailsUI = _ref2$phone.contactDetailsUI,
       routerInteraction = _ref2$phone.routerInteraction,
       webphone = _ref2$phone.webphone,
       dateTimeFormat = _ref2$phone.dateTimeFormat,
@@ -213,7 +214,14 @@ function mapToFunctions(_, _ref2) {
       var _ref6$contact = _ref6.contact,
           type = _ref6$contact.type,
           id = _ref6$contact.id;
-      routerInteraction.push("/contacts/".concat(type, "/").concat(id, "?direct=true"));
+
+      if (contactDetailsUI) {
+        contactDetailsUI.showContactDetails({
+          type: type,
+          id: id,
+          direct: true
+        });
+      }
     },
     onClickToDial: dialerUI ? function (recipient) {
       if (call.isIdle) {

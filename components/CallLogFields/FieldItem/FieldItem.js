@@ -53,7 +53,7 @@ var _timeFormatHelper = require("../../../lib/timeFormatHelper");
 
 var _InputSelect = _interopRequireDefault(require("../../InputSelect"));
 
-var _CustomButton = require("../../Rcui/CustomButton");
+var _CustomArrowButton = require("../../Rcui/CustomArrowButton");
 
 var _SelectList = require("../../SelectList");
 
@@ -315,18 +315,14 @@ function (_Component) {
       var _this$props6 = _this.props,
           _this$props6$currentL = _this$props6.currentLog,
           task = _this$props6$currentL.task,
-          type = _this$props6$currentL.type,
           subjectPicklist = _this$props6$currentL.subjectPicklist,
-          currentLocale = _this$props6.currentLocale,
           subjectDropdownsTracker = _this$props6.subjectDropdownsTracker,
           timeout = _this$props6.timeout;
       var _this$props7 = _this.props,
           required = _this$props7.fieldOption.required,
           onSave = _this$props7.onSave;
       return _react["default"].createElement(_InputSelect["default"], {
-        type: type,
         required: required,
-        currentLocale: currentLocale,
         subjectPicklist: subjectPicklist,
         subject: task.subject || '',
         onChange: _this.onInputSelectChange('subject'),
@@ -498,7 +494,7 @@ function (_Component) {
   }, {
     key: "getRightButtons",
     value: function getRightButtons(disabled) {
-      return _react["default"].createElement(_CustomButton.CustomArrowButton, {
+      return _react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
         disabled: disabled
       });
     }

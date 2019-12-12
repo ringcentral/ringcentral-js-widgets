@@ -20,7 +20,9 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
       telephonySessionId = props.telephonySessionId,
       disableLinks = props.disableLinks,
       isWide = props.isWide,
-      currentSession = props.currentSession;
+      currentSession = props.currentSession,
+      transferRef = props.transferRef,
+      isOnTransfer = props.isOnTransfer;
 
   if (!currentSession) {
     return null;
@@ -120,7 +122,9 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
     callDirection: currentSession.direction,
     currentLocale: currentLocale,
     disableLinks: disableLinks,
-    isWide: isWide
+    isWide: isWide,
+    transferRef: transferRef,
+    isOnTransfer: isOnTransfer
   });
 };
 
@@ -130,7 +134,9 @@ CallLogCallCtrl.defaultProps = {
   telephonySessionId: '',
   status: '',
   disableLinks: false,
-  isWide: true
+  isWide: true,
+  transferRef: undefined,
+  isOnTransfer: false
 };
 var _default = CallLogCallCtrl;
 exports["default"] = _default;

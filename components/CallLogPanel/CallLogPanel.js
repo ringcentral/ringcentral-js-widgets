@@ -132,10 +132,13 @@ function (_Component) {
           result = call.result,
           telephonySessionId = call.telephonySessionId;
       var status = telephonyStatus || result; // if `result` is exist, call has been disconnect
+      // 'showSmallCallControl || isActive' can be replaced with 'showSmallCallControl'
+      // which include showSmallCallControl permission and isActive judgement(eg: canShowSmallCallControl && isActive) on UI module in the future
+      // Then we can remove the logic from component to UI module like 'engage-voice-widget/modules/EvActivityCallUI/EvActivityCallUI'
 
       var isActive = !result;
 
-      if (showSmallCallControl && isActive) {
+      if (showSmallCallControl || isActive) {
         return _react["default"].createElement("div", {
           className: (0, _classnames["default"])(_styles["default"].callControlRoot, callLogCallControl)
         }, renderCallLogCallControl && renderCallLogCallControl(status, telephonySessionId, isWide));
@@ -323,7 +326,7 @@ CallLogPanel.defaultProps = {
     return null;
   },
   header: true,
-  showSmallCallControl: true,
+  showSmallCallControl: false,
   isInTransferPage: false,
   showSpinner: true,
   isWide: true,

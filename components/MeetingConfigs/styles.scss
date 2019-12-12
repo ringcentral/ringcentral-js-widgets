@@ -38,7 +38,10 @@
 }
 
 :global .rw-datetime-picker .rw-select,
-:global .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button {
+:global
+  .rw-widget-input.rw-widget-picker.rw-widget-container
+  .rw-select
+  button {
   display: none;
 }
 
@@ -104,6 +107,11 @@
   align-items: center;
 }
 
+.recurringGroup {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .inline {
   display: flex;
   flex-flow: row nowrap;
@@ -132,6 +140,13 @@
   @extend .label;
   font-weight: normal;
   color: $ash;
+}
+
+.labelDark {
+  display: flex;
+  font-size: 14px;
+  font-weight: normal;
+  color: #212121;
 }
 
 .hiddenTopBorder {

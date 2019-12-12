@@ -103,6 +103,11 @@ function (_RcUIModule) {
   }
 
   _createClass(CallLogCallCtrlUI, [{
+    key: "onTransfer",
+    value: function onTransfer(telephonySessionId) {
+      return this._routerInteraction.push("/transfer/".concat(telephonySessionId, "/active"));
+    }
+  }, {
     key: "getUIProps",
     value: function getUIProps(_ref2) {
       var telephonySessionId = _ref2.telephonySessionId;
@@ -117,9 +122,7 @@ function (_RcUIModule) {
     }
   }, {
     key: "getUIFunctions",
-    value: function getUIFunctions() {
-      var _this2 = this;
-
+    value: function getUIFunctions(props) {
       return {
         mute: this._activeCallControl.mute.bind(this._activeCallControl),
         unmute: this._activeCallControl.unmute.bind(this._activeCallControl),
@@ -127,9 +130,7 @@ function (_RcUIModule) {
         reject: this._activeCallControl.reject.bind(this._activeCallControl),
         onHold: this._activeCallControl.hold.bind(this._activeCallControl),
         onUnHold: this._activeCallControl.unhold.bind(this._activeCallControl),
-        onTransfer: function onTransfer(telephonySessionId) {
-          return _this2._routerInteraction.push("/transfer/".concat(telephonySessionId, "/active"));
-        }
+        onTransfer: this.onTransfer.bind(this._activeCallControl)
       };
     }
   }]);

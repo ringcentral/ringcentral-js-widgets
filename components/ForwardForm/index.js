@@ -85,6 +85,7 @@ function ForwardNumbers(_ref) {
   }, numbers.map(function (number, index) {
     return _react["default"].createElement("div", {
       key: number.id,
+      "data-sign": "forward-number-".concat(number.label.toLowerCase()),
       className: (0, _classnames["default"])(_styles["default"].number, index === selected ? _styles["default"].active : null),
       onClick: function onClick() {
         return onSelect(index);
@@ -260,6 +261,7 @@ function (_Component) {
       var value = this.getValue();
       var disableButton = (0, _isBlank["default"])(value) || this.state.handling;
       return _react["default"].createElement("div", {
+        "data-sign": "forwardPage",
         className: (0, _classnames["default"])(_styles["default"].root, className)
       }, _react["default"].createElement(ForwardNumbers, {
         formatPhone: formatPhone,
@@ -267,6 +269,7 @@ function (_Component) {
         onSelect: this.onSelect,
         selected: this.state.selectedIndex
       }), _react["default"].createElement("div", {
+        "data-sign": "customNumber",
         className: (0, _classnames["default"])(_styles["default"].custromNumber, this.state.selectedIndex === forwardingNumbers.length ? _styles["default"].active : null),
         onClick: this.onSelectCustomNumber
       }, _react["default"].createElement("div", {
@@ -295,9 +298,11 @@ function (_Component) {
       })), _react["default"].createElement("div", {
         className: _styles["default"].buttonGroup
       }, _react["default"].createElement(_Button["default"], {
+        dataSign: "cancel",
         className: _styles["default"].cancelButton,
         onClick: onCancel
       }, _i18n["default"].getString('cancel', currentLocale)), _react["default"].createElement(_Button["default"], {
+        dataSign: "forwardCall",
         className: (0, _classnames["default"])(_styles["default"].forwardButton, disableButton ? _styles["default"].disabled : null),
         onClick: this.onForward,
         disabled: disableButton
