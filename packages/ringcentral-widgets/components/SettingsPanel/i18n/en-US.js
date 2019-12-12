@@ -11,7 +11,7 @@ export default {
   autoLogNotes: 'Auto log notes',
   autoLogSMS: 'Auto log SMS',
   clickToSMS: 'Click to SMS',
-  logSMSContext: 'Log SMS context',
+  logSMSContent: 'Log SMS content',
   clickToDialSMS: 'Click to Dial/SMS',
   audio: 'Audio',
   language: 'Language',
@@ -19,5 +19,4 @@ export default {
   userGuide: "What's New",
   quickAccess: "Quick Access Setting",
   report: "Analytics Report",
-  msteamsSetting: 'Microsoft Teams Setting'
 };

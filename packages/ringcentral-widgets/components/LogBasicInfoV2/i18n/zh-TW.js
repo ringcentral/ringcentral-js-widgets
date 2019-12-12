@@ -2,15 +2,15 @@ import callResults from 'ringcentral-integration/enums/callResults';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 export default {
-  [callDirections.inbound]: "來電",
+  [callDirections.inbound]: "撥入電話",
   [callDirections.outbound]: "撥出電話",
   status: "狀態：",
   InboundNumber: "來電者 ID：",
   OutboundNumber: "已撥號：",
-  InboundDirection: "來電來自：",
+  InboundDirection: "撥入電話自：",
   OutboundDirection: "撥出電話至：",
   [telephonyStatuses.noCall]: "中斷連接",
-  [telephonyStatuses.callConnected]: "已接通",
+  [telephonyStatuses.callConnected]: "已連線",
   [telephonyStatuses.ringing]: "鈴響",
   [telephonyStatuses.onHold]: "等待接通",
   [telephonyStatuses.parkedCall]: "已寄存",
@@ -18,7 +18,7 @@ export default {
   [callResults.missed]: "未接",
   [callResults.callAccepted]: "已接聽",
   [callResults.accepted]: "已接聽",
-  [callResults.voicemail]: "語音訊息",
+  [callResults.voicemail]: "語音信箱",
   [callResults.rejected]: "已遭拒",
   [callResults.reply]: "回覆",
   [callResults.received]: "已接收",

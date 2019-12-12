@@ -11,6 +11,7 @@ export default {
   autoLogNotes: "Auto-log notes",
   autoLogSMS: "Auto-log SMS",
   clickToSMS: "Click to SMS",
+  logSMSContent: "Log SMS content",
   clickToDialSMS: "Click to Dial/SMS",
   audio: "Audio",
   language: "Language",
@@ -18,7 +19,6 @@ export default {
   userGuide: "What's New",
   quickAccess: "Quick Access Setting",
   report: "Analytics report",
-  msteamsSetting: "Microsoft Teams Setting"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -33,6 +33,7 @@ export default {
 // @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
+// @key: @#@"logSMSContent"@#@ @source: @#@"Log SMS content"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
@@ -40,4 +41,3 @@ export default {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
-// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@

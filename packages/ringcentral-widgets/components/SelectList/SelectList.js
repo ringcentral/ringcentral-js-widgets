@@ -63,13 +63,13 @@ export const SelectList = (props) => {
         {children}
       </div>
       <SelectListWithScrollCheck
+        {...props}
         matchedTitle={matchedTitle || i18n.getString('matched', currentLocale)}
         otherTitle={otherTitle || i18n.getString('other', currentLocale)}
         renderListView={renderListView}
         open={open}
         setOpen={setOpen}
         backHeaderClassName={backHeaderClassName}
-        {...props}
       />
     </div>
   );

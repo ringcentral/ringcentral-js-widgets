@@ -46,7 +46,9 @@ export default class ConnectivityBadgeUI extends RcUIModule {
           connectivityManager.showConnectivityAlert();
         }
       },
-      showBadgeAlert: connectivityManager.showConnectivityAlert,
+      showBadgeAlert() {
+        connectivityManager.showConnectivityAlert();
+      },
     };
   }
 }

@@ -396,6 +396,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
       audioOptions,
       password,
       schedule,
+      recurrence,
     } = meeting;
     const formatted: ScheduleMeetingModel = {
       topic,
@@ -405,6 +406,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
       startParticipantsVideo,
       audioOptions,
       password,
+      recurrence,
     };
     // Recurring meetings do not have schedule info
     if (meetingType !== MeetingType.RECURRING) {
@@ -418,6 +420,10 @@ export class Meeting extends RcModule<MeetingActionTypes> {
         _schedule.startTime = moment.utc(schedule.startTime).format();
       }
       formatted.schedule = _schedule;
+
+      if(recurrence && recurrence.until) {
+        formatted.recurrence.until = moment.utc(recurrence.until).format();
+      }
     }
     return formatted;
   }
@@ -501,6 +507,13 @@ export interface ScheduleModel {
   startTime?: string;
 }
 
+export interface RecurrenceOptions {
+  frequency: string;
+  interval: string | number;
+  count?: number;
+  until?: string; // "2030-12-21T12:00:00Z"
+}
+
 export interface ScheduleMeetingModel {
   topic: string;
   meetingType: any;
@@ -510,4 +523,5 @@ export interface ScheduleMeetingModel {
   audioOptions: any;
   password: any;
   schedule?: ScheduleModel;
+  recurrence?: RecurrenceOptions;
 }

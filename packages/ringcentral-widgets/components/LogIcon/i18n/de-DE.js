@@ -1,7 +1,7 @@
 export default {
   logged: "Protokolliert",
   unlogged: "Unbearbeitet",
-  faxNotSupported: "Das Protokollieren von Faxen wird nicht unterstützt."
+  faxNotSupported: "Faxprotokollierung wird nicht unterstützt."
 };
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@

@@ -24,11 +24,13 @@ export default function CallLogCallCtrlComponent(props) {
     currentLocale,
     callDirection,
     onTransfer,
+    isOnTransfer,
     isOnHold,
     onUnHold,
     onHold,
     disableLinks,
     isWide,
+    transferRef,
   } = props;
 
   // reject conditions: call direction is inbound & call status is ringing
@@ -58,13 +60,14 @@ export default function CallLogCallCtrlComponent(props) {
           disabled={disableLinks || disabledCtrl}
         />
       </span>
-      <span title={i18n.getString('transfer', currentLocale)}>
+      <span ref={transferRef} title={i18n.getString('transfer', currentLocale)}>
         <CircleButton
           dataSign="transfer"
           icon={TransferIcon}
           onClick={onTransfer}
           className={classnames({
             [styles.button]: true,
+            [styles.buttonActive]: isOnTransfer,
             [styles.buttonDisabled]: disableLinks || isInComingCall,
           })}
           disabled={disableLinks || isInComingCall}
@@ -116,6 +119,11 @@ CallLogCallCtrlComponent.propTypes = {
   currentLocale: PropTypes.string,
   callDirection: PropTypes.string.isRequired,
   isWide: PropTypes.bool,
+  transferRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
+  isOnTransfer: PropTypes.bool,
 };
 CallLogCallCtrlComponent.defaultProps = {
   onMute() {},
@@ -131,4 +139,6 @@ CallLogCallCtrlComponent.defaultProps = {
   currentLocale: 'en-US',
   disableLinks: false,
   isWide: true,
+  transferRef: undefined,
+  isOnTransfer: false,
 };

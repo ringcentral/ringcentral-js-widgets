@@ -17,6 +17,7 @@ import i18n from './i18n';
     { dep: 'Call', optional: true },
     { dep: 'ComposeText', optional: true },
     { dep: 'DialerUI', optional: true },
+    { dep: 'ContactDetailsUI', optional: true },
     'ContactMatcher',
     'RouterInteraction',
     'ContactSearch',
@@ -26,18 +27,18 @@ import i18n from './i18n';
 export default class CallHistoryUI extends RcUIModule {
   getUIProps({
     phone: {
-      locale,
       brand,
-      callHistory,
-      regionSettings,
-      connectivityMonitor,
-      rateLimiter,
-      dateTimeFormat,
-      callLogger,
       call,
+      callHistory,
+      callLogger,
       composeText,
-      rolesAndPermissions,
       connectivityManager,
+      connectivityMonitor,
+      dateTimeFormat,
+      locale,
+      rateLimiter,
+      regionSettings,
+      rolesAndPermissions,
     },
     enableContactFallback = false,
     useNewList = false,
@@ -92,6 +93,7 @@ export default class CallHistoryUI extends RcUIModule {
       contactMatcher,
       call,
       dialerUI,
+      contactDetailsUI,
       composeText,
       routerInteraction,
       contactSearch,
@@ -111,7 +113,13 @@ export default class CallHistoryUI extends RcUIModule {
       onViewContact:
         onViewContact ||
         (({ contact: { type, id } }) => {
-          routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
+          if (contactDetailsUI) {
+            contactDetailsUI.showContactDetails({
+              type,
+              id,
+              direct: true,
+            });
+          }
         }),
       onCreateContact: onCreateContact
         ? async ({ phoneNumber, name, entityType }) => {

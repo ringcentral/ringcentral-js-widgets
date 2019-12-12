@@ -28,6 +28,7 @@ const UTC_TIMEZONE_ID = '1';
 const MeetingType = {
   SCHEDULED: 'Scheduled',
   RECURRING: 'Recurring',
+  SCHEDULED_RECURRING: 'ScheduledRecurring',
   INSTANT: 'Instant',
 };
 

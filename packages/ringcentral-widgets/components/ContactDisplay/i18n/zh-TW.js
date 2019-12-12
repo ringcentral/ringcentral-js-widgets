@@ -8,7 +8,7 @@ export default {
   CallConnected: "已連線通話",
   unknownUser: "未知的使用者",
   unknownNumber: "匿名",
-  unavailable: "無法使用",
+  unavailable: "不可用",
   viewDetails: "檢視詳細資訊",
   conferenceCall: "電話會議"
 };

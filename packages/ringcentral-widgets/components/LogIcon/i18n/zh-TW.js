@@ -1,7 +1,7 @@
 export default {
   logged: "已記錄",
   unlogged: "未使用",
-  faxNotSupported: "不支援記錄傳真"
+  faxNotSupported: "不支援記錄傳真。"
 };
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@

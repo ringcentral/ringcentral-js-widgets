@@ -1,8 +1,8 @@
 export default {
   currentCall: "目前通話",
   viewCalls: "檢視通話",
-  incomingCall: "{numberOf} 接到來電",
-  incomingCalls: "{numberOf} 接到來電",
+  incomingCall: "{numberOf} 通撥入電話",
+  incomingCalls: "{numberOf} 通撥入電話",
   callOnHold: "{numberOf} 通電話等待接通",
   callsOnHold: "{numberOf} 通電話等待接通"
 };

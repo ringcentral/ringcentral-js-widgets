@@ -1,8 +1,8 @@
 export default {
   account: "帐户",
   contact: "联系人",
-  lead: "引导",
-  opportunity: "对象",
+  lead: "潜在客户",
+  opportunity: "业务机会",
   chooseEntity: "请选择实体类型",
   create: "创建"
 };

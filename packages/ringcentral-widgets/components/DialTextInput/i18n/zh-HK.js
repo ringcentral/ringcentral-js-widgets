@@ -1,5 +1,5 @@
 export default {
-  to: "收件人：",
+  to: "至：",
   enterNameOrPhoneNumber: "輸入號碼"
 };
 

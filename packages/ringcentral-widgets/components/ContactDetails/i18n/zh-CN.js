@@ -1,4 +1,4 @@
-import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
+import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import phoneTypes from '../../../enums/phoneTypes';
 export default {
@@ -8,6 +8,7 @@ export default {
   [phoneTypes.home]: "家庭",
   [phoneTypes.business]: "商务",
   [phoneTypes.fax]: "传真",
+  [phoneTypes.company]: "公司",
   [phoneTypes.other]: "其他",
   emailLabel: "电子邮件",
   call: "呼叫",
@@ -16,7 +17,9 @@ export default {
   [presenceStatus.offline]: "隐身",
   [presenceStatus.busy]: "忙碌",
   [dndStatus.doNotAcceptAnyCalls]: "勿扰",
-  notActivated: "停用"
+  notActivated: "停用",
+  company: "公司",
+  jobTitle: "职位"
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
@@ -25,6 +28,7 @@ export default {
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
+// @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company"@#@
 // @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
@@ -34,3 +38,5 @@ export default {
 // @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
+// @key: @#@"company"@#@ @source: @#@"Company"@#@
+// @key: @#@"jobTitle"@#@ @source: @#@"Title"@#@

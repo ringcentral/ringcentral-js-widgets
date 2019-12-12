@@ -28,7 +28,8 @@ export default {
   hold: "保持",
   unhold: "取消保持",
   transfer: "转移",
-  reject: "拒绝"
+  reject: "拒绝",
+  switchCall: "将呼叫切换到此应用"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -61,3 +62,4 @@ export default {
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
+// @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@

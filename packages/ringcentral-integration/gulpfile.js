@@ -104,7 +104,6 @@ export function compile() {
     .src([
       './**/*.js',
       './**/*.ts',
-      './**/*.tsx',
       '!./**/*.d.ts',
       '!./**/*.test.js',
       '!./*.js',

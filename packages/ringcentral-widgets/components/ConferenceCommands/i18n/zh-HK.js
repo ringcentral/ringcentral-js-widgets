@@ -1,5 +1,5 @@
 export default {
-  title: "會議指令",
+  title: "電話會議指令",
   starSharp2Title: "來電者人數",
   starSharp2Body: "隨時瞭解來電者人數",
   starSharp3Title: "離開會議",
@@ -12,10 +12,10 @@ export default {
   starSharp6Body: "按一次以「靜音」\n再按一次以「取消靜音」",
   starSharp7Title: "保證通話",
   starSharp7Body: "按一次以「封鎖」所有來電者\n再按一次以「開啟」通話",
-  starSharp8Title: "來電或掛電話時聽聲音",
+  starSharp8Title: "進入或退出通話時聽聲音",
   starSharp8Body: "按 1 次：「關閉」聲音\n按 2 次：進入聲「開啟」離開聲「關閉」\n按 3 次：進入聲「關閉」離開聲「開啟」\n按 4 次：開啟聲音",
-  star9Title: "記錄您的會議",
-  star9Body: "按一次以「開始」錄音\n再按一次以「停止」錄音"
+  star9Title: "錄製您的會議",
+  star9Body: "按一次以「開始」錄製\n再按一次以「停止」錄製"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

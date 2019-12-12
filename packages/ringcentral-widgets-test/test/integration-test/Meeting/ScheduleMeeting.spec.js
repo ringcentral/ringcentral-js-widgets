@@ -97,9 +97,11 @@ describe('Schedule Meeting', () => {
       MeetingType.SCHEDULED,
     );
     typeField.props().onChange(true);
-    expect(app.props().phone.meeting.meeting.meetingType).toBe(
-      MeetingType.RECURRING,
-    );
+    const meetingType = app.props().phone.meeting.meeting.meetingType;
+    expect(
+      meetingType === MeetingType.RECURRING ||
+        meetingType === MeetingType.SCHEDULED_RECURRING,
+    ).toBe(true);
   });
   test('<Video />', async () => {
     const video = app.find(MeetingSection).at(4);

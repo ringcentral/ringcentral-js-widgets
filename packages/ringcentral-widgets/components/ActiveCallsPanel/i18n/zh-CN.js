@@ -1,5 +1,5 @@
 export default {
-  noActiveCalls: "无启用中通话",
+  noActiveCalls: "无使用中通话",
   currentCall: "当前通话",
   ringCall: "正在振铃通话",
   onHoldCall: "等候接听电话",

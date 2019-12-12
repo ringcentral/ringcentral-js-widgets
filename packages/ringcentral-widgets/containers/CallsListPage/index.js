@@ -74,6 +74,7 @@ function mapToFunctions(
       contactMatcher,
       contactSearch,
       regionSettings,
+      contactDetailsUI,
       routerInteraction,
       webphone,
       dateTimeFormat,
@@ -142,7 +143,9 @@ function mapToFunctions(
     onViewContact:
       onViewContact ||
       (({ contact: { type, id } }) => {
-        routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
+        if (contactDetailsUI) {
+          contactDetailsUI.showContactDetails({ type, id, direct: true });
+        }
       }),
     onClickToDial: dialerUI
       ? (recipient) => {

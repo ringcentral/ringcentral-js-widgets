@@ -17,7 +17,11 @@ export default {
   enableJoinBeforeHost: "Activer l'option permettant de joindre la réunion avant l'animateur",
   telephonyOnly: "Téléphonie seulement",
   hostVideoOn: "Vidéo de l'animateur activée",
-  participantVideoOn: "Vidéo du participant activée"
+  participantVideoOn: "Vidéo du participant activée",
+  recurringEvery: "Tout",
+  recurrenceType: "Type de récurrence",
+  recurrenceEndDate: "Date de fin",
+  currentLocale: "Jour(s)"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -39,3 +43,7 @@ export default {
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
 // @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+// @key: @#@"recurringEvery"@#@ @source: @#@"Every"@#@
+// @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
+// @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
+// @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@

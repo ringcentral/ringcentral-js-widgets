@@ -9,9 +9,8 @@ export function getButtonStatus({
   const buttonDisabled =
     (isCreated && isAutoSave && !isFailed) ||
     isSaving ||
-    (!isEdited && isSucceed);
-
-  const unSavingText = !isEdited && isSucceed ? 'saved' : 'save';
+    (!isEdited && isSucceed && isCreated);
+  const unSavingText = isCreated && !isEdited && isSucceed ? 'saved' : 'save';
   const buttonContent = isSaving ? 'saving' : unSavingText;
 
   return {

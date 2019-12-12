@@ -28,7 +28,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     currentNotificationIdentify: '',
     shrinkNotification: () => null,
     header: true,
-    showSmallCallControl: true,
+    showSmallCallControl: false,
     isInTransferPage: false,
     showSpinner: true,
     isWide: true,
@@ -82,8 +82,11 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     const { telephonyStatus, result, telephonySessionId } = call;
     const status = telephonyStatus || result;
     // if `result` is exist, call has been disconnect
+    // 'showSmallCallControl || isActive' can be replaced with 'showSmallCallControl'
+    // which include showSmallCallControl permission and isActive judgement(eg: canShowSmallCallControl && isActive) on UI module in the future
+    // Then we can remove the logic from component to UI module like 'engage-voice-widget/modules/EvActivityCallUI/EvActivityCallUI'
     const isActive = !result;
-    if (showSmallCallControl && isActive) {
+    if (showSmallCallControl || isActive) {
       return (
         <div className={classnames(styles.callControlRoot, callLogCallControl)}>
           {renderCallLogCallControl &&

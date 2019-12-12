@@ -2,7 +2,7 @@ export default {
   inviteMeetingContent: "{accountName}から{brandName}会議に招待されています。\n\nPC、Mac、iOS、またはAndroidからの参加：{joinUri}{passwordTpl}\n\nまたはiPhoneで1回タップ：\n\t{mobileDialingNumberTpl}\n\nまたは電話：\n\tダイヤル：{phoneDialingNumberTpl}\n\t会議ID：{meetingId}\n\t利用可能な国際電話番号：{teleconference} ",
   rcvInviteMeetingContent: "{accountName}さんから{brandName}会議に招待されました。\n\n次のリンクを使用して参加してください：\n\t{joinUri} ",
   rcvInviteMeetingContentDial: "\n\nスマートフォンからのみ音声に参加するには、ワンタップしてください：\n\t{smartphones}\n\nまたは以下をダイヤルしてください：\n\tダイヤル： {dialNumber}\n\tPIN：{pinNumber} ",
-  rcvTeleconference: "利用できる国際電話番号： {teleconference} ",
+  rcvTeleconference: "利用可能な国際電話番号： {teleconference} ",
   doNotModify: "===== このテキストを変更しないでください =====",
   password: "パスワード"
 };

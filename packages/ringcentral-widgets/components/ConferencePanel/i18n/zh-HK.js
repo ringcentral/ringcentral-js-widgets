@@ -1,22 +1,22 @@
 export default {
   newConference: "新的電話會議",
   dialInNumber: "撥入號碼",
-  hostAccess: "主持人存取",
-  participantsAccess: "參與者存取",
+  hostAccess: "主持人存取碼",
+  participantsAccess: "參與者存取碼",
   addinalDialInNumbers: "其他撥入號碼",
   selectNumbers: "選擇號碼",
   enableJoinBeforeHost: "允許在主持人進入會議前加入",
   conferenceCommands: "電話會議指令",
   conferenceOptions: "電話會議選項",
-  inviteWithGCalendar: "使用 Google 日曆邀請",
-  inviteWithText: "透過文字訊息邀請",
+  inviteWithGCalendar: "透過 Google 日曆邀請",
+  inviteWithText: "透過簡訊訊息邀請",
   joinAsHost: "啟動電話會議",
   internationalNumber: "國際電話撥入號碼：",
-  inviteText_att: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取：{participantCode} \n\n需要國際撥入電話號碼嗎？請造訪 {dialInNumbersLinks} \n\n這場電話會議是由 {brandName} 電話會議所提供。",
-  inviteText_bt: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取：{participantCode} \n\n其他撥入號碼 {dialInNumbersLinks}",
-  inviteText_rc: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取：{participantCode} \n\n需要國際撥入電話號碼嗎？請造訪 {dialInNumbersLinks} \n\n這場電話會議是由 {brandName} 電話會議所提供。",
-  inviteText_telus: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取：{participantCode} \n\n其他撥入號碼 {dialInNumbersLinks}",
-  saveAsDefault: "儲存為預設"
+  inviteText_att: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode} \n\n需要國際撥入電話號碼嗎？請造訪 {dialInNumbersLinks} \n\n此電話會議由 {brandName} 電話會議提供。",
+  inviteText_bt: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode} \n\n其他撥入號碼 {dialInNumbersLinks}",
+  inviteText_rc: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode} \n\n需要國際撥入電話號碼嗎？請造訪 {dialInNumbersLinks} \n\n此電話會議由 {brandName} 電話會議提供。",
+  inviteText_telus: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode} \n\n其他撥入號碼 {dialInNumbersLinks}",
+  saveAsDefault: "儲存為預設值"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

@@ -4,13 +4,10 @@
 @import '../../lib/commonStyles/fonts.scss';
 @import '../../lib/commonStyles/text-ellipsis';
 
+$rowHeight: 50px;
+
 .root {
   padding: 0 15px;
-}
-
-.profile {
-  padding: 20px 0;
-  border-bottom: 1px solid $gray;
 }
 
 @mixin label {
@@ -119,9 +116,13 @@
   }
 }
 
-$rowHeight: 50px;
 
-.contactProfile {
+.profile {
+  padding: 20px 0;
+  border-bottom: 1px solid $gray;
+}
+
+.profileWrapper {
   position: relative;
   width: 100%;
   height: $rowHeight;
@@ -130,7 +131,35 @@ $rowHeight: 50px;
 }
 
 .avatar {
-  float: left;
+  position: absolute;
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+
+  .avatarImage {
+    @include reset;
+    width: 100%;
+    height: 100%;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 100%;
+  }
+
+  .inactive {
+    opacity: 0.3;
+  }
+
+  .sourceWrapper {
+    position: absolute;
+    overflow: hidden;
+    background: #fff;
+    padding: 1px;
+    width: 16px;
+    height: 16px;
+    border-radius: 7px;
+    top: -2px;
+    right: -2px;
+  }
 }
 
 .name {
@@ -140,34 +169,8 @@ $rowHeight: 50px;
   user-select: text;
 }
 
-.nameWithoutPresence {
+.name.withoutPresence {
   margin-top: 12px;
-}
-
-.avatarNodeContainer {
-  position: absolute;
-  display: inline-block;
-  width: 45px;
-  height: 45px;
-
-  .avatarNode {
-    @include reset;
-    width: 100%;
-    height: 100%;
-    line-height: 30px;
-    text-align: center;
-    border-radius: 100%;
-  }
-
-  .inactiveAvatarNode {
-    @include reset;
-    width: 100%;
-    height: 100%;
-    line-height: 30px;
-    text-align: center;
-    border-radius: 100%;
-    opacity: 0.3;
-  }
 }
 
 .info {
@@ -175,23 +178,30 @@ $rowHeight: 50px;
   overflow: hidden;
 }
 
-.sourceNodeContainer {
-  position: absolute;
-  overflow: hidden;
-  background: #fff;
-  padding: 1px;
-  width: 16px;
-  height: 16px;
-  border-radius: 7px;
-  top: -2px;
-  right: -2px;
-}
-
-.presence {
+.status {
   position: relative;
   margin-top: 10px;
+  .presence {
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    float: left;
 
-  .presenceStatus {
+    .presenceIcon {
+      @include reset;
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      div {
+        top: -2px;
+        left: -1px;
+      }
+    }
+  }
+  .presenceName {
     @include field-value-font;
     color: $ash;
     margin-left: 5px;
@@ -199,26 +209,7 @@ $rowHeight: 50px;
   }
 }
 
-.presenceNodeContainer {
-  overflow: hidden;
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  border: 1px solid #fff;
-  float: left;
 
-  .presenceNode {
-    @include reset;
-    width: 100%;
-    height: 100%;
-    position: relative;
-
-    div {
-      top: -2px;
-      left: -1px;
-    }
-  }
-}
 
 .email {
   li:not(:first-child) {

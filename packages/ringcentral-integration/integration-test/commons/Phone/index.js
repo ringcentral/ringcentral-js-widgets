@@ -14,7 +14,6 @@ import Brand from '../../../modules/Brand';
 import Call from '../../../modules/Call';
 import CallingSettings from '../../../modules/CallingSettings';
 import Contacts from '../../../modules/Contacts';
-import ContactDetails from '../../../modules/ContactDetails';
 import ConnectivityMonitor from '../../../modules/ConnectivityMonitor';
 import DialingPlan from '../../../modules/DialingPlan';
 import ExtensionDevice from '../../../modules/ExtensionDevice';
@@ -121,7 +120,6 @@ import BlockedNumber from '../../../modules/BlockedNumber';
         accountContacts,
       ],
     },
-    { provide: 'ContactDetails', useClass: ContactDetails },
     { provide: 'ContactMatcher', useClass: ContactMatcher },
     { provide: 'RecentMessages', useClass: RecentMessages },
     { provide: 'RecentCalls', useClass: RecentCalls },

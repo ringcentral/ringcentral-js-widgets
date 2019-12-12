@@ -7,7 +7,7 @@ export default {
   noSearchResults: "找不到相符的記錄",
   [messageTypes.all]: "所有",
   [messageTypes.voiceMail]: "語音",
-  [messageTypes.text]: "文字",
+  [messageTypes.text]: "簡訊",
   [messageTypes.fax]: "傳真"
 };
 

@@ -2,7 +2,7 @@ import connectivityTypes from 'ringcentral-widgets/modules/ConnectivityManager/c
 export default {
   [connectivityTypes.webphoneUnavailable]: "Web Phone indisponible.",
   [connectivityTypes.offline]: "Hors ligne",
-  [connectivityTypes.voipOnly]: "VoIP uniquement",
+  [connectivityTypes.voipOnly]: "VoIP seulement",
   [connectivityTypes.survival]: "Mode limité"
 };
 

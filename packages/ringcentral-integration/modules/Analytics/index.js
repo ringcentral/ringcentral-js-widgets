@@ -16,7 +16,8 @@ export const INIT_TRACK_LIST = [
   '_callConnected',
   '_webRTCRegistration',
   '_smsAttempt',
-  '_smsSent',
+  '_smsSentOver',
+  '_smsSentError',
   '_logCall',
   '_logSMS',
   '_clickToDial',
@@ -59,6 +60,9 @@ export const INIT_TRACK_LIST = [
   '_callControlClickParticipantArea',
   '_accountInfoReady',
   '_schedule',
+  '_clickToDialPlaceRingOutCall',
+  '_inboundCallConnectedTrack',
+  '_outboundCallConnectedTrack',
 ];
 
 // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
@@ -74,7 +78,7 @@ export const INIT_TRACK_LIST = [
     { dep: 'Contacts', optional: true },
     { dep: 'MessageSender', optional: true },
     { dep: 'MessageStore', optional: true },
-    { dep: 'ContactDetails', optional: true },
+    { dep: 'ContactDetailsUI', optional: true },
     { dep: 'CallHistory', optional: true },
     { dep: 'Conference', optional: true },
     { dep: 'RouterInteraction', optional: true },
@@ -106,7 +110,7 @@ export default class Analytics extends RcModule {
     callMonitor,
     conference,
     conferenceCall,
-    contactDetails,
+    contactDetailsUI,
     contacts,
     messageSender,
     messageStore,
@@ -141,7 +145,7 @@ export default class Analytics extends RcModule {
     this._callMonitor = callMonitor;
     this._conference = conference;
     this._conferenceCall = conferenceCall;
-    this._contactDetails = contactDetails;
+    this._contactDetailsUI = contactDetailsUI;
     this._contacts = contacts;
     this._messageSender = messageSender;
     this._messageStore = messageStore;
@@ -174,13 +178,14 @@ export default class Analytics extends RcModule {
   }
 
   track(event, { ...properties }) {
+    if (!this.analytics) {
+      return;
+    }
     const trackProps = {
       ...this.trackProps,
       ...properties,
     };
-    if (this.analytics) {
-      this.analytics.track(event, trackProps);
-    }
+    this.analytics.track(event, trackProps);
     if (this._useLog) {
       this._logs.push({
         timeStamp: new Date().toISOString(),
@@ -222,17 +227,14 @@ export default class Analytics extends RcModule {
     this.track(`Navigation: View/${eventPostfix}`, trackProps);
   }
 
-  trackSchedule({ router, eventPostfix }) {
+  trackSchedule({ router }) {
     const trackProps = {
       router,
       appName: this._appName,
       appVersion: this._appVersion,
       brand: this._brandCode,
     };
-    this.track(
-      `Meeting: Click Schedule/${eventPostfix} schedule page`,
-      trackProps,
-    );
+    this.track('Meeting: Click Schedule/Meeting schedule page', trackProps);
   }
 
   async _onStateChange() {
@@ -349,12 +351,21 @@ export default class Analytics extends RcModule {
     }
   }
 
-  _smsSent(action) {
+  _smsSentOver(action) {
     if (
       this._messageSender &&
       this._messageSender.actionTypes.sendOver === action.type
     ) {
-      this.track('SMS Sent');
+      this.track('SMS: SMS sent succesfully');
+    }
+  }
+
+  _smsSentError(action) {
+    if (
+      this._messageSender &&
+      this._messageSender.actionTypes.sendError === action.type
+    ) {
+      this.track('SMS: SMS sent failed');
     }
   }
 
@@ -382,6 +393,16 @@ export default class Analytics extends RcModule {
       this._adapter.actionTypes.clickToDial === action.type
     ) {
       this.track('Click To Dial');
+    }
+  }
+
+  _clickToDialPlaceRingOutCall(action) {
+    if (
+      this._adapter &&
+      this._adapter.actionTypes.clickToDial === action.type &&
+      action.callSettingMode !== callingModes.webphone
+    ) {
+      this.track('Call: Place RingOut call/Click to Dial ');
     }
   }
 
@@ -517,8 +538,8 @@ export default class Analytics extends RcModule {
 
   _contactDetailClickToDial(action) {
     if (
-      this._contactDetails &&
-      this._contactDetails.actionTypes.clickToCall === action.type
+      this._contactDetailsUI &&
+      this._contactDetailsUI.actionTypes.clickToCall === action.type
     ) {
       this.track('Click To Dial (Contact Details)');
     }
@@ -526,8 +547,8 @@ export default class Analytics extends RcModule {
 
   _contactDetailClickToSMS(action) {
     if (
-      this._contactDetails &&
-      this._contactDetails.actionTypes.clickToSMS === action.type
+      this._contactDetailsUI &&
+      this._contactDetailsUI.actionTypes.clickToSMS === action.type
     ) {
       this.track('Click To SMS (Contact Details)');
     }
@@ -656,6 +677,24 @@ export default class Analytics extends RcModule {
     }
   }
 
+  _inboundCallConnectedTrack(action) {
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.inboundCallConnectedTrack === action.type
+    ) {
+      this.track('Call: Inbound call connected');
+    }
+  }
+
+  _outboundCallConnectedTrack(action) {
+    if (
+      this._callMonitor &&
+      this._callMonitor.actionTypes.outboundCallConnectedTrack === action.type
+    ) {
+      this.track('Call: Outbound RingOut Call connected');
+    }
+  }
+
   _callsOnHoldClickAdd(action) {
     if (
       this._callMonitor &&
@@ -777,7 +816,7 @@ export default class Analytics extends RcModule {
           router: '/history',
         },
         {
-          eventPostfix: 'Call List',
+          eventPostfix: 'All calls page',
           router: '/calls',
         },
         {
@@ -803,6 +842,18 @@ export default class Analytics extends RcModule {
         {
           eventPostfix: 'Transfer',
           router: '/transfer',
+        },
+        {
+          eventPostfix: 'Small call control',
+          router: '/simplifycallctrl',
+        },
+        {
+          eventPostfix: 'Flip',
+          router: '/flip',
+        },
+        {
+          eventPostfix: 'Add',
+          router: '/conferenceCall',
         },
       ];
       return targets.find((target) => formatRoute === target.router);
@@ -844,9 +895,9 @@ export default class Analytics extends RcModule {
 
   get trackProps() {
     return {
-      'App Name': this._appName,
-      'App Version': this._appVersion,
-      Brand: this._brandCode,
+      appName: this._appName,
+      appVersion: this._appVersion,
+      brand: this._brandCode,
       'App Language': this._locale ? this._locale.currentLocale : '',
       'Browser Language': this._locale ? this._locale.browserLocale : '',
       'Extension Type': this._extensionInfo

@@ -19,6 +19,8 @@ export default new Enum(
     'callsOnHoldClickHangupTrack',
     'callControlClickParticipantAreaClickTrack',
     'mergeControlClickHangupTrack',
+    'inboundCallConnectedTrack',
+    'outboundCallConnectedTrack',
   ],
   'callMonitorAcionTypes',
 );

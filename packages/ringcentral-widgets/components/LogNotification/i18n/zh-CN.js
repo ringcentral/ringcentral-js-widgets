@@ -1,8 +1,8 @@
 export default {
   confirmationInfo: "您上一个通话的未保存编辑将丢失，确定要处理新的通话吗？",
   log: "记录",
-  save: "保存并处理新的",
-  discard: "丢弃并处理新的",
+  save: "保存并处理新通话",
+  discard: "丢弃并处理新通话",
   stay: "继续处理上一个通话"
 };
 

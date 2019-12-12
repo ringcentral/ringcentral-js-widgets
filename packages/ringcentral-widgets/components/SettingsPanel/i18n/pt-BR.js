@@ -11,6 +11,7 @@ export default {
   autoLogNotes: "Registrar notas automaticamente",
   autoLogSMS: "Registrar SMS automaticamente",
   clickToSMS: "Clicar para enviar mensagem de texto",
+  logSMSContent: "Registrar conteúdo de SMS",
   clickToDialSMS: "Clique para discar/enviar mensagem de texto",
   audio: "Áudio",
   language: "Idioma",
@@ -18,7 +19,6 @@ export default {
   userGuide: "Novidades",
   quickAccess: "Configuração de acesso rápido",
   report: "Relatório de análise",
-  msteamsSetting: "Configurações das equipes da Microsoft"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -33,6 +33,7 @@ export default {
 // @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
+// @key: @#@"logSMSContent"@#@ @source: @#@"Log SMS content"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
@@ -40,4 +41,3 @@ export default {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
-// @key: @#@"msteamsSetting"@#@ @source: @#@"Microsoft Teams Setting"@#@

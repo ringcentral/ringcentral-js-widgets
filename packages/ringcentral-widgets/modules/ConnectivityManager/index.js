@@ -10,7 +10,7 @@ import connectivityTypes from './connectivityTypes';
 
 /**
  * @class
- * @description Connectivity monitor module
+ * @description Connectivity manager module
  */
 @Module({
   deps: [
@@ -56,14 +56,9 @@ export default class ConnectivityManager extends RcModule {
     this._audioSettings = audioSettings;
     this._webphone = webphone;
     this._availabilityMonitor = availabilityMonitor;
-    this._alert = this::ensureExist(alert, 'alert');
-    this._connectivityMonitor = this::ensureExist(
-      connectivityMonitor,
-      'connectivityMonitor',
-    );
+    this._alert = alert;
+    this._connectivityMonitor = connectivityMonitor;
     this._reducer = getConnectivityMangerReducer(this.actionTypes);
-    this.showConnectivityAlert = this::this.showConnectivityAlert;
-    this.checkWebphoneAndConnect = this::this.checkWebphoneAndConnect;
     this._oldConnectivityType = '';
   }
 

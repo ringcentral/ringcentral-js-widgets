@@ -15,7 +15,7 @@ export default {
   others: "其他",
   subject: "主旨",
   subjectPlaceHolder: "讓我們知道可以如何為您提供協助",
-  description: "完整描述",
+  description: "完整說明",
   descriptionPlaceHolder: "請盡可能列出最多資訊",
   send: "傳送您的意見回饋"
 };

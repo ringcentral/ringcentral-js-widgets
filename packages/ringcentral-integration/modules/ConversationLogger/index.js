@@ -92,8 +92,8 @@ export default class ConversationLogger extends LoggerBase {
     this._isAutoUpdate = isAutoUpdate;
     this._accordWithLogRequirement = accordWithLogRequirement;
     this._storageKey = `${this._name}Data`;
-    this._messageStore.onMessageUpdated(() => {
-      this._processConversationLogMap();
+    this._messageStore.onMessageUpdated((record) => {
+      this._processConversationLogMap(record);
     });
     this._storage.registerReducer({
       key: this._storageKey,
