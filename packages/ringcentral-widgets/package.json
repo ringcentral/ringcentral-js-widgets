@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-widgets",
-  "version": "0.10.6",
+  "version": "0.11.0",
   "description": "RingCentral Integration Widget Library",
   "main": "index.js",
   "scripts": {
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.0.0",
-    "@ringcentral-integration/phone-number": "*",
+    "@ringcentral-integration/i18n": "^2.0.1",
+    "@ringcentral-integration/phone-number": "^1.0.4",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
@@ -35,11 +35,11 @@
     "redux": "^4.0.4",
     "ringcentral": "^3.2.1",
     "ringcentral-client": "^1.0.0-beta.2",
-    "ringcentral-integration": "^0.10.6"
+    "ringcentral-integration": "^0.11.0"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "@ringcentral-integration/locale-loader": "^2.0.0",
+    "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^9.6.1",
@@ -66,7 +66,7 @@
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.2.1",
     "ringcentral-client": "^1.0.0-beta.2",
-    "ringcentral-integration": "^0.10.6",
+    "ringcentral-integration": "*",
     "typescript-plugin-css-modules": "^1.2.1",
     "yargs": "^14.0.0"
   },

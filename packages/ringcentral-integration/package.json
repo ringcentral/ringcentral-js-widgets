@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-integration",
-  "version": "0.10.6",
+  "version": "0.11.0",
   "description": "RingCentral Integration Common Javascript Core Library",
   "main": "build/rc-phone.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-integration-commons#readme",
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "@ringcentral-integration/locale-loader": "^2.0.0",
+    "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^8.0.5",
@@ -73,8 +73,8 @@
     "yargs": "^14.0.0"
   },
   "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.0.0",
-    "@ringcentral-integration/phone-number": "*",
+    "@ringcentral-integration/i18n": "^2.0.1",
+    "@ringcentral-integration/phone-number": "^1.0.4",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
     "ringcentral": "^3.2.1",
