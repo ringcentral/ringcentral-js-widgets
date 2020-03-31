@@ -17,6 +17,7 @@ export default function MessagesLogIcon({ disabled, onClick, currentLocale }) {
         e.stopPropagation();
         if (!disabled) onClick();
       }}
+      data-sign="smsLog"
       title={tooltip}
     >
       <MessagesLog className={styles.logIcon} />

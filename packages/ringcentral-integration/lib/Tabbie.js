@@ -178,6 +178,17 @@ export default class Tabbie extends EventEmitter {
     return this._prefix;
   }
 
+  get hasMultipleTabs() {
+    return (
+      this.enabled &&
+      this._getHeartBeatKeys().filter(
+        (key) =>
+          Date.now() - localStorage.getItem(key) <
+          this._heartBeatInterval * 2 - 100,
+      ).length > 1
+    );
+  }
+
   send(event, ...args) {
     if (this.enabled) {
       const id = uuid.v4();

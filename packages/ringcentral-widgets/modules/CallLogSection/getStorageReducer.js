@@ -4,6 +4,9 @@ function getCallsMappingReducer(types) {
   return (state = {}, { type, identify }) => {
     switch (type) {
       case types.update:
+        if (state[identify] && state[identify].isEdited) {
+          return state;
+        }
         return {
           ...state,
           [identify]: {

@@ -6,7 +6,7 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 
 import SpinnerOverlay from '../SpinnerOverlay';
-import Button from '../Button';
+import { Button } from '../Button';
 import styles from './styles.scss';
 import LogBasicInfo from '../LogBasicInfo';
 import i18n from './i18n';

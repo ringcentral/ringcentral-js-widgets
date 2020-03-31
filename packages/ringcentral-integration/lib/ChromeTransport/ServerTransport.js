@@ -35,6 +35,7 @@ export default class ServerTransport extends TransportBase {
       }
     });
   }
+
   response({ requestId, result, error }) {
     const port = this._requests.get(requestId);
     if (port) {
@@ -50,6 +51,7 @@ export default class ServerTransport extends TransportBase {
       });
     }
   }
+
   push({ payload }) {
     const message = { type: this._events.push, payload };
     const isOnActiveTabs = (port) => {

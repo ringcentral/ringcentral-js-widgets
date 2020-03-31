@@ -6,7 +6,7 @@ function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
   return dialInNumbers
     .map(
       ({ phoneNumber, location = '' }) =>
-        `${phoneNumber},,${meetingId}# ${location}`,
+        `${phoneNumber},,${meetingId}# (${location})`,
     )
     .join('\n    ');
 }
@@ -19,7 +19,7 @@ function getPhoneDialingNumberTpl(dialInNumbers) {
         countryCode: country.isoCode,
         type: formatTypes.international,
       });
-      return `${filterFormattedNumber}${location}`;
+      return `${filterFormattedNumber} (${location})`;
     })
     .join('\n    ');
 }

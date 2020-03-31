@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import CloseIcon from '../../assets/images/CloseIcon.svg';
-import Button from '../Button';
+import { Button } from '../Button';
 import LogNotification from '../LogNotification';
 
 import styles from './styles.scss';

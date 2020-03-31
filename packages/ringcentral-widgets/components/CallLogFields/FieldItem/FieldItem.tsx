@@ -52,6 +52,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         onChange: fieldOnChange,
       },
       onSave,
+      onSelectViewVisible,
     } = this.props;
     const {
       currentLog,
@@ -78,6 +79,8 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       rightIconRender,
       matchedEntitiesGetter,
       otherEntitiesGetter,
+      associatedEntitiesGetter,
+      shouldShowAssociatedSection,
       shouldDisable = () => false,
       disableReason = '',
       currentOptionFinder,
@@ -85,12 +88,21 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     } = referenceFieldOption;
     const matchedEntities = matchedEntitiesGetter(currentLog);
     const otherEntities = otherEntitiesGetter(currentLog);
+    const showAssociatedSection = shouldShowAssociatedSection
+      ? shouldShowAssociatedSection(currentLog)
+      : false;
+    const associatedEntities =
+      showAssociatedSection && associatedEntitiesGetter
+        ? associatedEntitiesGetter(currentLog)
+        : [];
     const getValue = _getValue || DEFAULT_FINDER.getValue;
     const searchOptionFinder =
       _searchOptionFinder || DEFAULT_FINDER.searchOption;
-    const currentOption = [...matchedEntities, ...otherEntities].find(
-      currentOptionFinder(task),
-    );
+    const currentOption = [
+      ...matchedEntities,
+      ...otherEntities,
+      ...associatedEntities,
+    ].find(currentOptionFinder(task));
     const disabled = currentDisabled || shouldDisable(task);
     const title = metadata.title || label;
     const rightIcon = rightIconRender
@@ -103,13 +115,17 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         placeholder={metadata.placeholder}
         options={matchedEntities}
         otherOptions={otherEntities}
+        associatedOptions={associatedEntities}
+        showAssociatedSection={showAssociatedSection}
         startAdornment={startAdornmentRender}
+        field={value}
         value={task[metadata.valueField] || ''}
         onChange={async (args) => {
           await onChange(this.props)(args);
           await onSave();
           if (fieldOnChange) fieldOnChange(args);
         }}
+        onSelectViewVisible={onSelectViewVisible}
         valueFunction={getValue}
         renderFunction={getLabel}
         searchOption={searchOptionFinder}
@@ -121,7 +137,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           title,
           dataSign: value,
           disableReason,
-          value: getLabel(currentOption, matchedEntities.length),
+          value: getLabel(currentOption, matchedEntities.length, currentLog),
         })}
       </SelectList>
     );
@@ -292,6 +308,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
   private renderTextField({ disabled, title, dataSign, value, disableReason }) {
     return (
       <RcTextField
+        title={value}
         disabled={disabled}
         data-sign={dataSign}
         InputProps={{

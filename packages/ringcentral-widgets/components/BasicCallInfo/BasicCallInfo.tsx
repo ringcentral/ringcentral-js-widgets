@@ -47,7 +47,9 @@ const BasicCallInfo: React.FunctionComponent<BasicCallInfoProps> = ({
           IconButtonProps={{
             size: 'small',
           }}
-          expandIcon={<RcIcon size="small" icon="arrow_down" />}
+          expandIcon={
+            <RcIcon size="medium" icon="arrow_down" color={['grey', 500]} />
+          }
         >
           <CallIcon isInbound={isInbound} />
           <div className={styles.mainInfo}>

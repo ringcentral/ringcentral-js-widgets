@@ -14,7 +14,7 @@ import LogUnclickIcon from '../../assets/images/LogUnclick.svg';
 import VoicemailRed from '../../assets/images/VoicemailRed.svg';
 import EndIcon from '../../assets/images/Hangup.svg';
 
-import Button from '../Button';
+import { Button } from '../Button';
 import styles from './styles.scss';
 import i18n from './i18n';
 import callControlI18n from '../SmCallControl/i18n';

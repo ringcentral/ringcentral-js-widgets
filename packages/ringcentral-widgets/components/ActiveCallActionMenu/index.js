@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import Button from '../Button';
+import { Button } from '../Button';
 import LogButton from '../LogButton';
 import EntityButton from '../EntityButton';
 

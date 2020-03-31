@@ -31,12 +31,15 @@ export default class DateTimeFormat extends RcModule {
 
     this._formatters = {};
   }
+
   _shouldInit() {
     return this.pending && this._locale.ready;
   }
+
   _shouldReset() {
     return this.ready && !this._locale.ready;
   }
+
   _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
@@ -58,9 +61,11 @@ export default class DateTimeFormat extends RcModule {
       });
     }
   }
+
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
+
   initializeProxy() {
     this.store.subscribe(() => {
       if (this.proxyPending && this._locale.proxyReady) {
@@ -76,6 +81,7 @@ export default class DateTimeFormat extends RcModule {
       }
     });
   }
+
   addFormatter({ name, formatter }) {
     if (!name) {
       throw new Error('`name` property cannot be empty.');
@@ -110,6 +116,7 @@ export default class DateTimeFormat extends RcModule {
       type,
     });
   }
+
   formatDate({ name, utcTimestamp, locale }) {
     return this.formatDateTime({
       name,
@@ -118,6 +125,7 @@ export default class DateTimeFormat extends RcModule {
       type: 'date',
     });
   }
+
   formatTime({ name, utcTimestamp, locale }) {
     return this.formatDateTime({
       name,

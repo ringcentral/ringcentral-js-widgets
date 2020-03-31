@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import formatMessage from 'format-message';
 
 import DurationCounter from '../DurationCounter';
-import Button from '../Button';
+import { Button } from '../Button';
 import CarrouselBar from '../CarrouselBar';
 import i18n from './i18n';
 import styles from './styles.scss';

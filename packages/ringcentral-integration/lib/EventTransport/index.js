@@ -9,6 +9,7 @@ export default class EventTransport extends TransportBase {
     });
     this._deferred = new Map();
   }
+
   async request({ payload }) {
     const requestId = uuid.v4();
     const promise = new Promise((resolve, reject) => {
@@ -38,6 +39,7 @@ export default class EventTransport extends TransportBase {
     });
     return promise;
   }
+
   response({ requestId, result, error }) {
     const deferred = this._deferred.get(requestId);
     if (deferred) {
@@ -48,6 +50,7 @@ export default class EventTransport extends TransportBase {
       }
     }
   }
+
   push({ payload }) {
     this.emit(this._events.push, payload);
   }

@@ -7,7 +7,6 @@ import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import RadioBtnGroup from 'ringcentral-widgets/components/RadioBtnGroup';
 import TransferPanel from 'ringcentral-widgets/components/TransferPanel';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
-import { HeaderButton } from 'ringcentral-widgets/components/Header';
 import DialButton from 'ringcentral-widgets/components/DialButton';
 import BackHeader from 'ringcentral-widgets/components/BackHeader';
 import FlipPanel from 'ringcentral-widgets/components/FlipPanel';
@@ -272,7 +271,8 @@ describe('Current Call Control Page - Keypad', () => {
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(1);
     const backButton = wrapper
       .find(ActiveCallDialPad)
-      .find(HeaderButton)
+      .find('BackHeader')
+      .find('Button')
       .first();
     backButton.simulate('click');
     await timeout(100);
@@ -295,7 +295,8 @@ describe('Current Call Control Page - Keypad', () => {
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(1);
     const backButton = wrapper
       .find(ActiveCallDialPad)
-      .find(HeaderButton)
+      .find('BackHeader')
+      .find('Button')
       .first();
     backButton.simulate('click');
     await timeout(100);
@@ -862,9 +863,9 @@ describe('Current Call Control Page - Transfer', () => {
     wrapper.update();
     const panel = wrapper.find(TransferPanel);
     expect(panel).toHaveLength(1);
-    expect(panel.find(BackHeader)).toHaveLength(1);
-    expect(panel.find(BackHeader).find(HeaderButton)).toHaveLength(1);
-    expect(panel.find(BackHeader).text()).toEqual('Transfer to');
+    expect(panel.find('BackHeader')).toHaveLength(1);
+    expect(panel.find('BackHeader').find('Button')).toHaveLength(1);
+    expect(panel.find('BackHeader').text()).toEqual('Transfer to');
     expect(panel.find(RecipientsInput)).toHaveLength(1);
     expect(
       panel
@@ -892,8 +893,8 @@ describe('Current Call Control Page - Transfer', () => {
     wrapper.update();
     const backButton = wrapper
       .find(TransferPanel)
-      .find(BackHeader)
-      .find(HeaderButton)
+      .find('BackHeader')
+      .find('Button')
       .first();
     backButton.simulate('click');
     await timeout(100);
@@ -969,8 +970,7 @@ describe('Current Call Control Page - Transfer', () => {
       .find('svg')
       .find('g')
       .simulate('click');
-    await timeout(100);
-    await timeout(100);
+    await timeout(2000);
     const validatedResult = await phone.numberValidate.validateNumbers([
       '987654321',
     ]);
@@ -1112,9 +1112,9 @@ describe('Current Call Control Page - Flip', () => {
     expect(wrapper.find(FlipPanel)).toHaveLength(1);
     const panel = wrapper.find(FlipPanel);
     expect(panel).toHaveLength(1);
-    expect(panel.find(BackHeader)).toHaveLength(1);
-    expect(panel.find(BackHeader).find(HeaderButton)).toHaveLength(1);
-    expect(panel.find(BackHeader).text()).toEqual('Flip Call to...');
+    expect(panel.find('BackHeader')).toHaveLength(1);
+    expect(panel.find('BackHeader').find('Button')).toHaveLength(1);
+    expect(panel.find('BackHeader').text()).toEqual('Flip Call to...');
     const radioOptions = panel.find(RadioBtnGroup).find('.radioOption');
     expect(radioOptions).toHaveLength(filpNumbers.length);
     filpNumbers.forEach((item, index) => {

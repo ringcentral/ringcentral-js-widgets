@@ -4,7 +4,8 @@ import classnames from 'classnames';
 import Spinner from '../Spinner';
 import styles from './styles.scss';
 
-export default function SpinnerOverlay({ className }) {
+export default function SpinnerOverlay({ className, custom }) {
+  const Spinner = custom;
   return (
     <div
       data-sign="spinnerOverlay"
@@ -20,8 +21,10 @@ export default function SpinnerOverlay({ className }) {
 
 SpinnerOverlay.propTypes = {
   className: PropTypes.string,
+  custom: PropTypes.func,
 };
 
 SpinnerOverlay.defaultProps = {
   className: undefined,
+  custom: Spinner,
 };

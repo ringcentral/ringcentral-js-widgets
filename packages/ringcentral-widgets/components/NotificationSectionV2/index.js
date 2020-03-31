@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import CloseIcon from '../../assets/images/CloseIcon.svg';
-import Button from '../Button';
+import { Button } from '../Button';
 import LogNotification from '../LogNotificationV2';
 
 import styles from './styles.scss';

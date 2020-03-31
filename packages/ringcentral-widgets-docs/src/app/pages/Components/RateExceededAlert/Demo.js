@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RateExceededAlert from 'ringcentral-widgets/components/RateExceededAlert';
+import RateExceededAlert from 'ringcentral-widgets/components/AlertRenderer/RateExceededAlert';
 
 const props = {};
 props.timestamp = 0;

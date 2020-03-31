@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import Button from '../Button';
+import { Button } from '../Button';
 import styles from './styles.scss';
 import i18n from './i18n';
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
-import { ScheduleMeetingModel } from 'ringcentral-integration/modules/Meeting';
+import { ScheduleMeetingModel } from 'ringcentral-integration/modules/Meeting/meeting';
 
 import styles from './styles.scss';
 import i18n from './i18n';
-import Button from '../Button';
+import { Button } from '../Button';
 import CheckBox from '../CheckBox';
 
 type Props = {
@@ -88,7 +88,6 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
         ) : null}
         <Button
           onClick={onClick}
-          disabledClassName={styles.isContainedTypeDisabled}
           className={classnames(
             styles.isContainedType,
             disabled ? styles.isContainedTypeDisabled : null,

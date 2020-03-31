@@ -52,12 +52,15 @@ export default class Brand extends RcModule {
   get id() {
     return this.state.id;
   }
+
   get name() {
     return this.state.name;
   }
+
   get fullName() {
     return this.state.fullName;
   }
+
   get application() {
     return this.state.application;
   }

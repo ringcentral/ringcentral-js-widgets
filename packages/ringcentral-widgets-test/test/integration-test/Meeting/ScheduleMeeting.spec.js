@@ -2,7 +2,7 @@ import moment from 'moment';
 import { MeetingType } from 'ringcentral-integration/modules/Meeting';
 import MeetingSection from 'ringcentral-widgets/components/MeetingSection';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import Button from 'ringcentral-widgets/components/Button';
+import { Button } from 'ringcentral-widgets/components/Button';
 import sleep from 'ringcentral-integration/lib/sleep';
 import { getWrapper } from '../shared';
 

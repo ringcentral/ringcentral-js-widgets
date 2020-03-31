@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
-import Header from '../Header';
+import { Header } from '../Header';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 export default function BackHeader(props) {

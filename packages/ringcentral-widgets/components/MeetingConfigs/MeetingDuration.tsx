@@ -18,7 +18,6 @@ interface MeetingDurationProps {
   currentLocale: string;
   meeting: any;
   isRecurring: boolean;
-  showRecurringMeetingV2: boolean;
 }
 
 const MeetingDuration: FunctionComponent<MeetingDurationProps> = ({
@@ -26,9 +25,8 @@ const MeetingDuration: FunctionComponent<MeetingDurationProps> = ({
   meeting,
   update,
   isRecurring,
-  showRecurringMeetingV2,
 }) =>
-  !isRecurring || showRecurringMeetingV2 ? (
+  !isRecurring ? (
     <MeetingSection title={i18n.getString('duration', currentLocale)}>
       <div className={classnames(styles.spaceBetween, styles.duration)}>
         <div className={styles.list}>

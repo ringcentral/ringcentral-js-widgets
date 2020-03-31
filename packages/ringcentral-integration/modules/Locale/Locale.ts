@@ -27,6 +27,11 @@ import proxyActionTypes from '../../enums/proxyActionTypes';
   deps: [{ dep: 'LocaleOptions', optional: true }],
 })
 export default class Locale extends RcModule {
+  _defaultLocale: string;
+  _detectBrowser: boolean;
+  _polling: boolean;
+  _pollingInterval: number;
+  _transport: any;
   /**
    * @constructor
    * @param {Object} params - params object

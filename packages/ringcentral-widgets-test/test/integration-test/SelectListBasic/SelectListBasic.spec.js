@@ -88,13 +88,13 @@ describe('<SelectListBasic />', () => {
         .find('.title')
         .at(0)
         .text(),
-    ).toBe('matched');
+    ).toBe('matched (3)');
     expect(
       searchResult
         .find('.title')
         .at(1)
         .text(),
-    ).toBe('others');
+    ).toBe('others (2)');
   });
 
   it('search bar: input 3, show value13 in matched, show nothing in other', () => {

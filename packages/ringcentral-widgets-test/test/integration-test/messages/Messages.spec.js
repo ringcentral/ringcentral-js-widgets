@@ -6,7 +6,7 @@ import SearchInput from 'ringcentral-widgets/components/SearchInput';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 import ConversationPanel from 'ringcentral-widgets/components/ConversationPanel';
 import LogButton from 'ringcentral-widgets/components/LogButton';
-import Button from 'ringcentral-widgets/components/Button';
+import { Button } from 'ringcentral-widgets/components/Button';
 import Spinner from 'ringcentral-widgets/components/Spinner';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 

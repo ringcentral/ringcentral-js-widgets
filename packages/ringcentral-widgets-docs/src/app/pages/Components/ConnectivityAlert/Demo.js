@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ConnectivityAlert from 'ringcentral-widgets/components/ConnectivityAlert';
+import ConnectivityAlert from 'ringcentral-widgets/components/AlertRenderer/ConnectivityAlert';
 
 const props = {};
 props.message = {

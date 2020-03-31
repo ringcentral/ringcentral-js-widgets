@@ -2035,7 +2035,9 @@ export default class Webphone extends RcModule {
       this.ready &&
       this._auth.loggedIn &&
       (!this._audioSettings.userMedia ||
-        (this.reconnecting || this.connectError || this.inactive))
+        this.reconnecting ||
+        this.connectError ||
+        this.inactive)
     );
   }
 

@@ -7,7 +7,7 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 
-import Button from '../Button';
+import { Button } from '../Button';
 import LogBasicInfo from '../LogBasicInfo';
 import styles from './styles.scss';
 import i18n from './i18n';

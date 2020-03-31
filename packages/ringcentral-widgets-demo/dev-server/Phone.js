@@ -92,6 +92,7 @@ import { hashHistory } from 'react-router';
 import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 import FlipUI from 'ringcentral-widgets/modules/FlipUI';
 import TransferUI from 'ringcentral-widgets/modules/TransferUI';
+import 'ringcentral-integration/lib/TabFreezePrevention';
 
 const history =
   global.process &&

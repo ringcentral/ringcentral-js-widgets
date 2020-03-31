@@ -20,7 +20,6 @@ interface MeetingDateProps {
   onToggle: (...args: any[]) => any;
   useTimePicker: boolean;
   isRecurring: boolean;
-  showRecurringMeetingV2: boolean;
 }
 
 const MeetingDate: FunctionComponent<MeetingDateProps> = ({
@@ -31,7 +30,6 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
   onToggle,
   useTimePicker,
   isRecurring,
-  showRecurringMeetingV2,
 }) => {
   // The default value of the text input is in the componentDidMount.
   const formatDisplay = (Hours, Minutes) => {
@@ -129,7 +127,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
     }
     console.log('prepared minTime', +minMinute);
   }
-  return !isRecurring || showRecurringMeetingV2 ? (
+  return !isRecurring ? (
     <MeetingSection title={i18n.getString('when', currentLocale)}>
       <div className={styles.dateTimeBox}>
         <div className={styles.list}>

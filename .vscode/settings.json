@@ -30,5 +30,8 @@
   // Allow formatting for other languages
   "editor.formatOnSave": false,
   // Enable ESLint (with Prettier plugin) to format code on save
-  "eslint.autoFixOnSave": true
+  "eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

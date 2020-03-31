@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
-  height: $header-height;
+  @include flex_height($header-height);
   position: relative;
 
   &.classic {

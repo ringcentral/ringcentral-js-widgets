@@ -1,4 +1,5 @@
 import HashMap from '../HashMap';
+
 export default class Enum extends HashMap {
   constructor(values?: string[], prefix?: string);
 }

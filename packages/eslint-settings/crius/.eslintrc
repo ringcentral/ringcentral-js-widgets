@@ -1,0 +1,8 @@
+{
+  "extends": "../.eslintrc.js",
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "no-template-curly-in-string": 0,
+    "max-len": [2, 500]
+  }
+}

@@ -2,7 +2,7 @@ import {
   RcThemeProvider,
   RcThemeProviderProps,
 } from '@ringcentral-integration/rcui';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { defaultTheme } from './theme';
 import customIcon from './customIcon';
@@ -51,10 +51,10 @@ export function connectModule<T = any, K = any>(fn: connectModuleProps<T>) {
       (_, props: any) => fn(props.phone).getUIProps(props),
       (_, props: any) => fn(props.phone).getUIFunctions(props),
     )(Comp);
-    return (props: K) => (
+    return (((props: K) => (
       <PhoneContext.Consumer>
         {(phone) => <WithModule phone={phone} {...props} />}
       </PhoneContext.Consumer>
-    );
+    )) as any) as FunctionComponent<T>;
   };
 }

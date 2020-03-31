@@ -1,6 +1,6 @@
 import { contains } from 'ramda';
 import ConnectivityBadge from 'ringcentral-widgets/components/ConnectivityBadge';
-import ConnectivityAlert from 'ringcentral-widgets/components/ConnectivityAlert';
+import ConnectivityAlert from 'ringcentral-widgets/components/AlertRenderer/ConnectivityAlert';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import { HAMocks } from '../HALimitedMode/mockLimited';
 import { getWrapper, timeout } from '../shared';
@@ -17,12 +17,10 @@ describe('VoIP Only Mode', () => {
   beforeAll(async () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
-    phone.availabilityMonitor._client.service
-      .platform()
-      .emit('refreshError', {
-        mesage: 'none',
-        apiResponse: { _response: { status: 500 } },
-      });
+    phone.availabilityMonitor._client.service.platform().emit('refreshError', {
+      mesage: 'none',
+      apiResponse: { _response: { status: 500 } },
+    });
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
   });
@@ -66,12 +64,10 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
   });
 
   test('Exit from refresh access-token successed.', async () => {
-    phone.availabilityMonitor._client.service
-      .platform()
-      .emit('refreshError', {
-        mesage: 'none',
-        apiResponse: { _response: { status: 500 } },
-      });
+    phone.availabilityMonitor._client.service.platform().emit('refreshError', {
+      mesage: 'none',
+      apiResponse: { _response: { status: 500 } },
+    });
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');

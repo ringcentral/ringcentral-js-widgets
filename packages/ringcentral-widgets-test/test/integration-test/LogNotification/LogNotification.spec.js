@@ -4,7 +4,7 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import callResults from 'ringcentral-integration/enums/callResults';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import LogNotification from 'ringcentral-widgets/components/LogNotification';
-import Button from 'ringcentral-widgets/components/Button';
+import { Button } from 'ringcentral-widgets/components/Button';
 
 const setup = (props) => {
   const currentLog = {

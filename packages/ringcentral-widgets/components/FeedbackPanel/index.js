@@ -6,7 +6,7 @@ import Panel from '../Panel';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
 import Select from '../DropdownSelect';
-import Button from '../Button';
+import { Button } from '../Button';
 import i18n from './i18n';
 import styles from './styles.scss';
 
