@@ -12,12 +12,15 @@ export default function LoginPanel({
   disabled,
   version,
   showSpinner,
+  customSpinner,
   children,
   showSignUp,
   onSignUpButtonClick,
   customStyles,
 }) {
-  const spinner = showSpinner ? <SpinnerOverlay /> : null;
+  const spinner = showSpinner ? (
+    <SpinnerOverlay {...(customSpinner ? { custom: customSpinner } : {})} />
+  ) : null;
   const versionDisplay = version ? (
     <div className={styles.versionContainer}>
       {i18n.getString('version', currentLocale)} {version}
@@ -57,6 +60,7 @@ LoginPanel.propTypes = {
   disabled: PropTypes.bool,
   version: PropTypes.string,
   showSpinner: PropTypes.bool,
+  customSpinner: PropTypes.func,
   children: PropTypes.node,
   showSignUp: PropTypes.bool,
   onSignUpButtonClick: PropTypes.func,
@@ -68,6 +72,7 @@ LoginPanel.defaultProps = {
   disabled: false,
   version: undefined,
   showSpinner: false,
+  customSpinner: undefined,
   children: undefined,
   showSignUp: false,
   onSignUpButtonClick() {},

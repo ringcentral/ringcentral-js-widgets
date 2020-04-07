@@ -44,6 +44,9 @@ export default class Environment extends RcModule {
     this._serverStorageKey = 'environmentServer';
     this._recordingHostStoragekey = 'environmentRecordingHost';
     this._enabledStorageKey = 'environmentEnabled';
+    this._defaultRecordingHost =
+      defaultRecordingHost ||
+      'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
     this._globalStorage.registerReducer({
       key: this._serverStorageKey,
       reducer: getServerReducer({
@@ -55,9 +58,7 @@ export default class Environment extends RcModule {
       key: this._recordingHostStoragekey,
       reducer: getRecordingHostReducer({
         types: this.actionTypes,
-        defaultRecordingHost:
-          defaultRecordingHost ||
-          'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html',
+        defaultRecordingHost: this._defaultRecordingHost,
       }),
     });
     this._globalStorage.registerReducer({
@@ -133,7 +134,10 @@ export default class Environment extends RcModule {
   }
 
   get recordingHost() {
-    return this._globalStorage.getItem(this._recordingHostStoragekey);
+    if (this.enabled) {
+      return this._globalStorage.getItem(this._recordingHostStoragekey);
+    }
+    return this._defaultRecordingHost;
   }
 
   get enabled() {

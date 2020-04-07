@@ -6,7 +6,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Switch from '../Switch';
 import Select from '../DropdownSelect';
 import BackHeader from '../BackHeader';
-import Button from '../Button';
+import { Button } from '../Button';
 import LinkLine from '../LinkLine';
 import MeetingSection from '../MeetingSection';
 import i18n from './i18n';

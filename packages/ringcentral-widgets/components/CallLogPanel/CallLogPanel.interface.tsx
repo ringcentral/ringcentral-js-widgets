@@ -30,8 +30,9 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   renderSaveLogButton: (...args: any[]) => JSX.Element;
 
   additionalInfo?: object;
-  onUpdateCallLog?: (...args: any[]) => any;
+  onUpdateCallLog?: (data: { task }, id: string) => any;
   onSaveCallLog?: (...args: any[]) => any;
+  onSelectViewVisible?: (visible: boolean, fieldName: string) => any;
 
   renderBasicInfo?: ({
     formatPhone,
@@ -46,6 +47,7 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
     currentLocale,
     onSaveCallLog,
     onUpdateCallLog,
+    onSelectViewVisible,
     currentLog,
     additionalInfo,
     subjectDropdownsTracker,
@@ -54,6 +56,7 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
     | 'currentLocale'
     | 'onSaveCallLog'
     | 'onUpdateCallLog'
+    | 'onSelectViewVisible'
     | 'currentLog'
     | 'additionalInfo'
     | 'subjectDropdownsTracker'

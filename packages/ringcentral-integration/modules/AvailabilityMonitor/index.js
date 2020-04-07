@@ -16,6 +16,7 @@ import {
 } from './availabilityMonitorHelper';
 import errorMessages from './errorMessages';
 import throttle from '../../lib/throttle';
+import validateIsOffline from '../../lib/validateIsOffline';
 
 // Constants
 export const HEALTH_CHECK_INTERVAL = 60 * 1000;
@@ -249,12 +250,7 @@ export default class AvailabilityMonitor extends RcModule {
   }
 
   _refreshErrorHandler(error) {
-    const isOffline =
-      error.message === 'Failed to fetch' ||
-      error.message === 'The Internet connection appears to be offline.' ||
-      error.message === 'NetworkError when attempting to fetch resource.' ||
-      error.message ===
-        'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.';
+    const isOffline = validateIsOffline(error.message);
 
     const platform = this._client.service.platform();
     const RES_STATUS =

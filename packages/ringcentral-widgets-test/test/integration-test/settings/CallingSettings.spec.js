@@ -1,4 +1,3 @@
-import Button from 'ringcentral-widgets/components/Button';
 import CallingSettings from 'ringcentral-widgets/components/CallingSettingsPanel';
 import LinkLine from 'ringcentral-widgets/components/LinkLine';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
@@ -33,20 +32,19 @@ describe('calling settings', () => {
   });
 
   test('check button state with when select different option', () => {
-    let saveButton = callingSettings.find(Button).first();
+    let saveButton = callingSettings.find('SaveButton').first();
     expect(saveButton.props().disabled).toEqual(true);
-
     const items = callingSettings.find('.dropdownItem');
     // items.at(5).text()
     const lastItem = items.at(items.length - 1);
     lastItem.simulate('click');
     callingSettings = wrapper.find(CallingSettings).first();
-    saveButton = callingSettings.find(Button).first();
+    saveButton = callingSettings.find('SaveButton').first();
     expect(saveButton.props().disabled).toEqual(false);
   });
 
   test('check save run currectly', async () => {
-    const saveButton = callingSettings.find(Button).first();
+    const saveButton = callingSettings.find('SaveButton').first();
     const items = callingSettings.find('.dropdownItem');
     const lastItem = items.at(items.length - 1);
     lastItem.simulate('click');

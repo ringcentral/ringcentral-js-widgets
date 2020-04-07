@@ -161,6 +161,12 @@ export default class Session {
     return value;
   }
 
+  async blindTransfer(validPhoneNumber) {
+    this.trigger('refer');
+    transferFn(validPhoneNumber);
+    return Promise.resolve(validPhoneNumber);
+  }
+
   async transfer(validPhoneNumber) {
     this.trigger('refer');
     transferFn(validPhoneNumber);

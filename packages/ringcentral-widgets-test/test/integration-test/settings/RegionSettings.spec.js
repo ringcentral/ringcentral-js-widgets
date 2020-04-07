@@ -2,7 +2,6 @@ import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
 import RegionSettings from 'ringcentral-widgets/components/RegionSettingsPanel';
 import LinkLine from 'ringcentral-widgets/components/LinkLine';
-import Button from 'ringcentral-widgets/components/Button';
 
 import { getWrapper, timeout } from '../shared';
 
@@ -39,16 +38,16 @@ describe('region settings', () => {
   });
 
   test('button state', async () => {
-    let saveButton = regionSettings.find(Button).first();
+    let saveButton = regionSettings.find('SaveButton').first();
     expect(saveButton.props().disabled).toEqual(true);
     await enterAreaCode('853');
     regionSettings = wrapper.find(RegionSettings).first();
-    saveButton = regionSettings.find(Button).first();
+    saveButton = regionSettings.find('SaveButton').first();
     expect(saveButton.props().disabled).toEqual(false);
   });
 
   test('save', async () => {
-    const saveButton = regionSettings.find(Button).first();
+    const saveButton = regionSettings.find('SaveButton').first();
     await enterAreaCode('853');
     await saveButton.simulate('click');
     const store = wrapper.props().phone.store;
@@ -64,7 +63,7 @@ describe('region settings', () => {
   });
 
   test('invalid area code', async () => {
-    const saveButton = regionSettings.find(Button).first();
+    const saveButton = regionSettings.find('SaveButton').first();
     await enterAreaCode('000');
     await saveButton.simulate('click');
     const store = wrapper.props().phone.store;

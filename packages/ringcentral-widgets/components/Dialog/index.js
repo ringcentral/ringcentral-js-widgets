@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import styles from './styles.scss';
 import i18n from './i18n';
-import Button from '../Button';
+import { Button } from '../Button';
 import CloseIcon from '../../assets/images/CloseIcon.svg';
 
 function FlatButton({ className, disabled, onClick, children, dataSign }) {

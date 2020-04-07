@@ -198,9 +198,10 @@ export default class RolesAndPermissions extends DataFetcher {
   get onlyPagerPermission() {
     return !!(
       this.serviceFeatures &&
-      (this.serviceFeatures.Pager &&
-        this.serviceFeatures.Pager.enabled &&
-        (this.serviceFeatures.SMS && !this.serviceFeatures.SMS.enabled))
+      this.serviceFeatures.Pager &&
+      this.serviceFeatures.Pager.enabled &&
+      this.serviceFeatures.SMS &&
+      !this.serviceFeatures.SMS.enabled
     );
   }
 
@@ -228,15 +229,16 @@ export default class RolesAndPermissions extends DataFetcher {
       this.permissions &&
       this.permissions.Voicemail &&
       this.serviceFeatures &&
-      (this.serviceFeatures.Voicemail && this.serviceFeatures.Voicemail.enabled)
+      this.serviceFeatures.Voicemail &&
+      this.serviceFeatures.Voicemail.enabled
     );
   }
 
   get readFaxPermissions() {
     return !!(
       this.serviceFeatures &&
-      (this.serviceFeatures.FaxReceiving &&
-        this.serviceFeatures.FaxReceiving.enabled)
+      this.serviceFeatures.FaxReceiving &&
+      this.serviceFeatures.FaxReceiving.enabled
     );
   }
 
@@ -247,8 +249,8 @@ export default class RolesAndPermissions extends DataFetcher {
   get hasConferencingPermission() {
     return !!(
       this.serviceFeatures &&
-      (this.serviceFeatures.Conferencing &&
-        this.serviceFeatures.Conferencing.enabled)
+      this.serviceFeatures.Conferencing &&
+      this.serviceFeatures.Conferencing.enabled
     );
   }
 

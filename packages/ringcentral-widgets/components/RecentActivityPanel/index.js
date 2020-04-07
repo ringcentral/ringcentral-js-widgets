@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import classNames from 'classnames/bind';
-import Header from '../Header';
+import { Header } from '../Header';
 import styles from './styles.scss';
 import expandable from './expandable';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
@@ -38,11 +38,13 @@ function RecentActivityPanel(props) {
   const containerClass = classnames(styles.container, props.className);
   return (
     <div className={containerClass}>
-      <div className={styles.header} onClick={onPanelToggle}>
-        <Header buttons={[toggleButton]} className={styles.header}>
-          {title}
-        </Header>
-      </div>
+      <Header
+        buttons={[toggleButton]}
+        className={styles.header}
+        onClick={onPanelToggle}
+      >
+        {title}
+      </Header>
       <RecentActivityView {...props} />
     </div>
   );

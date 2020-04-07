@@ -20,6 +20,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     currentLog: {
       nameEntities: [],
       relatedToEntities: [],
+      associatedEntities: [],
     },
     currentIdentify: '',
     currentLocale: environment.defaultLocale,
@@ -62,7 +63,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       <React.Fragment>
         {this.renderLogNotification()}
         {this.renderLogBasicInfo()}
-        <div className={classnames(styles.editSection)}>
+        <div className={styles.editSection}>
           {renderEditLogSection && this.getEditLogSection()}
         </div>
         {this.genCallControlButtons()}
@@ -103,6 +104,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       currentLocale,
       onSaveCallLog,
       onUpdateCallLog,
+      onSelectViewVisible,
       currentLog,
       additionalInfo,
       subjectDropdownsTracker,
@@ -111,6 +113,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       currentLocale,
       onSaveCallLog,
       onUpdateCallLog,
+      onSelectViewVisible,
       currentLog,
       additionalInfo,
       subjectDropdownsTracker,

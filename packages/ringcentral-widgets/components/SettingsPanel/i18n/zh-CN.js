@@ -18,7 +18,7 @@ export default {
   feedback: "反馈",
   userGuide: "新功能",
   quickAccess: "快速访问设置",
-  report: "分析报告",
+  report: "分析报告"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@

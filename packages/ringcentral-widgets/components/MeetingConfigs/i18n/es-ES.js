@@ -17,7 +17,11 @@ export default {
   enableJoinBeforeHost: "Permitir unirse antes que el host",
   telephonyOnly: "Solo telefonía",
   hostVideoOn: "Vídeo del anfitrión activado",
-  participantVideoOn: "Vídeo del participante activado"
+  participantVideoOn: "Vídeo del participante activado",
+  recurringEvery: "Cada",
+  recurrenceType: "Tipo de repetición",
+  recurrenceEndDate: "Fecha de finalización",
+  currentLocale: "Día(s)"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -39,3 +43,7 @@ export default {
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@
 // @key: @#@"participantVideoOn"@#@ @source: @#@"Participant Video On"@#@
+// @key: @#@"recurringEvery"@#@ @source: @#@"Every"@#@
+// @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
+// @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
+// @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@

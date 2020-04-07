@@ -13,6 +13,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
     fieldSize: 'small',
     currentLog: {},
     onUpdateCallLog: undefined,
+    onSelectViewVisible: () => null,
     onSaveCallLog: undefined,
     customInputDataStruct: undefined,
     subjectDropdownsTracker: undefined,

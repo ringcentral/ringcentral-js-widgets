@@ -7,7 +7,7 @@ import DownloadIcon from '../../assets/images/Download.svg';
 import PlayIcon from '../../assets/images/Play.svg';
 import PauseIcon from '../../assets/images/Pause.svg';
 
-import Button from '../Button';
+import { Button } from '../Button';
 
 import styles from './styles.scss';
 import i18n from './i18n';

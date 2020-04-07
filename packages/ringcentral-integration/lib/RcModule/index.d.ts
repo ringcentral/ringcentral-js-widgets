@@ -14,7 +14,7 @@ interface RcModuleOptions<T> {
 
 /* ~ Write your module's methods and properties in this class */
 declare class RcModule<T = any> {
-  [x: string]: any;
+  // [x: string]: any;
   constructor(options: any);
 
   private _prefix: string;

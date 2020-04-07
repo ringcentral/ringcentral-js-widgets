@@ -10,6 +10,7 @@ export type CallLogFieldsProps = {
   currentLog?: CallLog;
   onUpdateCallLog?: (...args: any[]) => any;
   onSaveCallLog?: (...args: any[]) => any;
+  onSelectViewVisible?: (visible: boolean, fieldName: string) => any;
   customInputDataStruct?: (...args: any[]) => any;
   subjectDropdownsTracker?: (...args: any[]) => any;
   startAdornmentRender?: (...args: any[]) => any;
@@ -17,14 +18,15 @@ export type CallLogFieldsProps = {
 };
 
 export interface FieldOption {
-  getLabel: (item: any, length: number) => string;
+  getLabel: (item: any, length: number, currentLog: CallLog) => string;
   onChange: (item: any) => any;
   metadata?: FieldMetadata;
   currentOptionFinder: (task: Task) => (item: any) => boolean;
   matchedEntitiesGetter: (currentLog: CallLog) => any;
-
   otherEntitiesGetter?: (currentLog: CallLog) => any;
+  associatedEntitiesGetter?: (currentLog: CallLog) => any;
   searchOptionFinder?: (option: any, text: string) => boolean;
+  shouldShowAssociatedSection?: (currentLog: CallLog) => boolean;
   rightIconRender?: (item: any) => ReactElementLike;
   shouldDisable?: (task?: Task) => boolean;
   disableReason?: ReactNode | string;

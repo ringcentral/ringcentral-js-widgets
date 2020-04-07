@@ -9,7 +9,7 @@ import DownloadIcon from '../../assets/images/Download.svg';
 import MarkIcon from '../../assets/images/Mark.svg';
 import PreviewIcon from '../../assets/images/Preview.svg';
 import UnmarkIcon from '../../assets/images/Unmark.svg';
-import Button from '../Button';
+import { Button } from '../Button';
 import EntityButton from '../EntityButton';
 import EntityModal from '../EntityModal';
 import LogButton from '../LogButton';

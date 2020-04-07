@@ -10,7 +10,7 @@ import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import InputField from '../InputField';
 import Select from '../DropdownSelect';
-import Button from '../Button';
+import { Button } from '../Button';
 import SaveButton from '../SaveButton';
 import IconLine from '../IconLine';
 

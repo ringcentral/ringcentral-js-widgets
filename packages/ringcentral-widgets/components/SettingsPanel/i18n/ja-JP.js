@@ -18,7 +18,7 @@ export default {
   feedback: "フィードバック",
   userGuide: "新着情報",
   quickAccess: "クイックアクセスの設定",
-  report: "分析レポート",
+  report: "分析レポート"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@

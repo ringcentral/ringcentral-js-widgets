@@ -26,7 +26,6 @@ interface MeetingConfigsProps {
   passwordPlaceholderEnable?: boolean;
   audioOptionToggle?: boolean;
   useTimePicker?: boolean;
-  showRecurringMeetingV2: boolean;
 }
 
 class MeetingConfig extends Component<MeetingConfigsProps, {}> {
@@ -39,7 +38,6 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
     passwordPlaceholderEnable: false,
     audioOptionToggle: false,
     useTimePicker: false,
-    showRecurringMeetingV2: false,
   };
 
   constructor(...args) {
@@ -100,7 +98,6 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
       passwordPlaceholderEnable,
       audioOptionToggle,
       useTimePicker,
-      showRecurringMeetingV2,
     } = this.props;
     if (!Object.keys(meeting).length) {
       return null;
@@ -163,7 +160,6 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
             onToggle={onToggle}
             minTime={minTime}
             useTimePicker={useTimePicker}
-            showRecurringMeetingV2={showRecurringMeetingV2}
           />
         ) : null}
         {showDuration ? (
@@ -172,7 +168,6 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
             currentLocale={currentLocale}
             meeting={meeting}
             update={update}
-            showRecurringMeetingV2={showRecurringMeetingV2}
           />
         ) : null}
         {showRecurringMeeting ? (
@@ -181,7 +176,6 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
             currentLocale={currentLocale}
             meeting={meeting}
             update={update}
-            showRecurringMeetingV2={showRecurringMeetingV2}
           />
         ) : null}
         <Video

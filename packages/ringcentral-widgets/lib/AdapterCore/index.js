@@ -20,6 +20,8 @@ const ALLOW_ATTRIBUTE_VALUE = [
   // 'camera',
 ].join(' ');
 
+const urlRegex = /(https:\/\/)?(?:www\.)?outlook\.office(?:365)?\.com\/(mail)\/(deeplink)/;
+const clickEvent = urlRegex.test(window.location.href) ? 'mousedown' : 'click';
 const ON_HOLD_CALLS = 0;
 const RINGING_CALLS = 1;
 const CURRENT_CALL = 2;
@@ -112,7 +114,7 @@ export default class AdapterCore {
   _getContentDOM(sanboxAttributeValue, allowAttributeValue) {
     return `
       <header class="${this._styles.header}" draggable="false">
-        <div class="${this._styles.presence} ${this._styles.NoPresence}">
+        <div class="${this._styles.presence} ${this._styles.noPresence}">
           <div class="${this._styles.presenceBar}">
           </div>
         </div>
@@ -179,23 +181,21 @@ export default class AdapterCore {
 
     // toggle button
     this._toggleEl = this._root.querySelector(`.${this._styles.toggle}`);
-    this._toggleEl.addEventListener('click', (evt) => {
+    this._toggleEl.addEventListener(clickEvent, (evt) => {
       evt.stopPropagation();
       this.toggleMinimized();
     });
 
     // close button
     this._closeEl = this._root.querySelector(`.${this._styles.close}`);
-
     if (this._closeEl) {
-      this._closeEl.addEventListener('click', () => {
+      this._closeEl.addEventListener(clickEvent, () => {
         this.setClosed(true);
       });
     }
 
     this._presenceEl = this._root.querySelector(`.${this._styles.presence}`);
-
-    this._presenceEl.addEventListener('click', (evt) => {
+    this._presenceEl.addEventListener(clickEvent, (evt) => {
       evt.stopPropagation();
       this.togglePresenceDropdown();
     });
@@ -206,7 +206,7 @@ export default class AdapterCore {
 
     this._presenceItemEls.forEach((itemEl) => {
       const dataPresence = itemEl.getAttribute('data-presence');
-      itemEl.addEventListener('click', (evt) => {
+      itemEl.addEventListener(clickEvent, (evt) => {
         evt.stopPropagation();
         this.togglePresenceDropdown();
         this._postMessage({
@@ -215,8 +215,12 @@ export default class AdapterCore {
         });
       });
     });
+
+    this._dropdownPresence = this._root.querySelector(
+      `.${this._styles.dropdownPresence}`,
+    );
     if (this._dropdownPresence) {
-      this._dropdownPresence.addEventListener('click', (evt) => {
+      this._dropdownPresence.addEventListener(clickEvent, (evt) => {
         evt.stopPropagation();
         this.togglePresenceDropdown();
       });
@@ -227,8 +231,7 @@ export default class AdapterCore {
     );
 
     this._durationEl = this._root.querySelector(`.${this._styles.duration}`);
-
-    this._durationEl.addEventListener('click', (evt) => {
+    this._durationEl.addEventListener(clickEvent, (evt) => {
       evt.stopPropagation();
       this._postMessage({
         type: this._messageTypes.navigateToCurrentCall,
@@ -238,7 +241,7 @@ export default class AdapterCore {
     this._currentCallEl = this._root.querySelector(
       `.${this._styles.currentCallBtn}`,
     );
-    this._currentCallEl.addEventListener('click', (evt) => {
+    this._currentCallEl.addEventListener(clickEvent, (evt) => {
       evt.stopPropagation();
       this._postMessage({
         type: this._messageTypes.navigateToCurrentCall,
@@ -248,7 +251,7 @@ export default class AdapterCore {
     this._viewCallsEl = this._root.querySelector(
       `.${this._styles.viewCallsBtn}`,
     );
-    this._viewCallsEl.addEventListener('click', (evt) => {
+    this._viewCallsEl.addEventListener(clickEvent, (evt) => {
       evt.stopPropagation();
       this._postMessage({
         type: this._messageTypes.navigateToViewCalls,
@@ -263,12 +266,12 @@ export default class AdapterCore {
       `.${this._styles.onHoldCalls}`,
     );
 
-    this._headerEl.addEventListener('mousedown', (e) => {
+    this._headerEl.addEventListener('mousedown', (evt) => {
       this._dragging = true;
       this._isClick = true;
       this._dragStartPosition = {
-        x: e.clientX,
-        y: e.clientY,
+        x: evt.clientX,
+        y: evt.clientY,
         translateX: this._translateX,
         translateY: this._translateY,
         minTranslateX: this._minTranslateX,
@@ -303,9 +306,10 @@ export default class AdapterCore {
     });
 
     this._isClick = true;
-    this._headerEl.addEventListener('click', (evt) => {
-      if (!this._isClick) return;
-      this._onHeaderClicked(evt);
+    this._headerEl.addEventListener(clickEvent, (evt) => {
+      if (this._isClick) {
+        this._onHeaderClicked(evt);
+      }
     });
 
     this._resizeTimeout = null;
@@ -321,6 +325,7 @@ export default class AdapterCore {
       this._hover = false;
       this._renderMainClass();
     });
+
     if (document.readyState === 'loading') {
       window.addEventListener('load', () => {
         document.body.appendChild(this._container);
@@ -333,6 +338,12 @@ export default class AdapterCore {
       this._beforeRender();
     }
     this._render();
+  }
+
+  _onHeaderClicked() {
+    if (this._minimized) {
+      this.toggleMinimized();
+    }
   }
 
   _onWindowResize = () => {
@@ -352,17 +363,17 @@ export default class AdapterCore {
     }
   };
 
-  _onWindowMouseMove = (e) => {
+  _onWindowMouseMove = (evt) => {
     if (this._dragging) {
-      if (e.buttons === 0) {
+      if (evt.buttons === 0) {
         this._dragging = false;
         this._renderMainClass();
         return;
       }
       const factor = this._calculateFactor();
       const delta = {
-        x: e.clientX - this._dragStartPosition.x,
-        y: e.clientY - this._dragStartPosition.y,
+        x: evt.clientX - this._dragStartPosition.x,
+        y: evt.clientY - this._dragStartPosition.y,
       };
       if (this._minimized) {
         this._minTranslateX =
@@ -373,15 +384,17 @@ export default class AdapterCore {
           this._dragStartPosition.translateX + delta.x * factor;
         this._translateY = this._dragStartPosition.translateY + delta.y;
       }
-      if (delta.x !== 0 || delta.y !== 0) this._isClick = false;
+      if (delta.x !== 0 || delta.y !== 0) {
+        this._isClick = false;
+      }
       this._syncPosition();
       this._renderRestrictedPosition();
     }
   };
 
   togglePresenceDropdown() {
-    if (this.dropdownPresence) {
-      this.dropdownPresence.classList.toggle(`${this._styles.showDropdown}`);
+    if (this._dropdownPresence) {
+      this._dropdownPresence.classList.toggle(`${this._styles.showDropdown}`);
       this.setMinimized(false);
     }
   }
@@ -426,8 +439,8 @@ export default class AdapterCore {
       type: this._messageTypes.syncMinimized,
       minimized: this._minimized,
     });
-    if (minimized && this.dropdownPresence) {
-      this.dropdownPresence.classList.remove(`${this._styles.showDropdown}`);
+    if (minimized && this._dropdownPresence) {
+      this._dropdownPresence.classList.remove(`${this._styles.showDropdown}`);
     }
   }
 
@@ -1148,9 +1161,5 @@ export default class AdapterCore {
       !this._onAllCallsPath &&
       (this.moveOutRingingInfo || this.moveOutOnHoldInfo)
     );
-  }
-
-  get dropdownPresence() {
-    return this._root.querySelector(`.${this._styles.dropdownPresence}`);
   }
 }

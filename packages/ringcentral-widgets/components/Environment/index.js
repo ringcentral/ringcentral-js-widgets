@@ -9,7 +9,7 @@ import Line from '../Line';
 import IconLine from '../IconLine';
 import TextInput from '../TextInput';
 import Switch from '../Switch';
-import Button from '../Button';
+import { Button } from '../Button';
 
 /**
  * Environment component for switching api server. Intended only for testing.

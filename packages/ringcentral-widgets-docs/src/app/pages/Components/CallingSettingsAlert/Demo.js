@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CallingSettingsAlert from 'ringcentral-widgets/components/CallingSettingsAlert';
+import CallingSettingsAlert from 'ringcentral-widgets/components/AlertRenderer/CallingSettingsAlert';
 
 const props = {};
 props.message = {

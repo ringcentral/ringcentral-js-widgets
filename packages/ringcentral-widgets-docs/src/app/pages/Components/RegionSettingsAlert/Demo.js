@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RegionSettingsAlert from 'ringcentral-widgets/components/RegionSettingsAlert';
+import RegionSettingsAlert from 'ringcentral-widgets/components/AlertRenderer/RegionSettingsAlert';
 
 const props = {};
 props.message = {

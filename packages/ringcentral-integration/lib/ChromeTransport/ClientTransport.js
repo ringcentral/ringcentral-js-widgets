@@ -34,6 +34,7 @@ export default class ClientTransport extends TransportBase {
       },
     );
   }
+
   async request({ payload }) {
     const requestId = uuid.v4();
     let promise = new Promise((resolve, reject) => {

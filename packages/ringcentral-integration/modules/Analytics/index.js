@@ -92,6 +92,7 @@ export const INIT_TRACK_LIST = [
     { dep: 'Meeting', optional: true },
     { dep: 'RcVideo', optional: true },
     { dep: 'extensionInfo', optional: true },
+    { dep: 'CallingSettings', optional: true },
   ],
 })
 export default class Analytics extends RcModule {
@@ -123,6 +124,7 @@ export default class Analytics extends RcModule {
     useLog = false,
     lingerThreshold = 1000,
     extensionInfo,
+    callingSettings,
     ...options
   }) {
     super({
@@ -135,6 +137,7 @@ export default class Analytics extends RcModule {
     this._appName = appName;
     this._appVersion = appVersion;
     this._brandCode = brandCode;
+    this._callingSettings = callingSettings;
 
     // modules
     this._accountInfo = accountInfo;
@@ -402,7 +405,9 @@ export default class Analytics extends RcModule {
       this._adapter.actionTypes.clickToDial === action.type &&
       action.callSettingMode !== callingModes.webphone
     ) {
-      this.track('Call: Place RingOut call/Click to Dial ');
+      this.track('Call: Place RingOut call/Click to Dial ', {
+        'RingOut type': this._callingSettings.callWith,
+      });
     }
   }
 

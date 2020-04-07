@@ -34,14 +34,14 @@ import scheduleStatus from './scheduleStatus';
   ],
 })
 export class Meeting extends RcModule<MeetingActionTypes> {
-  private _alert: any;
-  private _client: Client;
+  public _alert: any;
+  public _client: Client;
   private _extensionInfo: any;
   private _storage: any;
   private _availabilityMonitor: any;
   private _lastMeetingSettingKey: any;
   private _defaultMeetingSettingKey: any;
-  private _showSaveAsDefault: any;
+  public _showSaveAsDefault: any;
   constructor({
     alert,
     client,
@@ -141,7 +141,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     this._initMeeting();
   }
 
-  private _initMeeting() {
+  _initMeeting() {
     const extensionName = this._extensionInfo.info.name || '';
     const startTime = getInitializedStartTime();
     if (this._showSaveAsDefault) {
@@ -325,11 +325,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     }
   }
 
-  private async _createDialingNumberTpl(
-    serviceInfo: any,
-    resp: any,
-    opener: any,
-  ) {
+  async _createDialingNumberTpl(serviceInfo: any, resp: any, opener: any) {
     serviceInfo.mobileDialingNumberTpl = getMobileDialingNumberTpl(
       serviceInfo.dialInNumbers,
       resp.id,
@@ -342,13 +338,14 @@ export class Meeting extends RcModule<MeetingActionTypes> {
       serviceInfo,
       extensionInfo: this.extensionInfo,
     };
+
     if (typeof this.scheduledHook === 'function') {
       await this.scheduledHook(result, opener);
     }
     return result;
   }
 
-  private _errorHandle(errors: any) {
+  _errorHandle(errors: any) {
     if (errors instanceof MeetingErrors) {
       for (const error of errors.all) {
         this._alert.warning(error);
@@ -386,7 +383,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
    * Format meeting information.
    * @param {Object} meeting
    */
-  private _format(meeting: ScheduleMeetingModel) {
+  _format(meeting: ScheduleMeetingModel) {
     const {
       topic,
       meetingType,
@@ -421,7 +418,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
       }
       formatted.schedule = _schedule;
 
-      if(recurrence && recurrence.until) {
+      if (recurrence && recurrence.until) {
         formatted.recurrence.until = moment.utc(recurrence.until).format();
       }
     }
@@ -434,7 +431,6 @@ export class Meeting extends RcModule<MeetingActionTypes> {
    * @throws
    */
   _validate(meeting) {
-    console.log('meeting', meeting);
     if (!meeting) {
       throw new MeetingErrors(meetingStatus.invalidMeetingInfo);
     }

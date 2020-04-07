@@ -7,7 +7,6 @@ import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import BackHeader from 'ringcentral-widgets/components/BackHeader';
 import TextInput from 'ringcentral-widgets/components/TextInput';
 import Select from 'ringcentral-widgets/components/DropdownSelect';
-import { HeaderButton } from 'ringcentral-widgets/components/Header';
 
 import { getWrapper, timeout } from '../shared';
 
@@ -130,9 +129,9 @@ describe('<FeedbackPanel />', () => {
       .at(0)
       .simulate('change');
     const revertBtn = wrapper
-      .find(BackHeader)
+      .find('BackHeader')
       .at(0)
-      .find(HeaderButton)
+      .find('Button')
       .at(1);
     revertBtn.simulate('click');
     expect(

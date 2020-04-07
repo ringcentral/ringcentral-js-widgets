@@ -29,7 +29,7 @@ module.exports = {
   globals: {
     $: true,
   },
-  plugins: ['import'],
+  plugins: ['import', 'react-hooks'],
   settings: {
     'import/resolver': {
       node: {
@@ -71,7 +71,14 @@ module.exports = {
       },
     ],
     'import/extensions': 'off',
-    'import/no-extraneous-dependencies': 1,
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: true,
+        optionalDependencies: false,
+        peerDependencies: true,
+      },
+    ],
     'import/no-unresolved': 1,
     'import/prefer-default-export': 0,
     'jsx-a11y/label-has-for': 0, // allow implicit label for input implementation
@@ -121,7 +128,10 @@ module.exports = {
       { declaration: false, assignment: false },
     ],
     'react/jsx-one-expression-per-line': 0,
+    'no-plusplus': 0,
     camelcase: 0,
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   overrides: [
     {
@@ -164,6 +174,7 @@ module.exports = {
         },
       },
       rules: {
+        'no-undef': 0,
         'react/prop-types': 0,
         'import/no-unresolved': [2, { commonjs: true, amd: true }],
         'import/named': 0,

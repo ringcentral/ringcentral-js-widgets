@@ -12,6 +12,7 @@ import Alert from '../modules/Alert';
 import Auth from '../modules/Auth';
 import AvailabilityMonitor from '../modules/AvailabilityMonitor';
 import Brand from '../modules/Brand';
+import CallMonitor from '../modules/CallMonitor';
 import ConnectivityMonitor from '../modules/ConnectivityMonitor';
 import DateTimeFormat from '../modules/DateTimeFormat';
 import DialingPlan from '../modules/DialingPlan';
@@ -45,6 +46,7 @@ export interface BasePhone {
   availabilityMonitor: AvailabilityMonitor;
   oAuth: OAuth;
   routerInteraction: RouterInteraction;
+  callMonitor: CallMonitor;
   connectivityManager: ConnectivityManager;
   settingsUI: SettingsUI;
   connectivityBadgeUI: ConnectivityBadgeUI;
@@ -52,5 +54,4 @@ export interface BasePhone {
   alertUI: AlertUI;
   regionSettingsUI: RegionSettingsUI;
   evManualDialSettingsUI: EvManualDialSettingsUI;
-  [P: string]: any;
 }

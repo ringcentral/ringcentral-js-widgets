@@ -1,6 +1,6 @@
 import Tooltip from 'rc-tooltip';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import Button from 'ringcentral-widgets/components/Button';
+import { Button } from 'ringcentral-widgets/components/Button';
 import ForwardForm from 'ringcentral-widgets/components/ForwardForm';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import ActiveCallPanel from 'ringcentral-widgets/components/ActiveCallPanel';

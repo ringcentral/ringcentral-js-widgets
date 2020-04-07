@@ -1,3 +1,4 @@
+@import './fonts';
 @import './colors';
 @import './full-size';
 @import './text-ellipsis';
@@ -44,6 +45,11 @@ $main_grey: rgba(33, 33, 33, 0.1);
 
 @mixin flex_fill {
   flex: 1 1 auto;
+}
+
+@mixin flex_column {
+  display: flex;
+  flex-direction: column;
 }
 
 @mixin text_break {

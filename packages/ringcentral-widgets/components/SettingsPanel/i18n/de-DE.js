@@ -18,7 +18,7 @@ export default {
   feedback: "Feedback",
   userGuide: "Neuigkeiten",
   quickAccess: "Einstellung für Schnellzugriff",
-  report: "Analysebericht",
+  report: "Analysebericht"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@

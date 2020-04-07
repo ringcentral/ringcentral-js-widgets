@@ -1,5 +1,18 @@
 import uuid from 'uuid';
+
 import TransportBase from '../TransportBase';
+import { TransportBaseProps } from '../TransportBase/TransportBase';
+import { TransportResponseData } from '../TransportInteractionBase';
+
+type MessageTransportListener<T = any, K = {}> = (params: {
+  requestId: string;
+  payload: MessageTransportPayload<T, K>;
+}) => any;
+
+export type MessageTransportPayload<T = any, K = {}> = {
+  requestType: string;
+  data?: T;
+} & K;
 
 const DEFAULT_DEVICE = {
   addReceiver(receiveMessage, { useCapture = false } = {}) {
@@ -16,11 +29,31 @@ const DEFAULT_DEVICE = {
     };
   },
 };
+export interface MessageTransportResponse {
+  requestId: string;
+  result: any;
+  error?: Error | string;
+}
+
+type AddReceiver = typeof DEFAULT_DEVICE.addReceiver;
+type CreateEmitter = typeof DEFAULT_DEVICE.createEmitter;
+
+export interface MessageTransportProps {
+  addReceiver?: AddReceiver;
+  createEmitter?: CreateEmitter;
+  targetWindow: Window;
+  origin?: string;
+}
+
+type MessageTransportRequestData<T = any, K = {}> = {
+  payload: MessageTransportPayload<T, K>;
+};
+
 export default class MessageTransport extends TransportBase {
-  private _addReceiver: Function;
-  private _createEmitter: Function;
+  private _addReceiver: AddReceiver;
+  private _createEmitter: CreateEmitter;
   private _targetWindow: Window;
-  private _origin: any;
+  private _origin: string;
   private _myRequests: Map<any, any>;
   private _othersRequests: Map<any, any>;
   private _postMessage: any;
@@ -31,11 +64,11 @@ export default class MessageTransport extends TransportBase {
     targetWindow = window,
     origin,
     ...options
-  }) {
+  }: MessageTransportProps & Omit<TransportBaseProps, 'name'>) {
     super({
       ...options,
       name: 'MessageTransport',
-    } as any);
+    });
     this._addReceiver = addReceiver;
     this._createEmitter = createEmitter;
     this._targetWindow = targetWindow;
@@ -81,7 +114,15 @@ export default class MessageTransport extends TransportBase {
     }
   };
 
-  addListeners({ push, response, request }) {
+  addListeners<T = any, K = {}>({
+    push,
+    response,
+    request,
+  }: {
+    push?: MessageTransportListener<T, K>;
+    response?: MessageTransportListener<T, K>;
+    request?: MessageTransportListener<T, K>;
+  }) {
     if (typeof push === 'function') {
       this.on(this._events.push, push);
     }
@@ -93,9 +134,13 @@ export default class MessageTransport extends TransportBase {
     }
   }
 
-  async request<T = any>({ payload }) {
+  /** T is request data, K is response data */
+  async request<T = any, K = any>({
+    payload,
+  }: MessageTransportRequestData<T>): Promise<K> {
     const requestId = uuid.v4();
-    let promise = new Promise<T>((resolve, reject) => {
+
+    const promise = new Promise<K>((resolve, reject) => {
       this._myRequests.set(requestId, {
         resolve,
         reject,
@@ -106,11 +151,17 @@ export default class MessageTransport extends TransportBase {
         payload,
       });
     });
+
     let timeout = setTimeout(() => {
       timeout = null;
-      this._myRequests.get(requestId).reject(new Error(this._events.timeout));
+      this._myRequests
+        .get(requestId)
+        .reject(
+          new Error(`${this._events.timeout}: ${JSON.stringify(payload)}`),
+        );
     }, this._timeout);
-    promise = promise
+
+    return promise
       .then((result) => {
         if (timeout) clearTimeout(timeout);
         this._myRequests.delete(requestId);
@@ -121,22 +172,29 @@ export default class MessageTransport extends TransportBase {
         this._myRequests.delete(requestId);
         return Promise.reject(error);
       });
-    return promise;
   }
 
-  response({ requestId, result, error }) {
+  response({
+    requestId,
+    result,
+    error,
+  }: MessageTransportResponse): TransportResponseData {
     const request = this._othersRequests.get(requestId);
+
     if (request) {
       this._othersRequests.delete(requestId);
-      if (error instanceof Error) {
-        error = error.message;
-      }
       this._postMessage({
         type: this._events.response,
         requestId,
         result,
-        error,
+        error: error instanceof Error ? error.message : error,
       });
     }
+
+    return {
+      result,
+      error,
+      requestId,
+    };
   }
 }

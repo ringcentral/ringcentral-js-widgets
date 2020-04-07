@@ -179,10 +179,7 @@ export default class RcModule {
     }
     const selector = args.pop();
     if (args.length > 0) {
-      this._selectors[name] = createSelector(
-        ...args,
-        selector,
-      );
+      this._selectors[name] = createSelector(...args, selector);
     } else {
       this._selectors[name] = selector;
     }

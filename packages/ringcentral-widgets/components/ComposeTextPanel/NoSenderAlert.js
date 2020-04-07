@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import AlertDisplay from '../AlertDisplay';
-import MessageSenderAlert from '../MessageSenderAlert';
+import MessageSenderAlert from '../AlertRenderer/MessageSenderAlert';
 
 export default class NoSenderAlert extends Component {
   constructor(props) {
