@@ -35,7 +35,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _isBlank = _interopRequireDefault(require("ringcentral-integration/lib/isBlank"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -312,10 +312,10 @@ function (_Component) {
         }
       })))), _react["default"].createElement("div", {
         className: _styles["default"].buttonGroup
-      }, _react["default"].createElement(_Button["default"], {
+      }, _react["default"].createElement(_Button.Button, {
         className: _styles["default"].cancelButton,
         onClick: onCancel
-      }, _i18n["default"].getString('cancel', currentLocale)), _react["default"].createElement(_Button["default"], {
+      }, _i18n["default"].getString('cancel', currentLocale)), _react["default"].createElement(_Button.Button, {
         className: (0, _classnames["default"])(_styles["default"].replyButton, disableButton ? _styles["default"].disabled : null),
         onClick: this.props.disabled ? function () {} : this.onReply,
         disabled: disableButton

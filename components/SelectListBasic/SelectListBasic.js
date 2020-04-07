@@ -65,11 +65,14 @@ var SelectListBasic = function SelectListBasic(_ref) {
   var title = _ref.title,
       options = _ref.options,
       otherOptions = _ref.otherOptions,
+      associatedOptions = _ref.associatedOptions,
+      showAssociatedSection = _ref.showAssociatedSection,
       placeholder = _ref.placeholder,
       searchOption = _ref.searchOption,
       rightIcon = _ref.rightIcon,
       matchedTitle = _ref.matchedTitle,
       otherTitle = _ref.otherTitle,
+      associatedTitle = _ref.associatedTitle,
       currentLocale = _ref.currentLocale,
       renderListView = _ref.renderListView,
       open = _ref.open,
@@ -85,6 +88,8 @@ var SelectListBasic = function SelectListBasic(_ref) {
       filter = _useState2[0],
       setFilter = _useState2[1];
 
+  var scrollElmRef = (0, _react.useRef)();
+  var matchElmRef = (0, _react.useRef)();
   var hasSearch = searchOption && filter;
   var matchOptions = hasSearch ? options.filter(function (option) {
     return searchOption(option, filter);
@@ -92,9 +97,10 @@ var SelectListBasic = function SelectListBasic(_ref) {
   var matchOtherOptions = hasSearch ? otherOptions.filter(function (option) {
     return searchOption(option, filter);
   }) : otherOptions;
-  var scrollElmRef = (0, _react.useRef)();
-  var matchElmRef = (0, _react.useRef)();
-  var hasResult = matchOptions.length + matchOtherOptions.length > 0 || options.length + otherOptions.length === 0;
+  var matchAssociatedOptions = hasSearch ? associatedOptions.filter(function (option) {
+    return searchOption(option, filter);
+  }) : associatedOptions;
+  var hasResult = matchOptions.length + matchOtherOptions.length + matchAssociatedOptions.length > 0 || options.length + otherOptions.length + associatedOptions.length === 0;
 
   var backHeaderOnclick = function backHeaderOnclick() {
     if (onBackClick) {
@@ -139,15 +145,21 @@ var SelectListBasic = function SelectListBasic(_ref) {
   }, hasResult ? _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
     ref: matchElmRef,
     className: _styles["default"].text
-  }, _react["default"].createElement("div", {
+  }, matchedTitle && _react["default"].createElement("div", {
     className: _styles["default"].title
-  }, matchedTitle), matchOptions.length > 0 && renderListView(matchOptions, 'matched', filter, function (elm, type) {
+  }, matchedTitle, " (", matchOptions.length, ")"), matchOptions.length > 0 && renderListView(matchOptions, 'matched', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
   })), _react["default"].createElement("div", {
     className: _styles["default"].text
-  }, _react["default"].createElement("div", {
+  }, otherTitle && _react["default"].createElement("div", {
     className: _styles["default"].title
-  }, otherTitle), matchOtherOptions.length > 0 && renderListView(matchOtherOptions, 'other', filter, function (elm, type) {
+  }, otherTitle, " (", matchOtherOptions.length, ")"), matchOtherOptions.length > 0 && renderListView(matchOtherOptions, 'other', filter, function (elm, type) {
+    return scrollCheck(scrollElmRef, matchElmRef, elm, type);
+  })), showAssociatedSection && _react["default"].createElement("div", {
+    className: _styles["default"].text
+  }, associatedTitle && _react["default"].createElement("div", {
+    className: _styles["default"].title
+  }, associatedTitle, " (", matchAssociatedOptions.length, ")"), matchAssociatedOptions.length > 0 && renderListView(matchAssociatedOptions, 'other', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
   }))) : _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].search, _styles["default"].text, 'text-break')
@@ -159,12 +171,15 @@ SelectListBasic.propTypes = {
   title: _propTypes["default"].string.isRequired,
   options: _propTypes["default"].arrayOf(_propTypes["default"].object),
   otherOptions: _propTypes["default"].arrayOf(_propTypes["default"].object),
+  associatedOptions: _propTypes["default"].arrayOf(_propTypes["default"].object),
+  showAssociatedSection: _propTypes["default"].bool,
   placeholder: _propTypes["default"].string,
   searchOption: _propTypes["default"].func.isRequired,
   rightIcon: _propTypes["default"].element,
   currentLocale: _propTypes["default"].string.isRequired,
-  matchedTitle: _propTypes["default"].string.isRequired,
-  otherTitle: _propTypes["default"].string.isRequired,
+  matchedTitle: _propTypes["default"].string,
+  otherTitle: _propTypes["default"].string,
+  associatedTitle: _propTypes["default"].string,
   renderListView: _propTypes["default"].func,
   open: _propTypes["default"].bool,
   setOpen: _propTypes["default"].func,
@@ -177,6 +192,8 @@ SelectListBasic.propTypes = {
 SelectListBasic.defaultProps = {
   options: [],
   otherOptions: [],
+  associatedOptions: [],
+  showAssociatedSection: false,
   placeholder: '',
   rightIcon: null,
   setOpen: function setOpen() {},
@@ -186,6 +203,9 @@ SelectListBasic.defaultProps = {
   selectListBasicClassName: null,
   backHeaderClassName: null,
   listContainerClassName: null,
-  onBackClick: undefined
+  onBackClick: undefined,
+  matchedTitle: null,
+  otherTitle: null,
+  associatedTitle: null
 };
 //# sourceMappingURL=SelectListBasic.js.map

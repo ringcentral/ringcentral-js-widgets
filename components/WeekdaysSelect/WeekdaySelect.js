@@ -33,27 +33,32 @@ var WeekdaysSelect = function WeekdaysSelect(_ref) {
 
   var onClick = function onClick(e) {
     e.preventDefault();
+
+    var _selected = selected.slice(0);
+
     var maxLength = multiple ? 7 : 1;
 
     if (e.target.nodeName === 'LI') {
       var dataset = e.target.dataset;
-      var dayIndex = selected.indexOf(dataset.value);
+
+      var dayIndex = _selected.indexOf(dataset.value);
 
       if (dayIndex !== -1) {
-        selected.splice(dayIndex, 1);
+        _selected.splice(dayIndex, 1);
       }
 
       if (dayIndex === -1) {
-        if (selected.length < maxLength) {
-          selected.push(dataset.value);
+        if (_selected.length < maxLength) {
+          _selected.push(dataset.value);
         } else {
-          selected.shift();
-          selected.push(dataset.value);
+          _selected.shift();
+
+          _selected.push(dataset.value);
         }
       }
     }
 
-    onSelect(selected);
+    onSelect(_selected);
   };
 
   var list = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(function (weekday) {

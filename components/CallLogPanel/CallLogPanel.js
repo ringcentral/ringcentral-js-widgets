@@ -114,7 +114,7 @@ function (_Component) {
       }
 
       return _react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), _react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].editSection)
+        className: _styles["default"].editSection
       }, renderEditLogSection && this.getEditLogSection()), this.genCallControlButtons());
     }
   }, {
@@ -154,6 +154,7 @@ function (_Component) {
           currentLocale = _this$props3.currentLocale,
           onSaveCallLog = _this$props3.onSaveCallLog,
           onUpdateCallLog = _this$props3.onUpdateCallLog,
+          onSelectViewVisible = _this$props3.onSelectViewVisible,
           currentLog = _this$props3.currentLog,
           additionalInfo = _this$props3.additionalInfo,
           subjectDropdownsTracker = _this$props3.subjectDropdownsTracker;
@@ -161,6 +162,7 @@ function (_Component) {
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
         onUpdateCallLog: onUpdateCallLog,
+        onSelectViewVisible: onSelectViewVisible,
         currentLog: currentLog,
         additionalInfo: additionalInfo,
         subjectDropdownsTracker: subjectDropdownsTracker
@@ -315,7 +317,8 @@ exports["default"] = CallLogPanel;
 CallLogPanel.defaultProps = {
   currentLog: {
     nameEntities: [],
-    relatedToEntities: []
+    relatedToEntities: [],
+    associatedEntities: []
   },
   currentIdentify: '',
   currentLocale: _lib.environment.defaultLocale,

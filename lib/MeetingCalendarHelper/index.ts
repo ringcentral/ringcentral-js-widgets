@@ -159,7 +159,18 @@ function getBaseRcvTpl(
   const accountName = extensionInfo.name;
   const joinUri = meeting.joinUri;
   const pinNumber = meeting.shortId;
-  let meetingContent = i18n.getString('rcvInviteMeetingContent', currentLocale);
+  let productName;
+  let meetingContent;
+  if (brand.name === 'RingCentral') {
+    productName = 'RingCentral Video';
+    meetingContent = i18n.getString(
+      'rcvRCBrandInviteMeetingContent',
+      currentLocale,
+    );
+  } else {
+    productName = brand.name;
+    meetingContent = i18n.getString('rcvInviteMeetingContent', currentLocale);
+  }
   if (dialInNumber) {
     meetingContent = `${meetingContent}${i18n.getString(
       'rcvInviteMeetingContentDial',
@@ -182,6 +193,7 @@ function getBaseRcvTpl(
       dialNumber: dialInNumber,
       pinNumber: formatMeetingId(pinNumber),
       teleconference,
+      productName,
     }),
     links: {
       joinUri,

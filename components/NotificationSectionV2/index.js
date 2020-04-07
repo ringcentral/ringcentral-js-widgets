@@ -37,7 +37,7 @@ var _callDirections = _interopRequireDefault(require("ringcentral-integration/en
 
 var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _LogNotificationV = _interopRequireDefault(require("../LogNotificationV2"));
 
@@ -137,7 +137,7 @@ function (_Component) {
         className: _styles["default"].modalTitle
       }, statusI18n), _react["default"].createElement("div", {
         className: _styles["default"].modalCloseBtn
-      }, _react["default"].createElement(_Button["default"], {
+      }, _react["default"].createElement(_Button.Button, {
         dataSign: "closeButton",
         onClick: onCloseNotification
       }, _react["default"].createElement(_CloseIcon["default"], null)))), _react["default"].createElement(_LogNotificationV["default"], {

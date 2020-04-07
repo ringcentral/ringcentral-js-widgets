@@ -58,9 +58,8 @@ var MeetingDuration = function MeetingDuration(_ref) {
   var currentLocale = _ref.currentLocale,
       meeting = _ref.meeting,
       update = _ref.update,
-      isRecurring = _ref.isRecurring,
-      showRecurringMeetingV2 = _ref.showRecurringMeetingV2;
-  return !isRecurring || showRecurringMeetingV2 ? _react["default"].createElement(_MeetingSection["default"], {
+      isRecurring = _ref.isRecurring;
+  return !isRecurring ? _react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('duration', currentLocale)
   }, _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].spaceBetween, _styles["default"].duration)

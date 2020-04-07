@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import CallLogPanel, { CallLogPanelProps } from '../../components/CallLogPanel';
 import withPhone from '../../lib/withPhone';
-import { CallLogCallCtrl } from '../CallLogCallCtrl';
+import CallLogCallCtrlContainer from '../CallLogCallCtrlContainer';
 
 function mapToProps(
   _,
@@ -56,6 +56,7 @@ function mapToProps(
     ),
   };
 }
+
 function mapToFunctions(_, { phone }) {
   const { regionSettings, callLogSection, locale, activeCallControl } = phone;
   return {
@@ -67,9 +68,8 @@ function mapToFunctions(_, { phone }) {
       }) || 'Unknown',
     goBack: () => callLogSection.closeLogSection(),
     renderCallLogCallControl: (status, currentTelephonySessionId, isWide) => (
-      <CallLogCallCtrl
+      <CallLogCallCtrlContainer
         currentLocale={locale.currentLocale}
-        status={status}
         telephonySessionId={currentTelephonySessionId}
         isWide={isWide}
       />
@@ -92,9 +92,6 @@ function mapToFunctions(_, { phone }) {
   };
 }
 const CallLogPage = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(CallLogPanel),
+  connect(mapToProps, mapToFunctions)(CallLogPanel),
 );
 export { mapToProps, mapToFunctions, CallLogPanel, CallLogPage as default };

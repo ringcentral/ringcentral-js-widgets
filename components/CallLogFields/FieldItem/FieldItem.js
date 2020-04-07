@@ -130,7 +130,8 @@ function (_Component) {
           value = _this$props$fieldOpti.value,
           currentDisabled = _this$props$fieldOpti.disabled,
           fieldOnChange = _this$props$fieldOpti.onChange,
-          onSave = _this$props.onSave;
+          onSave = _this$props.onSave,
+          onSelectViewVisible = _this$props.onSelectViewVisible;
       var _this$props2 = _this.props,
           currentLog = _this$props2.currentLog,
           startAdornmentRender = _this$props2.startAdornmentRender,
@@ -153,6 +154,8 @@ function (_Component) {
           rightIconRender = referenceFieldOption.rightIconRender,
           matchedEntitiesGetter = referenceFieldOption.matchedEntitiesGetter,
           otherEntitiesGetter = referenceFieldOption.otherEntitiesGetter,
+          associatedEntitiesGetter = referenceFieldOption.associatedEntitiesGetter,
+          shouldShowAssociatedSection = referenceFieldOption.shouldShowAssociatedSection,
           _referenceFieldOption2 = referenceFieldOption.shouldDisable,
           shouldDisable = _referenceFieldOption2 === void 0 ? function () {
         return false;
@@ -163,9 +166,11 @@ function (_Component) {
           _searchOptionFinder = referenceFieldOption.searchOptionFinder;
       var matchedEntities = matchedEntitiesGetter(currentLog);
       var otherEntities = otherEntitiesGetter(currentLog);
+      var showAssociatedSection = shouldShowAssociatedSection ? shouldShowAssociatedSection(currentLog) : false;
+      var associatedEntities = showAssociatedSection && associatedEntitiesGetter ? associatedEntitiesGetter(currentLog) : [];
       var getValue = _getValue || DEFAULT_FINDER.getValue;
       var searchOptionFinder = _searchOptionFinder || DEFAULT_FINDER.searchOption;
-      var currentOption = [].concat(_toConsumableArray(matchedEntities), _toConsumableArray(otherEntities)).find(currentOptionFinder(task));
+      var currentOption = [].concat(_toConsumableArray(matchedEntities), _toConsumableArray(otherEntities), _toConsumableArray(associatedEntities)).find(currentOptionFinder(task));
       var disabled = currentDisabled || shouldDisable(task);
       var title = metadata.title || label;
       var rightIcon = rightIconRender ? rightIconRender(phoneNumber) : undefined;
@@ -175,7 +180,10 @@ function (_Component) {
         placeholder: metadata.placeholder,
         options: matchedEntities,
         otherOptions: otherEntities,
+        associatedOptions: associatedEntities,
+        showAssociatedSection: showAssociatedSection,
         startAdornment: startAdornmentRender,
+        field: value,
         value: task[metadata.valueField] || '',
         onChange: function _callee(args) {
           return regeneratorRuntime.async(function _callee$(_context) {
@@ -199,6 +207,7 @@ function (_Component) {
             }
           });
         },
+        onSelectViewVisible: onSelectViewVisible,
         valueFunction: getValue,
         renderFunction: getLabel,
         searchOption: searchOptionFinder,
@@ -209,7 +218,7 @@ function (_Component) {
         title: title,
         dataSign: value,
         disableReason: disableReason,
-        value: getLabel(currentOption, matchedEntities.length)
+        value: getLabel(currentOption, matchedEntities.length, currentLog)
       }));
     };
 
@@ -467,6 +476,7 @@ function (_Component) {
           value = _ref2.value,
           disableReason = _ref2.disableReason;
       return _react["default"].createElement(_rcui.RcTextField, {
+        title: value,
         disabled: disabled,
         "data-sign": dataSign,
         InputProps: {

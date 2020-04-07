@@ -140,6 +140,9 @@ CallLogFields.defaultProps = {
   fieldSize: 'small',
   currentLog: {},
   onUpdateCallLog: undefined,
+  onSelectViewVisible: function onSelectViewVisible() {
+    return null;
+  },
   onSaveCallLog: undefined,
   customInputDataStruct: undefined,
   subjectDropdownsTracker: undefined,

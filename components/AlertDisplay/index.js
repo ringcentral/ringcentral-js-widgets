@@ -1,11 +1,16 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -13,71 +18,33 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.string.iterator");
 
-require("core-js/modules/es6.array.map");
+require("core-js/modules/es6.weak-map");
 
-var _react = _interopRequireDefault(require("react"));
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {};
+exports["default"] = void 0;
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _AlertDisplay = _interopRequireWildcard(require("./AlertDisplay"));
 
-var _classnames = _interopRequireDefault(require("classnames"));
+Object.keys(_AlertDisplay).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _AlertDisplay[key];
+    }
+  });
+});
 
-var _alertLevels = _interopRequireDefault(require("ringcentral-integration/modules/Alert/alertLevels"));
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-var _Message = _interopRequireDefault(require("../Message"));
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function AlertDisplay(props) {
-  var RendererMessage = props.component;
-  return _react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, props.className)
-  }, props.messages.map(function (message) {
-    var Renderer = props.getRenderer(message);
-    if (!Renderer) return null;
-    return _react["default"].createElement(RendererMessage, {
-      animation: message.animation,
-      duration: message.duration,
-      key: message.id,
-      level: message.level,
-      message: _react["default"].createElement(Renderer, {
-        message: message,
-        currentLocale: props.currentLocale,
-        brand: props.brand
-      }),
-      onDismiss: function onDismiss() {
-        props.dismiss(message.id);
-      }
-    });
-  }));
-}
-
-AlertDisplay.propTypes = {
-  className: _propTypes["default"].string,
-  messages: _propTypes["default"].arrayOf(_propTypes["default"].shape({
-    id: _propTypes["default"].string.isRequired,
-    level: _propTypes["default"].oneOf(Object.keys(_alertLevels["default"])).isRequired,
-    message: _propTypes["default"].string.isRequired,
-    payload: _propTypes["default"].any
-  })),
-  getRenderer: _propTypes["default"].func,
-  dismiss: _propTypes["default"].func.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  animation: _propTypes["default"].string,
-  brand: _propTypes["default"].string,
-  duration: _propTypes["default"].number,
-  component: _propTypes["default"].func
-};
-AlertDisplay.defaultProps = {
-  getRenderer: function getRenderer() {
-    return undefined;
-  },
-  component: _Message["default"],
-  brand: 'RingCentral'
-};
-var _default = AlertDisplay;
+var _default = _AlertDisplay["default"];
 exports["default"] = _default;
 //# sourceMappingURL=index.js.map

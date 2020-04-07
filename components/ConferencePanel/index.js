@@ -63,7 +63,7 @@ var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _LinkLine = _interopRequireDefault(require("../LinkLine"));
 
@@ -573,7 +573,7 @@ function (_Component) {
         checked: allowJoinBeforeHost,
         onChange: onAllowJoinBeforeHostChange,
         dataSign: "enableJoinToggle"
-      })))), _react["default"].createElement(_Button["default"], {
+      })))), _react["default"].createElement(_Button.Button, {
         onClick: showHelpCommands,
         className: _styles["default"].section
       }, _i18n["default"].getString('conferenceCommands', currentLocale))), _react["default"].createElement("div", {
@@ -590,11 +590,11 @@ function (_Component) {
           participantCode: formatPin(participantCode),
           key: Date.now()
         });
-      }), !disableTxtBtn && _react["default"].createElement(_Button["default"], {
+      }), !disableTxtBtn && _react["default"].createElement(_Button.Button, {
         className: _styles["default"].button,
         dataSign: "inviteWithText",
         onClick: this.inviteWithText
-      }, _i18n["default"].getString('inviteWithText', currentLocale)), showJoinAsHost && _react["default"].createElement(_Button["default"], {
+      }, _i18n["default"].getString('inviteWithText', currentLocale)), showJoinAsHost && _react["default"].createElement(_Button.Button, {
         className: _styles["default"].primaryButton,
         dataSign: "launchConference",
         onClick: function onClick() {

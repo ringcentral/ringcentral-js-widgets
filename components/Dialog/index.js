@@ -17,7 +17,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
 
@@ -86,7 +86,7 @@ function Dialog(_ref2) {
   }, _react["default"].createElement("div", {
     className: _styles["default"].headerText,
     title: headText
-  }, headText)) : null, showCloseBtn ? _react["default"].createElement(_Button["default"], {
+  }, headText)) : null, showCloseBtn ? _react["default"].createElement(_Button.Button, {
     dataSign: "closeButton",
     className: _styles["default"].closeBtn,
     onClick: onCancel

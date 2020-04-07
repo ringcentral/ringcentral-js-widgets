@@ -15,7 +15,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _Header = _interopRequireDefault(require("../Header"));
+var _Header = require("../Header");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -34,7 +34,7 @@ function BackHeader(props) {
     onClick: props.onBackClick,
     placement: 'left'
   });
-  return _react["default"].createElement(_Header["default"], {
+  return _react["default"].createElement(_Header.Header, {
     buttons: buttons,
     className: props.className
   }, props.children);

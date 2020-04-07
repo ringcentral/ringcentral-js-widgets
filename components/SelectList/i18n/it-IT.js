@@ -8,9 +8,11 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   matched: "Con corrispondenza",
-  other: "Altro"
+  other: "Altro",
+  associated: "Associati"
 }; // @key: @#@"matched"@#@ @source: @#@"Matched"@#@
 // @key: @#@"other"@#@ @source: @#@"Other"@#@
+// @key: @#@"associated"@#@ @source: @#@"Associated"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

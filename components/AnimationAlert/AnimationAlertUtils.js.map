@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/AnimationAlert/AnimationAlertUtils.ts"],"names":["ANIMATION_DURATION"],"mappings":";;;;;;;;AAAO,IAAMA,kBAAkB,GAAG,GAA3B","sourcesContent":["export const ANIMATION_DURATION = 500;\n"],"file":"AnimationAlertUtils.js"}

@@ -161,8 +161,7 @@ function (_Component) {
           meetingOptionToggle = _this$props.meetingOptionToggle,
           passwordPlaceholderEnable = _this$props.passwordPlaceholderEnable,
           audioOptionToggle = _this$props.audioOptionToggle,
-          useTimePicker = _this$props.useTimePicker,
-          showRecurringMeetingV2 = _this$props.showRecurringMeetingV2;
+          useTimePicker = _this$props.useTimePicker;
 
       if (!Object.keys(meeting).length) {
         return null;
@@ -223,20 +222,17 @@ function (_Component) {
         that: this,
         onToggle: onToggle,
         minTime: minTime,
-        useTimePicker: useTimePicker,
-        showRecurringMeetingV2: showRecurringMeetingV2
+        useTimePicker: useTimePicker
       }) : null, showDuration ? _react["default"].createElement(_MeetingDuration.MeetingDuration, {
         isRecurring: isRecurring,
         currentLocale: currentLocale,
         meeting: meeting,
-        update: update,
-        showRecurringMeetingV2: showRecurringMeetingV2
+        update: update
       }) : null, showRecurringMeeting ? _react["default"].createElement(_RecurringOptions.RecurringOptions, {
         isRecurring: isRecurring,
         currentLocale: currentLocale,
         meeting: meeting,
-        update: update,
-        showRecurringMeetingV2: showRecurringMeetingV2
+        update: update
       }) : null, _react["default"].createElement(_VideoAudioOptions.Video, {
         currentLocale: currentLocale,
         meeting: meeting,
@@ -269,8 +265,7 @@ MeetingConfig.defaultProps = {
   meetingOptionToggle: false,
   passwordPlaceholderEnable: false,
   audioOptionToggle: false,
-  useTimePicker: false,
-  showRecurringMeetingV2: false
+  useTimePicker: false
 };
 var _default = MeetingConfig;
 exports["default"] = _default;

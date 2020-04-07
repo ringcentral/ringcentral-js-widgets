@@ -65,6 +65,10 @@ function getCallsMappingReducer(types) {
 
     switch (type) {
       case types.update:
+        if (state[identify] && state[identify].isEdited) {
+          return state;
+        }
+
         return _objectSpread({}, state, _defineProperty({}, identify, _objectSpread({}, state[identify], {
           isEdited: true
         })));

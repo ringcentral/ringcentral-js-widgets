@@ -34,6 +34,7 @@ function MessagesLogIcon(_ref) {
       e.stopPropagation();
       if (!disabled) _onClick();
     },
+    "data-sign": "smsLog",
     title: tooltip
   }, _react["default"].createElement(_MessagesLog["default"], {
     className: _styles["default"].logIcon

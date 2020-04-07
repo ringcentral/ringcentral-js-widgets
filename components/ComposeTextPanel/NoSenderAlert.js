@@ -33,7 +33,7 @@ var _messageSenderMessages = _interopRequireDefault(require("ringcentral-integra
 
 var _AlertDisplay = _interopRequireDefault(require("../AlertDisplay"));
 
-var _MessageSenderAlert = _interopRequireDefault(require("../MessageSenderAlert"));
+var _MessageSenderAlert = _interopRequireDefault(require("../AlertRenderer/MessageSenderAlert"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

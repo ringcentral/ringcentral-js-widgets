@@ -49,8 +49,9 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
       size: 'small'
     },
     expandIcon: _react["default"].createElement(_rcui.RcIcon, {
-      size: "small",
-      icon: "arrow_down"
+      size: "medium",
+      icon: "arrow_down",
+      color: ['grey', 500]
     })
   }, _react["default"].createElement(_CallIcon["default"], {
     isInbound: isInbound

@@ -13,7 +13,7 @@ import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { selector } from 'ringcentral-integration/lib/selector';
 
-import { Mapping } from '../../lib/typings/mapping';
+import { Mapping } from '../../typings';
 import actionTypes from './actionTypes';
 import { CallLogSectionCallStatus } from './CallLogSection.interface';
 import getCallLogSectionReducer from './getCallLogSectionReducer';

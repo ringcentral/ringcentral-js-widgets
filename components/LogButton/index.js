@@ -15,7 +15,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _Spinner = _interopRequireDefault(require("../Spinner"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -35,7 +35,7 @@ function LogButton(_ref) {
     ringWidth: 2,
     className: _styles["default"].spinner
   }) : null;
-  return _react["default"].createElement(_Button["default"], {
+  return _react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].log, className),
     onClick: onLog,
     disabled: disableLinks || isLogging

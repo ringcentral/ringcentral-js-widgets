@@ -49,7 +49,7 @@ var _Play = _interopRequireDefault(require("../../assets/images/Play.svg"));
 
 var _Pause = _interopRequireDefault(require("../../assets/images/Pause.svg"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -249,7 +249,7 @@ function (_Component) {
       var icon;
 
       if (this.state.playing) {
-        icon = _react["default"].createElement(_Button["default"], {
+        icon = _react["default"].createElement(_Button.Button, {
           className: (0, _classnames["default"])(_styles["default"].play, disabled ? _styles["default"].disabled : null),
           onClick: this._pauseAudio,
           disabled: disabled
@@ -260,7 +260,7 @@ function (_Component) {
           height: 18
         })));
       } else {
-        icon = _react["default"].createElement(_Button["default"], {
+        icon = _react["default"].createElement(_Button.Button, {
           className: (0, _classnames["default"])(_styles["default"].play, disabled ? _styles["default"].disabled : null),
           onClick: this._playAudio,
           disabled: disabled

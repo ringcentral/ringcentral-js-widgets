@@ -4,6 +4,7 @@
   color: $primary-color;
   cursor: pointer;
   text-overflow: ellipsis;
+  outline: none;
 }
 .root:hover {
   color: $primary-color-highlight;

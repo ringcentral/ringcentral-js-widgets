@@ -21,7 +21,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
 
-var _Header = _interopRequireDefault(require("../Header"));
+var _Header = require("../Header");
 
 var _Panel = _interopRequireDefault(require("../Panel"));
 
@@ -220,7 +220,7 @@ function (_React$PureComponent) {
       return _react["default"].createElement("div", {
         className: _styles["default"].root,
         ref: this._listWrapper
-      }, _react["default"].createElement(_Header["default"], null, title), _react["default"].createElement(_Panel["default"], {
+      }, _react["default"].createElement(_Header.Header, null, title), _react["default"].createElement(_Panel["default"], {
         className: _styles["default"].content
       }, content));
     }

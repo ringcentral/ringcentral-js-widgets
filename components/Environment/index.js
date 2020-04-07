@@ -45,7 +45,7 @@ var _TextInput = _interopRequireDefault(require("../TextInput"));
 
 var _Switch = _interopRequireDefault(require("../Switch"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -193,7 +193,7 @@ function (_Component) {
           checked: this.state.enabledValue,
           onChange: this.onToggleEnabled
         })
-      }, "Enable"), _react["default"].createElement(_Line["default"], null, _react["default"].createElement(_Button["default"], {
+      }, "Enable"), _react["default"].createElement(_Line["default"], null, _react["default"].createElement(_Button.Button, {
         dataSign: "envSave",
         className: (0, _classnames["default"])(_styles["default"].saveButton, !hasChanges ? _styles["default"].disabled : null),
         onClick: this.onOk,

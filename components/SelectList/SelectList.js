@@ -13,7 +13,7 @@ require("core-js/modules/es6.weak-map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SelectList = void 0;
+exports.SelectList = exports.SelectListBasicWithScrollCheck = void 0;
 
 require("core-js/modules/es6.object.assign");
 
@@ -61,23 +61,33 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var SelectListBasicWithScrollCheck = (0, _WithScrollCheck.WithScrollCheck)(_SelectListBasic.SelectListBasic);
+exports.SelectListBasicWithScrollCheck = SelectListBasicWithScrollCheck;
+
 var SelectList = function SelectList(props) {
   var valueFunction = props.valueFunction,
       renderFunction = props.renderFunction,
       children = props.children,
       disabled = props.disabled,
+      field = props.field,
       sourceValue = props.value,
       _onChange = props.onChange,
+      onSelectViewVisible = props.onSelectViewVisible,
       currentLocale = props.currentLocale,
       startAdornment = props.startAdornment,
       matchedTitle = props.matchedTitle,
       otherTitle = props.otherTitle,
+      associatedTitle = props.associatedTitle,
       backHeaderClassName = props.backHeaderClassName;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       open = _useState2[0],
       setOpen = _useState2[1];
+
+  (0, _react.useEffect)(function () {
+    onSelectViewVisible(open, field);
+  }, [open]);
 
   var renderListView = function renderListView(data, type, filter, scrollCheck) {
     return _react["default"].createElement(_ListView.ListView, {
@@ -100,7 +110,6 @@ var SelectList = function SelectList(props) {
     });
   };
 
-  var SelectListWithScrollCheck = (0, _WithScrollCheck.WithScrollCheck)(_SelectListBasic.SelectListBasic);
   return _react["default"].createElement("div", {
     className: disabled ? _styles["default"].disabled : null,
     "data-sign": "select-list-panel"
@@ -116,9 +125,10 @@ var SelectList = function SelectList(props) {
 
       setOpen(true);
     }
-  }, children), _react["default"].createElement(SelectListWithScrollCheck, _extends({}, props, {
+  }, children), _react["default"].createElement(SelectListBasicWithScrollCheck, _extends({}, props, {
     matchedTitle: matchedTitle || _i18n["default"].getString('matched', currentLocale),
     otherTitle: otherTitle || _i18n["default"].getString('other', currentLocale),
+    associatedTitle: associatedTitle || _i18n["default"].getString('associated', currentLocale),
     renderListView: renderListView,
     open: open,
     setOpen: setOpen,
@@ -131,33 +141,43 @@ SelectList.propTypes = {
   title: _propTypes["default"].string.isRequired,
   options: _propTypes["default"].arrayOf(_propTypes["default"].object),
   otherOptions: _propTypes["default"].arrayOf(_propTypes["default"].object),
+  associatedOptions: _propTypes["default"].arrayOf(_propTypes["default"].object),
+  showAssociatedSection: _propTypes["default"].bool,
   placeholder: _propTypes["default"].string,
   valueFunction: _propTypes["default"].func.isRequired,
   renderFunction: _propTypes["default"].func.isRequired,
   searchOption: _propTypes["default"].func.isRequired,
   children: _propTypes["default"].node,
   disabled: _propTypes["default"].bool,
+  field: _propTypes["default"].string,
   value: _propTypes["default"].any,
   rightIcon: _propTypes["default"].element,
   onChange: _propTypes["default"].func,
+  onSelectViewVisible: _propTypes["default"].func,
   currentLocale: _propTypes["default"].string.isRequired,
   startAdornment: _propTypes["default"].func,
   matchedTitle: _propTypes["default"].string,
   otherTitle: _propTypes["default"].string,
+  associatedTitle: _propTypes["default"].string,
   backHeaderClassName: _propTypes["default"].string
 };
 SelectList.defaultProps = {
   options: [],
   otherOptions: [],
+  associatedOptions: [],
+  showAssociatedSection: false,
   placeholder: '',
   children: null,
   disabled: false,
   matchedTitle: '',
   otherTitle: '',
+  associatedTitle: '',
+  field: '',
   value: {},
   rightIcon: null,
   onChange: function onChange() {},
   startAdornment: function startAdornment() {},
+  onSelectViewVisible: function onSelectViewVisible() {},
   backHeaderClassName: null
 };
 //# sourceMappingURL=SelectList.js.map

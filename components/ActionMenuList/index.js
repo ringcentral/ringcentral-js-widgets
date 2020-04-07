@@ -53,7 +53,7 @@ var _Preview = _interopRequireDefault(require("../../assets/images/Preview.svg")
 
 var _Unmark = _interopRequireDefault(require("../../assets/images/Unmark.svg"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _EntityButton = _interopRequireDefault(require("../EntityButton"));
 
@@ -136,7 +136,7 @@ function ClickToDialButton(_ref2) {
       disableClickToDial = _ref2.disableClickToDial,
       phoneNumber = _ref2.phoneNumber,
       title = _ref2.title;
-  return _react["default"].createElement(_Button["default"], {
+  return _react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToDialButton, className),
     onClick: onClickToDial,
     dataSign: title,
@@ -172,7 +172,7 @@ function ClickToSmsButton(_ref3) {
       disableLinks = _ref3.disableLinks,
       phoneNumber = _ref3.phoneNumber,
       title = _ref3.title;
-  return _react["default"].createElement(_Button["default"], {
+  return _react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToSmsButton, className),
     onClick: onClickToSms,
     dataSign: "clickToSms",
@@ -203,7 +203,7 @@ function DeleteButton(_ref4) {
       title = _ref4.title,
       openDeleteModal = _ref4.openDeleteModal,
       disabled = _ref4.disabled;
-  return _react["default"].createElement(_Button["default"], {
+  return _react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: openDeleteModal,
     disabled: disabled,
@@ -239,7 +239,7 @@ function MarkButton(_ref5) {
   var Icon = marked ? _Unmark["default"] : _Mark["default"];
   var title = marked ? unmarkTitle : markTitle;
   var classNames = (0, _classnames["default"])(_styles["default"].unmarked, marked ? _styles["default"].svgFillIcon : null, disabled ? _styles["default"].disabled : null);
-  return _react["default"].createElement(_Button["default"], {
+  return _react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
     disabled: disabled,
@@ -273,7 +273,7 @@ function PreviewButton(_ref6) {
       onClick = _ref6.onClick,
       disabled = _ref6.disabled,
       className = _ref6.className;
-  return _react["default"].createElement(_Button["default"], {
+  return _react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
     disabled: disabled

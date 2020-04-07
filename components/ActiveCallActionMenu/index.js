@@ -33,7 +33,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _LogButton = _interopRequireDefault(require("../LogButton"));
 
@@ -107,7 +107,7 @@ function (_Component) {
           onCreateEntity = _this$props.onCreateEntity,
           createEntityTitle = _this$props.createEntityTitle,
           viewEntityTitle = _this$props.viewEntityTitle;
-      var smsButton = onClickToSms ? _react["default"].createElement(_Button["default"], {
+      var smsButton = onClickToSms ? _react["default"].createElement(_Button.Button, {
         className: (0, _classnames["default"])(_styles["default"].actionButton, _styles["default"].sms),
         onClick: onClickToSms,
         disabled: disableLinks || !phoneNumber
@@ -136,7 +136,7 @@ function (_Component) {
           viewEntityTitle: viewEntityTitle
         });
       } else if (!hasEntity && phoneNumber && onCreateEntity) {
-        entityButton = _react["default"].createElement(_Button["default"], {
+        entityButton = _react["default"].createElement(_Button.Button, {
           className: (0, _classnames["default"])(_styles["default"].actionButton, _styles["default"].addContact),
           onClick: onCreateEntity,
           disabled: disableLinks || !phoneNumber

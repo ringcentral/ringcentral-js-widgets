@@ -20,7 +20,9 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function SpinnerOverlay(_ref) {
-  var className = _ref.className;
+  var className = _ref.className,
+      custom = _ref.custom;
+  var Spinner = custom;
   return _react["default"].createElement("div", {
     "data-sign": "spinnerOverlay",
     className: (0, _classnames["default"])(_styles["default"].root, className)
@@ -28,13 +30,15 @@ function SpinnerOverlay(_ref) {
     className: _styles["default"].mask
   }), _react["default"].createElement("div", {
     className: _styles["default"].container
-  }, _react["default"].createElement(_Spinner["default"], null)));
+  }, _react["default"].createElement(Spinner, null)));
 }
 
 SpinnerOverlay.propTypes = {
-  className: _propTypes["default"].string
+  className: _propTypes["default"].string,
+  custom: _propTypes["default"].func
 };
 SpinnerOverlay.defaultProps = {
-  className: undefined
+  className: undefined,
+  custom: _Spinner["default"]
 };
 //# sourceMappingURL=index.js.map

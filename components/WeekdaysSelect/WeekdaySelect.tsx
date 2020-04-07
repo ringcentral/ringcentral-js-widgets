@@ -12,23 +12,24 @@ const WeekdaysSelect: FunctionComponent<WeekdaysSelectProps> = ({
 }) => {
   const onClick = (e) => {
     e.preventDefault();
+    const _selected = selected.slice(0);
     const maxLength = multiple ? 7 : 1;
     if (e.target.nodeName === 'LI') {
       const { dataset } = e.target;
-      const dayIndex = selected.indexOf(dataset.value);
+      const dayIndex = _selected.indexOf(dataset.value);
       if (dayIndex !== -1) {
-        selected.splice(dayIndex, 1);
+        _selected.splice(dayIndex, 1);
       }
       if (dayIndex === -1) {
-        if (selected.length < maxLength) {
-          selected.push(dataset.value);
+        if (_selected.length < maxLength) {
+          _selected.push(dataset.value);
         } else {
-          selected.shift();
-          selected.push(dataset.value);
+          _selected.shift();
+          _selected.push(dataset.value);
         }
       }
     }
-    onSelect(selected);
+    onSelect(_selected);
   };
   const list = [
     'Sunday',

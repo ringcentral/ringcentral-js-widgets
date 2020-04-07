@@ -34,7 +34,7 @@ var _formatMessage = _interopRequireDefault(require("format-message"));
 
 var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _CarrouselBar = _interopRequireDefault(require("../CarrouselBar"));
 
@@ -77,7 +77,7 @@ function CallInfoBar(_ref) {
     className: _styles["default"].currentCallInfo,
     title: label,
     onClick: onClick
-  }, label), shouldDisplayViewCallsBtn ? _react["default"].createElement(_Button["default"], {
+  }, label), shouldDisplayViewCallsBtn ? _react["default"].createElement(_Button.Button, {
     className: _styles["default"].viewCallsBtn,
     tooltip: _i18n["default"].getString('viewCalls', currentLocale),
     onClick: onClick
@@ -177,7 +177,7 @@ function (_Component) {
         onClick: onCurrentCallBtnClick
       }, _react["default"].createElement(_DurationCounter["default"], {
         startTime: currentCalls[0].startTime
-      })), shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? _react["default"].createElement(_Button["default"], {
+      })), shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? _react["default"].createElement(_Button.Button, {
         dataSign: "currentCallButton",
         className: _styles["default"].currentCallBtn,
         onClick: onCurrentCallBtnClick

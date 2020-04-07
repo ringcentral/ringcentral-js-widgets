@@ -33,7 +33,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -123,7 +123,7 @@ function (_Component) {
         executeCopy: function executeCopy() {
           return _this.executeCopy();
         }
-      })) : _react["default"].createElement(_Button["default"], {
+      })) : _react["default"].createElement(_Button.Button, {
         disabled: disabled,
         dataSign: "copyToClipboard",
         className: (0, _classnames["default"])(_styles["default"].primaryButton, buttonClassName),

@@ -68,8 +68,7 @@ var MeetingDate = function MeetingDate(_ref) {
       that = _ref.that,
       onToggle = _ref.onToggle,
       useTimePicker = _ref.useTimePicker,
-      isRecurring = _ref.isRecurring,
-      showRecurringMeetingV2 = _ref.showRecurringMeetingV2;
+      isRecurring = _ref.isRecurring;
 
   // The default value of the text input is in the componentDidMount.
   var formatDisplay = function formatDisplay(Hours, Minutes) {
@@ -178,7 +177,7 @@ var MeetingDate = function MeetingDate(_ref) {
     console.log('prepared minTime', +minMinute);
   }
 
-  return !isRecurring || showRecurringMeetingV2 ? _react["default"].createElement(_MeetingSection["default"], {
+  return !isRecurring ? _react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('when', currentLocale)
   }, _react["default"].createElement("div", {
     className: _styles["default"].dateTimeBox

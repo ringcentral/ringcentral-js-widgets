@@ -43,7 +43,7 @@ var _isBlank = _interopRequireDefault(require("ringcentral-integration/lib/isBla
 
 var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -297,11 +297,11 @@ function (_Component) {
         autoFocus: autoFocus
       })), _react["default"].createElement("div", {
         className: _styles["default"].buttonGroup
-      }, _react["default"].createElement(_Button["default"], {
+      }, _react["default"].createElement(_Button.Button, {
         dataSign: "cancel",
         className: _styles["default"].cancelButton,
         onClick: onCancel
-      }, _i18n["default"].getString('cancel', currentLocale)), _react["default"].createElement(_Button["default"], {
+      }, _i18n["default"].getString('cancel', currentLocale)), _react["default"].createElement(_Button.Button, {
         dataSign: "forwardCall",
         className: (0, _classnames["default"])(_styles["default"].forwardButton, disableButton ? _styles["default"].disabled : null),
         onClick: this.onForward,

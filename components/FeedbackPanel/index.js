@@ -43,7 +43,7 @@ var _TextInput = _interopRequireDefault(require("../TextInput"));
 
 var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -197,7 +197,7 @@ function (_Component) {
         onChange: this.onDescriptionChange
       })))), _react["default"].createElement("div", {
         className: _styles["default"].bottom
-      }, _react["default"].createElement(_Button["default"], {
+      }, _react["default"].createElement(_Button.Button, {
         onClick: this.onSendClick,
         className: _styles["default"].sendButton
       }, _i18n["default"].getString('send', currentLocale))));

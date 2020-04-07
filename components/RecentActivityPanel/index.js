@@ -17,7 +17,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _bind = _interopRequireDefault(require("classnames/bind"));
 
-var _Header = _interopRequireDefault(require("../Header"));
+var _Header = require("../Header");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -66,13 +66,11 @@ function RecentActivityPanel(props) {
   var containerClass = (0, _classnames["default"])(_styles["default"].container, props.className);
   return _react["default"].createElement("div", {
     className: containerClass
-  }, _react["default"].createElement("div", {
+  }, _react["default"].createElement(_Header.Header, {
+    buttons: [toggleButton],
     className: _styles["default"].header,
     onClick: onPanelToggle
-  }, _react["default"].createElement(_Header["default"], {
-    buttons: [toggleButton],
-    className: _styles["default"].header
-  }, title)), _react["default"].createElement(_RecentActivityView["default"], props));
+  }, title), _react["default"].createElement(_RecentActivityView["default"], props));
 }
 
 RecentActivityPanel.propTypes = {

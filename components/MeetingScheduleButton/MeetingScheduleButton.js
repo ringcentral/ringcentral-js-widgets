@@ -39,7 +39,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _CheckBox = _interopRequireDefault(require("../CheckBox"));
 
@@ -123,12 +123,11 @@ function (_React$Component) {
         },
         type: "checkbox",
         className: _styles["default"].notShowAgain
-      }, _i18n["default"].getString('saveAsDefault', currentLocale)) : null, _react["default"].createElement(_Button["default"], {
+      }, _i18n["default"].getString('saveAsDefault', currentLocale)) : null, _react["default"].createElement(_Button.Button, {
         onClick: onClick,
-        disabledClassName: _styles["default"].isContainedTypeDisabled,
         className: (0, _classnames["default"])(_styles["default"].isContainedType, disabled ? _styles["default"].isContainedTypeDisabled : null),
         dataSign: "meetingScheduleButton"
-      }, scheduleButtonLabel || this.getI18nButtonString()), showLaunchMeetingBtn ? _react["default"].createElement(_Button["default"], {
+      }, scheduleButtonLabel || this.getI18nButtonString()), showLaunchMeetingBtn ? _react["default"].createElement(_Button.Button, {
         dataSign: "launchMeetingButton",
         className: (0, _classnames["default"])(_styles["default"].isOutlineType),
         onClick: function onClick() {

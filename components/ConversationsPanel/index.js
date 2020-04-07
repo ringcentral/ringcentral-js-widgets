@@ -35,7 +35,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
 
-var _Header = _interopRequireDefault(require("../Header"));
+var _Header = require("../Header");
 
 var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
@@ -308,7 +308,7 @@ function (_Component) {
         });
       }
 
-      var header = showTitle ? _react["default"].createElement(_Header["default"], {
+      var header = showTitle ? _react["default"].createElement(_Header.Header, {
         buttons: buttons
       }, _i18n["default"].getString('title', currentLocale)) : null;
       var tabsHeader = this.renderTabs();

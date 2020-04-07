@@ -53,7 +53,7 @@ var _InputField = _interopRequireDefault(require("../InputField"));
 
 var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _SaveButton = _interopRequireDefault(require("../SaveButton"));
 
@@ -378,7 +378,7 @@ function (_Component) {
 
       var permission = !userMedia ? _react["default"].createElement(_IconLine["default"], {
         noBorder: true,
-        icon: _react["default"].createElement(_Button["default"], {
+        icon: _react["default"].createElement(_Button.Button, {
           onClick: checkUserMedia
         }, _i18n["default"].getString('checkMicPermission'))
       }, _i18n["default"].getString('micNoPermissionMessage')) : null; // const webphoneVolume = isWebRTC ?

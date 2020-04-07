@@ -21,7 +21,7 @@ var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _LogBasicInfo = _interopRequireDefault(require("../LogBasicInfo"));
 
@@ -77,7 +77,7 @@ function LogNotification(_ref) {
 
     extraButtons = _react["default"].createElement("div", {
       className: _styles["default"].extraButtonBox
-    }, endButton, _react["default"].createElement(_Button["default"], {
+    }, endButton, _react["default"].createElement(_Button.Button, {
       tooltip: _i18n["default"].getString('log', currentLocale),
       disabled: isExpand,
       className: (0, _classnames2["default"])(_styles["default"].expandButtonWithEnd, isExpand && _styles["default"].expandDisableButton),
@@ -86,7 +86,7 @@ function LogNotification(_ref) {
       }
     }, _i18n["default"].getString('log', currentLocale)));
   } else if (showLogButton) {
-    extraButtons = _react["default"].createElement(_Button["default"], {
+    extraButtons = _react["default"].createElement(_Button.Button, {
       disabled: isExpand,
       className: (0, _classnames2["default"])(_styles["default"].expandButton, isExpand && _styles["default"].expandDisableButton),
       onClick: function onClick() {
@@ -109,19 +109,19 @@ function LogNotification(_ref) {
     className: _styles["default"].confirmationInfo
   }, _i18n["default"].getString('confirmationInfo', currentLocale)), _react["default"].createElement("div", {
     className: _styles["default"].confirmationButtons
-  }, onSave ? _react["default"].createElement(_Button["default"], {
+  }, onSave ? _react["default"].createElement(_Button.Button, {
     tooltip: _i18n["default"].getString('save', currentLocale),
     className: (0, _classnames2["default"])(_styles["default"].saveButton, _styles["default"].selected),
     onClick: function onClick() {
       return onSave();
     }
-  }, _i18n["default"].getString('save', currentLocale)) : null, onDiscard ? _react["default"].createElement(_Button["default"], {
+  }, _i18n["default"].getString('save', currentLocale)) : null, onDiscard ? _react["default"].createElement(_Button.Button, {
     tooltip: _i18n["default"].getString('discard', currentLocale),
     className: _styles["default"].discardButton,
     onClick: function onClick() {
       return onDiscard();
     }
-  }, _i18n["default"].getString('discard', currentLocale)) : null, onStay ? _react["default"].createElement(_Button["default"], {
+  }, _i18n["default"].getString('discard', currentLocale)) : null, onStay ? _react["default"].createElement(_Button.Button, {
     tooltip: _i18n["default"].getString('stay', currentLocale),
     className: _styles["default"].stayButton,
     onClick: function onClick() {

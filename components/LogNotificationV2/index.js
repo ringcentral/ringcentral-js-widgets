@@ -29,7 +29,7 @@ var _VoicemailRed = _interopRequireDefault(require("../../assets/images/Voicemai
 
 var _Hangup = _interopRequireDefault(require("../../assets/images/Hangup.svg"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -88,7 +88,7 @@ function LogNotification(_ref2) {
     var endTitle = isInComingCall ? _i18n["default"].getString('reject', currentLocale) : _i18n["default"].getString('hangup', currentLocale);
     var endAction = isInComingCall ? onReject : onHangup;
     var isRinging = _telephonyStatus["default"].ringing === callStatus;
-    return _react["default"].createElement(_Button["default"], {
+    return _react["default"].createElement(_Button.Button, {
       tooltip: _i18n2["default"].getString(endTitle, currentLocale),
       onClick: endAction,
       className: (0, _classnames["default"])(_styles["default"].endBtn, _styles["default"].actionItem)
@@ -97,7 +97,7 @@ function LogNotification(_ref2) {
   var renderLogButton = showLogButton ? function () {
     return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
       ref: anchorEl
-    }, _react["default"].createElement(_Button["default"], {
+    }, _react["default"].createElement(_Button.Button, {
       tooltip: _i18n["default"].getString('log', currentLocale),
       disabled: isExpand,
       onClick: function onClick() {

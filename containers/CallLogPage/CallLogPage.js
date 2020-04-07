@@ -27,7 +27,7 @@ var _CallLogPanel = _interopRequireDefault(require("../../components/CallLogPane
 
 var _withPhone = _interopRequireDefault(require("../../lib/withPhone"));
 
-var _CallLogCallCtrl = require("../CallLogCallCtrl");
+var _CallLogCallCtrlContainer = _interopRequireDefault(require("../CallLogCallCtrlContainer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -82,9 +82,8 @@ function mapToFunctions(_, _ref2) {
       return callLogSection.closeLogSection();
     },
     renderCallLogCallControl: function renderCallLogCallControl(status, currentTelephonySessionId, isWide) {
-      return _react["default"].createElement(_CallLogCallCtrl.CallLogCallCtrl, {
+      return _react["default"].createElement(_CallLogCallCtrlContainer["default"], {
         currentLocale: locale.currentLocale,
-        status: status,
         telephonySessionId: currentTelephonySessionId,
         isWide: isWide
       });

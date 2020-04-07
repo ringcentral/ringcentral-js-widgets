@@ -15,7 +15,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _Spinner = _interopRequireDefault(require("../Spinner"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -41,7 +41,7 @@ function EntityButton(_ref) {
   var icon = hasEntity ? _DynamicsFont["default"].record : _DynamicsFont["default"].addEntity;
   var onClick = hasEntity ? onViewEntity : onCreateEntity;
   var title = hasEntity ? viewEntityTitle : createEntityTitle;
-  return _react["default"].createElement(_Button["default"], {
+  return _react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].entity, className),
     onClick: onClick,
     disabled: disableLinks,

@@ -28,11 +28,14 @@ function LoginPanel(_ref) {
       disabled = _ref.disabled,
       version = _ref.version,
       showSpinner = _ref.showSpinner,
+      customSpinner = _ref.customSpinner,
       children = _ref.children,
       showSignUp = _ref.showSignUp,
       onSignUpButtonClick = _ref.onSignUpButtonClick,
       customStyles = _ref.customStyles;
-  var spinner = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null;
+  var spinner = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], customSpinner ? {
+    custom: customSpinner
+  } : {}) : null;
   var versionDisplay = version ? _react["default"].createElement("div", {
     className: _styles["default"].versionContainer
   }, _i18n["default"].getString('version', currentLocale), " ", version) : null;
@@ -58,6 +61,7 @@ LoginPanel.propTypes = {
   disabled: _propTypes["default"].bool,
   version: _propTypes["default"].string,
   showSpinner: _propTypes["default"].bool,
+  customSpinner: _propTypes["default"].func,
   children: _propTypes["default"].node,
   showSignUp: _propTypes["default"].bool,
   onSignUpButtonClick: _propTypes["default"].func,
@@ -68,6 +72,7 @@ LoginPanel.defaultProps = {
   disabled: false,
   version: undefined,
   showSpinner: false,
+  customSpinner: undefined,
   children: undefined,
   showSignUp: false,
   onSignUpButtonClick: function onSignUpButtonClick() {},

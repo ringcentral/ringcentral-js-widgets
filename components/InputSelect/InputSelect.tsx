@@ -102,6 +102,7 @@ export default class InputSelect extends Component<
         <RcTextField
           label="Subject"
           data-sign="subject"
+          title={subject}
           fullWidth
           required={required}
           value={subject}

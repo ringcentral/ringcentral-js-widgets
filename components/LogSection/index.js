@@ -41,7 +41,7 @@ var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
 
 var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -106,7 +106,7 @@ var SaveButton = function SaveButton(_ref2) {
       children = _ref2.children;
   return _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].buttonPanel, overlapped && _styles["default"].overlapped)
-  }, _react["default"].createElement(_Button["default"], {
+  }, _react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].primaryButton, isSaving && _styles["default"].disabled),
     disabled: isSaving,
     onClick: onClick

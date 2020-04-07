@@ -184,6 +184,7 @@ function (_Component) {
       }, _react["default"].createElement(_rcui.RcTextField, {
         label: "Subject",
         "data-sign": "subject",
+        title: subject,
         fullWidth: true,
         required: required,
         value: subject,

@@ -33,7 +33,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _LogNotification = _interopRequireDefault(require("../LogNotification"));
 
@@ -112,7 +112,7 @@ function (_Component) {
         className: (0, _classnames["default"])(_styles["default"].root, logNotification.notificationIsExpand ? _styles["default"].cover : null)
       }, _react["default"].createElement("div", {
         className: _styles["default"].notificationModal
-      }, _react["default"].createElement(_Button["default"], {
+      }, _react["default"].createElement(_Button.Button, {
         dataSign: "closeButton",
         className: _styles["default"].closeBtn,
         onClick: onCloseNotification

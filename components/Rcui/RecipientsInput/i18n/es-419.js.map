@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/Rcui/RecipientsInput/i18n/es-419.js"],"names":["dialPlaceholder"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,eAAe,EAAE;AADJ,C,EAIf","sourcesContent":["export default {\n  dialPlaceholder: \"Introduzca el nombre o número\"\n};\n\n// @key: @#@\"dialPlaceholder\"@#@ @source: @#@\"Enter Name or Number\"@#@\n"],"file":"es-419.js"}

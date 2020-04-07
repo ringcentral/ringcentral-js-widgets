@@ -9,7 +9,7 @@ exports.Header = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Header = _interopRequireDefault(require("../../Header"));
+var _Header = require("../../Header");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
@@ -23,7 +23,7 @@ var Header = function Header(_ref) {
     return null;
   }
 
-  return _react["default"].createElement(_Header["default"], null, _i18n["default"].getString('settings', currentLocale));
+  return _react["default"].createElement(_Header.Header, null, _i18n["default"].getString('settings', currentLocale));
 };
 
 exports.Header = Header;

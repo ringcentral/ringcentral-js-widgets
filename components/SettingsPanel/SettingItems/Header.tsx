@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import BaseHeader from '../../Header';
+import { Header as BaseHeader } from '../../Header';
 import i18n from '../i18n';
 
 export interface HeaderProps {

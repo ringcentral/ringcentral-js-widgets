@@ -43,7 +43,7 @@ var _reactTransitionGroup = require("react-transition-group");
 
 var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -193,12 +193,12 @@ function (_React$Component) {
         }
       }), _react["default"].createElement("div", {
         className: _styles["default"].buttonGroup
-      }, _react["default"].createElement(_Button["default"], {
+      }, _react["default"].createElement(_Button.Button, {
         className: _styles["default"].primaryButton,
         onClick: function onClick() {
           _this2.slideTo(1);
         }
-      }, _i18n["default"].getString('start', this.props.currentLocale)), _react["default"].createElement(_Button["default"], {
+      }, _i18n["default"].getString('start', this.props.currentLocale)), _react["default"].createElement(_Button.Button, {
         onClick: function onClick() {
           _this2.exit();
         },
@@ -234,14 +234,14 @@ function (_React$Component) {
       var onLastPage = this.state.curIdx === this.props.guides.length - 1;
       var skipButton = onLastPage ? _react["default"].createElement("div", {
         className: _styles["default"].secondaryButton
-      }) : _react["default"].createElement(_Button["default"], {
+      }) : _react["default"].createElement(_Button.Button, {
         onClick: function onClick() {
           _this3.exit();
         },
         className: (0, _classnames["default"])(_styles["default"].secondaryButton)
       }, _i18n["default"].getString('skip', this.props.currentLocale));
 
-      var nextButton = _react["default"].createElement(_Button["default"], {
+      var nextButton = _react["default"].createElement(_Button.Button, {
         onClick: function onClick() {
           _this3.slideTo(_this3.state.curIdx + 1);
         },

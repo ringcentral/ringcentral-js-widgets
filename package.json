@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-widgets",
-  "version": "0.10.6",
+  "version": "0.11.0",
   "description": "RingCentral Integration Widget Library",
   "main": "index.js",
   "repository": {
@@ -14,24 +14,24 @@
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.0.0",
-    "@ringcentral-integration/phone-number": "*",
+    "@ringcentral-integration/i18n": "^2.0.1",
+    "@ringcentral-integration/phone-number": "^1.0.4",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
-    "redux": "^4.0.4",
     "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-redux": "^5.1.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
-    "react-redux": "^5.1.1",
-    "react-dom": "^16.11.0",
+    "redux": "^4.0.4",
     "ringcentral": "^3.2.1",
     "ringcentral-client": "^1.0.0-beta.2",
-    "ringcentral-integration": "^0.10.6"
+    "ringcentral-integration": "^0.11.0"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "@ringcentral-integration/locale-loader": "^2.0.0",
+    "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^9.6.1",
@@ -58,12 +58,12 @@
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.2.1",
     "ringcentral-client": "^1.0.0-beta.2",
-    "ringcentral-integration": "^0.10.6",
-    "typescript": "^3.4.1",
+    "ringcentral-integration": "*",
     "typescript-plugin-css-modules": "^1.2.1",
     "yargs": "^14.0.0"
   },
   "dependencies": {
+    "@ringcentral-integration/rcui": "*",
     "animate.css": "^3.5.2",
     "classnames": "^2.2.5",
     "dedent": "^0.7.0",
@@ -72,7 +72,6 @@
     "qs": "^6.8.0",
     "ramda": "^0.26.1",
     "rc-tooltip": "^3.4.6",
-    "@ringcentral-integration/rcui": "*",
     "react-svg-loader": "^3.0.3",
     "react-transition-group": "^2.2.1",
     "react-virtualized": "^9.19.1",

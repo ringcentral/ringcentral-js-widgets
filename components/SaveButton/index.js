@@ -13,7 +13,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _Button = _interopRequireDefault(require("../Button"));
+var _Button = require("../Button");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -26,7 +26,7 @@ function SaveButton(_ref) {
       currentLocale = _ref.currentLocale,
       disabled = _ref.disabled,
       onClick = _ref.onClick;
-  return _react["default"].createElement(_Button["default"], {
+  return _react["default"].createElement(_Button.Button, {
     dataSign: "saveButton",
     className: (0, _classnames["default"])(_styles["default"].root, disabled ? _styles["default"].disabled : null, className),
     onClick: onClick,
