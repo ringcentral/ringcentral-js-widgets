@@ -55,25 +55,27 @@ require("core-js/modules/es6.set");
 
 var _url = _interopRequireDefault(require("url"));
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _di = require("../../lib/di");
-
-var _getAuthReducer = _interopRequireDefault(require("./getAuthReducer"));
-
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
-
-var _loginStatus = _interopRequireDefault(require("./loginStatus"));
-
-var _authMessages = _interopRequireDefault(require("./authMessages"));
-
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _class, _class2;
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+
+var _validateIsOffline = _interopRequireDefault(require("../../lib/validateIsOffline"));
+
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+
+var _authMessages = _interopRequireDefault(require("./authMessages"));
+
+var _getAuthReducer = _interopRequireDefault(require("./getAuthReducer"));
+
+var _loginStatus = _interopRequireDefault(require("./loginStatus"));
+
+var _dec, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -132,7 +134,7 @@ var Auth = (_dec = (0, _di.Module)({
     dep: 'AuthOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_RcModule) {
   _inherits(Auth, _RcModule);
@@ -168,6 +170,20 @@ function (_RcModule) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Auth).call(this, _objectSpread({}, options, {
       actionTypes: _actionTypes["default"]
     })));
+    _this._client = void 0;
+    _this._alert = void 0;
+    _this._brand = void 0;
+    _this._locale = void 0;
+    _this._tabManager = void 0;
+    _this._environment = void 0;
+    _this._beforeLogoutHandlers = void 0;
+    _this._afterLoggedInHandlers = void 0;
+    _this._proxyFrame = void 0;
+    _this._proxyFrameLoaded = void 0;
+    _this._unbindEvents = void 0;
+    _this._lastEnvironmentCounter = void 0;
+    _this._proxyUri = void 0;
+    _this._redirectUri = void 0;
     _this._client = (0, _ensureExist["default"])(client, 'client');
     _this._alert = (0, _ensureExist["default"])(alert, 'alert');
     _this._brand = (0, _ensureExist["default"])(brand, 'brand');
@@ -202,11 +218,11 @@ function (_RcModule) {
       };
 
       var onLoginSuccess = function onLoginSuccess() {
-        var handlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
+        var handlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, handler;
 
-        return regeneratorRuntime.async(function onLoginSuccess$(_context3) {
+        return regeneratorRuntime.async(function onLoginSuccess$(_context) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 _this2.store.dispatch({
                   type: _this2.actionTypes.loginSuccess,
@@ -217,95 +233,52 @@ function (_RcModule) {
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context3.prev = 5;
+                _context.prev = 5;
 
-                _loop = function _loop() {
-                  var handler;
-                  return regeneratorRuntime.async(function _loop$(_context2) {
-                    while (1) {
-                      switch (_context2.prev = _context2.next) {
-                        case 0:
-                          handler = _step.value;
-                          _context2.next = 3;
-                          return regeneratorRuntime.awrap(function _callee() {
-                            return regeneratorRuntime.async(function _callee$(_context) {
-                              while (1) {
-                                switch (_context.prev = _context.next) {
-                                  case 0:
-                                    return _context.abrupt("return", handler());
-
-                                  case 1:
-                                  case "end":
-                                    return _context.stop();
-                                }
-                              }
-                            });
-                          }());
-
-                        case 3:
-                        case "end":
-                          return _context2.stop();
-                      }
-                    }
-                  });
-                };
-
-                _iterator = handlers[Symbol.iterator]();
-
-              case 8:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context3.next = 14;
-                  break;
+                for (_iterator = handlers[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                  handler = _step.value;
+                  handler();
                 }
 
-                _context3.next = 11;
-                return regeneratorRuntime.awrap(_loop());
-
-              case 11:
-                _iteratorNormalCompletion = true;
-                _context3.next = 8;
+                _context.next = 13;
                 break;
 
-              case 14:
-                _context3.next = 20;
-                break;
-
-              case 16:
-                _context3.prev = 16;
-                _context3.t0 = _context3["catch"](5);
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](5);
                 _didIteratorError = true;
-                _iteratorError = _context3.t0;
+                _iteratorError = _context.t0;
 
-              case 20:
-                _context3.prev = 20;
-                _context3.prev = 21;
+              case 13:
+                _context.prev = 13;
+                _context.prev = 14;
 
                 if (!_iteratorNormalCompletion && _iterator["return"] != null) {
                   _iterator["return"]();
                 }
 
-              case 23:
-                _context3.prev = 23;
+              case 16:
+                _context.prev = 16;
 
                 if (!_didIteratorError) {
-                  _context3.next = 26;
+                  _context.next = 19;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 26:
-                return _context3.finish(23);
+              case 19:
+                return _context.finish(16);
 
-              case 27:
-                return _context3.finish(20);
+              case 20:
+                return _context.finish(13);
 
-              case 28:
+              case 21:
               case "end":
-                return _context3.stop();
+                return _context.stop();
             }
           }
-        }, null, null, [[5, 16, 20, 28], [21,, 23, 27]]);
+        }, null, null, [[5, 9, 13, 21], [14,, 16, 20]]);
       };
 
       var onLoginError = function onLoginError(error) {
@@ -353,7 +326,7 @@ function (_RcModule) {
 
       var onRefreshError = function onRefreshError(error) {
         // user is still considered logged in if the refreshToken is still valid
-        var isOffline = error.message === 'Failed to fetch' || error.message === 'The Internet connection appears to be offline.' || error.message === 'NetworkError when attempting to fetch resource.' || error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.';
+        var isOffline = (0, _validateIsOffline["default"])(error.message);
         var res_status = error.apiResponse && error.apiResponse._response && error.apiResponse._response.status || null;
         var refreshTokenValid = (isOffline || res_status >= 500) && platform.auth().refreshTokenValid();
 
@@ -399,14 +372,14 @@ function (_RcModule) {
       var _this3 = this;
 
       var loggedIn;
-      this.store.subscribe(function _callee2() {
+      this.store.subscribe(function _callee() {
         var platform;
-        return regeneratorRuntime.async(function _callee2$(_context4) {
+        return regeneratorRuntime.async(function _callee$(_context2) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 if (!(_this3.status === _moduleStatuses["default"].pending && _this3._locale.ready && (!_this3._tabManager || _this3._tabManager.ready) && (!_this3._environment || _this3._environment.ready))) {
-                  _context4.next = 8;
+                  _context2.next = 8;
                   break;
                 }
 
@@ -415,11 +388,11 @@ function (_RcModule) {
                 });
 
                 platform = _this3._client.service.platform();
-                _context4.next = 5;
+                _context2.next = 5;
                 return regeneratorRuntime.awrap(platform.loggedIn());
 
               case 5:
-                loggedIn = _context4.sent;
+                loggedIn = _context2.sent;
 
                 _this3._bindEvents();
 
@@ -455,7 +428,7 @@ function (_RcModule) {
 
               case 10:
               case "end":
-                return _context4.stop();
+                return _context2.stop();
             }
           }
         });
@@ -476,18 +449,18 @@ function (_RcModule) {
      * @description Login either with username/password or with authorization code
      */
     value: function login(_ref2) {
-      var username, password, extension, remember, code, redirectUri, accessToken, expiresIn, endpointId, tokenType, ownerId, extensionData;
-      return regeneratorRuntime.async(function login$(_context5) {
+      var username, password, extension, remember, code, redirectUri, accessToken, expiresIn, endpointId, tokenType, scope, ownerId, extensionData;
+      return regeneratorRuntime.async(function login$(_context3) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              username = _ref2.username, password = _ref2.password, extension = _ref2.extension, remember = _ref2.remember, code = _ref2.code, redirectUri = _ref2.redirectUri, accessToken = _ref2.accessToken, expiresIn = _ref2.expiresIn, endpointId = _ref2.endpointId, tokenType = _ref2.tokenType;
+              username = _ref2.username, password = _ref2.password, extension = _ref2.extension, remember = _ref2.remember, code = _ref2.code, redirectUri = _ref2.redirectUri, accessToken = _ref2.accessToken, expiresIn = _ref2.expiresIn, endpointId = _ref2.endpointId, tokenType = _ref2.tokenType, scope = _ref2.scope;
               this.store.dispatch({
                 type: this.actionTypes.login
               });
 
               if (!accessToken) {
-                _context5.next = 8;
+                _context3.next = 8;
                 break;
               }
 
@@ -495,18 +468,19 @@ function (_RcModule) {
                 token_type: tokenType,
                 access_token: accessToken,
                 expires_in: expiresIn,
-                refresh_token_expires_in: expiresIn
+                refresh_token_expires_in: expiresIn,
+                scope: scope
               });
 
-              _context5.next = 6;
+              _context3.next = 6;
               return regeneratorRuntime.awrap(this._client.account().extension().get());
 
             case 6:
-              extensionData = _context5.sent;
+              extensionData = _context3.sent;
               ownerId = extensionData.id;
 
             case 8:
-              return _context5.abrupt("return", this._client.service.platform().login({
+              return _context3.abrupt("return", this._client.service.platform().login({
                 username: username,
                 password: password,
                 extension: extension,
@@ -522,7 +496,7 @@ function (_RcModule) {
 
             case 9:
             case "end":
-              return _context5.stop();
+              return _context3.stop();
           }
         }
       }, null, this);
@@ -575,17 +549,17 @@ function (_RcModule) {
           _iteratorNormalCompletion2,
           _didIteratorError2,
           _iteratorError2,
-          _loop2,
+          _loop,
           _iterator2,
           _step2,
           _ret,
-          _args8 = arguments;
+          _args6 = arguments;
 
-      return regeneratorRuntime.async(function logout$(_context8) {
+      return regeneratorRuntime.async(function logout$(_context6) {
         while (1) {
-          switch (_context8.prev = _context8.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              _ref4 = _args8.length > 0 && _args8[0] !== undefined ? _args8[0] : {}, _ref4$dismissAllAlert = _ref4.dismissAllAlert, dismissAllAlert = _ref4$dismissAllAlert === void 0 ? true : _ref4$dismissAllAlert;
+              _ref4 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, _ref4$dismissAllAlert = _ref4.dismissAllAlert, dismissAllAlert = _ref4$dismissAllAlert === void 0 ? true : _ref4$dismissAllAlert;
 
               if (dismissAllAlert) {
                 this._alert.dismissAll();
@@ -595,7 +569,7 @@ function (_RcModule) {
                 type: this.actionTypes.beforeLogout
               });
               handlers = _toConsumableArray(this._beforeLogoutHandlers);
-              _context8.prev = 4;
+              _context6.prev = 4;
 
               if (this._tabManager && this._tabManager.ready) {
                 this._tabManager.send(LoginStatusChangeEvent, false);
@@ -604,36 +578,36 @@ function (_RcModule) {
               _iteratorNormalCompletion2 = true;
               _didIteratorError2 = false;
               _iteratorError2 = undefined;
-              _context8.prev = 9;
+              _context6.prev = 9;
 
-              _loop2 = function _loop2() {
+              _loop = function _loop() {
                 var handler, result;
-                return regeneratorRuntime.async(function _loop2$(_context7) {
+                return regeneratorRuntime.async(function _loop$(_context5) {
                   while (1) {
-                    switch (_context7.prev = _context7.next) {
+                    switch (_context5.prev = _context5.next) {
                       case 0:
                         handler = _step2.value;
-                        _context7.next = 3;
-                        return regeneratorRuntime.awrap(function _callee3() {
-                          return regeneratorRuntime.async(function _callee3$(_context6) {
+                        _context5.next = 3;
+                        return regeneratorRuntime.awrap(function _callee2() {
+                          return regeneratorRuntime.async(function _callee2$(_context4) {
                             while (1) {
-                              switch (_context6.prev = _context6.next) {
+                              switch (_context4.prev = _context4.next) {
                                 case 0:
-                                  return _context6.abrupt("return", handler());
+                                  return _context4.abrupt("return", handler());
 
                                 case 1:
                                 case "end":
-                                  return _context6.stop();
+                                  return _context4.stop();
                               }
                             }
                           });
                         }());
 
                       case 3:
-                        result = _context7.sent;
+                        result = _context5.sent;
 
                         if (!result) {
-                          _context7.next = 8;
+                          _context5.next = 8;
                           break;
                         }
 
@@ -645,13 +619,13 @@ function (_RcModule) {
                           _this4._tabManager.send(LoginStatusChangeEvent, true);
                         }
 
-                        return _context7.abrupt("return", {
+                        return _context5.abrupt("return", {
                           v: Promise.reject(result)
                         });
 
                       case 8:
                       case "end":
-                        return _context7.stop();
+                        return _context5.stop();
                     }
                   }
                 });
@@ -661,73 +635,73 @@ function (_RcModule) {
 
             case 12:
               if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                _context8.next = 21;
+                _context6.next = 21;
                 break;
               }
 
-              _context8.next = 15;
-              return regeneratorRuntime.awrap(_loop2());
+              _context6.next = 15;
+              return regeneratorRuntime.awrap(_loop());
 
             case 15:
-              _ret = _context8.sent;
+              _ret = _context6.sent;
 
               if (!(_typeof(_ret) === "object")) {
-                _context8.next = 18;
+                _context6.next = 18;
                 break;
               }
 
-              return _context8.abrupt("return", _ret.v);
+              return _context6.abrupt("return", _ret.v);
 
             case 18:
               _iteratorNormalCompletion2 = true;
-              _context8.next = 12;
+              _context6.next = 12;
               break;
 
             case 21:
-              _context8.next = 27;
+              _context6.next = 27;
               break;
 
             case 23:
-              _context8.prev = 23;
-              _context8.t0 = _context8["catch"](9);
+              _context6.prev = 23;
+              _context6.t0 = _context6["catch"](9);
               _didIteratorError2 = true;
-              _iteratorError2 = _context8.t0;
+              _iteratorError2 = _context6.t0;
 
             case 27:
-              _context8.prev = 27;
-              _context8.prev = 28;
+              _context6.prev = 27;
+              _context6.prev = 28;
 
               if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
                 _iterator2["return"]();
               }
 
             case 30:
-              _context8.prev = 30;
+              _context6.prev = 30;
 
               if (!_didIteratorError2) {
-                _context8.next = 33;
+                _context6.next = 33;
                 break;
               }
 
               throw _iteratorError2;
 
             case 33:
-              return _context8.finish(30);
+              return _context6.finish(30);
 
             case 34:
-              return _context8.finish(27);
+              return _context6.finish(27);
 
             case 35:
-              _context8.next = 40;
+              _context6.next = 40;
               break;
 
             case 37:
-              _context8.prev = 37;
-              _context8.t1 = _context8["catch"](4);
+              _context6.prev = 37;
+              _context6.t1 = _context6["catch"](4);
 
               this._alert.danger({
                 message: _authMessages["default"].beforeLogoutError,
-                payload: _context8.t1
+                payload: _context6.t1
               });
 
             case 40:
@@ -736,7 +710,7 @@ function (_RcModule) {
               });
 
               if (!this.isImplicit) {
-                _context8.next = 45;
+                _context6.next = 45;
                 break;
               }
 
@@ -745,14 +719,14 @@ function (_RcModule) {
               this.store.dispatch({
                 type: this.actionTypes.logoutSuccess
               });
-              return _context8.abrupt("return", null);
+              return _context6.abrupt("return", null);
 
             case 45:
-              return _context8.abrupt("return", this._client.service.platform().logout());
+              return _context6.abrupt("return", this._client.service.platform().logout());
 
             case 46:
             case "end":
-              return _context8.stop();
+              return _context6.stop();
           }
         }
       }, null, this, [[4, 37], [9, 23, 27, 35], [28,, 30, 34]]);
@@ -799,25 +773,25 @@ function (_RcModule) {
     key: "refreshImplicitToken",
     value: function refreshImplicitToken(_ref5) {
       var tokenType, accessToken, expiresIn, endpointId, extensionData, ownerId, platform, newAuthData;
-      return regeneratorRuntime.async(function refreshImplicitToken$(_context9) {
+      return regeneratorRuntime.async(function refreshImplicitToken$(_context7) {
         while (1) {
-          switch (_context9.prev = _context9.next) {
+          switch (_context7.prev = _context7.next) {
             case 0:
               tokenType = _ref5.tokenType, accessToken = _ref5.accessToken, expiresIn = _ref5.expiresIn, endpointId = _ref5.endpointId;
-              _context9.prev = 1;
-              _context9.next = 4;
+              _context7.prev = 1;
+              _context7.next = 4;
               return regeneratorRuntime.awrap(this._client.account().extension().get());
 
             case 4:
-              extensionData = _context9.sent;
+              extensionData = _context7.sent;
               ownerId = String(extensionData.id);
 
               if (!(ownerId !== String(this.ownerId))) {
-                _context9.next = 8;
+                _context7.next = 8;
                 break;
               }
 
-              return _context9.abrupt("return");
+              return _context7.abrupt("return");
 
             case 8:
               platform = this._client.service.platform();
@@ -830,17 +804,17 @@ function (_RcModule) {
               };
               platform.auth().setData(newAuthData);
               platform.emit(platform.events.refreshSuccess, newAuthData);
-              _context9.next = 17;
+              _context7.next = 17;
               break;
 
             case 14:
-              _context9.prev = 14;
-              _context9.t0 = _context9["catch"](1);
-              console.error('refreshImplicitToken error:', _context9.t0);
+              _context7.prev = 14;
+              _context7.t0 = _context7["catch"](1);
+              console.error('refreshImplicitToken error:', _context7.t0);
 
             case 17:
             case "end":
-              return _context9.stop();
+              return _context7.stop();
           }
         }
       }, null, this, [[1, 14]]);
@@ -848,19 +822,19 @@ function (_RcModule) {
   }, {
     key: "checkIsLoggedIn",
     value: function checkIsLoggedIn() {
-      return regeneratorRuntime.async(function checkIsLoggedIn$(_context10) {
+      return regeneratorRuntime.async(function checkIsLoggedIn$(_context8) {
         while (1) {
-          switch (_context10.prev = _context10.next) {
+          switch (_context8.prev = _context8.next) {
             case 0:
-              _context10.next = 2;
+              _context8.next = 2;
               return regeneratorRuntime.awrap(this._client.service.platform().loggedIn());
 
             case 2:
-              return _context10.abrupt("return", this.state.loginStatus === _loginStatus["default"].loggedIn);
+              return _context8.abrupt("return", this.state.loginStatus === _loginStatus["default"].loggedIn);
 
             case 3:
             case "end":
-              return _context10.stop();
+              return _context8.stop();
           }
         }
       }, null, this);
@@ -933,6 +907,6 @@ function (_RcModule) {
   }]);
 
   return Auth;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "login", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "login", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
 exports["default"] = Auth;
 //# sourceMappingURL=index.js.map

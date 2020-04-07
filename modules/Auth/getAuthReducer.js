@@ -12,9 +12,9 @@ exports["default"] = getAuthReducer;
 
 var _redux = require("redux");
 
-var _loginStatus = _interopRequireDefault(require("./loginStatus"));
-
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
+
+var _loginStatus = _interopRequireDefault(require("./loginStatus"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

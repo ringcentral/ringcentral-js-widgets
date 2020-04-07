@@ -35,19 +35,19 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.object.assign");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _di = require("../../lib/di");
 
-var _Tabbie = _interopRequireDefault(require("../../lib/Tabbie"));
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _Tabbie = _interopRequireDefault(require("../../lib/Tabbie"));
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _getTabManagerReducer = _interopRequireDefault(require("./getTabManagerReducer"));
 
-var _dec, _class;
+var _dec, _class, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -80,7 +80,7 @@ var TabManager = (
  * @class
  * @description To handle data between different tabs
  */
-_dec = (0, _di.Module)(), _dec(_class =
+_dec = (0, _di.Module)(), _dec(_class = (_temp =
 /*#__PURE__*/
 function (_RcModule) {
   _inherits(TabManager, _RcModule);
@@ -95,6 +95,7 @@ function (_RcModule) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TabManager).call(this, _objectSpread({}, options, {
       actionTypes: _actionTypes["default"]
     })));
+    _this._tabbie = void 0;
     _this._tabbie = new _Tabbie["default"]({
       prefix: _this.prefix
     });
@@ -223,6 +224,11 @@ function (_RcModule) {
       return this._tabbie.id;
     }
   }, {
+    key: "hasMultipleTabs",
+    get: function get() {
+      return this._tabbie.hasMultipleTabs;
+    }
+  }, {
     key: "event",
     get: function get() {
       return this.state.event;
@@ -230,6 +236,6 @@ function (_RcModule) {
   }]);
 
   return TabManager;
-}(_RcModule2["default"])) || _class);
+}(_RcModule2["default"]), _temp)) || _class);
 exports["default"] = TabManager;
 //# sourceMappingURL=index.js.map

@@ -1,12 +1,22 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getMessagesReducer = getMessagesReducer;
 exports["default"] = getAlertReducer;
+
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -30,9 +40,17 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.array.map");
+
 require("core-js/modules/es6.array.find");
 
 var _redux = require("redux");
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -55,7 +73,9 @@ function getMessagesReducer(types) {
         ids = _ref.ids,
         timestamp = _ref.timestamp,
         id = _ref.id,
-        allowDuplicates = _ref.allowDuplicates;
+        allowDuplicates = _ref.allowDuplicates,
+        loading = _ref.loading,
+        action = _ref.action;
 
     switch (type) {
       case types.alert:
@@ -71,8 +91,19 @@ function getMessagesReducer(types) {
           payload: payload,
           ttl: ttl,
           level: level,
-          timestamp: timestamp
+          timestamp: timestamp,
+          loading: loading,
+          action: action
         }]);
+
+      case types.update:
+        return state.map(function (item) {
+          return item.id === id ? _objectSpread({}, item, {
+            message: message,
+            loading: loading,
+            action: action
+          }) : item;
+        });
 
       case types.dismiss:
         return state.filter(function (item) {

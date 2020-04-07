@@ -41,7 +41,7 @@ function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
     var phoneNumber = _ref.phoneNumber,
         _ref$location = _ref.location,
         location = _ref$location === void 0 ? '' : _ref$location;
-    return "".concat(phoneNumber, ",,").concat(meetingId, "# ").concat(location);
+    return "".concat(phoneNumber, ",,").concat(meetingId, "# (").concat(location, ")");
   }).join('\n    ');
 }
 
@@ -56,7 +56,7 @@ function getPhoneDialingNumberTpl(dialInNumbers) {
       countryCode: country.isoCode,
       type: _format.formatTypes.international
     });
-    return "".concat(filterFormattedNumber).concat(location);
+    return "".concat(filterFormattedNumber, " (").concat(location, ")");
   }).join('\n    ');
 }
 

@@ -136,6 +136,7 @@ function (_RcModule) {
     _this._serverStorageKey = 'environmentServer';
     _this._recordingHostStoragekey = 'environmentRecordingHost';
     _this._enabledStorageKey = 'environmentEnabled';
+    _this._defaultRecordingHost = defaultRecordingHost || 'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
 
     _this._globalStorage.registerReducer({
       key: _this._serverStorageKey,
@@ -149,7 +150,7 @@ function (_RcModule) {
       key: _this._recordingHostStoragekey,
       reducer: (0, _getEnvironmentReducer.getRecordingHostReducer)({
         types: _this.actionTypes,
-        defaultRecordingHost: defaultRecordingHost || 'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html'
+        defaultRecordingHost: _this._defaultRecordingHost
       })
     });
 
@@ -255,7 +256,11 @@ function (_RcModule) {
   }, {
     key: "recordingHost",
     get: function get() {
-      return this._globalStorage.getItem(this._recordingHostStoragekey);
+      if (this.enabled) {
+        return this._globalStorage.getItem(this._recordingHostStoragekey);
+      }
+
+      return this._defaultRecordingHost;
     }
   }, {
     key: "enabled",

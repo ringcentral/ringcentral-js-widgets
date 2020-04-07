@@ -75,7 +75,7 @@ var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
 var _proxyActionTypes = _interopRequireDefault(require("../../enums/proxyActionTypes"));
 
-var _dec, _class, _class2;
+var _dec, _class, _class2, _temp;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -131,7 +131,7 @@ _dec = (0, _di.Module)({
     dep: 'LocaleOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
+}), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_RcModule) {
   _inherits(Locale, _RcModule);
@@ -159,6 +159,11 @@ function (_RcModule) {
     _classCallCheck(this, Locale);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Locale).call(this, _objectSpread({}, options)));
+    _this._defaultLocale = void 0;
+    _this._detectBrowser = void 0;
+    _this._polling = void 0;
+    _this._pollingInterval = void 0;
+    _this._transport = void 0;
     _this._defaultLocale = defaultLocale;
     _this._detectBrowser = detectBrowser;
     _this._polling = polling;
@@ -420,6 +425,6 @@ function (_RcModule) {
   }]);
 
   return Locale;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "toggleDebugMode", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLocale", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setLocale"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "toggleDebugMode", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLocale", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setLocale"), _class2.prototype)), _class2)) || _class);
 exports["default"] = Locale;
 //# sourceMappingURL=Locale.js.map

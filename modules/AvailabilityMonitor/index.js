@@ -63,6 +63,8 @@ var _errorMessages = _interopRequireDefault(require("./errorMessages"));
 
 var _throttle = _interopRequireDefault(require("../../lib/throttle"));
 
+var _validateIsOffline = _interopRequireDefault(require("../../lib/validateIsOffline"));
+
 var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -329,7 +331,7 @@ function (_RcModule) {
   }, {
     key: "_refreshErrorHandler",
     value: function _refreshErrorHandler(error) {
-      var isOffline = error.message === 'Failed to fetch' || error.message === 'The Internet connection appears to be offline.' || error.message === 'NetworkError when attempting to fetch resource.' || error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.';
+      var isOffline = (0, _validateIsOffline["default"])(error.message);
 
       var platform = this._client.service.platform();
 

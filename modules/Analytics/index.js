@@ -182,6 +182,9 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     dep: 'extensionInfo',
     optional: true
+  }, {
+    dep: 'CallingSettings',
+    optional: true
   }]
 }), _dec(_class =
 /*#__PURE__*/
@@ -218,7 +221,8 @@ function (_RcModule) {
         _ref$lingerThreshold = _ref.lingerThreshold,
         lingerThreshold = _ref$lingerThreshold === void 0 ? 1000 : _ref$lingerThreshold,
         extensionInfo = _ref.extensionInfo,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "accountInfo", "adapter", "auth", "call", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "contacts", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "useLog", "lingerThreshold", "extensionInfo"]);
+        callingSettings = _ref.callingSettings,
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "accountInfo", "adapter", "auth", "call", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "contacts", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "useLog", "lingerThreshold", "extensionInfo", "callingSettings"]);
 
     _classCallCheck(this, Analytics);
 
@@ -229,7 +233,8 @@ function (_RcModule) {
     _this._analyticsKey = analyticsKey;
     _this._appName = appName;
     _this._appVersion = appVersion;
-    _this._brandCode = brandCode; // modules
+    _this._brandCode = brandCode;
+    _this._callingSettings = callingSettings; // modules
 
     _this._accountInfo = accountInfo;
     _this._adapter = adapter;
@@ -541,7 +546,9 @@ function (_RcModule) {
     key: "_clickToDialPlaceRingOutCall",
     value: function _clickToDialPlaceRingOutCall(action) {
       if (this._adapter && this._adapter.actionTypes.clickToDial === action.type && action.callSettingMode !== _callingModes["default"].webphone) {
-        this.track('Call: Place RingOut call/Click to Dial ');
+        this.track('Call: Place RingOut call/Click to Dial ', {
+          'RingOut type': this._callingSettings.callWith
+        });
       }
     }
   }, {

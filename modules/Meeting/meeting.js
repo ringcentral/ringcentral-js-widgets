@@ -655,8 +655,6 @@ function (_RcModule) {
   }, {
     key: "_validate",
     value: function _validate(meeting) {
-      console.log('meeting', meeting);
-
       if (!meeting) {
         throw new _meetingErrors.MeetingErrors(_meetingStatus["default"].invalidMeetingInfo);
       }
