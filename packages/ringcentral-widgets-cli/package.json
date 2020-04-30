@@ -19,6 +19,12 @@
   "dependencies": {
     "commander": "^2.19.0",
     "ejs": "^2.6.1",
-    "inquirer": "^6.2.0"
-  }
+    "inquirer": "^6.2.0",
+    "snyk": "^1.316.1"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
