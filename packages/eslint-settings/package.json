@@ -10,7 +10,10 @@
   "engines": {
     "node": ">=8"
   },
-  "scripts": {},
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
   "dependencies": {
     "@ringcentral-integration/locale-settings": "*",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -24,6 +27,8 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^3.0.0",
-    "typescript-eslint-parser": "^22.0.0"
-  }
+    "typescript-eslint-parser": "^22.0.0",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
