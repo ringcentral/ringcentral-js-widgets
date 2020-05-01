@@ -11,7 +11,10 @@
   "engines": {
     "node": ">=8"
   },
-  "scripts": {},
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
   "dependencies": {
     "@babel/core": "^7.6.0",
     "@babel/node": "^7.6.0",
@@ -28,7 +31,8 @@
     "@babel/preset-typescript": "^7.6.0",
     "@babel/register": "^7.6.0",
     "core-js": "^3.0.1",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "snyk": "^1.316.1"
   },
   "peerDependencies": {
     "@babel/polyfill": "^7.6.0",
@@ -36,5 +40,6 @@
   },
   "ci": {
     "ringcentral-js-widgets": "**"
-  }
+  },
+  "snyk": true
 }
