@@ -1,0 +1,68 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - node-sass > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - '@ringcentral-integration/locale-loader > @babel/generator > lodash':
+        patched: '2020-05-01T01:45:05.061Z'
+    - '@ringcentral-integration/locale-loader > inquirer > lodash':
+        patched: '2020-05-01T01:45:05.061Z'
+    - node-sass > sass-graph > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - react-docgen > async > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - source-map-loader > async > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > @ringcentral-integration/rcui > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - webpack-dev-server > http-proxy-middleware > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - '@ringcentral-integration/locale-loader > @babel/generator > @babel/types > lodash':
+        patched: '2020-05-01T01:45:05.061Z'
+    - node-sass > gaze > globule > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - webpack-dev-server > portfinder > async > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - react-svg-loader > react-svg-core > @babel/core > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > @ringcentral-integration/rcui > styled-components > @babel/traverse > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > react-svg-loader > react-svg-core > @babel/core > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > @ringcentral-integration/rcui > styled-components > babel-plugin-styled-components > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - react-svg-loader > react-svg-core > @babel/core > @babel/helpers > @babel/traverse > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > @ringcentral-integration/rcui > styled-components > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > @ringcentral-integration/rcui > styled-components > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > react-svg-loader > react-svg-core > @babel/core > @babel/helpers > @babel/traverse > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > @ringcentral-integration/rcui > styled-components > babel-plugin-styled-components > @babel/helper-annotate-as-pure > @babel/types > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > @ringcentral-integration/rcui > styled-components > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
+    - ringcentral-widgets > react-svg-loader > react-svg-core > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-05-01T01:45:05.061Z'
