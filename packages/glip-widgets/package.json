@@ -7,7 +7,9 @@
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "yarn gulp build",
     "release": "yarn gulp release",
-    "eslint": "eslint --quiet ."
+    "eslint": "eslint --quiet .",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -53,9 +55,11 @@
     "rc-editor-mention": "^1.1.13",
     "react-emojione": "^5.0.0",
     "react-markdown": "^3.1.4",
-    "react-virtualized": "^9.19.1"
+    "react-virtualized": "^9.19.1",
+    "snyk": "^1.316.1"
   },
   "ci": {
     "ringcentral-js-widgets": "**"
-  }
+  },
+  "snyk": true
 }
