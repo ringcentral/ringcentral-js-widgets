@@ -30,7 +30,9 @@
     "phone-number:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/phone-number phone-number-release",
     "glip-widgets:prepare-release": "babel-node scripts/prepareRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
     "glip-widgets:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
-    "commit": "yarn git-cz"
+    "commit": "yarn git-cz",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
@@ -47,6 +49,8 @@
   },
   "dependencies": {
     "execa": "^1.0.0",
-    "fs-extra": "^7.0.1"
-  }
+    "fs-extra": "^7.0.1",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
