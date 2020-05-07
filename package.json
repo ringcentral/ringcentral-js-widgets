@@ -1,0 +1,25 @@
+{
+  "name": "@ringcentral-integration/core",
+  "version": "0.0.1",
+  "description": "The foundation package for RingCentral Integration products.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "author": "RingCentral Integration Team",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/core#readme",
+  "license": "MIT",
+  "dependencies": {
+    "immer": "^3.1.1",
+    "redux": "^4.0.4",
+    "usm": "^2.0.0",
+    "usm-redux": "^2.0.2"
+  }
+}
