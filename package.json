@@ -2,22 +2,21 @@
   "name": "ringcentral-js-widgets",
   "private": true,
   "devEngines": {
-    "node": "8.x || 9.x"
+    "node": "8.x || 9.x || 10.x"
   },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "setup": "echo \"Error: no setup specified\" && exit 0",
-    "bootstrap": "lerna bootstrap",
     "test": "./scripts/runAllTests.sh",
-    "start": "lerna run start --scope ringcentral-widgets-demo --stream",
-    "release": "lerna run release --scope ringcentral-widgets --scope ringcentral-integration",
-    "commons:test": "lerna run test --scope ringcentral-integration --stream",
-    "widgets:test": "lerna run test --scope ringcentral-widgets-test --stream",
-    "commons:integration-test": "lerna run karma --scope ringcentral-integration --stream",
-    "docs": "lerna run start --scope ringcentral-widgets-docs --stream",
-    "docs:build": "lerna run build --scope ringcentral-widgets-docs --stream",
+    "start": "yarn workspace ringcentral-widgets-demo start",
+    "release": "yarn workspace ringcentral-widgets release && yarn workspace ringcentral-integration release",
+    "commons:test": "yarn workspace ringcentral-integration test",
+    "widgets:test": "yarn workspace ringcentral-widgets-test test",
+    "commons:integration-test": "yarn workspace ringcentral-integration karma",
+    "docs": "yarn workspace ringcentral-widgets-docs start",
+    "docs:build": "yarn workspace ringcentral-widgets-docs build",
     "commons:prepare-release": "babel-node scripts/prepareRelease.js ringcentral-integration commons-release",
     "commons:start-release": "babel-node scripts/startRelease.js ringcentral-integration commons-release",
     "widgets:prepare-release": "babel-node scripts/prepareRelease.js ringcentral-widgets widgets-release",
@@ -39,7 +38,6 @@
     "commitizen": "^4.0.0",
     "cz-conventional-changelog": "^2.1.0",
     "eslint-settings": "*",
-    "lerna": "^3.20.0",
     "typescript-plugin-css-modules": "^1.0.5"
   },
   "config": {

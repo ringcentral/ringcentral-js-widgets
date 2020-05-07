@@ -2,16 +2,42 @@ language: node_js
 node_js:
   - '10'
 cache: yarn
-before_install:
-  - yarn global add lerna@3.20.2
-before_script:
-  - lerna bootstrap
-script:
-  - lerna run test:coverage --scope ringcentral-widgets-test --stream
-  - lerna run test --scope ringcentral-integration --stream
 
 jobs:
   include:
+    - state: Phone number test
+      node_js: "10"
+      script: yarn workspace @ringcentral-integration/phone-number test
+    - state: I18n test
+      node_js: "10"
+      script: yarn workspace @ringcentral-integration/i18n test
+    - state: Core test
+      node_js: "10"
+      script: yarn workspace @ringcentral-integration/core test
+    - state: Integration test
+      node_js: "10"
+      script: yarn workspace ringcentral-integration test
+    - state: Widgets test
+      node_js: "10"
+      script: yarn workspace ringcentral-widgets-test test:coverage
+    - stage: core npm release
+      if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
+      node_js: "10"
+      script: yarn core:prepare-release
+      before_deploy:
+        - cd release/core
+      after_deploy:
+        - cd ../../
+      deploy:
+        provider: npm
+        email: embbnux@embbnux.com
+        skip_cleanup: true
+        api_key:
+          secure: Cpjded9XcB31vU0VXGlqkJX8jT/xX5diLbxZ7/dMT3g7zpEt5dgxVaWdGXEIN/klxQHrjgE/K2fMUEqtgFb7lbrk8EKgOSU3vy52h/NIgbC4tHE+8A6hoSk8DgbNNjiCZY4DjLS4EiUjbhyYUHog5ri/TPWfmfQW+XiVcWOu61WIzlm0ia0EVI+RcqbRvzf8YKFkVaVvqPu2cvfDPYBfzmn1u32hZtEzZR6VAtJBI0hhpeIj+97BxhgmNt5MmGf+q3ex0YnE0/9Qv74JT5KSUhjOQjGNEUW15GwTpWn083KKVG8RXGHvrtjvOwMVKRE3VVB64urNkOEODFcz1Yy0C0Nsv+EVYgR2F+yUXcwFOYPGPPC/a/7X8l+sxCBtDgZ3LomWSES1pBJvhtNNZt3/mhGaFB5pqBZeDAXCwlm3ysLOri0lcp25oNKdIbAMAl9PQOc5MmTtDX1dQ4XRCxq+GyHqAo3YcK/VX4sGNcCU/4a6fPi4VDyijzT5VQ709PJ4Zva5jc1qX/GFS9gmMgdr2hb5rhM9/M76WoRIaEe8YaxaaElrl5lBQsWY6e6ipGJRVXGh9ESRz5cYev7YqW/4ihzChZRad+VO7dzalWU8Xea56LmDjFuWSKzJTDNNKrNoGDHgMSm6fOlDhxgSFTVSRX6Pnqaf5UGqu2hQcjnK8So=
+        on:
+          node: '10'
+          tags: true
+          condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: commons npm release
       if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
       node_js: "10"
@@ -68,7 +94,7 @@ jobs:
       if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
       node_js: "10"
       before_deploy:
-        - lerna run --scope ringcentral-widgets-docs build --stream
+        - yarn workspace ringcentral-widgets-docs build
       deploy:
         provider: pages
         skip_cleanup: true
@@ -120,21 +146,3 @@ jobs:
         provider: script
         skip_cleanup: true
         script: yarn core:start-release
-    - stage: core npm release
-      if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
-      node_js: "10"
-      script: yarn core:prepare-release
-      before_deploy:
-        - cd release/core
-      after_deploy:
-        - cd ../../
-      deploy:
-        provider: npm
-        email: embbnux@embbnux.com
-        skip_cleanup: true
-        api_key:
-          secure: Cpjded9XcB31vU0VXGlqkJX8jT/xX5diLbxZ7/dMT3g7zpEt5dgxVaWdGXEIN/klxQHrjgE/K2fMUEqtgFb7lbrk8EKgOSU3vy52h/NIgbC4tHE+8A6hoSk8DgbNNjiCZY4DjLS4EiUjbhyYUHog5ri/TPWfmfQW+XiVcWOu61WIzlm0ia0EVI+RcqbRvzf8YKFkVaVvqPu2cvfDPYBfzmn1u32hZtEzZR6VAtJBI0hhpeIj+97BxhgmNt5MmGf+q3ex0YnE0/9Qv74JT5KSUhjOQjGNEUW15GwTpWn083KKVG8RXGHvrtjvOwMVKRE3VVB64urNkOEODFcz1Yy0C0Nsv+EVYgR2F+yUXcwFOYPGPPC/a/7X8l+sxCBtDgZ3LomWSES1pBJvhtNNZt3/mhGaFB5pqBZeDAXCwlm3ysLOri0lcp25oNKdIbAMAl9PQOc5MmTtDX1dQ4XRCxq+GyHqAo3YcK/VX4sGNcCU/4a6fPi4VDyijzT5VQ709PJ4Zva5jc1qX/GFS9gmMgdr2hb5rhM9/M76WoRIaEe8YaxaaElrl5lBQsWY6e6ipGJRVXGh9ESRz5cYev7YqW/4ihzChZRad+VO7dzalWU8Xea56LmDjFuWSKzJTDNNKrNoGDHgMSm6fOlDhxgSFTVSRX6Pnqaf5UGqu2hQcjnK8So=
-        on:
-          node: '10'
-          tags: true
-          condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
