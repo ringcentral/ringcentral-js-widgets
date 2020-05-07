@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
-import RemoveButton from '../RemoveButton';
+import { RemoveButton } from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 import i18n from './i18n';
 
@@ -67,6 +67,7 @@ export default class ToField extends Component {
       currentValue: props.value.replace(',', ''),
     };
   }
+
   onReceiversInputFocus = () => {
     this.setState({
       isFocusOnInput: true,
@@ -78,6 +79,7 @@ export default class ToField extends Component {
       isFocusOnInput: false,
     });
   };
+
   onReceiversInputKeyUp = (e) => {
     this.props.searchContact({ searchString: e.currentTarget.value });
   };
@@ -88,6 +90,7 @@ export default class ToField extends Component {
       scrollDirection: null,
     });
   };
+
   scrollOperation = (direction) => {
     if (direction === 'ArrowDown' || direction === 'ArrowUp') {
       this.setState({
@@ -95,6 +98,7 @@ export default class ToField extends Component {
       });
     }
   };
+
   addSelectedContactIndex = () => {
     const length = this.props.searchResults.length;
     if (this.state.selectedContactIndex >= length - 1) {
@@ -134,6 +138,7 @@ export default class ToField extends Component {
     }
     return false;
   };
+
   // using React SyntheticEvent to deal with cross browser issue
   handleHotKey = (e) => {
     if (this.state.isFocusOnInput && this.props.value.length >= 3) {
@@ -173,6 +178,7 @@ export default class ToField extends Component {
       this.props.onClean();
     }
   };
+
   componentWillReceiveProps(newProps) {
     this.setState({
       currentValue: newProps.value.replace(',', ''),
@@ -194,14 +200,16 @@ export default class ToField extends Component {
       );
     }
   }
+
   componentDidMount() {
     this.props.searchContact({ searchString: this.props.value });
   }
+
   render() {
     const relatedContactList =
       this.props.value.length >= 3 ? this.props.searchResults : [];
     const label = (
-      <label>
+      <label htmlFor="to-field-input">
         {this.props.label || i18n.getString('to', this.props.currentLocale)}
       </label>
     );
@@ -215,6 +223,7 @@ export default class ToField extends Component {
           />
           <div className={styles.inputField}>
             <input
+              id="to-field-input"
               name="receiver"
               value={this.state.currentValue}
               onChange={this.props.onChange}

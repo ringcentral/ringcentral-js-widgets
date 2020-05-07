@@ -1,25 +1,36 @@
-.root {
+$root-zIndex: 100;
+
+.root,
+.backdrop {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 0;
-  z-index: 100;
 }
 
-.message {
+.root {
+  width: 100%;
+  height: 0;
+  z-index: $root-zIndex;
+}
+
+.backdrop {
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+
+.container {
+  margin: 0 16px;
+
   &:first-child {
-    padding-top: 12px;
+    margin-top: 12px;
   }
-  padding: 0 16px;
-  & + .message {
-    padding-top: 8px;
+  & + .container {
+    margin-top: 8px;
   }
 
-  // TODO: the fullWidth in RCUI will set border-radius to zero, should check with RCUI team
-  .snackbar {
-    border-radius: 4px !important;
-    // TODO: RCUI
+  // using double selector to make selector priority higher
+  .snackbar.snackbar {
     min-width: auto;
   }
 }

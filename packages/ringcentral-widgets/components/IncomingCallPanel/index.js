@@ -20,6 +20,7 @@ function UserInfo(props) {
         </div>
       </div>
       <div className={styles.userNameContainer}>
+        {props.callQueueName}
         <ContactDisplay
           className={styles.userName}
           selectClassName={styles.dropdown}
@@ -64,6 +65,7 @@ UserInfo.propTypes = {
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
+  callQueueName: PropTypes.string,
 };
 
 UserInfo.defaultProps = {
@@ -74,6 +76,7 @@ UserInfo.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
+  callQueueName: null,
 };
 
 export default function IncomingCallPanel(props) {
@@ -91,6 +94,7 @@ export default function IncomingCallPanel(props) {
       </span>
       <UserInfo
         phoneNumber={props.phoneNumber}
+        callQueueName={props.callQueueName}
         currentLocale={props.currentLocale}
         className={styles.userInfo}
         formatPhone={props.formatPhone}
@@ -162,6 +166,7 @@ IncomingCallPanel.propTypes = {
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
+  callQueueName: PropTypes.string,
 };
 
 IncomingCallPanel.defaultProps = {
@@ -177,4 +182,5 @@ IncomingCallPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
+  callQueueName: null,
 };

@@ -103,7 +103,7 @@ function getBaseConfig({
           ],
         },
         {
-          test: /\.ogg$/,
+          test: /\.ogg$|\.wav$/,
           use: 'file-loader?name=audio/[name]_[hash].[ext]',
         },
       ],

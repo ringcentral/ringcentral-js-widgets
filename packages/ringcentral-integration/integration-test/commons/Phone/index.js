@@ -491,7 +491,6 @@ export function createPhone({
             'eac8797af1b3502F2CEAAEECAC3Ed378AA7858A386656f28A008b0c638A754B1',
           appName: brandConfig.appName,
           appVersion: version,
-          webphoneLogLevel: 1,
         },
       },
       {

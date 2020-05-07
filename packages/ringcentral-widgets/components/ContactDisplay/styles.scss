@@ -3,8 +3,8 @@
 @import '../../lib/commonStyles/text-ellipsis';
 
 .root {
-  color: #303030;
-  font-size: 13px;
+  @include secondary-font;
+  color: $night;
 }
 
 // .content {

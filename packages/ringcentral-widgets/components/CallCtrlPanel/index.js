@@ -140,6 +140,7 @@ class CallCtrlPanel extends Component {
       sourceIcons,
       startTime,
       disableFlip,
+      callQueueName,
     } = this.props;
     const { isShowKeyPad, isShowMergeConfirm } = this.state;
 
@@ -205,6 +206,7 @@ class CallCtrlPanel extends Component {
         getAvatarUrl={getAvatarUrl}
         actions={actions}
         controlBusy={controlBusy}
+        callQueueName={callQueueName}
       >
         {children}
         {showSpinner ? <SpinnerOverlay /> : null}
@@ -279,6 +281,7 @@ CallCtrlPanel.propTypes = {
   afterOnMerge: PropTypes.func,
   actions: PropTypes.array,
   controlBusy: PropTypes.bool,
+  callQueueName: PropTypes.string,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -324,6 +327,7 @@ CallCtrlPanel.defaultProps = {
   recordStatus: '',
   controlBusy: false,
   disableFlip: false,
+  callQueueName: null,
 };
 
 export default CallCtrlPanel;

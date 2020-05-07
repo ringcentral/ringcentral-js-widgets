@@ -1,6 +1,6 @@
 // import React from 'react';
 
-// import RemoveButton from '../../RemoveButton';
+// import { RemoveButton } from '../../RemoveButton';
 // import styles from './styles.scss';
 
 // type SelectedRecipientItemProps = {

@@ -129,7 +129,7 @@ export default class Webphone extends RcModule {
     auth,
     client,
     rolesAndPermissions,
-    webphoneLogLevel = 3,
+    webphoneLogLevel = 1,
     contactMatcher,
     numberValidate,
     audioSettings,

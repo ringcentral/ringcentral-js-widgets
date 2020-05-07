@@ -37,12 +37,14 @@
       font-size: 14px;
       .placeholder {
         position: absolute;
-        top: 7px;
-        left: 41px;
+        top: 8px;
+        left: 38px;
+        z-index: 1;
         height: 100%;
         width: calc(100% - 41px - 16px);
         color: #bfbfbf;
         pointer-events: none;
+        @include text-ellipsis;
       }
     }
     .listContainer {
@@ -61,4 +63,15 @@
   & + .text:not(:first-child) {
     margin-top: 16px;
   }
+}
+
+.hint {
+  font-size: 12px;
+  margin: 4px 16px 0 16px;
+  color: rgba(117, 117, 117, 0.82);
+}
+
+.loading {
+  text-align: center;
+  margin-top: 15px;
 }

@@ -83,11 +83,9 @@ export default function App({ phone, icon }) {
                   showContactDisplayPlaceholder={false}
                   sourceIcons={sourceIcons}
                   getAvatarUrl={getAvatarUrl}
+                  showCallQueueName
                 >
-                  <AlertContainer
-                    callingSettingsUrl="/settings/calling"
-                    regionSettingsUrl="/settings/region"
-                  />
+                  <AlertContainer />
                   <RecentActivityContainer
                     getSession={() => phone.webphone.ringSession || {}}
                     navigateTo={(path) => {
@@ -109,10 +107,7 @@ export default function App({ phone, icon }) {
               path="/"
               component={() => (
                 <LoginPage version={phone.version}>
-                  <AlertContainer
-                    callingSettingsUrl="/settings/calling"
-                    regionSettingsUrl="/settings/region"
-                  />
+                  <AlertContainer />
                 </LoginPage>
               )}
             />
@@ -121,10 +116,7 @@ export default function App({ phone, icon }) {
               component={(props) => (
                 <MainView>
                   {props.children}
-                  <AlertContainer
-                    callingSettingsUrl="/settings/calling"
-                    regionSettingsUrl="/settings/region"
-                  />
+                  <AlertContainer />
                 </MainView>
               )}
             >
@@ -179,6 +171,7 @@ export default function App({ phone, icon }) {
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
                     }}
+                    showCallQueueName
                   >
                     <RecentActivityContainer
                       getSession={() => phone.webphone.activeSession || {}}

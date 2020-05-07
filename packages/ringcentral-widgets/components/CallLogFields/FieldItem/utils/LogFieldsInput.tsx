@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { RcTextField, RcTextFieldProps } from '@ringcentral-integration/rcui';
 import React, { Component } from 'react';
 
-import { bindDebonce } from '../../../../lib/bindDebonce';
+import { bindDebounce } from '../../../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../../../lib/bindNextPropsUpdate';
 import styles from '../styles.scss';
 
@@ -27,7 +27,7 @@ class LogFieldsInput extends Component<
   };
 
   checkPropsUpdate = bindNextPropsUpdate(this);
-  debonce = bindDebonce(this, 500);
+  debounce = bindDebounce(this, 500);
 
   constructor(props: LogFieldsInputProps) {
     super(props);
@@ -43,7 +43,7 @@ class LogFieldsInput extends Component<
 
   updateValue(value: string, onChange: LogFieldsInputProps['onChange']) {
     this.setState({ value });
-    this.debonce(() => onChange(value));
+    this.debounce(() => onChange(value));
   }
 
   render() {
@@ -59,6 +59,7 @@ class LogFieldsInput extends Component<
           value={value}
           onChange={(e) => this.updateValue(e.target.value, onChange)}
           fullWidth
+          clearBtn={false}
         />
       </div>
     );

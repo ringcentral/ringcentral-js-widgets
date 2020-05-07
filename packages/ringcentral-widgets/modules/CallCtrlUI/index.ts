@@ -58,7 +58,7 @@ export default class CallCtrlUI extends RcUIModule {
     this._routerInteraction = routerInteraction;
   }
 
-  getUIProps({ params, children }) {
+  getUIProps({ params, children, showCallQueueName = false }) {
     const sessionId = params && params.sessionId;
     let currentSession;
 
@@ -155,6 +155,7 @@ export default class CallCtrlUI extends RcUIModule {
       disableLinks,
       isConferenceCallOverload,
       disableFlip: this._forwardingNumber.flipNumbers.length === 0,
+      showCallQueueName,
     };
   }
 

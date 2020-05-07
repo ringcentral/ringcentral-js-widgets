@@ -227,7 +227,7 @@ class CallCtrlContainer extends Component {
   }
 
   render() {
-    const { session } = this.props;
+    const { session, showCallQueueName } = this.props;
     if (!session.id) {
       return null;
     }
@@ -281,6 +281,8 @@ class CallCtrlContainer extends Component {
         disableFlip={this.props.disableFlip}
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
+        showCallQueueName={showCallQueueName}
+        callQueueName={showCallQueueName ? session.callQueueName : null}
         areaCode={this.props.areaCode}
         countryCode={this.props.countryCode}
         selectedMatcherIndex={this.state.selectedMatcherIndex}
@@ -373,6 +375,7 @@ CallCtrlContainer.propTypes = {
   afterConfirmMerge: PropTypes.func,
   afterOnMerge: PropTypes.func,
   disableFlip: PropTypes.bool,
+  showCallQueueName: PropTypes.bool,
 };
 
 CallCtrlContainer.defaultProps = {
@@ -404,6 +407,7 @@ CallCtrlContainer.defaultProps = {
   afterConfirmMerge: () => null,
   afterOnMerge: () => null,
   disableFlip: false,
+  showCallQueueName: false,
 };
 
 export default CallCtrlContainer;

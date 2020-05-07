@@ -86,9 +86,9 @@ function getDefaultMeetingSettings(extensionName, startTime) {
   };
 }
 
-function getInitializedStartTime() {
+function getInitializedStartTime(): number {
   const now = new Date();
-  const startTime = now.setHours(now.getHours() + 1, 0, 0);
+  const startTime = now.setHours(now.getHours() + 1, 0, 0, 0);
   return startTime;
 }
 

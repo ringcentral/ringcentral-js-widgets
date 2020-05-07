@@ -59,10 +59,10 @@ export default class OAuthBase extends RcModule {
   _onStateChange() {
     if (
       this.pending &&
-      (this._auth.ready &&
-        this._locale.ready &&
-        this._alert.ready &&
-        (!this._tabManager || this._tabManager.ready))
+      this._auth.ready &&
+      this._locale.ready &&
+      this._alert.ready &&
+      (!this._tabManager || this._tabManager.ready)
     ) {
       this.store.dispatch({
         type: this.actionTypes.init,
@@ -157,7 +157,7 @@ export default class OAuthBase extends RcModule {
     return `${this._auth.getLoginUrl({
       redirectUri: this.redirectUri,
       brandId: this._brand.id,
-      state: btoa(Date.now()),
+      state: this.authState,
       display: 'page',
       implicit: this._auth.isImplicit,
     })}&${extendedQuery}`;
@@ -167,11 +167,15 @@ export default class OAuthBase extends RcModule {
     return `${this._auth.getLoginUrl({
       redirectUri: this.redirectUri,
       brandId: this._brand.id,
-      state: btoa(Date.now()),
+      state: this.authState,
       display: 'page',
       prompt: 'none',
       implicit: this._auth.isImplicit,
     })}`;
+  }
+
+  get authState() {
+    return btoa(Date.now());
   }
 
   get status() {

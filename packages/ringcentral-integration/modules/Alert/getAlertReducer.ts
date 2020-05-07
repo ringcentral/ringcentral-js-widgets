@@ -14,6 +14,9 @@ export function getMessagesReducer(types) {
       id,
       allowDuplicates,
       loading,
+      backdrop,
+      classes,
+      onBackdropClick,
       action,
     },
   ) => {
@@ -35,6 +38,9 @@ export function getMessagesReducer(types) {
             level,
             timestamp,
             loading,
+            backdrop,
+            classes,
+            onBackdropClick,
             action,
           },
         ];

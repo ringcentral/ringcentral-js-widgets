@@ -1,6 +1,5 @@
 import {
   RcDatePicker,
-  RcIconButton,
   RcLineSelect,
   RcMenuItem,
   RcTextField,
@@ -28,7 +27,7 @@ export type FieldItemProps = {
   timeout: number;
   fieldOption: FieldItemOption;
   onSave(): any;
-  debonce(cb: any, time2?: any): void;
+  debounce(cb: any, time2?: any): void;
 } & CallLogFieldsProps;
 
 export class FieldItem extends Component<FieldItemProps, {}> {
@@ -53,12 +52,14 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       },
       onSave,
       onSelectViewVisible,
+      contactSearch,
     } = this.props;
     const {
       currentLog,
       startAdornmentRender,
       referenceFieldOptions,
       currentLocale,
+      showFoundFromServer,
     } = this.props;
     const {
       task,
@@ -85,9 +86,15 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       disableReason = '',
       currentOptionFinder,
       searchOptionFinder: _searchOptionFinder,
+      foundFromServerEntityGetter,
     } = referenceFieldOption;
     const matchedEntities = matchedEntitiesGetter(currentLog);
     const otherEntities = otherEntitiesGetter(currentLog);
+
+    const foundFromServerEntities =
+      typeof foundFromServerEntityGetter === 'function'
+        ? foundFromServerEntityGetter(currentLog)
+        : [];
     const showAssociatedSection = shouldShowAssociatedSection
       ? shouldShowAssociatedSection(currentLog)
       : false;
@@ -102,6 +109,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       ...matchedEntities,
       ...otherEntities,
       ...associatedEntities,
+      ...foundFromServerEntities,
     ].find(currentOptionFinder(task));
     const disabled = currentDisabled || shouldDisable(task);
     const title = metadata.title || label;
@@ -110,6 +118,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       : undefined;
     return (
       <SelectList
+        {...this.props}
         title={title}
         rightIcon={rightIcon}
         placeholder={metadata.placeholder}
@@ -131,6 +140,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         searchOption={searchOptionFinder}
         disabled={disabled}
         currentLocale={currentLocale}
+        foundFromServerEntities={foundFromServerEntities}
+        contactSearch={contactSearch}
+        showFoundFromServer={showFoundFromServer}
       >
         {this.renderTextField({
           disabled,
@@ -198,20 +210,13 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         data-sign={fieldValue}
         required={required}
         label={label}
-        value={date}
+        date={date}
         onChange={async (value) => {
           const timeStamp = setUTCTime(value);
           await this.onInputSelectChange(fieldValue)(timeStamp);
           await onSave;
         }}
-        format="MM/DD/YYYY"
-        autoOk
-        InputProps={{
-          endAdornment: (
-            <RcIconButton variant="round" size="small" icon="event-new" />
-          ),
-          fullWidth: true,
-        }}
+        formatString="MM/DD/YYYY"
       />
     );
   };
@@ -315,13 +320,14 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           classes: {
             input: styles.customTextField,
           },
+          readOnly: true,
+          endAdornment: this.getRightButtons(disabled),
         }}
         helperText={disableReason}
         label={title}
         value={value || ''}
-        readonly
         fullWidth
-        endAdornment={(disabled) => this.getRightButtons(disabled)}
+        clearBtn={false}
       />
     );
   }
@@ -351,9 +357,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
   };
 
   private _updateValue(value, args, onSave) {
-    const { debonce } = this.props;
+    const { debounce } = this.props;
     this.onInputSelectChange(value)(args);
-    debonce(onSave);
+    debounce(onSave);
   }
 
   private getRightButtons(disabled) {
