@@ -87,7 +87,8 @@ function ActiveCallPanel(_ref) {
       lastCallInfo = _ref.lastCallInfo,
       getAvatarUrl = _ref.getAvatarUrl,
       actions = _ref.actions,
-      controlBusy = _ref.controlBusy;
+      controlBusy = _ref.controlBusy,
+      callQueueName = _ref.callQueueName;
   var backHeader = showBackButton ? _react["default"].createElement(_BackHeader["default"], {
     onBackClick: onBackButtonClick,
     backButton: _react["default"].createElement(_BackButton["default"], {
@@ -145,7 +146,8 @@ function ActiveCallPanel(_ref) {
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
-        phoneSourceNameRenderer: phoneSourceNameRenderer
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
+        callQueueName: callQueueName
       });
       break;
   }
@@ -235,7 +237,8 @@ ActiveCallPanel.propTypes = {
   lastCallInfo: _propTypes["default"].object,
   getAvatarUrl: _propTypes["default"].func,
   actions: _propTypes["default"].array,
-  controlBusy: _propTypes["default"].bool
+  controlBusy: _propTypes["default"].bool,
+  callQueueName: _propTypes["default"].string
 };
 ActiveCallPanel.defaultProps = {
   startTime: null,
@@ -273,7 +276,8 @@ ActiveCallPanel.defaultProps = {
     return null;
   },
   actions: [],
-  controlBusy: false
+  controlBusy: false,
+  callQueueName: null
 };
 var _default = ActiveCallPanel;
 exports["default"] = _default;

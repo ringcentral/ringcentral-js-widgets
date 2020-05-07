@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.FieldItem = void 0;
 
+require("core-js/modules/es6.object.assign");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
@@ -68,6 +70,8 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -131,12 +135,14 @@ function (_Component) {
           currentDisabled = _this$props$fieldOpti.disabled,
           fieldOnChange = _this$props$fieldOpti.onChange,
           onSave = _this$props.onSave,
-          onSelectViewVisible = _this$props.onSelectViewVisible;
+          onSelectViewVisible = _this$props.onSelectViewVisible,
+          contactSearch = _this$props.contactSearch;
       var _this$props2 = _this.props,
           currentLog = _this$props2.currentLog,
           startAdornmentRender = _this$props2.startAdornmentRender,
           referenceFieldOptions = _this$props2.referenceFieldOptions,
-          currentLocale = _this$props2.currentLocale;
+          currentLocale = _this$props2.currentLocale,
+          showFoundFromServer = _this$props2.showFoundFromServer;
       var task = currentLog.task,
           phoneNumber = currentLog.currentLogCall.phoneNumber;
       var referenceFieldOption = referenceFieldOptions[value];
@@ -163,18 +169,20 @@ function (_Component) {
           _referenceFieldOption3 = referenceFieldOption.disableReason,
           disableReason = _referenceFieldOption3 === void 0 ? '' : _referenceFieldOption3,
           currentOptionFinder = referenceFieldOption.currentOptionFinder,
-          _searchOptionFinder = referenceFieldOption.searchOptionFinder;
+          _searchOptionFinder = referenceFieldOption.searchOptionFinder,
+          foundFromServerEntityGetter = referenceFieldOption.foundFromServerEntityGetter;
       var matchedEntities = matchedEntitiesGetter(currentLog);
       var otherEntities = otherEntitiesGetter(currentLog);
+      var foundFromServerEntities = typeof foundFromServerEntityGetter === 'function' ? foundFromServerEntityGetter(currentLog) : [];
       var showAssociatedSection = shouldShowAssociatedSection ? shouldShowAssociatedSection(currentLog) : false;
       var associatedEntities = showAssociatedSection && associatedEntitiesGetter ? associatedEntitiesGetter(currentLog) : [];
       var getValue = _getValue || DEFAULT_FINDER.getValue;
       var searchOptionFinder = _searchOptionFinder || DEFAULT_FINDER.searchOption;
-      var currentOption = [].concat(_toConsumableArray(matchedEntities), _toConsumableArray(otherEntities), _toConsumableArray(associatedEntities)).find(currentOptionFinder(task));
+      var currentOption = [].concat(_toConsumableArray(matchedEntities), _toConsumableArray(otherEntities), _toConsumableArray(associatedEntities), _toConsumableArray(foundFromServerEntities)).find(currentOptionFinder(task));
       var disabled = currentDisabled || shouldDisable(task);
       var title = metadata.title || label;
       var rightIcon = rightIconRender ? rightIconRender(phoneNumber) : undefined;
-      return _react["default"].createElement(_SelectList.SelectList, {
+      return _react["default"].createElement(_SelectList.SelectList, _extends({}, _this.props, {
         title: title,
         rightIcon: rightIcon,
         placeholder: metadata.placeholder,
@@ -212,8 +220,11 @@ function (_Component) {
         renderFunction: getLabel,
         searchOption: searchOptionFinder,
         disabled: disabled,
-        currentLocale: currentLocale
-      }, _this.renderTextField({
+        currentLocale: currentLocale,
+        foundFromServerEntities: foundFromServerEntities,
+        contactSearch: contactSearch,
+        showFoundFromServer: showFoundFromServer
+      }), _this.renderTextField({
         disabled: disabled,
         title: title,
         dataSign: value,
@@ -285,7 +296,7 @@ function (_Component) {
         "data-sign": fieldValue,
         required: required,
         label: label,
-        value: date,
+        date: date,
         onChange: function _callee2(value) {
           var timeStamp;
           return regeneratorRuntime.async(function _callee2$(_context2) {
@@ -307,16 +318,7 @@ function (_Component) {
             }
           });
         },
-        format: "MM/DD/YYYY",
-        autoOk: true,
-        InputProps: {
-          endAdornment: _react["default"].createElement(_rcui.RcIconButton, {
-            variant: "round",
-            size: "small",
-            icon: "event-new"
-          }),
-          fullWidth: true
-        }
+        formatString: "MM/DD/YYYY"
       });
     };
 
@@ -468,8 +470,6 @@ function (_Component) {
   _createClass(FieldItem, [{
     key: "renderTextField",
     value: function renderTextField(_ref2) {
-      var _this2 = this;
-
       var disabled = _ref2.disabled,
           title = _ref2.title,
           dataSign = _ref2.dataSign,
@@ -482,24 +482,23 @@ function (_Component) {
         InputProps: {
           classes: {
             input: _styles["default"].customTextField
-          }
+          },
+          readOnly: true,
+          endAdornment: this.getRightButtons(disabled)
         },
         helperText: disableReason,
         label: title,
         value: value || '',
-        readonly: true,
         fullWidth: true,
-        endAdornment: function endAdornment(disabled) {
-          return _this2.getRightButtons(disabled);
-        }
+        clearBtn: false
       });
     }
   }, {
     key: "_updateValue",
     value: function _updateValue(value, args, onSave) {
-      var debonce = this.props.debonce;
+      var debounce = this.props.debounce;
       this.onInputSelectChange(value)(args);
-      debonce(onSave);
+      debounce(onSave);
     }
   }, {
     key: "getRightButtons",

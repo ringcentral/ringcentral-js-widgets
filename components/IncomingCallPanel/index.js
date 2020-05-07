@@ -42,7 +42,7 @@ function UserInfo(props) {
     avatarUrl: props.avatarUrl
   })))), _react["default"].createElement("div", {
     className: _styles["default"].userNameContainer
-  }, _react["default"].createElement(_ContactDisplay["default"], {
+  }, props.callQueueName, _react["default"].createElement(_ContactDisplay["default"], {
     className: _styles["default"].userName,
     selectClassName: _styles["default"].dropdown,
     contactMatches: props.nameMatches,
@@ -81,7 +81,8 @@ UserInfo.propTypes = {
   showContactDisplayPlaceholder: _propTypes["default"].bool,
   sourceIcons: _propTypes["default"].object,
   phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  callQueueName: _propTypes["default"].string
 };
 UserInfo.defaultProps = {
   phoneNumber: null,
@@ -90,7 +91,8 @@ UserInfo.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined
+  phoneSourceNameRenderer: undefined,
+  callQueueName: null
 };
 
 function IncomingCallPanel(props) {
@@ -105,6 +107,7 @@ function IncomingCallPanel(props) {
     className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].backIcon)
   })), _react["default"].createElement(UserInfo, {
     phoneNumber: props.phoneNumber,
+    callQueueName: props.callQueueName,
     currentLocale: props.currentLocale,
     className: _styles["default"].userInfo,
     formatPhone: props.formatPhone,
@@ -171,7 +174,8 @@ IncomingCallPanel.propTypes = {
   searchContactList: _propTypes["default"].array.isRequired,
   searchContact: _propTypes["default"].func.isRequired,
   phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  callQueueName: _propTypes["default"].string
 };
 IncomingCallPanel.defaultProps = {
   className: null,
@@ -185,6 +189,7 @@ IncomingCallPanel.defaultProps = {
   hasOtherActiveCall: false,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined
+  phoneSourceNameRenderer: undefined,
+  callQueueName: null
 };
 //# sourceMappingURL=index.js.map

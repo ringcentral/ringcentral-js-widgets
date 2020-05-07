@@ -25,6 +25,8 @@ exports.NotificationItem = void 0;
 
 var _rcui = require("@ringcentral-integration/rcui");
 
+var _iconClose = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-close.svg"));
+
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
@@ -59,41 +61,59 @@ function getLevelType(level) {
 }
 
 var NotificationItem = (0, _react.memo)(function (_ref) {
-  var message = _ref.message,
+  var data = _ref.data,
       currentLocale = _ref.currentLocale,
       brand = _ref.brand,
       dismiss = _ref.dismiss,
       getRenderer = _ref.getRenderer,
-      animation = _ref.animation,
-      duration = _ref.duration;
-  var Message = getRenderer(message);
+      duration = _ref.duration,
+      defaultAnimation = _ref.animation,
+      defaultBackdropAnimation = _ref.backdropAnimation,
+      defaultClasses = _ref.classes;
+  var Message = getRenderer(data);
   var second = duration / 1000;
-  var id = message.id,
-      level = message.level,
-      loading = message.loading,
-      action = message.action;
+  var id = data.id,
+      level = data.level,
+      _data$classes = data.classes,
+      classes = _data$classes === void 0 ? {} : _data$classes,
+      loading = data.loading,
+      action = data.action,
+      _data$animation = data.animation,
+      animation = _data$animation === void 0 ? defaultAnimation : _data$animation,
+      _data$backdropAnimati = data.backdropAnimation,
+      backdropAnimation = _data$backdropAnimati === void 0 ? defaultBackdropAnimation : _data$backdropAnimati,
+      backdrop = data.backdrop,
+      onBackdropClick = data.onBackdropClick;
   var type = getLevelType(level);
-  return _react["default"].createElement("div", {
-    className: (0, _classnames["default"])(animation, _styles["default"].message, 'animated'),
-    style: {
+  var animationStyle = (0, _react.useMemo)(function () {
+    return {
       animationDuration: "".concat(second, "s")
-    }
-  }, _react["default"].createElement(_rcui.RcSnackbarContent, {
+    };
+  }, [second]);
+  return _react["default"].createElement("div", {
+    className: _styles["default"].container
+  }, backdrop && _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].backdrop, defaultClasses.backdrop, classes.backdrop, 'animated', backdropAnimation),
+    style: animationStyle,
+    onClick: onBackdropClick
+  }), _react["default"].createElement(_rcui.RcSnackbarContent, {
     type: type,
     size: "small",
     fullWidth: true,
     loading: loading,
     classes: {
-      root: _styles["default"].snackbar
+      root: (0, _classnames["default"])('animated', _styles["default"].snackbar, animation)
     },
+    style: animationStyle,
+    messageAlign: "left",
     message: _react["default"].createElement(Message, {
-      message: message,
+      message: data,
       currentLocale: currentLocale,
       brand: brand
     }),
     action: action !== null && action !== void 0 ? action : _react["default"].createElement(_rcui.RcSnackbarAction, {
       variant: "icon",
-      icon: "close",
+      symbol: _iconClose["default"],
       size: "small",
       onClick: function onClick() {
         dismiss(id);
@@ -103,6 +123,7 @@ var NotificationItem = (0, _react.memo)(function (_ref) {
 });
 exports.NotificationItem = NotificationItem;
 NotificationItem.defaultProps = {
-  duration: 500
+  duration: 500,
+  classes: {}
 };
 //# sourceMappingURL=NotificationItem.js.map

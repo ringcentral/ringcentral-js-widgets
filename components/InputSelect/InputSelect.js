@@ -31,9 +31,11 @@ require("core-js/modules/es6.array.map");
 
 var _rcui = require("@ringcentral-integration/rcui");
 
+var _iconArrow_down = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow_down.svg"));
+
 var _react = _interopRequireWildcard(require("react"));
 
-var _bindDebonce = require("../../lib/bindDebonce");
+var _bindDebounce = require("../../lib/bindDebounce");
 
 var _bindNextPropsUpdate = require("../../lib/bindNextPropsUpdate");
 
@@ -41,11 +43,11 @@ var _CustomArrowButton = require("../Rcui/CustomArrowButton");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -77,7 +79,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(InputSelect).call(this, props));
     _this.checkPropsUpdate = (0, _bindNextPropsUpdate.bindNextPropsUpdate)(_assertThisInitialized(_this));
-    _this.debonce = (0, _bindDebonce.bindDebonce)(_assertThisInitialized(_this), _this.props.timeout);
+    _this.debounce = (0, _bindDebounce.bindDebounce)(_assertThisInitialized(_this), _this.props.timeout);
     _this.wrapper = void 0;
 
     _this._renderPickList = function () {
@@ -109,16 +111,21 @@ function (_Component) {
     };
 
     _this.onSelectChange = function (subject) {
+      var _this$props = _this.props,
+          onSelectOption = _this$props.onSelectOption,
+          onSave = _this$props.onSave,
+          onChange = _this$props.onChange;
+
       _this.setState({
         subject: subject
       }, function () {
-        _this.debonce(function () {
-          if (_this.props.onSelectOption) {
-            _this.props.onSelectOption();
+        _this.debounce(function () {
+          if (onSelectOption) {
+            onSelectOption();
           }
 
-          _this.props.onChange(_this.state.subject).then(function () {
-            return _this.props.onSave();
+          onChange(_this.state.subject).then(function () {
+            return onSave();
           });
         }, 0);
       });
@@ -148,8 +155,9 @@ function (_Component) {
       _this.toggleDropDownList();
     };
 
+    var _subject = _this.props.subject;
     _this.state = {
-      subject: _this.props.subject,
+      subject: _subject,
       expand: false
     };
     return _this;
@@ -170,9 +178,9 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _this$props = this.props,
-          subjectPicklist = _this$props.subjectPicklist,
-          required = _this$props.required;
+      var _this$props2 = this.props,
+          subjectPicklist = _this$props2.subjectPicklist,
+          required = _this$props2.required;
       var _this$state$subject = this.state.subject,
           subject = _this$state$subject === void 0 ? '' : _this$state$subject;
       var hasError = required && subject.trim() === '';
@@ -186,21 +194,21 @@ function (_Component) {
         "data-sign": "subject",
         title: subject,
         fullWidth: true,
+        clearBtn: false,
         required: required,
         value: subject,
         error: hasError,
         inputProps: {
           maxLength: 255
         },
+        InputProps: {
+          endAdornment: subjectPicklist.length > 0 && _react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
+            symbol: _iconArrow_down["default"],
+            onClick: this.toggleDropDownList
+          })
+        },
         onChange: function onChange(e) {
           return _this2.updateValue(e.target.value, 500);
-        },
-        endAdornment: function endAdornment(disabled) {
-          return subjectPicklist.length > 0 && _react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
-            icon: "arrow_down",
-            disabled: disabled,
-            onClick: _this2.toggleDropDownList
-          });
         }
       }), this._renderPickList());
     }
@@ -209,14 +217,18 @@ function (_Component) {
     value: function updateValue(subject, time) {
       var _this3 = this;
 
+      var _this$props3 = this.props,
+          onChange = _this$props3.onChange,
+          onSave = _this$props3.onSave,
+          timeout = _this$props3.timeout;
       this.setState({
         subject: subject
       }, function () {
-        _this3.debonce(function () {
-          _this3.props.onChange(_this3.state.subject).then(function () {
-            _this3.debonce(function () {
-              return _this3.props.onSave();
-            }, _this3.props.timeout - time);
+        _this3.debounce(function () {
+          onChange(_this3.state.subject).then(function () {
+            _this3.debounce(function () {
+              return onSave();
+            }, timeout - time);
           });
         }, time);
       });

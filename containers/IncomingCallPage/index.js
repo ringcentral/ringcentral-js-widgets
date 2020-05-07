@@ -241,7 +241,9 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var session = this.props.session;
+      var _this$props = this.props,
+          session = _this$props.session,
+          showCallQueueName = _this$props.showCallQueueName;
       var active = !!session.id;
 
       if (!active) {
@@ -267,6 +269,7 @@ function (_Component) {
         currentLocale: this.props.currentLocale,
         nameMatches: this.props.nameMatches,
         fallBackName: fallbackUserName,
+        callQueueName: showCallQueueName ? session.callQueueName : null,
         phoneNumber: phoneNumber,
         answer: this.answer,
         reject: this.reject,
@@ -357,7 +360,8 @@ function mapToProps(_, _ref) {
       _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
       showContactDisplayPlaceholder = _ref$showContactDispl === void 0 ? false : _ref$showContactDispl,
       phoneTypeRenderer = _ref.phoneTypeRenderer,
-      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
+      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
+      showCallQueueName = _ref.showCallQueueName;
   var currentSession = webphone.ringingCallOnView || {};
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
   var fromMatches = contactMapping && contactMapping[currentSession.from] || [];
@@ -375,7 +379,8 @@ function mapToProps(_, _ref) {
     showContactDisplayPlaceholder: showContactDisplayPlaceholder,
     searchContactList: contactSearch.sortedResult,
     phoneTypeRenderer: phoneTypeRenderer,
-    phoneSourceNameRenderer: phoneSourceNameRenderer
+    phoneSourceNameRenderer: phoneSourceNameRenderer,
+    showCallQueueName: showCallQueueName
   };
 }
 

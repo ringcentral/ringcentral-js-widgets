@@ -21,17 +21,15 @@ require("core-js/modules/es6.weak-map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.PhoneNumberInput = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _RemoveButton = _interopRequireDefault(require("../RemoveButton"));
+var _RemoveButton = require("../RemoveButton");
 
 var _i18n = _interopRequireDefault(require("../RecipientsInput/i18n"));
 
@@ -41,7 +39,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var PhoneNumberInput = (0, _react.forwardRef)(function PhoneNumberInput(_ref, ref) {
+var PhoneNumberInput = (0, _react.forwardRef)(function (_ref, ref) {
   var currentLocale = _ref.currentLocale,
       _ref$placeholder = _ref.placeholder,
       placeholder = _ref$placeholder === void 0 ? _i18n["default"].getString('enterNameOrNumber', currentLocale) : _ref$placeholder,
@@ -82,33 +80,22 @@ var PhoneNumberInput = (0, _react.forwardRef)(function PhoneNumberInput(_ref, re
       var value = _ref2.currentTarget.value;
       return _onChange(value);
     },
+    onPaste: function onPaste(ev) {
+      console.log(ev);
+    },
     className: _styles["default"].numberInput,
     maxLength: 30,
     onFocus: onFocus,
     placeholder: placeholder,
     autoComplete: "off"
-  })), _react["default"].createElement(_RemoveButton["default"], {
+  })), _react["default"].createElement(_RemoveButton.RemoveButton, {
     className: _styles["default"].removeButton,
     onClick: onClear,
     visibility: value.length > 0
   }));
 });
-PhoneNumberInput.propTypes = {
-  placeholder: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string.isRequired,
-  value: _propTypes["default"].string.isRequired,
-  onChange: _propTypes["default"].func,
-  onClear: _propTypes["default"].func,
-  onFocus: _propTypes["default"].func,
-  isFocused: _propTypes["default"].bool
-};
+exports.PhoneNumberInput = PhoneNumberInput;
 PhoneNumberInput.defaultProps = {
-  placeholder: undefined,
-  onChange: undefined,
-  onClear: undefined,
-  onFocus: undefined,
   isFocused: false
 };
-var _default = PhoneNumberInput;
-exports["default"] = _default;
 //# sourceMappingURL=PhoneNumberInput.js.map

@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/PhoneProvider/index.js"],"names":["PhoneProvider"],"mappings":";;;;;;;;;AAAA;;eAEeA,2B","sourcesContent":["import { PhoneProvider } from '../phoneContext';\n\nexport default PhoneProvider;\n"],"file":"index.js"}
+{"version":3,"sources":["lib/PhoneProvider/index.ts"],"names":["PhoneProvider"],"mappings":";;;;;;;;;AAAA;;eAEeA,2B","sourcesContent":["import { PhoneProvider } from '../phoneContext';\n\nexport default PhoneProvider;\n"],"file":"index.js"}

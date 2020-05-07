@@ -35,7 +35,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _ContactDropdownList = _interopRequireDefault(require("../ContactDropdownList"));
 
-var _RemoveButton = _interopRequireDefault(require("../RemoveButton"));
+var _RemoveButton = require("../RemoveButton");
 
 var _focusCampo = require("./focusCampo");
 
@@ -311,66 +311,86 @@ function (_Component) {
       var _this4 = this;
 
       var _this$props = this.props,
-          useRCUI = _this$props.useRCUI,
           className = _this$props.className,
-          isLastInputFromDialpad = _this$props.isLastInputFromDialpad; // TODO a temporary fix for rendering slower search result.
+          contactInfoRenderer = _this$props.contactInfoRenderer,
+          contactPhoneRenderer = _this$props.contactPhoneRenderer,
+          currentLocale = _this$props.currentLocale,
+          formatContactPhone = _this$props.formatContactPhone,
+          isLastInputFromDialpad = _this$props.isLastInputFromDialpad,
+          label = _this$props.label,
+          multiple = _this$props.multiple,
+          phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
+          phoneTypeRenderer = _this$props.phoneTypeRenderer,
+          placeholder = _this$props.placeholder,
+          recipient = _this$props.recipient,
+          recipients = _this$props.recipients,
+          recipientsClassName = _this$props.recipientsClassName,
+          removeFromRecipients = _this$props.removeFromRecipients,
+          searchContactList = _this$props.searchContactList,
+          titleEnabled = _this$props.titleEnabled,
+          useRCUI = _this$props.useRCUI;
+      var _this$state = this.state,
+          value = _this$state.value,
+          isFocusOnInput = _this$state.isFocusOnInput,
+          scrollDirection = _this$state.scrollDirection,
+          selectedContactIndex = _this$state.selectedContactIndex; // TODO a temporary fix for rendering slower search result.
 
-      var relatedContactList = this.state.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
+      var relatedContactList = value.length >= 3 ? searchContactList.slice(0, 50) : [];
 
-      var label = // eslint-disable-next-line jsx-a11y/label-has-associated-control
+      var labelEl = // eslint-disable-next-line jsx-a11y/label-has-associated-control
       _react["default"].createElement("label", {
         className: _styles["default"].label
-      }, this.props.label === undefined ? "".concat(_i18n["default"].getString('to', this.props.currentLocale), ":") : this.props.label);
+      }, label === undefined ? "".concat(_i18n["default"].getString('to', currentLocale), ":") : label);
 
-      var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react["default"].createElement("div", {
+      var toNumberInput = !multiple && recipient ? null : _react["default"].createElement("div", {
         className: _styles["default"].inputWrapper
       }, _react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].inputField, this.state.isFocusOnInput ? 'Mui-focused' : null, 'MuiInput-underline')
+        className: (0, _classnames["default"])(_styles["default"].inputField, isFocusOnInput ? 'Mui-focused' : null, 'MuiInput-underline')
       }, _react["default"].createElement("input", {
         "data-sign": "recipientsInput",
         ref: this.setInputRef,
         name: "receiver",
-        value: this.state.value,
+        value: value,
         onChange: this.onInputChange,
         className: _styles["default"].numberInput,
         maxLength: 30,
         onFocus: this.onInputFocus,
         onKeyUp: this.onInputKeyUp,
-        placeholder: this.props.placeholder === undefined ? _i18n["default"].getString('enterNameOrNumber', this.props.currentLocale) : this.props.placeholder,
+        placeholder: placeholder === undefined ? _i18n["default"].getString('enterNameOrNumber', currentLocale) : placeholder,
         autoComplete: "off"
-      })), _react["default"].createElement(_RemoveButton["default"], {
+      })), _react["default"].createElement(_RemoveButton.RemoveButton, {
         className: _styles["default"].removeButton,
         onClick: this.onClean,
-        visibility: this.state.value.length > 0
+        visibility: value.length > 0
       }));
       return _react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].container, useRCUI ? _styles["default"].rcuiStyle : null, className),
         onKeyDown: this.handleHotKey
-      }, label, _react["default"].createElement("div", {
-        className: (0, _classnames["default"])(useRCUI ? _styles["default"].rcuiStyle : null, this.props.label === undefined ? _styles["default"].rightPanel : '')
+      }, labelEl, _react["default"].createElement("div", {
+        className: (0, _classnames["default"])(useRCUI ? _styles["default"].rcuiStyle : null, label === undefined ? _styles["default"].rightPanel : '')
       }, _react["default"].createElement(_SelectedRecipients.SelectedRecipients, {
-        recipient: this.props.recipient,
-        recipients: this.props.recipients,
-        multiple: this.props.multiple,
-        onRemove: this.props.removeFromRecipients,
-        className: this.props.recipientsClassName
+        recipient: recipient,
+        recipients: recipients,
+        multiple: multiple,
+        onRemove: removeFromRecipients,
+        className: recipientsClassName
       }), toNumberInput), _react["default"].createElement(_ContactDropdownList["default"], {
-        currentLocale: this.props.currentLocale,
+        currentLocale: currentLocale,
         listRef: function listRef(ref) {
           _this4.listRef = ref;
         },
-        scrollDirection: this.state.scrollDirection,
-        selectedIndex: this.state.selectedContactIndex,
+        scrollDirection: scrollDirection,
+        selectedIndex: selectedContactIndex,
         setSelectedIndex: this.setSelectedIndex,
         addToRecipients: this._addToRecipients,
         items: relatedContactList,
-        formatContactPhone: this.props.formatContactPhone,
-        visibility: this.state.isFocusOnInput && !isLastInputFromDialpad,
-        titleEnabled: this.props.titleEnabled,
-        phoneTypeRenderer: this.props.phoneTypeRenderer,
-        phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
-        contactInfoRenderer: this.props.contactInfoRenderer,
-        contactPhoneRenderer: this.props.contactPhoneRenderer
+        formatContactPhone: formatContactPhone,
+        visibility: isFocusOnInput && !isLastInputFromDialpad,
+        titleEnabled: titleEnabled,
+        phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
+        contactInfoRenderer: contactInfoRenderer,
+        contactPhoneRenderer: contactPhoneRenderer
       }));
     }
   }]);

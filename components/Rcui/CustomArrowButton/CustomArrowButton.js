@@ -11,6 +11,8 @@ var _rcui = require("@ringcentral-integration/rcui");
 
 var _react = _interopRequireDefault(require("react"));
 
+var _iconArrow_right = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow_right1.svg"));
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -18,14 +20,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var CustomArrowButton = function CustomArrowButton(_ref) {
   var disabled = _ref.disabled,
       onClick = _ref.onClick,
-      icon = _ref.icon;
+      symbol = _ref.symbol;
   return _react["default"].createElement(_rcui.RcIconButton, {
     "data-sign": "arrow_icon",
     className: _styles["default"].button,
     variant: "round",
     size: "medium",
     disabled: disabled,
-    icon: icon,
+    symbol: symbol,
     onClick: onClick
   });
 };
@@ -34,6 +36,6 @@ exports.CustomArrowButton = CustomArrowButton;
 CustomArrowButton.defaultProps = {
   disabled: false,
   onClick: function onClick() {},
-  icon: 'arrow_right'
+  symbol: _iconArrow_right["default"]
 };
 //# sourceMappingURL=CustomArrowButton.js.map

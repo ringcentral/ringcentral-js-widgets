@@ -157,7 +157,12 @@ function (_Component) {
           onSelectViewVisible = _this$props3.onSelectViewVisible,
           currentLog = _this$props3.currentLog,
           additionalInfo = _this$props3.additionalInfo,
-          subjectDropdownsTracker = _this$props3.subjectDropdownsTracker;
+          subjectDropdownsTracker = _this$props3.subjectDropdownsTracker,
+          contactSearch = _this$props3.contactSearch,
+          onBackClick = _this$props3.onBackClick,
+          showFoundFromServer = _this$props3.showFoundFromServer,
+          appName = _this$props3.appName,
+          isSearching = _this$props3.isSearching;
       return renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
@@ -165,7 +170,12 @@ function (_Component) {
         onSelectViewVisible: onSelectViewVisible,
         currentLog: currentLog,
         additionalInfo: additionalInfo,
-        subjectDropdownsTracker: subjectDropdownsTracker
+        subjectDropdownsTracker: subjectDropdownsTracker,
+        contactSearch: contactSearch,
+        onBackClick: onBackClick,
+        showFoundFromServer: showFoundFromServer,
+        appName: appName,
+        isSearching: isSearching
       });
     }
   }, {
@@ -335,6 +345,9 @@ CallLogPanel.defaultProps = {
   isWide: true,
   showNotiLogButton: true,
   disableLinks: false,
-  useNewNotification: false
+  useNewNotification: false,
+  contactSearch: null,
+  showFoundFromServer: false,
+  isSearching: false
 };
 //# sourceMappingURL=CallLogPanel.js.map

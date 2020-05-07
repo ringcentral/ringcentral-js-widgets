@@ -7,13 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = SaveLogButton;
 
-var _react = _interopRequireDefault(require("react"));
+var _rcui = require("@ringcentral-integration/rcui");
+
+var _iconCheck = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-check.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _react = _interopRequireDefault(require("react"));
 
 var _getButtonStatus2 = require("./getButtonStatus");
 
@@ -37,7 +39,7 @@ function SaveLogButton(_ref) {
   var getContent = function getContent(buttonContent) {
     return _react["default"].createElement("span", null, buttonContent === 'saved' && _react["default"].createElement(_rcui.RcIcon, {
       color: ['primary', 'main'],
-      icon: "check",
+      symbol: _iconCheck["default"],
       size: "small"
     }), buttonContent === 'saving' && _react["default"].createElement(_rcui.RcCircularProgress, {
       size: 20

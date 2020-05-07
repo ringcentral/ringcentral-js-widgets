@@ -31,17 +31,21 @@ require("core-js/modules/es6.object.to-string");
 
 var _rcui = require("@ringcentral-integration/rcui");
 
+var _iconDeletenumber = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-deletenumber.svg"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -59,60 +63,50 @@ var RecipientsInput = function RecipientsInput(_ref) {
       currentLocale = _ref.currentLocale,
       onChange = _ref.onChange,
       onFocus = _ref.onFocus,
+      onBlur = _ref.onBlur,
       onDelete = _ref.onDelete,
-      onClear = _ref.onClear;
+      onClear = _ref.onClear,
+      className = _ref.className;
   var inputRef = (0, _react.useRef)();
 
-  var _useState = (0, _react.useState)(0),
+  var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
-      remainSpace = _useState2[0],
-      setRemainSpace = _useState2[1];
+      mouseDownTime = _useState2[0],
+      setMouseDownTime = _useState2[1];
 
   var _useState3 = (0, _react.useState)(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      mouseDownTime = _useState4[0],
-      setMouseDownTime = _useState4[1];
+      timer = _useState4[0],
+      setTimer = _useState4[1];
 
-  var _useState5 = (0, _react.useState)(null),
-      _useState6 = _slicedToArray(_useState5, 2),
-      timer = _useState6[0],
-      setTimer = _useState6[1];
-
-  var deleteRef = (0, _react.useRef)();
-  var hasDeletetn = !!value;
+  var haveDeleteButton = !!value;
   (0, _react.useEffect)(function () {
     inputRef.current.focus();
-    onFocus(null);
+    onFocus(null); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
-  (0, _react.useEffect)(function () {
-    setRemainSpace(deleteRef.current.clientWidth);
-  }, [hasDeletetn]);
+  var mouseDown = (0, _react.useMemo)(function () {
+    return function () {
+      setMouseDownTime(+new Date());
+      setTimer(setTimeout(function () {
+        onClear();
+        setTimer(null);
+      }, throttledTime));
+    };
+  }, [onClear]);
+  var mouseUp = (0, _react.useMemo)(function () {
+    return function () {
+      var curTime = +new Date();
 
-  var mouseDown = function mouseDown() {
-    setMouseDownTime(+new Date());
-    setTimer(setTimeout(function () {
-      onClear();
-      setTimer(null);
-    }, throttledTime));
-  };
+      if (mouseDownTime && curTime - mouseDownTime >= throttledTime) {
+        return;
+      }
 
-  var mouseUp = function mouseUp() {
-    var curTime = +new Date();
-
-    if (mouseDownTime && curTime - mouseDownTime >= throttledTime) {
-      return;
-    }
-
-    clearTimeout(timer);
-    onDelete();
-  };
-
-  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("i", {
-    style: {
-      width: remainSpace
-    }
-  }), _react["default"].createElement("div", {
-    className: _styles["default"].inputRoot
+      clearTimeout(timer);
+      onDelete();
+    };
+  }, [mouseDownTime, onDelete, timer]);
+  return _react["default"].createElement("div", {
+    className: (0, _classnames["default"])(className, _styles["default"].inputRoot)
   }, _react["default"].createElement(_rcui.RcTextField, {
     placeholder: placeholder || _i18n["default"].getString('dialPlaceholder', currentLocale),
     value: value,
@@ -120,6 +114,7 @@ var RecipientsInput = function RecipientsInput(_ref) {
       maxLength: 30
     },
     fullWidth: true,
+    clearBtn: false,
     inputRef: inputRef,
     onChange: function (_onChange) {
       function onChange(_x) {
@@ -134,28 +129,30 @@ var RecipientsInput = function RecipientsInput(_ref) {
     }(function (e) {
       onChange(e.target.value);
     }),
+    classes: {
+      root: _styles["default"].textFieldRoot
+    },
     "data-sign": "numberField",
-    onFocus: onFocus // eslint-disable-next-line react/jsx-no-duplicate-props
-    ,
+    onFocus: onFocus,
+    onBlur: onBlur,
     InputProps: {
       disableUnderline: true,
       classes: {
         root: _styles["default"].root,
         input: _styles["default"].input
-      }
+      },
+      endAdornment: haveDeleteButton && _react["default"].createElement(_rcui.RcIconButton, {
+        variant: "plain",
+        size: "large",
+        color: "grey.400",
+        symbol: _iconDeletenumber["default"],
+        "data-sign": "deleteButton",
+        onMouseUp: mouseUp,
+        onMouseDown: mouseDown
+      })
     },
     autoComplete: "off"
-  })), _react["default"].createElement("div", {
-    className: _styles["default"].deleteIcon,
-    ref: deleteRef
-  }, hasDeletetn && _react["default"].createElement(_rcui.RcIconButton, {
-    variant: "plain",
-    size: "small",
-    icon: "deletenumber",
-    "data-sign": "deleteButton",
-    onMouseUp: mouseUp,
-    onMouseDown: mouseDown
-  })));
+  }));
 };
 
 exports.RecipientsInput = RecipientsInput;

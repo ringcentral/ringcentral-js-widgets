@@ -16,6 +16,7 @@
   "peerDependencies": {
     "@ringcentral-integration/i18n": "^2.0.1",
     "@ringcentral-integration/phone-number": "^1.0.4",
+    "@ringcentral-integration/core": "^0.11.0",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
@@ -30,6 +31,7 @@
     "ringcentral-integration": "^0.11.0"
   },
   "devDependencies": {
+    "@ringcentral-integration/core": "*",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",

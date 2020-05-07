@@ -11,7 +11,7 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _RemoveButton = _interopRequireDefault(require("../RemoveButton"));
+var _RemoveButton = require("../RemoveButton");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -28,7 +28,7 @@ var SelectedRecipientItem = function SelectedRecipientItem(_ref) {
   return _react["default"].createElement("li", {
     className: className,
     title: title
-  }, _react["default"].createElement("span", null, name), _react["default"].createElement(_RemoveButton["default"], {
+  }, _react["default"].createElement("span", null, name), _react["default"].createElement(_RemoveButton.RemoveButton, {
     className: _styles["default"].removeReceiver,
     onClick: onRemove,
     visibility: true

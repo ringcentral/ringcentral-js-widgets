@@ -40,7 +40,7 @@ function CallInfo(props) {
     className: _styles["default"].avatar
   }, avatar)), _react["default"].createElement("div", {
     className: _styles["default"].userName
-  }, _react["default"].createElement(_ContactDisplay["default"], {
+  }, props.callQueueName, _react["default"].createElement(_ContactDisplay["default"], {
     className: _styles["default"].contactDisplay,
     selectClassName: _styles["default"].dropdown,
     contactMatches: props.nameMatches,
@@ -80,7 +80,8 @@ CallInfo.propTypes = {
   showContactDisplayPlaceholder: _propTypes["default"].bool,
   sourceIcons: _propTypes["default"].object,
   phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  callQueueName: _propTypes["default"].string
 };
 CallInfo.defaultProps = {
   phoneNumber: null,
@@ -89,6 +90,7 @@ CallInfo.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined
+  phoneSourceNameRenderer: undefined,
+  callQueueName: null
 };
 //# sourceMappingURL=CallInfo.js.map

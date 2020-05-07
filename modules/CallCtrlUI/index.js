@@ -139,7 +139,9 @@ function (_RcUIModule) {
     key: "getUIProps",
     value: function getUIProps(_ref2) {
       var params = _ref2.params,
-          children = _ref2.children;
+          children = _ref2.children,
+          _ref2$showCallQueueNa = _ref2.showCallQueueName,
+          showCallQueueName = _ref2$showCallQueueNa === void 0 ? false : _ref2$showCallQueueNa;
       var sessionId = params && params.sessionId;
       var currentSession;
 
@@ -208,7 +210,8 @@ function (_RcUIModule) {
         isWebRTC: isWebRTC,
         disableLinks: disableLinks,
         isConferenceCallOverload: isConferenceCallOverload,
-        disableFlip: this._forwardingNumber.flipNumbers.length === 0
+        disableFlip: this._forwardingNumber.flipNumbers.length === 0,
+        showCallQueueName: showCallQueueName
       };
     }
   }, {

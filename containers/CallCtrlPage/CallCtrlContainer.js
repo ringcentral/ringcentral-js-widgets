@@ -369,7 +369,9 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var session = this.props.session;
+      var _this$props = this.props,
+          session = _this$props.session,
+          showCallQueueName = _this$props.showCallQueueName;
 
       if (!session.id) {
         return null;
@@ -417,6 +419,8 @@ function (_Component) {
         disableFlip: this.props.disableFlip,
         nameMatches: this.props.nameMatches,
         fallBackName: fallbackUserName,
+        showCallQueueName: showCallQueueName,
+        callQueueName: showCallQueueName ? session.callQueueName : null,
         areaCode: this.props.areaCode,
         countryCode: this.props.countryCode,
         selectedMatcherIndex: this.state.selectedMatcherIndex,
@@ -514,7 +518,8 @@ CallCtrlContainer.propTypes = {
   afterHideMergeConfirm: _propTypes["default"].func,
   afterConfirmMerge: _propTypes["default"].func,
   afterOnMerge: _propTypes["default"].func,
-  disableFlip: _propTypes["default"].bool
+  disableFlip: _propTypes["default"].bool,
+  showCallQueueName: _propTypes["default"].bool
 };
 CallCtrlContainer.defaultProps = {
   children: undefined,
@@ -558,7 +563,8 @@ CallCtrlContainer.defaultProps = {
   afterOnMerge: function afterOnMerge() {
     return null;
   },
-  disableFlip: false
+  disableFlip: false,
+  showCallQueueName: false
 };
 var _default = CallCtrlContainer;
 exports["default"] = _default;

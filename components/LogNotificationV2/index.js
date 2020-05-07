@@ -7,19 +7,21 @@ exports["default"] = LogNotification;
 
 require("core-js/modules/es6.object.define-property");
 
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _rcui = require("@ringcentral-integration/rcui");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _react = _interopRequireDefault(require("react"));
 
 var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+
+var _Hangup = _interopRequireDefault(require("../../assets/images/Hangup.svg"));
 
 var _LogClick = _interopRequireDefault(require("../../assets/images/LogClick.svg"));
 
@@ -27,15 +29,13 @@ var _LogUnclick = _interopRequireDefault(require("../../assets/images/LogUnclick
 
 var _VoicemailRed = _interopRequireDefault(require("../../assets/images/VoicemailRed.svg"));
 
-var _Hangup = _interopRequireDefault(require("../../assets/images/Hangup.svg"));
-
 var _Button = require("../Button");
 
+var _i18n = _interopRequireDefault(require("../SmCallControl/i18n"));
+
+var _i18n2 = _interopRequireDefault(require("./i18n"));
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _i18n = _interopRequireDefault(require("./i18n"));
-
-var _i18n2 = _interopRequireDefault(require("../SmCallControl/i18n"));
 
 var _callIconMap;
 
@@ -85,11 +85,11 @@ function LogNotification(_ref2) {
     var callStatus = currentSession.callStatus,
         direction = currentSession.direction;
     var isInComingCall = _callDirections["default"].inbound === direction && _telephonyStatus["default"].ringing === callStatus;
-    var endTitle = isInComingCall ? _i18n["default"].getString('reject', currentLocale) : _i18n["default"].getString('hangup', currentLocale);
+    var endTitle = isInComingCall ? _i18n2["default"].getString('reject', currentLocale) : _i18n2["default"].getString('hangup', currentLocale);
     var endAction = isInComingCall ? onReject : onHangup;
     var isRinging = _telephonyStatus["default"].ringing === callStatus;
     return _react["default"].createElement(_Button.Button, {
-      tooltip: _i18n2["default"].getString(endTitle, currentLocale),
+      tooltip: _i18n["default"].getString(endTitle, currentLocale),
       onClick: endAction,
       className: (0, _classnames["default"])(_styles["default"].endBtn, _styles["default"].actionItem)
     }, isRinging ? _react["default"].createElement(_VoicemailRed["default"], null) : _react["default"].createElement(_Hangup["default"], null));
@@ -98,7 +98,7 @@ function LogNotification(_ref2) {
     return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
       ref: anchorEl
     }, _react["default"].createElement(_Button.Button, {
-      tooltip: _i18n["default"].getString('log', currentLocale),
+      tooltip: _i18n2["default"].getString('log', currentLocale),
       disabled: isExpand,
       onClick: function onClick() {
         return onExpand();
@@ -126,12 +126,12 @@ function LogNotification(_ref2) {
         return onSave();
       },
       className: _styles["default"].menuItem
-    }, _i18n["default"].getString('save', currentLocale)), _react["default"].createElement(_rcui.RcMenuItem, {
+    }, _i18n2["default"].getString('save', currentLocale)), _react["default"].createElement(_rcui.RcMenuItem, {
       onClick: function onClick() {
         return onDiscard();
       },
       className: _styles["default"].menuItem
-    }, _i18n["default"].getString('discard', currentLocale)))));
+    }, _i18n2["default"].getString('discard', currentLocale)))));
   } : null;
   var call = currentLog.call,
       logName = currentLog.logName;

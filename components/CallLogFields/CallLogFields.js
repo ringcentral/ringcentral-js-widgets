@@ -33,7 +33,7 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _bindDebonce = require("../../lib/bindDebonce");
+var _bindDebounce = require("../../lib/bindDebounce");
 
 var _FieldItem = require("./FieldItem/FieldItem");
 
@@ -84,7 +84,7 @@ function (_Component) {
     }
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(CallLogFields)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    _this.debonce = (0, _bindDebonce.bindDebonce)(_assertThisInitialized(_this), DEFAULT_INPUT_SAVE_TIMEOUT);
+    _this.debounce = (0, _bindDebounce.bindDebounce)(_assertThisInitialized(_this), DEFAULT_INPUT_SAVE_TIMEOUT);
 
     _this.renderFields = function () {
       var _this$props = _this.props,
@@ -105,7 +105,7 @@ function (_Component) {
       }).map(function (fieldOption, i) {
         return _react["default"].createElement(_FieldItem.FieldItem, _extends({}, _this.props, {
           fieldOption: fieldOption,
-          debonce: _this.debonce,
+          debounce: _this.debounce,
           "data-sign": "callLogField",
           key: "field-".concat(i),
           onSave: onSave,
@@ -137,7 +137,6 @@ function (_Component) {
 
 exports["default"] = CallLogFields;
 CallLogFields.defaultProps = {
-  fieldSize: 'small',
   currentLog: {},
   onUpdateCallLog: undefined,
   onSelectViewVisible: function onSelectViewVisible() {
@@ -148,6 +147,7 @@ CallLogFields.defaultProps = {
   subjectDropdownsTracker: undefined,
   startAdornmentRender: function startAdornmentRender() {
     return null;
-  }
+  },
+  contactSearch: undefined
 };
 //# sourceMappingURL=CallLogFields.js.map

@@ -33,7 +33,7 @@ var _DialPad = _interopRequireDefault(require("../DialPad"));
 
 var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
 
-var _RecipientsInputV = _interopRequireDefault(require("../RecipientsInputV2"));
+var _RecipientsInputV = require("../RecipientsInputV2");
 
 var _FromField = _interopRequireDefault(require("../FromField"));
 
@@ -92,7 +92,7 @@ function DialerPanel(_ref) {
       inputEl.current.focus();
     }
   }, []);
-  var input = useV2 ? _react["default"].createElement(_RecipientsInputV["default"], {
+  var input = useV2 ? _react["default"].createElement(_RecipientsInputV.RecipientsInputV2, {
     ref: inputEl,
     value: toNumber,
     onInputChange: onToNumberChange,

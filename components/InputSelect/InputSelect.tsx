@@ -4,9 +4,10 @@ import {
   RcListItemText,
   RcTextField,
 } from '@ringcentral-integration/rcui';
+import arrowDownSvg from '@ringcentral-integration/rcui/icons/icon-arrow_down.svg';
 import React, { Component } from 'react';
 
-import { bindDebonce } from '../../lib/bindDebonce';
+import { bindDebounce } from '../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../lib/bindNextPropsUpdate';
 import { CustomArrowButton } from '../Rcui/CustomArrowButton';
 import styles from './styles.scss';
@@ -39,13 +40,14 @@ export default class InputSelect extends Component<
   };
 
   checkPropsUpdate = bindNextPropsUpdate(this);
-  debonce = bindDebonce(this, this.props.timeout);
+  debounce = bindDebounce(this, this.props.timeout);
 
   wrapper: HTMLDivElement;
   constructor(props) {
     super(props);
+    const { subject } = this.props;
     this.state = {
-      subject: this.props.subject,
+      subject,
       expand: false,
     };
   }
@@ -104,22 +106,22 @@ export default class InputSelect extends Component<
           data-sign="subject"
           title={subject}
           fullWidth
+          clearBtn={false}
           required={required}
           value={subject}
           error={hasError}
           inputProps={{
             maxLength: 255,
           }}
-          onChange={(e) => this.updateValue(e.target.value, 500)}
-          endAdornment={(disabled) =>
-            subjectPicklist.length > 0 && (
+          InputProps={{
+            endAdornment: subjectPicklist.length > 0 && (
               <CustomArrowButton
-                icon="arrow_down"
-                disabled={disabled}
+                symbol={arrowDownSvg}
                 onClick={this.toggleDropDownList}
               />
-            )
-          }
+            ),
+          }}
+          onChange={(e) => this.updateValue(e.target.value, 500)}
         />
         {this._renderPickList()}
       </div>
@@ -127,22 +129,24 @@ export default class InputSelect extends Component<
   }
 
   updateValue(subject, time) {
+    const { onChange, onSave, timeout } = this.props;
     this.setState({ subject }, () => {
-      this.debonce(() => {
-        this.props.onChange(this.state.subject).then(() => {
-          this.debonce(() => this.props.onSave(), this.props.timeout - time);
+      this.debounce(() => {
+        onChange(this.state.subject).then(() => {
+          this.debounce(() => onSave(), timeout - time);
         });
       }, time);
     });
   }
 
   onSelectChange = (subject) => {
+    const { onSelectOption, onSave, onChange } = this.props;
     this.setState({ subject }, () => {
-      this.debonce(() => {
-        if (this.props.onSelectOption) {
-          this.props.onSelectOption();
+      this.debounce(() => {
+        if (onSelectOption) {
+          onSelectOption();
         }
-        this.props.onChange(this.state.subject).then(() => this.props.onSave());
+        onChange(this.state.subject).then(() => onSave());
       }, 0);
     });
     this.toggleDropDownList();

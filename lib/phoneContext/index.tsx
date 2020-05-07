@@ -4,13 +4,12 @@ import {
 } from '@ringcentral-integration/rcui';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
+
 import { defaultTheme } from './theme';
-import customIcon from './customIcon';
 
 export interface PhoneProviderProps<T = any> {
   phone: T;
   theme?: RcThemeProviderProps['theme'];
-  icons?: RcThemeProviderProps['icons'];
 }
 
 const PhoneContext = React.createContext(null);
@@ -19,14 +18,11 @@ export default PhoneContext;
 export const PhoneProvider: React.FunctionComponent<PhoneProviderProps> = ({
   phone,
   theme = defaultTheme,
-  icons = customIcon,
   children,
 }) => {
   return (
     <PhoneContext.Provider value={phone}>
-      <RcThemeProvider theme={theme} icons={icons}>
-        {children}
-      </RcThemeProvider>
+      <RcThemeProvider theme={theme}>{children}</RcThemeProvider>
     </PhoneContext.Provider>
   );
 };
@@ -55,6 +51,6 @@ export function connectModule<T = any, K = any>(fn: connectModuleProps<T>) {
       <PhoneContext.Consumer>
         {(phone) => <WithModule phone={phone} {...props} />}
       </PhoneContext.Consumer>
-    )) as any) as FunctionComponent<T>;
+    )) as any) as FunctionComponent<K>;
   };
 }

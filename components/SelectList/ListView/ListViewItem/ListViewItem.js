@@ -83,6 +83,7 @@ function ListViewItem(_ref) {
     ref: selectElm
   }, _react["default"].createElement(_rcui.RcListItem, {
     button: true,
+    size: "small",
     singleLine: true,
     onClick: function onClick() {
       return onChange(isSelected ? {} : option);

@@ -29,11 +29,11 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.is-array");
 
-var _classnames = _interopRequireDefault(require("classnames"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _rcui = require("@ringcentral-integration/rcui");
+
+var _iconChevron_left = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-chevron_left.svg"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -71,14 +71,12 @@ var BackHeader = function BackHeader(_ref) {
 
   var rightRef = (0, _react.useRef)();
   var isClassic = !isWide;
-
-  if (isClassic) {
-    (0, _react.useEffect)(function () {
+  (0, _react.useEffect)(function () {
+    if (isClassic) {
       // this smallest clientWidth is 62.
       setMaxWidth(initWidth - (rightRef.current.clientWidth - 62));
-    }, [currentLocale]);
-  }
-
+    }
+  }, [currentLocale, isClassic]);
   var rootClass = (0, _classnames["default"])(_styles["default"].root, isClassic && _styles["default"].classic, className);
   return _react["default"].createElement("div", {
     className: rootClass
@@ -86,7 +84,7 @@ var BackHeader = function BackHeader(_ref) {
     className: (0, _classnames["default"])(_styles["default"].back),
     variant: "round",
     size: "small",
-    icon: backIcon,
+    symbol: backIcon,
     "data-sign": "backButton",
     onClick: onBackClick
   }), _react["default"].createElement("div", {
@@ -101,19 +99,10 @@ var BackHeader = function BackHeader(_ref) {
   }, rightIcon));
 };
 
-BackHeader.propTypes = {
-  onBackClick: _propTypes["default"].func.isRequired,
-  title: _propTypes["default"].string,
-  backIcon: _propTypes["default"].string,
-  rightIcon: _propTypes["default"].node,
-  className: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string,
-  isWide: _propTypes["default"].bool
-};
 BackHeader.defaultProps = {
   title: '',
   rightIcon: null,
-  backIcon: 'chevron_left',
+  backIcon: _iconChevron_left["default"],
   className: null,
   currentLocale: 'en-US',
   isWide: true

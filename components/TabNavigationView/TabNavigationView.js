@@ -23,11 +23,21 @@ var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var TabNavigationView = function TabNavigationView(props) {
-  var navigationPosition = props.navigationPosition,
-      navBarClassName = props.navBarClassName,
-      onLoading = props.onLoading,
-      brandIcon = props.brandIcon;
+var TabNavigationView = function TabNavigationView(_ref) {
+  var navigationPosition = _ref.navigationPosition,
+      navBarClassName = _ref.navBarClassName,
+      onLoading = _ref.onLoading,
+      brandIcon = _ref.brandIcon,
+      holdReady = _ref.holdReady,
+      className = _ref.className,
+      tabs = _ref.tabs,
+      goTo = _ref.goTo,
+      tabWidth = _ref.tabWidth,
+      tabHeight = _ref.tabHeight,
+      currentPath = _ref.currentPath,
+      currentVirtualPath = _ref.currentVirtualPath,
+      tabNavigationViewClassName = _ref.tabNavigationViewClassName,
+      children = _ref.children;
 
   if (onLoading) {
     return _react["default"].createElement(_SpinnerOverlay["default"], null);
@@ -38,39 +48,34 @@ var TabNavigationView = function TabNavigationView(props) {
   var navBar = _react["default"].createElement(_NavigationBar["default"], {
     button: _TabNavigationButton["default"],
     childNavigationView: _DropdownNavigationView["default"],
-    tabs: props.tabs,
-    goTo: props.goTo,
-    tabWidth: props.tabWidth,
-    tabHeight: props.tabHeight,
-    currentPath: props.currentPath,
+    tabs: tabs,
+    goTo: goTo,
+    tabWidth: tabWidth,
+    tabHeight: tabHeight,
+    currentPath: currentPath,
     direction: isVertical ? 'vertical' : undefined,
-    currentVirtualPath: props.currentVirtualPath,
+    currentVirtualPath: currentVirtualPath,
     className: navBarClassName
   });
 
-  if (props.holdReady) return null;
+  if (holdReady) return null;
   return _react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, props.className, navigationPosition === 'left' && _styles["default"].vertical)
+    className: (0, _classnames["default"])(_styles["default"].root, className, navigationPosition === 'left' && _styles["default"].vertical)
   }, _react["default"].createElement("div", {
     className: _styles["default"].tabContainer
   }, navigationPosition === 'top' || navigationPosition === 'left' ? _react["default"].createElement(_react["default"].Fragment, null, navBar, navigationPosition === 'left' ? brandIcon : null) : null), _react["default"].createElement("div", {
     "data-sign": "tabNavigationView",
-    className: (0, _classnames["default"])(_styles["default"].main, props.tabNavigationViewClassName, !isVertical && _styles["default"].hasMaxHeight)
-  }, ' ', props.children), navigationPosition === 'bottom' ? _react["default"].createElement(_react["default"].Fragment, null, navBar) : null);
+    className: (0, _classnames["default"])(_styles["default"].main, tabNavigationViewClassName, !isVertical && _styles["default"].hasMaxHeight)
+  }, ' ', children), navigationPosition === 'bottom' ? _react["default"].createElement(_react["default"].Fragment, null, navBar) : null);
 };
 
 TabNavigationView.defaultProps = {
   children: null,
   className: null,
-  currentVirtualPath: undefined,
   navigationPosition: 'top',
   brandIcon: null,
-  tabWidth: undefined,
-  tabHeight: undefined,
   tabs: null,
   holdReady: false,
-  navBarClassName: undefined,
-  tabNavigationViewClassName: undefined,
   onLoading: false
 };
 var _default = TabNavigationView;

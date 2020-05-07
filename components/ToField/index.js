@@ -37,7 +37,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _RemoveButton = _interopRequireDefault(require("../RemoveButton"));
+var _RemoveButton = require("../RemoveButton");
 
 var _ContactDropdownList = _interopRequireDefault(require("../ContactDropdownList"));
 
@@ -75,7 +75,7 @@ function SelectedRecipientItem(_ref) {
   var className = phoneNumber.length > 5 ? _styles["default"].phoneNumber : _styles["default"].extension;
   return _react["default"].createElement("li", {
     className: className
-  }, _react["default"].createElement("span", null, name), _react["default"].createElement(_RemoveButton["default"], {
+  }, _react["default"].createElement("span", null, name), _react["default"].createElement(_RemoveButton.RemoveButton, {
     className: _styles["default"].removeReceiver,
     onClick: onRemove,
     visibility: true
@@ -291,7 +291,9 @@ function (_Component) {
     value: function render() {
       var relatedContactList = this.props.value.length >= 3 ? this.props.searchResults : [];
 
-      var label = _react["default"].createElement("label", null, this.props.label || _i18n["default"].getString('to', this.props.currentLocale));
+      var label = _react["default"].createElement("label", {
+        htmlFor: "to-field-input"
+      }, this.props.label || _i18n["default"].getString('to', this.props.currentLocale));
 
       return _react["default"].createElement("div", {
         className: _styles["default"].container,
@@ -304,6 +306,7 @@ function (_Component) {
       }), _react["default"].createElement("div", {
         className: _styles["default"].inputField
       }, _react["default"].createElement("input", {
+        id: "to-field-input",
         name: "receiver",
         value: this.state.currentValue,
         onChange: this.props.onChange,
@@ -316,7 +319,7 @@ function (_Component) {
         autoComplete: "off",
         autoFocus: this.props.autoFocus // eslint-disable-line
 
-      })), _react["default"].createElement(_RemoveButton["default"], {
+      })), _react["default"].createElement(_RemoveButton.RemoveButton, {
         className: _styles["default"].removeButton,
         onClick: this.props.onClean,
         visibility: this.props.value.length > 0 && this.state.isFocusOnInput

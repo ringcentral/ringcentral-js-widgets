@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import { AlertRenderer } from '../../components/AlertRenderer';
@@ -18,14 +19,15 @@ export default class AlertUI extends RcUIModule {
 
   getUIFunctions({
     phone: { alert, brand, routerInteraction, rateLimiter },
+    getAdditionalRenderer,
     regionSettingsUrl,
     callingSettingsUrl,
-    getAdditionalRenderer,
+    ...rest
   }) {
     return {
-      getRenderer: (message: string) => {
+      getRenderer: (messageObject: object) => {
         if (getAdditionalRenderer) {
-          const renderer = getAdditionalRenderer()(message);
+          const renderer = getAdditionalRenderer()(messageObject);
 
           if (renderer) return renderer;
         }
@@ -37,9 +39,10 @@ export default class AlertUI extends RcUIModule {
           routerInteraction,
           regionSettingsUrl,
           callingSettingsUrl,
-        )(message);
+        )(messageObject);
       },
       dismiss: (id: string) => alert.dismiss(id),
+      ...rest,
     };
   }
 }

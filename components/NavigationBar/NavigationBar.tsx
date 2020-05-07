@@ -1,9 +1,16 @@
-import React, { Component } from 'react';
 import classnames from 'classnames';
-import styles from './styles.scss';
-import { NavigationBarProps } from './NavigationBar.interface';
+import React, { Component } from 'react';
 
-export default class NavigationBar extends Component<NavigationBarProps> {
+import {
+  NavigationBarProps,
+  NavigationBarState,
+} from './NavigationBar.interface';
+import styles from './styles.scss';
+
+export default class NavigationBar extends Component<
+  NavigationBarProps,
+  NavigationBarState
+> {
   static defaultProps: Partial<NavigationBarProps> = {
     className: undefined,
     childNavigationView: undefined,
@@ -73,7 +80,8 @@ export default class NavigationBar extends Component<NavigationBarProps> {
     const isVertical = direction === 'vertical';
     const directionClass = isVertical ? styles.vertical : undefined;
 
-    const currentVirtualPath = this.state.currentVirtualPath;
+    const { currentVirtualPath } = this.state;
+
     let _tabWidth = '0';
     const _tabHeight = isVertical ? tabHeight || '50px' : '100%';
     if (tabWidth) {
@@ -85,7 +93,8 @@ export default class NavigationBar extends Component<NavigationBarProps> {
     const dropdownMenuTab = tabs.find(
       (tab) =>
         tab.childTabs &&
-        (tab.isActive && tab.isActive(currentPath, currentVirtualPath)),
+        tab.isActive &&
+        tab.isActive(currentPath, currentVirtualPath),
     );
     const dropdownMenu = dropdownMenuTab && dropdownMenuTab.childTabs;
     return (

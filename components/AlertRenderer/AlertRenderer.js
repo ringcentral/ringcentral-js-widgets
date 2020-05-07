@@ -47,7 +47,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function AlertRenderer(alert, brand, rateLimiter, routerInteraction, regionSettingsUrl, callingSettingsUrl) {
+function AlertRenderer(alert, brand, rateLimiter,
+/** router interaction when need push `regionSettingsUrl` or `callingSettingsUrl` */
+routerInteraction) {
+  var regionSettingsUrl = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '/settings/region';
+  var callingSettingsUrl = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '/settings/calling';
+
   var onRegionSettingsLinkClick = function onRegionSettingsLinkClick() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
         _ref$alertId = _ref.alertId,

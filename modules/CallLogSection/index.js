@@ -94,7 +94,10 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var CallLogSection = (_dec = (0, _di.Module)({
-  deps: ['Storage']
+  deps: ['Storage', {
+    dep: 'CallLogSectionOptions',
+    optional: true
+  }]
 }), _dec(_class = (_class2 = (_temp =
 /*#__PURE__*/
 function (_RcModule) {

@@ -33,6 +33,8 @@ require("core-js/modules/es6.regexp.search");
 
 require("core-js/modules/es6.array.filter");
 
+var _iconSearch = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-search.svg"));
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
@@ -41,17 +43,19 @@ var _rcui = require("@ringcentral-integration/rcui");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _formatMessage = _interopRequireDefault(require("format-message"));
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _BackHeaderV = _interopRequireDefault(require("../BackHeaderV2"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -81,7 +85,16 @@ var SelectListBasic = function SelectListBasic(_ref) {
       selectListBasicClassName = _ref.selectListBasicClassName,
       backHeaderClassName = _ref.backHeaderClassName,
       listContainerClassName = _ref.listContainerClassName,
-      onBackClick = _ref.onBackClick;
+      onBackClick = _ref.onBackClick,
+      contactSearch = _ref.contactSearch,
+      field = _ref.field,
+      foundFromServerTitle = _ref.foundFromServerTitle,
+      showFoundFromServer = _ref.showFoundFromServer,
+      foundFromServerEntities = _ref.foundFromServerEntities,
+      appName = _ref.appName,
+      isSearching = _ref.isSearching,
+      showSearchFromServerHint = _ref.showSearchFromServerHint,
+      setShowSearchFromServerHint = _ref.setShowSearchFromServerHint;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -103,14 +116,34 @@ var SelectListBasic = function SelectListBasic(_ref) {
   var hasResult = matchOptions.length + matchOtherOptions.length + matchAssociatedOptions.length > 0 || options.length + otherOptions.length + associatedOptions.length === 0;
 
   var backHeaderOnclick = function backHeaderOnclick() {
+    setOpen(false);
+    setFilter(null);
+
+    if (showFoundFromServer && typeof setShowSearchFromServerHint === 'function') {
+      setShowSearchFromServerHint(false);
+    }
+
     if (onBackClick) {
       return onBackClick();
     }
-
-    setOpen(false);
-    setFilter(null);
   };
 
+  var foundFromServerHint = _react["default"].createElement("p", {
+    className: _styles["default"].hint
+  }, (0, _formatMessage["default"])(_i18n["default"].getString('foundFromServerHint', currentLocale), {
+    appName: appName
+  }));
+
+  var notResultFoundFromServer = _react["default"].createElement("p", {
+    className: _styles["default"].loading
+  }, ' ', _i18n["default"].getString('notResultFoundFromServer', currentLocale));
+
+  var loading = _react["default"].createElement("p", {
+    className: _styles["default"].loading
+  }, _i18n["default"].getString('loading', currentLocale));
+
+  var notFoundFromServer = !isSearching && !showSearchFromServerHint ? notResultFoundFromServer : foundFromServerHint;
+  var showLoading = isSearching ? loading : notFoundFromServer;
   return _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].list, open ? _styles["default"].active : null, selectListBasicClassName)
   }, open ? _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_BackHeaderV["default"], {
@@ -124,25 +157,40 @@ var SelectListBasic = function SelectListBasic(_ref) {
   }, _react["default"].createElement("div", {
     className: _styles["default"].search
   }, !filter && _react["default"].createElement("span", {
-    className: (0, _classnames["default"])(_styles["default"].placeholder, 'text-ellipsis')
+    className: _styles["default"].placeholder
   }, placeholder), _react["default"].createElement(_rcui.RcOutlineTextField, {
     size: "small",
-    type: "circle",
+    radiusType: "circle",
     fullWidth: true,
-    icon: "search",
-    iconSize: "small",
+    iconPosition: "left",
+    symbol: _iconSearch["default"],
     "data-sign": "searchBar",
     onChange: function onChange(event) {
       if (event.target) {
         var value = event.target.value || '';
         setFilter(value);
       }
+    },
+    onKeyDown: function onKeyDown(key) {
+      // Press enter to search contacts from server
+      if (showFoundFromServer && contactSearch && typeof contactSearch === 'function') {
+        if (key && key.keyCode === 13 && filter && filter.length) {
+          contactSearch({
+            searchString: filter,
+            fromField: field
+          });
+
+          if (setShowSearchFromServerHint && typeof setShowSearchFromServerHint === 'function' && filter && filter.length > 1) {
+            setShowSearchFromServerHint(false);
+          }
+        }
+      }
     }
   })), _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].listContainer, listContainerClassName),
     ref: scrollElmRef,
     "data-sign": "searchResult"
-  }, hasResult ? _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
+  }, hasResult || showFoundFromServer ? _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
     ref: matchElmRef,
     className: _styles["default"].text
   }, matchedTitle && _react["default"].createElement("div", {
@@ -161,7 +209,13 @@ var SelectListBasic = function SelectListBasic(_ref) {
     className: _styles["default"].title
   }, associatedTitle, " (", matchAssociatedOptions.length, ")"), matchAssociatedOptions.length > 0 && renderListView(matchAssociatedOptions, 'other', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
-  }))) : _react["default"].createElement("div", {
+  })), showFoundFromServer && _react["default"].createElement("div", {
+    className: _styles["default"].text
+  }, foundFromServerTitle && _react["default"].createElement("div", {
+    className: _styles["default"].title
+  }, foundFromServerTitle, " (", foundFromServerEntities.length, ")"), foundFromServerEntities && foundFromServerEntities.length > 0 ? renderListView(foundFromServerEntities, 'custom', filter, function (elm, type) {
+    return scrollCheck(scrollElmRef, matchElmRef, elm, type);
+  }) : showLoading)) : _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].search, _styles["default"].text, 'text-break')
   }, "".concat(_i18n["default"].getString('noResultFoundFor', currentLocale), " '").concat(filter, "'"))))) : null);
 };
@@ -187,7 +241,16 @@ SelectListBasic.propTypes = {
   selectListBasicClassName: _propTypes["default"].string,
   backHeaderClassName: _propTypes["default"].string,
   listContainerClassName: _propTypes["default"].string,
-  onBackClick: _propTypes["default"].func
+  onBackClick: _propTypes["default"].func,
+  contactSearch: _propTypes["default"].func,
+  field: _propTypes["default"].string,
+  foundFromServerTitle: _propTypes["default"].string,
+  showFoundFromServer: _propTypes["default"].bool,
+  foundFromServerEntities: _propTypes["default"].array,
+  appName: _propTypes["default"].string,
+  isSearching: _propTypes["default"].bool,
+  setShowSearchFromServerHint: _propTypes["default"].func,
+  showSearchFromServerHint: _propTypes["default"].bool
 };
 SelectListBasic.defaultProps = {
   options: [],
@@ -206,6 +269,15 @@ SelectListBasic.defaultProps = {
   onBackClick: undefined,
   matchedTitle: null,
   otherTitle: null,
-  associatedTitle: null
+  associatedTitle: null,
+  contactSearch: null,
+  field: null,
+  foundFromServerTitle: null,
+  showFoundFromServer: false,
+  foundFromServerEntities: [],
+  appName: null,
+  isSearching: false,
+  setShowSearchFromServerHint: function setShowSearchFromServerHint() {},
+  showSearchFromServerHint: true
 };
 //# sourceMappingURL=SelectListBasic.js.map

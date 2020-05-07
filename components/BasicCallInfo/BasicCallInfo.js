@@ -9,6 +9,8 @@ exports["default"] = void 0;
 
 var _rcui = require("@ringcentral-integration/rcui");
 
+var _iconArrow_down = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow_down.svg"));
+
 var _react = _interopRequireDefault(require("react"));
 
 var _ShinyBar = require("../LogBasicInfoV2/ShinyBar");
@@ -26,9 +28,8 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var BasicCallInfo = function BasicCallInfo(_ref) {
-  var _ref$call = _ref.call,
-      matchName = _ref$call.matchName,
-      isInbound = _ref$call.isInbound,
+  var subject = _ref.subject,
+      isInbound = _ref.isInbound,
       isRinging = _ref.isRinging,
       followInfos = _ref.followInfos,
       callInfos = _ref.callInfos,
@@ -50,7 +51,7 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     },
     expandIcon: _react["default"].createElement(_rcui.RcIcon, {
       size: "medium",
-      icon: "arrow_down",
+      symbol: _iconArrow_down["default"],
       color: ['grey', 500]
     })
   }, _react["default"].createElement(_CallIcon["default"], {
@@ -58,13 +59,13 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
   }), _react["default"].createElement("div", {
     className: _styles["default"].mainInfo
   }, _react["default"].createElement(_CallSubject["default"], {
-    subject: matchName
+    subject: subject
   }), _react["default"].createElement(_FollowInfo["default"], {
     infoList: followInfos,
     splitSign: "|"
   }))), _react["default"].createElement(_rcui.RcExpansionPanelDetails, {
     classes: {
-      root: _styles["default"].detiailRoot
+      root: _styles["default"].detailRoot
     }
   }, _react["default"].createElement(_CallInfoList["default"], {
     callInfos: callInfos

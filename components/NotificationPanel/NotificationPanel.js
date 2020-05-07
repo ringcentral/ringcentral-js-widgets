@@ -86,8 +86,10 @@ var NotificationPanel = function NotificationPanel(_ref) {
       className = _ref.className,
       exitAnimation = _ref.exitAnimation,
       entranceAnimation = _ref.entranceAnimation,
+      backdropEntranceAnimation = _ref.backdropEntranceAnimation,
+      backdropExitAnimation = _ref.backdropExitAnimation,
       duration = _ref.duration,
-      rest = _objectWithoutProperties(_ref, ["messages", "className", "exitAnimation", "entranceAnimation", "duration"]);
+      rest = _objectWithoutProperties(_ref, ["messages", "className", "exitAnimation", "entranceAnimation", "backdropEntranceAnimation", "backdropExitAnimation", "duration"]);
 
   var _useState = (0, _react.useState)(messages),
       _useState2 = _slicedToArray(_useState, 2),
@@ -108,8 +110,10 @@ var NotificationPanel = function NotificationPanel(_ref) {
           return m.id === cm.id;
         })) {
           cm.animation = exitAnimation;
+          cm.backdropAnimation = backdropExitAnimation;
         } else {
           cm.animation = '';
+          cm.backdropAnimation = '';
         }
       });
       setCurrentMessages(_toConsumableArray(currentMessages));
@@ -130,13 +134,14 @@ var NotificationPanel = function NotificationPanel(_ref) {
   }, [messages]);
   return _react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, currentMessages.map(function (message, i) {
-    var _message$animation;
+  }, currentMessages.map(function (data, i) {
+    var _data$backdropAnimati, _data$animation;
 
     return _react["default"].createElement(_NotificationItem.NotificationItem, _extends({}, rest, {
-      message: message,
+      data: data,
       duration: duration,
-      animation: (_message$animation = message.animation) !== null && _message$animation !== void 0 ? _message$animation : entranceAnimation,
+      backdropAnimation: (_data$backdropAnimati = data.backdropAnimation) !== null && _data$backdropAnimati !== void 0 ? _data$backdropAnimati : backdropEntranceAnimation,
+      animation: (_data$animation = data.animation) !== null && _data$animation !== void 0 ? _data$animation : entranceAnimation,
       key: i
     }));
   }));
@@ -146,6 +151,8 @@ exports.NotificationPanel = NotificationPanel;
 NotificationPanel.defaultProps = {
   entranceAnimation: 'fadeInDown',
   exitAnimation: 'fadeOutUp',
+  backdropEntranceAnimation: 'fadeIn',
+  backdropExitAnimation: 'fadeOut',
   duration: 500
 };
 //# sourceMappingURL=NotificationPanel.js.map

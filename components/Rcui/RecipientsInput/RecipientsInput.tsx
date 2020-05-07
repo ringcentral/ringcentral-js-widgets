@@ -1,9 +1,17 @@
 import {
+  RcIconButton,
   RcTextField,
   RcTextFieldProps,
-  RcIconButton,
 } from '@ringcentral-integration/rcui';
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import deletenumberSvg from '@ringcentral-integration/rcui/icons/icon-deletenumber.svg';
+import classNames from 'classnames';
+import React, {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -17,6 +25,7 @@ type RecipientsInputProps = {
   onChange(value?: string): any;
   onDelete(): any;
   onClear(): any;
+  className?: string;
 } & Omit<RcTextFieldProps, 'onChange'>;
 
 const throttledTime = 1000;
@@ -27,89 +36,92 @@ export const RecipientsInput: FunctionComponent<RecipientsInputProps> = ({
   currentLocale,
   onChange,
   onFocus,
+  onBlur,
   onDelete,
   onClear,
+  className,
 }) => {
   const inputRef = useRef<HTMLInputElement>();
-  const [remainSpace, setRemainSpace] = useState(0);
   const [mouseDownTime, setMouseDownTime] = useState<number>(null);
   const [timer, setTimer] = useState(null);
-  const deleteRef = useRef<HTMLDivElement>();
 
-  const hasDeletetn = !!value;
+  const haveDeleteButton = !!value;
 
   useEffect(() => {
     inputRef.current.focus();
     onFocus(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  useEffect(() => {
-    setRemainSpace(deleteRef.current.clientWidth);
-  }, [hasDeletetn]);
+  const mouseDown = useMemo(
+    () => () => {
+      setMouseDownTime(+new Date());
 
-  const mouseDown = () => {
-    setMouseDownTime(+new Date());
+      setTimer(
+        setTimeout(() => {
+          onClear();
+          setTimer(null);
+        }, throttledTime),
+      );
+    },
+    [onClear],
+  );
 
-    setTimer(
-      setTimeout(() => {
-        onClear();
-        setTimer(null);
-      }, throttledTime),
-    );
-  };
+  const mouseUp = useMemo(
+    () => () => {
+      const curTime = +new Date();
+      if (mouseDownTime && curTime - mouseDownTime >= throttledTime) {
+        return;
+      }
 
-  const mouseUp = () => {
-    const curTime = +new Date();
-    if (mouseDownTime && curTime - mouseDownTime >= throttledTime) {
-      return;
-    }
-
-    clearTimeout(timer);
-    onDelete();
-  };
+      clearTimeout(timer);
+      onDelete();
+    },
+    [mouseDownTime, onDelete, timer],
+  );
 
   return (
-    <>
-      <i style={{ width: remainSpace }} />
-      <div className={styles.inputRoot}>
-        <RcTextField
-          placeholder={
-            placeholder || i18n.getString('dialPlaceholder', currentLocale)
-          }
-          value={value}
-          inputProps={{
-            maxLength: 30,
-          }}
-          fullWidth
-          inputRef={inputRef}
-          onChange={(e) => {
-            onChange(e.target.value);
-          }}
-          data-sign="numberField"
-          onFocus={onFocus}
-          // eslint-disable-next-line react/jsx-no-duplicate-props
-          InputProps={{
-            disableUnderline: true,
-            classes: {
-              root: styles.root,
-              input: styles.input,
-            },
-          }}
-          autoComplete="off"
-        />
-      </div>
-      <div className={styles.deleteIcon} ref={deleteRef}>
-        {hasDeletetn && (
-          <RcIconButton
-            variant="plain"
-            size="small"
-            icon="deletenumber"
-            data-sign="deleteButton"
-            onMouseUp={mouseUp}
-            onMouseDown={mouseDown}
-          />
-        )}
-      </div>
-    </>
+    <div className={classNames(className, styles.inputRoot)}>
+      <RcTextField
+        placeholder={
+          placeholder || i18n.getString('dialPlaceholder', currentLocale)
+        }
+        value={value}
+        inputProps={{
+          maxLength: 30,
+        }}
+        fullWidth
+        clearBtn={false}
+        inputRef={inputRef}
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
+        classes={{
+          root: styles.textFieldRoot,
+        }}
+        data-sign="numberField"
+        onFocus={onFocus}
+        onBlur={onBlur}
+        InputProps={{
+          disableUnderline: true,
+          classes: {
+            root: styles.root,
+            input: styles.input,
+          },
+          endAdornment: haveDeleteButton && (
+            <RcIconButton
+              variant="plain"
+              size="large"
+              color="grey.400"
+              symbol={deletenumberSvg}
+              data-sign="deleteButton"
+              onMouseUp={mouseUp}
+              onMouseDown={mouseDown}
+            />
+          ),
+        }}
+        autoComplete="off"
+      />
+    </div>
   );
 };

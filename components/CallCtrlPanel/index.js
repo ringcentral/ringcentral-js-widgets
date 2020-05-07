@@ -213,7 +213,8 @@ function (_Component) {
           showSpinner = _this$props.showSpinner,
           sourceIcons = _this$props.sourceIcons,
           startTime = _this$props.startTime,
-          disableFlip = _this$props.disableFlip;
+          disableFlip = _this$props.disableFlip,
+          callQueueName = _this$props.callQueueName;
       var _this$state = this.state,
           isShowKeyPad = _this$state.isShowKeyPad,
           isShowMergeConfirm = _this$state.isShowMergeConfirm;
@@ -277,7 +278,8 @@ function (_Component) {
         lastCallInfo: lastCallInfo,
         getAvatarUrl: getAvatarUrl,
         actions: actions,
-        controlBusy: controlBusy
+        controlBusy: controlBusy,
+        callQueueName: callQueueName
       }, children, showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null, layout === _callCtrlLayouts["default"].normalCtrl ? _react["default"].createElement(_ConfirmMergeModal["default"], {
         currentLocale: currentLocale,
         show: isShowMergeConfirm,
@@ -347,7 +349,8 @@ CallCtrlPanel.propTypes = {
   afterConfirmMerge: _propTypes["default"].func,
   afterOnMerge: _propTypes["default"].func,
   actions: _propTypes["default"].array,
-  controlBusy: _propTypes["default"].bool
+  controlBusy: _propTypes["default"].bool,
+  callQueueName: _propTypes["default"].string
 };
 CallCtrlPanel.defaultProps = {
   startTime: null,
@@ -413,7 +416,8 @@ CallCtrlPanel.defaultProps = {
   actions: [],
   recordStatus: '',
   controlBusy: false,
-  disableFlip: false
+  disableFlip: false,
+  callQueueName: null
 };
 var _default = CallCtrlPanel;
 exports["default"] = _default;

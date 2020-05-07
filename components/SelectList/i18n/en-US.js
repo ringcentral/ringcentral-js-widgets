@@ -9,7 +9,8 @@ exports["default"] = void 0;
 var _default = {
   matched: 'Matched',
   other: 'Other',
-  associated: 'Associated'
+  associated: 'Associated',
+  foundFromServer: 'Founds from {appName}'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

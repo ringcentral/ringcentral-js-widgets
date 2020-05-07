@@ -37,7 +37,7 @@ var _rcui = require("@ringcentral-integration/rcui");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _bindDebonce = require("../../../../lib/bindDebonce");
+var _bindDebounce = require("../../../../lib/bindDebounce");
 
 var _bindNextPropsUpdate = require("../../../../lib/bindNextPropsUpdate");
 
@@ -85,7 +85,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(LogFieldsInput).call(this, props));
     _this.checkPropsUpdate = (0, _bindNextPropsUpdate.bindNextPropsUpdate)(_assertThisInitialized(_this));
-    _this.debonce = (0, _bindDebonce.bindDebonce)(_assertThisInitialized(_this), 500);
+    _this.debounce = (0, _bindDebounce.bindDebounce)(_assertThisInitialized(_this), 500);
     var value = props.value;
     _this.state = {
       value: value || ''
@@ -104,7 +104,7 @@ function (_Component) {
       this.setState({
         value: value
       });
-      this.debonce(function () {
+      this.debounce(function () {
         return onChange(value);
       });
     }
@@ -130,7 +130,8 @@ function (_Component) {
         onChange: function onChange(e) {
           return _this2.updateValue(e.target.value, _onChange);
         },
-        fullWidth: true
+        fullWidth: true,
+        clearBtn: false
       })));
     }
   }]);

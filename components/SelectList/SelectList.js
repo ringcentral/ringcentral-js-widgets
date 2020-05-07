@@ -35,6 +35,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _formatMessage = _interopRequireDefault(require("format-message"));
+
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _ListView = require("./ListView");
@@ -65,29 +67,37 @@ var SelectListBasicWithScrollCheck = (0, _WithScrollCheck.WithScrollCheck)(_Sele
 exports.SelectListBasicWithScrollCheck = SelectListBasicWithScrollCheck;
 
 var SelectList = function SelectList(props) {
-  var valueFunction = props.valueFunction,
-      renderFunction = props.renderFunction,
+  var field = props.field,
+      appName = props.appName,
       children = props.children,
       disabled = props.disabled,
-      field = props.field,
-      sourceValue = props.value,
       _onChange = props.onChange,
-      onSelectViewVisible = props.onSelectViewVisible,
-      currentLocale = props.currentLocale,
-      startAdornment = props.startAdornment,
-      matchedTitle = props.matchedTitle,
       otherTitle = props.otherTitle,
+      matchedTitle = props.matchedTitle,
+      valueFunction = props.valueFunction,
+      currentLocale = props.currentLocale,
+      renderFunction = props.renderFunction,
+      startAdornment = props.startAdornment,
       associatedTitle = props.associatedTitle,
-      backHeaderClassName = props.backHeaderClassName;
+      sourceValue = props.value,
+      onSelectViewVisible = props.onSelectViewVisible,
+      backHeaderClassName = props.backHeaderClassName,
+      foundFromServerTitle = props.foundFromServerTitle,
+      showFoundFromServer = props.showFoundFromServer;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       open = _useState2[0],
       setOpen = _useState2[1];
 
+  var _useState3 = (0, _react.useState)(true),
+      _useState4 = _slicedToArray(_useState3, 2),
+      showSearchFromServerHint = _useState4[0],
+      setShowSearchFromServerHint = _useState4[1];
+
   (0, _react.useEffect)(function () {
     onSelectViewVisible(open, field);
-  }, [open]);
+  }, [field, onSelectViewVisible, open]);
 
   var renderListView = function renderListView(data, type, filter, scrollCheck) {
     return _react["default"].createElement(_ListView.ListView, {
@@ -124,15 +134,24 @@ var SelectList = function SelectList(props) {
       }
 
       setOpen(true);
+
+      if (showFoundFromServer) {
+        setShowSearchFromServerHint(true);
+      }
     }
   }, children), _react["default"].createElement(SelectListBasicWithScrollCheck, _extends({}, props, {
     matchedTitle: matchedTitle || _i18n["default"].getString('matched', currentLocale),
     otherTitle: otherTitle || _i18n["default"].getString('other', currentLocale),
     associatedTitle: associatedTitle || _i18n["default"].getString('associated', currentLocale),
+    foundFromServerTitle: foundFromServerTitle || (0, _formatMessage["default"])(_i18n["default"].getString('foundFromServer', currentLocale), {
+      appName: appName
+    }),
     renderListView: renderListView,
     open: open,
     setOpen: setOpen,
-    backHeaderClassName: backHeaderClassName
+    backHeaderClassName: backHeaderClassName,
+    showSearchFromServerHint: showSearchFromServerHint,
+    setShowSearchFromServerHint: setShowSearchFromServerHint
   })));
 };
 
@@ -159,7 +178,13 @@ SelectList.propTypes = {
   matchedTitle: _propTypes["default"].string,
   otherTitle: _propTypes["default"].string,
   associatedTitle: _propTypes["default"].string,
-  backHeaderClassName: _propTypes["default"].string
+  backHeaderClassName: _propTypes["default"].string,
+  contactSearch: _propTypes["default"].func,
+  foudsFromServerTitle: _propTypes["default"].string,
+  appName: _propTypes["default"].string,
+  showFoundFromServer: _propTypes["default"].bool,
+  foundFromServerTitle: _propTypes["default"].string,
+  foundFromServerEntities: _propTypes["default"].array
 };
 SelectList.defaultProps = {
   options: [],
@@ -178,6 +203,12 @@ SelectList.defaultProps = {
   onChange: function onChange() {},
   startAdornment: function startAdornment() {},
   onSelectViewVisible: function onSelectViewVisible() {},
-  backHeaderClassName: null
+  backHeaderClassName: null,
+  contactSearch: null,
+  foudsFromServerTitle: null,
+  appName: null,
+  showFoundFromServer: false,
+  foundFromServerTitle: null,
+  foundFromServerEntities: []
 };
 //# sourceMappingURL=SelectList.js.map

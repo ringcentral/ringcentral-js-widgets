@@ -15,7 +15,7 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.array.index-of");
+require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
 
@@ -35,15 +35,23 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.date.now");
+
+require("core-js/modules/es6.array.index-of");
+
 require("regenerator-runtime/runtime");
 
 var _background = _interopRequireDefault(require("ringcentral-integration/lib/background"));
 
 var _di = require("ringcentral-integration/lib/di");
 
-var _popWindow = _interopRequireDefault(require("ringcentral-integration/lib/popWindow"));
-
 var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+
+var _ensureExist = _interopRequireDefault(require("ringcentral-integration/lib/ensureExist"));
+
+var _uuid = _interopRequireDefault(require("uuid"));
+
+var _popWindow = _interopRequireDefault(require("../../lib/popWindow"));
 
 var _OAuthBase2 = _interopRequireDefault(require("../../lib/OAuthBase"));
 
@@ -73,6 +81,10 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
@@ -83,7 +95,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var OAuth = (_dec = (0, _di.Module)({
   name: 'OAuth',
-  deps: [{
+  deps: ['RouterInteraction', {
     dep: 'OAuthOptions',
     optional: true
   }]
@@ -93,21 +105,91 @@ function (_OAuthBase) {
   _inherits(OAuth, _OAuthBase);
 
   function OAuth(_ref) {
-    var _ref$redirectUri = _ref.redirectUri,
+    var _this;
+
+    var _ref$loginPath = _ref.loginPath,
+        loginPath = _ref$loginPath === void 0 ? '/' : _ref$loginPath,
+        _ref$redirectUri = _ref.redirectUri,
         redirectUri = _ref$redirectUri === void 0 ? './redirect.html' : _ref$redirectUri,
-        options = _objectWithoutProperties(_ref, ["redirectUri"]);
+        routerInteraction = _ref.routerInteraction,
+        options = _objectWithoutProperties(_ref, ["loginPath", "redirectUri", "routerInteraction"]);
 
     _classCallCheck(this, OAuth);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(OAuth).call(this, _objectSpread({
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(OAuth).call(this, _objectSpread({
       redirectUri: redirectUri
     }, options)));
+    _this._routerInteraction = (0, _ensureExist["default"])(routerInteraction, 'routerInteraction');
+    _this._loginPath = loginPath;
+    _this._loginWindow = null;
+    _this._redirectCheckTimeout = null;
+    _this._uuid = _uuid["default"].v4();
+    return _this;
   }
 
   _createClass(OAuth, [{
+    key: "initialize",
+    value: function initialize() {
+      var _this2 = this;
+
+      _get(_getPrototypeOf(OAuth.prototype), "initialize", this).call(this); // close login window when unload and login window exist
+
+
+      window.addEventListener('beforeunload', function () {
+        if (_this2._loginWindow) {
+          try {
+            _this2._loginWindow.close();
+          } catch (error) {
+            /* ignore error */
+          }
+        }
+      }); // listen callback uri from redirect page, works with coss origin redirect page
+
+      window.addEventListener('message', function (_ref2) {
+        var _ref2$data = _ref2.data,
+            data = _ref2$data === void 0 ? {} : _ref2$data;
+
+        if (!data) {
+          return;
+        }
+
+        var callbackUri = data.callbackUri;
+
+        if (callbackUri) {
+          _this2._clearRedirectCheckTimeout();
+
+          _this2._handleCallbackUri(callbackUri);
+        }
+      }); // listen callback uri from storage, works only with same origin
+
+      window.addEventListener('storage', function (e) {
+        if (e.key === _this2.callbackUriStorageKey && e.newValue && e.newValue !== '') {
+          var callbackUri = e.newValue;
+          localStorage.removeItem(_this2.callbackUriStorageKey);
+
+          _this2._clearRedirectCheckTimeout();
+
+          _this2._handleCallbackUri(callbackUri);
+        }
+      });
+    }
+  }, {
+    key: "_onStateChange",
+    value: function _onStateChange() {
+      _get(_getPrototypeOf(OAuth.prototype), "_onStateChange", this).call(this);
+
+      if (this.ready && !this._auth.loggedIn && this._routerInteraction.currentPath === this._loginPath && !this.oAuthReady) {
+        this.setupOAuth();
+      }
+
+      if (this._auth.loggedIn || this._routerInteraction.currentPath !== this._loginPath) {
+        this.destroyOAuth();
+      }
+    }
+  }, {
     key: "setupOAuth",
     value: function setupOAuth() {
-      var _this = this;
+      var _this3 = this;
 
       return regeneratorRuntime.async(function setupOAuth$(_context) {
         while (1) {
@@ -115,7 +197,9 @@ function (_OAuthBase) {
             case 0:
               if (!this.oAuthReady) {
                 window.oAuthCallback = function (callbackUri) {
-                  return _this._handleCallbackUri(callbackUri);
+                  _this3._clearRedirectCheckTimeout();
+
+                  _this3._handleCallbackUri(callbackUri);
                 };
 
                 this.store.dispatch({
@@ -155,13 +239,73 @@ function (_OAuthBase) {
     key: "openOAuthPage",
     value: function openOAuthPage() {
       if (this.oAuthReady) {
-        (0, _popWindow["default"])(this.oAuthUri, 'rc-oauth', 600, 600);
+        this._loginWindow = (0, _popWindow["default"])(this.oAuthUri, 'rc-oauth', 600, 600);
+
+        if (this.isRedirectUriSameOrigin) {
+          this._setupRedirectCheckTimeout();
+        }
       }
+    }
+  }, {
+    key: "_clearRedirectCheckTimeout",
+    value: function _clearRedirectCheckTimeout() {
+      if (this._redirectCheckTimeout) {
+        clearTimeout(this._redirectCheckTimeout);
+      }
+    }
+  }, {
+    key: "_setupRedirectCheckTimeout",
+    value: function _setupRedirectCheckTimeout() {
+      var _this4 = this;
+
+      this._clearRedirectCheckTimeout();
+
+      this._redirectCheckTimeout = setTimeout(function () {
+        _this4._redirectCheckTimeout = null;
+
+        if (!_this4._loginWindow || !_this4._loginWindow.window || _this4._loginWindow.closed) {
+          _this4._loginWindow = null;
+          return;
+        }
+
+        try {
+          var callbackUri = _this4._loginWindow.location.href;
+
+          if (callbackUri.indexOf(_this4.redirectUri) !== -1) {
+            _this4._loginWindow.close();
+
+            _this4._loginWindow = null;
+
+            _this4._handleCallbackUri(callbackUri);
+
+            return;
+          }
+        } catch (e) {// ignore e
+          // console.log('checking redirect uri');
+        }
+
+        _this4._setupRedirectCheckTimeout();
+      }, 1000);
     }
   }, {
     key: "name",
     get: function get() {
       return 'OAuth';
+    }
+  }, {
+    key: "isRedirectUriSameOrigin",
+    get: function get() {
+      return this.redirectUri.indexOf(window.origin) === 0;
+    }
+  }, {
+    key: "authState",
+    get: function get() {
+      return "".concat(btoa(Date.now()), "-").concat(this.prefix, "-").concat(encodeURIComponent(btoa(this._uuid)));
+    }
+  }, {
+    key: "callbackUriStorageKey",
+    get: function get() {
+      return "".concat(this.prefix, "-").concat(encodeURIComponent(btoa(this._uuid)), "-callbackUri");
     }
   }]);
 
