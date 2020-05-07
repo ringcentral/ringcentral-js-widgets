@@ -1,11 +1,13 @@
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import {
   RcButton,
   RcCircularProgress,
   RcIcon,
 } from '@ringcentral-integration/rcui';
+import CheckSvg from '@ringcentral-integration/rcui/icons/icon-check.svg';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import { getButtonStatus } from './getButtonStatus';
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -24,7 +26,7 @@ export default function SaveLogButton({
   const getContent = (buttonContent) => (
     <span>
       {buttonContent === 'saved' && (
-        <RcIcon color={['primary', 'main']} icon="check" size="small" />
+        <RcIcon color={['primary', 'main']} symbol={CheckSvg} size="small" />
       )}
       {buttonContent === 'saving' && <RcCircularProgress size={20} />}
       {buttonContent === 'save' && i18n.getString('save', currentLocale)}

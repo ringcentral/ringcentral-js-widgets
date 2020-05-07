@@ -51,6 +51,7 @@ export function ListViewItem({
     <div ref={selectElm}>
       <RcListItem
         button
+        size="small"
         singleLine
         onClick={() => onChange(isSelected ? {} : option)}
         data-sign={`match${index}`}

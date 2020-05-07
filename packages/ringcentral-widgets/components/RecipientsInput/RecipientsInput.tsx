@@ -1,8 +1,7 @@
 import classnames from 'classnames';
 import React, { Component } from 'react';
-
 import ContactDropdownList from '../ContactDropdownList';
-import RemoveButton from '../RemoveButton';
+import { RemoveButton } from '../RemoveButton';
 import { focusCampo } from './focusCampo';
 import i18n from './i18n';
 import { SelectedRecipients } from './SelectedRecipients';
@@ -254,27 +253,51 @@ class RecipientsInput extends Component<
   };
 
   render() {
-    const { useRCUI, className, isLastInputFromDialpad } = this.props;
+    const {
+      className,
+      contactInfoRenderer,
+      contactPhoneRenderer,
+      currentLocale,
+      formatContactPhone,
+      isLastInputFromDialpad,
+      label,
+      multiple,
+      phoneSourceNameRenderer,
+      phoneTypeRenderer,
+      placeholder,
+      recipient,
+      recipients,
+      recipientsClassName,
+      removeFromRecipients,
+      searchContactList,
+      titleEnabled,
+      useRCUI,
+    } = this.props;
+
+    const {
+      value,
+      isFocusOnInput,
+      scrollDirection,
+      selectedContactIndex,
+    } = this.state;
     // TODO a temporary fix for rendering slower search result.
     const relatedContactList =
-      this.state.value.length >= 3
-        ? this.props.searchContactList.slice(0, 50)
-        : [];
-    const label = (
+      value.length >= 3 ? searchContactList.slice(0, 50) : [];
+    const labelEl = (
       // eslint-disable-next-line jsx-a11y/label-has-associated-control
       <label className={styles.label}>
-        {this.props.label === undefined
-          ? `${i18n.getString('to', this.props.currentLocale)}:`
-          : this.props.label}
+        {label === undefined
+          ? `${i18n.getString('to', currentLocale)}:`
+          : label}
       </label>
     );
     const toNumberInput =
-      !this.props.multiple && this.props.recipient ? null : (
+      !multiple && recipient ? null : (
         <div className={styles.inputWrapper}>
           <div
             className={classnames(
               styles.inputField,
-              this.state.isFocusOnInput ? 'Mui-focused' : null,
+              isFocusOnInput ? 'Mui-focused' : null,
               'MuiInput-underline',
             )}
           >
@@ -282,19 +305,16 @@ class RecipientsInput extends Component<
               data-sign="recipientsInput"
               ref={this.setInputRef}
               name="receiver"
-              value={this.state.value}
+              value={value}
               onChange={this.onInputChange}
               className={styles.numberInput}
               maxLength={30}
               onFocus={this.onInputFocus}
               onKeyUp={this.onInputKeyUp}
               placeholder={
-                this.props.placeholder === undefined
-                  ? i18n.getString(
-                      'enterNameOrNumber',
-                      this.props.currentLocale,
-                    )
-                  : this.props.placeholder
+                placeholder === undefined
+                  ? i18n.getString('enterNameOrNumber', currentLocale)
+                  : placeholder
               }
               autoComplete="off"
             />
@@ -302,7 +322,7 @@ class RecipientsInput extends Component<
           <RemoveButton
             className={styles.removeButton}
             onClick={this.onClean}
-            visibility={this.state.value.length > 0}
+            visibility={value.length > 0}
           />
         </div>
       );
@@ -315,39 +335,39 @@ class RecipientsInput extends Component<
         )}
         onKeyDown={this.handleHotKey}
       >
-        {label}
+        {labelEl}
         <div
           className={classnames(
             useRCUI ? styles.rcuiStyle : null,
-            this.props.label === undefined ? styles.rightPanel : '',
+            label === undefined ? styles.rightPanel : '',
           )}
         >
           <SelectedRecipients
-            recipient={this.props.recipient}
-            recipients={this.props.recipients}
-            multiple={this.props.multiple}
-            onRemove={this.props.removeFromRecipients}
-            className={this.props.recipientsClassName}
+            recipient={recipient}
+            recipients={recipients}
+            multiple={multiple}
+            onRemove={removeFromRecipients}
+            className={recipientsClassName}
           />
           {toNumberInput}
         </div>
         <ContactDropdownList
-          currentLocale={this.props.currentLocale}
+          currentLocale={currentLocale}
           listRef={(ref) => {
             this.listRef = ref;
           }}
-          scrollDirection={this.state.scrollDirection}
-          selectedIndex={this.state.selectedContactIndex}
+          scrollDirection={scrollDirection}
+          selectedIndex={selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}
           addToRecipients={this._addToRecipients}
           items={relatedContactList}
-          formatContactPhone={this.props.formatContactPhone}
-          visibility={this.state.isFocusOnInput && !isLastInputFromDialpad}
-          titleEnabled={this.props.titleEnabled}
-          phoneTypeRenderer={this.props.phoneTypeRenderer}
-          phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
-          contactInfoRenderer={this.props.contactInfoRenderer}
-          contactPhoneRenderer={this.props.contactPhoneRenderer}
+          formatContactPhone={formatContactPhone}
+          visibility={isFocusOnInput && !isLastInputFromDialpad}
+          titleEnabled={titleEnabled}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+          contactInfoRenderer={contactInfoRenderer}
+          contactPhoneRenderer={contactPhoneRenderer}
         />
       </div>
     );

@@ -14,8 +14,8 @@ export default class HashMap {
    * @constructor
    * @param {Object} definition
    */
-  constructor(definition) {
-    this[sDefinition] = Object.assign({}, definition);
+  constructor(definition: object) {
+    this[sDefinition] = { ...definition };
     this[sValueMap] = new Map();
 
     for (const key in definition) {

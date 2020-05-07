@@ -1,6 +1,17 @@
-import { NotificationPanel } from '../../components/NotificationPanel';
+import {
+  NotificationPanel,
+  NotificationPanelProps,
+} from '../../components/NotificationPanel';
 import { connectModule } from '../../lib/phoneContext';
 
-export const NotificationContainer = connectModule((phone) => phone.alertUI)(
-  NotificationPanel,
-);
+// NotificationProps &
+type NotificationContainerProp = {
+  regionSettingsUrl?: string;
+  callingSettingsUrl?: string;
+  getAdditionalRenderer?: Function;
+} & Pick<NotificationPanelProps, 'classes'>;
+
+export const NotificationContainer = connectModule<
+  any,
+  NotificationContainerProp
+>((phone) => phone.alertUI)(NotificationPanel);

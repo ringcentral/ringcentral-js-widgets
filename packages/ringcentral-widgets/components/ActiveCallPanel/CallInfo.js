@@ -17,6 +17,7 @@ export default function CallInfo(props) {
         <div className={styles.avatar}>{avatar}</div>
       </div>
       <div className={styles.userName}>
+        {props.callQueueName}
         <ContactDisplay
           className={styles.contactDisplay}
           selectClassName={styles.dropdown}
@@ -61,6 +62,7 @@ CallInfo.propTypes = {
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
+  callQueueName: PropTypes.string,
 };
 
 CallInfo.defaultProps = {
@@ -71,4 +73,5 @@ CallInfo.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
+  callQueueName: null,
 };

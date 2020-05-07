@@ -4,6 +4,7 @@ import {
   RcExpansionPanelSummary,
   RcIcon,
 } from '@ringcentral-integration/rcui';
+import arrowDownSvg from '@ringcentral-integration/rcui/icons/icon-arrow_down.svg';
 import React from 'react';
 
 import { ShinyBar, ShinyBarProps } from '../LogBasicInfoV2/ShinyBar';
@@ -16,17 +17,16 @@ import styles from './styles.scss';
 
 export type BasicCallInfoProps = {
   currentLocale: string;
-  call: {
-    matchName: string;
-    isInbound: boolean;
-  };
+  subject: string;
+  isInbound: boolean;
   isRinging: boolean;
   followInfos?: string[];
   callInfos?: CallInfoProps[];
 } & Pick<ShinyBarProps, 'status'>;
 
 const BasicCallInfo: React.FunctionComponent<BasicCallInfoProps> = ({
-  call: { matchName, isInbound },
+  subject,
+  isInbound,
   isRinging,
   followInfos,
   callInfos,
@@ -48,18 +48,18 @@ const BasicCallInfo: React.FunctionComponent<BasicCallInfoProps> = ({
             size: 'small',
           }}
           expandIcon={
-            <RcIcon size="medium" icon="arrow_down" color={['grey', 500]} />
+            <RcIcon size="medium" symbol={arrowDownSvg} color={['grey', 500]} />
           }
         >
           <CallIcon isInbound={isInbound} />
           <div className={styles.mainInfo}>
-            <CallSubject subject={matchName} />
+            <CallSubject subject={subject} />
             <FollowInfo infoList={followInfos} splitSign="|" />
           </div>
         </RcExpansionPanelSummary>
         <RcExpansionPanelDetails
           classes={{
-            root: styles.detiailRoot,
+            root: styles.detailRoot,
           }}
         >
           <CallInfoList callInfos={callInfos} />

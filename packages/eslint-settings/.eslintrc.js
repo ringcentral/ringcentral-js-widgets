@@ -10,7 +10,6 @@ module.exports = {
     'airbnb',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'plugin:import/typescript',
     'plugin:prettier/recommended',
   ],
   parserOptions: {
@@ -132,6 +131,14 @@ module.exports = {
     camelcase: 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/jsx-no-duplicate-props': [2, { ignoreCase: false }],
+    'react/jsx-curly-newline': 'off',
+    'react/state-in-constructor': 'off',
+    'react/static-property-placement': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'max-classes-per-file': 'off',
+    // for crius use, the jsx must have react use ts cover that.
+    'react/react-in-jsx-scope': 'off',
   },
   overrides: [
     {

@@ -12,6 +12,10 @@ cd ./packages/phone-number
 echo 'Runing phone-number tests'
 yarn test
 cd ../../
+cd ./packages/core
+echo 'Runing core tests'
+yarn test
+cd ../../
 cd ./packages/ringcentral-integration
 echo 'Runing ringcentral-integration tests'
 yarn test

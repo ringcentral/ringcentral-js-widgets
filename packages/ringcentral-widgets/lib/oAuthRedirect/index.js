@@ -12,6 +12,18 @@ import parse from 'url-parse';
     /* ignore error */
   }
 
+  // Use this when redirect page is different domain with app
+  // Update window.origin to app's origin
+  // try {
+  //   if (window.opener && window.opener.postMessage) {
+  //     window.opener.postMessage({ callbackUri }, window.origin);
+  //     window.close();
+  //     return;
+  //   }
+  // } catch (error) {
+  //   /* ignore error */
+  // }
+
   const parsedUri = parse(callbackUri, true);
   const state = parsedUri.query.state || '';
   const hash = state

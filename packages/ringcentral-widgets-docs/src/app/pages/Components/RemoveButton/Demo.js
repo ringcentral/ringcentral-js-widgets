@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RemoveButton from 'ringcentral-widgets/components/RemoveButton';
+import { RemoveButton } from 'ringcentral-widgets/components/RemoveButton';
 
 const props = {};
 props.onClick = () => alert('clicked');

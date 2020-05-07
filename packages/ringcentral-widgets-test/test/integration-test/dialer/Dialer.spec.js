@@ -1,7 +1,7 @@
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import DialerPanel from 'ringcentral-widgets/components/DialerPanel';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
-import RemoveButton from 'ringcentral-widgets/components/RemoveButton';
+import { RemoveButton } from 'ringcentral-widgets/components/RemoveButton';
 import DialButton from 'ringcentral-widgets/components/DialButton';
 import DialPad from 'ringcentral-widgets/components/DialPad';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';

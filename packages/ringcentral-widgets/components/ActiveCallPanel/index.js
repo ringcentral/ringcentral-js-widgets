@@ -63,6 +63,7 @@ function ActiveCallPanel({
   getAvatarUrl,
   actions,
   controlBusy,
+  callQueueName,
 }) {
   const backHeader = showBackButton ? (
     <BackHeader
@@ -132,6 +133,7 @@ function ActiveCallPanel({
           sourceIcons={sourceIcons}
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
+          callQueueName={callQueueName}
         />
       );
       break;
@@ -228,6 +230,7 @@ ActiveCallPanel.propTypes = {
   getAvatarUrl: PropTypes.func,
   actions: PropTypes.array,
   controlBusy: PropTypes.bool,
+  callQueueName: PropTypes.string,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -261,6 +264,7 @@ ActiveCallPanel.defaultProps = {
   getAvatarUrl: () => null,
   actions: [],
   controlBusy: false,
+  callQueueName: null,
 };
 
 export default ActiveCallPanel;

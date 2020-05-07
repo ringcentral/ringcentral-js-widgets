@@ -24,11 +24,24 @@ interface TabNavigationViewProps {
   onLoading?: boolean;
 }
 
-const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = (
-  props,
-) => {
-  const { navigationPosition, navBarClassName, onLoading, brandIcon } = props;
+type a = typeof DropdownNavigationView;
 
+const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = ({
+  navigationPosition,
+  navBarClassName,
+  onLoading,
+  brandIcon,
+  holdReady,
+  className,
+  tabs,
+  goTo,
+  tabWidth,
+  tabHeight,
+  currentPath,
+  currentVirtualPath,
+  tabNavigationViewClassName,
+  children,
+}) => {
   if (onLoading) {
     return <SpinnerOverlay />;
   }
@@ -38,22 +51,22 @@ const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = (
     <NavigationBar
       button={TabNavigationButton}
       childNavigationView={DropdownNavigationView}
-      tabs={props.tabs}
-      goTo={props.goTo}
-      tabWidth={props.tabWidth}
-      tabHeight={props.tabHeight}
-      currentPath={props.currentPath}
+      tabs={tabs}
+      goTo={goTo}
+      tabWidth={tabWidth}
+      tabHeight={tabHeight}
+      currentPath={currentPath}
       direction={isVertical ? 'vertical' : undefined}
-      currentVirtualPath={props.currentVirtualPath}
+      currentVirtualPath={currentVirtualPath}
       className={navBarClassName}
     />
   );
-  if (props.holdReady) return null;
+  if (holdReady) return null;
   return (
     <div
       className={classnames(
         styles.root,
-        props.className,
+        className,
         navigationPosition === 'left' && styles.vertical,
       )}
     >
@@ -69,12 +82,12 @@ const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = (
         data-sign="tabNavigationView"
         className={classnames(
           styles.main,
-          props.tabNavigationViewClassName,
+          tabNavigationViewClassName,
           !isVertical && styles.hasMaxHeight,
         )}
       >
         {' '}
-        {props.children}
+        {children}
       </div>
       {navigationPosition === 'bottom' ? <>{navBar}</> : null}
     </div>
@@ -84,15 +97,10 @@ const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = (
 TabNavigationView.defaultProps = {
   children: null,
   className: null,
-  currentVirtualPath: undefined,
   navigationPosition: 'top',
   brandIcon: null,
-  tabWidth: undefined,
-  tabHeight: undefined,
   tabs: null,
   holdReady: false,
-  navBarClassName: undefined,
-  tabNavigationViewClassName: undefined,
   onLoading: false,
 };
 

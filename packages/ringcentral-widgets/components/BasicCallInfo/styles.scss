@@ -6,10 +6,12 @@ $icon-color: #757575;
   overflow: hidden;
   position: relative;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  margin-bottom: 6px;
 }
 
 .root {
   min-height: 70px !important;
+  margin: 0 !important;
 
   [sf-classic] & {
     min-height: 90px !important;
@@ -36,7 +38,7 @@ $icon-color: #757575;
   }
 }
 
-.detiailRoot {
+.detailRoot {
   padding-top: 0 !important;
   padding-bottom: 12px !important;
 }

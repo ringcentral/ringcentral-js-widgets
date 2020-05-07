@@ -35,7 +35,7 @@ export default class ProxyFrameController {
       }
     });
 
-    const key = `${prefix}-${uuid}-redirect-callbackUri`;
+    const key = `${prefix}-${uuid}-callbackUri`;
     window.addEventListener('storage', (e) => {
       if (e.key === key && e.newValue && e.newValue !== '') {
         const callbackUri = e.newValue;

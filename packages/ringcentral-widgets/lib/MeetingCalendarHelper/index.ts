@@ -28,6 +28,14 @@ function getPasswordTpl(password: string, currentLocale: string): string {
     : '';
 }
 
+function getRcvPasswordTpl(
+  meetingPassword: string,
+  currentLocale: string,
+): string {
+  const passwordLiteral = i18n.getString('password', currentLocale);
+  return `\n\n${passwordLiteral}: ${meetingPassword}`;
+}
+
 interface rcmMeeting {
   id: string;
   password: string;
@@ -38,6 +46,8 @@ interface rcvMeeting {
   joinUri: string;
   shortId: string;
   links: { joinUri: string };
+  isMeetingSecret: boolean;
+  meetingPassword: string;
 }
 
 interface rcmServiceInfo {
@@ -157,35 +167,38 @@ function getBaseRcvTpl(
   currentLocale: string,
 ): tplResult {
   const accountName = extensionInfo.name;
+  const { meetingPassword, isMeetingSecret } = meeting;
   const joinUri = meeting.joinUri;
   const pinNumber = meeting.shortId;
   let productName;
-  let meetingContent;
+  const meetingContent: Array<string> = [];
   if (brand.name === 'RingCentral') {
     productName = 'RingCentral Video';
-    meetingContent = i18n.getString(
-      'rcvRCBrandInviteMeetingContent',
-      currentLocale,
+    meetingContent.push(
+      i18n.getString('rcvRCBrandInviteMeetingContent', currentLocale),
     );
   } else {
     productName = brand.name;
-    meetingContent = i18n.getString('rcvInviteMeetingContent', currentLocale);
+    meetingContent.push(
+      i18n.getString('rcvInviteMeetingContent', currentLocale),
+    );
+  }
+  if (isMeetingSecret) {
+    meetingContent.push(getRcvPasswordTpl(meetingPassword, currentLocale));
   }
   if (dialInNumber) {
-    meetingContent = `${meetingContent}${i18n.getString(
-      'rcvInviteMeetingContentDial',
-      currentLocale,
-    )}`;
+    meetingContent.push(
+      i18n.getString('rcvInviteMeetingContentDial', currentLocale),
+    );
   }
-  meetingContent = `${meetingContent}\n\n${i18n.getString(
-    'rcvTeleconference',
-    currentLocale,
-  )}`;
+  meetingContent.push(
+    `\n\n${i18n.getString('rcvTeleconference', currentLocale)}`,
+  );
   const teleconference =
     brand.id === attBrandId ? rcvAttTeleconference : rcvTeleconference;
   const brandName = brand.id === attBrandId ? `AT&T ${brand.name}` : brand.name;
   return {
-    formattedMsg: formatMessage(meetingContent, {
+    formattedMsg: formatMessage(meetingContent.join(''), {
       accountName,
       brandName,
       joinUri,

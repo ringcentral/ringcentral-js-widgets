@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 
+import formatMessage from 'format-message';
 import i18n from './i18n';
 import { ListView } from './ListView';
 import { SelectListBasic } from '../SelectListBasic';
@@ -11,27 +12,32 @@ export const SelectListBasicWithScrollCheck = WithScrollCheck(SelectListBasic);
 
 export const SelectList = (props) => {
   const {
-    valueFunction,
-    renderFunction,
+    field,
+    appName,
     children,
     disabled,
-    field,
-    value: sourceValue,
     onChange,
-    onSelectViewVisible,
-    currentLocale,
-    startAdornment,
-    matchedTitle,
     otherTitle,
+    matchedTitle,
+    valueFunction,
+    currentLocale,
+    renderFunction,
+    startAdornment,
     associatedTitle,
+    value: sourceValue,
+    onSelectViewVisible,
     backHeaderClassName,
+    foundFromServerTitle,
+    showFoundFromServer,
   } = props;
 
   const [open, setOpen] = useState(false);
-
+  const [showSearchFromServerHint, setShowSearchFromServerHint] = useState(
+    true,
+  );
   useEffect(() => {
     onSelectViewVisible(open, field);
-  }, [open]);
+  }, [field, onSelectViewVisible, open]);
 
   const renderListView = (data, type, filter, scrollCheck) => (
     <ListView
@@ -65,6 +71,9 @@ export const SelectList = (props) => {
             return;
           }
           setOpen(true);
+          if (showFoundFromServer) {
+            setShowSearchFromServerHint(true);
+          }
         }}
       >
         {children}
@@ -76,10 +85,18 @@ export const SelectList = (props) => {
         associatedTitle={
           associatedTitle || i18n.getString('associated', currentLocale)
         }
+        foundFromServerTitle={
+          foundFromServerTitle ||
+          formatMessage(i18n.getString('foundFromServer', currentLocale), {
+            appName,
+          })
+        }
         renderListView={renderListView}
         open={open}
         setOpen={setOpen}
         backHeaderClassName={backHeaderClassName}
+        showSearchFromServerHint={showSearchFromServerHint}
+        setShowSearchFromServerHint={setShowSearchFromServerHint}
       />
     </div>
   );
@@ -108,6 +125,12 @@ SelectList.propTypes = {
   otherTitle: PropTypes.string,
   associatedTitle: PropTypes.string,
   backHeaderClassName: PropTypes.string,
+  contactSearch: PropTypes.func,
+  foudsFromServerTitle: PropTypes.string,
+  appName: PropTypes.string,
+  showFoundFromServer: PropTypes.bool,
+  foundFromServerTitle: PropTypes.string,
+  foundFromServerEntities: PropTypes.array,
 };
 
 SelectList.defaultProps = {
@@ -128,4 +151,10 @@ SelectList.defaultProps = {
   startAdornment() {},
   onSelectViewVisible() {},
   backHeaderClassName: null,
+  contactSearch: null,
+  foudsFromServerTitle: null,
+  appName: null,
+  showFoundFromServer: false,
+  foundFromServerTitle: null,
+  foundFromServerEntities: [],
 };

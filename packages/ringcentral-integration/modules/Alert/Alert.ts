@@ -1,11 +1,13 @@
+import { DOMAttributes } from 'react';
 import uuid from 'uuid';
-import RcModule from '../../lib/RcModule';
-import { Module } from '../../lib/di';
+
 import moduleStatuses from '../../enums/moduleStatuses';
+import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
 import actionTypes from './actionTypes';
 import alertLevels, { AlertLevelType } from './alertLevels';
 import getAlertReducer from './getAlertReducer';
-import proxify from '../../lib/proxy/proxify';
 
 export interface AlertModel {
   message: string;
@@ -20,6 +22,20 @@ export interface AlertModel {
    * action template(right area) with new notification
    */
   action?: React.ReactNode;
+  /**
+   * backdrop with page, default is false
+   */
+  backdrop?: boolean;
+  /**
+   * classes for that alert
+   */
+  classes?: {
+    backdrop?: string;
+  };
+  /**
+   * emit event when backdrop to be click
+   */
+  onBackdropClick?: DOMAttributes<HTMLDivElement>['onClick'];
 }
 
 export type AlertLevel = {
@@ -101,6 +117,9 @@ export default class Alert extends RcModule<typeof actionTypes> {
     ttl = this._ttl,
     allowDuplicates = true,
     loading = false,
+    backdrop = false,
+    classes,
+    onBackdropClick,
     action,
   }: AlertModel & AlertLevel) {
     const id = uuid.v4();
@@ -112,6 +131,9 @@ export default class Alert extends RcModule<typeof actionTypes> {
       // when loading the ttl will be zero, make this never dismiss
       ttl: loading ? 0 : ttl,
       allowDuplicates,
+      backdrop,
+      classes,
+      onBackdropClick,
       id,
       timestamp: Date.now(),
       loading,

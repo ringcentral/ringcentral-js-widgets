@@ -1,0 +1,7 @@
+{
+  "extends": "../../ringcentral-js-widgets/tsconfig.json",
+  "include": ["test/**/*", "typings/**/*"],
+  "compilerOptions": {
+    "reactNamespace": "JSX"
+  }
+}

@@ -33,10 +33,7 @@ export default function App({ phone, hostingUrl }) {
               path="/"
               component={() => (
                 <LoginPage>
-                  <AlertContainer
-                    callingSettingsUrl="/settings/calling"
-                    regionSettingsUrl="/settings/region"
-                  />
+                  <AlertContainer />
                 </LoginPage>
               )}
             />
@@ -45,10 +42,7 @@ export default function App({ phone, hostingUrl }) {
               component={(routerProps) => (
                 <MainView>
                   {routerProps.children}
-                  <AlertContainer
-                    callingSettingsUrl="/settings/calling"
-                    regionSettingsUrl="/settings/region"
-                  />
+                  <AlertContainer />
                 </MainView>
               )}
             >

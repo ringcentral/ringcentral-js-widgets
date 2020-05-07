@@ -13,6 +13,8 @@ import {
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
+// eslint-disable-next-line
+import { selector } from '../../lib/selector';
 import RcModule from '../../lib/RcModule';
 import actionTypes, { MeetingActionTypes } from './actionTypes';
 import getMeetingReducer, {
@@ -101,14 +103,14 @@ export class Meeting extends RcModule<MeetingActionTypes> {
 
   private _init() {
     this.store.dispatch({
+      type: this.actionTypes.init,
+    });
+
+    this._initMeeting();
+
+    this.store.dispatch({
       type: this.actionTypes.initSuccess,
     });
-    if (!Object.keys(this.defaultMeetingSetting).length) {
-      const extensionName = this._extensionInfo.info.name || '';
-      const startTime = getInitializedStartTime();
-      const meeting = getDefaultMeetingSettings(extensionName, startTime);
-      this._saveAsDefaultSetting(meeting);
-    }
   }
 
   private _shouldReset() {
@@ -129,7 +131,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
 
   /**
    * Init basic meeting information
-   * also load meeting settings from previous one.
+   * also load meeting setting from previous one.
    */
   @background
   init() {
@@ -141,28 +143,8 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     this._initMeeting();
   }
 
-  _initMeeting() {
-    const extensionName = this._extensionInfo.info.name || '';
-    const startTime = getInitializedStartTime();
-    if (this._showSaveAsDefault) {
-      this.store.dispatch({
-        type: this.actionTypes.updateMeeting,
-        meeting: {
-          ...getDefaultMeetingSettings(extensionName, startTime),
-          // Load saved default meeting settings
-          ...this.defaultMeetingSetting,
-        },
-      });
-    } else {
-      this.store.dispatch({
-        type: this.actionTypes.updateMeeting,
-        meeting: {
-          ...getDefaultMeetingSettings(extensionName, startTime),
-          // Load last meeting settings
-          ...this.lastMeetingSetting,
-        },
-      });
-    }
+  private _initMeeting() {
+    this.update(this.currentMeetingSetting);
   }
 
   @proxify
@@ -185,7 +167,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
       this._validate(meeting);
       const formattedMeeting = this._format(meeting);
       if (this._showSaveAsDefault && meeting.saveAsDefault) {
-        this._saveAsDefaultSetting(meeting);
+        this.saveAsDefaultSetting(meeting);
       }
 
       (this.schedule as any)._promise = Promise.all([
@@ -269,7 +251,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
       this._validate(meeting);
       const formattedMeeting = this._format(meeting);
       if (this._showSaveAsDefault && meeting.saveAsDefault) {
-        this._saveAsDefaultSetting(meeting);
+        this.saveAsDefaultSetting(meeting);
       }
 
       (this.updateMeeting as any)._promise = Promise.all([
@@ -452,7 +434,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     }
   }
 
-  _saveAsDefaultSetting(meeting) {
+  saveAsDefaultSetting(meeting) {
     const formattedMeeting = this._format(meeting);
     this.store.dispatch({
       type: this.actionTypes.saveAsDefaultSetting,
@@ -471,11 +453,6 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     return this.state.meeting;
   }
 
-  get lastMeetingSetting() {
-    const state = this._storage.getItem(this._lastMeetingSettingKey);
-    return state;
-  }
-
   get isScheduling() {
     return this.state.schedulingStatus === scheduleStatus.scheduling;
   }
@@ -488,12 +465,43 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     return this.state.status;
   }
 
+  @selector
+  currentMeetingSetting: any = [
+    () => this.initialMeetingSetting,
+    () => {
+      const savedSetting = this._showSaveAsDefault
+        ? this.defaultMeetingSetting
+        : this.lastMeetingSetting;
+      return savedSetting;
+    },
+    (initialSetting, savedSetting) => {
+      return {
+        ...initialSetting,
+        ...savedSetting,
+      };
+    },
+  ];
+
+  @selector
+  initialMeetingSetting: any = [
+    () => this._extensionInfo.info.name || '',
+    () => getInitializedStartTime(),
+    (extensionName, startTime) => {
+      const setting = getDefaultMeetingSettings(extensionName, startTime);
+      return setting;
+    },
+  ];
+
   get defaultMeetingSetting() {
-    return this._storage.getItem(this._defaultMeetingSettingKey) || {};
+    return this._storage.getItem(this._defaultMeetingSettingKey);
+  }
+
+  get lastMeetingSetting() {
+    return this._storage.getItem(this._lastMeetingSettingKey);
   }
 
   get showSaveAsDefault() {
-    return this._showSaveAsDefault || false;
+    return !!this._showSaveAsDefault;
   }
 }
 

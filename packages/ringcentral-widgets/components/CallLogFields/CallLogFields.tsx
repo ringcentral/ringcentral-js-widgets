@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { bindDebonce } from '../../lib/bindDebonce';
+import { bindDebounce } from '../../lib/bindDebounce';
 import { Task } from '../CallLogPanel';
 import { CallLogFieldsProps } from './CallLogFields.interface';
 import { FieldItem } from './FieldItem/FieldItem';
@@ -10,7 +10,6 @@ const DEFAULT_INPUT_SAVE_TIMEOUT = 2e3;
 
 export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
   static defaultProps: Partial<CallLogFieldsProps> = {
-    fieldSize: 'small',
     currentLog: {},
     onUpdateCallLog: undefined,
     onSelectViewVisible: () => null,
@@ -18,9 +17,10 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
     customInputDataStruct: undefined,
     subjectDropdownsTracker: undefined,
     startAdornmentRender: () => null,
+    contactSearch: undefined,
   };
 
-  debonce = bindDebonce(this, DEFAULT_INPUT_SAVE_TIMEOUT);
+  debounce = bindDebounce(this, DEFAULT_INPUT_SAVE_TIMEOUT);
 
   renderFields = () => {
     const {
@@ -40,7 +40,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
           <FieldItem
             {...this.props}
             fieldOption={fieldOption}
-            debonce={this.debonce}
+            debounce={this.debounce}
             data-sign="callLogField"
             key={`field-${i}`}
             onSave={onSave}

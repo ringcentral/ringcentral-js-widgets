@@ -1,11 +1,9 @@
-import { RcDatePickerSize } from '@ringcentral-integration/rcui';
 import { ReactElementLike } from 'prop-types';
 import { ReactNode } from 'react';
 
 import { CallLog, Task } from '../CallLogPanel';
 
 export type CallLogFieldsProps = {
-  fieldSize?: RcDatePickerSize;
   currentLocale: string;
   currentLog?: CallLog;
   onUpdateCallLog?: (...args: any[]) => any;
@@ -15,6 +13,8 @@ export type CallLogFieldsProps = {
   subjectDropdownsTracker?: (...args: any[]) => any;
   startAdornmentRender?: (...args: any[]) => any;
   referenceFieldOptions: { [key: string]: FieldOption };
+  contactSearch: () => Promise<Array<any>>;
+  showFoundFromServer: boolean;
 };
 
 export interface FieldOption {
@@ -31,6 +31,7 @@ export interface FieldOption {
   shouldDisable?: (task?: Task) => boolean;
   disableReason?: ReactNode | string;
   getValue?: (item: any) => any;
+  foundFromServerEntityGetter?: (currentLog: CallLog) => any[];
 }
 
 export interface FieldMetadata {

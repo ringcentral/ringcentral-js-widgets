@@ -10,10 +10,13 @@ import {
 } from './NotificationItem';
 import styles from './styles.scss';
 
-export type NotificationProps = {
+export type NotificationPanelProps = {
   messages: NotificationMessage[];
   exitAnimation?: string;
   entranceAnimation: string;
+
+  backdropEntranceAnimation?: string;
+  backdropExitAnimation?: string;
 
   dismiss: (id: string) => void;
 
@@ -23,11 +26,13 @@ export type NotificationProps = {
   brand: string;
 } & NotificationItemProps;
 
-export const NotificationPanel: FunctionComponent<NotificationProps> = ({
+export const NotificationPanel: FunctionComponent<NotificationPanelProps> = ({
   messages,
   className,
   exitAnimation,
   entranceAnimation,
+  backdropEntranceAnimation,
+  backdropExitAnimation,
   duration,
   ...rest
 }) => {
@@ -42,8 +47,10 @@ export const NotificationPanel: FunctionComponent<NotificationProps> = ({
         // if that can't find this id, that means that is delete
         if (!messages.some((m) => m.id === cm.id)) {
           cm.animation = exitAnimation;
+          cm.backdropAnimation = backdropExitAnimation;
         } else {
           cm.animation = '';
+          cm.backdropAnimation = '';
         }
       });
 
@@ -66,13 +73,16 @@ export const NotificationPanel: FunctionComponent<NotificationProps> = ({
 
   return (
     <div className={classNames(styles.root, className)}>
-      {currentMessages.map((message, i) => {
+      {currentMessages.map((data, i) => {
         return (
           <NotificationItem
             {...rest}
-            message={message}
+            data={data}
             duration={duration}
-            animation={message.animation ?? entranceAnimation}
+            backdropAnimation={
+              data.backdropAnimation ?? backdropEntranceAnimation
+            }
+            animation={data.animation ?? entranceAnimation}
             key={i}
           />
         );
@@ -84,5 +94,7 @@ export const NotificationPanel: FunctionComponent<NotificationProps> = ({
 NotificationPanel.defaultProps = {
   entranceAnimation: 'fadeInDown',
   exitAnimation: 'fadeOutUp',
+  backdropEntranceAnimation: 'fadeIn',
+  backdropExitAnimation: 'fadeOut',
   duration: 500,
 };

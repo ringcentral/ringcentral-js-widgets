@@ -20,7 +20,13 @@ import getCallLogSectionReducer from './getCallLogSectionReducer';
 import getStorageReducer from './getStorageReducer';
 
 @Module({
-  deps: ['Storage'],
+  deps: [
+    'Storage',
+    {
+      dep: 'CallLogSectionOptions',
+      optional: true,
+    },
+  ],
 })
 export default class CallLogSection extends RcModule {
   constructor({ storage, ...options }) {

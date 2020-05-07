@@ -1,20 +1,14 @@
 @import '../../../lib/commonStyles/colors';
-// @import '../../../lib/commonStyles/fonts';
-// @import '../../../lib/commonStyles/text-ellipsis';
 
 .root {
   border-bottom: 1px solid $silver;
 }
 
 .inputRoot {
-  width: 60%;
-  [sf-classic] & {
-    width: 80%;
-  }
+  width: 100%;
 }
 
 .input {
-  font-size: 18px !important;
   margin: 7px 0 !important;
   text-align: center;
 
@@ -25,4 +19,8 @@
 
 .deleteIcon {
   padding-right: 5px;
+}
+
+.textFieldRoot {
+  margin-bottom: 7px !important;
 }

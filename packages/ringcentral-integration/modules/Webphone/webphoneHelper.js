@@ -98,6 +98,17 @@ export function extractHeadersData(session, headers) {
   }
 }
 
+export function getCallQueueName({ direction, toUserName, fromUserName }) {
+  if (direction === callDirections.outbound) {
+    return null;
+  }
+  let queueName = null;
+  if (toUserName && fromUserName === toUserName && toUserName.endsWith(' - ')) {
+    queueName = toUserName;
+  }
+  return queueName;
+}
+
 export function normalizeSession(session) {
   return {
     id: session.id,
@@ -127,6 +138,11 @@ export function normalizeSession(session) {
     lastActiveTime: session.__rc_lastActiveTime,
     cached: false,
     removed: false,
+    callQueueName: getCallQueueName({
+      direction: session.__rc_direction,
+      toUserName: session.request.to.displayName,
+      fromUserName: session.request.from.displayName,
+    }),
   };
 }
 

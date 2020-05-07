@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import callDirections from 'ringcentral-integration/enums/callDirections';
 import {
-  RcPopover,
-  RcMenuList,
   RcMenuItem,
+  RcMenuList,
+  RcPopover,
 } from '@ringcentral-integration/rcui';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import callDirections from 'ringcentral-integration/enums/callDirections';
+import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
+
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import EndIcon from '../../assets/images/Hangup.svg';
 import LogClickIcon from '../../assets/images/LogClick.svg';
 import LogUnclickIcon from '../../assets/images/LogUnclick.svg';
 import VoicemailRed from '../../assets/images/VoicemailRed.svg';
-import EndIcon from '../../assets/images/Hangup.svg';
-
 import { Button } from '../Button';
-import styles from './styles.scss';
-import i18n from './i18n';
 import callControlI18n from '../SmCallControl/i18n';
+import i18n from './i18n';
+import styles from './styles.scss';
 
 const viewport = document.querySelector('div#viewport');
 const CallIcon = ({ title, iconClassName }) => (
@@ -79,7 +79,7 @@ export default function LogNotification({
   const renderLogButton = showLogButton
     ? () => {
         return (
-          <React.Fragment>
+          <>
             <div ref={anchorEl}>
               <Button
                 tooltip={i18n.getString('log', currentLocale)}
@@ -121,7 +121,7 @@ export default function LogNotification({
                 </RcMenuItem>
               </RcMenuList>
             </RcPopover>
-          </React.Fragment>
+          </>
         );
       }
     : null;

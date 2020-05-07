@@ -21,9 +21,10 @@ export function AlertRenderer(
   alert,
   brand,
   rateLimiter,
+  /** router interaction when need push `regionSettingsUrl` or `callingSettingsUrl` */
   routerInteraction,
-  regionSettingsUrl,
-  callingSettingsUrl,
+  regionSettingsUrl = '/settings/region',
+  callingSettingsUrl = '/settings/calling',
 ) {
   const onRegionSettingsLinkClick = ({ alertId = 'default' } = {}) => {
     routerInteraction.push(regionSettingsUrl);

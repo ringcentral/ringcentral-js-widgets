@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
-import RecipientsInputV2 from '../RecipientsInputV2';
+import { RecipientsInputV2 } from '../RecipientsInputV2';
 import FromField from '../FromField';
 import SpinnerOverlay from '../SpinnerOverlay';
 import CircleButton from '../CircleButton';

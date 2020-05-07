@@ -36,6 +36,9 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     showNotiLogButton: true,
     disableLinks: false,
     useNewNotification: false,
+    contactSearch: null,
+    showFoundFromServer: false,
+    isSearching: false,
   };
 
   componentWillMount() {
@@ -60,14 +63,14 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       return <SpinnerOverlay className={styles.spinner} />;
     }
     return (
-      <React.Fragment>
+      <>
         {this.renderLogNotification()}
         {this.renderLogBasicInfo()}
         <div className={styles.editSection}>
           {renderEditLogSection && this.getEditLogSection()}
         </div>
         {this.genCallControlButtons()}
-      </React.Fragment>
+      </>
     );
   }
 
@@ -108,6 +111,11 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       currentLog,
       additionalInfo,
       subjectDropdownsTracker,
+      contactSearch,
+      onBackClick,
+      showFoundFromServer,
+      appName,
+      isSearching,
     } = this.props;
     return renderEditLogSection({
       currentLocale,
@@ -117,6 +125,11 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       currentLog,
       additionalInfo,
       subjectDropdownsTracker,
+      contactSearch,
+      onBackClick,
+      showFoundFromServer,
+      appName,
+      isSearching,
     });
   }
 

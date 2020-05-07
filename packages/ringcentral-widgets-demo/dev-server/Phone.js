@@ -56,7 +56,7 @@ import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
 import Meeting from 'ringcentral-integration/modules/Meeting';
 import LocaleSettings from 'ringcentral-integration/modules/LocaleSettings';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
-import Analytics from 'ringcentral-integration/modules/Analytics';
+import { Analytics } from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import SleepDetector from 'ringcentral-integration/modules/SleepDetector';
@@ -67,7 +67,7 @@ import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ConferenceUI from 'ringcentral-widgets/modules/ConferenceUI';
 import MeetingUI from 'ringcentral-widgets/modules/MeetingUI';
 import { ContactDetailsUI } from 'ringcentral-widgets/modules/ContactDetailsUI';
-import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
+import OAuth from 'ringcentral-widgets/modules/OAuth';
 import AudioSettingsUI from 'ringcentral-widgets/modules/AudioSettingsUI';
 import RegionSettingsUI from 'ringcentral-widgets/modules/RegionSettingsUI';
 import CallingSettingsUI from 'ringcentral-widgets/modules/CallingSettingsUI';
@@ -114,8 +114,7 @@ const history =
     { provide: 'LocaleSettings', useClass: LocaleSettings },
     { provide: 'Environment', useClass: Environment },
     { provide: 'Auth', useClass: Auth },
-    { provide: 'ProxyFrameOAuth', useClass: ProxyFrameOAuth },
-    { provide: 'OAuth', useExisting: 'ProxyFrameOAuth' },
+    { provide: 'OAuth', useClass: OAuth },
     { provide: 'SleepDetector', useClass: SleepDetector },
     // {
     //   provide: 'OAuthOptions',

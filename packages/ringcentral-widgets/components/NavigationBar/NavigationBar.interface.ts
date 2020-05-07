@@ -1,9 +1,8 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-export interface TabPropTypes {
-  icon?: (...args: any[]) => any | ReactNode;
-  activeIcon?: (...args: any[]) => any | ReactNode;
-  label?: string;
+import { NavigationButtonProps } from '../TabNavigationButton';
+
+export interface TabPropTypes extends Partial<NavigationButtonProps> {
   path?: string;
   virtualPath?: string;
   isActive?: (...args: any[]) => any;
@@ -13,8 +12,8 @@ export interface TabPropTypes {
 
 export interface NavigationBarProps {
   className?: string;
-  button: (...args: any[]) => any | React.Component;
-  childNavigationView: React.Component;
+  button: React.ReactType;
+  childNavigationView: React.ReactType;
   tabs?: TabPropTypes[];
   goTo: (...args: any[]) => any;
   currentPath: string;
@@ -23,4 +22,8 @@ export interface NavigationBarProps {
   tabHeight?: string;
   fullSizeInk?: boolean;
   direction?: string;
+}
+
+export interface NavigationBarState {
+  currentVirtualPath: string;
 }

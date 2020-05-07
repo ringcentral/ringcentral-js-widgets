@@ -72,8 +72,9 @@ $pagePaddingWidth:48px;
 }
 
 .userName {
-  font-size: $fontSize;
-  color: $lightblack;
+  @include secondary-font;
+  color: $night;
+  line-height: 16px;
 }
 
 .contactDisplay {
@@ -81,6 +82,7 @@ $pagePaddingWidth:48px;
   line-height: 16px;
   margin-top: -5px;
   max-width: calc(100% - #{$pagePaddingWidth});
+  vertical-align: bottom;
 }
 
 .userPhoneNumber {

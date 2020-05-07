@@ -101,7 +101,7 @@ class IncomingCallPage extends Component {
   }
 
   render() {
-    const { session } = this.props;
+    const { session, showCallQueueName } = this.props;
     const active = !!session.id;
     if (!active) {
       return null;
@@ -126,6 +126,7 @@ class IncomingCallPage extends Component {
         currentLocale={this.props.currentLocale}
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
+        callQueueName={showCallQueueName ? session.callQueueName : null}
         phoneNumber={phoneNumber}
         answer={this.answer}
         reject={this.reject}
@@ -220,6 +221,7 @@ function mapToProps(
     showContactDisplayPlaceholder = false,
     phoneTypeRenderer,
     phoneSourceNameRenderer,
+    showCallQueueName,
   },
 ) {
   const currentSession = webphone.ringingCallOnView || {};
@@ -244,6 +246,7 @@ function mapToProps(
     searchContactList: contactSearch.sortedResult,
     phoneTypeRenderer,
     phoneSourceNameRenderer,
+    showCallQueueName,
   };
 }
 
