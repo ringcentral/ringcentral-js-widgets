@@ -7,6 +7,7 @@ const packageNames = [
   '@ringcentral-integration/locale-loader',
   '@ringcentral-integration/phone-number',
   '@ringcentral-integration/glip-widgets',
+  '@ringcentral-integration/core',
 ];
 const releaseBranchNames = [
   'commons-release',
@@ -15,6 +16,7 @@ const releaseBranchNames = [
   'locale-loader-release',
   'phone-number-release',
   'glip-widgets-release',
+  'core-release',
 ];
 
 const args = process.argv.slice(2);

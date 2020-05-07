@@ -1,6 +1,6 @@
 # @ringcentral-integration/core
 
-## Useage
+## Usage
 
 ```sh
 yarn add @ringcentral-integration/core
