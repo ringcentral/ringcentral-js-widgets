@@ -5,19 +5,19 @@ cache: yarn
 
 jobs:
   include:
-    - state: Phone number test
+    - stage: Phone number test
       node_js: "10"
       script: yarn workspace @ringcentral-integration/phone-number test
-    - state: I18n test
+    - stage: I18n test
       node_js: "10"
       script: yarn workspace @ringcentral-integration/i18n test
-    - state: Core test
+    - stage: Core test
       node_js: "10"
       script: yarn workspace @ringcentral-integration/core test
-    - state: Integration test
+    - stage: Integration test
       node_js: "10"
       script: yarn workspace ringcentral-integration test
-    - state: Widgets test
+    - stage: Widgets test
       node_js: "10"
       script: yarn workspace ringcentral-widgets-test test:coverage
     - stage: core npm release
