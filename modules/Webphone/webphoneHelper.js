@@ -12,6 +12,7 @@ exports.isWebSocketSupport = isWebSocketSupport;
 exports.isWebRTCSupport = isWebRTCSupport;
 exports.isBrowserSupport = isBrowserSupport;
 exports.extractHeadersData = extractHeadersData;
+exports.getCallQueueName = getCallQueueName;
 exports.normalizeSession = normalizeSession;
 exports.isRing = isRing;
 exports.isOnHold = isOnHold;
@@ -29,6 +30,8 @@ require("core-js/modules/es7.symbol.async-iterator");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es6.string.ends-with");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -153,6 +156,24 @@ function extractHeadersData(session, headers) {
   }
 }
 
+function getCallQueueName(_ref3) {
+  var direction = _ref3.direction,
+      toUserName = _ref3.toUserName,
+      fromUserName = _ref3.fromUserName;
+
+  if (direction === _callDirections["default"].outbound) {
+    return null;
+  }
+
+  var queueName = null;
+
+  if (toUserName && fromUserName === toUserName && toUserName.endsWith(' - ')) {
+    queueName = toUserName;
+  }
+
+  return queueName;
+}
+
 function normalizeSession(session) {
   return {
     id: session.id,
@@ -181,7 +202,12 @@ function normalizeSession(session) {
     partyData: session.__rc_partyData || null,
     lastActiveTime: session.__rc_lastActiveTime,
     cached: false,
-    removed: false
+    removed: false,
+    callQueueName: getCallQueueName({
+      direction: session.__rc_direction,
+      toUserName: session.request.to.displayName,
+      fromUserName: session.request.from.displayName
+    })
   };
 }
 

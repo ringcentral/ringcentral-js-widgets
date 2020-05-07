@@ -5,14 +5,14 @@
   "main": "rc-phone.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ringcentral/ringcentral-js-integration-commons.git"
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
-  "author": "RingCentral Integration",
+  "author": "RingCentral Integration Team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-integration-commons/issues"
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
   },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-integration-commons#readme",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-integration#readme",
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/locale-loader": "*",

@@ -127,7 +127,7 @@ function getDefaultMeetingSettings(extensionName, startTime) {
 
 function getInitializedStartTime() {
   var now = new Date();
-  var startTime = now.setHours(now.getHours() + 1, 0, 0);
+  var startTime = now.setHours(now.getHours() + 1, 0, 0, 0);
   return startTime;
 }
 //# sourceMappingURL=meetingHelper.js.map

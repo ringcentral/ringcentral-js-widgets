@@ -41,19 +41,19 @@ require("core-js/modules/es6.date.now");
 
 var _uuid = _interopRequireDefault(require("uuid"));
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _di = require("../../lib/di");
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _alertLevels = _interopRequireDefault(require("./alertLevels"));
 
 var _getAlertReducer = _interopRequireDefault(require("./getAlertReducer"));
-
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _dec, _class, _class2, _temp;
 
@@ -169,6 +169,10 @@ function (_RcModule) {
           allowDuplicates = _ref2$allowDuplicates === void 0 ? true : _ref2$allowDuplicates,
           _ref2$loading = _ref2.loading,
           loading = _ref2$loading === void 0 ? false : _ref2$loading,
+          _ref2$backdrop = _ref2.backdrop,
+          backdrop = _ref2$backdrop === void 0 ? false : _ref2$backdrop,
+          classes = _ref2.classes,
+          onBackdropClick = _ref2.onBackdropClick,
           action = _ref2.action;
 
       var id = _uuid["default"].v4();
@@ -181,6 +185,9 @@ function (_RcModule) {
         // when loading the ttl will be zero, make this never dismiss
         ttl: loading ? 0 : ttl,
         allowDuplicates: allowDuplicates,
+        backdrop: backdrop,
+        classes: classes,
+        onBackdropClick: onBackdropClick,
         id: id,
         timestamp: Date.now(),
         loading: loading,

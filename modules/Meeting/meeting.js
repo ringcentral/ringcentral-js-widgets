@@ -31,7 +31,11 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/es6.object.keys");
+
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -39,19 +43,15 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
-require("core-js/modules/es6.string.iterator");
-
-require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.function.name");
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.string.iterator");
+
+require("regenerator-runtime/runtime");
 
 var _moment = _interopRequireDefault(require("moment"));
 
@@ -65,6 +65,8 @@ var _di = require("../../lib/di");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
+var _selector = require("../../lib/selector");
+
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
@@ -77,7 +79,7 @@ var _meetingStatus = _interopRequireDefault(require("./meetingStatus"));
 
 var _scheduleStatus = _interopRequireDefault(require("./scheduleStatus"));
 
-var _dec, _class, _class2, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -94,6 +96,8 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -113,13 +117,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -161,6 +167,11 @@ function (_RcModule) {
     _this._lastMeetingSettingKey = void 0;
     _this._defaultMeetingSettingKey = void 0;
     _this._showSaveAsDefault = void 0;
+
+    _initializerDefineProperty(_this, "currentMeetingSetting", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "initialMeetingSetting", _descriptor2, _assertThisInitialized(_this));
+
     _this._alert = alert;
     _this._client = client;
     _this._storage = storage;
@@ -213,16 +224,14 @@ function (_RcModule) {
     key: "_init",
     value: function _init() {
       this.store.dispatch({
-        type: this.actionTypes.initSuccess
+        type: this.actionTypes.init
       });
 
-      if (!Object.keys(this.defaultMeetingSetting).length) {
-        var extensionName = this._extensionInfo.info.name || '';
-        var startTime = (0, _meetingHelper.getInitializedStartTime)();
-        var meeting = (0, _meetingHelper.getDefaultMeetingSettings)(extensionName, startTime);
+      this._initMeeting();
 
-        this._saveAsDefaultSetting(meeting);
-      }
+      this.store.dispatch({
+        type: this.actionTypes.initSuccess
+      });
     }
   }, {
     key: "_shouldReset",
@@ -238,7 +247,7 @@ function (_RcModule) {
     }
     /**
      * Init basic meeting information
-     * also load meeting settings from previous one.
+     * also load meeting setting from previous one.
      */
 
   }, {
@@ -254,20 +263,7 @@ function (_RcModule) {
   }, {
     key: "_initMeeting",
     value: function _initMeeting() {
-      var extensionName = this._extensionInfo.info.name || '';
-      var startTime = (0, _meetingHelper.getInitializedStartTime)();
-
-      if (this._showSaveAsDefault) {
-        this.store.dispatch({
-          type: this.actionTypes.updateMeeting,
-          meeting: _objectSpread({}, (0, _meetingHelper.getDefaultMeetingSettings)(extensionName, startTime), {}, this.defaultMeetingSetting)
-        });
-      } else {
-        this.store.dispatch({
-          type: this.actionTypes.updateMeeting,
-          meeting: _objectSpread({}, (0, _meetingHelper.getDefaultMeetingSettings)(extensionName, startTime), {}, this.lastMeetingSetting)
-        });
-      }
+      this.update(this.currentMeetingSetting);
     }
   }, {
     key: "update",
@@ -320,7 +316,7 @@ function (_RcModule) {
               formattedMeeting = this._format(meeting);
 
               if (this._showSaveAsDefault && meeting.saveAsDefault) {
-                this._saveAsDefaultSetting(meeting);
+                this.saveAsDefaultSetting(meeting);
               }
 
               this.schedule._promise = Promise.all([this._client.account().extension().meeting().post(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
@@ -441,7 +437,7 @@ function (_RcModule) {
               formattedMeeting = this._format(meeting);
 
               if (this._showSaveAsDefault && meeting.saveAsDefault) {
-                this._saveAsDefaultSetting(meeting);
+                this.saveAsDefaultSetting(meeting);
               }
 
               this.updateMeeting._promise = Promise.all([this._client.account().extension().meeting(meetingId).put(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
@@ -684,8 +680,8 @@ function (_RcModule) {
       }
     }
   }, {
-    key: "_saveAsDefaultSetting",
-    value: function _saveAsDefaultSetting(meeting) {
+    key: "saveAsDefaultSetting",
+    value: function saveAsDefaultSetting(meeting) {
       var formattedMeeting = this._format(meeting);
 
       this.store.dispatch({
@@ -706,13 +702,6 @@ function (_RcModule) {
       return this.state.meeting;
     }
   }, {
-    key: "lastMeetingSetting",
-    get: function get() {
-      var state = this._storage.getItem(this._lastMeetingSettingKey);
-
-      return state;
-    }
-  }, {
     key: "isScheduling",
     get: function get() {
       return this.state.schedulingStatus === _scheduleStatus["default"].scheduling;
@@ -730,16 +719,53 @@ function (_RcModule) {
   }, {
     key: "defaultMeetingSetting",
     get: function get() {
-      return this._storage.getItem(this._defaultMeetingSettingKey) || {};
+      return this._storage.getItem(this._defaultMeetingSettingKey);
+    }
+  }, {
+    key: "lastMeetingSetting",
+    get: function get() {
+      return this._storage.getItem(this._lastMeetingSettingKey);
     }
   }, {
     key: "showSaveAsDefault",
     get: function get() {
-      return this._showSaveAsDefault || false;
+      return !!this._showSaveAsDefault;
     }
   }]);
 
   return Meeting;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "currentMeetingSetting", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this5 = this;
+
+    return [function () {
+      return _this5.initialMeetingSetting;
+    }, function () {
+      var savedSetting = _this5._showSaveAsDefault ? _this5.defaultMeetingSetting : _this5.lastMeetingSetting;
+      return savedSetting;
+    }, function (initialSetting, savedSetting) {
+      return _objectSpread({}, initialSetting, {}, savedSetting);
+    }];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "initialMeetingSetting", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this6 = this;
+
+    return [function () {
+      return _this6._extensionInfo.info.name || '';
+    }, function () {
+      return (0, _meetingHelper.getInitializedStartTime)();
+    }, function (extensionName, startTime) {
+      var setting = (0, _meetingHelper.getDefaultMeetingSettings)(extensionName, startTime);
+      return setting;
+    }];
+  }
+})), _class2)) || _class);
 exports.Meeting = Meeting;
 //# sourceMappingURL=meeting.js.map

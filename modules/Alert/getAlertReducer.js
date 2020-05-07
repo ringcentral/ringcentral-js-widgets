@@ -75,6 +75,9 @@ function getMessagesReducer(types) {
         id = _ref.id,
         allowDuplicates = _ref.allowDuplicates,
         loading = _ref.loading,
+        backdrop = _ref.backdrop,
+        classes = _ref.classes,
+        onBackdropClick = _ref.onBackdropClick,
         action = _ref.action;
 
     switch (type) {
@@ -93,6 +96,9 @@ function getMessagesReducer(types) {
           level: level,
           timestamp: timestamp,
           loading: loading,
+          backdrop: backdrop,
+          classes: classes,
+          onBackdropClick: onBackdropClick,
           action: action
         }]);
 

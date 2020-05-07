@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLastAction = getLastAction;
+exports.getLastActions = getLastActions;
 exports["default"] = getAnalyticsReducer;
 
 require("core-js/modules/es6.string.iterator");
@@ -40,7 +40,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-function getLastAction(types) {
+function getLastActions(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -56,7 +56,7 @@ function getLastAction(types) {
 function getAnalyticsReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer["default"])(types),
-    lastAction: getLastAction(types)
+    lastActions: getLastActions(types)
   });
 }
 //# sourceMappingURL=getAnalyticsReducer.js.map

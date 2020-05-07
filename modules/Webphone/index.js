@@ -227,7 +227,7 @@ function (_RcModule) {
         client = _ref.client,
         rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$webphoneLogLevel = _ref.webphoneLogLevel,
-        webphoneLogLevel = _ref$webphoneLogLevel === void 0 ? 3 : _ref$webphoneLogLevel,
+        webphoneLogLevel = _ref$webphoneLogLevel === void 0 ? 1 : _ref$webphoneLogLevel,
         contactMatcher = _ref.contactMatcher,
         numberValidate = _ref.numberValidate,
         audioSettings = _ref.audioSettings,
