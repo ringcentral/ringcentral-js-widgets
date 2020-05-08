@@ -9,7 +9,9 @@
     "export-locale": "yarn gulp export-locale",
     "import-locale": "yarn gulp import-locale",
     "release": "yarn gulp release",
-    "eslint": "eslint --quiet ."
+    "eslint": "eslint --quiet .",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -90,9 +92,11 @@
     "reselect": "^2.5.4",
     "through2": "^2.0.5",
     "url-parse": "^1.2.0",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "snyk": "^1.319.2"
   },
   "ci": {
     "ringcentral-js-widgets": "**"
-  }
+  },
+  "snyk": true
 }
