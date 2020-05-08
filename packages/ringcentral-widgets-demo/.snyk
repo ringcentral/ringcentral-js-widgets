@@ -1,0 +1,8 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - ringcentral-widgets > @ringcentral-integration/rcui > react-resize-detector > lodash:
+        patched: '2020-05-08T02:16:26.666Z'
