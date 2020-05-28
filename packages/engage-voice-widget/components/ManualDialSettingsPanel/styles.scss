@@ -1,0 +1,25 @@
+@import '../../scss/variables.scss';
+
+.container {
+  margin: 14px $lightning-page-space;
+  flex: 1 1 auto;
+
+  [sf-classic] & {
+    margin: 14px $classic-page-space;
+  }
+}
+
+.backHeader {
+  @include backHeaderWrapper();
+}
+
+.footer {
+  margin: 20px $lightning-page-space;
+  [sf-classic] & {
+    margin: 16px $classic-page-space;
+  }
+}
+
+.listItem {
+  @include selectList();
+}

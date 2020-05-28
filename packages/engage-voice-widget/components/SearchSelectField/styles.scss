@@ -1,0 +1,10 @@
+@import '../../scss/variables.scss';
+
+.backHeader {
+  @include backHeaderWrapper();
+}
+
+.selectListBasic {
+  height: calc(100% - #{$working-state-height});
+  top: $working-state-height;
+}

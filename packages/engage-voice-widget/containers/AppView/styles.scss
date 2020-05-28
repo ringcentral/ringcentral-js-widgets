@@ -1,0 +1,24 @@
+@import '~normalize-css/normalize.css';
+@import '~typeface-lato/index.css';
+@import '~ringcentral-widgets/lib/commonStyles/full-size';
+@import '~ringcentral-widgets/lib/commonStyles/colors';
+@import '../../scss/variables.scss';
+
+:global div#viewport {
+  @include full-size;
+  position: absolute;
+}
+
+body {
+  background: #fff;
+  font-family: $font-family;
+}
+
+input {
+  background-color: transparent;
+}
+
+.root {
+  @include full-size;
+  background-color: $app-background-color;
+}

@@ -1,0 +1,30 @@
+@import '../../../scss/variables.scss';
+
+.selectListBasic {
+  position: relative;
+  height: 0;
+  flex: 1 1 auto;
+}
+
+.listContainer {
+  margin-top: 12px;
+}
+
+.checkContainer {
+  @include bottom-border();
+  padding: 12px 16px;
+}
+
+.backHeader {
+  font-size: $header-font-size;
+}
+
+.item {
+  height: 36px!important;
+}
+
+.gateName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -31,6 +31,8 @@
     "glip-widgets:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
     "core:prepare-release": "babel-node scripts/prepareRelease.js @ringcentral-integration/core core-release",
     "core:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/core core-release",
+    "engage-voice-widgets:prepare-release": "babel-node scripts/prepareRelease.js @ringcentral-integration/engage-voice-widgets engage-voice-widgets-release",
+    "engage-voice-widgets:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/engage-voice-widgets engage-voice-widgets-release",
     "commit": "yarn git-cz"
   },
   "devDependencies": {

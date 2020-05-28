@@ -1,0 +1,32 @@
+@import '../../scss/variables.scss';
+
+div.customSelect {
+  & input {
+    @include textOverflowEllipsis();
+  }
+}
+
+.wrapperStyle {
+  position: inherit;
+  padding: 18px 0;
+}
+.svgStyle {
+  display: block;
+  margin: 0 auto;
+}
+
+.container {
+  padding: 0 $lightning-page-space;
+
+  [sf-classic] & {
+    padding: 0 $classic-page-space;
+  }
+}
+
+.button {
+  margin-top: 4px;
+}
+
+.takingCall {
+  margin-top: 6px;
+}
