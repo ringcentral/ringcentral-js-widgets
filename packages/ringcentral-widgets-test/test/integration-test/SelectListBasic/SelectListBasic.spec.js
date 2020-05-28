@@ -145,7 +145,7 @@ describe('<SelectListBasic />', () => {
     ).toBe('value22');
   });
 
-  it('search bar: input 5, show "No results found for 5"', () => {
+  it('search bar: input 5, show "No result found for 5"', () => {
     const wrapper = setup(options, otherOptions);
     const searchInput = wrapper
       .find('[data-sign="searchBar"]')
@@ -156,6 +156,6 @@ describe('<SelectListBasic />', () => {
     expect(wrapper.find('.matched').length).toBe(0);
     expect(wrapper.find('.other').length).toBe(0);
     const searchResult = wrapper.find('[data-sign="searchResult"]').at(0);
-    expect(searchResult.text()).toBe("No results found for '5'");
+    expect(searchResult.text()).toBe('No result found for "5"');
   });
 });

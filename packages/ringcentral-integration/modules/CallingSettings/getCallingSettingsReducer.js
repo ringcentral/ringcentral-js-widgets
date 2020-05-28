@@ -34,6 +34,8 @@ export function getFromNumberReducer(types) {
     switch (type) {
       case types.updateFromNumber:
         return number;
+      case types.resetSuccess:
+        return null;
       default:
         return state;
     }

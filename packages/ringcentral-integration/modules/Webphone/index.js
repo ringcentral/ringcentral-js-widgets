@@ -1,8 +1,8 @@
 import { find, filter } from 'ramda';
 import EventEmitter from 'events';
 import RingCentralWebphone from 'ringcentral-web-phone';
-import incomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
-import outgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
+import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
+import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
 
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
@@ -31,7 +31,10 @@ import {
   isOnHold,
   extractHeadersData,
 } from './webphoneHelper';
-import getWebphoneReducer from './getWebphoneReducer';
+import getWebphoneReducer, {
+  getWebphoneStorageReducer,
+  DEFAULT_AUDIO,
+} from './getWebphoneReducer';
 
 const AUTO_RETRIES_DELAY = [
   0,
@@ -87,6 +90,7 @@ const registerErrors = [
     'Brand',
     'RegionSettings',
     'AudioSettings',
+    'Storage',
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'ContactMatcher', optional: true },
@@ -128,6 +132,7 @@ export default class Webphone extends RcModule {
     alert,
     auth,
     client,
+    storage,
     rolesAndPermissions,
     webphoneLogLevel = 1,
     contactMatcher,
@@ -174,6 +179,8 @@ export default class Webphone extends RcModule {
     );
     this._numberValidate = this::ensureExist(numberValidate, 'numberValidate');
     this._audioSettings = this::ensureExist(audioSettings, 'audioSettings');
+    this._storage = storage;
+
     this._availabilityMonitor = availabilityMonitor;
     this._contactMatcher = contactMatcher;
     this._tabManager = tabManager;
@@ -184,6 +191,7 @@ export default class Webphone extends RcModule {
     this._connectDelay = connectDelay;
     this._disconnectOnInactive = disconnectOnInactive;
     this._activeWebphoneKey = `${prefix}-active-webphone-key`;
+    this._storageKey = `${prefix}-webphone`;
 
     if (typeof onCallEnd === 'function') {
       this._eventEmitter.on(EVENTS.callEnd, onCallEnd);
@@ -216,6 +224,10 @@ export default class Webphone extends RcModule {
     this._localVideo = null;
     this._sessions = new Map();
     this._reducer = getWebphoneReducer(this.actionTypes);
+    this._storage.registerReducer({
+      key: this._storageKey,
+      reducer: getWebphoneStorageReducer(this.actionTypes),
+    });
     this._reconnectAfterSessionEnd = null;
     this._disconnectInactiveAfterSessionEnd = false;
     this._tabActive = false;
@@ -332,6 +344,7 @@ export default class Webphone extends RcModule {
       this._rolesAndPermissions.ready &&
       this._numberValidate.ready &&
       this._audioSettings.ready &&
+      this._storage.ready &&
       (!this._tabManager || this._tabManager.ready) &&
       this.pending
     );
@@ -439,16 +452,13 @@ export default class Webphone extends RcModule {
       enableMidLinesInSDP: isEnableMidLinesInSDP(),
       ...this._webphoneSDKOptions,
     });
-    this._webphone.userAgent.audioHelper.loadAudio({
-      incoming: incomingAudio, // path to audio file for incoming call
-      outgoing: outgoingAudio, // path to aduotfile for outgoing call
-    });
+    this.loadAudio();
     this._webphone.userAgent.audioHelper.setVolume(
       this._audioSettings.ringtoneMuted
         ? 0
         : this._audioSettings.ringtoneVolume,
     );
-    // Webphone userAgent registed event
+    // Webphone userAgent registered event
     this._webphone.userAgent.on('registered', () => {
       if (!this.connected) {
         this._onWebphoneRegistered(provisionData);
@@ -496,7 +506,7 @@ export default class Webphone extends RcModule {
         ? response.statusCode || response.status_code
         : null;
       switch (statusCode) {
-        // Webphone account overlimit
+        // Webphone account over limit
         case 603: {
           errorCode = webphoneErrors.webphoneCountOverLimit;
           break;
@@ -567,7 +577,7 @@ export default class Webphone extends RcModule {
       });
     });
     this._webphone.userAgent.transport.on('transportError', () => {
-      console.log('WebSocket transportError occured');
+      console.log('WebSocket transportError occurred');
     });
     this._webphone.userAgent.transport.on('wsConnectionError', () => {
       this.store.dispatch({
@@ -626,7 +636,7 @@ export default class Webphone extends RcModule {
     await this._waitStillTabActive();
   }
 
-  _isAvailiableToConnect({ force }) {
+  _isAvailableToConnect({ force }) {
     if (!this.enabled || !this._auth.loggedIn) {
       return false;
     }
@@ -664,13 +674,13 @@ export default class Webphone extends RcModule {
       });
       return;
     }
-    if (!this._isAvailiableToConnect({ force })) {
+    if (!this._isAvailableToConnect({ force })) {
       return;
     }
     if (!skipTabActiveCheck) {
       await this._waitStillTabActive();
     }
-    if (!this._isAvailiableToConnect({ force })) {
+    if (!this._isAvailableToConnect({ force })) {
       return;
     }
     // when last connect is connect error, use reconnect (will show connecting badge)
@@ -1844,6 +1854,80 @@ export default class Webphone extends RcModule {
     }
   }
 
+  loadAudio() {
+    if (
+      this._webphone &&
+      this._webphone.userAgent &&
+      this._webphone.userAgent.audioHelper
+    ) {
+      this._webphone.userAgent.audioHelper.loadAudio({
+        incoming: this.incomingAudio,
+        outgoing: this.outgoingAudio,
+      });
+    }
+  }
+
+  @proxify
+  setOutgoingAudio({ fileName, dataUrl }) {
+    // TODO validate filePath?
+    this.store.dispatch({
+      type: this.actionTypes.setOutgoingAudio,
+      fileName,
+      dataUrl,
+    });
+    this.loadAudio();
+  }
+
+  @proxify
+  resetOutgoingAudio() {
+    this.store.dispatch({
+      type: this.actionTypes.resetOutgoingAudio,
+    });
+    this.loadAudio();
+  }
+
+  @proxify
+  setIncomingAudio({ fileName, dataUrl }) {
+    // TODO validate filePath?
+    this.store.dispatch({
+      type: this.actionTypes.setIncomingAudio,
+      fileName,
+      dataUrl,
+    });
+    this.loadAudio();
+  }
+
+  @proxify
+  resetIncomingAudio() {
+    this.store.dispatch({
+      type: this.actionTypes.resetIncomingAudio,
+    });
+    this.loadAudio();
+  }
+
+  @proxify
+  setRingtone({
+    incomingAudio,
+    incomingAudioFile,
+    outgoingAudio,
+    outgoingAudioFile,
+  }) {
+    const isIncomingDefault =
+      incomingAudioFile === DEFAULT_AUDIO &&
+      incomingAudio === defaultIncomingAudio;
+    const isOutgoingDefault =
+      outgoingAudioFile === DEFAULT_AUDIO &&
+      outgoingAudio === defaultOutgoingAudio;
+    this.store.dispatch({
+      type: this.actionTypes.setRingtone,
+      incomingAudio: isIncomingDefault ? null : incomingAudio,
+      incomingAudioFile: isIncomingDefault ? DEFAULT_AUDIO : incomingAudioFile,
+      outgoingAudio: isOutgoingDefault ? null : outgoingAudio,
+      outgoingAudioFile: isOutgoingDefault ? DEFAULT_AUDIO : outgoingAudioFile,
+    });
+    this.loadAudio();
+  }
+
   get status() {
     return this.state.status;
   }
@@ -2039,6 +2123,46 @@ export default class Webphone extends RcModule {
         this.connectError ||
         this.inactive)
     );
+  }
+
+  get incomingAudioFile() {
+    return this._storage.getItem(this._storageKey).incomingAudioFile;
+  }
+
+  get incomingAudioDataUrl() {
+    return this._storage.getItem(this._storageKey).incomingAudioDataUrl;
+  }
+
+  get incomingAudio() {
+    return this.incomingAudioDataUrl || defaultIncomingAudio;
+  }
+
+  get outgoingAudioFile() {
+    return this._storage.getItem(this._storageKey).outgoingAudioFile;
+  }
+
+  get outgoingAudioDataUrl() {
+    return this._storage.getItem(this._storageKey).outgoingAudioDataUrl;
+  }
+
+  get outgoingAudio() {
+    return this.outgoingAudioDataUrl || defaultOutgoingAudio;
+  }
+
+  get defaultIncomingAudio() {
+    return defaultIncomingAudio;
+  }
+
+  get defaultOutgoingAudio() {
+    return defaultOutgoingAudio;
+  }
+
+  get defaultIncomingAudioFile() {
+    return DEFAULT_AUDIO;
+  }
+
+  get defaultOutgoingAudioFile() {
+    return DEFAULT_AUDIO;
   }
 
   @selector

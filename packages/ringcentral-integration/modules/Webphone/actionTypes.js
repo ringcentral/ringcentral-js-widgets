@@ -31,6 +31,11 @@ export default new Enum(
     'setSessionCaching',
     'clearSessionCaching',
     'onholdCachedSession',
+    'setIncomingAudio',
+    'resetIncomingAudio',
+    'setOutgoingAudio',
+    'resetOutgoingAudio',
+    'setRingtone',
   ],
   'webphone',
 );

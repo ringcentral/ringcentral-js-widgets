@@ -4,6 +4,8 @@ import connectionStatus from './connectionStatus';
 import sessionStatus from './sessionStatus';
 import { isRing, sortByLastActiveTimeDesc } from './webphoneHelper';
 
+export const DEFAULT_AUDIO = 'default';
+
 export function getVideoElementPreparedReducer(types) {
   return (state = false, { type }) => {
     if (type === types.videoElementPrepared) return true;
@@ -237,6 +239,75 @@ export function getSessionsReducer(types) {
         return state;
     }
   };
+}
+
+export function getIncomingAudioFileReducer(types) {
+  return (state = DEFAULT_AUDIO, { type, incomingAudioFile, fileName }) => {
+    switch (type) {
+      case types.setRingtone:
+        return incomingAudioFile;
+      case types.setIncomingAudio:
+        return fileName;
+      case types.resetIncomingAudio:
+        return DEFAULT_AUDIO;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getIncomingAudioDataUrlReducer(types) {
+  return (state = null, { type, incomingAudio = null, dataUrl = null }) => {
+    switch (type) {
+      case types.setRingtone:
+        return incomingAudio;
+      case types.setIncomingAudio:
+        return dataUrl;
+      case types.resetIncomingAudio:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getOutgoingAudioFileReducer(types) {
+  return (state = DEFAULT_AUDIO, { type, outgoingAudioFile, fileName }) => {
+    switch (type) {
+      case types.setRingtone:
+        return outgoingAudioFile;
+      case types.setOutgoingAudio:
+        return fileName;
+      case types.resetOutgoingAudio:
+        return DEFAULT_AUDIO;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getOutgoingAudioDataUrlReducer(types) {
+  return (state = null, { type, outgoingAudio, dataUrl = null }) => {
+    switch (type) {
+      case types.setRingtone:
+        return outgoingAudio;
+      case types.setOutgoingAudio:
+        return dataUrl;
+      case types.resetOutgoingAudio:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getWebphoneStorageReducer(types) {
+  return combineReducers({
+    incomingAudioFile: getIncomingAudioFileReducer(types),
+    incomingAudioDataUrl: getIncomingAudioDataUrlReducer(types),
+    outgoingAudioFile: getOutgoingAudioFileReducer(types),
+    outgoingAudioDataUrl: getOutgoingAudioDataUrlReducer(types),
+  });
 }
 
 export default function getWebphoneReducer(types) {

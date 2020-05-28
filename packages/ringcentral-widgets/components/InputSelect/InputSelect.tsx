@@ -118,6 +118,7 @@ export default class InputSelect extends Component<
               <CustomArrowButton
                 symbol={arrowDownSvg}
                 onClick={this.toggleDropDownList}
+                size="large"
               />
             ),
           }}

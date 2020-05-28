@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react';
 import classnames from 'classnames';
-import styles from './styles.scss';
+import React, { ReactNode } from 'react';
 
-import NavigationBar, { NavigationBarProps } from '../NavigationBar';
-import TabNavigationButton from '../TabNavigationButton';
 import DropdownNavigationView from '../DropdownNavigationView';
-import SpinnerOverlay from '../SpinnerOverlay';
+import NavigationBar, { NavigationBarProps } from '../NavigationBar';
+import { SpinnerOverlay } from '../SpinnerOverlay';
+import TabNavigationButton from '../TabNavigationButton';
+import styles from './styles.scss';
 
 interface TabNavigationViewProps {
   children?: ReactNode;
@@ -23,8 +23,6 @@ interface TabNavigationViewProps {
   tabNavigationViewClassName?: string;
   onLoading?: boolean;
 }
-
-type a = typeof DropdownNavigationView;
 
 const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = ({
   navigationPosition,

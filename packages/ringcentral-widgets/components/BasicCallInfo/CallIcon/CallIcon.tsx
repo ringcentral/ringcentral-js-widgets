@@ -9,7 +9,7 @@ interface CallIconProps {
   isInbound: boolean;
 }
 
-const CallIcon: React.FunctionComponent<CallIconProps> = ({
+export const CallIcon: React.FunctionComponent<CallIconProps> = ({
   title,
   isInbound,
 }) => {
@@ -19,5 +19,3 @@ const CallIcon: React.FunctionComponent<CallIconProps> = ({
     </div>
   );
 };
-
-export default CallIcon;

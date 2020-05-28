@@ -6,7 +6,6 @@ export default createEnum(
     'emptyUsername',
     'sessionExpired',
     'beforeLogoutError',
-    'loginError',
     'logoutError',
     'accessDenied',
     'internalError',

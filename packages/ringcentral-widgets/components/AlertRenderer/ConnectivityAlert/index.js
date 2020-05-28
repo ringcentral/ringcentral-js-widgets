@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import connectivityTypes from 'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+import connectivityTypes from '../../../modules/ConnectivityManager/connectivityTypes';
 import i18n from './i18n';
 
 export default function ConnectivityAlert({

@@ -59,8 +59,8 @@ export default class DataFetcher extends Pollable {
     super({
       ...options,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._client = this::ensureExist(client, 'client');
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._client = ensureExist.call(this, client, 'client');
     this._sleepDetector = sleepDetector;
     this._disableCache = disableCache;
     this._storage = storage;

@@ -42,10 +42,13 @@ module.exports = (config) => {
     // ],
 
     webpack: {
+      resolve: {
+        extensions: ['.js', '.ts'],
+      },
       module: {
         rules: [
           {
-            test: /\.js$/,
+            test: /\.(js|ts)$/i,
             use: ['babel-loader'],
             exclude: /node_modules/,
           },
@@ -54,7 +57,7 @@ module.exports = (config) => {
             use: 'json-loader',
           },
           {
-            test: /\.ogg$/,
+            test: /\.ogg$/i,
             use: 'url-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
           },
         ],

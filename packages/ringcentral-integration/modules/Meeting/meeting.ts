@@ -144,7 +144,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
   }
 
   private _initMeeting() {
-    this.update(this.currentMeetingSetting);
+    this.update(this.defaultMeetingSetting);
   }
 
   @proxify
@@ -466,11 +466,11 @@ export class Meeting extends RcModule<MeetingActionTypes> {
   }
 
   @selector
-  currentMeetingSetting: any = [
+  defaultMeetingSetting: any = [
     () => this.initialMeetingSetting,
     () => {
       const savedSetting = this._showSaveAsDefault
-        ? this.defaultMeetingSetting
+        ? this.savedDefaultMeetingSetting
         : this.lastMeetingSetting;
       return savedSetting;
     },
@@ -492,7 +492,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     },
   ];
 
-  get defaultMeetingSetting() {
+  get savedDefaultMeetingSetting() {
     return this._storage.getItem(this._defaultMeetingSettingKey);
   }
 

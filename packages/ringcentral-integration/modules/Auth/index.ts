@@ -114,12 +114,6 @@ export default class Auth extends RcModule {
         type: this.actionTypes.loginError,
         error,
       });
-      if (error) {
-        this._alert.danger({
-          message: authMessages.loginError,
-          payload: error,
-        });
-      }
     };
     const onLogoutSuccess = () => {
       this.store.dispatch({

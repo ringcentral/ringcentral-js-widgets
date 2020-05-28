@@ -1,6 +1,6 @@
 import { createHashMap } from '../lib/HashMap';
 
-const hints = createHashMap({
+export default createHashMap({
   limits: 'Limits',
   features: 'Features',
   accountStatus: 'AccountStatus',
@@ -10,6 +10,5 @@ const hints = createHashMap({
   permissions: 'Permissions',
   profileImage: 'ProfileImage',
   extensionInfo: 'ExtensionInfo',
+  videoConfiguration: 'VideoConfiguration',
 });
-
-export default hints;

@@ -42,34 +42,34 @@ export interface TrackLog {
   trackProps: TrackProps;
 }
 
-interface ITrackImpl {
+export interface TrackImpl {
   (action: TrackAction): void;
 }
 
-interface ITrackItem {
-  projectName: string;
-  functionName: string;
-  functionImpl: ITrackImpl;
+export interface TrackItem {
+  tagName: string;
+  funcName: string;
+  funcImpl: TrackImpl;
 }
 
 function warn() {
   console.warn('Do NOT call this directly.');
 }
 
-const INIT_TRACK_LIST: ITrackItem[] = [];
+const TRACK_LIST: TrackItem[] = [];
 
-export function project(projectName: string) {
-  return function tracking(
+export function track(tagName: string) {
+  return function _track(
     prototype: any,
     property: string,
-    descriptor: TypedPropertyDescriptor<ITrackImpl>,
+    descriptor: TypedPropertyDescriptor<TrackImpl>,
   ) {
     const { value, ...options } = descriptor;
     if (typeof value === 'function') {
-      INIT_TRACK_LIST.push({
-        projectName,
-        functionName: property,
-        functionImpl: value,
+      TRACK_LIST.push({
+        tagName,
+        funcName: property,
+        funcImpl: value,
       });
     }
     return {
@@ -80,8 +80,8 @@ export function project(projectName: string) {
   };
 }
 
-const DEFAULT_PROJECT = 'default';
-export const tracking = project(DEFAULT_PROJECT);
+export const DEFAULT_TAG_NAME = 'default';
+export const tracking = track(DEFAULT_TAG_NAME);
 
 // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
 /**
@@ -98,6 +98,7 @@ export const tracking = project(DEFAULT_PROJECT);
     { dep: 'CallingSettings', optional: true },
     { dep: 'AccountInfo', optional: true },
     { dep: 'ExtensionInfo', optional: true },
+    { dep: 'RolesAndPermissions', optional: true },
     { dep: 'CallHistory', optional: true },
     { dep: 'CallMonitor', optional: true },
     { dep: 'Conference', optional: true },
@@ -125,6 +126,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   protected _callingSettings: any;
   protected _accountInfo: any;
   protected _extensionInfo: any;
+  protected _rolesAndPermissions: any;
   protected _callHistory: any;
   protected _callMonitor: any;
   protected _conference: any;
@@ -140,7 +142,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   protected _rcVideo: any;
 
   private _segment: any;
-  private _trackList: ITrackItem[];
+  private _trackList: TrackItem[];
   private _useLog: boolean;
   private _logs: TrackLog[] = [];
   private _lingerThreshold: number;
@@ -161,6 +163,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
     callingSettings,
     accountInfo,
     extensionInfo,
+    rolesAndPermissions,
     callHistory,
     callMonitor,
     conference,
@@ -197,6 +200,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
     this._callingSettings = callingSettings;
     this._accountInfo = accountInfo;
     this._extensionInfo = extensionInfo;
+    this._rolesAndPermissions = rolesAndPermissions;
     this._callHistory = callHistory;
     this._callMonitor = callMonitor;
     this._conference = conference;
@@ -214,12 +218,12 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
     this._segment = Segment();
-    this._trackList = [...INIT_TRACK_LIST];
+    this._trackList = [...TRACK_LIST];
     this._useLog = useLog;
     this._lingerThreshold = lingerThreshold;
   }
 
-  private identify({ userId, ...props }) {
+  private _identify({ userId, ...props }) {
     if (this.analytics) {
       this.analytics.identify(userId, props);
     }
@@ -302,15 +306,11 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
     }
   }
 
-  async _processActions() {
+  private async _processActions() {
     if (this.lastActions.length) {
       await sleep(300);
       this.lastActions.forEach((action: TrackAction) => {
-        this._trackList.forEach(({ functionImpl }: ITrackItem) => {
-          if (typeof functionImpl === 'function') {
-            functionImpl.call(this, action);
-          }
-        });
+        this.processAction(action);
       });
       this.store.dispatch({
         type: this.actionTypes.clear,
@@ -319,14 +319,18 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
     }
   }
 
-  cleanTrackList() {
-    this._trackList = [];
+  processAction(action: TrackAction) {
+    (this.trackList || []).forEach(({ funcImpl }: TrackItem) => {
+      if (typeof funcImpl === 'function') {
+        funcImpl.call(this, action);
+      }
+    });
   }
 
   @tracking
   private _authentication(action: TrackAction) {
-    if (this._auth && this._auth.actionTypes.loginSuccess === action.type) {
-      this.identify({
+    if (this._auth?.actionTypes.loginSuccess === action.type) {
+      this._identify({
         userId: this._auth.ownerId,
       });
       this.track('Authentication');
@@ -335,30 +339,27 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
 
   @tracking
   private _logout(action: TrackAction) {
-    if (this._auth && this._auth.actionTypes.logout === action.type) {
+    if (this._auth?.actionTypes.logout === action.type) {
       this.track('Logout');
     }
   }
 
   @tracking
   private _accountInfoReady(action: TrackAction) {
-    if (
-      this._accountInfo &&
-      this._accountInfo.actionTypes.initSuccess === action.type
-    ) {
-      this.identify({
-        userId: this._accountInfo._auth.ownerId,
+    if (this._accountInfo?.actionTypes.initSuccess === action.type) {
+      this._identify({
+        userId: this._auth?.ownerId,
         accountId: this._accountInfo.id,
         servicePlanId: this._accountInfo.servicePlan.id,
         edition: this._accountInfo.servicePlan.edition,
-        CRMEnabled: this._accountInfo._rolesAndPermissions.tierEnabled,
+        CRMEnabled: this._rolesAndPermissions?.tierEnabled,
       });
     }
   }
 
   @tracking
   private _callAttempt(action: TrackAction) {
-    if (this._call && this._call.actionTypes.connect === action.type) {
+    if (this._call?.actionTypes.connect === action.type) {
       if (action.callSettingMode === callingModes.webphone) {
         this.track('Call Attempt WebRTC');
       } else {
@@ -371,7 +372,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
 
   @tracking
   private _callConnected(action: TrackAction) {
-    if (this._call && this._call.actionTypes.connectSuccess === action.type) {
+    if (this._call?.actionTypes.connectSuccess === action.type) {
       if (action.callSettingMode === callingModes.webphone) {
         this.track('Outbound WebRTC Call Connected');
       } else {
@@ -384,70 +385,49 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
 
   @tracking
   private _webRTCRegistration(action: TrackAction) {
-    if (
-      this._webphone &&
-      this._webphone.actionTypes.registered === action.type
-    ) {
+    if (this._webphone?.actionTypes.registered === action.type) {
       this.track('WebRTC registration');
     }
   }
 
   @tracking
   private _smsAttempt(action: TrackAction) {
-    if (
-      this._messageSender &&
-      this._messageSender.actionTypes.send === action.type
-    ) {
+    if (this._messageSender?.actionTypes.send === action.type) {
       this.track('SMS Attempt');
     }
   }
 
   @tracking
   private _smsSentOver(action: TrackAction) {
-    if (
-      this._messageSender &&
-      this._messageSender.actionTypes.sendOver === action.type
-    ) {
+    if (this._messageSender?.actionTypes.sendOver === action.type) {
       this.track('SMS: SMS sent succesfully');
     }
   }
 
   @tracking
   private _smsSentError(action: TrackAction) {
-    if (
-      this._messageSender &&
-      this._messageSender.actionTypes.sendError === action.type
-    ) {
+    if (this._messageSender?.actionTypes.sendError === action.type) {
       this.track('SMS: SMS sent failed');
     }
   }
 
   @tracking
   private _logCall(action: TrackAction) {
-    if (
-      this._adapter &&
-      this._adapter.actionTypes.createCallLog === action.type
-    ) {
+    if (this._adapter?.actionTypes.createCallLog === action.type) {
       this.track('Log Call');
     }
   }
 
   @tracking
   private _logSMS(action: TrackAction) {
-    if (
-      this._adapter &&
-      this._adapter.actionTypes.createSMSLog === action.type
-    ) {
+    if (this._adapter?.actionTypes.createSMSLog === action.type) {
       this.track('Log SMS');
     }
   }
 
   @tracking
   private _clickToDial(action: TrackAction) {
-    if (
-      this._adapter &&
-      this._adapter.actionTypes.clickToDial === action.type
-    ) {
+    if (this._adapter?.actionTypes.clickToDial === action.type) {
       this.track('Click To Dial');
     }
   }
@@ -455,63 +435,53 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _clickToDialPlaceRingOutCall(action: TrackAction) {
     if (
-      this._adapter &&
-      this._adapter.actionTypes.clickToDial === action.type &&
+      this._adapter?.actionTypes.clickToDial === action.type &&
       action.callSettingMode !== callingModes.webphone
     ) {
       this.track('Call: Place RingOut call/Click to Dial ', {
-        'RingOut type': this._callingSettings.callWith,
+        'RingOut type': this._callingSettings?.callWith,
       });
     }
   }
 
   @tracking
   private _clickToSMS(action: TrackAction) {
-    if (this._adapter && this._adapter.actionTypes.clickToSMS === action.type) {
+    if (this._adapter?.actionTypes.clickToSMS === action.type) {
       this.track('Click To SMS');
     }
   }
 
   @tracking
   private _viewEntity(action: TrackAction) {
-    if (this._adapter && this._adapter.actionTypes.viewEntity === action.type) {
+    if (this._adapter?.actionTypes.viewEntity === action.type) {
       this.track('View Entity Details');
     }
   }
 
   @tracking
   private _createEntity(action: TrackAction) {
-    if (
-      this._adapter &&
-      this._adapter.actionTypes.createEntity === action.type
-    ) {
+    if (this._adapter?.actionTypes.createEntity === action.type) {
       this.track('Add Entity');
     }
   }
 
   @tracking
   private _editCallLog(action: TrackAction) {
-    if (
-      this._adapter &&
-      this._adapter.actionTypes.editCallLog === action.type
-    ) {
+    if (this._adapter?.actionTypes.editCallLog === action.type) {
       this.track('Edit Call Log');
     }
   }
 
   @tracking
   private _editSMSLog(action: TrackAction) {
-    if (this._adapter && this._adapter.actionTypes.editSMSLog === action.type) {
+    if (this._adapter?.actionTypes.editSMSLog === action.type) {
       this.track('Edit SMS Log');
     }
   }
 
   @tracking
   private _navigate(action: TrackAction) {
-    if (
-      this._routerInteraction &&
-      this._routerInteraction.actionTypes.locationChange === action.type
-    ) {
+    if (this._routerInteraction?.actionTypes.locationChange === action.type) {
       const path = action.payload && action.payload.pathname;
       const target = this._getTrackTarget(path);
       if (target) {
@@ -532,10 +502,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
 
   @tracking
   private _inboundCall(action: TrackAction) {
-    if (
-      this._webphone &&
-      this._webphone.actionTypes.callAnswer === action.type
-    ) {
+    if (this._webphone?.actionTypes.callAnswer === action.type) {
       this.track('Inbound WebRTC Call Connected');
     }
   }
@@ -543,9 +510,8 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _coldTransfer(action: TrackAction) {
     if (
-      this._webphone &&
-      this._webphone.isOnTransfer === true &&
-      this._webphone.actionTypes.updateSessions === action.type
+      this._webphone?.isOnTransfer === true &&
+      this._webphone?.actionTypes.updateSessions === action.type
     ) {
       this.track('Cold Transfer Call');
     }
@@ -554,8 +520,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _textClickToDial(action: TrackAction) {
     if (
-      this._messageStore &&
-      this._messageStore.actionTypes.clickToCall === action.type &&
+      this._messageStore?.actionTypes.clickToCall === action.type &&
       (action.fromType === 'Pager' || action.fromType === 'SMS')
     ) {
       this.track('Click To Dial (Text List)');
@@ -565,8 +530,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _voicemailClickToDial(action: TrackAction) {
     if (
-      this._messageStore &&
-      this._messageStore.actionTypes.clickToCall === action.type &&
+      this._messageStore?.actionTypes.clickToCall === action.type &&
       action.fromType === 'VoiceMail'
     ) {
       this.track('Click To Dial (Voicemail List)');
@@ -575,100 +539,70 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
 
   @tracking
   private _voicemailClickToSMS(action: TrackAction) {
-    if (
-      this._messageStore &&
-      this._messageStore.actionTypes.clickToSMS === action.type
-    ) {
+    if (this._messageStore?.actionTypes.clickToSMS === action.type) {
       this.track('Click to SMS (Voicemail List)');
     }
   }
 
   @tracking
   private _voicemailDelete(action: TrackAction) {
-    if (
-      this._messageStore &&
-      this._messageStore.actionTypes.removeMessage === action.type
-    ) {
+    if (this._messageStore?.actionTypes.removeMessage === action.type) {
       this.track('Delete Voicemail');
     }
   }
 
   @tracking
   private _voicemailFlag(action: TrackAction) {
-    if (
-      this._messageStore &&
-      this._messageStore.actionTypes.markMessages === action.type
-    ) {
+    if (this._messageStore?.actionTypes.markMessages === action.type) {
       this.track('Flag Voicemail');
     }
   }
 
   @tracking
   private _contactDetailClickToDial(action: TrackAction) {
-    if (
-      this._contactDetailsUI &&
-      this._contactDetailsUI.actionTypes.clickToCall === action.type
-    ) {
+    if (this._contactDetailsUI?.actionTypes.clickToCall === action.type) {
       this.track('Click To Dial (Contact Details)');
     }
   }
 
   @tracking
   private _contactDetailClickToSMS(action: TrackAction) {
-    if (
-      this._contactDetailsUI &&
-      this._contactDetailsUI.actionTypes.clickToSMS === action.type
-    ) {
+    if (this._contactDetailsUI?.actionTypes.clickToSMS === action.type) {
       this.track('Click To SMS (Contact Details)');
     }
   }
 
   @tracking
   private _callHistoryClickToDial(action: TrackAction) {
-    if (
-      this._callHistory &&
-      this._callHistory.actionTypes.clickToCall === action.type
-    ) {
+    if (this._callHistory?.actionTypes.clickToCall === action.type) {
       this.track('Click To dial (Call History)');
     }
   }
 
   @tracking
   private _callHistoryClickToSMS(action: TrackAction) {
-    if (
-      this._callHistory &&
-      this._callHistory.actionTypes.clickToSMS === action.type
-    ) {
+    if (this._callHistory?.actionTypes.clickToSMS === action.type) {
       this.track('Click To SMS (Call History)');
     }
   }
 
   @tracking
   private _conferenceInviteWithText(action: TrackAction) {
-    if (
-      this._conference &&
-      this._conference.actionTypes.inviteWithText === action.type
-    ) {
+    if (this._conference?.actionTypes.inviteWithText === action.type) {
       this.track('Invite With Text (Conference)');
     }
   }
 
   @tracking
   private _conferenceAddDialInNumber(action: TrackAction) {
-    if (
-      this._conference &&
-      this._conference.actionTypes.updateAdditionalNumbers === action.type
-    ) {
+    if (this._conference?.actionTypes.updateAdditionalNumbers === action.type) {
       this.track('Select Additional Dial-in Number (Conference)');
     }
   }
 
   @tracking
   private _conferenceJoinAsHost(action: TrackAction) {
-    if (
-      this._conference &&
-      this._conference.actionTypes.joinAsHost === action.type
-    ) {
+    if (this._conference?.actionTypes.joinAsHost === action.type) {
       this.track('Join As Host (Conference)');
     }
   }
@@ -676,8 +610,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _showWhatsNew(action: TrackAction) {
     if (
-      this._userGuide &&
-      this._userGuide.actionTypes.updateCarousel === action.type &&
+      this._userGuide?.actionTypes.updateCarousel === action.type &&
       action.curIdx === 0 &&
       action.playing
     ) {
@@ -687,10 +620,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
 
   @tracking
   private _allCallsClickHold(action: TrackAction) {
-    if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.allCallsClickHoldTrack === action.type
-    ) {
+    if (this._callMonitor?.actionTypes.allCallsClickHoldTrack === action.type) {
       this.track('Click Hold (All Calls)');
     }
   }
@@ -698,8 +628,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _allCallsClickHangup(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.allCallsClickHangupTrack === action.type
+      this._callMonitor?.actionTypes.allCallsClickHangupTrack === action.type
     ) {
       this.track('Click Hangup (All Calls)');
     }
@@ -707,10 +636,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
 
   @tracking
   private _allCallsCallItemClick(action: TrackAction) {
-    if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.callItemClickTrack === action.type
-    ) {
+    if (this._callMonitor?.actionTypes.callItemClickTrack === action.type) {
       this.track('Click Call Item (All Calls)');
     }
   }
@@ -718,8 +644,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _callControlClickAdd(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.callControlClickAddTrack === action.type
+      this._callMonitor?.actionTypes.callControlClickAddTrack === action.type
     ) {
       this.track('Click Add (Call Control)');
     }
@@ -728,8 +653,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _callControlClickMerge(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.callControlClickMergeTrack ===
+      this._callMonitor?.actionTypes.callControlClickMergeTrack ===
         action.type &&
       !Object.values(this._conferenceCall.state.mergingPair).length
     ) {
@@ -740,8 +664,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _mergeCallControlClickMerge(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.callControlClickMergeTrack ===
+      this._callMonitor?.actionTypes.callControlClickMergeTrack ===
         action.type &&
       Object.values(this._conferenceCall.state.mergingPair).length
     ) {
@@ -752,8 +675,8 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _mergeCallControlClickHangup(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.mergeControlClickHangupTrack === action.type
+      this._callMonitor?.actionTypes.mergeControlClickHangupTrack ===
+      action.type
     ) {
       this.track('Click Hangup (Merge Call Control)');
     }
@@ -762,8 +685,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _inboundCallConnectedTrack(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.inboundCallConnectedTrack === action.type
+      this._callMonitor?.actionTypes.inboundCallConnectedTrack === action.type
     ) {
       this.track('Call: Inbound call connected');
     }
@@ -772,8 +694,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _outboundCallConnectedTrack(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.outboundCallConnectedTrack === action.type
+      this._callMonitor?.actionTypes.outboundCallConnectedTrack === action.type
     ) {
       this.track('Call: Outbound RingOut Call connected');
     }
@@ -782,8 +703,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _callsOnHoldClickAdd(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.callsOnHoldClickAddTrack === action.type
+      this._callMonitor?.actionTypes.callsOnHoldClickAddTrack === action.type
     ) {
       this.track('Click Add (Calls OnHold)');
     }
@@ -792,8 +712,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _callsOnHoldClickMerge(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.callsOnHoldClickMergeTrack === action.type
+      this._callMonitor?.actionTypes.callsOnHoldClickMergeTrack === action.type
     ) {
       this.track('Click Merge (Calls OnHold)');
     }
@@ -802,8 +721,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _confirmMergeClickClose(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.confirmMergeClickCloseTrack === action.type
+      this._callMonitor?.actionTypes.confirmMergeClickCloseTrack === action.type
     ) {
       this.track('Click Close (ConfirmMerge Modal)');
     }
@@ -812,8 +730,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _confirmMergeClickMerge(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.confirmMergeClickMergeTrack === action.type
+      this._callMonitor?.actionTypes.confirmMergeClickMergeTrack === action.type
     ) {
       this.track('Click Merge (ConfirmMerge Modal)');
     }
@@ -822,9 +739,8 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _removeParticipantClickRemove(action: TrackAction) {
     if (
-      this._conferenceCall &&
-      this._conferenceCall.actionTypes.removeParticipantClickRemoveTrack ===
-        action.type
+      this._conferenceCall?.actionTypes.removeParticipantClickRemoveTrack ===
+      action.type
     ) {
       this.track('Click Remove (RemoveParticipants Modal)');
     }
@@ -833,9 +749,8 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _removeParticipantClickCancel(action: TrackAction) {
     if (
-      this._conferenceCall &&
-      this._conferenceCall.actionTypes.removeParticipantClickCancelTrack ===
-        action.type
+      this._conferenceCall?.actionTypes.removeParticipantClickCancelTrack ===
+      action.type
     ) {
       this.track('Cancel Remove (RemoveParticipants Modal)');
     }
@@ -844,9 +759,8 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _participantListClickHangup(action: TrackAction) {
     if (
-      this._conferenceCall &&
-      this._conferenceCall.actionTypes.participantListClickHangupTrack ===
-        action.type
+      this._conferenceCall?.actionTypes.participantListClickHangupTrack ===
+      action.type
     ) {
       this.track('Click Hangup (Participant List)');
     }
@@ -855,8 +769,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _callControlClickParticipantArea(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes
+      this._callMonitor?.actionTypes
         .callControlClickParticipantAreaClickTrack === action.type
     ) {
       this.track('Click Participant Area (Call Control)');
@@ -866,8 +779,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _callsOnHoldClickHangup(action: TrackAction) {
     if (
-      this._callMonitor &&
-      this._callMonitor.actionTypes.callsOnHoldClickHangupTrack === action.type
+      this._callMonitor?.actionTypes.callsOnHoldClickHangupTrack === action.type
     ) {
       this.track('Click Hangup (Calls OnHold)');
     }
@@ -957,17 +869,18 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   @tracking
   private _schedule(action: TrackAction) {
     if (
-      ((this._meeting &&
-        this._meeting.actionTypes.initScheduling === action.type) ||
-        (this._rcVideo &&
-          this._rcVideo.actionTypes.initCreating === action.type)) &&
-      this._routerInteraction
+      this._meeting?.actionTypes.initScheduling === action.type ||
+      this._rcVideo?.actionTypes.initCreating === action.type
     ) {
-      const target = this._getTrackTarget(this._routerInteraction.currentPath);
+      const target = this._getTrackTarget(this._routerInteraction?.currentPath);
       if (target) {
         this.trackSchedule(target);
       }
     }
+  }
+
+  get trackList(): TrackItem[] {
+    return this._trackList;
   }
 
   get analytics() {
@@ -995,11 +908,9 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
       appName: this._appName,
       appVersion: this._appVersion,
       brand: this._brandCode,
-      'App Language': this._locale ? this._locale.currentLocale : '',
-      'Browser Language': this._locale ? this._locale.browserLocale : '',
-      'Extension Type': this._extensionInfo
-        ? this._extensionInfo.info.type
-        : '',
+      'App Language': this._locale?.currentLocale || '',
+      'Browser Language': this._locale?.browserLocale || '',
+      'Extension Type': this._extensionInfo?.info.type || '',
     };
   }
 }

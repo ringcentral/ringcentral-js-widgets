@@ -1,9 +1,11 @@
-@import '~ringcentral-widgets/lib/commonStyles/text-ellipsis';
+@import '../../../lib/commonStyles/text-ellipsis';
 
 .container {
   display: flex;
   align-items: center;
-  margin: 7px 0;
+  & + .container {
+    margin-top: 12px;
+  }
 
   [sf-classic] & {
     flex-direction: column;

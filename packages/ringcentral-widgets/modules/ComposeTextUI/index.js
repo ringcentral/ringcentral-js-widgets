@@ -1,5 +1,6 @@
 import Module from 'ringcentral-integration/lib/di/decorators/module';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import detect from '@ringcentral-integration/phone-number/lib/detect';
 
 import RcUIModule from '../../lib/RcUIModule';
 
@@ -130,6 +131,22 @@ export default class ComposeTextUI extends RcUIModule {
       },
       formatPhone: formatContactPhone,
       formatContactPhone,
+      detectPhoneNumbers(input) {
+        const detectedNumbers = detect({
+          input,
+          countryCode: regionSettings.countryCode,
+          areaCode: regionSettings.areaCode,
+        });
+        if (detectedNumbers.length) {
+          detectedNumbers.forEach((item) => {
+            composeText.addToNumber({
+              phoneNumber: item.phoneNumber,
+            });
+          });
+          return true;
+        }
+        return false;
+      },
       searchContact: (searchString) =>
         contactSearch.debouncedSearch({ searchString }),
       updateSenderNumber: ({ phoneNumber }) =>

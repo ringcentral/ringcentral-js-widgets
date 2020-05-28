@@ -1,5 +1,6 @@
 import classnames from 'classnames';
-import React, { Component } from 'react';
+import React, { Component, ClipboardEvent } from 'react';
+
 import ContactDropdownList from '../ContactDropdownList';
 import { RemoveButton } from '../RemoveButton';
 import { focusCampo } from './focusCampo';
@@ -32,6 +33,7 @@ type RecipientsInputProps = {
   addToRecipients: (...args: any[]) => any;
   removeFromRecipients: (...args: any[]) => any;
   formatContactPhone: (...args: any[]) => any;
+  detectPhoneNumbers: (...args: any[]) => any;
   searchContact?: (...args: any[]) => any;
   titleEnabled?: boolean;
   autoFocus?: boolean;
@@ -191,6 +193,19 @@ class RecipientsInput extends Component<
     }
   };
 
+  onPaste = (ev: ClipboardEvent) => {
+    if (
+      this.props.detectPhoneNumbers &&
+      ev.clipboardData &&
+      ev.clipboardData.getData
+    ) {
+      const pastedText = ev.clipboardData.getData('text/plain');
+      if (this.props.detectPhoneNumbers(pastedText)) {
+        ev.preventDefault();
+      }
+    }
+  };
+
   onClean = () => {
     this.setState({ value: '' });
     this.props.onClean();
@@ -307,6 +322,7 @@ class RecipientsInput extends Component<
               name="receiver"
               value={value}
               onChange={this.onInputChange}
+              onPaste={this.onPaste}
               className={styles.numberInput}
               maxLength={30}
               onFocus={this.onInputFocus}

@@ -1,7 +1,7 @@
 import RcModule from '../RcModule';
 import { Library } from '../di';
 import { prefixEnum } from '../Enum';
-import SynchronizedStorage from '../../lib/SynchronizedStorage';
+import SynchronizedStorage from '../SynchronizedStorage';
 
 import actionTypesBase from './actionTypesBase';
 import moduleStatuses from '../../enums/moduleStatuses';
@@ -11,7 +11,7 @@ import getStorageReducer from './getStorageReducer';
 /**
  * @class
  * @description Alternative implementation of the Storage class.
- *  Allows registeration of reducers so that persisted states can be computed with reducers.
+ *  Allows registration of reducers so that persisted states can be computed with reducers.
  */
 @Library({
   deps: [{ dep: 'StorageBaseOptions', optional: true }],
@@ -66,5 +66,12 @@ export default class StorageBase extends RcModule {
 
   get ready() {
     return this.status === moduleStatuses.ready;
+  }
+
+  get driver() {
+    if (this.ready) {
+      return this._storage.driver;
+    }
+    return null;
   }
 }

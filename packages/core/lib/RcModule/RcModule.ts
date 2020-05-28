@@ -1,5 +1,9 @@
-import BaseModule, { state, action, computed } from 'usm-redux';
+import BaseModule, { state, action } from 'usm-redux';
 import { combineReducers, Reducer } from 'redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Storage from 'ringcentral-integration/modules/Storage';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
 import { moduleStatuses } from '../../enums/moduleStatuses';
 
 // TODO: `_getProxyState`.
@@ -46,7 +50,13 @@ interface RcModuleV2 {
   _globalStorageSubKeys: string[];
 }
 
-class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
+class RcModuleV2<
+  T extends { storage?: Storage; globalStorage?: GlobalStorage } & Record<
+    string,
+    any
+  > = {},
+  S = {}
+> extends BaseModule<T> {
   __$$state$$__: any;
   /**
    * `onInit` life cycle for current initialization before all deps modules are all ready.
@@ -89,7 +99,7 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
           return reducerMap;
         }, {}),
       );
-      (this._modules as any).storage.registerReducer({
+      this._modules.storage.registerReducer({
         key: this.storageKey,
         reducer,
       });
@@ -124,7 +134,7 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
           return reducerMap;
         }, {}),
       );
-      (this._modules as any).globalStorage.registerReducer({
+      this._modules.globalStorage.registerReducer({
         key: this.storageKey,
         reducer,
       });
@@ -175,8 +185,8 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
   get enableStorage() {
     if (
       this.enableCache &&
-      (typeof (this._modules as any).storage === 'undefined' ||
-        (this._modules as any).storage === null)
+      (typeof this._modules.storage === 'undefined' ||
+        this._modules.storage === null)
     ) {
       console.error(
         `Dependent 'Storage' module was not imported in the ${this.__key__} module.`,
@@ -184,7 +194,7 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
     }
     return (
       this.enableCache &&
-      !!(this._modules as any).storage &&
+      !!this._modules.storage &&
       Array.isArray(this._storageSubKeys) &&
       this._storageSubKeys.length > 0
     );
@@ -197,8 +207,8 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
   get enableGlobalStorage() {
     if (
       this.enableGlobalCache &&
-      (typeof (this._modules as any).globalStorage === 'undefined' ||
-        (this._modules as any).globalStorage === null)
+      (typeof this._modules.globalStorage === 'undefined' ||
+        this._modules.globalStorage === null)
     ) {
       console.error(
         `Dependent 'GlobalStorage' module was not imported in the module.`,
@@ -206,7 +216,7 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
     }
     return (
       this.enableGlobalCache &&
-      !!(this._modules as any).globalStorage &&
+      !!this._modules.globalStorage &&
       Array.isArray(this._globalStorageSubKeys) &&
       this._globalStorageSubKeys.length > 0
     );
@@ -234,7 +244,7 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
     }, {});
   }
 
-  public get state(): K {
+  public get state(): S & { __status__: string } {
     if (this.__$$state$$__) {
       return this.__$$state$$__;
     }
@@ -253,8 +263,8 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
     return this._storageSubKeys.reduce((_state, key) => {
       let value;
       if (this.enableStorage) {
-        value = (this._modules as any).storage.getItem(this.storageKey)
-          ? (this._modules as any).storage.getItem(this.storageKey)[key]
+        value = this._modules.storage.getItem(this.storageKey)
+          ? this._modules.storage.getItem(this.storageKey)[key]
           : this._initialValue[key];
       } else {
         value = this.state[key];
@@ -270,8 +280,8 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
     return this._globalStorageSubKeys.reduce((_state, key) => {
       let value;
       if (this.enableGlobalStorage) {
-        value = (this._modules as any).globalStorage.getItem(this.storageKey)
-          ? (this._modules as any).globalStorage.getItem(this.storageKey)[key]
+        value = this._modules.globalStorage.getItem(this.storageKey)
+          ? this._modules.globalStorage.getItem(this.storageKey)[key]
           : this._initialValue[key];
       } else {
         value = this.state[key];
@@ -353,26 +363,26 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
     return this.__key__;
   }
 
-  @state __status__ = moduleStatuses.pending;
+  @state __status__: string = moduleStatuses.pending;
 
   @action
   __initModule__() {
-    (this.state as any).__status__ = moduleStatuses.initializing;
+    this.state.__status__ = moduleStatuses.initializing;
   }
 
   @action
   __initSuccessModule__() {
-    (this.state as any).__status__ = moduleStatuses.ready;
+    this.state.__status__ = moduleStatuses.ready;
   }
 
   @action
   __resetModule__() {
-    (this.state as any).__status__ = moduleStatuses.resetting;
+    this.state.__status__ = moduleStatuses.resetting;
   }
 
   @action
   __resetSuccessModule__() {
-    (this.state as any).__status__ = moduleStatuses.pending;
+    this.state.__status__ = moduleStatuses.pending;
   }
 
   public get status() {
@@ -392,4 +402,4 @@ class RcModuleV2<T = {}, K = {}> extends BaseModule<T> {
   }
 }
 
-export { RcModuleV2, globalStorage, storage, state, action, computed };
+export { RcModuleV2, globalStorage, storage, state, action };

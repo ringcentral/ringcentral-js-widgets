@@ -1,4 +1,4 @@
-import CallingSettings from 'ringcentral-widgets/components/CallingSettingsPanel';
+import { CallingSettingsPanel } from 'ringcentral-widgets/components/CallingSettingsPanel';
 import LinkLine from 'ringcentral-widgets/components/LinkLine';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
@@ -18,7 +18,7 @@ beforeEach(async () => {
   panel = wrapper.find(SettingsPanel).first();
   const callingLinkLine = panel.find(LinkLine).at(0);
   await callingLinkLine.simulate('click');
-  callingSettings = wrapper.find(CallingSettings).first();
+  callingSettings = wrapper.find(CallingSettingsPanel).first();
 });
 
 describe('calling settings', () => {
@@ -38,12 +38,12 @@ describe('calling settings', () => {
     // items.at(5).text()
     const lastItem = items.at(items.length - 1);
     lastItem.simulate('click');
-    callingSettings = wrapper.find(CallingSettings).first();
+    callingSettings = wrapper.find(CallingSettingsPanel).first();
     saveButton = callingSettings.find('SaveButton').first();
     expect(saveButton.props().disabled).toEqual(false);
   });
 
-  test('check save run currectly', async () => {
+  test('check save run correctly', async () => {
     const saveButton = callingSettings.find('SaveButton').first();
     const items = callingSettings.find('.dropdownItem');
     const lastItem = items.at(items.length - 1);

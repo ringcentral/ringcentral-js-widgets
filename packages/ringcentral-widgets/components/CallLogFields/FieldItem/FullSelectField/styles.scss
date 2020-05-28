@@ -1,0 +1,12 @@
+@import '../../../../lib/commonStyles/colors.scss';
+@import '../../../../lib/commonStyles/full-size';
+@import '../../../../lib/commonStyles/vertical-align';
+
+.customTextField {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  // TODO: that will remove in rcui
+  &:disabled {
+    color: rgba(0, 0, 0, 0.38) !important;
+  }
+}

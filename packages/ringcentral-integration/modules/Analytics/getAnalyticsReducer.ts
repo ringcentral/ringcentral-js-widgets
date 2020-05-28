@@ -6,7 +6,10 @@ export function getLastActions(types) {
     if (action.type === types.clear) {
       return [];
     }
-    return [...state, action];
+    if (action.type) {
+      return [...state, action];
+    }
+    return state;
   };
 }
 

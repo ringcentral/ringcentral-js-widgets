@@ -72,7 +72,6 @@ describe('ConferenceCall :: getMergingStatusReducer', () => {
 describe('ConferenceCall :: getMergingPairReducer', () => {
   const reducer = getMergingPairReducer(actionTypes);
   it('should have initial state of empty', () => {
-    // eslint-disable-next-line no-unused-expressions
     expect(reducer(undefined, {})).to.be.an('object').that.is.empty;
   });
   it('should have the from field', () => {
@@ -103,7 +102,6 @@ describe('ConferenceCall :: getMergingPairReducer', () => {
 
   it('should reset to empty when reseting or merging successfully', () => {
     ['resetSuccess', 'mergeSucceeded'].forEach((type) => {
-      // eslint-disable-next-line no-unused-expressions
       expect(
         reducer(undefined, {
           type: actionTypes[type],
@@ -158,11 +156,9 @@ describe('ConferenceCall :: getConferenceCallStatusReducer', () => {
 describe('ConferenceCall :: getMakeConferenceCallReducer', () => {
   const reducer = getMakeConferenceCallReducer(actionTypes);
   it('should have initial state of empty object', () => {
-    // eslint-disable-next-line no-unused-expressions
     expect(reducer(undefined, {})).to.be.an('object').that.is.empty;
   });
   it('should be empty object when reset', () => {
-    // eslint-disable-next-line no-unused-expressions
     expect(
       reducer(undefined, {
         type: actionTypes.reset,
@@ -170,7 +166,6 @@ describe('ConferenceCall :: getMakeConferenceCallReducer', () => {
     ).to.be.an('object').that.is.empty;
   });
   it('should have a new record object when there is a new conference', () => {
-    // eslint-disable-next-line no-unused-expressions
     const conference = {
       creationTime: '2018-05-28T09:21:20Z',
       id: 'Y3MxNjk4ODA3MzEyMDAwMTQwNjE3QDEwLjMyLjQ0LjE1NQ',
@@ -208,7 +203,6 @@ describe('ConferenceCall :: getMakeConferenceCallReducer', () => {
     };
     const originalState = {};
     originalState[conference.id] = {};
-    // eslint-disable-next-line no-unused-expressions
     expect(
       reducer(originalState, {
         type: actionTypes.terminateConferenceSucceeded,

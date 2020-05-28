@@ -1,4 +1,4 @@
-import connectivityTypes from 'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+import connectivityTypes from '../../../modules/ConnectivityManager/connectivityTypes';
 export default {
   [connectivityTypes.webphoneUnavailable]: "Telefone da Web indisponível",
   [connectivityTypes.offline]: "Offline",

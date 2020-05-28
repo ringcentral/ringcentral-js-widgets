@@ -1,5 +1,5 @@
 import connectivityTypes from
-  'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+  '../../../../modules/ConnectivityManager/connectivityTypes';
 
 export default {
   [connectivityTypes.networkLoss]: 'Sorry, something went wrong, check your network connection and try again.',

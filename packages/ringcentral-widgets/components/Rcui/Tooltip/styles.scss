@@ -1,0 +1,19 @@
+$lightning-page-width: 298px;
+$classic-page-width: 198px;
+
+$lightning-page-space: 16px;
+$classic-page-space: 12px;
+
+// left and right both with 8px
+$mui-margin-width: 16px;
+
+.title {
+  display: block;
+  [sf-lightning] & {
+    max-width: $lightning-page-width - 2 * $lightning-page-space - $mui-margin-width;
+  }
+
+  [sf-classic] & {
+    max-width: $classic-page-width - 2 * $classic-page-space - $mui-margin-width;
+  }
+}

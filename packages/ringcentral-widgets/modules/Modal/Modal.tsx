@@ -1,6 +1,6 @@
 import {
   action,
-  computed,
+  createSelector,
   RcModuleState,
   RcModuleV2,
   state,
@@ -32,13 +32,12 @@ export class Modal extends RcModuleV2<DepsModules, ModalState> {
   @state
   modalMapping: ModalMappingType = {};
 
-  @computed
-  modals: ModalItem[] = [
+  getModals = createSelector(
     () => this.modalIds,
     () => this.modalMapping,
-    (modalIds: string[], modalMapping: ModalMappingType) =>
+    (modalIds, modalMapping: ModalMappingType) =>
       modalIds.map((id) => modalMapping[id]),
-  ] as any;
+  );
 
   @action
   private _setListItem(id: string, data: ModalItem) {

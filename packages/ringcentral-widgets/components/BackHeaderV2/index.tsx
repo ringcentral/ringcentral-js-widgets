@@ -2,8 +2,10 @@ import { RcIconButton, RcIconButtonProps } from '@ringcentral-integration/rcui';
 import chevronLeftSvg from '@ringcentral-integration/rcui/icons/icon-chevron_left.svg';
 import classnames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
+import { Tooltip } from '../Rcui/Tooltip';
 
 import styles from './styles.scss';
+import { TOOLTIP_DEFAULT_DELAY_TIME } from '../../lib/toolTipDelayTime';
 
 const initWidth = 67;
 
@@ -52,9 +54,11 @@ const BackHeader: React.SFC<BackHeaderProps> = ({
       />
       <div className={styles.title}>
         {title ? (
-          <span style={{ maxWidth: isClassic ? maxWidth : null }} title={title}>
-            {title}
-          </span>
+          <Tooltip title={title} enterDelay={TOOLTIP_DEFAULT_DELAY_TIME}>
+            <span style={{ maxWidth: isClassic ? maxWidth : null }}>
+              {title}
+            </span>
+          </Tooltip>
         ) : null}
       </div>
       <div ref={rightRef}>{rightIcon}</div>

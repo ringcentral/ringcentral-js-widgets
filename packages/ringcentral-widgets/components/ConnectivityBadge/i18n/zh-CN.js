@@ -1,4 +1,4 @@
-import connectivityTypes from 'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+import connectivityTypes from '../../../modules/ConnectivityManager/connectivityTypes';
 export default {
   [connectivityTypes.webphoneUnavailable]: "网络电话不可用",
   [connectivityTypes.offline]: "离线",

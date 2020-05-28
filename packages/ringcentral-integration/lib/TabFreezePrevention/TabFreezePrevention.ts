@@ -13,7 +13,6 @@ import uuid from 'uuid';
  * avoid this since the api is still experimental and might have strange results.
  */
 
-// eslint-disable-next-line no-unused-expressions
 global.navigator?.locks?.request?.(uuid.v4(), () => {
   return new Promise(() => {});
 });

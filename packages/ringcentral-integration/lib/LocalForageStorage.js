@@ -121,4 +121,17 @@ export default class LocalforageStorage extends EventEmitter {
     }
     this._ready = true;
   }
+
+  get driver() {
+    switch (this._localforage.driver()) {
+      case localforage.WEBSQL:
+        return 'WEBSQL';
+      case localforage.INDEXEDDB:
+        return 'INDEXEDDB';
+      case localforage.LOCALSTORAGE:
+        return 'LOCALSTORAGE';
+      default:
+        return null;
+    }
+  }
 }

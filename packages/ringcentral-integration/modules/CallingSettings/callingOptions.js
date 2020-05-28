@@ -1,6 +1,6 @@
-import Enum from '../../lib/Enum';
+import { createEnum } from '../../lib/Enum';
 
-export default new Enum(
+export default createEnum(
   [
     'softphone', // desktop
     'myphone', // ringout branding rc..

@@ -1,3 +1,4 @@
+import { RcDatePickerProps } from '@ringcentral-integration/rcui';
 import { ReactElementLike } from 'prop-types';
 import { ReactNode } from 'react';
 
@@ -15,10 +16,12 @@ export type CallLogFieldsProps = {
   referenceFieldOptions: { [key: string]: FieldOption };
   contactSearch: () => Promise<Array<any>>;
   showFoundFromServer: boolean;
+  editSectionScrollBy?: (top: number) => void;
+  fieldSize: RcDatePickerProps['size'];
 };
 
 export interface FieldOption {
-  getLabel: (item: any, length: number, currentLog: CallLog) => string;
+  getLabel: (item: any, length?: number, currentLog?: CallLog) => string;
   onChange: (item: any) => any;
   metadata?: FieldMetadata;
   currentOptionFinder: (task: Task) => (item: any) => boolean;
