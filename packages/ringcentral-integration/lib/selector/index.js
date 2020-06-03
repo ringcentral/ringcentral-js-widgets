@@ -20,7 +20,7 @@ export function selector(prototype, property, { initializer }) {
       const proto = this[SELECTORS].get(prototype);
       if (!proto.has(property)) {
         const targetSymbol = Symbol(`${property}-target`);
-        this[targetSymbol] = createSelector(...this::initializer());
+        this[targetSymbol] = createSelector(...initializer.call(this));
         proto.set(property, () => this[targetSymbol]());
       }
       return proto.get(property)();

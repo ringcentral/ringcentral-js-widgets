@@ -1,0 +1,83 @@
+@import '../../scss/variables.scss';
+
+.mainView,
+.tabNavigationView {
+  @include flex_column;
+}
+
+.tabNavigationView {
+  flex: 1 1 auto;
+  max-height: unset;
+}
+
+.workingStateSelect {
+  width: calc(100% - 50px);
+}
+
+.navigationBar {
+  height: $navigation-height;
+  padding: 0 18px;
+}
+
+.header {
+  @include display_flex;
+  width: 100%;
+}
+
+.tab {
+  @include display_flex;
+  justify-content: center;
+}
+
+.icon {
+  svg {
+    height: 20px;
+    [sf-classic] & {
+      height: 18px;
+    }
+  }
+}
+
+.offHookIcon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.offHookState {
+  display: flex;
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 8px;
+  &.disabled {
+    cursor: not-allowed;
+  }
+  svg {
+    height: 20px;
+    stroke-width: 1;
+    stroke: none;
+    [sf-classic] & {
+      height: 18px;
+    }
+  }
+}
+
+.loading {
+  display: flex;
+  cursor: not-allowed;
+  justify-content: space-between;
+  align-items: center;
+  svg {
+    animation:loadingCirle 1s linear infinite;
+  }
+}
+
+@keyframes loadingCirle {
+  0%{transform:rotate(0deg);}
+  25%{transform:rotate(90deg);}
+  50%{transform:rotate(180deg);}
+  75%{transform:rotate(270deg);}
+  100%{transform:rotate(360deg);}
+}

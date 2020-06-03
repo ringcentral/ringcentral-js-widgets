@@ -52,6 +52,11 @@ $main_grey: rgba(33, 33, 33, 0.1);
   flex-direction: column;
 }
 
+@mixin flex_center {
+  justify-content: center;
+  align-items: center;
+}
+
 @mixin text_break {
   word-break: break-all;
 }

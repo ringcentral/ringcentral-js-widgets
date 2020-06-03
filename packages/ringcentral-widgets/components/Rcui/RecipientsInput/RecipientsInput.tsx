@@ -16,12 +16,13 @@ import React, {
 import i18n from './i18n';
 import styles from './styles.scss';
 
-type RecipientsInputProps = {
+export type RecipientsInputProps = {
   recipients?: {
     phoneNumber: string;
     name?: string;
   }[];
-  currentLocale: string;
+  /** if you need default placeholder, you need pass currentLocal */
+  currentLocale?: string;
   onChange(value?: string): any;
   onDelete(): any;
   onClear(): any;

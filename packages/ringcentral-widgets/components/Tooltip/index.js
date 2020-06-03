@@ -232,10 +232,8 @@ class Tooltip extends Component {
         this.setVisible(nextProps);
       }
       if (nextProps.open) {
-        // eslint-disable-next-line no-unused-expressions
         isFunction(this.props.beforeOpen) && this.props.beforeOpen();
       } else {
-        // eslint-disable-next-line no-unused-expressions
         isFunction(this.props.beforeClose) && this.props.beforeClose();
       }
     }
@@ -243,10 +241,8 @@ class Tooltip extends Component {
 
   componentDidUpdate() {
     if (this.props.open) {
-      // eslint-disable-next-line no-unused-expressions
       isFunction(this.props.onOpen) && this.props.onOpen();
     } else {
-      // eslint-disable-next-line no-unused-expressions
       isFunction(this.props.onClose) && this.props.onClose();
     }
   }

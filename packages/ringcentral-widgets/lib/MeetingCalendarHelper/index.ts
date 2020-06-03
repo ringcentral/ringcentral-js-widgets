@@ -33,7 +33,18 @@ function getRcvPasswordTpl(
   currentLocale: string,
 ): string {
   const passwordLiteral = i18n.getString('password', currentLocale);
-  return `\n\n${passwordLiteral}: ${meetingPassword}`;
+  return `${passwordLiteral}: ${meetingPassword}`;
+}
+
+/**
+ * Dial-in password: ${passwordPstn}
+ */
+function getRcvPstnPasswordTpl(
+  meetingPasswordPSTN: string,
+  currentLocale: string,
+): string {
+  const passwordPstnLiteral = i18n.getString('passwordPstn', currentLocale);
+  return `${passwordPstnLiteral} ${meetingPasswordPSTN}`;
 }
 
 interface rcmMeeting {
@@ -48,6 +59,7 @@ interface rcvMeeting {
   links: { joinUri: string };
   isMeetingSecret: boolean;
   meetingPassword: string;
+  meetingPasswordPSTN: string;
 }
 
 interface rcmServiceInfo {
@@ -167,7 +179,7 @@ function getBaseRcvTpl(
   currentLocale: string,
 ): tplResult {
   const accountName = extensionInfo.name;
-  const { meetingPassword, isMeetingSecret } = meeting;
+  const { meetingPassword, meetingPasswordPSTN, isMeetingSecret } = meeting;
   const joinUri = meeting.joinUri;
   const pinNumber = meeting.shortId;
   let productName;
@@ -183,17 +195,18 @@ function getBaseRcvTpl(
       i18n.getString('rcvInviteMeetingContent', currentLocale),
     );
   }
-  if (isMeetingSecret) {
-    meetingContent.push(getRcvPasswordTpl(meetingPassword, currentLocale));
-  }
   if (dialInNumber) {
     meetingContent.push(
       i18n.getString('rcvInviteMeetingContentDial', currentLocale),
     );
   }
-  meetingContent.push(
-    `\n\n${i18n.getString('rcvTeleconference', currentLocale)}`,
-  );
+  meetingContent.push(`${i18n.getString('rcvTeleconference', currentLocale)}`);
+  const passwordPstnTpl = isMeetingSecret
+    ? getRcvPstnPasswordTpl(meetingPasswordPSTN, currentLocale)
+    : '';
+  const passwordTpl = isMeetingSecret
+    ? getRcvPasswordTpl(meetingPassword, currentLocale)
+    : '';
   const teleconference =
     brand.id === attBrandId ? rcvAttTeleconference : rcvTeleconference;
   const brandName = brand.id === attBrandId ? `AT&T ${brand.name}` : brand.name;
@@ -202,6 +215,8 @@ function getBaseRcvTpl(
       accountName,
       brandName,
       joinUri,
+      passwordTpl,
+      passwordPstnTpl,
       smartphones: `${dialInNumber},,${pinNumber}#`,
       dialNumber: dialInNumber,
       pinNumber: formatMeetingId(pinNumber),

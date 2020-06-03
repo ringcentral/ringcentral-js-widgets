@@ -1,5 +1,5 @@
 import connectivityTypes from
-  'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+  '../../../modules/ConnectivityManager/connectivityTypes';
 
 export default {
   [connectivityTypes.webphoneUnavailable]: 'Web Phone Unavailable',

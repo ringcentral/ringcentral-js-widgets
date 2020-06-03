@@ -334,9 +334,9 @@ export default class AudioSettingsPanel extends Component {
           titleEnabled
         />
         <div
-          className={styles.tooltipContainner}
-          ref={(tooltipContainner) => {
-            this.outputTooltipContainner = tooltipContainner;
+          className={styles.tooltipContainer}
+          ref={(tooltipContainer) => {
+            this.outputTooltipContainner = tooltipContainer;
           }}
         />
       </InputField>
@@ -393,9 +393,9 @@ export default class AudioSettingsPanel extends Component {
           titleEnabled
         />
         <div
-          className={styles.tooltipContainner}
-          ref={(tooltipContainner) => {
-            this.inputTooltipContainner = tooltipContainner;
+          className={styles.tooltipContainer}
+          ref={(tooltipContainer) => {
+            this.inputTooltipContainner = tooltipContainer;
           }}
         />
       </InputField>

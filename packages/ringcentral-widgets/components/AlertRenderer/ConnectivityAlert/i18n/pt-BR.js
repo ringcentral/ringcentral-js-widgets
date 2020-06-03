@@ -1,4 +1,4 @@
-import connectivityTypes from 'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+import connectivityTypes from '../../../../modules/ConnectivityManager/connectivityTypes';
 export default {
   [connectivityTypes.networkLoss]: "Algo deu errado. Verifique sua conexão de rede e tente novamente.",
   [connectivityTypes.offline]: "Não é possível conectar ao servidor. Tente mais tarde.",

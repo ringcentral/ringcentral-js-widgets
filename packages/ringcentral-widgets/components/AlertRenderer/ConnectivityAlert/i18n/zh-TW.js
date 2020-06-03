@@ -1,4 +1,4 @@
-import connectivityTypes from 'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+import connectivityTypes from '../../../../modules/ConnectivityManager/connectivityTypes';
 export default {
   [connectivityTypes.networkLoss]: "抱歉，出了一些問題，請檢查您的網路連接並再試一次。",
   [connectivityTypes.offline]: "無法連線伺服器。請稍後再試一次。",

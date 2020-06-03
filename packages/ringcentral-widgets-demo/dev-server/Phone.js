@@ -56,7 +56,6 @@ import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
 import Meeting from 'ringcentral-integration/modules/Meeting';
 import LocaleSettings from 'ringcentral-integration/modules/LocaleSettings';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
-import { Analytics } from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import SleepDetector from 'ringcentral-integration/modules/SleepDetector';
@@ -70,7 +69,7 @@ import { ContactDetailsUI } from 'ringcentral-widgets/modules/ContactDetailsUI';
 import OAuth from 'ringcentral-widgets/modules/OAuth';
 import AudioSettingsUI from 'ringcentral-widgets/modules/AudioSettingsUI';
 import RegionSettingsUI from 'ringcentral-widgets/modules/RegionSettingsUI';
-import CallingSettingsUI from 'ringcentral-widgets/modules/CallingSettingsUI';
+import { CallingSettingsUI } from 'ringcentral-widgets/modules/CallingSettingsUI';
 import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager';
 import ConnectivityBadgeUI from 'ringcentral-widgets/modules/ConnectivityBadgeUI';
 import LoginUI from 'ringcentral-widgets/modules/LoginUI';
@@ -92,7 +91,9 @@ import { hashHistory } from 'react-router';
 import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 import FlipUI from 'ringcentral-widgets/modules/FlipUI';
 import TransferUI from 'ringcentral-widgets/modules/TransferUI';
+import { CallerId } from 'ringcentral-integration/modules/CallerId';
 import 'ringcentral-integration/lib/TabFreezePrevention';
+import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
 
 const history =
   global.process &&
@@ -144,7 +145,15 @@ const history =
     { provide: 'ForwardingNumber', useClass: ForwardingNumber },
     { provide: 'RegionSettings', useClass: RegionSettings },
     { provide: 'NumberValidate', useClass: NumberValidate },
+    { provide: 'CallerId', useClass: CallerId },
     { provide: 'CallingSettings', useClass: CallingSettings },
+    {
+      provide: 'CallingSettingsUIOptions',
+      useValue: {
+        ringtoneSettings: false,
+      },
+      spread: true,
+    },
     { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
     { provide: 'Call', useClass: Call },
     { provide: 'Subscription', useClass: Subscription },
@@ -199,7 +208,7 @@ const history =
     {
       provide: 'StorageOptions',
       useValue: {
-        // StorageProvider: LocalForageStorage, // IndexedDB
+        StorageProvider: LocalForageStorage, // IndexedDB
         disableAllowInactiveTabsWrite: true,
       },
       spread: true,
@@ -257,17 +266,6 @@ const history =
       provide: 'RouterInteractionOptions',
       useValue: {
         history,
-      },
-      spread: true,
-    },
-    {
-      provide: 'Analytics',
-      useClass: Analytics,
-    },
-    {
-      provide: 'AnalyticsOptions',
-      useValue: {
-        useLog: true,
       },
       spread: true,
     },
@@ -583,7 +581,7 @@ export function createPhone({
           ...apiConfig,
           appName: 'Widgets Demo App',
           appVersion: 'N/A',
-          cachePrefix: 'sdk-rc',
+          cachePrefix: `sdk-${prefix}`,
           clearCacheOnRefreshError: false,
         },
       },
@@ -594,7 +592,7 @@ export function createPhone({
             ...apiConfig,
             appName: 'Widgets Demo App',
             appVersion: 'N/A',
-            cachePrefix: 'sdk-rc',
+            cachePrefix: `sdk-${prefix}`,
             clearCacheOnRefreshError: false,
           },
         },

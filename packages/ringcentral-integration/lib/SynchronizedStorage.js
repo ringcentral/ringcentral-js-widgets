@@ -109,4 +109,11 @@ export default class SynchronizedStorage extends EventEmitter {
   get id() {
     return this._id;
   }
+
+  get driver() {
+    if (this._localStorage === localStorage) {
+      return 'LOCALSTORAGE';
+    }
+    return 'MEMORYSTORAGE';
+  }
 }

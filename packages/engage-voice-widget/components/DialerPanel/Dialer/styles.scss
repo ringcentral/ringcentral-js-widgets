@@ -1,0 +1,34 @@
+@import '../../../scss/variables.scss';
+
+.dialerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.recipient {
+  margin-top: 6px;
+  width: 100%;
+  display: flex;
+
+  .recipientInput {
+    caret-color: $primary-color;
+    margin-left: $lightning-page-space;
+    margin-right: $lightning-page-space;
+
+    [sf-classic] & {
+      margin-left: $classic-page-space;
+      margin-right: $classic-page-space;
+    }
+  }
+}
+
+.dialerPad {
+  width: 80%;
+  margin: 10px auto 6px;
+
+  [sf-classic] & {
+    width: 90%;
+  }
+}

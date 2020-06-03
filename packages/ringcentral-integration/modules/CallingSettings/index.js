@@ -26,6 +26,7 @@ import { selector } from '../../lib/selector';
     'ForwardingNumber',
     'Storage',
     'RolesAndPermissions',
+    { dep: 'CallerId', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'CallingSettingsOptions', optional: true },
@@ -57,6 +58,7 @@ export default class CallingSettings extends RcModule {
     tabManager,
     onFirstLogin,
     webphone,
+    callerId,
     emergencyCallAvailable = false,
     defaultRingoutPrompt,
     ...options
@@ -74,6 +76,7 @@ export default class CallingSettings extends RcModule {
     this._rolesAndPermissions = rolesAndPermissions;
     this._tabManager = tabManager;
     this._webphone = webphone;
+    this._callerId = callerId;
     this._storageKey = 'callingSettingsData';
     this._emergencyCallAvailable = emergencyCallAvailable;
 
@@ -118,19 +121,21 @@ export default class CallingSettings extends RcModule {
       this._extensionInfo.ready &&
       this._extensionPhoneNumber.ready &&
       this._forwardingNumber.ready &&
+      (!this._callerId || this._callerId.ready) &&
       this._rolesAndPermissions.ready &&
       this.pending
     );
   }
 
   _shouldReset() {
-    return (
+    return !!(
       this.ready &&
       (!this._storage.ready ||
         !this._extensionInfo.ready ||
         !this._extensionPhoneNumber.ready ||
         !this._forwardingNumber.ready ||
-        !this._rolesAndPermissions.ready)
+        !this._rolesAndPermissions.ready ||
+        (this._callerId && !this._callerId.ready))
     );
   }
 
@@ -179,8 +184,22 @@ export default class CallingSettings extends RcModule {
   async _initFromNumber() {
     const fromNumber = this.fromNumber;
     if (!fromNumber) {
-      const fromNumberList = this.fromNumbers;
-      await this.updateFromNumber(fromNumberList[0]);
+      let defaultCallerId = this.fromNumbers[0];
+      if (this._callerId?.ringOut) {
+        if (this._callerId.ringOut.type === 'Blocked') {
+          defaultCallerId = { phoneNumber: 'anonymous' };
+        } else if (this._callerId.ringOut.type === 'PhoneNumber') {
+          const defaultPhoneNumber = this._callerId?.ringOut.phoneInfo
+            ?.phoneNumber;
+          const defaultEntry = this.fromNumbers.find(
+            (item) => item.phoneNumber === defaultPhoneNumber,
+          );
+          if (defaultEntry) {
+            defaultCallerId = defaultEntry;
+          }
+        }
+      }
+      await this.updateFromNumber(defaultCallerId);
     }
   }
 
@@ -428,5 +447,14 @@ export default class CallingSettings extends RcModule {
         }
       }
     }
+  }
+
+  /* ringtone */
+  get isChangeRingToneAllowed() {
+    return (
+      this._webphone &&
+      (this._storage.driver === 'INDEXEDDB' ||
+        this._storage.driver === 'WEBSQL')
+    );
   }
 }

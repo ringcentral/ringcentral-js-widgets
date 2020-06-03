@@ -8,6 +8,8 @@ const packageNames = [
   '@ringcentral-integration/phone-number',
   '@ringcentral-integration/glip-widgets',
   '@ringcentral-integration/core',
+  '@ringcentral-integration/babel-settings',
+  '@ringcentral-integration/engage-voice-widgets',
 ];
 const releaseBranchNames = [
   'commons-release',
@@ -17,6 +19,7 @@ const releaseBranchNames = [
   'phone-number-release',
   'glip-widgets-release',
   'core-release',
+  'engage-voice-widgets-release',
 ];
 
 const args = process.argv.slice(2);

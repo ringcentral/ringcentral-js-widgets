@@ -1,0 +1,16 @@
+@import '../../scss/variables.scss';
+
+div.listItem.listItem {
+  font-size: 14px;
+  justify-content: space-between;
+
+  padding: 17px 12px;
+  [sf-classic] & {
+    padding-left: $classic-page-space;
+    padding-right: $classic-page-space;
+  }
+
+  .textFieldIcon {
+    color: rgba(0, 0, 0, 0.25);
+  }
+}

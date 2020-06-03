@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import connectivityTypes from 'ringcentral-widgets/modules/ConnectivityManager/connectivityTypes';
+import connectivityTypes from '../../modules/ConnectivityManager/connectivityTypes';
 import Badge from '../Badge';
 import Draggable from '../Draggable';
 import i18n from './i18n';

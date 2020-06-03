@@ -1,0 +1,20 @@
+@import '../../scss/variables.scss';
+
+.root {
+  @include full-size;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .loginButton {
+    width: 268px;
+    [sf-classic] & {
+      width: 168px;
+    }
+  }
+}
+
+.spinner {
+  display: flex;
+  @include flex_center;
+}

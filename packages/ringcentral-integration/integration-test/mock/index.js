@@ -36,6 +36,7 @@ import fetchDLBody from './data/fetchDL';
 import fetchDLWithNoRecordBody from './data/fetchDLWithNoRecord';
 import videoConfigurationBody from './data/videoConfiguration.json';
 import meetingProviderBody from './data/meetingProvider.json';
+import callerIdBody from './data/callerId.json';
 
 export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -95,7 +96,7 @@ export function mockApi({
     },
     {
       method,
-      times: isOnce ? 1 : 20,
+      times: isOnce ? 1 : 20000,
     },
   );
 }
@@ -112,7 +113,7 @@ export function authentication() {
       refresh_token_expires_in: 60480,
       scope: 'SMS RCM Foo Boo',
       expireTime: new Date().getTime() + 3600000,
-      owner_id: '23231231"',
+      owner_id: '23231231',
       endpoint_id: '3213213131',
     },
   });
@@ -123,6 +124,9 @@ export function logout() {
     method: 'POST',
     path: '/restapi/oauth/revoke',
     isOnce: false,
+    body: {
+      message: 'OK',
+    },
   });
 }
 
@@ -689,6 +693,20 @@ export function videoConfiguration(mockResponse = {}, isOnce = false) {
   });
 }
 
+export function callerId(mockResponse = {}, isOnce = false) {
+  mockApi({
+    method: 'GET',
+    url: new RegExp(
+      `${mockServer}/restapi/v1.0/account/~/extension/~/caller-id`,
+    ),
+    body: {
+      ...callerIdBody,
+      ...mockResponse,
+    },
+    isOnce,
+  });
+}
+
 export function mockForLogin({
   mockAuthzProfile = true,
   mockExtensionInfo = true,
@@ -730,6 +748,7 @@ export function mockForLogin({
     messageSync(params.messageSyncData, mockMessageSyncOnce);
   }
   phoneNumber(params.phoneNumberData);
+  callerId(params.callerIdData);
   subscription(params.subscriptionData);
   callLog(params.callLogData);
   addressBook(params.addressBookData);

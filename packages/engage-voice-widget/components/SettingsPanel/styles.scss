@@ -1,0 +1,98 @@
+@import '../../scss/variables.scss';
+
+.settingsPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+div.settingItem.settingItem {
+  justify-content: space-between;
+  font-size: 14px;
+  color: $night;
+  height: 40px;
+  padding-left: $lightning-page-space;
+  padding-right: $lightning-page-space;
+  [sf-classic] & {
+    font-size: 12px;
+    height: 38px;
+    padding-left: $classic-page-space;
+    padding-right: $classic-page-space;
+  }
+  .logoutIcon {
+    color: $ash;
+  }
+}
+
+.version,
+.space {
+  background-color: $egg;
+  height: 24px;
+}
+
+.version {
+  font-size: 12px;
+  color: $ash;
+  height: $lightning-list-item-height;
+  line-height: $lightning-list-item-height;
+
+  [sf-classic] & {
+    height: $classic-list-item-height;
+    line-height: $classic-list-item-height;
+  }
+}
+
+.item {
+  padding: 0 $lightning-page-space;
+
+  [sf-classic] & {
+    padding: 0 $classic-page-space;
+  }
+}
+
+.offhookStatusContainer {
+  display: flex;
+  align-items: center;
+  height: $lightning-list-item-height;
+
+  [sf-classic] & {
+    height: $classic-list-item-height + 10px;
+  }
+}
+
+.title {
+  font-size: 14px;
+  color: $night;
+  flex: 1 1 auto;
+}
+
+.state {
+  font-size: 12px;
+  color: $ash;
+  margin-right: 6px;
+
+  [sf-classic] & {
+    margin-top: 4px;
+  }
+}
+
+.offhookStatus {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  [sf-classic] & {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include flex_width(36px);
+}
+
+.list {
+  flex: 1 1 auto;
+}

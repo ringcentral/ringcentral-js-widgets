@@ -8,10 +8,9 @@ import { environment } from '../../lib';
 import BackHeader from '../BackHeaderV2';
 import LogBasicInfo from '../LogBasicInfoV2';
 import NotificationSection from '../NotificationSection';
-import SpinnerOverlay from '../SpinnerOverlay';
-import { CallLogPanelProps } from './CallLogPanel.interface';
 import NotificationSectionV2 from '../NotificationSectionV2';
-
+import { SpinnerOverlay } from '../SpinnerOverlay';
+import { CallLogPanelProps } from './CallLogPanel.interface';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -25,6 +24,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     currentIdentify: '',
     currentLocale: environment.defaultLocale,
     classes: {},
+    refs: {},
     // Notification
     currentNotificationIdentify: '',
     shrinkNotification: () => null,
@@ -41,6 +41,10 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     isSearching: false,
   };
 
+  editSectionRef = React.createRef<HTMLDivElement>();
+
+  // TODO: use react function component to refactor with react hook
+  // eslint-disable-next-line react/no-deprecated
   componentWillMount() {
     const { pushLogPageStatus } = this.props;
     if (pushLogPageStatus) {
@@ -55,6 +59,13 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     }
   }
 
+  editSectionScrollBy = (top: number) => {
+    this.editSectionRef.current.scrollBy({
+      top,
+      behavior: 'smooth',
+    });
+  };
+
   renderLogSection() {
     const { currentLog, renderEditLogSection } = this.props;
     if (!currentLog) return null;
@@ -66,7 +77,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       <>
         {this.renderLogNotification()}
         {this.renderLogBasicInfo()}
-        <div className={styles.editSection}>
+        <div ref={this.editSectionRef} className={styles.editSection}>
           {renderEditLogSection && this.getEditLogSection()}
         </div>
         {this.genCallControlButtons()}
@@ -78,6 +89,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     const {
       currentLog,
       classes: { callLogCallControl = null },
+      refs: { callLogCallControl: callLogCallControlRef },
       renderCallLogCallControl,
       isWide,
       showSmallCallControl,
@@ -92,7 +104,10 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     const isActive = !result;
     if (showSmallCallControl || isActive) {
       return (
-        <div className={classnames(styles.callControlRoot, callLogCallControl)}>
+        <div
+          ref={callLogCallControlRef}
+          className={classnames(styles.callControlRoot, callLogCallControl)}
+        >
           {renderCallLogCallControl &&
             renderCallLogCallControl(status, telephonySessionId, isWide)}
         </div>
@@ -116,6 +131,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       showFoundFromServer,
       appName,
       isSearching,
+      startAdornmentRender,
     } = this.props;
     return renderEditLogSection({
       currentLocale,
@@ -130,6 +146,8 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       showFoundFromServer,
       appName,
       isSearching,
+      editSectionScrollBy: this.editSectionScrollBy,
+      startAdornmentRender,
     });
   }
 
@@ -245,6 +263,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       currentIdentify,
       currentLocale,
       classes: { root },
+      refs: { root: rootRef },
       backIcon,
       header,
       isInTransferPage,
@@ -254,6 +273,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     // console.log(this.props.currentLog);
     return (
       <div
+        ref={rootRef}
         className={classnames(
           styles.root,
           !isWide ? styles.classic : null,

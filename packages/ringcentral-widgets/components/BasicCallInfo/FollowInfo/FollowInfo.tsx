@@ -1,13 +1,15 @@
 import React from 'react';
 
+import { Tooltip } from '../../Rcui/Tooltip';
 import styles from './styles.scss';
+import { TOOLTIP_DEFAULT_DELAY_TIME as delayTime } from '../../../lib/toolTipDelayTime';
 
 export interface FollowInfoProps {
   infoList?: string[];
   splitSign: string;
 }
 
-const FollowInfo: React.FunctionComponent<FollowInfoProps> = ({
+export const FollowInfo: React.FunctionComponent<FollowInfoProps> = ({
   infoList,
   splitSign,
 }) => {
@@ -20,9 +22,9 @@ const FollowInfo: React.FunctionComponent<FollowInfoProps> = ({
           (info, i) =>
             info && (
               <React.Fragment key={i}>
-                <span title={info} className={styles.followItem}>
-                  {info}
-                </span>
+                <Tooltip title={info} enterDelay={delayTime}>
+                  <span className={styles.followItem}>{info}</span>
+                </Tooltip>
                 <span className={styles.splitSign}>{splitSign}</span>
               </React.Fragment>
             ),
@@ -30,5 +32,3 @@ const FollowInfo: React.FunctionComponent<FollowInfoProps> = ({
     </div>
   );
 };
-
-export default FollowInfo;

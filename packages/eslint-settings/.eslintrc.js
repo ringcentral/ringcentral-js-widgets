@@ -86,6 +86,7 @@ module.exports = {
     'jsx-a11y/mouse-events-have-key-events': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/anchor-is-valid': 0,
+    'jsx-a11y/media-has-caption': 0,
     'linebreak-style': 'off',
     'lines-between-class-members': [
       'error',
@@ -197,6 +198,7 @@ module.exports = {
         'no-unused-vars': 0,
         '@typescript-eslint/no-unused-vars': 1,
         'import/export': 0,
+        'no-unused-expressions': 0,
       },
     },
   ],

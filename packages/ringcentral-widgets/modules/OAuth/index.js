@@ -127,9 +127,10 @@ export default class OAuth extends OAuthBase {
   }
 
   _clearRedirectCheckTimeout() {
-    if (this._redirectCheckTimeout) {
-      clearTimeout(this._redirectCheckTimeout);
+    if (this._redirectCheckTimeout === null) {
+      return;
     }
+    clearTimeout(this._redirectCheckTimeout);
   }
 
   _setupRedirectCheckTimeout() {

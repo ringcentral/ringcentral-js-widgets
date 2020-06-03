@@ -79,6 +79,7 @@ class ComposeTextPanel extends Component {
           searchContact={this.props.searchContact}
           searchContactList={this.props.searchContactList}
           formatContactPhone={this.props.formatContactPhone}
+          detectPhoneNumbers={this.props.detectPhoneNumbers}
           currentLocale={this.props.currentLocale}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
           phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
@@ -124,6 +125,7 @@ ComposeTextPanel.propTypes = {
   sendButtonDisabled: PropTypes.bool.isRequired,
   formatPhone: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
+  detectPhoneNumbers: PropTypes.func.isRequired,
   searchContact: PropTypes.func.isRequired,
   searchContactList: PropTypes.arrayOf(
     PropTypes.shape({

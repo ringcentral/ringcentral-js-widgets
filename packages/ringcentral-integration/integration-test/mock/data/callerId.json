@@ -1,0 +1,18 @@
+{
+  "uri": "https://api-rcapps.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/caller-id",
+  "byDevice": [],
+  "byFeature": [
+    {
+      "feature": "RingOut",
+      "callerId": {
+        "type": "PhoneNumber",
+        "phoneInfo": {
+          "uri": "https://api-rcapps.ringcentral.com/restapi/v1.0/account/208594004/phone-number/298904004",
+          "id": "298904004",
+          "phoneNumber": "+12098415555"
+        }
+      }
+    }
+  ],
+  "extensionNumberForInternalCalls": true
+}

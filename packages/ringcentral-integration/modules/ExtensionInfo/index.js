@@ -122,7 +122,8 @@ export default class ExtensionInfo extends DataFetcher {
         (message.body.hints.includes(subscriptionHints.companyNumbers) ||
           message.body.hints.includes(subscriptionHints.limits) ||
           message.body.hints.includes(subscriptionHints.features) ||
-          message.body.hints.includes(subscriptionHints.permissions))
+          message.body.hints.includes(subscriptionHints.permissions) ||
+          message.body.hints.includes(subscriptionHints.videoConfiguration))
       )
     ) {
       await this.fetchData();

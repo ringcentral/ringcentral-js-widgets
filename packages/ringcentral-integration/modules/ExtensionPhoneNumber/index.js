@@ -33,13 +33,15 @@ export default class ExtensionPhoneNumber extends DataFetcher {
         await this._subscriptionHandleFn(message);
       },
       fetchFunction: async () =>
-        (await fetchList((params) =>
-          client
-            .account()
-            .extension()
-            .phoneNumber()
-            .list(params),
-        )).map((number) => ({
+        (
+          await fetchList((params) =>
+            client
+              .account()
+              .extension()
+              .phoneNumber()
+              .list(params),
+          )
+        ).map((number) => ({
           ...number,
           country: removeUri(number.country),
         })),
@@ -100,7 +102,12 @@ export default class ExtensionPhoneNumber extends DataFetcher {
       phoneNumbers.filter(
         (p) =>
           (p.features && p.features.indexOf('CallerId') !== -1) ||
-          (p.usageType === 'ForwardedNumber' && p.status === 'PortedIn'),
+          (p.usageType === 'ForwardedNumber' &&
+            // TODO: we should remove these special case after confirming that backend should list
+            // these numbers with CallerId feature
+            (p.status === 'PortedIn' || p.status === 'Normal')) ||
+          (p.usageType === 'ForwardedCompanyNumber' &&
+            (p.status === 'PortedIn' || p.status === 'Normal')),
       ),
   ];
 

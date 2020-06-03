@@ -1,0 +1,85 @@
+@import '~ringcentral-widgets/lib/commonStyles/text-ellipsis.scss';
+@import '../../scss/variables.scss';
+
+$green: #5fb95c;
+$gray: #c7c7c7;
+$dot-width: 8px;
+
+.dot {
+  height: $dot-width;
+  width: $dot-width;
+  min-width: $dot-width; // for adjacent dom over hidden
+  border-radius: $dot-width / 2;
+  margin-right: 9px;
+}
+
+.available {
+  @extend .dot;
+  background-color: $green;
+}
+
+.unavailable {
+  @extend .dot;
+  background-color: $gray;
+}
+
+.statusText {
+  font-size: 10px;
+}
+
+.agentItem {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+  .content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.agentName {
+  @include text-ellipsis;
+  flex-grow: 1;
+}
+
+.phoneBookName {
+  font-size: 14px;
+  display: flex;
+  width: 100%;
+  .content {
+    @include text-ellipsis;
+  }
+}
+
+.phoneBookDest {
+  @include text-ellipsis;
+  font-size: 10px;
+  line-height: 20px;
+  display: flex;
+}
+
+.phoneBookItem {
+  @include selectList();
+  display: flex;
+  padding-top: 8px !important;
+  flex-wrap: wrap;
+}
+
+.actionContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  flex: 1 1 auto;
+}
+
+.button {
+  margin: 0 $lightning-page-space 20px;
+  width: 100%;
+
+  [sf-classic] & {
+    margin: 0 $classic-page-space 16px;
+  }
+}

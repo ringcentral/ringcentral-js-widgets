@@ -1,0 +1,10 @@
+{
+  "extends": "../../ringcentral-js-widgets/tsconfig.json",
+  "include": ["./**/*.ts", "./**/*.tsx", "./typings/**/*.d.ts"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@SDK": ["./lib/EvClient/__SDK__/agentLibrary.dev"]
+    }
+  }
+}

@@ -1,0 +1,88 @@
+@import '~ringcentral-widgets/lib/commonStyles/text-ellipsis.scss';
+@import '../../scss/variables.scss';
+
+.backHeader {
+  @include backHeaderWrapper();
+}
+
+.children {
+  margin-left: 18px;
+  [sf-classic] & {
+    margin-left: 0px;
+  }
+}
+
+.list {
+  overflow-y: auto;
+  overflow-x: hidden;
+  .item {
+    padding: 0 18px;
+    height: 51px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    [sf-classic] & {
+      flex-direction: column;
+      height: 80px;
+    }
+    border-bottom: 1px solid #dbdbdb;
+    .info {
+      flex-grow: 1;
+      overflow: hidden;
+      .emphasisCallInfo {
+        @include text-ellipsis;
+        font-size: 14px;
+        font-weight: bold;
+        [sf-classic] & {
+          height: 44px;
+          line-height: 44px;
+        }
+
+      }
+      .otherCallInfo {
+        display: flex;
+        flex-direction: column;
+        .name {
+          @include text-ellipsis;
+          font-size: 14px;
+          height: 20px;
+          [sf-classic] & {
+            height:44px;
+            line-height: 44px;
+          }
+        }
+        .phoneNumber {
+          @include text-ellipsis;
+          font-size: 10px;
+        }
+      }
+    }
+    .controlButtons {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      height: 28px;
+      [sf-classic] & {
+        margin-bottom: 16px;
+      }
+    }
+  }
+}
+
+.button {
+  margin: 0px 4.5px;
+  width: 32px;
+  height: 32px;
+  transform: scale(0.75, 0.75);
+  [sf-classic] & {
+    margin: 0 5px;
+  }
+}
+
+
+
+  .hide {
+    visibility: hidden;
+    pointer-events: none;
+  }
