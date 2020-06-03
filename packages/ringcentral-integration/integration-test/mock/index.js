@@ -96,7 +96,7 @@ export function mockApi({
     },
     {
       method,
-      times: isOnce ? 1 : 20,
+      times: isOnce ? 1 : 20000,
     },
   );
 }
@@ -113,7 +113,7 @@ export function authentication() {
       refresh_token_expires_in: 60480,
       scope: 'SMS RCM Foo Boo',
       expireTime: new Date().getTime() + 3600000,
-      owner_id: '23231231"',
+      owner_id: '23231231',
       endpoint_id: '3213213131',
     },
   });
@@ -124,6 +124,9 @@ export function logout() {
     method: 'POST',
     path: '/restapi/oauth/revoke',
     isOnce: false,
+    body: {
+      message: 'OK',
+    },
   });
 }
 
