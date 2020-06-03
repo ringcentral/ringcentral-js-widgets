@@ -45,7 +45,7 @@ function GlipGroupName(_ref) {
     number = " (".concat(group.members.length, ")");
   }
 
-  return _react["default"].createElement("span", null, name, number);
+  return /*#__PURE__*/_react["default"].createElement("span", null, name, number);
 }
 
 GlipGroupName.propTypes = {

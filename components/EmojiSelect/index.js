@@ -28,17 +28,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function EmojiSelect(_ref) {
   var onSelect = _ref.onSelect,
       className = _ref.className;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, _emojis["default"].map(function (emoji) {
     var emojsStr = ":".concat(emoji, ":");
-    return _react["default"].createElement("span", {
+    return /*#__PURE__*/_react["default"].createElement("span", {
       key: emoji,
       className: _styles["default"].emoji,
       onClick: function onClick() {
         return onSelect(emojsStr);
       }
-    }, _react["default"].createElement(_reactEmojione["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_reactEmojione["default"], {
       style: {
         width: 25,
         height: 25,

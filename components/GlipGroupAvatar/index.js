@@ -38,16 +38,16 @@ function GroupAvatar(_ref) {
       return !p.isMe;
     });
     var person = personsWithoutMe && personsWithoutMe[0];
-    image = _react["default"].createElement("img", {
+    image = /*#__PURE__*/_react["default"].createElement("img", {
       className: _styles["default"].big,
       src: person && person.avatar || _default_avatar["default"],
       alt: person && person.id
     });
   } else {
-    image = _react["default"].createElement("div", {
+    image = /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].images
     }, persons.slice(0, 9).map(function (person) {
-      return _react["default"].createElement("img", {
+      return /*#__PURE__*/_react["default"].createElement("img", {
         key: person.id,
         className: _styles["default"].small,
         src: person && person.avatar || _default_avatar["default"],
@@ -59,12 +59,12 @@ function GroupAvatar(_ref) {
   var unreadEl;
 
   if (unread > 0) {
-    unreadEl = _react["default"].createElement("span", {
+    unreadEl = /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].unread
     }, unread > 99 ? '99+' : unread);
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, image, unreadEl);
 }

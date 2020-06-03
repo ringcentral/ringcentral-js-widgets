@@ -33,13 +33,13 @@ function PostAvatar(_ref) {
 
   if (!creator) {
     // TODO: update alt with i18n
-    return _react["default"].createElement("img", {
+    return /*#__PURE__*/_react["default"].createElement("img", {
       src: _default_avatar["default"],
       alt: "default avatar"
     });
   }
 
-  return _react["default"].createElement("img", {
+  return /*#__PURE__*/_react["default"].createElement("img", {
     onClick: function onClick() {
       return viewProfile(creator.id);
     },
@@ -65,7 +65,7 @@ function PostName(_ref2) {
     return null;
   }
 
-  return _react["default"].createElement("span", {
+  return /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].name,
     onClick: function onClick() {
       return viewProfile(creator.id);
@@ -90,7 +90,7 @@ function PostStatus(_ref3) {
   } // TODO: update sending status with i18n
 
 
-  return _react["default"].createElement("span", null, "(", sendStatus === _status["default"].creating ? 'Sending' : 'Send failed', ")");
+  return /*#__PURE__*/_react["default"].createElement("span", null, "(", sendStatus === _status["default"].creating ? 'Sending' : 'Send failed', ")");
 }
 
 PostStatus.propTypes = {
@@ -107,7 +107,7 @@ function PostTime(_ref4) {
     return null;
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].time
   }, creationTime);
 }
@@ -134,33 +134,33 @@ function GlipPost(_ref5) {
         id: id,
         type: 'Person'
       });
-      return _react["default"].createElement("span", {
+      return /*#__PURE__*/_react["default"].createElement("span", {
         key: id
       }, peronName);
     });
   } // TODO: update joining status with i18n
 
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, _react["default"].createElement(PostTime, {
+  }, /*#__PURE__*/_react["default"].createElement(PostTime, {
     creationTime: creationTime
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatar
-  }, _react["default"].createElement(PostAvatar, {
+  }, /*#__PURE__*/_react["default"].createElement(PostAvatar, {
     creator: post.creator,
     viewProfile: viewProfile
-  })), _react["default"].createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].title
-  }, _react["default"].createElement(PostName, {
+  }, /*#__PURE__*/_react["default"].createElement(PostName, {
     creator: post.creator,
     showName: showName || post.type !== 'TextMessage',
     viewProfile: viewProfile
-  }), post.type === 'PersonJoined' ? 'joined the team' : null, post.type === 'PersonsAdded' ? 'added ' : null, addedPersons, post.type === 'PersonsAdded' ? 'to the team' : null, _react["default"].createElement(PostStatus, {
+  }), post.type === 'PersonJoined' ? 'joined the team' : null, post.type === 'PersonsAdded' ? 'added ' : null, addedPersons, post.type === 'PersonsAdded' ? 'to the team' : null, /*#__PURE__*/_react["default"].createElement(PostStatus, {
     sendStatus: post.sendStatus
-  })), post.type === 'TextMessage' ? _react["default"].createElement(_GlipPostContent["default"], {
+  })), post.type === 'TextMessage' ? /*#__PURE__*/_react["default"].createElement(_GlipPostContent["default"], {
     post: post,
     atRender: atRender
   }) : null));

@@ -8,12 +8,6 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -26,6 +20,14 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -71,7 +73,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -79,15 +81,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function isOnMobileDevice() {
   if (typeof navigator !== 'undefined') {
@@ -97,17 +103,17 @@ function isOnMobileDevice() {
   return false;
 }
 
-var GlipChatForm =
-/*#__PURE__*/
-function (_Component) {
+var GlipChatForm = /*#__PURE__*/function (_Component) {
   _inherits(GlipChatForm, _Component);
+
+  var _super = _createSuper(GlipChatForm);
 
   function GlipChatForm(props) {
     var _this;
 
     _classCallCheck(this, GlipChatForm);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipChatForm).call(this, props));
+    _this = _super.call(this, props);
     _this.state = {
       defaultValue: (0, _rcEditorMention.toEditorState)(props.textValue),
       suggestions: []
@@ -269,13 +275,13 @@ function (_Component) {
     key: "_getSuggestions",
     value: function _getSuggestions(suggestions) {
       return suggestions.map(function (suggestion) {
-        return _react["default"].createElement(_rcEditorMention.Nav, {
+        return /*#__PURE__*/_react["default"].createElement(_rcEditorMention.Nav, {
           style: {
             height: 34
           },
           value: "[".concat(suggestion.email, "]"),
           key: suggestion.id
-        }, _react["default"].createElement("span", null, suggestion.firstName, " ", suggestion.lastName));
+        }, /*#__PURE__*/_react["default"].createElement("span", null, suggestion.firstName, " ", suggestion.lastName));
       });
     }
   }, {
@@ -300,43 +306,43 @@ function (_Component) {
           height = _this$props.height;
       var noFoundString = 'No found.'; // TODO: i18n after string confirmed
 
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, className),
         style: {
           height: height
         }
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].tools
-      }, _react["default"].createElement(_rcTooltip["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_rcTooltip["default"], {
         placement: "top",
         trigger: "click",
-        arrowContent: _react["default"].createElement("div", {
+        arrowContent: /*#__PURE__*/_react["default"].createElement("div", {
           className: "rc-tooltip-arrow-inner"
         }),
         overlayClassName: _styles["default"].emojisTooltip,
-        overlay: _react["default"].createElement("div", {
+        overlay: /*#__PURE__*/_react["default"].createElement("div", {
           style: {
             width: 250,
             height: 200
           }
-        }, _react["default"].createElement(_EmojiSelect["default"], {
+        }, /*#__PURE__*/_react["default"].createElement(_EmojiSelect["default"], {
           onSelect: this._onSelectEmoji
         }))
-      }, _react["default"].createElement("img", {
+      }, /*#__PURE__*/_react["default"].createElement("img", {
         alt: "emoji",
         src: _emoji["default"],
         className: _styles["default"].emoji
-      })), _react["default"].createElement("label", {
+      })), /*#__PURE__*/_react["default"].createElement("label", {
         className: _styles["default"].file
-      }, _react["default"].createElement("img", {
+      }, /*#__PURE__*/_react["default"].createElement("img", {
         alt: "emoji",
         src: _upload["default"]
-      }), _react["default"].createElement("input", {
+      }), /*#__PURE__*/_react["default"].createElement("input", {
         type: "file",
         onChange: this._onSelectFile
-      }))), _react["default"].createElement("form", {
+      }))), /*#__PURE__*/_react["default"].createElement("form", {
         onSubmit: this._onSubmit
-      }, _react["default"].createElement(_rcEditorMention["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_rcEditorMention["default"], {
         style: {
           width: '100%',
           height: height - 35,
@@ -357,7 +363,7 @@ function (_Component) {
         multiLines: true,
         mode: "immutable",
         onKeyDown: this._onTextAreaKeyDown
-      }), _react["default"].createElement("input", {
+      }), /*#__PURE__*/_react["default"].createElement("input", {
         type: "submit",
         className: _styles["default"].submit
       })));

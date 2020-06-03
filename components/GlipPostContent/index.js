@@ -33,7 +33,7 @@ function Attachments(_ref) {
   var attachments = _ref.attachments;
   var attachmentFiles = attachments.map(function (attachment) {
     if ((0, _isPicture["default"])(attachment.contentUri)) {
-      return _react["default"].createElement("img", {
+      return /*#__PURE__*/_react["default"].createElement("img", {
         key: attachment.name,
         src: attachment.contentUri,
         alt: attachment.name,
@@ -46,20 +46,20 @@ function Attachments(_ref) {
       return 'Unsupported message';
     }
 
-    return _react["default"].createElement("a", {
+    return /*#__PURE__*/_react["default"].createElement("a", {
       key: attachment.name,
       download: true,
       href: attachment.contentUri,
       className: _styles["default"].attachmentFile
-    }, attachment.name, _react["default"].createElement("span", {
+    }, attachment.name, /*#__PURE__*/_react["default"].createElement("span", {
       title: "Download",
       className: _styles["default"].downloadIcon
-    }, _react["default"].createElement(_Download["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_Download["default"], {
       width: "18",
       height: "18"
     })));
   });
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].attachments
   }, attachmentFiles);
 }
@@ -74,7 +74,7 @@ function PostContent(_ref2) {
       atRender = _ref2.atRender;
 
   if (!post.text && (!post.attachments || post.attachments.length === 0)) {
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames["default"])(_styles["default"].root, className)
     }, "Unsupported message");
   }
@@ -85,16 +85,16 @@ function PostContent(_ref2) {
     text = text.replace('[code]', '```\n').replace('[/code]', '\n```\n');
   }
 
-  var textContent = text ? _react["default"].createElement(_GlipMarkdown["default"], {
+  var textContent = text ? /*#__PURE__*/_react["default"].createElement(_GlipMarkdown["default"], {
     text: text,
     atRender: atRender
   }) : null;
-  var attachments = post.attachments ? _react["default"].createElement(Attachments, {
+  var attachments = post.attachments ? /*#__PURE__*/_react["default"].createElement(Attachments, {
     attachments: post.attachments
   }) : null;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content
   }, textContent, attachments));
 }

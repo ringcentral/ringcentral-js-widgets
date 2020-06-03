@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.array.map");
 
 require("regenerator-runtime/runtime");
@@ -18,6 +22,10 @@ var _withPhone = _interopRequireDefault(require("ringcentral-widgets/lib/withPho
 var _GlipGroupsPanel = _interopRequireDefault(require("../../components/GlipGroupsPanel"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
@@ -58,27 +66,29 @@ function mapToFunctions(_, _ref2) {
       });
     },
     createTeam: function createTeam(_ref3) {
-      var teamName, selectedContacts, groupId;
-      return regeneratorRuntime.async(function createTeam$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              teamName = _ref3.teamName, selectedContacts = _ref3.selectedContacts;
-              _context.next = 3;
-              return regeneratorRuntime.awrap(glipGroups.createTeam(teamName, selectedContacts.map(function (sc) {
-                return sc.email;
-              })));
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var teamName, selectedContacts, groupId;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                teamName = _ref3.teamName, selectedContacts = _ref3.selectedContacts;
+                _context.next = 3;
+                return glipGroups.createTeam(teamName, selectedContacts.map(function (sc) {
+                  return sc.email;
+                }));
 
-            case 3:
-              groupId = _context.sent;
-              onSelectGroup(groupId);
+              case 3:
+                groupId = _context.sent;
+                onSelectGroup(groupId);
 
-            case 5:
-            case "end":
-              return _context.stop();
+              case 5:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      });
+        }, _callee);
+      }))();
     }
   };
 }

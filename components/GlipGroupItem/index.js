@@ -38,13 +38,13 @@ function LatestPost(_ref) {
 
   if (!isGroup || !latestPost.creator) {
     // TODO: update message with i18n
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].latestPost
     }, formatedText || 'Unsupported message');
   } // TODO: update message with i18n
 
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].latestPost
   }, latestPost.creator.firstName, ": ", formatedText || 'Unsupported message');
 }
@@ -62,22 +62,22 @@ function GlipGroup(_ref2) {
       className = _ref2.className,
       onSelectGroup = _ref2.onSelectGroup,
       active = _ref2.active;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, active ? _styles["default"].active : null, className),
     onClick: onSelectGroup
-  }, _react["default"].createElement(_GlipGroupAvatar["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_GlipGroupAvatar["default"], {
     persons: group.detailMembers,
     alt: group.id,
     className: _styles["default"].avatar,
     unread: group.unread
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].name,
     title: group.name
-  }, _react["default"].createElement(_GlipGroupName["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_GlipGroupName["default"], {
     group: group
-  })), _react["default"].createElement(LatestPost, {
+  })), /*#__PURE__*/_react["default"].createElement(LatestPost, {
     latestPost: group.latestPost,
     members: group.detailMembers
   })));

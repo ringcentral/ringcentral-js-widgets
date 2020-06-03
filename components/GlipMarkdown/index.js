@@ -39,18 +39,18 @@ function ImageRender(props) {
   if (props.alt === ':Person' || props.alt === ':Team') {
     if (typeof props.atRender === 'function') {
       var AtRender = props.atRender;
-      return _react["default"].createElement(AtRender, {
+      return /*#__PURE__*/_react["default"].createElement(AtRender, {
         id: props.src,
         type: props.alt.replace(':', '')
       });
     }
 
-    return _react["default"].createElement("a", {
+    return /*#__PURE__*/_react["default"].createElement("a", {
       href: "#".concat(props.src)
     }, "@", props.src);
   }
 
-  return _react["default"].createElement("img", {
+  return /*#__PURE__*/_react["default"].createElement("img", {
     src: props.src,
     alt: props.alt
   });
@@ -67,7 +67,7 @@ ImageRender.defaultProps = {
 };
 
 function LinkRender(props) {
-  return _react["default"].createElement("a", {
+  return /*#__PURE__*/_react["default"].createElement("a", {
     target: "_blank",
     rel: "noopener noreferrer",
     href: props.href,
@@ -89,7 +89,7 @@ function TextRender(props) {
     if (child && child.split) {
       return child.split('\n').reduce(function (lines, line) {
         if (lines.length > 0) {
-          lines.push(_react["default"].createElement("br", null));
+          lines.push( /*#__PURE__*/_react["default"].createElement("br", null));
         }
 
         lines.push(line);
@@ -99,7 +99,7 @@ function TextRender(props) {
 
     return child;
   });
-  return _react["default"].createElement("p", null, _react["default"].createElement(_reactEmojione["default"], {
+  return /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement(_reactEmojione["default"], {
     style: {
       backgroundImage: "url(\"".concat(_emojione["default"], "\")")
     }
@@ -116,16 +116,16 @@ function Markdown(_ref) {
       atRender = _ref.atRender;
   var renderers = {
     image: function image(props) {
-      return _react["default"].createElement(ImageRender, _extends({}, props, {
+      return /*#__PURE__*/_react["default"].createElement(ImageRender, _extends({}, props, {
         atRender: atRender
       }));
     },
     link: LinkRender,
     paragraph: TextRender
   };
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, _react["default"].createElement(_reactMarkdown["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_reactMarkdown["default"], {
     className: _styles["default"]['markdown-body'],
     source: text,
     renderers: renderers
