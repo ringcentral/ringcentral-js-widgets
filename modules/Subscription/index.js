@@ -13,6 +13,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -24,6 +26,12 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -73,11 +81,15 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -91,15 +103,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -114,10 +130,10 @@ var Subscription = (_dec = (0, _di.Module)({
     dep: 'SubscriptionOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(Subscription, _RcModule);
+
+  var _super = _createSuper(Subscription);
 
   /**
    * @constructor
@@ -139,9 +155,9 @@ function (_RcModule) {
 
     _classCallCheck(this, Subscription);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Subscription).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
-    })));
+    }));
     _this._auth = auth;
     _this._client = client;
     _this._storage = storage;
@@ -166,8 +182,8 @@ function (_RcModule) {
     value: function initialize() {
       var _this2 = this;
 
-      this.store.subscribe(function _callee() {
-        return regeneratorRuntime.async(function _callee$(_context) {
+      this.store.subscribe( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -186,11 +202,11 @@ function (_RcModule) {
                 return _context.stop();
             }
           }
-        });
-      });
+        }, _callee);
+      })));
 
-      this._auth.addBeforeLogoutHandler(function _callee2() {
-        return regeneratorRuntime.async(function _callee2$(_context2) {
+      this._auth.addBeforeLogoutHandler( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -200,15 +216,15 @@ function (_RcModule) {
                 }
 
                 _context2.next = 3;
-                return regeneratorRuntime.awrap(_this2.reset());
+                return _this2.reset();
 
               case 3:
               case "end":
                 return _context2.stop();
             }
           }
-        });
-      });
+        }, _callee2);
+      })));
     }
   }, {
     key: "_startSleepDetection",
@@ -232,8 +248,8 @@ function (_RcModule) {
       var _this3 = this;
 
       var t = Date.now();
-      this._sleepTimeout = setTimeout(function _callee3() {
-        return regeneratorRuntime.async(function _callee3$(_context3) {
+      this._sleepTimeout = setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -243,11 +259,11 @@ function (_RcModule) {
                 }
 
                 _context3.next = 3;
-                return regeneratorRuntime.awrap(_this3.remove());
+                return _this3.remove();
 
               case 3:
                 _context3.next = 5;
-                return regeneratorRuntime.awrap(_this3._subscribe());
+                return _this3._subscribe();
 
               case 5:
                 _this3._detectSleep();
@@ -257,8 +273,8 @@ function (_RcModule) {
                 return _context3.stop();
             }
           }
-        });
-      }, 10 * 1000);
+        }, _callee3);
+      })), 10 * 1000);
     }
   }, {
     key: "_createSubscription",
@@ -378,267 +394,331 @@ function (_RcModule) {
     }
   }, {
     key: "subscribe",
-    value: function subscribe() {
-      var events,
-          delay,
-          oldFilters,
-          _args4 = arguments;
-      return regeneratorRuntime.async(function subscribe$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              events = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : [];
-              delay = _args4.length > 1 ? _args4[1] : undefined;
+    value: function () {
+      var _subscribe2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        var events,
+            delay,
+            oldFilters,
+            _args4 = arguments;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                events = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : [];
+                delay = _args4.length > 1 ? _args4[1] : undefined;
 
-              if (!this.ready) {
-                _context4.next = 8;
-                break;
-              }
+                if (!this.ready) {
+                  _context4.next = 8;
+                  break;
+                }
 
-              oldFilters = this.filters;
-              this.store.dispatch({
-                type: this.actionTypes.addFilters,
-                filters: [].concat(events)
-              });
-
-              if (!(oldFilters.length !== this.filters.length)) {
-                _context4.next = 8;
-                break;
-              }
-
-              _context4.next = 8;
-              return regeneratorRuntime.awrap(this._subscribe(delay));
-
-            case 8:
-            case "end":
-              return _context4.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
-    key: "unsubscribe",
-    value: function unsubscribe() {
-      var events,
-          oldFilters,
-          _args5 = arguments;
-      return regeneratorRuntime.async(function unsubscribe$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              events = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : [];
-
-              if (this.ready) {
                 oldFilters = this.filters;
                 this.store.dispatch({
-                  type: this.actionTypes.removeFilters,
-                  fiters: [].concat(events)
+                  type: this.actionTypes.addFilters,
+                  filters: [].concat(events)
                 });
 
-                if (this.filters.length === 0) {
-                  this.remove();
-                } else if (oldFilters.length !== this.filters.length) {
-                  this._subscribe();
+                if (!(oldFilters.length !== this.filters.length)) {
+                  _context4.next = 8;
+                  break;
                 }
-              }
 
-            case 2:
-            case "end":
-              return _context5.stop();
+                _context4.next = 8;
+                return this._subscribe(delay);
+
+              case 8:
+              case "end":
+                return _context4.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee4, this);
+      }));
+
+      function subscribe() {
+        return _subscribe2.apply(this, arguments);
+      }
+
+      return subscribe;
+    }()
+  }, {
+    key: "unsubscribe",
+    value: function () {
+      var _unsubscribe = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var events,
+            oldFilters,
+            _args5 = arguments;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                events = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : [];
+
+                if (this.ready) {
+                  oldFilters = this.filters;
+                  this.store.dispatch({
+                    type: this.actionTypes.removeFilters,
+                    fiters: [].concat(events)
+                  });
+
+                  if (this.filters.length === 0) {
+                    this.remove();
+                  } else if (oldFilters.length !== this.filters.length) {
+                    this._subscribe();
+                  }
+                }
+
+              case 2:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function unsubscribe() {
+        return _unsubscribe.apply(this, arguments);
+      }
+
+      return unsubscribe;
+    }()
   }, {
     key: "_stopRetry",
-    value: function _stopRetry() {
-      return regeneratorRuntime.async(function _stopRetry$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              if (this._retryTimeoutId) {
-                clearTimeout(this._retryTimeoutId);
-                this._retryTimeoutId = null;
-              }
+    value: function () {
+      var _stopRetry2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                if (this._retryTimeoutId) {
+                  clearTimeout(this._retryTimeoutId);
+                  this._retryTimeoutId = null;
+                }
 
-            case 1:
-            case "end":
-              return _context6.stop();
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee6, this);
+      }));
+
+      function _stopRetry() {
+        return _stopRetry2.apply(this, arguments);
+      }
+
+      return _stopRetry;
+    }()
   }, {
     key: "_retry",
-    value: function _retry() {
-      var _this6 = this;
+    value: function () {
+      var _retry2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var _this6 = this;
 
-      var t,
-          _args7 = arguments;
-      return regeneratorRuntime.async(function _retry$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              t = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : this._timeToRetry;
+        var t,
+            _args7 = arguments;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                t = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : this._timeToRetry;
 
-              this._stopRetry();
+                this._stopRetry();
 
-              this._retryTimeoutId = setTimeout(function () {
-                if (_this6.ready) {
-                  _this6._subscribe();
-                }
-              }, t);
+                this._retryTimeoutId = setTimeout(function () {
+                  if (_this6.ready) {
+                    _this6._subscribe();
+                  }
+                }, t);
 
-            case 3:
-            case "end":
-              return _context7.stop();
+              case 3:
+              case "end":
+                return _context7.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee7, this);
+      }));
+
+      function _retry() {
+        return _retry2.apply(this, arguments);
+      }
+
+      return _retry;
+    }()
   }, {
     key: "_remove",
-    value: function _remove() {
-      return regeneratorRuntime.async(function _remove$(_context8) {
-        while (1) {
-          switch (_context8.prev = _context8.next) {
-            case 0:
-              if (!this._subscription) {
-                _context8.next = 11;
+    value: function () {
+      var _remove2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                if (!this._subscription) {
+                  _context8.next = 11;
+                  break;
+                }
+
+                _context8.prev = 1;
+                this.store.dispatch({
+                  type: this.actionTypes.remove
+                });
+                _context8.next = 5;
+                return this._subscription.remove();
+
+              case 5:
+                _context8.next = 9;
                 break;
-              }
 
-              _context8.prev = 1;
-              this.store.dispatch({
-                type: this.actionTypes.remove
-              });
-              _context8.next = 5;
-              return regeneratorRuntime.awrap(this._subscription.remove());
+              case 7:
+                _context8.prev = 7;
+                _context8.t0 = _context8["catch"](1);
 
-            case 5:
-              _context8.next = 9;
-              break;
+              case 9:
+                if (this._subscription) {
+                  // check again in case subscription object was removed while waiting
+                  this._subscription.reset();
 
-            case 7:
-              _context8.prev = 7;
-              _context8.t0 = _context8["catch"](1);
+                  this._subscription = null;
+                }
 
-            case 9:
-              if (this._subscription) {
-                // check again in case subscription object was removed while waiting
+                this._removePromise = null;
+
+              case 11:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this, [[1, 7]]);
+      }));
+
+      function _remove() {
+        return _remove2.apply(this, arguments);
+      }
+
+      return _remove;
+    }()
+  }, {
+    key: "remove",
+    value: function () {
+      var _remove3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                if (!this._removePromise) {
+                  this._removePromise = this._remove();
+                }
+
+                return _context9.abrupt("return", this._removePromise);
+
+              case 2:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function remove() {
+        return _remove3.apply(this, arguments);
+      }
+
+      return remove;
+    }()
+  }, {
+    key: "_reset",
+    value: function () {
+      var _reset2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.reset
+                });
+
+                this._stopSleepDetection();
+
+                this._stopRetry();
+
+                if (!this._subscription) {
+                  _context10.next = 16;
+                  break;
+                }
+
+                if (!this._auth.loggedIn) {
+                  _context10.next = 14;
+                  break;
+                }
+
+                _context10.prev = 5;
+                _context10.next = 8;
+                return this.remove();
+
+              case 8:
+                _context10.next = 12;
+                break;
+
+              case 10:
+                _context10.prev = 10;
+                _context10.t0 = _context10["catch"](5);
+
+              case 12:
+                _context10.next = 16;
+                break;
+
+              case 14:
                 this._subscription.reset();
 
                 this._subscription = null;
-              }
 
-              this._removePromise = null;
+              case 16:
+                this._resetPromise = null;
+                this.store.dispatch({
+                  type: this.actionTypes.resetSuccess
+                });
 
-            case 11:
-            case "end":
-              return _context8.stop();
+              case 18:
+              case "end":
+                return _context10.stop();
+            }
           }
-        }
-      }, null, this, [[1, 7]]);
-    }
-  }, {
-    key: "remove",
-    value: function remove() {
-      return regeneratorRuntime.async(function remove$(_context9) {
-        while (1) {
-          switch (_context9.prev = _context9.next) {
-            case 0:
-              if (!this._removePromise) {
-                this._removePromise = this._remove();
-              }
+        }, _callee10, this, [[5, 10]]);
+      }));
 
-              return _context9.abrupt("return", this._removePromise);
+      function _reset() {
+        return _reset2.apply(this, arguments);
+      }
 
-            case 2:
-            case "end":
-              return _context9.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
-    key: "_reset",
-    value: function _reset() {
-      return regeneratorRuntime.async(function _reset$(_context10) {
-        while (1) {
-          switch (_context10.prev = _context10.next) {
-            case 0:
-              this.store.dispatch({
-                type: this.actionTypes.reset
-              });
-
-              this._stopSleepDetection();
-
-              this._stopRetry();
-
-              if (!this._subscription) {
-                _context10.next = 16;
-                break;
-              }
-
-              if (!this._auth.loggedIn) {
-                _context10.next = 14;
-                break;
-              }
-
-              _context10.prev = 5;
-              _context10.next = 8;
-              return regeneratorRuntime.awrap(this.remove());
-
-            case 8:
-              _context10.next = 12;
-              break;
-
-            case 10:
-              _context10.prev = 10;
-              _context10.t0 = _context10["catch"](5);
-
-            case 12:
-              _context10.next = 16;
-              break;
-
-            case 14:
-              this._subscription.reset();
-
-              this._subscription = null;
-
-            case 16:
-              this._resetPromise = null;
-              this.store.dispatch({
-                type: this.actionTypes.resetSuccess
-              });
-
-            case 18:
-            case "end":
-              return _context10.stop();
-          }
-        }
-      }, null, this, [[5, 10]]);
-    }
+      return _reset;
+    }()
   }, {
     key: "reset",
-    value: function reset() {
-      return regeneratorRuntime.async(function reset$(_context11) {
-        while (1) {
-          switch (_context11.prev = _context11.next) {
-            case 0:
-              if (!this._resetPromise) {
-                this._resetPromise = this._reset();
-              }
+    value: function () {
+      var _reset3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                if (!this._resetPromise) {
+                  this._resetPromise = this._reset();
+                }
 
-              return _context11.abrupt("return", this._resetPromise);
+                return _context11.abrupt("return", this._resetPromise);
 
-            case 2:
-            case "end":
-              return _context11.stop();
+              case 2:
+              case "end":
+                return _context11.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee11, this);
+      }));
+
+      function reset() {
+        return _reset3.apply(this, arguments);
+      }
+
+      return reset;
+    }()
   }, {
     key: "status",
     get: function get() {

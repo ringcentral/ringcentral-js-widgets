@@ -15,15 +15,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+require("core-js/modules/es6.function.name");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -36,6 +36,12 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -91,21 +97,29 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -119,15 +133,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -161,10 +179,10 @@ _dec = (0, _di.Module)({
     dep: 'TabManager',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
   _inherits(CallMonitor, _RcModule);
+
+  var _super = _createSuper(CallMonitor);
 
   /**
    * @constructor
@@ -204,9 +222,9 @@ function (_RcModule) {
 
     _classCallCheck(this, CallMonitor);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallMonitor).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
-    })));
+    }));
 
     _initializerDefineProperty(_this, "allCalls", _descriptor, _assertThisInitialized(_this));
 
@@ -291,152 +309,160 @@ function (_RcModule) {
 
   _createClass(CallMonitor, [{
     key: "_onStateChange",
-    value: function _onStateChange() {
-      var _this2 = this;
+    value: function () {
+      var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this2 = this;
 
-      var uniqueNumbers, newNumbers, sessionIds, newSessions, oldCalls, entities;
-      return regeneratorRuntime.async(function _onStateChange$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              if ((!this._call || this._call.ready) && (!this._conferenceCall || this._conferenceCall.ready) && this._accountInfo.ready && this._presence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
-                this.store.dispatch({
-                  type: this.actionTypes.init
-                });
-                this.store.dispatch({
-                  type: this.actionTypes.initSuccess
-                });
-              } else if ((this._call && !this._call.ready || this._conferenceCall && !this._conferenceCall.ready || !this._accountInfo.ready || !this._presence.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready || this._tabManager && !this._tabManager.ready || !this._storage.ready) && this.ready) {
-                this.store.dispatch({
-                  type: this.actionTypes.reset
-                });
-                this._lastProcessedCalls = null;
-                this._lastProcessedIds = null;
-                this._lastProcessedNumbers = null;
-                this.store.dispatch({
-                  type: this.actionTypes.resetSuccess
-                });
-              } else if (this.ready) {
-                uniqueNumbers = this.uniqueNumbers;
+        var uniqueNumbers, newNumbers, sessionIds, newSessions, oldCalls, entities;
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if ((!this._call || this._call.ready) && (!this._conferenceCall || this._conferenceCall.ready) && this._accountInfo.ready && this._presence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
+                  this.store.dispatch({
+                    type: this.actionTypes.init
+                  });
+                  this.store.dispatch({
+                    type: this.actionTypes.initSuccess
+                  });
+                } else if ((this._call && !this._call.ready || this._conferenceCall && !this._conferenceCall.ready || !this._accountInfo.ready || !this._presence.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready || this._tabManager && !this._tabManager.ready || !this._storage.ready) && this.ready) {
+                  this.store.dispatch({
+                    type: this.actionTypes.reset
+                  });
+                  this._lastProcessedCalls = null;
+                  this._lastProcessedIds = null;
+                  this._lastProcessedNumbers = null;
+                  this.store.dispatch({
+                    type: this.actionTypes.resetSuccess
+                  });
+                } else if (this.ready) {
+                  uniqueNumbers = this.uniqueNumbers;
 
-                if (this._lastProcessedNumbers !== uniqueNumbers && (!this._tabManager || this._tabManager.active)) {
-                  newNumbers = (0, _ramda.difference)(uniqueNumbers, this._lastProcessedNumbers || []);
-                  this._lastProcessedNumbers = uniqueNumbers;
+                  if (this._lastProcessedNumbers !== uniqueNumbers && (!this._tabManager || this._tabManager.active)) {
+                    newNumbers = (0, _ramda.difference)(uniqueNumbers, this._lastProcessedNumbers || []);
+                    this._lastProcessedNumbers = uniqueNumbers;
 
-                  if (this._contactMatcher && this._contactMatcher.ready) {
-                    this._contactMatcher.match({
-                      queries: newNumbers,
-                      ignoreQueue: true
-                    });
-                  }
-                }
-
-                sessionIds = this.sessionIds;
-
-                if (this._lastProcessedIds !== sessionIds && (!this._tabManager || this._tabManager.active)) {
-                  newSessions = (0, _ramda.difference)(sessionIds, this._lastProcessedIds || []);
-                  this._lastProcessedIds = sessionIds;
-
-                  if (this._activityMatcher && this._activityMatcher.ready) {
-                    this._activityMatcher.match({
-                      queries: newSessions,
-                      ignoreQueue: true
-                    });
-                  }
-                }
-
-                if (this._lastProcessedCalls !== this.calls) {
-                  oldCalls = this._lastProcessedCalls && this._lastProcessedCalls.slice() || [];
-                  this._lastProcessedCalls = this.calls; // no ringing calls
-
-                  if (this._call && oldCalls.length !== 0 && this.calls.length === 0 && this._call.toNumberEntities && this._call.toNumberEntities.length !== 0) {
-                    // console.log('no calls clean to number:');
-                    this._call.cleanToNumberEntities();
+                    if (this._contactMatcher && this._contactMatcher.ready) {
+                      this._contactMatcher.match({
+                        queries: newNumbers,
+                        ignoreQueue: true
+                      });
+                    }
                   }
 
-                  entities = this._call ? (0, _ramda.sort)(_callLogHelpers.sortByStartTime, this._call.toNumberEntities) : []; // const matchedMap = {};
+                  sessionIds = this.sessionIds;
 
-                  (0, _ramda.forEach)(function (call) {
-                    var oldCallIndex = (0, _ramda.findIndex)(function (item) {
-                      return item.sessionId === call.sessionId;
-                    }, oldCalls);
+                  if (this._lastProcessedIds !== sessionIds && (!this._tabManager || this._tabManager.active)) {
+                    newSessions = (0, _ramda.difference)(sessionIds, this._lastProcessedIds || []);
+                    this._lastProcessedIds = sessionIds;
 
-                    if (oldCallIndex === -1) {
-                      if (typeof _this2._onNewCall === 'function') {
-                        _this2._onNewCall(call);
-                      } // loop to execut the onRinging handlers
+                    if (this._activityMatcher && this._activityMatcher.ready) {
+                      this._activityMatcher.match({
+                        queries: newSessions,
+                        ignoreQueue: true
+                      });
+                    }
+                  }
+
+                  if (this._lastProcessedCalls !== this.calls) {
+                    oldCalls = this._lastProcessedCalls && this._lastProcessedCalls.slice() || [];
+                    this._lastProcessedCalls = this.calls; // no ringing calls
+
+                    if (this._call && oldCalls.length !== 0 && this.calls.length === 0 && this._call.toNumberEntities && this._call.toNumberEntities.length !== 0) {
+                      // console.log('no calls clean to number:');
+                      this._call.cleanToNumberEntities();
+                    }
+
+                    entities = this._call ? (0, _ramda.sort)(_callLogHelpers.sortByStartTime, this._call.toNumberEntities) : []; // const matchedMap = {};
+
+                    (0, _ramda.forEach)(function (call) {
+                      var oldCallIndex = (0, _ramda.findIndex)(function (item) {
+                        return item.sessionId === call.sessionId;
+                      }, oldCalls);
+
+                      if (oldCallIndex === -1) {
+                        if (typeof _this2._onNewCall === 'function') {
+                          _this2._onNewCall(call);
+                        } // loop to execut the onRinging handlers
 
 
-                      if ((0, _callLogHelpers.isRinging)(call)) {
-                        if (_this2._onRinging && typeof _this2._onRinging === 'function') {
-                          _this2._onRinging(call);
-                        }
+                        if ((0, _callLogHelpers.isRinging)(call)) {
+                          if (_this2._onRinging && typeof _this2._onRinging === 'function') {
+                            _this2._onRinging(call);
+                          }
 
-                        if (Array.isArray(_this2._onRingingFuncs) && _this2._onRingingFuncs.length) {
-                          _this2._onRingingFuncs.forEach(function (func) {
-                            if (func && typeof func === 'function') {
-                              func(call);
-                            }
-                          });
-                        }
-                      }
-                    } else {
-                      var oldCall = oldCalls[oldCallIndex];
-                      oldCalls.splice(oldCallIndex, 1);
-
-                      if (call.telephonyStatus !== oldCall.telephonyStatus || (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)) {
-                        if (typeof _this2._onCallUpdated === 'function') {
-                          _this2._onCallUpdated(call);
-                        }
-
-                        if (call.telephonyStatus === 'CallConnected') {
-                          if ((0, _callLogHelpers.isInbound)(call)) {
-                            _this2.store.dispatch({
-                              type: _this2.actionTypes.inboundCallConnectedTrack
-                            });
-                          } else {
-                            _this2.store.dispatch({
-                              type: _this2.actionTypes.outboundCallConnectedTrack
+                          if (Array.isArray(_this2._onRingingFuncs) && _this2._onRingingFuncs.length) {
+                            _this2._onRingingFuncs.forEach(function (func) {
+                              if (func && typeof func === 'function') {
+                                func(call);
+                              }
                             });
                           }
                         }
+                      } else {
+                        var oldCall = oldCalls[oldCallIndex];
+                        oldCalls.splice(oldCallIndex, 1);
+
+                        if (call.telephonyStatus !== oldCall.telephonyStatus || (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)) {
+                          if (typeof _this2._onCallUpdated === 'function') {
+                            _this2._onCallUpdated(call);
+                          }
+
+                          if (call.telephonyStatus === 'CallConnected') {
+                            if ((0, _callLogHelpers.isInbound)(call)) {
+                              _this2.store.dispatch({
+                                type: _this2.actionTypes.inboundCallConnectedTrack
+                              });
+                            } else {
+                              _this2.store.dispatch({
+                                type: _this2.actionTypes.outboundCallConnectedTrack
+                              });
+                            }
+                          }
+                        }
                       }
-                    }
 
-                    (0, _ramda.find)(function (entity, index) {
-                      var toEntity = (0, _ramda.find)(function (toMatch) {
-                        return toMatch.id === entity.entityId;
-                      }, call.toMatches);
+                      (0, _ramda.find)(function (entity, index) {
+                        var toEntity = (0, _ramda.find)(function (toMatch) {
+                          return toMatch.id === entity.entityId;
+                        }, call.toMatches);
 
-                      if (toEntity !== undefined) {
-                        entities = _this2._removeMatched(index, entities);
+                        if (toEntity !== undefined) {
+                          entities = _this2._removeMatched(index, entities);
 
-                        _this2._setMatchedData({
-                          sessionId: call.sessionId,
-                          toEntityId: toEntity.id
-                        });
+                          _this2._setMatchedData({
+                            sessionId: call.sessionId,
+                            toEntityId: toEntity.id
+                          });
 
-                        return true;
+                          return true;
+                        }
+
+                        return false;
+                      }, entities);
+                    }, this.calls);
+                    (0, _ramda.forEach)(function (call) {
+                      if (typeof _this2._onCallEnded === 'function') {
+                        _this2._onCallEnded(call);
                       }
-
-                      return false;
-                    }, entities);
-                  }, this.calls);
-                  (0, _ramda.forEach)(function (call) {
-                    if (typeof _this2._onCallEnded === 'function') {
-                      _this2._onCallEnded(call);
-                    }
-                  }, oldCalls);
+                    }, oldCalls);
+                  }
                 }
-              }
 
-            case 1:
-            case "end":
-              return _context2.stop();
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function _onStateChange() {
+        return _onStateChange2.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
   }, {
     key: "initialize",
     value: function initialize() {
@@ -611,7 +637,7 @@ function (_RcModule) {
         var fromMatches = fromNumber && contactMapping[fromNumber] || [];
         var toMatches = toNumber && contactMapping[toNumber] || [];
         var toNumberEntity = callMatched[callItem.sessionId];
-        return _objectSpread({}, callItem, {
+        return _objectSpread(_objectSpread({}, callItem), {}, {
           fromMatches: fromMatches,
           toMatches: toMatches,
           activityMatches: activityMapping[callItem.sessionId] || [],
@@ -677,7 +703,7 @@ function (_RcModule) {
         theSessions = (0, _ramda.filter)(function (x) {
           return x !== webphoneSession;
         }, theSessions);
-        return _objectSpread({}, callItem, {
+        return _objectSpread(_objectSpread({}, callItem), {}, {
           from: {
             phoneNumber: fromNumber
           },

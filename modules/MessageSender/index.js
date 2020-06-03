@@ -7,17 +7,39 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = exports.MultipartMessageMaxLength = exports.MessageMaxLength = void 0;
 
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
@@ -28,12 +50,6 @@ require("core-js/modules/es6.object.keys");
 require("core-js/modules/es6.string.starts-with");
 
 require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -75,11 +91,21 @@ var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -93,15 +119,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -120,10 +150,10 @@ var MessageSender = (_dec = (0, _di.Module)({
     dep: 'AvailabilityMonitor',
     optional: true
   }]
-}), _dec(_class = (_class2 =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(MessageSender, _RcModule);
+
+  var _super = _createSuper(MessageSender);
 
   /**
    * @constructor
@@ -147,9 +177,9 @@ function (_RcModule) {
 
     _classCallCheck(this, MessageSender);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MessageSender).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _messageSenderActionTypes["default"]
-    })));
+    }));
     _this._alert = alert;
     _this._client = client;
     _this._extensionPhoneNumber = extensionPhoneNumber;
@@ -299,533 +329,489 @@ function (_RcModule) {
     }
   }, {
     key: "_validateToNumbers",
-    value: function _validateToNumbers(toNumbers) {
-      var result, recipientNumbers, numberValidateResult, numbers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, number;
+    value: function () {
+      var _validateToNumbers2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(toNumbers) {
+        var result, recipientNumbers, numberValidateResult, numbers, _iterator, _step, number;
 
-      return regeneratorRuntime.async(function _validateToNumbers$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              result = {
-                result: false
-              };
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                result = {
+                  result: false
+                };
 
-              if (!this._validateToNumbersIsEmpty(toNumbers)) {
-                _context.next = 3;
+                if (!this._validateToNumbersIsEmpty(toNumbers)) {
+                  _context.next = 3;
+                  break;
+                }
+
+                return _context.abrupt("return", result);
+
+              case 3:
+                recipientNumbers = toNumbers.filter(function (item, index, arr) {
+                  return arr.indexOf(item) === index;
+                });
+                this.store.dispatch({
+                  type: this.actionTypes.validate
+                });
+                _context.next = 7;
+                return this._numberValidate.validateNumbers(recipientNumbers);
+
+              case 7:
+                numberValidateResult = _context.sent;
+
+                if (numberValidateResult.result) {
+                  _context.next = 12;
+                  break;
+                }
+
+                this._alertInvalidRecipientErrors(numberValidateResult.errors);
+
+                this.store.dispatch({
+                  type: this.actionTypes.validateError
+                });
+                return _context.abrupt("return", result);
+
+              case 12:
+                numbers = [];
+                _iterator = _createForOfIteratorHelper(numberValidateResult.numbers);
+                _context.prev = 14;
+
+                _iterator.s();
+
+              case 16:
+                if ((_step = _iterator.n()).done) {
+                  _context.next = 29;
+                  break;
+                }
+
+                number = _step.value;
+
+                if (!(number.subAddress && number.subAddress.length > 0)) {
+                  _context.next = 26;
+                  break;
+                }
+
+                if (this._numberValidate.isCompanyExtension(number.e164, number.subAddress)) {
+                  _context.next = 23;
+                  break;
+                }
+
+                this._alertWarning(_messageSenderMessages["default"].notAnExtension);
+
+                this.store.dispatch({
+                  type: this.actionTypes.validateError
+                });
+                return _context.abrupt("return", result);
+
+              case 23:
+                numbers.push(number.subAddress);
+                _context.next = 27;
                 break;
-              }
 
-              return _context.abrupt("return", result);
+              case 26:
+                numbers.push(number.e164);
 
-            case 3:
-              recipientNumbers = toNumbers.filter(function (item, index, arr) {
-                return arr.indexOf(item) === index;
-              });
-              this.store.dispatch({
-                type: this.actionTypes.validate
-              });
-              _context.next = 7;
-              return regeneratorRuntime.awrap(this._numberValidate.validateNumbers(recipientNumbers));
-
-            case 7:
-              numberValidateResult = _context.sent;
-
-              if (numberValidateResult.result) {
-                _context.next = 12;
+              case 27:
+                _context.next = 16;
                 break;
-              }
 
-              this._alertInvalidRecipientErrors(numberValidateResult.errors);
-
-              this.store.dispatch({
-                type: this.actionTypes.validateError
-              });
-              return _context.abrupt("return", result);
-
-            case 12:
-              numbers = [];
-              _iteratorNormalCompletion = true;
-              _didIteratorError = false;
-              _iteratorError = undefined;
-              _context.prev = 16;
-              _iterator = numberValidateResult.numbers[Symbol.iterator]();
-
-            case 18:
-              if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                _context.next = 32;
+              case 29:
+                _context.next = 34;
                 break;
-              }
 
-              number = _step.value;
+              case 31:
+                _context.prev = 31;
+                _context.t0 = _context["catch"](14);
 
-              if (!(number.subAddress && number.subAddress.length > 0)) {
-                _context.next = 28;
-                break;
-              }
+                _iterator.e(_context.t0);
 
-              if (this._numberValidate.isCompanyExtension(number.e164, number.subAddress)) {
-                _context.next = 25;
-                break;
-              }
+              case 34:
+                _context.prev = 34;
 
-              this._alertWarning(_messageSenderMessages["default"].notAnExtension);
+                _iterator.f();
 
-              this.store.dispatch({
-                type: this.actionTypes.validateError
-              });
-              return _context.abrupt("return", result);
+                return _context.finish(34);
 
-            case 25:
-              numbers.push(number.subAddress);
-              _context.next = 29;
-              break;
+              case 37:
+                result.result = true;
+                result.numbers = numbers;
+                return _context.abrupt("return", result);
 
-            case 28:
-              numbers.push(number.e164);
-
-            case 29:
-              _iteratorNormalCompletion = true;
-              _context.next = 18;
-              break;
-
-            case 32:
-              _context.next = 38;
-              break;
-
-            case 34:
-              _context.prev = 34;
-              _context.t0 = _context["catch"](16);
-              _didIteratorError = true;
-              _iteratorError = _context.t0;
-
-            case 38:
-              _context.prev = 38;
-              _context.prev = 39;
-
-              if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-                _iterator["return"]();
-              }
-
-            case 41:
-              _context.prev = 41;
-
-              if (!_didIteratorError) {
-                _context.next = 44;
-                break;
-              }
-
-              throw _iteratorError;
-
-            case 44:
-              return _context.finish(41);
-
-            case 45:
-              return _context.finish(38);
-
-            case 46:
-              result.result = true;
-              result.numbers = numbers;
-              return _context.abrupt("return", result);
-
-            case 49:
-            case "end":
-              return _context.stop();
+              case 40:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, null, this, [[16, 34, 38, 46], [39,, 41, 45]]);
-    }
+        }, _callee, this, [[14, 31, 34, 37]]);
+      }));
+
+      function _validateToNumbers(_x) {
+        return _validateToNumbers2.apply(this, arguments);
+      }
+
+      return _validateToNumbers;
+    }()
   }, {
     key: "send",
-    value: function send(_ref2) {
-      var fromNumber, toNumbers, text, replyOnMessageId, _ref2$multipart, multipart, eventId, validateToNumberResult, recipientNumbers, extensionNumbers, phoneNumbers, responses, chunks, total, shouldSleep, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, chunk, pagerResponse, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, phoneNumber, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _chunk, smsResponse;
+    value: function () {
+      var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref2) {
+        var fromNumber, toNumbers, text, replyOnMessageId, _ref2$multipart, multipart, eventId, validateToNumberResult, recipientNumbers, extensionNumbers, phoneNumbers, responses, chunks, total, shouldSleep, _iterator2, _step2, chunk, pagerResponse, _iterator3, _step3, phoneNumber, _iterator4, _step4, _chunk, smsResponse;
 
-      return regeneratorRuntime.async(function send$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              fromNumber = _ref2.fromNumber, toNumbers = _ref2.toNumbers, text = _ref2.text, replyOnMessageId = _ref2.replyOnMessageId, _ref2$multipart = _ref2.multipart, multipart = _ref2$multipart === void 0 ? false : _ref2$multipart;
-              eventId = _uuid["default"].v4();
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                fromNumber = _ref2.fromNumber, toNumbers = _ref2.toNumbers, text = _ref2.text, replyOnMessageId = _ref2.replyOnMessageId, _ref2$multipart = _ref2.multipart, multipart = _ref2$multipart === void 0 ? false : _ref2$multipart;
+                eventId = _uuid["default"].v4();
 
-              if (this._validateText(text, multipart)) {
-                _context2.next = 4;
+                if (this._validateText(text, multipart)) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt("return", null);
+
+              case 4:
+                _context2.prev = 4;
+                _context2.next = 7;
+                return this._validateToNumbers(toNumbers);
+
+              case 7:
+                validateToNumberResult = _context2.sent;
+
+                if (validateToNumberResult.result) {
+                  _context2.next = 10;
+                  break;
+                }
+
+                return _context2.abrupt("return", null);
+
+              case 10:
+                recipientNumbers = validateToNumberResult.numbers;
+                extensionNumbers = recipientNumbers.filter(function (number) {
+                  return number.length <= 6;
+                });
+                phoneNumbers = recipientNumbers.filter(function (number) {
+                  return number.length > 6;
+                }); // not validate sender number if recipient is only extension number
+
+                if (!(phoneNumbers.length > 0)) {
+                  _context2.next = 16;
+                  break;
+                }
+
+                if (this._validateSenderNumber(fromNumber)) {
+                  _context2.next = 16;
+                  break;
+                }
+
+                return _context2.abrupt("return", null);
+
+              case 16:
+                this._eventEmitter.emit(this.actionTypes.send, {
+                  eventId: eventId,
+                  fromNumber: fromNumber,
+                  toNumbers: toNumbers,
+                  text: text,
+                  replyOnMessageId: replyOnMessageId,
+                  multipart: multipart
+                });
+
+                this.store.dispatch({
+                  type: this.actionTypes.send
+                });
+                responses = [];
+                chunks = multipart ? (0, _chunkMessage["default"])(text, MessageMaxLength) : [text];
+                total = (phoneNumbers.length + 1) * chunks.length;
+                shouldSleep = total > SENDING_THRESHOLD;
+
+                if (!(extensionNumbers.length > 0)) {
+                  _context2.next = 45;
+                  break;
+                }
+
+                _iterator2 = _createForOfIteratorHelper(chunks);
+                _context2.prev = 24;
+
+                _iterator2.s();
+
+              case 26:
+                if ((_step2 = _iterator2.n()).done) {
+                  _context2.next = 37;
+                  break;
+                }
+
+                chunk = _step2.value;
+
+                if (!shouldSleep) {
+                  _context2.next = 31;
+                  break;
+                }
+
+                _context2.next = 31;
+                return (0, _sleep["default"])(2000);
+
+              case 31:
+                _context2.next = 33;
+                return this._sendPager({
+                  toNumbers: extensionNumbers,
+                  text: chunk,
+                  replyOnMessageId: replyOnMessageId
+                });
+
+              case 33:
+                pagerResponse = _context2.sent;
+                responses.push(pagerResponse);
+
+              case 35:
+                _context2.next = 26;
                 break;
-              }
 
-              return _context2.abrupt("return", null);
-
-            case 4:
-              _context2.prev = 4;
-              _context2.next = 7;
-              return regeneratorRuntime.awrap(this._validateToNumbers(toNumbers));
-
-            case 7:
-              validateToNumberResult = _context2.sent;
-
-              if (validateToNumberResult.result) {
-                _context2.next = 10;
+              case 37:
+                _context2.next = 42;
                 break;
-              }
 
-              return _context2.abrupt("return", null);
+              case 39:
+                _context2.prev = 39;
+                _context2.t0 = _context2["catch"](24);
 
-            case 10:
-              recipientNumbers = validateToNumberResult.numbers;
-              extensionNumbers = recipientNumbers.filter(function (number) {
-                return number.length <= 6;
-              });
-              phoneNumbers = recipientNumbers.filter(function (number) {
-                return number.length > 6;
-              }); // not validate sender number if recipient is only extension number
+                _iterator2.e(_context2.t0);
 
-              if (!(phoneNumbers.length > 0)) {
-                _context2.next = 16;
-                break;
-              }
+              case 42:
+                _context2.prev = 42;
 
-              if (this._validateSenderNumber(fromNumber)) {
-                _context2.next = 16;
-                break;
-              }
+                _iterator2.f();
 
-              return _context2.abrupt("return", null);
+                return _context2.finish(42);
 
-            case 16:
-              this._eventEmitter.emit(this.actionTypes.send, {
-                eventId: eventId,
-                fromNumber: fromNumber,
-                toNumbers: toNumbers,
-                text: text,
-                replyOnMessageId: replyOnMessageId,
-                multipart: multipart
-              });
+              case 45:
+                if (!(phoneNumbers.length > 0)) {
+                  _context2.next = 83;
+                  break;
+                }
 
-              this.store.dispatch({
-                type: this.actionTypes.send
-              });
-              responses = [];
-              chunks = multipart ? (0, _chunkMessage["default"])(text, MessageMaxLength) : [text];
-              total = (phoneNumbers.length + 1) * chunks.length;
-              shouldSleep = total > SENDING_THRESHOLD;
+                _iterator3 = _createForOfIteratorHelper(phoneNumbers);
+                _context2.prev = 47;
 
-              if (!(extensionNumbers.length > 0)) {
+                _iterator3.s();
+
+              case 49:
+                if ((_step3 = _iterator3.n()).done) {
+                  _context2.next = 75;
+                  break;
+                }
+
+                phoneNumber = _step3.value;
+                _iterator4 = _createForOfIteratorHelper(chunks);
+                _context2.prev = 52;
+
+                _iterator4.s();
+
+              case 54:
+                if ((_step4 = _iterator4.n()).done) {
+                  _context2.next = 65;
+                  break;
+                }
+
+                _chunk = _step4.value;
+
+                if (!shouldSleep) {
+                  _context2.next = 59;
+                  break;
+                }
+
+                _context2.next = 59;
+                return (0, _sleep["default"])(2000);
+
+              case 59:
+                _context2.next = 61;
+                return this._sendSms({
+                  fromNumber: fromNumber,
+                  toNumber: phoneNumber,
+                  text: _chunk
+                });
+
+              case 61:
+                smsResponse = _context2.sent;
+                responses.push(smsResponse);
+
+              case 63:
                 _context2.next = 54;
                 break;
-              }
 
-              _iteratorNormalCompletion2 = true;
-              _didIteratorError2 = false;
-              _iteratorError2 = undefined;
-              _context2.prev = 26;
-              _iterator2 = chunks[Symbol.iterator]();
-
-            case 28:
-              if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                _context2.next = 40;
+              case 65:
+                _context2.next = 70;
                 break;
-              }
 
-              chunk = _step2.value;
+              case 67:
+                _context2.prev = 67;
+                _context2.t1 = _context2["catch"](52);
 
-              if (!shouldSleep) {
-                _context2.next = 33;
+                _iterator4.e(_context2.t1);
+
+              case 70:
+                _context2.prev = 70;
+
+                _iterator4.f();
+
+                return _context2.finish(70);
+
+              case 73:
+                _context2.next = 49;
                 break;
-              }
 
-              _context2.next = 33;
-              return regeneratorRuntime.awrap((0, _sleep["default"])(2000));
-
-            case 33:
-              _context2.next = 35;
-              return regeneratorRuntime.awrap(this._sendPager({
-                toNumbers: extensionNumbers,
-                text: chunk,
-                replyOnMessageId: replyOnMessageId
-              }));
-
-            case 35:
-              pagerResponse = _context2.sent;
-              responses.push(pagerResponse);
-
-            case 37:
-              _iteratorNormalCompletion2 = true;
-              _context2.next = 28;
-              break;
-
-            case 40:
-              _context2.next = 46;
-              break;
-
-            case 42:
-              _context2.prev = 42;
-              _context2.t0 = _context2["catch"](26);
-              _didIteratorError2 = true;
-              _iteratorError2 = _context2.t0;
-
-            case 46:
-              _context2.prev = 46;
-              _context2.prev = 47;
-
-              if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-                _iterator2["return"]();
-              }
-
-            case 49:
-              _context2.prev = 49;
-
-              if (!_didIteratorError2) {
-                _context2.next = 52;
+              case 75:
+                _context2.next = 80;
                 break;
-              }
 
-              throw _iteratorError2;
+              case 77:
+                _context2.prev = 77;
+                _context2.t2 = _context2["catch"](47);
 
-            case 52:
-              return _context2.finish(49);
+                _iterator3.e(_context2.t2);
 
-            case 53:
-              return _context2.finish(46);
+              case 80:
+                _context2.prev = 80;
 
-            case 54:
-              if (!(phoneNumbers.length > 0)) {
-                _context2.next = 110;
-                break;
-              }
+                _iterator3.f();
 
-              _iteratorNormalCompletion3 = true;
-              _didIteratorError3 = false;
-              _iteratorError3 = undefined;
-              _context2.prev = 58;
-              _iterator3 = phoneNumbers[Symbol.iterator]();
+                return _context2.finish(80);
 
-            case 60:
-              if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
-                _context2.next = 96;
-                break;
-              }
+              case 83:
+                this.store.dispatch({
+                  type: this.actionTypes.sendOver,
+                  toNumbers: toNumbers
+                });
+                return _context2.abrupt("return", responses);
 
-              phoneNumber = _step3.value;
-              _iteratorNormalCompletion4 = true;
-              _didIteratorError4 = false;
-              _iteratorError4 = undefined;
-              _context2.prev = 65;
-              _iterator4 = chunks[Symbol.iterator]();
+              case 87:
+                _context2.prev = 87;
+                _context2.t3 = _context2["catch"](4);
 
-            case 67:
-              if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
-                _context2.next = 79;
-                break;
-              }
+                this._eventEmitter.emit(this.actionTypes.sendError, {
+                  eventId: eventId,
+                  fromNumber: fromNumber,
+                  toNumbers: toNumbers,
+                  text: text,
+                  replyOnMessageId: replyOnMessageId,
+                  multipart: multipart
+                });
 
-              _chunk = _step4.value;
+                this.store.dispatch({
+                  type: this.actionTypes.sendError,
+                  error: 'error'
+                });
 
-              if (!shouldSleep) {
-                _context2.next = 72;
-                break;
-              }
+                this._onSendError(_context2.t3);
 
-              _context2.next = 72;
-              return regeneratorRuntime.awrap((0, _sleep["default"])(2000));
+                console.debug('sendComposeText e ', _context2.t3);
+                throw _context2.t3;
 
-            case 72:
-              _context2.next = 74;
-              return regeneratorRuntime.awrap(this._sendSms({
-                fromNumber: fromNumber,
-                toNumber: phoneNumber,
-                text: _chunk
-              }));
-
-            case 74:
-              smsResponse = _context2.sent;
-              responses.push(smsResponse);
-
-            case 76:
-              _iteratorNormalCompletion4 = true;
-              _context2.next = 67;
-              break;
-
-            case 79:
-              _context2.next = 85;
-              break;
-
-            case 81:
-              _context2.prev = 81;
-              _context2.t1 = _context2["catch"](65);
-              _didIteratorError4 = true;
-              _iteratorError4 = _context2.t1;
-
-            case 85:
-              _context2.prev = 85;
-              _context2.prev = 86;
-
-              if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-                _iterator4["return"]();
-              }
-
-            case 88:
-              _context2.prev = 88;
-
-              if (!_didIteratorError4) {
-                _context2.next = 91;
-                break;
-              }
-
-              throw _iteratorError4;
-
-            case 91:
-              return _context2.finish(88);
-
-            case 92:
-              return _context2.finish(85);
-
-            case 93:
-              _iteratorNormalCompletion3 = true;
-              _context2.next = 60;
-              break;
-
-            case 96:
-              _context2.next = 102;
-              break;
-
-            case 98:
-              _context2.prev = 98;
-              _context2.t2 = _context2["catch"](58);
-              _didIteratorError3 = true;
-              _iteratorError3 = _context2.t2;
-
-            case 102:
-              _context2.prev = 102;
-              _context2.prev = 103;
-
-              if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-                _iterator3["return"]();
-              }
-
-            case 105:
-              _context2.prev = 105;
-
-              if (!_didIteratorError3) {
-                _context2.next = 108;
-                break;
-              }
-
-              throw _iteratorError3;
-
-            case 108:
-              return _context2.finish(105);
-
-            case 109:
-              return _context2.finish(102);
-
-            case 110:
-              this.store.dispatch({
-                type: this.actionTypes.sendOver,
-                toNumbers: toNumbers
-              });
-              return _context2.abrupt("return", responses);
-
-            case 114:
-              _context2.prev = 114;
-              _context2.t3 = _context2["catch"](4);
-
-              this._eventEmitter.emit(this.actionTypes.sendError, {
-                eventId: eventId,
-                fromNumber: fromNumber,
-                toNumbers: toNumbers,
-                text: text,
-                replyOnMessageId: replyOnMessageId,
-                multipart: multipart
-              });
-
-              this.store.dispatch({
-                type: this.actionTypes.sendError,
-                error: 'error'
-              });
-
-              this._onSendError(_context2.t3);
-
-              console.debug('sendComposeText e ', _context2.t3);
-              throw _context2.t3;
-
-            case 121:
-            case "end":
-              return _context2.stop();
+              case 94:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this, [[4, 114], [26, 42, 46, 54], [47,, 49, 53], [58, 98, 102, 110], [65, 81, 85, 93], [86,, 88, 92], [103,, 105, 109]]);
-    }
+        }, _callee2, this, [[4, 87], [24, 39, 42, 45], [47, 77, 80, 83], [52, 67, 70, 73]]);
+      }));
+
+      function send(_x2) {
+        return _send.apply(this, arguments);
+      }
+
+      return send;
+    }()
   }, {
     key: "_sendSms",
-    value: function _sendSms(_ref3) {
-      var fromNumber, toNumber, text, toUsers, response;
-      return regeneratorRuntime.async(function _sendSms$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              fromNumber = _ref3.fromNumber, toNumber = _ref3.toNumber, text = _ref3.text;
-              toUsers = [{
-                phoneNumber: toNumber
-              }];
-              _context3.next = 4;
-              return regeneratorRuntime.awrap(this._client.account().extension().sms().post({
-                from: {
-                  phoneNumber: fromNumber
-                },
-                to: toUsers,
-                text: text
-              }));
+    value: function () {
+      var _sendSms2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref3) {
+        var fromNumber, toNumber, text, toUsers, response;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                fromNumber = _ref3.fromNumber, toNumber = _ref3.toNumber, text = _ref3.text;
+                toUsers = [{
+                  phoneNumber: toNumber
+                }];
+                _context3.next = 4;
+                return this._client.account().extension().sms().post({
+                  from: {
+                    phoneNumber: fromNumber
+                  },
+                  to: toUsers,
+                  text: text
+                });
 
-            case 4:
-              response = _context3.sent;
-              return _context3.abrupt("return", response);
+              case 4:
+                response = _context3.sent;
+                return _context3.abrupt("return", response);
 
-            case 6:
-            case "end":
-              return _context3.stop();
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee3, this);
+      }));
+
+      function _sendSms(_x3) {
+        return _sendSms2.apply(this, arguments);
+      }
+
+      return _sendSms;
+    }()
   }, {
     key: "_sendPager",
-    value: function _sendPager(_ref4) {
-      var toNumbers, text, replyOnMessageId, from, toUsers, params, response;
-      return regeneratorRuntime.async(function _sendPager$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              toNumbers = _ref4.toNumbers, text = _ref4.text, replyOnMessageId = _ref4.replyOnMessageId;
-              from = {
-                extensionNumber: this._extensionInfo.extensionNumber
-              };
-              toUsers = toNumbers.map(function (number) {
-                return {
-                  extensionNumber: number
+    value: function () {
+      var _sendPager2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref4) {
+        var toNumbers, text, replyOnMessageId, from, toUsers, params, response;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                toNumbers = _ref4.toNumbers, text = _ref4.text, replyOnMessageId = _ref4.replyOnMessageId;
+                from = {
+                  extensionNumber: this._extensionInfo.extensionNumber
                 };
-              });
-              params = {
-                from: from,
-                to: toUsers,
-                text: text
-              };
+                toUsers = toNumbers.map(function (number) {
+                  return {
+                    extensionNumber: number
+                  };
+                });
+                params = {
+                  from: from,
+                  to: toUsers,
+                  text: text
+                };
 
-              if (replyOnMessageId) {
-                params.replyOn = replyOnMessageId;
-              }
+                if (replyOnMessageId) {
+                  params.replyOn = replyOnMessageId;
+                }
 
-              _context4.next = 7;
-              return regeneratorRuntime.awrap(this._client.account().extension().companyPager().post(params));
+                _context4.next = 7;
+                return this._client.account().extension().companyPager().post(params);
 
-            case 7:
-              response = _context4.sent;
-              return _context4.abrupt("return", response);
+              case 7:
+                response = _context4.sent;
+                return _context4.abrupt("return", response);
 
-            case 9:
-            case "end":
-              return _context4.stop();
+              case 9:
+              case "end":
+                return _context4.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee4, this);
+      }));
+
+      function _sendPager(_x4) {
+        return _sendPager2.apply(this, arguments);
+      }
+
+      return _sendPager;
+    }()
   }, {
     key: "_onSendError",
     value: function _onSendError(error) {

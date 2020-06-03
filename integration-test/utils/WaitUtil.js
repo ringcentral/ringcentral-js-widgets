@@ -24,21 +24,22 @@ function waitUntilNotNull(source, checkItem, timeoutInSeconds) {
   var startTime = Date.now();
   return new Promise(function (resolve) {
     var timer = setInterval(function () {
-      if (isTimeOut(startTime, timeoutInSeconds)) {
-        clearInterval(timer);
-        resolve(false);
-        console.error("Timeout wait for ".concat(checkItem, "  to be not null"));
-      }
-
       try {
         var checkValue = source();
 
         if (checkValue !== null && checkValue !== undefined) {
           clearInterval(timer);
           resolve(true);
+          return;
         }
       } catch (e) {
         console.error(e);
+      }
+
+      if (isTimeOut(startTime, timeoutInSeconds)) {
+        clearInterval(timer);
+        resolve(false);
+        console.error("Timeout wait for ".concat(checkItem, "  to be not null"));
       }
     }, 500);
   });
@@ -49,21 +50,22 @@ function waitUntilEqual(source, checkItem, expect, timeoutInSeconds) {
   var startTime = Date.now();
   return new Promise(function (resolve) {
     var timer = setInterval(function () {
-      if (isTimeOut(startTime, timeoutInSeconds)) {
-        clearInterval(timer);
-        resolve(false);
-        console.error("Timeout wait for ".concat(checkItem, "  to be ").concat(expect));
-      }
-
       try {
         var checkValue = source();
 
         if (checkValue === expect) {
           clearInterval(timer);
           resolve(true);
+          return;
         }
       } catch (e) {
         console.error(e);
+      }
+
+      if (isTimeOut(startTime, timeoutInSeconds)) {
+        clearInterval(timer);
+        resolve(false);
+        console.error("Timeout wait for ".concat(checkItem, "  to be ").concat(expect));
       }
     }, retryTtl);
   });

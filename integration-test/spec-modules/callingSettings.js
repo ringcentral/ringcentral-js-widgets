@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -12,8 +12,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -22,6 +20,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.array.filter");
 
@@ -57,31 +59,35 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var _default = function _default(auth, client, alert, account, callingSettings, extensionPhoneNumber, extensionInfo) {
-  describe('Calling Settings', function _callee22() {
+  describe('Calling Settings', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22() {
     var isLoginSuccess;
-    return regeneratorRuntime.async(function _callee22$(_context22) {
+    return regeneratorRuntime.wrap(function _callee22$(_context22) {
       while (1) {
         switch (_context22.prev = _context22.next) {
           case 0:
             _this.timeout(20000);
 
             mock.mockClient(client);
-            describe('When has permission', function _callee19() {
-              return regeneratorRuntime.async(function _callee19$(_context19) {
+            describe('When has permission', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
+              return regeneratorRuntime.wrap(function _callee19$(_context19) {
                 while (1) {
                   switch (_context19.prev = _context19.next) {
                     case 0:
                       _this.timeout(20000);
 
-                      before(function _callee() {
-                        return regeneratorRuntime.async(function _callee$(_context) {
+                      before( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                        return regeneratorRuntime.wrap(function _callee$(_context) {
                           while (1) {
                             switch (_context.prev = _context.next) {
                               case 0:
                                 mock.mockForLogin();
                                 _context.next = 3;
-                                return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(auth, account));
+                                return (0, _HelpUtil.ensureLogin)(auth, account);
 
                               case 3:
                                 isLoginSuccess = _context.sent;
@@ -97,10 +103,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 return _context.stop();
                             }
                           }
-                        });
-                      });
-                      it('Should Be Make Call with Softphone by Default', function _callee2() {
-                        return regeneratorRuntime.async(function _callee2$(_context2) {
+                        }, _callee);
+                      })));
+                      it('Should Be Make Call with Softphone by Default', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                        return regeneratorRuntime.wrap(function _callee2$(_context2) {
                           while (1) {
                             switch (_context2.prev = _context2.next) {
                               case 0:
@@ -112,13 +118,13 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                 return _context2.stop();
                             }
                           }
-                        });
-                      });
+                        }, _callee2);
+                      })));
                       describe('Should Save Calling Mode', function () {
                         _this.timeout(20000);
 
-                        it('Should Save My RingCentral Phone', function _callee3() {
-                          return regeneratorRuntime.async(function _callee3$(_context3) {
+                        it('Should Save My RingCentral Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                          return regeneratorRuntime.wrap(function _callee3$(_context3) {
                             while (1) {
                               switch (_context3.prev = _context3.next) {
                                 case 0:
@@ -133,10 +139,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context3.stop();
                               }
                             }
-                          });
-                        });
-                        it('Should Save Other Phone', function _callee4() {
-                          return regeneratorRuntime.async(function _callee4$(_context4) {
+                          }, _callee3);
+                        })));
+                        it('Should Save Other Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+                          return regeneratorRuntime.wrap(function _callee4$(_context4) {
                             while (1) {
                               switch (_context4.prev = _context4.next) {
                                 case 0:
@@ -151,10 +157,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context4.stop();
                               }
                             }
-                          });
-                        });
-                        it('Should Save Custom Phone', function _callee5() {
-                          return regeneratorRuntime.async(function _callee5$(_context5) {
+                          }, _callee4);
+                        })));
+                        it('Should Save Custom Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+                          return regeneratorRuntime.wrap(function _callee5$(_context5) {
                             while (1) {
                               switch (_context5.prev = _context5.next) {
                                 case 0:
@@ -169,14 +175,14 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context5.stop();
                               }
                             }
-                          });
-                        });
+                          }, _callee5);
+                        })));
                       });
                       describe('Should Save Options in RingOut Mode', function () {
                         _this.timeout(20000);
 
-                        it('Should Save From Number', function _callee6() {
-                          return regeneratorRuntime.async(function _callee6$(_context6) {
+                        it('Should Save From Number', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+                          return regeneratorRuntime.wrap(function _callee6$(_context6) {
                             while (1) {
                               switch (_context6.prev = _context6.next) {
                                 case 0:
@@ -190,10 +196,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context6.stop();
                               }
                             }
-                          });
-                        });
-                        it('Should Save RingoutPrompt', function _callee7() {
-                          return regeneratorRuntime.async(function _callee7$(_context7) {
+                          }, _callee6);
+                        })));
+                        it('Should Save RingoutPrompt', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+                          return regeneratorRuntime.wrap(function _callee7$(_context7) {
                             while (1) {
                               switch (_context7.prev = _context7.next) {
                                 case 0:
@@ -207,23 +213,23 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context7.stop();
                               }
                             }
-                          });
-                        });
+                          }, _callee7);
+                        })));
                       });
                       describe('Should Allow Alert', function () {
                         _this.timeout(20000);
 
-                        beforeEach(function _callee8() {
+                        beforeEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
                           var isAlertClear;
-                          return regeneratorRuntime.async(function _callee8$(_context8) {
+                          return regeneratorRuntime.wrap(function _callee8$(_context8) {
                             while (1) {
                               switch (_context8.prev = _context8.next) {
                                 case 0:
                                   _context8.next = 2;
-                                  return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
+                                  return (0, _WaitUtil.waitUntilEqual)(function () {
                                     alert.dismissAll();
                                     return alert.state.messages.length;
-                                  }, 'Alert', 0, 5));
+                                  }, 'Alert', 0, 5);
 
                                 case 2:
                                   isAlertClear = _context8.sent;
@@ -239,11 +245,11 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context8.stop();
                               }
                             }
-                          });
-                        });
+                          }, _callee8);
+                        })));
                         describe('Should Prompt Alerts when withPrompt Equals True', function () {
-                          it('Should Prompt Alert of saveSuccessWithSoftphone', function _callee9() {
-                            return regeneratorRuntime.async(function _callee9$(_context9) {
+                          it('Should Prompt Alert of saveSuccessWithSoftphone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+                            return regeneratorRuntime.wrap(function _callee9$(_context9) {
                               while (1) {
                                 switch (_context9.prev = _context9.next) {
                                   case 0:
@@ -257,10 +263,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                     return _context9.stop();
                                 }
                               }
-                            });
-                          });
-                          it('Should Prompt Alert of saveSuccess when Calling Option is Other Phone', function _callee10() {
-                            return regeneratorRuntime.async(function _callee10$(_context10) {
+                            }, _callee9);
+                          })));
+                          it('Should Prompt Alert of saveSuccess when Calling Option is Other Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+                            return regeneratorRuntime.wrap(function _callee10$(_context10) {
                               while (1) {
                                 switch (_context10.prev = _context10.next) {
                                   case 0:
@@ -274,10 +280,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                     return _context10.stop();
                                 }
                               }
-                            });
-                          });
-                          it('Should Prompt Alert of saveSuccess when Calling Option is My RingCentral Phone', function _callee11() {
-                            return regeneratorRuntime.async(function _callee11$(_context11) {
+                            }, _callee10);
+                          })));
+                          it('Should Prompt Alert of saveSuccess when Calling Option is My RingCentral Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+                            return regeneratorRuntime.wrap(function _callee11$(_context11) {
                               while (1) {
                                 switch (_context11.prev = _context11.next) {
                                   case 0:
@@ -291,10 +297,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                     return _context11.stop();
                                 }
                               }
-                            });
-                          });
-                          it('Should Prompt Alert of saveSuccess when Calling Option is Custom Phone', function _callee12() {
-                            return regeneratorRuntime.async(function _callee12$(_context12) {
+                            }, _callee11);
+                          })));
+                          it('Should Prompt Alert of saveSuccess when Calling Option is Custom Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+                            return regeneratorRuntime.wrap(function _callee12$(_context12) {
                               while (1) {
                                 switch (_context12.prev = _context12.next) {
                                   case 0:
@@ -308,12 +314,12 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                     return _context12.stop();
                                 }
                               }
-                            });
-                          });
+                            }, _callee12);
+                          })));
                         });
                         describe('Should Not Prompt Alerts when withPrompt Equals False', function () {
-                          it('Should Not Prompt Alert when Calling Option is Softphone', function _callee13() {
-                            return regeneratorRuntime.async(function _callee13$(_context13) {
+                          it('Should Not Prompt Alert when Calling Option is Softphone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+                            return regeneratorRuntime.wrap(function _callee13$(_context13) {
                               while (1) {
                                 switch (_context13.prev = _context13.next) {
                                   case 0:
@@ -328,10 +334,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                     return _context13.stop();
                                 }
                               }
-                            });
-                          });
-                          it('Should Not Prompt Alert when Calling Option is My RingCentral Phone', function _callee14() {
-                            return regeneratorRuntime.async(function _callee14$(_context14) {
+                            }, _callee13);
+                          })));
+                          it('Should Not Prompt Alert when Calling Option is My RingCentral Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+                            return regeneratorRuntime.wrap(function _callee14$(_context14) {
                               while (1) {
                                 switch (_context14.prev = _context14.next) {
                                   case 0:
@@ -346,10 +352,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                     return _context14.stop();
                                 }
                               }
-                            });
-                          });
-                          it('Should Not Prompt Alert when Calling Option is Other Phone', function _callee15() {
-                            return regeneratorRuntime.async(function _callee15$(_context15) {
+                            }, _callee14);
+                          })));
+                          it('Should Not Prompt Alert when Calling Option is Other Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+                            return regeneratorRuntime.wrap(function _callee15$(_context15) {
                               while (1) {
                                 switch (_context15.prev = _context15.next) {
                                   case 0:
@@ -364,10 +370,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                     return _context15.stop();
                                 }
                               }
-                            });
-                          });
-                          it('Should Not Prompt Alert when Calling Option is Custom Phone', function _callee16() {
-                            return regeneratorRuntime.async(function _callee16$(_context16) {
+                            }, _callee15);
+                          })));
+                          it('Should Not Prompt Alert when Calling Option is Custom Phone', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+                            return regeneratorRuntime.wrap(function _callee16$(_context16) {
                               while (1) {
                                 switch (_context16.prev = _context16.next) {
                                   case 0:
@@ -382,15 +388,15 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                     return _context16.stop();
                                 }
                               }
-                            });
-                          });
+                            }, _callee16);
+                          })));
                         });
                       });
                       describe('Should Remember after Logout', function () {
                         _this.timeout(20000);
 
-                        it('Should Remember Calling Settings after Re-login', function _callee17() {
-                          return regeneratorRuntime.async(function _callee17$(_context17) {
+                        it('Should Remember Calling Settings after Re-login', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
+                          return regeneratorRuntime.wrap(function _callee17$(_context17) {
                             while (1) {
                               switch (_context17.prev = _context17.next) {
                                 case 0:
@@ -403,15 +409,15 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   });
                                   auth.logout();
                                   _context17.next = 5;
-                                  return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
+                                  return (0, _WaitUtil.waitUntilEqual)(function () {
                                     return auth.loginStatus;
-                                  }, 'LoginStatus', _loginStatus["default"].notLoggedIn, 3));
+                                  }, 'LoginStatus', _loginStatus["default"].notLoggedIn, 3);
 
                                 case 5:
                                   mock.restore();
                                   mock.mockForLogin();
                                   _context17.next = 9;
-                                  return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(auth, account));
+                                  return (0, _HelpUtil.ensureLogin)(auth, account);
 
                                 case 9:
                                   expect(callingSettings.ringoutPrompt).to.equals('456');
@@ -424,15 +430,15 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context17.stop();
                               }
                             }
-                          });
-                        });
+                          }, _callee17);
+                        })));
                       });
                       describe('Should Have Required Phone Numbers', function () {
                         _this.timeout(20000);
 
-                        it('Should Have My Phone Numbers', function _callee18() {
+                        it('Should Have My Phone Numbers', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
                           var myPhoneNumbers, mainCompanyNumber, extensionNumber;
-                          return regeneratorRuntime.async(function _callee18$(_context18) {
+                          return regeneratorRuntime.wrap(function _callee18$(_context18) {
                             while (1) {
                               switch (_context18.prev = _context18.next) {
                                 case 0:
@@ -456,8 +462,8 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                                   return _context18.stop();
                               }
                             }
-                          });
-                        }); //TODO: Add test cases for Other Phone Numbers
+                          }, _callee18);
+                        }))); //TODO: Add test cases for Other Phone Numbers
                       });
 
                     case 8:
@@ -465,10 +471,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                       return _context19.stop();
                   }
                 }
-              });
-            });
-            it('Should only include softphone when ReadUserPhoneNumbers is false', function _callee20() {
-              return regeneratorRuntime.async(function _callee20$(_context20) {
+              }, _callee19);
+            })));
+            it('Should only include softphone when ReadUserPhoneNumbers is false', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
+              return regeneratorRuntime.wrap(function _callee20$(_context20) {
                 while (1) {
                   switch (_context20.prev = _context20.next) {
                     case 0:
@@ -482,7 +488,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         })
                       });
                       _context20.next = 5;
-                      return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(auth, account));
+                      return (0, _HelpUtil.ensureLogin)(auth, account);
 
                     case 5:
                       expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions["default"].softphone]);
@@ -493,10 +499,10 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                       return _context20.stop();
                   }
                 }
-              });
-            });
-            it('Should only include softphone when ReadUserForwardingFlipNumbers is false', function _callee21() {
-              return regeneratorRuntime.async(function _callee21$(_context21) {
+              }, _callee20);
+            })));
+            it('Should only include softphone when ReadUserForwardingFlipNumbers is false', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21() {
+              return regeneratorRuntime.wrap(function _callee21$(_context21) {
                 while (1) {
                   switch (_context21.prev = _context21.next) {
                     case 0:
@@ -513,7 +519,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                         })
                       });
                       _context21.next = 5;
-                      return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(auth, account));
+                      return (0, _HelpUtil.ensureLogin)(auth, account);
 
                     case 5:
                       expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions["default"].softphone, _callingOptions["default"].myphone, _callingOptions["default"].otherphone, _callingOptions["default"].customphone]);
@@ -523,16 +529,16 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                       return _context21.stop();
                   }
                 }
-              });
-            });
+              }, _callee21);
+            })));
 
           case 5:
           case "end":
             return _context22.stop();
         }
       }
-    });
-  });
+    }, _callee22);
+  })));
 };
 
 exports["default"] = _default;

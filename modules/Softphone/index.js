@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -18,6 +20,12 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -57,11 +65,15 @@ var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -75,15 +87,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -101,10 +117,10 @@ _dec = (0, _di.Module)({
     dep: 'SoftphoneOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(Softphone, _RcModule);
+
+  var _super = _createSuper(Softphone);
 
   /**
    * @constructor
@@ -126,9 +142,9 @@ function (_RcModule) {
 
     _classCallCheck(this, Softphone);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Softphone).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
-    })));
+    }));
     _this._brand = brand;
     _this._extensionMode = extensionMode;
     _this._callHandler = callHandler;
@@ -149,107 +165,115 @@ function (_RcModule) {
     }
   }, {
     key: "makeCall",
-    value: function makeCall(phoneNumber) {
-      var cmd, uri, frame;
-      return regeneratorRuntime.async(function makeCall$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              this.store.dispatch({
-                type: this.actionTypes.startToConnect,
-                phoneNumber: phoneNumber
-              });
-              cmd = "call?number=".concat(encodeURIComponent(phoneNumber));
-              uri = "".concat(this.protocol, "://").concat(cmd);
+    value: function () {
+      var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumber) {
+        var cmd, uri, frame;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.startToConnect,
+                  phoneNumber: phoneNumber
+                });
+                cmd = "call?number=".concat(encodeURIComponent(phoneNumber));
+                uri = "".concat(this.protocol, "://").concat(cmd);
 
-              if (!this._callHandler) {
-                _context.next = 7;
+                if (!this._callHandler) {
+                  _context.next = 7;
+                  break;
+                }
+
+                this._callHandler({
+                  protocol: this.protocol,
+                  command: cmd,
+                  phoneNumber: phoneNumber
+                });
+
+                _context.next = 28;
                 break;
-              }
 
-              this._callHandler({
-                protocol: this.protocol,
-                command: cmd,
-                phoneNumber: phoneNumber
-              });
+              case 7:
+                if (!(this._extensionMode || this.detectPlatform() !== 'desktop')) {
+                  _context.next = 11;
+                  break;
+                }
 
-              _context.next = 28;
-              break;
-
-            case 7:
-              if (!(this._extensionMode || this.detectPlatform() !== 'desktop')) {
-                _context.next = 11;
+                /**
+                 * 1. Use window.open in extension background scripts to avoid crashing Browsers
+                 * 2. Use window.open in non-desktop platforms
+                 */
+                window.open(uri);
+                _context.next = 28;
                 break;
-              }
 
-              /**
-               * 1. Use window.open in extension background scripts to avoid crashing Browsers
-               * 2. Use window.open in non-desktop platforms
-               */
-              window.open(uri);
-              _context.next = 28;
-              break;
+              case 11:
+                if (!window.navigator.msLaunchUri) {
+                  _context.next = 15;
+                  break;
+                }
 
-            case 11:
-              if (!window.navigator.msLaunchUri) {
-                _context.next = 15;
+                // to support ie to start the service
+                window.navigator.msLaunchUri(uri);
+                _context.next = 28;
                 break;
-              }
 
-              // to support ie to start the service
-              window.navigator.msLaunchUri(uri);
-              _context.next = 28;
-              break;
+              case 15:
+                if (!(window.ActiveXObject || 'ActiveXObject' in window)) {
+                  _context.next = 19;
+                  break;
+                }
 
-            case 15:
-              if (!(window.ActiveXObject || 'ActiveXObject' in window)) {
-                _context.next = 19;
+                // to support ie on Windows < 8
+                window.open(uri);
+                _context.next = 28;
                 break;
-              }
 
-              // to support ie on Windows < 8
-              window.open(uri);
-              _context.next = 28;
-              break;
+              case 19:
+                frame = document.createElement('iframe');
+                frame.style.display = 'none';
+                document.body.appendChild(frame);
+                _context.next = 24;
+                return (0, _sleep["default"])(100);
 
-            case 19:
-              frame = document.createElement('iframe');
-              frame.style.display = 'none';
-              document.body.appendChild(frame);
-              _context.next = 24;
-              return regeneratorRuntime.awrap((0, _sleep["default"])(100));
+              case 24:
+                frame.contentWindow.location.href = uri;
+                _context.next = 27;
+                return (0, _sleep["default"])(300);
 
-            case 24:
-              frame.contentWindow.location.href = uri;
-              _context.next = 27;
-              return regeneratorRuntime.awrap((0, _sleep["default"])(300));
+              case 27:
+                document.body.removeChild(frame);
 
-            case 27:
-              document.body.removeChild(frame);
+              case 28:
+                if (!this._contactMatcher) {
+                  _context.next = 31;
+                  break;
+                }
 
-            case 28:
-              if (!this._contactMatcher) {
                 _context.next = 31;
-                break;
-              }
+                return this._contactMatcher.forceMatchNumber({
+                  phoneNumber: phoneNumber
+                });
 
-              _context.next = 31;
-              return regeneratorRuntime.awrap(this._contactMatcher.forceMatchNumber({
-                phoneNumber: phoneNumber
-              }));
+              case 31:
+                this.store.dispatch({
+                  type: this.actionTypes.connectComplete
+                });
 
-            case 31:
-              this.store.dispatch({
-                type: this.actionTypes.connectComplete
-              });
-
-            case 32:
-            case "end":
-              return _context.stop();
+              case 32:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, null, this);
-    } // eslint-disable-next-line class-methods-use-this
+        }, _callee, this);
+      }));
+
+      function makeCall(_x) {
+        return _makeCall.apply(this, arguments);
+      }
+
+      return makeCall;
+    }() // eslint-disable-next-line class-methods-use-this
 
   }, {
     key: "protocol",

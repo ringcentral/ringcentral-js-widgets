@@ -11,11 +11,25 @@ exports.generateRandomNumber = generateRandomNumber;
 exports.isHAEnabledAPI = isHAEnabledAPI;
 exports.HA_ERROR_STATUS = exports.HA_ERROR_CODE = exports.TMP_HA_ERROR_CODE = void 0;
 
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.is-array");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/web.dom.iterable");
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.regexp.split");
 
@@ -29,9 +43,12 @@ var _availabilityStatus = _interopRequireDefault(require("./availabilityStatus")
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-/**
- * Created by Sophie, edited by Bruce
- */
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 var TMP_HA_ERROR_CODE = 'MaintenanceMode';
 exports.TMP_HA_ERROR_CODE = TMP_HA_ERROR_CODE;
 var HA_ERROR_CODE = 'CMN-211';
@@ -57,12 +74,12 @@ function isHAError(error) {
   var status = (0, _ramda.pathOr)(-1, ['apiResponse', '_response', 'status'], error);
   var errors = (0, _ramda.pathOr)([], ['apiResponse', '_json', 'errors'], error);
   var errorCodeIn = false;
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+
+  var _iterator = _createForOfIteratorHelper(errors),
+      _step;
 
   try {
-    for (var _iterator = errors[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var e = _step.value;
 
       if ((0, _ramda.pathOr)('', ['errorCode'], e) === HA_ERROR_CODE) {
@@ -72,18 +89,9 @@ function isHAError(error) {
     } // Result from `status` and `errorCode`.
 
   } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
+    _iterator.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-        _iterator["return"]();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
+    _iterator.f();
   }
 
   var validHAError = status === HA_ERROR_STATUS && errorCodeIn;
@@ -116,12 +124,11 @@ function generateRandomNumber() {
 
 
 function getAvailabilityLevel(path, method) {
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
+  var _iterator2 = _createForOfIteratorHelper(_highAvailabilityAPI["default"]),
+      _step2;
 
   try {
-    for (var _iterator2 = _highAvailabilityAPI["default"][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       var api = _step2.value;
 
       if (path.match(api.reg) && method in api) {
@@ -129,18 +136,9 @@ function getAvailabilityLevel(path, method) {
       }
     }
   } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
+    _iterator2.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-        _iterator2["return"]();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
+    _iterator2.f();
   }
 }
 /**

@@ -3,12 +3,20 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.project = project;
-exports.Analytics = exports.tracking = void 0;
+exports.track = track;
+exports.Analytics = exports.tracking = exports.DEFAULT_TAG_NAME = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -68,7 +76,11 @@ var _dec, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -76,21 +88,25 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -102,30 +118,31 @@ function warn() {
   console.warn('Do NOT call this directly.');
 }
 
-var INIT_TRACK_LIST = [];
+var TRACK_LIST = [];
 
-function project(projectName) {
-  return function tracking(prototype, property, descriptor) {
+function track(tagName) {
+  return function _track(prototype, property, descriptor) {
     var value = descriptor.value,
         options = _objectWithoutProperties(descriptor, ["value"]);
 
     if (typeof value === 'function') {
-      INIT_TRACK_LIST.push({
-        projectName: projectName,
-        functionName: property,
-        functionImpl: value
+      TRACK_LIST.push({
+        tagName: tagName,
+        funcName: property,
+        funcImpl: value
       });
     }
 
-    return _objectSpread({}, options, {
+    return _objectSpread(_objectSpread({}, options), {}, {
       value: warn,
       configurable: false
     });
   };
 }
 
-var DEFAULT_PROJECT = 'default';
-var tracking = project(DEFAULT_PROJECT); // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
+var DEFAULT_TAG_NAME = 'default';
+exports.DEFAULT_TAG_NAME = DEFAULT_TAG_NAME;
+var tracking = track(DEFAULT_TAG_NAME); // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
 
 /**
  * @class
@@ -155,6 +172,9 @@ var Analytics = (_dec = (0, _di.Module)({
     optional: true
   }, {
     dep: 'ExtensionInfo',
+    optional: true
+  }, {
+    dep: 'RolesAndPermissions',
     optional: true
   }, {
     dep: 'CallHistory',
@@ -196,10 +216,10 @@ var Analytics = (_dec = (0, _di.Module)({
     dep: 'RcVideo',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
   _inherits(Analytics, _RcModule);
+
+  var _super = _createSuper(Analytics);
 
   function Analytics(_ref) {
     var _this;
@@ -214,6 +234,7 @@ function (_RcModule) {
         callingSettings = _ref.callingSettings,
         accountInfo = _ref.accountInfo,
         extensionInfo = _ref.extensionInfo,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         callHistory = _ref.callHistory,
         callMonitor = _ref.callMonitor,
         conference = _ref.conference,
@@ -231,13 +252,13 @@ function (_RcModule) {
         useLog = _ref$useLog === void 0 ? false : _ref$useLog,
         _ref$lingerThreshold = _ref.lingerThreshold,
         lingerThreshold = _ref$lingerThreshold === void 0 ? 1000 : _ref$lingerThreshold,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "useLog", "lingerThreshold"]);
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "rolesAndPermissions", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "useLog", "lingerThreshold"]);
 
     _classCallCheck(this, Analytics);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Analytics).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes.analyticsAcionTypes
-    }))); // config
+    })); // config
 
     _this._analyticsKey = void 0;
     _this._appName = void 0;
@@ -249,6 +270,7 @@ function (_RcModule) {
     _this._callingSettings = void 0;
     _this._accountInfo = void 0;
     _this._extensionInfo = void 0;
+    _this._rolesAndPermissions = void 0;
     _this._callHistory = void 0;
     _this._callMonitor = void 0;
     _this._conference = void 0;
@@ -280,6 +302,7 @@ function (_RcModule) {
     _this._callingSettings = callingSettings;
     _this._accountInfo = accountInfo;
     _this._extensionInfo = extensionInfo;
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this._callHistory = callHistory;
     _this._callMonitor = callMonitor;
     _this._conference = conference;
@@ -296,15 +319,15 @@ function (_RcModule) {
 
     _this._reducer = (0, _getAnalyticsReducer["default"])(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
-    _this._trackList = [].concat(INIT_TRACK_LIST);
+    _this._trackList = [].concat(TRACK_LIST);
     _this._useLog = useLog;
     _this._lingerThreshold = lingerThreshold;
     return _this;
   }
 
   _createClass(Analytics, [{
-    key: "identify",
-    value: function identify(_ref2) {
+    key: "_identify",
+    value: function _identify(_ref2) {
       var userId = _ref2.userId,
           props = _objectWithoutProperties(_ref2, ["userId"]);
 
@@ -321,7 +344,7 @@ function (_RcModule) {
         return;
       }
 
-      var trackProps = _objectSpread({}, this.trackProps, {}, properties);
+      var trackProps = _objectSpread(_objectSpread({}, this.trackProps), properties);
 
       this.analytics.track(event, trackProps);
 
@@ -385,114 +408,143 @@ function (_RcModule) {
     }
   }, {
     key: "_onStateChange",
-    value: function _onStateChange() {
-      return regeneratorRuntime.async(function _onStateChange$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              if (this.pending) {
-                this.store.dispatch({
-                  type: this.actionTypes.init
-                });
+    value: function () {
+      var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (this.pending) {
+                  this.store.dispatch({
+                    type: this.actionTypes.init
+                  });
 
-                if (this._analyticsKey) {
-                  this._segment.load(this._analyticsKey);
+                  if (this._analyticsKey) {
+                    this._segment.load(this._analyticsKey);
+                  }
+
+                  this.store.dispatch({
+                    type: this.actionTypes.initSuccess
+                  });
                 }
 
-                this.store.dispatch({
-                  type: this.actionTypes.initSuccess
-                });
-              }
+                if (this.ready && this.lastActions.length && !this._promise) {
+                  this._promise = this._processActions();
+                }
 
-              if (this.ready && this.lastActions.length && !this._promise) {
-                this._promise = this._processActions();
-              }
-
-            case 2:
-            case "end":
-              return _context.stop();
+              case 2:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function _onStateChange() {
+        return _onStateChange2.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
   }, {
     key: "_processActions",
-    value: function _processActions() {
-      var _this2 = this;
+    value: function () {
+      var _processActions2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _this2 = this;
 
-      return regeneratorRuntime.async(function _processActions$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              if (!this.lastActions.length) {
-                _context2.next = 6;
-                break;
-              }
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!this.lastActions.length) {
+                  _context2.next = 6;
+                  break;
+                }
 
-              _context2.next = 3;
-              return regeneratorRuntime.awrap((0, _sleep["default"])(300));
+                _context2.next = 3;
+                return (0, _sleep["default"])(300);
 
-            case 3:
-              this.lastActions.forEach(function (action) {
-                _this2._trackList.forEach(function (_ref6) {
-                  var functionImpl = _ref6.functionImpl;
-
-                  if (typeof functionImpl === 'function') {
-                    functionImpl.call(_this2, action);
-                  }
+              case 3:
+                this.lastActions.forEach(function (action) {
+                  _this2.processAction(action);
                 });
-              });
-              this.store.dispatch({
-                type: this.actionTypes.clear
-              });
-              this._promise = null;
+                this.store.dispatch({
+                  type: this.actionTypes.clear
+                });
+                this._promise = null;
 
-            case 6:
-            case "end":
-              return _context2.stop();
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee2, this);
+      }));
+
+      function _processActions() {
+        return _processActions2.apply(this, arguments);
+      }
+
+      return _processActions;
+    }()
   }, {
-    key: "cleanTrackList",
-    value: function cleanTrackList() {
-      this._trackList = [];
+    key: "processAction",
+    value: function processAction(action) {
+      var _this3 = this;
+
+      (this.trackList || []).forEach(function (_ref6) {
+        var funcImpl = _ref6.funcImpl;
+
+        if (typeof funcImpl === 'function') {
+          funcImpl.call(_this3, action);
+        }
+      });
     }
   }, {
     key: "_authentication",
     value: function _authentication(action) {
-      if (this._auth && this._auth.actionTypes.loginSuccess === action.type) {
-        this.identify({
+      var _this$_auth;
+
+      if (((_this$_auth = this._auth) === null || _this$_auth === void 0 ? void 0 : _this$_auth.actionTypes.loginSuccess) === action.type) {
+        this._identify({
           userId: this._auth.ownerId
         });
+
         this.track('Authentication');
       }
     }
   }, {
     key: "_logout",
     value: function _logout(action) {
-      if (this._auth && this._auth.actionTypes.logout === action.type) {
+      var _this$_auth2;
+
+      if (((_this$_auth2 = this._auth) === null || _this$_auth2 === void 0 ? void 0 : _this$_auth2.actionTypes.logout) === action.type) {
         this.track('Logout');
       }
     }
   }, {
     key: "_accountInfoReady",
     value: function _accountInfoReady(action) {
-      if (this._accountInfo && this._accountInfo.actionTypes.initSuccess === action.type) {
-        this.identify({
-          userId: this._accountInfo._auth.ownerId,
+      var _this$_accountInfo;
+
+      if (((_this$_accountInfo = this._accountInfo) === null || _this$_accountInfo === void 0 ? void 0 : _this$_accountInfo.actionTypes.initSuccess) === action.type) {
+        var _this$_auth3, _this$_rolesAndPermis;
+
+        this._identify({
+          userId: (_this$_auth3 = this._auth) === null || _this$_auth3 === void 0 ? void 0 : _this$_auth3.ownerId,
           accountId: this._accountInfo.id,
           servicePlanId: this._accountInfo.servicePlan.id,
           edition: this._accountInfo.servicePlan.edition,
-          CRMEnabled: this._accountInfo._rolesAndPermissions.tierEnabled
+          CRMEnabled: (_this$_rolesAndPermis = this._rolesAndPermissions) === null || _this$_rolesAndPermis === void 0 ? void 0 : _this$_rolesAndPermis.tierEnabled
         });
       }
     }
   }, {
     key: "_callAttempt",
     value: function _callAttempt(action) {
-      if (this._call && this._call.actionTypes.connect === action.type) {
+      var _this$_call;
+
+      if (((_this$_call = this._call) === null || _this$_call === void 0 ? void 0 : _this$_call.actionTypes.connect) === action.type) {
         if (action.callSettingMode === _callingModes["default"].webphone) {
           this.track('Call Attempt WebRTC');
         } else {
@@ -505,7 +557,9 @@ function (_RcModule) {
   }, {
     key: "_callConnected",
     value: function _callConnected(action) {
-      if (this._call && this._call.actionTypes.connectSuccess === action.type) {
+      var _this$_call2;
+
+      if (((_this$_call2 = this._call) === null || _this$_call2 === void 0 ? void 0 : _this$_call2.actionTypes.connectSuccess) === action.type) {
         if (action.callSettingMode === _callingModes["default"].webphone) {
           this.track('Outbound WebRTC Call Connected');
         } else {
@@ -518,102 +572,131 @@ function (_RcModule) {
   }, {
     key: "_webRTCRegistration",
     value: function _webRTCRegistration(action) {
-      if (this._webphone && this._webphone.actionTypes.registered === action.type) {
+      var _this$_webphone;
+
+      if (((_this$_webphone = this._webphone) === null || _this$_webphone === void 0 ? void 0 : _this$_webphone.actionTypes.registered) === action.type) {
         this.track('WebRTC registration');
       }
     }
   }, {
     key: "_smsAttempt",
     value: function _smsAttempt(action) {
-      if (this._messageSender && this._messageSender.actionTypes.send === action.type) {
+      var _this$_messageSender;
+
+      if (((_this$_messageSender = this._messageSender) === null || _this$_messageSender === void 0 ? void 0 : _this$_messageSender.actionTypes.send) === action.type) {
         this.track('SMS Attempt');
       }
     }
   }, {
     key: "_smsSentOver",
     value: function _smsSentOver(action) {
-      if (this._messageSender && this._messageSender.actionTypes.sendOver === action.type) {
+      var _this$_messageSender2;
+
+      if (((_this$_messageSender2 = this._messageSender) === null || _this$_messageSender2 === void 0 ? void 0 : _this$_messageSender2.actionTypes.sendOver) === action.type) {
         this.track('SMS: SMS sent succesfully');
       }
     }
   }, {
     key: "_smsSentError",
     value: function _smsSentError(action) {
-      if (this._messageSender && this._messageSender.actionTypes.sendError === action.type) {
+      var _this$_messageSender3;
+
+      if (((_this$_messageSender3 = this._messageSender) === null || _this$_messageSender3 === void 0 ? void 0 : _this$_messageSender3.actionTypes.sendError) === action.type) {
         this.track('SMS: SMS sent failed');
       }
     }
   }, {
     key: "_logCall",
     value: function _logCall(action) {
-      if (this._adapter && this._adapter.actionTypes.createCallLog === action.type) {
+      var _this$_adapter;
+
+      if (((_this$_adapter = this._adapter) === null || _this$_adapter === void 0 ? void 0 : _this$_adapter.actionTypes.createCallLog) === action.type) {
         this.track('Log Call');
       }
     }
   }, {
     key: "_logSMS",
     value: function _logSMS(action) {
-      if (this._adapter && this._adapter.actionTypes.createSMSLog === action.type) {
+      var _this$_adapter2;
+
+      if (((_this$_adapter2 = this._adapter) === null || _this$_adapter2 === void 0 ? void 0 : _this$_adapter2.actionTypes.createSMSLog) === action.type) {
         this.track('Log SMS');
       }
     }
   }, {
     key: "_clickToDial",
     value: function _clickToDial(action) {
-      if (this._adapter && this._adapter.actionTypes.clickToDial === action.type) {
+      var _this$_adapter3;
+
+      if (((_this$_adapter3 = this._adapter) === null || _this$_adapter3 === void 0 ? void 0 : _this$_adapter3.actionTypes.clickToDial) === action.type) {
         this.track('Click To Dial');
       }
     }
   }, {
     key: "_clickToDialPlaceRingOutCall",
     value: function _clickToDialPlaceRingOutCall(action) {
-      if (this._adapter && this._adapter.actionTypes.clickToDial === action.type && action.callSettingMode !== _callingModes["default"].webphone) {
+      var _this$_adapter4;
+
+      if (((_this$_adapter4 = this._adapter) === null || _this$_adapter4 === void 0 ? void 0 : _this$_adapter4.actionTypes.clickToDial) === action.type && action.callSettingMode !== _callingModes["default"].webphone) {
+        var _this$_callingSetting;
+
         this.track('Call: Place RingOut call/Click to Dial ', {
-          'RingOut type': this._callingSettings.callWith
+          'RingOut type': (_this$_callingSetting = this._callingSettings) === null || _this$_callingSetting === void 0 ? void 0 : _this$_callingSetting.callWith
         });
       }
     }
   }, {
     key: "_clickToSMS",
     value: function _clickToSMS(action) {
-      if (this._adapter && this._adapter.actionTypes.clickToSMS === action.type) {
+      var _this$_adapter5;
+
+      if (((_this$_adapter5 = this._adapter) === null || _this$_adapter5 === void 0 ? void 0 : _this$_adapter5.actionTypes.clickToSMS) === action.type) {
         this.track('Click To SMS');
       }
     }
   }, {
     key: "_viewEntity",
     value: function _viewEntity(action) {
-      if (this._adapter && this._adapter.actionTypes.viewEntity === action.type) {
+      var _this$_adapter6;
+
+      if (((_this$_adapter6 = this._adapter) === null || _this$_adapter6 === void 0 ? void 0 : _this$_adapter6.actionTypes.viewEntity) === action.type) {
         this.track('View Entity Details');
       }
     }
   }, {
     key: "_createEntity",
     value: function _createEntity(action) {
-      if (this._adapter && this._adapter.actionTypes.createEntity === action.type) {
+      var _this$_adapter7;
+
+      if (((_this$_adapter7 = this._adapter) === null || _this$_adapter7 === void 0 ? void 0 : _this$_adapter7.actionTypes.createEntity) === action.type) {
         this.track('Add Entity');
       }
     }
   }, {
     key: "_editCallLog",
     value: function _editCallLog(action) {
-      if (this._adapter && this._adapter.actionTypes.editCallLog === action.type) {
+      var _this$_adapter8;
+
+      if (((_this$_adapter8 = this._adapter) === null || _this$_adapter8 === void 0 ? void 0 : _this$_adapter8.actionTypes.editCallLog) === action.type) {
         this.track('Edit Call Log');
       }
     }
   }, {
     key: "_editSMSLog",
     value: function _editSMSLog(action) {
-      if (this._adapter && this._adapter.actionTypes.editSMSLog === action.type) {
+      var _this$_adapter9;
+
+      if (((_this$_adapter9 = this._adapter) === null || _this$_adapter9 === void 0 ? void 0 : _this$_adapter9.actionTypes.editSMSLog) === action.type) {
         this.track('Edit SMS Log');
       }
     }
   }, {
     key: "_navigate",
     value: function _navigate(action) {
-      var _this3 = this;
+      var _this$_routerInteract,
+          _this4 = this;
 
-      if (this._routerInteraction && this._routerInteraction.actionTypes.locationChange === action.type) {
+      if (((_this$_routerInteract = this._routerInteraction) === null || _this$_routerInteract === void 0 ? void 0 : _this$_routerInteract.actionTypes.locationChange) === action.type) {
         var path = action.payload && action.payload.pathname;
 
         var target = this._getTrackTarget(path);
@@ -627,10 +710,10 @@ function (_RcModule) {
         }
 
         this._lingerTimeout = setTimeout(function () {
-          _this3._lingerTimeout = null;
+          _this4._lingerTimeout = null;
 
-          if (target && _this3._routerInteraction.currentPath === path) {
-            _this3.trackLinger(target);
+          if (target && _this4._routerInteraction.currentPath === path) {
+            _this4.trackLinger(target);
           }
         }, this._lingerThreshold);
       }
@@ -638,231 +721,297 @@ function (_RcModule) {
   }, {
     key: "_inboundCall",
     value: function _inboundCall(action) {
-      if (this._webphone && this._webphone.actionTypes.callAnswer === action.type) {
+      var _this$_webphone2;
+
+      if (((_this$_webphone2 = this._webphone) === null || _this$_webphone2 === void 0 ? void 0 : _this$_webphone2.actionTypes.callAnswer) === action.type) {
         this.track('Inbound WebRTC Call Connected');
       }
     }
   }, {
     key: "_coldTransfer",
     value: function _coldTransfer(action) {
-      if (this._webphone && this._webphone.isOnTransfer === true && this._webphone.actionTypes.updateSessions === action.type) {
+      var _this$_webphone3, _this$_webphone4;
+
+      if (((_this$_webphone3 = this._webphone) === null || _this$_webphone3 === void 0 ? void 0 : _this$_webphone3.isOnTransfer) === true && ((_this$_webphone4 = this._webphone) === null || _this$_webphone4 === void 0 ? void 0 : _this$_webphone4.actionTypes.updateSessions) === action.type) {
         this.track('Cold Transfer Call');
       }
     }
   }, {
     key: "_textClickToDial",
     value: function _textClickToDial(action) {
-      if (this._messageStore && this._messageStore.actionTypes.clickToCall === action.type && (action.fromType === 'Pager' || action.fromType === 'SMS')) {
+      var _this$_messageStore;
+
+      if (((_this$_messageStore = this._messageStore) === null || _this$_messageStore === void 0 ? void 0 : _this$_messageStore.actionTypes.clickToCall) === action.type && (action.fromType === 'Pager' || action.fromType === 'SMS')) {
         this.track('Click To Dial (Text List)');
       }
     }
   }, {
     key: "_voicemailClickToDial",
     value: function _voicemailClickToDial(action) {
-      if (this._messageStore && this._messageStore.actionTypes.clickToCall === action.type && action.fromType === 'VoiceMail') {
+      var _this$_messageStore2;
+
+      if (((_this$_messageStore2 = this._messageStore) === null || _this$_messageStore2 === void 0 ? void 0 : _this$_messageStore2.actionTypes.clickToCall) === action.type && action.fromType === 'VoiceMail') {
         this.track('Click To Dial (Voicemail List)');
       }
     }
   }, {
     key: "_voicemailClickToSMS",
     value: function _voicemailClickToSMS(action) {
-      if (this._messageStore && this._messageStore.actionTypes.clickToSMS === action.type) {
+      var _this$_messageStore3;
+
+      if (((_this$_messageStore3 = this._messageStore) === null || _this$_messageStore3 === void 0 ? void 0 : _this$_messageStore3.actionTypes.clickToSMS) === action.type) {
         this.track('Click to SMS (Voicemail List)');
       }
     }
   }, {
     key: "_voicemailDelete",
     value: function _voicemailDelete(action) {
-      if (this._messageStore && this._messageStore.actionTypes.removeMessage === action.type) {
+      var _this$_messageStore4;
+
+      if (((_this$_messageStore4 = this._messageStore) === null || _this$_messageStore4 === void 0 ? void 0 : _this$_messageStore4.actionTypes.removeMessage) === action.type) {
         this.track('Delete Voicemail');
       }
     }
   }, {
     key: "_voicemailFlag",
     value: function _voicemailFlag(action) {
-      if (this._messageStore && this._messageStore.actionTypes.markMessages === action.type) {
+      var _this$_messageStore5;
+
+      if (((_this$_messageStore5 = this._messageStore) === null || _this$_messageStore5 === void 0 ? void 0 : _this$_messageStore5.actionTypes.markMessages) === action.type) {
         this.track('Flag Voicemail');
       }
     }
   }, {
     key: "_contactDetailClickToDial",
     value: function _contactDetailClickToDial(action) {
-      if (this._contactDetailsUI && this._contactDetailsUI.actionTypes.clickToCall === action.type) {
+      var _this$_contactDetails;
+
+      if (((_this$_contactDetails = this._contactDetailsUI) === null || _this$_contactDetails === void 0 ? void 0 : _this$_contactDetails.actionTypes.clickToCall) === action.type) {
         this.track('Click To Dial (Contact Details)');
       }
     }
   }, {
     key: "_contactDetailClickToSMS",
     value: function _contactDetailClickToSMS(action) {
-      if (this._contactDetailsUI && this._contactDetailsUI.actionTypes.clickToSMS === action.type) {
+      var _this$_contactDetails2;
+
+      if (((_this$_contactDetails2 = this._contactDetailsUI) === null || _this$_contactDetails2 === void 0 ? void 0 : _this$_contactDetails2.actionTypes.clickToSMS) === action.type) {
         this.track('Click To SMS (Contact Details)');
       }
     }
   }, {
     key: "_callHistoryClickToDial",
     value: function _callHistoryClickToDial(action) {
-      if (this._callHistory && this._callHistory.actionTypes.clickToCall === action.type) {
+      var _this$_callHistory;
+
+      if (((_this$_callHistory = this._callHistory) === null || _this$_callHistory === void 0 ? void 0 : _this$_callHistory.actionTypes.clickToCall) === action.type) {
         this.track('Click To dial (Call History)');
       }
     }
   }, {
     key: "_callHistoryClickToSMS",
     value: function _callHistoryClickToSMS(action) {
-      if (this._callHistory && this._callHistory.actionTypes.clickToSMS === action.type) {
+      var _this$_callHistory2;
+
+      if (((_this$_callHistory2 = this._callHistory) === null || _this$_callHistory2 === void 0 ? void 0 : _this$_callHistory2.actionTypes.clickToSMS) === action.type) {
         this.track('Click To SMS (Call History)');
       }
     }
   }, {
     key: "_conferenceInviteWithText",
     value: function _conferenceInviteWithText(action) {
-      if (this._conference && this._conference.actionTypes.inviteWithText === action.type) {
+      var _this$_conference;
+
+      if (((_this$_conference = this._conference) === null || _this$_conference === void 0 ? void 0 : _this$_conference.actionTypes.inviteWithText) === action.type) {
         this.track('Invite With Text (Conference)');
       }
     }
   }, {
     key: "_conferenceAddDialInNumber",
     value: function _conferenceAddDialInNumber(action) {
-      if (this._conference && this._conference.actionTypes.updateAdditionalNumbers === action.type) {
+      var _this$_conference2;
+
+      if (((_this$_conference2 = this._conference) === null || _this$_conference2 === void 0 ? void 0 : _this$_conference2.actionTypes.updateAdditionalNumbers) === action.type) {
         this.track('Select Additional Dial-in Number (Conference)');
       }
     }
   }, {
     key: "_conferenceJoinAsHost",
     value: function _conferenceJoinAsHost(action) {
-      if (this._conference && this._conference.actionTypes.joinAsHost === action.type) {
+      var _this$_conference3;
+
+      if (((_this$_conference3 = this._conference) === null || _this$_conference3 === void 0 ? void 0 : _this$_conference3.actionTypes.joinAsHost) === action.type) {
         this.track('Join As Host (Conference)');
       }
     }
   }, {
     key: "_showWhatsNew",
     value: function _showWhatsNew(action) {
-      if (this._userGuide && this._userGuide.actionTypes.updateCarousel === action.type && action.curIdx === 0 && action.playing) {
+      var _this$_userGuide;
+
+      if (((_this$_userGuide = this._userGuide) === null || _this$_userGuide === void 0 ? void 0 : _this$_userGuide.actionTypes.updateCarousel) === action.type && action.curIdx === 0 && action.playing) {
         this.track("What's New");
       }
     }
   }, {
     key: "_allCallsClickHold",
     value: function _allCallsClickHold(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.allCallsClickHoldTrack === action.type) {
+      var _this$_callMonitor;
+
+      if (((_this$_callMonitor = this._callMonitor) === null || _this$_callMonitor === void 0 ? void 0 : _this$_callMonitor.actionTypes.allCallsClickHoldTrack) === action.type) {
         this.track('Click Hold (All Calls)');
       }
     }
   }, {
     key: "_allCallsClickHangup",
     value: function _allCallsClickHangup(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.allCallsClickHangupTrack === action.type) {
+      var _this$_callMonitor2;
+
+      if (((_this$_callMonitor2 = this._callMonitor) === null || _this$_callMonitor2 === void 0 ? void 0 : _this$_callMonitor2.actionTypes.allCallsClickHangupTrack) === action.type) {
         this.track('Click Hangup (All Calls)');
       }
     }
   }, {
     key: "_allCallsCallItemClick",
     value: function _allCallsCallItemClick(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.callItemClickTrack === action.type) {
+      var _this$_callMonitor3;
+
+      if (((_this$_callMonitor3 = this._callMonitor) === null || _this$_callMonitor3 === void 0 ? void 0 : _this$_callMonitor3.actionTypes.callItemClickTrack) === action.type) {
         this.track('Click Call Item (All Calls)');
       }
     }
   }, {
     key: "_callControlClickAdd",
     value: function _callControlClickAdd(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.callControlClickAddTrack === action.type) {
+      var _this$_callMonitor4;
+
+      if (((_this$_callMonitor4 = this._callMonitor) === null || _this$_callMonitor4 === void 0 ? void 0 : _this$_callMonitor4.actionTypes.callControlClickAddTrack) === action.type) {
         this.track('Click Add (Call Control)');
       }
     }
   }, {
     key: "_callControlClickMerge",
     value: function _callControlClickMerge(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type && !Object.values(this._conferenceCall.state.mergingPair).length) {
+      var _this$_callMonitor5;
+
+      if (((_this$_callMonitor5 = this._callMonitor) === null || _this$_callMonitor5 === void 0 ? void 0 : _this$_callMonitor5.actionTypes.callControlClickMergeTrack) === action.type && !Object.values(this._conferenceCall.state.mergingPair).length) {
         this.track('Click Merge (Call Control)');
       }
     }
   }, {
     key: "_mergeCallControlClickMerge",
     value: function _mergeCallControlClickMerge(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type && Object.values(this._conferenceCall.state.mergingPair).length) {
+      var _this$_callMonitor6;
+
+      if (((_this$_callMonitor6 = this._callMonitor) === null || _this$_callMonitor6 === void 0 ? void 0 : _this$_callMonitor6.actionTypes.callControlClickMergeTrack) === action.type && Object.values(this._conferenceCall.state.mergingPair).length) {
         this.track('Click Merge (Merge Call Control)');
       }
     }
   }, {
     key: "_mergeCallControlClickHangup",
     value: function _mergeCallControlClickHangup(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.mergeControlClickHangupTrack === action.type) {
+      var _this$_callMonitor7;
+
+      if (((_this$_callMonitor7 = this._callMonitor) === null || _this$_callMonitor7 === void 0 ? void 0 : _this$_callMonitor7.actionTypes.mergeControlClickHangupTrack) === action.type) {
         this.track('Click Hangup (Merge Call Control)');
       }
     }
   }, {
     key: "_inboundCallConnectedTrack",
     value: function _inboundCallConnectedTrack(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.inboundCallConnectedTrack === action.type) {
+      var _this$_callMonitor8;
+
+      if (((_this$_callMonitor8 = this._callMonitor) === null || _this$_callMonitor8 === void 0 ? void 0 : _this$_callMonitor8.actionTypes.inboundCallConnectedTrack) === action.type) {
         this.track('Call: Inbound call connected');
       }
     }
   }, {
     key: "_outboundCallConnectedTrack",
     value: function _outboundCallConnectedTrack(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.outboundCallConnectedTrack === action.type) {
+      var _this$_callMonitor9;
+
+      if (((_this$_callMonitor9 = this._callMonitor) === null || _this$_callMonitor9 === void 0 ? void 0 : _this$_callMonitor9.actionTypes.outboundCallConnectedTrack) === action.type) {
         this.track('Call: Outbound RingOut Call connected');
       }
     }
   }, {
     key: "_callsOnHoldClickAdd",
     value: function _callsOnHoldClickAdd(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.callsOnHoldClickAddTrack === action.type) {
+      var _this$_callMonitor10;
+
+      if (((_this$_callMonitor10 = this._callMonitor) === null || _this$_callMonitor10 === void 0 ? void 0 : _this$_callMonitor10.actionTypes.callsOnHoldClickAddTrack) === action.type) {
         this.track('Click Add (Calls OnHold)');
       }
     }
   }, {
     key: "_callsOnHoldClickMerge",
     value: function _callsOnHoldClickMerge(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.callsOnHoldClickMergeTrack === action.type) {
+      var _this$_callMonitor11;
+
+      if (((_this$_callMonitor11 = this._callMonitor) === null || _this$_callMonitor11 === void 0 ? void 0 : _this$_callMonitor11.actionTypes.callsOnHoldClickMergeTrack) === action.type) {
         this.track('Click Merge (Calls OnHold)');
       }
     }
   }, {
     key: "_confirmMergeClickClose",
     value: function _confirmMergeClickClose(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.confirmMergeClickCloseTrack === action.type) {
+      var _this$_callMonitor12;
+
+      if (((_this$_callMonitor12 = this._callMonitor) === null || _this$_callMonitor12 === void 0 ? void 0 : _this$_callMonitor12.actionTypes.confirmMergeClickCloseTrack) === action.type) {
         this.track('Click Close (ConfirmMerge Modal)');
       }
     }
   }, {
     key: "_confirmMergeClickMerge",
     value: function _confirmMergeClickMerge(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.confirmMergeClickMergeTrack === action.type) {
+      var _this$_callMonitor13;
+
+      if (((_this$_callMonitor13 = this._callMonitor) === null || _this$_callMonitor13 === void 0 ? void 0 : _this$_callMonitor13.actionTypes.confirmMergeClickMergeTrack) === action.type) {
         this.track('Click Merge (ConfirmMerge Modal)');
       }
     }
   }, {
     key: "_removeParticipantClickRemove",
     value: function _removeParticipantClickRemove(action) {
-      if (this._conferenceCall && this._conferenceCall.actionTypes.removeParticipantClickRemoveTrack === action.type) {
+      var _this$_conferenceCall;
+
+      if (((_this$_conferenceCall = this._conferenceCall) === null || _this$_conferenceCall === void 0 ? void 0 : _this$_conferenceCall.actionTypes.removeParticipantClickRemoveTrack) === action.type) {
         this.track('Click Remove (RemoveParticipants Modal)');
       }
     }
   }, {
     key: "_removeParticipantClickCancel",
     value: function _removeParticipantClickCancel(action) {
-      if (this._conferenceCall && this._conferenceCall.actionTypes.removeParticipantClickCancelTrack === action.type) {
+      var _this$_conferenceCall2;
+
+      if (((_this$_conferenceCall2 = this._conferenceCall) === null || _this$_conferenceCall2 === void 0 ? void 0 : _this$_conferenceCall2.actionTypes.removeParticipantClickCancelTrack) === action.type) {
         this.track('Cancel Remove (RemoveParticipants Modal)');
       }
     }
   }, {
     key: "_participantListClickHangup",
     value: function _participantListClickHangup(action) {
-      if (this._conferenceCall && this._conferenceCall.actionTypes.participantListClickHangupTrack === action.type) {
+      var _this$_conferenceCall3;
+
+      if (((_this$_conferenceCall3 = this._conferenceCall) === null || _this$_conferenceCall3 === void 0 ? void 0 : _this$_conferenceCall3.actionTypes.participantListClickHangupTrack) === action.type) {
         this.track('Click Hangup (Participant List)');
       }
     }
   }, {
     key: "_callControlClickParticipantArea",
     value: function _callControlClickParticipantArea(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.callControlClickParticipantAreaClickTrack === action.type) {
+      var _this$_callMonitor14;
+
+      if (((_this$_callMonitor14 = this._callMonitor) === null || _this$_callMonitor14 === void 0 ? void 0 : _this$_callMonitor14.actionTypes.callControlClickParticipantAreaClickTrack) === action.type) {
         this.track('Click Participant Area (Call Control)');
       }
     }
   }, {
     key: "_callsOnHoldClickHangup",
     value: function _callsOnHoldClickHangup(action) {
-      if (this._callMonitor && this._callMonitor.actionTypes.callsOnHoldClickHangupTrack === action.type) {
+      var _this$_callMonitor15;
+
+      if (((_this$_callMonitor15 = this._callMonitor) === null || _this$_callMonitor15 === void 0 ? void 0 : _this$_callMonitor15.actionTypes.callsOnHoldClickHangupTrack) === action.type) {
         this.track('Click Hangup (Calls OnHold)');
       }
     }
@@ -937,13 +1086,22 @@ function (_RcModule) {
   }, {
     key: "_schedule",
     value: function _schedule(action) {
-      if ((this._meeting && this._meeting.actionTypes.initScheduling === action.type || this._rcVideo && this._rcVideo.actionTypes.initCreating === action.type) && this._routerInteraction) {
-        var target = this._getTrackTarget(this._routerInteraction.currentPath);
+      var _this$_meeting, _this$_rcVideo;
+
+      if (((_this$_meeting = this._meeting) === null || _this$_meeting === void 0 ? void 0 : _this$_meeting.actionTypes.initScheduling) === action.type || ((_this$_rcVideo = this._rcVideo) === null || _this$_rcVideo === void 0 ? void 0 : _this$_rcVideo.actionTypes.initCreating) === action.type) {
+        var _this$_routerInteract2;
+
+        var target = this._getTrackTarget((_this$_routerInteract2 = this._routerInteraction) === null || _this$_routerInteract2 === void 0 ? void 0 : _this$_routerInteract2.currentPath);
 
         if (target) {
           this.trackSchedule(target);
         }
       }
+    }
+  }, {
+    key: "trackList",
+    get: function get() {
+      return this._trackList;
     }
   }, {
     key: "analytics",
@@ -973,13 +1131,15 @@ function (_RcModule) {
   }, {
     key: "trackProps",
     get: function get() {
+      var _this$_locale, _this$_locale2, _this$_extensionInfo;
+
       return {
         appName: this._appName,
         appVersion: this._appVersion,
         brand: this._brandCode,
-        'App Language': this._locale ? this._locale.currentLocale : '',
-        'Browser Language': this._locale ? this._locale.browserLocale : '',
-        'Extension Type': this._extensionInfo ? this._extensionInfo.info.type : ''
+        'App Language': ((_this$_locale = this._locale) === null || _this$_locale === void 0 ? void 0 : _this$_locale.currentLocale) || '',
+        'Browser Language': ((_this$_locale2 = this._locale) === null || _this$_locale2 === void 0 ? void 0 : _this$_locale2.browserLocale) || '',
+        'Extension Type': ((_this$_extensionInfo = this._extensionInfo) === null || _this$_extensionInfo === void 0 ? void 0 : _this$_extensionInfo.info.type) || ''
       };
     }
   }]);

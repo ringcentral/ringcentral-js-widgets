@@ -9,7 +9,7 @@ exports["default"] = void 0;
 
 var _Enum = require("../../lib/Enum");
 
-var _default = (0, _Enum.createEnum)(['emptyPassword', 'emptyUsername', 'sessionExpired', 'beforeLogoutError', 'loginError', 'logoutError', 'accessDenied', 'internalError'], 'authMessages');
+var _default = (0, _Enum.createEnum)(['emptyPassword', 'emptyUsername', 'sessionExpired', 'beforeLogoutError', 'logoutError', 'accessDenied', 'internalError'], 'authMessages');
 
 exports["default"] = _default;
 //# sourceMappingURL=authMessages.js.map

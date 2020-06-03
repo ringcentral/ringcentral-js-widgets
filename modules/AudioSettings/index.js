@@ -19,6 +19,12 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
@@ -67,13 +73,17 @@ var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -87,15 +97,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
@@ -125,10 +139,10 @@ polyfillGetUserMedia();
 
 var AudioSettings = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Alert', 'Storage', 'RolesAndPermissions']
-}), _dec(_class = (_class2 = (_temp =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
   _inherits(AudioSettings, _RcModule);
+
+  var _super = _createSuper(AudioSettings);
 
   function AudioSettings(_ref) {
     var _context;
@@ -143,9 +157,9 @@ function (_RcModule) {
 
     _classCallCheck(this, AudioSettings);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(AudioSettings).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
-    })));
+    }));
 
     _initializerDefineProperty(_this, "availableOutputDevices", _descriptor, _assertThisInitialized(_this));
 
@@ -189,22 +203,30 @@ function (_RcModule) {
     }
   }, {
     key: "markAutoPrompted",
-    value: function markAutoPrompted() {
-      return regeneratorRuntime.async(function markAutoPrompted$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              this.store.dispatch({
-                type: this.actionTypes.autoPrompted
-              });
+    value: function () {
+      var _markAutoPrompted = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.autoPrompted
+                });
 
-            case 1:
-            case "end":
-              return _context2.stop();
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function markAutoPrompted() {
+        return _markAutoPrompted.apply(this, arguments);
+      }
+
+      return markAutoPrompted;
+    }()
   }, {
     key: "initialize",
     value: function initialize() {
@@ -232,241 +254,297 @@ function (_RcModule) {
     }
   }, {
     key: "_onStateChange",
-    value: function _onStateChange() {
-      return regeneratorRuntime.async(function _onStateChange$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              if (!this._shouldInit()) {
-                _context3.next = 8;
-                break;
-              }
+    value: function () {
+      var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!this._shouldInit()) {
+                  _context3.next = 8;
+                  break;
+                }
 
-              this.store.dispatch({
-                type: this.actionTypes.init
-              });
+                this.store.dispatch({
+                  type: this.actionTypes.init
+                });
 
-              if (!this.supportDevices) {
+                if (!this.supportDevices) {
+                  _context3.next = 5;
+                  break;
+                }
+
                 _context3.next = 5;
+                return this._checkDevices();
+
+              case 5:
+                this.store.dispatch({
+                  type: this.actionTypes.initSuccess
+                });
+                _context3.next = 9;
                 break;
-              }
 
-              _context3.next = 5;
-              return regeneratorRuntime.awrap(this._checkDevices());
+              case 8:
+                if (this._shouldReset()) {
+                  this.store.dispatch({
+                    type: this.actionTypes.reset
+                  });
+                  this.store.dispatch({
+                    type: this.actionTypes.resetSuccess
+                  });
+                }
 
-            case 5:
-              this.store.dispatch({
-                type: this.actionTypes.initSuccess
-              });
-              _context3.next = 9;
-              break;
-
-            case 8:
-              if (this._shouldReset()) {
-                this.store.dispatch({
-                  type: this.actionTypes.reset
-                });
-                this.store.dispatch({
-                  type: this.actionTypes.resetSuccess
-                });
-              }
-
-            case 9:
-            case "end":
-              return _context3.stop();
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee2, this);
+      }));
+
+      function _onStateChange() {
+        return _onStateChange2.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
   }, {
     key: "_checkDevices",
-    value: function _checkDevices() {
-      var devices;
-      return regeneratorRuntime.async(function _checkDevices$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.next = 2;
-              return regeneratorRuntime.awrap(navigator.mediaDevices.enumerateDevices());
+    value: function () {
+      var _checkDevices2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var devices;
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return navigator.mediaDevices.enumerateDevices();
 
-            case 2:
-              devices = _context4.sent;
-              this.store.dispatch({
-                type: this.actionTypes.setAvailableDevices,
-                // TODO formatting for devices info instances and replace JSON APIs.
-                devices: devices.map(function (d) {
-                  return JSON.parse(JSON.stringify(d));
-                })
-              });
+              case 2:
+                devices = _context4.sent;
+                this.store.dispatch({
+                  type: this.actionTypes.setAvailableDevices,
+                  // TODO formatting for devices info instances and replace JSON APIs.
+                  devices: devices.map(function (d) {
+                    return JSON.parse(JSON.stringify(d));
+                  })
+                });
 
-            case 4:
-            case "end":
-              return _context4.stop();
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee3, this);
+      }));
+
+      function _checkDevices() {
+        return _checkDevices2.apply(this, arguments);
+      }
+
+      return _checkDevices;
+    }()
   }, {
     key: "getUserMedia",
-    value: function getUserMedia() {
-      var stream;
-      return regeneratorRuntime.async(function getUserMedia$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              if (navigator.mediaDevices.getUserMedia) {
-                _context5.next = 2;
+    value: function () {
+      var _getUserMedia = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        var stream;
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (navigator.mediaDevices.getUserMedia) {
+                  _context5.next = 2;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 2:
+                _context5.prev = 2;
+
+                if (!this._getUserMediaPromise) {
+                  this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({
+                    audio: true
+                  });
+                }
+
+                _context5.next = 6;
+                return this._getUserMediaPromise;
+
+              case 6:
+                stream = _context5.sent;
+                this._getUserMediaPromise = null;
+                _context5.next = 10;
+                return this._onGetUserMediaSuccess();
+
+              case 10:
+                if (typeof stream.getTracks === 'function') {
+                  stream.getTracks().forEach(function (track) {
+                    track.stop();
+                  });
+                } else if (typeof stream.stop === 'function') {
+                  stream.stop();
+                }
+
+                _context5.next = 17;
                 break;
-              }
 
-              return _context5.abrupt("return");
+              case 13:
+                _context5.prev = 13;
+                _context5.t0 = _context5["catch"](2);
+                this._getUserMediaPromise = null;
+                this.onGetUserMediaError(_context5.t0);
 
-            case 2:
-              _context5.prev = 2;
-
-              if (!this._getUserMediaPromise) {
-                this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({
-                  audio: true
-                });
-              }
-
-              _context5.next = 6;
-              return regeneratorRuntime.awrap(this._getUserMediaPromise);
-
-            case 6:
-              stream = _context5.sent;
-              this._getUserMediaPromise = null;
-              _context5.next = 10;
-              return regeneratorRuntime.awrap(this._onGetUserMediaSuccess());
-
-            case 10:
-              if (typeof stream.getTracks === 'function') {
-                stream.getTracks().forEach(function (track) {
-                  track.stop();
-                });
-              } else if (typeof stream.stop === 'function') {
-                stream.stop();
-              }
-
-              _context5.next = 17;
-              break;
-
-            case 13:
-              _context5.prev = 13;
-              _context5.t0 = _context5["catch"](2);
-              this._getUserMediaPromise = null;
-              this.onGetUserMediaError(_context5.t0);
-
-            case 17:
-            case "end":
-              return _context5.stop();
+              case 17:
+              case "end":
+                return _context5.stop();
+            }
           }
-        }
-      }, null, this, [[2, 13]]);
-    }
+        }, _callee4, this, [[2, 13]]);
+      }));
+
+      function getUserMedia() {
+        return _getUserMedia.apply(this, arguments);
+      }
+
+      return getUserMedia;
+    }()
   }, {
     key: "_onGetUserMediaSuccess",
-    value: function _onGetUserMediaSuccess() {
-      var userMediaAlert;
-      return regeneratorRuntime.async(function _onGetUserMediaSuccess$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              userMediaAlert = (0, _ramda.find)(function (item) {
-                return item.message === _audioSettingsErrors["default"].userMediaPermission;
-              }, this._alert.messages);
+    value: function () {
+      var _onGetUserMediaSuccess2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var userMediaAlert;
+        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                userMediaAlert = (0, _ramda.find)(function (item) {
+                  return item.message === _audioSettingsErrors["default"].userMediaPermission;
+                }, this._alert.messages);
 
-              if (userMediaAlert) {
-                this._alert.dismiss(userMediaAlert.id);
-              }
+                if (userMediaAlert) {
+                  this._alert.dismiss(userMediaAlert.id);
+                }
 
-              this.store.dispatch({
-                type: this.actionTypes.getUserMediaSuccess
-              });
-              _context6.next = 5;
-              return regeneratorRuntime.awrap(this._checkDevices());
+                this.store.dispatch({
+                  type: this.actionTypes.getUserMediaSuccess
+                });
+                _context6.next = 5;
+                return this._checkDevices();
 
-            case 5:
-            case "end":
-              return _context6.stop();
+              case 5:
+              case "end":
+                return _context6.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee5, this);
+      }));
+
+      function _onGetUserMediaSuccess() {
+        return _onGetUserMediaSuccess2.apply(this, arguments);
+      }
+
+      return _onGetUserMediaSuccess;
+    }()
   }, {
     key: "onGetUserMediaError",
-    value: function onGetUserMediaError(error) {
-      return regeneratorRuntime.async(function onGetUserMediaError$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              this.store.dispatch({
-                type: this.actionTypes.getUserMediaError,
-                error: error
-              });
+    value: function () {
+      var _onGetUserMediaError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(error) {
+        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.getUserMediaError,
+                  error: error
+                });
 
-              this._alert.danger({
-                message: _audioSettingsErrors["default"].userMediaPermission,
-                allowDuplicates: false
-              });
-
-            case 2:
-            case "end":
-              return _context7.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
-    key: "showAlert",
-    value: function showAlert() {
-      return regeneratorRuntime.async(function showAlert$(_context8) {
-        while (1) {
-          switch (_context8.prev = _context8.next) {
-            case 0:
-              if (!this.userMedia) {
                 this._alert.danger({
                   message: _audioSettingsErrors["default"].userMediaPermission,
-                  allowDuplicates: false,
-                  ttl: 30 * 1000
+                  allowDuplicates: false
                 });
-              }
 
-            case 1:
-            case "end":
-              return _context8.stop();
+              case 2:
+              case "end":
+                return _context7.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee6, this);
+      }));
+
+      function onGetUserMediaError(_x) {
+        return _onGetUserMediaError.apply(this, arguments);
+      }
+
+      return onGetUserMediaError;
+    }()
+  }, {
+    key: "showAlert",
+    value: function () {
+      var _showAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                if (!this.userMedia) {
+                  this._alert.danger({
+                    message: _audioSettingsErrors["default"].userMediaPermission,
+                    allowDuplicates: false,
+                    ttl: 30 * 1000
+                  });
+                }
+
+              case 1:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function showAlert() {
+        return _showAlert.apply(this, arguments);
+      }
+
+      return showAlert;
+    }()
   }, {
     key: "setData",
-    value: function setData(_ref2) {
-      var _ref2$dialButtonVolum, dialButtonVolume, _ref2$dialButtonMuted, dialButtonMuted, _ref2$ringtoneVolume, ringtoneVolume, _ref2$ringtoneMuted, ringtoneMuted, _ref2$callVolume, callVolume, _ref2$outputDeviceId, outputDeviceId, _ref2$inputDeviceId, inputDeviceId;
+    value: function () {
+      var _setData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(_ref2) {
+        var _ref2$dialButtonVolum, dialButtonVolume, _ref2$dialButtonMuted, dialButtonMuted, _ref2$ringtoneVolume, ringtoneVolume, _ref2$ringtoneMuted, ringtoneMuted, _ref2$callVolume, callVolume, _ref2$outputDeviceId, outputDeviceId, _ref2$inputDeviceId, inputDeviceId;
 
-      return regeneratorRuntime.async(function setData$(_context9) {
-        while (1) {
-          switch (_context9.prev = _context9.next) {
-            case 0:
-              _ref2$dialButtonVolum = _ref2.dialButtonVolume, dialButtonVolume = _ref2$dialButtonVolum === void 0 ? this.dialButtonVolume : _ref2$dialButtonVolum, _ref2$dialButtonMuted = _ref2.dialButtonMuted, dialButtonMuted = _ref2$dialButtonMuted === void 0 ? this.dialButtonMuted : _ref2$dialButtonMuted, _ref2$ringtoneVolume = _ref2.ringtoneVolume, ringtoneVolume = _ref2$ringtoneVolume === void 0 ? this.ringtoneVolume : _ref2$ringtoneVolume, _ref2$ringtoneMuted = _ref2.ringtoneMuted, ringtoneMuted = _ref2$ringtoneMuted === void 0 ? this.ringtoneMuted : _ref2$ringtoneMuted, _ref2$callVolume = _ref2.callVolume, callVolume = _ref2$callVolume === void 0 ? this.callVolume : _ref2$callVolume, _ref2$outputDeviceId = _ref2.outputDeviceId, outputDeviceId = _ref2$outputDeviceId === void 0 ? this.outputDeviceId : _ref2$outputDeviceId, _ref2$inputDeviceId = _ref2.inputDeviceId, inputDeviceId = _ref2$inputDeviceId === void 0 ? this.inputDeviceId : _ref2$inputDeviceId;
-              this.store.dispatch({
-                type: this.actionTypes.setData,
-                dialButtonVolume: dialButtonVolume,
-                dialButtonMuted: dialButtonMuted,
-                ringtoneVolume: ringtoneVolume,
-                ringtoneMuted: ringtoneMuted,
-                callVolume: callVolume,
-                outputDeviceId: outputDeviceId,
-                inputDeviceId: inputDeviceId
-              });
+        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _ref2$dialButtonVolum = _ref2.dialButtonVolume, dialButtonVolume = _ref2$dialButtonVolum === void 0 ? this.dialButtonVolume : _ref2$dialButtonVolum, _ref2$dialButtonMuted = _ref2.dialButtonMuted, dialButtonMuted = _ref2$dialButtonMuted === void 0 ? this.dialButtonMuted : _ref2$dialButtonMuted, _ref2$ringtoneVolume = _ref2.ringtoneVolume, ringtoneVolume = _ref2$ringtoneVolume === void 0 ? this.ringtoneVolume : _ref2$ringtoneVolume, _ref2$ringtoneMuted = _ref2.ringtoneMuted, ringtoneMuted = _ref2$ringtoneMuted === void 0 ? this.ringtoneMuted : _ref2$ringtoneMuted, _ref2$callVolume = _ref2.callVolume, callVolume = _ref2$callVolume === void 0 ? this.callVolume : _ref2$callVolume, _ref2$outputDeviceId = _ref2.outputDeviceId, outputDeviceId = _ref2$outputDeviceId === void 0 ? this.outputDeviceId : _ref2$outputDeviceId, _ref2$inputDeviceId = _ref2.inputDeviceId, inputDeviceId = _ref2$inputDeviceId === void 0 ? this.inputDeviceId : _ref2$inputDeviceId;
+                this.store.dispatch({
+                  type: this.actionTypes.setData,
+                  dialButtonVolume: dialButtonVolume,
+                  dialButtonMuted: dialButtonMuted,
+                  ringtoneVolume: ringtoneVolume,
+                  ringtoneMuted: ringtoneMuted,
+                  callVolume: callVolume,
+                  outputDeviceId: outputDeviceId,
+                  inputDeviceId: inputDeviceId
+                });
 
-            case 2:
-            case "end":
-              return _context9.stop();
+              case 2:
+              case "end":
+                return _context9.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee8, this);
+      }));
+
+      function setData(_x2) {
+        return _setData.apply(this, arguments);
+      }
+
+      return setData;
+    }()
   }, {
     key: "outputDeviceId",
     get: function get() {

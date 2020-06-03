@@ -15,11 +15,15 @@ exports.getActiveSessionIdReducer = getActiveSessionIdReducer;
 exports.getRingSessionIdReducer = getRingSessionIdReducer;
 exports.getLastEndedSessionsReducer = getLastEndedSessionsReducer;
 exports.getSessionsReducer = getSessionsReducer;
+exports.getIncomingAudioFileReducer = getIncomingAudioFileReducer;
+exports.getIncomingAudioDataUrlReducer = getIncomingAudioDataUrlReducer;
+exports.getOutgoingAudioFileReducer = getOutgoingAudioFileReducer;
+exports.getOutgoingAudioDataUrlReducer = getOutgoingAudioDataUrlReducer;
+exports.getWebphoneStorageReducer = getWebphoneStorageReducer;
 exports["default"] = getWebphoneReducer;
+exports.DEFAULT_AUDIO = void 0;
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
+require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.regexp.to-string");
 
@@ -27,11 +31,15 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.is-array");
 
@@ -55,13 +63,20 @@ var _webphoneHelper = require("./webphoneHelper");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var DEFAULT_AUDIO = 'default';
+exports.DEFAULT_AUDIO = DEFAULT_AUDIO;
 
 function getVideoElementPreparedReducer(types) {
   return function () {
@@ -430,6 +445,118 @@ function getSessionsReducer(types) {
         return state;
     }
   };
+}
+
+function getIncomingAudioFileReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_AUDIO;
+
+    var _ref11 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref11.type,
+        incomingAudioFile = _ref11.incomingAudioFile,
+        fileName = _ref11.fileName;
+
+    switch (type) {
+      case types.setRingtone:
+        return incomingAudioFile;
+
+      case types.setIncomingAudio:
+        return fileName;
+
+      case types.resetIncomingAudio:
+        return DEFAULT_AUDIO;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getIncomingAudioDataUrlReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    var _ref12 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref12.type,
+        _ref12$incomingAudio = _ref12.incomingAudio,
+        incomingAudio = _ref12$incomingAudio === void 0 ? null : _ref12$incomingAudio,
+        _ref12$dataUrl = _ref12.dataUrl,
+        dataUrl = _ref12$dataUrl === void 0 ? null : _ref12$dataUrl;
+
+    switch (type) {
+      case types.setRingtone:
+        return incomingAudio;
+
+      case types.setIncomingAudio:
+        return dataUrl;
+
+      case types.resetIncomingAudio:
+        return null;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getOutgoingAudioFileReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_AUDIO;
+
+    var _ref13 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref13.type,
+        outgoingAudioFile = _ref13.outgoingAudioFile,
+        fileName = _ref13.fileName;
+
+    switch (type) {
+      case types.setRingtone:
+        return outgoingAudioFile;
+
+      case types.setOutgoingAudio:
+        return fileName;
+
+      case types.resetOutgoingAudio:
+        return DEFAULT_AUDIO;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getOutgoingAudioDataUrlReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    var _ref14 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref14.type,
+        outgoingAudio = _ref14.outgoingAudio,
+        _ref14$dataUrl = _ref14.dataUrl,
+        dataUrl = _ref14$dataUrl === void 0 ? null : _ref14$dataUrl;
+
+    switch (type) {
+      case types.setRingtone:
+        return outgoingAudio;
+
+      case types.setOutgoingAudio:
+        return dataUrl;
+
+      case types.resetOutgoingAudio:
+        return null;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getWebphoneStorageReducer(types) {
+  return (0, _redux.combineReducers)({
+    incomingAudioFile: getIncomingAudioFileReducer(types),
+    incomingAudioDataUrl: getIncomingAudioDataUrlReducer(types),
+    outgoingAudioFile: getOutgoingAudioFileReducer(types),
+    outgoingAudioDataUrl: getOutgoingAudioDataUrlReducer(types)
+  });
 }
 
 function getWebphoneReducer(types) {

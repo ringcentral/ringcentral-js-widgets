@@ -22,9 +22,7 @@ function getMeetingProvider(_x) {
 }
 
 function _getMeetingProvider() {
-  _getMeetingProvider = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(client) {
+  _getMeetingProvider = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(client) {
     var res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {

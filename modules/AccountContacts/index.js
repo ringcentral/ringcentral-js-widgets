@@ -19,6 +19,12 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
@@ -75,13 +81,17 @@ var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -95,15 +105,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
@@ -130,10 +144,10 @@ var AccountContacts = (_dec = (0, _di.Module)({
     dep: 'AccountContactsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
   _inherits(AccountContacts, _RcModule);
+
+  var _super = _createSuper(AccountContacts);
 
   /**
    * @constructor
@@ -165,9 +179,9 @@ function (_RcModule) {
 
     _classCallCheck(this, AccountContacts);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(AccountContacts).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
-    })));
+    }));
 
     _initializerDefineProperty(_this, "directoryContacts", _descriptor, _assertThisInitialized(_this));
 
@@ -216,76 +230,84 @@ function (_RcModule) {
 
   }, {
     key: "getProfileImage",
-    value: function getProfileImage(contact) {
-      var useCache,
-          imageId,
-          image,
-          imageUrl,
-          response,
-          _args = arguments;
-      return regeneratorRuntime.async(function getProfileImage$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              useCache = _args.length > 1 && _args[1] !== undefined ? _args[1] : true;
+    value: function () {
+      var _getProfileImage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(contact) {
+        var useCache,
+            imageId,
+            image,
+            imageUrl,
+            response,
+            _args = arguments;
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                useCache = _args.length > 1 && _args[1] !== undefined ? _args[1] : true;
 
-              if (!(!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage)) {
-                _context2.next = 3;
+                if (!(!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage)) {
+                  _context2.next = 3;
+                  break;
+                }
+
+                return _context2.abrupt("return", null);
+
+              case 3:
+                imageId = contact.id;
+
+                if (!(useCache && this.profileImages[imageId] && Date.now() - this.profileImages[imageId].timestamp < this._avatarTtl)) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                image = this.profileImages[imageId].imageUrl;
+                return _context2.abrupt("return", image);
+
+              case 7:
+                imageUrl = null;
+                _context2.prev = 8;
+                _context2.next = 11;
+                return this._client.account(contact.account.id).extension(contact.id).profileImage('195x195').get();
+
+              case 11:
+                response = _context2.sent;
+                _context2.t0 = URL;
+                _context2.next = 15;
+                return response._response.blob();
+
+              case 15:
+                _context2.t1 = _context2.sent;
+                imageUrl = _context2.t0.createObjectURL.call(_context2.t0, _context2.t1);
+                this.store.dispatch({
+                  type: this.actionTypes.fetchImageSuccess,
+                  imageId: imageId,
+                  imageUrl: imageUrl,
+                  ttl: this._avatarTtl
+                });
+                _context2.next = 23;
                 break;
-              }
 
-              return _context2.abrupt("return", null);
+              case 20:
+                _context2.prev = 20;
+                _context2.t2 = _context2["catch"](8);
+                console.error(_context2.t2);
 
-            case 3:
-              imageId = contact.id;
+              case 23:
+                return _context2.abrupt("return", imageUrl);
 
-              if (!(useCache && this.profileImages[imageId] && Date.now() - this.profileImages[imageId].timestamp < this._avatarTtl)) {
-                _context2.next = 7;
-                break;
-              }
-
-              image = this.profileImages[imageId].imageUrl;
-              return _context2.abrupt("return", image);
-
-            case 7:
-              imageUrl = null;
-              _context2.prev = 8;
-              _context2.next = 11;
-              return regeneratorRuntime.awrap(this._client.account(contact.account.id).extension(contact.id).profileImage('195x195').get());
-
-            case 11:
-              response = _context2.sent;
-              _context2.t0 = URL;
-              _context2.next = 15;
-              return regeneratorRuntime.awrap(response._response.blob());
-
-            case 15:
-              _context2.t1 = _context2.sent;
-              imageUrl = _context2.t0.createObjectURL.call(_context2.t0, _context2.t1);
-              this.store.dispatch({
-                type: this.actionTypes.fetchImageSuccess,
-                imageId: imageId,
-                imageUrl: imageUrl,
-                ttl: this._avatarTtl
-              });
-              _context2.next = 23;
-              break;
-
-            case 20:
-              _context2.prev = 20;
-              _context2.t2 = _context2["catch"](8);
-              console.error(_context2.t2);
-
-            case 23:
-              return _context2.abrupt("return", imageUrl);
-
-            case 24:
-            case "end":
-              return _context2.stop();
+              case 24:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this, [[8, 20]]);
-    } // interface of contact source
+        }, _callee, this, [[8, 20]]);
+      }));
+
+      function getProfileImage(_x) {
+        return _getProfileImage.apply(this, arguments);
+      }
+
+      return getProfileImage;
+    }() // interface of contact source
 
   }, {
     key: "getPresence",
@@ -343,153 +365,175 @@ function (_RcModule) {
     }
   }, {
     key: "_processQueryPresences",
-    value: function _processQueryPresences(getPresenceContexts) {
-      var contacts, responses, presenceMap;
-      return regeneratorRuntime.async(function _processQueryPresences$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              contacts = getPresenceContexts.map(function (x) {
-                return x.contact;
-              });
-              _context3.next = 3;
-              return regeneratorRuntime.awrap(this._batchQueryPresences(contacts));
-
-            case 3:
-              responses = _context3.sent;
-              presenceMap = {};
-              getPresenceContexts.forEach(function (ctx) {
-                var response = responses[ctx.contact.id];
-
-                if (!response) {
-                  ctx.resolve(null);
-                  return;
-                }
-
-                var dndStatus = response.dndStatus,
-                    presenceStatus = response.presenceStatus,
-                    telephonyStatus = response.telephonyStatus,
-                    userStatus = response.userStatus;
-                var presenceId = ctx.contact.id;
-                presenceMap[presenceId] = {
-                  dndStatus: dndStatus,
-                  presenceStatus: presenceStatus,
-                  telephonyStatus: telephonyStatus,
-                  userStatus: userStatus
-                };
-                ctx.resolve(presenceMap[presenceId]);
-              });
-              this.store.dispatch({
-                type: this.actionTypes.batchFetchPresenceSuccess,
-                presenceMap: presenceMap,
-                ttl: this._presenceTtl
-              });
-
-            case 7:
-            case "end":
-              return _context3.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
-    key: "_batchQueryPresences",
-    value: function _batchQueryPresences(contacts) {
-      var _this4 = this;
-
-      var presenceSet, accountExtensionMap, batchResponses;
-      return regeneratorRuntime.async(function _batchQueryPresences$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              presenceSet = {};
-              _context5.prev = 1;
-              accountExtensionMap = (0, _ramda.reduce)(function (acc, item) {
-                if (!acc[item.account.id]) {
-                  acc[item.account.id] = [];
-                }
-
-                acc[item.account.id].push(item.id);
-                return acc;
-              }, {}, contacts);
-              _context5.next = 5;
-              return regeneratorRuntime.awrap(Promise.all((0, _ramda.map)(function _callee(accountId) {
-                var ids;
-                return regeneratorRuntime.async(function _callee$(_context4) {
-                  while (1) {
-                    switch (_context4.prev = _context4.next) {
-                      case 0:
-                        if (!(accountExtensionMap[accountId].length > 1)) {
-                          _context4.next = 8;
-                          break;
-                        }
-
-                        ids = (0, _ramda.join)(',', accountExtensionMap[accountId]); // extract json data now so the data appears in the same format
-                        // as single requests
-
-                        _context4.t0 = _ramda.map;
-
-                        _context4.t1 = function (resp) {
-                          return resp.json();
-                        };
-
-                        _context4.next = 6;
-                        return regeneratorRuntime.awrap((0, _batchApiHelper.batchGetApi)({
-                          platform: _this4._client.service.platform(),
-                          url: "/account/".concat(accountId, "/extension/").concat(ids, "/presence")
-                        }));
-
-                      case 6:
-                        _context4.t2 = _context4.sent;
-                        return _context4.abrupt("return", (0, _context4.t0)(_context4.t1, _context4.t2));
-
-                      case 8:
-                        _context4.next = 10;
-                        return regeneratorRuntime.awrap(_this4._client.account(accountId).extension(accountExtensionMap[accountId][0]).presence().get());
-
-                      case 10:
-                        _context4.t3 = _context4.sent;
-                        return _context4.abrupt("return", [_context4.t3]);
-
-                      case 12:
-                      case "end":
-                        return _context4.stop();
-                    }
-                  }
+    value: function () {
+      var _processQueryPresences2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(getPresenceContexts) {
+        var contacts, responses, presenceMap;
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                contacts = getPresenceContexts.map(function (x) {
+                  return x.contact;
                 });
-              }, (0, _ramda.keys)(accountExtensionMap))));
+                _context3.next = 3;
+                return this._batchQueryPresences(contacts);
 
-            case 5:
-              batchResponses = _context5.sent;
-              // treat all data as batch since the data is normalized
-              (0, _ramda.forEach)(function (batch) {
-                return (0, _ramda.forEach)(function (data) {
-                  if (data.errorCode) {
-                    console.warn(data);
+              case 3:
+                responses = _context3.sent;
+                presenceMap = {};
+                getPresenceContexts.forEach(function (ctx) {
+                  var response = responses[ctx.contact.id];
+
+                  if (!response) {
+                    ctx.resolve(null);
                     return;
                   }
 
-                  presenceSet[data.extension.id] = data;
-                }, batch);
-              }, batchResponses);
-              _context5.next = 12;
-              break;
+                  var dndStatus = response.dndStatus,
+                      presenceStatus = response.presenceStatus,
+                      telephonyStatus = response.telephonyStatus,
+                      userStatus = response.userStatus;
+                  var presenceId = ctx.contact.id;
+                  presenceMap[presenceId] = {
+                    dndStatus: dndStatus,
+                    presenceStatus: presenceStatus,
+                    telephonyStatus: telephonyStatus,
+                    userStatus: userStatus
+                  };
+                  ctx.resolve(presenceMap[presenceId]);
+                });
+                this.store.dispatch({
+                  type: this.actionTypes.batchFetchPresenceSuccess,
+                  presenceMap: presenceMap,
+                  ttl: this._presenceTtl
+                });
 
-            case 9:
-              _context5.prev = 9;
-              _context5.t0 = _context5["catch"](1);
-              console.error(_context5.t0);
-
-            case 12:
-              return _context5.abrupt("return", presenceSet);
-
-            case 13:
-            case "end":
-              return _context5.stop();
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, null, [[1, 9]]);
-    }
+        }, _callee2, this);
+      }));
+
+      function _processQueryPresences(_x2) {
+        return _processQueryPresences2.apply(this, arguments);
+      }
+
+      return _processQueryPresences;
+    }()
+  }, {
+    key: "_batchQueryPresences",
+    value: function () {
+      var _batchQueryPresences2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(contacts) {
+        var _this4 = this;
+
+        var presenceSet, accountExtensionMap, batchResponses;
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                presenceSet = {};
+                _context5.prev = 1;
+                accountExtensionMap = (0, _ramda.reduce)(function (acc, item) {
+                  if (!acc[item.account.id]) {
+                    acc[item.account.id] = [];
+                  }
+
+                  acc[item.account.id].push(item.id);
+                  return acc;
+                }, {}, contacts);
+                _context5.next = 5;
+                return Promise.all((0, _ramda.map)( /*#__PURE__*/function () {
+                  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(accountId) {
+                    var ids;
+                    return regeneratorRuntime.wrap(function _callee3$(_context4) {
+                      while (1) {
+                        switch (_context4.prev = _context4.next) {
+                          case 0:
+                            if (!(accountExtensionMap[accountId].length > 1)) {
+                              _context4.next = 8;
+                              break;
+                            }
+
+                            ids = (0, _ramda.join)(',', accountExtensionMap[accountId]); // extract json data now so the data appears in the same format
+                            // as single requests
+
+                            _context4.t0 = _ramda.map;
+
+                            _context4.t1 = function (resp) {
+                              return resp.json();
+                            };
+
+                            _context4.next = 6;
+                            return (0, _batchApiHelper.batchGetApi)({
+                              platform: _this4._client.service.platform(),
+                              url: "/account/".concat(accountId, "/extension/").concat(ids, "/presence")
+                            });
+
+                          case 6:
+                            _context4.t2 = _context4.sent;
+                            return _context4.abrupt("return", (0, _context4.t0)(_context4.t1, _context4.t2));
+
+                          case 8:
+                            _context4.next = 10;
+                            return _this4._client.account(accountId).extension(accountExtensionMap[accountId][0]).presence().get();
+
+                          case 10:
+                            _context4.t3 = _context4.sent;
+                            return _context4.abrupt("return", [_context4.t3]);
+
+                          case 12:
+                          case "end":
+                            return _context4.stop();
+                        }
+                      }
+                    }, _callee3);
+                  }));
+
+                  return function (_x4) {
+                    return _ref2.apply(this, arguments);
+                  };
+                }(), (0, _ramda.keys)(accountExtensionMap)));
+
+              case 5:
+                batchResponses = _context5.sent;
+                // treat all data as batch since the data is normalized
+                (0, _ramda.forEach)(function (batch) {
+                  return (0, _ramda.forEach)(function (data) {
+                    if (data.errorCode) {
+                      console.warn(data);
+                      return;
+                    }
+
+                    presenceSet[data.extension.id] = data;
+                  }, batch);
+                }, batchResponses);
+                _context5.next = 12;
+                break;
+
+              case 9:
+                _context5.prev = 9;
+                _context5.t0 = _context5["catch"](1);
+                console.error(_context5.t0);
+
+              case 12:
+                return _context5.abrupt("return", presenceSet);
+
+              case 13:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee4, null, [[1, 9]]);
+      }));
+
+      function _batchQueryPresences(_x3) {
+        return _batchQueryPresences2.apply(this, arguments);
+      }
+
+      return _batchQueryPresences;
+    }()
   }, {
     key: "status",
     get: function get() {
@@ -542,7 +586,7 @@ function (_RcModule) {
       return (0, _ramda.reduce)(function (result, item) {
         var id = "".concat(item.id);
 
-        var contact = _objectSpread({}, item, {
+        var contact = _objectSpread(_objectSpread({}, item), {}, {
           type: _this5.sourceName,
           id: id,
           emails: [item.email],
@@ -566,7 +610,7 @@ function (_RcModule) {
         if (item.phoneNumbers && item.phoneNumbers.length > 0) {
           item.phoneNumbers.forEach(function (phone) {
             if (phone.type) {
-              contact.phoneNumbers.push(_objectSpread({}, phone, {
+              contact.phoneNumbers.push(_objectSpread(_objectSpread({}, phone), {}, {
                 phoneType: _phoneTypes["default"].direct
               }));
             }

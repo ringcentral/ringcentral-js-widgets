@@ -43,7 +43,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -99,7 +99,7 @@ function getContactListReducer(types) {
               delete contactMap[record.id];
             } else {
               var oldContact = contacts[oldIndex];
-              contacts[oldIndex] = _objectSpread({}, oldContact, {}, (0, _removeUri["default"])(record));
+              contacts[oldIndex] = _objectSpread(_objectSpread({}, oldContact), (0, _removeUri["default"])(record));
             }
           } else if (!isDeleted) {
             contacts.push((0, _removeUri["default"])(record));
@@ -166,7 +166,7 @@ function getTimestampReducer(types) {
 
 function getAddressBookReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return (0, _redux.combineReducers)(_objectSpread({}, reducers, {
+  return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, reducers), {}, {
     status: (0, _getModuleStatusReducer["default"])(types),
     syncStatus: getSyncStatusReducer(types)
   }));

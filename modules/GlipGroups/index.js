@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.string.iterator");
-
 require("core-js/modules/es6.weak-map");
 
 Object.defineProperty(exports, "__esModule", {
@@ -9,7 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -23,11 +25,27 @@ require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
@@ -42,12 +60,6 @@ require("core-js/modules/es6.function.name");
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -79,7 +91,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -93,23 +109,33 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -134,14 +160,14 @@ function formatGroup(group, personsMap) {
   if (group.members) {
     group.members.forEach(function (memberId) {
       if (personsMap[memberId]) {
-        detailMembers.push(_objectSpread({}, personsMap[memberId], {
+        detailMembers.push(_objectSpread(_objectSpread({}, personsMap[memberId]), {}, {
           isMe: ownerId === memberId
         }));
       }
     });
   }
 
-  var newGroup = _objectSpread({}, group, {
+  var newGroup = _objectSpread(_objectSpread({}, group), {}, {
     detailMembers: detailMembers,
     updatedTime: new Date(group.lastModifiedTime).getTime()
   });
@@ -149,7 +175,7 @@ function formatGroup(group, personsMap) {
   var latestPost = postsMap[group.id] && postsMap[group.id][0];
 
   if (latestPost) {
-    newGroup.latestPost = _objectSpread({}, latestPost, {
+    newGroup.latestPost = _objectSpread(_objectSpread({}, latestPost), {}, {
       creator: personsMap[latestPost.creatorId]
     });
     var postCreationTime = new Date(latestPost.creationTime).getTime();
@@ -180,12 +206,12 @@ function getUniqueMemberIds(groups) {
 
 function searchPosts(searchFilter, posts) {
   var result = false;
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+
+  var _iterator = _createForOfIteratorHelper(posts),
+      _step;
 
   try {
-    for (var _iterator = posts[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var post = _step.value;
 
       if (post.text && post.text.toLowerCase().indexOf(searchFilter) > -1) {
@@ -205,18 +231,9 @@ function searchPosts(searchFilter, posts) {
       }
     }
   } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
+    _iterator.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-        _iterator["return"]();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
+    _iterator.f();
   }
 
   return result;
@@ -247,10 +264,10 @@ var GlipGroups = (_dec = (0, _di.Module)({
     dep: 'GLipGroupsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp =
-/*#__PURE__*/
-function (_Pollable) {
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_Pollable) {
   _inherits(GlipGroups, _Pollable);
+
+  var _super = _createSuper(GlipGroups);
 
   /**
    * @constructor
@@ -298,9 +315,9 @@ function (_Pollable) {
 
     _classCallCheck(this, GlipGroups);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipGroups).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
-    })));
+    }));
 
     _initializerDefineProperty(_this, "allGroups", _descriptor, _assertThisInitialized(_this));
 
@@ -386,100 +403,108 @@ function (_Pollable) {
     }
   }, {
     key: "_onStateChange",
-    value: function _onStateChange() {
-      return regeneratorRuntime.async(function _onStateChange$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              if (!this._shouldInit()) {
-                _context2.next = 6;
-                break;
-              }
+    value: function () {
+      var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!this._shouldInit()) {
+                  _context2.next = 6;
+                  break;
+                }
 
-              this.store.dispatch({
-                type: this.actionTypes.init
-              });
-              _context2.next = 4;
-              return regeneratorRuntime.awrap(this._init());
+                this.store.dispatch({
+                  type: this.actionTypes.init
+                });
+                _context2.next = 4;
+                return this._init();
 
-            case 4:
-              _context2.next = 28;
-              break;
-
-            case 6:
-              if (!this._isDataReady()) {
-                _context2.next = 11;
-                break;
-              }
-
-              this.store.dispatch({
-                type: this.actionTypes.initSuccess
-              });
-
-              this._onDataReady();
-
-              _context2.next = 28;
-              break;
-
-            case 11:
-              if (!this._shouldReset()) {
-                _context2.next = 17;
-                break;
-              }
-
-              this._clearTimeout();
-
-              this._promise = null;
-              this.store.dispatch({
-                type: this.actionTypes.resetSuccess
-              });
-              _context2.next = 28;
-              break;
-
-            case 17:
-              if (!this._shouldHandleSubscriptionMessage()) {
-                _context2.next = 21;
-                break;
-              }
-
-              this._processSubscription();
-
-              _context2.next = 28;
-              break;
-
-            case 21:
-              if (!(this.ready && this._connectivityMonitor && this._connectivityMonitor.ready && this._connectivity !== this._connectivityMonitor.connectivity)) {
+              case 4:
                 _context2.next = 28;
                 break;
-              }
 
-              this._connectivity = this._connectivityMonitor.connectivity;
+              case 6:
+                if (!this._isDataReady()) {
+                  _context2.next = 11;
+                  break;
+                }
 
-              if (this._connectivity) {
-                _context2.next = 25;
+                this.store.dispatch({
+                  type: this.actionTypes.initSuccess
+                });
+
+                this._onDataReady();
+
+                _context2.next = 28;
                 break;
-              }
 
-              return _context2.abrupt("return");
+              case 11:
+                if (!this._shouldReset()) {
+                  _context2.next = 17;
+                  break;
+                }
 
-            case 25:
-              _context2.next = 27;
-              return regeneratorRuntime.awrap(this.fetchData());
+                this._clearTimeout();
 
-            case 27:
-              if (this._preloadPosts) {
-                this._preloadedPosts = {};
+                this._promise = null;
+                this.store.dispatch({
+                  type: this.actionTypes.resetSuccess
+                });
+                _context2.next = 28;
+                break;
 
-                this._preloadGroupPosts(true);
-              }
+              case 17:
+                if (!this._shouldHandleSubscriptionMessage()) {
+                  _context2.next = 21;
+                  break;
+                }
 
-            case 28:
-            case "end":
-              return _context2.stop();
+                this._processSubscription();
+
+                _context2.next = 28;
+                break;
+
+              case 21:
+                if (!(this.ready && this._connectivityMonitor && this._connectivityMonitor.ready && this._connectivity !== this._connectivityMonitor.connectivity)) {
+                  _context2.next = 28;
+                  break;
+                }
+
+                this._connectivity = this._connectivityMonitor.connectivity;
+
+                if (this._connectivity) {
+                  _context2.next = 25;
+                  break;
+                }
+
+                return _context2.abrupt("return");
+
+              case 25:
+                _context2.next = 27;
+                return this.fetchData();
+
+              case 27:
+                if (this._preloadPosts) {
+                  this._preloadedPosts = {};
+
+                  this._preloadGroupPosts(true);
+                }
+
+              case 28:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function _onStateChange() {
+        return _onStateChange2.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
@@ -510,58 +535,66 @@ function (_Pollable) {
     }
   }, {
     key: "_subscriptionHandleFn",
-    value: function _subscriptionHandleFn(message) {
-      var _message$body, eventType, group;
+    value: function () {
+      var _subscriptionHandleFn2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(message) {
+        var _message$body, eventType, group;
 
-      return regeneratorRuntime.async(function _subscriptionHandleFn$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              if (!(message && glipGroupRegExp.test(message.event) && message.body && message.body.eventType)) {
-                _context3.next = 10;
-                break;
-              }
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!(message && glipGroupRegExp.test(message.event) && message.body && message.body.eventType)) {
+                  _context3.next = 10;
+                  break;
+                }
 
-              _message$body = message.body, eventType = _message$body.eventType, group = _objectWithoutProperties(_message$body, ["eventType"]);
+                _message$body = message.body, eventType = _message$body.eventType, group = _objectWithoutProperties(_message$body, ["eventType"]);
 
-              if (!(eventType.indexOf('Group') !== 0)) {
-                _context3.next = 4;
-                break;
-              }
+                if (!(eventType.indexOf('Group') !== 0)) {
+                  _context3.next = 4;
+                  break;
+                }
 
-              return _context3.abrupt("return");
+                return _context3.abrupt("return");
 
-            case 4:
-              if (!(eventType === 'GroupLeft')) {
-                _context3.next = 7;
-                break;
-              }
+              case 4:
+                if (!(eventType === 'GroupLeft')) {
+                  _context3.next = 7;
+                  break;
+                }
 
-              this.store.dispatch({
-                type: this.actionTypes.removeGroup,
-                group: group
-              });
-              return _context3.abrupt("return");
+                this.store.dispatch({
+                  type: this.actionTypes.removeGroup,
+                  group: group
+                });
+                return _context3.abrupt("return");
 
-            case 7:
-              this.store.dispatch({
-                type: this.actionTypes.updateGroup,
-                group: group
-              });
+              case 7:
+                this.store.dispatch({
+                  type: this.actionTypes.updateGroup,
+                  group: group
+                });
 
-              if (this._glipPersons) {
-                this._glipPersons.loadPersons(group.members);
-              }
+                if (this._glipPersons) {
+                  this._glipPersons.loadPersons(group.members);
+                }
 
-              this._glipPosts.loadPosts(group.id);
+                this._glipPosts.loadPosts(group.id);
 
-            case 10:
-            case "end":
-              return _context3.stop();
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee2, this);
+      }));
+
+      function _subscriptionHandleFn(_x) {
+        return _subscriptionHandleFn2.apply(this, arguments);
+      }
+
+      return _subscriptionHandleFn;
+    }()
   }, {
     key: "_shouldFetch",
     value: function _shouldFetch() {
@@ -574,66 +607,74 @@ function (_Pollable) {
     }
   }, {
     key: "_init",
-    value: function _init() {
-      return regeneratorRuntime.async(function _init$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              if (this._hasPermission) {
-                _context4.next = 2;
+    value: function () {
+      var _init2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (this._hasPermission) {
+                  _context4.next = 2;
+                  break;
+                }
+
+                return _context4.abrupt("return");
+
+              case 2:
+                if (!this._shouldFetch()) {
+                  _context4.next = 14;
+                  break;
+                }
+
+                _context4.prev = 3;
+                _context4.next = 6;
+                return this.fetchData();
+
+              case 6:
+                _context4.next = 12;
                 break;
-              }
 
-              return _context4.abrupt("return");
+              case 8:
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](3);
+                console.error('fetchData error:', _context4.t0);
 
-            case 2:
-              if (!this._shouldFetch()) {
-                _context4.next = 14;
-                break;
-              }
-
-              _context4.prev = 3;
-              _context4.next = 6;
-              return regeneratorRuntime.awrap(this.fetchData());
-
-            case 6:
-              _context4.next = 12;
-              break;
-
-            case 8:
-              _context4.prev = 8;
-              _context4.t0 = _context4["catch"](3);
-              console.error('fetchData error:', _context4.t0);
-
-              this._retry();
-
-            case 12:
-              _context4.next = 15;
-              break;
-
-            case 14:
-              if (this._polling) {
-                this._startPolling();
-              } else {
                 this._retry();
-              }
 
-            case 15:
-              if (this._subscription && this._subscriptionFilters) {
-                this._subscription.subscribe(this._subscriptionFilters);
-              }
+              case 12:
+                _context4.next = 15;
+                break;
 
-              if (this._connectivityMonitor) {
-                this._connectivity = this._connectivityMonitor.connectivity;
-              }
+              case 14:
+                if (this._polling) {
+                  this._startPolling();
+                } else {
+                  this._retry();
+                }
 
-            case 17:
-            case "end":
-              return _context4.stop();
+              case 15:
+                if (this._subscription && this._subscriptionFilters) {
+                  this._subscription.subscribe(this._subscriptionFilters);
+                }
+
+                if (this._connectivityMonitor) {
+                  this._connectivity = this._connectivityMonitor.connectivity;
+                }
+
+              case 17:
+              case "end":
+                return _context4.stop();
+            }
           }
-        }
-      }, null, this, [[3, 8]]);
-    }
+        }, _callee3, this, [[3, 8]]);
+      }));
+
+      function _init() {
+        return _init2.apply(this, arguments);
+      }
+
+      return _init;
+    }()
   }, {
     key: "_processSubscription",
     value: function _processSubscription() {
@@ -643,114 +684,103 @@ function (_Pollable) {
     }
   }, {
     key: "_preloadGroupPosts",
-    value: function _preloadGroupPosts(force) {
-      var groups, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, group;
+    value: function () {
+      var _preloadGroupPosts2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(force) {
+        var groups, _iterator2, _step2, group;
 
-      return regeneratorRuntime.async(function _preloadGroupPosts$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              groups = this.groups.slice(0, 20);
-              _iteratorNormalCompletion2 = true;
-              _didIteratorError2 = false;
-              _iteratorError2 = undefined;
-              _context5.prev = 4;
-              _iterator2 = groups[Symbol.iterator]();
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                groups = this.groups.slice(0, 20);
+                _iterator2 = _createForOfIteratorHelper(groups);
+                _context5.prev = 2;
 
-            case 6:
-              if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                _context5.next = 23;
+                _iterator2.s();
+
+              case 4:
+                if ((_step2 = _iterator2.n()).done) {
+                  _context5.next = 20;
+                  break;
+                }
+
+                group = _step2.value;
+
+                if (this._glipPosts) {
+                  _context5.next = 8;
+                  break;
+                }
+
+                return _context5.abrupt("break", 20);
+
+              case 8:
+                if (!this._preloadedPosts[group.id]) {
+                  _context5.next = 10;
+                  break;
+                }
+
+                return _context5.abrupt("continue", 18);
+
+              case 10:
+                this._preloadedPosts[group.id] = true;
+
+                if (!(!this._glipPosts.postsMap[group.id] || force)) {
+                  _context5.next = 17;
+                  break;
+                }
+
+                _context5.next = 14;
+                return (0, _sleep["default"])(this._preloadPostsDelayTtl);
+
+              case 14:
+                if (!(!this._glipPosts.postsMap[group.id] || force)) {
+                  _context5.next = 17;
+                  break;
+                }
+
+                _context5.next = 17;
+                return this._glipPosts.fetchPosts(group.id);
+
+              case 17:
+                if (!this._glipPosts.readTimeMap[group.id]) {
+                  this._glipPosts.updateReadTime(group.id, Date.now() - 1000 * 3600 * 2);
+                }
+
+              case 18:
+                _context5.next = 4;
                 break;
-              }
 
-              group = _step2.value;
-
-              if (this._glipPosts) {
-                _context5.next = 10;
+              case 20:
+                _context5.next = 25;
                 break;
-              }
 
-              return _context5.abrupt("break", 23);
+              case 22:
+                _context5.prev = 22;
+                _context5.t0 = _context5["catch"](2);
 
-            case 10:
-              if (!this._preloadedPosts[group.id]) {
-                _context5.next = 12;
-                break;
-              }
+                _iterator2.e(_context5.t0);
 
-              return _context5.abrupt("continue", 20);
+              case 25:
+                _context5.prev = 25;
 
-            case 12:
-              this._preloadedPosts[group.id] = true;
+                _iterator2.f();
 
-              if (!(!this._glipPosts.postsMap[group.id] || force)) {
-                _context5.next = 19;
-                break;
-              }
+                return _context5.finish(25);
 
-              _context5.next = 16;
-              return regeneratorRuntime.awrap((0, _sleep["default"])(this._preloadPostsDelayTtl));
-
-            case 16:
-              if (!(!this._glipPosts.postsMap[group.id] || force)) {
-                _context5.next = 19;
-                break;
-              }
-
-              _context5.next = 19;
-              return regeneratorRuntime.awrap(this._glipPosts.fetchPosts(group.id));
-
-            case 19:
-              if (!this._glipPosts.readTimeMap[group.id]) {
-                this._glipPosts.updateReadTime(group.id, Date.now() - 1000 * 3600 * 2);
-              }
-
-            case 20:
-              _iteratorNormalCompletion2 = true;
-              _context5.next = 6;
-              break;
-
-            case 23:
-              _context5.next = 29;
-              break;
-
-            case 25:
-              _context5.prev = 25;
-              _context5.t0 = _context5["catch"](4);
-              _didIteratorError2 = true;
-              _iteratorError2 = _context5.t0;
-
-            case 29:
-              _context5.prev = 29;
-              _context5.prev = 30;
-
-              if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-                _iterator2["return"]();
-              }
-
-            case 32:
-              _context5.prev = 32;
-
-              if (!_didIteratorError2) {
-                _context5.next = 35;
-                break;
-              }
-
-              throw _iteratorError2;
-
-            case 35:
-              return _context5.finish(32);
-
-            case 36:
-              return _context5.finish(29);
-
-            case 37:
-            case "end":
-              return _context5.stop();
+              case 28:
+              case "end":
+                return _context5.stop();
+            }
           }
-        }
-      }, null, this, [[4, 25, 29, 37], [30,, 32, 36]]);
-    }
+        }, _callee4, this, [[2, 22, 25, 28]]);
+      }));
+
+      function _preloadGroupPosts(_x2) {
+        return _preloadGroupPosts2.apply(this, arguments);
+      }
+
+      return _preloadGroupPosts;
+    }()
   }, {
     key: "updateFilter",
     value: function updateFilter(_ref2) {
@@ -798,157 +828,189 @@ function (_Pollable) {
     }
   }, {
     key: "_fetchFunction",
-    value: function _fetchFunction() {
-      var result;
-      return regeneratorRuntime.async(function _fetchFunction$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              _context6.next = 2;
-              return regeneratorRuntime.awrap(this._client.glip().groups().list({
-                recordCount: this._recordCountPerReq
-              }));
-
-            case 2:
-              result = _context6.sent;
-              return _context6.abrupt("return", result);
-
-            case 4:
-            case "end":
-              return _context6.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
-    key: "_fetchData",
-    value: function _fetchData() {
-      var ownerId, data;
-      return regeneratorRuntime.async(function _fetchData$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              this.store.dispatch({
-                type: this.actionTypes.fetch
-              });
-              ownerId = this._auth.ownerId;
-              _context7.prev = 2;
-              _context7.next = 5;
-              return regeneratorRuntime.awrap(this._fetchFunction());
-
-            case 5:
-              data = _context7.sent;
-
-              if (this._auth.ownerId === ownerId) {
-                this.store.dispatch({
-                  type: this.actionTypes.fetchSuccess,
-                  data: data,
-                  timestamp: Date.now()
+    value: function () {
+      var _fetchFunction2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var result;
+        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return this._client.glip().groups().list({
+                  recordCount: this._recordCountPerReq
                 });
 
-                if (this._polling) {
-                  this._startPolling();
+              case 2:
+                result = _context6.sent;
+                return _context6.abrupt("return", result);
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function _fetchFunction() {
+        return _fetchFunction2.apply(this, arguments);
+      }
+
+      return _fetchFunction;
+    }()
+  }, {
+    key: "_fetchData",
+    value: function () {
+      var _fetchData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        var ownerId, data;
+        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.fetch
+                });
+                ownerId = this._auth.ownerId;
+                _context7.prev = 2;
+                _context7.next = 5;
+                return this._fetchFunction();
+
+              case 5:
+                data = _context7.sent;
+
+                if (this._auth.ownerId === ownerId) {
+                  this.store.dispatch({
+                    type: this.actionTypes.fetchSuccess,
+                    data: data,
+                    timestamp: Date.now()
+                  });
+
+                  if (this._polling) {
+                    this._startPolling();
+                  }
+
+                  this._promise = null;
+                }
+
+                _context7.next = 16;
+                break;
+
+              case 9:
+                _context7.prev = 9;
+                _context7.t0 = _context7["catch"](2);
+
+                if (!(this._auth.ownerId === ownerId)) {
+                  _context7.next = 16;
+                  break;
                 }
 
                 this._promise = null;
-              }
+                this.store.dispatch({
+                  type: this.actionTypes.fetchError,
+                  error: _context7.t0
+                });
 
-              _context7.next = 16;
-              break;
+                if (this._polling) {
+                  this._startPolling(this.timeToRetry);
+                } else {
+                  this._retry();
+                }
 
-            case 9:
-              _context7.prev = 9;
-              _context7.t0 = _context7["catch"](2);
+                throw _context7.t0;
 
-              if (!(this._auth.ownerId === ownerId)) {
-                _context7.next = 16;
-                break;
-              }
-
-              this._promise = null;
-              this.store.dispatch({
-                type: this.actionTypes.fetchError,
-                error: _context7.t0
-              });
-
-              if (this._polling) {
-                this._startPolling(this.timeToRetry);
-              } else {
-                this._retry();
-              }
-
-              throw _context7.t0;
-
-            case 16:
-            case "end":
-              return _context7.stop();
+              case 16:
+              case "end":
+                return _context7.stop();
+            }
           }
-        }
-      }, null, this, [[2, 9]]);
-    }
+        }, _callee6, this, [[2, 9]]);
+      }));
+
+      function _fetchData() {
+        return _fetchData2.apply(this, arguments);
+      }
+
+      return _fetchData;
+    }()
   }, {
     key: "fetchData",
-    value: function fetchData() {
-      return regeneratorRuntime.async(function fetchData$(_context8) {
-        while (1) {
-          switch (_context8.prev = _context8.next) {
-            case 0:
-              if (!this._promise) {
-                this._promise = this._fetchData();
-              }
+    value: function () {
+      var _fetchData3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                if (!this._promise) {
+                  this._promise = this._fetchData();
+                }
 
-              return _context8.abrupt("return", this._promise);
+                return _context8.abrupt("return", this._promise);
 
-            case 2:
-            case "end":
-              return _context8.stop();
+              case 2:
+              case "end":
+                return _context8.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee7, this);
+      }));
+
+      function fetchData() {
+        return _fetchData3.apply(this, arguments);
+      }
+
+      return fetchData;
+    }()
   }, {
     key: "startChat",
-    value: function startChat(personId) {
-      var group;
-      return regeneratorRuntime.async(function startChat$(_context9) {
-        while (1) {
-          switch (_context9.prev = _context9.next) {
-            case 0:
-              _context9.prev = 0;
-              _context9.next = 3;
-              return regeneratorRuntime.awrap(this._client.glip().groups().post({
-                type: 'PrivateChat',
-                members: [this._auth.ownerId, personId]
-              }));
+    value: function () {
+      var _startChat = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(personId) {
+        var group;
+        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.prev = 0;
+                _context9.next = 3;
+                return this._client.glip().groups().post({
+                  type: 'PrivateChat',
+                  members: [this._auth.ownerId, personId]
+                });
 
-            case 3:
-              group = _context9.sent;
-              group.lastModifiedTime = Date.now();
-              this.store.dispatch({
-                type: this.actionTypes.updateGroup,
-                group: group
-              });
-              this.store.dispatch({
-                type: this.actionTypes.updateCurrentGroupId,
-                groupId: group.id
-              });
-              return _context9.abrupt("return", group);
+              case 3:
+                group = _context9.sent;
+                group.lastModifiedTime = Date.now();
+                this.store.dispatch({
+                  type: this.actionTypes.updateGroup,
+                  group: group
+                });
+                this.store.dispatch({
+                  type: this.actionTypes.updateCurrentGroupId,
+                  groupId: group.id
+                });
+                return _context9.abrupt("return", group);
 
-            case 10:
-              _context9.prev = 10;
-              _context9.t0 = _context9["catch"](0);
-              console.error(_context9.t0);
+              case 10:
+                _context9.prev = 10;
+                _context9.t0 = _context9["catch"](0);
+                console.error(_context9.t0);
 
-            case 13:
-              return _context9.abrupt("return", null);
+              case 13:
+                return _context9.abrupt("return", null);
 
-            case 14:
-            case "end":
-              return _context9.stop();
+              case 14:
+              case "end":
+                return _context9.stop();
+            }
           }
-        }
-      }, null, this, [[0, 10]]);
-    }
+        }, _callee8, this, [[0, 10]]);
+      }));
+
+      function startChat(_x3) {
+        return _startChat.apply(this, arguments);
+      }
+
+      return startChat;
+    }()
   }, {
     key: "onNewPost",
     value: function onNewPost(post) {
@@ -958,35 +1020,43 @@ function (_Pollable) {
     }
   }, {
     key: "createTeam",
-    value: function createTeam(name, members) {
-      var type,
-          group,
-          _args9 = arguments;
-      return regeneratorRuntime.async(function createTeam$(_context10) {
-        while (1) {
-          switch (_context10.prev = _context10.next) {
-            case 0:
-              type = _args9.length > 2 && _args9[2] !== undefined ? _args9[2] : 'Team';
-              _context10.next = 3;
-              return regeneratorRuntime.awrap(this._client.glip().groups().post({
-                type: type,
-                name: name,
-                members: members,
-                isPublic: true,
-                description: ''
-              }));
+    value: function () {
+      var _createTeam = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(name, members) {
+        var type,
+            group,
+            _args9 = arguments;
+        return regeneratorRuntime.wrap(function _callee9$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                type = _args9.length > 2 && _args9[2] !== undefined ? _args9[2] : 'Team';
+                _context10.next = 3;
+                return this._client.glip().groups().post({
+                  type: type,
+                  name: name,
+                  members: members,
+                  isPublic: true,
+                  description: ''
+                });
 
-            case 3:
-              group = _context10.sent;
-              return _context10.abrupt("return", group.id);
+              case 3:
+                group = _context10.sent;
+                return _context10.abrupt("return", group.id);
 
-            case 5:
-            case "end":
-              return _context10.stop();
+              case 5:
+              case "end":
+                return _context10.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee9, this);
+      }));
+
+      function createTeam(_x4, _x5) {
+        return _createTeam.apply(this, arguments);
+      }
+
+      return createTeam;
+    }()
   }, {
     key: "searchFilter",
     get: function get() {
@@ -1188,7 +1258,7 @@ function (_Pollable) {
       var reversePosts = (posts || []).slice(0).reverse();
       return reversePosts.map(function (post) {
         var creator = personsMap[post.creatorId];
-        return _objectSpread({}, post, {
+        return _objectSpread(_objectSpread({}, post), {}, {
           sentByMe: post.creatorId === _this9._auth.ownerId,
           creator: creator
         });
@@ -1212,7 +1282,7 @@ function (_Pollable) {
       return groups.map(function (group) {
         var posts = postsMap[group.id] || [];
         var readTime = readTimeMap[group.id] || Date.now();
-        return _objectSpread({}, group, {
+        return _objectSpread(_objectSpread({}, group), {}, {
           unread: posts.filter(function (post) {
             return new Date(post.creationTime).getTime() > readTime && post.creatorId !== _this10._auth.ownerId;
           }).length

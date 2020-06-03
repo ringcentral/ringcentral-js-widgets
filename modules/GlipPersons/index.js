@@ -11,6 +11,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -20,6 +22,12 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -69,11 +77,15 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -87,15 +99,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -112,10 +128,10 @@ var GlipPersons = (_dec = (0, _di.Module)({
     dep: 'GlipPersonsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(GlipPersons, _RcModule);
+
+  var _super = _createSuper(GlipPersons);
 
   /**
    * @constructor
@@ -142,9 +158,9 @@ function (_RcModule) {
 
     _classCallCheck(this, GlipPersons);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(GlipPersons).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
-    })));
+    }));
     _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
     _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
     _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
@@ -181,58 +197,66 @@ function (_RcModule) {
     }
   }, {
     key: "_onStateChange",
-    value: function _onStateChange() {
-      return regeneratorRuntime.async(function _onStateChange$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              if (!this._shouldInit()) {
-                _context2.next = 10;
-                break;
-              }
+    value: function () {
+      var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!this._shouldInit()) {
+                  _context2.next = 10;
+                  break;
+                }
 
-              this.store.dispatch({
-                type: this.actionTypes.init
-              });
-
-              if (this._auth.isFreshLogin) {
                 this.store.dispatch({
-                  type: this.actionTypes.cleanUp
+                  type: this.actionTypes.init
                 });
-              }
 
-              if (this._hasPermission) {
-                _context2.next = 5;
-                break;
-              }
+                if (this._auth.isFreshLogin) {
+                  this.store.dispatch({
+                    type: this.actionTypes.cleanUp
+                  });
+                }
 
-              return _context2.abrupt("return");
+                if (this._hasPermission) {
+                  _context2.next = 5;
+                  break;
+                }
 
-            case 5:
-              _context2.next = 7;
-              return regeneratorRuntime.awrap(this.loadMe());
+                return _context2.abrupt("return");
 
-            case 7:
-              this.store.dispatch({
-                type: this.actionTypes.initSuccess
-              });
-              _context2.next = 11;
-              break;
+              case 5:
+                _context2.next = 7;
+                return this.loadMe();
 
-            case 10:
-              if (this._shouldReset()) {
+              case 7:
                 this.store.dispatch({
-                  type: this.actionTypes.resetSuccess
+                  type: this.actionTypes.initSuccess
                 });
-              }
+                _context2.next = 11;
+                break;
 
-            case 11:
-            case "end":
-              return _context2.stop();
+              case 10:
+                if (this._shouldReset()) {
+                  this.store.dispatch({
+                    type: this.actionTypes.resetSuccess
+                  });
+                }
+
+              case 11:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function _onStateChange() {
+        return _onStateChange2.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
@@ -245,216 +269,248 @@ function (_RcModule) {
     }
   }, {
     key: "loadMe",
-    value: function loadMe() {
-      return regeneratorRuntime.async(function loadMe$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.next = 2;
-              return regeneratorRuntime.awrap(this.loadPerson(this._auth.ownerId));
+    value: function () {
+      var _loadMe = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this.loadPerson(this._auth.ownerId);
 
-            case 2:
-            case "end":
-              return _context3.stop();
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee2, this);
+      }));
+
+      function loadMe() {
+        return _loadMe.apply(this, arguments);
+      }
+
+      return loadMe;
+    }()
   }, {
     key: "loadPerson",
-    value: function loadPerson(id) {
-      var person;
-      return regeneratorRuntime.async(function loadPerson$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.prev = 0;
-              this.store.dispatch({
-                type: this.actionTypes.fetch
-              });
-              _context4.next = 4;
-              return regeneratorRuntime.awrap(this._client.glip().persons(id).get());
+    value: function () {
+      var _loadPerson = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(id) {
+        var person;
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                this.store.dispatch({
+                  type: this.actionTypes.fetch
+                });
+                _context4.next = 4;
+                return this._client.glip().persons(id).get();
 
-            case 4:
-              person = _context4.sent;
-              this.store.dispatch({
-                type: this.actionTypes.fetchSuccess,
-                person: person
-              });
-              _context4.next = 11;
-              break;
+              case 4:
+                person = _context4.sent;
+                this.store.dispatch({
+                  type: this.actionTypes.fetchSuccess,
+                  person: person
+                });
+                _context4.next = 11;
+                break;
 
-            case 8:
-              _context4.prev = 8;
-              _context4.t0 = _context4["catch"](0);
-              this.store.dispatch({
-                type: this.actionTypes.fetchError
-              });
+              case 8:
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](0);
+                this.store.dispatch({
+                  type: this.actionTypes.fetchError
+                });
 
-            case 11:
-            case "end":
-              return _context4.stop();
+              case 11:
+              case "end":
+                return _context4.stop();
+            }
           }
-        }
-      }, null, this, [[0, 8]]);
-    }
+        }, _callee3, this, [[0, 8]]);
+      }));
+
+      function loadPerson(_x) {
+        return _loadPerson.apply(this, arguments);
+      }
+
+      return loadPerson;
+    }()
   }, {
     key: "loadPersons",
-    value: function loadPersons(personIds) {
-      var _this3 = this;
+    value: function () {
+      var _loadPersons = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(personIds) {
+        var _this3 = this;
 
-      var ownerId, newPersonIds, ids, persons, lastIds;
-      return regeneratorRuntime.async(function loadPersons$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              if (this._auth.loggedIn) {
-                _context5.next = 2;
-                break;
-              }
-
-              return _context5.abrupt("return");
-
-            case 2:
-              if (personIds) {
-                _context5.next = 4;
-                break;
-              }
-
-              return _context5.abrupt("return");
-
-            case 4:
-              ownerId = this._auth.ownerId;
-              newPersonIds = [];
-              personIds.forEach(function (id) {
-                if (!_this3.personsMap[id] && !_this3._fetchingIds[id]) {
-                  newPersonIds.push(id);
+        var ownerId, newPersonIds, ids, persons, lastIds;
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (this._auth.loggedIn) {
+                  _context5.next = 2;
+                  break;
                 }
-              });
 
-              if (!(newPersonIds.length === 0)) {
-                _context5.next = 9;
+                return _context5.abrupt("return");
+
+              case 2:
+                if (personIds) {
+                  _context5.next = 4;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 4:
+                ownerId = this._auth.ownerId;
+                newPersonIds = [];
+                personIds.forEach(function (id) {
+                  if (!_this3.personsMap[id] && !_this3._fetchingIds[id]) {
+                    newPersonIds.push(id);
+                  }
+                });
+
+                if (!(newPersonIds.length === 0)) {
+                  _context5.next = 9;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 9:
+                ids = newPersonIds.slice(0, MaximumBatchGetPersons);
+                ids.forEach(function (id) {
+                  _this3._fetchingIds[id] = 1;
+                });
+                _context5.prev = 11;
+                this.store.dispatch({
+                  type: this.actionTypes.fetch
+                });
+                _context5.next = 15;
+                return this._batchGetPersons(ids);
+
+              case 15:
+                persons = _context5.sent;
+                this.store.dispatch({
+                  type: this.actionTypes.batchFetchSuccess,
+                  persons: persons
+                });
+                ids.forEach(function (id) {
+                  delete _this3._fetchingIds[id];
+                });
+                _context5.next = 24;
                 break;
-              }
 
-              return _context5.abrupt("return");
+              case 20:
+                _context5.prev = 20;
+                _context5.t0 = _context5["catch"](11);
+                this.store.dispatch({
+                  type: this.actionTypes.fetchError
+                });
+                ids.forEach(function (id) {
+                  delete _this3._fetchingIds[id];
+                });
 
-            case 9:
-              ids = newPersonIds.slice(0, MaximumBatchGetPersons);
-              ids.forEach(function (id) {
-                _this3._fetchingIds[id] = 1;
-              });
-              _context5.prev = 11;
-              this.store.dispatch({
-                type: this.actionTypes.fetch
-              });
-              _context5.next = 15;
-              return regeneratorRuntime.awrap(this._batchGetPersons(ids));
+              case 24:
+                if (!(ownerId !== this._auth.ownerId)) {
+                  _context5.next = 26;
+                  break;
+                }
 
-            case 15:
-              persons = _context5.sent;
-              this.store.dispatch({
-                type: this.actionTypes.batchFetchSuccess,
-                persons: persons
-              });
-              ids.forEach(function (id) {
-                delete _this3._fetchingIds[id];
-              });
-              _context5.next = 24;
-              break;
+                return _context5.abrupt("return");
 
-            case 20:
-              _context5.prev = 20;
-              _context5.t0 = _context5["catch"](11);
-              this.store.dispatch({
-                type: this.actionTypes.fetchError
-              });
-              ids.forEach(function (id) {
-                delete _this3._fetchingIds[id];
-              });
+              case 26:
+                lastIds = newPersonIds.slice(MaximumBatchGetPersons);
 
-            case 24:
-              if (!(ownerId !== this._auth.ownerId)) {
-                _context5.next = 26;
-                break;
-              }
+                if (!(lastIds.length > 0)) {
+                  _context5.next = 32;
+                  break;
+                }
 
-              return _context5.abrupt("return");
+                _context5.next = 30;
+                return (0, _sleep["default"])(this._batchFetchDelay);
 
-            case 26:
-              lastIds = newPersonIds.slice(MaximumBatchGetPersons);
-
-              if (!(lastIds.length > 0)) {
+              case 30:
                 _context5.next = 32;
-                break;
-              }
+                return this.loadPersons(lastIds);
 
-              _context5.next = 30;
-              return regeneratorRuntime.awrap((0, _sleep["default"])(this._batchFetchDelay));
-
-            case 30:
-              _context5.next = 32;
-              return regeneratorRuntime.awrap(this.loadPersons(lastIds));
-
-            case 32:
-            case "end":
-              return _context5.stop();
+              case 32:
+              case "end":
+                return _context5.stop();
+            }
           }
-        }
-      }, null, this, [[11, 20]]);
-    }
+        }, _callee4, this, [[11, 20]]);
+      }));
+
+      function loadPersons(_x2) {
+        return _loadPersons.apply(this, arguments);
+      }
+
+      return loadPersons;
+    }()
   }, {
     key: "_batchGetPersons",
-    value: function _batchGetPersons(personIds) {
-      var response, ids, multipartResponse, responses;
-      return regeneratorRuntime.async(function _batchGetPersons$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              if (!(!personIds || personIds.length === 0)) {
-                _context6.next = 2;
-                break;
-              }
+    value: function () {
+      var _batchGetPersons2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(personIds) {
+        var response, ids, multipartResponse, responses;
+        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                if (!(!personIds || personIds.length === 0)) {
+                  _context6.next = 2;
+                  break;
+                }
 
-              return _context6.abrupt("return", []);
+                return _context6.abrupt("return", []);
 
-            case 2:
-              if (!(personIds.length === 1)) {
-                _context6.next = 7;
-                break;
-              }
+              case 2:
+                if (!(personIds.length === 1)) {
+                  _context6.next = 7;
+                  break;
+                }
 
-              _context6.next = 5;
-              return regeneratorRuntime.awrap(this._client.glip().persons(personIds[0]).get());
+                _context6.next = 5;
+                return this._client.glip().persons(personIds[0]).get();
 
-            case 5:
-              response = _context6.sent;
-              return _context6.abrupt("return", [response]);
+              case 5:
+                response = _context6.sent;
+                return _context6.abrupt("return", [response]);
 
-            case 7:
-              ids = personIds.join(',');
-              _context6.next = 10;
-              return regeneratorRuntime.awrap((0, _batchApiHelper.batchGetApi)({
-                platform: this._client.service.platform(),
-                url: "/glip/persons/".concat(ids)
-              }));
+              case 7:
+                ids = personIds.join(',');
+                _context6.next = 10;
+                return (0, _batchApiHelper.batchGetApi)({
+                  platform: this._client.service.platform(),
+                  url: "/glip/persons/".concat(ids)
+                });
 
-            case 10:
-              multipartResponse = _context6.sent;
-              responses = multipartResponse.filter(function (r) {
-                return r.ok();
-              }).map(function (x) {
-                return x.json();
-              });
-              return _context6.abrupt("return", responses);
+              case 10:
+                multipartResponse = _context6.sent;
+                responses = multipartResponse.filter(function (r) {
+                  return r.ok();
+                }).map(function (x) {
+                  return x.json();
+                });
+                return _context6.abrupt("return", responses);
 
-            case 13:
-            case "end":
-              return _context6.stop();
+              case 13:
+              case "end":
+                return _context6.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee5, this);
+      }));
+
+      function _batchGetPersons(_x3) {
+        return _batchGetPersons2.apply(this, arguments);
+      }
+
+      return _batchGetPersons;
+    }()
   }, {
     key: "_actionTypes",
     get: function get() {

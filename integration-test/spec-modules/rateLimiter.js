@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
 require("regenerator-runtime/runtime");
 
 var _errorMessages = _interopRequireDefault(require("../..//modules/RateLimiter/errorMessages"));
@@ -19,10 +23,14 @@ var _this = void 0;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var _default = function _default(auth, alert, account, client, rateLimiter) {
-  describe('RateLimiter', function _callee3() {
+  describe('RateLimiter', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
     var conditionalDescribe, isLoginSuccess;
-    return regeneratorRuntime.async(function _callee3$(_context3) {
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -30,7 +38,7 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
 
             conditionalDescribe = describe;
             _context3.next = 4;
-            return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(auth, account));
+            return (0, _HelpUtil.ensureLogin)(auth, account);
 
           case 4:
             isLoginSuccess = _context3.sent;
@@ -44,17 +52,17 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
               var _this2 = this;
 
               this.timeout(20000);
-              beforeEach(function _callee() {
+              beforeEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                 var isAlertClear;
-                return regeneratorRuntime.async(function _callee$(_context) {
+                return regeneratorRuntime.wrap(function _callee$(_context) {
                   while (1) {
                     switch (_context.prev = _context.next) {
                       case 0:
                         _context.next = 2;
-                        return regeneratorRuntime.awrap((0, _WaitUtil.waitUntilEqual)(function () {
+                        return (0, _WaitUtil.waitUntilEqual)(function () {
                           alert.dismissAll();
                           return alert.state.messages.length;
-                        }, 'Alert', 0, 5));
+                        }, 'Alert', 0, 5);
 
                       case 2:
                         isAlertClear = _context.sent;
@@ -70,11 +78,11 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
                         return _context.stop();
                     }
                   }
-                });
-              });
+                }, _callee);
+              })));
               describe('Should Prompt Alerts when rateLimiter occurs', function () {
-                it('Should Prompt Alert of rateLimiter', function _callee2() {
-                  return regeneratorRuntime.async(function _callee2$(_context2) {
+                it('Should Prompt Alert of rateLimiter', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                       switch (_context2.prev = _context2.next) {
                         case 0:
@@ -87,8 +95,8 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
                           return _context2.stop();
                       }
                     }
-                  });
-                });
+                  }, _callee2);
+                })));
               });
             });
 
@@ -97,8 +105,8 @@ var _default = function _default(auth, alert, account, client, rateLimiter) {
             return _context3.stop();
         }
       }
-    });
-  });
+    }, _callee3);
+  })));
 };
 
 exports["default"] = _default;

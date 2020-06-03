@@ -19,6 +19,12 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
@@ -29,8 +35,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
@@ -38,6 +42,10 @@ require("core-js/modules/es6.array.for-each");
 require("core-js/modules/es6.function.bind");
 
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("isomorphic-fetch");
 
@@ -63,11 +71,11 @@ var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -81,17 +89,25 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var DEFAULT_TIME_TO_RETRY = 5 * 1000;
 exports.DEFAULT_TIME_TO_RETRY = DEFAULT_TIME_TO_RETRY;
@@ -99,24 +115,31 @@ var DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 exports.DEFAULT_HEART_BEAT_INTERVAL = DEFAULT_HEART_BEAT_INTERVAL;
 
 function defaultCheckConnectionFn() {
-  return regeneratorRuntime.async(function defaultCheckConnectionFn$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          return _context.abrupt("return", fetch('https://pubsub.pubnub.com/time/0'));
-
-        case 1:
-        case "end":
-          return _context.stop();
-      }
-    }
-  });
+  return _defaultCheckConnectionFn.apply(this, arguments);
 }
 /**
  * @class
  * @description Connectivity monitor module
  */
 
+
+function _defaultCheckConnectionFn() {
+  _defaultCheckConnectionFn = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            return _context.abrupt("return", fetch('https://pubsub.pubnub.com/time/0'));
+
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _defaultCheckConnectionFn.apply(this, arguments);
+}
 
 var ConnectivityMonitor = (_dec = (0, _di.Module)({
   deps: ['Client', {
@@ -126,10 +149,10 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
     dep: 'ConnectivityMonitorOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(ConnectivityMonitor, _RcModule);
+
+  var _super = _createSuper(ConnectivityMonitor);
 
   /**
    * @constructor
@@ -157,9 +180,9 @@ function (_RcModule) {
 
     _classCallCheck(this, ConnectivityMonitor);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ConnectivityMonitor).call(this, _objectSpread({}, options, {
+    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
-    })));
+    }));
     _this._client = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, client, 'client');
     _this._environment = environment;
     _this._timeToRetry = timeToRetry;
@@ -171,15 +194,14 @@ function (_RcModule) {
     _this._requestSuccessHandler = (_context2 = _assertThisInitialized(_this), _this._requestSuccessHandler).bind(_context2);
     _this._requestErrorHandler = (_context2 = _assertThisInitialized(_this), _this._requestErrorHandler).bind(_context2);
     _this._networkErrorHandler = (_context2 = _assertThisInitialized(_this), _this._networkErrorHandler).bind(_context2);
-
-    _this._checkConnectionFunc = function _callee() {
-      return regeneratorRuntime.async(function _callee$(_context3) {
+    _this._checkConnectionFunc = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return regeneratorRuntime.awrap(checkConnectionFunc());
+              return checkConnectionFunc();
 
             case 3:
               _this._requestSuccessHandler();
@@ -198,9 +220,8 @@ function (_RcModule) {
               return _context3.stop();
           }
         }
-      }, null, null, [[0, 6]]);
-    };
-
+      }, _callee2, null, [[0, 6]]);
+    }));
     return _this;
   }
 
@@ -308,30 +329,38 @@ function (_RcModule) {
     }
   }, {
     key: "_checkConnection",
-    value: function _checkConnection() {
-      return regeneratorRuntime.async(function _checkConnection$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.prev = 0;
-              _context4.next = 3;
-              return regeneratorRuntime.awrap(this._checkConnectionFunc());
+    value: function () {
+      var _checkConnection2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                _context4.next = 3;
+                return this._checkConnectionFunc();
 
-            case 3:
-              _context4.next = 7;
-              break;
+              case 3:
+                _context4.next = 7;
+                break;
 
-            case 5:
-              _context4.prev = 5;
-              _context4.t0 = _context4["catch"](0);
+              case 5:
+                _context4.prev = 5;
+                _context4.t0 = _context4["catch"](0);
 
-            case 7:
-            case "end":
-              return _context4.stop();
+              case 7:
+              case "end":
+                return _context4.stop();
+            }
           }
-        }
-      }, null, this, [[0, 5]]);
-    }
+        }, _callee3, this, [[0, 5]]);
+      }));
+
+      function _checkConnection() {
+        return _checkConnection2.apply(this, arguments);
+      }
+
+      return _checkConnection;
+    }()
   }, {
     key: "_clearTimeout",
     value: function _clearTimeout() {

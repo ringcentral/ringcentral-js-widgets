@@ -9,7 +9,7 @@ exports["default"] = void 0;
 
 var _HashMap = require("../lib/HashMap");
 
-var hints = (0, _HashMap.createHashMap)({
+var _default = (0, _HashMap.createHashMap)({
   limits: 'Limits',
   features: 'Features',
   accountStatus: 'AccountStatus',
@@ -18,8 +18,9 @@ var hints = (0, _HashMap.createHashMap)({
   dialingPlan: 'DialingPlan',
   permissions: 'Permissions',
   profileImage: 'ProfileImage',
-  extensionInfo: 'ExtensionInfo'
+  extensionInfo: 'ExtensionInfo',
+  videoConfiguration: 'VideoConfiguration'
 });
-var _default = hints;
+
 exports["default"] = _default;
 //# sourceMappingURL=subscriptionHints.js.map

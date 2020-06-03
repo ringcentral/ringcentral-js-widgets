@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/RcVideo/createStatus.ts"],"names":[],"mappings":";;;;;;;;;AAAA;;eAEe,sBACb,CAAC,UAAD,EAAa,SAAb,EAAwB,MAAxB,CADa,EAEb,qBAFa,C","sourcesContent":["import { createEnum } from '../../lib/Enum';\n\nexport default createEnum(\n  ['creating', 'created', 'idle'],\n  'videoCreatingStatus',\n);\n"],"file":"createStatus.js"}

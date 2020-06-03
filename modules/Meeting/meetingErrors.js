@@ -13,9 +13,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var MeetingErrors =
-/*#__PURE__*/
-function () {
+var MeetingErrors = /*#__PURE__*/function () {
   function MeetingErrors(type) {
     _classCallCheck(this, MeetingErrors);
 

@@ -7,6 +7,8 @@ exports["default"] = exports.STATUS_END_POINT = exports.HEALTH_CHECK_INTERVAL = 
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -23,13 +25,19 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -69,11 +77,15 @@ var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -87,15 +99,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 // Constants
 var HEALTH_CHECK_INTERVAL = 60 * 1000;
@@ -116,10 +132,10 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
     dep: 'AvailabilityMonitorOptions',
     optional: true
   }]
-}), _dec(_class =
-/*#__PURE__*/
-function (_RcModule) {
+}), _dec(_class = /*#__PURE__*/function (_RcModule) {
   _inherits(AvailabilityMonitor, _RcModule);
+
+  var _super = _createSuper(AvailabilityMonitor);
 
   /**
    * @constructor
@@ -141,10 +157,10 @@ function (_RcModule) {
 
     _classCallCheck(this, AvailabilityMonitor);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(AvailabilityMonitor).call(this, _objectSpread({
+    _this = _super.call(this, _objectSpread({
       actionTypes: _actionTypes["default"],
       enabled: enabled
-    }, options)));
+    }, options));
     _this._enabled = enabled;
     _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
     _this._environment = environment;
@@ -409,28 +425,36 @@ function (_RcModule) {
     }
   }, {
     key: "_getStatus",
-    value: function _getStatus() {
-      var res;
-      return regeneratorRuntime.async(function _getStatus$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return regeneratorRuntime.awrap(this._client.service.platform().get('/status', null, {
-                skipAuthCheck: true
-              }));
+    value: function () {
+      var _getStatus2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var res;
+        return regeneratorRuntime.wrap(function _callee$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this._client.service.platform().get('/status', null, {
+                  skipAuthCheck: true
+                });
 
-            case 2:
-              res = _context2.sent;
-              return _context2.abrupt("return", res && res.response());
+              case 2:
+                res = _context2.sent;
+                return _context2.abrupt("return", res && res.response());
 
-            case 4:
-            case "end":
-              return _context2.stop();
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function _getStatus() {
+        return _getStatus2.apply(this, arguments);
+      }
+
+      return _getStatus;
+    }()
   }, {
     key: "_retry",
     value: function _retry() {
@@ -452,94 +476,110 @@ function (_RcModule) {
 
   }, {
     key: "_healthCheck",
-    value: function _healthCheck() {
-      var _this5 = this;
+    value: function () {
+      var _healthCheck2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _this5 = this;
 
-      var response;
-      return regeneratorRuntime.async(function _healthCheck$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return regeneratorRuntime.awrap(this._getStatus());
+        var response;
+        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return this._getStatus();
 
-            case 3:
-              response = _context3.sent;
+              case 3:
+                response = _context3.sent;
 
-              if (!(!response || response.status !== 200)) {
-                _context3.next = 6;
+                if (!(!response || response.status !== 200)) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                return _context3.abrupt("return");
+
+              case 6:
+                _context3.next = 12;
                 break;
-              }
 
-              return _context3.abrupt("return");
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](0);
+                console.error('error from request of /restapi/v1.0/status.');
+                return _context3.abrupt("return");
 
-            case 6:
-              _context3.next = 12;
-              break;
+              case 12:
+                this._randomTime = this._randomTime || (0, _availabilityMonitorHelper.generateRandomNumber)(); // Generate random seconds (1 ~ 121)
 
-            case 8:
-              _context3.prev = 8;
-              _context3.t0 = _context3["catch"](0);
-              console.error('error from request of /restapi/v1.0/status.');
-              return _context3.abrupt("return");
+                this._normalTimeout = setTimeout(function () {
+                  _this5._clearNormalTimeout();
 
-            case 12:
-              this._randomTime = this._randomTime || (0, _availabilityMonitorHelper.generateRandomNumber)(); // Generate random seconds (1 ~ 121)
+                  _this5._switchToNormalMode();
+                }, this._randomTime * 1000);
 
-              this._normalTimeout = setTimeout(function () {
-                _this5._clearNormalTimeout();
-
-                _this5._switchToNormalMode();
-              }, this._randomTime * 1000);
-
-            case 14:
-            case "end":
-              return _context3.stop();
+              case 14:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, this, [[0, 8]]);
-    }
+        }, _callee2, this, [[0, 8]]);
+      }));
+
+      function _healthCheck() {
+        return _healthCheck2.apply(this, arguments);
+      }
+
+      return _healthCheck;
+    }()
     /**
      * Health check with status API
      */
 
   }, {
     key: "healthCheck",
-    value: function healthCheck() {
-      var _this6 = this;
+    value: function () {
+      var _healthCheck3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        var _this6 = this;
 
-      return regeneratorRuntime.async(function healthCheck$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              if (!this._throttledHealthCheck) {
-                this._throttledHealthCheck = (0, _throttle["default"])(function _callee() {
-                  return regeneratorRuntime.async(function _callee$(_context4) {
-                    while (1) {
-                      switch (_context4.prev = _context4.next) {
-                        case 0:
-                          _context4.next = 2;
-                          return regeneratorRuntime.awrap(_this6._healthCheck());
+        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (!this._throttledHealthCheck) {
+                  this._throttledHealthCheck = (0, _throttle["default"])( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                    return regeneratorRuntime.wrap(function _callee3$(_context4) {
+                      while (1) {
+                        switch (_context4.prev = _context4.next) {
+                          case 0:
+                            _context4.next = 2;
+                            return _this6._healthCheck();
 
-                        case 2:
-                        case "end":
-                          return _context4.stop();
+                          case 2:
+                          case "end":
+                            return _context4.stop();
+                        }
                       }
-                    }
-                  });
-                });
-              }
+                    }, _callee3);
+                  })));
+                }
 
-              this._throttledHealthCheck();
+                this._throttledHealthCheck();
 
-            case 2:
-            case "end":
-              return _context5.stop();
+              case 2:
+              case "end":
+                return _context5.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee4, this);
+      }));
+
+      function healthCheck() {
+        return _healthCheck3.apply(this, arguments);
+      }
+
+      return healthCheck;
+    }()
     /**
      * Check if the error is Survival Mode error,
      * Or if app is already in Survival Mode and current request is blocked with an error.

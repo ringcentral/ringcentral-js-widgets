@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -14,6 +14,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+require("core-js/modules/es6.promise");
 
 require("regenerator-runtime/runtime");
 
@@ -45,6 +47,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var _default = function _default(auth, client, subscription, account) {
   describe('Subscription:', function () {
     _this.timeout(20000);
@@ -52,8 +58,8 @@ var _default = function _default(auth, client, subscription, account) {
     mock.mockClient(client);
     var isLoginSuccess;
     var clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
-    beforeEach(function _callee() {
-      return regeneratorRuntime.async(function _callee$(_context) {
+    beforeEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -64,10 +70,10 @@ var _default = function _default(auth, client, subscription, account) {
               return _context.stop();
           }
         }
-      });
-    });
-    afterEach(function _callee2() {
-      return regeneratorRuntime.async(function _callee2$(_context2) {
+      }, _callee);
+    })));
+    afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
@@ -77,28 +83,28 @@ var _default = function _default(auth, client, subscription, account) {
               }
 
               _context2.next = 3;
-              return regeneratorRuntime.awrap(auth.logout());
+              return auth.logout();
 
             case 3:
               _context2.next = 5;
-              return regeneratorRuntime.awrap((0, _WaitUtil.waitInSeconds)(1));
+              return (0, _WaitUtil.waitInSeconds)(1);
 
             case 5:
             case "end":
               return _context2.stop();
           }
         }
-      });
-    });
-    it('Should create subscription successfully', function _callee3() {
-      return regeneratorRuntime.async(function _callee3$(_context3) {
+      }, _callee2);
+    })));
+    it('Should create subscription successfully', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               mock.restore();
               mock.mockForLogin();
               _context3.next = 4;
-              return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(auth, account));
+              return (0, _HelpUtil.ensureLogin)(auth, account);
 
             case 4:
               isLoginSuccess = _context3.sent;
@@ -112,7 +118,7 @@ var _default = function _default(auth, client, subscription, account) {
               _this.retries(2);
 
               _context3.next = 9;
-              return regeneratorRuntime.awrap((0, _WaitUtil.waitInSeconds)(3));
+              return (0, _WaitUtil.waitInSeconds)(3);
 
             case 9:
               expect(subscription.subscriptionStatus).equal(_subscriptionStatus["default"].subscribed);
@@ -123,10 +129,10 @@ var _default = function _default(auth, client, subscription, account) {
               return _context3.stop();
           }
         }
-      });
-    });
-    it('Should reset cache subscription to null when subscribe error', function _callee4() {
-      return regeneratorRuntime.async(function _callee4$(_context4) {
+      }, _callee3);
+    })));
+    it('Should reset cache subscription to null when subscribe error', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
@@ -139,7 +145,7 @@ var _default = function _default(auth, client, subscription, account) {
                 mockSubscription: false
               });
               _context4.next = 5;
-              return regeneratorRuntime.awrap((0, _HelpUtil.ensureLogin)(auth, account));
+              return (0, _HelpUtil.ensureLogin)(auth, account);
 
             case 5:
               isLoginSuccess = _context4.sent;
@@ -151,7 +157,7 @@ var _default = function _default(auth, client, subscription, account) {
               }
 
               _context4.next = 9;
-              return regeneratorRuntime.awrap((0, _WaitUtil.waitInSeconds)(3));
+              return (0, _WaitUtil.waitInSeconds)(3);
 
             case 9:
               expect(subscription.subscriptionStatus).equal(_subscriptionStatus["default"].notSubscribed);
@@ -162,8 +168,8 @@ var _default = function _default(auth, client, subscription, account) {
               return _context4.stop();
           }
         }
-      });
-    });
+      }, _callee4);
+    })));
   });
 };
 

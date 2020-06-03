@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -20,6 +22,12 @@ require("core-js/modules/es6.array.index-of");
 require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -63,11 +71,15 @@ var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -81,19 +93,23 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -111,10 +127,10 @@ var Conference = (_dec = (0, _di.Module)({
     dep: 'ConferenceOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 =
-/*#__PURE__*/
-function (_DataFetcher) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcher) {
   _inherits(Conference, _DataFetcher);
+
+  var _super = _createSuper(Conference);
 
   /**
    * @constructor
@@ -138,31 +154,39 @@ function (_DataFetcher) {
 
     _classCallCheck(this, Conference);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Conference).call(this, _objectSpread({
+    _this = _super.call(this, _objectSpread({
       client: client,
-      fetchFunction: function fetchFunction() {
-        return regeneratorRuntime.async(function fetchFunction$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.t0 = _jsonMask["default"];
-                _context.next = 3;
-                return regeneratorRuntime.awrap((0, _conferenceHelper.getConferenceInfo)(client));
+      fetchFunction: function () {
+        var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.t0 = _jsonMask["default"];
+                  _context.next = 3;
+                  return (0, _conferenceHelper.getConferenceInfo)(client);
 
-              case 3:
-                _context.t1 = _context.sent;
-                _context.t2 = DEFAULT_MASK;
-                return _context.abrupt("return", (0, _context.t0)(_context.t1, _context.t2));
+                case 3:
+                  _context.t1 = _context.sent;
+                  _context.t2 = DEFAULT_MASK;
+                  return _context.abrupt("return", (0, _context.t0)(_context.t1, _context.t2));
 
-              case 6:
-              case "end":
-                return _context.stop();
+                case 6:
+                case "end":
+                  return _context.stop();
+              }
             }
-          }
-        });
-      },
+          }, _callee);
+        }));
+
+        function fetchFunction() {
+          return _fetchFunction.apply(this, arguments);
+        }
+
+        return fetchFunction;
+      }(),
       storage: storage
-    }, options)));
+    }, options));
     _this._alert = alert;
     _this._dialInNumberStorageKey = 'conferenceDialInNumber';
     _this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
@@ -195,40 +219,48 @@ function (_DataFetcher) {
 
   _createClass(Conference, [{
     key: "_onStateChange",
-    value: function _onStateChange() {
-      var _this2 = this;
+    value: function () {
+      var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _this2 = this;
 
-      var matchedPhoneNumber;
-      return regeneratorRuntime.async(function _onStateChange$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _get(_getPrototypeOf(Conference.prototype), "_onStateChange", this).call(this);
+        var matchedPhoneNumber;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _get(_getPrototypeOf(Conference.prototype), "_onStateChange", this).call(this);
 
-              if (!(!this.data || !this._regionSettings.ready || this._lastCountryCode === this._regionSettings.countryCode)) {
-                _context2.next = 3;
-                break;
-              }
+                if (!(!this.data || !this._regionSettings.ready || this._lastCountryCode === this._regionSettings.countryCode)) {
+                  _context2.next = 3;
+                  break;
+                }
 
-              return _context2.abrupt("return");
+                return _context2.abrupt("return");
 
-            case 3:
-              this._lastCountryCode = this._regionSettings.countryCode;
-              matchedPhoneNumber = this.data.phoneNumbers.find(function (e) {
-                return e.country.isoCode === _this2._lastCountryCode;
-              });
+              case 3:
+                this._lastCountryCode = this._regionSettings.countryCode;
+                matchedPhoneNumber = this.data.phoneNumbers.find(function (e) {
+                  return e.country.isoCode === _this2._lastCountryCode;
+                });
 
-              if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber) {
-                this.updateDialInNumber(matchedPhoneNumber.phoneNumber);
-              }
+                if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber) {
+                  this.updateDialInNumber(matchedPhoneNumber.phoneNumber);
+                }
 
-            case 6:
-            case "end":
-              return _context2.stop();
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee2, this);
+      }));
+
+      function _onStateChange() {
+        return _onStateChange2.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
@@ -236,45 +268,53 @@ function (_DataFetcher) {
     }
   }, {
     key: "updateEnableJoinBeforeHost",
-    value: function updateEnableJoinBeforeHost(allowJoinBeforeHost) {
-      var data;
-      return regeneratorRuntime.async(function updateEnableJoinBeforeHost$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return regeneratorRuntime.awrap((0, _conferenceHelper.updateJoinBeforeHost)(this._client, allowJoinBeforeHost));
+    value: function () {
+      var _updateEnableJoinBeforeHost = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(allowJoinBeforeHost) {
+        var data;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return (0, _conferenceHelper.updateJoinBeforeHost)(this._client, allowJoinBeforeHost);
 
-            case 3:
-              data = _context3.sent;
+              case 3:
+                data = _context3.sent;
 
-              this._store.dispatch({
-                type: this.actionTypes.fetchSuccess,
-                data: data
-              });
-
-              return _context3.abrupt("return", data);
-
-            case 8:
-              _context3.prev = 8;
-              _context3.t0 = _context3["catch"](0);
-
-              if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context3.t0)) {
-                this._alert.warning({
-                  message: _callControlError["default"].generalError
+                this._store.dispatch({
+                  type: this.actionTypes.fetchSuccess,
+                  data: data
                 });
-              }
 
-              return _context3.abrupt("return", null);
+                return _context3.abrupt("return", data);
 
-            case 12:
-            case "end":
-              return _context3.stop();
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](0);
+
+                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context3.t0)) {
+                  this._alert.warning({
+                    message: _callControlError["default"].generalError
+                  });
+                }
+
+                return _context3.abrupt("return", null);
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, this, [[0, 8]]);
-    }
+        }, _callee3, this, [[0, 8]]);
+      }));
+
+      function updateEnableJoinBeforeHost(_x) {
+        return _updateEnableJoinBeforeHost.apply(this, arguments);
+      }
+
+      return updateEnableJoinBeforeHost;
+    }()
   }, {
     key: "updateDialInNumber",
     value: function updateDialInNumber(dialInNumber) {

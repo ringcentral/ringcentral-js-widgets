@@ -8,7 +8,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.meetingProviderTypes = void 0;
 var meetingProviderTypes = {
   meeting: 'RCMeetings',
-  video: 'RCVideo'
+  video: 'RCVideo',
+  none: 'None'
 };
 exports.meetingProviderTypes = meetingProviderTypes;
 //# sourceMappingURL=interface.js.map
