@@ -17,8 +17,10 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/core#readme",
   "license": "MIT",
   "dependencies": {
+    "ramda": "^0.26.1",
     "immer": "^3.1.1",
     "redux": "^4.0.4",
+    "reselect": "^2.5.4",
     "usm": "^2.0.0",
     "usm-redux": "^2.0.2"
   }
