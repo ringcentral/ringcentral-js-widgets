@@ -19,7 +19,7 @@ const releaseBranchNames = [
   'phone-number-release',
   'glip-widgets-release',
   'core-release',
-  'engage-voice-widgets',
+  'engage-voice-widgets-release',
 ];
 
 const args = process.argv.slice(2);
