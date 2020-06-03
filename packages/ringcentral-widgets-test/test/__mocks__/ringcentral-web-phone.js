@@ -10,7 +10,9 @@ class Transport {
   }
 
   trigger(event, ...args) {
-    this._events[event](...args);
+    if (this._events[event]) {
+      this._events[event](...args);
+    }
   }
 
   removeAllListeners() {}
@@ -37,7 +39,9 @@ class UserAgent {
   }
 
   trigger(event, ...args) {
-    this._events[event](...args);
+    if (this._events[event]) {
+      this._events[event](...args);
+    }
   }
 
   invite(toNumber) {

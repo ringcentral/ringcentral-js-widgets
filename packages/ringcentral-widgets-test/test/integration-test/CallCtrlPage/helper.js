@@ -1,6 +1,4 @@
-import actionTypes from 'ringcentral-integration/modules/ConferenceCall/actionTypes';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import prefix from 'ringcentral-widgets-demo/dev-server/prefix';
 
 import getConferenceCallBody from './data/getConferenceCall';
 import deviceBody from './data/device';
@@ -34,7 +32,7 @@ export async function updateConferenceCallEnv(
     ? getConferenceCallBody(conferencePartiesCount)
     : conferenceCallBody;
   phone.store.dispatch({
-    type: `${prefix}-${actionTypes.updateConferenceSucceeded}`,
+    type: phone.conferenceCall.actionTypes.updateConferenceSucceeded,
     conference: conferenceBodyData,
     sessionId: currentConference.sessionId,
   });
@@ -71,13 +69,13 @@ export async function mockConferenceCallEnv(
   await mockPresencePubnub(activeCallsBody);
   /* mock redux datas */
   phone.store.dispatch({
-    type: `${prefix}-${actionTypes.makeConferenceSucceeded}`,
+    type: phone.conferenceCall.actionTypes.makeConferenceSucceeded,
     conference: conferenceBodyData,
     sessionId: conferenceSession.id,
     parties: [],
   });
   phone.store.dispatch({
-    type: `${prefix}-${actionTypes.updateCurrentConferenceId}`,
+    type: phone.conferenceCall.actionTypes.updateCurrentConferenceId,
     conferenceId: conferenceBodyData.id,
   });
   /* update session status */

@@ -8,7 +8,6 @@ import RadioBtnGroup from 'ringcentral-widgets/components/RadioBtnGroup';
 import TransferPanel from 'ringcentral-widgets/components/TransferPanel';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import DialButton from 'ringcentral-widgets/components/DialButton';
-import BackHeader from 'ringcentral-widgets/components/BackHeader';
 import FlipPanel from 'ringcentral-widgets/components/FlipPanel';
 import Tooltip from 'ringcentral-widgets/components/Tooltip';
 import DialPad from 'ringcentral-widgets/components/DialPad';
