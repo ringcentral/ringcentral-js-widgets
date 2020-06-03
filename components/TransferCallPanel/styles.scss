@@ -1,0 +1,42 @@
+@import '../../scss/variables.scss';
+
+.wrapper {
+  @include flex_column;
+  padding: 0px 16px;
+  @include flex_fill;
+  .container {
+    @include flex_fill;
+    margin-top: 16px;
+    .stayOnCall {
+      height: 18px;
+    }
+  }
+  .buttons {
+    margin-bottom: 20px;
+    text-align: right;
+    .cancelButton {
+      margin-right: 26px;
+      [sf-classic] & {
+        margin: 16px 0;
+      }
+    }
+    [sf-classic] & {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.backHeader {
+  @include backHeaderWrapper();
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgb(33, 33, 33);;
+  padding: 16px 14px 12px 14px;
+}
+
+.nonePointerEvent {
+  pointer-events: none
+}

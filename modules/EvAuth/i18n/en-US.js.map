@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/EvAuth/i18n/en-US.ts"],"names":["us"],"mappings":";;;;;;;;eAAe;AACb,aAAS,SADI;AAEbA,EAAAA,EAAE,EAAE;AAFS,C","sourcesContent":["export default {\n  default: 'Default',\n  us: 'North America Domestic',\n};\n"],"file":"en-US.js"}

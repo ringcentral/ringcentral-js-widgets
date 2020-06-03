@@ -1,0 +1,161 @@
+@import '../../../../scss/variables.scss';
+
+$green: #26a304;
+$yellow: #f6ad16;
+$grey: #bdbdbd;
+$red: #f44336;
+$blue: #18a4de;
+$green-light: #edf5fb;
+
+.state {
+  display: flex;
+  align-items: center;
+  min-width: 100%;
+  height: 20px;
+  overflow: hidden;
+  border: solid 1px transparent;
+  border-radius: 10px;
+  color: #000;
+}
+
+.fullWidth {
+  width: 100%;
+  pointer-events: auto !important;
+}
+
+div.paper {
+  top: 74px !important;
+  min-width: calc(100% - 60px);
+  [sf-classic] & {
+    margin-left: -8px;
+  }
+}
+
+.stateName {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  font-size: 12px;
+  line-height: 20px;
+  color: #212121;
+  display: inline-block;
+  [sf-classic] & {
+    font-size: 12px;
+  }
+}
+
+.icon {
+  margin-right: 6px;
+}
+
+ul.list {
+  padding: 4px 0;
+}
+
+li.item {
+  min-height: 24px;
+  padding: 0;
+}
+.stateDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  margin: 0 $lightning-dot-margin;
+  display: inline-block;
+  vertical-align: super;
+  flex-shrink: 0;
+  [sf-classic] & {
+    margin: 0 $classic-dot-margin;
+  }
+}
+
+.stateListItemDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: 8px;
+}
+
+.stateItemName {
+  width: calc(100% - 16px);
+  font-size: 14px;
+  color: #2e2e2e;
+  /* For Firefox */
+  white-space: pre-wrap;
+  word-break: break-word;
+  /* For Chrome and IE */
+  word-wrap: break-word;
+  line-height: 20px;
+  [sf-classic] & {
+    font-size: 12px;
+  }
+}
+
+.green {
+  border-color: $green;
+  background-color: $green-light;
+  &.stateListItemDot {
+    background-color: $green;
+  }
+  .stateDot {
+    border-color: $green;
+    background-color: $green;
+  }
+}
+.yellow {
+  border-color: $yellow;
+  background-color: $green-light;
+  &.stateListItemDot {
+    background-color: $yellow;
+  }
+  .stateDot {
+    border-color: $yellow;
+    background-color: $yellow;
+  }
+}
+.grey {
+  border-color: $grey;
+  background-color: $green-light;
+  &.stateListItemDot {
+    background-color: $grey;
+  }
+  .stateDot {
+    border-color: $grey;
+    background-color: $grey;
+  }
+}
+.red {
+  border-color: $red;
+  background-color: $green-light;
+  &.stateListItemDot {
+    background-color: $red;
+  }
+  .stateDot {
+    border-color: $red;
+    background-color: $red;
+  }
+}
+.blue {
+  border-color: $blue;
+  background-color: $green-light;
+  &.stateListItemDot {
+    background-color: $blue;
+  }
+
+  .stateDot {
+    border-color: $blue;
+    background-color: $blue;
+  }
+}
+
+.timer {
+  color: #616161;
+  font-size: 12px;
+  width: 51px;
+  [sf-classic] & {
+    font-size: 10px;
+    width: 30px;
+  }
+}

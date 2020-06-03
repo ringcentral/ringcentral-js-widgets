@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/TransferInternalRecipientPage/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './TransferInternalRecipientPage';\n"],"file":"index.js"}

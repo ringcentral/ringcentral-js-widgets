@@ -1,0 +1,29 @@
+@import '../../scss/variables.scss';
+
+.root.root {
+  top: $header-height;
+  height: calc(100% - #{$header-height});
+}
+
+.callLogCallControl {
+  height: 72px !important;
+}
+
+.noneShadow {
+  box-shadow: none;
+}
+
+// TODO: When new smallCallControl is introduced in widgets,
+//we can edit this part in widgets
+.smallCallControlRoot {
+  height: unset !important;
+  padding: 0 !important;
+}
+
+.paper {
+  margin-top: -48px;
+  [sf-classic] & {
+    margin-top: -32px;
+    left: 48px !important;
+  }
+}

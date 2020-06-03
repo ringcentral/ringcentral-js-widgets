@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RequeueCallPanel/RequeueCallGroupPanel/RequeueCallGroupDetailPanel/i18n/en-US.ts"],"names":["selectCheck"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,WAAW,EAAE;AADA,C","sourcesContent":["export default {\n  selectCheck: 'Select',\n};\n"],"file":"en-US.js"}

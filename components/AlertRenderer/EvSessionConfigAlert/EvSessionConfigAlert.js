@@ -1,0 +1,35 @@
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = EvSessionConfigAlert;
+
+var _ramda = require("ramda");
+
+var _enums = require("../../../enums");
+
+var _i18n = _interopRequireDefault(require("./i18n"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function EvSessionConfigAlert(_ref) {
+  var _ref$message = _ref.message,
+      message = _ref$message.message,
+      payload = _ref$message.payload,
+      currentLocale = _ref.currentLocale;
+
+  if (message === _enums.messageTypes.AGENT_CONFIG_DETAIL_ERROR && payload) {
+    return payload;
+  }
+
+  return _i18n["default"].getString(message, currentLocale);
+}
+
+EvSessionConfigAlert.handleMessage = function (_ref2) {
+  var message = _ref2.message;
+  return (0, _ramda.contains)(message, [_enums.messageTypes.INVALID_PHONE_NUMBER, _enums.messageTypes.AGENT_CONFIG_ERROR, _enums.messageTypes.AGENT_CONFIG_DETAIL_ERROR, _enums.messageTypes.EMPTY_PHONE_NUMBER, _enums.messageTypes.NO_AGENT_SELECTED, _enums.messageTypes.INVALID_PHONE_NUMBER]);
+};
+//# sourceMappingURL=EvSessionConfigAlert.js.map

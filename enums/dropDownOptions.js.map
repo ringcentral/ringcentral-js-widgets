@@ -1,0 +1,1 @@
+{"version":3,"sources":["enums/dropDownOptions.ts"],"names":["dropDownOptions"],"mappings":";;;;;;;;;AAAA;;AAEO,IAAMA,eAAe,GAAG,sBAAW,CAAC,MAAD,CAAX,CAAxB","sourcesContent":["import { createEnum } from 'ringcentral-integration/lib/Enum';\n\nexport const dropDownOptions = createEnum(['None']);\n"],"file":"dropDownOptions.js"}

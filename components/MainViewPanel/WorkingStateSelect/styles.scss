@@ -1,0 +1,17 @@
+@import '../../../scss/variables.scss';
+
+.selectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: calc(100% - 50px);
+  @include flex_height($working-state-height);
+  margin: 0 ($lightning-page-space - $lightning-dot-margin);
+
+  [sf-classic] & {
+    min-width: calc(100% - 50px);
+    margin: 0 ($classic-page-space - $classic-dot-margin);
+  }
+}
+
+

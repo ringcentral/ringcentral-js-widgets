@@ -1,0 +1,1 @@
+{"version":3,"sources":["enums/authStatus.ts"],"names":["authStatus"],"mappings":";;;;;;;;;AAAA;;AAEO,IAAMA,UAAU,GAAG,sBAAW,CAAC,eAAD,EAAkB,eAAlB,CAAX,CAAnB","sourcesContent":["import { createEnum } from 'ringcentral-integration/lib/Enum';\n\nexport const authStatus = createEnum(['LOGIN_SUCCESS', 'LOGOUT_BEFORE']);\n"],"file":"authStatus.js"}

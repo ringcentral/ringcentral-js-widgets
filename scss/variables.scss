@@ -1,0 +1,64 @@
+@import '~ringcentral-widgets/lib/commonStyles/variable.scss';
+
+$navigation-height: 44px;
+
+$working-state-height: 36px;
+$header-height: $navigation-height + $working-state-height;
+
+$gray-border: 1px solid #e0e0e0;
+$font-family: 'Lato', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+$header-font-size: 14px;
+$header-font-color: #212121;
+
+// lightning and classic styles
+$lightning-page-space: 16px;
+$classic-page-space: 12px;
+
+$lightning-dot-margin: 8px;
+$classic-dot-margin: 5px;
+
+$lightning-list-item-height: 40px;
+$classic-list-item-height: 44px;
+
+@mixin bottom-border() {
+  z-index: 10;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+@mixin backHeaderWrapper() {
+  color: $header-font-color;
+  font-size: $header-font-size;
+  [sf-classic] & button {
+    margin-left: 0px;
+  }
+}
+
+@mixin inputWrapper() {
+  border-bottom: none;
+  &:hover {
+    border-bottom: none;
+  }
+  & label {
+    // Override the double class name selectors
+    font-size: 11px !important;
+    font-weight: normal !important;
+  }
+}
+
+@mixin inputBottom($class-name) {
+  #{$class-name} {
+    &::before {
+      border-bottom: $gray-border !important;
+    }
+  }
+}
+
+@mixin textOverflowEllipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin selectList() {
+  height: 53px !important;
+}

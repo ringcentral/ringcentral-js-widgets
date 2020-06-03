@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/AlertRenderer/EvIntegratedSoftphoneAlert/index.ts"],"names":["EvIntegratedSoftphoneAlert"],"mappings":";;;;;;;;;AAAA;;;;eAEeA,sC","sourcesContent":["import EvIntegratedSoftphoneAlert from './EvIntegratedSoftphoneAlert';\n\nexport default EvIntegratedSoftphoneAlert;\n"],"file":"index.js"}

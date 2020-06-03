@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ActiveCallListPanel/i18n/en-US.ts"],"names":["activeCall","justMe","everyone"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE,aADC;AAEbC,EAAAA,MAAM,EAAE,SAFK;AAGbC,EAAAA,QAAQ,EAAE;AAHG,C","sourcesContent":["export default {\n  activeCall: 'Active call',\n  justMe: 'Just Me',\n  everyone: 'Everyone',\n};\n"],"file":"en-US.js"}
