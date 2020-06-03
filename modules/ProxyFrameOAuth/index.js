@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -18,6 +20,12 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -63,11 +71,15 @@ var _dec, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -81,19 +93,23 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -104,10 +120,10 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
     dep: 'OAuthOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp =
-/*#__PURE__*/
-function (_OAuthBase) {
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_OAuthBase) {
   _inherits(ProxyFrameOAuth, _OAuthBase);
+
+  var _super = _createSuper(ProxyFrameOAuth);
 
   function ProxyFrameOAuth(_ref) {
     var _this;
@@ -125,41 +141,47 @@ function (_OAuthBase) {
 
     _classCallCheck(this, ProxyFrameOAuth);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProxyFrameOAuth).call(this, _objectSpread({
+    _this = _super.call(this, _objectSpread({
       redirectUri: redirectUri
-    }, options)));
+    }, options));
 
-    _this._callbackHandler = function _callee(_ref2) {
-      var origin, data, callbackUri, proxyLoaded;
-      return regeneratorRuntime.async(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              origin = _ref2.origin, data = _ref2.data;
+    _this._callbackHandler = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref2) {
+        var origin, data, callbackUri, proxyLoaded;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                origin = _ref2.origin, data = _ref2.data;
 
-              // TODO origin check
-              if (data) {
-                callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded;
+                // TODO origin check
+                if (data) {
+                  callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded;
 
-                if (callbackUri) {
-                  _this._handleCallbackUri(callbackUri);
-                } else if (proxyLoaded) {
-                  clearTimeout(_this._retryTimeoutId);
-                  _this._retryTimeoutId = null;
+                  if (callbackUri) {
+                    _this._handleCallbackUri(callbackUri);
+                  } else if (proxyLoaded) {
+                    clearTimeout(_this._retryTimeoutId);
+                    _this._retryTimeoutId = null;
 
-                  _this.store.dispatch({
-                    type: _this.actionTypes.setupOAuth
-                  });
+                    _this.store.dispatch({
+                      type: _this.actionTypes.setupOAuth
+                    });
+                  }
                 }
-              }
 
-            case 2:
-            case "end":
-              return _context.stop();
+              case 2:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      });
-    };
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref3.apply(this, arguments);
+      };
+    }();
 
     _this._createProxyFrame = function () {
       _this._proxyFrame = document.createElement('iframe');
@@ -222,26 +244,34 @@ function (_OAuthBase) {
     }
   }, {
     key: "_handleCallbackUri",
-    value: function _handleCallbackUri(callbackUri, refresh) {
-      return regeneratorRuntime.async(function _handleCallbackUri$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return regeneratorRuntime.awrap(_get(_getPrototypeOf(ProxyFrameOAuth.prototype), "_handleCallbackUri", this).call(this, callbackUri, refresh));
+    value: function () {
+      var _handleCallbackUri2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(callbackUri, refresh) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _get(_getPrototypeOf(ProxyFrameOAuth.prototype), "_handleCallbackUri", this).call(this, callbackUri, refresh);
 
-            case 2:
-              if (this._auth.isImplicit && this._auth.loggedIn) {
-                this._createImplicitRefreshTimeout();
-              }
+              case 2:
+                if (this._auth.isImplicit && this._auth.loggedIn) {
+                  this._createImplicitRefreshTimeout();
+                }
 
-            case 3:
-            case "end":
-              return _context2.stop();
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee2, this);
+      }));
+
+      function _handleCallbackUri(_x2, _x3) {
+        return _handleCallbackUri2.apply(this, arguments);
+      }
+
+      return _handleCallbackUri;
+    }()
   }, {
     key: "_retrySetupProxyFrame",
     value: function _retrySetupProxyFrame() {
@@ -266,53 +296,69 @@ function (_OAuthBase) {
     }
   }, {
     key: "setupOAuth",
-    value: function setupOAuth() {
-      return regeneratorRuntime.async(function setupOAuth$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              if (!this._proxyFrame) {
-                this._createProxyFrame();
+    value: function () {
+      var _setupOAuth = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!this._proxyFrame) {
+                  this._createProxyFrame();
 
-                this.store.dispatch({
-                  type: this.actionTypes.setupProxy
-                });
-              }
-
-            case 1:
-            case "end":
-              return _context3.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
-    key: "destroyOAuth",
-    value: function destroyOAuth() {
-      return regeneratorRuntime.async(function destroyOAuth$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              if (this._proxyFrame) {
-                if (this._retryTimeoutId) {
-                  clearTimeout(this._retryTimeoutId);
-                  this._retryTimeoutId = null;
+                  this.store.dispatch({
+                    type: this.actionTypes.setupProxy
+                  });
                 }
 
-                this._destroyProxyFrame();
-
-                this.store.dispatch({
-                  type: this.actionTypes.destroyOAuth
-                });
-              }
-
-            case 1:
-            case "end":
-              return _context4.stop();
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee3, this);
+      }));
+
+      function setupOAuth() {
+        return _setupOAuth.apply(this, arguments);
+      }
+
+      return setupOAuth;
+    }()
+  }, {
+    key: "destroyOAuth",
+    value: function () {
+      var _destroyOAuth = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (this._proxyFrame) {
+                  if (this._retryTimeoutId) {
+                    clearTimeout(this._retryTimeoutId);
+                    this._retryTimeoutId = null;
+                  }
+
+                  this._destroyProxyFrame();
+
+                  this.store.dispatch({
+                    type: this.actionTypes.destroyOAuth
+                  });
+                }
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function destroyOAuth() {
+        return _destroyOAuth.apply(this, arguments);
+      }
+
+      return destroyOAuth;
+    }()
   }, {
     key: "openOAuthPage",
     value: function openOAuthPage() {
@@ -334,9 +380,9 @@ function (_OAuthBase) {
       this._implicitRefreshFrame.style.display = 'none';
       document.body.appendChild(this._implicitRefreshFrame); // eslint-disable-next-line
 
-      this._implictitRefreshCallBack = function (_ref3) {
-        var origin = _ref3.origin,
-            data = _ref3.data;
+      this._implictitRefreshCallBack = function (_ref4) {
+        var origin = _ref4.origin,
+            data = _ref4.data;
         var refreshCallbackUri = data.refreshCallbackUri;
 
         if (refreshCallbackUri && _this2._auth.loggedIn) {

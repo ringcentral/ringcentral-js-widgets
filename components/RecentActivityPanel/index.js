@@ -33,7 +33,7 @@ var cx = _bind["default"].bind(_styles["default"]);
 
 var ToggleIcon = function ToggleIcon(_ref) {
   var expanded = _ref.expanded;
-  return _react["default"].createElement("i", {
+  return /*#__PURE__*/_react["default"].createElement("i", {
     className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, cx('arrowIcon', {
       foldArrowIcon: !expanded
     }))
@@ -52,7 +52,7 @@ function RecentActivityPanel(props) {
       expanded = props.expanded,
       onPanelToggle = props.onPanelToggle;
   var toggleButton = {
-    label: _react["default"].createElement(ToggleIcon, {
+    label: /*#__PURE__*/_react["default"].createElement(ToggleIcon, {
       expanded: expanded
     }),
     onClick: onPanelToggle,
@@ -64,13 +64,13 @@ function RecentActivityPanel(props) {
   }
 
   var containerClass = (0, _classnames["default"])(_styles["default"].container, props.className);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: containerClass
-  }, _react["default"].createElement(_Header.Header, {
+  }, /*#__PURE__*/_react["default"].createElement(_Header.Header, {
     buttons: [toggleButton],
     className: _styles["default"].header,
     onClick: onPanelToggle
-  }, title), _react["default"].createElement(_RecentActivityView["default"], props));
+  }, title), /*#__PURE__*/_react["default"].createElement(_RecentActivityView["default"], props));
 }
 
 RecentActivityPanel.propTypes = {

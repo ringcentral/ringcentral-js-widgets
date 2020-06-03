@@ -7,21 +7,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = ContactDisplay;
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.is-array");
 
@@ -53,13 +53,17 @@ var _phoneSources = _interopRequireDefault(require("../../enums/phoneSources"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 var displayFormatter = function displayFormatter(_ref) {
   var entityName = _ref.entityName,
@@ -113,31 +117,31 @@ function ContactDisplayItem(_ref2) {
   }
 
   if (phoneNumber && entityName !== undefined && SourceIcon) {
-    return _react["default"].createElement("span", null, _react["default"].createElement(SourceIcon, {
+    return /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement(SourceIcon, {
       className: _styles["default"].typeIcon,
       width: 10,
       height: 10
-    }), _react["default"].createElement("span", {
+    }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].typeName
     }, entityName));
   }
 
   if (entityName !== undefined && SourceIcon) {
-    return _react["default"].createElement("span", null, _react["default"].createElement(SourceIcon, {
+    return /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement(SourceIcon, {
       className: _styles["default"].typeIcon,
       width: 10,
       height: 10
-    }), _react["default"].createElement("span", {
+    }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].typeName
     }, entityName));
   }
 
   if (entityName !== undefined) {
-    return _react["default"].createElement("span", null, entityName);
+    return /*#__PURE__*/_react["default"].createElement("span", null, entityName);
   }
 
   if (phoneNumber) {
-    return _react["default"].createElement("span", null, phoneNumber);
+    return /*#__PURE__*/_react["default"].createElement("span", null, phoneNumber);
   }
 
   return null;
@@ -184,13 +188,13 @@ function ContactDisplay(_ref3) {
   if (isOnConferenceCall) {
     var confStr = _i18n["default"].getString('conferenceCall', currentLocale);
 
-    contentEl = _react["default"].createElement("div", {
+    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
       title: confStr,
       "data-sign": "currentName",
       className: _styles["default"].currentName
     }, confStr);
   } else if (contactName) {
-    contentEl = _react["default"].createElement("div", {
+    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
       title: contactName,
       "data-sign": "currentName",
       className: _styles["default"].currentName
@@ -203,7 +207,7 @@ function ContactDisplay(_ref3) {
       return groupContact && groupContact.name || groupNumber;
     });
     var display = groupNames.join(', ');
-    contentEl = _react["default"].createElement("div", {
+    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
       title: display,
       "data-sign": "currentName",
       className: _styles["default"].currentName
@@ -211,7 +215,7 @@ function ContactDisplay(_ref3) {
   } else if (groupNumbers) {
     var _display = groupNumbers.join(', ');
 
-    contentEl = _react["default"].createElement("div", {
+    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
       title: _display,
       "data-sign": "currentName",
       className: _styles["default"].currentName
@@ -224,7 +228,7 @@ function ContactDisplay(_ref3) {
     }) || _i18n["default"].getString('unknownNumber', currentLocale);
 
     var title = enableContactFallback && fallBackName || phoneNumber || '';
-    contentEl = _react["default"].createElement("div", {
+    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
       title: title,
       "data-sign": "currentName",
       className: _styles["default"].currentName
@@ -242,7 +246,7 @@ function ContactDisplay(_ref3) {
       phoneSourceNameRenderer: phoneSourceNameRenderer
     });
 
-    contentEl = _react["default"].createElement("div", {
+    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
       title: _title,
       "data-sign": "currentName",
       className: _styles["default"].currentName
@@ -259,7 +263,7 @@ function ContactDisplay(_ref3) {
       _selected = _selected < 0 ? 0 : _selected;
     }
 
-    contentEl = _react["default"].createElement(_DropdownSelect["default"], {
+    contentEl = /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
       reference: reference,
       className: (0, _classnames["default"])(_styles["default"].select, selectClassName),
       selectedClassName: (0, _classnames["default"])(_styles["default"].selectedValue, selectedClassName),
@@ -307,7 +311,7 @@ function ContactDisplay(_ref3) {
     });
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, contentEl);
 }

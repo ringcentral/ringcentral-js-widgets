@@ -20,11 +20,11 @@ var _Search = _interopRequireDefault(require("../../assets/images/Search.svg"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function SearchInput(props) {
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, props.className)
-  }, _react["default"].createElement(_Search["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Search["default"], {
     className: _styles["default"].icon
-  }), _react["default"].createElement("input", {
+  }), /*#__PURE__*/_react["default"].createElement("input", {
     name: "search",
     value: props.value,
     onChange: props.onChange,

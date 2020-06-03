@@ -7,11 +7,19 @@ exports.release = exports.build = void 0;
 
 require("core-js/modules/es6.object.freeze");
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
+require("core-js/modules/es7.symbol.async-iterator");
+
 require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -19,31 +27,29 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 
 require("core-js/modules/es6.array.for-each");
 
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es7.symbol.async-iterator");
+require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/web.dom.iterable");
 
-require("core-js/modules/es6.array.filter");
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.regexp.replace");
 
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.regexp.split");
+
+require("core-js/modules/es6.array.map");
 
 var _gulp = _interopRequireDefault(require("gulp"));
 
@@ -71,6 +77,8 @@ var _localeSettings = _interopRequireDefault(require("@ringcentral-integration/l
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n      .", " {\n        composes: icon;\n      }\n      .", ":before "]);
 
@@ -83,73 +91,88 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var BUILD_PATH = _path["default"].resolve(__dirname, '../../build/ringcentral-widgets');
 
 var RELEASE_PATH = _path["default"].resolve(__dirname, '../../release/ringcentral-widgets');
 
 function getVersionFromTag() {
-  var tag;
-  return regeneratorRuntime.async(function getVersionFromTag$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          tag = process.env.TRAVIS_TAG;
+  return _getVersionFromTag.apply(this, arguments);
+}
 
-          if (!(tag && /^\d+.\d+.\d+/.test(tag))) {
-            _context.next = 3;
+function _getVersionFromTag() {
+  _getVersionFromTag = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+    var tag;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            tag = process.env.TRAVIS_TAG;
+
+            if (!(tag && /^\d+.\d+.\d+/.test(tag))) {
+              _context7.next = 3;
+              break;
+            }
+
+            return _context7.abrupt("return", tag);
+
+          case 3:
+            _context7.prev = 3;
+            _context7.next = 6;
+            return _execa["default"].shell('git describe --exact-match --tags $(git rev-parse HEAD)');
+
+          case 6:
+            tag = _context7.sent;
+            tag = tag.stdout.replace(/\r?\n|\r/g, '');
+
+            if (!/^\d+.\d+.\d+/.test(tag)) {
+              _context7.next = 10;
+              break;
+            }
+
+            return _context7.abrupt("return", tag);
+
+          case 10:
+            _context7.next = 15;
             break;
-          }
 
-          return _context.abrupt("return", tag);
+          case 12:
+            _context7.prev = 12;
+            _context7.t0 = _context7["catch"](3);
+            console.error(_context7.t0);
 
-        case 3:
-          _context.prev = 3;
-          _context.next = 6;
-          return regeneratorRuntime.awrap(_execa["default"].shell('git describe --exact-match --tags $(git rev-parse HEAD)'));
+          case 15:
+            return _context7.abrupt("return", null);
 
-        case 6:
-          tag = _context.sent;
-          tag = tag.stdout.replace(/\r?\n|\r/g, '');
-
-          if (!/^\d+.\d+.\d+/.test(tag)) {
-            _context.next = 10;
-            break;
-          }
-
-          return _context.abrupt("return", tag);
-
-        case 10:
-          _context.next = 15;
-          break;
-
-        case 12:
-          _context.prev = 12;
-          _context.t0 = _context["catch"](3);
-          console.error(_context.t0);
-
-        case 15:
-          return _context.abrupt("return", null);
-
-        case 16:
-        case "end":
-          return _context.stop();
+          case 16:
+          case "end":
+            return _context7.stop();
+        }
       }
-    }
-  }, null, null, [[3, 12]]);
+    }, _callee7, null, [[3, 12]]);
+  }));
+  return _getVersionFromTag.apply(this, arguments);
 }
 
 function clean() {
@@ -169,95 +192,81 @@ var build = _gulp["default"].series(clean, copy, preBuild);
 exports.build = build;
 
 function releaseClean() {
-  var files, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, file;
+  return _releaseClean.apply(this, arguments);
+}
 
-  return regeneratorRuntime.async(function releaseClean$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
-        case 0:
-          _context2.next = 2;
-          return regeneratorRuntime.awrap(_fsExtra["default"].exists(RELEASE_PATH));
+function _releaseClean() {
+  _releaseClean = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+    var files, _iterator, _step, file;
 
-        case 2:
-          if (_context2.sent) {
-            _context2.next = 5;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.next = 2;
+            return _fsExtra["default"].exists(RELEASE_PATH);
+
+          case 2:
+            if (_context8.sent) {
+              _context8.next = 5;
+              break;
+            }
+
+            _context8.next = 5;
+            return _execa["default"].shell("mkdir -p ".concat(RELEASE_PATH));
+
+          case 5:
+            _context8.next = 7;
+            return _fsExtra["default"].readdir(RELEASE_PATH);
+
+          case 7:
+            files = _context8.sent.filter(function (file) {
+              return !/^\./.test(file);
+            });
+            _iterator = _createForOfIteratorHelper(files);
+            _context8.prev = 9;
+
+            _iterator.s();
+
+          case 11:
+            if ((_step = _iterator.n()).done) {
+              _context8.next = 17;
+              break;
+            }
+
+            file = _step.value;
+            _context8.next = 15;
+            return _fsExtra["default"].remove(_path["default"].resolve(RELEASE_PATH, file));
+
+          case 15:
+            _context8.next = 11;
             break;
-          }
 
-          _context2.next = 5;
-          return regeneratorRuntime.awrap(_execa["default"].shell("mkdir -p ".concat(RELEASE_PATH)));
-
-        case 5:
-          _context2.next = 7;
-          return regeneratorRuntime.awrap(_fsExtra["default"].readdir(RELEASE_PATH));
-
-        case 7:
-          _context2.t0 = function (file) {
-            return !/^\./.test(file);
-          };
-
-          files = _context2.sent.filter(_context2.t0);
-          _iteratorNormalCompletion = true;
-          _didIteratorError = false;
-          _iteratorError = undefined;
-          _context2.prev = 12;
-          _iterator = files[Symbol.iterator]();
-
-        case 14:
-          if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-            _context2.next = 21;
+          case 17:
+            _context8.next = 22;
             break;
-          }
 
-          file = _step.value;
-          _context2.next = 18;
-          return regeneratorRuntime.awrap(_fsExtra["default"].remove(_path["default"].resolve(RELEASE_PATH, file)));
+          case 19:
+            _context8.prev = 19;
+            _context8.t0 = _context8["catch"](9);
 
-        case 18:
-          _iteratorNormalCompletion = true;
-          _context2.next = 14;
-          break;
+            _iterator.e(_context8.t0);
 
-        case 21:
-          _context2.next = 27;
-          break;
+          case 22:
+            _context8.prev = 22;
 
-        case 23:
-          _context2.prev = 23;
-          _context2.t1 = _context2["catch"](12);
-          _didIteratorError = true;
-          _iteratorError = _context2.t1;
+            _iterator.f();
 
-        case 27:
-          _context2.prev = 27;
-          _context2.prev = 28;
+            return _context8.finish(22);
 
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-
-        case 30:
-          _context2.prev = 30;
-
-          if (!_didIteratorError) {
-            _context2.next = 33;
-            break;
-          }
-
-          throw _iteratorError;
-
-        case 33:
-          return _context2.finish(30);
-
-        case 34:
-          return _context2.finish(27);
-
-        case 35:
-        case "end":
-          return _context2.stop();
+          case 25:
+          case "end":
+            return _context8.stop();
+        }
       }
-    }
-  }, null, null, [[12, 23, 27, 35], [28,, 30, 34]]);
+    }, _callee8, null, [[9, 19, 22, 25]]);
+  }));
+  return _releaseClean.apply(this, arguments);
 }
 
 function releaseCopy() {
@@ -265,41 +274,48 @@ function releaseCopy() {
 }
 
 function preRelease() {
-  var packageInfo, version;
-  return regeneratorRuntime.async(function preRelease$(_context3) {
-    while (1) {
-      switch (_context3.prev = _context3.next) {
-        case 0:
-          _context3.t0 = JSON;
-          _context3.next = 3;
-          return regeneratorRuntime.awrap(_fsExtra["default"].readFile(_path["default"].resolve(BUILD_PATH, 'package.json')));
+  return _preRelease.apply(this, arguments);
+}
 
-        case 3:
-          _context3.t1 = _context3.sent;
-          packageInfo = _context3.t0.parse.call(_context3.t0, _context3.t1);
-          delete packageInfo.scripts;
-          delete packageInfo.jest;
-          _context3.next = 9;
-          return regeneratorRuntime.awrap(getVersionFromTag());
+function _preRelease() {
+  _preRelease = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+    var packageInfo, version;
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            _context9.t0 = JSON;
+            _context9.next = 3;
+            return _fsExtra["default"].readFile(_path["default"].resolve(BUILD_PATH, 'package.json'));
 
-        case 9:
-          version = _context3.sent;
-          console.log('version:', version);
+          case 3:
+            _context9.t1 = _context9.sent;
+            packageInfo = _context9.t0.parse.call(_context9.t0, _context9.t1);
+            delete packageInfo.scripts;
+            delete packageInfo.jest;
+            _context9.next = 9;
+            return getVersionFromTag();
 
-          if (version) {
-            packageInfo.version = version;
-            packageInfo.name = 'ringcentral-widgets';
-          }
+          case 9:
+            version = _context9.sent;
+            console.log('version:', version);
 
-          _context3.next = 14;
-          return regeneratorRuntime.awrap(_fsExtra["default"].writeFile(_path["default"].resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2)));
+            if (version) {
+              packageInfo.version = version;
+              packageInfo.name = 'ringcentral-widgets';
+            }
 
-        case 14:
-        case "end":
-          return _context3.stop();
+            _context9.next = 14;
+            return _fsExtra["default"].writeFile(_path["default"].resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
+
+          case 14:
+          case "end":
+            return _context9.stop();
+        }
       }
-    }
-  });
+    }, _callee9);
+  }));
+  return _preRelease.apply(this, arguments);
 }
 
 var release = _gulp["default"].series(_gulp["default"].parallel(build, releaseClean), releaseCopy, preRelease);
@@ -312,20 +328,20 @@ function normalizeName(str) {
   }).join('');
 }
 
-exports['generate-font'] = function _callee() {
+exports['generate-font'] = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   var cssLocation, content, output, regExp, match, _match, _match2, target, name, normalizedName, newContent;
 
-  return regeneratorRuntime.async(function _callee$(_context4) {
+  return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
-      switch (_context4.prev = _context4.next) {
+      switch (_context.prev = _context.next) {
         case 0:
-          _context4.prev = 0;
+          _context.prev = 0;
           cssLocation = _path["default"].resolve(__dirname, 'assets/DynamicsFont/style.css');
-          _context4.next = 4;
-          return regeneratorRuntime.awrap(_fsExtra["default"].readFile(cssLocation, 'utf8'));
+          _context.next = 4;
+          return _fsExtra["default"].readFile(cssLocation, 'utf8');
 
         case 4:
-          content = _context4.sent;
+          content = _context.sent;
           output = content.replace(/url\('fonts\/dynamics_icon/g, "url('./fonts/dynamics_icon").replace('[class^="icon-"], [class*=" icon-"]', '.icon');
           regExp = /\.icon-(.*):before/;
 
@@ -340,48 +356,92 @@ exports['generate-font'] = function _callee() {
             }
           } while (match);
 
-          _context4.next = 10;
-          return regeneratorRuntime.awrap(_fsExtra["default"].writeFile(_path["default"].resolve(__dirname, 'assets/DynamicsFont/DynamicsFont.scss'), output, 'utf8'));
+          _context.next = 10;
+          return _fsExtra["default"].writeFile(_path["default"].resolve(__dirname, 'assets/DynamicsFont/DynamicsFont.scss'), output, 'utf8');
 
         case 10:
-          _context4.next = 15;
+          _context.next = 15;
           break;
 
         case 12:
-          _context4.prev = 12;
-          _context4.t0 = _context4["catch"](0);
-          console.log(_context4.t0);
+          _context.prev = 12;
+          _context.t0 = _context["catch"](0);
+          console.log(_context.t0);
 
         case 15:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, _callee, null, [[0, 12]]);
+}));
+exports['export-locale'] = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          return _context2.abrupt("return", (0, _exportLocale["default"])(_objectSpread({}, _localeSettings["default"])));
+
+        case 1:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  }, _callee2);
+}));
+exports['export-locale-full'] = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          return _context3.abrupt("return", (0, _exportLocale["default"])(_objectSpread(_objectSpread({}, _localeSettings["default"]), {}, {
+            exportType: 'full'
+          })));
+
+        case 1:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, _callee3);
+}));
+exports['export-locale-translated'] = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+  return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          return _context4.abrupt("return", (0, _exportLocale["default"])(_objectSpread(_objectSpread({}, _localeSettings["default"]), {}, {
+            exportType: 'translated'
+          })));
+
+        case 1:
         case "end":
           return _context4.stop();
       }
     }
-  }, null, null, [[0, 12]]);
-};
-
-exports['export-locale'] = function _callee2() {
-  return regeneratorRuntime.async(function _callee2$(_context5) {
+  }, _callee4);
+}));
+exports['import-locale'] = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+  return regeneratorRuntime.wrap(function _callee5$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
-          return _context5.abrupt("return", (0, _exportLocale["default"])(_objectSpread({}, _localeSettings["default"])));
+          return _context5.abrupt("return", (0, _importLocale["default"])(_objectSpread({}, _localeSettings["default"])));
 
         case 1:
         case "end":
           return _context5.stop();
       }
     }
-  });
-};
-
-exports['export-locale-full'] = function _callee3() {
-  return regeneratorRuntime.async(function _callee3$(_context6) {
+  }, _callee5);
+}));
+exports['consolidate-locale'] = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+  return regeneratorRuntime.wrap(function _callee6$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
-          return _context6.abrupt("return", (0, _exportLocale["default"])(_objectSpread({}, _localeSettings["default"], {
-            exportType: 'full'
+          return _context6.abrupt("return", (0, _consolidateLocale["default"])(_objectSpread(_objectSpread({}, _localeSettings["default"]), {}, {
+            sourceFolder: _path["default"].resolve(__dirname, 'lib/countryNames')
           })));
 
         case 1:
@@ -389,55 +449,6 @@ exports['export-locale-full'] = function _callee3() {
           return _context6.stop();
       }
     }
-  });
-};
-
-exports['export-locale-translated'] = function _callee4() {
-  return regeneratorRuntime.async(function _callee4$(_context7) {
-    while (1) {
-      switch (_context7.prev = _context7.next) {
-        case 0:
-          return _context7.abrupt("return", (0, _exportLocale["default"])(_objectSpread({}, _localeSettings["default"], {
-            exportType: 'translated'
-          })));
-
-        case 1:
-        case "end":
-          return _context7.stop();
-      }
-    }
-  });
-};
-
-exports['import-locale'] = function _callee5() {
-  return regeneratorRuntime.async(function _callee5$(_context8) {
-    while (1) {
-      switch (_context8.prev = _context8.next) {
-        case 0:
-          return _context8.abrupt("return", (0, _importLocale["default"])(_objectSpread({}, _localeSettings["default"])));
-
-        case 1:
-        case "end":
-          return _context8.stop();
-      }
-    }
-  });
-};
-
-exports['consolidate-locale'] = function _callee6() {
-  return regeneratorRuntime.async(function _callee6$(_context9) {
-    while (1) {
-      switch (_context9.prev = _context9.next) {
-        case 0:
-          return _context9.abrupt("return", (0, _consolidateLocale["default"])(_objectSpread({}, _localeSettings["default"], {
-            sourceFolder: _path["default"].resolve(__dirname, 'lib/countryNames')
-          })));
-
-        case 1:
-        case "end":
-          return _context9.stop();
-      }
-    }
-  });
-};
+  }, _callee6);
+}));
 //# sourceMappingURL=gulpfile.js.map

@@ -35,14 +35,14 @@ function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocal
 function PresenceItem(props) {
   var className = (0, _classnames["default"])(_styles["default"].root, props.selected ? _styles["default"].selected : null, props.className);
   var name = getPresenceStatusName(props.userStatus, props.dndStatus, props.currentLocale);
-  return _react["default"].createElement("a", {
+  return /*#__PURE__*/_react["default"].createElement("a", {
     className: className,
     onClick: props.onClick
-  }, _react["default"].createElement(_PresenceStatusIcon["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_PresenceStatusIcon["default"], {
     className: _styles["default"].statusIcon,
     userStatus: props.userStatus,
     dndStatus: props.dndStatus
-  }), _react["default"].createElement("span", null, name));
+  }), /*#__PURE__*/_react["default"].createElement("span", null, name));
 }
 
 PresenceItem.propTypes = {

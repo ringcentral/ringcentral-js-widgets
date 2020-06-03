@@ -18,14 +18,14 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function InputField(props) {
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": props.dataSign,
     className: (0, _classnames["default"])(_styles["default"].root, props.className)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].label
-  }, props.label, _react["default"].createElement("div", {
+  }, props.label, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].hint
-  }, props.labelHint)), _react["default"].createElement("div", {
+  }, props.labelHint)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].inputHolder
   }, props.children));
 }

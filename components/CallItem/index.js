@@ -1,13 +1,19 @@
 "use strict";
 
-require("core-js/modules/es6.string.iterator");
-
 require("core-js/modules/es6.weak-map");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -17,25 +23,31 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.find-index");
 
@@ -87,11 +99,21 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -99,15 +121,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -127,13 +153,13 @@ function CallIcon(_ref) {
   switch (type) {
     case _messageTypes["default"].fax:
       {
-        icon = direction === _messageDirection["default"].inbound ? _react["default"].createElement("span", {
+        icon = direction === _messageDirection["default"].inbound ? /*#__PURE__*/_react["default"].createElement("span", {
           title: inboundTitle
-        }, _react["default"].createElement(_FaxInbound["default"], {
+        }, /*#__PURE__*/_react["default"].createElement(_FaxInbound["default"], {
           width: 21
-        })) : _react["default"].createElement("span", {
+        })) : /*#__PURE__*/_react["default"].createElement("span", {
           title: outboundTitle
-        }, _react["default"].createElement(_FaxOutbound["default"], {
+        }, /*#__PURE__*/_react["default"].createElement(_FaxOutbound["default"], {
           width: 21
         }));
         break;
@@ -151,14 +177,14 @@ function CallIcon(_ref) {
           title = outboundTitle;
         }
 
-        icon = _react["default"].createElement("span", {
+        icon = /*#__PURE__*/_react["default"].createElement("span", {
           className: (0, _classnames["default"])(missed ? callIconMap.missed : callIconMap[direction], active && _styles["default"].activeCall, ringing && _styles["default"].ringing, missed && _styles["default"].missed),
           title: title
         });
       }
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callIcon
   }, icon);
 }
@@ -183,17 +209,17 @@ CallIcon.defaultProps = {
   type: ''
 };
 
-var CallItem =
-/*#__PURE__*/
-function (_Component) {
+var CallItem = /*#__PURE__*/function (_Component) {
   _inherits(CallItem, _Component);
+
+  var _super = _createSuper(CallItem);
 
   function CallItem(props) {
     var _this;
 
     _classCallCheck(this, CallItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallItem).call(this, props));
+    _this = _super.call(this, props);
 
     _this.onSelectContact = function (value, idx) {
       var _this$props = _this.props,
@@ -258,49 +284,55 @@ function (_Component) {
       }
     };
 
-    _this.createSelectedContact = function _callee(entityType) {
-      var phoneNumber;
-      return regeneratorRuntime.async(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              if (!(typeof _this.props.onCreateContact === 'function' && _this._mounted && !_this.state.isCreating)) {
-                _context.next = 6;
-                break;
-              }
+    _this.createSelectedContact = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(entityType) {
+        var phoneNumber;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(typeof _this.props.onCreateContact === 'function' && _this._mounted && !_this.state.isCreating)) {
+                  _context.next = 6;
+                  break;
+                }
 
-              _this.setState({
-                isCreating: true
-              }); // console.log('start to create: isCreating...', this.state.isCreating);
-
-
-              phoneNumber = _this.getPhoneNumber();
-              _context.next = 5;
-              return regeneratorRuntime.awrap(_this.props.onCreateContact({
-                phoneNumber: phoneNumber,
-                name: _this.props.enableContactFallback ? _this.getFallbackContactName() : '',
-                entityType: entityType
-              }));
-
-            case 5:
-              if (_this._mounted) {
                 _this.setState({
-                  isCreating: false
-                }); // console.log('created: isCreating...', this.state.isCreating);
+                  isCreating: true
+                }); // console.log('start to create: isCreating...', this.state.isCreating);
 
-              }
 
-            case 6:
-            case "end":
-              return _context.stop();
+                phoneNumber = _this.getPhoneNumber();
+                _context.next = 5;
+                return _this.props.onCreateContact({
+                  phoneNumber: phoneNumber,
+                  name: _this.props.enableContactFallback ? _this.getFallbackContactName() : '',
+                  entityType: entityType
+                });
+
+              case 5:
+                if (_this._mounted) {
+                  _this.setState({
+                    isCreating: false
+                  }); // console.log('created: isCreating...', this.state.isCreating);
+
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      });
-    };
+        }, _callee);
+      }));
 
-    _this.clickToSms = function (_ref2) {
-      var countryCode = _ref2.countryCode,
-          areaCode = _ref2.areaCode;
+      return function (_x) {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    _this.clickToSms = function (_ref3) {
+      var countryCode = _ref3.countryCode,
+          areaCode = _ref3.areaCode;
 
       if (_this.props.onClickToSms) {
         var phoneNumber = _this.getPhoneNumber();
@@ -308,7 +340,7 @@ function (_Component) {
         var contact = _this.getSelectedContact();
 
         if (contact) {
-          _this.props.onClickToSms(_objectSpread({}, contact, {
+          _this.props.onClickToSms(_objectSpread(_objectSpread({}, contact), {}, {
             phoneNumber: phoneNumber
           }));
         } else {
@@ -333,7 +365,7 @@ function (_Component) {
         var phoneNumber = _this.getPhoneNumber();
 
         if (phoneNumber) {
-          _this.props.onClickToDial(_objectSpread({}, contact, {
+          _this.props.onClickToDial(_objectSpread(_objectSpread({}, contact), {}, {
             phoneNumber: phoneNumber
           }));
         }
@@ -409,9 +441,8 @@ function (_Component) {
           showContactDisplayPlaceholder = _this$props4.showContactDisplayPlaceholder;
       var activityMatches = nextProps.call.activityMatches; // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iterator = _createForOfIteratorHelper(activityMatches),
+          _step;
 
       try {
         var _loop = function _loop() {
@@ -426,24 +457,15 @@ function (_Component) {
           };
         };
 
-        for (var _iterator = activityMatches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var _ret = _loop();
 
           if (_typeof(_ret) === "object") return _ret.v;
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       if (nextProps.call.toNumberEntity) {
@@ -473,53 +495,61 @@ function (_Component) {
     }
   }, {
     key: "logCall",
-    value: function logCall() {
-      var redirect,
-          selected,
-          _args2 = arguments;
-      return regeneratorRuntime.async(function logCall$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              redirect = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : true;
-              selected = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : this.state.selected;
+    value: function () {
+      var _logCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var redirect,
+            selected,
+            _args2 = arguments;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                redirect = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : true;
+                selected = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : this.state.selected;
 
-              if (!(typeof this.props.onLogCall === 'function' && this._mounted && !this.state.isLogging)) {
-                _context2.next = 7;
-                break;
-              }
+                if (!(typeof this.props.onLogCall === 'function' && this._mounted && !this.state.isLogging)) {
+                  _context2.next = 7;
+                  break;
+                }
 
-              this.setState({
-                isLogging: true
-              });
-              _context2.next = 6;
-              return regeneratorRuntime.awrap(this.props.onLogCall({
-                contact: this.getSelectedContact(selected),
-                call: this.props.call,
-                redirect: redirect
-              }));
-
-            case 6:
-              if (this._mounted) {
                 this.setState({
-                  isLogging: false
+                  isLogging: true
                 });
-              }
+                _context2.next = 6;
+                return this.props.onLogCall({
+                  contact: this.getSelectedContact(selected),
+                  call: this.props.call,
+                  redirect: redirect
+                });
 
-            case 7:
-            case "end":
-              return _context2.stop();
+              case 6:
+                if (this._mounted) {
+                  this.setState({
+                    isLogging: false
+                  });
+                }
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee2, this);
+      }));
+
+      function logCall() {
+        return _logCall.apply(this, arguments);
+      }
+
+      return logCall;
+    }()
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
       if (this.state.loading) {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].root
         });
       }
@@ -580,7 +610,7 @@ function (_Component) {
       var durationEl = null;
 
       if (typeof duration === 'undefined') {
-        durationEl = disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : _react["default"].createElement(_DurationCounter["default"], {
+        durationEl = disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
           startTime: startTime,
           offset: offset
         });
@@ -605,13 +635,13 @@ function (_Component) {
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
       var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
       var menuExtended = this.props.extended || this.state.extended;
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root,
         onClick: this.toggleExtended
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "calls_item_wrapper",
         className: _styles["default"].wrapper
-      }, _react["default"].createElement(CallIcon, {
+      }, /*#__PURE__*/_react["default"].createElement(CallIcon, {
         direction: direction,
         ringing: ringing,
         active: active,
@@ -620,9 +650,9 @@ function (_Component) {
         outboundTitle: _i18n["default"].getString('outboundCall', currentLocale),
         missedTitle: _i18n["default"].getString('missedCall', currentLocale),
         type: type
-      }), _react["default"].createElement("div", {
+      }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].infoWrapper
-      }, _react["default"].createElement(_ContactDisplay["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
         isOnConferenceCall: direction === _callDirections["default"].outbound && toName === 'Conference',
         contactName: contactName,
         reference: function reference(ref) {
@@ -648,9 +678,9 @@ function (_Component) {
         stopPropagation: false,
         showType: false,
         showPlaceholder: showContactDisplayPlaceholder
-      }), _react["default"].createElement("div", {
+      }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].details
-      }, durationEl, " | ".concat(dateEl).concat(statusEl))), extraButton), _react["default"].createElement(_ActionMenu["default"], {
+      }, durationEl, " | ".concat(dateEl).concat(statusEl))), extraButton), /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"], {
         extended: menuExtended,
         onToggle: this.toggleExtended,
         currentLocale: currentLocale,

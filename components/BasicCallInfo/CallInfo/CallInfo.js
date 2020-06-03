@@ -13,23 +13,29 @@ var _react = _interopRequireDefault(require("react"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
+var _Tooltip = require("../../Rcui/Tooltip");
+
+var _toolTipDelayTime = require("../../../lib/toolTipDelayTime");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var CallInfo = function CallInfo(_ref) {
   var name = _ref.name,
       content = _ref.content;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": content,
     className: _styles["default"].container
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].name,
     title: name
-  }, name), _react["default"].createElement("i", {
+  }, name), /*#__PURE__*/_react["default"].createElement("i", {
     className: _styles["default"].flexFill
-  }), _react["default"].createElement("div", {
-    className: _styles["default"].content,
-    title: content
-  }, content));
+  }), /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+    title: content,
+    enterDelay: _toolTipDelayTime.TOOLTIP_DEFAULT_DELAY_TIME
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].content
+  }, content)));
 };
 
 exports.CallInfo = CallInfo;

@@ -81,7 +81,7 @@ function LogBasicInfo(props) {
     var durationElement = null;
 
     if (typeof duration === 'undefined') {
-      durationElement = disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : _react["default"].createElement(_DurationCounter["default"], {
+      durationElement = disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
         startTime: startTime,
         offset: offset
       });
@@ -102,39 +102,39 @@ function LogBasicInfo(props) {
 
   var isRinging = status === _telephonyStatus["default"].ringing;
   var infoStatus = getInfoStatus(status);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "logSection",
     className: (0, _classnames["default"])(_styles["default"].root, !isWide && _styles["default"].classic, _styles["default"][infoStatus])
-  }, _react["default"].createElement(_ShinyBar.ShinyBar, {
+  }, /*#__PURE__*/_react["default"].createElement(_ShinyBar.ShinyBar, {
     className: _styles["default"].top,
     isRinging: isRinging,
     status: infoStatus
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": dataSign,
     className: _styles["default"].leftSectionInfo
-  }, _react["default"].createElement(_CallIcon.CallIcon, {
+  }, /*#__PURE__*/_react["default"].createElement(_CallIcon.CallIcon, {
     title: missed ? _i18n["default"].getString(_callResults["default"].missed, currentLocale) : _i18n["default"].getString(direction, currentLocale),
     iconClassName: (0, _classnames["default"])(_styles["default"].icon, callIconMap[missed ? _callResults["default"].missed : direction])
-  }), _react["default"].createElement("ul", {
+  }), /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles["default"].callDisplay
-  }, _react["default"].createElement("li", {
+  }, /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles["default"].info
-  }, _react["default"].createElement("p", {
+  }, /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].logName,
     title: logName
-  }, logName), _react["default"].createElement("p", {
+  }, logName), /*#__PURE__*/_react["default"].createElement("p", {
     className: (0, _classnames["default"])(_styles["default"].follow, _styles["default"]['text-ellipsis'])
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     title: formatNumber,
     "data-sign": "phoneNumber"
-  }, formatNumber), _react["default"].createElement("span", {
+  }, formatNumber), /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "callStatus",
     title: statusI18n
-  }, statusI18n))), _react["default"].createElement("li", {
+  }, statusI18n))), /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles["default"]['flex-fill']
-  }), _react["default"].createElement("li", {
+  }), /*#__PURE__*/_react["default"].createElement("li", {
     className: (0, _classnames["default"])(_styles["default"].follow, _styles["default"].time)
-  }, _react["default"].createElement("p", null, durationElement), _react["default"].createElement("p", null, dateTimeFormatter({
+  }, /*#__PURE__*/_react["default"].createElement("p", null, durationElement), /*#__PURE__*/_react["default"].createElement("p", null, dateTimeFormatter({
     utcTimestamp: startTime,
     locale: currentLocale
   }))))));

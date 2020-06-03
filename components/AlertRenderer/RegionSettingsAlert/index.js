@@ -36,7 +36,7 @@ function RegionSettingsAlert(_ref) {
       {
         var regionSettings = _i18n["default"].getString('regionSettings', currentLocale);
 
-        var regionSettingsLink = onRegionSettingsLinkClick ? _react["default"].createElement("a", {
+        var regionSettingsLink = onRegionSettingsLinkClick ? /*#__PURE__*/_react["default"].createElement("a", {
           className: _styles["default"].link,
           onClick: function onClick(e) {
             e.preventDefault();
@@ -45,7 +45,7 @@ function RegionSettingsAlert(_ref) {
             });
           }
         }, regionSettings) : regionSettings;
-        msg = _react["default"].createElement(_FormattedMessage["default"], {
+        msg = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
           message: _i18n["default"].getString(message, currentLocale),
           values: {
             regionSettingsLink: regionSettingsLink
@@ -59,7 +59,7 @@ function RegionSettingsAlert(_ref) {
       break;
   }
 
-  return _react["default"].createElement("div", null, msg);
+  return /*#__PURE__*/_react["default"].createElement("div", null, msg);
 }
 
 RegionSettingsAlert.propTypes = {

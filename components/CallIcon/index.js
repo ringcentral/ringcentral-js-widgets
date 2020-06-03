@@ -43,17 +43,17 @@ function CallIcon(_ref) {
   var symbol;
 
   if (showAvatar) {
-    symbol = _react["default"].createElement("div", {
+    symbol = /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames["default"])(_styles["default"].callIcon, _styles["default"].avatar)
-    }, _react["default"].createElement(_CallAvatar["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
       isOnConferenceCall: isOnConferenceCall,
       avatarUrl: avatarUrl,
       extraNum: extraNum
     }));
   } else {
-    symbol = _react["default"].createElement("div", {
+    symbol = /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].callIcon
-    }, _react["default"].createElement("span", {
+    }, /*#__PURE__*/_react["default"].createElement("span", {
       className: (0, _classnames["default"])(callIconMap[direction], _styles["default"].activeCall, ringing && _styles["default"].ringing),
       title: title,
       "data-sign": "callDirection"

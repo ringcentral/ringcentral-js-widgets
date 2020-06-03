@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -39,7 +39,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var PhoneNumberInput = (0, _react.forwardRef)(function (_ref, ref) {
+var PhoneNumberInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   var currentLocale = _ref.currentLocale,
       _ref$placeholder = _ref.placeholder,
       placeholder = _ref$placeholder === void 0 ? _i18n["default"].getString('enterNameOrNumber', currentLocale) : _ref$placeholder,
@@ -67,11 +67,11 @@ var PhoneNumberInput = (0, _react.forwardRef)(function (_ref, ref) {
       }
     };
   });
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].inputWrapper
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].inputField, isFocused && 'Mui-focused', 'MuiInput-underline')
-  }, _react["default"].createElement("input", {
+  }, /*#__PURE__*/_react["default"].createElement("input", {
     "data-sign": "recipientsInput",
     ref: inputEl,
     name: "receiver",
@@ -88,7 +88,7 @@ var PhoneNumberInput = (0, _react.forwardRef)(function (_ref, ref) {
     onFocus: onFocus,
     placeholder: placeholder,
     autoComplete: "off"
-  })), _react["default"].createElement(_RemoveButton.RemoveButton, {
+  })), /*#__PURE__*/_react["default"].createElement(_RemoveButton.RemoveButton, {
     className: _styles["default"].removeButton,
     onClick: onClear,
     visibility: value.length > 0

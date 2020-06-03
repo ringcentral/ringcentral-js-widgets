@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -24,6 +22,14 @@ require("core-js/modules/es6.object.assign");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -51,7 +57,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -61,26 +67,30 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function AvatarNode(_ref) {
   var name = _ref.name,
       avatarUrl = _ref.avatarUrl,
       isInactive = _ref.isInactive;
   var avatarStyle = isInactive ? _styles["default"].inactiveAvatarNode : _styles["default"].avatarNode;
-  return _react["default"].createElement(_PlaceholderImage["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_PlaceholderImage["default"], {
     className: avatarStyle,
     alt: name,
     src: avatarUrl,
-    placeholder: _react["default"].createElement(_DefaultAvatar["default"], {
+    placeholder: /*#__PURE__*/_react["default"].createElement(_DefaultAvatar["default"], {
       className: avatarStyle
     })
   });
@@ -97,17 +107,17 @@ AvatarNode.defaultProps = {
   isInactive: false
 };
 
-var ContactItem =
-/*#__PURE__*/
-function (_PureComponent) {
+var ContactItem = /*#__PURE__*/function (_PureComponent) {
   _inherits(ContactItem, _PureComponent);
+
+  var _super = _createSuper(ContactItem);
 
   function ContactItem(props) {
     var _this;
 
     _classCallCheck(this, ContactItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ContactItem).call(this, props));
+    _this = _super.call(this, props);
 
     _this.renderPresence = function (contact) {
       var presence = contact.presence,
@@ -117,9 +127,9 @@ function (_PureComponent) {
         return null;
       }
 
-      return presence ? _react["default"].createElement("div", {
+      return presence ? /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].presenceNodeContainer
-      }, _react["default"].createElement(_PresenceStatusIcon["default"], _extends({
+      }, /*#__PURE__*/_react["default"].createElement(_PresenceStatusIcon["default"], _extends({
         className: _styles["default"].presenceNode
       }, presence))) : null;
     };
@@ -129,17 +139,17 @@ function (_PureComponent) {
           contactStatus = contact.contactStatus;
 
       if (contactStatus === 'NotActivated') {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].infoWrapper
-        }, _react["default"].createElement("div", {
+        }, /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].inactiveContactName,
           title: name
-        }, name), _react["default"].createElement("div", {
+        }, name), /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].inactiveText
         }, _i18n["default"].getString('notActivated', currentLocale)));
       }
 
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].contactName,
         title: name
       }, name);
@@ -195,7 +205,7 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       if (this.state.loading) {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].root
         });
       }
@@ -212,21 +222,21 @@ function (_PureComponent) {
       var sourceNode = sourceNodeRenderer({
         sourceType: type
       });
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root,
         onClick: this.onItemSelected,
         "data-sign": "contactItem"
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].contactProfile
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].avatarNodeContainer
-      }, _react["default"].createElement(AvatarNode, {
+      }, /*#__PURE__*/_react["default"].createElement(AvatarNode, {
         name: name,
         avatarUrl: profileImageUrl,
         isInactive: contactStatus === 'NotActivated'
-      })), sourceNode ? _react["default"].createElement("div", {
+      })), sourceNode ? /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].sourceNodeContainer
-      }, sourceNode) : null, this.renderPresence(this.props.contact)), this.renderMiddle(contact, currentLocale), _react["default"].createElement("div", {
+      }, sourceNode) : null, this.renderPresence(this.props.contact)), this.renderMiddle(contact, currentLocale), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].phoneNumber,
         title: extensionNumber
       }, extensionNumber));

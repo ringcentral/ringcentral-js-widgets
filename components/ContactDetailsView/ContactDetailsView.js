@@ -41,7 +41,7 @@ var ContactDetailsView = function ContactDetailsView(_ref) {
       showSpinner = _ref.showSpinner,
       sourceNodeRenderer = _ref.sourceNodeRenderer;
   if (!contact) return null;
-  var content = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : _react["default"].createElement(_ContactDetails.ContactDetails, {
+  var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : /*#__PURE__*/_react["default"].createElement(_ContactDetails.ContactDetails, {
     currentLocale: currentLocale,
     contact: contact,
     onClickToSMS: onClickToSMS,
@@ -56,12 +56,12 @@ var ContactDetailsView = function ContactDetailsView(_ref) {
     outboundSmsPermission: outboundSmsPermission,
     internalSmsPermission: internalSmsPermission
   });
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
-  }, _react["default"].createElement(_BackHeader["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
     onBackClick: onBackClick,
     className: _styles["default"].header
-  }, _i18n["default"].getString('contactDetails', currentLocale)), _react["default"].createElement(_Panel["default"], {
+  }, _i18n["default"].getString('contactDetails', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Panel["default"], {
     className: _styles["default"].content
   }, content, children));
 };

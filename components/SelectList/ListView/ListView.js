@@ -23,8 +23,6 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.map");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _rcui = require("@ringcentral-integration/rcui");
 
 var _react = _interopRequireDefault(require("react"));
@@ -50,8 +48,8 @@ var ListView = function ListView(_ref) {
     return nonShow;
   }
 
-  return _react["default"].createElement(_rcui.RcList, null, options.map(function (option, i) {
-    return _react["default"].createElement(_ListViewItem.ListViewItem, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, options.map(function (option, i) {
+    return /*#__PURE__*/_react["default"].createElement(_ListViewItem.ListViewItem, _extends({
       key: i,
       index: i,
       option: option,
@@ -61,21 +59,8 @@ var ListView = function ListView(_ref) {
 };
 
 exports.ListView = ListView;
-ListView.propTypes = {
-  options: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  nonShow: _propTypes["default"].node,
-  value: _propTypes["default"].any.isRequired,
-  onChange: _propTypes["default"].func,
-  valueFunction: _propTypes["default"].func.isRequired,
-  filter: _propTypes["default"].string,
-  renderFunction: _propTypes["default"].func.isRequired,
-  startAdornment: _propTypes["default"].func
-};
 ListView.defaultProps = {
   options: [],
-  nonShow: null,
-  filter: null,
-  onChange: function onChange() {},
-  startAdornment: function startAdornment() {}
+  nonShow: null
 };
 //# sourceMappingURL=ListView.js.map

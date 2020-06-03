@@ -26,23 +26,23 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function UserInfo(props) {
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].userInfo
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatarContainer
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatarHolder
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].ringOutside, _styles["default"].ringing)
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].ringInner, _styles["default"].ringing)
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatar
-  }, _react["default"].createElement(_CallAvatar["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
     avatarUrl: props.avatarUrl
-  })))), _react["default"].createElement("div", {
+  })))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].userNameContainer
-  }, props.callQueueName, _react["default"].createElement(_ContactDisplay["default"], {
+  }, props.callQueueName, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
     className: _styles["default"].userName,
     selectClassName: _styles["default"].dropdown,
     contactMatches: props.nameMatches,
@@ -61,7 +61,7 @@ function UserInfo(props) {
     sourceIcons: props.sourceIcons,
     phoneTypeRenderer: props.phoneTypeRenderer,
     phoneSourceNameRenderer: props.phoneSourceNameRenderer
-  })), _react["default"].createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].userPhoneNumber
   }, props.formatPhone(props.phoneNumber)));
 }
@@ -96,16 +96,16 @@ UserInfo.defaultProps = {
 };
 
 function IncomingCallPanel(props) {
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "IncomingCallPanel",
     className: (0, _classnames["default"])(_styles["default"].root, props.className)
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "backButton",
     className: _styles["default"].backButton,
     onClick: props.onBackButtonClick
-  }, _react["default"].createElement("i", {
+  }, /*#__PURE__*/_react["default"].createElement("i", {
     className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].backIcon)
-  })), _react["default"].createElement(UserInfo, {
+  })), /*#__PURE__*/_react["default"].createElement(UserInfo, {
     phoneNumber: props.phoneNumber,
     callQueueName: props.callQueueName,
     currentLocale: props.currentLocale,
@@ -123,7 +123,7 @@ function IncomingCallPanel(props) {
     sourceIcons: props.sourceIcons,
     phoneTypeRenderer: props.phoneTypeRenderer,
     phoneSourceNameRenderer: props.phoneSourceNameRenderer
-  }), _react["default"].createElement(_IncomingCallPad["default"], {
+  }), /*#__PURE__*/_react["default"].createElement(_IncomingCallPad["default"], {
     className: _styles["default"].callPad,
     forwardingNumbers: props.forwardingNumbers,
     formatPhone: props.formatPhone,

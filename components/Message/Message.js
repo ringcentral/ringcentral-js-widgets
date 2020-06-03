@@ -21,15 +21,15 @@ var Message = function Message(_ref) {
   var message = _ref.message,
       level = _ref.level,
       onDismiss = _ref.onDismiss;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].alertHolder
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "alert",
     className: (0, _classnames["default"])(_styles["default"][level])
-  }, message, _react["default"].createElement("div", {
+  }, message, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].dismiss,
     onClick: onDismiss
-  }, _react["default"].createElement("i", {
+  }, /*#__PURE__*/_react["default"].createElement("i", {
     className: _DynamicsFont["default"].close
   }))));
 };

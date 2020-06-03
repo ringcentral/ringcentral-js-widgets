@@ -21,16 +21,16 @@ function Switch(props) {
   var onChange = props.onChange ? function (e) {
     return !props.disable && props.onChange(e.currentTarget.checked);
   } : undefined;
-  return _react["default"].createElement("label", {
+  return /*#__PURE__*/_react["default"].createElement("label", {
     title: props.title,
     "data-sign": props.dataSign,
     className: (0, _classnames["default"])(_styles["default"]["switch"], props.className, props.disable && _styles["default"].disable)
-  }, _react["default"].createElement("input", {
+  }, /*#__PURE__*/_react["default"].createElement("input", {
     "data-sign": "switch",
     type: "checkbox",
     checked: props.checked,
     onChange: onChange
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].slider
   }));
 }

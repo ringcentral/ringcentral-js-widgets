@@ -27,16 +27,16 @@ var Avatar = function Avatar(_ref) {
       inactive = _ref.inactive,
       source = _ref.source;
   var imageClassName = (0, _classnames["default"])(_styles["default"].avatarImage, inactive && _styles["default"].inactive);
-  var sourceNode = source ? _react["default"].createElement("div", {
+  var sourceNode = source ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].sourceWrapper
   }, source) : null;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatar
-  }, _react["default"].createElement(_PlaceholderImage["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_PlaceholderImage["default"], {
     className: imageClassName,
     alt: name,
     src: avatarUrl,
-    placeholder: _react["default"].createElement(_DefaultAvatar["default"], {
+    placeholder: /*#__PURE__*/_react["default"].createElement(_DefaultAvatar["default"], {
       className: imageClassName
     })
   }), sourceNode);

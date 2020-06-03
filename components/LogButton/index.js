@@ -31,15 +31,15 @@ function LogButton(_ref) {
       isLogging = _ref.isLogging,
       addTitle = _ref.addTitle,
       editTitle = _ref.editTitle;
-  var spinner = isLogging ? _react["default"].createElement(_Spinner["default"], {
+  var spinner = isLogging ? /*#__PURE__*/_react["default"].createElement(_Spinner["default"], {
     ringWidth: 2,
     className: _styles["default"].spinner
   }) : null;
-  return _react["default"].createElement(_Button.Button, {
+  return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].log, className),
     onClick: onLog,
     disabled: disableLinks || isLogging
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: isLogged ? _DynamicsFont["default"].edit : _DynamicsFont["default"].callLog,
     title: isLogged ? editTitle : addTitle
   }), spinner);

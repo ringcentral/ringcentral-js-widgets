@@ -1,1 +1,1 @@
-{"version":3,"sources":["containers/CallLogPage/index.ts"],"names":["CallLogPage"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;;;;eADeA,uB","sourcesContent":["import CallLogPage from './CallLogPage';\n\nexport default CallLogPage;\nexport * from './CallLogPage';\n"],"file":"index.js"}
+{"version":3,"sources":["containers/CallLogPage/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './CallLogPage';\n"],"file":"index.js"}

@@ -31,7 +31,7 @@ function InsideModal(_ref) {
       maskStyle = _ref.maskStyle,
       modalStyles = _ref.modalStyles,
       contentStyle = _ref.contentStyle;
-  return _react["default"].createElement(_Modal["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
     title: title,
     headerClassName: _styles["default"].title,
     className: (0, _classnames["default"])(_styles["default"].container, containerStyles),

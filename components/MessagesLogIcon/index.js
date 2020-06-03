@@ -28,7 +28,7 @@ function MessagesLogIcon(_ref) {
 
   var tooltip = _i18n["default"].getString('log', currentLocale);
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].messageLog, disabled && _styles["default"].disabledMessageLog),
     onClick: function onClick(e) {
       e.stopPropagation();
@@ -36,7 +36,7 @@ function MessagesLogIcon(_ref) {
     },
     "data-sign": "smsLog",
     title: tooltip
-  }, _react["default"].createElement(_MessagesLog["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_MessagesLog["default"], {
     className: _styles["default"].logIcon
   }));
 }

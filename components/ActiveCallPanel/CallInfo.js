@@ -23,24 +23,24 @@ function CallInfo(props) {
   var avatar;
 
   if (props.avatarUrl) {
-    avatar = _react["default"].createElement(_CallAvatar["default"], {
+    avatar = /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
       avatarUrl: props.avatarUrl
     });
   } else {
-    avatar = _react["default"].createElement(_CallAvatar["default"], {
+    avatar = /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
       avatarUrl: null
     });
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].userInfo
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatarContainer
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatar
-  }, avatar)), _react["default"].createElement("div", {
+  }, avatar)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].userName
-  }, props.callQueueName, _react["default"].createElement(_ContactDisplay["default"], {
+  }, props.callQueueName, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
     className: _styles["default"].contactDisplay,
     selectClassName: _styles["default"].dropdown,
     contactMatches: props.nameMatches,
@@ -59,7 +59,7 @@ function CallInfo(props) {
     sourceIcons: props.sourceIcons,
     phoneTypeRenderer: props.phoneTypeRenderer,
     phoneSourceNameRenderer: props.phoneSourceNameRenderer
-  })), _react["default"].createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].userPhoneNumber,
     "data-sign": "userPhoneNumber"
   }, props.formatPhone(props.phoneNumber)));

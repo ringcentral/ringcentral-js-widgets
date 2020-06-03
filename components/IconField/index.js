@@ -16,15 +16,15 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function IconField(props) {
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: props.className
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content,
     title: props.title,
     "data-sign": "iconField"
-  }, props.children), _react["default"].createElement("div", {
+  }, props.children), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].iconHolder
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].icon
   }, props.icon)));
 }

@@ -47,7 +47,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -59,15 +59,15 @@ var MeetingDuration = function MeetingDuration(_ref) {
       meeting = _ref.meeting,
       update = _ref.update,
       isRecurring = _ref.isRecurring;
-  return !isRecurring ? _react["default"].createElement(_MeetingSection["default"], {
+  return !isRecurring ? /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('duration', currentLocale)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].spaceBetween, _styles["default"].duration)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].list
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].hoursList
-  }, _react["default"].createElement(_DropdownList["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_DropdownList["default"], {
     data: hoursList,
     valueField: "value",
     textField: "text",
@@ -78,17 +78,17 @@ var MeetingDuration = function MeetingDuration(_ref) {
       var isMax = value === hoursList.slice(-1)[0].value;
       restMinutes = isMax ? 0 : restMinutes;
       var durationInMinutes = value * 60 + restMinutes;
-      update(_objectSpread({}, meeting, {
-        schedule: _objectSpread({}, meeting.schedule, {
+      update(_objectSpread(_objectSpread({}, meeting), {}, {
+        schedule: _objectSpread(_objectSpread({}, meeting.schedule), {}, {
           durationInMinutes: durationInMinutes
         })
       }));
     }
-  }))), _react["default"].createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].list
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].minutesList
-  }, _react["default"].createElement(_DropdownList["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_DropdownList["default"], {
     data: minutesList,
     valueField: "value",
     textField: "text",
@@ -99,8 +99,8 @@ var MeetingDuration = function MeetingDuration(_ref) {
       var isMax = restHours === hoursList.slice(-1)[0].value;
       var minutes = isMax ? 0 : value;
       var durationInMinutes = restHours * 60 + minutes;
-      update(_objectSpread({}, meeting, {
-        schedule: _objectSpread({}, meeting.schedule, {
+      update(_objectSpread(_objectSpread({}, meeting), {}, {
+        schedule: _objectSpread(_objectSpread({}, meeting.schedule), {}, {
           durationInMinutes: durationInMinutes
         })
       }));

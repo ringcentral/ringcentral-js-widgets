@@ -88,7 +88,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
       autoLogTitle = _ref.autoLogTitle,
       autoLogSMSTitle = _ref.autoLogSMSTitle,
       logSMSContentTitle = _ref.logSMSContentTitle;
-  return _react["default"].createElement(_BasePanel["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_BasePanel["default"], {
     currentLocale: currentLocale,
     className: className,
     showSpinner: showSpinner,
@@ -99,32 +99,32 @@ var SettingsPanel = function SettingsPanel(_ref) {
     EulaRenderer: EulaRenderer,
     version: version,
     versionContainer: versionContainer
-  }, _react["default"].createElement(_LinkLineItem.LinkLineItem, {
+  }, /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "report",
     show: showReport,
     currentLocale: currentLocale,
     onClick: onReportLinkClick
-  }), _react["default"].createElement(_Locale.Locale, {
+  }), /*#__PURE__*/_react["default"].createElement(_Locale.Locale, {
     supportedLocales: supportedLocales,
     currentLocale: currentLocale,
     savedLocale: savedLocale,
     saveLocale: saveLocale
-  }), _react["default"].createElement(_LinkLineItem.LinkLineItem, {
+  }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "calling",
     show: showCalling,
     currentLocale: currentLocale,
     onClick: onCallingSettingsLinkClick
-  }), _react["default"].createElement(_LinkLineItem.LinkLineItem, {
+  }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "region",
     show: showRegion,
     currentLocale: currentLocale,
     onClick: onRegionSettingsLinkClick
-  }), _react["default"].createElement(_LinkLineItem.LinkLineItem, {
+  }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "audio",
     show: showAudio,
     currentLocale: currentLocale,
     onClick: onAudioSettingsLinkClick
-  }), _react["default"].createElement(_PresenceSetting.PresenceSetting, {
+  }), /*#__PURE__*/_react["default"].createElement(_PresenceSetting.PresenceSetting, {
     showPresenceSettings: showPresenceSettings,
     dndStatus: dndStatus,
     userStatus: userStatus,
@@ -136,7 +136,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     setInvisible: setInvisible,
     toggleAcceptCallQueueCalls: toggleAcceptCallQueueCalls,
     openPresenceSettings: openPresenceSettings
-  }), children, _react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
+  }), children, /*#__PURE__*/_react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
     name: "autoLogCalls",
     dataSign: "AutoLogCall",
     show: showAutoLog,
@@ -145,7 +145,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     disabled: disableAutoLogEnabled,
     checked: autoLogEnabled,
     onChange: onAutoLogChange
-  }), _react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
+  }), /*#__PURE__*/_react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
     name: "autoLogNotes",
     dataSign: "AutoLogNotes",
     show: showAutoLogNotes,
@@ -153,7 +153,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     disabled: disableAutoLogNotesEnabled,
     checked: autoLogNotesEnabled,
     onChange: onAutoLogNotesChange
-  }), _react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
+  }), /*#__PURE__*/_react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
     name: "autoLogSMS",
     dataSign: "AutoLogSMS",
     customTitle: autoLogSMSTitle,
@@ -161,7 +161,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     currentLocale: currentLocale,
     checked: autoLogSMSEnabled,
     onChange: onAutoLogSMSChange
-  }), _react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
+  }), /*#__PURE__*/_react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
     name: "logSMSContent",
     dataSign: "LogSMSContent",
     customTitle: logSMSContentTitle,
@@ -169,7 +169,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     currentLocale: currentLocale,
     checked: logSMSContentEnabled,
     onChange: onLogSMSContentChange
-  }), _react["default"].createElement(_ClickToDial.ClickToDial, {
+  }), /*#__PURE__*/_react["default"].createElement(_ClickToDial.ClickToDial, {
     currentLocale: currentLocale,
     showClickToDial: showClickToDial,
     outboundSMS: outboundSMS,
@@ -177,17 +177,17 @@ var SettingsPanel = function SettingsPanel(_ref) {
     clickToDialEnabled: clickToDialEnabled,
     onClickToDialChange: onClickToDialChange,
     clickToDialTitle: clickToDialTitle
-  }), additional, _react["default"].createElement(_LinkLineItem.LinkLineItem, {
+  }), additional, /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "feedback",
     show: showFeedback,
     currentLocale: currentLocale,
     onClick: onFeedbackSettingsLinkClick
-  }), _react["default"].createElement(_LinkLineItem.LinkLineItem, {
+  }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "quickAccess",
     show: showQuickAccess,
     currentLocale: currentLocale,
     onClick: onQuickAccessLinkClick
-  }), _react["default"].createElement(_LinkLineItem.LinkLineItem, {
+  }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "userGuide",
     show: showUserGuide,
     currentLocale: currentLocale,

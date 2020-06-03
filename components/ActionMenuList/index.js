@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -25,9 +23,19 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -73,7 +81,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -81,15 +93,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function ConfirmDeleteModal(_ref) {
   var currentLocale = _ref.currentLocale,
@@ -105,12 +121,12 @@ function ConfirmDeleteModal(_ref) {
     tip = _i18n["default"].getString('sureToDeleteVoiceMail', currentLocale);
   }
 
-  return _react["default"].createElement(_Modal["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
     show: show,
     currentLocale: currentLocale,
     onConfirm: onDelete,
     onCancel: onCancel
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].contentText
   }, tip));
 }
@@ -136,12 +152,12 @@ function ClickToDialButton(_ref2) {
       disableClickToDial = _ref2.disableClickToDial,
       phoneNumber = _ref2.phoneNumber,
       title = _ref2.title;
-  return _react["default"].createElement(_Button.Button, {
+  return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToDialButton, className),
     onClick: onClickToDial,
     dataSign: title,
     disabled: disableCallButton || disableClickToDial || !phoneNumber
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _DynamicsFont["default"].call,
     title: title
   }));
@@ -172,12 +188,12 @@ function ClickToSmsButton(_ref3) {
       disableLinks = _ref3.disableLinks,
       phoneNumber = _ref3.phoneNumber,
       title = _ref3.title;
-  return _react["default"].createElement(_Button.Button, {
+  return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToSmsButton, className),
     onClick: onClickToSms,
     dataSign: "clickToSms",
     disabled: disableLinks || !phoneNumber
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _DynamicsFont["default"].composeText,
     title: title
   }));
@@ -203,14 +219,14 @@ function DeleteButton(_ref4) {
       title = _ref4.title,
       openDeleteModal = _ref4.openDeleteModal,
       disabled = _ref4.disabled;
-  return _react["default"].createElement(_Button.Button, {
+  return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: openDeleteModal,
     disabled: disabled,
     dataSign: title
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     title: title
-  }, _react["default"].createElement(_DeleteMessageIcon["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_DeleteMessageIcon["default"], {
     width: 14,
     height: 17,
     className: (0, _classnames["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
@@ -239,14 +255,14 @@ function MarkButton(_ref5) {
   var Icon = marked ? _Unmark["default"] : _Mark["default"];
   var title = marked ? unmarkTitle : markTitle;
   var classNames = (0, _classnames["default"])(_styles["default"].unmarked, marked ? _styles["default"].svgFillIcon : null, disabled ? _styles["default"].disabled : null);
-  return _react["default"].createElement(_Button.Button, {
+  return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
     disabled: disabled,
     dataSign: "mark"
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     title: title
-  }, _react["default"].createElement(Icon, {
+  }, /*#__PURE__*/_react["default"].createElement(Icon, {
     width: 14,
     height: 17,
     title: title,
@@ -273,13 +289,13 @@ function PreviewButton(_ref6) {
       onClick = _ref6.onClick,
       disabled = _ref6.disabled,
       className = _ref6.className;
-  return _react["default"].createElement(_Button.Button, {
+  return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
     disabled: disabled
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     title: title
-  }, _react["default"].createElement(_Preview["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Preview["default"], {
     className: (0, _classnames["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
   })));
 }
@@ -294,17 +310,17 @@ PreviewButton.defaultProps = {
   className: undefined
 };
 
-var ActionMenuList =
-/*#__PURE__*/
-function (_Component) {
+var ActionMenuList = /*#__PURE__*/function (_Component) {
   _inherits(ActionMenuList, _Component);
+
+  var _super = _createSuper(ActionMenuList);
 
   function ActionMenuList(props) {
     var _this;
 
     _classCallCheck(this, ActionMenuList);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ActionMenuList).call(this, props));
+    _this = _super.call(this, props);
 
     _this.onCreateEnityModal = function (entityType) {
       _this.props.onCreateEntity(entityType);
@@ -390,11 +406,10 @@ function (_Component) {
       disableDelete: false,
       marking: false
     };
-
-    _this.onMark = function _callee() {
+    _this.onMark = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var _this$props2, marked, onUnmark, onMark, onClick;
 
-      return regeneratorRuntime.async(function _callee$(_context) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -414,7 +429,7 @@ function (_Component) {
               onClick = marked ? onUnmark : onMark;
               _context.prev = 5;
               _context.next = 8;
-              return regeneratorRuntime.awrap(onClick());
+              return onClick();
 
             case 8:
               _context.next = 12;
@@ -434,9 +449,8 @@ function (_Component) {
               return _context.stop();
           }
         }
-      }, null, null, [[5, 10]]);
-    };
-
+      }, _callee, null, [[5, 10]]);
+    }));
     return _this;
   }
 
@@ -482,7 +496,7 @@ function (_Component) {
       var _this$state = this.state,
           deleteModalVisible = _this$state.deleteModalVisible,
           disableDelete = _this$state.disableDelete;
-      var logButton = onLog ? _react["default"].createElement(_LogButton["default"], {
+      var logButton = onLog ? /*#__PURE__*/_react["default"].createElement(_LogButton["default"], {
         className: _styles["default"].button,
         onLog: onLog,
         disableLinks: disableLinks,
@@ -496,7 +510,7 @@ function (_Component) {
 
       if (externalViewEntity) {
         if (externalHasEntity) {
-          entityButton = _react["default"].createElement(_EntityButton["default"], {
+          entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
             className: _styles["default"].button,
             onViewEntity: externalViewEntity,
             hasEntity: externalHasEntity,
@@ -504,7 +518,7 @@ function (_Component) {
             viewEntityTitle: viewEntityTitle
           });
         } else if (phoneNumber && onCreateEntity) {
-          entityButton = _react["default"].createElement(_EntityButton["default"], {
+          entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
             className: _styles["default"].button,
             onCreateEntity: this.openEntityModal,
             hasEntity: externalHasEntity,
@@ -515,7 +529,7 @@ function (_Component) {
           entityButton = null;
         }
       } else if (hasEntity && onViewEntity) {
-        entityButton = _react["default"].createElement(_EntityButton["default"], {
+        entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
           className: _styles["default"].button,
           onViewEntity: onViewEntity,
           hasEntity: hasEntity,
@@ -523,7 +537,7 @@ function (_Component) {
           viewEntityTitle: viewEntityTitle
         });
       } else if (!hasEntity && phoneNumber && onCreateEntity) {
-        entityButton = _react["default"].createElement(_EntityButton["default"], {
+        entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
           className: _styles["default"].button,
           onCreateEntity: this.openEntityModal,
           hasEntity: hasEntity,
@@ -534,14 +548,14 @@ function (_Component) {
         entityButton = null;
       }
 
-      var entityModal = !hasEntity && phoneNumber ? _react["default"].createElement(_EntityModal["default"], {
+      var entityModal = !hasEntity && phoneNumber ? /*#__PURE__*/_react["default"].createElement(_EntityModal["default"], {
         currentLocale: currentLocale,
         entities: createEntityTypes,
         show: this.state.entityModalVisible,
         onCreate: this.onCreateEnityModal,
         onCancel: this.onCancelEntityModal
       }) : null;
-      var clickToDialButton = onClickToDial ? _react["default"].createElement(ClickToDialButton, {
+      var clickToDialButton = onClickToDial ? /*#__PURE__*/_react["default"].createElement(ClickToDialButton, {
         onClickToDial: onClickToDial,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
@@ -550,53 +564,53 @@ function (_Component) {
         currentLocale: currentLocale,
         title: callTitle
       }) : null;
-      var clickToSmsButton = onClickToSms ? _react["default"].createElement(ClickToSmsButton, {
+      var clickToSmsButton = onClickToSms ? /*#__PURE__*/_react["default"].createElement(ClickToSmsButton, {
         onClickToSms: onClickToSms,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks || disableClickToSms,
         currentLocale: currentLocale,
         title: textTitle
       }) : null;
-      var deleteButton = onDelete ? _react["default"].createElement(DeleteButton, {
+      var deleteButton = onDelete ? /*#__PURE__*/_react["default"].createElement(DeleteButton, {
         onDelete: onDelete,
         currentLocale: currentLocale,
         title: deleteTitle,
         openDeleteModal: this.openDeleteModal,
         disabled: disableDelete || disableLinks
       }) : null;
-      var confirmDeleteModal = onDelete ? _react["default"].createElement(ConfirmDeleteModal, {
+      var confirmDeleteModal = onDelete ? /*#__PURE__*/_react["default"].createElement(ConfirmDeleteModal, {
         currentLocale: currentLocale,
         show: deleteModalVisible,
         onDelete: this.onDelete,
         onCancel: this.onCancelDelete,
         type: type
       }) : null;
-      var markButton = onMark ? _react["default"].createElement(MarkButton, {
+      var markButton = onMark ? /*#__PURE__*/_react["default"].createElement(MarkButton, {
         markTitle: markTitle,
         unmarkTitle: unmarkTitle,
         marked: marked,
         onClick: this.onMark,
         disabled: disableLinks
       }) : null;
-      var previewButton = onPreview && faxAttachment && faxAttachment.uri ? _react["default"].createElement(PreviewButton, {
+      var previewButton = onPreview && faxAttachment && faxAttachment.uri ? /*#__PURE__*/_react["default"].createElement(PreviewButton, {
         title: previewTitle,
         onClick: this.onPreview,
         disabled: disableLinks
       }) : null;
-      var downloadButton = faxAttachment && faxAttachment.uri ? _react["default"].createElement("div", {
+      var downloadButton = faxAttachment && faxAttachment.uri ? /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, _styles["default"].svgFillIcon, disableLinks ? _styles["default"].disabled : null)
-      }, _react["default"].createElement("a", {
+      }, /*#__PURE__*/_react["default"].createElement("a", {
         target: "_blank",
         download: true,
         title: downloadTitle,
         href: faxAttachment.uri,
         onClick: this._onDownloadClick,
         disabled: disableLinks
-      }, _react["default"].createElement(_Download["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_Download["default"], {
         width: 18,
         height: 18
       }))) : null;
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, className),
         onClick: this.preventEventPropogation
       }, clickToDialButton, clickToSmsButton, previewButton, downloadButton, entityButton, logButton, markButton, deleteButton, entityModal, confirmDeleteModal);

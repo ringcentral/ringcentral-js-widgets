@@ -1,19 +1,14 @@
-import {
-  RcDatePicker,
-  RcLineSelect,
-  RcMenuItem,
-  RcTextField,
-} from '@ringcentral-integration/rcui';
+import { RcDatePicker } from '@ringcentral-integration/rcui';
 import React, { Component } from 'react';
 
 import { setUTCTime } from '../../../lib/timeFormatHelper';
 import InputSelect from '../../InputSelect';
-import { CustomArrowButton } from '../../Rcui/CustomArrowButton';
-import { SelectList } from '../../SelectList';
 import { CallLogFieldsProps, FieldMetadata } from '../CallLogFields.interface';
 import { FieldItemOption, FieldsMap } from './FieldItem.interface';
+import { FullSelectField } from './FullSelectField';
+import { LogFieldsInput } from './LogFieldsInput';
+import { SelectField } from './SelectField';
 import styles from './styles.scss';
-import { LogFieldsInput } from './utils';
 
 const DEFAULT_FINDER = {
   getValue: (item) => (typeof item === 'object' ? item.id : item) || null,
@@ -116,8 +111,12 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     const rightIcon = rightIconRender
       ? rightIconRender(phoneNumber)
       : undefined;
+
+    const currentValue =
+      getLabel(currentOption, matchedEntities.length, currentLog) || '';
+
     return (
-      <SelectList
+      <FullSelectField
         {...this.props}
         title={title}
         rightIcon={rightIcon}
@@ -143,15 +142,11 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         foundFromServerEntities={foundFromServerEntities}
         contactSearch={contactSearch}
         showFoundFromServer={showFoundFromServer}
-      >
-        {this.renderTextField({
-          disabled,
-          title,
-          dataSign: value,
-          disableReason,
-          value: getLabel(currentOption, matchedEntities.length, currentLog),
-        })}
-      </SelectList>
+        TextFieldProps={{
+          helperText: disableReason,
+          value: currentValue,
+        }}
+      />
     );
   };
 
@@ -244,6 +239,8 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     );
   };
 
+  fieldItemRef = React.createRef<HTMLDivElement>();
+
   private renderSelectMenu = () => {
     const {
       fieldOption: {
@@ -255,6 +252,8 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         helperText,
         error,
         onChange,
+        disabled: propsDisabled = false,
+        placeholder,
       },
       onSave,
     } = this.props;
@@ -263,30 +262,31 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       let value: string = item as any;
       let label =
         item !== null ? (item as any) : defaultValue || appDefaultValue;
+      let disabled = false;
+
       if (item instanceof Object) {
         value = item.value;
         label = item.label;
+        disabled = item.disabled;
       }
       return {
         label,
         value,
+        disabled,
       };
     });
 
     return (
-      <RcLineSelect
+      <SelectField
         data-sign={fieldValue}
-        SelectProps={{
-          classes: {
-            icon: styles.select,
-          },
-        }}
+        disabled={propsDisabled}
+        placeholder={placeholder}
         fullWidth
         helperText={helperText}
         error={error}
         required={required}
         label={label}
-        value={this.currentValue || defaultValue || ''}
+        value={this.currentValue || defaultValue}
         onChange={async ({ target: { value } }) => {
           if (picklistOptions[value]) {
             value = picklistOptions[value].value;
@@ -295,42 +295,10 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           await onSave();
           if (onChange) onChange(value);
         }}
-      >
-        {selectList.map((item, i) => (
-          <RcMenuItem
-            key={i}
-            value={`${item.value}`}
-            data-sign={`option${i}`}
-            classes={{ root: styles.item }}
-          >
-            {item.label}
-          </RcMenuItem>
-        ))}
-      </RcLineSelect>
-    );
-  };
-
-  private renderTextField({ disabled, title, dataSign, value, disableReason }) {
-    return (
-      <RcTextField
-        title={value}
-        disabled={disabled}
-        data-sign={dataSign}
-        InputProps={{
-          classes: {
-            input: styles.customTextField,
-          },
-          readOnly: true,
-          endAdornment: this.getRightButtons(disabled),
-        }}
-        helperText={disableReason}
-        label={title}
-        value={value || ''}
-        fullWidth
-        clearBtn={false}
+        options={selectList}
       />
     );
-  }
+  };
 
   private onInputSelectChange = (value) => async (item) => {
     const {
@@ -362,10 +330,6 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     debounce(onSave);
   }
 
-  private getRightButtons(disabled) {
-    return <CustomArrowButton disabled={disabled} />;
-  }
-
   private fieldsRenderMap: FieldsMap = {
     reference: this.renderReference,
     picklist: this.renderSelectMenu,
@@ -379,12 +343,20 @@ export class FieldItem extends Component<FieldItemProps, {}> {
 
   render() {
     const {
-      fieldOption: { value, type },
+      fieldOption: { value, type, error, enableScrollError },
+      editSectionScrollBy,
     } = this.props;
 
     if (this.fieldsRenderMap[type]) {
+      if (error && enableScrollError && this.fieldItemRef.current) {
+        editSectionScrollBy(this.fieldItemRef.current.offsetTop);
+      }
       return (
-        <div data-sign="callLogField" className={styles.row}>
+        <div
+          ref={this.fieldItemRef}
+          data-sign="callLogField"
+          className={styles.row}
+        >
           {this.fieldsRenderMap[type]()}
         </div>
       );

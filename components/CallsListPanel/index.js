@@ -13,6 +13,14 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.array.map");
@@ -47,7 +55,7 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -55,15 +63,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 // TODO it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
 var HEADER_HEIGHT = 38;
@@ -109,12 +121,12 @@ function ActiveCallList(_ref) {
     return null;
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].list, className)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].listTitle
   }, title), calls.map(function (call) {
-    return _react["default"].createElement(_ActiveCallItem["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_ActiveCallItem["default"], {
       call: call,
       key: call.id,
       currentLocale: currentLocale,
@@ -222,17 +234,17 @@ ActiveCallList.defaultProps = {
   readTextPermission: true
 };
 
-var CallsListPanel =
-/*#__PURE__*/
-function (_React$PureComponent) {
+var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
   _inherits(CallsListPanel, _React$PureComponent);
+
+  var _super = _createSuper(CallsListPanel);
 
   function CallsListPanel(props) {
     var _this;
 
     _classCallCheck(this, CallsListPanel);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallsListPanel).call(this, props));
+    _this = _super.call(this, props);
     _this._onResize = (0, _debounce["default"])(function () {
       if (_this._mounted) {
         _this._calculateContentSize();
@@ -243,7 +255,7 @@ function (_React$PureComponent) {
       contentWidth: 0
     };
     _this._mounted = false;
-    _this._listWrapper = _react["default"].createRef();
+    _this._listWrapper = /*#__PURE__*/_react["default"].createRef();
     return _this;
   }
 
@@ -325,7 +337,7 @@ function (_React$PureComponent) {
           onExpandNotification = _this$props.onExpandNotification,
           onDiscardNotification = _this$props.onDiscardNotification,
           notificationContainerStyles = _this$props.notificationContainerStyles;
-      return _react["default"].createElement("div", null, _react["default"].createElement(_InsideModal["default"], {
+      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_InsideModal["default"], {
         title: currentLog.title,
         show: currentLog.showLog,
         onClose: onCloseLogSection,
@@ -333,7 +345,7 @@ function (_React$PureComponent) {
         containerStyles: sectionContainerStyles,
         modalStyles: sectionModalStyles,
         maskStyle: _styles["default"].maskStyle
-      }, _react["default"].createElement(_LogSection["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_LogSection["default"], {
         currentLocale: currentLocale,
         currentLog: currentLog,
         additionalInfo: additionalInfo,
@@ -344,14 +356,14 @@ function (_React$PureComponent) {
         onUpdateCallLog: onUpdateCallLog,
         onSaveCallLog: onSaveCallLog,
         showSaveLogBtn: showSaveLogBtn
-      })), logNotification ? _react["default"].createElement(_InsideModal["default"], {
+      })), logNotification ? /*#__PURE__*/_react["default"].createElement(_InsideModal["default"], {
         show: logNotification.showNotification,
         showTitle: false,
         containerStyles: (0, _classnames["default"])(_styles["default"].notificationContainer, notificationContainerStyles),
         modalStyles: _styles["default"].notificationModal,
         contentStyle: _styles["default"].notificationContent,
         onClose: onCloseNotification
-      }, _react["default"].createElement(_LogNotification["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_LogNotification["default"], {
         showLogButton: showNotiLogButton,
         currentLocale: currentLocale,
         formatPhone: formatPhone,
@@ -441,11 +453,11 @@ function (_React$PureComponent) {
           contentHeight = _this$state.contentHeight;
 
       if (showSpinner) {
-        return _react["default"].createElement(_SpinnerOverlay["default"], null);
+        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
       }
 
       var isShowMessageIcon = readTextPermission && !!onClickToSms;
-      var CallsListView = useNewList ? _react["default"].createElement(_CallListV["default"], {
+      var CallsListView = useNewList ? /*#__PURE__*/_react["default"].createElement(_CallListV["default"], {
         width: adaptive ? contentWidth : width,
         height: adaptive ? contentHeight : height,
         brand: brand,
@@ -483,7 +495,7 @@ function (_React$PureComponent) {
         externalViewEntity: externalViewEntity,
         externalHasEntity: externalHasEntity,
         readTextPermission: isShowMessageIcon
-      }) : _react["default"].createElement(_CallList["default"], {
+      }) : /*#__PURE__*/_react["default"].createElement(_CallList["default"], {
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -520,9 +532,9 @@ function (_React$PureComponent) {
         externalHasEntity: externalHasEntity,
         readTextPermission: isShowMessageIcon
       });
-      var search = onSearchInputChange ? _react["default"].createElement("div", {
+      var search = onSearchInputChange ? /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].searchContainer)
-      }, _react["default"].createElement(_SearchInput["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_SearchInput["default"], {
         key: "100",
         className: _styles["default"].searchInput,
         value: searchInput,
@@ -532,7 +544,7 @@ function (_React$PureComponent) {
       })) : null;
 
       var getCallList = function getCallList(calls, title) {
-        return _react["default"].createElement(ActiveCallList, {
+        return /*#__PURE__*/_react["default"].createElement(ActiveCallList, {
           title: title,
           calls: calls,
           currentLocale: currentLocale,
@@ -570,20 +582,20 @@ function (_React$PureComponent) {
         });
       };
 
-      var historyCall = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : _react["default"].createElement("div", {
+      var historyCall = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].list, className)
-      }, !onlyHistory && _react["default"].createElement("div", {
+      }, !onlyHistory && /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].listTitle
       }, _i18n["default"].getString('historyCalls', currentLocale)), CallsListView);
 
-      var noCalls = otherDeviceCalls.length === 0 && _react["default"].createElement("p", {
+      var noCalls = otherDeviceCalls.length === 0 && /*#__PURE__*/_react["default"].createElement("p", {
         className: _styles["default"].noCalls
       }, _i18n["default"].getString('noCalls', currentLocale));
 
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].container, onSearchInputChange ? _styles["default"].containerWithSearch : null),
         ref: this._listWrapper
-      }, children, search, _react["default"].createElement("div", {
+      }, children, search, /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, currentLog && currentLog.showLog ? _styles["default"].hiddenScroll : '', className),
         ref: this._root
       }, onlyHistory || getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale)), onlyHistory || getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale)), onlyHistory || getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale)), onlyHistory || getCallList(otherDeviceCalls, _i18n["default"].getString('otherDeviceCall', currentLocale)), calls.length > 0 ? historyCall : noCalls), this.renderLogSection());

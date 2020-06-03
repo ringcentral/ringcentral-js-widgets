@@ -50,7 +50,7 @@ function Eula(props) {
       break;
   }
 
-  return _react["default"].createElement("a", {
+  return /*#__PURE__*/_react["default"].createElement("a", {
     className: className,
     href: link,
     rel: "noopener noreferrer",

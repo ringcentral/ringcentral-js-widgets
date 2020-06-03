@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
 require("regenerator-runtime/runtime");
 
 require("react-widgets/dist/css/react-widgets.css");
@@ -22,6 +26,10 @@ var _MeetingConfigs = _interopRequireDefault(require("../MeetingConfigs"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var MeetingPanel = function MeetingPanel(props) {
   var update = props.update,
@@ -43,9 +51,9 @@ var MeetingPanel = function MeetingPanel(props) {
       init = props.init,
       showSaveAsDefault = props.showSaveAsDefault,
       launchMeeting = props.launchMeeting;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingPanel
-  }, !hidden ? _react["default"].createElement(_MeetingConfigs["default"], {
+  }, !hidden ? /*#__PURE__*/_react["default"].createElement(_MeetingConfigs["default"], {
     update: update,
     init: init,
     meeting: meeting,
@@ -59,15 +67,15 @@ var MeetingPanel = function MeetingPanel(props) {
     meetingOptionToggle: meetingOptionToggle,
     passwordPlaceholderEnable: passwordPlaceholderEnable,
     audioOptionToggle: audioOptionToggle
-  }) : null, ScheduleButton && _react["default"].createElement(ScheduleButton, {
+  }) : null, ScheduleButton && /*#__PURE__*/_react["default"].createElement(ScheduleButton, {
     currentLocale: currentLocale,
     hidden: hidden,
     disabled: disabled,
     meeting: meeting,
     onOK: onOK,
-    onClick: function _callee() {
+    onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var opener;
-      return regeneratorRuntime.async(function _callee$(_context) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -77,7 +85,7 @@ var MeetingPanel = function MeetingPanel(props) {
               }
 
               _context.next = 3;
-              return regeneratorRuntime.awrap((0, _sleep["default"])(100));
+              return (0, _sleep["default"])(100);
 
             case 3:
               /**
@@ -87,15 +95,15 @@ var MeetingPanel = function MeetingPanel(props) {
                */
               opener = openNewWindow && (0, _isSafari["default"])() ? window.open() : null;
               _context.next = 6;
-              return regeneratorRuntime.awrap(invite(meeting, opener));
+              return invite(meeting, opener);
 
             case 6:
             case "end":
               return _context.stop();
           }
         }
-      });
-    },
+      }, _callee);
+    })),
     update: update,
     showSaveAsDefault: showSaveAsDefault,
     launchMeeting: launchMeeting

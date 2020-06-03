@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -23,6 +21,14 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -48,7 +54,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -56,28 +62,32 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function CallInfoBar(_ref) {
   var label = _ref.label,
       onClick = _ref.onClick,
       currentLocale = _ref.currentLocale,
       shouldDisplayViewCallsBtn = _ref.shouldDisplayViewCallsBtn;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].bar
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].currentCallInfo,
     title: label,
     onClick: onClick
-  }, label), shouldDisplayViewCallsBtn ? _react["default"].createElement(_Button.Button, {
+  }, label), shouldDisplayViewCallsBtn ? /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: _styles["default"].viewCallsBtn,
     tooltip: _i18n["default"].getString('viewCalls', currentLocale),
     onClick: onClick
@@ -97,17 +107,17 @@ CallInfoBar.defaultProps = {
   shouldDisplayViewCallsBtn: false
 };
 
-var CallMonitorBar =
-/*#__PURE__*/
-function (_Component) {
+var CallMonitorBar = /*#__PURE__*/function (_Component) {
   _inherits(CallMonitorBar, _Component);
+
+  var _super = _createSuper(CallMonitorBar);
 
   function CallMonitorBar(props) {
     var _this;
 
     _classCallCheck(this, CallMonitorBar);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallMonitorBar).call(this, props));
+    _this = _super.call(this, props);
     _this.state = {
       hoverBar: false
     };
@@ -143,15 +153,15 @@ function (_Component) {
           shouldDisplayViewCallsBtn = _this$props.shouldDisplayViewCallsBtn;
       var numberOfIncomingCalls = ringingCalls.length;
       var numberOfOnHoldCalls = onHoldCalls.length;
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].bar,
         onMouseOver: this.showBtn,
         onMouseLeave: this.hideBtn
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].box
-      }, _react["default"].createElement(_CarrouselBar["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_CarrouselBar["default"], {
         hoverBar: this.state.hoverBar
-      }, numberOfOnHoldCalls > 0 ? _react["default"].createElement(CallInfoBar, {
+      }, numberOfOnHoldCalls > 0 ? /*#__PURE__*/_react["default"].createElement(CallInfoBar, {
         label: numberOfOnHoldCalls === 1 ? (0, _formatMessage["default"])(_i18n["default"].getString('callOnHold', currentLocale), {
           numberOf: numberOfOnHoldCalls
         }) : (0, _formatMessage["default"])(_i18n["default"].getString('callsOnHold', currentLocale), {
@@ -160,7 +170,7 @@ function (_Component) {
         currentLocale: currentLocale,
         onClick: onViewCallBtnClick,
         shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
-      }) : null, numberOfIncomingCalls > 0 ? _react["default"].createElement(CallInfoBar, {
+      }) : null, numberOfIncomingCalls > 0 ? /*#__PURE__*/_react["default"].createElement(CallInfoBar, {
         label: numberOfIncomingCalls === 1 ? (0, _formatMessage["default"])(_i18n["default"].getString('incomingCall', currentLocale), {
           numberOf: numberOfIncomingCalls
         }) : (0, _formatMessage["default"])(_i18n["default"].getString('incomingCalls', currentLocale), {
@@ -169,15 +179,15 @@ function (_Component) {
         currentLocale: currentLocale,
         onClick: onViewCallBtnClick,
         shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
-      }) : null, currentCalls.length > 0 ? _react["default"].createElement("div", {
+      }) : null, currentCalls.length > 0 ? /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].bar
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "callDuration",
         className: _styles["default"].duration,
         onClick: onCurrentCallBtnClick
-      }, _react["default"].createElement(_DurationCounter["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
         startTime: currentCalls[0].startTime
-      })), shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? _react["default"].createElement(_Button.Button, {
+      })), shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         dataSign: "currentCallButton",
         className: _styles["default"].currentCallBtn,
         onClick: onCurrentCallBtnClick

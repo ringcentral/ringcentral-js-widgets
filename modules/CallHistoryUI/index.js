@@ -9,9 +9,19 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -33,7 +43,11 @@ var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -41,15 +55,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var CallHistoryUI = (_dec = (0, _di.Module)({
   name: 'CallHistoryUI',
@@ -69,15 +87,15 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
     dep: 'ContactDetailsUI',
     optional: true
   }, 'ContactMatcher', 'RouterInteraction', 'ContactSearch', 'ConnectivityManager']
-}), _dec(_class =
-/*#__PURE__*/
-function (_RcUIModule) {
+}), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
   _inherits(CallHistoryUI, _RcUIModule);
+
+  var _super = _createSuper(CallHistoryUI);
 
   function CallHistoryUI() {
     _classCallCheck(this, CallHistoryUI);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(CallHistoryUI).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(CallHistoryUI, [{
@@ -159,47 +177,53 @@ function (_RcUIModule) {
             });
           }
         },
-        onCreateContact: onCreateContact ? function _callee(_ref4) {
-          var phoneNumber, name, entityType, hasMatchNumber;
-          return regeneratorRuntime.async(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  phoneNumber = _ref4.phoneNumber, name = _ref4.name, entityType = _ref4.entityType;
-                  _context.next = 3;
-                  return regeneratorRuntime.awrap(contactMatcher.hasMatchNumber({
-                    phoneNumber: phoneNumber,
-                    ignoreCache: true
-                  }));
+        onCreateContact: onCreateContact ? /*#__PURE__*/function () {
+          var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref4) {
+            var phoneNumber, name, entityType, hasMatchNumber;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    phoneNumber = _ref4.phoneNumber, name = _ref4.name, entityType = _ref4.entityType;
+                    _context.next = 3;
+                    return contactMatcher.hasMatchNumber({
+                      phoneNumber: phoneNumber,
+                      ignoreCache: true
+                    });
 
-                case 3:
-                  hasMatchNumber = _context.sent;
+                  case 3:
+                    hasMatchNumber = _context.sent;
 
-                  if (hasMatchNumber) {
+                    if (hasMatchNumber) {
+                      _context.next = 9;
+                      break;
+                    }
+
+                    _context.next = 7;
+                    return onCreateContact({
+                      phoneNumber: phoneNumber,
+                      name: name,
+                      entityType: entityType
+                    });
+
+                  case 7:
                     _context.next = 9;
-                    break;
-                  }
+                    return contactMatcher.forceMatchNumber({
+                      phoneNumber: phoneNumber
+                    });
 
-                  _context.next = 7;
-                  return regeneratorRuntime.awrap(onCreateContact({
-                    phoneNumber: phoneNumber,
-                    name: name,
-                    entityType: entityType
-                  }));
-
-                case 7:
-                  _context.next = 9;
-                  return regeneratorRuntime.awrap(contactMatcher.forceMatchNumber({
-                    phoneNumber: phoneNumber
-                  }));
-
-                case 9:
-                case "end":
-                  return _context.stop();
+                  case 9:
+                  case "end":
+                    return _context.stop();
+                }
               }
-            }
-          });
-        } : undefined,
+            }, _callee);
+          }));
+
+          return function (_x) {
+            return _ref5.apply(this, arguments);
+          };
+        }() : undefined,
         onClickToDial: dialerUI && rolesAndPermissions.callingEnabled ? function (recipient) {
           if (call.isIdle) {
             routerInteraction.push(dialerRoute);
@@ -209,65 +233,77 @@ function (_RcUIModule) {
             callHistory.onClickToCall();
           }
         } : undefined,
-        onClickToSms: composeText ? function _callee2(contact) {
-          var isDummyContact,
-              _args2 = arguments;
-          return regeneratorRuntime.async(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  isDummyContact = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : false;
+        onClickToSms: composeText ? /*#__PURE__*/function () {
+          var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(contact) {
+            var isDummyContact,
+                _args2 = arguments;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    isDummyContact = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : false;
 
-                  if (routerInteraction) {
-                    routerInteraction.push(composeTextRoute);
-                  } // if contact autocomplete, if no match fill the number only
+                    if (routerInteraction) {
+                      routerInteraction.push(composeTextRoute);
+                    } // if contact autocomplete, if no match fill the number only
 
 
-                  if (contact.name && contact.phoneNumber && isDummyContact) {
-                    composeText.updateTypingToNumber(contact.name);
-                    contactSearch.search({
-                      searchString: contact.name
-                    });
-                  } else {
-                    composeText.addToNumber(contact);
+                    if (contact.name && contact.phoneNumber && isDummyContact) {
+                      composeText.updateTypingToNumber(contact.name);
+                      contactSearch.search({
+                        searchString: contact.name
+                      });
+                    } else {
+                      composeText.addToNumber(contact);
 
-                    if (composeText.typingToNumber === contact.phoneNumber) {
-                      composeText.cleanTypingToNumber();
+                      if (composeText.typingToNumber === contact.phoneNumber) {
+                        composeText.cleanTypingToNumber();
+                      }
                     }
-                  }
 
-                  callHistory.onClickToSMS();
+                    callHistory.onClickToSMS();
 
-                case 4:
-                case "end":
-                  return _context2.stop();
+                  case 4:
+                  case "end":
+                    return _context2.stop();
+                }
               }
-            }
-          });
-        } : undefined,
+            }, _callee2);
+          }));
+
+          return function (_x2) {
+            return _ref6.apply(this, arguments);
+          };
+        }() : undefined,
         isLoggedContact: isLoggedContact,
-        onLogCall: onLogCall || callLogger && function _callee3(_ref5) {
-          var call, contact, _ref5$redirect, redirect;
+        onLogCall: onLogCall || callLogger && /*#__PURE__*/function () {
+          var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref7) {
+            var call, contact, _ref7$redirect, redirect;
 
-          return regeneratorRuntime.async(function _callee3$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  call = _ref5.call, contact = _ref5.contact, _ref5$redirect = _ref5.redirect, redirect = _ref5$redirect === void 0 ? true : _ref5$redirect;
-                  _context3.next = 3;
-                  return regeneratorRuntime.awrap(callLogger.logCall({
-                    call: call,
-                    contact: contact,
-                    redirect: redirect
-                  }));
+            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+              while (1) {
+                switch (_context3.prev = _context3.next) {
+                  case 0:
+                    call = _ref7.call, contact = _ref7.contact, _ref7$redirect = _ref7.redirect, redirect = _ref7$redirect === void 0 ? true : _ref7$redirect;
+                    _context3.next = 3;
+                    return callLogger.logCall({
+                      call: call,
+                      contact: contact,
+                      redirect: redirect
+                    });
 
-                case 3:
-                case "end":
-                  return _context3.stop();
+                  case 3:
+                  case "end":
+                    return _context3.stop();
+                }
               }
-            }
-          });
-        }
+            }, _callee3);
+          }));
+
+          return function (_x3) {
+            return _ref8.apply(this, arguments);
+          };
+        }()
       };
     }
   }]);

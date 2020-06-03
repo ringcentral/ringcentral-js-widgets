@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _connectivityTypes = _interopRequireDefault(require("ringcentral-widgets/modules/ConnectivityManager/connectivityTypes"));
+var _connectivityTypes = _interopRequireDefault(require("../../../modules/ConnectivityManager/connectivityTypes"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -20,7 +20,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function ConnectivityAlert(_ref) {
   var message = _ref.message.message,
       currentLocale = _ref.currentLocale;
-  return _react["default"].createElement("div", null, _i18n["default"].getString(message, currentLocale));
+  return /*#__PURE__*/_react["default"].createElement("div", null, _i18n["default"].getString(message, currentLocale));
 }
 
 ConnectivityAlert.propTypes = {

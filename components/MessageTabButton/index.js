@@ -29,29 +29,29 @@ function NavigationButton(_ref) {
 
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
-      notice = _react["default"].createElement("div", {
+      notice = /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "noticeCounts",
         className: _styles["default"].notices
       }, "99+");
     } else {
-      notice = _react["default"].createElement("div", {
+      notice = /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "noticeCounts",
         className: _styles["default"].notice
       }, noticeCounts);
     }
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     onClick: onClick,
     className: (0, _classnames["default"])(_styles["default"].navigationButton, active && _styles["default"].active, fullSizeInk ? null : _styles["default"].linearBorder),
     style: {
       width: width
     }
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].iconHolder,
     title: label,
     "data-sign": label
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].icon
   }, icon), notice));
 }

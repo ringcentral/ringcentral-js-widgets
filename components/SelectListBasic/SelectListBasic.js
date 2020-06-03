@@ -1,12 +1,10 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
@@ -15,17 +13,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SelectListBasic = void 0;
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.function.name");
+
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
+require("core-js/modules/web.dom.iterable");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.is-array");
 
@@ -33,23 +37,27 @@ require("core-js/modules/es6.regexp.search");
 
 require("core-js/modules/es6.array.filter");
 
-var _iconSearch = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-search.svg"));
+var _rcui = require("@ringcentral-integration/rcui");
 
-var _react = _interopRequireWildcard(require("react"));
+var _iconSearch = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-search.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _rcui = require("@ringcentral-integration/rcui");
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _react = _interopRequireWildcard(require("react"));
+
+var _AnimationPanel = require("../AnimationPanel");
 
 var _BackHeaderV = _interopRequireDefault(require("../BackHeaderV2"));
 
+var _Tooltip = require("../Rcui/Tooltip");
+
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
+
+var _toolTipDelayTime = require("../../lib/toolTipDelayTime");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -57,11 +65,15 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -102,7 +114,11 @@ var SelectListBasic = function SelectListBasic(_ref) {
       setFilter = _useState2[1];
 
   var scrollElmRef = (0, _react.useRef)();
-  var matchElmRef = (0, _react.useRef)();
+  var matchElmRef = (0, _react.useRef)(); // When open change clear filter
+
+  (0, _react.useEffect)(function () {
+    setFilter(null);
+  }, [open]);
   var hasSearch = searchOption && filter;
   var matchOptions = hasSearch ? options.filter(function (option) {
     return searchOption(option, filter);
@@ -117,7 +133,6 @@ var SelectListBasic = function SelectListBasic(_ref) {
 
   var backHeaderOnclick = function backHeaderOnclick() {
     setOpen(false);
-    setFilter(null);
 
     if (showFoundFromServer && typeof setShowSearchFromServerHint === 'function') {
       setShowSearchFromServerHint(false);
@@ -128,40 +143,44 @@ var SelectListBasic = function SelectListBasic(_ref) {
     }
   };
 
-  var foundFromServerHint = _react["default"].createElement("p", {
+  var foundFromServerHint = /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].hint
   }, (0, _formatMessage["default"])(_i18n["default"].getString('foundFromServerHint', currentLocale), {
     appName: appName
   }));
 
-  var notResultFoundFromServer = _react["default"].createElement("p", {
+  var notResultFoundFromServer = /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].loading
   }, ' ', _i18n["default"].getString('notResultFoundFromServer', currentLocale));
 
-  var loading = _react["default"].createElement("p", {
+  var loading = /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].loading
   }, _i18n["default"].getString('loading', currentLocale));
 
   var notFoundFromServer = !isSearching && !showSearchFromServerHint ? notResultFoundFromServer : foundFromServerHint;
   var showLoading = isSearching ? loading : notFoundFromServer;
-  return _react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].list, open ? _styles["default"].active : null, selectListBasicClassName)
-  }, open ? _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_BackHeaderV["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_AnimationPanel.AnimationPanel, {
+    open: open,
+    className: selectListBasicClassName
+  }, open ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_BackHeaderV["default"], {
     currentLocale: currentLocale,
     title: title,
     onBackClick: backHeaderOnclick,
     rightIcon: rightIcon,
     className: backHeaderClassName
-  }), _react["default"].createElement("main", {
+  }), /*#__PURE__*/_react["default"].createElement("main", {
+    className: _styles["default"].main,
     "data-sign": "selectList"
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+    title: placeholder,
+    enterDelay: _toolTipDelayTime.TOOLTIP_DEFAULT_DELAY_TIME
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].search
-  }, !filter && _react["default"].createElement("span", {
+  }, !filter && /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].placeholder
-  }, placeholder), _react["default"].createElement(_rcui.RcOutlineTextField, {
+  }, placeholder), /*#__PURE__*/_react["default"].createElement(_rcui.RcOutlineTextField, {
     size: "small",
     radiusType: "circle",
-    fullWidth: true,
     iconPosition: "left",
     symbol: _iconSearch["default"],
     "data-sign": "searchBar",
@@ -186,72 +205,41 @@ var SelectListBasic = function SelectListBasic(_ref) {
         }
       }
     }
-  })), _react["default"].createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].listContainer, listContainerClassName),
     ref: scrollElmRef,
     "data-sign": "searchResult"
-  }, hasResult || showFoundFromServer ? _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
+  }, hasResult || showFoundFromServer ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
     ref: matchElmRef,
     className: _styles["default"].text
-  }, matchedTitle && _react["default"].createElement("div", {
+  }, matchedTitle && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].title
   }, matchedTitle, " (", matchOptions.length, ")"), matchOptions.length > 0 && renderListView(matchOptions, 'matched', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
-  })), _react["default"].createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].text
-  }, otherTitle && _react["default"].createElement("div", {
+  }, otherTitle && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].title
   }, otherTitle, " (", matchOtherOptions.length, ")"), matchOtherOptions.length > 0 && renderListView(matchOtherOptions, 'other', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
-  })), showAssociatedSection && _react["default"].createElement("div", {
+  })), showAssociatedSection && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].text
-  }, associatedTitle && _react["default"].createElement("div", {
+  }, associatedTitle && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].title
   }, associatedTitle, " (", matchAssociatedOptions.length, ")"), matchAssociatedOptions.length > 0 && renderListView(matchAssociatedOptions, 'other', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
-  })), showFoundFromServer && _react["default"].createElement("div", {
+  })), showFoundFromServer && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].text
-  }, foundFromServerTitle && _react["default"].createElement("div", {
+  }, foundFromServerTitle && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].title
   }, foundFromServerTitle, " (", foundFromServerEntities.length, ")"), foundFromServerEntities && foundFromServerEntities.length > 0 ? renderListView(foundFromServerEntities, 'custom', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
-  }) : showLoading)) : _react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].search, _styles["default"].text, 'text-break')
-  }, "".concat(_i18n["default"].getString('noResultFoundFor', currentLocale), " '").concat(filter, "'"))))) : null);
+  }) : showLoading)) : /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].search, _styles["default"].text)
+  }, "".concat(_i18n["default"].getString('noResultFoundFor', currentLocale), " \"").concat(filter, "\""))))) : null);
 };
 
 exports.SelectListBasic = SelectListBasic;
-SelectListBasic.propTypes = {
-  title: _propTypes["default"].string.isRequired,
-  options: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  otherOptions: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  associatedOptions: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  showAssociatedSection: _propTypes["default"].bool,
-  placeholder: _propTypes["default"].string,
-  searchOption: _propTypes["default"].func.isRequired,
-  rightIcon: _propTypes["default"].element,
-  currentLocale: _propTypes["default"].string.isRequired,
-  matchedTitle: _propTypes["default"].string,
-  otherTitle: _propTypes["default"].string,
-  associatedTitle: _propTypes["default"].string,
-  renderListView: _propTypes["default"].func,
-  open: _propTypes["default"].bool,
-  setOpen: _propTypes["default"].func,
-  scrollCheck: _propTypes["default"].func,
-  selectListBasicClassName: _propTypes["default"].string,
-  backHeaderClassName: _propTypes["default"].string,
-  listContainerClassName: _propTypes["default"].string,
-  onBackClick: _propTypes["default"].func,
-  contactSearch: _propTypes["default"].func,
-  field: _propTypes["default"].string,
-  foundFromServerTitle: _propTypes["default"].string,
-  showFoundFromServer: _propTypes["default"].bool,
-  foundFromServerEntities: _propTypes["default"].array,
-  appName: _propTypes["default"].string,
-  isSearching: _propTypes["default"].bool,
-  setShowSearchFromServerHint: _propTypes["default"].func,
-  showSearchFromServerHint: _propTypes["default"].bool
-};
 SelectListBasic.defaultProps = {
   options: [],
   otherOptions: [],
@@ -261,7 +249,9 @@ SelectListBasic.defaultProps = {
   rightIcon: null,
   setOpen: function setOpen() {},
   open: false,
-  renderListView: function renderListView() {},
+  renderListView: function renderListView() {
+    return null;
+  },
   scrollCheck: function scrollCheck() {},
   selectListBasicClassName: null,
   backHeaderClassName: null,

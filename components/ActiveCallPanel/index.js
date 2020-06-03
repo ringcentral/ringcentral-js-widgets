@@ -89,19 +89,19 @@ function ActiveCallPanel(_ref) {
       actions = _ref.actions,
       controlBusy = _ref.controlBusy,
       callQueueName = _ref.callQueueName;
-  var backHeader = showBackButton ? _react["default"].createElement(_BackHeader["default"], {
+  var backHeader = showBackButton ? /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
     onBackClick: onBackButtonClick,
-    backButton: _react["default"].createElement(_BackButton["default"], {
+    backButton: /*#__PURE__*/_react["default"].createElement(_BackButton["default"], {
       label: backButtonLabel
     })
   }) : null;
 
-  var timeCounter = _react["default"].createElement("div", {
+  var timeCounter = /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].timeCounter
-  }, startTime ? _react["default"].createElement(_DurationCounter["default"], {
+  }, startTime ? /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
     startTime: startTime,
     offset: startTimeOffset
-  }) : _react["default"].createElement("span", {
+  }) : /*#__PURE__*/_react["default"].createElement("span", {
     "aria-hidden": "true"
   }, "\xA0"));
 
@@ -110,7 +110,7 @@ function ActiveCallPanel(_ref) {
 
   switch (layout) {
     case _callCtrlLayouts["default"].mergeCtrl:
-      callInfo = _react["default"].createElement(_MergeInfo["default"], {
+      callInfo = /*#__PURE__*/_react["default"].createElement(_MergeInfo["default"], {
         currentLocale: currentLocale,
         timeCounter: timeCounter,
         lastCallInfo: lastCallInfo,
@@ -122,7 +122,7 @@ function ActiveCallPanel(_ref) {
       break;
 
     case _callCtrlLayouts["default"].conferenceCtrl:
-      callInfo = _react["default"].createElement(_ConferenceInfo["default"], {
+      callInfo = /*#__PURE__*/_react["default"].createElement(_ConferenceInfo["default"], {
         currentLocale: currentLocale,
         partyProfiles: conferenceCallParties,
         onClick: gotoParticipantsCtrl
@@ -130,7 +130,7 @@ function ActiveCallPanel(_ref) {
       break;
 
     default:
-      callInfo = _react["default"].createElement(_CallInfo["default"], {
+      callInfo = /*#__PURE__*/_react["default"].createElement(_CallInfo["default"], {
         currentLocale: currentLocale,
         nameMatches: nameMatches,
         fallBackName: fallBackName,
@@ -152,12 +152,12 @@ function ActiveCallPanel(_ref) {
       break;
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "activeCallPanel",
     className: _styles["default"].root
-  }, backHeader, _react["default"].createElement(_Panel["default"], {
+  }, backHeader, /*#__PURE__*/_react["default"].createElement(_Panel["default"], {
     className: _styles["default"].panel
-  }, layout !== _callCtrlLayouts["default"].mergeCtrl ? timeCounter : null, callInfo, _react["default"].createElement(_ActiveCallPad["default"], {
+  }, layout !== _callCtrlLayouts["default"].mergeCtrl ? timeCounter : null, callInfo, /*#__PURE__*/_react["default"].createElement(_ActiveCallPad["default"], {
     className: _styles["default"].callPad,
     currentLocale: currentLocale,
     isOnMute: isOnMute,

@@ -20,7 +20,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function NoCalls(_ref) {
   var currentLocale = _ref.currentLocale,
       active = _ref.active;
-  return _react["default"].createElement("p", {
+  return /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].noCalls
   }, _i18n["default"].getString(active ? 'noActiveCalls' : 'noRecords', currentLocale));
 }

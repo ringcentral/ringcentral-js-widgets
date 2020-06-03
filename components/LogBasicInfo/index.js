@@ -38,10 +38,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var CallIcon = function CallIcon(_ref) {
   var title = _ref.title,
       iconClassName = _ref.iconClassName;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callIcon,
     title: title
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: iconClassName
   }));
 };
@@ -91,33 +91,33 @@ function LogBasicInfo(props) {
 
   var iconClassName = (0, _classnames["default"])(_styles["default"].icon, isRinging && _styles["default"].ringing, isRinging && _DynamicsFont["default"].callHover, !isRinging && !missed && callIconMap[direction], missed && _styles["default"].missed, missed && callIconMap[_callResults["default"].missed], !isRinging && active && _styles["default"].active);
   var statusClassName = (0, _classnames["default"])(_styles["default"].status, green && _styles["default"].green, red && _styles["default"].red, orange && _styles["default"].orange);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "logSection",
     className: _styles["default"].root
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": dataSign,
     className: (0, _classnames["default"])(_styles["default"].callInfo, clickable && _styles["default"].pointer),
     onClick: clickable ? onClick : function () {}
-  }, _react["default"].createElement(CallIcon, {
+  }, /*#__PURE__*/_react["default"].createElement(CallIcon, {
     title: title,
     iconClassName: iconClassName
-  }), _react["default"].createElement("ul", {
+  }), /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles["default"].callDisplay
-  }, _react["default"].createElement("li", {
+  }, /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles["default"].contact,
     title: logName
-  }, logName), _react["default"].createElement("li", {
+  }, logName), /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles["default"].callDetail
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].number,
     title: formatNumber
-  }, formatNumber), formatNumber ? _react["default"].createElement("span", {
+  }, formatNumber), formatNumber ? /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].separator
-  }, "\xA0") : null, _react["default"].createElement("span", {
+  }, "\xA0") : null, /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "callStatus",
     className: statusClassName,
     title: statusI18n
-  }, statusI18n)))), _react["default"].createElement("div", {
+  }, statusI18n)))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].extra
   }, props.extraButton));
 }

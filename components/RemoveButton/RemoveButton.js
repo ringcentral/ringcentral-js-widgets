@@ -21,11 +21,11 @@ var RemoveButton = function RemoveButton(_ref) {
   var className = _ref.className,
       onClick = _ref.onClick,
       visibility = _ref.visibility;
-  return _react["default"].createElement("span", {
+  return /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "removeBtn",
     className: (0, _classnames["default"])(_styles["default"].container, className, !visibility && _styles["default"].hideRemoveButton),
     onClick: visibility ? onClick : null
-  }, _react["default"].createElement("i", {
+  }, /*#__PURE__*/_react["default"].createElement("i", {
     className: _RcFont["default"].uni2471
   }));
 };

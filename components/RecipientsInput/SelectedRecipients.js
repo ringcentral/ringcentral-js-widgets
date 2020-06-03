@@ -29,10 +29,10 @@ var SelectedRecipients = function SelectedRecipients(_ref) {
       className = _ref.className;
 
   if (multiple && recipients.length) {
-    return _react["default"].createElement("ul", {
+    return /*#__PURE__*/_react["default"].createElement("ul", {
       className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
     }, recipients.map(function (item) {
-      return _react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, {
+      return /*#__PURE__*/_react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, {
         key: item.phoneNumber,
         name: item.name,
         phoneNumber: item.phoneNumber,
@@ -44,9 +44,9 @@ var SelectedRecipients = function SelectedRecipients(_ref) {
   }
 
   if (!multiple && recipient) {
-    return _react["default"].createElement("ul", {
+    return /*#__PURE__*/_react["default"].createElement("ul", {
       className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
-    }, _react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, {
+    }, /*#__PURE__*/_react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, {
       key: recipient.phoneNumber,
       name: recipient.name,
       phoneNumber: recipient.phoneNumber,

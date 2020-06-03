@@ -18,12 +18,12 @@ var _IconField = _interopRequireDefault(require("../IconField"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function IconLine(props) {
-  return _react["default"].createElement(_Line["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_Line["default"], {
     className: props.className,
     onClick: props.onClick,
     dataSign: props.dataSign,
     noBorder: props.noBorder
-  }, _react["default"].createElement(_IconField["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_IconField["default"], {
     className: props.className,
     icon: props.icon,
     title: props.title

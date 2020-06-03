@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.CallIcon = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -20,12 +20,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var CallIcon = function CallIcon(_ref) {
   var title = _ref.title,
       isInbound = _ref.isInbound;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callIcon,
     title: title
-  }, isInbound ? _react["default"].createElement(_InboundCall["default"], null) : _react["default"].createElement(_OutboundCall["default"], null));
+  }, isInbound ? /*#__PURE__*/_react["default"].createElement(_InboundCall["default"], null) : /*#__PURE__*/_react["default"].createElement(_OutboundCall["default"], null));
 };
 
-var _default = CallIcon;
-exports["default"] = _default;
+exports.CallIcon = CallIcon;
 //# sourceMappingURL=CallIcon.js.map

@@ -30,7 +30,7 @@ function LinkLine(_ref) {
       hrefClassName = _ref.hrefClassName,
       iconClassName = _ref.iconClassName,
       tooltip = _ref.tooltip;
-  return _react["default"].createElement("a", {
+  return /*#__PURE__*/_react["default"].createElement("a", {
     onClick: function onClick(e) {
       e.preventDefault();
 
@@ -38,9 +38,9 @@ function LinkLine(_ref) {
     },
     title: tooltip,
     className: (0, _classnames["default"])(_styles["default"].link, hrefClassName)
-  }, _react["default"].createElement(_IconLine["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
     className: className,
-    icon: _react["default"].createElement("span", {
+    icon: /*#__PURE__*/_react["default"].createElement("span", {
       className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].icon, iconClassName)
     })
   }, children));

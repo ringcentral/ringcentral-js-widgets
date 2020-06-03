@@ -18,10 +18,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var CallIcon = function CallIcon(_ref) {
   var title = _ref.title,
       iconClassName = _ref.iconClassName;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callIcon,
     title: title
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: iconClassName
   }));
 };

@@ -39,11 +39,11 @@ var LogLinkButton = function LogLinkButton(_ref) {
   var toolTip = (0, _formatMessage["default"])(_i18n["default"].getString('toolTip'), {
     crmName: crmName
   });
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].logLink, disabled ? _styles["default"].disabled : null),
     onClick: onClickFunc,
     title: toolTip
-  }, _react["default"].createElement(_loglink["default"], null));
+  }, /*#__PURE__*/_react["default"].createElement(_loglink["default"], null));
 };
 
 LogLinkButton.defaultProps = {

@@ -66,7 +66,7 @@ function getTabs(_ref) {
   }
 
   return [showVoiceMails ? {
-    icon: _react["default"].createElement(_VoicemailIcon["default"], {
+    icon: /*#__PURE__*/_react["default"].createElement(_VoicemailIcon["default"], {
       width: 21,
       height: 21
     }),
@@ -79,7 +79,7 @@ function getTabs(_ref) {
     getData: function getData() {},
     cleanUp: function cleanUp() {}
   } : null, showRecentMessage ? {
-    icon: _react["default"].createElement("span", {
+    icon: /*#__PURE__*/_react["default"].createElement("span", {
       className: _DynamicsFont["default"].composeText
     }),
     label: _i18n["default"].getString('text', currentLocale),
@@ -87,7 +87,7 @@ function getTabs(_ref) {
     isActive: function isActive(path) {
       return path === 'recentMessages';
     },
-    view: _react["default"].createElement(_RecentActivityMessages["default"], {
+    view: /*#__PURE__*/_react["default"].createElement(_RecentActivityMessages["default"], {
       messages: messages,
       navigateTo: navigateTo,
       dateTimeFormatter: dateTimeFormatter,
@@ -107,7 +107,7 @@ function getTabs(_ref) {
       });
     }
   } : null, showFax ? {
-    icon: _react["default"].createElement(_Fax["default"], {
+    icon: /*#__PURE__*/_react["default"].createElement(_Fax["default"], {
       width: 21,
       height: 21
     }),
@@ -120,7 +120,7 @@ function getTabs(_ref) {
     getData: function getData() {},
     cleanUp: function cleanUp() {}
   } : null, showRecentCalls ? {
-    icon: _react["default"].createElement("span", {
+    icon: /*#__PURE__*/_react["default"].createElement("span", {
       className: _DynamicsFont["default"].active
     }),
     label: _i18n["default"].getString('call', currentLocale),
@@ -128,7 +128,7 @@ function getTabs(_ref) {
     isActive: function isActive(path) {
       return path === 'recentCalls';
     },
-    view: _react["default"].createElement(_RecentActivityCalls["default"], {
+    view: /*#__PURE__*/_react["default"].createElement(_RecentActivityCalls["default"], {
       calls: calls,
       dateTimeFormatter: dateTimeFormatter,
       currentLocale: currentLocale,

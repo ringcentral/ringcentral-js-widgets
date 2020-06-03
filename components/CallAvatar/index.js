@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -22,6 +20,14 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -43,7 +49,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -51,15 +57,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
 var REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z\+\-\.]+;base64,)?(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/gi;
@@ -72,17 +82,17 @@ function isBase64(value) {
   return REGEXP_BASE64_URL.test(value);
 }
 
-var CallAvatar =
-/*#__PURE__*/
-function (_Component) {
+var CallAvatar = /*#__PURE__*/function (_Component) {
   _inherits(CallAvatar, _Component);
+
+  var _super = _createSuper(CallAvatar);
 
   function CallAvatar(props) {
     var _this;
 
     _classCallCheck(this, CallAvatar);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(CallAvatar).call(this, props));
+    _this = _super.call(this, props);
     _this.state = {
       avatarUrl: null
     };
@@ -211,7 +221,7 @@ function (_Component) {
       var spinnerTransform = "translate(".concat(spinnerTranslateTo - (isOnConferenceCallWithExtraNum ? margin : 0), ",").concat(spinnerTranslateTo, ") scale(").concat(spinnerScaleSize, ", ").concat(spinnerScaleSize, ")");
 
       if (isOnConferenceCallWithExtraNum) {
-        return _react["default"].createElement("svg", {
+        return /*#__PURE__*/_react["default"].createElement("svg", {
           onClick: onClick ? function () {
             return onClick();
           } : null,
@@ -220,9 +230,9 @@ function (_Component) {
           viewBox: "0 0 ".concat(initialSize, " ").concat(initialSize),
           preserveAspectRatio: aspectRatio,
           xmlns: xmlns
-        }, _react["default"].createElement("defs", null, _react["default"].createElement("g", {
+        }, /*#__PURE__*/_react["default"].createElement("defs", null, /*#__PURE__*/_react["default"].createElement("g", {
           id: textId
-        }, _react["default"].createElement("text", {
+        }, /*#__PURE__*/_react["default"].createElement("text", {
           x: "0",
           y: "0",
           dy: "".concat(initialSize - 10, "px"),
@@ -232,46 +242,46 @@ function (_Component) {
             opacity: '.5'
           },
           fontFamily: iconFont
-        }, portraitChar)), _react["default"].createElement(_Spinner["default"], {
+        }, portraitChar)), /*#__PURE__*/_react["default"].createElement(_Spinner["default"], {
           id: spinnerId
-        })), _react["default"].createElement("circle", {
+        })), /*#__PURE__*/_react["default"].createElement("circle", {
           cx: avatarCircleRadius,
           cy: margin + avatarCircleRadius,
           r: avatarCircleRadius,
           fill: $snow,
           stroke: showingSpinner ? $dark : 'inherit',
           strokeOpacity: showingSpinner ? $transparency : '1'
-        }), _react["default"].createElement("g", null, _react["default"].createElement("clipPath", {
+        }), /*#__PURE__*/_react["default"].createElement("g", null, /*#__PURE__*/_react["default"].createElement("clipPath", {
           id: clipId
-        }, _react["default"].createElement("circle", {
+        }, /*#__PURE__*/_react["default"].createElement("circle", {
           cx: avatarCircleRadius,
           cy: margin + avatarCircleRadius,
           r: avatarCircleRadius,
           fill: $snow
-        }))), showingSpinner && _react["default"].createElement("g", {
+        }))), showingSpinner && /*#__PURE__*/_react["default"].createElement("g", {
           transform: spinnerTransform
-        }, _react["default"].createElement("use", {
+        }, /*#__PURE__*/_react["default"].createElement("use", {
           xlinkHref: "#".concat(spinnerId)
-        })), avatarUrl && _react["default"].createElement("image", {
+        })), avatarUrl && /*#__PURE__*/_react["default"].createElement("image", {
           clipPath: "url(#".concat(clipId, ")"),
           height: "100%",
           width: "100%",
           xlinkHref: avatarUrl
-        }), !avatarUrl && !showingSpinner && _react["default"].createElement("use", {
+        }), !avatarUrl && !showingSpinner && /*#__PURE__*/_react["default"].createElement("use", {
           xlinkHref: "#".concat(textId),
           clipPath: "url(#".concat(clipId, ")"),
           style: defaultAvatarStyle
-        }), _react["default"].createElement("circle", {
+        }), /*#__PURE__*/_react["default"].createElement("circle", {
           cx: initialSize - extraNumCircleRadius,
           cy: extraNumCircleRadius,
           r: extraNumCircleRadius,
           fill: $snow
-        }), _react["default"].createElement("circle", {
+        }), /*#__PURE__*/_react["default"].createElement("circle", {
           cx: initialSize - extraNumCircleRadius,
           cy: extraNumCircleRadius,
           r: extraNumCircleRadius - extraNumCircleBorder,
           fill: $blueLight
-        }), _react["default"].createElement("text", {
+        }), /*#__PURE__*/_react["default"].createElement("text", {
           x: initialSize - extraNumCircleRadius,
           y: extraNumCircleRadius,
           dy: "3px",
@@ -286,7 +296,7 @@ function (_Component) {
         }, "+".concat(extraNum)));
       }
 
-      return _react["default"].createElement("svg", {
+      return /*#__PURE__*/_react["default"].createElement("svg", {
         className: svgCls,
         onClick: onClick ? function () {
           return onClick();
@@ -295,9 +305,9 @@ function (_Component) {
         viewBox: "0 0 ".concat(initialSize, " ").concat(initialSize),
         preserveAspectRatio: aspectRatio,
         xmlns: xmlns
-      }, _react["default"].createElement("defs", null, _react["default"].createElement("g", {
+      }, /*#__PURE__*/_react["default"].createElement("defs", null, /*#__PURE__*/_react["default"].createElement("g", {
         id: textId
-      }, _react["default"].createElement("text", {
+      }, /*#__PURE__*/_react["default"].createElement("text", {
         x: "0",
         y: "0",
         dy: "".concat(initialSize - 10, "px"),
@@ -308,36 +318,36 @@ function (_Component) {
           opacity: '.5'
         },
         fontFamily: iconFont
-      }, portraitChar)), _react["default"].createElement(_Spinner["default"], {
+      }, portraitChar)), /*#__PURE__*/_react["default"].createElement(_Spinner["default"], {
         id: spinnerId
-      })), _react["default"].createElement("circle", {
+      })), /*#__PURE__*/_react["default"].createElement("circle", {
         cx: initialSize / 2,
         cy: initialSize / 2,
         r: initialSize / 2 - circleBorder,
         fill: $snow,
         stroke: showingSpinner ? $dark : 'inherit',
         strokeOpacity: showingSpinner ? $transparency : '1'
-      }), _react["default"].createElement("g", null, _react["default"].createElement("clipPath", {
+      }), /*#__PURE__*/_react["default"].createElement("g", null, /*#__PURE__*/_react["default"].createElement("clipPath", {
         id: clipId
-      }, _react["default"].createElement("circle", {
+      }, /*#__PURE__*/_react["default"].createElement("circle", {
         cx: initialSize / 2,
         cy: initialSize / 2,
         r: initialSize / 2 - 1
-      }))), showingSpinner && _react["default"].createElement("g", {
+      }))), showingSpinner && /*#__PURE__*/_react["default"].createElement("g", {
         transform: spinnerTransform
-      }, _react["default"].createElement("use", {
+      }, /*#__PURE__*/_react["default"].createElement("use", {
         xlinkHref: "#".concat(spinnerId)
-      })), showingSpinner && _react["default"].createElement("g", {
+      })), showingSpinner && /*#__PURE__*/_react["default"].createElement("g", {
         transform: spinnerTransform
-      }, _react["default"].createElement("use", {
+      }, /*#__PURE__*/_react["default"].createElement("use", {
         xlinkHref: "#".concat(spinnerId)
-      })), avatarUrl && _react["default"].createElement("image", {
+      })), avatarUrl && /*#__PURE__*/_react["default"].createElement("image", {
         clipPath: "url(#".concat(clipId, ")"),
         height: "100%",
         width: "100%",
         xlinkHref: avatarUrl,
         preserveAspectRatio: "xMinYMin slice"
-      }), !avatarUrl && !showingSpinner && _react["default"].createElement("use", {
+      }), !avatarUrl && !showingSpinner && /*#__PURE__*/_react["default"].createElement("use", {
         xlinkHref: "#".concat(textId),
         clipPath: "url(#".concat(clipId, ")"),
         style: defaultAvatarStyle

@@ -22,9 +22,9 @@ function PresenceStatusIcon(_ref) {
       dndStatus = _ref.dndStatus,
       presenceStatus = _ref.presenceStatus,
       className = _ref.className;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].presence, _styles["default"][presenceStatus || userStatus], _styles["default"][dndStatus], className)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].presenceBar
   }));
 }

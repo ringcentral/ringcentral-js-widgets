@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var Button = function Button(_ref) {
   var text = _ref.text;
-  return _react["default"].createElement("span", {
+  return /*#__PURE__*/_react["default"].createElement("span", {
     key: text,
     className: _styles["default"].button
   }, text);
@@ -39,18 +39,18 @@ var Section = function Section(_ref2) {
   var buttons = _ref2.buttons,
       title = _ref2.title,
       body = _ref2.body;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     key: buttons.join(''),
     className: _styles["default"].section
   }, buttons.map(function (b) {
-    return _react["default"].createElement(Button, {
+    return /*#__PURE__*/_react["default"].createElement(Button, {
       text: b,
       key: b
     });
-  }), _react["default"].createElement("p", {
+  }), /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].title
   }, title), body.split('\n').map(function (line) {
-    return _react["default"].createElement("p", {
+    return /*#__PURE__*/_react["default"].createElement("p", {
       key: line,
       className: _styles["default"].body
     }, line);
@@ -102,14 +102,14 @@ var sections = function sections(currentLocale) {
 var ConferenceCommands = function ConferenceCommands(_ref3) {
   var currentLocale = _ref3.currentLocale,
       onBack = _ref3.onBack;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
-  }, _react["default"].createElement(_BackHeader["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
     onBackClick: onBack
-  }, _i18n["default"].getString('title', currentLocale)), _react["default"].createElement("div", {
+  }, _i18n["default"].getString('title', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].conferenceCommands
   }, sections(currentLocale).map(function (s) {
-    return _react["default"].createElement(Section, {
+    return /*#__PURE__*/_react["default"].createElement(Section, {
       key: s.title,
       buttons: s.buttons,
       title: s.title,

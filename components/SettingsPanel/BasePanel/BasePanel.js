@@ -39,17 +39,17 @@ var BasePanel = function BasePanel(_ref) {
       versionContainer = _ref.versionContainer;
 
   if (showSpinner) {
-    return _react["default"].createElement(_SpinnerOverlay["default"], null);
+    return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, _react["default"].createElement(_Header.Header, {
+  }, /*#__PURE__*/_react["default"].createElement(_Header.Header, {
     showHeader: showHeader,
     currentLocale: currentLocale
-  }), _react["default"].createElement(_Panel["default"], {
+  }), /*#__PURE__*/_react["default"].createElement(_Panel["default"], {
     className: (0, _classnames["default"])(_styles["default"].content, showHeader && _styles["default"].contentWithHeader)
-  }, children, _react["default"].createElement(_Footer.Footer, {
+  }, children, /*#__PURE__*/_react["default"].createElement(_Footer.Footer, {
     brandId: brandId,
     loginNumber: loginNumber,
     currentLocale: currentLocale,

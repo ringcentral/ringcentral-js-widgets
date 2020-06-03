@@ -26,7 +26,7 @@ function SaveButton(_ref) {
       currentLocale = _ref.currentLocale,
       disabled = _ref.disabled,
       onClick = _ref.onClick;
-  return _react["default"].createElement(_Button.Button, {
+  return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     dataSign: "saveButton",
     className: (0, _classnames["default"])(_styles["default"].root, disabled ? _styles["default"].disabled : null, className),
     onClick: onClick,

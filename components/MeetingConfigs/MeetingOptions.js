@@ -43,7 +43,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -55,20 +55,20 @@ var MeetingOptions = function MeetingOptions(_ref) {
       meetingOptionToggle = _ref.meetingOptionToggle,
       passwordPlaceholderEnable = _ref.passwordPlaceholderEnable;
   var passwordPlaceholder = passwordPlaceholderEnable ? _i18n["default"].getString('password', currentLocale) : '';
-  return _react["default"].createElement(_MeetingSection["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('meetingOptions', currentLocale),
     className: _styles["default"].meetingOptions // when there is a default meeting password or `allowJoinBeforeHost` toggle opened
     // then expand the meeting option section
     ,
     toggle: meetingOptionToggle || !!meeting.password || meeting.allowJoinBeforeHost,
     withSwitch: true
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingOptionsDiv
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].spaceBetween, _styles["default"].fixTopMargin)
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].labelLight, _styles["default"].defaultShrink)
-  }, _i18n["default"].getString('requirePassword', currentLocale)), _react["default"].createElement(_Switch["default"], {
+  }, _i18n["default"].getString('requirePassword', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
     checked: meeting._requireMeetingPassword || !!meeting.password,
     onChange: function onChange(_requireMeetingPassword) {
       if (_requireMeetingPassword) {
@@ -77,17 +77,17 @@ var MeetingOptions = function MeetingOptions(_ref) {
         }, 100);
       }
 
-      update(_objectSpread({}, meeting, {
+      update(_objectSpread(_objectSpread({}, meeting), {}, {
         _requireMeetingPassword: _requireMeetingPassword,
         password: ''
       }));
     },
     dataSign: "requirePasswordToggle"
-  })), meeting._requireMeetingPassword || meeting.password ? _react["default"].createElement("div", {
+  })), meeting._requireMeetingPassword || meeting.password ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].passwordBox
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].labelLight
-  }, _i18n["default"].getString('password', currentLocale)), _react["default"].createElement("input", {
+  }, _i18n["default"].getString('password', currentLocale)), /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     placeholder: passwordPlaceholder,
     className: _styles["default"].password,
@@ -99,20 +99,20 @@ var MeetingOptions = function MeetingOptions(_ref) {
       var target = _ref2.target;
 
       if (_constants.PASSWORD_REGEX.test(target.value)) {
-        update(_objectSpread({}, meeting, {
+        update(_objectSpread(_objectSpread({}, meeting), {}, {
           password: target.value
         }));
       }
     },
     "data-sign": "requirePasswordInput"
-  })) : null, _react["default"].createElement("div", {
+  })) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].spaceBetween, _styles["default"].fixTopMargin)
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].labelLight, _styles["default"].defaultShrink)
-  }, _i18n["default"].getString('enableJoinBeforeHost', currentLocale)), _react["default"].createElement(_Switch["default"], {
+  }, _i18n["default"].getString('enableJoinBeforeHost', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
     checked: meeting.allowJoinBeforeHost,
     onChange: function onChange(allowJoinBeforeHost) {
-      update(_objectSpread({}, meeting, {
+      update(_objectSpread(_objectSpread({}, meeting), {}, {
         allowJoinBeforeHost: allowJoinBeforeHost
       }));
     },

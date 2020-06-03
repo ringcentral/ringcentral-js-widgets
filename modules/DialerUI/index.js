@@ -5,21 +5,43 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
 require("core-js/modules/es6.array.filter");
 
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
@@ -30,12 +52,6 @@ require("core-js/modules/es6.object.keys");
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.string.trim");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
 
 require("regenerator-runtime/runtime");
 
@@ -59,13 +75,23 @@ var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -79,15 +105,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
@@ -108,10 +138,10 @@ var DialerUI = (_dec = (0, _di.Module)({
     dep: 'DialerUIOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp =
-/*#__PURE__*/
-function (_RcUIModule) {
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModule) {
   _inherits(DialerUI, _RcUIModule);
+
+  var _super = _createSuper(DialerUI);
 
   function DialerUI(_ref) {
     var _this;
@@ -132,7 +162,7 @@ function (_RcUIModule) {
 
     _classCallCheck(this, DialerUI);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(DialerUI).call(this, _objectSpread({}, options)));
+    _this = _super.call(this, _objectSpread({}, options));
 
     _initializerDefineProperty(_this, "recipients", _descriptor, _assertThisInitialized(_this));
 
@@ -156,213 +186,234 @@ function (_RcUIModule) {
 
   _createClass(DialerUI, [{
     key: "clearToNumberField",
-    value: function clearToNumberField() {
-      return regeneratorRuntime.async(function clearToNumberField$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              this.store.dispatch({
-                type: this.actionTypes.clearToNumberField
-              });
-
-            case 1:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
-    key: "setToNumberField",
-    value: function setToNumberField(phoneNumber) {
-      var fromDialPad,
-          _args2 = arguments;
-      return regeneratorRuntime.async(function setToNumberField$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              fromDialPad = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : false;
-
-              if (this.toNumberField !== phoneNumber) {
+    value: function () {
+      var _clearToNumberField = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
                 this.store.dispatch({
-                  type: this.actionTypes.setToNumberField,
-                  phoneNumber: phoneNumber,
-                  fromDialPad: fromDialPad
+                  type: this.actionTypes.clearToNumberField
                 });
 
-                if (this._useV2 && this.toNumberField && this.toNumberField.length >= 3 && this._contactSearch) {
-                  this._contactSearch.debouncedSearch({
-                    searchString: this.toNumberField
-                  });
-                }
-              }
-
-            case 2:
-            case "end":
-              return _context2.stop();
+              case 1:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function clearToNumberField() {
+        return _clearToNumberField.apply(this, arguments);
+      }
+
+      return clearToNumberField;
+    }()
+  }, {
+    key: "setToNumberField",
+    value: function () {
+      var _setToNumberField = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(phoneNumber) {
+        var fromDialPad,
+            _args2 = arguments;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                fromDialPad = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : false;
+
+                if (this.toNumberField !== phoneNumber) {
+                  this.store.dispatch({
+                    type: this.actionTypes.setToNumberField,
+                    phoneNumber: phoneNumber,
+                    fromDialPad: fromDialPad
+                  });
+
+                  if (this._useV2 && this.toNumberField && this.toNumberField.length >= 3 && this._contactSearch) {
+                    this._contactSearch.debouncedSearch({
+                      searchString: this.toNumberField
+                    });
+                  }
+                }
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function setToNumberField(_x) {
+        return _setToNumberField.apply(this, arguments);
+      }
+
+      return setToNumberField;
+    }()
   }, {
     key: "setRecipient",
-    value: function setRecipient(recipient) {
-      var shouldClean,
-          _args3 = arguments;
-      return regeneratorRuntime.async(function setRecipient$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              shouldClean = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : true;
-              this.store.dispatch({
-                type: this.actionTypes.setRecipient,
-                recipient: recipient
-              });
+    value: function () {
+      var _setRecipient = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(recipient) {
+        var shouldClean,
+            _args3 = arguments;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                shouldClean = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : true;
+                this.store.dispatch({
+                  type: this.actionTypes.setRecipient,
+                  recipient: recipient
+                });
 
-              if (!shouldClean) {
+                if (!shouldClean) {
+                  _context3.next = 5;
+                  break;
+                }
+
                 _context3.next = 5;
-                break;
-              }
+                return this.clearToNumberField();
 
-              _context3.next = 5;
-              return regeneratorRuntime.awrap(this.clearToNumberField());
-
-            case 5:
-            case "end":
-              return _context3.stop();
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee3, this);
+      }));
+
+      function setRecipient(_x2) {
+        return _setRecipient.apply(this, arguments);
+      }
+
+      return setRecipient;
+    }()
   }, {
     key: "clearRecipient",
-    value: function clearRecipient() {
-      return regeneratorRuntime.async(function clearRecipient$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              this.store.dispatch({
-                type: this.actionTypes.clearRecipient
-              });
+    value: function () {
+      var _clearRecipient = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.clearRecipient
+                });
 
-            case 1:
-            case "end":
-              return _context4.stop();
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee4, this);
+      }));
+
+      function clearRecipient() {
+        return _clearRecipient.apply(this, arguments);
+      }
+
+      return clearRecipient;
+    }()
   }, {
     key: "call",
-    value: function call(_ref2) {
-      var _ref2$phoneNumber, phoneNumber, _ref2$recipient, recipient, _ref2$fromNumber, fromNumber, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, hook;
+    value: function () {
+      var _call = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref2) {
+        var _ref2$phoneNumber, phoneNumber, _ref2$recipient, recipient, _ref2$fromNumber, fromNumber, _iterator, _step, hook;
 
-      return regeneratorRuntime.async(function call$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              _ref2$phoneNumber = _ref2.phoneNumber, phoneNumber = _ref2$phoneNumber === void 0 ? '' : _ref2$phoneNumber, _ref2$recipient = _ref2.recipient, recipient = _ref2$recipient === void 0 ? null : _ref2$recipient, _ref2$fromNumber = _ref2.fromNumber, fromNumber = _ref2$fromNumber === void 0 ? null : _ref2$fromNumber;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _ref2$phoneNumber = _ref2.phoneNumber, phoneNumber = _ref2$phoneNumber === void 0 ? '' : _ref2$phoneNumber, _ref2$recipient = _ref2.recipient, recipient = _ref2$recipient === void 0 ? null : _ref2$recipient, _ref2$fromNumber = _ref2.fromNumber, fromNumber = _ref2$fromNumber === void 0 ? null : _ref2$fromNumber;
 
-              if (!(phoneNumber || recipient)) {
-                _context5.next = 38;
+                if (!(phoneNumber || recipient)) {
+                  _context5.next = 29;
+                  break;
+                }
+
+                this.store.dispatch({
+                  type: this.actionTypes.call,
+                  phoneNumber: phoneNumber,
+                  recipient: recipient
+                });
+                _iterator = _createForOfIteratorHelper(this._callHooks);
+                _context5.prev = 4;
+
+                _iterator.s();
+
+              case 6:
+                if ((_step = _iterator.n()).done) {
+                  _context5.next = 12;
+                  break;
+                }
+
+                hook = _step.value;
+                _context5.next = 10;
+                return hook({
+                  phoneNumber: phoneNumber,
+                  recipient: recipient,
+                  fromNumber: fromNumber
+                });
+
+              case 10:
+                _context5.next = 6;
                 break;
-              }
 
-              this.store.dispatch({
-                type: this.actionTypes.call,
-                phoneNumber: phoneNumber,
-                recipient: recipient
-              });
-              _iteratorNormalCompletion = true;
-              _didIteratorError = false;
-              _iteratorError = undefined;
-              _context5.prev = 6;
-              _iterator = this._callHooks[Symbol.iterator]();
-
-            case 8:
-              if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                _context5.next = 15;
+              case 12:
+                _context5.next = 17;
                 break;
-              }
 
-              hook = _step.value;
-              _context5.next = 12;
-              return regeneratorRuntime.awrap(hook({
-                phoneNumber: phoneNumber,
-                recipient: recipient,
-                fromNumber: fromNumber
-              }));
+              case 14:
+                _context5.prev = 14;
+                _context5.t0 = _context5["catch"](4);
 
-            case 12:
-              _iteratorNormalCompletion = true;
-              _context5.next = 8;
-              break;
+                _iterator.e(_context5.t0);
 
-            case 15:
-              _context5.next = 21;
-              break;
+              case 17:
+                _context5.prev = 17;
 
-            case 17:
-              _context5.prev = 17;
-              _context5.t0 = _context5["catch"](6);
-              _didIteratorError = true;
-              _iteratorError = _context5.t0;
+                _iterator.f();
 
-            case 21:
-              _context5.prev = 21;
-              _context5.prev = 22;
+                return _context5.finish(17);
 
-              if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-                _iterator["return"]();
-              }
+              case 20:
+                _context5.prev = 20;
+                _context5.next = 23;
+                return this._call.call({
+                  phoneNumber: this.toNumberField,
+                  recipient: this.recipient,
+                  fromNumber: fromNumber
+                });
 
-            case 24:
-              _context5.prev = 24;
-
-              if (!_didIteratorError) {
-                _context5.next = 27;
+              case 23:
+                this.store.dispatch({
+                  type: this.actionTypes.callSuccess
+                });
+                _context5.next = 29;
                 break;
-              }
 
-              throw _iteratorError;
+              case 26:
+                _context5.prev = 26;
+                _context5.t1 = _context5["catch"](20);
+                this.store.dispatch({
+                  type: this.actionTypes.callError,
+                  error: _context5.t1
+                });
 
-            case 27:
-              return _context5.finish(24);
-
-            case 28:
-              return _context5.finish(21);
-
-            case 29:
-              _context5.prev = 29;
-              _context5.next = 32;
-              return regeneratorRuntime.awrap(this._call.call({
-                phoneNumber: this.toNumberField,
-                recipient: this.recipient,
-                fromNumber: fromNumber
-              }));
-
-            case 32:
-              this.store.dispatch({
-                type: this.actionTypes.callSuccess
-              });
-              _context5.next = 38;
-              break;
-
-            case 35:
-              _context5.prev = 35;
-              _context5.t1 = _context5["catch"](29);
-              this.store.dispatch({
-                type: this.actionTypes.callError,
-                error: _context5.t1
-              });
-
-            case 38:
-            case "end":
-              return _context5.stop();
+              case 29:
+              case "end":
+                return _context5.stop();
+            }
           }
-        }
-      }, null, this, [[6, 17, 21, 29], [22,, 24, 28], [29, 35]]);
-    }
+        }, _callee5, this, [[4, 14, 17, 20], [20, 26]]);
+      }));
+
+      function call(_x3) {
+        return _call.apply(this, arguments);
+      }
+
+      return call;
+    }()
   }, {
     key: "_loadLastPhoneNumber",
     value: function _loadLastPhoneNumber() {
@@ -380,45 +431,53 @@ function (_RcUIModule) {
     }
   }, {
     key: "onCallButtonClick",
-    value: function onCallButtonClick() {
-      var _ref3,
-          fromNumber,
-          fromSessionId,
-          _args6 = arguments;
+    value: function () {
+      var _onCallButtonClick = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        var _ref3,
+            fromNumber,
+            fromSessionId,
+            _args6 = arguments;
 
-      return regeneratorRuntime.async(function onCallButtonClick$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              _ref3 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, fromNumber = _ref3.fromNumber, fromSessionId = _ref3.fromSessionId;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _ref3 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, fromNumber = _ref3.fromNumber, fromSessionId = _ref3.fromSessionId;
 
-              if (!("".concat(this.toNumberField).trim().length === 0 && !this.recipient)) {
-                _context6.next = 5;
+                if (!("".concat(this.toNumberField).trim().length === 0 && !this.recipient)) {
+                  _context6.next = 5;
+                  break;
+                }
+
+                this._loadLastPhoneNumber();
+
+                _context6.next = 8;
                 break;
-              }
 
-              this._loadLastPhoneNumber();
+              case 5:
+                this._onBeforeCall(fromSessionId);
 
-              _context6.next = 8;
-              break;
+                _context6.next = 8;
+                return this.call({
+                  phoneNumber: this.toNumberField,
+                  recipient: this.recipient,
+                  fromNumber: fromNumber
+                });
 
-            case 5:
-              this._onBeforeCall(fromSessionId);
-
-              _context6.next = 8;
-              return regeneratorRuntime.awrap(this.call({
-                phoneNumber: this.toNumberField,
-                recipient: this.recipient,
-                fromNumber: fromNumber
-              }));
-
-            case 8:
-            case "end":
-              return _context6.stop();
+              case 8:
+              case "end":
+                return _context6.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee6, this);
+      }));
+
+      function onCallButtonClick() {
+        return _onCallButtonClick.apply(this, arguments);
+      }
+
+      return onCallButtonClick;
+    }()
   }, {
     key: "_onBeforeCall",
     value: function _onBeforeCall() {

@@ -35,21 +35,21 @@ function MultiCallAnswerButton(props) {
   var Icon = props.isEndOtherCall ? _End["default"] : _Hold["default"];
   var iconClassName = (0, _classnames["default"])(_styles["default"].button, props.isEndOtherCall ? _styles["default"].endButton : '');
   var text = props.title.split('\n').map(function (line, index) {
-    return _react["default"].createElement("tspan", {
+    return /*#__PURE__*/_react["default"].createElement("tspan", {
       dy: index ? '1.1em' : 0,
       x: "250",
       key: line,
       "data-sign": line.replace(' ', '_')
     }, line);
   });
-  return _react["default"].createElement("svg", {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
     className: props.className,
     viewBox: "0 0 500 600",
     width: props.width,
     height: props.height,
     x: props.x,
     y: props.y
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     width: "200",
     height: "200",
     x: 60,
@@ -57,7 +57,7 @@ function MultiCallAnswerButton(props) {
     className: iconClassName,
     onClick: props.onClick,
     icon: Icon
-  }), _react["default"].createElement(_CircleButton["default"], {
+  }), /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     width: "250",
     height: "250",
     x: 200,
@@ -67,7 +67,7 @@ function MultiCallAnswerButton(props) {
     onClick: props.onClick,
     icon: _Answer["default"],
     dataSign: props.dataSign
-  }), _react["default"].createElement("text", {
+  }), /*#__PURE__*/_react["default"].createElement("text", {
     className: _styles["default"].buttonTitle,
     x: "250",
     y: "500",

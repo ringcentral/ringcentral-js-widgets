@@ -63,13 +63,13 @@ var WeekdaysSelect = function WeekdaysSelect(_ref) {
 
   var list = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(function (weekday) {
     var isActive = Array.isArray(selected) && selected.indexOf(weekday) !== -1;
-    return _react["default"].createElement("li", {
+    return /*#__PURE__*/_react["default"].createElement("li", {
       "data-value": weekday,
       key: weekday,
       className: (0, _classnames["default"])(_styles["default"].weekdayItem, _defineProperty({}, _styles["default"].active, isActive))
     }, _i18n["default"].getString(weekday.toLowerCase(), currentLocale));
   });
-  return _react["default"].createElement("ul", {
+  return /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles["default"].weekdaysSelect,
     onClick: onClick
   }, list);

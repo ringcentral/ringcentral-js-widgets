@@ -24,9 +24,9 @@ var Locale = function Locale(_ref) {
       saveLocale = _ref.saveLocale;
 
   if (supportedLocales && supportedLocales.length > 1) {
-    return _react["default"].createElement(_InputLine["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_InputLine["default"], {
       label: _i18n["default"].getString('language', currentLocale)
-    }, _react["default"].createElement(_LocalePicker["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_LocalePicker["default"], {
       value: savedLocale,
       onChange: saveLocale,
       options: supportedLocales

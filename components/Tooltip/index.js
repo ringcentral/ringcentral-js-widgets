@@ -23,6 +23,12 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.string.fixed");
@@ -57,11 +63,11 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -71,15 +77,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var POSITION = new _Enum["default"](['top', 'left']);
 var TAIL_HEIGHT = Math.sqrt(Math.pow(10, 2) * 2);
@@ -163,10 +173,10 @@ var getRelativeOffset = function getRelativeOffset(el) {
 
 var TRANSITION_END_EVT_NAME = transitionEnd();
 
-var Tooltip =
-/*#__PURE__*/
-function (_Component) {
+var Tooltip = /*#__PURE__*/function (_Component) {
   _inherits(Tooltip, _Component);
+
+  var _super = _createSuper(Tooltip);
 
   function Tooltip(props) {
     var _context;
@@ -175,7 +185,7 @@ function (_Component) {
 
     _classCallCheck(this, Tooltip);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Tooltip).call(this, props));
+    _this = _super.call(this, props);
     _this.onResize = (_context = _assertThisInitialized(_this), _this.checkPosition).bind(_context);
     _this.onTransitionEnd = (_context = _assertThisInitialized(_this), _this.onTransitionEnd).bind(_context);
     _this.state = {
@@ -183,7 +193,7 @@ function (_Component) {
       visibility: null,
       position: null
     };
-    _this.dom = _react["default"].createRef();
+    _this.dom = /*#__PURE__*/_react["default"].createRef();
     return _this;
   }
 
@@ -197,7 +207,7 @@ function (_Component) {
     value: function setVisibility() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       this.setState(function (preState) {
-        return _objectSpread({}, preState, {
+        return _objectSpread(_objectSpread({}, preState), {}, {
           visibility: props.open ? 'initial' : 'hidden'
         });
       });
@@ -206,7 +216,7 @@ function (_Component) {
     key: "setVisible",
     value: function setVisible() {
       this.setState(function (preState) {
-        return _objectSpread({}, preState, {
+        return _objectSpread(_objectSpread({}, preState), {}, {
           visibility: 'initial'
         });
       });
@@ -215,7 +225,7 @@ function (_Component) {
     key: "setInVisible",
     value: function setInVisible() {
       this.setState(function (preState) {
-        return _objectSpread({}, preState, {
+        return _objectSpread(_objectSpread({}, preState), {}, {
           visibility: 'hidden'
         });
       });
@@ -284,7 +294,7 @@ function (_Component) {
         var top = props.direction === POSITION.top ? offset && offset.top - currentDemension.height - TAIL_HEIGHT / 2 : offset && offset.top + demensionOfTrigger.height + TAIL_HEIGHT / 2;
         var left = offset && offset.left + demensionOfTrigger.width / 2 - currentDemension.width / 2;
         this.setState(function (preState) {
-          return _objectSpread({}, preState, {
+          return _objectSpread(_objectSpread({}, preState), {}, {
             position: {
               left: left,
               top: top
@@ -325,10 +335,8 @@ function (_Component) {
         }
 
         if (nextProps.open) {
-          // eslint-disable-next-line no-unused-expressions
           (0, _is_type.isFunction)(this.props.beforeOpen) && this.props.beforeOpen();
         } else {
-          // eslint-disable-next-line no-unused-expressions
           (0, _is_type.isFunction)(this.props.beforeClose) && this.props.beforeClose();
         }
       }
@@ -337,10 +345,8 @@ function (_Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       if (this.props.open) {
-        // eslint-disable-next-line no-unused-expressions
         (0, _is_type.isFunction)(this.props.onOpen) && this.props.onOpen();
       } else {
-        // eslint-disable-next-line no-unused-expressions
         (0, _is_type.isFunction)(this.props.onClose) && this.props.onClose();
       }
     }
@@ -363,16 +369,16 @@ function (_Component) {
           direction = _this$props.direction,
           fixed = _this$props.fixed,
           children = _this$props.children;
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         ref: this.dom,
         className: (0, _classnames["default"])(_styles["default"].dropdownContainer, open ? _styles["default"].opened : null, _styles["default"][direction]),
         style: _objectSpread({
           visibility: this.state.visibility,
           position: fixed ? 'fixed' : 'absolute'
         }, this.state.position)
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].dropdown
-      }, children), _react["default"].createElement("div", {
+      }, children), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].tail
       }));
     }

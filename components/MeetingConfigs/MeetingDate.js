@@ -57,7 +57,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -102,8 +102,8 @@ var MeetingDate = function MeetingDate(_ref) {
         var time = startTime;
 
         if (startTime.getTime() > new Date().getTime()) {
-          update(_objectSpread({}, meeting, {
-            schedule: _objectSpread({}, meeting.schedule, {
+          update(_objectSpread(_objectSpread({}, meeting), {}, {
+            schedule: _objectSpread(_objectSpread({}, meeting.schedule), {}, {
               startTime: startTime.getTime()
             })
           }));
@@ -177,15 +177,15 @@ var MeetingDate = function MeetingDate(_ref) {
     console.log('prepared minTime', +minMinute);
   }
 
-  return !isRecurring ? _react["default"].createElement(_MeetingSection["default"], {
+  return !isRecurring ? /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('when', currentLocale)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].dateTimeBox
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].list
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].datePicker
-  }, _react["default"].createElement(_DateTimePicker["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_DateTimePicker["default"], {
     culture: currentLocale,
     time: false,
     value: new Date(meeting.schedule.startTime),
@@ -205,8 +205,8 @@ var MeetingDate = function MeetingDate(_ref) {
           formatDisplay(Hours, Minutes);
         }
 
-        update(_objectSpread({}, meeting, {
-          schedule: _objectSpread({}, meeting.schedule, {
+        update(_objectSpread(_objectSpread({}, meeting), {}, {
+          schedule: _objectSpread(_objectSpread({}, meeting.schedule), {}, {
             startTime: startTime
           })
         }));
@@ -221,27 +221,27 @@ var MeetingDate = function MeetingDate(_ref) {
     },
     format: "MM/DD/YY",
     min: new Date()
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     onClick: function onClick() {
       return onToggle('date');
     },
     "data-sign": "dateText",
     className: (0, _classnames["default"])(_styles["default"].dateTimeText, _styles["default"].dateText)
-  }, (0, _moment["default"])(meeting.schedule.startTime).format('MM/DD/YY'))), _react["default"].createElement("div", {
+  }, (0, _moment["default"])(meeting.schedule.startTime).format('MM/DD/YY'))), /*#__PURE__*/_react["default"].createElement("div", {
     ref: function ref(_ref3) {
       that.dateIcon = _ref3;
     },
     className: _styles["default"].dateIcon
-  }, _react["default"].createElement(_Date["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Date["default"], {
     onClick: function onClick() {
       return onToggle('date');
     },
     className: _styles["default"].icon
-  }))), _react["default"].createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].list
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])([_styles["default"].timePicker, useTimePicker && _styles["default"].useTimePicker])
-  }, _react["default"].createElement(_DateTimePicker["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_DateTimePicker["default"], {
     culture: currentLocale,
     date: false,
     step: 15,
@@ -250,8 +250,8 @@ var MeetingDate = function MeetingDate(_ref) {
       preventTimePickerReplay(false);
 
       if (startTime) {
-        update(_objectSpread({}, meeting, {
-          schedule: _objectSpread({}, meeting.schedule, {
+        update(_objectSpread(_objectSpread({}, meeting), {}, {
+          schedule: _objectSpread(_objectSpread({}, meeting.schedule), {}, {
             startTime: startTime.getTime()
           })
         }));
@@ -266,14 +266,14 @@ var MeetingDate = function MeetingDate(_ref) {
     },
     format: "hh:mm A",
     min: minMinute
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].timeText,
     onClick: function onClick() {
       if (useTimePicker) {
         onToggle('time');
       }
     }
-  }, _react["default"].createElement("input", {
+  }, /*#__PURE__*/_react["default"].createElement("input", {
     flag: "timeInput",
     disabled: useTimePicker,
     ref: function ref(_ref6) {
@@ -304,9 +304,9 @@ var MeetingDate = function MeetingDate(_ref) {
     onBlur: changeTime,
     maxLength: 2,
     type: "text"
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].colon
-  }, ":"), _react["default"].createElement("input", {
+  }, ":"), /*#__PURE__*/_react["default"].createElement("input", {
     flag: "timeInput",
     disabled: useTimePicker,
     ref: function ref(_ref8) {
@@ -334,14 +334,14 @@ var MeetingDate = function MeetingDate(_ref) {
     onBlur: changeTime,
     maxLength: 2,
     type: "text"
-  }), useTimePicker && _react["default"].createElement("div", {
+  }), useTimePicker && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].colon
-  }, (0, _moment["default"])(meeting.schedule.startTime).locale('en').format('A')))), _react["default"].createElement("div", {
+  }, (0, _moment["default"])(meeting.schedule.startTime).locale('en').format('A')))), /*#__PURE__*/_react["default"].createElement("div", {
     ref: function ref(_ref9) {
       that.TimeIcon = _ref9;
     },
     className: _styles["default"].timeIcon
-  }, _react["default"].createElement(_Time["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Time["default"], {
     onClick: function onClick() {
       if (useTimePicker) {
         onToggle('time');

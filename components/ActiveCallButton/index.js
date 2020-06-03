@@ -29,7 +29,7 @@ function ActiveCallButton(props) {
   var className = (0, _classnames["default"])(_styles["default"].btnSvg, props.className);
   var buttonClassName = (0, _classnames["default"])(_styles["default"].button, props.buttonClassName, props.active ? _styles["default"].buttonActive : null, props.disabled ? _styles["default"].buttonDisabled : null);
   var text = props.title && props.title.split('\n').map(function (line, index) {
-    return _react["default"].createElement("tspan", {
+    return /*#__PURE__*/_react["default"].createElement("tspan", {
       dy: index ? '1.1em' : 0,
       x: "250",
       key: line,
@@ -37,14 +37,14 @@ function ActiveCallButton(props) {
     }, line);
   });
   var buttonSize = 383.8;
-  return _react["default"].createElement("svg", {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
     className: className,
     viewBox: "0 0 500 600",
     width: props.width,
     height: props.height,
     x: props.x,
     y: props.y
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     width: buttonSize.toString(),
     height: buttonSize.toString(),
     x: 500 / 2 - buttonSize / 2,
@@ -61,7 +61,7 @@ function ActiveCallButton(props) {
     iconY: props.iconY,
     showRipple: props.showRipple,
     dataSign: props.dataSign
-  }), _react["default"].createElement("text", {
+  }), /*#__PURE__*/_react["default"].createElement("text", {
     className: _styles["default"].buttonTitle,
     x: "250",
     y: "500",

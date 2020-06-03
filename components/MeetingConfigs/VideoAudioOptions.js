@@ -51,7 +51,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -59,33 +59,33 @@ var Video = function Video(_ref) {
   var currentLocale = _ref.currentLocale,
       meeting = _ref.meeting,
       update = _ref.update;
-  return _react["default"].createElement(_MeetingSection["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('video', currentLocale),
     withSwitch: true
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].videoDiv
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].labelLight, _styles["default"].fixTopMargin, _styles["default"].videoDescribe)
-  }, _i18n["default"].getString('videoDescribe', currentLocale)), _react["default"].createElement("div", {
+  }, _i18n["default"].getString('videoDescribe', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].spaceBetween, _styles["default"].fixTopMargin)
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].labelLight
-  }, _i18n["default"].getString('host', currentLocale)), _react["default"].createElement(_Switch["default"], {
+  }, _i18n["default"].getString('host', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
     checked: meeting.startHostVideo,
     onChange: function onChange(startHostVideo) {
-      update(_objectSpread({}, meeting, {
+      update(_objectSpread(_objectSpread({}, meeting), {}, {
         startHostVideo: startHostVideo
       }));
     },
     dataSign: "videoHostToggle"
-  })), _react["default"].createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].spaceBetween, _styles["default"].fixTopMargin)
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].labelLight
-  }, _i18n["default"].getString('participants', currentLocale)), _react["default"].createElement(_Switch["default"], {
+  }, _i18n["default"].getString('participants', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
     checked: meeting.startParticipantsVideo,
     onChange: function onChange(startParticipantsVideo) {
-      update(_objectSpread({}, meeting, {
+      update(_objectSpread(_objectSpread({}, meeting), {}, {
         startParticipantsVideo: startParticipantsVideo
       }));
     },
@@ -99,11 +99,11 @@ var AudioOptionsCheckbox = function AudioOptionsCheckbox(_ref2) {
   var update = _ref2.update,
       meeting = _ref2.meeting,
       data = _ref2.data;
-  return _react["default"].createElement(_CheckBox["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_CheckBox["default"], {
     onSelect: function onSelect(_ref3) {
       var key = _ref3.key;
       var audioOptions = key.split('_');
-      update(_objectSpread({}, meeting, {
+      update(_objectSpread(_objectSpread({}, meeting), {}, {
         audioOptions: audioOptions
       }));
     },
@@ -120,14 +120,14 @@ var AudioOptionsDropdown = function AudioOptionsDropdown(_ref4) {
   var update = _ref4.update,
       meeting = _ref4.meeting,
       data = _ref4.data;
-  return _react["default"].createElement(_DropdownSelect["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
     className: (0, _classnames["default"])(_styles["default"].dropdownSelect),
     iconClassNßame: _styles["default"].dropdownIcon,
     value: meeting.audioOptions.join('_'),
     onChange: function onChange(_ref5) {
       var key = _ref5.key;
       var audioOptions = key.split('_');
-      update(_objectSpread({}, meeting, {
+      update(_objectSpread(_objectSpread({}, meeting), {}, {
         audioOptions: audioOptions
       }));
     },
@@ -141,7 +141,7 @@ var AudioOptionsDropdown = function AudioOptionsDropdown(_ref4) {
       }).text;
     },
     renderFunction: function renderFunction(option) {
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         title: option.text
       }, option.text);
     },
@@ -158,16 +158,16 @@ var AudioOptions = function AudioOptions(_ref6) {
       meeting = _ref6.meeting,
       data = _ref6.data,
       audioOptionToggle = _ref6.audioOptionToggle;
-  var audioOptions = audioOptionToggle ? _react["default"].createElement(AudioOptionsDropdown, {
+  var audioOptions = audioOptionToggle ? /*#__PURE__*/_react["default"].createElement(AudioOptionsDropdown, {
     update: update,
     meeting: meeting,
     data: data
-  }) : _react["default"].createElement(AudioOptionsCheckbox, {
+  }) : /*#__PURE__*/_react["default"].createElement(AudioOptionsCheckbox, {
     update: update,
     meeting: meeting,
     data: data
   });
-  return _react["default"].createElement(_MeetingSection["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('audioOptions', currentLocale),
     withSwitch: true
   }, audioOptions);

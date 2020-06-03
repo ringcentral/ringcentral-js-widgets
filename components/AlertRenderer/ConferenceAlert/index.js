@@ -20,7 +20,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function ConferenceAlert(props) {
   var msg = _i18n["default"].getString(props.message.message, props.currentLocale);
 
-  return _react["default"].createElement("span", null, msg);
+  return /*#__PURE__*/_react["default"].createElement("span", null, msg);
 }
 
 ConferenceAlert.propTypes = {

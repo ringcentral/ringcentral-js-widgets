@@ -38,8 +38,8 @@ var ClickToDial = function ClickToDial(_ref) {
   }
 
   if (showClickToDial && (outboundSMS || clickToDialPermissions)) {
-    return _react["default"].createElement(_IconLine["default"], {
-      icon: _react["default"].createElement(_Switch["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
+      icon: /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
         checked: clickToDialEnabled,
         onChange: onClickToDialChange
       }),

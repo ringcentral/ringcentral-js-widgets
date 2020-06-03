@@ -23,7 +23,7 @@ var Header = function Header(_ref) {
     return null;
   }
 
-  return _react["default"].createElement(_Header.Header, null, _i18n["default"].getString('settings', currentLocale));
+  return /*#__PURE__*/_react["default"].createElement(_Header.Header, null, _i18n["default"].getString('settings', currentLocale));
 };
 
 exports.Header = Header;

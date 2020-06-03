@@ -24,7 +24,7 @@ function Badge(_ref) {
       name = _ref.name,
       children = _ref.children,
       onClick = _ref.onClick;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     title: name,
     className: (0, _classnames["default"])(_styles["default"].root, className),
     onClick: onClick

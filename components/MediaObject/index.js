@@ -46,19 +46,19 @@ function MediaObject(_ref) {
   var leftAlignmentClassName = getMeidaCls(leftAlignment);
   var rightAlignmentClassName = getMeidaCls(rightAlignment);
   var bodyAlignmentClassName = getMeidaCls(bodyAlignment);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames2["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].media, true), _defineProperty(_classnames, _styles["default"].flex, !!flexible), _defineProperty(_classnames, containerCls, !!containerCls), _classnames))
-  }, mediaLeft ? _react["default"].createElement("div", {
+  }, mediaLeft ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames2["default"])(_styles["default"].mediaLeft, leftAlignmentClassName, leftCls)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].mediaObject
-  }, mediaLeft)) : null, _react["default"].createElement("div", {
+  }, mediaLeft)) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames2["default"])(_styles["default"].mediaBody, bodyAlignmentClassName, bodyCls)
-  }, mediaHeading ? _react["default"].createElement("h4", {
+  }, mediaHeading ? /*#__PURE__*/_react["default"].createElement("h4", {
     className: (0, _classnames2["default"])(_styles["default"].mediaHeading, headingCls)
-  }, mediaHeading) : null, mediaBody), mediaRight ? _react["default"].createElement("div", {
+  }, mediaHeading) : null, mediaBody), mediaRight ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames2["default"])(_styles["default"].mediaRight, rightAlignmentClassName, rightCls)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].mediaObject
   }, mediaRight)) : null);
 }

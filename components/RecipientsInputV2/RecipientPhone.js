@@ -25,12 +25,12 @@ var RecipientPhone = function RecipientPhone(_ref) {
       enableTitle = _ref.enableTitle;
   var phoneTypeName = phoneTypeRenderer ? phoneTypeRenderer(phoneType) : _phoneTypeNames["default"].getString(phoneType, currentLocale);
   var title = enableTitle ? "".concat(formatContactPhone(phoneNumber), " ").concat(splitter, " ").concat(phoneTypeName) : undefined;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].phoneNumberSection,
     title: title
-  }, _react["default"].createElement("span", null, formatContactPhone(phoneNumber)), _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", null, formatContactPhone(phoneNumber)), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].splitter
-  }, splitter), _react["default"].createElement("span", {
+  }, splitter), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].label
   }, phoneTypeName));
 };

@@ -35,17 +35,17 @@ var ContactDetails = function ContactDetails(_ref) {
       onClickToSMS = _ref.onClickToSMS,
       outboundSmsPermission = _ref.outboundSmsPermission,
       sourceNodeRenderer = _ref.sourceNodeRenderer;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
-  }, _react["default"].createElement(_Profile.Profile, {
+  }, /*#__PURE__*/_react["default"].createElement(_Profile.Profile, {
     contact: contact,
     sourceNodeRenderer: sourceNodeRenderer,
     currentLocale: currentLocale
-  }), _react["default"].createElement(_CompanyInfo.CompanyInfo, {
+  }), /*#__PURE__*/_react["default"].createElement(_CompanyInfo.CompanyInfo, {
     company: contact.company,
     currentLocale: currentLocale,
     jobTitle: contact.jobTitle
-  }), _react["default"].createElement(_PhoneSection.PhoneSection, {
+  }), /*#__PURE__*/_react["default"].createElement(_PhoneSection.PhoneSection, {
     contact: contact,
     currentLocale: currentLocale,
     disableLinks: disableLinks,
@@ -57,7 +57,7 @@ var ContactDetails = function ContactDetails(_ref) {
     onClickToDial: onClickToDial,
     onClickToSMS: onClickToSMS,
     outboundSmsPermission: outboundSmsPermission
-  }), _react["default"].createElement(_Emails.Emails, {
+  }), /*#__PURE__*/_react["default"].createElement(_Emails.Emails, {
     contactType: contact.type,
     currentLocale: currentLocale,
     emails: contact.emails,

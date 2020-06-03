@@ -79,22 +79,22 @@ function DialPad(_ref) {
       dialButtonMuted = _ref.dialButtonMuted,
       dataSign = _ref.dataSign;
   dataSign = typeof dataSign !== 'undefined' ? dataSign : '';
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "".concat(dataSign, "DialPad"),
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, keyConfig.map(function (row, rowIdx) {
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       key: rowIdx,
       className: _styles["default"].row
     }, row.map(function (btn) {
       if (hideSpecial && (btn.value === '*' || btn.value === '#')) {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           key: btn.value,
           className: _styles["default"].btnPlaceholder
         });
       }
 
-      return _react["default"].createElement(_DialButton["default"], {
+      return /*#__PURE__*/_react["default"].createElement(_DialButton["default"], {
         key: btn.value,
         btn: btn,
         className: _styles["default"].btnPlaceholder,

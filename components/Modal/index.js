@@ -43,7 +43,7 @@ function Modal(_ref) {
   var onCancel = _ref.onCancel,
       props = _objectWithoutProperties(_ref, ["onCancel"]);
 
-  return _react["default"].createElement(ModalDialog, _extends({}, props, {
+  return /*#__PURE__*/_react["default"].createElement(ModalDialog, _extends({}, props, {
     onCancel: onCancel,
     onClose: onCancel
   }));

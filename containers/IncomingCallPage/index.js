@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -19,9 +17,19 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -51,7 +59,11 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -59,27 +71,31 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var IncomingCallPage =
-/*#__PURE__*/
-function (_Component) {
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var IncomingCallPage = /*#__PURE__*/function (_Component) {
   _inherits(IncomingCallPage, _Component);
+
+  var _super = _createSuper(IncomingCallPage);
 
   function IncomingCallPage(props) {
     var _this;
 
     _classCallCheck(this, IncomingCallPage);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(IncomingCallPage).call(this, props));
+    _this = _super.call(this, props);
 
     _this.answer = function () {
       return _this.props.answer(_this.props.session.id);
@@ -101,45 +117,44 @@ function (_Component) {
       return _this.props.toggleMinimized(_this.props.session.id);
     };
 
-    _this.answerAndEnd = function _callee() {
-      return regeneratorRuntime.async(function _callee$(_context) {
+    _this.answerAndEnd = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return regeneratorRuntime.awrap(_this.props.hangup(_this.props.activeSessionId));
+              return _this.props.hangup(_this.props.activeSessionId);
 
             case 2:
               _context.next = 4;
-              return regeneratorRuntime.awrap(_this.props.answer(_this.props.session.id));
+              return _this.props.answer(_this.props.session.id);
 
             case 4:
             case "end":
               return _context.stop();
           }
         }
-      });
-    };
-
-    _this.answerAndHold = function _callee2() {
-      return regeneratorRuntime.async(function _callee2$(_context2) {
+      }, _callee);
+    }));
+    _this.answerAndHold = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return regeneratorRuntime.awrap(_this.props.onHold(_this.props.activeSessionId));
+              return _this.props.onHold(_this.props.activeSessionId);
 
             case 2:
               _context2.next = 4;
-              return regeneratorRuntime.awrap(_this.props.answer(_this.props.session.id));
+              return _this.props.answer(_this.props.session.id);
 
             case 4:
             case "end":
               return _context2.stop();
           }
         }
-      });
-    };
+      }, _callee2);
+    }));
 
     _this.onForward = function (forwardNumber) {
       return _this.props.onForward(_this.props.session.id, forwardNumber);
@@ -265,7 +280,7 @@ function (_Component) {
         fallbackUserName = _i18n["default"].getString('unknown', this.props.currentLocale);
       }
 
-      return _react["default"].createElement(_IncomingCallPanel["default"], {
+      return /*#__PURE__*/_react["default"].createElement(_IncomingCallPanel["default"], {
         currentLocale: this.props.currentLocale,
         nameMatches: this.props.nameMatches,
         fallBackName: fallbackUserName,
@@ -348,20 +363,20 @@ IncomingCallPage.defaultProps = {
   phoneSourceNameRenderer: undefined
 };
 
-function mapToProps(_, _ref) {
-  var _ref$phone = _ref.phone,
-      webphone = _ref$phone.webphone,
-      locale = _ref$phone.locale,
-      contactMatcher = _ref$phone.contactMatcher,
-      contactSearch = _ref$phone.contactSearch,
-      regionSettings = _ref$phone.regionSettings,
-      forwardingNumber = _ref$phone.forwardingNumber,
-      brand = _ref$phone.brand,
-      _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
-      showContactDisplayPlaceholder = _ref$showContactDispl === void 0 ? false : _ref$showContactDispl,
-      phoneTypeRenderer = _ref.phoneTypeRenderer,
-      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
-      showCallQueueName = _ref.showCallQueueName;
+function mapToProps(_, _ref3) {
+  var _ref3$phone = _ref3.phone,
+      webphone = _ref3$phone.webphone,
+      locale = _ref3$phone.locale,
+      contactMatcher = _ref3$phone.contactMatcher,
+      contactSearch = _ref3$phone.contactSearch,
+      regionSettings = _ref3$phone.regionSettings,
+      forwardingNumber = _ref3$phone.forwardingNumber,
+      brand = _ref3$phone.brand,
+      _ref3$showContactDisp = _ref3.showContactDisplayPlaceholder,
+      showContactDisplayPlaceholder = _ref3$showContactDisp === void 0 ? false : _ref3$showContactDisp,
+      phoneTypeRenderer = _ref3.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
+      showCallQueueName = _ref3.showCallQueueName;
   var currentSession = webphone.ringingCallOnView || {};
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
   var fromMatches = contactMapping && contactMapping[currentSession.from] || [];
@@ -384,16 +399,16 @@ function mapToProps(_, _ref) {
   };
 }
 
-function mapToFunctions(_, _ref2) {
-  var _ref2$phone = _ref2.phone,
-      webphone = _ref2$phone.webphone,
-      regionSettings = _ref2$phone.regionSettings,
-      contactSearch = _ref2$phone.contactSearch,
-      conferenceCall = _ref2$phone.conferenceCall,
-      _ref2$getAvatarUrl = _ref2.getAvatarUrl,
-      getAvatarUrl = _ref2$getAvatarUrl === void 0 ? function () {
+function mapToFunctions(_, _ref4) {
+  var _ref4$phone = _ref4.phone,
+      webphone = _ref4$phone.webphone,
+      regionSettings = _ref4$phone.regionSettings,
+      contactSearch = _ref4$phone.contactSearch,
+      conferenceCall = _ref4$phone.conferenceCall,
+      _ref4$getAvatarUrl = _ref4.getAvatarUrl,
+      getAvatarUrl = _ref4$getAvatarUrl === void 0 ? function () {
     return null;
-  } : _ref2$getAvatarUrl;
+  } : _ref4$getAvatarUrl;
   return {
     formatPhone: function formatPhone(phoneNumber) {
       return (0, _formatNumber["default"])({

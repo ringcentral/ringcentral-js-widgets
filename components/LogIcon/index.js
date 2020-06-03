@@ -32,12 +32,12 @@ function LogIcon(_ref) {
       disabled = _ref.disabled,
       isFax = _ref.isFax;
 
-  var loggedIcon = _react["default"].createElement(_LoggedIcon["default"], {
+  var loggedIcon = /*#__PURE__*/_react["default"].createElement(_LoggedIcon["default"], {
     width: 19,
     className: _styles["default"].loggedIcon
   });
 
-  var unLoggedIcon = _react["default"].createElement(_UnloggedIcon["default"], {
+  var unLoggedIcon = /*#__PURE__*/_react["default"].createElement(_UnloggedIcon["default"], {
     width: 19,
     className: _styles["default"].unloggedIcon
   });
@@ -64,7 +64,7 @@ function LogIcon(_ref) {
   };
 
   var logIconClassName = (0, _classnames["default"])(_styles["default"].logIcon, isSaving ? _styles["default"].isSaving : null, disabled ? _styles["default"].disabled : null);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: logIconClassName,
     onClick: onClick,
     title: tooltip,

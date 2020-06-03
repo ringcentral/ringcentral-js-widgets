@@ -37,17 +37,17 @@ function SaveLogButton(_ref) {
       buttonContent = _getButtonStatus.buttonContent;
 
   var getContent = function getContent(buttonContent) {
-    return _react["default"].createElement("span", null, buttonContent === 'saved' && _react["default"].createElement(_rcui.RcIcon, {
+    return /*#__PURE__*/_react["default"].createElement("span", null, buttonContent === 'saved' && /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, {
       color: ['primary', 'main'],
       symbol: _iconCheck["default"],
       size: "small"
-    }), buttonContent === 'saving' && _react["default"].createElement(_rcui.RcCircularProgress, {
+    }), buttonContent === 'saving' && /*#__PURE__*/_react["default"].createElement(_rcui.RcCircularProgress, {
       size: 20
     }), buttonContent === 'save' && _i18n["default"].getString('save', currentLocale));
   };
 
   var content = getContent(buttonContent);
-  return _react["default"].createElement(_rcui.RcButton, {
+  return /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
     className: (0, _classnames["default"])(_styles["default"].button, !isWide && _styles["default"].classic),
     variant: "text",
     size: "medium",

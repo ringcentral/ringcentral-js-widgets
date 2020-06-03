@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -19,9 +17,19 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -59,7 +67,11 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -67,27 +79,31 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var ConversationPanel =
-/*#__PURE__*/
-function (_Component) {
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var ConversationPanel = /*#__PURE__*/function (_Component) {
   _inherits(ConversationPanel, _Component);
+
+  var _super = _createSuper(ConversationPanel);
 
   function ConversationPanel(props) {
     var _this;
 
     _classCallCheck(this, ConversationPanel);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ConversationPanel).call(this, props));
+    _this = _super.call(this, props);
 
     _this.onSend = function () {
       _this.props.replyToReceivers(_this.props.messageText);
@@ -245,60 +261,68 @@ function (_Component) {
     }
   }, {
     key: "logConversation",
-    value: function logConversation() {
-      var _ref,
-          _ref$redirect,
-          redirect,
-          selected,
-          _ref$prefill,
-          prefill,
-          _args = arguments;
+    value: function () {
+      var _logConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _ref,
+            _ref$redirect,
+            redirect,
+            selected,
+            _ref$prefill,
+            prefill,
+            _args = arguments;
 
-      return regeneratorRuntime.async(function logConversation$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _ref = _args.length > 0 && _args[0] !== undefined ? _args[0] : {}, _ref$redirect = _ref.redirect, redirect = _ref$redirect === void 0 ? true : _ref$redirect, selected = _ref.selected, _ref$prefill = _ref.prefill, prefill = _ref$prefill === void 0 ? true : _ref$prefill;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _ref = _args.length > 0 && _args[0] !== undefined ? _args[0] : {}, _ref$redirect = _ref.redirect, redirect = _ref$redirect === void 0 ? true : _ref$redirect, selected = _ref.selected, _ref$prefill = _ref.prefill, prefill = _ref$prefill === void 0 ? true : _ref$prefill;
 
-              if (!(typeof this.props.onLogConversation === 'function' && this._mounted && !this.state.isLogging)) {
-                _context.next = 6;
-                break;
-              }
+                if (!(typeof this.props.onLogConversation === 'function' && this._mounted && !this.state.isLogging)) {
+                  _context.next = 6;
+                  break;
+                }
 
-              this.setState({
-                isLogging: true
-              });
-              _context.next = 5;
-              return regeneratorRuntime.awrap(this.props.onLogConversation({
-                correspondentEntity: this.getSelectedContact(selected),
-                conversationId: this.props.conversation.conversationId,
-                redirect: redirect,
-                prefill: prefill
-              }));
-
-            case 5:
-              if (this._mounted) {
                 this.setState({
-                  isLogging: false
+                  isLogging: true
                 });
-              }
+                _context.next = 5;
+                return this.props.onLogConversation({
+                  correspondentEntity: this.getSelectedContact(selected),
+                  conversationId: this.props.conversation.conversationId,
+                  redirect: redirect,
+                  prefill: prefill
+                });
 
-            case 6:
-            case "end":
-              return _context.stop();
+              case 5:
+                if (this._mounted) {
+                  this.setState({
+                    isLogging: false
+                  });
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function logConversation() {
+        return _logConversation.apply(this, arguments);
+      }
+
+      return logConversation;
+    }()
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
       if (!this.state.loaded) {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].root
-        }, _react["default"].createElement(_SpinnerOverlay["default"], null));
+        }, /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null));
       }
 
       var conversationBody = null;
@@ -308,7 +332,7 @@ function (_Component) {
           messageSubjectRenderer = _this$props.messageSubjectRenderer;
 
       if (!loading) {
-        conversationBody = _react["default"].createElement(_ConversationMessageList["default"], {
+        conversationBody = /*#__PURE__*/_react["default"].createElement(_ConversationMessageList["default"], {
           currentLocale: this.props.currentLocale,
           height: this.getMessageListHeight(),
           messages: this.props.messages,
@@ -333,7 +357,7 @@ function (_Component) {
         logConversation: this.logConversation,
         isLogging: isLogging || this.state.isLogging
       }) : null;
-      var logButton = this.props.onLogConversation && !this.props.renderExtraButton ? _react["default"].createElement(_LogButton["default"], {
+      var logButton = this.props.onLogConversation && !this.props.renderExtraButton ? /*#__PURE__*/_react["default"].createElement(_LogButton["default"], {
         className: _styles["default"].logButton,
         onLog: this.logConversation,
         disableLinks: this.props.disableLinks,
@@ -341,12 +365,12 @@ function (_Component) {
         isLogging: isLogging || this.state.isLogging,
         currentLocale: this.props.currentLocale
       }) : null;
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "conversationPanel",
         className: _styles["default"].header
-      }, _react["default"].createElement(_ContactDisplay["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
         brand: this.props.brand,
         className: _styles["default"].contactDisplay,
         selectClassName: _styles["default"].contactDisplaySelect,
@@ -368,17 +392,17 @@ function (_Component) {
         phoneTypeRenderer: this.props.phoneTypeRenderer,
         phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
         showGroupNumberName: this.props.showGroupNumberName
-      }), _react["default"].createElement("a", {
+      }), /*#__PURE__*/_react["default"].createElement("a", {
         onClick: function onClick() {
           return _this2.props.goBack();
         },
         "data-sign": "backButton",
         className: _styles["default"].backButton
-      }, _react["default"].createElement("span", {
+      }, /*#__PURE__*/_react["default"].createElement("span", {
         className: _DynamicsFont["default"].arrow
-      })), extraButton && _react["default"].createElement("div", {
+      })), extraButton && /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].logButton
-      }, extraButton), logButton), conversationBody, _react["default"].createElement(_MessageInput["default"], {
+      }, extraButton), logButton), conversationBody, /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
         value: this.props.messageText,
         onChange: this.props.updateMessageText,
         disabled: this.props.sendButtonDisabled,

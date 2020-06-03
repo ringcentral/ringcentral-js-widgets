@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -22,6 +20,14 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -79,7 +85,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -87,15 +93,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -133,10 +143,10 @@ function WebphoneButtons(_ref) {
     endIcon = _Voicemail["default"];
     rejectTitle = _i18n["default"].getString('toVoicemail', currentLocale);
     showHold = false;
-    answerBtn = _react["default"].createElement("span", {
+    answerBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('accept', currentLocale),
       className: _styles["default"].webphoneButton
-    }, _react["default"].createElement(_CircleButton["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       className: _styles["default"].answerButton,
       onClick: function onClick(e) {
         e.stopPropagation();
@@ -153,10 +163,10 @@ function WebphoneButtons(_ref) {
 
   if (showHold) {
     if ((0, _webphoneHelper.isOnHold)(session)) {
-      holdBtn = _react["default"].createElement("span", {
+      holdBtn = /*#__PURE__*/_react["default"].createElement("span", {
         title: unholdTitle,
         className: _styles["default"].webphoneButton
-      }, _react["default"].createElement(_CircleButton["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
         className: (0, _classnames8["default"])(_styles["default"].holdButton, _styles["default"].active),
         onClick: function onClick(e) {
           e.stopPropagation();
@@ -169,10 +179,10 @@ function WebphoneButtons(_ref) {
         showBorder: true
       }));
     } else {
-      holdBtn = _react["default"].createElement("span", {
+      holdBtn = /*#__PURE__*/_react["default"].createElement("span", {
         title: holdTitle,
         className: _styles["default"].webphoneButton
-      }, _react["default"].createElement(_CircleButton["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
         className: _styles["default"].holdButton,
         onClick: function onClick(e) {
           e.stopPropagation();
@@ -192,10 +202,10 @@ function WebphoneButtons(_ref) {
 
     var mergeTitle = _i18n["default"].getString('mergeToConference', currentLocale);
 
-    mergeBtn = _react["default"].createElement("span", {
+    mergeBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: mergeTitle,
       className: _styles["default"].webphoneButton
-    }, _react["default"].createElement(_CircleButton["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       className: (0, _classnames8["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].mergeButton, true), _defineProperty(_classnames, _styles["default"].disabled, disableMerge), _classnames)),
       onClick: function onClick(e) {
         e.stopPropagation();
@@ -210,13 +220,13 @@ function WebphoneButtons(_ref) {
     }));
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].webphoneButtons
-  }, mergeBtn, holdBtn, _react["default"].createElement("span", {
+  }, mergeBtn, holdBtn, /*#__PURE__*/_react["default"].createElement("span", {
     title: rejectTitle,
     "data-sign": "toVoiceMail",
     className: _styles["default"].webphoneButton
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     className: _styles["default"].rejectButton,
     onClick: function onClick(e) {
       e.stopPropagation();
@@ -280,11 +290,11 @@ function ActiveCallControlButtons(_ref2) {
   if (showSwitchCall) {
     var _classnames2;
 
-    swithCallButton = _react["default"].createElement("span", {
+    swithCallButton = /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('switchCall', currentLocale),
       className: _styles["default"].ringoutButton,
       "data-sign": "switchCall"
-    }, _react["default"].createElement(_CircleButton["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
       className: (0, _classnames8["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].switchButton, true), _defineProperty(_classnames2, _styles["default"].disabled, disableLinks), _classnames2)),
       onClick: function onClick(e) {
@@ -297,7 +307,7 @@ function ActiveCallControlButtons(_ref2) {
   }
 
   if (!showRingoutCallControl) {
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].ringoutButtons
     }, swithCallButton);
   }
@@ -310,11 +320,11 @@ function ActiveCallControlButtons(_ref2) {
 
     var rejectTitle = _i18n["default"].getString('reject', currentLocale);
 
-    endButton = _react["default"].createElement("span", {
+    endButton = /*#__PURE__*/_react["default"].createElement("span", {
       title: rejectTitle,
       className: _styles["default"].ringoutButton,
       "data-sign": "hangup"
-    }, _react["default"].createElement(_CircleButton["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
       className: (0, _classnames8["default"])((_classnames3 = {}, _defineProperty(_classnames3, _styles["default"].endButton, true), _defineProperty(_classnames3, _styles["default"].disabled, disableLinks), _classnames3)),
       onClick: function onClick(e) {
@@ -329,11 +339,11 @@ function ActiveCallControlButtons(_ref2) {
 
     var hangupTitle = _i18n["default"].getString('hangup', currentLocale);
 
-    endButton = _react["default"].createElement("span", {
+    endButton = /*#__PURE__*/_react["default"].createElement("span", {
       title: hangupTitle,
       className: _styles["default"].ringoutButton,
       "data-sign": "hangup"
-    }, _react["default"].createElement(_CircleButton["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
       className: (0, _classnames8["default"])((_classnames4 = {}, _defineProperty(_classnames4, _styles["default"].endButton, true), _defineProperty(_classnames4, _styles["default"].disabled, disableLinks), _classnames4)),
       onClick: function onClick(e) {
@@ -352,11 +362,11 @@ function ActiveCallControlButtons(_ref2) {
 
     var transferTitle = _i18n["default"].getString('transfer', currentLocale);
 
-    transferBtn = _react["default"].createElement("span", {
+    transferBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: transferTitle,
       className: _styles["default"].ringoutButton,
       "data-sign": "transfer"
-    }, _react["default"].createElement(_CircleButton["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
       className: (0, _classnames8["default"])((_classnames5 = {}, _defineProperty(_classnames5, _styles["default"].transferButton, true), _defineProperty(_classnames5, _styles["default"].disabled, disableLinks), _classnames5)),
       onClick: function onClick(e) {
@@ -367,7 +377,7 @@ function ActiveCallControlButtons(_ref2) {
     }));
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].ringoutButtons
   }, endButton, transferBtn, swithCallButton);
 }
@@ -396,17 +406,17 @@ ActiveCallControlButtons.defaultProps = {
  * TODO: Gradually replace <ActiveCallItem/> with this component
  */
 
-var ActiveCallItem =
-/*#__PURE__*/
-function (_Component) {
+var ActiveCallItem = /*#__PURE__*/function (_Component) {
   _inherits(ActiveCallItem, _Component);
+
+  var _super = _createSuper(ActiveCallItem);
 
   function ActiveCallItem(props) {
     var _this;
 
     _classCallCheck(this, ActiveCallItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ActiveCallItem).call(this, props));
+    _this = _super.call(this, props);
 
     _this.onSelectContact = function (value, idx) {
       if (!value || typeof _this.props.getAvatarUrl !== 'function') {
@@ -558,14 +568,14 @@ function (_Component) {
 
       var telephonyStatusInfo = _i18n["default"].getString(telephonyStatus, currentLocale);
 
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].callDetail
-      }, disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : _react["default"].createElement(_DurationCounter["default"], {
+      }, disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
         startTime: startTime,
         offset: offset
-      }), _react["default"].createElement("span", {
+      }), /*#__PURE__*/_react["default"].createElement("span", {
         className: _styles["default"].split
-      }, "|"), _react["default"].createElement("span", {
+      }, "|"), /*#__PURE__*/_react["default"].createElement("span", {
         title: telephonyStatusInfo
       }, telephonyStatusInfo));
     }
@@ -636,21 +646,21 @@ function (_Component) {
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var inbound = (0, _callLogHelpers.isInbound)(this.props.call);
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
-      var extraButton = typeof renderExtraButton === 'function' ? _react["default"].createElement("div", {
+      var extraButton = typeof renderExtraButton === 'function' ? /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].extraButton
       }, renderExtraButton(this.props.call)) : undefined;
       var hasCallControl = !!(webphoneSession || showRingoutCallControl || showSwitchCall);
       var cursorPointer = hasCallControl && !!onClick;
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "callItem",
         className: _styles["default"].callItemContainer
-      }, _react["default"].createElement(_MediaObject["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_MediaObject["default"], {
         containerCls: _styles["default"].wrapper,
         bodyCls: (0, _classnames8["default"])((_classnames6 = {}, _defineProperty(_classnames6, _styles["default"].content, true), _defineProperty(_classnames6, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_classnames6, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_classnames6, _styles["default"].disabled, hasCallControl && disableLinks), _classnames6)),
         leftCls: (0, _classnames8["default"])((_classnames7 = {}, _defineProperty(_classnames7, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_classnames7, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_classnames7, _styles["default"].disabled, hasCallControl && disableLinks), _classnames7)),
-        mediaLeft: _react["default"].createElement("div", {
+        mediaLeft: /*#__PURE__*/_react["default"].createElement("div", {
           onClick: hasCallControl && onClick ? onClick : null
-        }, _react["default"].createElement(_CallIcon["default"], {
+        }, /*#__PURE__*/_react["default"].createElement(_CallIcon["default"], {
           direction: direction,
           ringing: ringing,
           active: true,
@@ -663,10 +673,10 @@ function (_Component) {
           avatarUrl: avatarUrl,
           extraNum: extraNum
         })),
-        mediaBody: _react["default"].createElement("div", {
+        mediaBody: /*#__PURE__*/_react["default"].createElement("div", {
           onClick: hasCallControl && onClick ? onClick : null,
           className: _styles["default"].strechVertical
-        }, _react["default"].createElement(_ContactDisplay["default"], {
+        }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
           isOnConferenceCall: isOnConferenceCall,
           contactName: showMultipleMatch ? undefined : contactName,
           className: (0, _classnames8["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
@@ -689,9 +699,9 @@ function (_Component) {
           phoneTypeRenderer: phoneTypeRenderer,
           phoneSourceNameRenderer: phoneSourceNameRenderer
         }), showCallDetail ? this.getCallInfo() : null),
-        mediaRight: _react["default"].createElement("div", {
+        mediaRight: /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].actionIconsBox
-        }, webphoneSession ? _react["default"].createElement(WebphoneButtons, {
+        }, webphoneSession ? /*#__PURE__*/_react["default"].createElement(WebphoneButtons, {
           session: webphoneSession,
           webphoneReject: this.webphoneToVoicemail,
           webphoneHangup: webphoneHangup,
@@ -703,7 +713,7 @@ function (_Component) {
           disableMerge: disableMerge,
           onMergeCall: onMergeCall,
           webphoneAnswer: webphoneAnswer
-        }) : _react["default"].createElement(ActiveCallControlButtons, {
+        }) : /*#__PURE__*/_react["default"].createElement(ActiveCallControlButtons, {
           showSwitchCall: !webphoneSession && showSwitchCall,
           webphoneSwitchCall: this.webphoneSwitchCall,
           showRingoutCallControl: showRingoutCallControl,

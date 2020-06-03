@@ -41,7 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -68,7 +68,7 @@ function CheckBox(_ref) {
   switch (type) {
     case 'radio':
       {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           className: className,
           "data-sign": dataSign
         }, data.map(function (item, key) {
@@ -80,15 +80,15 @@ function CheckBox(_ref) {
           };
 
           var extraInfo = typeof item.renderExtraInfo === 'function' && isSelected ? item.renderExtraInfo(_objectSpread({}, props)) : null;
-          return _react["default"].createElement("div", {
+          return /*#__PURE__*/_react["default"].createElement("div", {
             key: key,
             "data-sign": isSelected ? 'selectedItem' : undefined
-          }, _react["default"].createElement("div", {
+          }, /*#__PURE__*/_react["default"].createElement("div", {
             onClick: onClick,
             className: (0, _classnames["default"])(_styles["default"].item, item && item.disabled ? _styles["default"].disabled : null)
-          }, _react["default"].createElement("div", {
+          }, /*#__PURE__*/_react["default"].createElement("div", {
             className: (0, _classnames["default"])(_styles["default"].checkButton, checkStyle)
-          }), _react["default"].createElement("div", {
+          }), /*#__PURE__*/_react["default"].createElement("div", {
             className: _styles["default"].text,
             "data-sign": "text"
           }, isListObject ? item[textField] : item)), extraInfo);
@@ -99,13 +99,13 @@ function CheckBox(_ref) {
       {
         var checkboxClassName = (0, _classnames["default"])(_styles["default"].checkbox, checked ? _styles["default"].checked : '');
         var checkboxWrapperClassNames = (0, _classnames["default"])(_styles["default"].checkboxWrapper, className);
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           className: checkboxWrapperClassNames,
           "data-sign": dataSign,
           onClick: function onClick() {
             return onChecked && onChecked(!checked);
           }
-        }, _react["default"].createElement("div", {
+        }, /*#__PURE__*/_react["default"].createElement("div", {
           className: checkboxClassName
         }, "\u2713"), children);
       }

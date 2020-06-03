@@ -42,23 +42,23 @@ function Search(_ref) {
   }
 
   var showTextIcon = composeTextPermission && (typeFilter === _messageTypes["default"].all || typeFilter === _messageTypes["default"].text);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].searchContainer, showTextIcon ? null : _styles["default"].withoutTextIcon)
-  }, _react["default"].createElement(_SearchInput["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_SearchInput["default"], {
     className: _styles["default"].searchInput,
     value: searchInput,
     onChange: onSearchInputChange,
     placeholder: _i18n["default"].getString('search', currentLocale),
     disabled: disableLinks
-  }), _react["default"].createElement("span", {
+  }), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString('composeText', currentLocale),
     className: _styles["default"].textIcon,
     onClick: goToComposeText
-  }, _react["default"].createElement(_NewComposeTextHover["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_NewComposeTextHover["default"], {
     className: _styles["default"].hoverTextSVGIcon,
     width: 20,
     height: 21
-  }), _react["default"].createElement(_NewComposeText["default"], {
+  }), /*#__PURE__*/_react["default"].createElement(_NewComposeText["default"], {
     className: _styles["default"].textSVGIcon,
     width: 20,
     height: 21

@@ -29,10 +29,10 @@ var DialPad = function DialPad(_ref) {
     return onChange && onChange(e);
   };
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "".concat(dataSign || '', "DialPad"),
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, _react["default"].createElement(_rcui.RcDialPad, {
+  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcDialPad, {
     mouseEffect: dialEffect,
     classes: {
       root: _styles["default"].dialPadRoot,

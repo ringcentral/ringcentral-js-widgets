@@ -38,11 +38,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var PhoneList = function PhoneList(_ref) {
   var label = _ref.label,
       children = _ref.children;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].item
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].label
-  }, _react["default"].createElement("span", null, label)), _react["default"].createElement("ul", {
+  }, /*#__PURE__*/_react["default"].createElement("span", null, label)), /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles["default"].content
   }, children));
 };
@@ -65,14 +65,14 @@ var PhoneListItem = function PhoneListItem(_ref2) {
   var formattedNumber = rawPhoneNumber || formatNumber(phoneNumber);
   var showCallButton = !(!isClickToDialEnabled || phoneType === _phoneTypes["default"].fax);
   var showTextButton = !(!isClickToTextEnabled || phoneType === _phoneTypes["default"].fax || phoneType === _phoneTypes["default"].extension && !internalSmsPermission || phoneType !== _phoneTypes["default"].extension && !outboundSmsPermission);
-  return _react["default"].createElement("li", null, _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].text, _styles["default"].number)
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "contactNumber",
     title: phoneNumber
-  }, formattedNumber)), _react["default"].createElement("div", {
+  }, formattedNumber)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].menu
-  }, showCallButton ? _react["default"].createElement("button", {
+  }, showCallButton ? /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
     className: (0, _classnames["default"])(isCallButtonDisabled && _styles["default"].disabled),
     title: "".concat(_i18n["default"].getString('call', currentLocale), " ").concat(phoneNumber),
@@ -80,9 +80,9 @@ var PhoneListItem = function PhoneListItem(_ref2) {
     onClick: function onClick() {
       return onClickToDial(contact, phoneNumber);
     }
-  }, _react["default"].createElement("i", {
+  }, /*#__PURE__*/_react["default"].createElement("i", {
     className: _DynamicsFont["default"].call
-  })) : null, showTextButton ? _react["default"].createElement("button", {
+  })) : null, showTextButton ? /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
     className: (0, _classnames["default"])(disableLinks && _styles["default"].disabled),
     title: "".concat(_i18n["default"].getString('text', currentLocale), " ").concat(phoneNumber),
@@ -90,7 +90,7 @@ var PhoneListItem = function PhoneListItem(_ref2) {
     onClick: function onClick() {
       return onClickToSMS(contact, phoneNumber);
     }
-  }, _react["default"].createElement("i", {
+  }, /*#__PURE__*/_react["default"].createElement("i", {
     className: _DynamicsFont["default"].composeText
   })) : null));
 };
@@ -122,16 +122,16 @@ var PhoneSection = function PhoneSection(_ref3) {
       map: {},
       lastType: null
     }, sortedPhoneNumbers).map;
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].contacts)
     }, (0, _ramda.map)(function (phoneType) {
-      return _react["default"].createElement(PhoneList, {
+      return /*#__PURE__*/_react["default"].createElement(PhoneList, {
         key: phoneType,
         label: _i18n["default"].getString(phoneType, currentLocale)
       }, (0, _ramda.map)(function (_ref4) {
         var phoneNumber = _ref4.phoneNumber,
             rawPhoneNumber = _ref4.rawPhoneNumber;
-        return _react["default"].createElement(PhoneListItem, {
+        return /*#__PURE__*/_react["default"].createElement(PhoneListItem, {
           key: phoneNumber,
           phoneNumber: phoneNumber,
           rawPhoneNumber: rawPhoneNumber,

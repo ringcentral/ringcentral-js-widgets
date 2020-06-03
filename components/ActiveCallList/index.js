@@ -81,9 +81,9 @@ function ActiveCallList(_ref) {
   }
 
   var Component = useV2 ? _ActiveCallItemV["default"] : _ActiveCallItem["default"];
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].list, className)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].listTitle,
     style: {
       marginBottom: useV2 && title ? '-5px' : null
@@ -93,7 +93,7 @@ function ActiveCallList(_ref) {
   }, title), calls.map(function (call) {
     var isOnConferenceCall = call.webphoneSession ? isSessionAConferenceCall(call.webphoneSession.id) : isConferenceCall(call); // in case it's an other device call
 
-    return _react["default"].createElement(Component, {
+    return /*#__PURE__*/_react["default"].createElement(Component, {
       call: call,
       key: call.id,
       isOnConferenceCall: isOnConferenceCall,

@@ -5,25 +5,30 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.CallSubject = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _Tooltip = require("../../Rcui/Tooltip");
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
+
+var _toolTipDelayTime = require("../../../lib/toolTipDelayTime");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var CallSubject = function CallSubject(_ref) {
   var subject = _ref.subject;
   if (!subject) return null;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].subject
-  }, _react["default"].createElement("div", {
-    className: _styles["default"].matchName,
-    title: subject
-  }, subject));
+  }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+    title: subject,
+    enterDelay: _toolTipDelayTime.TOOLTIP_DEFAULT_DELAY_TIME
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].matchName
+  }, subject)));
 };
 
-var _default = CallSubject;
-exports["default"] = _default;
+exports.CallSubject = CallSubject;
 //# sourceMappingURL=CallSubject.js.map

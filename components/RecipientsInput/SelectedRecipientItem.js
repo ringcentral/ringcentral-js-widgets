@@ -25,10 +25,10 @@ var SelectedRecipientItem = function SelectedRecipientItem(_ref) {
       title = _ref$title === void 0 ? name : _ref$title,
       onRemove = _ref.onRemove;
   var className = phoneNumber.length > 5 ? _styles["default"].phoneNumber : _styles["default"].extension;
-  return _react["default"].createElement("li", {
+  return /*#__PURE__*/_react["default"].createElement("li", {
     className: className,
     title: title
-  }, _react["default"].createElement("span", null, name), _react["default"].createElement(_RemoveButton.RemoveButton, {
+  }, /*#__PURE__*/_react["default"].createElement("span", null, name), /*#__PURE__*/_react["default"].createElement(_RemoveButton.RemoveButton, {
     className: _styles["default"].removeReceiver,
     onClick: onRemove,
     visibility: true

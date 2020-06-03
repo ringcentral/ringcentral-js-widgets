@@ -1,24 +1,23 @@
 import React from 'react';
 
 import { CallInfo, CallInfoProps } from '../CallInfo';
-import styles from './styles.scss';
 
 export interface CallInfoListProps {
   callInfos?: Array<CallInfoProps>;
+  className?: string;
 }
 
-const CallInfoList: React.FunctionComponent<CallInfoListProps> = ({
+export const CallInfoList: React.FunctionComponent<CallInfoListProps> = ({
   callInfos,
+  className,
 }) => {
   if (!callInfos || callInfos.length === 0) return null;
 
   return (
-    <div data-sign="infoList" className={styles.infoList}>
+    <div data-sign="infoList" className={className}>
       {callInfos.map(({ name, content }, i) => (
         <CallInfo key={i} name={name} content={content} />
       ))}
     </div>
   );
 };
-
-export default CallInfoList;

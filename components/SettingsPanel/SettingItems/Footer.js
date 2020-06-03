@@ -34,30 +34,30 @@ var Footer = function Footer(_ref) {
       versionContainer = _ref.versionContainer,
       onLogoutButtonClick = _ref.onLogoutButtonClick;
 
-  var versionArea = versionContainer || _react["default"].createElement("div", {
+  var versionArea = versionContainer || /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].versionContainer,
     "data-sign": "version"
   }, _i18n["default"].getString('version', currentLocale), " ", version);
 
-  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("section", {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("section", {
     className: _styles["default"].section
-  }, _react["default"].createElement(_Line["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Line["default"], {
     noBorder: true
-  }, _react["default"].createElement(EulaRenderer, {
+  }, /*#__PURE__*/_react["default"].createElement(EulaRenderer, {
     dataSign: "eula",
     className: _styles["default"].eula,
     currentLocale: currentLocale,
     brandId: brandId
-  }))), _react["default"].createElement("section", {
+  }))), /*#__PURE__*/_react["default"].createElement("section", {
     className: _styles["default"].section
-  }, _react["default"].createElement(_IconLine["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
     noBorder: true,
     dataSign: "logoutButton",
     onClick: onLogoutButtonClick,
-    icon: _react["default"].createElement("span", {
+    icon: /*#__PURE__*/_react["default"].createElement("span", {
       className: (0, _classnames["default"])(_styles["default"].logoutIcon, _DynamicsFont["default"].logout)
     })
-  }, _i18n["default"].getString('logout', currentLocale), _react["default"].createElement("span", {
+  }, _i18n["default"].getString('logout', currentLocale), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].loginNumber
   }, " ".concat(loginNumber)))), versionArea);
 };

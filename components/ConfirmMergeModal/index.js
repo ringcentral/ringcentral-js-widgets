@@ -36,7 +36,7 @@ function ConfirmMergeModal(_ref) {
   var avatarUrls = partyProfiles.map(function (profile) {
     return profile.avatarUrl;
   });
-  return _react["default"].createElement(_Modal["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
     show: show,
     headerClassName: _styles["default"].header,
     currentLocale: currentLocale,
@@ -47,22 +47,22 @@ function ConfirmMergeModal(_ref) {
     title: _i18n["default"].getString('confirmation', currentLocale),
     onCancel: onCancel,
     footerClassName: _styles["default"].footer
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].contentText
-  }, _i18n["default"].getString('confirmMergeToConference', currentLocale)), _react["default"].createElement("div", {
+  }, _i18n["default"].getString('confirmMergeToConference', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].contentText
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatar
-  }, _react["default"].createElement(_CallAvatar["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
     avatarUrl: avatarUrls[0],
     isOnConferenceCall: true,
     extraNum: avatarUrls.length - 1
-  })), _react["default"].createElement("span", null, _i18n["default"].getString('conferenceCall', currentLocale))), _react["default"].createElement("span", {
+  })), /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('conferenceCall', currentLocale))), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString('mergeToConference', currentLocale),
     className: _styles["default"].webphoneButton
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     className: _styles["default"].mergeButton,
     onClick: function onClick(e) {
       e.stopPropagation();

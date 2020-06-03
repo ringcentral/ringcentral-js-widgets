@@ -46,13 +46,13 @@ var RecipientOption = function RecipientOption(_ref) {
       baseProps = _objectWithoutProperties(_ref, ["active", "recipientInfoRenderer", "recipientPhoneRenderer", "onClick", "onHover"]);
 
   var className = (0, _classnames["default"])(_styles["default"].contactItem, active && _styles["default"].active);
-  return _react["default"].createElement("li", {
+  return /*#__PURE__*/_react["default"].createElement("li", {
     className: className,
     onMouseOver: onHover
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].clickable,
     onClick: onClick
-  }, _react["default"].createElement(RecipientInfoRenderer, baseProps), _react["default"].createElement(RecipientPhoneRenderer, baseProps)));
+  }, /*#__PURE__*/_react["default"].createElement(RecipientInfoRenderer, baseProps), /*#__PURE__*/_react["default"].createElement(RecipientPhoneRenderer, baseProps)));
 };
 
 exports.RecipientOption = RecipientOption;

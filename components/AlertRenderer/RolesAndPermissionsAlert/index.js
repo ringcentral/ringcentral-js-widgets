@@ -28,7 +28,7 @@ function RolesAndPermissionsAlert(_ref) {
 
   switch (message) {
     case _permissionsMessages["default"].invalidTier:
-      msg = _react["default"].createElement(_FormattedMessage["default"], {
+      msg = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString(message, currentLocale),
         values: {
           brand: brand,
@@ -42,7 +42,7 @@ function RolesAndPermissionsAlert(_ref) {
       break;
   }
 
-  return _react["default"].createElement("div", null, msg);
+  return /*#__PURE__*/_react["default"].createElement("div", null, msg);
 }
 
 RolesAndPermissionsAlert.propTypes = {

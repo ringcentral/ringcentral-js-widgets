@@ -29,7 +29,7 @@ function MeetingAlert(_ref) {
 
   switch (message) {
     case _meetingStatus["default"].insufficientPermissions:
-      msg = _react["default"].createElement(_FormattedMessage["default"], {
+      msg = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString(message, currentLocale),
         values: {
           application: application,
@@ -43,7 +43,7 @@ function MeetingAlert(_ref) {
       break;
   }
 
-  return _react["default"].createElement("span", null, msg);
+  return /*#__PURE__*/_react["default"].createElement("span", null, msg);
 }
 
 MeetingAlert.propTypes = {

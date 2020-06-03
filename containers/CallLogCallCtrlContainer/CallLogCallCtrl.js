@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CallLogCallCtrl = void 0;
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
 require("regenerator-runtime/runtime");
 
 var _react = _interopRequireDefault(require("react"));
@@ -14,6 +18,10 @@ var _react = _interopRequireDefault(require("react"));
 var _CallLogCallCtrlComponent = _interopRequireDefault(require("../../components/CallLogCallCtrlComponent"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var CallLogCallCtrl = function CallLogCallCtrl(props) {
   var currentLocale = props.currentLocale,
@@ -28,9 +36,9 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
     return null;
   }
 
-  return _react["default"].createElement(_CallLogCallCtrlComponent["default"], {
-    onMute: function _callee() {
-      return regeneratorRuntime.async(function _callee$(_context) {
+  return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlComponent["default"], {
+    onMute: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -41,10 +49,10 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
               return _context.stop();
           }
         }
-      });
-    },
-    onUnmute: function _callee2() {
-      return regeneratorRuntime.async(function _callee2$(_context2) {
+      }, _callee);
+    })),
+    onUnmute: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
@@ -55,10 +63,10 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
               return _context2.stop();
           }
         }
-      });
-    },
-    onHangup: function _callee3() {
-      return regeneratorRuntime.async(function _callee3$(_context3) {
+      }, _callee2);
+    })),
+    onHangup: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
@@ -69,10 +77,10 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
               return _context3.stop();
           }
         }
-      });
-    },
-    onReject: function _callee4() {
-      return regeneratorRuntime.async(function _callee4$(_context4) {
+      }, _callee3);
+    })),
+    onReject: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
@@ -83,13 +91,13 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
               return _context4.stop();
           }
         }
-      });
-    },
+      }, _callee4);
+    })),
     onTransfer: function onTransfer() {
       return props.onTransfer(telephonySessionId);
     },
-    onHold: function _callee5() {
-      return regeneratorRuntime.async(function _callee5$(_context5) {
+    onHold: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
@@ -100,10 +108,10 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
               return _context5.stop();
           }
         }
-      });
-    },
-    onUnHold: function _callee6() {
-      return regeneratorRuntime.async(function _callee6$(_context6) {
+      }, _callee5);
+    })),
+    onUnHold: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
@@ -114,8 +122,8 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
               return _context6.stop();
           }
         }
-      });
-    },
+      }, _callee6);
+    })),
     isOnMute: currentSession.isOnMute,
     isOnHold: currentSession.isOnHold,
     callStatus: currentSession.callStatus,

@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import React, { DOMAttributes, FunctionComponent, ReactNode } from 'react';
 
+import { Tooltip } from '../Rcui/Tooltip';
 import styles from './styles.scss';
 
 export interface NavigationButtonProps {
@@ -50,19 +51,21 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
         height,
       }}
     >
-      <div className={styles.iconHolder} title={label} data-sign={label}>
-        <div
-          className={classnames(
-            styles.icon,
-            !keepStyle ? styles.iconStyles : null,
-            className,
-            active ? activeClassName : inActiveClassName,
-          )}
-        >
-          {active ? activeIcon : icon}
+      <Tooltip title={label}>
+        <div className={styles.iconHolder} data-sign={label}>
+          <div
+            className={classnames(
+              styles.icon,
+              !keepStyle ? styles.iconStyles : null,
+              className,
+              active ? activeClassName : inActiveClassName,
+            )}
+          >
+            {active ? activeIcon : icon}
+          </div>
+          {notice}
         </div>
-        {notice}
-      </div>
+      </Tooltip>
     </div>
   );
 };

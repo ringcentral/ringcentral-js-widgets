@@ -21,13 +21,19 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -51,11 +57,11 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -65,15 +71,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var controlStyles = {
   entered: {
@@ -81,17 +91,17 @@ var controlStyles = {
   }
 };
 
-var UserGuide =
-/*#__PURE__*/
-function (_React$Component) {
+var UserGuide = /*#__PURE__*/function (_React$Component) {
   _inherits(UserGuide, _React$Component);
+
+  var _super = _createSuper(UserGuide);
 
   function UserGuide(props) {
     var _this;
 
     _classCallCheck(this, UserGuide);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(UserGuide).call(this, props));
+    _this = _super.call(this, props);
 
     _this.slideTo = function (idx) {
       if (idx > _this.props.guides.length - 1) {
@@ -184,21 +194,21 @@ function (_React$Component) {
     value: function getIntroView() {
       var _this2 = this;
 
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].intro
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].introBg,
         style: {
           backgroundImage: "url(".concat(this.props.guides[0], ")")
         }
-      }), _react["default"].createElement("div", {
+      }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].buttonGroup
-      }, _react["default"].createElement(_Button.Button, {
+      }, /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         className: _styles["default"].primaryButton,
         onClick: function onClick() {
           _this2.slideTo(1);
         }
-      }, _i18n["default"].getString('start', this.props.currentLocale)), _react["default"].createElement(_Button.Button, {
+      }, _i18n["default"].getString('start', this.props.currentLocale)), /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         onClick: function onClick() {
           _this2.exit();
         },
@@ -212,7 +222,7 @@ function (_React$Component) {
 
       var guides = this.props.guides.slice(1, this.props.guides.length);
       var imageView = guides.map(function (guide, i) {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           key: i,
           className: _styles["default"].view,
           style: {
@@ -223,7 +233,7 @@ function (_React$Component) {
       });
       var indicatorView = guides.map(function (_, i) {
         var highlight = i + 1 === _this3.state.curIdx ? _styles["default"].highlight : null;
-        return _react["default"].createElement("li", {
+        return /*#__PURE__*/_react["default"].createElement("li", {
           key: i,
           className: (0, _classnames["default"])(_styles["default"].dot, highlight),
           onClick: function onClick() {
@@ -232,38 +242,38 @@ function (_React$Component) {
         });
       });
       var onLastPage = this.state.curIdx === this.props.guides.length - 1;
-      var skipButton = onLastPage ? _react["default"].createElement("div", {
+      var skipButton = onLastPage ? /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].secondaryButton
-      }) : _react["default"].createElement(_Button.Button, {
+      }) : /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         onClick: function onClick() {
           _this3.exit();
         },
         className: (0, _classnames["default"])(_styles["default"].secondaryButton)
       }, _i18n["default"].getString('skip', this.props.currentLocale));
 
-      var nextButton = _react["default"].createElement(_Button.Button, {
+      var nextButton = /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         onClick: function onClick() {
           _this3.slideTo(_this3.state.curIdx + 1);
         },
         className: (0, _classnames["default"])(_styles["default"].primaryButton)
       }, onLastPage ? _i18n["default"].getString('finish', this.props.currentLocale) : _i18n["default"].getString('next', this.props.currentLocale));
 
-      var controlView = _react["default"].createElement(_reactTransitionGroup.Transition, {
+      var controlView = /*#__PURE__*/_react["default"].createElement(_reactTransitionGroup.Transition, {
         "in": this.state.curIdx > 0,
         timeout: 300
       }, function (state) {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].control,
           style: _objectSpread({}, controlStyles[state])
-        }, skipButton, _react["default"].createElement("ul", {
+        }, skipButton, /*#__PURE__*/_react["default"].createElement("ul", {
           className: _styles["default"].indicator
         }, indicatorView), nextButton);
       });
 
       var carouselClassName = this.props.carouselClassName;
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].carousel, carouselClassName)
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].carouselBox,
         style: {
           transform: "translateX(-".concat(this.state.curIdx * 100, "vw)")
@@ -276,11 +286,11 @@ function (_React$Component) {
       if (!this.props.guides || this.props.guides.length === 0 || !this.state.entered) return null;
 
       if (this.props.showSpinner) {
-        return _react["default"].createElement(_SpinnerOverlay["default"], null);
+        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
       }
 
       var view = this.getCarouselView();
-      return _react["default"].createElement(_reactTransitionGroup.CSSTransition, {
+      return /*#__PURE__*/_react["default"].createElement(_reactTransitionGroup.CSSTransition, {
         "in": this.state.playing,
         timeout: 400,
         classNames: {
@@ -291,7 +301,7 @@ function (_React$Component) {
         },
         onExited: this.onExited,
         appear: true
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root
       }, view));
     }

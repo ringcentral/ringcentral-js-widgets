@@ -42,8 +42,8 @@ var SwitchLineItem = function SwitchLineItem(_ref) {
     return null;
   }
 
-  return _react["default"].createElement(_IconLine["default"], {
-    icon: _react["default"].createElement(_Switch["default"], _extends({}, dataSign ? {
+  return /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
+    icon: /*#__PURE__*/_react["default"].createElement(_Switch["default"], _extends({}, dataSign ? {
       dataSign: dataSign
     } : {}, {
       title: switchTitle,
@@ -51,7 +51,7 @@ var SwitchLineItem = function SwitchLineItem(_ref) {
       checked: checked,
       onChange: onChange
     }))
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(disabled && _styles["default"].disableText)
   }, customTitle || _i18n["default"].getString(name, currentLocale)));
 };

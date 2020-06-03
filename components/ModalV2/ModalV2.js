@@ -39,11 +39,11 @@ var ModalV2 = function ModalV2(_ref) {
   var modals = _ref.modals,
       rest = _objectWithoutProperties(_ref, ["modals"]);
 
-  return _react["default"].createElement(_react["default"].Fragment, null, modals.map(function (_ref2, i) {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, modals.map(function (_ref2, i) {
     var children = _ref2.children,
         restModalProps = _objectWithoutProperties(_ref2, ["children"]);
 
-    return _react["default"].createElement(_rcui.RcModal, _extends({}, rest, restModalProps, {
+    return /*#__PURE__*/_react["default"].createElement(_rcui.RcModal, _extends({}, rest, restModalProps, {
       key: i
     }), children);
   }));

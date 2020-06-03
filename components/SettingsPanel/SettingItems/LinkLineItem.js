@@ -28,7 +28,7 @@ var LinkLineItem = function LinkLineItem(_ref) {
     return null;
   }
 
-  return _react["default"].createElement(_LinkLine["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_LinkLine["default"], {
     onClick: onClick
   }, customTitle || _i18n["default"].getString(name, currentLocale));
 };

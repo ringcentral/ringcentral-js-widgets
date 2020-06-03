@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -22,6 +20,14 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -41,7 +47,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -49,26 +55,28 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 var ALTERNATIVE_TIMEOUT = 1000;
 
-var DialButton =
-/*#__PURE__*/
-function (_Component) {
+var DialButton = /*#__PURE__*/function (_Component) {
   _inherits(DialButton, _Component);
 
-  function DialButton(props) {
-    var _getPrototypeOf2;
+  var _super = _createSuper(DialButton);
 
+  function DialButton(props) {
     var _this;
 
     _classCallCheck(this, DialButton);
@@ -77,7 +85,7 @@ function (_Component) {
       args[_key - 1] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(DialButton)).call.apply(_getPrototypeOf2, [this, props].concat(args)));
+    _this = _super.call.apply(_super, [this, props].concat(args));
     _this.state = {
       pressed: false
     };
@@ -169,29 +177,29 @@ function (_Component) {
     key: "render",
     value: function render() {
       var isSpecial = this.props.btn.value === '*';
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "dialPadBtn".concat(this.props.btn.value),
         className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
-      }, _react["default"].createElement("svg", {
+      }, /*#__PURE__*/_react["default"].createElement("svg", {
         className: _styles["default"].btnSvg,
         viewBox: "0 0 500 500"
-      }, _react["default"].createElement("g", {
+      }, /*#__PURE__*/_react["default"].createElement("g", {
         className: (0, _classnames["default"])(_styles["default"].btnSvgGroup, this.state.pressed && _styles["default"].pressed),
         onMouseUp: this.onMouseUp,
         onMouseDown: this.onMouseDown,
         onMouseLeave: this.onMouseLeave
-      }, _react["default"].createElement("circle", {
+      }, /*#__PURE__*/_react["default"].createElement("circle", {
         className: _styles["default"].circle,
         cx: "250",
         cy: "250",
         r: "191"
-      }), _react["default"].createElement("text", {
+      }), /*#__PURE__*/_react["default"].createElement("text", {
         className: (0, _classnames["default"])(_styles["default"].btnValue, isSpecial ? _styles["default"].special : null),
         x: "0",
         dx: "205",
         y: "0",
         dy: isSpecial ? 350 : 250
-      }, this.props.btn.value), _react["default"].createElement("text", {
+      }, this.props.btn.value), /*#__PURE__*/_react["default"].createElement("text", {
         className: _styles["default"].btnText,
         x: "0",
         dx: this.props.btn.dx,

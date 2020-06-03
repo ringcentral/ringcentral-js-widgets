@@ -66,36 +66,36 @@ function CallLogCallCtrlComponent(props) {
   var endTitle = isInComingCall ? 'reject' : 'hangup';
   var endAction = isInComingCall ? onReject : onHangup;
   var disabledCtrl = callStatus === _telephonyStatus["default"].ringing;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames5["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(muteTitle, currentLocale)
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: muteTitle,
     icon: muteIcon,
     onClick: muteAction,
     className: (0, _classnames5["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].button, true), _defineProperty(_classnames, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _classnames)),
     disabled: disableLinks || disabledCtrl
-  })), _react["default"].createElement("span", {
+  })), /*#__PURE__*/_react["default"].createElement("span", {
     ref: transferRef,
     title: _i18n["default"].getString('transfer', currentLocale)
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: "transfer",
     icon: _Transfer["default"],
     onClick: onTransfer,
     className: (0, _classnames5["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].button, true), _defineProperty(_classnames2, _styles["default"].buttonActive, isOnTransfer), _defineProperty(_classnames2, _styles["default"].buttonDisabled, disableLinks || isInComingCall), _classnames2)),
     disabled: disableLinks || isInComingCall
-  })), _react["default"].createElement("span", {
+  })), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(holdTitle, currentLocale)
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: holdTitle,
     icon: _Hold["default"],
     onClick: holdAction,
     className: (0, _classnames5["default"])((_classnames3 = {}, _defineProperty(_classnames3, _styles["default"].button, true), _defineProperty(_classnames3, _styles["default"].buttonActive, isOnHold), _defineProperty(_classnames3, _styles["default"].buttonDisabled, isInComingCall || disableLinks), _classnames3)),
     disabled: disableLinks || isInComingCall
-  })), _react["default"].createElement("span", {
+  })), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(endTitle, currentLocale)
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: endTitle,
     showBorder: false,
     icon: _End["default"],

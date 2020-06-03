@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -23,6 +21,14 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
 require("core-js/modules/es6.object.set-prototype-of");
 
 var _classnames = _interopRequireDefault(require("classnames"));
@@ -37,9 +43,9 @@ var _LogBasicInfoV = _interopRequireDefault(require("../LogBasicInfoV2"));
 
 var _NotificationSection = _interopRequireDefault(require("../NotificationSection"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
-
 var _NotificationSectionV = _interopRequireDefault(require("../NotificationSectionV2"));
+
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -51,7 +57,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -59,29 +65,51 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var CallLogPanel =
-/*#__PURE__*/
-function (_Component) {
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var CallLogPanel = /*#__PURE__*/function (_Component) {
   _inherits(CallLogPanel, _Component);
 
+  var _super = _createSuper(CallLogPanel);
+
   function CallLogPanel() {
+    var _this;
+
     _classCallCheck(this, CallLogPanel);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(CallLogPanel).apply(this, arguments));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+    _this.editSectionRef = /*#__PURE__*/_react["default"].createRef();
+
+    _this.editSectionScrollBy = function (top) {
+      _this.editSectionRef.current.scrollBy({
+        top: top,
+        behavior: 'smooth'
+      });
+    };
+
+    return _this;
   }
 
   _createClass(CallLogPanel, [{
     key: "componentWillMount",
+    // TODO: use react function component to refactor with react hook
+    // eslint-disable-next-line react/no-deprecated
     value: function componentWillMount() {
       var pushLogPageStatus = this.props.pushLogPageStatus;
 
@@ -108,12 +136,13 @@ function (_Component) {
       var showSpinner = this.props.showSpinner;
 
       if (currentLog.showSpinner || showSpinner) {
-        return _react["default"].createElement(_SpinnerOverlay["default"], {
+        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
           className: _styles["default"].spinner
         });
       }
 
-      return _react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), /*#__PURE__*/_react["default"].createElement("div", {
+        ref: this.editSectionRef,
         className: _styles["default"].editSection
       }, renderEditLogSection && this.getEditLogSection()), this.genCallControlButtons());
     }
@@ -124,6 +153,7 @@ function (_Component) {
           currentLog = _this$props2.currentLog,
           _this$props2$classes$ = _this$props2.classes.callLogCallControl,
           callLogCallControl = _this$props2$classes$ === void 0 ? null : _this$props2$classes$,
+          callLogCallControlRef = _this$props2.refs.callLogCallControl,
           renderCallLogCallControl = _this$props2.renderCallLogCallControl,
           isWide = _this$props2.isWide,
           showSmallCallControl = _this$props2.showSmallCallControl;
@@ -139,7 +169,8 @@ function (_Component) {
       var isActive = !result;
 
       if (showSmallCallControl || isActive) {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          ref: callLogCallControlRef,
           className: (0, _classnames["default"])(_styles["default"].callControlRoot, callLogCallControl)
         }, renderCallLogCallControl && renderCallLogCallControl(status, telephonySessionId, isWide));
       }
@@ -162,7 +193,8 @@ function (_Component) {
           onBackClick = _this$props3.onBackClick,
           showFoundFromServer = _this$props3.showFoundFromServer,
           appName = _this$props3.appName,
-          isSearching = _this$props3.isSearching;
+          isSearching = _this$props3.isSearching,
+          startAdornmentRender = _this$props3.startAdornmentRender;
       return renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
@@ -175,7 +207,9 @@ function (_Component) {
         onBackClick: onBackClick,
         showFoundFromServer: showFoundFromServer,
         appName: appName,
-        isSearching: isSearching
+        isSearching: isSearching,
+        editSectionScrollBy: this.editSectionScrollBy,
+        startAdornmentRender: startAdornmentRender
       });
     }
   }, {
@@ -197,7 +231,7 @@ function (_Component) {
         });
       }
 
-      return _react["default"].createElement(_LogBasicInfoV["default"], {
+      return /*#__PURE__*/_react["default"].createElement(_LogBasicInfoV["default"], {
         dataSign: "leftSectionInfo",
         isWide: isWide,
         currentLog: currentLog,
@@ -250,7 +284,7 @@ function (_Component) {
       }
 
       if (useNewNotification) {
-        return _react["default"].createElement(_NotificationSectionV["default"], {
+        return /*#__PURE__*/_react["default"].createElement(_NotificationSectionV["default"], {
           formatPhone: formatPhone,
           currentLocale: currentLocale,
           logNotification: logNotification,
@@ -267,7 +301,7 @@ function (_Component) {
         });
       }
 
-      return _react["default"].createElement(_NotificationSection["default"], {
+      return /*#__PURE__*/_react["default"].createElement(_NotificationSection["default"], {
         formatPhone: formatPhone,
         currentLocale: currentLocale,
         logNotification: logNotification,
@@ -292,21 +326,23 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
       var _this$props7 = this.props,
           currentIdentify = _this$props7.currentIdentify,
           currentLocale = _this$props7.currentLocale,
           root = _this$props7.classes.root,
+          rootRef = _this$props7.refs.root,
           backIcon = _this$props7.backIcon,
           header = _this$props7.header,
           isInTransferPage = _this$props7.isInTransferPage,
           isWide = _this$props7.isWide;
       if (!currentIdentify || isInTransferPage) return null; // console.log(this.props.currentLog);
 
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
+        ref: rootRef,
         className: (0, _classnames["default"])(_styles["default"].root, !isWide ? _styles["default"].classic : null, root)
-      }, header && _react["default"].createElement(_BackHeaderV["default"], {
+      }, header && /*#__PURE__*/_react["default"].createElement(_BackHeaderV["default"], {
         currentLocale: currentLocale,
         backIcon: backIcon,
         isWide: isWide,
@@ -314,7 +350,7 @@ function (_Component) {
         title: _i18n["default"].getString('createCallLog', currentLocale),
         className: _styles["default"].header,
         onBackClick: function onBackClick() {
-          return _this.goBack();
+          return _this2.goBack();
         }
       }), this.renderLogSection());
     }
@@ -333,6 +369,7 @@ CallLogPanel.defaultProps = {
   currentIdentify: '',
   currentLocale: _lib.environment.defaultLocale,
   classes: {},
+  refs: {},
   // Notification
   currentNotificationIdentify: '',
   shrinkNotification: function shrinkNotification() {

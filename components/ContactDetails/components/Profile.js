@@ -33,9 +33,9 @@ var Status = function Status(_ref) {
       currentLocale = _ref.currentLocale;
 
   if (inactive) {
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].status
-    }, _react["default"].createElement("div", null, _react["default"].createElement("span", {
+    }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].inactiveText
     }, _i18n["default"].getString('notActivated', currentLocale))));
   }
@@ -44,15 +44,15 @@ var Status = function Status(_ref) {
     var presenceStatus = presence.presenceStatus,
         dndStatus = presence.dndStatus;
     var presenceName = (0, _getPresenceStatusName.getPresenceStatusName)(presenceStatus, dndStatus, currentLocale);
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].status
-    }, _react["default"].createElement("div", {
+    }, /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].presence
-    }, _react["default"].createElement(_PresenceStatusIcon["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_PresenceStatusIcon["default"], {
       className: _styles["default"].presenceIcon,
       presenceStatus: presenceStatus,
       dndStatus: dndStatus
-    })), _react["default"].createElement("span", {
+    })), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].presenceName
     }, presenceName));
   }
@@ -64,7 +64,7 @@ var Name = function Name(_ref2) {
   var presence = _ref2.presence,
       inactive = _ref2.inactive,
       name = _ref2.name;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].name, !presence && _styles["default"].withoutPresence, inactive && _styles["default"].inactiveText),
     title: name
   }, name);
@@ -80,24 +80,24 @@ var Profile = function Profile(_ref3) {
       sourceNodeRenderer = _ref3.sourceNodeRenderer,
       currentLocale = _ref3.currentLocale;
   var inactive = status === _extensionStatusTypes.extensionStatusTypes.notActivated;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].profile
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].profileWrapper
-  }, _react["default"].createElement(_Avatar.Avatar, {
+  }, /*#__PURE__*/_react["default"].createElement(_Avatar.Avatar, {
     name: name,
     avatarUrl: profileImageUrl,
     inactive: inactive,
     source: sourceNodeRenderer({
       sourceType: type
     })
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].info
-  }, _react["default"].createElement(Name, {
+  }, /*#__PURE__*/_react["default"].createElement(Name, {
     inactive: inactive,
     name: name,
     presence: presence
-  }), _react["default"].createElement(Status, {
+  }), /*#__PURE__*/_react["default"].createElement(Status, {
     inactive: inactive,
     presence: presence,
     currentLocale: currentLocale

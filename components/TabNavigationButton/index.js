@@ -11,6 +11,8 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireDefault(require("react"));
 
+var _Tooltip = require("../Rcui/Tooltip");
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -32,30 +34,31 @@ var NavigationButton = function NavigationButton(_ref) {
 
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
-      notice = _react["default"].createElement("div", {
+      notice = /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].notices
       }, "99+");
     } else {
-      notice = _react["default"].createElement("div", {
+      notice = /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].notice
       }, noticeCounts);
     }
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     onClick: onClick,
     className: (0, _classnames["default"])(_styles["default"].navigationButton, active && _styles["default"].active),
     style: {
       width: width,
       height: height
     }
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+    title: label
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].iconHolder,
-    title: label,
     "data-sign": label
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].icon, !keepStyle ? _styles["default"].iconStyles : null, className, active ? activeClassName : inActiveClassName)
-  }, active ? activeIcon : icon), notice));
+  }, active ? activeIcon : icon), notice)));
 };
 
 NavigationButton.defaultProps = {

@@ -39,7 +39,7 @@ function ConfirmRemoveModal(_ref) {
     displayText = detail.partyName;
   }
 
-  return _react["default"].createElement(_Modal["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
     show: show,
     headerClassName: _styles["default"].header,
     currentLocale: currentLocale,
@@ -52,7 +52,7 @@ function ConfirmRemoveModal(_ref) {
     clickOutToClose: true,
     contentClassName: _styles["default"].contentText,
     textConfirm: _i18n["default"].getString('remove', currentLocale)
-  }, _react["default"].createElement("p", null, _i18n["default"].getString('confirmStr1', currentLocale), _react["default"].createElement("span", null, " ".concat(displayText, " ")), _i18n["default"].getString('confirmStr2', currentLocale)));
+  }, /*#__PURE__*/_react["default"].createElement("p", null, _i18n["default"].getString('confirmStr1', currentLocale), /*#__PURE__*/_react["default"].createElement("span", null, " ".concat(displayText, " ")), _i18n["default"].getString('confirmStr2', currentLocale)));
 }
 
 ConfirmRemoveModal.propTypes = {

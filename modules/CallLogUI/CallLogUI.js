@@ -1,0 +1,221 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CallLogUI = void 0;
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
+require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.regexp.match");
+
+var _core = require("@ringcentral-integration/core");
+
+var _di = require("ringcentral-integration/lib/di");
+
+var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _CallLogCallCtrlContainer = _interopRequireDefault(require("../../containers/CallLogCallCtrlContainer"));
+
+var _dec, _class;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var CallLogUI = (_dec = (0, _di.Module)({
+  name: 'CallLogUI',
+  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'EnvironmentOptions', 'RolesAndPermissions', 'ConnectivityMonitor', {
+    dep: 'CallLogUIOptions',
+    optional: true
+  }]
+}), _dec(_class = /*#__PURE__*/function (_RcUIModuleV) {
+  _inherits(CallLogUI, _RcUIModuleV);
+
+  var _super = _createSuper(CallLogUI);
+
+  function CallLogUI(_ref) {
+    var locale = _ref.locale,
+        callLogger = _ref.callLogger,
+        rateLimiter = _ref.rateLimiter,
+        regionSettings = _ref.regionSettings,
+        dateTimeFormat = _ref.dateTimeFormat,
+        callLogSection = _ref.callLogSection,
+        routerInteraction = _ref.routerInteraction,
+        activeCallControl = _ref.activeCallControl,
+        environmentOptions = _ref.environmentOptions,
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        connectivityMonitor = _ref.connectivityMonitor,
+        _ref$modules = _ref.modules,
+        modules = _ref$modules === void 0 ? {} : _ref$modules,
+        props = _objectWithoutProperties(_ref, ["locale", "callLogger", "rateLimiter", "regionSettings", "dateTimeFormat", "callLogSection", "routerInteraction", "activeCallControl", "environmentOptions", "rolesAndPermissions", "connectivityMonitor", "modules"]);
+
+    _classCallCheck(this, CallLogUI);
+
+    return _super.call(this, _objectSpread({
+      modules: _objectSpread({
+        locale: locale,
+        callLogger: callLogger,
+        rateLimiter: rateLimiter,
+        regionSettings: regionSettings,
+        dateTimeFormat: dateTimeFormat,
+        callLogSection: callLogSection,
+        routerInteraction: routerInteraction,
+        activeCallControl: activeCallControl,
+        environmentOptions: environmentOptions,
+        rolesAndPermissions: rolesAndPermissions,
+        connectivityMonitor: connectivityMonitor
+      }, modules)
+    }, props));
+  }
+
+  _createClass(CallLogUI, [{
+    key: "getUIProps",
+    value: function getUIProps() {
+      var _this$_modules = this._modules,
+          locale = _this$_modules.locale,
+          callLogger = _this$_modules.callLogger,
+          rateLimiter = _this$_modules.rateLimiter,
+          regionSettings = _this$_modules.regionSettings,
+          dateTimeFormat = _this$_modules.dateTimeFormat,
+          callLogSection = _this$_modules.callLogSection,
+          routerInteraction = _this$_modules.routerInteraction,
+          activeCallControl = _this$_modules.activeCallControl,
+          environmentOptions = _this$_modules.environmentOptions,
+          rolesAndPermissions = _this$_modules.rolesAndPermissions,
+          connectivityMonitor = _this$_modules.connectivityMonitor;
+      var currentNotificationIdentify = callLogSection.currentNotificationIdentify,
+          currentIdentify = callLogSection.currentIdentify;
+      var isInTransferPage = routerInteraction.currentPath.match('^/transfer/') !== null;
+      return {
+        currentLocale: locale.currentLocale,
+        header: true,
+        showSpinner: !(locale.ready && regionSettings.ready && dateTimeFormat.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!callLogger || callLogger.ready)),
+        isInTransferPage: isInTransferPage,
+        disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
+        isWide: environmentOptions && environmentOptions.app && environmentOptions.app.isLightning,
+        currentIdentify: currentIdentify,
+        // notification props
+        currentNotificationIdentify: currentNotificationIdentify,
+        currentSession: activeCallControl.getActiveSession(activeCallControl.sessionIdToTelephonySessionIdMapping[currentNotificationIdentify])
+      };
+    }
+  }, {
+    key: "getUIFunctions",
+    value: function getUIFunctions() {
+      var _this$_modules2 = this._modules,
+          regionSettings = _this$_modules2.regionSettings,
+          callLogSection = _this$_modules2.callLogSection,
+          locale = _this$_modules2.locale,
+          activeCallControl = _this$_modules2.activeCallControl;
+      return {
+        formatPhone: function formatPhone(phoneNumber) {
+          return (0, _formatNumber["default"])({
+            phoneNumber: phoneNumber,
+            areaCode: regionSettings.areaCode,
+            countryCode: regionSettings.countryCode
+          }) || 'Unknown';
+        },
+        goBack: function goBack() {
+          return callLogSection.closeLogSection();
+        },
+        renderCallLogCallControl: function renderCallLogCallControl(status, currentTelephonySessionId, isWide) {
+          return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlContainer["default"], {
+            currentLocale: locale.currentLocale,
+            telephonySessionId: currentTelephonySessionId,
+            isWide: isWide
+          });
+        },
+        // notification props
+        onSaveNotification: function onSaveNotification() {
+          return callLogSection.saveAndHandleNotification();
+        },
+        onDiscardNotification: function onDiscardNotification() {
+          return callLogSection.discardAndHandleNotification();
+        },
+        onCloseNotification: function onCloseNotification() {
+          return callLogSection.closeLogNotification();
+        },
+        onExpandNotification: function onExpandNotification() {
+          return callLogSection.expandLogNotification();
+        },
+        onReject: function onReject(sessionId) {
+          var telephonySessionId = activeCallControl.sessionIdToTelephonySessionIdMapping[sessionId];
+          return activeCallControl.reject(telephonySessionId);
+        },
+        onHangup: function onHangup(sessionId) {
+          var telephonySessionId = activeCallControl.sessionIdToTelephonySessionIdMapping[sessionId];
+          return activeCallControl.hangUp(telephonySessionId);
+        }
+      };
+    }
+  }]);
+
+  return CallLogUI;
+}(_core.RcUIModuleV2)) || _class);
+exports.CallLogUI = CallLogUI;
+//# sourceMappingURL=CallLogUI.js.map

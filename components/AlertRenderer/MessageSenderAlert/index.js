@@ -36,7 +36,7 @@ function MessageSenderAlert(_ref) {
   if (message === _messageSenderMessages["default"].noAreaCode) {
     var areaCode = _i18n["default"].getString('areaCode', currentLocale);
 
-    var areaCodeLink = onAreaCodeLink ? _react["default"].createElement("a", {
+    var areaCodeLink = onAreaCodeLink ? /*#__PURE__*/_react["default"].createElement("a", {
       className: _styles["default"].link,
       onClick: function onClick(e) {
         e.preventDefault();
@@ -45,14 +45,14 @@ function MessageSenderAlert(_ref) {
         });
       }
     }, areaCode) : areaCode;
-    return _react["default"].createElement(_FormattedMessage["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, currentLocale),
       values: {
         areaCodeLink: areaCodeLink
       }
     });
   } else if ([_messageSenderMessages["default"].noInternalSMSPermission, _messageSenderMessages["default"].noSMSPermission].indexOf(message) !== -1) {
-    return _react["default"].createElement(_FormattedMessage["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, currentLocale),
       values: {
         brand: brand
@@ -60,7 +60,7 @@ function MessageSenderAlert(_ref) {
     });
   }
 
-  return _react["default"].createElement("span", null, _i18n["default"].getString(message, currentLocale));
+  return /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString(message, currentLocale));
 }
 
 MessageSenderAlert.propTypes = {

@@ -37,13 +37,13 @@ function CallAlert(_ref) {
   // If brand is Telus and special number is 911,
   // show messages of its own version.
   if (brand && brand.id === TELUS_ID && message === _callErrors["default"].specialNumber && payload && payload.phoneNumber === '911') {
-    return _react["default"].createElement("span", null, _i18n["default"].getString('telus911', currentLocale));
+    return /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('telus911', currentLocale));
   }
 
   if (message === _callErrors["default"].noAreaCode) {
     var areaCode = _i18n["default"].getString('areaCode', currentLocale);
 
-    var areaCodeLink = onAreaCodeLinkClick ? _react["default"].createElement("a", {
+    var areaCodeLink = onAreaCodeLinkClick ? /*#__PURE__*/_react["default"].createElement("a", {
       className: _styles["default"].link,
       onClick: function onClick(e) {
         e.preventDefault();
@@ -52,7 +52,7 @@ function CallAlert(_ref) {
         });
       }
     }, areaCode) : areaCode;
-    return _react["default"].createElement(_FormattedMessage["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, currentLocale),
       values: {
         areaCodeLink: areaCodeLink
@@ -61,7 +61,7 @@ function CallAlert(_ref) {
   }
 
   if (message === _callErrors["default"].noInternational) {
-    return _react["default"].createElement(_FormattedMessage["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, currentLocale),
       values: {
         brand: brand.fullName
@@ -69,7 +69,7 @@ function CallAlert(_ref) {
     });
   }
 
-  return _react["default"].createElement("span", null, _i18n["default"].getString(message, currentLocale));
+  return /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString(message, currentLocale));
 }
 
 CallAlert.propTypes = {

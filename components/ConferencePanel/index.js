@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.string.iterator");
-
 require("core-js/modules/es6.weak-map");
 
 Object.defineProperty(exports, "__esModule", {
@@ -9,13 +7,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.iterator");
+require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.object.to-string");
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.keys");
 
@@ -23,13 +31,15 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
+
 require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.date.now");
 
@@ -81,11 +91,17 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -95,25 +111,29 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 function DialInNumberItem(_ref) {
   var region = _ref.region,
       formattedPhoneNumber = _ref.formattedPhoneNumber;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].dialInNumberItem,
     title: region
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].region
-  }, region), _react["default"].createElement("span", null, formattedPhoneNumber));
+  }, region), /*#__PURE__*/_react["default"].createElement("span", null, formattedPhoneNumber));
 }
 
 DialInNumberItem.propTypes = {
@@ -130,7 +150,7 @@ function DialInNumberList(_ref2) {
     return '';
   }
 
-  return _react["default"].createElement("ul", {
+  return /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles["default"].dialInNumberList
   }, dialInNumbers.map(function (e) {
     var checked = selected.indexOf(e.phoneNumber) > -1;
@@ -149,16 +169,16 @@ function DialInNumberList(_ref2) {
       onChange(newSelection);
     };
 
-    return _react["default"].createElement("li", {
+    return /*#__PURE__*/_react["default"].createElement("li", {
       key: e.phoneNumber,
       onClick: selectChange,
       title: e.region
-    }, _react["default"].createElement(_CheckBox["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CheckBox["default"], {
       checked: checked,
       type: "checkbox"
-    }), _react["default"].createElement("div", {
+    }), /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].region
-    }, e.region), _react["default"].createElement("div", {
+    }, e.region), /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].phoneNumber
     }, e.formattedPhoneNumber));
   }));
@@ -182,17 +202,17 @@ var dialInNumbersLinks = {
   telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions'
 };
 
-var ConferencePanel =
-/*#__PURE__*/
-function (_Component) {
+var ConferencePanel = /*#__PURE__*/function (_Component) {
   _inherits(ConferencePanel, _Component);
+
+  var _super = _createSuper(ConferencePanel);
 
   function ConferencePanel(props) {
     var _this;
 
     _classCallCheck(this, ConferencePanel);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ConferencePanel).call(this, props));
+    _this = _super.call(this, props);
 
     _this.checkOverlap = function () {
       var _assertThisInitialize = _assertThisInitialized(_this),
@@ -328,7 +348,7 @@ function (_Component) {
           countryCode = _ref3.countryCode,
           areaCode = _ref3.areaCode;
       return dialInNumbers.map(function (e) {
-        return _objectSpread({}, e, {
+        return _objectSpread(_objectSpread({}, e), {}, {
           formattedPhoneNumber: (0, _formatNumber["default"])({
             phoneNumber: e.phoneNumber,
             countryCode: countryCode,
@@ -442,15 +462,15 @@ function (_Component) {
       };
 
       if (showAdditionalNumberList) {
-        return _react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].selectNumberPage
-        }, _react["default"].createElement(_BackHeader["default"], {
+        }, /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
           onBackClick: function onBackClick() {
             return _this2.setState({
               showAdditionalNumberList: false
             });
           }
-        }, _i18n["default"].getString('selectNumbers', currentLocale)), _react["default"].createElement(DialInNumberList, {
+        }, _i18n["default"].getString('selectNumbers', currentLocale)), /*#__PURE__*/_react["default"].createElement(DialInNumberList, {
           dialInNumbers: dialInNumbers.filter(function (e) {
             return e.phoneNumber !== dialInNumber;
           }),
@@ -460,9 +480,9 @@ function (_Component) {
       }
 
       var additionalNumberObjs = [];
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+
+      var _iterator = _createForOfIteratorHelper(additionalNumbers),
+          _step;
 
       try {
         var _loop = function _loop() {
@@ -475,41 +495,32 @@ function (_Component) {
           }
         };
 
-        for (var _iterator = additionalNumbers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           _loop();
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       var bottomClass = [_styles["default"].bottom];
       if (mainCtrlOverlapped) bottomClass.push(_styles["default"].overlapped);
       if (bottomClassName) bottomClass.push(bottomClassName);
       setTimeout(this.checkOverlap, 1);
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].container
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].main,
         onScroll: this.checkOverlap,
         ref: function ref(_ref4) {
           _this2.mainCtrl = _ref4;
         }
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].dialInNumber
-      }, _react["default"].createElement("label", {
+      }, /*#__PURE__*/_react["default"].createElement("label", {
         className: _styles["default"].title
-      }, _i18n["default"].getString('dialInNumber', currentLocale)), _react["default"].createElement(_DropdownSelect["default"], {
+      }, _i18n["default"].getString('dialInNumber', currentLocale)), /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
         className: _styles["default"].select,
         value: dialInNumber,
         onChange: function onChange(option) {
@@ -537,64 +548,64 @@ function (_Component) {
         options: dialInNumbers,
         disabled: false,
         dropdownAlign: "left"
-      })), _react["default"].createElement("div", {
+      })), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].formGroup
-      }, _react["default"].createElement("label", null, _i18n["default"].getString('hostAccess', currentLocale)), _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("label", null, _i18n["default"].getString('hostAccess', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].field,
         "data-sign": "hostCode"
-      }, formatPin(hostCode))), _react["default"].createElement("div", {
+      }, formatPin(hostCode))), /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].formGroup, _styles["default"].hasBottomBorder)
-      }, _react["default"].createElement("label", null, _i18n["default"].getString('participantsAccess', currentLocale)), _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("label", null, _i18n["default"].getString('participantsAccess', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].field,
         "data-sign": "participantCode"
-      }, formatPin(participantCode))), recipientsSection, _react["default"].createElement(_MeetingSection["default"], {
+      }, formatPin(participantCode))), recipientsSection, /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
         className: _styles["default"].section,
         title: _i18n["default"].getString('addinalDialInNumbers', currentLocale)
-      }, _react["default"].createElement("div", null, _react["default"].createElement(_LinkLine["default"], {
+      }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_LinkLine["default"], {
         className: _styles["default"].linkLine,
         onClick: function onClick() {
           _this2.setState({
             showAdditionalNumberList: true
           });
         }
-      }, _i18n["default"].getString('selectNumbers', currentLocale)), _react["default"].createElement(DialInNumberList, {
+      }, _i18n["default"].getString('selectNumbers', currentLocale)), /*#__PURE__*/_react["default"].createElement(DialInNumberList, {
         dialInNumbers: additionalNumberObjs,
         selected: additionalNumbers,
         onChange: updateAdditionalNumbers
-      }))), showEnableJoinBeforeHost && _react["default"].createElement(_MeetingSection["default"], {
+      }))), showEnableJoinBeforeHost && /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
         className: _styles["default"].section,
         title: _i18n["default"].getString('conferenceOptions', currentLocale),
         withSwitch: true
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].formGroup, _styles["default"].hasTopMargin, _styles["default"].noPadding)
-      }, _react["default"].createElement("label", null, _i18n["default"].getString('enableJoinBeforeHost', currentLocale)), _react["default"].createElement("span", {
+      }, /*#__PURE__*/_react["default"].createElement("label", null, _i18n["default"].getString('enableJoinBeforeHost', currentLocale)), /*#__PURE__*/_react["default"].createElement("span", {
         className: _styles["default"].field
-      }, _react["default"].createElement(_Switch["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
         checked: allowJoinBeforeHost,
         onChange: onAllowJoinBeforeHostChange,
         dataSign: "enableJoinToggle"
-      })))), _react["default"].createElement(_Button.Button, {
+      })))), /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         onClick: showHelpCommands,
         className: _styles["default"].section
-      }, _i18n["default"].getString('conferenceCommands', currentLocale))), _react["default"].createElement("div", {
+      }, _i18n["default"].getString('conferenceCommands', currentLocale))), /*#__PURE__*/_react["default"].createElement("div", {
         className: bottomClass.join(' ')
-      }, showSaveAsDefault && _react["default"].createElement(_CheckBox["default"], {
+      }, showSaveAsDefault && /*#__PURE__*/_react["default"].createElement(_CheckBox["default"], {
         checked: saveAsDefault,
         onChecked: onSaveAsDefaultChange,
         type: "checkbox"
       }, _i18n["default"].getString('saveAsDefault', currentLocale)), additionalButtons.map(function (Btn) {
-        return _react["default"].createElement(Btn, {
+        return /*#__PURE__*/_react["default"].createElement(Btn, {
           currentLocale: currentLocale,
           dialInNumber: dialInNumber,
           getInviteTxt: _this2.inviteTxt,
           participantCode: formatPin(participantCode),
           key: Date.now()
         });
-      }), !disableTxtBtn && _react["default"].createElement(_Button.Button, {
+      }), !disableTxtBtn && /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         className: _styles["default"].button,
         dataSign: "inviteWithText",
         onClick: this.inviteWithText
-      }, _i18n["default"].getString('inviteWithText', currentLocale)), showJoinAsHost && _react["default"].createElement(_Button.Button, {
+      }, _i18n["default"].getString('inviteWithText', currentLocale)), showJoinAsHost && /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         className: _styles["default"].primaryButton,
         dataSign: "launchConference",
         onClick: function onClick() {

@@ -25,7 +25,7 @@ var PresenceSetting = function PresenceSetting(_ref) {
       setInvisible = _ref.setInvisible,
       toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
       openPresenceSettings = _ref.openPresenceSettings;
-  return showPresenceSettings && dndStatus && userStatus ? _react["default"].createElement(_PresenceSettingSection["default"], {
+  return showPresenceSettings && dndStatus && userStatus ? /*#__PURE__*/_react["default"].createElement(_PresenceSettingSection["default"], {
     currentLocale: currentLocale,
     dndStatus: dndStatus,
     userStatus: userStatus,

@@ -31,9 +31,9 @@ function Select(_ref) {
       valueFunction = _ref.valueFunction,
       renderFunction = _ref.renderFunction,
       paddingLeft = _ref.paddingLeft;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, _react["default"].createElement("select", {
+  }, /*#__PURE__*/_react["default"].createElement("select", {
     className: _styles["default"].select,
     disabled: disabled,
     value: value,
@@ -42,7 +42,9 @@ function Select(_ref) {
     },
     onChange: onChange
   }, options.map(function (option, idx) {
-    return (// eslint-disable-next-line react/no-array-index-key
+    return (
+      /*#__PURE__*/
+      // eslint-disable-next-line react/no-array-index-key
       _react["default"].createElement("option", {
         key: idx,
         value: valueFunction(option, idx)

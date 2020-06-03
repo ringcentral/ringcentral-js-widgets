@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -23,13 +25,19 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -57,11 +65,15 @@ var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -75,15 +87,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var ActiveCallsUI = (_dec = (0, _di.Module)({
   name: 'ActiveCallsUI',
@@ -106,10 +122,10 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
     dep: 'ComposeText',
     optional: true
   }, 'ContactSearch', 'ContactMatcher']
-}), _dec(_class =
-/*#__PURE__*/
-function (_RcUIModule) {
+}), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
   _inherits(ActiveCallsUI, _RcUIModule);
+
+  var _super = _createSuper(ActiveCallsUI);
 
   function ActiveCallsUI(_ref) {
     var _this;
@@ -135,7 +151,7 @@ function (_RcUIModule) {
 
     _classCallCheck(this, ActiveCallsUI);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ActiveCallsUI).call(this, _objectSpread({}, options)));
+    _this = _super.call(this, _objectSpread({}, options));
     _this._brand = brand;
     _this._callLogger = callLogger;
     _this._callMonitor = callMonitor;
@@ -216,221 +232,301 @@ function (_RcUIModule) {
             countryCode: _this2._regionSettings.countryCode
           });
         },
-        webphoneAnswer: function webphoneAnswer(sessionId) {
-          var session;
-          return regeneratorRuntime.async(function webphoneAnswer$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  if (_this2._webphone) {
-                    _context.next = 2;
-                    break;
-                  }
+        webphoneAnswer: function () {
+          var _webphoneAnswer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(sessionId) {
+            var session;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    if (_this2._webphone) {
+                      _context.next = 2;
+                      break;
+                    }
 
-                  return _context.abrupt("return");
+                    return _context.abrupt("return");
 
-                case 2:
-                  session = _this2._webphone.sessions.find(function (session) {
-                    return session.id === sessionId;
-                  });
+                  case 2:
+                    session = _this2._webphone.sessions.find(function (session) {
+                      return session.id === sessionId;
+                    });
 
-                  if (_this2._conferenceCall && session && session.direction === _callDirections["default"].inbound) {
-                    _this2._conferenceCall.closeMergingPair();
-                  }
+                    if (_this2._conferenceCall && session && session.direction === _callDirections["default"].inbound) {
+                      _this2._conferenceCall.closeMergingPair();
+                    }
 
-                  _this2._webphone.answer(sessionId);
+                    _this2._webphone.answer(sessionId);
 
-                case 5:
-                case "end":
-                  return _context.stop();
+                  case 5:
+                  case "end":
+                    return _context.stop();
+                }
               }
-            }
-          });
-        },
-        webphoneToVoicemail: function webphoneToVoicemail() {
-          var _this2$_webphone;
+            }, _callee);
+          }));
 
-          var _args2 = arguments;
-          return regeneratorRuntime.async(function webphoneToVoicemail$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  return _context2.abrupt("return", _this2._webphone && (_this2$_webphone = _this2._webphone).toVoiceMail.apply(_this2$_webphone, _args2));
+          function webphoneAnswer(_x) {
+            return _webphoneAnswer.apply(this, arguments);
+          }
 
-                case 1:
-                case "end":
-                  return _context2.stop();
+          return webphoneAnswer;
+        }(),
+        webphoneToVoicemail: function () {
+          var _webphoneToVoicemail = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var _this2$_webphone;
+
+            var _args2 = arguments;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    return _context2.abrupt("return", _this2._webphone && (_this2$_webphone = _this2._webphone).toVoiceMail.apply(_this2$_webphone, _args2));
+
+                  case 1:
+                  case "end":
+                    return _context2.stop();
+                }
               }
-            }
-          });
-        },
-        webphoneReject: function webphoneReject() {
-          var _this2$_webphone2;
+            }, _callee2);
+          }));
 
-          var _args3 = arguments;
-          return regeneratorRuntime.async(function webphoneReject$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  return _context3.abrupt("return", _this2._webphone && (_this2$_webphone2 = _this2._webphone).reject.apply(_this2$_webphone2, _args3));
+          function webphoneToVoicemail() {
+            return _webphoneToVoicemail.apply(this, arguments);
+          }
 
-                case 1:
-                case "end":
-                  return _context3.stop();
+          return webphoneToVoicemail;
+        }(),
+        webphoneReject: function () {
+          var _webphoneReject = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+            var _this2$_webphone2;
+
+            var _args3 = arguments;
+            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+              while (1) {
+                switch (_context3.prev = _context3.next) {
+                  case 0:
+                    return _context3.abrupt("return", _this2._webphone && (_this2$_webphone2 = _this2._webphone).reject.apply(_this2$_webphone2, _args3));
+
+                  case 1:
+                  case "end":
+                    return _context3.stop();
+                }
               }
-            }
-          });
-        },
-        webphoneHangup: function webphoneHangup() {
-          var _this2$_webphone3;
+            }, _callee3);
+          }));
 
-          var _args4 = arguments;
-          return regeneratorRuntime.async(function webphoneHangup$(_context4) {
-            while (1) {
-              switch (_context4.prev = _context4.next) {
-                case 0:
-                  // user action track
-                  _this2._callMonitor.allCallsClickHangupTrack();
+          function webphoneReject() {
+            return _webphoneReject.apply(this, arguments);
+          }
 
-                  return _context4.abrupt("return", _this2._webphone && (_this2$_webphone3 = _this2._webphone).hangup.apply(_this2$_webphone3, _args4));
+          return webphoneReject;
+        }(),
+        webphoneHangup: function () {
+          var _webphoneHangup = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+            var _this2$_webphone3;
 
-                case 2:
-                case "end":
-                  return _context4.stop();
+            var _args4 = arguments;
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
+              while (1) {
+                switch (_context4.prev = _context4.next) {
+                  case 0:
+                    // user action track
+                    _this2._callMonitor.allCallsClickHangupTrack();
+
+                    return _context4.abrupt("return", _this2._webphone && (_this2$_webphone3 = _this2._webphone).hangup.apply(_this2$_webphone3, _args4));
+
+                  case 2:
+                  case "end":
+                    return _context4.stop();
+                }
               }
-            }
-          });
-        },
-        webphoneResume: function webphoneResume() {
-          var _this2$_webphone4;
+            }, _callee4);
+          }));
 
-          var _args5 = arguments;
-          return regeneratorRuntime.async(function webphoneResume$(_context5) {
-            while (1) {
-              switch (_context5.prev = _context5.next) {
-                case 0:
-                  if (_this2._webphone) {
-                    _context5.next = 2;
-                    break;
-                  }
+          function webphoneHangup() {
+            return _webphoneHangup.apply(this, arguments);
+          }
 
-                  return _context5.abrupt("return");
+          return webphoneHangup;
+        }(),
+        webphoneResume: function () {
+          var _webphoneResume = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+            var _this2$_webphone4;
 
-                case 2:
-                  _context5.next = 4;
-                  return regeneratorRuntime.awrap((_this2$_webphone4 = _this2._webphone).resume.apply(_this2$_webphone4, _args5));
+            var _args5 = arguments;
+            return regeneratorRuntime.wrap(function _callee5$(_context5) {
+              while (1) {
+                switch (_context5.prev = _context5.next) {
+                  case 0:
+                    if (_this2._webphone) {
+                      _context5.next = 2;
+                      break;
+                    }
 
-                case 4:
-                  if (_this2._routerInteraction.currentPath !== callCtrlRoute && !useV2) {
-                    _this2._routerInteraction.push(callCtrlRoute);
-                  }
+                    return _context5.abrupt("return");
 
-                case 5:
-                case "end":
-                  return _context5.stop();
+                  case 2:
+                    _context5.next = 4;
+                    return (_this2$_webphone4 = _this2._webphone).resume.apply(_this2$_webphone4, _args5);
+
+                  case 4:
+                    if (_this2._routerInteraction.currentPath !== callCtrlRoute && !useV2) {
+                      _this2._routerInteraction.push(callCtrlRoute);
+                    }
+
+                  case 5:
+                  case "end":
+                    return _context5.stop();
+                }
               }
-            }
-          });
-        },
-        webphoneHold: function webphoneHold() {
-          var _this2$_webphone5;
+            }, _callee5);
+          }));
 
-          var _args6 = arguments;
-          return regeneratorRuntime.async(function webphoneHold$(_context6) {
-            while (1) {
-              switch (_context6.prev = _context6.next) {
-                case 0:
-                  // user action track
-                  _this2._callMonitor.allCallsClickHoldTrack();
+          function webphoneResume() {
+            return _webphoneResume.apply(this, arguments);
+          }
 
-                  return _context6.abrupt("return", _this2._webphone && (_this2$_webphone5 = _this2._webphone).hold.apply(_this2$_webphone5, _args6));
+          return webphoneResume;
+        }(),
+        webphoneHold: function () {
+          var _webphoneHold = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+            var _this2$_webphone5;
 
-                case 2:
-                case "end":
-                  return _context6.stop();
+            var _args6 = arguments;
+            return regeneratorRuntime.wrap(function _callee6$(_context6) {
+              while (1) {
+                switch (_context6.prev = _context6.next) {
+                  case 0:
+                    // user action track
+                    _this2._callMonitor.allCallsClickHoldTrack();
+
+                    return _context6.abrupt("return", _this2._webphone && (_this2$_webphone5 = _this2._webphone).hold.apply(_this2$_webphone5, _args6));
+
+                  case 2:
+                  case "end":
+                    return _context6.stop();
+                }
               }
-            }
-          });
-        },
-        webphoneSwitchCall: function webphoneSwitchCall(activeCall) {
-          var session;
-          return regeneratorRuntime.async(function webphoneSwitchCall$(_context7) {
-            while (1) {
-              switch (_context7.prev = _context7.next) {
-                case 0:
-                  if (_this2._webphone) {
-                    _context7.next = 2;
-                    break;
-                  }
+            }, _callee6);
+          }));
 
-                  return _context7.abrupt("return");
+          function webphoneHold() {
+            return _webphoneHold.apply(this, arguments);
+          }
 
-                case 2:
-                  _context7.next = 4;
-                  return regeneratorRuntime.awrap(_this2._webphone.switchCall(activeCall, _this2._regionSettings.homeCountryId));
+          return webphoneHold;
+        }(),
+        webphoneSwitchCall: function () {
+          var _webphoneSwitchCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(activeCall) {
+            var session;
+            return regeneratorRuntime.wrap(function _callee7$(_context7) {
+              while (1) {
+                switch (_context7.prev = _context7.next) {
+                  case 0:
+                    if (_this2._webphone) {
+                      _context7.next = 2;
+                      break;
+                    }
 
-                case 4:
-                  session = _context7.sent;
-                  return _context7.abrupt("return", session);
+                    return _context7.abrupt("return");
 
-                case 6:
-                case "end":
-                  return _context7.stop();
+                  case 2:
+                    _context7.next = 4;
+                    return _this2._webphone.switchCall(activeCall, _this2._regionSettings.homeCountryId);
+
+                  case 4:
+                    session = _context7.sent;
+                    return _context7.abrupt("return", session);
+
+                  case 6:
+                  case "end":
+                    return _context7.stop();
+                }
               }
-            }
-          });
-        },
-        ringoutHangup: function ringoutHangup() {
-          var _this2$_activeCallCon;
+            }, _callee7);
+          }));
 
-          var _args8 = arguments;
-          return regeneratorRuntime.async(function ringoutHangup$(_context8) {
-            while (1) {
-              switch (_context8.prev = _context8.next) {
-                case 0:
-                  // user action track
-                  _this2._callMonitor.allCallsClickHangupTrack();
+          function webphoneSwitchCall(_x2) {
+            return _webphoneSwitchCall.apply(this, arguments);
+          }
 
-                  return _context8.abrupt("return", _this2._activeCallControl && (_this2$_activeCallCon = _this2._activeCallControl).hangUp.apply(_this2$_activeCallCon, _args8));
+          return webphoneSwitchCall;
+        }(),
+        ringoutHangup: function () {
+          var _ringoutHangup = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+            var _this2$_activeCallCon;
 
-                case 2:
-                case "end":
-                  return _context8.stop();
+            var _args8 = arguments;
+            return regeneratorRuntime.wrap(function _callee8$(_context8) {
+              while (1) {
+                switch (_context8.prev = _context8.next) {
+                  case 0:
+                    // user action track
+                    _this2._callMonitor.allCallsClickHangupTrack();
+
+                    return _context8.abrupt("return", _this2._activeCallControl && (_this2$_activeCallCon = _this2._activeCallControl).hangUp.apply(_this2$_activeCallCon, _args8));
+
+                  case 2:
+                  case "end":
+                    return _context8.stop();
+                }
               }
-            }
-          });
-        },
-        ringoutTransfer: function ringoutTransfer(sessionId) {
-          return regeneratorRuntime.async(function ringoutTransfer$(_context9) {
-            while (1) {
-              switch (_context9.prev = _context9.next) {
-                case 0:
-                  _this2._routerInteraction.push("/transfer/".concat(sessionId, "/active"));
+            }, _callee8);
+          }));
 
-                case 1:
-                case "end":
-                  return _context9.stop();
+          function ringoutHangup() {
+            return _ringoutHangup.apply(this, arguments);
+          }
+
+          return ringoutHangup;
+        }(),
+        ringoutTransfer: function () {
+          var _ringoutTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(sessionId) {
+            return regeneratorRuntime.wrap(function _callee9$(_context9) {
+              while (1) {
+                switch (_context9.prev = _context9.next) {
+                  case 0:
+                    _this2._routerInteraction.push("/transfer/".concat(sessionId, "/active"));
+
+                  case 1:
+                  case "end":
+                    return _context9.stop();
+                }
               }
-            }
-          });
-        },
-        ringoutReject: function ringoutReject(sessionId) {
-          return regeneratorRuntime.async(function ringoutReject$(_context10) {
-            while (1) {
-              switch (_context10.prev = _context10.next) {
-                case 0:
-                  // user action track
-                  _this2._callMonitor.allCallsClickRejectTrack();
+            }, _callee9);
+          }));
 
-                  return _context10.abrupt("return", _this2._activeCallControl && _this2._activeCallControl.reject(sessionId));
+          function ringoutTransfer(_x3) {
+            return _ringoutTransfer.apply(this, arguments);
+          }
 
-                case 2:
-                case "end":
-                  return _context10.stop();
+          return ringoutTransfer;
+        }(),
+        ringoutReject: function () {
+          var _ringoutReject = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(sessionId) {
+            return regeneratorRuntime.wrap(function _callee10$(_context10) {
+              while (1) {
+                switch (_context10.prev = _context10.next) {
+                  case 0:
+                    // user action track
+                    _this2._callMonitor.allCallsClickRejectTrack();
+
+                    return _context10.abrupt("return", _this2._activeCallControl && _this2._activeCallControl.reject(sessionId));
+
+                  case 2:
+                  case "end":
+                    return _context10.stop();
+                }
               }
-            }
-          });
-        },
+            }, _callee10);
+          }));
+
+          function ringoutReject(_x4) {
+            return _ringoutReject.apply(this, arguments);
+          }
+
+          return ringoutReject;
+        }(),
         onViewContact: showViewContact ? onViewContact || function (_ref4) {
           var contact = _ref4.contact;
           var id = contact.id,
@@ -444,102 +540,120 @@ function (_RcUIModule) {
             });
           }
         } : null,
-        onClickToSms: this._composeText ? function _callee(contact) {
-          var isDummyContact,
-              _args11 = arguments;
-          return regeneratorRuntime.async(function _callee$(_context11) {
-            while (1) {
-              switch (_context11.prev = _context11.next) {
-                case 0:
-                  isDummyContact = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : false;
+        onClickToSms: this._composeText ? /*#__PURE__*/function () {
+          var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(contact) {
+            var isDummyContact,
+                _args11 = arguments;
+            return regeneratorRuntime.wrap(function _callee11$(_context11) {
+              while (1) {
+                switch (_context11.prev = _context11.next) {
+                  case 0:
+                    isDummyContact = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : false;
 
-                  if (_this2._routerInteraction) {
-                    _this2._routerInteraction.push(composeTextRoute);
-                  }
+                    if (_this2._routerInteraction) {
+                      _this2._routerInteraction.push(composeTextRoute);
+                    }
 
-                  _this2._composeText.clean();
+                    _this2._composeText.clean();
 
-                  if (contact.name && contact.phoneNumber && isDummyContact) {
-                    _this2._composeText.updateTypingToNumber(contact.name);
+                    if (contact.name && contact.phoneNumber && isDummyContact) {
+                      _this2._composeText.updateTypingToNumber(contact.name);
 
-                    _this2._contactSearch.search({
-                      searchString: contact.name
+                      _this2._contactSearch.search({
+                        searchString: contact.name
+                      });
+                    } else {
+                      _this2._composeText.addToRecipients(contact);
+                    }
+
+                  case 4:
+                  case "end":
+                    return _context11.stop();
+                }
+              }
+            }, _callee11);
+          }));
+
+          return function (_x5) {
+            return _ref5.apply(this, arguments);
+          };
+        }() : undefined,
+        onCreateContact: onCreateContact ? /*#__PURE__*/function () {
+          var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(_ref6) {
+            var phoneNumber, name, entityType, hasMatchNumber;
+            return regeneratorRuntime.wrap(function _callee12$(_context12) {
+              while (1) {
+                switch (_context12.prev = _context12.next) {
+                  case 0:
+                    phoneNumber = _ref6.phoneNumber, name = _ref6.name, entityType = _ref6.entityType;
+                    _context12.next = 3;
+                    return _this2._contactMatcher.hasMatchNumber({
+                      phoneNumber: phoneNumber,
+                      ignoreCache: true
                     });
-                  } else {
-                    _this2._composeText.addToRecipients(contact);
-                  }
 
-                case 4:
-                case "end":
-                  return _context11.stop();
-              }
-            }
-          });
-        } : undefined,
-        onCreateContact: onCreateContact ? function _callee2(_ref5) {
-          var phoneNumber, name, entityType, hasMatchNumber;
-          return regeneratorRuntime.async(function _callee2$(_context12) {
-            while (1) {
-              switch (_context12.prev = _context12.next) {
-                case 0:
-                  phoneNumber = _ref5.phoneNumber, name = _ref5.name, entityType = _ref5.entityType;
-                  _context12.next = 3;
-                  return regeneratorRuntime.awrap(_this2._contactMatcher.hasMatchNumber({
-                    phoneNumber: phoneNumber,
-                    ignoreCache: true
-                  }));
+                  case 3:
+                    hasMatchNumber = _context12.sent;
 
-                case 3:
-                  hasMatchNumber = _context12.sent;
+                    if (hasMatchNumber) {
+                      _context12.next = 9;
+                      break;
+                    }
 
-                  if (hasMatchNumber) {
+                    _context12.next = 7;
+                    return onCreateContact({
+                      phoneNumber: phoneNumber,
+                      name: name,
+                      entityType: entityType
+                    });
+
+                  case 7:
                     _context12.next = 9;
-                    break;
-                  }
+                    return _this2._contactMatcher.forceMatchNumber({
+                      phoneNumber: phoneNumber
+                    });
 
-                  _context12.next = 7;
-                  return regeneratorRuntime.awrap(onCreateContact({
-                    phoneNumber: phoneNumber,
-                    name: name,
-                    entityType: entityType
-                  }));
-
-                case 7:
-                  _context12.next = 9;
-                  return regeneratorRuntime.awrap(_this2._contactMatcher.forceMatchNumber({
-                    phoneNumber: phoneNumber
-                  }));
-
-                case 9:
-                case "end":
-                  return _context12.stop();
+                  case 9:
+                  case "end":
+                    return _context12.stop();
+                }
               }
-            }
-          });
-        } : undefined,
+            }, _callee12);
+          }));
+
+          return function (_x6) {
+            return _ref7.apply(this, arguments);
+          };
+        }() : undefined,
         isLoggedContact: isLoggedContact,
-        onLogCall: onLogCall || this._callLogger && function _callee3(_ref6) {
-          var call, contact, _ref6$redirect, redirect;
+        onLogCall: onLogCall || this._callLogger && /*#__PURE__*/function () {
+          var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(_ref8) {
+            var call, contact, _ref8$redirect, redirect;
 
-          return regeneratorRuntime.async(function _callee3$(_context13) {
-            while (1) {
-              switch (_context13.prev = _context13.next) {
-                case 0:
-                  call = _ref6.call, contact = _ref6.contact, _ref6$redirect = _ref6.redirect, redirect = _ref6$redirect === void 0 ? true : _ref6$redirect;
-                  _context13.next = 3;
-                  return regeneratorRuntime.awrap(_this2._callLogger.logCall({
-                    call: call,
-                    contact: contact,
-                    redirect: redirect
-                  }));
+            return regeneratorRuntime.wrap(function _callee13$(_context13) {
+              while (1) {
+                switch (_context13.prev = _context13.next) {
+                  case 0:
+                    call = _ref8.call, contact = _ref8.contact, _ref8$redirect = _ref8.redirect, redirect = _ref8$redirect === void 0 ? true : _ref8$redirect;
+                    _context13.next = 3;
+                    return _this2._callLogger.logCall({
+                      call: call,
+                      contact: contact,
+                      redirect: redirect
+                    });
 
-                case 3:
-                case "end":
-                  return _context13.stop();
+                  case 3:
+                  case "end":
+                    return _context13.stop();
+                }
               }
-            }
-          });
-        },
+            }, _callee13);
+          }));
+
+          return function (_x7) {
+            return _ref9.apply(this, arguments);
+          };
+        }(),
         onCallsEmpty: onCallsEmpty || function () {
           var isWebRTC = _this2._callingSettings.callingMode === _callingModes["default"].webphone;
 

@@ -35,17 +35,17 @@ function DialTextInput(_ref) {
   } : {
     display: 'block'
   };
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].dialInput, className, invalid && _styles["default"].invalid)
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].to)
-  }, _i18n["default"].getString('to')), _react["default"].createElement(_TextInput["default"], {
+  }, _i18n["default"].getString('to')), /*#__PURE__*/_react["default"].createElement(_TextInput["default"], {
     placeholder: _i18n["default"].getString('enterNameOrPhoneNumber'),
     className: _styles["default"].dial_Input,
     value: value,
     onChange: onChangeEvent,
     autoFocus: autoFocus
-  }), _react["default"].createElement("span", {
+  }), /*#__PURE__*/_react["default"].createElement("span", {
     style: deleteDisplay,
     className: (0, _classnames["default"])(_styles["default"]["delete"], _DynamicsFont["default"].clear),
     onClick: onDelete

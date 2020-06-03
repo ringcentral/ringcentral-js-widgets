@@ -1,6 +1,28 @@
-@import '~ringcentral-widgets/lib/commonStyles/variable.scss';
+@import '../../lib/commonStyles/variable.scss';
 
 $icon-color: #757575;
+$lightning-page-space: 16px;
+$classic-page-space: 12px;
+
+.panelContainer {
+  box-shadow: inset 0 -12px 6px -10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.panel {
+  height: 100%;
+  border-top: 1px solid rgb(219, 219, 219);
+  display: flex;
+  flex-direction: column;
+
+  header {
+    margin: 4px 0 0 8px;
+  }
+  main {
+    overflow: auto;
+    height: 100%;
+  }
+}
 
 .container {
   overflow: hidden;
@@ -10,12 +32,26 @@ $icon-color: #757575;
 }
 
 .root {
-  min-height: 70px !important;
-  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  min-height: 70px;
 
   [sf-classic] & {
-    min-height: 90px !important;
+    min-height: 90px;
   }
+}
+
+.root,
+.infoList {
+  padding: 0 $lightning-page-space;
+
+  [sf-classic] & {
+    padding: 0 $classic-page-space;
+  }
+}
+
+.infoList {
+  margin: 8px 0;
 }
 
 .bottom {
@@ -31,14 +67,14 @@ $icon-color: #757575;
   color: #212121;
   margin-top: 7.5px;
   margin-bottom: 8.5px;
-  @include flex_width(220px);
-
-  [sf-classic] & {
-    @include flex_width(124px);
-  }
+  flex: 1 1 auto;
 }
 
-.detailRoot {
-  padding-top: 0 !important;
-  padding-bottom: 12px !important;
+.rightIcon {
+  align-self: flex-start;
+  margin-top: 8px;
+
+  [sf-classic] & {
+    transform: translateX(12px);
+  }
 }

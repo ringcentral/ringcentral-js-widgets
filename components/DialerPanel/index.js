@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -92,7 +92,7 @@ function DialerPanel(_ref) {
       inputEl.current.focus();
     }
   }, []);
-  var input = useV2 ? _react["default"].createElement(_RecipientsInputV.RecipientsInputV2, {
+  var input = useV2 ? /*#__PURE__*/_react["default"].createElement(_RecipientsInputV.RecipientsInputV2, {
     ref: inputEl,
     value: toNumber,
     onInputChange: onToNumberChange,
@@ -110,7 +110,7 @@ function DialerPanel(_ref) {
     isLastInputFromDialpad: isLastInputFromDialpad,
     titleEnabled: true,
     className: !showFromField ? (0, _classnames["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
-  }) : _react["default"].createElement(_RecipientsInput["default"], {
+  }) : /*#__PURE__*/_react["default"].createElement(_RecipientsInput["default"], {
     value: toNumber,
     onChange: onToNumberChange,
     onClean: clearToNumber,
@@ -130,20 +130,20 @@ function DialerPanel(_ref) {
     autoFocus: autoFocus,
     className: !showFromField ? (0, _classnames["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
   });
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, input, showFromField ? _react["default"].createElement("div", {
+  }, input, showFromField ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].inputField
-  }, _react["default"].createElement(_FromField["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_FromField["default"], {
     fromNumber: fromNumber,
     fromNumbers: fromNumbers,
     onChange: changeFromNumber,
     formatPhone: formatPhone,
     currentLocale: currentLocale,
     hidden: !isWebphoneMode
-  })) : null, _react["default"].createElement("div", {
+  })) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].dialButtons, dialButtonsClassName)
-  }, _react["default"].createElement(_DialPad["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_DialPad["default"], {
     className: _styles["default"].dialPad,
     onButtonOutput: function onButtonOutput(key) {
       onToNumberChange(toNumber + key, true);
@@ -154,18 +154,18 @@ function DialerPanel(_ref) {
     },
     dialButtonVolume: dialButtonVolume,
     dialButtonMuted: dialButtonMuted
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].callBtnRow, withTabs && _styles["default"].callBtnRowWithTabs, inConference && _styles["default"].callBtnRowInConference)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callBtn
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: "callButton",
     className: (0, _classnames["default"])(_styles["default"].dialBtn, callButtonDisabled && _styles["default"].disabled),
     onClick: onCallButtonClick,
     disabled: callButtonDisabled,
     icon: _Answer["default"],
     showBorder: false
-  })))), showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], null) : null, children);
+  })))), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : null, children);
 }
 
 DialerPanel.propTypes = {

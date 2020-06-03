@@ -20,13 +20,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var CompanyInfoItem = function CompanyInfoItem(_ref) {
   var label = _ref.label,
       value = _ref.value;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].item
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].label
-  }, _react["default"].createElement("span", null, label)), _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("span", null, label)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].text
   }, value)));
 };
@@ -40,7 +40,7 @@ var CompanyInfo = function CompanyInfo(_ref2) {
   var content = [];
 
   if (company) {
-    content.push(_react["default"].createElement(CompanyInfoItem, {
+    content.push( /*#__PURE__*/_react["default"].createElement(CompanyInfoItem, {
       key: "company",
       label: _i18n["default"].getString('company', currentLocale),
       value: company
@@ -48,7 +48,7 @@ var CompanyInfo = function CompanyInfo(_ref2) {
   }
 
   if (jobTitle) {
-    content.push(_react["default"].createElement(CompanyInfoItem, {
+    content.push( /*#__PURE__*/_react["default"].createElement(CompanyInfoItem, {
       key: "jobTitle",
       label: _i18n["default"].getString('jobTitle', currentLocale),
       value: jobTitle
@@ -56,7 +56,7 @@ var CompanyInfo = function CompanyInfo(_ref2) {
   }
 
   if (content.length) {
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].companyInfo)
     }, content);
   }

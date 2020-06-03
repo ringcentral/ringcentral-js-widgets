@@ -46,7 +46,7 @@ var Header = function Header(_ref) {
       onClick = _ref.onClick,
       buttons = _ref.buttons,
       children = _ref.children;
-  var label = children ? _react["default"].createElement("div", {
+  var label = children ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].label
   }, children) : null;
 
@@ -58,7 +58,7 @@ var Header = function Header(_ref) {
         props = _objectWithoutProperties(_ref2, ["hidden", "disabled", "placement", "label"]);
 
     if (!hidden) {
-      var button = _react["default"].createElement(_Button.Button, _extends({
+      var button = /*#__PURE__*/_react["default"].createElement(_Button.Button, _extends({
         key: idx,
         className: (0, _classnames["default"])(_styles["default"].button, disabled && _styles["default"].disabled),
         disabled: disabled
@@ -79,12 +79,12 @@ var Header = function Header(_ref) {
       leftButtons = _addIndex.leftButtons,
       rightButtons = _addIndex.rightButtons;
 
-  return _react["default"].createElement("header", {
+  return /*#__PURE__*/_react["default"].createElement("header", {
     className: (0, _classnames["default"])(_styles["default"].root, className),
     onClick: onClick
-  }, label, leftButtons.length ? _react["default"].createElement("div", {
+  }, label, leftButtons.length ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].buttonGroup, _styles["default"].leftButtons)
-  }, leftButtons) : null, rightButtons.length ? _react["default"].createElement("div", {
+  }, leftButtons) : null, rightButtons.length ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].buttonGroup, _styles["default"].rightButtons)
   }, rightButtons) : null);
 };

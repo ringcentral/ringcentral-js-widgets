@@ -7,19 +7,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _NavigationBar = _interopRequireDefault(require("../NavigationBar"));
-
-var _TabNavigationButton = _interopRequireDefault(require("../TabNavigationButton"));
+var _react = _interopRequireDefault(require("react"));
 
 var _DropdownNavigationView = _interopRequireDefault(require("../DropdownNavigationView"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _NavigationBar = _interopRequireDefault(require("../NavigationBar"));
+
+var _SpinnerOverlay = require("../SpinnerOverlay");
+
+var _TabNavigationButton = _interopRequireDefault(require("../TabNavigationButton"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -40,12 +40,12 @@ var TabNavigationView = function TabNavigationView(_ref) {
       children = _ref.children;
 
   if (onLoading) {
-    return _react["default"].createElement(_SpinnerOverlay["default"], null);
+    return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
   }
 
   var isVertical = navigationPosition === 'left';
 
-  var navBar = _react["default"].createElement(_NavigationBar["default"], {
+  var navBar = /*#__PURE__*/_react["default"].createElement(_NavigationBar["default"], {
     button: _TabNavigationButton["default"],
     childNavigationView: _DropdownNavigationView["default"],
     tabs: tabs,
@@ -59,14 +59,14 @@ var TabNavigationView = function TabNavigationView(_ref) {
   });
 
   if (holdReady) return null;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className, navigationPosition === 'left' && _styles["default"].vertical)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].tabContainer
-  }, navigationPosition === 'top' || navigationPosition === 'left' ? _react["default"].createElement(_react["default"].Fragment, null, navBar, navigationPosition === 'left' ? brandIcon : null) : null), _react["default"].createElement("div", {
+  }, navigationPosition === 'top' || navigationPosition === 'left' ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, navBar, navigationPosition === 'left' ? brandIcon : null) : null), /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "tabNavigationView",
     className: (0, _classnames["default"])(_styles["default"].main, tabNavigationViewClassName, !isVertical && _styles["default"].hasMaxHeight)
-  }, ' ', children), navigationPosition === 'bottom' ? _react["default"].createElement(_react["default"].Fragment, null, navBar) : null);
+  }, ' ', children), navigationPosition === 'bottom' ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, navBar) : null);
 };
 
 TabNavigationView.defaultProps = {

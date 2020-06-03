@@ -4,8 +4,6 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -22,6 +20,14 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -63,7 +69,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -71,29 +77,33 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 var TooltipCom = typeof _rcTooltip["default"] === 'function' ? _rcTooltip["default"] : _rcTooltip["default"]["default"];
 
-var IncomingCallPad =
-/*#__PURE__*/
-function (_Component) {
+var IncomingCallPad = /*#__PURE__*/function (_Component) {
   _inherits(IncomingCallPad, _Component);
+
+  var _super = _createSuper(IncomingCallPad);
 
   function IncomingCallPad(props) {
     var _this;
 
     _classCallCheck(this, IncomingCallPad);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(IncomingCallPad).call(this, props));
+    _this = _super.call(this, props);
     _this.state = {
       showForward: false,
       replyMessage: null,
@@ -203,15 +213,15 @@ function (_Component) {
           answerAndEnd = _this$props.answerAndEnd,
           answerAndHold = _this$props.answerAndHold; // const isMultiCall = true;
 
-      var multiCallButtons = _react["default"].createElement("div", {
+      var multiCallButtons = /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].buttonRow, _styles["default"].multiCallsButtonGroup)
-      }, _react["default"].createElement(_MultiCallAnswerButton["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_MultiCallAnswerButton["default"], {
         onClick: answerAndEnd,
         title: _i18n["default"].getString('answerAndEnd', currentLocale),
         dataSign: "answerAndEnd",
         className: _styles["default"].callButton,
         isEndOtherCall: true
-      }), _react["default"].createElement(_ActiveCallButton["default"], {
+      }), /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
         onClick: this.toVoiceMail,
         title: _i18n["default"].getString('toVoicemail', currentLocale),
         buttonClassName: this.state.toVoiceMailEnabled ? _styles["default"].voiceMailButton : '',
@@ -222,7 +232,7 @@ function (_Component) {
         dataSign: "toVoicemail",
         className: _styles["default"].callButton,
         disabled: !this.state.toVoiceMailEnabled
-      }), _react["default"].createElement(_MultiCallAnswerButton["default"], {
+      }), /*#__PURE__*/_react["default"].createElement(_MultiCallAnswerButton["default"], {
         onClick: answerAndHold,
         title: _i18n["default"].getString('answerAndHold', currentLocale),
         dataSign: "answerAndHold",
@@ -230,9 +240,9 @@ function (_Component) {
         isEndOtherCall: false
       }));
 
-      var singleCallButtons = _react["default"].createElement("div", {
+      var singleCallButtons = /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].buttonRow, _styles["default"].answerButtonGroup)
-      }, _react["default"].createElement(_ActiveCallButton["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
         onClick: this.toVoiceMail,
         title: _i18n["default"].getString('toVoicemail', currentLocale),
         buttonClassName: this.state.toVoiceMailEnabled ? _styles["default"].voiceMailButton : '',
@@ -243,7 +253,7 @@ function (_Component) {
         dataSign: "toVoicemail",
         className: _styles["default"].bigCallButton,
         disabled: !this.state.toVoiceMailEnabled
-      }), _react["default"].createElement(_ActiveCallButton["default"], {
+      }), /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
         onClick: answer,
         title: _i18n["default"].getString('answer', currentLocale),
         buttonClassName: _styles["default"].answerButton,
@@ -253,33 +263,33 @@ function (_Component) {
         className: _styles["default"].bigCallButton
       }));
 
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, className)
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].forwardContainner,
         ref: function ref(containner) {
           _this2.forwardContainner = containner;
         }
-      }), _react["default"].createElement("div", {
+      }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].replyWithMessageContainner,
         ref: function ref(containner) {
           _this2.replyWithMessageContainner = containner;
         }
-      }), _react["default"].createElement("div", {
+      }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].buttonRow
-      }, _react["default"].createElement(TooltipCom, {
+      }, /*#__PURE__*/_react["default"].createElement(TooltipCom, {
         defaultVisible: false,
         visible: this.state.showForward,
         onVisibleChange: this.onShowForwardChange,
         placement: "topRight",
         trigger: "click",
-        arrowContent: _react["default"].createElement("div", {
+        arrowContent: /*#__PURE__*/_react["default"].createElement("div", {
           className: "rc-tooltip-arrow-inner"
         }),
         getTooltipContainer: function getTooltipContainer() {
           return _this2.forwardContainner;
         },
-        overlay: _react["default"].createElement(_ForwardForm["default"], {
+        overlay: /*#__PURE__*/_react["default"].createElement(_ForwardForm["default"], {
           forwardingNumbers: forwardingNumbers,
           currentLocale: currentLocale,
           onCancel: this.closeForwardForm,
@@ -290,7 +300,7 @@ function (_Component) {
           phoneTypeRenderer: this.props.phoneTypeRenderer,
           phoneSourceNameRenderer: this.props.phoneSourceNameRenderer
         })
-      }, _react["default"].createElement(_ActiveCallButton["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
         icon: _Forward["default"],
         iconWidth: 250,
         iconX: 125,
@@ -300,19 +310,19 @@ function (_Component) {
         title: _i18n["default"].getString('forward', currentLocale),
         dataSign: "forward",
         className: _styles["default"].callButton
-      })), _react["default"].createElement(TooltipCom, {
+      })), /*#__PURE__*/_react["default"].createElement(TooltipCom, {
         defaultVisible: false,
         visible: this.state.showReplyWithMessage,
         onVisibleChange: this.onShowReplyWithMessageChange,
         placement: "top",
         trigger: "click",
-        arrowContent: _react["default"].createElement("div", {
+        arrowContent: /*#__PURE__*/_react["default"].createElement("div", {
           className: "rc-tooltip-arrow-inner"
         }),
         getTooltipContainer: function getTooltipContainer() {
           return _this2.replyWithMessageContainner;
         },
-        overlay: _react["default"].createElement(_ReplyWithMessage["default"], {
+        overlay: /*#__PURE__*/_react["default"].createElement(_ReplyWithMessage["default"], {
           currentLocale: currentLocale,
           onCancel: this.closeReplyWithMessage,
           value: this.state.replyMessage,
@@ -320,7 +330,7 @@ function (_Component) {
           onReply: this.replyWithMessage,
           disabled: !this.state.replyMessageEnabled
         })
-      }, _react["default"].createElement(_ActiveCallButton["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
         onClick: function onClick() {
           return null;
         },
@@ -328,7 +338,7 @@ function (_Component) {
         title: _i18n["default"].getString('reply', currentLocale),
         dataSign: "reply",
         className: _styles["default"].callButton
-      })), _react["default"].createElement(_ActiveCallButton["default"], {
+      })), /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
         onClick: reject,
         icon: _Ignore["default"],
         title: _i18n["default"].getString('ignore', currentLocale),

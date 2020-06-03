@@ -11,6 +11,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -25,13 +27,19 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -77,11 +85,15 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -91,25 +103,29 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 function AddContact(_ref) {
   var className = _ref.className,
       onClick = _ref.onClick;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: className,
     onClick: onClick
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].iconContainer
-  }, _react["default"].createElement(_ContactAdd["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_ContactAdd["default"], {
     className: _styles["default"].iconNode
   })));
 }
@@ -132,25 +148,25 @@ function RefreshContacts(_ref2) {
 
   if (refreshing) {
     iconWrappClass = _styles["default"].refreshingIcon;
-    icon = _react["default"].createElement(_OvalLoading["default"], {
+    icon = /*#__PURE__*/_react["default"].createElement(_OvalLoading["default"], {
       className: _styles["default"].iconNode,
       width: 12,
       height: 12
     });
   } else {
     iconWrappClass = _styles["default"].refreshIcon;
-    icon = _react["default"].createElement(_RetryIcon["default"], {
+    icon = /*#__PURE__*/_react["default"].createElement(_RetryIcon["default"], {
       className: _styles["default"].iconNode,
       width: 12,
       height: 12
     });
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(iconWrappClass, className),
     onClick: onRefresh,
     title: _i18n["default"].getString('refresh', currentLocale)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].iconContainer
   }, icon));
 }
@@ -165,17 +181,17 @@ RefreshContacts.defaultProps = {
   className: undefined
 };
 
-var ContactsView =
-/*#__PURE__*/
-function (_Component) {
+var ContactsView = /*#__PURE__*/function (_Component) {
   _inherits(ContactsView, _Component);
+
+  var _super = _createSuper(ContactsView);
 
   function ContactsView(props) {
     var _this;
 
     _classCallCheck(this, ContactsView);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ContactsView).call(this, props));
+    _this = _super.call(this, props);
 
     _this.calculateContentSize = function () {
       if (_this.contentWrapper && _this.contentWrapper.current && _this.contentWrapper.current.getBoundingClientRect) {
@@ -221,9 +237,8 @@ function (_Component) {
         _this.setState(_objectSpread({}, _this.calculateContentSize()));
       }
     }, 300);
-
-    _this.onRefresh = function _callee() {
-      return regeneratorRuntime.async(function _callee$(_context) {
+    _this.onRefresh = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -240,7 +255,7 @@ function (_Component) {
               });
 
               _context.next = 5;
-              return regeneratorRuntime.awrap(_this.props.onRefresh());
+              return _this.props.onRefresh();
 
             case 5:
               _this.setState({
@@ -252,9 +267,8 @@ function (_Component) {
               return _context.stop();
           }
         }
-      });
-    };
-
+      }, _callee);
+    }));
     _this.state = {
       searchString: props.searchString,
       unfold: false,
@@ -262,8 +276,8 @@ function (_Component) {
       contentWidth: 0,
       refreshing: false
     };
-    _this.contactList = _react["default"].createRef();
-    _this.contentWrapper = _react["default"].createRef();
+    _this.contactList = /*#__PURE__*/_react["default"].createRef();
+    _this.contentWrapper = /*#__PURE__*/_react["default"].createRef();
 
     _this.onUnfoldChange = function (unfold) {
       _this.setState({
@@ -313,15 +327,15 @@ function (_Component) {
     }
   }, {
     key: "search",
-    value: function search(_ref4) {
+    value: function search(_ref5) {
       var _this2 = this;
 
-      var _ref4$searchSource = _ref4.searchSource,
-          searchSource = _ref4$searchSource === void 0 ? this.props.searchSource : _ref4$searchSource,
-          _ref4$searchString = _ref4.searchString,
-          searchString = _ref4$searchString === void 0 ? this.state.searchString : _ref4$searchString,
-          _ref4$delay = _ref4.delay,
-          delay = _ref4$delay === void 0 ? 0 : _ref4$delay;
+      var _ref5$searchSource = _ref5.searchSource,
+          searchSource = _ref5$searchSource === void 0 ? this.props.searchSource : _ref5$searchSource,
+          _ref5$searchString = _ref5.searchString,
+          searchString = _ref5$searchString === void 0 ? this.state.searchString : _ref5$searchString,
+          _ref5$delay = _ref5.delay,
+          delay = _ref5$delay === void 0 ? 0 : _ref5$delay;
 
       if (this.props.onSearchContact) {
         if (this._searchTimeoutId) {
@@ -360,23 +374,23 @@ function (_Component) {
           onRefresh = _this$props.onRefresh,
           children = _this$props.children;
       var showRefresh = typeof onRefresh === 'function';
-      var refreshButton = showRefresh ? _react["default"].createElement(RefreshContacts, {
+      var refreshButton = showRefresh ? /*#__PURE__*/_react["default"].createElement(RefreshContacts, {
         className: _styles["default"].actionButton,
         refreshing: this.state.refreshing,
         currentLocale: currentLocale,
         onRefresh: this.onRefresh
       }) : null;
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].actionBar
-      }, _react["default"].createElement(_SearchInput["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_SearchInput["default"], {
         dataSign: "contactsSearchInput",
         className: (0, _classnames["default"])(_styles["default"].searchInput, showRefresh ? _styles["default"].withRefresh : ''),
         value: this.state.searchString || '',
         onChange: this.onSearchInputChange,
         placeholder: _i18n["default"].getString('searchPlaceholder', currentLocale)
-      }), refreshButton, _react["default"].createElement(Filter, {
+      }), refreshButton, /*#__PURE__*/_react["default"].createElement(Filter, {
         className: _styles["default"].actionButton,
         currentLocale: currentLocale,
         contactSourceNames: contactSourceNames,
@@ -384,12 +398,12 @@ function (_Component) {
         selectedSourceName: searchSource,
         unfold: this.state.unfold,
         onUnfoldChange: this.onUnfoldChange
-      })), _react["default"].createElement(_Panel["default"], {
+      })), /*#__PURE__*/_react["default"].createElement(_Panel["default"], {
         className: _styles["default"].content
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].contentWrapper,
         ref: this.contentWrapper
-      }, _react["default"].createElement(_ContactList["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_ContactList["default"], {
         ref: this.contactList,
         currentLocale: currentLocale,
         contactGroups: contactGroups,
@@ -399,7 +413,7 @@ function (_Component) {
         sourceNodeRenderer: sourceNodeRenderer,
         width: this.state.contentWidth,
         height: this.state.contentHeight
-      }))), showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], {
+      }))), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], {
         className: _styles["default"].spinner
       }) : null, children);
     }

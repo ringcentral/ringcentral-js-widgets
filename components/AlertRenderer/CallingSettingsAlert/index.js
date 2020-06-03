@@ -30,7 +30,7 @@ function CallingSettingsAlert(_ref) {
     case _callingSettingsMessages["default"].saveSuccessWithSoftphone:
     case _callingSettingsMessages["default"].webphonePermissionRemoved:
     case _callingSettingsMessages["default"].emergencyCallingNotAvailable:
-      return _react["default"].createElement(_FormattedMessage["default"], {
+      return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString(message),
         values: {
           brand: brand
@@ -40,13 +40,13 @@ function CallingSettingsAlert(_ref) {
     case _callingSettingsMessages["default"].permissionChanged:
     case _callingSettingsMessages["default"].phoneNumberChanged:
       {
-        var link = onCallingSettingsLinkClick ? _react["default"].createElement("a", {
+        var link = onCallingSettingsLinkClick ? /*#__PURE__*/_react["default"].createElement("a", {
           onClick: function onClick(e) {
             e.preventDefault();
             onCallingSettingsLinkClick();
           }
         }, _i18n["default"].getString('link', currentLocale)) : _i18n["default"].getString('link', currentLocale);
-        return _react["default"].createElement(_FormattedMessage["default"], {
+        return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
           message: _i18n["default"].getString(message, currentLocale),
           values: {
             link: link

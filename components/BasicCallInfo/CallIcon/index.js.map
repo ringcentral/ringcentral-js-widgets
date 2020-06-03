@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/BasicCallInfo/CallIcon/index.ts"],"names":["CallIcon"],"mappings":";;;;;;;;;AAAA;;;;eAEeA,oB","sourcesContent":["import CallIcon from './CallIcon';\n\nexport default CallIcon;\n"],"file":"index.js"}
+{"version":3,"sources":["components/BasicCallInfo/CallIcon/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './CallIcon';\n"],"file":"index.js"}

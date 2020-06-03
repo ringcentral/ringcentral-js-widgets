@@ -36,37 +36,37 @@ function MsteamsSettings(_ref) {
       onVideoSwitchChange = _ref.onVideoSwitchChange,
       onBackClick = _ref.onBackClick;
 
-  var audioSetting = showAudioSetting && _react["default"].createElement("div", {
+  var audioSetting = showAudioSetting && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].block
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].text
   }, (0, _formatMessage["default"])(_i18n["default"].getString('audioSetting', currentLocale), {
     brandName: brandName
-  })), _react["default"].createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"]["switch"]
-  }, _react["default"].createElement(_Switch["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
     checked: audioTakeOverEnabled,
     onChange: onAudioSwitchChange
   })));
 
-  var videoSetting = showVideoSetting && _react["default"].createElement("div", {
+  var videoSetting = showVideoSetting && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].block
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].text
   }, (0, _formatMessage["default"])(_i18n["default"].getString('videoSetting', currentLocale), {
     brandName: brandName
-  })), _react["default"].createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"]["switch"]
-  }, _react["default"].createElement(_Switch["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
     checked: videoTakeOverEnabled,
     onChange: onVideoSwitchChange
   })));
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
-  }, _react["default"].createElement(_BackHeader["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
     onBackClick: onBackClick
-  }, _i18n["default"].getString('msTeamsSettingHeader', currentLocale)), _react["default"].createElement(_Panel["default"], {
+  }, _i18n["default"].getString('msTeamsSettingHeader', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Panel["default"], {
     className: _styles["default"].content
   }, audioSetting, videoSetting));
 }

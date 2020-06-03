@@ -22,11 +22,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function MessageStoreAlert(props) {
   var message = props.message.message;
 
-  var view = _react["default"].createElement("span", null, _i18n["default"].getString(message, props.currentLocale)); // Handle call record error
+  var view = /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString(message, props.currentLocale)); // Handle call record error
 
 
   if (message === _errors["default"].deleteFailed) {
-    view = _react["default"].createElement(_FormattedMessage["default"], {
+    view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, props.currentLocale)
     });
   }

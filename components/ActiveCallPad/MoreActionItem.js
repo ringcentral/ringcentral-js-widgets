@@ -24,13 +24,13 @@ function MoreActionItem(_ref) {
       onClick = _ref.onClick,
       dataSign = _ref.dataSign;
   var iconClassName = (0, _classnames["default"])(_styles["default"].buttonIcon, disabled ? _styles["default"].buttonDisabled : _styles["default"].buttonActive);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].buttonItem,
     onClick: disabled ? null : onClick
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: iconClassName,
     "data-sign": dataSign
-  }, _react["default"].createElement(Icon, null)), _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement(Icon, null)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].buttonName
   }, title));
 }

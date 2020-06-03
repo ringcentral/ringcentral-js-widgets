@@ -33,20 +33,20 @@ function EntityButton(_ref) {
       viewEntityTitle = _ref.viewEntityTitle,
       createEntityTitle = _ref.createEntityTitle;
   // console.debug('isCreating', isCreating);
-  var spinner = isCreating ? _react["default"].createElement("div", {
+  var spinner = isCreating ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].spinnerContainer
-  }, _react["default"].createElement(_Spinner["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Spinner["default"], {
     ringWidth: 2
   })) : null;
   var icon = hasEntity ? _DynamicsFont["default"].record : _DynamicsFont["default"].addEntity;
   var onClick = hasEntity ? onViewEntity : onCreateEntity;
   var title = hasEntity ? viewEntityTitle : createEntityTitle;
-  return _react["default"].createElement(_Button.Button, {
+  return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].entity, className),
     onClick: onClick,
     disabled: disableLinks,
     dataSign: title
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: icon,
     title: title
   }), spinner);

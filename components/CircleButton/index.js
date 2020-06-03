@@ -25,7 +25,7 @@ function CircleButton(props) {
 
   if (props.icon) {
     var Icon = props.icon;
-    icon = _react["default"].createElement(Icon, {
+    icon = /*#__PURE__*/_react["default"].createElement(Icon, {
       className: (0, _classnames["default"])(_styles["default"].icon, props.iconClassName),
       width: props.iconWidth,
       height: props.iconHeight,
@@ -38,7 +38,7 @@ function CircleButton(props) {
 
   var _onClick = props.disabled ? null : props.onClick;
 
-  return _react["default"].createElement("svg", {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
     "data-sign": props.dataSign,
     xmlns: "http://www.w3.org/2000/svg",
     className: (0, _classnames["default"])(_styles["default"].btnSvg, props.className),
@@ -52,14 +52,14 @@ function CircleButton(props) {
     height: props.height,
     x: props.x,
     y: props.y
-  }, props.title ? _react["default"].createElement("title", null, props.title) : null, _react["default"].createElement("g", {
+  }, props.title ? /*#__PURE__*/_react["default"].createElement("title", null, props.title) : null, /*#__PURE__*/_react["default"].createElement("g", {
     className: _styles["default"].btnSvgGroup
-  }, _react["default"].createElement("circle", {
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
     className: circleClass,
     cx: "250",
     cy: "250",
     r: "245"
-  }), icon, props.showRipple ? _react["default"].createElement("circle", {
+  }), icon, props.showRipple ? /*#__PURE__*/_react["default"].createElement("circle", {
     className: _styles["default"].ripple,
     cx: "250",
     cy: "250",

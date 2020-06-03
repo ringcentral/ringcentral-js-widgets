@@ -39,12 +39,12 @@ var AnimationMessage = function AnimationMessage(_ref) {
       props = _objectWithoutProperties(_ref, ["animation", "duration"]);
 
   var second = duration / 1000;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])([animation, 'animated']),
     style: {
       animationDuration: "".concat(second, "s")
     }
-  }, _react["default"].createElement(_Message["default"], props));
+  }, /*#__PURE__*/_react["default"].createElement(_Message["default"], props));
 };
 
 exports.AnimationMessage = AnimationMessage;

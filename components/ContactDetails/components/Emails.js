@@ -29,9 +29,9 @@ var Emails = function Emails(_ref) {
 
   if (emails && emails.length > 0) {
     var emailList = (0, _ramda.addIndex)(_ramda.map)(function (email, idx) {
-      return _react["default"].createElement("li", {
+      return /*#__PURE__*/_react["default"].createElement("li", {
         key: idx
-      }, _react["default"].createElement("a", {
+      }, /*#__PURE__*/_react["default"].createElement("a", {
         title: email,
         className: onClickMailTo ? _styles["default"].underline : null,
         onClick: onClickMailTo && function () {
@@ -39,11 +39,11 @@ var Emails = function Emails(_ref) {
         }
       }, email));
     }, emails);
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].email)
-    }, _react["default"].createElement("div", {
+    }, /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].label
-    }, _react["default"].createElement("span", null, _i18n["default"].getString('emailLabel', currentLocale))), _react["default"].createElement("ul", {
+    }, /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('emailLabel', currentLocale))), /*#__PURE__*/_react["default"].createElement("ul", {
       className: _styles["default"].content
     }, emailList));
   }

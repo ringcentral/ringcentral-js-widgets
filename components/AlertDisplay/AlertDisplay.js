@@ -27,17 +27,17 @@ var AlertDisplay = function AlertDisplay(_ref) {
       currentLocale = _ref.currentLocale,
       brand = _ref.brand,
       getRenderer = _ref.getRenderer;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, messages.map(function (message) {
     var Renderer = getRenderer(message);
     if (!Renderer) return null;
-    return _react["default"].createElement(RendererMessage, {
+    return /*#__PURE__*/_react["default"].createElement(RendererMessage, {
       animation: message.animation,
       duration: message.duration,
       key: message.id,
       level: message.level,
-      message: _react["default"].createElement(Renderer, {
+      message: /*#__PURE__*/_react["default"].createElement(Renderer, {
         message: message,
         currentLocale: currentLocale,
         brand: brand

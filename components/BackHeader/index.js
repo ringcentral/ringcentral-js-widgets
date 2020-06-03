@@ -24,7 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function BackHeader(props) {
   var buttons = props.buttons || [];
 
-  var defaultBackButton = _react["default"].createElement("i", {
+  var defaultBackButton = /*#__PURE__*/_react["default"].createElement("i", {
     "data-sign": "backButton",
     className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].iconRotate)
   });
@@ -34,7 +34,7 @@ function BackHeader(props) {
     onClick: props.onBackClick,
     placement: 'left'
   });
-  return _react["default"].createElement(_Header.Header, {
+  return /*#__PURE__*/_react["default"].createElement(_Header.Header, {
     buttons: buttons,
     className: props.className
   }, props.children);

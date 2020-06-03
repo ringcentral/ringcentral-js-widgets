@@ -48,7 +48,7 @@ var viewport = document.querySelector('div#viewport');
 var CallIcon = function CallIcon(_ref) {
   var title = _ref.title,
       iconClassName = _ref.iconClassName;
-  return _react["default"].createElement("span", {
+  return /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(iconClassName, _styles["default"].iconSize),
     title: title
   });
@@ -88,23 +88,23 @@ function LogNotification(_ref2) {
     var endTitle = isInComingCall ? _i18n2["default"].getString('reject', currentLocale) : _i18n2["default"].getString('hangup', currentLocale);
     var endAction = isInComingCall ? onReject : onHangup;
     var isRinging = _telephonyStatus["default"].ringing === callStatus;
-    return _react["default"].createElement(_Button.Button, {
+    return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
       tooltip: _i18n["default"].getString(endTitle, currentLocale),
       onClick: endAction,
       className: (0, _classnames["default"])(_styles["default"].endBtn, _styles["default"].actionItem)
-    }, isRinging ? _react["default"].createElement(_VoicemailRed["default"], null) : _react["default"].createElement(_Hangup["default"], null));
+    }, isRinging ? /*#__PURE__*/_react["default"].createElement(_VoicemailRed["default"], null) : /*#__PURE__*/_react["default"].createElement(_Hangup["default"], null));
   } : null;
   var renderLogButton = showLogButton ? function () {
-    return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
       ref: anchorEl
-    }, _react["default"].createElement(_Button.Button, {
+    }, /*#__PURE__*/_react["default"].createElement(_Button.Button, {
       tooltip: _i18n2["default"].getString('log', currentLocale),
       disabled: isExpand,
       onClick: function onClick() {
         return onExpand();
       },
       className: (0, _classnames["default"])(_styles["default"].logBtn, _styles["default"].actionItem)
-    }, !isExpand ? _react["default"].createElement(_LogUnclick["default"], null) : _react["default"].createElement(_LogClick["default"], null))), _react["default"].createElement(_rcui.RcPopover, {
+    }, !isExpand ? /*#__PURE__*/_react["default"].createElement(_LogUnclick["default"], null) : /*#__PURE__*/_react["default"].createElement(_LogClick["default"], null))), /*#__PURE__*/_react["default"].createElement(_rcui.RcPopover, {
       open: !!anchorEl.current && isExpand,
       anchorEl: anchorEl.current,
       onClose: function onClose() {
@@ -121,12 +121,12 @@ function LogNotification(_ref2) {
       closeAfterTransition: true,
       container: viewport,
       className: _styles["default"].modalAnimation
-    }, _react["default"].createElement(_rcui.RcMenuList, null, _react["default"].createElement(_rcui.RcMenuItem, {
+    }, /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuList, null, /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
       onClick: function onClick() {
         return onSave();
       },
       className: _styles["default"].menuItem
-    }, _i18n2["default"].getString('save', currentLocale)), _react["default"].createElement(_rcui.RcMenuItem, {
+    }, _i18n2["default"].getString('save', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
       onClick: function onClick() {
         return onDiscard();
       },
@@ -140,22 +140,22 @@ function LogNotification(_ref2) {
       from = call.from;
   var number = direction === _callDirections["default"].outbound ? to && (to.phoneNumber || to.extensionNumber) : from && (from.phoneNumber || from.extensionNumber);
   var formatNumber = formatPhone(number);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].container
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callInfo
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callIcon
-  }, _react["default"].createElement(CallIcon, {
+  }, /*#__PURE__*/_react["default"].createElement(CallIcon, {
     title: direction,
     iconClassName: callIconMap[direction]
-  })), _react["default"].createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].contactInfo
-  }, _react["default"].createElement("p", {
+  }, /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].contactName
-  }, logName), _react["default"].createElement("p", {
+  }, logName), /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].phoneNumber
-  }, formatNumber)), _react["default"].createElement("div", {
+  }, formatNumber)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callActions
   }, renderLogButton && renderLogButton(), renderEndButton && renderEndButton())));
 }

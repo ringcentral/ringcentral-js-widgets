@@ -28,7 +28,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function TabTitle(_ref) {
   var label = _ref.label,
       isActive = _ref.isActive;
-  return _react["default"].createElement("span", {
+  return /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "allCalls",
     className: (0, _classnames3["default"])(_styles["default"].tabTitle, isActive() ? _styles["default"].active : null)
   }, label);
@@ -71,7 +71,7 @@ function TabContentPanel(_ref3) {
 
   var formattedTabs = tabs.map(function (tab) {
     return {
-      icon: _react["default"].createElement(TabTitle, {
+      icon: /*#__PURE__*/_react["default"].createElement(TabTitle, {
         label: tab.label,
         isActive: tab.isActive
       }),
@@ -80,16 +80,16 @@ function TabContentPanel(_ref3) {
       isActive: tab.isActive
     };
   });
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
-  }, _react["default"].createElement(_NavigationBar["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_NavigationBar["default"], {
     button: _MessageTabButton["default"],
     className: (0, _classnames3["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].tabBar, true), _defineProperty(_classnames, navClassName, !!navClassName), _classnames)),
     currentPath: "",
     goTo: goTo,
     tabs: formattedTabs,
     fullSizeInk: false
-  }), _react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames3["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].content, true), _defineProperty(_classnames2, tabContentClassName, !!tabContentClassName), _classnames2))
   }, renderChildren({
     children: children,

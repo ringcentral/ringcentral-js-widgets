@@ -43,7 +43,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -52,13 +52,13 @@ var MeetingTopic = function MeetingTopic(_ref) {
       currentLocale = _ref.currentLocale,
       meeting = _ref.meeting,
       that = _ref.that;
-  return _react["default"].createElement(_MeetingSection["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
     hideTopBorderLine: true
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].inline
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].label
-  }, _i18n["default"].getString('topic', currentLocale)), _react["default"].createElement("input", {
+  }, _i18n["default"].getString('topic', currentLocale)), /*#__PURE__*/_react["default"].createElement("input", {
     ref: function ref(_ref3) {
       that.topic = _ref3;
     },
@@ -84,7 +84,7 @@ var MeetingTopic = function MeetingTopic(_ref) {
           that.topic.setSelectionRange(newPosition, newPosition);
         }
 
-        update(_objectSpread({}, meeting, {
+        update(_objectSpread(_objectSpread({}, meeting), {}, {
           topic: that.topic.value
         }));
       });
@@ -99,7 +99,7 @@ var MeetingTopic = function MeetingTopic(_ref) {
       if (topic.length >= 0 && topic.length <= _constants.MAX_TOPIC_LENGTH) {
         clearTimeout(that.topicSetTimeoutId);
         that.topicSetTimeoutId = setTimeout(function () {
-          update(_objectSpread({}, meeting, {
+          update(_objectSpread(_objectSpread({}, meeting), {}, {
             topic: topic
           }));
         }, 10);

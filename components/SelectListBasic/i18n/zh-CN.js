@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   noResultFoundFor: "未找到对应结果："
-}; // @key: @#@"noResultFoundFor"@#@ @source: @#@"No results found for"@#@
+}; // @key: @#@"noResultFoundFor"@#@ @source: @#@"No result found for"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

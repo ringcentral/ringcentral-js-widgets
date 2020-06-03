@@ -18,7 +18,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function Line(props) {
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": props.dataSign,
     className: (0, _classnames["default"])(_styles["default"].root, props.className, props.onClick && _styles["default"].clickable, props.horizontal && _styles["default"].horizontal, props.noBorder && _styles["default"].noborder),
     onClick: props.onClick

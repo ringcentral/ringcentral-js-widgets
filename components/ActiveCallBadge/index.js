@@ -22,18 +22,18 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ActiveCallBadge(props) {
-  return _react["default"].createElement(_Draggable["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_Draggable["default"], {
     className: _styles["default"].root,
     onClick: props.onClick,
     positionOffsetX: props.offsetX,
     positionOffsetY: props.offsetY,
     updatePositionOffset: props.updatePositionOffset
-  }, _react["default"].createElement(_Badge["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_Badge["default"], {
     className: _styles["default"].badge,
     name: props.title
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].activeIcon
-  }, _react["default"].createElement("i", {
+  }, /*#__PURE__*/_react["default"].createElement("i", {
     className: _DynamicsFont["default"].callHover
   })), props.title));
 }

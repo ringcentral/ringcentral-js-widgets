@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -60,7 +60,7 @@ function getLevelType(level) {
   return type;
 }
 
-var NotificationItem = (0, _react.memo)(function (_ref) {
+var NotificationItem = /*#__PURE__*/(0, _react.memo)(function (_ref) {
   var data = _ref.data,
       currentLocale = _ref.currentLocale,
       brand = _ref.brand,
@@ -90,13 +90,13 @@ var NotificationItem = (0, _react.memo)(function (_ref) {
       animationDuration: "".concat(second, "s")
     };
   }, [second]);
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].container
-  }, backdrop && _react["default"].createElement("div", {
+  }, backdrop && /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].backdrop, defaultClasses.backdrop, classes.backdrop, 'animated', backdropAnimation),
     style: animationStyle,
     onClick: onBackdropClick
-  }), _react["default"].createElement(_rcui.RcSnackbarContent, {
+  }), /*#__PURE__*/_react["default"].createElement(_rcui.RcSnackbarContent, {
     type: type,
     size: "small",
     fullWidth: true,
@@ -106,12 +106,12 @@ var NotificationItem = (0, _react.memo)(function (_ref) {
     },
     style: animationStyle,
     messageAlign: "left",
-    message: _react["default"].createElement(Message, {
+    message: /*#__PURE__*/_react["default"].createElement(Message, {
       message: data,
       currentLocale: currentLocale,
       brand: brand
     }),
-    action: action !== null && action !== void 0 ? action : _react["default"].createElement(_rcui.RcSnackbarAction, {
+    action: action !== null && action !== void 0 ? action : /*#__PURE__*/_react["default"].createElement(_rcui.RcSnackbarAction, {
       variant: "icon",
       symbol: _iconClose["default"],
       size: "small",

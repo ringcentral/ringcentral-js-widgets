@@ -13,7 +13,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _connectivityTypes = _interopRequireDefault(require("ringcentral-widgets/modules/ConnectivityManager/connectivityTypes"));
+var _connectivityTypes = _interopRequireDefault(require("../../modules/ConnectivityManager/connectivityTypes"));
 
 var _Badge = _interopRequireDefault(require("../Badge"));
 
@@ -42,24 +42,24 @@ function ConnectivityBadge(_ref) {
   var view = null;
 
   if (isWebphoneConnecting) {
-    view = _react["default"].createElement(_Badge["default"], {
+    view = /*#__PURE__*/_react["default"].createElement(_Badge["default"], {
       className: (0, _classnames["default"])(className, _styles["default"].badge, _styles["default"].loading),
       name: _i18n["default"].getString(mode, currentLocale)
-    }, _i18n["default"].getString('Connecting', currentLocale), _react["default"].createElement(_OvalLoading["default"], {
+    }, _i18n["default"].getString('Connecting', currentLocale), /*#__PURE__*/_react["default"].createElement(_OvalLoading["default"], {
       width: 12,
       height: 12
     }));
   } else {
-    view = _react["default"].createElement(_Badge["default"], {
+    view = /*#__PURE__*/_react["default"].createElement(_Badge["default"], {
       className: (0, _classnames["default"])(className, _styles["default"].badge, _styles["default"].result),
       name: _i18n["default"].getString(mode, currentLocale)
-    }, _i18n["default"].getString(mode, currentLocale), hasRetryButton ? _react["default"].createElement(_RetryIcon["default"], {
+    }, _i18n["default"].getString(mode, currentLocale), hasRetryButton ? /*#__PURE__*/_react["default"].createElement(_RetryIcon["default"], {
       width: 12,
       height: 12
     }) : null);
   }
 
-  return _react["default"].createElement(_Draggable["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_Draggable["default"], {
     className: _styles["default"].root,
     onClick: onClick
   }, view);

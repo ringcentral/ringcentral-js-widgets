@@ -33,21 +33,21 @@ function LoginPanel(_ref) {
       showSignUp = _ref.showSignUp,
       onSignUpButtonClick = _ref.onSignUpButtonClick,
       customStyles = _ref.customStyles;
-  var spinner = showSpinner ? _react["default"].createElement(_SpinnerOverlay["default"], customSpinner ? {
+  var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], customSpinner ? {
     custom: customSpinner
   } : {}) : null;
-  var versionDisplay = version ? _react["default"].createElement("div", {
+  var versionDisplay = version ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].versionContainer
   }, _i18n["default"].getString('version', currentLocale), " ", version) : null;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, _react["default"].createElement("button", {
+  }, /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
     "data-sign": "loginButton",
     className: (0, _classnames["default"])(_styles["default"].loginButton, customStyles),
     onClick: onLoginButtonClick,
     disabled: disabled
-  }, _i18n["default"].getString('loginButton', currentLocale)), showSignUp && _react["default"].createElement("button", {
+  }, _i18n["default"].getString('loginButton', currentLocale)), showSignUp && /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
     className: _styles["default"].signUpButton,
     onClick: onSignUpButtonClick

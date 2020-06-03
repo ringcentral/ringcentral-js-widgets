@@ -26,7 +26,7 @@ var WithScrollCheck = function WithScrollCheck(SelectList) {
   };
 
   return function (props) {
-    return _react["default"].createElement(SelectList, _extends({
+    return /*#__PURE__*/_react["default"].createElement(SelectList, _extends({
       scrollCheck: scrollCheck
     }, props));
   };

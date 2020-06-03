@@ -51,19 +51,19 @@ function SmCallControl(props) {
   var endTitle = canRejectCall() ? 'reject' : 'hangup';
   var endAction = canRejectCall() ? onReject : onHangup;
   var disabledCtrl = callStatus === _telephonyStatus["default"].ringing;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].smWraper
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(muteTitle, currentLocale)
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: muteTitle,
     icon: muteIcon,
     onClick: muteAction,
     className: (0, _classnames["default"])(_styles["default"].button, disabledCtrl ? _styles["default"].buttonDisabled : null),
     disabled: disabledCtrl
-  })), _react["default"].createElement("span", {
+  })), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(endTitle, currentLocale)
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: endTitle,
     showBorder: false,
     icon: _End["default"],

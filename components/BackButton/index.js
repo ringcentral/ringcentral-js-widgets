@@ -22,12 +22,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function BackButton(_ref) {
   var label = _ref.label,
       showIcon = _ref.showIcon;
-  return _react["default"].createElement("span", {
+  return /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].backButton
-  }, showIcon ? _react["default"].createElement("i", {
+  }, showIcon ? /*#__PURE__*/_react["default"].createElement("i", {
     "data-sign": "backButton",
     className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].backIcon)
-  }) : null, label ? _react["default"].createElement("span", {
+  }) : null, label ? /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "backButtonLabel",
     className: _styles["default"].backLabel
   }, label) : null);

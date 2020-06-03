@@ -31,24 +31,24 @@ function DropdownNavigationItem(_ref) {
 
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
-      notice = _react["default"].createElement("div", {
+      notice = /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].notice
       }, "99+");
     } else {
-      notice = _react["default"].createElement("div", {
+      notice = /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].notice
       }, noticeCounts);
     }
   }
 
   var styleClass = !keepStyle ? _styles["default"].iconStyles : null;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     title: title || label,
     onClick: onClick,
     className: (0, _classnames["default"])(_styles["default"].root, active && _styles["default"].active, isReverseFillIcon && _styles["default"].reverseFillIcon)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].iconHolder, styleClass)
-  }, active ? activeIcon : icon), _react["default"].createElement("div", {
+  }, active ? activeIcon : icon), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].labelHolder
   }, label), notice);
 }

@@ -28,14 +28,14 @@ var webphoneErrorList = [_webphoneErrors["default"].connectFailed, _webphoneErro
 function WebphoneAlert(props) {
   var message = props.message.message;
 
-  var view = _react["default"].createElement("span", null, _i18n["default"].getString(message, props.currentLocale)); // Handle call record error
+  var view = /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString(message, props.currentLocale)); // Handle call record error
 
 
   if (message === _webphoneErrors["default"].recordError) {
     var _props$message$payloa = props.message.payload;
     _props$message$payloa = _props$message$payloa === void 0 ? {} : _props$message$payloa;
     var errorCode = _props$message$payloa.errorCode;
-    view = _react["default"].createElement(_FormattedMessage["default"], {
+    view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, props.currentLocale),
       values: {
         errorCode: errorCode
@@ -49,7 +49,7 @@ function WebphoneAlert(props) {
         isConnecting = _props$message$payloa3 === void 0 ? false : _props$message$payloa3; // sipProvisionError does not have statusCode
 
     if (statusCode && isConnecting) {
-      view = _react["default"].createElement(_FormattedMessage["default"], {
+      view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString('registeringWithStatusCode', props.currentLocale),
         values: {
           errorCode: statusCode,
@@ -57,7 +57,7 @@ function WebphoneAlert(props) {
         }
       });
     } else if (statusCode) {
-      view = _react["default"].createElement(_FormattedMessage["default"], {
+      view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString('failWithStatusCode', props.currentLocale),
         values: {
           errorCode: statusCode,
@@ -65,14 +65,14 @@ function WebphoneAlert(props) {
         }
       });
     } else if (isConnecting) {
-      view = _react["default"].createElement(_FormattedMessage["default"], {
+      view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString('registeringWithoutStatusCode', props.currentLocale),
         values: {
           brandName: props.brand.name
         }
       });
     } else {
-      view = _react["default"].createElement(_FormattedMessage["default"], {
+      view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString('failWithoutStatusCode', props.currentLocale),
         values: {
           brandName: props.brand.name
@@ -80,7 +80,7 @@ function WebphoneAlert(props) {
       });
     }
   } else if (message === _webphoneErrors["default"].checkDLError) {
-    view = _react["default"].createElement(_FormattedMessage["default"], {
+    view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, props.currentLocale),
       values: {
         brandName: props.brand.name

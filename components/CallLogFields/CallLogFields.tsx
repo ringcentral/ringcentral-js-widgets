@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindDebounce } from '../../lib/bindDebounce';
 import { Task } from '../CallLogPanel';
 import { CallLogFieldsProps } from './CallLogFields.interface';
-import { FieldItem } from './FieldItem/FieldItem';
+import { FieldItem } from './FieldItem';
 import styles from './styles.scss';
 
 const DEFAULT_INPUT_SAVE_TIMEOUT = 2e3;

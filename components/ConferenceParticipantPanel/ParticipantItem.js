@@ -34,23 +34,23 @@ function ParticipantItem(_ref) {
       avatarUrl = _ref.avatarUrl,
       onRemove = _ref.onRemove,
       currentLocale = _ref.currentLocale;
-  return _react["default"].createElement(_MediaObject["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_MediaObject["default"], {
     containerCls: _styles["default"].participantItem,
     bodyCls: _styles["default"].mediaBodyCls,
-    mediaLeft: _react["default"].createElement("div", {
+    mediaLeft: /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].avatar
-    }, _react["default"].createElement(_CallAvatar["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
       isOnConferenceCall: false,
       avatarUrl: avatarUrl
     })),
-    mediaBody: _react["default"].createElement("div", {
+    mediaBody: /*#__PURE__*/_react["default"].createElement("div", {
       title: detail,
       className: _styles["default"].detail
     }, detail),
-    mediaRight: _react["default"].createElement("span", {
+    mediaRight: /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('removeParticipant', currentLocale),
       className: _styles["default"].webphoneButton
-    }, _react["default"].createElement(_CircleButton["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       className: _styles["default"].rejectButton,
       onClick: function onClick(e) {
         e.stopPropagation();

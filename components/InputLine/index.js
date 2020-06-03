@@ -18,13 +18,13 @@ var _Line = _interopRequireDefault(require("../Line"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function InputLine(props) {
-  return _react["default"].createElement(_Line["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_Line["default"], {
     className: props.className,
     onClick: props.onClick,
     noBorder: props.noBorder
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].label
-  }, props.label), _react["default"].createElement("div", {
+  }, props.label), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].inputHolder
   }, props.children));
 }

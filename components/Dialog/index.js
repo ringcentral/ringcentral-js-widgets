@@ -29,7 +29,7 @@ function FlatButton(_ref) {
       onClick = _ref.onClick,
       children = _ref.children,
       dataSign = _ref.dataSign;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(className, _styles["default"].flatBtn, _styles["default"].text, disabled && _styles["default"].disabled),
     "data-sign": dataSign,
     onClick: !disabled && onClick
@@ -67,30 +67,30 @@ function Dialog(_ref2) {
       headerClassName = _ref2.headerClassName,
       contentClassName = _ref2.contentClassName,
       footerClassName = _ref2.footerClassName;
-  var footer = !currentLocale || !onCancel && !onConfirm ? null : _react["default"].createElement("div", {
+  var footer = !currentLocale || !onCancel && !onConfirm ? null : /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].footer, footerClassName)
-  }, onCancel ? _react["default"].createElement(FlatButton, {
+  }, onCancel ? /*#__PURE__*/_react["default"].createElement(FlatButton, {
     className: (0, _classnames["default"])(_styles["default"].btn, _styles["default"].cancelBtn, cancelBtnClassName),
     dataSign: "cancel",
     onClick: onCancel
-  }, textCancel || _i18n["default"].getString('cancel', currentLocale)) : null, onConfirm ? _react["default"].createElement(FlatButton, {
+  }, textCancel || _i18n["default"].getString('cancel', currentLocale)) : null, onConfirm ? /*#__PURE__*/_react["default"].createElement(FlatButton, {
     className: (0, _classnames["default"])(_styles["default"].btn, _styles["default"].confirmBtn, confirmBtnClassName),
     dataSign: "confirm",
     onClick: onConfirm
   }, textConfirm || _i18n["default"].getString('confirm', currentLocale)) : null);
   var headText = "".concat(title) || null;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].dialog, className)
-  }, showTitle ? _react["default"].createElement("div", {
+  }, showTitle ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].header, headerClassName)
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].headerText,
     title: headText
-  }, headText)) : null, showCloseBtn ? _react["default"].createElement(_Button.Button, {
+  }, headText)) : null, showCloseBtn ? /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     dataSign: "closeButton",
     className: _styles["default"].closeBtn,
     onClick: onCancel
-  }, _react["default"].createElement(_CloseIcon["default"], null)) : null, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement(_CloseIcon["default"], null)) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].content, contentClassName)
   }, children), footer);
 }

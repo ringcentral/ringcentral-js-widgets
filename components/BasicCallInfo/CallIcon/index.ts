@@ -1,3 +1,1 @@
-import CallIcon from './CallIcon';
-
-export default CallIcon;
+export * from './CallIcon';

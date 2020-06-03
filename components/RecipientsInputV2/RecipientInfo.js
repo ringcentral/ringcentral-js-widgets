@@ -26,14 +26,14 @@ var RecipientInfo = function RecipientInfo(_ref) {
       splitter = _ref.splitter;
   var phoneSourceName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : _phoneSourceNames["default"].getString(entityType, currentLocale);
   var title = enableTitle ? "".concat(name, " ").concat(splitter, " ").concat(phoneSourceName) : undefined;
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].nameSection,
     title: title
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].name
-  }, name), _react["default"].createElement("span", {
+  }, name), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].splitter
-  }, splitter), _react["default"].createElement("span", {
+  }, splitter), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].phoneSourceLabel
   }, phoneSourceName));
 };

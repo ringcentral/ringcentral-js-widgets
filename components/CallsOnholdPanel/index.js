@@ -52,20 +52,20 @@ function CallsOnholdContainer(_ref) {
       onAdd = _ref.onAdd,
       getAvatarUrl = _ref.getAvatarUrl;
 
-  var backHeader = _react["default"].createElement(_BackHeader["default"], {
+  var backHeader = /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
     className: _styles["default"].header,
     onBackClick: onBackButtonClick,
-    backButton: _react["default"].createElement(_BackButton["default"], {
+    backButton: /*#__PURE__*/_react["default"].createElement(_BackButton["default"], {
       label: _i18n["default"].getString('activeCall', currentLocale)
     })
   });
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
-  }, backHeader, _react["default"].createElement("div", {
+  }, backHeader, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callList
   }, calls.length ? calls.map(function (call) {
-    return _react["default"].createElement(_ActiveCallItemV["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_ActiveCallItemV["default"], {
       call: call,
       key: call.id,
       showMergeCall: true,
@@ -91,16 +91,16 @@ function CallsOnholdContainer(_ref) {
       getAvatarUrl: getAvatarUrl,
       showHold: false
     });
-  }) : _react["default"].createElement("div", {
+  }) : /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].noCalls
-  }, _i18n["default"].getString('noCalls', currentLocale))), _react["default"].createElement("div", {
+  }, _i18n["default"].getString('noCalls', currentLocale))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].addBtnContainer
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].addBtn
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString('add', currentLocale),
     className: _styles["default"].webphoneButton
-  }, _react["default"].createElement(_CircleButton["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     className: _styles["default"].addBtnIcon,
     icon: _Combine["default"],
     showBorder: false,

@@ -11,15 +11,11 @@ exports.FieldItem = void 0;
 
 require("core-js/modules/es6.object.assign");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -28,6 +24,14 @@ require("core-js/modules/es6.array.is-array");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -55,13 +59,13 @@ var _timeFormatHelper = require("../../../lib/timeFormatHelper");
 
 var _InputSelect = _interopRequireDefault(require("../../InputSelect"));
 
-var _CustomArrowButton = require("../../Rcui/CustomArrowButton");
+var _FullSelectField = require("./FullSelectField");
 
-var _SelectList = require("../../SelectList");
+var _LogFieldsInput = require("./LogFieldsInput");
+
+var _SelectField = require("./SelectField");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -73,13 +77,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -87,17 +99,21 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var DEFAULT_FINDER = {
   getValue: function getValue(item) {
@@ -109,14 +125,12 @@ var DEFAULT_FINDER = {
 };
 var appDefaultValue = '[None]';
 
-var FieldItem =
-/*#__PURE__*/
-function (_Component) {
+var FieldItem = /*#__PURE__*/function (_Component) {
   _inherits(FieldItem, _Component);
 
-  function FieldItem() {
-    var _getPrototypeOf2;
+  var _super = _createSuper(FieldItem);
 
+  function FieldItem() {
     var _this;
 
     _classCallCheck(this, FieldItem);
@@ -125,7 +139,7 @@ function (_Component) {
       _args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(FieldItem)).call.apply(_getPrototypeOf2, [this].concat(_args)));
+    _this = _super.call.apply(_super, [this].concat(_args));
 
     _this.renderReference = function () {
       var _this$props = _this.props,
@@ -182,7 +196,8 @@ function (_Component) {
       var disabled = currentDisabled || shouldDisable(task);
       var title = metadata.title || label;
       var rightIcon = rightIconRender ? rightIconRender(phoneNumber) : undefined;
-      return _react["default"].createElement(_SelectList.SelectList, _extends({}, _this.props, {
+      var currentValue = getLabel(currentOption, matchedEntities.length, currentLog) || '';
+      return /*#__PURE__*/_react["default"].createElement(_FullSelectField.FullSelectField, _extends({}, _this.props, {
         title: title,
         rightIcon: rightIcon,
         placeholder: metadata.placeholder,
@@ -193,28 +208,34 @@ function (_Component) {
         startAdornment: startAdornmentRender,
         field: value,
         value: task[metadata.valueField] || '',
-        onChange: function _callee(args) {
-          return regeneratorRuntime.async(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.next = 2;
-                  return regeneratorRuntime.awrap(onChange(_this.props)(args));
+        onChange: /*#__PURE__*/function () {
+          var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(args) {
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.next = 2;
+                    return onChange(_this.props)(args);
 
-                case 2:
-                  _context.next = 4;
-                  return regeneratorRuntime.awrap(onSave());
+                  case 2:
+                    _context.next = 4;
+                    return onSave();
 
-                case 4:
-                  if (fieldOnChange) fieldOnChange(args);
+                  case 4:
+                    if (fieldOnChange) fieldOnChange(args);
 
-                case 5:
-                case "end":
-                  return _context.stop();
+                  case 5:
+                  case "end":
+                    return _context.stop();
+                }
               }
-            }
-          });
-        },
+            }, _callee);
+          }));
+
+          return function (_x) {
+            return _ref.apply(this, arguments);
+          };
+        }(),
         onSelectViewVisible: onSelectViewVisible,
         valueFunction: getValue,
         renderFunction: getLabel,
@@ -223,13 +244,11 @@ function (_Component) {
         currentLocale: currentLocale,
         foundFromServerEntities: foundFromServerEntities,
         contactSearch: contactSearch,
-        showFoundFromServer: showFoundFromServer
-      }), _this.renderTextField({
-        disabled: disabled,
-        title: title,
-        dataSign: value,
-        disableReason: disableReason,
-        value: getLabel(currentOption, matchedEntities.length, currentLog)
+        showFoundFromServer: showFoundFromServer,
+        TextFieldProps: {
+          helperText: disableReason,
+          value: currentValue
+        }
       }));
     };
 
@@ -241,7 +260,7 @@ function (_Component) {
           type = _this$props3$fieldOpt.type,
           required = _this$props3$fieldOpt.required,
           onSave = _this$props3.onSave;
-      return _react["default"].createElement(_utils.LogFieldsInput, {
+      return /*#__PURE__*/_react["default"].createElement(_LogFieldsInput.LogFieldsInput, {
         label: label,
         type: type === 'string' ? 'text' : 'number',
         required: required,
@@ -264,7 +283,7 @@ function (_Component) {
           required = _this$props4$fieldOpt.required,
           _onChange = _this$props4$fieldOpt.onChange,
           onSave = _this$props4.onSave;
-      return _react["default"].createElement(_utils.LogFieldsInput, {
+      return /*#__PURE__*/_react["default"].createElement(_LogFieldsInput.LogFieldsInput, {
         label: label,
         required: required,
         error: error,
@@ -290,34 +309,40 @@ function (_Component) {
           onSave = _this$props5.onSave;
       var fieldSize = _this.props.fieldSize;
       var date = _this.currentValue ? new Date(_this.currentValue) : null;
-      return _react["default"].createElement(_rcui.RcDatePicker, {
+      return /*#__PURE__*/_react["default"].createElement(_rcui.RcDatePicker, {
         fullWidth: true,
         size: fieldSize,
         "data-sign": fieldValue,
         required: required,
         label: label,
         date: date,
-        onChange: function _callee2(value) {
-          var timeStamp;
-          return regeneratorRuntime.async(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  timeStamp = (0, _timeFormatHelper.setUTCTime)(value);
-                  _context2.next = 3;
-                  return regeneratorRuntime.awrap(_this.onInputSelectChange(fieldValue)(timeStamp));
+        onChange: /*#__PURE__*/function () {
+          var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(value) {
+            var timeStamp;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    timeStamp = (0, _timeFormatHelper.setUTCTime)(value);
+                    _context2.next = 3;
+                    return _this.onInputSelectChange(fieldValue)(timeStamp);
 
-                case 3:
-                  _context2.next = 5;
-                  return regeneratorRuntime.awrap(onSave);
+                  case 3:
+                    _context2.next = 5;
+                    return onSave;
 
-                case 5:
-                case "end":
-                  return _context2.stop();
+                  case 5:
+                  case "end":
+                    return _context2.stop();
+                }
               }
-            }
-          });
-        },
+            }, _callee2);
+          }));
+
+          return function (_x2) {
+            return _ref2.apply(this, arguments);
+          };
+        }(),
         formatString: "MM/DD/YYYY"
       });
     };
@@ -332,7 +357,7 @@ function (_Component) {
       var _this$props7 = _this.props,
           required = _this$props7.fieldOption.required,
           onSave = _this$props7.onSave;
-      return _react["default"].createElement(_InputSelect["default"], {
+      return /*#__PURE__*/_react["default"].createElement(_InputSelect["default"], {
         required: required,
         subjectPicklist: subjectPicklist,
         subject: task.subject || '',
@@ -342,6 +367,8 @@ function (_Component) {
         timeout: timeout
       });
     };
+
+    _this.fieldItemRef = /*#__PURE__*/_react["default"].createRef();
 
     _this.renderSelectMenu = function () {
       var _this$props8 = _this.props,
@@ -354,104 +381,111 @@ function (_Component) {
           helperText = _this$props8$fieldOpt.helperText,
           error = _this$props8$fieldOpt.error,
           onChange = _this$props8$fieldOpt.onChange,
+          _this$props8$fieldOpt2 = _this$props8$fieldOpt.disabled,
+          propsDisabled = _this$props8$fieldOpt2 === void 0 ? false : _this$props8$fieldOpt2,
+          placeholder = _this$props8$fieldOpt.placeholder,
           onSave = _this$props8.onSave;
       var selectList = (picklistOptions || []).map(function (item) {
         var value = item;
         var label = item !== null ? item : defaultValue || appDefaultValue;
+        var disabled = false;
 
         if (item instanceof Object) {
           value = item.value;
           label = item.label;
+          disabled = item.disabled;
         }
 
         return {
           label: label,
-          value: value
+          value: value,
+          disabled: disabled
         };
       });
-      return _react["default"].createElement(_rcui.RcLineSelect, {
+      return /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
         "data-sign": fieldValue,
-        SelectProps: {
-          classes: {
-            icon: _styles["default"].select
-          }
-        },
+        disabled: propsDisabled,
+        placeholder: placeholder,
         fullWidth: true,
         helperText: helperText,
         error: error,
         required: required,
         label: label,
-        value: _this.currentValue || defaultValue || '',
-        onChange: function _callee3(_ref) {
-          var value;
-          return regeneratorRuntime.async(function _callee3$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  value = _ref.target.value;
+        value: _this.currentValue || defaultValue,
+        onChange: /*#__PURE__*/function () {
+          var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref3) {
+            var value;
+            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+              while (1) {
+                switch (_context3.prev = _context3.next) {
+                  case 0:
+                    value = _ref3.target.value;
 
-                  if (picklistOptions[value]) {
-                    value = picklistOptions[value].value;
-                  }
+                    if (picklistOptions[value]) {
+                      value = picklistOptions[value].value;
+                    }
 
-                  _context3.next = 4;
-                  return regeneratorRuntime.awrap(_this.onInputSelectChange(fieldValue)(value));
+                    _context3.next = 4;
+                    return _this.onInputSelectChange(fieldValue)(value);
 
-                case 4:
-                  _context3.next = 6;
-                  return regeneratorRuntime.awrap(onSave());
+                  case 4:
+                    _context3.next = 6;
+                    return onSave();
 
-                case 6:
-                  if (onChange) onChange(value);
+                  case 6:
+                    if (onChange) onChange(value);
 
-                case 7:
-                case "end":
-                  return _context3.stop();
+                  case 7:
+                  case "end":
+                    return _context3.stop();
+                }
               }
-            }
-          });
-        }
-      }, selectList.map(function (item, i) {
-        return _react["default"].createElement(_rcui.RcMenuItem, {
-          key: i,
-          value: "".concat(item.value),
-          "data-sign": "option".concat(i),
-          classes: {
-            root: _styles["default"].item
-          }
-        }, item.label);
-      }));
+            }, _callee3);
+          }));
+
+          return function (_x3) {
+            return _ref4.apply(this, arguments);
+          };
+        }(),
+        options: selectList
+      });
     };
 
     _this.onInputSelectChange = function (value) {
-      return function _callee4(item) {
-        var _this$props9, _this$props9$currentL, currentSessionId, _this$props9$currentL2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
+      return /*#__PURE__*/function () {
+        var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(item) {
+          var _this$props9, _this$props9$currentL, currentSessionId, _this$props9$currentL2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
 
-        return regeneratorRuntime.async(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _this$props9 = _this.props, _this$props9$currentL = _this$props9.currentLog, currentSessionId = _this$props9$currentL.currentSessionId, _this$props9$currentL2 = _this$props9$currentL.task, task = _this$props9$currentL2 === void 0 ? {} : _this$props9$currentL2, onUpdateCallLog = _this$props9.onUpdateCallLog, customInputDataStruct = _this$props9.customInputDataStruct;
-                defaultLogData = {
-                  isSaved: false,
-                  task: _defineProperty({}, value, item || '')
-                };
-                logData = customInputDataStruct && customInputDataStruct({
-                  value: value,
-                  item: item,
-                  task: task,
-                  currentSessionId: currentSessionId
-                }) || defaultLogData;
-                _context4.next = 5;
-                return regeneratorRuntime.awrap(onUpdateCallLog(logData, currentSessionId));
+          return regeneratorRuntime.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _this$props9 = _this.props, _this$props9$currentL = _this$props9.currentLog, currentSessionId = _this$props9$currentL.currentSessionId, _this$props9$currentL2 = _this$props9$currentL.task, task = _this$props9$currentL2 === void 0 ? {} : _this$props9$currentL2, onUpdateCallLog = _this$props9.onUpdateCallLog, customInputDataStruct = _this$props9.customInputDataStruct;
+                  defaultLogData = {
+                    isSaved: false,
+                    task: _defineProperty({}, value, item || '')
+                  };
+                  logData = customInputDataStruct && customInputDataStruct({
+                    value: value,
+                    item: item,
+                    task: task,
+                    currentSessionId: currentSessionId
+                  }) || defaultLogData;
+                  _context4.next = 5;
+                  return onUpdateCallLog(logData, currentSessionId);
 
-              case 5:
-              case "end":
-                return _context4.stop();
+                case 5:
+                case "end":
+                  return _context4.stop();
+              }
             }
-          }
-        });
-      };
+          }, _callee4);
+        }));
+
+        return function (_x4) {
+          return _ref5.apply(this, arguments);
+        };
+      }();
     };
 
     _this.fieldsRenderMap = {
@@ -468,32 +502,6 @@ function (_Component) {
   }
 
   _createClass(FieldItem, [{
-    key: "renderTextField",
-    value: function renderTextField(_ref2) {
-      var disabled = _ref2.disabled,
-          title = _ref2.title,
-          dataSign = _ref2.dataSign,
-          value = _ref2.value,
-          disableReason = _ref2.disableReason;
-      return _react["default"].createElement(_rcui.RcTextField, {
-        title: value,
-        disabled: disabled,
-        "data-sign": dataSign,
-        InputProps: {
-          classes: {
-            input: _styles["default"].customTextField
-          },
-          readOnly: true,
-          endAdornment: this.getRightButtons(disabled)
-        },
-        helperText: disableReason,
-        label: title,
-        value: value || '',
-        fullWidth: true,
-        clearBtn: false
-      });
-    }
-  }, {
     key: "_updateValue",
     value: function _updateValue(value, args, onSave) {
       var debounce = this.props.debounce;
@@ -501,21 +509,23 @@ function (_Component) {
       debounce(onSave);
     }
   }, {
-    key: "getRightButtons",
-    value: function getRightButtons(disabled) {
-      return _react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
-        disabled: disabled
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this$props$fieldOpti2 = this.props.fieldOption,
-          value = _this$props$fieldOpti2.value,
-          type = _this$props$fieldOpti2.type;
+      var _this$props10 = this.props,
+          _this$props10$fieldOp = _this$props10.fieldOption,
+          value = _this$props10$fieldOp.value,
+          type = _this$props10$fieldOp.type,
+          error = _this$props10$fieldOp.error,
+          enableScrollError = _this$props10$fieldOp.enableScrollError,
+          editSectionScrollBy = _this$props10.editSectionScrollBy;
 
       if (this.fieldsRenderMap[type]) {
-        return _react["default"].createElement("div", {
+        if (error && enableScrollError && this.fieldItemRef.current) {
+          editSectionScrollBy(this.fieldItemRef.current.offsetTop);
+        }
+
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          ref: this.fieldItemRef,
           "data-sign": "callLogField",
           className: _styles["default"].row
         }, this.fieldsRenderMap[type]());

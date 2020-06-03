@@ -76,7 +76,7 @@ routerInteraction) {
 
     if (_CallAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_CallAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_CallAlert["default"], _extends({}, props, {
           brand: brand,
           onAreaCodeLinkClick: onRegionSettingsLinkClick
         }));
@@ -85,7 +85,7 @@ routerInteraction) {
 
     if (_CallingSettingsAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_CallingSettingsAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_CallingSettingsAlert["default"], _extends({}, props, {
           brand: brand.fullName,
           onCallingSettingsLinkClick: onCallingSettingsLinkClick
         }));
@@ -94,7 +94,7 @@ routerInteraction) {
 
     if (_RegionSettingsAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_RegionSettingsAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_RegionSettingsAlert["default"], _extends({}, props, {
           onRegionSettingsLinkClick: onRegionSettingsLinkClick
         }));
       };
@@ -102,7 +102,7 @@ routerInteraction) {
 
     if (_MessageSenderAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_MessageSenderAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_MessageSenderAlert["default"], _extends({}, props, {
           brand: brand.fullName,
           onAreaCodeLink: onRegionSettingsLinkClick
         }));
@@ -115,7 +115,7 @@ routerInteraction) {
 
     if (_RateExceededAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_RateExceededAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_RateExceededAlert["default"], _extends({}, props, {
           timestamp: rateLimiter.timestamp,
           duration: rateLimiter._throttleDuration
         }));
@@ -128,7 +128,7 @@ routerInteraction) {
 
     if (_WebphoneAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_WebphoneAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_WebphoneAlert["default"], _extends({}, props, {
           brand: brand
         }));
       };
@@ -136,7 +136,7 @@ routerInteraction) {
 
     if (_MeetingAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_MeetingAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_MeetingAlert["default"], _extends({}, props, {
           application: brand.appName
         }));
       };
@@ -144,7 +144,7 @@ routerInteraction) {
 
     if (_RolesAndPermissionsAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_RolesAndPermissionsAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_RolesAndPermissionsAlert["default"], _extends({}, props, {
           brand: brand.fullName,
           application: brand.appName
         }));
@@ -161,7 +161,7 @@ routerInteraction) {
 
     if (_AudioSettingsAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_AudioSettingsAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_AudioSettingsAlert["default"], _extends({}, props, {
           application: brand.appName
         }));
       };
@@ -169,13 +169,13 @@ routerInteraction) {
 
     if (_CallLogAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_CallLogAlert["default"], props);
+        return /*#__PURE__*/_react["default"].createElement(_CallLogAlert["default"], props);
       };
     }
 
     if (_CallControlAlert["default"].handleMessage(message)) {
       return function (props) {
-        return _react["default"].createElement(_CallControlAlert["default"], props);
+        return /*#__PURE__*/_react["default"].createElement(_CallControlAlert["default"], props);
       };
     }
 

@@ -11,6 +11,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -25,13 +27,19 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -91,11 +99,15 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -105,15 +117,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function ConversationIcon(_ref) {
   var group = _ref.group,
@@ -126,7 +142,7 @@ function ConversationIcon(_ref) {
   switch (type) {
     case _messageTypes["default"].voiceMail:
       title = _i18n["default"].getString(_messageTypes["default"].voiceMail, currentLocale);
-      icon = _react["default"].createElement(_VoicemailIcon["default"], {
+      icon = /*#__PURE__*/_react["default"].createElement(_VoicemailIcon["default"], {
         width: 23,
         className: _styles["default"].icon
       });
@@ -134,10 +150,10 @@ function ConversationIcon(_ref) {
 
     case _messageTypes["default"].fax:
       title = _i18n["default"].getString(_messageTypes["default"].fax, currentLocale);
-      icon = direction === _messageDirection["default"].inbound ? _react["default"].createElement(_FaxInbound["default"], {
+      icon = direction === _messageDirection["default"].inbound ? /*#__PURE__*/_react["default"].createElement(_FaxInbound["default"], {
         width: 21,
         className: _styles["default"].icon
-      }) : _react["default"].createElement(_FaxOutbound["default"], {
+      }) : /*#__PURE__*/_react["default"].createElement(_FaxOutbound["default"], {
         width: 21,
         className: _styles["default"].icon
       });
@@ -145,18 +161,18 @@ function ConversationIcon(_ref) {
 
     default:
       title = group ? _i18n["default"].getString('groupConversation', currentLocale) : _i18n["default"].getString('conversation', currentLocale);
-      icon = group ? _react["default"].createElement(_GroupConversation["default"], {
+      icon = group ? /*#__PURE__*/_react["default"].createElement(_GroupConversation["default"], {
         width: 19,
         className: _styles["default"].icon
-      }) : _react["default"].createElement(_ComposeText["default"], {
+      }) : /*#__PURE__*/_react["default"].createElement(_ComposeText["default"], {
         width: 18,
         className: _styles["default"].icon
       });
   }
 
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].conversationIcon
-  }, _react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
     title: title
   }, icon));
 }
@@ -174,17 +190,17 @@ ConversationIcon.defaultProps = {
   direction: undefined
 };
 
-var MessageItem =
-/*#__PURE__*/
-function (_Component) {
+var MessageItem = /*#__PURE__*/function (_Component) {
   _inherits(MessageItem, _Component);
+
+  var _super = _createSuper(MessageItem);
 
   function MessageItem(props) {
     var _this;
 
     _classCallCheck(this, MessageItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MessageItem).call(this, props));
+    _this = _super.call(this, props);
 
     _this.preventEventPropogation = function (e) {
       if (e.target !== e.currentTarget) {
@@ -236,7 +252,7 @@ function (_Component) {
         var phoneNumber = _this.getPhoneNumber();
 
         if (phoneNumber) {
-          _this.props.onClickToDial(_objectSpread({}, contact, {
+          _this.props.onClickToDial(_objectSpread(_objectSpread({}, contact), {}, {
             phoneNumber: phoneNumber,
             fromType: _this.props.conversation.type
           }));
@@ -253,7 +269,7 @@ function (_Component) {
         if (phoneNumber) {
           _this.props.updateTypeFilter(_messageTypes["default"].text);
 
-          _this.props.onClickToSms(_objectSpread({}, contact, {
+          _this.props.onClickToSms(_objectSpread(_objectSpread({}, contact), {}, {
             phoneNumber: phoneNumber
           }));
         }
@@ -424,90 +440,106 @@ function (_Component) {
     }
   }, {
     key: "createSelectedContact",
-    value: function createSelectedContact(entityType) {
-      var phoneNumber;
-      return regeneratorRuntime.async(function createSelectedContact$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              if (!(typeof this.props.onCreateContact === 'function' && this._mounted && !this.state.isCreating)) {
-                _context.next = 6;
-                break;
-              }
+    value: function () {
+      var _createSelectedContact = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(entityType) {
+        var phoneNumber;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(typeof this.props.onCreateContact === 'function' && this._mounted && !this.state.isCreating)) {
+                  _context.next = 6;
+                  break;
+                }
 
-              this.setState({
-                isCreating: true
-              }); // console.log('start to create: isCreating...', this.state.isCreating);
-
-              phoneNumber = this.getPhoneNumber();
-              _context.next = 5;
-              return regeneratorRuntime.awrap(this.props.onCreateContact({
-                phoneNumber: phoneNumber,
-                name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
-                entityType: entityType
-              }));
-
-            case 5:
-              if (this._mounted) {
                 this.setState({
-                  isCreating: false
-                }); // console.log('created: isCreating...', this.state.isCreating);
-              }
+                  isCreating: true
+                }); // console.log('start to create: isCreating...', this.state.isCreating);
 
-            case 6:
-            case "end":
-              return _context.stop();
+                phoneNumber = this.getPhoneNumber();
+                _context.next = 5;
+                return this.props.onCreateContact({
+                  phoneNumber: phoneNumber,
+                  name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
+                  entityType: entityType
+                });
+
+              case 5:
+                if (this._mounted) {
+                  this.setState({
+                    isCreating: false
+                  }); // console.log('created: isCreating...', this.state.isCreating);
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee, this);
+      }));
+
+      function createSelectedContact(_x) {
+        return _createSelectedContact.apply(this, arguments);
+      }
+
+      return createSelectedContact;
+    }()
   }, {
     key: "logConversation",
-    value: function logConversation() {
-      var _ref2,
-          _ref2$redirect,
-          redirect,
-          selected,
-          _ref2$prefill,
-          prefill,
-          _args2 = arguments;
+    value: function () {
+      var _logConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _ref2,
+            _ref2$redirect,
+            redirect,
+            selected,
+            _ref2$prefill,
+            prefill,
+            _args2 = arguments;
 
-      return regeneratorRuntime.async(function logConversation$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _ref2 = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {}, _ref2$redirect = _ref2.redirect, redirect = _ref2$redirect === void 0 ? true : _ref2$redirect, selected = _ref2.selected, _ref2$prefill = _ref2.prefill, prefill = _ref2$prefill === void 0 ? true : _ref2$prefill;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _ref2 = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {}, _ref2$redirect = _ref2.redirect, redirect = _ref2$redirect === void 0 ? true : _ref2$redirect, selected = _ref2.selected, _ref2$prefill = _ref2.prefill, prefill = _ref2$prefill === void 0 ? true : _ref2$prefill;
 
-              if (!(typeof this.props.onLogConversation === 'function' && this._mounted && !this.state.isLogging)) {
-                _context2.next = 6;
-                break;
-              }
+                if (!(typeof this.props.onLogConversation === 'function' && this._mounted && !this.state.isLogging)) {
+                  _context2.next = 6;
+                  break;
+                }
 
-              this.setState({
-                isLogging: true
-              });
-              _context2.next = 5;
-              return regeneratorRuntime.awrap(this.props.onLogConversation({
-                correspondentEntity: this.getSelectedContact(selected),
-                conversationId: this.props.conversation.conversationId,
-                redirect: redirect,
-                prefill: prefill
-              }));
-
-            case 5:
-              if (this._mounted) {
                 this.setState({
-                  isLogging: false
+                  isLogging: true
                 });
-              }
+                _context2.next = 5;
+                return this.props.onLogConversation({
+                  correspondentEntity: this.getSelectedContact(selected),
+                  conversationId: this.props.conversation.conversationId,
+                  redirect: redirect,
+                  prefill: prefill
+                });
 
-            case 6:
-            case "end":
-              return _context2.stop();
+              case 5:
+                if (this._mounted) {
+                  this.setState({
+                    isLogging: false
+                  });
+                }
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, null, this);
-    }
+        }, _callee2, this);
+      }));
+
+      function logConversation() {
+        return _logConversation.apply(this, arguments);
+      }
+
+      return logConversation;
+    }()
   }, {
     key: "getDetail",
     value: function getDetail() {
@@ -612,7 +644,7 @@ function (_Component) {
       var slideMenuHeight = 60;
 
       if (isVoicemail) {
-        player = _react["default"].createElement(_VoicemailPlayer["default"], {
+        player = /*#__PURE__*/_react["default"].createElement(_VoicemailPlayer["default"], {
           className: _styles["default"].player,
           uri: voicemailAttachment.uri,
           duration: voicemailAttachment.duration,
@@ -628,23 +660,23 @@ function (_Component) {
         isLogging: isLogging || this.state.isLogging
       }) : null;
       var msgItem = "".concat(type, "MessageItem");
-      return _react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": msgItem,
         "data-id": conversationId,
         className: _styles["default"].root,
         onClick: this.onClickItem
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "unread",
         className: (0, _classnames["default"])(_styles["default"].wrapper, unreadCounts && _styles["default"].unread),
         onClick: this.onClickWrapper
-      }, _react["default"].createElement(ConversationIcon, {
+      }, /*#__PURE__*/_react["default"].createElement(ConversationIcon, {
         group: correspondents.length > 1,
         type: type,
         currentLocale: currentLocale,
         direction: direction
-      }), _react["default"].createElement("div", {
+      }), /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].infoWrapper, !extraButton && _styles["default"].embellishInfoWrapper)
-      }, _react["default"].createElement(_ContactDisplay["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
         reference: function reference(ref) {
           _this2.contactDisplay = ref;
         },
@@ -671,28 +703,28 @@ function (_Component) {
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer
-      }), _react["default"].createElement("div", {
+      }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].detailsWithTime
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "msgDetail",
         className: _styles["default"].details,
         title: detail
-      }, detail), _react["default"].createElement("div", {
+      }, detail), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].separatrix
-      }, "|"), _react["default"].createElement("div", {
+      }, "|"), /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "msgCreateTime",
         className: _styles["default"].creationTime
-      }, this.dateTimeFormatter(creationTime)))), extraButton), _react["default"].createElement(_SlideMenu["default"], {
+      }, this.dateTimeFormatter(creationTime)))), extraButton), /*#__PURE__*/_react["default"].createElement(_SlideMenu["default"], {
         extended: this.state.extended,
         onToggle: this.toggleExtended,
         extendIconClassName: _styles["default"].extendIcon,
         className: _styles["default"].slideMenu,
         minHeight: 0,
         maxHeight: slideMenuHeight
-      }, _react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].playContainer,
         onClick: this.preventEventPropogation
-      }, player), _react["default"].createElement(_ActionMenuList["default"], {
+      }, player), /*#__PURE__*/_react["default"].createElement(_ActionMenuList["default"], {
         className: _styles["default"].actionMenuList,
         type: type,
         currentLocale: currentLocale,

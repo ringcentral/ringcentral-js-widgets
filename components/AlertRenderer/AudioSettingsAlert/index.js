@@ -24,14 +24,14 @@ function AudioSettingsAlert(_ref) {
       currentLocale = _ref.currentLocale,
       message = _ref.message;
 
-  var view = _react["default"].createElement(_FormattedMessage["default"], {
+  var view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
     message: _i18n["default"].getString(message.message, currentLocale),
     values: {
       application: application
     }
   });
 
-  return _react["default"].createElement("span", null, view);
+  return /*#__PURE__*/_react["default"].createElement("span", null, view);
 }
 
 AudioSettingsAlert.propTypes = {
