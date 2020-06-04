@@ -1,6 +1,4 @@
 import { contains } from 'ramda';
-import ConferenceParticipantPage from 'ringcentral-widgets/containers/ConferenceParticipantPage';
-import ConferenceParticipantPanel from 'ringcentral-widgets/components/ConferenceParticipantPanel';
 import ConferenceInfo from 'ringcentral-widgets/components/ActiveCallPanel/ConferenceInfo';
 import ParticipantItem from 'ringcentral-widgets/components/ConferenceParticipantPanel/ParticipantItem';
 import ConfirmRemoveModal from 'ringcentral-widgets/components/ConferenceParticipantPanel/ConfirmRemoveModal';
